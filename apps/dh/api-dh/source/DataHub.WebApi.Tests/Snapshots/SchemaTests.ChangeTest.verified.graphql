@@ -302,25 +302,16 @@ type PermissionDetailsDto {
 }
 
 type Query {
-  permissionById(id: Int!): Permission!
-  permissions(searchTerm: String!): [Permission!]!
-  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
-  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
-  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
   actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
-  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
-  organizationById(id: UUID!): Organization!
-  organizations: [Organization!]!
-  gridAreas: [GridAreaDto!]!
-  calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange executionStates: [CalculationState!] calculationTypes: [CalculationType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
-  settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  associatedActors(email: String!): AssociatedActors!
+  calculationById(id: UUID!): Calculation!
+  calculations(executionTime: DateRange executionStates: [CalculationState!] calculationTypes: [CalculationType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -330,16 +321,24 @@ type Query {
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   downloadBalanceResponsibles(locale: String! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): String!
-  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
-  emailExists(emailAddress: String!): Boolean!
-  knownEmails: [String!]!
-  associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
+  gridAreas: [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  userProfile: GetUserProfileResponse!
+  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
-  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  permissionById(id: Int!): Permission!
+  permissions(searchTerm: String!): [Permission!]!
+  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
+  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
+  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  userProfile: GetUserProfileResponse!
+  emailExists(emailAddress: String!): Boolean!
+  knownEmails: [String!]!
 }
 
 type ReadinessStatusDto {
@@ -349,14 +348,6 @@ type ReadinessStatusDto {
 
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
-}
-
-type SettlementReport {
-  calculationId: UUID!
-  calculationType: CalculationType!
-  gridArea: GridAreaDto!
-  period: DateRange!
-  executionTime: DateTime
 }
 
 type StopDelegationPayload {

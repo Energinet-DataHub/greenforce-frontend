@@ -227,25 +227,16 @@ enum ApplyPolicy {
 }
 
 type Query {
-  permissionById(id: Int!): Permission!
-  permissions(searchTerm: String!): [Permission!]!
-  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
-  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
-  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
   actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
-  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
-  organizationById(id: UUID!): Organization!
-  organizations: [Organization!]!
-  gridAreas: [GridAreaDto!]!
-  calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange, executionStates: [CalculationState!], calculationTypes: [CalculationType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
-  settlementReports(gridAreaCodes: [String!], period: DateRange, executionTime: DateRange): [SettlementReport!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  associatedActors(email: String!): AssociatedActors!
+  calculationById(id: UUID!): Calculation!
+  calculations(executionTime: DateRange, executionStates: [CalculationState!], calculationTypes: [CalculationType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -255,16 +246,24 @@ type Query {
   downloadMeteringGridAreaImbalance(locale: String!, createdFrom: DateTime, createdTo: DateTime, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int!, pageSize: Int!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): BalanceResponsiblePageResult!
   downloadBalanceResponsibles(locale: String!, sortProperty: BalanceResponsibleSortProperty!, sortDirection: SortDirection!): String!
-  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
-  emailExists(emailAddress: String!): Boolean!
-  knownEmails: [String!]!
-  associatedActors(email: String!): AssociatedActors!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
+  gridAreas: [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int!, month: Int!, areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  userProfile: GetUserProfileResponse!
+  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
-  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  permissionById(id: Int!): Permission!
+  permissions(searchTerm: String!): [Permission!]!
+  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
+  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
+  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  userProfile: GetUserProfileResponse!
+  emailExists(emailAddress: String!): Boolean!
+  knownEmails: [String!]!
 }
 
 type Mutation {
@@ -440,12 +439,27 @@ interface Error {
   message: String!
 }
 
+<<<<<<< Updated upstream
 type ApiErrorDescriptor {
   message: String!
   code: String!
   args: JSON!
 }
 
+||||||| Stash base
+=======
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
+>>>>>>> Stashed changes
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -509,15 +523,24 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
-type CVROrganizationResult {
-  name: String!
-  hasResult: Boolean!
-}
-
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+type UserRoleWithPermissionsDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
+  permissions: [PermissionDetailsDto!]!
+}
+
+type CVROrganizationResult {
+  name: String!
+  hasResult: Boolean!
 }
 
 type ImbalancePricesOverview {
@@ -535,11 +558,6 @@ type GridAreaOverviewItemDto {
   actorName: String
   organizationName: String
   fullFlexDate: DateTime
-}
-
-type AssociatedActors {
-  email: String!
-  actors: [UUID!]!
 }
 
 enum BalanceResponsibleSortProperty {
@@ -599,6 +617,7 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+<<<<<<< Updated upstream
 type SettlementReport {
   calculationId: UUID!
   calculationType: CalculationType!
@@ -626,6 +645,47 @@ type PermissionDetailsDto {
   name: String!
   description: String!
   created: DateTime!
+||||||| Stash base
+type SettlementReport {
+  calculationId: UUID!
+  calculationType: CalculationType!
+  gridArea: GridAreaDto!
+  period: DateRange!
+  executionTime: DateTime
+}
+
+type UserRoleWithPermissionsDto {
+  id: UUID!
+  name: String!
+  description: String!
+  eicFunction: EicFunction!
+  status: UserRoleStatus!
+  permissions: [PermissionDetailsDto!]!
+}
+
+type ApiErrorDescriptor {
+  message: String!
+  code: String!
+  args: JSON!
+}
+
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
+scalar JSON
+
+type PermissionDetailsDto {
+  id: Int!
+  name: String!
+  description: String!
+  created: DateTime!
+=======
+type AssociatedActors {
+  email: String!
+  actors: [UUID!]!
+>>>>>>> Stashed changes
 }
 
 enum ESettStageComponent {
@@ -639,6 +699,13 @@ type ImbalancePricePeriod {
   name: DateTime!
   priceAreaCode: PriceAreaCode!
   status: ImbalancePriceStatus!
+}
+
+type PermissionDetailsDto {
+  id: Int!
+  name: String!
+  description: String!
+  created: DateTime!
 }
 
 input CreateActorContactDtoInput {
