@@ -5971,6 +5971,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [System.Runtime.Serialization.EnumMember(Value = @"ClientSecretCredentials")]
         ClientSecretCredentials = 8,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"DelegationStart")]
+        DelegationStart = 9,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"DelegationStop")]
+        DelegationStop = 10,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]

@@ -2827,7 +2827,9 @@
           "ContactCategoryAdded",
           "ContactCategoryRemoved",
           "CertificateCredentials",
-          "ClientSecretCredentials"
+          "ClientSecretCredentials",
+          "DelegationStart",
+          "DelegationStop"
         ]
       },
       "ActorAuditedChangeAuditLogDto": {

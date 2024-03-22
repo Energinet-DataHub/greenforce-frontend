@@ -290,6 +290,8 @@ enum ActorAuditedChange {
   CONTACT_CATEGORY_REMOVED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
+  DELEGATION_START
+  DELEGATION_STOP
 }
 
 """The `DateTime` scalar represents an ISO-8601 compliant date time type."""

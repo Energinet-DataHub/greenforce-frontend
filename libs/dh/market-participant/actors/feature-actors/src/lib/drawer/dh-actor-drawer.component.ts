@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, inject, Input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
@@ -28,7 +28,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   DhPermissionRequiredDirective,
@@ -138,6 +138,9 @@ export class DhActorDrawerComponent {
 
   @Output() closed = new EventEmitter<void>();
 
+  @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
+  @Input() gridAreaCodeLookup!: { [Key: string]: string };
+
   public open(actorId: string): void {
     this.drawer?.open();
 
@@ -205,5 +208,26 @@ export class DhActorDrawerComponent {
           this.isLoadingAuditLog = false;
         },
       });
+  }
+
+  formatDelegationEntry(payload: dhActorAuditLogEntry) {
+    const values = payload.currentValue
+      ?.replace('(', '')
+      .replace(')', '')
+      .split(';')
+      .map((x) => x.trim());
+
+    if (!values) return {};
+
+    const actorNumberName = this.actorNumberNameLookup[values[0]];
+
+    return {
+      auditedBy: payload.auditedBy,
+      actor: `${actorNumberName.number} - ${actorNumberName.name}`,
+      startsAt: wattFormatDate(values[1]),
+      gridArea: this.gridAreaCodeLookup[values[2]],
+      messageType: values[3],
+      stopsAt: values.length > 4 ? wattFormatDate(values[4]) : undefined,
+    };
   }
 }
