@@ -1,8 +1,8 @@
 query GetDelegationsForActor($actorId: UUID!) {
-  getDelegationsForActor(actorId: $actorId) {
+  delegationsForActor(actorId: $actorId) {
     periodId
     id
-    messageType
+    process
     delegatedBy {
       id
       name

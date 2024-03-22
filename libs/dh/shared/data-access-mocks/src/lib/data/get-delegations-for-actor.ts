@@ -16,7 +16,7 @@
  */
 import {
   ActorDelegationStatus,
-  DelegationMessageType,
+  DelegatedProcess,
   GetDelegationsForActorQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs } from '@energinet-datahub/watt/date';
@@ -27,12 +27,12 @@ const [delegatedBy, delegatedTo] = actors('10000000-0000-0000-0000-000000000001'
 
 export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
   __typename: 'Query',
-  getDelegationsForActor: [
+  delegationsForActor: [
     {
       __typename: 'MessageDelegationType',
       id: '00000000-0000-0000-0000-000000000001',
       periodId: '00000000-0000-0000-0000-000000000002',
-      messageType: DelegationMessageType.Rsm016Outbound,
+      process: DelegatedProcess.ReceiveEnergyResults,
       validPeriod: {
         start: dayjs('2024-01-01T00:00:00+00:00').toDate(),
         end: dayjs('2024-02-01T00:00:00+00:00').toDate(),
@@ -50,7 +50,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       __typename: 'MessageDelegationType',
       id: '00000000-0000-0000-0000-000000000003',
       periodId: '00000000-0000-0000-0000-000000000004',
-      messageType: DelegationMessageType.Rsm016Outbound,
+      process: DelegatedProcess.ReceiveWholesaleResults,
       validPeriod: {
         start: dayjs('2024-02-10T00:00:00+00:00').toDate(),
         end: null,
@@ -68,7 +68,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       __typename: 'MessageDelegationType',
       id: '00000000-0000-0000-0000-000000000005',
       periodId: '00000000-0000-0000-0000-000000000006',
-      messageType: DelegationMessageType.Rsm016Inbound,
+      process: DelegatedProcess.RequestEnergyResults,
       validPeriod: {
         start: dayjs('2024-02-01T00:00:00+00:00').toDate(),
         end: dayjs('2024-03-01T00:00:00+00:00').toDate(),
@@ -86,7 +86,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       __typename: 'MessageDelegationType',
       id: '00000000-0000-0000-0000-000000000007',
       periodId: '00000000-0000-0000-0000-000000000008',
-      messageType: DelegationMessageType.Rsm017Outbound,
+      process: DelegatedProcess.RequestWholesaleResults,
       validPeriod: {
         start: dayjs('2024-03-01T00:00:00+00:00').toDate(),
         end: null,
