@@ -133,7 +133,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = this.getDelegatedProcesses();
+  delegatedProcesses = this.getDelegatedProcesses();
 
   closeModal(result: boolean) {
     this.modal?.close(result);
