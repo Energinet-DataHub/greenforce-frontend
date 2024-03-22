@@ -506,7 +506,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
+                    "$ref": "#/components/schemas/CreateProcessDelegationsDto"
                   }
                 ]
               }
@@ -515,7 +515,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
+                    "$ref": "#/components/schemas/CreateProcessDelegationsDto"
                   }
                 ]
               }
@@ -524,7 +524,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CreateMessageDelegationDto"
+                    "$ref": "#/components/schemas/CreateProcessDelegationsDto"
                   }
                 ]
               }
@@ -548,7 +548,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/StopMessageDelegationDto"
+                    "$ref": "#/components/schemas/StopProcessDelegationDto"
                   }
                 ]
               }
@@ -557,7 +557,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/StopMessageDelegationDto"
+                    "$ref": "#/components/schemas/StopProcessDelegationDto"
                   }
                 ]
               }
@@ -566,7 +566,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/StopMessageDelegationDto"
+                    "$ref": "#/components/schemas/StopProcessDelegationDto"
                   }
                 ]
               }
@@ -3212,37 +3212,6 @@
           }
         }
       },
-      "CreateMessageDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "delegatedFrom": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "delegatedTo": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "gridAreas": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "messageTypes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DelegationMessageType"
-            }
-          },
-          "startsAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "CreateOrganizationDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3262,6 +3231,37 @@
           },
           "domain": {
             "type": "string"
+          }
+        }
+      },
+      "CreateProcessDelegationsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "delegatedFrom": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delegatedTo": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "gridAreas": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "delegatedProcesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DelegatedProcess"
+            }
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -3298,19 +3298,41 @@
           }
         }
       },
-      "DelegationMessageType": {
+      "DelegatedProcess": {
         "type": "string",
         "enum": [
-          "Rsm012Inbound",
-          "Rsm012Outbound",
-          "Rsm014Inbound",
-          "Rsm016Inbound",
-          "Rsm016Outbound",
-          "Rsm017Inbound",
-          "Rsm017Outbound",
-          "Rsm018Inbound",
-          "Rsm019Inbound"
+          "RequestEnergyResults",
+          "ReceiveEnergyResults",
+          "RequestWholesaleResults",
+          "ReceiveWholesaleResults"
         ]
+      },
+      "DelegationPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delegatedTo": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "gridAreaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
       },
       "EicFunction": {
         "type": "string",
@@ -3378,7 +3400,7 @@
           "delegations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/MessageDelegationDto"
+              "$ref": "#/components/schemas/ProcessDelegationDto"
             }
           }
         }
@@ -3572,60 +3594,6 @@
           }
         }
       },
-      "MessageDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "delegatedBy": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "messageType": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DelegationMessageType"
-              }
-            ]
-          },
-          "periods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MessageDelegationPeriodDto"
-            }
-          }
-        }
-      },
-      "MessageDelegationPeriodDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "delegatedTo": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "gridAreaId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "startsAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        }
-      },
       "OrganizationAuditedChange": {
         "type": "string",
         "enum": [
@@ -3800,6 +3768,33 @@
           }
         }
       },
+      "ProcessDelegationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delegatedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "process": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DelegatedProcess"
+              }
+            ]
+          },
+          "periods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DelegationPeriodDto"
+            }
+          }
+        }
+      },
       "SelectionActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3826,7 +3821,7 @@
           "Desc"
         ]
       },
-      "StopMessageDelegationDto": {
+      "StopProcessDelegationDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

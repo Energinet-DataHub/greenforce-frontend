@@ -56,9 +56,6 @@ limitations under the License.
       </watt-button>
     </vater-stack>
 
-    <dh-delegations-overview
-      [outgoing]="delegationsGrouped().outgoing"
-      [incoming]="delegationsGrouped().incoming"
-    />
+    <dh-delegations-overview [delegations]="delegations()" />
   }
 </vater-flex>

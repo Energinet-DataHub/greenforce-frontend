@@ -18,9 +18,9 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public sealed record CreateMessageDelegationInput(
+public sealed record CreateProcessDelegationsInput(
     Guid DelegatedBy,
     Guid DelegatedTo,
     ICollection<Guid> GridAreas,
-    ICollection<DelegationMessageType> MessageTypes,
+    ICollection<DelegatedProcess> DelegatedProcesses,
     DateTimeOffset StartsAt);

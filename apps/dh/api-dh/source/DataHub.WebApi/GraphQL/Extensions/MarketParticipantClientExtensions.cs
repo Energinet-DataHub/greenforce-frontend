@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public sealed class MessageDelegation
+public static class MarketParticipantClientExtensions
 {
-    public Guid Id { get; set; } = default!;
-
-    public Guid PeriodId { get; set; } = default!;
-
-    public Guid DelegatedBy { get; set; } = default!;
-
-    public Guid DelegatedTo { get; set; } = default!;
-
-    public Guid GridAreaId { get; set; } = default!;
-
-    public DelegationMessageType MessageType { get; set; } = default!;
-
-    public Interval ValidPeriod { get; set; } = default!;
+    internal static Task<GetUserOverviewResponse> GetUserOverviewAsync(this IMarketParticipantClient_V1 client)
+    {
+        return client.UserOverviewUsersSearchAsync(
+            1,
+            int.MaxValue,
+            UserOverviewSortProperty.Email,
+            SortDirection.Asc,
+            new UserOverviewFilterDto
+            {
+                UserStatus = [],
+                UserRoleIds = [],
+            });
+    }
 }

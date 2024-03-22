@@ -188,18 +188,11 @@
           "status": "Status"
         }
       },
-      "messageTypes": {
-        "INBOUND": "Incoming",
-        "OUTBOUND": "Outgoing",
-        "RSM012_INBOUND": "Submit metered data for a metering point (RSM-012)",
-        "RSM012_OUTBOUND": "Submit metered data for a metering point (RSM-012)",
-        "RSM014_INBOUND": "Submit calculated time series (RSM-014)",
-        "RSM016_INBOUND": "Aggregated metered data request (RSM-016)",
-        "RSM016_OUTBOUND": "Aggregated metered data request (RSM-016)",
-        "RSM017_INBOUND": "Request wholesale services (RSM-017)",
-        "RSM017_OUTBOUND": "Request wholesale services (RSM-017)",
-        "RSM018_INBOUND": "Submit missing data log (RSM-018)",
-        "RSM019_INBOUND": "Submit settlement basis (RSM-019)"
+      "processTypes": {
+        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-14)",
+        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-16)",
+        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-17)",
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-19)"
       },
       "statusPlaceholder": "Status",
       "status": {
