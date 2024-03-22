@@ -439,15 +439,6 @@ interface Error {
   message: String!
 }
 
-<<<<<<< Updated upstream
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
-||||||| Stash base
-=======
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
@@ -459,7 +450,6 @@ type ApiErrorDescriptor {
   args: JSON!
 }
 
->>>>>>> Stashed changes
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
@@ -617,75 +607,9 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
-<<<<<<< Updated upstream
-type SettlementReport {
-  calculationId: UUID!
-  calculationType: CalculationType!
-  gridArea: GridAreaDto!
-  period: DateRange!
-  executionTime: DateTime
-}
-
-type UserRoleWithPermissionsDto {
-  id: UUID!
-  name: String!
-  description: String!
-  eicFunction: EicFunction!
-  status: UserRoleStatus!
-  permissions: [PermissionDetailsDto!]!
-}
-
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
-type PermissionDetailsDto {
-  id: Int!
-  name: String!
-  description: String!
-  created: DateTime!
-||||||| Stash base
-type SettlementReport {
-  calculationId: UUID!
-  calculationType: CalculationType!
-  gridArea: GridAreaDto!
-  period: DateRange!
-  executionTime: DateTime
-}
-
-type UserRoleWithPermissionsDto {
-  id: UUID!
-  name: String!
-  description: String!
-  eicFunction: EicFunction!
-  status: UserRoleStatus!
-  permissions: [PermissionDetailsDto!]!
-}
-
-type ApiErrorDescriptor {
-  message: String!
-  code: String!
-  args: JSON!
-}
-
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
-scalar JSON
-
-type PermissionDetailsDto {
-  id: Int!
-  name: String!
-  description: String!
-  created: DateTime!
-=======
 type AssociatedActors {
   email: String!
   actors: [UUID!]!
->>>>>>> Stashed changes
 }
 
 enum ESettStageComponent {
