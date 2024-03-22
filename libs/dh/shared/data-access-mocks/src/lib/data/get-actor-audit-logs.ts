@@ -70,7 +70,8 @@ export const getActorAuditLogsMock: GetAuditLogByActorIdQuery = {
     {
       __typename: 'ActorAuditedChangeAuditLogDto',
       auditedBy: 'Jane Doe',
-      currentValue: '(efad0fee-9d7c-49c6-7c16-08da5f28ddb1;2024-03-01;1;RequestWholesaleResults;2024-04-01)',
+      currentValue:
+        '(efad0fee-9d7c-49c6-7c16-08da5f28ddb1;2024-03-01;1;RequestWholesaleResults;2024-04-01)',
       previousValue: null,
       change: ActorAuditedChange.DelegationStop,
       isInitialAssignment: false,
