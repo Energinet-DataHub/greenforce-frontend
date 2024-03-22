@@ -168,6 +168,10 @@ export interface TranslationKeys {
     title: string;
     infoBoxTitle: string;
     infoBoxContent: string;
+    pendingRelationStatus: {
+      title: string;
+      message: string;
+    };
     noData: {
       title: string;
       message: string;

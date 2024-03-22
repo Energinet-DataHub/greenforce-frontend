@@ -28,6 +28,7 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
 import { MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
+import { Observable, combineLatest, map } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,6 +69,7 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
       </watt-card-title>
       <eo-metering-points-table
         [meteringPoints]="meteringPoints$ | async"
+        [showPendingRelationStatus]="!!(showPendingRelationStatus$ | async)"
         [loading]="!!(isLoading$ | async)"
         [hasError]="!!(meteringPointError$ | async)"
         (toggleContract)="onToggleContract($event)"
@@ -83,6 +85,11 @@ export class EoMeteringPointsShellComponent implements OnInit {
 
   protected isLoading$ = this.meteringPointStore.loading$;
   protected meteringPoints$ = this.meteringPointStore.meteringPoints$;
+  protected showPendingRelationStatus$: Observable<boolean> = combineLatest([this.meteringPoints$, this.meteringPointStore.relationStatus$]).pipe(
+    map(([meteringPoints, status]) => {
+      return status === 'Pending' || !status && meteringPoints.length === 0
+    })
+  );
   protected contractError$ = this.meteringPointStore.contractError$;
   protected meteringPointError$ = this.meteringPointStore.meteringPointError$;
   protected translations = translations;

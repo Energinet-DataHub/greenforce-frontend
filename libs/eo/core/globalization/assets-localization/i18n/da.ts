@@ -194,6 +194,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         </li>
       </ul>
       `,
+    pendingRelationStatus: {
+      title: 'Afventer svar fra DataHub',
+      message: 'Vi oplever problemer med at hente dine målepunkter.\n Vend venligst tilbage senere.'
+    },
     noData: {
       title: 'Ingen målepunkter fundet',
       message: 'Du har ikke nogen målepunkter.',
@@ -202,7 +206,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Ups! Noget gik galt.',
       message: 'Venligst prøv at genindlæse siden.',
     },
-    tableTitle: 'Resultater',
+    tableTitle: 'Tilgængelige målepunkter',
     gsrnTableHeader: 'Målepunkt',
     addressTableHeader: 'Adresse',
     unitTableHeader: 'Enhed',

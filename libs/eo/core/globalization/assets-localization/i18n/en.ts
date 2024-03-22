@@ -195,6 +195,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       </li>
     </ul>
     `,
+    pendingRelationStatus: {
+      title: 'Awaiting response from DataHub',
+      message: 'We are experiencing issues fetching your metering points. Please come back later.'
+    },
     noData: {
       title: 'No metering points found',
       message: 'You do not have any metering points.',
@@ -203,7 +207,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       title: 'Oops! Something went wrong.',
       message: 'Please try reloading the page..',
     },
-    tableTitle: 'Results',
+    tableTitle: 'Available metering points',
     gsrnTableHeader: 'Metering Point',
     addressTableHeader: 'Address',
     unitTableHeader: 'Unit',
