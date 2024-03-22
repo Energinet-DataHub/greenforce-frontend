@@ -91,9 +91,10 @@ export class DhDelegationTabComponent {
   isLoading = signal(false);
   isError = signal(false);
 
+  delegationsRaw = signal<DhDelegations>([]);
   delegations = signal<DhDelegations>([]);
 
-  isEmpty = computed(() => this.delegations().length === 0);
+  isEmpty = computed(() => this.delegationsRaw().length === 0);
 
   statusControl = new FormControl<ActorDelegationStatus[] | null>(null);
   statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus);
@@ -111,7 +112,7 @@ export class DhDelegationTabComponent {
   }
 
   private filterDelegations(filter: ActorDelegationStatus[] | null) {
-    const delegations = untracked(this.delegations);
+    const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {
       return this.delegations.set(delegations);
@@ -127,6 +128,7 @@ export class DhDelegationTabComponent {
   private fetchData(actorId: string) {
     this.isLoading.set(true);
     this.isError.set(false);
+    this.delegationsRaw.set([]);
     this.statusControl.reset();
 
     this._apollo
@@ -139,7 +141,9 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegations.set(result.data.delegationsForActor);
+          this.delegationsRaw.set(result.data.delegationsForActor);
+
+          this.delegations.set(this.delegationsRaw());
         },
         error: () => {
           this.isLoading.set(false);
