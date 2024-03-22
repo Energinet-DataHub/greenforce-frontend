@@ -40,7 +40,7 @@ public static class SwaggerExtensions
 
             // Set the comments path for the Swagger JSON and UI.
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
             config.IncludeXmlComments(xmlPath);
 
             var securitySchema = new OpenApiSecurityScheme
