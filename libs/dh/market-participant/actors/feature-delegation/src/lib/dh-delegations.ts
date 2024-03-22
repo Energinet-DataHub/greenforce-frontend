@@ -31,7 +31,3 @@ export type DhDelegationsByType = {
   type: DelegatedProcess;
   delegations: DhDelegations;
 };
-
-export type DhDelegationsByDirection = Record<'outgoing' | 'incoming', DhDelegations>;
-
-export type DhDelegationsGrouped = Record<'outgoing' | 'incoming', DhDelegationsByType[]>;

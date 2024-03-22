@@ -22,7 +22,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 
-import { DhDelegationsByType } from '../dh-delegations';
+import { DhDelegations, DhDelegationsByType } from '../dh-delegations';
 import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
 
 @Component({
@@ -47,33 +47,17 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
-      @if (outgoing().length > 0) {
+      @if (delegations().length > 0) {
         <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
           <watt-expandable-card-title>{{ t('outgoingMessages') }}</watt-expandable-card-title>
 
-          @for (entry of outgoing(); track $index) {
+          @for (entry of delegations(); track $index) {
             <watt-expandable-card togglePosition="before" variant="solid">
               <watt-expandable-card-title>{{
-                t('messageTypes.' + entry.type)
+                t('messageTypes.' + entry.process)
               }}</watt-expandable-card-title>
 
-              <dh-delegation-table [data]="entry.delegations" />
-            </watt-expandable-card>
-          }
-        </watt-expandable-card>
-      }
-
-      @if (incoming().length > 0) {
-        <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
-          <watt-expandable-card-title>{{ t('incomingMessages') }}</watt-expandable-card-title>
-
-          @for (entry of incoming(); track $index) {
-            <watt-expandable-card togglePosition="before" variant="solid">
-              <watt-expandable-card-title>{{
-                t('messageTypes.' + entry.type)
-              }}</watt-expandable-card-title>
-
-              <dh-delegation-table [data]="entry.delegations" />
+              <dh-delegation-table [data]="delegations()" />
             </watt-expandable-card>
           }
         </watt-expandable-card>
@@ -82,6 +66,5 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
 })
 export class DhDelegationsOverviewComponent {
-  outgoing = input.required<DhDelegationsByType[]>();
-  incoming = input.required<DhDelegationsByType[]>();
+  delegations = input.required<DhDelegations>();
 }

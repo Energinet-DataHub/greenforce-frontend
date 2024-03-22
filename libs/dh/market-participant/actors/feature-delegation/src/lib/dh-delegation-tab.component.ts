@@ -50,7 +50,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
-import { DhDelegations, DhDelegationsGrouped } from './dh-delegations';
+import { DhDelegations } from './dh-delegations';
 import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -91,10 +91,9 @@ export class DhDelegationTabComponent {
   isLoading = signal(false);
   isError = signal(false);
 
-  delegationsRaw = signal<DhDelegations>([]);
-  delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
+  delegations = signal<DhDelegations>([]);
 
-  isEmpty = computed(() => this.delegationsRaw().length === 0);
+  isEmpty = computed(() => this.delegations().length === 0);
 
   statusControl = new FormControl<ActorDelegationStatus[] | null>(null);
   statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus);
@@ -112,23 +111,22 @@ export class DhDelegationTabComponent {
   }
 
   private filterDelegations(filter: ActorDelegationStatus[] | null) {
-    const delegations = untracked(this.delegationsRaw);
+    const delegations = untracked(this.delegations);
 
     if (filter === null) {
-      return this.delegationsGrouped.set(delegations);
+      return this.delegations.set(delegations);
     }
 
     const delegationsFiltered = delegations.filter((delegation) => {
       return filter.includes(delegation.status);
     });
 
-    this.delegationsGrouped.set(dhGroupDelegations(delegationsFiltered));
+    this.delegations.set(delegationsFiltered);
   }
 
   private fetchData(actorId: string) {
     this.isLoading.set(true);
     this.isError.set(false);
-    this.delegationsRaw.set([]);
     this.statusControl.reset();
 
     this._apollo
@@ -141,9 +139,7 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsRaw.set(result.data.delegationsForActor);
-
-          this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
+          this.delegations.set(result.data.delegationsForActor);
         },
         error: () => {
           this.isLoading.set(false);
