@@ -50,9 +50,9 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
       @if (delegations().length > 0) {
         @for (entry of delegations(); track $index) {
           <watt-expandable-card togglePosition="before" variant="solid">
-            <watt-expandable-card-title>{{
-              t('messageTypes.' + entry.process)
-            }}</watt-expandable-card-title>
+            <watt-expandable-card-title>
+              {{ t('processTypes.' + entry.process) }}
+            </watt-expandable-card-title>
 
             <dh-delegation-table [data]="delegations()" />
           </watt-expandable-card>
