@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -70,9 +71,10 @@ public partial class Query
                     Id = delegation.Id,
                     PeriodId = period.Id,
                     DelegatedTo = period.DelegatedTo,
-                    ExpiresAt = period.ExpiresAt,
-                    StartsAt = period.StartsAt,
                     GridAreaId = period.GridAreaId,
+                    ValidPeriod = new Interval(
+                        Instant.FromDateTimeOffset(period.StartsAt),
+                        period.ExpiresAt.HasValue ? Instant.FromDateTimeOffset(period.ExpiresAt.Value) : null),
                 });
 
     public async Task<AssociatedActors> GetAssociatedActorsAsync(
