@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { provideComponentStore } from '@ngrx/component-store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -85,7 +84,6 @@ export const debounceTimeValue = 250;
     provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
   ],
   imports: [
-    NgIf,
     RxLet,
     RxPush,
     TranslocoDirective,

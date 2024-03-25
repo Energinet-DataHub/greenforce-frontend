@@ -33,37 +33,37 @@ limitations under the License.
     >
   </watt-drawer-actions>
 
-  <watt-drawer-content *ngIf="drawer.isOpen && selectedPermission">
-    <watt-tabs>
-      <watt-tab [label]="t('information')">
-        <watt-card variant="solid">
-          <watt-description-list variant="stack">
-            <watt-description-list-item
-              [label]="t('permissionName')"
-              [value]="selectedPermission.name"
-            />
-            <watt-description-list-item
-              [label]="t('permissionDescription')"
-              [value]="selectedPermission.description"
-            />
-          </watt-description-list>
-        </watt-card>
-      </watt-tab>
-      <watt-tab [label]="t('tabs.userRoles.tabLabel')">
-        <dh-admin-permission-roles [selectedPermission]="selectedPermission" />
-      </watt-tab>
-      <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
-        <dh-admin-permission-market-roles [selectedPermission]="selectedPermission" />
-      </watt-tab>
-      <watt-tab [label]="t('tabs.history.tabLabel')">
-        <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
-      </watt-tab>
-    </watt-tabs>
-  </watt-drawer-content>
+  @if (drawer.isOpen && selectedPermission) {
+    <watt-drawer-content>
+      <watt-tabs>
+        <watt-tab [label]="t('information')">
+          <watt-card variant="solid">
+            <watt-description-list variant="stack">
+              <watt-description-list-item
+                [label]="t('permissionName')"
+                [value]="selectedPermission.name"
+              />
+              <watt-description-list-item
+                [label]="t('permissionDescription')"
+                [value]="selectedPermission.description"
+              />
+            </watt-description-list>
+          </watt-card>
+        </watt-tab>
+        <watt-tab [label]="t('tabs.userRoles.tabLabel')">
+          <dh-admin-permission-roles [selectedPermission]="selectedPermission" />
+        </watt-tab>
+        <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
+          <dh-admin-permission-market-roles [selectedPermission]="selectedPermission" />
+        </watt-tab>
+        <watt-tab [label]="t('tabs.history.tabLabel')">
+          <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
+        </watt-tab>
+      </watt-tabs>
+    </watt-drawer-content>
+  }
 </watt-drawer>
 
-<dh-edit-permission-modal
-  *ngIf="isEditPermissionModalVisible && selectedPermission"
-  [permission]="selectedPermission"
-  (closed)="modalOnClose($event)"
-/>
+@if (isEditPermissionModalVisible && selectedPermission) {
+  <dh-edit-permission-modal [permission]="selectedPermission" (closed)="modalOnClose($event)" />
+}
