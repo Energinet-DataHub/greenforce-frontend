@@ -252,6 +252,16 @@
           }
         },
         "process_delegation": {
+          "args": {
+            "assigned_market_role": {
+              "GridAccessProvider": "Grid access provider",
+              "EnergySupplier": "Energy supplier"
+            },
+            "conflicting_market_role": {
+              "GridAccessProvider": "Grid access provider",
+              "EnergySupplier": "Energy supplier"
+            }
+          },
           "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
