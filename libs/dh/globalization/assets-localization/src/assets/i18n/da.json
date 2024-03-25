@@ -252,6 +252,16 @@
           }
         },
         "process_delegation": {
+          "args": {
+            "assigned_market_role": {
+              "GridAccessProvider": "Netvirksomhed",
+              "EnergySupplier": "Elleverandør"
+            },
+            "conflicting_market_role": {
+              "GridAccessProvider": "Netvirksomhed",
+              "EnergySupplier": "Elleverandør"
+            }
+          },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
@@ -453,8 +463,14 @@
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
-              "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{messageType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{messageType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
+              "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
+            },
+            "processTypes": {
+              "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
+              "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
+              "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
             }
           }
         }
