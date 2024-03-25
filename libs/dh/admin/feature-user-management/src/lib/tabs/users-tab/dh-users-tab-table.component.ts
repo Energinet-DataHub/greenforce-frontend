@@ -25,7 +25,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -62,7 +61,6 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
   // Using `OnPush` causes issues with table's header row translations
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
-    NgIf,
     TranslocoDirective,
 
     VaterStackComponent,

@@ -132,7 +132,10 @@ limitations under the License.
                   </ng-container>
                   <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
                     @if (
-                      entry.change !== "CLIENT_SECRET_CREDENTIALS" && entry.change !== "STATUS"
+                      entry.change !== "CLIENT_SECRET_CREDENTIALS" &&
+                      entry.change !== "STATUS" &&
+                      entry.change !== "DELEGATION_START" &&
+                      entry.change !== "DELEGATION_STOP"
                     ) {
                       <div
                         [innerHTML]="
@@ -170,6 +173,17 @@ limitations under the License.
                               currentValue: entry.currentValue | wattDate,
                               previousValue: entry.previousValue | wattDate
                             }
+                          )
+                        "
+                      ></div>
+                    } @else if (
+                      entry.change === "DELEGATION_START" || entry.change === "DELEGATION_STOP"
+                    ) {
+                      <div
+                        [innerHTML]="
+                          t(
+                            'tabs.history.changeTypes.' + entry.change,
+                            formatDelegationEntry(entry)
                           )
                         "
                       ></div>

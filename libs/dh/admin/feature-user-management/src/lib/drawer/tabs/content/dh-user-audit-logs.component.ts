@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, OnChanges, inject, input } from '@angular/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -53,7 +53,6 @@ import {
     `,
   ],
   imports: [
-    NgIf,
     RxLet,
     NgTemplateOutlet,
     RxPush,

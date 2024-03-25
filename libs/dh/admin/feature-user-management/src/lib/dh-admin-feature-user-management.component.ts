@@ -16,7 +16,6 @@
  */
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { NgIf } from '@angular/common';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 
@@ -35,17 +34,20 @@ import { DhPermissionsTabComponent } from './tabs/permissions-tab/dh-permissions
         </watt-tab>
 
         <watt-tab (changed)="roleTabSelected = true" [label]="t('roles.tabLabel')">
-          <dh-roles-tab *ngIf="roleTabSelected" />
+          @if (roleTabSelected) {
+            <dh-roles-tab />
+          }
         </watt-tab>
 
         <watt-tab (changed)="permissionTabSelected = true" [label]="t('permissions.tabLabel')">
-          <dh-permissions-tab *ngIf="permissionTabSelected" />
+          @if (permissionTabSelected) {
+            <dh-permissions-tab />
+          }
         </watt-tab>
       </watt-tabs>
     </ng-container>
   `,
   imports: [
-    NgIf,
     TranslocoDirective,
 
     WATT_TABS,
