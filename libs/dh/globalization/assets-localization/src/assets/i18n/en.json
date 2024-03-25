@@ -463,8 +463,14 @@
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the name of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
-              "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{messageType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{messageType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
+              "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{processType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
+            },
+            "processTypes": {
+              "ReceiveEnergyResults": "Submit calculated time series",
+              "RequestEnergyResults": "Aggregated metered data request",
+              "RequestWholesaleResults": "Request wholesale services",
+              "ReceiveWholesaleResults": "Submit settlement basis"
             }
           }
         }
