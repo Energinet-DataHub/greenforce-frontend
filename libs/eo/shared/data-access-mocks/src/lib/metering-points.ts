@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable sonarjs/no-duplicated-branches */
 import { http, HttpResponse } from 'msw';
 
 export function meteringPointsMocks(apiBase: string) {
