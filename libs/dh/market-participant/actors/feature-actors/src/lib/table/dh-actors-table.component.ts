@@ -63,6 +63,8 @@ export class DhActorsTableComponent {
 
   @Input() isLoading!: boolean;
   @Input() hasError!: boolean;
+  @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
+  @Input() gridAreaCodeLookup!: { [Key: string]: string };
 
   @Input() tableDataSource!: WattTableDataSource<DhActor>;
 

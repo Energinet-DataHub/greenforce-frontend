@@ -14,13 +14,12 @@
 
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class ProcessStatusType : EnumType<ProcessStatus>
 {
-    public class ProcessStatusType : EnumType<ProcessStatus>
+    protected override void Configure(IEnumTypeDescriptor<ProcessStatus> descriptor)
     {
-        protected override void Configure(IEnumTypeDescriptor<ProcessStatus> descriptor)
-        {
-            descriptor.AsLowerCase();
-        }
+        descriptor.AsLowerCase();
     }
 }

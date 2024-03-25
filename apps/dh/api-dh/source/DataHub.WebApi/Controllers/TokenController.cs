@@ -18,29 +18,28 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public class TokenController : MarketParticipantControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public class TokenController : MarketParticipantControllerBase
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public TokenController(IMarketParticipantClient_V1 client)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        _client = client;
+    }
 
-        public TokenController(IMarketParticipantClient_V1 client)
-        {
-            _client = client;
-        }
-
-        /// <summary>
-        /// Retrieves a DataHub access token.
-        /// </summary>
-        [HttpPost]
-        [AllowAnonymous]
-        public Task<ActionResult<TokenResponse>> GetTokenAsync(Guid actorId)
-        {
-            var externalToken = HttpContext.Request.Headers["Authorization"].ToString();
-            externalToken = externalToken.Replace("Bearer ", string.Empty);
-            return HandleExceptionAsync(() => _client.TokenAsync(new TokenRequest() { ActorId = actorId, ExternalToken = externalToken }));
-        }
+    /// <summary>
+    /// Retrieves a DataHub access token.
+    /// </summary>
+    [HttpPost]
+    [AllowAnonymous]
+    public Task<ActionResult<TokenResponse>> GetTokenAsync(Guid actorId)
+    {
+        var externalToken = HttpContext.Request.Headers["Authorization"].ToString();
+        externalToken = externalToken.Replace("Bearer ", string.Empty);
+        return HandleExceptionAsync(() => _client.TokenAsync(new TokenRequest() { ActorId = actorId, ExternalToken = externalToken }));
     }
 }

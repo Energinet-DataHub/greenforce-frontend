@@ -15,13 +15,12 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class EicFunctionType : EnumType<EicFunction>
 {
-    public class EicFunctionType : EnumType<EicFunction>
+    protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
     {
-        protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
-        {
-            descriptor.AsIsCase();
-        }
+        descriptor.AsIsCase();
     }
 }

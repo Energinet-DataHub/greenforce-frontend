@@ -21,204 +21,203 @@ using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
 using Energinet.DataHub.WebApi.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]/Organization")]
+public class MarketParticipantController : MarketParticipantControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]/Organization")]
-    public class MarketParticipantController : MarketParticipantControllerBase
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public MarketParticipantController(IMarketParticipantClient_V1 client)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        _client = client;
+    }
 
-        public MarketParticipantController(IMarketParticipantClient_V1 client)
-        {
-            _client = client;
-        }
+    /// <summary>
+    /// Retrieves all organizations.
+    /// </summary>
+    [HttpGet]
+    [Route("GetAllOrganizations")]
+    public Task<ActionResult<ICollection<OrganizationDto>>> GetAllOrganizationsAsync()
+    {
+        return HandleExceptionAsync(() => _client.OrganizationGetAsync());
+    }
 
-        /// <summary>
-        /// Retrieves all organizations.
-        /// </summary>
-        [HttpGet]
-        [Route("GetAllOrganizations")]
-        public Task<ActionResult<ICollection<OrganizationDto>>> GetAllOrganizationsAsync()
+    /// <summary>
+    /// Retrieves all organizations with actors.
+    /// </summary>
+    [HttpGet]
+    [Route("GetAllOrganizationsWithActors")]
+    public Task<ActionResult<IEnumerable<OrganizationWithActorsDto>>> GetAllOrganizationsWithActorsAsync()
+    {
+        return HandleExceptionAsync(async () =>
         {
-            return HandleExceptionAsync(() => _client.OrganizationGetAsync());
-        }
+            var organizations = await _client
+                .OrganizationGetAsync()
+                .ConfigureAwait(false);
 
-        /// <summary>
-        /// Retrieves all organizations with actors.
-        /// </summary>
-        [HttpGet]
-        [Route("GetAllOrganizationsWithActors")]
-        public Task<ActionResult<IEnumerable<OrganizationWithActorsDto>>> GetAllOrganizationsWithActorsAsync()
-        {
-            return HandleExceptionAsync(async () =>
+            var allActors = await _client
+                .ActorGetAsync()
+                .ConfigureAwait(false);
+
+            var groupByOrganization = allActors.ToLookup(a => a.OrganizationId);
+
+            var result = organizations.Select(organization =>
             {
-                var organizations = await _client
-                    .OrganizationGetAsync()
-                    .ConfigureAwait(false);
-
-                var allActors = await _client
-                    .ActorGetAsync()
-                    .ConfigureAwait(false);
-
-                var groupByOrganization = allActors.ToLookup(a => a.OrganizationId);
-
-                var result = organizations.Select(organization =>
-                {
-                    var actors = groupByOrganization[organization.OrganizationId];
-                    return new OrganizationWithActorsDto(organization, actors);
-                });
-
-                return result;
+                var actors = groupByOrganization[organization.OrganizationId];
+                return new OrganizationWithActorsDto(organization, actors);
             });
-        }
 
-        /// <summary>
-        /// Retrieves a single organization
-        /// </summary>
-        [HttpGet("GetOrganization")]
-        public Task<ActionResult<OrganizationDto>> GetOrganizationAsync(Guid orgId)
-        {
-            return HandleExceptionAsync(() => _client.OrganizationGetAsync(orgId));
-        }
+            return result;
+        });
+    }
 
-        /// <summary>
-        /// Creates an organization
-        /// </summary>
-        [HttpPost]
-        [Route("CreateOrganization")]
-        public Task<ActionResult<Guid>> CreateOrganizationAsync(CreateOrganizationDto organizationDto)
-        {
-            return HandleExceptionAsync(() => _client.OrganizationPostAsync(organizationDto));
-        }
+    /// <summary>
+    /// Retrieves a single organization
+    /// </summary>
+    [HttpGet("GetOrganization")]
+    public Task<ActionResult<OrganizationDto>> GetOrganizationAsync(Guid orgId)
+    {
+        return HandleExceptionAsync(() => _client.OrganizationGetAsync(orgId));
+    }
 
-        /// <summary>
-        /// Updates an organization
-        /// </summary>
-        [HttpPut]
-        [Route("UpdateOrganization")]
-        public Task<ActionResult> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
-        {
-            return HandleExceptionAsync(() => _client.OrganizationPutAsync(orgId, organizationDto));
-        }
+    /// <summary>
+    /// Creates an organization
+    /// </summary>
+    [HttpPost]
+    [Route("CreateOrganization")]
+    public Task<ActionResult<Guid>> CreateOrganizationAsync(CreateOrganizationDto organizationDto)
+    {
+        return HandleExceptionAsync(() => _client.OrganizationPostAsync(organizationDto));
+    }
 
-        /// <summary>
-        /// Retrieves all actors to a single organization
-        /// </summary>
-        [HttpGet("GetActors")]
-        public Task<ActionResult<ICollection<ActorDto>>> GetActorsAsync(Guid orgId)
-        {
-            return HandleExceptionAsync(() => _client.OrganizationActorAsync(orgId));
-        }
+    /// <summary>
+    /// Updates an organization
+    /// </summary>
+    [HttpPut]
+    [Route("UpdateOrganization")]
+    public Task<ActionResult> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
+    {
+        return HandleExceptionAsync(() => _client.OrganizationPutAsync(orgId, organizationDto));
+    }
 
-        /// <summary>
-        /// Gets a list of actors ready for use in filters in frontend.
-        /// The list is made so that FAS members can choose from all the actors, while
-        /// non-FAS member can only pick their own actor.
-        /// </summary>
-        [HttpGet("GetFilteredActors")]
-        public Task<ActionResult<IEnumerable<FilteredActorDto>>> GetFilteredActorsAsync()
+    /// <summary>
+    /// Retrieves all actors to a single organization
+    /// </summary>
+    [HttpGet("GetActors")]
+    public Task<ActionResult<ICollection<ActorDto>>> GetActorsAsync(Guid orgId)
+    {
+        return HandleExceptionAsync(() => _client.OrganizationActorAsync(orgId));
+    }
+
+    /// <summary>
+    /// Gets a list of actors ready for use in filters in frontend.
+    /// The list is made so that FAS members can choose from all the actors, while
+    /// non-FAS member can only pick their own actor.
+    /// </summary>
+    [HttpGet("GetFilteredActors")]
+    public Task<ActionResult<IEnumerable<FilteredActorDto>>> GetFilteredActorsAsync()
+    {
+        return HandleExceptionAsync(async () =>
         {
-            return HandleExceptionAsync(async () =>
+            var gridAreas = await _client.GridAreaGetAsync().ConfigureAwait(false);
+            var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+
+            var actors = await _client
+                .ActorGetAsync()
+                .ConfigureAwait(false);
+
+            var accessibleActors = actors
+                .Select(x =>
+                    new FilteredActorDto(
+                        x.ActorId,
+                        x.ActorNumber,
+                        x.Name,
+                        x.MarketRoles
+                            .Select(marketRole => marketRole.EicFunction)
+                            .Distinct()
+                            .ToList(),
+                        x.MarketRoles
+                            .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                            .Distinct()
+                            .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
+                            .ToList()));
+
+            if (HttpContext.User.IsFas())
             {
-                var gridAreas = await _client.GridAreaGetAsync().ConfigureAwait(false);
-                var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
+                return accessibleActors;
+            }
 
-                var actors = await _client
-                    .ActorGetAsync()
-                    .ConfigureAwait(false);
+            var actorId = HttpContext.User.GetAssociatedActor();
+            return accessibleActors.Where(actor => actor.ActorId == actorId);
+        });
+    }
 
-                var accessibleActors = actors
-                    .Select(x =>
-                        new FilteredActorDto(
-                            x.ActorId,
-                            x.ActorNumber,
-                            x.Name,
-                            x.MarketRoles
-                                .Select(marketRole => marketRole.EicFunction)
-                                .Distinct()
-                                .ToList(),
-                            x.MarketRoles
-                                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                                .Distinct()
-                                .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
-                                .ToList()));
-
-                if (HttpContext.User.IsFas())
-                {
-                    return accessibleActors;
-                }
-
-                var actorId = HttpContext.User.GetAssociatedActor();
-                return accessibleActors.Where(actor => actor.ActorId == actorId);
-            });
-        }
-
-        /// <summary>
-        /// Retrieves the organization for a single actor.
-        /// </summary>
-        [HttpGet("GetActorOrganization")]
-        public Task<ActionResult<OrganizationDto>> GetActorOrganizationAsync(Guid actorId)
+    /// <summary>
+    /// Retrieves the organization for a single actor.
+    /// </summary>
+    [HttpGet("GetActorOrganization")]
+    public Task<ActionResult<OrganizationDto>> GetActorOrganizationAsync(Guid actorId)
+    {
+        return HandleExceptionAsync(async () =>
         {
-            return HandleExceptionAsync(async () =>
-            {
-                var actor = await _client.ActorGetAsync(actorId).ConfigureAwait(false);
-                return await _client.OrganizationGetAsync(actor.OrganizationId).ConfigureAwait(false);
-            });
-        }
+            var actor = await _client.ActorGetAsync(actorId).ConfigureAwait(false);
+            return await _client.OrganizationGetAsync(actor.OrganizationId).ConfigureAwait(false);
+        });
+    }
 
-        /// <summary>
-        /// Retrieves an actor.
-        /// </summary>
-        [HttpGet("GetActor")]
-        public Task<ActionResult<ActorDto>> GetActorAsync(Guid actorId)
-        {
-            return HandleExceptionAsync(() => _client.ActorGetAsync(actorId));
-        }
+    /// <summary>
+    /// Retrieves an actor.
+    /// </summary>
+    [HttpGet("GetActor")]
+    public Task<ActionResult<ActorDto>> GetActorAsync(Guid actorId)
+    {
+        return HandleExceptionAsync(() => _client.ActorGetAsync(actorId));
+    }
 
-        /// <summary>
-        /// Creates an actor.
-        /// </summary>
-        [HttpPost("CreateActor")]
-        public Task<ActionResult<Guid>> CreateActorAsync(CreateActorDto actorDto)
-        {
-            return HandleExceptionAsync(() => _client.ActorPostAsync(actorDto));
-        }
+    /// <summary>
+    /// Creates an actor.
+    /// </summary>
+    [HttpPost("CreateActor")]
+    public Task<ActionResult<Guid>> CreateActorAsync(CreateActorDto actorDto)
+    {
+        return HandleExceptionAsync(() => _client.ActorPostAsync(actorDto));
+    }
 
-        /// <summary>
-        /// Updates an actor.
-        /// </summary>
-        [HttpPut("UpdateActor")]
-        public Task<ActionResult> UpdateActorAsync(Guid actorId, ChangeActorDto actorDto)
-        {
-            return HandleExceptionAsync(() => _client.ActorPutAsync(actorId, actorDto));
-        }
+    /// <summary>
+    /// Updates an actor.
+    /// </summary>
+    [HttpPut("UpdateActor")]
+    public Task<ActionResult> UpdateActorAsync(Guid actorId, ChangeActorDto actorDto)
+    {
+        return HandleExceptionAsync(() => _client.ActorPutAsync(actorId, actorDto));
+    }
 
-        /// <summary>
-        /// Gets all the contacts for an actor.
-        /// </summary>
-        [HttpGet("GetContacts")]
-        public Task<ActionResult<ICollection<ActorContactDto>>> GetContactsAsync(Guid actorId)
-        {
-            return HandleExceptionAsync(() => _client.ActorContactGetAsync(actorId));
-        }
+    /// <summary>
+    /// Gets all the contacts for an actor.
+    /// </summary>
+    [HttpGet("GetContacts")]
+    public Task<ActionResult<ICollection<ActorContactDto>>> GetContactsAsync(Guid actorId)
+    {
+        return HandleExceptionAsync(() => _client.ActorContactGetAsync(actorId));
+    }
 
-        /// <summary>
-        /// Creates a contact for the actor.
-        /// </summary>
-        [HttpPost("CreateContact")]
-        public Task<ActionResult<Guid>> CreateContactAsync(Guid actorId, CreateActorContactDto createDto)
-        {
-            return HandleExceptionAsync(() => _client.ActorContactPostAsync(actorId, createDto));
-        }
+    /// <summary>
+    /// Creates a contact for the actor.
+    /// </summary>
+    [HttpPost("CreateContact")]
+    public Task<ActionResult<Guid>> CreateContactAsync(Guid actorId, CreateActorContactDto createDto)
+    {
+        return HandleExceptionAsync(() => _client.ActorContactPostAsync(actorId, createDto));
+    }
 
-        /// <summary>
-        /// Removes a contact from an actor.
-        /// </summary>
-        [HttpDelete("DeleteContact")]
-        public Task<ActionResult> DeleteContactAsync(Guid actorId, Guid contactId)
-        {
-            return HandleExceptionAsync(() => _client.ActorContactDeleteAsync(actorId, contactId));
-        }
+    /// <summary>
+    /// Removes a contact from an actor.
+    /// </summary>
+    [HttpDelete("DeleteContact")]
+    public Task<ActionResult> DeleteContactAsync(Guid actorId, Guid contactId)
+    {
+        return HandleExceptionAsync(() => _client.ActorContactDeleteAsync(actorId, contactId));
     }
 }

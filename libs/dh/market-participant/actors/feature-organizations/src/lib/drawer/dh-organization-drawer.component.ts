@@ -43,8 +43,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 
-import { DhOrganizationDetails } from '../dh-organization';
 import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
 
 type Actor = {

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -25,11 +24,13 @@ import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/do
   selector: 'dh-role-status',
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.roleStatus'">
-    <watt-badge *ngIf="status === 'Active'" type="info">{{ t('active') }}</watt-badge>
-
-    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('inactive') }}</watt-badge>
+    @if (status === 'Active') {
+      <watt-badge type="info">{{ t('active') }}</watt-badge>
+    } @else if (status === 'Inactive') {
+      <watt-badge type="warning">{{ t('inactive') }}</watt-badge>
+    }
   </ng-container>`,
-  imports: [NgIf, TranslocoDirective, WattBadgeComponent],
+  imports: [TranslocoDirective, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhRoleStatusComponent {

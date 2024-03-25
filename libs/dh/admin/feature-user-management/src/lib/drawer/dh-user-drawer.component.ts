@@ -24,7 +24,6 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { NgIf } from '@angular/common';
 
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -51,7 +50,6 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
   imports: [
-    NgIf,
     RxPush,
     TranslocoDirective,
     MatMenuModule,

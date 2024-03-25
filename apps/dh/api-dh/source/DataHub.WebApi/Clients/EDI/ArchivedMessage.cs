@@ -14,13 +14,12 @@
 
 using System;
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
-{
-    public sealed record ArchivedMessage(
-        string Id,
-        string? MessageId,
-        string? DocumentType,
-        DateTimeOffset? CreatedDate,
-        string? SenderGln,
-        string? ReceiverGln);
-}
+namespace Energinet.DataHub.WebApi.Clients.EDI;
+
+public sealed record ArchivedMessage(
+    string Id,
+    string? MessageId,
+    string? DocumentType,
+    DateTimeOffset? CreatedDate,
+    string? SenderGln,
+    string? ReceiverGln);

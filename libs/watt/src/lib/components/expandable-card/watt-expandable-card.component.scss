@@ -27,6 +27,14 @@
   }
 }
 
+watt-expandable-card {
+  display: block;
+
+  & + & {
+    margin-top: var(--watt-space-m);
+  }
+}
+
 .watt-expandable-card.mat-expansion-panel {
   border-radius: 4px !important;
 

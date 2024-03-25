@@ -16,19 +16,18 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Energinet.DataHub.WebApi.Extensions
-{
-    public static class HttpContextUserExtensions
-    {
-        public static bool IsFas(this ClaimsPrincipal user)
-        {
-            return user.Claims.Any(c => c is { Type: "membership", Value: "fas" });
-        }
+namespace Energinet.DataHub.WebApi.Extensions;
 
-        public static Guid GetAssociatedActor(this ClaimsPrincipal user)
-        {
-            var azp = user.Claims.First(c => c is { Type: "azp" });
-            return Guid.Parse(azp.Value);
-        }
+public static class HttpContextUserExtensions
+{
+    public static bool IsFas(this ClaimsPrincipal user)
+    {
+        return user.Claims.Any(c => c is { Type: "membership", Value: "fas" });
+    }
+
+    public static Guid GetAssociatedActor(this ClaimsPrincipal user)
+    {
+        var azp = user.Claims.First(c => c is { Type: "azp" });
+        return Guid.Parse(azp.Value);
     }
 }

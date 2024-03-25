@@ -38,22 +38,19 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <ng-container *ngIf="!isLoading && roles.length === 0">
+  @if (!isLoading && roles.length === 0) {
     <vater-stack
       fill="vertical"
       justify="center"
       *transloco="let t; read: 'admin.userManagement.tabs.roles'"
     >
-      <dh-tab-data-general-error
-        *ngIf="hasGeneralError; else emptyStateTmpl"
-        (reload)="reload.emit()"
-      />
-
-      <ng-template #emptyStateTmpl>
+      @if (hasGeneralError) {
+        <dh-tab-data-general-error (reload)="reload.emit()" />
+      } @else {
         <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
-      </ng-template>
+      }
     </vater-stack>
-  </ng-container>
+  }
 </vater-flex>
 
 <dh-role-drawer (closed)="onClosed()" (userRoleDeactivated)="onDeActivated()" />

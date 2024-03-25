@@ -17,24 +17,23 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public class MarketParticipantUserRoleAssignmentController : MarketParticipantControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public class MarketParticipantUserRoleAssignmentController : MarketParticipantControllerBase
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public MarketParticipantUserRoleAssignmentController(IMarketParticipantClient_V1 client)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        _client = client;
+    }
 
-        public MarketParticipantUserRoleAssignmentController(IMarketParticipantClient_V1 client)
-        {
-            _client = client;
-        }
-
-        [HttpPut]
-        [Route("UpdateAssignments")]
-        public Task<ActionResult> UpdateAssignmentsAsync(Guid actorId, Guid userId, UpdateUserRoleAssignmentsDto assignments)
-        {
-            return HandleExceptionAsync(() => _client.ActorsUsersRolesPutAsync(actorId, userId, assignments));
-        }
+    [HttpPut]
+    [Route("UpdateAssignments")]
+    public Task<ActionResult> UpdateAssignmentsAsync(Guid actorId, Guid userId, UpdateUserRoleAssignmentsDto assignments)
+    {
+        return HandleExceptionAsync(() => _client.ActorsUsersRolesPutAsync(actorId, userId, assignments));
     }
 }

@@ -19,44 +19,43 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public class MarketParticipantPermissionsController : MarketParticipantControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public class MarketParticipantPermissionsController : MarketParticipantControllerBase
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public MarketParticipantPermissionsController(IMarketParticipantClient_V1 client)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        _client = client;
+    }
 
-        public MarketParticipantPermissionsController(IMarketParticipantClient_V1 client)
-        {
-            _client = client;
-        }
+    /// <summary>
+    /// Retrieves All Permissions
+    /// </summary>
+    [HttpGet]
+    [Route("GetPermissions")]
+    public Task<ActionResult<ICollection<PermissionDto>>> GetPermissionsAsync()
+    {
+        return HandleExceptionAsync(() => _client.PermissionGetAsync());
+    }
 
-        /// <summary>
-        /// Retrieves All Permissions
-        /// </summary>
-        [HttpGet]
-        [Route("GetPermissions")]
-        public Task<ActionResult<ICollection<PermissionDto>>> GetPermissionsAsync()
-        {
-            return HandleExceptionAsync(() => _client.PermissionGetAsync());
-        }
+    [HttpPut]
+    [Route("Update")]
+    public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
+    {
+        return HandleExceptionAsync(() => _client.PermissionPutAsync(permissionDto));
+    }
 
-        [HttpPut]
-        [Route("Update")]
-        public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
-        {
-            return HandleExceptionAsync(() => _client.PermissionPutAsync(permissionDto));
-        }
-
-        [HttpGet]
-        [Route("GetPermissionRelationsCSV")]
-        [Produces(MediaTypeNames.Text.Plain)]
-        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ICollection<PermissionDto>>> GetPermissionRelationsAsync()
-        {
-            var result = await _client.PermissionRelationAsync();
-            return File(result.Stream, MediaTypeNames.Text.Plain);
-        }
+    [HttpGet]
+    [Route("GetPermissionRelationsCSV")]
+    [Produces(MediaTypeNames.Text.Plain)]
+    [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ICollection<PermissionDto>>> GetPermissionRelationsAsync()
+    {
+        var result = await _client.PermissionRelationAsync();
+        return File(result.Stream, MediaTypeNames.Text.Plain);
     }
 }

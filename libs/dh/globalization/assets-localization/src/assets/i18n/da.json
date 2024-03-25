@@ -188,18 +188,11 @@
           "status": "Status"
         }
       },
-      "messageTypes": {
-        "INBOUND": "Indgående",
-        "OUTBOUND": "Udgående",
-        "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
-        "RSM012_OUTBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
-        "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
-        "RSM016_INBOUND": "Anmod om aggregerede måledata (RSM-016)",
-        "RSM016_OUTBOUND": "Anmod om aggregerede måledata (RSM-016)",
-        "RSM017_INBOUND": "Anmod om engrosydelser (RSM-017)",
-        "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
-        "RSM018_INBOUND": "Fremsend hullerlog (RSM-018)",
-        "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
+      "processTypes": {
+        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-14)",
+        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-16)",
+        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-17)",
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-19)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -258,11 +251,21 @@
             "not_expired": "Brugerens invitation er ikke udløbet og kan derfor ikke fornys"
           }
         },
-        "message_delegation": {
+        "process_delegation": {
+          "args": {
+            "assigned_market_role": {
+              "GridAccessProvider": "Netvirksomhed",
+              "EnergySupplier": "Elleverandør"
+            },
+            "conflicting_market_role": {
+              "GridAccessProvider": "Netvirksomhed",
+              "EnergySupplier": "Elleverandør"
+            }
+          },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
-          "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering'",
+          "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en 'conflicting_market_role'"
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en {{conflicting_market_role}}"
         }
       }
     },
@@ -459,7 +462,9 @@
               "CONTACT_PHONE": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>",
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>"
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
+              "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{messageType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{messageType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
             }
           }
         }

@@ -17,34 +17,33 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public class MarketParticipantGridAreaController : MarketParticipantControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public class MarketParticipantGridAreaController : MarketParticipantControllerBase
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public MarketParticipantGridAreaController(IMarketParticipantClient_V1 client)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        _client = client;
+    }
 
-        public MarketParticipantGridAreaController(IMarketParticipantClient_V1 client)
-        {
-            _client = client;
-        }
+    /// <summary>
+    /// Retrieves all grid areas
+    /// </summary>
+    [HttpGet]
+    [Route("GetAllGridAreas")]
+    public Task<ActionResult<ICollection<GridAreaDto>>> GetAllGridAreasAsync()
+    {
+        return HandleExceptionAsync(() => _client.GridAreaGetAsync());
+    }
 
-        /// <summary>
-        /// Retrieves all grid areas
-        /// </summary>
-        [HttpGet]
-        [Route("GetAllGridAreas")]
-        public Task<ActionResult<ICollection<GridAreaDto>>> GetAllGridAreasAsync()
-        {
-            return HandleExceptionAsync(() => _client.GridAreaGetAsync());
-        }
-
-        [HttpPut]
-        [Route("UpdateGridAreaName")]
-        public Task<ActionResult> UpdateGridAreaNameAsync(ChangeGridAreaDto changes)
-        {
-            return HandleExceptionAsync(() => _client.GridAreaPutAsync(changes));
-        }
+    [HttpPut]
+    [Route("UpdateGridAreaName")]
+    public Task<ActionResult> UpdateGridAreaNameAsync(ChangeGridAreaDto changes)
+    {
+        return HandleExceptionAsync(() => _client.GridAreaPutAsync(changes));
     }
 }
