@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   Component,
   inject,
@@ -66,7 +65,6 @@ type MarketRole = ResultOf<
   ],
   standalone: true,
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
     RxLet,

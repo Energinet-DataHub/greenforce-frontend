@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { ApolloError } from '@apollo/client';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -65,7 +64,6 @@ import { switchMap } from 'rxjs';
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 

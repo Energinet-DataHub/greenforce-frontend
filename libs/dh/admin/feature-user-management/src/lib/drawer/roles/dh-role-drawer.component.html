@@ -16,48 +16,59 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer #drawer size="large" (closed)="onClose()" [loading]="isLoading$ | push">
-    <watt-drawer-topbar *ngIf="drawer.isOpen">
-      <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-        <dh-role-status [status]="userRoleWithPermissions.status" />
-      </ng-container>
-    </watt-drawer-topbar>
-    <watt-drawer-heading *ngIf="drawer.isOpen">
-      <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-        <h2>{{ userRoleWithPermissions.name }}</h2>
-      </ng-container>
-    </watt-drawer-heading>
-    <watt-drawer-actions *ngIf="basicUserRole?.status !== 'Inactive'">
-      <watt-button
-        *dhPermissionRequired="['user-roles:manage']"
-        variant="secondary"
-        (click)="disableUserRole()"
-        >{{ t("disable") }}</watt-button
-      >
-      <watt-button
-        *dhPermissionRequired="['user-roles:manage']"
-        variant="secondary"
-        (click)="isEditUserRoleModalVisible = true"
-        >{{ t("editRole") }}</watt-button
-      >
-    </watt-drawer-actions>
-
-    <watt-drawer-content *ngIf="drawer.isOpen">
-      <ng-container *rxLet="isLoading$ as isLoading">
-        <ng-container *ngIf="!isLoading">
-          <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-            <ng-container *ngIf="!hasGeneralError">
-              <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-                <dh-drawer-role-tabs [role]="userRoleWithPermissions" />
-              </ng-container>
-            </ng-container>
-
-            <div *ngIf="hasGeneralError" class="user-role__error">
-              <dh-tab-data-general-error (reload)="loadUserRoleWithPermissions()" />
-            </div>
-          </ng-container>
+    @if (drawer.isOpen) {
+      <watt-drawer-topbar>
+        <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+          <dh-role-status [status]="userRoleWithPermissions.status" />
         </ng-container>
-      </ng-container>
-    </watt-drawer-content>
+      </watt-drawer-topbar>
+    }
+
+    @if (drawer.isOpen) {
+      <watt-drawer-heading>
+        <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+          <h2>{{ userRoleWithPermissions.name }}</h2>
+        </ng-container>
+      </watt-drawer-heading>
+    }
+
+    @if (basicUserRole?.status !== "Inactive") {
+      <watt-drawer-actions>
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          variant="secondary"
+          (click)="disableUserRole()"
+          >{{ t("disable") }}</watt-button
+        >
+
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          variant="secondary"
+          (click)="isEditUserRoleModalVisible = true"
+          >{{ t("editRole") }}</watt-button
+        >
+      </watt-drawer-actions>
+    }
+
+    @if (drawer.isOpen) {
+      <watt-drawer-content>
+        <ng-container *rxLet="isLoading$ as isLoading">
+          @if (!isLoading) {
+            <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+              @if (!hasGeneralError) {
+                <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+                  <dh-drawer-role-tabs [role]="userRoleWithPermissions" />
+                </ng-container>
+              } @else {
+                <div class="user-role__error">
+                  <dh-tab-data-general-error (reload)="loadUserRoleWithPermissions()" />
+                </div>
+              }
+            </ng-container>
+          }
+        </ng-container>
+      </watt-drawer-content>
+    }
   </watt-drawer>
 
   <watt-modal
@@ -81,9 +92,8 @@ limitations under the License.
   </watt-modal>
 
   <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-    <dh-edit-user-role-modal
-      *ngIf="isEditUserRoleModalVisible && userRoleWithPermissions.status === 'Active'"
-      (closed)="modalOnClose($event)"
-    />
+    @if (isEditUserRoleModalVisible && userRoleWithPermissions.status === "Active") {
+      <dh-edit-user-role-modal (closed)="modalOnClose($event)" />
+    }
   </ng-container>
 </ng-container>

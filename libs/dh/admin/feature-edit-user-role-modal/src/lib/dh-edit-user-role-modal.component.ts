@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -73,7 +72,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
   providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
   imports: [
-    NgIf,
     RxPush,
     RxLet,
     WATT_MODAL,
