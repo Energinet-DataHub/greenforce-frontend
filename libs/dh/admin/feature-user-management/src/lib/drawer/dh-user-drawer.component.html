@@ -17,30 +17,37 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
-      <dh-user-status *ngIf="selectedUser" [status]="selectedUser.status" />
+      @if (selectedUser) {
+        <dh-user-status [status]="selectedUser.status" />
+      }
     </watt-drawer-topbar>
     <watt-drawer-heading>
       <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
     </watt-drawer-heading>
 
     <watt-drawer-actions *dhPermissionRequired="['users:manage']">
-      <watt-button
-        *ngIf="selectedUser?.status !== 'Inactive'"
-        variant="secondary"
-        (click)="requestDeactivateUser()"
-        [loading]="isDeactivating$ | push: { strategy: 'native' }"
-        >{{ t("deactivate") }}</watt-button
-      >
-      <watt-button
-        *ngIf="selectedUser?.status === 'Invited' || selectedUser?.status === 'InviteExpired'"
-        variant="secondary"
-        (click)="reinvite()"
-        [loading]="isReinviting$ | push: { strategy: 'native' }"
-        >{{ t("reinvite") }}</watt-button
-      >
+      @if (selectedUser?.status !== "Inactive") {
+        <watt-button
+          variant="secondary"
+          (click)="requestDeactivateUser()"
+          [loading]="isDeactivating$ | push: { strategy: 'native' }"
+          >{{ t("deactivate") }}</watt-button
+        >
+      }
+
+      @if (selectedUser?.status === "Invited" || selectedUser?.status === "InviteExpired") {
+        <watt-button
+          variant="secondary"
+          (click)="reinvite()"
+          [loading]="isReinviting$ | push: { strategy: 'native' }"
+          >{{ t("reinvite") }}</watt-button
+        >
+      }
+
       <watt-button variant="secondary" (click)="isEditUserModalVisible = true">{{
         t("edit")
       }}</watt-button>
+
       <watt-button variant="icon" icon="menu" [mat-menu-trigger-for]="menu">
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="resetUser2Fa()">{{ t("reset2fa") }}</button>
@@ -48,16 +55,16 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.isOpen && selectedUser">
-      <dh-drawer-tabs [user]="selectedUser" />
-    </watt-drawer-content>
+    @if (drawer.isOpen && selectedUser) {
+      <watt-drawer-content>
+        <dh-drawer-tabs [user]="selectedUser" />
+      </watt-drawer-content>
+    }
   </watt-drawer>
 
-  <dh-edit-user-modal
-    *ngIf="isEditUserModalVisible"
-    [user]="selectedUser"
-    (closed)="modalOnClose()"
-  />
+  @if (isEditUserModalVisible) {
+    <dh-edit-user-modal [user]="selectedUser" (closed)="modalOnClose()" />
+  }
 
   <watt-modal
     #deactivateConfirmationModal
@@ -80,10 +87,12 @@ limitations under the License.
         {{ t("deactivateConfirmation.important") }}
       </b>
     </p>
+
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(false)">{{
         t("deactivateConfirmation.reject")
       }}</watt-button>
+
       <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(true)">{{
         t("deactivateConfirmation.confirm")
       }}</watt-button>

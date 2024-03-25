@@ -19,47 +19,58 @@ limitations under the License.
     variant="solid"
     *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
   >
-    <div *ngIf="isLoading" class="spinner">
-      <watt-spinner />
-    </div>
+    @if (isLoading) {
+      <div class="spinner">
+        <watt-spinner />
+      </div>
+    }
 
-    <ng-container *ngIf="!isLoading">
+    @if (!isLoading) {
       <watt-card-title *rxLet="marketRoles.length as marketRoleCount">
-        <h4 *ngIf="marketRoleCount === 1 && !error">
-          {{ t("rolesSingular", { marketRoleCount }) }}
-        </h4>
-        <h4 *ngIf="marketRoleCount !== 1 && !error">
-          {{ t("rolesPlural", { marketRoleCount }) }}
-        </h4>
+        @if (marketRoleCount === 1 && !error) {
+          <h4>
+            {{ t("rolesSingular", { marketRoleCount }) }}
+          </h4>
+        } @else if (marketRoleCount !== 1 && !error) {
+          <h4>
+            {{ t("rolesPlural", { marketRoleCount }) }}
+          </h4>
+        }
       </watt-card-title>
 
-      <watt-table
-        [columns]="columns"
-        [dataSource]="dataSource"
-        sortBy="name"
-        sortDirection="desc"
-        [sortClear]="false"
-        *ngIf="!error"
-      >
-        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
-          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
-            {{ translateMarketRole(element) }}
+      @if (!error) {
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          sortBy="name"
+          sortDirection="desc"
+          [sortClear]="false"
+        >
+          <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
+            <ng-container
+              *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+            >
+              {{ translateMarketRole(element) }}
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </watt-table>
+        </watt-table>
+      }
 
-      <watt-empty-state
-        *ngIf="error"
-        icon="custom-power"
-        [title]="'shared.error.title' | transloco"
-        [message]="'shared.error.message' | transloco"
-      />
+      @if (error) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        />
+      }
 
       <ng-container *rxLet="marketRoles.length as marketRoleCount">
-        <h4 *ngIf="marketRoleCount === 0" class="no-results-text">
-          {{ t("noEntries") }}
-        </h4>
+        @if (marketRoleCount === 0) {
+          <h4 class="no-results-text">
+            {{ t("noEntries") }}
+          </h4>
+        }
       </ng-container>
-    </ng-container>
+    }
   </watt-card>
 </ng-container>

@@ -46,16 +46,15 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  <vater-stack fill="vertical" justify="center" *ngIf="!isLoading && dataSource.data.length === 0">
-    <dh-tab-data-general-error
-      *ngIf="hasGeneralError; else emptyStateTmpl"
-      (reload)="reload.emit()"
-    />
-
-    <ng-template #emptyStateTmpl>
-      <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
-    </ng-template>
-  </vater-stack>
+  @if (!isLoading && dataSource.data.length === 0) {
+    <vater-stack fill="vertical" justify="center">
+      @if (hasGeneralError) {
+        <dh-tab-data-general-error (reload)="reload.emit()" />
+      } @else {
+        <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
+      }
+    </vater-stack>
+  }
 </vater-flex>
 
 <dh-user-drawer (closed)="onClosed()" />
