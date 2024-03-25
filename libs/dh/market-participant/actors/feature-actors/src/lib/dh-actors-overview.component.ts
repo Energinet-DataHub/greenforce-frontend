@@ -22,7 +22,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetActorsDocument,
+  GetGridAreasDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -97,7 +100,15 @@ export class DhActorsOverviewComponent implements OnInit {
     query: GetActorsDocument,
   });
 
+  getGridAreasQuery$ = this._apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    query: GetGridAreasDocument,
+  });
+
   tableDataSource = new WattTableDataSource<DhActor>([]);
+  actorNumberNameLookup: { [Key: string]: { number: string; name: string } } = {};
+  gridAreaCodeLookup: { [Key: string]: string } = {};
 
   filters$ = new BehaviorSubject<ActorsFilters>({
     actorStatus: null,
@@ -110,13 +121,32 @@ export class DhActorsOverviewComponent implements OnInit {
   hasError = false;
 
   ngOnInit(): void {
+    this.getGridAreasQuery$.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: (result) => {
+        result.data?.gridAreas?.forEach(
+          (gridArea) => (this.gridAreaCodeLookup[gridArea.id] = gridArea.code)
+        );
+      },
+      error: () => {
+        this.hasError = true;
+        this.isLoading = false;
+      },
+    });
     const subscription = this.getActorsQuery$.valueChanges
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (result) => {
           this.isLoading = result.loading;
 
-          this.tableDataSource.data = result.data?.actors ?? [];
+          const actors = result.data?.actors ?? [];
+
+          actors.forEach((actor) => {
+            this.actorNumberNameLookup[actor.id] = {
+              number: actor.glnOrEicNumber,
+              name: actor.name,
+            };
+          });
+          this.tableDataSource.data = actors;
         },
         error: () => {
           this.hasError = true;
