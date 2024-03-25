@@ -467,10 +467,10 @@
               "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
             },
             "processTypes": {
-              "ReceiveEnergyResults": "Submit calculated time series",
-              "RequestEnergyResults": "Aggregated metered data request",
-              "RequestWholesaleResults": "Request wholesale services",
-              "ReceiveWholesaleResults": "Submit settlement basis"
+              "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
+              "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
+              "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
             }
           }
         }
