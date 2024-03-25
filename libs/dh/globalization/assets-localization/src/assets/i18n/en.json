@@ -265,7 +265,7 @@
           "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
-          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a 'conflicting_market_role'"
+          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}"
         }
       }
     },
