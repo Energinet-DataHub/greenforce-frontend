@@ -16,22 +16,21 @@ using System;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Energinet.DataHub.WebApi.Registration
-{
-    public static class HealthEndpointRegistrationExtensions
-    {
-        public static void SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings settings) =>
-            services
-                .AddHealthChecks()
-                .AddLiveCheck()
-                .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(settings.MarketParticipantBaseUrl))
-                .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(settings.WholesaleBaseUrl))
-                .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
-                .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
+namespace Energinet.DataHub.WebApi.Registration;
 
-        private static Uri CreateHealthEndpointUri(string baseUri) =>
-            string.IsNullOrWhiteSpace(baseUri)
-                ? new Uri("https://empty")
-                : new Uri(baseUri + "/monitor/live");
-    }
+public static class HealthEndpointRegistrationExtensions
+{
+    public static void SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings settings) =>
+        services
+            .AddHealthChecks()
+            .AddLiveCheck()
+            .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(settings.MarketParticipantBaseUrl))
+            .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(settings.WholesaleBaseUrl))
+            .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
+            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
+
+    private static Uri CreateHealthEndpointUri(string baseUri) =>
+        string.IsNullOrWhiteSpace(baseUri)
+            ? new Uri("https://empty")
+            : new Uri(baseUri + "/monitor/live");
 }

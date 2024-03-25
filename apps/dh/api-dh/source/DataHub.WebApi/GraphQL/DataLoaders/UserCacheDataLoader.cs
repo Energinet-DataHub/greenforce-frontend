@@ -18,21 +18,20 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public class UserCacheDataLoader : CacheDataLoader<Guid, GetUserResponse>
 {
-    public class UserCacheDataLoader : CacheDataLoader<Guid, GetUserResponse>
-    {
-        private readonly IMarketParticipantClient_V1 _client;
+    private readonly IMarketParticipantClient_V1 _client;
 
-        public UserCacheDataLoader(
-            IMarketParticipantClient_V1 client,
-            DataLoaderOptions? options = null)
-            : base(options) =>
-            _client = client;
+    public UserCacheDataLoader(
+        IMarketParticipantClient_V1 client,
+        DataLoaderOptions? options = null)
+        : base(options) =>
+        _client = client;
 
-        protected override Task<GetUserResponse> LoadSingleAsync(
-            Guid key,
-            CancellationToken cancellationToken) =>
-            _client.UserAsync(key);
-    }
+    protected override Task<GetUserResponse> LoadSingleAsync(
+        Guid key,
+        CancellationToken cancellationToken) =>
+        _client.UserAsync(key);
 }

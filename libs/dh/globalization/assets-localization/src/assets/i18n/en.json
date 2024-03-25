@@ -188,18 +188,11 @@
           "status": "Status"
         }
       },
-      "messageTypes": {
-        "INBOUND": "Incoming",
-        "OUTBOUND": "Outgoing",
-        "RSM012_INBOUND": "Submit metered data for a metering point (RSM-012)",
-        "RSM012_OUTBOUND": "Submit metered data for a metering point (RSM-012)",
-        "RSM014_INBOUND": "Submit calculated time series (RSM-014)",
-        "RSM016_INBOUND": "Aggregated metered data request (RSM-016)",
-        "RSM016_OUTBOUND": "Aggregated metered data request (RSM-016)",
-        "RSM017_INBOUND": "Request wholesale services (RSM-017)",
-        "RSM017_OUTBOUND": "Request wholesale services (RSM-017)",
-        "RSM018_INBOUND": "Submit missing data log (RSM-018)",
-        "RSM019_INBOUND": "Submit settlement basis (RSM-019)"
+      "processTypes": {
+        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-14)",
+        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-16)",
+        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-17)",
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-19)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -258,11 +251,21 @@
             "not_expired": "The user's invitation has not yet expired and cannot be renewed"
           }
         },
-        "message_delegation": {
-          "actors_from_or_to_inactive": "Both actors in a delegation needs to be active, for it to be applied",
-          "actor_invalid_market_role": "The actor you are delegating from needs to be in one of these marketroles:'Grid access provider, Balance responsible party, Energy supplier or Billing agent'",
-          "overlap": "There is already an existing delegation that partially or fully covers the period you are trying to make a delegation for",
-          "market_role_forbidden": "The actor you are delegating from is in the {{assigned_market_role}} role, the precludes you from making a delegation to an actor in an organisation that already has an actor in the role: 'conflicting_market_role'"
+        "process_delegation": {
+          "args": {
+            "assigned_market_role": {
+              "GridAccessProvider": "Grid access provider",
+              "EnergySupplier": "Energy supplier"
+            },
+            "conflicting_market_role": {
+              "GridAccessProvider": "Grid access provider",
+              "EnergySupplier": "Energy supplier"
+            }
+          },
+          "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
+          "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
+          "overlap": "The delegation is conflicting with an existing delegation in the same period",
+          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}"
         }
       }
     },
@@ -459,7 +462,9 @@
               "CONTACT_PHONE": "<b>{{ auditedBy }}</b> changed the phone no. of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>",
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the name of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>"
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
+              "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{messageType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{messageType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
             }
           }
         }

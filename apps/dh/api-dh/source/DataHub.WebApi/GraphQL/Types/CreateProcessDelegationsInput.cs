@@ -13,25 +13,14 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
-public sealed class MessageDelegation
-{
-    public Guid Id { get; set; } = default!;
-
-    public Guid PeriodId { get; set; } = default!;
-
-    public Guid DelegatedBy { get; set; } = default!;
-
-    public Guid DelegatedTo { get; set; } = default!;
-
-    public Guid GridAreaId { get; set; } = default!;
-
-    public DelegationMessageType MessageType { get; set; } = default!;
-
-    public System.DateTimeOffset StartsAt { get; set; } = default!;
-
-    public System.DateTimeOffset? ExpiresAt { get; set; } = default!;
-}
+public sealed record CreateProcessDelegationsInput(
+    Guid DelegatedBy,
+    Guid DelegatedTo,
+    ICollection<Guid> GridAreas,
+    ICollection<DelegatedProcess> DelegatedProcesses,
+    DateTimeOffset StartsAt);

@@ -18,68 +18,67 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers;
+
+[ApiController]
+[Route("v1/[controller]")]
+public class MarketParticipantActorController : MarketParticipantControllerBase
 {
-    [ApiController]
-    [Route("v1/[controller]")]
-    public class MarketParticipantActorController : MarketParticipantControllerBase
+    private readonly IMarketParticipantClient_V1 _client;
+
+    public MarketParticipantActorController(IMarketParticipantClient_V1 client)
     {
-        private readonly IMarketParticipantClient_V1 _client;
+        _client = client;
+    }
 
-        public MarketParticipantActorController(IMarketParticipantClient_V1 client)
+    /// <summary>
+    /// Retrieves currently configured credentials for an actor, or returns 404.
+    /// </summary>
+    [HttpGet]
+    [Route("GetActorCredentials")]
+    public async Task<ActionResult<ActorCredentialsDto>> GetActorCredentialsAsync(Guid actorId)
+    {
+        try
         {
-            _client = client;
+            return Ok(await _client.ActorCredentialsGetAsync(actorId).ConfigureAwait(false));
         }
+        catch (ApiException ex) when (ex.StatusCode == 404)
+        {
+            return NotFound();
+        }
+    }
 
-        /// <summary>
-        /// Retrieves currently configured credentials for an actor, or returns 404.
-        /// </summary>
-        [HttpGet]
-        [Route("GetActorCredentials")]
-        public async Task<ActionResult<ActorCredentialsDto>> GetActorCredentialsAsync(Guid actorId)
+    /// <summary>
+    /// Assigns the given certificate credentials to the actor.
+    /// </summary>
+    [HttpPost]
+    [Route("AssignCertificateCredentials")]
+    [RequestSizeLimit(10485760)]
+    public Task<ActionResult> AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
+    {
+        return HandleExceptionAsync(async () =>
         {
-            try
-            {
-                return Ok(await _client.ActorCredentialsGetAsync(actorId).ConfigureAwait(false));
-            }
-            catch (ApiException ex) when (ex.StatusCode == 404)
-            {
-                return NotFound();
-            }
-        }
+            await using var openReadStream = certificate.OpenReadStream();
+            await _client.ActorCredentialsCertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
+        });
+    }
 
-        /// <summary>
-        /// Assigns the given certificate credentials to the actor.
-        /// </summary>
-        [HttpPost]
-        [Route("AssignCertificateCredentials")]
-        [RequestSizeLimit(10485760)]
-        public Task<ActionResult> AssignCertificateCredentialsAsync(Guid actorId, IFormFile certificate)
-        {
-            return HandleExceptionAsync(async () =>
-            {
-                await using var openReadStream = certificate.OpenReadStream();
-                await _client.ActorCredentialsCertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
-            });
-        }
+    /// <summary>
+    /// Request ClientSecret credentials to the actor.
+    /// </summary>
+    [HttpPost]
+    [Route("RequestClientSecretCredentials")]
+    public Task<ActionResult<ActorClientSecretDto>> RequestClientSecretCredentialsAsync(Guid actorId)
+    {
+        return HandleExceptionAsync(() => _client.ActorCredentialsSecretAsync(actorId));
+    }
 
-        /// <summary>
-        /// Request ClientSecret credentials to the actor.
-        /// </summary>
-        [HttpPost]
-        [Route("RequestClientSecretCredentials")]
-        public Task<ActionResult<ActorClientSecretDto>> RequestClientSecretCredentialsAsync(Guid actorId)
-        {
-            return HandleExceptionAsync(() => _client.ActorCredentialsSecretAsync(actorId));
-        }
-
-        /// <summary>
-        /// Removes the current credentials from the actor.
-        /// </summary>
-        [HttpDelete("RemoveActorCredentials")]
-        public Task<ActionResult> RemoveActorCredentialsAsync(Guid actorId)
-        {
-            return HandleExceptionAsync(() => _client.ActorCredentialsDeleteAsync(actorId));
-        }
+    /// <summary>
+    /// Removes the current credentials from the actor.
+    /// </summary>
+    [HttpDelete("RemoveActorCredentials")]
+    public Task<ActionResult> RemoveActorCredentialsAsync(Guid actorId)
+    {
+        return HandleExceptionAsync(() => _client.ActorCredentialsDeleteAsync(actorId));
     }
 }

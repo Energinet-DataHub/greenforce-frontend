@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
-{
-    public sealed record ArchivedMessageSearchCriteria(string DateTimeFrom, string DateTimeTo, string? MessageId,
-        string? SenderNumber, string? ReceiverNumber, string[]? DocumentTypes, string[]? BusinessReasons, bool IncludeRelatedMessages = false);
-}
+namespace Energinet.DataHub.WebApi.Clients.EDI;
+
+public sealed record ArchivedMessageSearchCriteria(string DateTimeFrom, string DateTimeTo, string? MessageId,
+    string? SenderNumber, string? ReceiverNumber, string[]? DocumentTypes, string[]? BusinessReasons, bool IncludeRelatedMessages = false);

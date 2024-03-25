@@ -60,13 +60,15 @@ limitations under the License.
         </ng-container>
       </watt-table>
 
-      <vater-stack fill="vertical" justify="center" *ngIf="error">
-        <watt-empty-state
-          icon="custom-power"
-          [title]="'shared.error.title' | transloco"
-          [message]="'shared.error.message' | transloco"
-        />
-      </vater-stack>
+      @if (error) {
+        <vater-stack fill="vertical" justify="center">
+          <watt-empty-state
+            icon="custom-power"
+            [title]="'shared.error.title' | transloco"
+            [message]="'shared.error.message' | transloco"
+          />
+        </vater-stack>
+      }
     </vater-flex>
   </vater-flex>
 </watt-card>

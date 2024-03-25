@@ -44,8 +44,7 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-
-import { DhOrganizationDetails } from '../dh-organization';
+import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
   standalone: true,

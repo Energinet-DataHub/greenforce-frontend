@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.EDI
-{
-    public sealed record ArchivedMessageDto(
-        string Id,
-        string? MessageId,
-        string DocumentType,
-        string CreatedAt,
-        string SenderNumber,
-        string ReceiverNumber);
-}
+namespace Energinet.DataHub.WebApi.Clients.EDI;
+
+public sealed record ArchivedMessageDto(
+    string Id,
+    string? MessageId,
+    string DocumentType,
+    string CreatedAt,
+    string SenderNumber,
+    string ReceiverNumber);
