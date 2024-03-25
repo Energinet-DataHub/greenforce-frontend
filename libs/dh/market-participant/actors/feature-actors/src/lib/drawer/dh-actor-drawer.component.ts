@@ -226,7 +226,9 @@ export class DhActorDrawerComponent {
       actor: `${actorNumberName.number} - ${actorNumberName.name}`,
       startsAt: wattFormatDate(values[1]),
       gridArea: this.gridAreaCodeLookup[values[2]],
-      processType: translate('marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + values[3]),
+      processType: translate(
+        'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + values[3]
+      ),
       stopsAt: values.length > 4 ? wattFormatDate(values[4]) : undefined,
     };
   }
