@@ -62,4 +62,6 @@ limitations under the License.
   </watt-card>
 </ng-container>
 
-<dh-create-user-role-modal *ngIf="isCreateUserRoleModalVisible" (closed)="modalOnClose($event)" />
+@if (isCreateUserRoleModalVisible) {
+  <dh-create-user-role-modal (closed)="modalOnClose($event)" />
+}
