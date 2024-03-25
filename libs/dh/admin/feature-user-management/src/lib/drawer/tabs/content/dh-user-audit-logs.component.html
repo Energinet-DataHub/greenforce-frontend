@@ -19,9 +19,7 @@ limitations under the License.
     <div class="spinner">
       <watt-spinner />
     </div>
-  }
-
-  @if (!(isLoading$ | push)) {
+  } @else {
     @if (!(hasFailed$ | push)) {
       <watt-card-title>
         <ng-container
@@ -51,14 +49,13 @@ limitations under the License.
           <span [innerHTML]="t('logs.audit.' + element.change, element)"> </span>
         </ng-container>
       </watt-table>
+
       @if (dataSource.data.length === 0) {
         <h4 class="no-results-text">
           {{ t("table.noEntries") }}
         </h4>
       }
-    }
-
-    @if (hasFailed$ | push) {
+    } @else {
       <watt-empty-state
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
