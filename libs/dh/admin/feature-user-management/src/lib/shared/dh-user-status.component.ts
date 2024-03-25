@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -25,14 +24,19 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
   selector: 'dh-user-status',
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.userStatus'">
-    <watt-badge *ngIf="status === 'Active'" type="info">{{ t('Active') }}</watt-badge>
-    <watt-badge *ngIf="status === 'Inactive'" type="warning">{{ t('Inactive') }}</watt-badge>
-    <watt-badge *ngIf="status === 'Invited'" type="info">{{ t('Invited') }}</watt-badge>
-    <watt-badge *ngIf="status === 'InviteExpired'" type="warning">
-      {{ t('InviteExpired') }}
-    </watt-badge>
+    @if (status === 'Active') {
+      <watt-badge type="info">{{ t('Active') }}</watt-badge>
+    } @else if (status === 'Inactive') {
+      <watt-badge type="warning">{{ t('Inactive') }}</watt-badge>
+    } @else if (status === 'Invited') {
+      <watt-badge type="info">{{ t('Invited') }}</watt-badge>
+    } @else if (status === 'InviteExpired') {
+      <watt-badge type="warning">
+        {{ t('InviteExpired') }}
+      </watt-badge>
+    }
   </ng-container>`,
-  imports: [NgIf, TranslocoDirective, WattBadgeComponent],
+  imports: [TranslocoDirective, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhUserStatusComponent {
