@@ -189,10 +189,10 @@
         }
       },
       "processTypes": {
-        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata",
-        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata",
-        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser"
+        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-14)",
+        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-16)",
+        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-17)",
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-19)"
       },
       "statusPlaceholder": "Status",
       "status": {
