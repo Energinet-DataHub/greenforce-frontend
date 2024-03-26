@@ -7937,43 +7937,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/angular@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@maskito/angular@npm:2.0.0"
+"@maskito/angular@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@maskito/angular@npm:2.2.0"
   dependencies:
     tslib: "npm:2.6.2"
   peerDependencies:
     "@angular/core": ">=15.0.0"
     "@angular/forms": ">=15.0.0"
-    "@maskito/core": ^2.0.0
-  checksum: cea821135eb3290e0da360ebc74e394ee8943b96e2a84b46b4b5c7fcceea004a1b6ec648b84abda8483c38eeb1cbaccaaa0bf520f3bf14c5dd304cbd6f0745b4
+    "@maskito/core": ^2.2.0
+  checksum: f89eb2ace76cdeb0dfc1e6163a96eb02b929470217a210c46283327221c61c39189c96b9e8b974e3b92ab4aa1ab5375e8d867b760ee5b7d4cbb369aadcc98a53
   languageName: node
   linkType: hard
 
-"@maskito/core@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@maskito/core@npm:2.0.0"
-  checksum: 790767a419033466f136c0065779c05b7de59eb12cccbe734b82a05192d2cd848973108673ace4e79222d69f4729506f8b93306078a8f98e635c61e934275281
+"@maskito/core@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@maskito/core@npm:2.2.0"
+  checksum: 249de33b793f3f3223e48257ca023e796a35fc8affb46c8c9d8a53ae9967ba959de6a792292308c2b81b0a6f359a206d933cc3e4c188f42af4b36487322e9a65
   languageName: node
   linkType: hard
 
-"@maskito/kit@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@maskito/kit@npm:2.0.0"
+"@maskito/kit@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@maskito/kit@npm:2.2.0"
   peerDependencies:
-    "@maskito/core": ^2.0.0
-  checksum: 5a0769e8b97139503a75ae70e1c58e5b6e852d2e950286f75c2c225333adda52c230070d02333e98c153171224ddb7e6d3f458094023577c98053a51a35b48d3
+    "@maskito/core": ^2.2.0
+  checksum: 806c5fa460ff5e354f3b368a8d3541419933bb5bdf184438538a11a47871ae333cce809220bb175a99427b810a667a0971115c7d286606e2ccadb3b874209491
   languageName: node
   linkType: hard
 
-"@maskito/phone@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@maskito/phone@npm:2.0.0"
+"@maskito/phone@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@maskito/phone@npm:2.2.0"
   peerDependencies:
-    "@maskito/core": ^2.0.0
-    "@maskito/kit": ^2.0.0
+    "@maskito/core": ^2.2.0
+    "@maskito/kit": ^2.2.0
     libphonenumber-js: ">=1.0.0"
-  checksum: a0f6e66ad963837a29aa78127b2b6a5df1aaa0db5d76c7522ce746290071a1e05527d425d16818759fb1b637b50ba6e184ce66eb294e8b17ccf5540561a964d5
+  checksum: 13adf9348b441263add4713bb47a0556054fda24670f6a801ee97a7d6622372dfbe75648ed694dbb95fa00b2da38509444422509bd45339ec63e768dc4e6798b
   languageName: node
   linkType: hard
 
@@ -13627,13 +13627,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: f9bf3702f34c6de68f981c65b43d58d37f259cd6555403331ca10ec918b3778c28bbecc3f3aab15dd4d6751522b01ddf51a86834db7691fbe8ce94f3d2b1ec58
-  languageName: node
-  linkType: hard
-
-"@types/inputmask@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@types/inputmask@npm:5.0.3"
-  checksum: 80546b972e4791faea4e9cd6ae64ac5b9377d2eeb3a2317d520fdcd76064f53eaa7932961e69142df2ab4698f770e0cf0f1361d90109dad0cba11b229a983898
   languageName: node
   linkType: hard
 
@@ -20649,10 +20642,10 @@ __metadata:
     "@graphql-codegen/typescript-msw": "npm:2.1.0"
     "@graphql-codegen/typescript-operations": "npm:4.0.1"
     "@homebound/graphql-typescript-scalar-type-policies": "npm:2.11.0"
-    "@maskito/angular": "npm:2.0.0"
-    "@maskito/core": "npm:2.0.0"
-    "@maskito/kit": "npm:2.0.0"
-    "@maskito/phone": "npm:2.0.0"
+    "@maskito/angular": "npm:2.2.0"
+    "@maskito/core": "npm:2.2.0"
+    "@maskito/kit": "npm:2.2.0"
+    "@maskito/phone": "npm:2.2.0"
     "@microsoft/applicationinsights-angularplugin-js": "npm:15.0.1"
     "@microsoft/applicationinsights-web": "npm:3.0.7"
     "@ngneat/transloco": "npm:5.0.7"
@@ -20696,7 +20689,6 @@ __metadata:
     "@testing-library/user-event": "npm:13.5.0"
     "@types/crypto-js": "npm:4.2.1"
     "@types/highlight.js": "npm:10.1.0"
-    "@types/inputmask": "npm:5.0.3"
     "@types/inquirer": "npm:9.0.3"
     "@types/jest": "npm:29.5.12"
     "@types/jest-dev-server": "npm:5.0.0"
@@ -20724,7 +20716,6 @@ __metadata:
     html-webpack-plugin: "npm:5.5.3"
     husky: "npm:8.0.3"
     include-media: "npm:2.0.0"
-    inputmask: "npm:5.0.7"
     inquirer: "npm:9.2.0"
     jest: "npm:29.7.0"
     jest-canvas-mock: "npm:2.5.2"
@@ -23011,13 +23002,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.7, follow-redirects@npm:^1.14.9, follow-redirects@npm:^1.15.4":
-  version: 1.15.6
-  resolution: "follow-redirects@npm:1.15.6"
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.7, follow-redirects@npm:^1.14.9":
+  version: 1.15.4
+  resolution: "follow-redirects@npm:1.15.4"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 9ff767f0d7be6aa6870c82ac79cf0368cd73e01bbc00e9eb1c2a16fbb198ec105e3c9b6628bb98e9f3ac66fe29a957b9645bcb9a490bb7aa0d35f908b6b85071
+  checksum: 5f37ed9170c9eb19448c5418fdb0f2b73f644b5364834e70791a76ecc7db215246f9773bbef4852cfae4067764ffc852e047f744b661b0211532155b73556a6a
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.4":
+  version: 1.15.5
+  resolution: "follow-redirects@npm:1.15.5"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 418d71688ceaf109dfd6f85f747a0c75de30afe43a294caa211def77f02ef19865b547dfb73fde82b751e1cc507c06c754120b848fe5a7400b0a669766df7615
   languageName: node
   linkType: hard
 
@@ -25195,13 +25196,6 @@ __metadata:
   version: 0.1.1
   resolution: "inline-style-parser@npm:0.1.1"
   checksum: 08832a533f51a1e17619f2eabf2f5ec5e956d6dcba1896351285c65df022c9420de61d73256e1dca8015a52abf96cc84ddc3b73b898b22de6589d3962b5e501b
-  languageName: node
-  linkType: hard
-
-"inputmask@npm:5.0.7":
-  version: 5.0.7
-  resolution: "inputmask@npm:5.0.7"
-  checksum: 839ad22bf720adea78119a8c785bb3f337187555332c75919d10067eee36681e1c2cb8efde12aaee01af0f3bd4b1905bc340750de52220fde3a7de0d2306eef1
   languageName: node
   linkType: hard
 
@@ -37182,9 +37176,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.9.0":
-  version: 4.13.0
-  resolution: "type-fest@npm:4.13.0"
-  checksum: 9259549d37dec14ac0f759af42fb6305f08ba46f74bf066caec6b925a674c0021e3921586d41ce0c60d5e1721348d0ff86fff5f9fb5fa12176dd5f2572822c51
+  version: 4.13.1
+  resolution: "type-fest@npm:4.13.1"
+  checksum: 5ef2232fa78c0bc09249abbfd17d13ff154873846d7d7b264fa3e774ed33df244284cbdff367c6e3d4b46f1c40800482d55501a943d1fdd30ea6651b374b1353
   languageName: node
   linkType: hard
 

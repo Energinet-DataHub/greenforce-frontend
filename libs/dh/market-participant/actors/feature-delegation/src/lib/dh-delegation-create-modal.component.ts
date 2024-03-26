@@ -31,7 +31,7 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
@@ -89,11 +89,11 @@ declare global {
     `
       :host {
         display: block;
-        vater-stack > *:not(watt-datepicker) {
+        vater-stack > *:not(watt-datepicker-v2) {
           width: 100%;
         }
 
-        watt-datepicker {
+        watt-datepicker-v2 {
           margin-right: auto;
         }
       }
@@ -107,7 +107,7 @@ declare global {
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
-    WattDatepickerComponent,
+    WattDatepickerV2Component,
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,

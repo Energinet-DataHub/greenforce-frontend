@@ -65,13 +65,17 @@ limitations under the License.
         />
 
         <div class="rowContainer">
-          <watt-datepicker
+          <watt-datepicker-v2
             [label]="transloco('periode')"
             formControlName="dateRange"
             [range]="true"
           />
 
-          <watt-timepicker [label]="transloco('time')" formControlName="timeRange" [range]="true" />
+          <watt-timepicker-v2
+            [label]="transloco('time')"
+            formControlName="timeRange"
+            [range]="true"
+          />
 
           <!-- Reference id -->
           <watt-checkbox formControlName="includeRelated" wattInput name="reference-id">{{
