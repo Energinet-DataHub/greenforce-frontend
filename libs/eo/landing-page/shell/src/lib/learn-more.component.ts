@@ -45,7 +45,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
     TranslocoPipe,
     WattDropdownComponent,
     ReactiveFormsModule,
-    EoVimeoPlayerComponent
+    EoVimeoPlayerComponent,
   ],
   styles: `
     .eo-learn-more-modal {
@@ -70,9 +70,9 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
         [panelClass]="['eo-learn-more-modal']"
       >
         <eo-vimeo-player
-            poster="assets/images/vimeo-video-poster.png"
-            video="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-          />
+          poster="assets/images/vimeo-video-poster.png"
+          video="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+        />
       </watt-modal>
     }
   `,

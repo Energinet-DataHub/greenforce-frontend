@@ -30,7 +30,7 @@ export class EoProductLogoDirective {
   }
   @HostBinding('attr.src')
   get srcAttribute(): string {
-    if(this.version === 'secondary') {
+    if (this.version === 'secondary') {
       return '/assets/images/energy-origin-logo-secondary.svg';
     } else {
       return '/assets/images/energy-origin-logo.svg';

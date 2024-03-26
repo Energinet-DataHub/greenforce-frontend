@@ -137,7 +137,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'power', icon: 'power' },
         { name: 'location', icon: 'location' },
-        { name: 'Smart Display', 'icon': 'smartDisplay'}
+        { name: 'Smart Display', icon: 'smartDisplay' },
       ],
     },
   ];

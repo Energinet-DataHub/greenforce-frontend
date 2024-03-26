@@ -59,7 +59,7 @@ export class WattModalService {
       panelClass: [
         'watt-modal-panel',
         ...(config.component ? ['watt-modal-panel--component'] : []),
-        ...config.panelClass ?? [],
+        ...(config.panelClass ?? []),
       ],
       disableClose: config.disableClose ?? false,
       data: config.data,

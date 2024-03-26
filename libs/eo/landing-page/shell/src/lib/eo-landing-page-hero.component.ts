@@ -156,13 +156,13 @@ import { EoLearnMoreComponent } from './learn-more.component';
 
         <section aria-labelledby="hero-heading" class="actions-container">
           <button class="primary" (click)="onLogin()">
-          <watt-icon name="login" />
-          Log in
+            <watt-icon name="login" />
+            Log in
           </button>
           <eo-learn-more>
             <button class="secondary" (click)="onLearnMore()">
-            <watt-icon name="smartDisplay" />
-            Learn more
+              <watt-icon name="smartDisplay" />
+              Learn more
             </button>
           </eo-learn-more>
         </section>

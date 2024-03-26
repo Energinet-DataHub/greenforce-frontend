@@ -19,7 +19,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 
-
 import { EoAnnouncementBarComponent } from './announcement-bar.component';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -29,7 +28,13 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattButtonComponent, EoAnnouncementBarComponent, TranslocoPipe, EoProductLogoDirective, EoLanguageSwitcherComponent],
+  imports: [
+    WattButtonComponent,
+    EoAnnouncementBarComponent,
+    TranslocoPipe,
+    EoProductLogoDirective,
+    EoLanguageSwitcherComponent,
+  ],
   selector: 'eo-landing-page-header',
   styles: `
     :host {
