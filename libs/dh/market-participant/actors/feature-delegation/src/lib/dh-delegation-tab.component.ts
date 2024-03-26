@@ -27,6 +27,7 @@ import {
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -49,10 +50,9 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { DhDelegations } from './dh-delegations';
+import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-modal.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-delegation-tab',
