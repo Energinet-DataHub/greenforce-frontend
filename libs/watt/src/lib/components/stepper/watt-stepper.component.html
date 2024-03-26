@@ -54,6 +54,7 @@ limitations under the License.
           *ngIf="!(onLastStep$ | push)"
           variant="secondary"
           (click)="nextStep(step)"
+          [loading]="step.loadingNextButton"
           [disabled]="step.disableNextButton"
         >
           {{ step.nextButtonLabel }}<watt-icon name="right" />
