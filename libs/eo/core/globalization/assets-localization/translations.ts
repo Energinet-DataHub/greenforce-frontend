@@ -169,6 +169,10 @@ export const translations = {
     title: 'meteringPoints.title' as const,
     infoBoxTitle: 'meteringPoints.infoBoxTitle' as const,
     infoBoxContent: 'meteringPoints.infoBoxContent' as const,
+    pendingRelationStatus: {
+      title: 'meteringPoints.pendingRelationStatus.title' as const,
+      message: 'meteringPoints.pendingRelationStatus.message' as const,
+    } as const,
     noData: {
       title: 'meteringPoints.noData.title' as const,
       message: 'meteringPoints.noData.message' as const,
