@@ -24,13 +24,14 @@ import {
   EventEmitter,
   inject,
   Output,
+  signal,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { distinctUntilChanged, filter, map, of, take } from 'rxjs';
+import { distinctUntilChanged, map, of, take } from 'rxjs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -111,6 +112,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   emailExists = false;
   knownEmails: string[] = [];
   isLoadingEmails = true;
+  checkingForAssociatedActors = signal(false);
 
   baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
@@ -118,29 +120,34 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       { value: '', disabled: true },
       [Validators.required, Validators.email],
       [
-        (c) => {
-          return c.value
-            ? this.apollo
-                .mutate({
-                  mutation: GetAssociatedActorsDocument,
-                  variables: {
-                    email: c.value,
-                  },
+        (control) => {
+          if (control.value) {
+            this.checkingForAssociatedActors.set(true);
+
+            return this.apollo
+              .query({
+                query: GetAssociatedActorsDocument,
+                variables: {
+                  email: control.value,
+                },
+              })
+              .pipe(
+                takeUntilDestroyed(this.destroyRef),
+                map((result) => {
+                  this.checkingForAssociatedActors.set(false);
+
+                  const associatedActors = result.data?.associatedActors.actors ?? [];
+
+                  const isAlreadyAssociatedToActor = associatedActors?.includes(
+                    this.baseInfo.controls.actorId.value ?? ''
+                  );
+
+                  return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
                 })
-                .pipe(
-                  takeUntilDestroyed(this.destroyRef),
-                  filter((x) => !x.loading),
-                  map((result) => {
-                    const associatedActors = result.data?.associatedActors.actors ?? [];
+              );
+          }
 
-                    const isAlreadyAssociatedToActor = associatedActors?.includes(
-                      this.baseInfo.controls.actorId.value ?? ''
-                    );
-
-                    return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
-                  })
-                )
-            : of(null);
+          return of(null);
         },
       ],
     ],
@@ -273,7 +280,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
             )
             .join('\n')
         : this.translocoService.translate(`admin.userManagement.inviteUser.serverErrors.${e.code}`),
-      duration: 600000,
+      duration: 60_000,
     });
   }
 
