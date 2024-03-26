@@ -55,79 +55,9 @@ limitations under the License.
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
     <!-- End of Open Sans -->
+    <style></style>
+    <script></script>
 
-    <style>
-      #simplemodal-overlay,
-      #simplemodal-container {
-        display: none !important;
-      }
-
-      .intro,
-      .helpLink,
-      .buttons #cancel,
-      button#emailVerificationControl_but_change_claims {
-        display: none !important;
-      }
-
-      h1 {
-        font-family: "Open Sans", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 36px;
-        line-height: 54px;
-        text-transform: uppercase;
-        color: #02525e;
-      }
-
-      /** Form **/
-      .buttons button:not(:last-child):not(.sendCode):not(.sendNewCode):not(button#continue) {
-        margin-right: 1rem;
-      }
-
-      .emailVerificationControl_li .buttons {
-        margin-bottom: 0;
-      }
-
-      #emailVerificationControl {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-      }
-
-      #emailVerificationControl .verificationInfoText,
-      #emailVerificationControl .verificationSuccessText,
-      #emailVerificationControl .verificationErrorText {
-        width: 100%;
-        order: 2;
-      }
-
-      #emailVerificationControl_success_message[aria-hidden="false"],
-      #emailVerificationControl_info_message[aria-hidden="false"],
-      #emailVerificationControl_error_message[aria-hidden="false"] {
-        display: block !important;
-        margin-top: 1.5rem;
-      }
-
-      main {
-        display: none;
-      }
-    </style>
-    <script>
-      function init() {
-        Utils.waitFor("button#continue", function (element) {
-          element.addEventListener("click", toggleErrorClasses);
-        });
-
-        Utils.waitFor("button#emailVerificationControl_but_send_code", function (element) {
-          element.addEventListener("click", toggleErrorClasses);
-
-          Utils.waitFor("button#emailVerificationControl_but_verify_code", function (element) {
-            element.addEventListener("click", toggleErrorClasses);
-          });
-        });
-        Utils.showContent();
-      }
-    </script>
     <script>
       const path = window.SETTINGS
         ? SETTINGS.remoteResource.replace(SETTINGS.remoteResource.split("/").pop(), "")
@@ -158,7 +88,7 @@ limitations under the License.
   <body>
     <main>
       <div class="logo"></div>
-      <div class="reset-password-form">
+      <div class="mitid-form">
         <div id="api"></div>
       </div>
     </main>
