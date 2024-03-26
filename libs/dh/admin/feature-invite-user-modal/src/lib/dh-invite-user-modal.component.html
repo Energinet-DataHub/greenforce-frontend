@@ -29,7 +29,12 @@ limitations under the License.
     #stepper
     (completed)="inviteUser()"
   >
-    <watt-stepper-step [label]="t('email')" [stepControl]="baseInfo" [nextButtonLabel]="t('next')">
+    <watt-stepper-step
+      [label]="t('email')"
+      [stepControl]="baseInfo"
+      [nextButtonLabel]="t('next')"
+      [loadingNextButton]="checkingForAssociatedActors()"
+    >
       <form [formGroup]="userInfo" class="userInfoForm">
         @if ((actors$ | push).length > 1) {
           <watt-dropdown
