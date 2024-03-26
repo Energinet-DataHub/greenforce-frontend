@@ -20,7 +20,6 @@ import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/ang
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
-import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 import { WattFormChipDirective } from '../../../field/chip.directive';
 import { WattRangeValidators } from '../../shared/validators';
@@ -34,7 +33,7 @@ export const initialValueRangeStart = initialValueSingle;
 export const initialValueRangeEnd_StartOfDay = '2022-09-14T22:00:00.000Z';
 export const initialValueRangeEnd_EndOfDay = '2022-09-15T21:59:59.999Z';
 
-export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
+export interface WattDatepickerStoryConfig extends WattDatepickerV2Component {
   disableAnimations?: boolean; // Used to disable animations for the tests
 }
 
@@ -47,7 +46,6 @@ export default {
     moduleMetadata({
       imports: [
         ReactiveFormsModule,
-        WattDatepickerComponent,
         WattFormChipDirective,
         WattDateChipComponent,
         WattDateRangeChipComponent,
@@ -56,7 +54,7 @@ export default {
       ],
     }),
   ],
-  component: WattDatepickerComponent,
+  component: WattDatepickerV2Component,
   excludeStories: [
     'initialValueSingle',
     'initialValueRangeStart',

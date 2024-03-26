@@ -21,7 +21,6 @@ import { within, fireEvent } from '@storybook/testing-library';
 
 import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
 import { WattRangeValidators } from '../../shared/validators';
-import { WattTimepickerComponent } from '../watt-timepicker.component';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 import { WattTimepickerV2Component } from '../watt-timepicker-v2.component';
 
@@ -32,15 +31,10 @@ export default {
       providers: [provideAnimations(), localizationProviders],
     }),
     moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattTimepickerV2Component,
-        WattTimepickerComponent,
-        WattFieldErrorComponent,
-      ],
+      imports: [ReactiveFormsModule, WattTimepickerV2Component, WattFieldErrorComponent],
     }),
   ],
-  component: WattTimepickerComponent,
+  component: WattTimepickerV2Component,
 } as Meta;
 
 const template = `
@@ -67,7 +61,7 @@ const template = `
 
 const initialValue = '00:00';
 
-export const WithFormControl: StoryFn<WattTimepickerComponent> = (args) => ({
+export const WithFormControl: StoryFn<WattTimepickerV2Component> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -89,7 +83,7 @@ WithFormControl.parameters = {
   },
 };
 
-export const WithInitialValue: StoryFn<WattTimepickerComponent> = (args) => ({
+export const WithInitialValue: StoryFn<WattTimepickerV2Component> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValue),
     exampleFormControlRange: new FormControl({
@@ -101,7 +95,7 @@ export const WithInitialValue: StoryFn<WattTimepickerComponent> = (args) => ({
   template,
 });
 
-export const WithValidations: StoryFn<WattTimepickerComponent> = (args) => ({
+export const WithValidations: StoryFn<WattTimepickerV2Component> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
@@ -123,7 +117,7 @@ WithValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startTimeInput);
 };
 
-export const WithFormControlDisabled: StoryFn<WattTimepickerComponent> = (args) => ({
+export const WithFormControlDisabled: StoryFn<WattTimepickerV2Component> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),

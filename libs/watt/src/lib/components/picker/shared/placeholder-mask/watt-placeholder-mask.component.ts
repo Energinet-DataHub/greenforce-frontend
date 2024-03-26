@@ -21,10 +21,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
+  OnInit,
   Output,
-  SimpleChanges,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -38,7 +37,7 @@ import { Maskito, MaskitoOptions } from '@maskito/core';
   standalone: true,
   imports: [CommonModule],
 })
-export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class WattPlaceholderMaskComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input({ required: true })
   primaryInputElement!: HTMLInputElement;
 
@@ -60,13 +59,11 @@ export class WattPlaceholderMaskComponent implements AfterViewInit, OnChanges, O
   cdr = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
-    this.setMask();
+    this.primaryInputElement.dispatchEvent(new InputEvent('input'));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['placeholder']) {
-      this.primaryInputElement.dispatchEvent(new InputEvent('input'));
-    }
+  ngOnInit(): void {
+    this.setMask();
   }
 
   ngOnDestroy(): void {
