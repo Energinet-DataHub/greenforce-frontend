@@ -72,7 +72,10 @@ export function MSALInterceptorConfigFactory(
     interactionType: InteractionType.Redirect,
     protectedResourceMap,
     authRequest: (msalService, req, originalAuthRequest) => {
-      const tfp = (originalAuthRequest.account?.idTokenClaims?.tfp ?? '') as string;
+      if (!originalAuthRequest.account?.idTokenClaims) return originalAuthRequest;
+
+      const tfp = originalAuthRequest.account?.idTokenClaims['tfp'] as unknown as string;
+
       const midId = config.mitIdInviteFlowUri.endsWith(tfp);
       return {
         ...originalAuthRequest,
