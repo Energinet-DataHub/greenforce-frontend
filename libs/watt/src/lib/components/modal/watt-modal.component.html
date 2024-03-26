@@ -17,14 +17,14 @@ limitations under the License.
 <ng-template #modal>
   <div class="watt-modal" [ngClass]="'watt-modal--' + size">
     <watt-button
-      *ngIf="!disableClose"
+      *ngIf="!disableClose && !hideCloseButton"
       variant="icon"
       icon="close"
       class="watt-modal-close"
       [attr.aria-label]="closeLabel"
       (click)="close(false)"
     />
-    <h2 class="watt-modal-title">{{ title }}</h2>
+    <h2 class="watt-modal-title" *ngIf="title">{{ title }}</h2>
     <div
       wattResizeObserver
       class="watt-modal-content"

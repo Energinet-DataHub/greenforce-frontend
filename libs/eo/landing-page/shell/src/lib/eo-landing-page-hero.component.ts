@@ -14,78 +14,190 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { EoLearnMoreComponent } from './learn-more.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  imports: [WattIconComponent, EoLearnMoreComponent],
   selector: 'eo-landing-page-hero',
-  styles: [
-    `
-      @use '@energinet-datahub/watt/utils' as watt;
+  styles: `
+  :host {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    min-height: 514px;
+  }
 
-      :host {
-        display: block;
-      }
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-      eo-landing-page-login-button ::ng-deep button {
-        width: 160px; // Magic UX number
-      }
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-      img {
-        width: 100%;
-        display: block;
-      }
+  .video-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+  }
 
-      .call-to-action {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        align-content: space-around;
-        background-color: #bed7d9;
-        min-width: 343px; // Magic UX number
-        padding: var(--watt-space-m) var(--watt-space-m) var(--watt-space-l);
-        gap: var(--watt-space-m);
+  .content {
+    padding: 0 99px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
 
-        @include watt.media('>=Large') {
-          gap: var(--watt-space-xl);
-        }
-      }
+  .heading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-      h1 {
-        text-transform: uppercase;
-        text-align: center;
+  .actions-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 24px;
+  }
 
-        @include watt.media('>=Large') {
-          font-size: 42px;
-          line-height: 54px;
-        }
-      }
+  #hero-heading {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 62px;
+    line-height: 67px;
+    color: #fff;
+    order: 2;
+    margin-top: 14px;
+  }
 
-      .powered-by {
-        position: absolute;
-        right: 0;
+  .hero-subheading {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.54px;
+    text-transform: uppercase;
+    color: #13ECB8;
+    order: 1;
+  }
 
-        @include watt.media('<Large') {
-          display: none;
-        }
-      }
-    `,
-  ],
+  button.primary {
+    display: inline-flex;
+    padding: 16px 24px;
+    align-items: center;
+    gap: 8px;
+    border-radius: 360px;
+    background: #24B492;
+    color: #fff;
+    border: none;
+  }
+
+  button.secondary {
+    display: inline-flex;
+    padding: 16px 24px;
+    align-items: center;
+    gap: 8px;
+    border-radius: 360px;
+    border: 1px solid #24B492;
+    background: transparent;
+    color: #fff;
+  }
+  `,
   template: `
-    <div class="watt-space-inset-m">
-      <h1>
-        Your <span class="eo-text-primary">emissions</span> and
-        <span class="eo-text-primary">renewables</span> overview
-      </h1>
-    </div>
-    <img src="/assets/images/landing-page/hero-illustration.png" />
+    <div class="video-container">
+      <video
+        #videoPlayer
+        autoplay
+        loop
+        muted
+        class="video-filter"
+        poster="/assets/landing-page/blockchain-concept-cover.png"
+      >
+        <source src="/assets/landing-page/blockchain-concept.mp4" type="video/mp4" />
+      </video>
 
-    <div class="call-to-action">
-      <div class="powered-by">
-        <img src="/assets/images/landing-page/powered-by.png" />
+      <div class="content">
+        <section aria-labelledby="hero-heading" class="heading-container">
+          <!-- Main heading of the hero component -->
+          <h1 id="hero-heading" class="hero-heading">
+            Trace Energy to Its Origin.<br />Truthfully.
+          </h1>
+          <!-- Subheading or slogan -->
+          <p class="hero-subheading">Green Proof You Can Trust</p>
+        </section>
+
+        <section aria-labelledby="hero-heading" class="actions-container">
+          <button class="primary" (click)="onLogin()">
+          <watt-icon name="login" />
+          Log in
+          </button>
+          <eo-learn-more>
+            <button class="secondary" (click)="onLearnMore()">
+            <watt-icon name="smartDisplay" />
+            Learn more
+            </button>
+          </eo-learn-more>
+        </section>
       </div>
     </div>
   `,
 })
-export class EoLandingPageHeroComponent {}
+export class EoLandingPageHeroComponent {
+  @ViewChild('videoPlayer') videoplayer!: ElementRef;
+  private videoStarted = false;
+  private authService = inject(EoAuthService);
+
+  @HostListener('mousemove')
+  onMouseMove(): void {
+    if (this.videoStarted) return;
+    this.playVideo();
+  }
+
+  private playVideo(): void {
+    if (this.videoplayer) {
+      this.videoplayer.nativeElement
+        .play()
+        .then(() => (this.videoStarted = true))
+        .catch((error: any) => {
+          // Auto-play was prevented
+          // Show a UI element to let the user manually start playback
+        });
+    }
+  }
+
+  onLogin(): void {
+    this.authService.startLogin();
+  }
+
+  onLearnMore(): void {
+    // Handle learn more
+  }
+}

@@ -31,6 +31,7 @@ export interface WattModalConfig<T> {
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
   minHeight?: string;
+  panelClass?: string[];
   injector?: Injector;
 }
 
@@ -58,6 +59,7 @@ export class WattModalService {
       panelClass: [
         'watt-modal-panel',
         ...(config.component ? ['watt-modal-panel--component'] : []),
+        ...config.panelClass ?? [],
       ],
       disableClose: config.disableClose ?? false,
       data: config.data,

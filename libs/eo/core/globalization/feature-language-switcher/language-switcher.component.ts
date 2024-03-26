@@ -46,11 +46,6 @@ import { translations } from '@energinet-datahub/eo/translations';
     ReactiveFormsModule,
   ],
   styles: `
-    eo-language-switcher {
-      display: block;
-      width: 100%;
-    }
-
     .eo-language-switcher-content {
       watt-dropdown {
         width: 100%;

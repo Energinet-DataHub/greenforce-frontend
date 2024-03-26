@@ -71,6 +71,7 @@ const materialIcons = {
   // Other
   power: 'power',
   location: 'location_on',
+  smartDisplay: 'smart_display',
 };
 
 /**

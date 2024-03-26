@@ -15,41 +15,65 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { EoHeaderComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+
+
+import { EoAnnouncementBarComponent } from './announcement-bar.component';
+import { translations } from '@energinet-datahub/eo/translations';
+import { TranslocoPipe } from '@ngneat/transloco';
+import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoHeaderComponent, WattButtonComponent],
+  imports: [WattButtonComponent, EoAnnouncementBarComponent, TranslocoPipe, EoProductLogoDirective, EoLanguageSwitcherComponent],
   selector: 'eo-landing-page-header',
-  styles: [
-    `
-      :host {
-        display: block;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-      }
+  styles: `
+    :host {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 100;
 
-      ::ng-deep .login .mat-button.watt-button--primary {
-        height: 63px;
-        border-radius: 0;
-        margin-right: -16px;
-      }
-    `,
-  ],
+      --watt-button-color: #fff;
+      --watt-button-text-transform: uppercase;
+    }
+
+
+
+    .topbar {
+      padding: 24px 99px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .logo {
+      height: 38px;
+    }
+  `,
   template: `
-    <eo-header>
-      <watt-button class="login" data-testid="login-button" icon="login" (click)="login()">
-        Log on
-      </watt-button>
-    </eo-header>
+    <eo-announcement-bar [announcement]="translations.announcementBar.message | transloco" />
+    <div class="topbar">
+      <img eoProductLogo version="secondary" class="logo" />
+
+      <div class="actions">
+        <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
+          Log in
+        </watt-button>
+        <eo-language-switcher>
+          <watt-button variant="text" icon="language" />
+        </eo-language-switcher>
+      </div>
+    </div>
   `,
 })
 export class EoLandingPageHeaderComponent {
   private authService = inject(EoAuthService);
+  protected translations = translations;
 
   login() {
     this.authService.startLogin();
