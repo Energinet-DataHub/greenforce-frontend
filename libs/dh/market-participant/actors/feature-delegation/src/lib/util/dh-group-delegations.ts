@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { DhDelegations, DhDelegationsByType } from '../dh-delegations';
 
-import {
-  DelegatedProcess,
-  GetDelegationsForActorDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+export function dhGroupDelegations(delegations: DhDelegations): DhDelegationsByType {
+  const groups: DhDelegationsByType = [];
 
-export type DhDelegation = ResultOf<
-  typeof GetDelegationsForActorDocument
->['delegationsForActor'][0];
+  for (const delegation of delegations) {
+    const index = groups.findIndex((group) => group.type === delegation.process);
 
-export type DhDelegations = DhDelegation[];
+    if (index === -1) {
+      groups.push({ type: delegation.process, delegations: [delegation] });
+    } else {
+      groups[index].delegations?.push(delegation);
+    }
+  }
 
-export type DhDelegationsByType = {
-  type: DelegatedProcess;
-  delegations: DhDelegations;
-}[];
+  return groups;
+}
