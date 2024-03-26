@@ -98,7 +98,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   modal: WattModalComponent | undefined;
 
   isSaving = signal(false);
-  showGridAreaDropdown = signal(true);
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
@@ -120,10 +119,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
     this.gridAreaOptions$.pipe(takeUntilDestroyed()).subscribe((gridAreas) => {
       if (gridAreas.length === 1) {
-        this.showGridAreaDropdown.set(false);
         this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
-      } else {
-        this.showGridAreaDropdown.set(true);
       }
     });
   }
@@ -171,6 +167,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       );
     }
+
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
       map((result) => result.data?.gridAreas),
       exists(),
