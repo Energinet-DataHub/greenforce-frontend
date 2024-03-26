@@ -51,7 +51,7 @@ import {
 
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { DhDelegations } from './dh-delegations';
-import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
+import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
