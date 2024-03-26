@@ -30,4 +30,4 @@ export type DhDelegations = DhDelegation[];
 export type DhDelegationsByType = {
   type: DelegatedProcess;
   delegations: DhDelegations;
-};
+}[];

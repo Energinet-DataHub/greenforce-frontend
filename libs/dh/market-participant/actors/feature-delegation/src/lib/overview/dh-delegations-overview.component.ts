@@ -22,7 +22,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 
-import { DhDelegations, DhDelegationsByType } from '../dh-delegations';
+import { DhDelegationsByType } from '../dh-delegations';
 import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
 
 @Component({
@@ -48,13 +48,13 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
       @if (delegations().length > 0) {
-        @for (entry of delegations(); track $index) {
+        @for (entry of delegations(); track entry) {
           <watt-expandable-card togglePosition="before" variant="solid">
             <watt-expandable-card-title>
-              {{ t('processTypes.' + entry.process) }}
+              {{ t('processTypes.' + entry.type) }}
             </watt-expandable-card-title>
 
-            <dh-delegation-table [data]="delegations()" />
+            <dh-delegation-table [data]="entry.delegations" />
           </watt-expandable-card>
         }
       }
@@ -62,5 +62,5 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
 })
 export class DhDelegationsOverviewComponent {
-  delegations = input.required<DhDelegations>();
+  delegations = input.required<DhDelegationsByType>();
 }
