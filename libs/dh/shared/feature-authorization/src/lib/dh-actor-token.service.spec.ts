@@ -89,7 +89,7 @@ describe(DhActorTokenService, () => {
     // arrange
     const request = new HttpRequest<string>(
       'GET',
-      'https://b2cshresdhsandboxwe.b2clogin.com/b2cshresdhsandboxwe.onmicrosoft.com/b2c_some_policy/oauth2/v2.0/token'
+      'https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/b2c_some_policy/oauth2/v2.0/token'
     );
 
     const target = new DhActorTokenService(
