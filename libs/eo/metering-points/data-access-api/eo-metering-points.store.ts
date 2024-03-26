@@ -32,6 +32,7 @@ interface EoMeteringPointsState {
   meteringPoints: EoMeteringPoint[];
   meteringPointError: HttpErrorResponse | null;
   contractError: HttpErrorResponse | null;
+  relationStatus: 'Created' | 'Pending' | null;
 }
 
 @Injectable({
@@ -47,10 +48,13 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       meteringPoints: [],
       meteringPointError: null,
       contractError: null,
+      relationStatus: null,
     });
   }
 
   readonly loading$ = this.select((state) => state.loading);
+  readonly relationStatus$ = this.select((state) => state.relationStatus);
+
   private readonly setLoading = this.updater(
     (state, loading: boolean): EoMeteringPointsState => ({ ...state, loading })
   );
