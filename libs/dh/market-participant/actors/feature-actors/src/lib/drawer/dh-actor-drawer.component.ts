@@ -218,16 +218,19 @@ export class DhActorDrawerComponent {
       .map((x) => x.trim());
 
     if (!values) return {};
-
-    const actorNumberName = this.actorNumberNameLookup[values[0]];
+    const [payloadGln, payloadStartsAt, payloadGridArea, payloadProcessType, payloadStopsAt] =
+      values;
+    const actorNumberName = this.actorNumberNameLookup[payloadGln];
 
     return {
       auditedBy: payload.auditedBy,
       actor: `${actorNumberName.number} - ${actorNumberName.name}`,
-      startsAt: wattFormatDate(values[1]),
-      gridArea: this.gridAreaCodeLookup[values[2]],
-      messageType: values[3],
-      stopsAt: values.length > 4 ? wattFormatDate(values[4]) : undefined,
+      startsAt: wattFormatDate(payloadStartsAt),
+      gridArea: this.gridAreaCodeLookup[payloadGridArea],
+      processType: translate(
+        'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + payloadProcessType
+      ),
+      stopsAt: payloadStopsAt !== undefined ? wattFormatDate(payloadStopsAt) : undefined,
     };
   }
 }
