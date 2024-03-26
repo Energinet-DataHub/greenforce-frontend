@@ -53,7 +53,6 @@ import { danishLocalProviders } from '@energinet-datahub/gf/globalization/config
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 if (environment.authDisabled) {
-  console.log('Auth is disabled');
   MsalGuard.prototype.canActivate = () => of(true);
 
   MsalInterceptor.prototype.intercept = (req, next) => {
