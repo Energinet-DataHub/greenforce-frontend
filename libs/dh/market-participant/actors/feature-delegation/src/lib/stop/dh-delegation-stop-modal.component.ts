@@ -163,7 +163,6 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
     this._apollo
       .mutate({
         mutation: StopDelegationsDocument,
-        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             stopMessageDelegationDto: this.modalData.map((delegation) => {
@@ -175,6 +174,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
             }),
           },
         },
+        refetchQueries: [GetDelegationsForActorDocument],
       })
       .subscribe((response) => this.handleStopDelegationResponse(response));
   }

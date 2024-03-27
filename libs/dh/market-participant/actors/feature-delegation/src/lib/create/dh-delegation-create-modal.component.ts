@@ -137,7 +137,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     this._apollo
       .mutate({
         mutation: CreateDelegationForActorDocument,
-        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             actorId: this.modalData.id,
@@ -150,6 +149,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
             },
           },
         },
+        refetchQueries: [GetDelegationsForActorDocument],
       })
       .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
