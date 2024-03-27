@@ -39,7 +39,6 @@ import {
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
-  StopProcessDelegationDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
@@ -88,14 +87,14 @@ import { DhDelegation } from '../dh-delegations';
       <vater-stack align="flex-start" gap="m">
         <watt-radio
           group="stopDate"
-          [formControl]="stopDelegationForm.controls.selectedOptions"
+          [formControl]="stopDelegationForm.controls.selectedOption"
           value="stopNow"
           >{{ t('stopNow') }}</watt-radio
         >
         <vater-stack direction="row" align="baseline" gap="m">
           <watt-radio
             group="stopDate"
-            [formControl]="stopDelegationForm.controls.selectedOptions"
+            [formControl]="stopDelegationForm.controls.selectedOption"
             value="stopOnDate"
           >
             {{ t('stopDate') }}
@@ -131,16 +130,16 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   modal: WattModalComponent | undefined;
 
   stopDelegationForm = this._fb.group({
-    selectedOptions: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
+    selectedOption: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
     stopDate: [{ value: null, disabled: true }, Validators.required],
   });
 
   constructor() {
     super();
     this.stopDelegationForm.valueChanges
-      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOptions'))
+      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOption'))
       .subscribe((value) => {
-        if (value.selectedOptions === 'stopNow') {
+        if (value.selectedOption === 'stopNow') {
           this.stopDelegationForm.controls.stopDate.disable();
         } else {
           this.stopDelegationForm.controls.stopDate.enable();
@@ -155,39 +154,44 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   stopSelectedDelegations() {
     if (this.stopDelegationForm.invalid) return;
 
-    const { stopDate, selectedOptions } = this.stopDelegationForm.getRawValue();
+    const { stopDate, selectedOption } = this.stopDelegationForm.getRawValue();
 
-    if (!stopDate && selectedOptions === 'stopOnDate') return;
+    if (!stopDate && selectedOption === 'stopOnDate') return;
 
     this.isSaving.set(true);
 
     this._apollo
       .mutate({
         mutation: StopDelegationsDocument,
-        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             stopMessageDelegationDto: this.modalData.map((delegation) => {
               return {
                 id: delegation.id,
                 periodId: delegation.periodId,
-                stopsAt:
-                  selectedOptions === 'stopNow'
-                    ? // Note: Subtract 1 minute to ensure that the stop time is in the past
-                      // compared to the time in the backend.
-                      dayjs(new Date()).subtract(1, 'minute')
-                    : stopDate
-                      ? // Note: Add 1 day to ensure that the stop day is included in the period.
-                        // Selecting "2024-03-27" results in "2024-03-26T23:59:59.999Z"
-                        // whereas it should be "2024-03-27T23:59:59.999Z"
-                        dayjs(stopDate).add(1, 'day')
-                      : stopDate,
-              } as StopProcessDelegationDtoInput;
+                stopsAt: this.calculateStopDate(selectedOption, stopDate),
+              };
             }),
           },
         },
+        refetchQueries: [GetDelegationsForActorDocument],
       })
       .subscribe((response) => this.handleStopDelegationResponse(response));
+  }
+
+  private calculateStopDate(selectedOption: string, stopDate: Date | null): Date | null {
+    if (selectedOption === 'stopNow') {
+      // Note: Subtract 1 minute to ensure that the stop time is in the past
+      // compared to the time in the backend.
+      return dayjs(new Date()).subtract(1, 'minute').toDate();
+    }
+
+    return stopDate
+      ? // Note: Add 1 day to ensure that the stop day is included in the period.
+        // Selecting "2024-03-27" results in "2024-03-26T23:00:00Z"
+        // whereas it should be "2024-03-27T23:00:00Z"
+        dayjs(stopDate).add(1, 'day').toDate()
+      : stopDate;
   }
 
   private handleStopDelegationResponse(response: MutationResult<StopDelegationsMutation>): void {

@@ -14,13 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RxPush } from '@rx-angular/template/push';
+import { tap } from 'rxjs';
 
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDelegationsByType } from '../dh-delegations';
 import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
@@ -31,6 +40,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
+    RxPush,
 
     VaterStackComponent,
     VaterSpacerComponent,
@@ -47,20 +57,28 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
-      @if (delegations().length > 0) {
-        @for (entry of delegations(); track entry) {
-          <watt-expandable-card togglePosition="before" variant="solid">
-            <watt-expandable-card-title>
-              {{ t('processTypes.' + entry.type) }}
-            </watt-expandable-card-title>
+      @for (entry of delegationsByType(); track entry) {
+        <watt-expandable-card togglePosition="before" variant="solid">
+          <watt-expandable-card-title>
+            {{ t('processTypes.' + entry.type) }}
+          </watt-expandable-card-title>
 
-            <dh-delegation-table [data]="entry.delegations" />
-          </watt-expandable-card>
-        }
+          <dh-delegation-table
+            [data]="entry.delegations"
+            [canManageDelegations]="canManageDelegations$ | push"
+          />
+        </watt-expandable-card>
       }
     </ng-container>
   `,
 })
 export class DhDelegationsOverviewComponent {
-  delegations = input.required<DhDelegationsByType>();
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly permissionService = inject(PermissionService);
+
+  delegationsByType = input.required<DhDelegationsByType>();
+
+  canManageDelegations$ = this.permissionService
+    .hasPermission('delegation:manage')
+    .pipe(tap(() => this.changeDetectorRef.detectChanges()));
 }

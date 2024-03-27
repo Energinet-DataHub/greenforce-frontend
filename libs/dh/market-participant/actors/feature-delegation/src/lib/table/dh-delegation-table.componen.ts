@@ -16,6 +16,7 @@
  */
 import { Component, ViewChild, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RxPush } from '@rx-angular/template/push';
 
 import {
   WATT_TABLE,
@@ -45,7 +46,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
-        [selectable]="true"
+        [selectable]="canManageDelegations()"
         [sortClear]="false"
         [suppressRowHoverHighlight]="true"
       >
@@ -72,6 +73,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
           <dh-delegation-status [status]="entry.status" />
         </ng-container>
+
         <ng-container *wattTableToolbar="let selection">
           {{ selection.length }} {{ t('selectedRows') }}
           <watt-table-toolbar-spacer />
@@ -88,6 +90,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   `,
   imports: [
     TranslocoDirective,
+    RxPush,
 
     WATT_TABLE,
     WattDatePipe,
@@ -98,7 +101,8 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   ],
 })
 export class DhDelegationTableComponent {
-  private _modalService = inject(WattModalService);
+  private readonly modalService = inject(WattModalService);
+
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
 
   @ViewChild(WattTableComponent)
@@ -112,6 +116,7 @@ export class DhDelegationTableComponent {
   };
 
   data = input.required<DhDelegations>();
+  canManageDelegations = input.required<boolean>();
 
   constructor() {
     effect(() => {
@@ -120,7 +125,7 @@ export class DhDelegationTableComponent {
   }
 
   stopSelectedDelegations(selected: DhDelegation[]) {
-    this._modalService.open({
+    this.modalService.open({
       component: DhDelegationStopModalComponent,
       data: selected,
       onClosed: (result) => {
