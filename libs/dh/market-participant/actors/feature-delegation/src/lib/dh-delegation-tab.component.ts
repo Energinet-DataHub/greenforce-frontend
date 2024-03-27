@@ -93,7 +93,7 @@ export class DhDelegationTabComponent {
   isError = signal(false);
 
   delegationsRaw = signal<DhDelegations>([]);
-  delegations = signal<DhDelegationsByType>([]);
+  delegationsByType = signal<DhDelegationsByType>([]);
 
   isEmpty = computed(() => this.delegationsRaw().length === 0);
 
@@ -116,14 +116,14 @@ export class DhDelegationTabComponent {
     const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {
-      return this.delegations.set(dhGroupDelegations(delegations));
+      return this.delegationsByType.set(dhGroupDelegations(delegations));
     }
 
     const delegationsFiltered = delegations.filter((delegation) => {
       return filter.includes(delegation.status);
     });
 
-    this.delegations.set(dhGroupDelegations(delegationsFiltered));
+    this.delegationsByType.set(dhGroupDelegations(delegationsFiltered));
   }
 
   private fetchData(actorId: string) {
@@ -144,7 +144,7 @@ export class DhDelegationTabComponent {
 
           this.delegationsRaw.set(result.data.delegationsForActor);
 
-          this.delegations.set(dhGroupDelegations(this.delegationsRaw()));
+          this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw()));
         },
         error: () => {
           this.isLoading.set(false);
