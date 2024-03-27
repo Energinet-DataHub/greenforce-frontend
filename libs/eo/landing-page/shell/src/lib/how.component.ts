@@ -97,6 +97,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestro
         }
         ::before {
           opacity: 0;
+          transform: scale(1.2, 1);
         }
       }
     }
