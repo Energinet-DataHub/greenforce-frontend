@@ -45,20 +45,17 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       left: 0;
     }
 
-    eo-landing-page-why p {
-      color: #FFF;
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 50px;
-    }
-
     eo-landing-page-why blockquote {
       text-align: center;
       position: relative;
       z-index: 1;
 
       p {
+        color: #FFF;
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 50px;
         margin-top: 28px;
       }
 

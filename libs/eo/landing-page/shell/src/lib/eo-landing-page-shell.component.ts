@@ -35,6 +35,7 @@ import { EoLandingPageNotificationComponent } from './eo-landing-page-notificati
 import { EoLandingPageOriginOfEnergyComponent } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 import { EoLandingPageWhyComponent } from './why.component';
+import { EoLandingPageHowComponent } from './how.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +54,7 @@ import { EoLandingPageWhyComponent } from './why.component';
     NgIf,
     TranslocoPipe,
     EoLandingPageWhyComponent,
+    EoLandingPageHowComponent
   ],
   selector: 'eo-landing-page-shell',
   styles: ``,
@@ -60,6 +62,7 @@ import { EoLandingPageWhyComponent } from './why.component';
     <eo-landing-page-header />
     <eo-landing-page-hero />
     <eo-landing-page-why />
+    <eo-landing-page-how />
   `,
   viewProviders: [EoLandingPagePresenter],
 })
