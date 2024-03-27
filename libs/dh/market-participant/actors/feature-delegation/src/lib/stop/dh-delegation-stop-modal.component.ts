@@ -21,19 +21,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { distinctUntilKeyChanged } from 'rxjs';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { dayjs } from '@energinet-datahub/watt/date';
 import {
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
@@ -42,9 +43,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -173,7 +171,17 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
               return {
                 id: delegation.id,
                 periodId: delegation.periodId,
-                stopsAt: selectedOptions === 'stopNow' ? new Date() : stopDate,
+                stopsAt:
+                  selectedOptions === 'stopNow'
+                    ? // Note: Subtract 1 minute to ensure that the stop time is in the past
+                      // compared to the time in the backend.
+                      dayjs(new Date()).subtract(1, 'minute')
+                    : stopDate
+                      ? // Note: Add 1 day to ensure that the stop day is included in the period.
+                        // Selecting "2024-03-27" results in "2024-03-26T23:59:59.999Z"
+                        // whereas it should be "2024-03-27T23:59:59.999Z"
+                        dayjs(stopDate).add(1, 'day')
+                      : stopDate,
               } as StopProcessDelegationDtoInput;
             }),
           },
