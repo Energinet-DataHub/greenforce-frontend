@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, HostBinding } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
 
 const selector = 'eoProductLogo';
 
@@ -30,6 +30,12 @@ export class EoProductLogoDirective {
   }
   @HostBinding('attr.src')
   get srcAttribute(): string {
-    return '/assets/images/energy-origin-logo.svg';
+    if (this.version === 'secondary') {
+      return '/assets/images/energy-origin-logo-secondary.svg';
+    } else {
+      return '/assets/images/energy-origin-logo.svg';
+    }
   }
+
+  @Input() version: 'default' | 'secondary' = 'default';
 }

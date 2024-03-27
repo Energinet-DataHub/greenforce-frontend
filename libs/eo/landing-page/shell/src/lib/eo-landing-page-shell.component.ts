@@ -34,7 +34,8 @@ import { EoLandingPageIntroductionComponent } from './eo-landing-page-introducti
 import { EoLandingPageNotificationComponent } from './eo-landing-page-notification.component';
 import { EoLandingPageOriginOfEnergyComponent } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
-import { EoAnnouncementBarComponent } from './announcement-bar.component';
+import { EoLandingPageWhyComponent } from './why.component';
+import { EoLandingPageHowComponent } from './how.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,71 +51,18 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     EoLandingPageOriginOfEnergyComponent,
     EoCookieBannerComponent,
     EoPopupMessageComponent,
-    EoAnnouncementBarComponent,
     NgIf,
     TranslocoPipe,
+    EoLandingPageWhyComponent,
+    EoLandingPageHowComponent,
   ],
   selector: 'eo-landing-page-shell',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      img {
-        display: block;
-      }
-
-      .u-positioning-context {
-        position: relative !important;
-      }
-
-      .u-snap-bottom {
-        position: absolute;
-        bottom: 0 !important;
-      }
-
-      .u-collapse-bottom {
-        padding-bottom: 0 !important;
-      }
-
-      a {
-        color: var(--watt-color-primary);
-      }
-
-      .centered {
-        margin: 0 auto;
-        max-width: 960px;
-      }
-    `,
-  ],
+  styles: ``,
   template: `
-    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getCookieStatus()" />-->
-    <eo-announcement-bar [announcement]="translations.announcementBar.message | transloco" />
     <eo-landing-page-header />
-
-    <div class="u-positioning-context">
-      <eo-landing-page-notification class="u-collapse-bottom" />
-
-      <eo-popup-message
-        *ngIf="error"
-        class="centered"
-        title="{{ error.title }}"
-        message="{{ error.message }}"
-      />
-
-      <eo-landing-page-hero />
-
-      <eo-landing-page-introduction />
-
-      <eo-landing-page-origin-of-energy />
-
-      <eo-landing-page-audience />
-
-      <eo-landing-page-company />
-    </div>
-
-    <eo-footer />
+    <eo-landing-page-hero />
+    <eo-landing-page-why />
+    <eo-landing-page-how />
   `,
   viewProviders: [EoLandingPagePresenter],
 })
