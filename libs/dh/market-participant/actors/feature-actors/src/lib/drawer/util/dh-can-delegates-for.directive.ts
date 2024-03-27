@@ -27,7 +27,7 @@ export class DhCanDelegateForDirective {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   private viewContainerRef = inject(ViewContainerRef);
 
-  private canDelegatesForMarketRoles: EicFunction[] = [
+  private canDelegateForMarketRoles: EicFunction[] = [
     EicFunction.GridAccessProvider,
     EicFunction.BalanceResponsibleParty,
     EicFunction.EnergySupplier,
@@ -39,9 +39,7 @@ export class DhCanDelegateForDirective {
     effect(() => {
       this.viewContainerRef.clear();
 
-      if (
-        this.canDelegatesForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))
-      ) {
+      if (this.canDelegateForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     });
