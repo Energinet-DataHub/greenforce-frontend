@@ -36,6 +36,7 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
+  GetAuditLogByActorIdDocument,
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
@@ -174,7 +175,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
             }),
           },
         },
-        refetchQueries: [GetDelegationsForActorDocument],
+        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
       })
       .subscribe((response) => this.handleStopDelegationResponse(response));
   }

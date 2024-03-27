@@ -48,6 +48,7 @@ import {
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
+  GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -149,7 +150,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
             },
           },
         },
-        refetchQueries: [GetDelegationsForActorDocument],
+        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
       })
       .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
@@ -181,7 +182,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegations(): Observable<WattDropdownOptions> {
-    let eicFunctions = [EicFunction.Delegated];
+    const eicFunctions = [EicFunction.Delegated];
 
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       eicFunctions.push(EicFunction.GridAccessProvider);
