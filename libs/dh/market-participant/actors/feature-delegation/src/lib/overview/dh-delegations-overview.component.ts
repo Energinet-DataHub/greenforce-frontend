@@ -47,20 +47,18 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
-      @if (delegations().length > 0) {
-        @for (entry of delegations(); track entry) {
-          <watt-expandable-card togglePosition="before" variant="solid">
-            <watt-expandable-card-title>
-              {{ t('processTypes.' + entry.type) }}
-            </watt-expandable-card-title>
+      @for (entry of delegationsByType(); track entry) {
+        <watt-expandable-card togglePosition="before" variant="solid">
+          <watt-expandable-card-title>
+            {{ t('processTypes.' + entry.type) }}
+          </watt-expandable-card-title>
 
-            <dh-delegation-table [data]="entry.delegations" />
-          </watt-expandable-card>
-        }
+          <dh-delegation-table [data]="entry.delegations" />
+        </watt-expandable-card>
       }
     </ng-container>
   `,
 })
 export class DhDelegationsOverviewComponent {
-  delegations = input.required<DhDelegationsByType>();
+  delegationsByType = input.required<DhDelegationsByType>();
 }
