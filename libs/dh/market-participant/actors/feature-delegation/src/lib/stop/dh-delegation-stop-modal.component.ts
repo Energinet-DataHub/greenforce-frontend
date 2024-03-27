@@ -188,8 +188,8 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
 
     return stopDate
       ? // Note: Add 1 day to ensure that the stop day is included in the period.
-        // Selecting "2024-03-27" results in "2024-03-26T23:59:59.999Z"
-        // whereas it should be "2024-03-27T23:59:59.999Z"
+        // Selecting "2024-03-27" results in "2024-03-26T23:00:00Z"
+        // whereas it should be "2024-03-27T23:00:00Z"
         dayjs(stopDate).add(1, 'day').toDate()
       : stopDate;
   }
