@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, effect, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RxPush } from '@rx-angular/template/push';
+import { tap } from 'rxjs';
 
 import {
   WATT_TABLE,
@@ -27,6 +29,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
@@ -45,7 +48,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
-        [selectable]="true"
+        [selectable]="canManageDelegations$ | push"
         [sortClear]="false"
         [suppressRowHoverHighlight]="true"
       >
@@ -72,6 +75,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
           <dh-delegation-status [status]="entry.status" />
         </ng-container>
+
         <ng-container *wattTableToolbar="let selection">
           {{ selection.length }} {{ t('selectedRows') }}
           <watt-table-toolbar-spacer />
@@ -88,6 +92,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   `,
   imports: [
     TranslocoDirective,
+    RxPush,
 
     WATT_TABLE,
     WattDatePipe,
@@ -98,8 +103,15 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   ],
 })
 export class DhDelegationTableComponent {
-  private _modalService = inject(WattModalService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
+
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
+
+  canManageDelegations$ = this.permissionService
+    .hasPermission('delegation:manage')
+    .pipe(tap(() => this.changeDetectorRef.detectChanges()));
 
   @ViewChild(WattTableComponent)
   table: WattTableComponent<DhDelegation> | undefined;
@@ -120,7 +132,7 @@ export class DhDelegationTableComponent {
   }
 
   stopSelectedDelegations(selected: DhDelegation[]) {
-    this._modalService.open({
+    this.modalService.open({
       component: DhDelegationStopModalComponent,
       data: selected,
       onClosed: (result) => {
