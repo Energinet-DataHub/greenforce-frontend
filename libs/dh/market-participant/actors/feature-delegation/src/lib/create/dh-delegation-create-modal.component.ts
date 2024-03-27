@@ -181,16 +181,31 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegations(): Observable<WattDropdownOptions> {
-    return this._apollo.query({ query: GetDelegatesDocument }).pipe(
-      map((result) => result.data?.actorsForEicFunction),
-      exists(),
-      map((delegates) =>
-        delegates.map((delegate) => ({
-          value: delegate.id,
-          displayValue: delegate.name,
-        }))
-      )
-    );
+    let eicFunctions = [EicFunction.Delegated];
+
+    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
+      eicFunctions.push(EicFunction.GridAccessProvider);
+    }
+
+    return this._apollo
+      .query({
+        query: GetDelegatesDocument,
+        variables: {
+          eicFunctions,
+        },
+      })
+      .pipe(
+        map((result) => result.data?.actorsForEicFunction),
+        exists(),
+        map((delegates) =>
+          delegates
+            .filter((delegate) => delegate !== this.modalData.id)
+            .map((delegate) => ({
+              value: delegate.id,
+              displayValue: delegate.name,
+            }))
+        )
+      );
   }
 
   private handleCreateDelegationResponse(
