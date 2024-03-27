@@ -94,7 +94,10 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
     </picture>
 
     <blockquote>
-      <img src="/assets/landing-page/martin-lundø.png" alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub">
+      <img
+        src="/assets/landing-page/martin-lundø.png"
+        alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub"
+      />
       <p>
         “We want the industry to<br />
         believe in true, sustainable energy<br />
