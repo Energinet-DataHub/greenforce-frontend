@@ -57,7 +57,8 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
     }
 
     .logo {
-      height: 38px;
+      height: 44px;
+      width: 300px;
     }
   `,
   template: `
