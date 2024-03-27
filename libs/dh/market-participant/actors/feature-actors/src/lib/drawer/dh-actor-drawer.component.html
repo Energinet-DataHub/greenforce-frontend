@@ -92,16 +92,18 @@ limitations under the License.
           }
 
           <ng-container *dhFeatureFlag="'market-participant-delegation'">
-            <watt-tab
-              [label]="t('tabs.delegation.tabLabel')"
-              *dhPermissionRequired="['delegation:view']"
-            >
-              @defer (on viewport) {
-                <dh-delegation-tab [actor]="actor!" />
-              } @placeholder {
-                <watt-spinner />
-              }
-            </watt-tab>
+            <ng-container *dhPermissionRequired="['delegation:view']">
+              <watt-tab
+                [label]="t('tabs.delegation.tabLabel')"
+                *dhCanDelegatesFor="actor?.marketRole"
+              >
+                @defer (on viewport) {
+                  <dh-delegation-tab [actor]="actor!" />
+                } @placeholder {
+                  <watt-spinner />
+                }
+              </watt-tab>
+            </ng-container>
           </ng-container>
 
           <watt-tab [label]="t('tabs.history.tabLabel')">

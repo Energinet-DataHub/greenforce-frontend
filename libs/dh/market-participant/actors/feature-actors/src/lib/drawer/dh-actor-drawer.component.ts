@@ -51,6 +51,7 @@ import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-mo
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
+import { DhCanDelegatesForDirective } from './util/dh-can-delegates-for.directive';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -103,6 +104,7 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
     DhActorStatusBadgeComponent,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
+    DhCanDelegatesForDirective,
   ],
 })
 export class DhActorDrawerComponent {
