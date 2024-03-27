@@ -120,13 +120,6 @@ import { EoLearnMoreComponent } from './learn-more.component';
     border: none;
   }
 
-  // Change the color of the primary button for screen readers to satisfy the contrast ratio
-  @media screen-reader {
-    button.primary {
-      color: #000; // Change the color for screen readers
-    }
-  }
-
   button.secondary {
     display: inline-flex;
     padding: 16px 24px;
