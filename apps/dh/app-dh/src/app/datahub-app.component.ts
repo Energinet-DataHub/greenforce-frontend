@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'dh-app',
@@ -30,4 +31,16 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
 })
-export class DataHubAppComponent {}
+export class DataHubAppComponent implements OnInit {
+  private _authService = inject(MsalService);
+  private _router = inject(Router);
+
+  ngOnInit(): void {
+    this._authService.handleRedirectObservable().subscribe((data) => {
+      if (data) {
+        this._authService.instance.setActiveAccount(data.account);
+        this._router.navigate(['']);
+      }
+    });
+  }
+}

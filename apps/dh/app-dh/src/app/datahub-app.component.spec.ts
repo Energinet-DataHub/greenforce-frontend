@@ -29,7 +29,9 @@ import { importProvidersFrom } from '@angular/core';
 
 describe(DataHubAppComponent, () => {
   it('has a router outlet', async () => {
-    const view = await render(DataHubAppComponent);
+    const view = await render(DataHubAppComponent, {
+      providers: [MsalServiceMock, MsalGuardMock],
+    });
 
     const routerOutlet = view.fixture.debugElement
       .query(By.directive(RouterOutlet))

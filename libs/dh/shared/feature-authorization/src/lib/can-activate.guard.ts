@@ -14,11 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission.guard';
-export * from './lib/permission-required.directive';
-export * from './lib/permission.service';
-export * from './lib/dh-authorization.interceptor';
-export * from './lib/dh-inactivity-detection.service';
-export * from './lib/dh-selected-actor.component';
-export * from './lib/dh-signup-mitid.component';
-export * from './lib/can-activate.guard';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { MsalService } from '@azure/msal-angular';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
+export const AuthGuard: CanActivateFn = (): boolean => {
+  const router = inject(Router);
+  const msalService = inject(MsalService);
+  const featureFlagService = inject(DhFeatureFlagsService);
+
+  if (!featureFlagService.isEnabled('new-login-flow')) return true;
+
+  if (msalService.instance.getAllAccounts().length > 0) return true;
+
+  router.navigate(['/login']);
+  return false;
+};
