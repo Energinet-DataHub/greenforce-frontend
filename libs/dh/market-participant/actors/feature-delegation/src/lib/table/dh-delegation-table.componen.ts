@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectorRef, Component, ViewChild, effect, inject, input } from '@angular/core';
+import { Component, ViewChild, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
-import { tap } from 'rxjs';
 
 import {
   WATT_TABLE,
@@ -29,7 +28,6 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
@@ -48,7 +46,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
-        [selectable]="canManageDelegations$ | push"
+        [selectable]="canManageDelegations()"
         [sortClear]="false"
         [suppressRowHoverHighlight]="true"
       >
@@ -103,15 +101,9 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   ],
 })
 export class DhDelegationTableComponent {
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly modalService = inject(WattModalService);
-  private readonly permissionService = inject(PermissionService);
 
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
-
-  canManageDelegations$ = this.permissionService
-    .hasPermission('delegation:manage')
-    .pipe(tap(() => this.changeDetectorRef.detectChanges()));
 
   @ViewChild(WattTableComponent)
   table: WattTableComponent<DhDelegation> | undefined;
@@ -124,6 +116,7 @@ export class DhDelegationTableComponent {
   };
 
   data = input.required<DhDelegations>();
+  canManageDelegations = input.required<boolean>();
 
   constructor() {
     effect(() => {
