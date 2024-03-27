@@ -88,14 +88,14 @@ import { DhDelegation } from '../dh-delegations';
       <vater-stack align="flex-start" gap="m">
         <watt-radio
           group="stopDate"
-          [formControl]="stopDelegationForm.controls.selectedOptions"
+          [formControl]="stopDelegationForm.controls.selectedOption"
           value="stopNow"
           >{{ t('stopNow') }}</watt-radio
         >
         <vater-stack direction="row" align="baseline" gap="m">
           <watt-radio
             group="stopDate"
-            [formControl]="stopDelegationForm.controls.selectedOptions"
+            [formControl]="stopDelegationForm.controls.selectedOption"
             value="stopOnDate"
           >
             {{ t('stopDate') }}
@@ -131,16 +131,16 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   modal: WattModalComponent | undefined;
 
   stopDelegationForm = this._fb.group({
-    selectedOptions: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
+    selectedOption: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
     stopDate: [{ value: null, disabled: true }, Validators.required],
   });
 
   constructor() {
     super();
     this.stopDelegationForm.valueChanges
-      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOptions'))
+      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOption'))
       .subscribe((value) => {
-        if (value.selectedOptions === 'stopNow') {
+        if (value.selectedOption === 'stopNow') {
           this.stopDelegationForm.controls.stopDate.disable();
         } else {
           this.stopDelegationForm.controls.stopDate.enable();
@@ -155,9 +155,9 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   stopSelectedDelegations() {
     if (this.stopDelegationForm.invalid) return;
 
-    const { stopDate, selectedOptions } = this.stopDelegationForm.getRawValue();
+    const { stopDate, selectedOption } = this.stopDelegationForm.getRawValue();
 
-    if (!stopDate && selectedOptions === 'stopOnDate') return;
+    if (!stopDate && selectedOption === 'stopOnDate') return;
 
     this.isSaving.set(true);
 
@@ -172,7 +172,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
                 id: delegation.id,
                 periodId: delegation.periodId,
                 stopsAt:
-                  selectedOptions === 'stopNow'
+                  selectedOption === 'stopNow'
                     ? // Note: Subtract 1 minute to ensure that the stop time is in the past
                       // compared to the time in the backend.
                       dayjs(new Date()).subtract(1, 'minute')
