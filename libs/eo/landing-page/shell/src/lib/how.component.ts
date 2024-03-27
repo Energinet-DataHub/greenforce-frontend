@@ -15,7 +15,16 @@
  * limitations under the License.
  */
 import { NgClass } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -132,16 +141,24 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestro
   template: `
     <section aria-labelledby="how-heading" class="heading-container">
       <!-- Main heading of the hero component -->
-      <h2 id="hero-heading" class="how-heading active" [ngClass]="{'active': isActive()}">
-        Fast-Track Compliance with <span class="highlight">EU Sustainability</span><br>Regulations
+      <h2 id="hero-heading" class="how-heading active" [ngClass]="{ active: isActive() }">
+        Fast-Track Compliance with <span class="highlight">EU Sustainability</span><br />Regulations
       </h2>
 
       <p class="how-subheading highlight">how we make sustainability reporting easier</p>
     </section>
 
-    <section aria-labeledby="how-text" class="text-container" [ngClass]="{'active': isActive()}">
-      <p>Energy Origin emerges as a transformative solution designed to guide companies through the complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and Environmental, Social, and Governance (ESG) directives.</p>
-      <p>By leveraging advanced blockchain technology to provide unassailable traceability of sustainable energy back to its source, Energy Origin offers businesses a robust tool to validate their green energy commitments.</p>
+    <section aria-labeledby="how-text" class="text-container" [ngClass]="{ active: isActive() }">
+      <p>
+        Energy Origin emerges as a transformative solution designed to guide companies through the
+        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
+        Environmental, Social, and Governance (ESG) directives.
+      </p>
+      <p>
+        By leveraging advanced blockchain technology to provide unassailable traceability of
+        sustainable energy back to its source, Energy Origin offers businesses a robust tool to
+        validate their green energy commitments.
+      </p>
     </section>
   `,
 })
@@ -151,15 +168,18 @@ export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
   protected isActive = signal<boolean>(false);
 
   ngAfterViewInit(): void {
-    this.observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.isActive.set(true);
-        } else {
-          this.isActive.set(false);
-        }
-      });
-    }, { threshold: 0.8 });
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.isActive.set(true);
+          } else {
+            this.isActive.set(false);
+          }
+        });
+      },
+      { threshold: 0.8 }
+    );
 
     this.observer.observe(this.elementRef.nativeElement);
   }

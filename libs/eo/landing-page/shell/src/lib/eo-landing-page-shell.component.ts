@@ -54,7 +54,7 @@ import { EoLandingPageHowComponent } from './how.component';
     NgIf,
     TranslocoPipe,
     EoLandingPageWhyComponent,
-    EoLandingPageHowComponent
+    EoLandingPageHowComponent,
   ],
   selector: 'eo-landing-page-shell',
   styles: ``,
