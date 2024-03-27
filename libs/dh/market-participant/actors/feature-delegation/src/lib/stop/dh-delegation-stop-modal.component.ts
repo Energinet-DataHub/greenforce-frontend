@@ -39,7 +39,6 @@ import {
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
-  StopProcessDelegationDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
@@ -171,23 +170,28 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
               return {
                 id: delegation.id,
                 periodId: delegation.periodId,
-                stopsAt:
-                  selectedOption === 'stopNow'
-                    ? // Note: Subtract 1 minute to ensure that the stop time is in the past
-                      // compared to the time in the backend.
-                      dayjs(new Date()).subtract(1, 'minute')
-                    : stopDate
-                      ? // Note: Add 1 day to ensure that the stop day is included in the period.
-                        // Selecting "2024-03-27" results in "2024-03-26T23:59:59.999Z"
-                        // whereas it should be "2024-03-27T23:59:59.999Z"
-                        dayjs(stopDate).add(1, 'day')
-                      : stopDate,
-              } as StopProcessDelegationDtoInput;
+                stopsAt: this.calculateStopDate(selectedOption, stopDate),
+              };
             }),
           },
         },
       })
       .subscribe((response) => this.handleStopDelegationResponse(response));
+  }
+
+  private calculateStopDate(selectedOption: string, stopDate: Date | null): Date | null {
+    if (selectedOption === 'stopNow') {
+      // Note: Subtract 1 minute to ensure that the stop time is in the past
+      // compared to the time in the backend.
+      return dayjs(new Date()).subtract(1, 'minute').toDate();
+    }
+
+    return stopDate
+      ? // Note: Add 1 day to ensure that the stop day is included in the period.
+        // Selecting "2024-03-27" results in "2024-03-26T23:59:59.999Z"
+        // whereas it should be "2024-03-27T23:59:59.999Z"
+        dayjs(stopDate).add(1, 'day').toDate()
+      : stopDate;
   }
 
   private handleStopDelegationResponse(response: MutationResult<StopDelegationsMutation>): void {
