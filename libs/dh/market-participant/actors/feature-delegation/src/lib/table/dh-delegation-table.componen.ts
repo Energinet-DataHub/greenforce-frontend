@@ -24,13 +24,14 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
 import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
+
 @Component({
   selector: 'dh-delegation-table',
   standalone: true,
@@ -61,7 +62,11 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.validPeriod | wattDate: 'short' }}
+          @if (entry.status === 'CANCELLED') {
+            {{ null | dhEmDashFallback }}
+          } @else {
+            {{ entry.validPeriod | wattDate: 'short' }}
+          }
         </ng-container>
 
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
@@ -83,10 +88,13 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   `,
   imports: [
     TranslocoDirective,
+
     WATT_TABLE,
     WattDatePipe,
     WattButtonComponent,
+
     DhDelegationStatusComponent,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhDelegationTableComponent {
