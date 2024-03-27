@@ -140,6 +140,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
         muted
         class="video-filter"
         poster="/assets/landing-page/blockchain-concept-cover.png"
+        aria-hidden="true"
       >
         <source src="/assets/landing-page/blockchain-concept.mp4" type="video/mp4" />
       </video>
