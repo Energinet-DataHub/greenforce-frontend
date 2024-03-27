@@ -20,10 +20,10 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Directive({
-  selector: '[dhCanDelegatesFor]',
+  selector: '[dhCanDelegateFor]',
   standalone: true,
 })
-export class DhCanDelegatesForDirective {
+export class DhCanDelegateForDirective {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   private viewContainerRef = inject(ViewContainerRef);
 
@@ -33,14 +33,14 @@ export class DhCanDelegatesForDirective {
     EicFunction.EnergySupplier,
   ];
 
-  dhCanDelegatesFor = input.required<DhActorExtended['marketRole']>();
+  dhCanDelegateFor = input.required<DhActorExtended['marketRole']>();
 
   constructor() {
     effect(() => {
       this.viewContainerRef.clear();
 
       if (
-        this.canDelegatesForMarketRoles.includes(this.dhCanDelegatesFor() ?? ('' as EicFunction))
+        this.canDelegatesForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))
       ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }

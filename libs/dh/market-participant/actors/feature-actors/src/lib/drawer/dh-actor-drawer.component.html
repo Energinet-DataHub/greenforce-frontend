@@ -95,7 +95,7 @@ limitations under the License.
             <ng-container *dhPermissionRequired="['delegation:view']">
               <watt-tab
                 [label]="t('tabs.delegation.tabLabel')"
-                *dhCanDelegatesFor="actor?.marketRole"
+                *dhCanDelegateFor="actor?.marketRole"
               >
                 @defer (on viewport) {
                   <dh-delegation-tab [actor]="actor!" />
