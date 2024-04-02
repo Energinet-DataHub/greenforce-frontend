@@ -48,6 +48,24 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
     },
     {
       __typename: 'MessageDelegationType',
+      id: '00000000-0000-0000-0000-000000000001',
+      periodId: '00000000-0000-0000-0000-000000000002',
+      process: DelegatedProcess.ReceiveEnergyResults,
+      validPeriod: {
+        start: dayjs('2024-01-01T00:00:00+00:00').toDate(),
+        end: dayjs('2024-03-01T23:59:59+59:59').toDate(),
+      },
+      delegatedBy,
+      delegatedTo,
+      gridArea: {
+        __typename: 'GridAreaDto',
+        code: '004',
+        id: '00000000-0000-0000-0000-000000000011',
+      },
+      status: ActorDelegationStatus.Active,
+    },
+    {
+      __typename: 'MessageDelegationType',
       id: '00000000-0000-0000-0000-000000000003',
       periodId: '00000000-0000-0000-0000-000000000004',
       process: DelegatedProcess.ReceiveWholesaleResults,
@@ -89,7 +107,7 @@ export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
       process: DelegatedProcess.RequestWholesaleResults,
       validPeriod: {
         start: dayjs('2024-03-01T00:00:00+00:00').toDate(),
-        end: null,
+        end: dayjs('2024-03-01T23:59:59+59:59').toDate(),
       },
       delegatedBy,
       delegatedTo,
