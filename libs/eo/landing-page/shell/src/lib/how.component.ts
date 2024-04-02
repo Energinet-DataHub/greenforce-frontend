@@ -143,7 +143,7 @@ import {
   template: `
     <section aria-labelledby="how-heading" class="heading-container">
       <!-- Main heading of the hero component -->
-      <h2 id="hero-heading" class="how-heading active" [ngClass]="{ active: isActive() }">
+      <h2 id="hero-heading" class="how-heading" [ngClass]="{ active: isActive() }">
         Fast-Track Compliance with <span class="highlight">EU Sustainability</span><br />Regulations
       </h2>
 

@@ -61,8 +61,17 @@ import { EoLandingPageHowComponent } from './how.component';
   template: `
     <eo-landing-page-header />
     <eo-landing-page-hero />
-    <eo-landing-page-why />
-    <eo-landing-page-how />
+    @defer (on viewport; prefetch on idle) {
+      <eo-landing-page-why />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport; prefetch on idle) {
+      <eo-landing-page-how />
+    } @placeholder {
+      <p>Loading...</p>
+    }
   `,
   viewProviders: [EoLandingPagePresenter],
 })
