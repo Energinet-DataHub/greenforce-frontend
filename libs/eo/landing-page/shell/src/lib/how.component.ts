@@ -168,18 +168,15 @@ export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
   protected isActive = signal<boolean>(false);
 
   ngAfterViewInit(): void {
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.isActive.set(true);
-          } else {
-            this.isActive.set(false);
-          }
-        });
-      },
-      { threshold: 0.8 }
-    );
+    this.observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.isActive.set(true);
+        } else {
+          this.isActive.set(false);
+        }
+      });
+    }, { threshold: 0.6 });
 
     this.observer.observe(this.elementRef.nativeElement);
   }
