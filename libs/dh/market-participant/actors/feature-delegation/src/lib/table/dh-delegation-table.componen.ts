@@ -68,8 +68,8 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
           } @else {
             {{ entry.validPeriod.start | wattDate: 'short' }}
             @if (entry.validPeriod.end) {
-              {{ entry.validPeriod.end | wattDate: 'short' }}
               -
+              {{ entry.validPeriod.end | wattDate: 'short' }}
             }
           }
         </ng-container>
