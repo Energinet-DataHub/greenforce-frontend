@@ -45,6 +45,7 @@ import {
       line-height: 28px;
       padding: 150px 0;
       --transition: all 1500ms cubic-bezier(.75, 0, .25, 1);
+      --scale: scale(1.15766, 1);
     }
 
     eo-landing-page-how .highlight {
@@ -103,11 +104,11 @@ import {
 
         ::after {
           opacity: 0.4;
-          transform: scale(1.2, 1);
+          transform: var(--scale);
         }
         ::before {
           opacity: 0;
-          transform: scale(1.2, 1);
+          transform: var(--scale);
         }
       }
     }
