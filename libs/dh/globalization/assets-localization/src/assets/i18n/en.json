@@ -187,10 +187,10 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-14)",
-        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-16)",
-        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-17)",
-        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-19)"
+        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
+        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
+        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)"
       },
       "statusPlaceholder": "Status",
       "status": {
