@@ -44,6 +44,7 @@ import {
       font-weight: 400;
       line-height: 28px;
       padding: 150px 0;
+      --transition: all 1500ms cubic-bezier(.75, 0, .25, 1);
     }
 
     eo-landing-page-how .highlight {
@@ -71,7 +72,7 @@ import {
       z-index: 1;
       height: 570px;
       padding-top: 150px;
-      transition: all .5s ease-in-out;
+      transition: var(--transition);
 
       ::before, ::after {
         content: '';
@@ -84,7 +85,7 @@ import {
         opacity: .4;
         border-radius: 32px;
         z-index: -1;
-        transition: all .5s ease-in-out;
+        transition: var(--transition);
       }
 
       ::before {
@@ -129,7 +130,7 @@ import {
       gap: 46px;
       margin-top: 80px;
       z-index: 1;
-      transition: all .5s ease-in-out;
+      transition: var(--transition);
 
       &.active {
         transform: translate3d(0, -200px, 0);
