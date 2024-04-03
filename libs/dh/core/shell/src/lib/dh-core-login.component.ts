@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
@@ -26,10 +26,24 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 @Component({
   standalone: true,
   selector: 'dh-core-login',
+  encapsulation: ViewEncapsulation.None,
   imports: [TranslocoPipe, VaterStackComponent, WattButtonComponent, DhMitIDButtonComponent],
   styles: [
     `
-      :host {
+      dh-app {
+        height: inherit;
+      }
+
+      watt-button,
+      dh-signup-mitid {
+        width: 100%;
+      }
+
+      watt-button button {
+        width: inherit;
+      }
+
+      dh-core-login {
         align-items: center;
         background-color: var(--watt-color-neutral-grey-50);
         display: flex;
@@ -37,25 +51,29 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
         min-height: 100%;
       }
 
-      .container {
-        width: 680px;
-        min-height: 800px;
+      dh-core-login .container {
         background-color: var(--watt-color-neutral-white);
         border-radius: 4px;
         box-shadow:
           0px 4px 18px 3px rgba(46, 50, 52, 0.08),
           0px 1px 6px rgba(11, 60, 93, 0.12);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 680px;
         padding: 5rem 10rem;
+        width: 680px;
       }
 
-      .logo {
+      dh-core-login .logo {
+        height: 80px;
         min-width: 100%;
       }
     `,
   ],
   template: `
     <div class="container">
-      <img src="/assets/logo-dark.svg" class="logo watt-space-stack-xl" alt="DataHub logo" />
+      <img src="/assets/logo-dark.svg" class="logo watt-space-stack-l" alt="DataHub logo" />
 
       <vater-stack gap="l">
         <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
