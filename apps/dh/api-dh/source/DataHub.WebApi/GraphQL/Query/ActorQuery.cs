@@ -64,7 +64,9 @@ public partial class Query
         (await client.ActorDelegationGetAsync(actorId))
             .Delegations
             .SelectMany(x => x.Periods, (delegation, period) =>
-                new ProcessDelegation
+            {
+                var startInstant = Instant.FromDateTimeOffset(period.StartsAt);
+                return new ProcessDelegation
                 {
                     DelegatedBy = delegation.DelegatedBy,
                     Process = delegation.Process,
@@ -73,9 +75,10 @@ public partial class Query
                     DelegatedTo = period.DelegatedTo,
                     GridAreaId = period.GridAreaId,
                     ValidPeriod = new Interval(
-                        Instant.FromDateTimeOffset(period.StartsAt),
-                        period.StopsAt.HasValue ? Instant.FromDateTimeOffset(period.StopsAt.Value) : null),
-                });
+                        startInstant,
+                        period.StopsAt != null ? Instant.Max(Instant.FromDateTimeOffset(period.StopsAt.Value), startInstant) : null),
+                };
+            });
 
     public async Task<AssociatedActors> GetAssociatedActorsAsync(
         string email,
