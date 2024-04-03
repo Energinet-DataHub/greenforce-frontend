@@ -2,6 +2,6 @@
   "clientId": "de963b62-6f6b-4384-9fd7-9cc589d48ddd",
   "scopeUri": "https://b2cshresdevwe002.onmicrosoft.com/backend-bff/api",
   "authority": "https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/B2C_1_SignInFlow",
-  "mitIdInviteFlowUri": "https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/B2C_1_MitID_InvitationFlow",
+  "mitIdInviteFlowUri": "https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/B2C_1_MitID_SignInSignUpFlow",
   "knownAuthorities": ["b2cshresdevwe002.b2clogin.com"]
 }
