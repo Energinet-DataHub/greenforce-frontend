@@ -50,7 +50,6 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.sandbox_002,
       DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
-      DhAppEnvironment.local,
     ],
   },
 } satisfies FeatureFlagConfig;
