@@ -65,6 +65,11 @@ export class DhProfileAvatarComponent {
   }
 
   private getAccount() {
-    return this._authService.instance.getActiveAccount() ?? { username: '' };
+    const account = this._authService.instance.getActiveAccount();
+    if (!account?.idTokenClaims) return { username: '' };
+
+    return {
+      username: account?.idTokenClaims['given_name'] as string,
+    };
   }
 }

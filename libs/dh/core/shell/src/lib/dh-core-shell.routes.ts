@@ -23,7 +23,6 @@ import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
-import { AuthGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const messageArchivePath = 'message-archive';
 
@@ -43,17 +42,17 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/message-archive/shell').then(
             (esModule) => esModule.dhMessageArchiveShellRoutes
           ),
-        canActivate: [AuthGuard, MsalGuard],
+        canActivate: [MsalGuard],
       },
       {
         path: 'esett',
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
-        canActivate: [AuthGuard, MsalGuard],
+        canActivate: [MsalGuard],
       },
       {
         path: 'imbalance-prices',
         loadChildren: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
-        canActivate: [AuthGuard, MsalGuard],
+        canActivate: [MsalGuard],
       },
       {
         path: dhMarketParticipantPath,
@@ -61,7 +60,7 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/market-participant/shell').then(
             (esModule) => esModule.dhMarketParticipantShellRoutes
           ),
-        canActivate: [AuthGuard, MsalGuard],
+        canActivate: [MsalGuard],
       },
       {
         path: WHOLESALE_BASE_PATH,
@@ -69,7 +68,7 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/wholesale/shell').then(
             (esModule) => esModule.dhWholesaleShellRoutes
           ),
-        canActivate: [AuthGuard, MsalGuard],
+        canActivate: [MsalGuard],
       },
       {
         path: dhAdminPath,
@@ -77,7 +76,7 @@ export const dhCoreShellRoutes: Routes = [
           import('@energinet-datahub/dh/admin/shell').then(
             (esModule) => esModule.dhAdminShellRoutes
           ),
-        canActivate: [AuthGuard, MsalGuard],
+        canActivate: [MsalGuard],
       },
     ],
   },
