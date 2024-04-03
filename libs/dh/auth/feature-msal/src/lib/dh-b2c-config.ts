@@ -76,10 +76,10 @@ export function MSALInterceptorConfigFactory(
 
       const tfp = originalAuthRequest.account?.idTokenClaims['tfp'] as unknown as string;
 
-      const midId = config.mitIdInviteFlowUri.endsWith(tfp);
+      const midId = config.mitIdFlowUri.endsWith(tfp);
       return {
         ...originalAuthRequest,
-        authority: midId ? config.mitIdInviteFlowUri : config.authority,
+        authority: midId ? config.mitIdFlowUri : config.authority,
       };
     },
   };

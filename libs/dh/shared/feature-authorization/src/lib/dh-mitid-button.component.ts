@@ -89,7 +89,7 @@ export class DhMitIDButtonComponent {
   private async redirectToMitID() {
     const instance = MSALInstanceFactory({
       ...this.config,
-      authority: this.config.mitIdInviteFlowUri,
+      authority: this.config.mitIdFlowUri,
     });
 
     await instance.initialize();
