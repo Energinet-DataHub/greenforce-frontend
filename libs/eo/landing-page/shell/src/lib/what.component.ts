@@ -192,7 +192,7 @@ interface Image {
   template: `
     <section aria-hidden class="images">
       @for (section of sections(); track section.id) {
-        <div class="images-container" [ngClass]="{'active': section.id === activeSection().id}">
+        <div class="images-container" [ngClass]="{ active: section.id === activeSection().id }">
           @for (image of section.images; track image.srcset; let idx = $index) {
             <div class="image-container">
               <img
@@ -415,7 +415,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
         })
       );
 
-      if(this.activeSection().id === this.initialTransitionSectionId) {
+      if (this.activeSection().id === this.initialTransitionSectionId) {
         this.activeSection.set(this.sections()[0]);
       }
     }, 300);
