@@ -10,6 +10,10 @@
     "logout": "Log ud",
     "profile": "Profil"
   },
+  "login": {
+    "loginWithUsername": "Login med brugernavn",
+    "loginWithMitID": "Login med MitID"
+  },
   "shared": {
     "error": {
       "title": "Ups! Der opstod en fejl",
