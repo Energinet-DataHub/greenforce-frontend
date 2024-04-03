@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.GraphQL;
 using HotChocolate.Execution.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Registration;
@@ -25,11 +24,13 @@ public static class GraphQLRegistrationExtensions
     {
         return services
             .AddGraphQLServer()
+            .AddInMemorySubscriptions()
             .AddInstrumentation()
             .AddAuthorization()
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
+            .AddSubscriptionType<Subscription>()
             .AddTypes()
             .BindRuntimeType<Interval, DateRangeType>();
     }
