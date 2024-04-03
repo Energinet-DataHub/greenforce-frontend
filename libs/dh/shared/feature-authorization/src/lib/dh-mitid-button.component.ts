@@ -22,7 +22,7 @@ import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
-  selector: 'dh-signup-mitid',
+  selector: 'dh-mitid-button',
   standalone: true,
   imports: [WattSpinnerComponent],
   styles: [
