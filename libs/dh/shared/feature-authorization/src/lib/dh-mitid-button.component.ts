@@ -52,6 +52,10 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
         font-size: 16px;
         line-height: 24px;
       }
+
+      watt-spinner {
+        --watt-spinner-circle-color: var(--watt-color-neutral-white);
+      }
     `,
   ],
   template: `
