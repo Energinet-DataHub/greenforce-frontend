@@ -15,36 +15,57 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
+
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   standalone: true,
   selector: 'dh-core-login',
+  imports: [TranslocoPipe, VaterStackComponent, WattButtonComponent, DhMitIDButtonComponent],
+  styles: [
+    `
+      :host {
+        align-items: center;
+        background-color: var(--watt-color-neutral-grey-50);
+        display: flex;
+        justify-content: center;
+        min-height: 100%;
+      }
+
+      .container {
+        width: 680px;
+        min-height: 800px;
+        background-color: var(--watt-color-neutral-white);
+        border-radius: 4px;
+        box-shadow:
+          0px 4px 18px 3px rgba(46, 50, 52, 0.08),
+          0px 1px 6px rgba(11, 60, 93, 0.12);
+        padding: 5rem 10rem;
+      }
+
+      .logo {
+        min-width: 100%;
+      }
+    `,
+  ],
   template: `
     <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <h2>Login</h2>
-          <p>This is the login page</p>
-          <button class="btn btn-primary" (click)="mitIdlogin()">Mit Id Login</button>
-          <button class="btn btn-primary" (click)="login()">Login</button>
-        </div>
-      </div>
+      <img src="/assets/logo-dark.svg" class="logo watt-space-stack-xl" alt="DataHub logo" />
+
+      <vater-stack gap="l">
+        <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
+        <dh-signup-mitid mode="login">{{ 'login.loginWithMitID' | transloco }}</dh-signup-mitid>
+      </vater-stack>
     </div>
   `,
 })
 export class DhCoreLoginComponent {
   private _config = inject(dhB2CEnvironmentToken);
-
-  async mitIdlogin() {
-    const instance = MSALInstanceFactory({
-      ...this._config,
-      authority: this._config.mitIdInviteFlowUri,
-    });
-    await instance.initialize();
-    await instance.loginRedirect();
-  }
 
   async login() {
     const instance = MSALInstanceFactory({

@@ -10,6 +10,10 @@
     "logout": "Sign out",
     "profile": "Profile"
   },
+  "login": {
+    "loginWithUsername": "Login with username",
+    "loginWithMitID": "Login with MitID"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
