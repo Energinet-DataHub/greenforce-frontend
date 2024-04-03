@@ -66,7 +66,11 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
           @if (entry.status === 'CANCELLED') {
             {{ null | dhEmDashFallback }}
           } @else {
-            {{ entry.validPeriod | wattDate: 'short' }}
+            {{ entry.validPeriod.start | wattDate: 'short' }}
+            @if (entry.validPeriod.end) {
+              -
+              {{ entry.validPeriod.end | wattDate: 'short' }}
+            }
           }
         </ng-container>
 
