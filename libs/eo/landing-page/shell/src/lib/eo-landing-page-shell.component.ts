@@ -36,6 +36,7 @@ import { EoLandingPageOriginOfEnergyComponent } from './eo-landing-page-origin-o
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 import { EoLandingPageWhyComponent } from './why.component';
 import { EoLandingPageHowComponent } from './how.component';
+import { EoLandingPageWhatComponent } from './what.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,10 +56,18 @@ import { EoLandingPageHowComponent } from './how.component';
     TranslocoPipe,
     EoLandingPageWhyComponent,
     EoLandingPageHowComponent,
+    EoLandingPageWhatComponent,
   ],
   selector: 'eo-landing-page-shell',
   styles: ``,
   template: `
+    @defer (on viewport; prefetch on idle) {
+      <eo-landing-page-what />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    <!--
     <eo-landing-page-header />
     <eo-landing-page-hero />
     @defer (on viewport; prefetch on idle) {
@@ -71,7 +80,7 @@ import { EoLandingPageHowComponent } from './how.component';
       <eo-landing-page-how />
     } @placeholder {
       <p>Loading...</p>
-    }
+    }-->
   `,
   viewProviders: [EoLandingPagePresenter],
 })
