@@ -35,7 +35,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
       }
 
       watt-button,
-      dh-signup-mitid {
+      dh-mitid-button {
         width: 100%;
       }
 
@@ -59,7 +59,6 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
           0px 1px 6px rgba(11, 60, 93, 0.12);
         display: flex;
         flex-direction: column;
-        justify-content: center;
         min-height: 680px;
         padding: 5rem 10rem;
         width: 680px;
@@ -67,17 +66,18 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
       dh-core-login .logo {
         height: 80px;
+        margin-bottom: 3rem;
         min-width: 100%;
       }
     `,
   ],
   template: `
     <div class="container">
-      <img src="/assets/logo-dark.svg" class="logo watt-space-stack-l" alt="DataHub logo" />
+      <img src="/assets/logo-dark.svg" class="logo" alt="DataHub logo" />
 
       <vater-stack gap="l">
         <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
-        <dh-signup-mitid mode="login">{{ 'login.loginWithMitID' | transloco }}</dh-signup-mitid>
+        <dh-mitid-button mode="login">{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button>
       </vater-stack>
     </div>
   `,
