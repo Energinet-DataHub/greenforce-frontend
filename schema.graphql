@@ -279,6 +279,10 @@ type Mutation {
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
 }
 
+type Subscription {
+  calculationCreated: Calculation!
+}
+
 enum ActorAuditedChange {
   NAME
   STATUS
@@ -701,7 +705,7 @@ input CreateCalculationInput {
 }
 
 type CreateCalculationPayload {
-  calculation: Calculation
+  uuid: UUID
 }
 
 input CreateAggregatedMeasureDataRequestInput {

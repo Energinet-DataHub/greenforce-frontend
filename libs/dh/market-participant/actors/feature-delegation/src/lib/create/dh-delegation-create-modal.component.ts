@@ -200,7 +200,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         exists(),
         map((delegates) =>
           delegates
-            .filter((delegate) => delegate !== this.modalData.id)
+            .filter((delegate) => delegate.id !== this.modalData.id)
             .map((delegate) => ({
               value: delegate.id,
               displayValue: delegate.name,
