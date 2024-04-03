@@ -52,7 +52,9 @@ limitations under the License.
         />
 
         <h4>{{ t("login") }}</h4>
-        <dh-signup-mitid class="mitid-field" />
+        <dh-signup-mitid class="mitid-field" mode="signup">
+          {{ "admin.userManagement.connect" | transloco }}
+        </dh-signup-mitid>
       </vater-stack>
     </vater-flex>
   </form>

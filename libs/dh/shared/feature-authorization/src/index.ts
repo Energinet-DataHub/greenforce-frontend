@@ -20,5 +20,5 @@ export * from './lib/permission.service';
 export * from './lib/dh-authorization.interceptor';
 export * from './lib/dh-inactivity-detection.service';
 export * from './lib/dh-selected-actor.component';
-export * from './lib/dh-signup-mitid.component';
+export * from './lib/dh-mitid-button.component';
 export * from './lib/can-activate.guard';
