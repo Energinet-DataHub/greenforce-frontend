@@ -76,6 +76,9 @@ export class DhUserDrawerComponent {
   @ViewChild('deactivateConfirmationModal')
   deactivateConfirmationModal!: WattModalComponent;
 
+  @ViewChild('reActivateConfirmationModal')
+  reActivateConfirmationModal!: WattModalComponent;
+
   selectedUser: MarketParticipantUserOverviewItemDto | null = null;
 
   @Output() closed = new EventEmitter<void>();
@@ -84,6 +87,7 @@ export class DhUserDrawerComponent {
 
   isReinviting$ = this.inviteUserStore.isSaving$;
   isDeactivating$ = this.userStatusStore.isSaving$;
+  isReActivating$ = this.userStatusStore.isSaving$;
 
   onClose(): void {
     this.drawer.close();
@@ -144,6 +148,24 @@ export class DhUserDrawerComponent {
       onError: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.deactivateError'),
+          type: 'danger',
+        }),
+    });
+
+  requestReActivateUser = () => this.reActivateConfirmationModal.open();
+
+  reActivate = (success: boolean) =>
+    success &&
+    this.userStatusStore.reActivateUser({
+      id: this.selectedUser?.id ?? '',
+      onSuccess: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reactivateSuccess'),
+          type: 'success',
+        }),
+      onError: () =>
+        this.toastService.open({
+          message: this.transloco.translate('admin.userManagement.drawer.reactivateError'),
           type: 'danger',
         }),
     });

@@ -267,7 +267,7 @@
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en {{conflicting_market_role}}"
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}"
         }
       }
     },
@@ -1037,6 +1037,16 @@
           "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
+          "reject": "Fortryd"
+        },
+        "reactivate": "Genaktiver",
+        "reactivateError": "Noget gik galt. Brugeren blev ikke aktiveret. Prøv igen",
+        "reactivateSuccess": "Bruger blev aktiveret",
+        "reactivateConfirmation": {
+          "title": "Genaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
+          "confirm": "Aktiver bruger",
           "reject": "Fortryd"
         },
         "editRole": "Rediger brugerrolle",
