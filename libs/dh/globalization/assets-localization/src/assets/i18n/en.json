@@ -1045,7 +1045,7 @@
         "reactivateConfirmation": {
           "title": "Reactivate user?",
           "body": "User {{first}} {{last}} ({{email}}) will be activated.",
-            "important": "It may take up to 30 minutes before the user can log in again.",
+          "important": "It may take up to 30 minutes before the user can log in again.",
           "confirm": "Activate user",
           "reject": "Cancel"
         },
