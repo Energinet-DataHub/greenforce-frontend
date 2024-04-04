@@ -17,8 +17,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-app',
@@ -36,7 +34,6 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 export class DataHubAppComponent implements OnInit {
   private authService = inject(MsalService);
   private router = inject(Router);
-  private featureFlagService = inject(DhFeatureFlagsService);
 
   ngOnInit(): void {
     this.authService.handleRedirectObservable().subscribe((data) => {
@@ -44,11 +41,7 @@ export class DataHubAppComponent implements OnInit {
         this.authService.instance.setActiveAccount(data.account);
       }
 
-      if (
-        !data &&
-        this.authService.instance.getAllAccounts().length === 0 &&
-        this.featureFlagService.isEnabled('new-login-flow')
-      ) {
+      if (!data && this.authService.instance.getAllAccounts().length === 0) {
         this.router.navigate(['/login']);
       }
     });
