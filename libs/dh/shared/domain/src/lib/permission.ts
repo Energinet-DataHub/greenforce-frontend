@@ -28,6 +28,7 @@ export const permissions = [
   'actor-master-data:manage',
   'delegation:manage',
   'delegation:view',
+  'users:reactivate'
 ] as const;
 
 export type Permission = (typeof permissions)[number];

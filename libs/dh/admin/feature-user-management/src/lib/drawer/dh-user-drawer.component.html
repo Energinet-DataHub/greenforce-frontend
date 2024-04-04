@@ -37,6 +37,7 @@ limitations under the License.
 
       @if (selectedUser?.status === "Inactive") {
         <watt-button
+          *dhPermissionRequired="['users:reactivate']"
           variant="secondary"
           (click)="requestReActivateUser()"
           [loading]="isReActivating$ | push: { strategy: 'native' }"
