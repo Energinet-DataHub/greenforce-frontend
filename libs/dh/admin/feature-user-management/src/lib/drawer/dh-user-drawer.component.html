@@ -35,6 +35,16 @@ limitations under the License.
         >
       }
 
+      @if (selectedUser?.status === "Inactive") {
+        <watt-button
+          *dhPermissionRequired="['users:reactivate']"
+          variant="secondary"
+          (click)="requestReActivateUser()"
+          [loading]="isReActivating$ | push: { strategy: 'native' }"
+          >{{ t("reactivate") }}</watt-button
+        >
+      }
+
       @if (selectedUser?.status === "Invited" || selectedUser?.status === "InviteExpired") {
         <watt-button
           variant="secondary"
@@ -95,6 +105,39 @@ limitations under the License.
 
       <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(true)">{{
         t("deactivateConfirmation.confirm")
+      }}</watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+
+  <watt-modal
+    #reActivateConfirmationModal
+    [size]="'small'"
+    [title]="t('reactivateConfirmation.title')"
+    [disableClose]="true"
+    (closed)="reActivate($event)"
+  >
+    <p>
+      {{
+        t("reactivateConfirmation.body", {
+          first: selectedUser?.firstName,
+          last: selectedUser?.lastName,
+          email: selectedUser?.email
+        })
+      }}
+    </p>
+    <p>
+      <b>
+        {{ t("reactivateConfirmation.important") }}
+      </b>
+    </p>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="reActivateConfirmationModal.close(false)">{{
+        t("reactivateConfirmation.reject")
+      }}</watt-button>
+
+      <watt-button variant="secondary" (click)="reActivateConfirmationModal.close(true)">{{
+        t("reactivateConfirmation.confirm")
       }}</watt-button>
     </watt-modal-actions>
   </watt-modal>
