@@ -106,6 +106,16 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
     }
 
     /// <summary>
+    /// Reactivates the specified user.
+    /// </summary>
+    [HttpPut]
+    [Route("ReActivateUser")]
+    public Task<ActionResult> ReActivateUserAsync(Guid userId)
+    {
+        return HandleExceptionAsync(() => _client.UserReactivateAsync(userId));
+    }
+
+    /// <summary>
     /// Returns current user profile.
     /// </summary>
     [HttpGet]
