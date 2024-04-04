@@ -499,7 +499,7 @@ export class MarketParticipantUserHttp {
     }
 
     /**
-     * Deactivates the specified user.
+     * Reactivates the specified user.
      * @param userId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
