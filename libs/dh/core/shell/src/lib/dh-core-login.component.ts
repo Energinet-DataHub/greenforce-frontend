@@ -22,12 +22,19 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   standalone: true,
   selector: 'dh-core-login',
   encapsulation: ViewEncapsulation.None,
-  imports: [TranslocoPipe, VaterStackComponent, WattButtonComponent, DhMitIDButtonComponent],
+  imports: [
+    TranslocoPipe,
+    VaterStackComponent,
+    WattButtonComponent,
+    DhMitIDButtonComponent,
+    DhFeatureFlagDirective,
+  ],
   styles: [
     `
       dh-app {
@@ -77,7 +84,9 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
       <vater-stack gap="l">
         <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
-        <dh-mitid-button mode="login">{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button>
+        <dh-mitid-button *dhFeatureFlag="'new-login-flow'" mode="login">{{
+          'login.loginWithMitID' | transloco
+        }}</dh-mitid-button>
       </vater-stack>
     </div>
   `,
