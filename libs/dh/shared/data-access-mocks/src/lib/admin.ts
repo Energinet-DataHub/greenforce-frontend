@@ -67,7 +67,23 @@ export function adminMocks(apiBase: string) {
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
+    getMarketParticipantUserDeactivate(apiBase),
+    getMarketParticipantUserReActivate(apiBase),
   ];
+}
+
+function getMarketParticipantUserDeactivate(apiBase: string) {
+  return http.put(`${apiBase}/v1/MarketParticipantUser/DeactivateUser`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function getMarketParticipantUserReActivate(apiBase: string) {
+  return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
 }
 
 function getMarketParticipantUserSearchUsers(apiBase: string) {

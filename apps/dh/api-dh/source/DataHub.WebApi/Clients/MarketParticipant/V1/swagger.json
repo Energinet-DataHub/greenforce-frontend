@@ -2107,6 +2107,30 @@
         }
       }
     },
+    "/user/{userId}/reactivate": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "reactivate",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/user/{userId}/reset-2fa": {
       "put": {
         "tags": [
@@ -3327,7 +3351,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "expiresAt": {
+          "stopsAt": {
             "type": "string",
             "format": "date-time",
             "nullable": true
