@@ -57,11 +57,10 @@ over the Angular CLI._
 
 The application is deployed to the following environments:
 
-| Sandbox 002                   | Development 001       | Development 002       | Test 001                | Test 002                | PreProd               | Prod            |
-|-------------------------------|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
-| [sandbox_002][dh-sandbox-002] | [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
+| Development 001       | Development 002       | Test 001                | Test 002                | PreProd               | Prod            |
+|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
+| [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
 
-[dh-sandbox-002]: https://sandbox.datahub3.dk
 [dh-dev_001]: https://dev.datahub3.dk
 [dh-dev_002]: https://dev002.datahub3.dk
 [dh-test_001]: https://test.datahub3.dk

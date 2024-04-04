@@ -16,10 +16,6 @@
  */
 const environments = [
   {
-    name: 'sandbox_002',
-    url: 'https://sandbox.datahub3.dk/',
-  },
-  {
     name: 'dev_001',
     url: 'https://dev.datahub3.dk/',
   },
