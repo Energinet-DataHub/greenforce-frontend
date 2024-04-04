@@ -1039,6 +1039,16 @@
           "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
         },
+        "reactivate": "Genaktiver",
+        "reactivateError": "Noget gik galt. Brugeren blev ikke aktiveret. Prøv igen",
+        "reactivateSuccess": "Bruger blev aktiveret",
+        "reactivateConfirmation": {
+          "title": "Genaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
+          "confirm": "Aktiver bruger",
+          "reject": "Fortryd"
+        },
         "editRole": "Rediger brugerrolle",
         "disable": "Deaktiver",
         "reset2fa": "Nulstil tofaktorgodkendelse",

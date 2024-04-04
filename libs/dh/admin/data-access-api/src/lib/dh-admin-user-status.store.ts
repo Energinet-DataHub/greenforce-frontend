@@ -62,6 +62,31 @@ export class DhAdminUserStatusStore extends ComponentStore<State> {
       )
   );
 
+  readonly reActivateUser = this.effect(
+    (trigger$: Observable<{ id: string; onSuccess: () => void; onError: () => void }>) =>
+      trigger$.pipe(
+        tap(() => {
+          this.setSaving(SavingState.SAVING);
+        }),
+        switchMap(({ id, onSuccess, onError }) => {
+          return this.marketParticipantUserHttpClient
+            .v1MarketParticipantUserDeactivateUserPut(id)
+            .pipe(
+              tapResponse(
+                () => {
+                  this.setSaving(SavingState.SAVED);
+                  onSuccess();
+                },
+                () => {
+                  this.setSaving(ErrorState.GENERAL_ERROR);
+                  onError();
+                }
+              )
+            );
+        })
+      )
+  );
+
   private setSaving = this.updater(
     (state, savingState: SavingState | ErrorState): State => ({
       ...state,
