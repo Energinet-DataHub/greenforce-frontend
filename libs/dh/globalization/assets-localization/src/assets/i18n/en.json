@@ -1039,6 +1039,16 @@
           "confirm": "Deactivate user",
           "reject": "Cancel"
         },
+        "reactivate": "Reactivate",
+        "reactivateError": "Something went wrong. User could not be activated. Please try again",
+        "reactivateSuccess": "User activated",
+        "reactivateConfirmation": {
+          "title": "Reactivate user?",
+          "body": "User {{first}} {{last}} ({{email}}) will be activated.",
+          "important": "It may take up to 30 minutes before the user can log in again.",
+          "confirm": "Activate user",
+          "reject": "Cancel"
+        },
         "editRole": "Edit user role",
         "disable": "Deactivate",
         "reset2fa": "Reset two-factor authentication",
