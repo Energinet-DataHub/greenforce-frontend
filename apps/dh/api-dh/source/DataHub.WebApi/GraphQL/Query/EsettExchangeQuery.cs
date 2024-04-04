@@ -111,6 +111,7 @@ public partial class Query
         int pageSize,
         DateTimeOffset? createdFrom,
         DateTimeOffset? createdTo,
+        Interval? calculationPeriod,
         string? gridAreaCode,
         string? documentId,
         MeteringGridImbalanceValuesToInclude valuesToInclude,
@@ -125,6 +126,8 @@ public partial class Query
             {
                 CreatedFrom = createdFrom,
                 CreatedTo = createdTo,
+                CalculationPeriodFrom = calculationPeriod?.Start.ToDateTimeOffset(),
+                CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
                 GridAreaCode = gridAreaCode,
                 DocumentId = documentId,
                 SortDirection = sortDirection,
@@ -137,6 +140,7 @@ public partial class Query
         string locale,
         DateTimeOffset? createdFrom,
         DateTimeOffset? createdTo,
+        Interval? calculationPeriod,
         string? gridAreaCode,
         string? documentId,
         MeteringGridImbalanceValuesToInclude valuesToInclude,
@@ -150,6 +154,8 @@ public partial class Query
             {
                 CreatedFrom = createdFrom,
                 CreatedTo = createdTo,
+                CalculationPeriodFrom = calculationPeriod?.Start.ToDateTimeOffset(),
+                CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
                 GridAreaCode = gridAreaCode,
                 DocumentId = documentId,
                 SortDirection = sortDirection,
