@@ -995,7 +995,6 @@
   },
   "admin": {
     "userManagement": {
-      "connect": "Connect MitID",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",

@@ -995,7 +995,6 @@
   },
   "admin": {
     "userManagement": {
-      "connect": "Tilknyt MitID",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
