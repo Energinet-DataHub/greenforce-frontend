@@ -964,6 +964,16 @@
             "format": "date-time",
             "nullable": true
           },
+          "calculationPeriodFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "calculationPeriodTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "documentId": {
             "type": "string",
             "nullable": true
