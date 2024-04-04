@@ -29,7 +29,6 @@ export interface DhAppEnvironmentConfig {
 
 export enum DhAppEnvironment {
   local = 'localhost',
-  sandbox_002 = 's-002',
   dev_001 = 'd-001',
   dev_002 = 'd-002',
   test_001 = 't-001',
