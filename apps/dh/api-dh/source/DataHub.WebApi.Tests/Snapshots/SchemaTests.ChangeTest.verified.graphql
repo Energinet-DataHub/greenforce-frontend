@@ -111,7 +111,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 }
 
 type CreateCalculationPayload {
-  calculation: Calculation
+  uuid: UUID
 }
 
 type CreateDelegationsForActorPayload {

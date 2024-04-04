@@ -23,7 +23,7 @@ export interface DhB2CEnvironment {
   readonly clientId: string;
   readonly scopeUri: string;
   readonly authority: string;
-  readonly mitIdInviteFlowUri: string;
+  readonly mitIdFlowUri: string;
   readonly knownAuthorities: string[];
 }
 
