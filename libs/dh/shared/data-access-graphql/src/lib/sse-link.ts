@@ -14,11 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission.guard';
-export * from './lib/permission-required.directive';
-export * from './lib/permission.service';
-export * from './lib/dh-authorization.interceptor';
-export * from './lib/dh-inactivity-detection.service';
-export * from './lib/dh-selected-actor.component';
-export * from './lib/dh-mitid-button.component';
-export * from './lib/dh-actor-token.service';
+import { ApolloLink, Operation, FetchResult, Observable } from '@apollo/client/core';
+import { print } from 'graphql';
+import { Client } from 'graphql-sse';
+
+export default class SSELink extends ApolloLink {
+  constructor(private client: Client) {
+    super();
+  }
+
+  public override request = (op: Operation): Observable<FetchResult> =>
+    new Observable((sink) => this.client.subscribe({ ...op, query: print(op.query) }, sink));
+}
