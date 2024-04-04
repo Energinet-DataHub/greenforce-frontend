@@ -23,5 +23,6 @@ import {
 export type DhMeteringGridAreaImbalanceFilters = {
   gridArea?: InputMaybe<string>;
   valuesToInclude: MeteringGridImbalanceValuesToInclude;
-  period?: InputMaybe<Scalars['DateRange']['input']>;
+  created?: InputMaybe<Scalars['DateRange']['input']>;
+  calculationPeriod?: InputMaybe<Scalars['DateRange']['input']>;
 };
