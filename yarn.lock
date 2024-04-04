@@ -20726,6 +20726,7 @@ __metadata:
     eslint-plugin-storybook: "npm:0.6.13"
     glob: "npm:10.2.4"
     graphql: "npm:16.8.1"
+    graphql-sse: "npm:^2.5.3"
     highlight.js: "npm:^11.9.0"
     html-webpack-plugin: "npm:5.5.3"
     husky: "npm:8.0.3"
@@ -24108,6 +24109,15 @@ __metadata:
   peerDependencies:
     graphql: 14 - 16
   checksum: f8167925a110e8e1de93d56c14245e7e64391dc8dce5002dd01bf24a3059f345d4ca1bb6ce2040e2ec78264211b0704e75da3e63984f0f74d2042f697a4e8cc6
+  languageName: node
+  linkType: hard
+
+"graphql-sse@npm:^2.5.3":
+  version: 2.5.3
+  resolution: "graphql-sse@npm:2.5.3"
+  peerDependencies:
+    graphql: ">=0.11 <=16"
+  checksum: b556564aaddd8dfcc4e7fd25da37cfe95dbf5e100fca287b1b15ab6874a772fda96088b66e7d02739076fb769d60279c17afe54d5ab196eeca67972247c6c73e
   languageName: node
   linkType: hard
 
