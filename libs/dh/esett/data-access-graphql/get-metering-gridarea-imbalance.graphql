@@ -1,8 +1,8 @@
 query getMeteringGridAreaImbalance(
   $pageNumber: Int!
   $pageSize: Int!
-  $periodFrom: DateTime
-  $periodTo: DateTime
+  $createdFrom: DateTime
+  $createdTo: DateTime
   $gridAreaCode: String
   $documentId: String
   $valuesToInclude: MeteringGridImbalanceValuesToInclude!
@@ -12,8 +12,8 @@ query getMeteringGridAreaImbalance(
   meteringGridAreaImbalance(
     pageNumber: $pageNumber
     pageSize: $pageSize
-    createdFrom: $periodFrom
-    createdTo: $periodTo
+    createdFrom: $createdFrom
+    createdTo: $createdTo
     gridAreaCode: $gridAreaCode
     documentId: $documentId
     sortProperty: $sortProperty

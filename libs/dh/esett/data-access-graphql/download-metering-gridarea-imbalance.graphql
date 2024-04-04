@@ -1,7 +1,7 @@
 query downloadMeteringGridAreaImbalance(
   $locale: String!
-  $periodFrom: DateTime
-  $periodTo: DateTime
+  $createdFrom: DateTime
+  $createdTo: DateTime
   $gridAreaCode: String
   $documentId: String
   $valuesToInclude: MeteringGridImbalanceValuesToInclude!
@@ -10,8 +10,8 @@ query downloadMeteringGridAreaImbalance(
 ) {
   downloadMeteringGridAreaImbalance(
     locale: $locale
-    createdFrom: $periodFrom
-    createdTo: $periodTo
+    createdFrom: $createdFrom
+    createdTo: $createdTo
     gridAreaCode: $gridAreaCode
     documentId: $documentId
     sortProperty: $sortProperty
