@@ -39,9 +39,13 @@ limitations under the License.
     [placeholder]="translate('valuesToInclude')"
   />
 
-  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.created!">{{
-    translate("createdPeriod")
-  }}</watt-date-range-chip>
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.created!">
+    {{ translate("createdPeriod") }}
+  </watt-date-range-chip>
+
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.calculationPeriod!">
+    {{ translate("calculationPeriod") }}
+  </watt-date-range-chip>
 
   <vater-spacer />
   <watt-button variant="text" icon="undo" type="reset" (click)="formReset.emit()">

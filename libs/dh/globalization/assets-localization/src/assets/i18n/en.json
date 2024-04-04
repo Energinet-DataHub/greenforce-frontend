@@ -700,6 +700,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
+        "calculationPeriod": "Calculation period",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID",
         "valuesToInclude": "Pricetypes"

@@ -700,6 +700,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettet",
+        "calculationPeriod": "Beregningsperiode",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID",
         "valuesToInclude": "MGA ubalancer"
