@@ -70,7 +70,7 @@ export class DhAdminUserStatusStore extends ComponentStore<State> {
         }),
         switchMap(({ id, onSuccess, onError }) => {
           return this.marketParticipantUserHttpClient
-            .v1MarketParticipantUserDeactivateUserPut(id)
+            .v1MarketParticipantUserReActivateUserPut(id)
             .pipe(
               tapResponse(
                 () => {
