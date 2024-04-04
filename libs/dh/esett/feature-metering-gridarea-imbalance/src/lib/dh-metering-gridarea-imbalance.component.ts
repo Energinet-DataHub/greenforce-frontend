@@ -196,6 +196,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
               gridAreaCode: filters.gridArea,
               createdFrom: filters.created?.start,
               createdTo: filters.created?.end,
+              calculationPeriod: filters.calculationPeriod,
               valuesToInclude: filters.valuesToInclude,
               documentId,
               sortProperty: sortMetaData.sortProperty,
