@@ -39,7 +39,7 @@ limitations under the License.
         <watt-button
           variant="secondary"
           (click)="requestReActivateUser()"
-          [loading]="isDeactivating$ | push: { strategy: 'native' }"
+          [loading]="isReActivating$ | push: { strategy: 'native' }"
           >{{ t("reactivate") }}</watt-button
         >
       }
@@ -113,7 +113,7 @@ limitations under the License.
     [size]="'small'"
     [title]="t('reactivateConfirmation.title')"
     [disableClose]="true"
-    (closed)="deactivate($event)"
+    (closed)="reActivate($event)"
   >
     <p>
       {{

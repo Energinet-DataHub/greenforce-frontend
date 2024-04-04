@@ -87,6 +87,7 @@ export class DhUserDrawerComponent {
 
   isReinviting$ = this.inviteUserStore.isSaving$;
   isDeactivating$ = this.userStatusStore.isSaving$;
+  isReActivating$ = this.userStatusStore.isSaving$;
 
   onClose(): void {
     this.drawer.close();

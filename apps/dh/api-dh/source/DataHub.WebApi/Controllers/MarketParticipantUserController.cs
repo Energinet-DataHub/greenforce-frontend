@@ -106,7 +106,7 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
     }
 
     /// <summary>
-    /// Deactivates the specified user.
+    /// Reactivates the specified user.
     /// </summary>
     [HttpPut]
     [Route("ReActivateUser")]
