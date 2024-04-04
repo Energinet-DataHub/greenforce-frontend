@@ -43,7 +43,7 @@ const initialState: DhMeteringGridAreaImbalanceState = {
     pageSize: 100,
   },
   filters: {
-    period: {
+    created: {
       start: dayjs(new Date()).startOf('day').subtract(2, 'days').toDate(),
       end: dayjs(new Date()).endOf('day').toDate(),
     },
