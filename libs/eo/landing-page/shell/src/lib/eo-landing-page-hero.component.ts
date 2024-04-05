@@ -176,7 +176,7 @@ export class EoLandingPageHeroComponent implements AfterViewInit {
   private authService = inject(EoAuthService);
 
   ngAfterViewInit(): void {
-    if(this.videoplayer) {
+    if (this.videoplayer) {
       // HACK: Even though the video is muted, the browser may still block autoplay
       this.videoplayer.nativeElement.muted = true;
     }
