@@ -15,21 +15,23 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, Input, ViewChild, Output } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {
   WATT_TABLE,
   WattTableColumnDef,
   WattTableDataSource,
   WattPaginatorComponent,
 } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
 import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.component';
-import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance-table',
@@ -46,14 +48,16 @@ import { Sort } from '@angular/material/sort';
     TranslocoDirective,
     TranslocoPipe,
 
-    DhMeteringGridAreaImbalanceDrawerComponent,
-
     WATT_TABLE,
+    WattDatePipe,
     WattPaginatorComponent,
     WattEmptyStateComponent,
-    WattDatePipe,
+
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhEmDashFallbackPipe,
+    DhMeteringGridAreaImbalanceDrawerComponent,
   ],
 })
 export class DhMeteringGridAreaImbalanceTableComponent {

@@ -31,7 +31,7 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
@@ -44,10 +44,11 @@ import {
   EicFunction,
   GetGridAreasDocument,
   GetDelegatesDocument,
-  DelegationMessageType,
+  DelegatedProcess,
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
+  GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -55,30 +56,6 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-
-/** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
-declare global {
-  interface ObjectConstructor {
-    /**
-     * Groups members of an iterable according to the return value of the passed callback.
-     * @param items An iterable.
-     * @param keySelector A callback which will be invoked for each item in items.
-     */
-    groupBy<K extends PropertyKey, T>(
-      items: Iterable<T>,
-      keySelector: (item: T, index: number) => K
-    ): Partial<Record<K, T[]>>;
-  }
-
-  interface MapConstructor {
-    /**
-     * Groups members of an iterable according to the return value of the passed callback.
-     * @param items An iterable.
-     * @param keySelector A callback which will be invoked for each item in items.
-     */
-    groupBy<K, T>(items: Iterable<T>, keySelector: (item: T, index: number) => K): Map<K, T[]>;
-  }
-}
 
 @Component({
   selector: 'dh-create-delegation',
@@ -89,11 +66,11 @@ declare global {
     `
       :host {
         display: block;
-        vater-stack > *:not(watt-datepicker) {
+        vater-stack > *:not(watt-datepicker-v2) {
           width: 100%;
         }
 
-        watt-datepicker {
+        watt-datepicker-v2 {
           margin-right: auto;
         }
       }
@@ -107,7 +84,7 @@ declare global {
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
-    WattDatepickerComponent,
+    WattDatepickerV2Component,
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,
@@ -122,18 +99,17 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   modal: WattModalComponent | undefined;
 
   isSaving = signal(false);
-  showGridAreaDropdown = signal(true);
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
-    messageTypes: new FormControl<DelegationMessageType[] | null>(null, Validators.required),
+    delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, Validators.required),
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
   delegations$ = this.getDelegations();
-  messageTypes = this.getMessageTypes();
+  delegatedProcesses = this.getDelegatedProcesses();
 
   closeModal(result: boolean) {
     this.modal?.close(result);
@@ -144,10 +120,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
     this.gridAreaOptions$.pipe(takeUntilDestroyed()).subscribe((gridAreas) => {
       if (gridAreas.length === 1) {
-        this.showGridAreaDropdown.set(false);
         this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
-      } else {
-        this.showGridAreaDropdown.set(true);
       }
     });
   }
@@ -155,54 +128,35 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   save() {
     if (this.createDelegationForm.invalid) return;
 
-    const { startDate, gridAreas, messageTypes, delegation } =
+    const { startDate, gridAreas, delegatedProcesses, delegation } =
       this.createDelegationForm.getRawValue();
 
-    if (!startDate || !gridAreas || !messageTypes || !delegation) return;
+    if (!startDate || !gridAreas || !delegatedProcesses || !delegation) return;
 
     this.isSaving.set(true);
 
     this._apollo
       .mutate({
         mutation: CreateDelegationForActorDocument,
-        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             actorId: this.modalData.id,
-            delegationDto: {
+            delegations: {
               startsAt: startDate,
               delegatedFrom: this.modalData.id,
               delegatedTo: delegation,
               gridAreas: gridAreas,
-              messageTypes,
+              delegatedProcesses,
             },
           },
         },
+        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
       })
       .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
 
-  private getMessageTypes() {
-    const groupedMessageTypes = [];
-    const messageTypes = dhEnumToWattDropdownOptions(
-      DelegationMessageType,
-      this.getMessageTypesToExclude()
-    );
-    const groupByMessageTypes = Object.groupBy(
-      messageTypes,
-      (messageType) => messageType.value.split('_')[1]
-    );
-
-    for (const [key, value] of Object.entries(groupByMessageTypes)) {
-      groupedMessageTypes.push({ value: key, displayValue: key, disabled: true });
-      if (value === undefined) continue;
-
-      for (const messageType of value) {
-        groupedMessageTypes.push(messageType);
-      }
-    }
-
-    return groupedMessageTypes;
+  private getDelegatedProcesses() {
+    return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude());
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
@@ -214,6 +168,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       );
     }
+
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
       map((result) => result.data?.gridAreas),
       exists(),
@@ -227,16 +182,31 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegations(): Observable<WattDropdownOptions> {
-    return this._apollo.query({ query: GetDelegatesDocument }).pipe(
-      map((result) => result.data?.actorsForEicFunction),
-      exists(),
-      map((delegates) =>
-        delegates.map((delegate) => ({
-          value: delegate.id,
-          displayValue: delegate.name,
-        }))
-      )
-    );
+    const eicFunctions = [EicFunction.Delegated];
+
+    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
+      eicFunctions.push(EicFunction.GridAccessProvider);
+    }
+
+    return this._apollo
+      .query({
+        query: GetDelegatesDocument,
+        variables: {
+          eicFunctions,
+        },
+      })
+      .pipe(
+        map((result) => result.data?.actorsForEicFunction),
+        exists(),
+        map((delegates) =>
+          delegates
+            .filter((delegate) => delegate.id !== this.modalData.id)
+            .map((delegate) => ({
+              value: delegate.id,
+              displayValue: delegate.name,
+            }))
+        )
+      );
   }
 
   private handleCreateDelegationResponse(
@@ -271,20 +241,9 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     this.isSaving.set(false);
   }
 
-  private getMessageTypesToExclude(): DelegationMessageType[] {
-    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
-      return [DelegationMessageType.Rsm018Inbound, DelegationMessageType.Rsm012Outbound];
-    }
-
+  private getDelegatedProcessesToExclude(): DelegatedProcess[] {
     if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
-      return [
-        DelegationMessageType.Rsm012Inbound,
-        DelegationMessageType.Rsm017Inbound,
-        DelegationMessageType.Rsm017Outbound,
-        DelegationMessageType.Rsm019Inbound,
-        DelegationMessageType.Rsm018Inbound,
-        DelegationMessageType.Rsm012Outbound,
-      ];
+      return [DelegatedProcess.RequestWholesaleResults];
     }
 
     return [];

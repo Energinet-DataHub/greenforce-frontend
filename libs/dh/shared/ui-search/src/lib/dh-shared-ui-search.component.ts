@@ -17,7 +17,7 @@
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -50,7 +50,7 @@ export const searchDebounceTimeMs = 250;
       }
     `,
   ],
-  imports: [TranslocoModule, ReactiveFormsModule, WattButtonComponent, WattTextFieldComponent],
+  imports: [TranslocoDirective, ReactiveFormsModule, WattButtonComponent, WattTextFieldComponent],
 })
 export class DhSharedUiSearchComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);

@@ -17,6 +17,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+
 import {
   DhMessageArchiveActorDataAccessApiStore,
   DhMessageArchiveDataAccessApiStore,
@@ -29,14 +33,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WattDateRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
-import { TranslocoModule } from '@ngneat/transloco';
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
+import { WattTimepickerV2Component } from '@energinet-datahub/watt/timepicker';
 
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
@@ -52,22 +53,24 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     DhMessageArchiveActorDataAccessApiStore,
   ],
   imports: [
-    WattButtonComponent,
-    WattCheckboxComponent,
-    WattDatepickerComponent,
-    WattTimepickerComponent,
     FormsModule,
+    ReactiveFormsModule,
     AsyncPipe,
     RxLet,
-    TranslocoModule,
-    DhMessageArchiveLogSearchResultComponent,
+    RxPush,
+    TranslocoDirective,
+
+    WattButtonComponent,
+    WattCheckboxComponent,
+    WattDatepickerV2Component,
+    WattTimepickerV2Component,
     WattBadgeComponent,
     WattDropdownComponent,
     WattSpinnerComponent,
-    ReactiveFormsModule,
-    RxPush,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+
+    DhMessageArchiveLogSearchResultComponent,
   ],
 })
 export class DhMessageArchiveLogSearchComponent {

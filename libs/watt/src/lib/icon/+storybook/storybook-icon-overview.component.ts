@@ -52,6 +52,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Help', icon: 'help' },
         { name: '@', icon: 'alternateEmail' },
         { name: 'language', icon: 'language' },
+        { name: 'Pending Actions', icon: 'pendingActions' },
       ],
     },
     {

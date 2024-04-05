@@ -30,7 +30,7 @@ import { provideComponentStore } from '@ngrx/component-store';
 import { MatDividerModule } from '@angular/material/divider';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
@@ -61,22 +61,25 @@ import { DocumentTypeNamePipe } from '../shared/dh-message-archive-documentTypeN
   styleUrls: ['./dh-message-archive-drawer.component.scss'],
   imports: [
     NgClass,
+    TranslocoDirective,
+    TranslocoPipe,
+    MatDividerModule,
+    RxPush,
+    RxLet,
+
     WATT_DRAWER,
-    TranslocoModule,
     WattIconComponent,
     WattDatePipe,
-    DhMessageArchiveStatusComponent,
-    MatDividerModule,
-    ActorNamePipe,
-    DocumentTypeNamePipe,
     WattButtonComponent,
-    RxPush,
-    DhEmDashFallbackPipe,
     WattSpinnerComponent,
-    RxLet,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattCodeComponent,
+
+    DhMessageArchiveStatusComponent,
+    ActorNamePipe,
+    DocumentTypeNamePipe,
+    DhEmDashFallbackPipe,
   ],
   providers: [provideComponentStore(DhMessageArchiveDocumentStore)],
 })

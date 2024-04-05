@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable sonarjs/no-duplicated-branches */
 import { http, HttpResponse } from 'msw';
 
 export function meteringPointsMocks(apiBase: string) {
@@ -105,20 +106,58 @@ function getMeteringPoints(apiBase: string) {
       },
     ];
 
-    let data: unknown[];
+    let response: { result: unknown[]; status: null | 'Created' | 'Pending' } = {
+      result: [],
+      status: null,
+    };
 
-    if (state === 'no-metering-points') {
-      data = [];
-    } else if (state === 'only-consumption-metering-points') {
-      data = [...consumptionMeteringPoints];
-    } else if (state === 'only-production-metering-points') {
-      data = [...productionMeteringPoints];
-    } else if (state === 'metering-points-error') {
-      return HttpResponse.error();
-    } else {
-      data = [...consumptionMeteringPoints, ...productionMeteringPoints];
+    switch (state) {
+      case 'no-metering-points':
+        response = { result: [], status: null };
+        break;
+      case 'only-consumption-metering-points':
+        response = { result: [...consumptionMeteringPoints], status: null };
+        break;
+      case 'only-production-metering-points':
+        response = { result: [...productionMeteringPoints], status: null };
+        break;
+      case 'metering-points-error':
+        return HttpResponse.error();
+      case 'metering-points-relation-status-created':
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: 'Created',
+        };
+        break;
+      case 'no-metering-points-relation-status-created':
+        response = { result: [], status: 'Created' };
+        break;
+      case 'metering-points-relation-status-pending':
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: 'Pending',
+        };
+        break;
+      case 'no-metering-points-relation-status-pending':
+        response = { result: [], status: 'Pending' };
+        break;
+      case 'metering-points-relation-status-null':
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: null,
+        };
+        break;
+      case 'no-metering-points-relation-status-null':
+        response = { result: [], status: null };
+        break;
+      default:
+        response = {
+          result: [...consumptionMeteringPoints, ...productionMeteringPoints],
+          status: null,
+        };
+        break;
     }
 
-    return HttpResponse.json({ result: data }, { status: 200 });
+    return HttpResponse.json(response, { status: 200 });
   });
 }

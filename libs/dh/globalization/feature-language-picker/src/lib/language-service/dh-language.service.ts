@@ -32,11 +32,13 @@ export class DhLanguageService {
   get selectedLanguage(): string {
     return localStorage.getItem(LOCALE_STORAGE_KEY) || DisplayLanguage.Danish;
   }
+
   set selectedLanguage(language: string) {
     this._localeService.setActiveLocale(toDisplayLanguage(language));
     this._transloco.setActiveLang(language);
     localStorage.setItem(LOCALE_STORAGE_KEY, language);
   }
+
   init(): void {
     this._transloco.setActiveLang(this.selectedLanguage);
     this._localeService.setActiveLocale(toDisplayLanguage(this.selectedLanguage));

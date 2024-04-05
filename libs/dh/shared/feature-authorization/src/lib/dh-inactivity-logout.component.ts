@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
@@ -38,10 +38,10 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
     </watt-modal>
   `,
   standalone: true,
-  imports: [RxPush, DatePipe, TranslocoModule, WATT_MODAL],
+  imports: [RxPush, DatePipe, TranslocoDirective, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent extends WattTypedModal {
-  private readonly secondsUntilLogOff = 5 * 60;
+  private readonly secondsUntilLogOff = 10;
 
   readonly warningCountdown$ = timer(0, 1000).pipe(
     take(this.secondsUntilLogOff + 1),

@@ -57,11 +57,10 @@ over the Angular CLI._
 
 The application is deployed to the following environments:
 
-| Sandbox 002                   | Development 001       | Development 002       | Test 001                | Test 002                | PreProd               | Prod            |
-|-------------------------------|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
-| [sandbox_002][dh-sandbox-002] | [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
+| Development 001       | Development 002       | Test 001                | Test 002                | PreProd               | Prod            |
+|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
+| [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
 
-[dh-sandbox-002]: https://sandbox.datahub3.dk
 [dh-dev_001]: https://dev.datahub3.dk
 [dh-dev_002]: https://dev002.datahub3.dk
 [dh-test_001]: https://test.datahub3.dk
@@ -272,7 +271,7 @@ depend on:
 | **`test‑util`**     | Stubs, jest matchers, testing modules and test library configuration.                                                                  | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |
 | **`e2e‑util`**      | Cypress commands and fixtures.                                                                                                         | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                      |
 | **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                        | `domain`               | `domain` `util` `test-util`                                                                                        |
-| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                    | `shell`                | `feature` `ui` `data-access` `routing` `util` `test-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
+| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                    | `shell`                | `feature` `ui` `data-access` `routing` `util` `test-util` `e2e-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
 | **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                                  | `configuration‑<name>` | `data-access` `routing` `util` `test-util` `configuration` `environments` `domain`                                 |
 | **`environments`**  | Code related to loading different environment configurations.                                                                          | `environments`         | `util` `test-util` `environments` `assets`                                                                         |
 | **`assets`**        | Icons, images, fonts, JSON etc.                                                                                                        | `assets`               | `assets`                                                                                                           |

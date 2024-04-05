@@ -31,9 +31,9 @@ import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/gr
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
-import { DhOrganization } from './dh-organization';
 
 @Component({
   standalone: true,

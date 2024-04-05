@@ -21,30 +21,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { distinctUntilKeyChanged } from 'rxjs';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { dayjs } from '@energinet-datahub/watt/date';
 import {
+  GetAuditLogByActorIdDocument,
   GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
-  StopMessageDelegationDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -90,14 +88,14 @@ import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs';
       <vater-stack align="flex-start" gap="m">
         <watt-radio
           group="stopDate"
-          [formControl]="stopDelegationForm.controls.selectedOptions"
+          [formControl]="stopDelegationForm.controls.selectedOption"
           value="stopNow"
           >{{ t('stopNow') }}</watt-radio
         >
         <vater-stack direction="row" align="baseline" gap="m">
           <watt-radio
             group="stopDate"
-            [formControl]="stopDelegationForm.controls.selectedOptions"
+            [formControl]="stopDelegationForm.controls.selectedOption"
             value="stopOnDate"
           >
             {{ t('stopDate') }}
@@ -133,16 +131,16 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   modal: WattModalComponent | undefined;
 
   stopDelegationForm = this._fb.group({
-    selectedOptions: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
+    selectedOption: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
     stopDate: [{ value: null, disabled: true }, Validators.required],
   });
 
   constructor() {
     super();
     this.stopDelegationForm.valueChanges
-      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOptions'))
+      .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOption'))
       .subscribe((value) => {
-        if (value.selectedOptions === 'stopNow') {
+        if (value.selectedOption === 'stopNow') {
           this.stopDelegationForm.controls.stopDate.disable();
         } else {
           this.stopDelegationForm.controls.stopDate.enable();
@@ -157,29 +155,44 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   stopSelectedDelegations() {
     if (this.stopDelegationForm.invalid) return;
 
-    const { stopDate, selectedOptions } = this.stopDelegationForm.getRawValue();
+    const { stopDate, selectedOption } = this.stopDelegationForm.getRawValue();
 
-    if (!stopDate && selectedOptions === 'stopOnDate') return;
+    if (!stopDate && selectedOption === 'stopOnDate') return;
 
     this.isSaving.set(true);
 
     this._apollo
       .mutate({
         mutation: StopDelegationsDocument,
-        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             stopMessageDelegationDto: this.modalData.map((delegation) => {
               return {
                 id: delegation.id,
                 periodId: delegation.periodId,
-                stopsAt: selectedOptions === 'stopNow' ? new Date() : stopDate,
-              } as StopMessageDelegationDtoInput;
+                stopsAt: this.calculateStopDate(selectedOption, stopDate),
+              };
             }),
           },
         },
+        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
       })
       .subscribe((response) => this.handleStopDelegationResponse(response));
+  }
+
+  private calculateStopDate(selectedOption: string, stopDate: Date | null): Date | null {
+    if (selectedOption === 'stopNow') {
+      // Note: Subtract 1 minute to ensure that the stop time is in the past
+      // compared to the time in the backend.
+      return dayjs(new Date()).subtract(1, 'minute').toDate();
+    }
+
+    return stopDate
+      ? // Note: Add 1 day to ensure that the stop day is included in the period.
+        // Selecting "2024-03-27" results in "2024-03-26T23:00:00Z"
+        // whereas it should be "2024-03-27T23:00:00Z"
+        dayjs(stopDate).add(1, 'day').toDate()
+      : stopDate;
   }
 
   private handleStopDelegationResponse(response: MutationResult<StopDelegationsMutation>): void {

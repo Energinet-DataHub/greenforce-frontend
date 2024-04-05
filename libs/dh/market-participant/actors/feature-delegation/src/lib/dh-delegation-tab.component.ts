@@ -27,6 +27,7 @@ import {
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -49,11 +50,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
+import { DhDelegations, DhDelegationsByType } from './dh-delegations';
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
+import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-modal.component';
 import { dhGroupDelegations } from './util/dh-group-delegations';
-import { DhDelegations, DhDelegationsGrouped } from './dh-delegations';
-import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -93,7 +93,7 @@ export class DhDelegationTabComponent {
   isError = signal(false);
 
   delegationsRaw = signal<DhDelegations>([]);
-  delegationsGrouped = signal<DhDelegationsGrouped>({ outgoing: [], incoming: [] });
+  delegationsByType = signal<DhDelegationsByType>([]);
 
   isEmpty = computed(() => this.delegationsRaw().length === 0);
 
@@ -116,14 +116,14 @@ export class DhDelegationTabComponent {
     const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {
-      return this.delegationsGrouped.set(dhGroupDelegations(delegations));
+      return this.delegationsByType.set(dhGroupDelegations(delegations));
     }
 
     const delegationsFiltered = delegations.filter((delegation) => {
       return filter.includes(delegation.status);
     });
 
-    this.delegationsGrouped.set(dhGroupDelegations(delegationsFiltered));
+    this.delegationsByType.set(dhGroupDelegations(delegationsFiltered));
   }
 
   private fetchData(actorId: string) {
@@ -142,9 +142,9 @@ export class DhDelegationTabComponent {
         next: (result) => {
           this.isLoading.set(result.loading);
 
-          this.delegationsRaw.set(result.data.getDelegationsForActor);
+          this.delegationsRaw.set(result.data.delegationsForActor);
 
-          this.delegationsGrouped.set(dhGroupDelegations(this.delegationsRaw()));
+          this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw()));
         },
         error: () => {
           this.isLoading.set(false);

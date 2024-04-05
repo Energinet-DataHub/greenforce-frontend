@@ -25,8 +25,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -55,10 +54,10 @@ import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-fie
   ],
   providers: [DhAdminEditPermissionStore],
   imports: [
-    NgIf,
-    TranslocoModule,
+    TranslocoDirective,
     ReactiveFormsModule,
     RxPush,
+
     WATT_MODAL,
     WattButtonComponent,
     WattTabComponent,

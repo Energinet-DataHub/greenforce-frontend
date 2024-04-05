@@ -15,12 +15,11 @@ using System;
 using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto
-{
-    public sealed record FilteredActorDto(
-        Guid ActorId,
-        ActorNumberDto ActorNumber,
-        ActorNameDto Name,
-        IReadOnlyCollection<EicFunction> MarketRoles,
-        IReadOnlyCollection<string> GridAreaCodes);
-}
+namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+
+public sealed record FilteredActorDto(
+    Guid ActorId,
+    ActorNumberDto ActorNumber,
+    ActorNameDto Name,
+    IReadOnlyCollection<EicFunction> MarketRoles,
+    IReadOnlyCollection<string> GridAreaCodes);

@@ -172,19 +172,34 @@ class GranularCertificateHelperComponent extends WattTypedModal {
         </ng-container>
       </watt-table>
 
-      <watt-empty-state
-        *ngIf="loading === false && dataSource.data.length === 0 && !hasError"
-        icon="custom-power"
-        [title]="translations.meteringPoints.noData.title | transloco"
-        [message]="translations.meteringPoints.noData.message | transloco"
-      />
+      <!-- Pending relation status -->
+      @if (showPendingRelationStatus && loading === false && !hasError) {
+        <watt-empty-state
+          icon="pendingActions"
+          [title]="translations.meteringPoints.pendingRelationStatus.title | transloco"
+          [message]="translations.meteringPoints.pendingRelationStatus.message | transloco"
+        />
+      }
 
-      <watt-empty-state
-        *ngIf="loading === false && hasError"
-        icon="custom-power"
-        [title]="translations.meteringPoints.error.title | transloco"
-        [message]="translations.meteringPoints.error.message | transloco"
-      />
+      <!-- No data -->
+      @if (
+        dataSource.data.length === 0 && loading === false && !hasError && !showPendingRelationStatus
+      ) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="translations.meteringPoints.noData.title | transloco"
+          [message]="translations.meteringPoints.noData.message | transloco"
+        />
+      }
+
+      <!-- Error -->
+      @if (loading === false && hasError) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="translations.meteringPoints.error.title | transloco"
+          [message]="translations.meteringPoints.error.message | transloco"
+        />
+      }
 
       <watt-paginator [for]="dataSource" />
     }
@@ -205,6 +220,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
   @Input() loading = false;
   @Input() hasError = false;
+  @Input() showPendingRelationStatus = false;
   @Output() toggleContract = new EventEmitter<{
     checked: boolean;
     gsrn: string;
@@ -223,7 +239,6 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   private setColumns(): void {
-    console.log('SET COLU');
     this.columns = {
       gsrn: {
         accessor: 'gsrn',

@@ -46,11 +46,6 @@
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
-
-    &:disabled {
-      color: inherit;
-      background-image: none !important;
-    }
   }
 
   input.mask-input {

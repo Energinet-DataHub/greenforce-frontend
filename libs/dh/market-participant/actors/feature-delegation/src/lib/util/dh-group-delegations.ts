@@ -14,47 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  DhDelegations,
-  DhDelegationsByDirection,
-  DhDelegationsByType,
-  DhDelegationsGrouped,
-} from '../dh-delegations';
+import { DhDelegations, DhDelegationsByType } from '../dh-delegations';
 
-export function dhGroupDelegations(delegations: DhDelegations): DhDelegationsGrouped {
-  const groups = dhGroupByDirection(delegations);
-
-  return {
-    outgoing: dhGroupByType(groups.outgoing),
-    incoming: dhGroupByType(groups.incoming),
-  };
-}
-
-function dhGroupByDirection(delegations: DhDelegations): DhDelegationsByDirection {
-  const groups: DhDelegationsByDirection = {
-    outgoing: [],
-    incoming: [],
-  };
+export function dhGroupDelegations(delegations: DhDelegations): DhDelegationsByType {
+  const groups: DhDelegationsByType = [];
 
   for (const delegation of delegations) {
-    if (delegation.messageType.endsWith('_OUTBOUND')) {
-      groups.outgoing.push(delegation);
-    } else if (delegation.messageType.endsWith('_INBOUND')) {
-      groups.incoming.push(delegation);
-    }
-  }
-
-  return groups;
-}
-
-function dhGroupByType(delegations: DhDelegations): DhDelegationsByType[] {
-  const groups: DhDelegationsByType[] = [];
-
-  for (const delegation of delegations) {
-    const index = groups.findIndex((group) => group.type === delegation.messageType);
+    const index = groups.findIndex((group) => group.type === delegation.process);
 
     if (index === -1) {
-      groups.push({ type: delegation.messageType, delegations: [delegation] });
+      groups.push({ type: delegation.process, delegations: [delegation] });
     } else {
       groups[index].delegations?.push(delegation);
     }

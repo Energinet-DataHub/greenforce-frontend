@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+
+import { TranslocoDirective } from '@ngneat/transloco';
 import { map, Subscription } from 'rxjs';
 
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
@@ -42,15 +42,16 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permissio
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dh-admin-permission-detail.component.html',
   imports: [
-    NgIf,
+    TranslocoDirective,
+
     WATT_DRAWER,
-    TranslocoModule,
     WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattTabsComponent,
     WattTabComponent,
     WattButtonComponent,
+
     DhPermissionRequiredDirective,
     DhEditPermissionModalComponent,
     DhPermissionAuditLogsComponent,

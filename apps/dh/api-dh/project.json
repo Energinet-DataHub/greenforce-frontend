@@ -62,7 +62,7 @@
       "options": {
         "commands": [
           "npm run check:dotnet",
-          "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
+          "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
         ],
         "parallel": false
       }

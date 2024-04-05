@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter, inject, Input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
@@ -28,7 +28,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/utils/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   DhPermissionRequiredDirective,
@@ -51,6 +51,7 @@ import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-mo
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
+import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -103,6 +104,7 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
     DhActorStatusBadgeComponent,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
+    DhCanDelegateForDirective,
   ],
 })
 export class DhActorDrawerComponent {
@@ -137,6 +139,9 @@ export class DhActorDrawerComponent {
   drawer: WattDrawerComponent | undefined;
 
   @Output() closed = new EventEmitter<void>();
+
+  @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
+  @Input() gridAreaCodeLookup!: { [Key: string]: string };
 
   public open(actorId: string): void {
     this.drawer?.open();
@@ -205,5 +210,29 @@ export class DhActorDrawerComponent {
           this.isLoadingAuditLog = false;
         },
       });
+  }
+
+  formatDelegationEntry(payload: dhActorAuditLogEntry) {
+    const values = payload.currentValue
+      ?.replace('(', '')
+      .replace(')', '')
+      .split(';')
+      .map((x) => x.trim());
+
+    if (!values) return {};
+    const [payloadGln, payloadStartsAt, payloadGridArea, payloadProcessType, payloadStopsAt] =
+      values;
+    const actorNumberName = this.actorNumberNameLookup[payloadGln];
+
+    return {
+      auditedBy: payload.auditedBy,
+      actor: `${actorNumberName.number} - ${actorNumberName.name}`,
+      startsAt: wattFormatDate(payloadStartsAt),
+      gridArea: this.gridAreaCodeLookup[payloadGridArea],
+      processType: translate(
+        'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + payloadProcessType
+      ),
+      stopsAt: payloadStopsAt !== undefined ? wattFormatDate(payloadStopsAt) : undefined,
+    };
   }
 }

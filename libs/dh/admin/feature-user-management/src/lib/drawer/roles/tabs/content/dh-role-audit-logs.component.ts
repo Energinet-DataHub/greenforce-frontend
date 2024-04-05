@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { Component, inject, Input, OnChanges } from '@angular/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { catchError, map, of, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
@@ -55,11 +55,12 @@ import {
     `,
   ],
   imports: [
-    NgIf,
     RxLet,
     NgTemplateOutlet,
     RxPush,
-    TranslocoModule,
+    TranslocoDirective,
+    TranslocoPipe,
+
     WATT_CARD,
     WattSpinnerComponent,
     WattEmptyStateComponent,

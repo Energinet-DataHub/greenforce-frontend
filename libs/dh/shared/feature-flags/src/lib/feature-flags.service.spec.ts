@@ -52,7 +52,6 @@ describe('Feature flags service', () => {
   const existingFeatureFlagName = 'dummy-feature';
 
   const cases = [
-    [nonExistingFeatureFlagName, DhAppEnvironment.sandbox_002, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.dev_001, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.dev_002, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.test_001, true, {}],
@@ -60,7 +59,6 @@ describe('Feature flags service', () => {
     [nonExistingFeatureFlagName, DhAppEnvironment.preprod, true, {}],
     [nonExistingFeatureFlagName, DhAppEnvironment.prod, true, {}],
 
-    [existingFeatureFlagName, DhAppEnvironment.sandbox_002, true, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.dev_001, true, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.dev_002, true, featureFlagMocks],
     [existingFeatureFlagName, DhAppEnvironment.test_001, false, featureFlagMocks],

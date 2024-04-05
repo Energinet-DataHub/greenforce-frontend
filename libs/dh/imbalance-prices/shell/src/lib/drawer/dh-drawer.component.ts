@@ -79,14 +79,6 @@ import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigg
         padding: 0 var(--watt-space-ml) var(--watt-space-ml);
       }
 
-      watt-expandable-card {
-        display: block;
-
-        &:not(:first-of-type) {
-          margin-top: var(--watt-space-s);
-        }
-      }
-
       watt-expandable-card-title {
         display: contents;
 

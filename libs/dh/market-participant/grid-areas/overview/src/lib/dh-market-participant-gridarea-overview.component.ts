@@ -16,7 +16,6 @@
  */
 import { Component, Input, OnChanges } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { NgIf } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
@@ -64,13 +63,11 @@ export interface GridAreaOverviewRow {
     `,
   ],
   imports: [
-    NgIf,
     TranslocoDirective,
     TranslocoPipe,
 
     WATT_CARD,
     WATT_TABLE,
-
     WattPaginatorComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
@@ -79,11 +76,10 @@ export interface GridAreaOverviewRow {
     WattEmptyStateComponent,
     WattSearchComponent,
     WattButtonComponent,
-
-    DhEmDashFallbackPipe,
-
     WattButtonComponent,
     WattDatePipe,
+
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {

@@ -18,6 +18,7 @@ limitations under the License.
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <ProjectGuid>{845192D8-844B-4F74-BB51-AB80617FF6C1}</ProjectGuid>
     <AssemblyName>Energinet.DataHub.WebApi</AssemblyName>
     <RootNamespace>Energinet.DataHub.WebApi</RootNamespace>
@@ -26,8 +27,6 @@ limitations under the License.
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -45,18 +44,6 @@ limitations under the License.
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
-  </Target>
-
-  <Target Name="AddSourceGeneratedFiles" AfterTargets="CoreCompile">
-    <ItemGroup>
-      <Compile Include="Generated\**" />
-    </ItemGroup>
-  </Target>
-
-  <Target Name="RemoveSourceGeneratedFiles" BeforeTargets="CoreCompile">
-    <ItemGroup>
-      <Compile Remove="Generated\**" />
-    </ItemGroup>
   </Target>
 
   <ItemGroup>

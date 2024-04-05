@@ -337,6 +337,9 @@
       "@energinet-datahub/eo/wallet/data-access-api": [
         "libs/eo/wallet/data-access-api/index.ts"
       ],
+      "@energinet-datahub/gf/e2e-util-msw": [
+        "libs/gf/msw/e2e-util-msw/index.ts"
+      ],
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
         "libs/gf/globalization/configuration-danish-locale/src/index.ts"
       ],

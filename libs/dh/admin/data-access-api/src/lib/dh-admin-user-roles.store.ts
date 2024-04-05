@@ -22,25 +22,23 @@ import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-acce
 import {
   MarketParticipantUserRoleHttp,
   MarketParticipantUserRoleAssignmentHttp,
-  MarketParticipantUserRoleViewDto,
   MarketParticipantUpdateUserRoleAssignmentsDto,
   MarketParticipantActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface DhUserManagementState {
   readonly userRolesPrActor: MarketParticipantActorViewDto[];
-  readonly selectedRoles: MarketParticipantUserRoleViewDto[];
   readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: DhUserManagementState = {
   userRolesPrActor: [],
-  selectedRoles: [],
   requestState: LoadingState.INIT,
 };
 
 export type UpdateUserRolesWithActorId = {
   id: string;
+  atLeastOneRoleIsAssigned: boolean;
   userRolesToUpdate: MarketParticipantUpdateUserRoleAssignmentsDto;
 };
 
@@ -54,7 +52,6 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = new Subject<void>();
 
-  selectedRoles$ = this.select((state) => state.selectedRoles);
   userRolesPrActor$ = this.select((state) => state.userRolesPrActor);
 
   constructor(
@@ -95,9 +92,6 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
       userRolesPrActor: MarketParticipantActorViewDto[]
     ): DhUserManagementState => ({
       ...state,
-      selectedRoles: userRolesPrActor.flatMap((actor) =>
-        actor.userRoles.filter((userRole) => userRole.userActorId)
-      ),
       userRolesPrActor,
     })
   );

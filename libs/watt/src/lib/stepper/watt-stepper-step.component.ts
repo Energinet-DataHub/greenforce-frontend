@@ -31,6 +31,7 @@ export class WattStepperStepComponent extends MatStep {
 
   @Input() nextButtonLabel?: string;
   @Input() disableNextButton = false;
+  @Input() loadingNextButton = false;
   @Input() previousButtonLabel?: string;
   @Input() enabled = true;
 

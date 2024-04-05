@@ -47,6 +47,7 @@ const materialIcons = {
   alternateEmail: 'alternate_email',
   refresh: 'refresh',
   language: 'language',
+  pendingActions: 'pending_actions',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',

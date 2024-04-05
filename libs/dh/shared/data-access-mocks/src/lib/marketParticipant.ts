@@ -329,7 +329,7 @@ function createDelegation() {
                 apiErrors: [
                   {
                     __typename: 'ApiErrorDescriptor',
-                    code: 'test',
+                    code: 'market_participant.validation.message_delegation.actors_from_or_to_inactive',
                     message: 'mock fail',
                     args: [],
                   },
@@ -349,7 +349,7 @@ function stopDelegation() {
   return mockStopDelegationsMutation(async (request) => {
     const mockError =
       request.variables.input.stopMessageDelegationDto[0].periodId ===
-      getDelegationsForActorMock.getDelegationsForActor[0].periodId;
+      getDelegationsForActorMock.delegationsForActor[0].periodId;
     await delay(mswConfig.delay);
     const response: StopDelegationsMutation = {
       __typename: 'Mutation',

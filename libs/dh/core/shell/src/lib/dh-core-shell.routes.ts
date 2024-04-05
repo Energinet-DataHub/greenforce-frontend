@@ -22,6 +22,9 @@ import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 import { dhAdminPath } from '@energinet-datahub/dh/admin/routing';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreLoginComponent } from './dh-core-login.component';
+
+const messageArchivePath = 'message-archive';
 
 export const dhCoreShellRoutes: Routes = [
   {
@@ -30,11 +33,11 @@ export const dhCoreShellRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'message-archive',
+        redirectTo: messageArchivePath,
         pathMatch: 'full',
       },
       {
-        path: 'message-archive',
+        path: messageArchivePath,
         loadChildren: () =>
           import('@energinet-datahub/dh/message-archive/shell').then(
             (esModule) => esModule.dhMessageArchiveShellRoutes
@@ -76,5 +79,10 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
     ],
+  },
+  {
+    path: 'login',
+    pathMatch: 'full',
+    component: DhCoreLoginComponent,
   },
 ];

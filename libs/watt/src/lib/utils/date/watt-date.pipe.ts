@@ -15,17 +15,9 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { dayjs } from './dayjs';
-import { WattRange } from './watt-date-range';
 
-const formatStrings = {
-  monthYear: 'MMMM YYYY',
-  short: 'DD-MM-YYYY',
-  long: 'DD-MM-YYYY, HH:mm',
-  longAbbr: 'DD-MMM-YYYY HH:mm',
-  time: 'HH:mm',
-  longAbbrWithSeconds: 'DD-MMM-YYYY HH:mm:ss',
-};
+import { WattRange } from './watt-date-range';
+import { formatStrings, wattFormatDate } from './watt-format-date';
 
 @Pipe({
   name: 'wattDate',
@@ -40,12 +32,6 @@ export class WattDatePipe implements PipeTransform {
     format: keyof typeof formatStrings = 'short',
     timeZone = 'Europe/Copenhagen'
   ): string | null {
-    if (!input) return null;
-
-    return input instanceof Date || typeof input === 'string'
-      ? dayjs(input).tz(timeZone).format(formatStrings[format])
-      : typeof input === 'number'
-        ? dayjs(new Date(input)).tz(timeZone).format(formatStrings[format])
-        : `${this.transform(input.start, format)} ― ${this.transform(input.end, format)}`;
+    return wattFormatDate(input, format, timeZone);
   }
 }

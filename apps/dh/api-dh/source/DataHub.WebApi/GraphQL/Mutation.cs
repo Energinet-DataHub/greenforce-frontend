@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using HotChocolate;
-using HotChocolate.Types;
+using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
 using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
@@ -84,11 +78,13 @@ public class Mutation
         return true;
     }
 
-    public Task<CalculationDto> CreateCalculationAsync(
+    public async Task<Guid> CreateCalculationAsync(
         Interval period,
         string[] gridAreaCodes,
         WholesaleCalculationType calculationType,
-        [Service] IWholesaleClient_V3 client)
+        [Service] IWholesaleClient_V3 client,
+        [Service] ITopicEventSender sender,
+        CancellationToken cancellationToken)
     {
         if (!period.HasEnd || !period.HasStart)
         {
@@ -103,20 +99,15 @@ public class Mutation
             CalculationType = calculationType,
         };
 
-        return client
-            .CreateCalculationAsync(calculationRequestDto)
-            .Then(calculationId => new CalculationDto
-            {
-                CalculationId = calculationId,
-                ExecutionState = CalculationState.Pending,
-                PeriodStart = calculationRequestDto.StartDate,
-                PeriodEnd = calculationRequestDto.EndDate,
-                ExecutionTimeEnd = null,
-                ExecutionTimeStart = null,
-                AreSettlementReportsCreated = false,
-                GridAreaCodes = gridAreaCodes,
-                CalculationType = calculationType,
-            });
+        var calculationId = await client
+            .CreateCalculationAsync(calculationRequestDto, cancellationToken);
+
+        await sender.SendAsync(
+            nameof(Subscription.CalculationCreatedAsync),
+            calculationId,
+            cancellationToken);
+
+        return calculationId;
     }
 
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
@@ -208,16 +199,16 @@ public class Mutation
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
-        CreateMessageDelegationDto delegationDto,
+        CreateProcessDelegationsDto delegations,
         [Service] IMarketParticipantClient_V1 client)
     {
-        await client.ActorDelegationPostAsync(delegationDto);
+        await client.ActorDelegationPostAsync(delegations);
         return true;
     }
 
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> StopDelegationAsync(
-        IEnumerable<StopMessageDelegationDto> stopMessageDelegationDto,
+        IEnumerable<StopProcessDelegationDto> stopMessageDelegationDto,
         [Service] IMarketParticipantClient_V1 client)
     {
         foreach (var dto in stopMessageDelegationDto)

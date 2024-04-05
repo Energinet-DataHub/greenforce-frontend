@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   Component,
   inject,
@@ -24,7 +23,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { ApolloError } from '@apollo/client';
@@ -66,13 +65,14 @@ type MarketRole = ResultOf<
   ],
   standalone: true,
   imports: [
-    NgIf,
+    TranslocoDirective,
+    TranslocoPipe,
+    RxLet,
+
     WATT_CARD,
     WattSpinnerComponent,
     WATT_TABLE,
     WattEmptyStateComponent,
-    TranslocoModule,
-    RxLet,
   ],
 })
 export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges, OnDestroy {

@@ -15,11 +15,10 @@
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.8 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.5.0 | MIT |
-| [@jscutlery/semver](https://github.com/jscutlery/semver) | 5.1.0 | MIT |
-| [@maskito/angular](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
-| [@maskito/core](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
-| [@maskito/kit](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
-| [@maskito/phone](https://github.com/taiga-family/maskito) | 2.0.0 | Apache-2.0 |
+| [@maskito/angular](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
+| [@maskito/core](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
+| [@maskito/kit](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
+| [@maskito/phone](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.0.1 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.0.7 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
@@ -33,9 +32,9 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.10 | MIT |
+| [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
-| [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.54 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |

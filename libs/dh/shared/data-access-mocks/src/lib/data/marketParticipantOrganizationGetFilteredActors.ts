@@ -23,7 +23,7 @@ export const marketParticipantOrganizationGetFilteredActors: MarketParticipantFi
       value: '5790001330583',
     },
     name: {
-      value: 'Energinet DataHub A/S (DataHub systemadministrator)',
+      value: 'Energinet DataHub A/S',
     },
     marketRoles: ['DataHubAdministrator'],
     gridAreaCodes: [],

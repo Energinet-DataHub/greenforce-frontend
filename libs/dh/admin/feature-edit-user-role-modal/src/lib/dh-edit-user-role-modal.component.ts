@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -27,7 +26,7 @@ import {
 } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -73,20 +72,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
   providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
   imports: [
-    NgIf,
     RxPush,
     RxLet,
     WATT_MODAL,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
     WattButtonComponent,
-    TranslocoModule,
     WattTabComponent,
     WattTabsComponent,
-    ReactiveFormsModule,
     WattSpinnerComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WATT_CARD,
     WattTextAreaFieldComponent,
+
     DhPermissionsTableComponent,
   ],
 })

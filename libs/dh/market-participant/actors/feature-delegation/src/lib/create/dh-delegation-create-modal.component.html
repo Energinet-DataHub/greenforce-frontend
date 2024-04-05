@@ -22,24 +22,24 @@ limitations under the License.
         [formControl]="createDelegationForm.controls.delegation"
         [options]="delegations$ | push"
       />
+
       <watt-dropdown
         [multiple]="true"
         label="{{ t('message') }}"
-        [formControl]="createDelegationForm.controls.messageTypes"
-        [options]="messageTypes"
-        translate="marketParticipant.delegation.messageTypes"
+        [formControl]="createDelegationForm.controls.delegatedProcesses"
+        [options]="delegatedProcesses"
+        translate="marketParticipant.delegation.processTypes"
         dhDropdownTranslator
       />
 
-      @if (showGridAreaDropdown()) {
-        <watt-dropdown
-          [multiple]="true"
-          label="{{ t('gridArea') }}"
-          [formControl]="createDelegationForm.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        />
-      }
-      <watt-datepicker
+      <watt-dropdown
+        [multiple]="true"
+        label="{{ t('gridArea') }}"
+        [formControl]="createDelegationForm.controls.gridAreas"
+        [options]="gridAreaOptions$ | push"
+      />
+
+      <watt-datepicker-v2
         [label]="t('start')"
         [formControl]="createDelegationForm.controls.startDate"
       />

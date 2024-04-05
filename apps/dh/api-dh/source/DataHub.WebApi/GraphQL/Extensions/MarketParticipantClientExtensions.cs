@@ -12,16 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL
+namespace Energinet.DataHub.WebApi.GraphQL;
+
+public static class MarketParticipantClientExtensions
 {
-    public sealed record CreateMessageDelegationInput(
-        Guid DelegatedBy,
-        Guid DelegatedTo,
-        ICollection<Guid> GridAreas,
-        ICollection<DelegationMessageType> MessageTypes,
-        DateTimeOffset StartsAt);
+    internal static Task<GetUserOverviewResponse> GetUserOverviewAsync(this IMarketParticipantClient_V1 client)
+    {
+        return client.UserOverviewUsersSearchAsync(
+            1,
+            int.MaxValue,
+            UserOverviewSortProperty.Email,
+            SortDirection.Asc,
+            new UserOverviewFilterDto
+            {
+                UserStatus = [],
+                UserRoleIds = [],
+            });
+    }
 }

@@ -22,14 +22,13 @@ import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
+import { WattTimepickerV2Component } from './';
 import { WattDateRange } from '@energinet-datahub/watt/utils/date';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 
-import { WattTimepickerComponent } from './';
-
 const backspace = '{backspace}';
 
-describe(WattTimepickerComponent, () => {
+describe(WattTimepickerV2Component, () => {
   async function setup({
     template,
     initialState = null,
@@ -49,66 +48,46 @@ describe(WattTimepickerComponent, () => {
 
     const { fixture } = await render(TestComponent, {
       providers: [danishLocalProviders, danishDatetimeProviders, FormGroupDirective],
-      imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule, BrowserAnimationsModule],
+      imports: [
+        WattTimepickerV2Component,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+      ],
     });
 
-    const [startTimeInput, endTimeInput] = screen.queryAllByRole('textbox') as HTMLInputElement[];
+    const [startTimeInput, endTimeInput, _3rdInput] = screen.queryAllByRole(
+      'textbox'
+    ) as HTMLInputElement[];
 
     return {
       fixture,
       startTimeInput,
       endTimeInput,
+      timepickerInput: _3rdInput,
     };
   }
 
   describe('with reactive forms', () => {
     const template = `
-  <watt-timepicker
-    [formControl]="timeRangeControl"
-    [range]="true"
-    sliderLabel="Adjust time range"
-  ></watt-timepicker>`;
+      <watt-timepicker-v2
+        [formControl]="timeRangeControl"
+        [range]="true"
+        sliderLabel="Adjust time range"
+      />`;
 
     commonTests(template);
 
-    it('can input a start time', async () => {
-      const { fixture, startTimeInput } = await setup({
+    it('can input start and end time', async () => {
+      const { fixture, timepickerInput } = await setup({
         template,
       });
 
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
+      const startTime = '0123';
+      const endTime = '1234';
 
-      const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattDateRange = { start: '01:23', end: '' };
-
-      expect(actualTimeRange).toEqual(expectedTimeRange);
-    });
-
-    it('can input an end time', async () => {
-      const { fixture, endTimeInput } = await setup({
-        template,
-      });
-
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '1234');
-
-      const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattDateRange = { start: '', end: '12:34' };
-
-      expect(actualTimeRange).toEqual(expectedTimeRange);
-    });
-
-    it('can input both start and end time', async () => {
-      const { fixture, startTimeInput, endTimeInput } = await setup({
-        template,
-      });
-
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
-
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '1234');
+      userEvent.clear(timepickerInput);
+      userEvent.type(timepickerInput, `${startTime}${endTime}`);
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattDateRange = { start: '01:23', end: '12:34' };
@@ -116,33 +95,41 @@ describe(WattTimepickerComponent, () => {
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
-    it('clears the value when an input with incomplete time loses focus', async () => {
+    it('clears the value when incomplete time is provided', async () => {
       const timeRange: WattDateRange = { start: '01:23', end: '12:34' };
 
-      const { fixture, startTimeInput, endTimeInput } = await setup({
+      const { fixture, timepickerInput } = await setup({
         template,
         initialState: timeRange,
       });
 
-      userEvent.type(endTimeInput, backspace);
-      endTimeInput.blur();
+      // Delete one character from the end
+      userEvent.type(timepickerInput, backspace);
 
-      userEvent.type(startTimeInput, backspace);
-      startTimeInput.blur();
+      let actualTimeRange = fixture.componentInstance.timeRangeControl.value;
+      let expectedTimeRange: WattDateRange = { start: '01:23', end: '' };
 
-      const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattDateRange = { start: '', end: '' };
+      expect(actualTimeRange).toEqual(expectedTimeRange);
+
+      // Current state: `01:23 - 12:3`
+      // Delete eight (`3 - 12:3`) characters from the end
+      userEvent.type(timepickerInput, Array(8).fill(backspace).join(''));
+
+      actualTimeRange = fixture.componentInstance.timeRangeControl.value;
+      expectedTimeRange = { start: '', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
     it('starts with slider hidden', async () => {
       await setup({ template });
+
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
     it('shows slider on button click', async () => {
       await setup({ template });
+
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
       userEvent.click(sliderToggle);
@@ -152,6 +139,7 @@ describe(WattTimepickerComponent, () => {
 
     it('hides slider on second button click', async () => {
       await setup({ template });
+
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
       userEvent.click(sliderToggle);
@@ -162,6 +150,7 @@ describe(WattTimepickerComponent, () => {
 
     it('disables slider button', async () => {
       await setup({ template, disabled: true });
+
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
       userEvent.click(sliderToggle, undefined, {
@@ -232,16 +221,16 @@ describe(WattTimepickerComponent, () => {
     });
 
     it('adjusts slider values when input changes', async () => {
-      const { startTimeInput, endTimeInput } = await setup({ template });
+      const { timepickerInput } = await setup({ template });
+
+      const startTime = '0123';
+      const endTime = '2345';
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
       userEvent.click(sliderToggle);
 
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
-
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '2345');
+      userEvent.clear(timepickerInput);
+      userEvent.type(timepickerInput, `${startTime}${endTime}`);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -254,6 +243,7 @@ describe(WattTimepickerComponent, () => {
 
     it('displays slider label with value from input', async () => {
       await setup({ template });
+
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
       userEvent.click(sliderToggle);
@@ -263,12 +253,15 @@ describe(WattTimepickerComponent, () => {
   });
 
   function commonTests(template: string) {
-    it('contains two input fields', async () => {
+    it('contains three input fields', async () => {
       await setup({ template });
 
+      // 1 for start time input
+      // 1 for end time input
+      // 1 for mask input
       const inputs = screen.queryAllByRole('textbox');
 
-      expect(inputs.length).toBe(2);
+      expect(inputs.length).toBe(3);
     });
 
     it('can set an initial state', async () => {

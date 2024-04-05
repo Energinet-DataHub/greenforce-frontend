@@ -27,7 +27,6 @@ import {
   PriceAreaCode,
   ProcessStatus,
   CalculationType,
-  SettlementReport,
   mockCreateCalculationMutation,
   mockGetActorFilterQuery,
   mockGetActorsForRequestCalculationQuery,
@@ -37,7 +36,6 @@ import {
   mockGetGridAreasQuery,
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
-  mockGetSettlementReportsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -50,7 +48,6 @@ export function wholesaleMocks(apiBase: string) {
     getCalculation(),
     getCalculations(),
     downloadSettlementReportData(apiBase),
-    getSettlementReports(),
     getFilteredActors(),
     getGridAreasQuery(),
     getLatestBalanceFixing(),
@@ -69,10 +66,7 @@ function createCalculation() {
         __typename: 'Mutation',
         createCalculation: {
           __typename: 'CreateCalculationPayload',
-          calculation: {
-            __typename: 'Calculation',
-            id: '779195a4-2505-4290-97a6-f3eba2b7d179',
-          },
+          uuid: '779195a4-2505-4290-97a6-f3eba2b7d179',
         },
       },
     });
@@ -268,31 +262,6 @@ const mockedCalculations: Calculation[] = [
   },
 ];
 
-const executionTime = dayjs('2023-03-03T07:38:29.3776159+00:00').toDate();
-const period = {
-  start: dayjs('2020-01-28T23:00:00.000Z').toDate(),
-  end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
-};
-
-const mockedSettlementReports: SettlementReport[] = [
-  {
-    calculationId: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
-    calculationType: CalculationType.BalanceFixing,
-    period,
-    executionTime,
-    gridArea: mockedGridAreas[0],
-    __typename: 'SettlementReport',
-  },
-  {
-    calculationId: '911d0c33-3232-49e1-a0ef-bcef313d1098',
-    calculationType: CalculationType.Aggregation,
-    period,
-    executionTime,
-    gridArea: mockedGridAreas[1],
-    __typename: 'SettlementReport',
-  },
-];
-
 const mockedFilteredActors: ActorFilter = [
   {
     __typename: 'Actor',
@@ -455,15 +424,6 @@ function getCalculations() {
       });
       //return res(ctx.status(404), ctx.delay(300));
     }
-  });
-}
-
-function getSettlementReports() {
-  return mockGetSettlementReportsQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: { __typename: 'Query', settlementReports: mockedSettlementReports },
-    });
   });
 }
 
