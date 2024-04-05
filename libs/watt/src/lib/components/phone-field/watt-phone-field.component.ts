@@ -52,6 +52,7 @@ import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
 type Contry = {
   countryIsoCode: CountryCode;
   icon: WattIcon;
+  prefix: string;
 };
 
 function phoneValidator(countryCode: CountryCode): ValidatorFn {
@@ -124,12 +125,12 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   readonly countries = [
-    { countryIsoCode: 'DK', icon: 'custom-flag-da' },
-    { countryIsoCode: 'SE', icon: 'custom-flag-se' },
-    { countryIsoCode: 'NO', icon: 'custom-flag-no' },
-    { countryIsoCode: 'DE', icon: 'custom-flag-de' },
-    { countryIsoCode: 'FI', icon: 'custom-flag-fi' },
-    { countryIsoCode: 'PL', icon: 'custom-flag-pl' },
+    { prefix: '+45', countryIsoCode: 'DK', icon: 'custom-flag-da' },
+    { prefix: '+46', countryIsoCode: 'SE', icon: 'custom-flag-se' },
+    { prefix: '+47', countryIsoCode: 'NO', icon: 'custom-flag-no' },
+    { prefix: '+49', countryIsoCode: 'DE', icon: 'custom-flag-de' },
+    { prefix: '+358', countryIsoCode: 'FI', icon: 'custom-flag-fi' },
+    { prefix: '+48', countryIsoCode: 'PL', icon: 'custom-flag-pl' },
   ] as Contry[];
 
   formControl = input.required<FormControl>();
@@ -168,6 +169,10 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   writeValue(value: string): void {
+    const country = this.findCountryByPrefix(value);
+    if (country) {
+      this.choosenCountry.set(country);
+    }
     this.value = value;
   }
 
@@ -220,6 +225,11 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @ignore */
+  getCountryName(countryIsoCode: CountryCode) {
+    return this.intl[countryIsoCode as keyof WattPhoneFieldIntlService];
+  }
+
+  /** @ignore */
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
       countryIsoCode: this.choosenCountry().countryIsoCode,
@@ -229,6 +239,11 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     });
 
     this.mask = phoneOptions;
+  }
+
+  private findCountryByPrefix(number: string): Contry | undefined {
+    if (!number) return undefined;
+    return this.countries.find((country) => number.startsWith(country.prefix));
   }
 
   /** @ignore */
@@ -241,10 +256,5 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   private setValidator() {
     const countryCode = this.choosenCountry().countryIsoCode;
     this.formControl().addValidators(phoneValidator(countryCode));
-  }
-
-  /** @ignore */
-  getCountryName(countryIsoCode: CountryCode) {
-    return this.intl[countryIsoCode as keyof WattPhoneFieldIntlService];
   }
 }
