@@ -36,13 +36,13 @@ interface Section {
 
 interface Image {
   zIndex: string;
-  main?: boolean;
   x?: string;
   y?: string;
   width: string;
   height: string;
   srcset: string;
   transform?: string;
+  transitionFrom?: number;
 }
 
 @Component({
@@ -54,9 +54,8 @@ interface Image {
   styles: `
     eo-landing-page-what {
       display: grid;
-      padding: 0 137px;
       min-height: 100vh;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 55% 1fr;
       grid-template-rows: 1fr;
       gap: 0px 0px;
       grid-template-areas:
@@ -152,6 +151,8 @@ interface Image {
 
       .images-container {
         position: absolute;
+        width: 100%;
+        height: 100vh;
       }
 
       .content {
@@ -159,7 +160,8 @@ interface Image {
         grid-area: content;
         grid-template-columns: 1fr;
         grid-template-rows: 0.5fr 1fr 2fr;
-        gap: 76px 0px;
+        //gap: 76px 0px;
+        gap: 0px 0px;
         grid-template-areas:
           "headline"
           "nav"
@@ -196,7 +198,6 @@ interface Image {
           @for (image of section.images; track image.srcset; let idx = $index) {
             <div class="image-container">
               <img
-                src="small-image.jpg"
                 [attr.width]="activeSection().images[idx].width"
                 [attr.height]="activeSection().images[idx].height"
                 [style.z-index]="activeSection().images[idx].zIndex"
@@ -211,8 +212,7 @@ interface Image {
                     ', ' +
                     activeSection().images[idx].y +
                     ', 0) translate3d(-50%, -50%, 0) ',
-                  opacity: activeSection().id === section.id ? 1 : 0,
-                  position: activeSection().images[idx].main ? 'relative' : 'absolute'
+                  opacity: activeSection().id === section.id ? 1 : 0
                 }"
               />
             </div>
@@ -262,29 +262,30 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
       images: [
         {
           zIndex: '1',
-          main: true,
-          width: '272px',
-          height: '370px',
+          width: '17.99vw',
+          height: '24.47vw',
+          x: '32.67vw',
+          y: '32.08vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5.avif 500w,
               /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5@2x.avif 768w,
               /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5@3x.avif 1200w`,
         },
         {
           zIndex: '2',
-          width: '103px',
-          height: '89px',
-          x: '-26px',
-          y: '-450px',
+          width: '6.81vw',
+          height: '5.89vw',
+          x: '21.59vw',
+          y: '15.31vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4.avif 500w,
               /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4@2x.avif 768w,
               /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4@3x.avif 1200w`,
         },
         {
           zIndex: '3',
-          width: '52px',
-          height: '67px',
-          x: '-100px',
-          y: '50px',
+          width: '3.44vw',
+          height: '4.43vw',
+          x: '17.26vw',
+          y: '49.70vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3.avif 500w,
               /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3@2x.avif 768w,
               /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3@3x.avif 1200w`,
@@ -299,29 +300,30 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
       images: [
         {
           zIndex: '1',
-          main: true,
-          width: '499px',
-          height: '695px',
+          width: '33vw',
+          height: '45.97vw',
+          x: '30.99vw',
+          y: '32.44vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5.avif 500w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5@3x.avif 1200w`,
         },
         {
           zIndex: '2',
-          width: '278px',
-          height: '198px',
-          x: '50px',
-          y: '-180px',
+          width: '18.39vw',
+          height: '13.10vw',
+          x: '17.59vw',
+          y: '45.11vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4.avif 500w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4@3x.avif 1200w`,
         },
         {
           zIndex: '3',
-          width: '210px',
-          height: '252px',
-          x: '450px',
-          y: '-530px',
+          width: '13.89vw',
+          height: '16.67vw',
+          x: '43.78vw',
+          y: '20.24vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3.avif 500w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3@3x.avif 1200w`,
@@ -336,33 +338,37 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
         'With such high demands for showcasing and proving sources used in production, we expect that marketplaces will evolve, aiding companies in buying green energy at the right time, to match their consumption.',
       images: [
         {
-          zIndex: '2',
-          main: true,
-          width: '624px',
-          height: '417px',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3.avif 500w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@2x.avif 768w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@3x.avif 1200w`,
-        },
-        {
           zIndex: '1',
-          width: '278px',
-          height: '198px',
-          x: '430px',
-          y: '-500px',
+          width: '20.57vw',
+          height: '16.01vw',
+          transitionFrom: 0,
+          x: '36.34vw',
+          y: '13.56vw',
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5.avif 500w,
             /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5@3x.avif 1200w`,
         },
         {
-          zIndex: '2',
-          width: '311px',
-          height: '242px',
-          x: '220px',
-          y: '0px',
+          zIndex: '3',
+          width: '18.39vw',
+          height: '13.10vw',
+          x: '21.10vw',
+          y: '50vw',
+          transitionFrom: 2,
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4.avif 300w,
             /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4@3x.avif 1200w`,
+        },
+        {
+          zIndex: '2',
+          width: '41.27vw',
+          height: '27.58vw',
+          x: '28.51vw',
+          y: '33.04vw',
+          transitionFrom: 1,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3.avif 500w,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@2x.avif 768w,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@3x.avif 1200w`,
         },
       ],
     },
@@ -382,20 +388,22 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
     setTimeout(() => {
       const images = [
         {
-          width: '515px',
-          height: '470px',
+          width: '34.06vw',
+          height: '31.08vw',
+          x: '31.82vw',
+          y: '33.73vw',
         },
         {
-          width: '344px',
-          height: '278px',
-          x: '80px',
-          y: '-500px',
+          width: '22.75vw',
+          height: '18.39vw',
+          x: '20.44vw',
+          y: '18.85vw',
         },
         {
-          width: '238px',
-          height: '204px',
-          x: '26px',
-          y: '0px',
+          width: '15.79vw',
+          height: '13.51vw',
+          x: '17.44vw',
+          y: '50.19vw',
         },
       ];
 

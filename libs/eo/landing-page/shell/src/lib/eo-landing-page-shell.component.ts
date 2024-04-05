@@ -59,15 +59,7 @@ import { EoLandingPageWhatComponent } from './what.component';
     EoLandingPageWhatComponent,
   ],
   selector: 'eo-landing-page-shell',
-  styles: ``,
   template: `
-    @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-what />
-    } @placeholder {
-      <p>Loading...</p>
-    }
-
-    <!--
     <eo-landing-page-header />
     <eo-landing-page-hero />
     @defer (on viewport; prefetch on idle) {
@@ -80,7 +72,13 @@ import { EoLandingPageWhatComponent } from './what.component';
       <eo-landing-page-how />
     } @placeholder {
       <p>Loading...</p>
-    }-->
+    }
+
+    @defer (on viewport; prefetch on idle) {
+      <eo-landing-page-what />
+    } @placeholder {
+      <p>Loading...</p>
+    }
   `,
   viewProviders: [EoLandingPagePresenter],
 })

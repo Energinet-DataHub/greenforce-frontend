@@ -168,6 +168,7 @@ export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
   private observer!: IntersectionObserver;
   private elementRef = inject(ElementRef);
   protected isActive = signal<boolean>(false);
+  private resizeObserver!: ResizeObserver;
 
   ngAfterViewInit(): void {
     this.observer = new IntersectionObserver(
@@ -184,9 +185,19 @@ export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
     );
 
     this.observer.observe(this.elementRef.nativeElement);
+
+    this.setHeight();
+  }
+
+  setHeight(): void {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.elementRef.nativeElement.style.height = `${this.elementRef.nativeElement.clientHeight}px`;
+    });
+    this.resizeObserver.observe(this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {
     this.observer.disconnect();
+    this.resizeObserver.disconnect();
   }
 }
