@@ -25,7 +25,6 @@
     "@maskito/kit": "0.0.0-PLACEHOLDER",
     "@maskito/phone": "0.0.0-PLACEHOLDER",
     "@popperjs/core": "0.0.0-PLACEHOLDER",
-    "inputmask": "0.0.0-PLACEHOLDER",
     "dayjs": "0.0.0-PLACEHOLDER"
   },
   "exports": {
