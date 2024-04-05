@@ -2,7 +2,7 @@
   "$schema": "../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../../dist/watt",
   "assets": [
-    { "input": "core/assets", "glob": "**/*", "output": "assets" },
+    { "input": "assets", "glob": "**/*", "output": "assets" },
     {
       "input": "core/breakpoints",
       "glob": "**/*.scss",
