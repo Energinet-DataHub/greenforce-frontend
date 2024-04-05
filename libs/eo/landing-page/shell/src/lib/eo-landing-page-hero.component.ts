@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -171,26 +171,14 @@ import { EoLearnMoreComponent } from './learn-more.component';
     </div>
   `,
 })
-export class EoLandingPageHeroComponent {
+export class EoLandingPageHeroComponent implements AfterViewInit {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;
-  private videoStarted = false;
   private authService = inject(EoAuthService);
 
-  @HostListener('mousemove')
-  onMouseMove(): void {
-    if (this.videoStarted) return;
-    this.playVideo();
-  }
-
-  private playVideo(): void {
-    if (this.videoplayer) {
-      this.videoplayer.nativeElement
-        .play()
-        .then(() => (this.videoStarted = true))
-        .catch((error: any) => {
-          // Auto-play was prevented
-          // Show a UI element to let the user manually start playback
-        });
+  ngAfterViewInit(): void {
+    if(this.videoplayer) {
+      // HACK: Even though the video is muted, the browser may still block autoplay
+      this.videoplayer.nativeElement.muted = true;
     }
   }
 
