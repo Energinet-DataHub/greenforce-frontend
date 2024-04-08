@@ -763,6 +763,10 @@
           "documentId": {
             "type": "string",
             "nullable": true
+          },
+          "actorNumber": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

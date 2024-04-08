@@ -241,7 +241,7 @@ type Query {
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): ExchangeEventSearchResponse!
+  esettExchangeEvents(pageNumber: Int!, pageSize: Int!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!, actorNumber: String): ExchangeEventSearchResponse!
   downloadEsettExchangeEvents(locale: String!, periodInterval: DateRange, createdInterval: DateRange, gridAreaCode: String, calculationType: ExchangeEventCalculationType, documentStatus: DocumentStatus, timeSeriesType: TimeSeriesType, documentId: String, sortProperty: ExchangeEventSortProperty!, sortDirection: SortDirection!): String!
   meteringGridAreaImbalance(pageNumber: Int!, pageSize: Int!, createdFrom: DateTime, createdTo: DateTime, calculationPeriod: DateRange, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String!, createdFrom: DateTime, createdTo: DateTime, calculationPeriod: DateRange, gridAreaCode: String, documentId: String, valuesToInclude: MeteringGridImbalanceValuesToInclude!, sortProperty: MeteringGridAreaImbalanceSortProperty!, sortDirection: SortDirection!): String!
@@ -282,7 +282,6 @@ type Mutation {
 
 type Subscription {
   calculationCreated: Calculation!
-  calculationProgress: Calculation!
 }
 
 enum ActorAuditedChange {
