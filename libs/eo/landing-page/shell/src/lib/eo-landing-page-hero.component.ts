@@ -33,10 +33,23 @@ import { EoLearnMoreComponent } from './learn-more.component';
   selector: 'eo-landing-page-hero',
   styles: `
   :host {
+    --headings-aligment: center;
+    --heading-size: 38px;
+    --actions-container-alignmen: column;
+
+    @media only screen and (min-width: 622px) {
+      --headings-aligment: left;
+      --heading-size: 62px;
+      --heading-line-height: normal;
+
+      --actions-container-alignmen: row;
+    }
+
     display: block;
     position: relative;
     overflow: hidden;
     width: 100%;
+    max-width: 100%;
     height: 100vh;
     min-height: 514px;
   }
@@ -67,7 +80,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
   }
 
   .content {
-    padding: 0 99px;
+    padding: 0 clamp(16px, 5vw, 99px);;
     position: relative;
     z-index: 2;
     display: flex;
@@ -85,21 +98,24 @@ import { EoLearnMoreComponent } from './learn-more.component';
   .actions-container {
     margin-top: 40px;
     display: flex;
+    align-items: center;
+    flex-direction: var(--actions-container-alignmen);
     gap: 24px;
   }
 
   #hero-heading {
     color: #fff;
     text-transform: uppercase;
-    font-size: 62px;
-    line-height: 67px;
-    color: #fff;
+    text-align: var(--headings-aligment);
+    font-size: var(--heading-size);
+    line-height: normal;
     order: 2;
     margin-top: 14px;
   }
 
   .hero-subheading {
     font-size: 18px;
+    text-align: var(--headings-aligment);
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -114,6 +130,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
     padding: 16px 24px;
     align-items: center;
     gap: 8px;
+    text-transform: uppercase;
     border-radius: 360px;
     background: #24B492;
     color: #fff;
@@ -123,6 +140,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
   button.secondary {
     display: inline-flex;
     padding: 16px 24px;
+    text-transform: uppercase;
     align-items: center;
     gap: 8px;
     border-radius: 360px;

@@ -48,17 +48,15 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
       --watt-button-text-transform: uppercase;
     }
 
-
-
     .topbar {
-      padding: 24px 99px;
+      padding: 24px clamp(16px, 5vw, 99px);
       display: flex;
       justify-content: space-between;
     }
 
     .logo {
+      width: 150px;
       height: 44px;
-      width: 300px;
     }
   `,
   template: `
