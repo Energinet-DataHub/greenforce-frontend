@@ -258,7 +258,7 @@ describe('EO - Activity Log', () => {
             mappedTimestamps[index + 1]
           )}`
         );
-        cy.wrap(timestamp).should('be.lte', timestamps[index + 1]);
+        cy.wrap(timestamp).should('be.lte', mappedTimestamps[index + 1]);
       });
     });
   });
