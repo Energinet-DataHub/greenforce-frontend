@@ -35,7 +35,7 @@ import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {
-  GetCalculationsQueryVariables,
+  CalculationQueryInput,
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { executionStates, calculationTypes } from '@energinet-datahub/dh/wholesale/domain';
@@ -44,7 +44,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<GetCalculationsQueryVariables>;
+type Filters = FormControls<CalculationQueryInput>;
 
 @Component({
   standalone: true,
@@ -111,8 +111,8 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
   `,
 })
 export class DhCalculationsFiltersComponent implements OnInit {
-  @Input() initial?: GetCalculationsQueryVariables;
-  @Output() filter = new EventEmitter<GetCalculationsQueryVariables>();
+  @Input() initial?: CalculationQueryInput;
+  @Output() filter = new EventEmitter<CalculationQueryInput>();
 
   private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
