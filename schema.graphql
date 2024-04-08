@@ -236,7 +236,8 @@ type Query {
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
   calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange, executionStates: [CalculationState!], calculationTypes: [CalculationType!], gridAreaCodes: [String!], period: DateRange, first: Int): [Calculation!]!
+  calculations(input: CalculationQueryInput!): [Calculation!]!
+  latestBalanceFixing(period: DateRange!): Calculation!
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -281,6 +282,7 @@ type Mutation {
 
 type Subscription {
   calculationCreated: Calculation!
+  calculationProgress: Calculation!
 }
 
 enum ActorAuditedChange {
@@ -606,6 +608,14 @@ type ExchangeEventStatusReportResponse {
 type ReadinessStatusDto {
   component: ESettStageComponent!
   isReady: Boolean!
+}
+
+input CalculationQueryInput {
+  gridAreaCodes: [String!]
+  executionStates: [CalculationState!]
+  calculationTypes: [CalculationType!]
+  executionTime: DateRange
+  period: DateRange
 }
 
 type AssociatedActors {
