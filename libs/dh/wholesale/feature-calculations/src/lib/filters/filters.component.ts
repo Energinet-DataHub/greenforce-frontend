@@ -92,6 +92,7 @@ type Filters = FormControls<CalculationQueryInput>;
         formControlName="gridAreaCodes"
         [chipMode]="true"
         [multiple]="true"
+        sortDirection="asc"
         [options]="_gridAreaOptions | push"
         [placeholder]="t('gridAreas')"
       />
