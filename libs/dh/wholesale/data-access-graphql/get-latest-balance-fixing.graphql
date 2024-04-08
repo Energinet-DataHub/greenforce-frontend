@@ -1,10 +1,5 @@
-query GetLatestBalanceFixing($period: DateRange) {
-  calculations(
-    first: 1
-    period: $period
-    calculationTypes: BALANCE_FIXING
-    executionStates: COMPLETED
-  ) {
+query GetLatestBalanceFixing($period: DateRange!) {
+  latestBalanceFixing(period: $period) {
     period
   }
 }
