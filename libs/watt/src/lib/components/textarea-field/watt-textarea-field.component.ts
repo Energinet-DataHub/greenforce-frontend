@@ -61,34 +61,37 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   @Input() required = false;
   @Input() label!: string;
 
-  /* @ignore */
+  /** @ignore */
   model!: string;
+
+  /** @ignore */
   private element = inject(ElementRef);
 
+  /** @ignore */
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
-  /* @ignore */
+  /** @ignore */
   onChange: (value: string) => void = () => {
     /* left blank intentionally */
   };
 
-  /* @ignore */
+  /** @ignore */
   writeValue(value: string): void {
     this.model = value;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnTouched(fn: () => void): void {
     this.element.nativeElement.addEventListener('focusout', fn);
   }
 
-  /* @ignore */
+  /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }
