@@ -141,7 +141,9 @@ type ExchangeEventSearchResponse {
 
 type ExchangeEventSearchResult {
   gridArea: GridAreaDto
+  energySupplier: ActorNameDto
   documentId: String!
+  actorNumber: String
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
