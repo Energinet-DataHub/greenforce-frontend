@@ -26,11 +26,15 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      padding: 10vh 0;
       width: 100%;
       background: #00363F;
       overflow: hidden;
       position: relative;
+
+      @media only screen and (min-width: 860px) {
+        padding: 16vh 0;
+      }
     }
 
     eo-landing-page-why .background-image {
@@ -52,15 +56,22 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 
       p {
         color: #FFF;
-        font-size: 48px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 50px;
+        font-size: 28px;
+        line-height: 34px;
         margin-top: 28px;
+        font-weight: 400;
+
+        @media only screen and (min-width: 860px) {
+          font-size: 48px;
+          line-height: 50px;
+        }
       }
 
       footer {
-        margin-top: 64px;
+        margin-top: 32px;
+        @media only screen and (min-width: 860px) {
+          margin-top: 64px;
+        }
       }
 
       cite {
