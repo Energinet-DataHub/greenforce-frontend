@@ -35,6 +35,12 @@ limitations under the License.
     </ng-container>
 
     <ng-container
+      *wattTableCell="columns['energySupplier']; header: t('columns.energySupplier'); let message"
+    >
+      {{ message.actorNumber }} • {{ message.energySupplier?.value }}
+    </ng-container>
+
+    <ng-container
       *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let message"
     >
       {{ "eSett.outgoingMessages.shared.calculationType." + message.calculationType | transloco }}

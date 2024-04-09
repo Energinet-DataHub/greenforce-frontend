@@ -664,6 +664,7 @@
       "columns": {
         "created": "Oprettet",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "Elleverandør",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",

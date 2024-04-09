@@ -61,12 +61,13 @@ export class DhOutgoingMessagesTableComponent {
   drawer: DhOutgoingMessageDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
-    created: { accessor: 'created' },
-    id: { accessor: 'documentId' },
-    calculationType: { accessor: 'calculationType' },
-    messageType: { accessor: 'timeSeriesType' },
-    gridArea: { accessor: 'gridArea' },
-    status: { accessor: 'documentStatus' },
+    created: { accessor: null },
+    id: { accessor: null },
+    energySupplier: { accessor: null },
+    calculationType: { accessor: null },
+    messageType: { accessor: null },
+    gridArea: { accessor: null },
+    status: { accessor: null },
   };
 
   @Input() isLoading!: boolean;
