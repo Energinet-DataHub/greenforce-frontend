@@ -75,7 +75,7 @@ export class DhActorTokenService {
       switchMap(() =>
         this.tokenHttp.v1TokenPost(this.actorStorage.getSelectedActor()).pipe(
           map(({ token }) => token),
-          tap(async () => {
+          tap(() => {
             const account = this.msalService.instance.getActiveAccount();
             if (account?.idTokenClaims) {
               const givenName = account?.idTokenClaims['given_name'];
