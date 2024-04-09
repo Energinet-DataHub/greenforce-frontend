@@ -828,6 +828,10 @@
             "type": "string",
             "nullable": true
           },
+          "gridAreaCodeOut": {
+            "type": "string",
+            "nullable": true
+          },
           "created": {
             "type": "string",
             "format": "date-time"
