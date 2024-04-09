@@ -664,9 +664,11 @@
       "columns": {
         "created": "Created",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "Energy supplier",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Out grid",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",
