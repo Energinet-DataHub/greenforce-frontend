@@ -41,7 +41,7 @@ public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
 
         descriptor
            .Field("supplierWithName")
-           .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default!, default!));
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default(BalanceResponsibleResult)!, default!));
 
         descriptor
            .Field("balanceResponsibleWithName")

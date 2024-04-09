@@ -53,38 +53,38 @@ export class WattRadioComponent implements ControlValueAccessor {
   @Input() group!: string;
   @Input() value!: string | boolean;
 
-  /* @ignore */
+  /** @ignore */
   model!: string;
 
-  /* @ignore */
+  /** @ignore */
   isDisabled = false;
 
-  /* @ignore */
+  /** @ignore */
   onChange: (value: string) => void = () => {
     /* left blank intentionally */
   };
 
-  /* @ignore */
+  /** @ignore */
   onTouched: () => void = () => {
     /* left blank intentionally */
   };
 
-  /* @ignore */
+  /** @ignore */
   writeValue(value: string): void {
     this.model = value;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }

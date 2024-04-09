@@ -45,7 +45,7 @@ import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,
-  GetCalculationsQueryVariables,
+  CalculationQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
@@ -83,7 +83,7 @@ export class DhCalculationsTableComponent implements OnInit {
   loading = false;
   error = false;
 
-  filter$ = new BehaviorSubject<GetCalculationsQueryVariables>({
+  filter$ = new BehaviorSubject<CalculationQueryInput>({
     executionTime: {
       start: dayjs().startOf('day').subtract(10, 'days').toDate(),
       end: dayjs().endOf('day').toDate(),
@@ -93,14 +93,14 @@ export class DhCalculationsTableComponent implements OnInit {
   calculations$ = this.filter$.pipe(
     filter((variables) => !!variables.executionTime?.start && !!variables.executionTime?.end),
     switchMap(
-      (variables) =>
+      (input) =>
         this.apollo.watchQuery({
           pollInterval: 10000,
           useInitialLoading: true,
           notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetCalculationsDocument,
-          variables: variables,
+          variables: { input },
         }).valueChanges
     ),
     takeUntilDestroyed()

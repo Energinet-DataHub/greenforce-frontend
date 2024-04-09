@@ -16,10 +16,6 @@
  */
 const environments = [
   {
-    name: 'sandbox_002',
-    url: 'https://sandbox.datahub3.dk/',
-  },
-  {
     name: 'dev_001',
     url: 'https://dev.datahub3.dk/',
   },
@@ -54,6 +50,11 @@ environments.forEach((env) => {
 
     // Should have correct redirect_uri
     cy.visit(env.url);
+
+    if (env.name !== 'test_002') {
+      cy.get('watt-button').click();
+    }
+
     cy.location('href', { timeout: 10000 }).should((url) => {
       expect(url).to.include(`redirect_uri=${encodeURIComponent(env.url)}`);
     });

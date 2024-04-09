@@ -10,6 +10,10 @@
     "logout": "Sign out",
     "profile": "Profile"
   },
+  "login": {
+    "loginWithUsername": "Login with username",
+    "loginWithMitID": "Login with MitID"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -169,13 +173,11 @@
       "stopModalTitle": "Stop delegation?",
       "stopDate": "Stop on date",
       "setUpDelegation": "Set up delegation",
-      "outgoingMessages": "Outgoing messages",
-      "incomingMessages": "Incoming messages",
       "modalTitle": "Set up delegation",
       "gridArea": "Netområde",
       "start": "Start",
       "emptyTitle": "No delegations found",
-      "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
+      "emptyMessage": "Delegate messages to another market participant",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Set up delegation for messages",
@@ -188,18 +190,11 @@
           "status": "Status"
         }
       },
-      "messageTypes": {
-        "INBOUND": "Incoming",
-        "OUTBOUND": "Outgoing",
-        "RSM012_INBOUND": "Submit metered data for a metering point (RSM-012)",
-        "RSM012_OUTBOUND": "Submit metered data for a metering point (RSM-012)",
-        "RSM014_INBOUND": "Submit calculated time series (RSM-014)",
-        "RSM016_INBOUND": "Aggregated metered data request (RSM-016)",
-        "RSM016_OUTBOUND": "Aggregated metered data request (RSM-016)",
-        "RSM017_INBOUND": "Request wholesale services (RSM-017)",
-        "RSM017_OUTBOUND": "Request wholesale services (RSM-017)",
-        "RSM018_INBOUND": "Submit missing data log (RSM-018)",
-        "RSM019_INBOUND": "Submit settlement basis (RSM-019)"
+      "processTypes": {
+        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
+        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
+        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -259,10 +254,20 @@
           }
         },
         "process_delegation": {
+          "args": {
+            "assigned_market_role": {
+              "GridAccessProvider": "Grid access provider",
+              "EnergySupplier": "Energy supplier"
+            },
+            "conflicting_market_role": {
+              "GridAccessProvider": "Grid access provider",
+              "EnergySupplier": "Energy supplier"
+            }
+          },
           "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
-          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a 'conflicting_market_role'"
+          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}"
         }
       }
     },
@@ -459,7 +464,15 @@
               "CONTACT_PHONE": "<b>{{ auditedBy }}</b> changed the phone no. of the contact from <b>{{ previousValue }}</b> to <b>{{ currentValue }}</b>",
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the name of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>"
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
+              "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{processType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
+            },
+            "processTypes": {
+              "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
+              "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
+              "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
             }
           }
         }
@@ -651,9 +664,11 @@
       "columns": {
         "created": "Created",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "Energy supplier",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Out grid",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",
@@ -687,6 +702,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
+        "calculationPeriod": "Calculation period",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID",
         "valuesToInclude": "Pricetypes"
@@ -1024,6 +1040,16 @@
           "body": "User {{first}} {{last}} ({{email}}) will be deactivated, and sign-in will be blocked.",
           "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
           "confirm": "Deactivate user",
+          "reject": "Cancel"
+        },
+        "reactivate": "Reactivate",
+        "reactivateError": "Something went wrong. User could not be activated. Please try again",
+        "reactivateSuccess": "User activated",
+        "reactivateConfirmation": {
+          "title": "Reactivate user?",
+          "body": "User {{first}} {{last}} ({{email}}) will be activated.",
+          "important": "It may take up to 30 minutes before the user can log in again.",
+          "confirm": "Activate user",
           "reject": "Cancel"
         },
         "editRole": "Edit user role",

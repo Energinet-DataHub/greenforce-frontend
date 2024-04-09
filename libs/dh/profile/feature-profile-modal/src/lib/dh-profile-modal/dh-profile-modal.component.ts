@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
 import {
@@ -32,7 +32,7 @@ import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -61,6 +61,7 @@ type UserPreferencesForm = FormGroup<{
   standalone: true,
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
     ReactiveFormsModule,
     ApolloModule,
 
@@ -73,7 +74,7 @@ type UserPreferencesForm = FormGroup<{
     VaterFlexComponent,
 
     DhDropdownTranslatorDirective,
-    DhSignupMitIdComponent,
+    DhMitIDButtonComponent,
   ],
   styles: `
 

@@ -14,60 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DelegationMessageType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DelegatedProcess } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegations } from '../dh-delegations';
 import { dhGroupDelegations } from './dh-group-delegations';
 
 describe(dhGroupDelegations, () => {
-  it('should group delegations by direction and type', () => {
-    const delegations = Object.values(DelegationMessageType).map((messageType) => ({
-      messageType: messageType as DelegationMessageType,
+  it('should group delegations by type', () => {
+    const delegations = Object.values(DelegatedProcess).map((messageType) => ({
+      process: messageType as DelegatedProcess,
     })) as DhDelegations;
 
     const result = dhGroupDelegations(delegations);
 
-    expect(result).toEqual({
-      outgoing: [
-        {
-          type: DelegationMessageType.Rsm012Outbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm012Outbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm016Outbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm016Outbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm017Outbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm017Outbound }],
-        },
-      ],
-      incoming: [
-        {
-          type: DelegationMessageType.Rsm012Inbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm012Inbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm014Inbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm014Inbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm016Inbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm016Inbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm017Inbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm017Inbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm018Inbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm018Inbound }],
-        },
-        {
-          type: DelegationMessageType.Rsm019Inbound,
-          delegations: [{ messageType: DelegationMessageType.Rsm019Inbound }],
-        },
-      ],
-    });
+    expect(result).toEqual([
+      {
+        type: DelegatedProcess.RequestEnergyResults,
+        delegations: [{ process: DelegatedProcess.RequestEnergyResults }],
+      },
+      {
+        type: DelegatedProcess.ReceiveEnergyResults,
+        delegations: [{ process: DelegatedProcess.ReceiveEnergyResults }],
+      },
+      {
+        type: DelegatedProcess.RequestWholesaleResults,
+        delegations: [{ process: DelegatedProcess.RequestWholesaleResults }],
+      },
+      {
+        type: DelegatedProcess.ReceiveWholesaleResults,
+        delegations: [{ process: DelegatedProcess.ReceiveWholesaleResults }],
+      },
+    ]);
   });
 });

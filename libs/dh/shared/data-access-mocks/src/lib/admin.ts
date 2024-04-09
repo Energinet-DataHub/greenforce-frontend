@@ -61,12 +61,29 @@ export function adminMocks(apiBase: string) {
     putMarketParticipantPermissionsUpdate(apiBase),
     postMarketParticipantUserRoleCreate(apiBase),
     putMarketParticipantUserUpdateUserIdentity(apiBase),
+    postMarketParticipantUserInviteUser(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getMarketParticipantUserRoleGetAssignable(apiBase),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
+    getMarketParticipantUserDeactivate(apiBase),
+    getMarketParticipantUserReActivate(apiBase),
   ];
+}
+
+function getMarketParticipantUserDeactivate(apiBase: string) {
+  return http.put(`${apiBase}/v1/MarketParticipantUser/DeactivateUser`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function getMarketParticipantUserReActivate(apiBase: string) {
+  return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
 }
 
 function getMarketParticipantUserSearchUsers(apiBase: string) {
@@ -187,6 +204,13 @@ function postMarketParticipantUserRoleCreate(apiBase: string) {
 
 function putMarketParticipantUserUpdateUserIdentity(apiBase: string) {
   return http.put(`${apiBase}/v1/MarketParticipantUser/UpdateUserIdentity`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function postMarketParticipantUserInviteUser(apiBase: string) {
+  return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
   });

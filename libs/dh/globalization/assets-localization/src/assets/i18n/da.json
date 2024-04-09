@@ -10,6 +10,10 @@
     "logout": "Log ud",
     "profile": "Profil"
   },
+  "login": {
+    "loginWithUsername": "Login med brugernavn",
+    "loginWithMitID": "Login med MitID"
+  },
   "shared": {
     "error": {
       "title": "Ups! Der opstod en fejl",
@@ -169,13 +173,11 @@
       "stopModalTitle": "Stop delegering?",
       "stopDate": "Stop på dato",
       "setUpDelegation": "Opsæt delegering",
-      "outgoingMessages": "Udgående meddelelser",
-      "incomingMessages": "Indgående meddelelser",
       "modalTitle": "Opsæt delegering",
       "gridArea": "Netområde",
       "start": "Start",
       "emptyTitle": "Ingen delegering",
-      "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
+      "emptyMessage": "Deleger meddelelser til anden aktør",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
@@ -188,18 +190,11 @@
           "status": "Status"
         }
       },
-      "messageTypes": {
-        "INBOUND": "Indgående",
-        "OUTBOUND": "Udgående",
-        "RSM012_INBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
-        "RSM012_OUTBOUND": "Fremsend måledata for et målepunkt (RSM-012)",
-        "RSM014_INBOUND": "Fremsend beregnede tidsserier (RSM-014)",
-        "RSM016_INBOUND": "Anmod om aggregerede måledata (RSM-016)",
-        "RSM016_OUTBOUND": "Anmod om aggregerede måledata (RSM-016)",
-        "RSM017_INBOUND": "Anmod om engrosydelser (RSM-017)",
-        "RSM017_OUTBOUND": "Anmod om engrosydelser (RSM-017)",
-        "RSM018_INBOUND": "Fremsend hullerlog (RSM-018)",
-        "RSM019_INBOUND": "Fremsend beregnede engrosydelser (RSM-019)"
+      "processTypes": {
+        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
+        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
+        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -259,10 +254,20 @@
           }
         },
         "process_delegation": {
+          "args": {
+            "assigned_market_role": {
+              "GridAccessProvider": "Netvirksomhed",
+              "EnergySupplier": "Elleverandør"
+            },
+            "conflicting_market_role": {
+              "GridAccessProvider": "Netvirksomhed",
+              "EnergySupplier": "Elleverandør"
+            }
+          },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en {{conflicting_market_role}}"
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}"
         }
       }
     },
@@ -459,7 +464,15 @@
               "CONTACT_PHONE": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten fra <b>{{ previousValue }}</b> til <b>{{ currentValue }}</b>",
               "CONTACT_NAME_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede navnet på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
-              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>"
+              "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
+              "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
+            },
+            "processTypes": {
+              "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
+              "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
+              "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
             }
           }
         }
@@ -651,9 +664,11 @@
       "columns": {
         "created": "Oprettet",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "Elleverandør",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Ud net",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",
@@ -687,6 +702,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettet",
+        "calculationPeriod": "Beregningsperiode",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID",
         "valuesToInclude": "MGA ubalancer"
@@ -1024,6 +1040,16 @@
           "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
+          "reject": "Fortryd"
+        },
+        "reactivate": "Genaktiver",
+        "reactivateError": "Noget gik galt. Brugeren blev ikke aktiveret. Prøv igen",
+        "reactivateSuccess": "Bruger blev aktiveret",
+        "reactivateConfirmation": {
+          "title": "Genaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
+          "confirm": "Aktiver bruger",
           "reject": "Fortryd"
         },
         "editRole": "Rediger brugerrolle",

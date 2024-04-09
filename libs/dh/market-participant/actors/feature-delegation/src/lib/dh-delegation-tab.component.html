@@ -51,14 +51,15 @@ limitations under the License.
 
       <vater-spacer />
 
-      <watt-button (click)="onSetUpDelegation()" variant="secondary">
+      <watt-button
+        *dhPermissionRequired="['delegation:manage']"
+        (click)="onSetUpDelegation()"
+        variant="secondary"
+      >
         {{ t("setUpDelegation") }}
       </watt-button>
     </vater-stack>
 
-    <dh-delegations-overview
-      [outgoing]="delegationsGrouped().outgoing"
-      [incoming]="delegationsGrouped().incoming"
-    />
+    <dh-delegations-overview [delegationsByType]="delegationsByType()" />
   }
 </vater-flex>

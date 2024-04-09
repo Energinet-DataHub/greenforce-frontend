@@ -44,7 +44,7 @@ limitations under the License.
         [hidden]="true"
       />
     </mat-date-range-input>
-    <input #actualInput class="mask-input" />
+    <input #actualInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
       [mask]="rangeInputMask"
@@ -80,6 +80,7 @@ limitations under the License.
   <watt-field [control]="control" [label]="label">
     <input
       matInput
+      tabindex="-1"
       aria-label="date-input"
       #dateInput
       autocomplete="off"
@@ -91,7 +92,7 @@ limitations under the License.
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />
-    <input #actualInput class="mask-input" />
+    <input #actualInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
       [mask]="inputMask"

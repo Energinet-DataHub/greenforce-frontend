@@ -111,7 +111,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 }
 
 type CreateCalculationPayload {
-  calculation: Calculation
+  uuid: UUID
 }
 
 type CreateDelegationsForActorPayload {
@@ -141,7 +141,10 @@ type ExchangeEventSearchResponse {
 
 type ExchangeEventSearchResult {
   gridArea: GridAreaDto
+  energySupplier: ActorNameDto
   documentId: String!
+  actorNumber: String
+  gridAreaCodeOut: String
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
@@ -218,7 +221,7 @@ type MessageDelegationType {
   status: ActorDelegationStatus!
   id: UUID!
   periodId: UUID!
-  messageType: DelegationMessageType!
+  process: DelegatedProcess!
   validPeriod: DateRange!
 }
 
@@ -302,44 +305,44 @@ type PermissionDetailsDto {
 }
 
 type Query {
+  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
+  selectedActor: Actor!
+  actorById(id: UUID!): Actor!
+  actors: [Actor!]!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  associatedActors(email: String!): AssociatedActors!
+  calculationById(id: UUID!): Calculation!
+  calculations(input: CalculationQueryInput!): [Calculation!]!
+  latestBalanceFixing(period: DateRange!): Calculation!
+  esettServiceStatus: [ReadinessStatusDto!]!
+  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
+  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): String!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  downloadBalanceResponsibles(locale: String! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): String!
+  gridAreaOverview: [GridAreaOverviewItemDto!]!
+  gridAreas: [GridAreaDto!]!
+  imbalancePricesOverview: ImbalancePricesOverview!
+  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
-  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
-  organizationById(id: UUID!): Organization!
-  organizations: [Organization!]!
-  gridAreas: [GridAreaDto!]!
-  calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange executionStates: [CalculationState!] calculationTypes: [CalculationType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
-  settlementReports(gridAreaCodes: [String!] period: DateRange executionTime: DateRange): [SettlementReport!]!
-  selectedActor: Actor!
-  actorById(id: UUID!): Actor!
-  actors: [Actor!]!
-  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
-  esettServiceStatus: [ReadinessStatusDto!]!
-  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
-  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): ExchangeEventSearchResponse!
-  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): String!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
-  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
-  downloadBalanceResponsibles(locale: String! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): String!
-  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  userProfile: GetUserProfileResponse!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
-  associatedActors(email: String!): AssociatedActors!
-  gridAreaOverview: [GridAreaOverviewItemDto!]!
-  imbalancePricesOverview: ImbalancePricesOverview!
-  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  userProfile: GetUserProfileResponse!
-  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
-  getDelegationsForActor(actorId: UUID!): [MessageDelegationType!]!
 }
 
 type ReadinessStatusDto {
@@ -349,14 +352,6 @@ type ReadinessStatusDto {
 
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
-}
-
-type SettlementReport {
-  calculationId: UUID!
-  calculationType: CalculationType!
-  gridArea: GridAreaDto!
-  period: DateRange!
-  executionTime: DateTime
 }
 
 type StopDelegationPayload {
@@ -456,6 +451,14 @@ input AddressDtoInput {
   country: String!
 }
 
+input CalculationQueryInput {
+  gridAreaCodes: [String!]
+  executionStates: [CalculationState!]
+  calculationTypes: [CalculationType!]
+  executionTime: DateRange
+  period: DateRange
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -488,7 +491,7 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegationDto: CreateMessageDelegationDtoInput!
+  delegations: CreateProcessDelegationsDtoInput!
 }
 
 input CreateMarketParticipantInput {
@@ -498,14 +501,6 @@ input CreateMarketParticipantInput {
   actorContact: CreateActorContactDtoInput!
 }
 
-input CreateMessageDelegationDtoInput {
-  delegatedFrom: UUID!
-  delegatedTo: UUID!
-  gridAreas: [UUID!]!
-  messageTypes: [DelegationMessageType!]!
-  startsAt: DateTime!
-}
-
 input CreateOrganizationDtoInput {
   name: String!
   businessRegisterIdentifier: String!
@@ -513,11 +508,19 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
-input StopDelegationInput {
-  stopMessageDelegationDto: [StopMessageDelegationDtoInput!]!
+input CreateProcessDelegationsDtoInput {
+  delegatedFrom: UUID!
+  delegatedTo: UUID!
+  gridAreas: [UUID!]!
+  delegatedProcesses: [DelegatedProcess!]!
+  startsAt: DateTime!
 }
 
-input StopMessageDelegationDtoInput {
+input StopDelegationInput {
+  stopMessageDelegationDto: [StopProcessDelegationDtoInput!]!
+}
+
+input StopProcessDelegationDtoInput {
   id: UUID!
   periodId: UUID!
   stopsAt: DateTime
@@ -561,6 +564,8 @@ enum ActorAuditedChange {
   CONTACT_CATEGORY_REMOVED
   CERTIFICATE_CREDENTIALS
   CLIENT_SECRET_CREDENTIALS
+  DELEGATION_START
+  DELEGATION_STOP
 }
 
 enum ActorDelegationStatus {
@@ -618,16 +623,11 @@ enum ContactCategory {
   REMINDER
 }
 
-enum DelegationMessageType {
-  RSM012_INBOUND
-  RSM012_OUTBOUND
-  RSM014_INBOUND
-  RSM016_INBOUND
-  RSM016_OUTBOUND
-  RSM017_INBOUND
-  RSM017_OUTBOUND
-  RSM018_INBOUND
-  RSM019_INBOUND
+enum DelegatedProcess {
+  REQUEST_ENERGY_RESULTS
+  RECEIVE_ENERGY_RESULTS
+  REQUEST_WHOLESALE_RESULTS
+  RECEIVE_WHOLESALE_RESULTS
 }
 
 enum DocumentStatus {

@@ -22,7 +22,6 @@ import { MsalGuard, MsalService } from '@azure/msal-angular';
 const accountMock = {
   environment: '',
   homeAccountId: '',
-  idTokenClaims: {},
   localAccountId: '',
   name: '',
   tenantId: '',
@@ -41,7 +40,9 @@ function handleRedirectObservableMock(
     expiresOn: null,
     fromCache: true,
     idToken: '',
-    idTokenClaims: {},
+    idTokenClaims: {
+      given_name: '',
+    },
     scopes: [],
     state: '',
     tenantId: '',

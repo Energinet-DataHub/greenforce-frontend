@@ -60,11 +60,17 @@ export class DhProfileAvatarComponent {
   openProfileModal() {
     this._modalService.open({
       component: DhProfileModalComponent,
-      data: { email: this.getAccount().username },
+      data: { email: this.getAccount().email },
     });
   }
 
   private getAccount() {
-    return this._authService.instance.getAllAccounts()[0];
+    const account = this._authService.instance.getActiveAccount();
+    if (!account?.idTokenClaims) return { username: '', email: account?.username };
+
+    return {
+      username: (account?.idTokenClaims['given_name'] as string | undefined) ?? '',
+      email: account?.username,
+    };
   }
 }
