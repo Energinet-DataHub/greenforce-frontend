@@ -172,6 +172,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     const country = this.findCountryByPrefix(value);
     if (country) {
       this.choosenCountry.set(country);
+      this.setup();
     }
     this.value = value;
   }
