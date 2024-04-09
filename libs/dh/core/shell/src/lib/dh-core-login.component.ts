@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
@@ -22,6 +29,7 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
@@ -34,6 +42,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
     WattButtonComponent,
     DhMitIDButtonComponent,
     DhFeatureFlagDirective,
+    MatProgressBarModule,
   ],
   styles: [
     `
@@ -56,6 +65,10 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
         display: flex;
         justify-content: center;
         min-height: 100%;
+        .mat-mdc-progress-bar {
+          --mdc-linear-progress-active-indicator-color: var(--watt-color-secondary);
+          --mdc-linear-progress-track-color: var(--watt-color-primary);
+        }
       }
 
       dh-core-login .container {
@@ -83,16 +96,48 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
       <img src="/assets/logo-dark.svg" class="logo" alt="DataHub logo" />
 
       <vater-stack gap="l">
-        <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
-        <dh-mitid-button *dhFeatureFlag="'new-login-flow'" mode="login">{{
-          'login.loginWithMitID' | transloco
-        }}</dh-mitid-button>
+        @if (!showProgressBar()) {
+          <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
+        }
+
+        <dh-mitid-button
+          [style.visibility]="showProgressBar() ? 'hidden' : 'visible'"
+          *dhFeatureFlag="'new-login-flow'"
+          mode="login"
+          >{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button
+        >
+        @if (showProgressBar()) {
+          <label>
+            {{ 'login.linkingMitId' | transloco }}
+            <mat-progress-bar mode="determinate" [value]="progressBarValue()" />
+          </label>
+        }
       </vater-stack>
     </div>
   `,
 })
-export class DhCoreLoginComponent {
+export class DhCoreLoginComponent implements AfterViewInit {
   private _config = inject(dhB2CEnvironmentToken);
+
+  progressBarValue = signal(0);
+  showProgressBar = signal(false);
+
+  @ViewChild(DhMitIDButtonComponent) mitIdButton!: DhMitIDButtonComponent;
+
+  ngAfterViewInit(): void {
+    const mitIdRelogin = Boolean(localStorage.getItem('mitIdRelogin'));
+    if (mitIdRelogin) {
+      this.showProgressBar.set(true);
+      localStorage.removeItem('mitIdRelogin');
+      setInterval(() => {
+        this.progressBarValue.set(this.progressBarValue() + 1);
+      }, 200);
+      setTimeout(() => {
+        this.mitIdButton.redirectToMitIdSignup();
+        this.showProgressBar.set(false);
+      }, 20000);
+    }
+  }
 
   async login() {
     const instance = MSALInstanceFactory({
