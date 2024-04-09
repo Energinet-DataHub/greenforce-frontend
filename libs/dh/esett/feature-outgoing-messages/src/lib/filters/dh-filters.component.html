@@ -45,6 +45,13 @@ limitations under the License.
   />
 
   <watt-dropdown
+    [formControl]="formGroup.controls.actorNumber!"
+    [chipMode]="true"
+    [options]="energySupplierOptions$ | push"
+    [placeholder]="t('energySupplier')"
+  />
+
+  <watt-dropdown
     [formControl]="formGroup.controls.status!"
     [chipMode]="true"
     [options]="documentStatusOptions$ | push"
