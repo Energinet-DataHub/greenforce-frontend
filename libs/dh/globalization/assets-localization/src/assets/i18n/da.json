@@ -665,9 +665,11 @@
       "columns": {
         "created": "Oprettet",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "Elleverandør",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Ud net",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",

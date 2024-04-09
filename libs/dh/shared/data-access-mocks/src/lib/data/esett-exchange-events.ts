@@ -44,6 +44,11 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161908',
+    energySupplier: {
+      __typename: 'ActorNameDto',
+      value: 'Test Supplier 1',
+    },
+    actorNumber: '111',
     gridArea: {
       code: '007',
       name: 'DK1',
@@ -54,6 +59,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
       __typename: 'GridAreaDto',
     },
     calculationType: ExchangeEventCalculationType.Aggregation,
+    gridAreaCodeOut: null,
     documentStatus: DocumentStatus.Accepted,
     timeSeriesType: TimeSeriesType.Consumption,
   },
@@ -61,6 +67,11 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161909',
+    energySupplier: {
+      __typename: 'ActorNameDto',
+      value: 'Test Supplier 2',
+    },
+    actorNumber: '222',
     gridArea: {
       code: '007',
       name: 'DK1',
@@ -71,6 +82,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
       __typename: 'GridAreaDto',
     },
     calculationType: ExchangeEventCalculationType.Aggregation,
+    gridAreaCodeOut: '111',
     documentStatus: DocumentStatus.Rejected,
     timeSeriesType: TimeSeriesType.Production,
   },
@@ -78,6 +90,11 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161910',
+    energySupplier: {
+      __typename: 'ActorNameDto',
+      value: 'Test Supplier 3',
+    },
+    actorNumber: '333',
     gridArea: {
       code: '007',
       name: 'DK1',
@@ -88,6 +105,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
       __typename: 'GridAreaDto',
     },
     calculationType: ExchangeEventCalculationType.Aggregation,
+    gridAreaCodeOut: '222',
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Production,
   },
@@ -95,6 +113,11 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(),
     documentId: '390161911',
+    energySupplier: {
+      __typename: 'ActorNameDto',
+      value: 'Test Supplier 4',
+    },
+    actorNumber: '444',
     gridArea: {
       code: '007',
       name: 'DK1',
@@ -105,6 +128,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
       __typename: 'GridAreaDto',
     },
     calculationType: ExchangeEventCalculationType.BalanceFixing,
+    gridAreaCodeOut: '333',
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Production,
   },

@@ -16,17 +16,18 @@
  */
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { Sort } from '@angular/material/sort';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhOutgoingMessage } from '../dh-outgoing-message';
 import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-drawer.component';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
-import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-outgoing-messages-table',
@@ -52,6 +53,7 @@ import { Sort } from '@angular/material/sort';
 
     DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageStatusBadgeComponent,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhOutgoingMessagesTableComponent {
@@ -61,12 +63,14 @@ export class DhOutgoingMessagesTableComponent {
   drawer: DhOutgoingMessageDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
-    created: { accessor: 'created' },
-    id: { accessor: 'documentId' },
-    calculationType: { accessor: 'calculationType' },
-    messageType: { accessor: 'timeSeriesType' },
-    gridArea: { accessor: 'gridArea' },
-    status: { accessor: 'documentStatus' },
+    created: { accessor: null },
+    id: { accessor: null },
+    energySupplier: { accessor: null },
+    calculationType: { accessor: null },
+    messageType: { accessor: null },
+    gridArea: { accessor: null },
+    gridAreaCodeOut: { accessor: null },
+    status: { accessor: null },
   };
 
   @Input() isLoading!: boolean;

@@ -27,12 +27,17 @@ query getOutgoingMessages(
     items {
       created
       documentId
+      actorNumber
+      energySupplier {
+        value
+      }
+      calculationType
+      timeSeriesType
       gridArea {
         displayName
       }
-      calculationType
+      gridAreaCodeOut
       documentStatus
-      timeSeriesType
     }
     totalCount
   }
