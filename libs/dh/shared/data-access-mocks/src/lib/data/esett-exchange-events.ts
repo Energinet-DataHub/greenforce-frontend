@@ -44,11 +44,8 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
     documentId: '390161908',
-    energySupplier: {
-      __typename: 'ActorNameDto',
-      value: 'Test Supplier 1',
-    },
-    actorNumber: '111',
+    energySupplier: null,
+    actorNumber: null,
     gridArea: {
       code: '007',
       name: 'DK1',
