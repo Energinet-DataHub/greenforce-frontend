@@ -12,8 +12,7 @@
   },
   "login": {
     "loginWithUsername": "Login med brugernavn",
-    "loginWithMitID": "Login med MitID",
-    "linkingMitId": "Tilknytter MitID"
+    "loginWithMitID": "Login med MitID"
   },
   "shared": {
     "error": {

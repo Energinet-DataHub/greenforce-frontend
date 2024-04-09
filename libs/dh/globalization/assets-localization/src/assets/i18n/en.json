@@ -12,8 +12,7 @@
   },
   "login": {
     "loginWithUsername": "Login with username",
-    "loginWithMitID": "Login with MitID",
-    "linkingMitId": "Linking MitID"
+    "loginWithMitID": "Login with MitID"
   },
   "shared": {
     "error": {
