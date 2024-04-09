@@ -170,6 +170,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
             calculationType: filters.calculationTypes,
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
+            actorNumber: filters.actorNumber,
             documentStatus: filters.status,
             periodInterval: filters.period,
             createdInterval: filters.created,

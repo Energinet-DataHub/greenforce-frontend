@@ -612,7 +612,8 @@
       "calculationType": "Beregningstype",
       "messageType": "Meddelelsestype",
       "gridArea": "Netområde",
-      "status": "Status"
+      "status": "Status",
+      "energySupplier": "Elleverandør"
     },
     "tabs": {
       "outgoingMessages": {
@@ -656,6 +657,7 @@
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "status": "{{ eSett.shared.status }}",
         "period": "Beregningsperiode",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
@@ -665,7 +667,7 @@
       "columns": {
         "created": "Oprettet",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
-        "energySupplier": "Elleverandør",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",

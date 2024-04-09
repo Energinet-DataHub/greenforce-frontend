@@ -20,24 +20,8 @@ import { Sort } from '@angular/material/sort';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { ComponentStore } from '@ngrx/component-store';
 
-import {
-  DocumentStatus,
-  ExchangeEventCalculationType,
-  InputMaybe,
-  Scalars,
-  TimeSeriesType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { dhExchangeSortMetadataMapper } from './dh-sort-metadata-mapper.operator';
-
-type DhOutgoingMessagesFilters = {
-  calculationTypes?: InputMaybe<ExchangeEventCalculationType>;
-  messageTypes?: InputMaybe<TimeSeriesType>;
-  gridAreas?: InputMaybe<string>;
-  status?: InputMaybe<DocumentStatus>;
-  period?: InputMaybe<Scalars['DateRange']['input']>;
-  created?: InputMaybe<Scalars['DateRange']['input']>;
-};
+import { DhOutgoingMessagesFilters } from './dh-outgoing-messages-filters';
 
 interface DhOutgoingMessagesState {
   documentId: string;

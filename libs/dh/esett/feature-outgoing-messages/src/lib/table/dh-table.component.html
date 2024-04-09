@@ -37,7 +37,11 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['energySupplier']; header: t('columns.energySupplier'); let message"
     >
-      {{ message.actorNumber }} • {{ message.energySupplier?.value }}
+      @if (message?.actorNumber != null && message?.energySupplier?.value != null) {
+        {{ message.actorNumber }} • {{ message.energySupplier?.value }}
+      } @else {
+        {{ null | dhEmDashFallback }}
+      }
     </ng-container>
 
     <ng-container
