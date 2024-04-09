@@ -36,6 +36,7 @@ query getOutgoingMessages(
       gridArea {
         displayName
       }
+      gridAreaCodeOut
       documentStatus
     }
     totalCount

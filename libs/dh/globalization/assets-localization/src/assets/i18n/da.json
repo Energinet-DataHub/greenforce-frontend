@@ -668,6 +668,7 @@
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Ud net",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",

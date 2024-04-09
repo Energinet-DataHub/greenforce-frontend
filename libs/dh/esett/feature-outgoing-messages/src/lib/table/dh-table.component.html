@@ -56,6 +56,12 @@ limitations under the License.
       {{ message.gridArea?.displayName }}
     </ng-container>
 
+    <ng-container
+      *wattTableCell="columns['gridAreaCodeOut']; header: t('columns.gridAreaCodeOut'); let message"
+    >
+      {{ message.gridAreaCodeOut | dhEmDashFallback }}
+    </ng-container>
+
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
       <dh-outgoing-message-status-badge
         [status]="message?.documentStatus"

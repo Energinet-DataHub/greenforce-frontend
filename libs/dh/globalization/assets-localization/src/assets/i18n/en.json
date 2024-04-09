@@ -668,6 +668,7 @@
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Out grid",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",
