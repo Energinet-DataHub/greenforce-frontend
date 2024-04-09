@@ -23,6 +23,7 @@ import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shar
 import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test-util';
 
 import { DhActorStorage } from './dh-actor-storage';
+import { MsalService } from '@azure/msal-angular';
 
 describe(DhActorTokenService, () => {
   const createActorsRequest = () =>
@@ -41,7 +42,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
@@ -58,7 +60,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
@@ -75,7 +78,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
@@ -95,7 +99,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
@@ -120,7 +125,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
@@ -148,7 +154,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
@@ -194,7 +201,8 @@ describe(DhActorTokenService, () => {
     const target = new DhActorTokenService(
       {} as MarketParticipantUserHttp,
       {} as TokenHttp,
-      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake())
+      new DhActorStorage(new LocalStorageFake(), new SessionStorageFake()),
+      {} as MsalService
     );
 
     // act
