@@ -12,7 +12,8 @@
   },
   "login": {
     "loginWithUsername": "Login with username",
-    "loginWithMitID": "Login with MitID"
+    "loginWithMitID": "Login with MitID",
+    "linkingMitId": "Linking MitID"
   },
   "shared": {
     "error": {
@@ -664,9 +665,11 @@
       "columns": {
         "created": "Created",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "Energy supplier",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Out grid",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",

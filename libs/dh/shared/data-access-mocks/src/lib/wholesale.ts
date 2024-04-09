@@ -415,7 +415,7 @@ function downloadSettlementReportData(apiBase: string) {
 
 function getCalculations() {
   return mockGetCalculationsQuery(async ({ variables }) => {
-    if (!variables.executionTime) {
+    if (!variables.input.executionTime) {
       return HttpResponse.json({ data: null }, { status: 500 });
     } else {
       await delay(mswConfig.delay);
@@ -442,9 +442,10 @@ function getLatestBalanceFixing() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        calculations: [
-          { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } },
-        ],
+        latestBalanceFixing: {
+          __typename: 'Calculation',
+          period: { start: periodStart, end: periodEnd },
+        },
       },
     });
   });

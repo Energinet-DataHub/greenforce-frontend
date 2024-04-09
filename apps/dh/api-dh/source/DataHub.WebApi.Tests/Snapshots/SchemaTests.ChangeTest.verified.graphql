@@ -141,7 +141,10 @@ type ExchangeEventSearchResponse {
 
 type ExchangeEventSearchResult {
   gridArea: GridAreaDto
+  energySupplier: ActorNameDto
   documentId: String!
+  actorNumber: String
+  gridAreaCodeOut: String
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
@@ -311,11 +314,12 @@ type Query {
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
   calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange executionStates: [CalculationState!] calculationTypes: [CalculationType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
+  calculations(input: CalculationQueryInput!): [Calculation!]!
+  latestBalanceFixing(period: DateRange!): Calculation!
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): ExchangeEventSearchResponse!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
   downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): String!
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
@@ -445,6 +449,14 @@ input AddressDtoInput {
   zipCode: String
   city: String
   country: String!
+}
+
+input CalculationQueryInput {
+  gridAreaCodes: [String!]
+  executionStates: [CalculationState!]
+  calculationTypes: [CalculationType!]
+  executionTime: DateRange
+  period: DateRange
 }
 
 input CreateActorContactDtoInput {

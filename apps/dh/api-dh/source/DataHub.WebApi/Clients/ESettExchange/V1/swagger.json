@@ -763,6 +763,10 @@
           "documentId": {
             "type": "string",
             "nullable": true
+          },
+          "actorNumber": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -819,6 +823,14 @@
           },
           "gridAreaCode": {
             "type": "string"
+          },
+          "actorNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridAreaCodeOut": {
+            "type": "string",
+            "nullable": true
           },
           "created": {
             "type": "string",
