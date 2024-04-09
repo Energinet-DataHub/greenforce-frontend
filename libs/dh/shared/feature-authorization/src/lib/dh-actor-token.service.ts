@@ -22,6 +22,7 @@ import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { DhActorStorage } from './dh-actor-storage';
+import { MsalService } from '@azure/msal-angular';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
@@ -35,7 +36,8 @@ export class DhActorTokenService {
   constructor(
     private marketParticipantUserHttp: MarketParticipantUserHttp,
     private tokenHttp: TokenHttp,
-    private actorStorage: DhActorStorage
+    private actorStorage: DhActorStorage,
+    private msalService: MsalService
   ) {}
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
@@ -71,9 +73,19 @@ export class DhActorTokenService {
     return this.marketParticipantUserHttp.v1MarketParticipantUserGetUserActorsGet().pipe(
       tap(({ actorIds }) => this.actorStorage.setUserAssociatedActors(actorIds)),
       switchMap(() =>
-        this.tokenHttp
-          .v1TokenPost(this.actorStorage.getSelectedActor())
-          .pipe(map(({ token }) => token))
+        this.tokenHttp.v1TokenPost(this.actorStorage.getSelectedActor()).pipe(
+          map(({ token }) => token),
+          tap(async () => {
+            const account = this.msalService.instance.getActiveAccount();
+            if (account?.idTokenClaims) {
+              const givenName = account?.idTokenClaims['given_name'];
+              if (!givenName) {
+                localStorage.setItem('mitIdRelogin', 'true');
+                this.msalService.instance.logout();
+              }
+            }
+          })
+        )
       )
     );
   };
