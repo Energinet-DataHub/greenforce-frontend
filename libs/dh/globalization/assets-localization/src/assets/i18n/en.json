@@ -611,7 +611,8 @@
       "calculationType": "Calculation type",
       "messageType": "Message type",
       "gridArea": "Grid area",
-      "status": "Status"
+      "status": "Status",
+      "energySupplier": "Energy supplier"
     },
     "tabs": {
       "outgoingMessages": {
@@ -655,6 +656,7 @@
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "status": "{{ eSett.shared.status }}",
         "period": "Calculation period",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
@@ -664,7 +666,7 @@
       "columns": {
         "created": "Created",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
-        "energySupplier": "Energy supplier",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
