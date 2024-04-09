@@ -35,6 +35,7 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersTabComponent, debounceTimeValue } from './dh-users-tab.component';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 const users: MarketParticipantUserOverviewItemDto[] = [
   {
@@ -71,7 +72,7 @@ describe(DhUsersTabComponent, () => {
 
     const { fixture } = await render(DhUsersTabComponent, {
       imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
-      providers: [FormGroupDirective],
+      providers: [FormGroupDirective, MsalServiceMock],
       componentProviders: [storeMock, toastServiceMock],
     });
 
