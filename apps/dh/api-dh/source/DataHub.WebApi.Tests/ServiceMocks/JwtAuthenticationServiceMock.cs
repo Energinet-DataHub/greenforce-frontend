@@ -21,6 +21,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Energinet.DataHub.WebApi.Tests.ServiceMocks
@@ -51,7 +52,7 @@ namespace Energinet.DataHub.WebApi.Tests.ServiceMocks
                         ValidateLifetime = false,
                         RequireExpirationTime = false,
                         RequireSignedTokens = false,
-                        SignatureValidator = (token, _) => new JwtSecurityToken(token),
+                        SignatureValidator = (token, _) => new JsonWebToken(token),
                     };
                 });
         }
