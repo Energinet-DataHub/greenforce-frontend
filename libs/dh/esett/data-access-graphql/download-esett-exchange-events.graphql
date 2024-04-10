@@ -9,6 +9,7 @@ query downloadEsettExchangeEvents(
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
+  $actorNumber: String
 ) {
   downloadEsettExchangeEvents(
     locale: $locale
@@ -21,5 +22,6 @@ query downloadEsettExchangeEvents(
     documentId: $documentId
     sortProperty: $sortProperty
     sortDirection: $sortDirection
+    actorNumber: $actorNumber
   )
 }
