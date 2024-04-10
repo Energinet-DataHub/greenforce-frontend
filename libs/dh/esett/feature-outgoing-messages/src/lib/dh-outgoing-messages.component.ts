@@ -244,9 +244,9 @@ export class DhOutgoingMessagesComponent implements OnInit {
               timeSeriesType: filters.messageTypes,
               documentStatus: filters.status,
               documentId,
+              actorNumber: filters.actorNumber,
               sortProperty: sortMetaData.sortProperty,
               sortDirection: sortMetaData.sortDirection,
-              actorNumber: filters.actorNumber,
             },
           })
         )
