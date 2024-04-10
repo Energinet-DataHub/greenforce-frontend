@@ -89,7 +89,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     trigger$.pipe(
       withLatestFrom(this.state$),
       tap(() => {
-        this.resetState();
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap(() =>
@@ -190,8 +189,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     this.updateUserRoles([]);
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
-
-  private resetState = () => this.setState(initialState);
 
   ngrxOnStoreInit(): void {
     this.rolesOptions$ = this._transloco
