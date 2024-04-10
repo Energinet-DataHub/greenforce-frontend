@@ -69,13 +69,11 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   rolesFiltered$ = this.select(this.roles$, this.filterModel$, (roles, filter) =>
     roles.filter(
       (role) =>
-        {
-          return (!filter.status || role.status == filter.status) &&
-            (!filter.eicFunctions ||
-              filter.eicFunctions.length == 0 ||
-              filter.eicFunctions.includes(role.eicFunction)) &&
-            (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()));
-        }
+        (!filter.status || role.status == filter.status) &&
+      (!filter.eicFunctions ||
+        filter.eicFunctions.length == 0 ||
+        filter.eicFunctions.includes(role.eicFunction)) &&
+      (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()))
     )
   );
 
