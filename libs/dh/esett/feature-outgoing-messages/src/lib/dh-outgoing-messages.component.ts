@@ -246,6 +246,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
               documentId,
               sortProperty: sortMetaData.sortProperty,
               sortDirection: sortMetaData.sortDirection,
+              actorNumber: filters.actorNumber
             },
           })
         )
