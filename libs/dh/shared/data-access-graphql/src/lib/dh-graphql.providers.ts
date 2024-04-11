@@ -29,13 +29,8 @@ import {
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
-
 import { errorHandler } from './error-handler';
-import SSELink from './sse-link';
-import { createClient } from 'graphql-sse';
-import { firstValueFrom, map } from 'rxjs';
+import DhSseLink from './dh-sse-link';
 
 function isSubscriptionQuery(operation: Operation) {
   const definition = getMainDefinition(operation.query);
@@ -47,9 +42,9 @@ export const graphQLProviders = makeEnvironmentProviders([
     provide: APOLLO_OPTIONS,
     useFactory(
       httpLink: HttpLink,
+      sseLink: DhSseLink,
       dhApiEnvironment: DhApiEnvironment,
-      dhApplicationInsights: DhApplicationInsights,
-      dhActorTokenService: DhActorTokenService
+      dhApplicationInsights: DhApplicationInsights
     ) {
       if (environment.production === false) {
         loadDevMessages();
@@ -84,17 +79,7 @@ export const graphQLProviders = makeEnvironmentProviders([
           errorHandler(dhApplicationInsights),
           split(
             isSubscriptionQuery,
-            new SSELink(
-              createClient({
-                url: `${dhApiEnvironment.apiBase}/graphql`,
-                headers: () =>
-                  firstValueFrom(
-                    dhActorTokenService
-                      .acquireToken()
-                      .pipe(map((token) => ({ Authorization: `Bearer ${token}` })))
-                  ),
-              })
-            ),
+            sseLink.create(`${dhApiEnvironment.apiBase}/graphql`),
             httpLink.create({
               uri: (operation: Operation) => {
                 return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
@@ -104,6 +89,6 @@ export const graphQLProviders = makeEnvironmentProviders([
         ]),
       };
     },
-    deps: [HttpLink, dhApiEnvironmentToken, DhApplicationInsights, DhActorTokenService],
+    deps: [HttpLink, DhSseLink, dhApiEnvironmentToken, DhApplicationInsights],
   },
 ]);
