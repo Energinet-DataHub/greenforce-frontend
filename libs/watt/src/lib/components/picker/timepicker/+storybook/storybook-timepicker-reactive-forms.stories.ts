@@ -23,6 +23,7 @@ import { localizationProviders } from '../../shared/+storybook/storybook-configu
 import { WattRangeValidators } from '../../shared/validators';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 import { WattTimepickerV2Component } from '../watt-timepicker-v2.component';
+import { startTimeCannotBeLaterThan3HoursValidator } from './watt-timepicker-custom-validator';
 
 export default {
   title: 'Components/Timepicker',
@@ -39,8 +40,8 @@ export default {
 
 const template = `
   <watt-timepicker-v2 label="Single time" [formControl]="exampleFormControlSingle">
-    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.required">
-      Time is required
+    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.startTimeCannotBeLaterThan3Hours">
+      Time cannot be later than 3 hours ago
     </watt-field-error>
   </watt-timepicker-v2>
 
@@ -49,11 +50,7 @@ const template = `
 
  <br />
 
-  <watt-timepicker-v2 label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true">
-    <watt-field-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
-      Time range is required
-    </watt-field-error>
-  </watt-timepicker-v2>
+  <watt-timepicker-v2 label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true" />
 
   <p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
   <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
@@ -97,7 +94,10 @@ export const WithInitialValue: StoryFn<WattTimepickerV2Component> = (args) => ({
 
 export const WithValidations: StoryFn<WattTimepickerV2Component> = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(null, [Validators.required]),
+    exampleFormControlSingle: new FormControl(null, [
+      Validators.required,
+      startTimeCannotBeLaterThan3HoursValidator(),
+    ]),
     exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
     withValidations: true,
     ...args,

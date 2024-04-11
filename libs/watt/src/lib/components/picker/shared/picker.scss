@@ -29,6 +29,11 @@
     }
   }
 
+  mat-datepicker,
+  mat-date-range-picker {
+    display: none;
+  }
+
   input.mat-date-range-input-inner,
   input.mat-mdc-input-element,
   .mat-date-range-input-mirror,
