@@ -680,6 +680,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "messagesNotSent": "{{number}} meddelelser blev ikke sendt",
       "resendMessages": "Send igen",
+      "gridAreas": "Netområder",
       "drawer": {
         "tabs": {
           "message": "Meddelelse",
