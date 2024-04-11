@@ -58,7 +58,6 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -92,7 +91,6 @@ import { NgIf } from '@angular/common';
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,
-    NgIf,
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {

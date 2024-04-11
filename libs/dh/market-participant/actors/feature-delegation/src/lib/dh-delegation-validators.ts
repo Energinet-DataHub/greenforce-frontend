@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 export const dateCannotBeOlderThanTodayValidator =
   () =>
@@ -23,9 +23,10 @@ export const dateCannotBeOlderThanTodayValidator =
     const controlStart = control.value as string;
     if (!controlStart) return null;
 
-    const startDate = dayjs(controlStart).toDate();
+    const now = dayjs();
+    const startDate = dayjs(controlStart);
 
-    if (startDate < dayjs().startOf('day').toDate()) {
+    if (startDate.isBefore(now, 'day')) {
       return { dateCannotBeOlderThanTodayValidator: true };
     }
 

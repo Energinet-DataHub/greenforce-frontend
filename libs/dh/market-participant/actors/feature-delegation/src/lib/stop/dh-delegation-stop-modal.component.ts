@@ -44,7 +44,6 @@ import {
 
 import { DhDelegation } from '../dh-delegations';
 import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
-import { NgIf } from '@angular/common';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
@@ -79,7 +78,6 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     WattFieldErrorComponent,
 
     VaterStackComponent,
-    NgIf,
   ],
   template: `<watt-modal
     [title]="t('stopModalTitle')"
@@ -106,14 +104,14 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             {{ t('stopDate') }}
           </watt-radio>
           <watt-datepicker-v2 [min]="date" [formControl]="stopDelegationForm.controls.stopDate">
-            <watt-field-error
-              *ngIf="
-                stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
-              "
-            >
-              {{ t('stopDateError') }}
-            </watt-field-error></watt-datepicker-v2
-          >
+            @if (
+              stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
+            ) {
+              <watt-field-error>
+                {{ t('stopDateError') }}
+              </watt-field-error>
+            }
+          </watt-datepicker-v2>
         </vater-stack>
       </vater-stack>
     </form>
