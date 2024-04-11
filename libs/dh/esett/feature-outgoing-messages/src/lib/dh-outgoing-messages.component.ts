@@ -115,6 +115,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], { disableClientSideSort: true });
   totalCount = 0;
+  gridAreaCount = 0;
 
   filters$ = this._store.filters$;
   pageMetaData$ = this._store.pageMetaData$;
@@ -191,6 +192,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
         this.tableDataSource.data = result.data?.esettExchangeEvents.items ?? [];
         this.totalCount = result.data?.esettExchangeEvents.totalCount ?? 0;
+        this.gridAreaCount = result.data?.esettExchangeEvents.gridAreaCount ?? 0;
 
         this.hasError = !!result.errors;
       },
