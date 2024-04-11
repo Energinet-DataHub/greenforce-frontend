@@ -48,11 +48,12 @@ services.AddHttpContextAccessor();
 
 services.AddSwagger();
 
-var externalOpenIdUrl = configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? string.Empty;
-var internalOpenIdUrl = configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? string.Empty;
-var backendBffAppId = configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? string.Empty;
+var mitIdExternalOpenIdUrl = configuration.GetValue<string>("MITID_EXTERNAL_OPEN_ID_URL") ?? "-";
+var externalOpenIdUrl = configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? "-";
+var internalOpenIdUrl = configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? "-";
+var backendBffAppId = configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? "-";
 
-services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
+services.AddJwtBearerAuthentication(mitIdExternalOpenIdUrl, externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
 
 services
     .AddAuthorizationBuilder()
