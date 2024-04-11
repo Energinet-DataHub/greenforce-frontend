@@ -137,6 +137,7 @@ type EsettOutgoingMessage {
 type ExchangeEventSearchResponse {
   items: [ExchangeEventSearchResult!]!
   totalCount: Int!
+  gridAreaCount: Int!
 }
 
 type ExchangeEventSearchResult {
