@@ -33,31 +33,34 @@ import { EoLearnMoreComponent } from './learn-more.component';
   selector: 'eo-landing-page-hero',
   styles: `
   :host {
-    --headings-aligment: center;
-    --heading-size: 38px;
-    --actions-container-alignmen: column;
-
-    @media only screen and (min-width: 622px) {
-      --headings-aligment: left;
-      --heading-size: 62px;
-      --heading-line-height: normal;
-
-      --actions-container-alignmen: row;
-    }
-
+    container: hero / size;
     display: block;
     position: relative;
     overflow: hidden;
     width: 100%;
     max-width: 100%;
     height: 100vh;
-    min-height: 514px;
-  }
+    min-height: 650px;
 
-  .video-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    .container {
+      --headings-aligment: center;
+      --heading-size: 38px;
+      --actions-container-alignment: column;
+
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding-top: 44px; // annouce bar height
+    }
+
+    @container hero (width > 478px) and (height > 650px) {
+      .container {
+        --headings-aligment: left;
+        --heading-size: 62px;
+        --heading-line-height: normal;
+        --actions-container-alignment: row;
+      }
+    }
   }
 
   video {
@@ -99,7 +102,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
     margin-top: 40px;
     display: flex;
     align-items: center;
-    flex-direction: var(--actions-container-alignmen);
+    flex-direction: var(--actions-container-alignment);
     gap: 24px;
   }
 
@@ -150,12 +153,13 @@ import { EoLearnMoreComponent } from './learn-more.component';
   }
   `,
   template: `
-    <div class="video-container">
+    <div class="container">
       <video
         #videoPlayer
         autoplay
         loop
         muted
+        playsinline
         class="video-filter"
         poster="/assets/landing-page/blockchain-concept-cover.png"
         aria-hidden="true"

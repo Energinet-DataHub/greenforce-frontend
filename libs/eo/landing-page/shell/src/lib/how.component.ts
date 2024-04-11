@@ -46,6 +46,7 @@ import {
       padding: 150px 0;
       --transition: all 1500ms cubic-bezier(.75, 0, .25, 1);
       --scale: scale(1.15766, 1);
+      min-height: 100vh;
     }
 
     eo-landing-page-how .highlight {
@@ -71,47 +72,49 @@ import {
       color: #fff;
       margin-top: 32px;
       z-index: 1;
-      height: 570px;
       padding-top: 150px;
       transition: var(--transition);
-
-      ::before, ::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #02525E;
-        opacity: .4;
-        border-radius: 32px;
-        z-index: -1;
-        transition: var(--transition);
-      }
-
-      ::before {
-        background: url('/assets/landing-page/landscape.jpg') lightgray 0px -30.791px / 100% 137.634% no-repeat;
-      }
-
-      ::after {
-        background: url('/assets/landing-page/windmills.jpg') lightgray 50% / cover no-repeat;
-        opacity: 0;
-      }
-
-      &.active {
-        height: 790px;
-        padding-top: 280px;
-
-        ::after {
-          opacity: 0.4;
-          transform: var(--scale);
-        }
-        ::before {
-          opacity: 0;
-          transform: var(--scale);
-        }
-      }
     }
+
+    eo-landing-page-how h3 {
+        position: relative;
+        font-size: 62px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        color: #fff;
+        margin-top: 32px;
+        z-index: 1;
+        padding-top: 150px;
+        transition: var(--transition);
+
+        margin-top: 32px;
+        border-radius: 32px;
+        transition: var(--transition);
+        background: url('/assets/landing-page/Rectangle 12.avif') no-repeat;
+        min-height: 570px;
+        min-width: 888px;
+
+        &.active {
+          background: url('/assets/landing-page/Rectangle 12 transformed.avif') no-repeat;
+          min-width: 1028px;
+          min-height: 790px;
+          padding-left: 4%;
+          padding-top: 14%;
+        }
+      }
+
+      eo-landing-page-how .text-container {
+        display: flex;
+        gap: 46px;
+        margin-top: 80px;
+        z-index: 1;
+        transition: var(--transition);
+
+        &.active {
+          transform: translate3d(0, -200%, 0);
+        }
+      }
 
     eo-landing-page-how .how-subheading {
       font-size: 18px;
@@ -120,41 +123,27 @@ import {
       line-height: normal;
       letter-spacing: 0.54px;
       order: -1;
+      text-align: left;
+      width: 100%;
     }
 
-    eo-landing-page-how section {
+    eo-landing-page-how > * {
       max-width: 888px;
-    }
-
-    eo-landing-page-how .text-container {
-      display: flex;
-      gap: 46px;
-      margin-top: 80px;
-      z-index: 1;
-      transition: var(--transition);
-
-      &.active {
-        transform: translate3d(0, -200px, 0);
-        height: 0;
-        margin: 0;
-      }
     }
   `,
   template: `
-    <section aria-labelledby="how-heading" class="heading-container">
-      <!-- Main heading of the hero component -->
-      <h2 id="hero-heading" class="how-heading" [ngClass]="{ active: isActive() }">
-        Fast-Track Compliance with <span class="highlight">EU Sustainability</span><br />Regulations
-      </h2>
+    <h2 class="how-subheading highlight">how we make sustainability reporting easier</h2>
 
-      <p class="how-subheading highlight">how we make sustainability reporting easier</p>
-    </section>
+    <h3 [ngClass]="{ active: isActive() }">
+      Fast-Track Compliance<br/> with <span class="highlight">EU Sustainability</span
+      ><br />Regulations
+    </h3>
 
-    <section aria-labeledby="how-text" class="text-container" [ngClass]="{ active: isActive() }">
+    <section class="text-container" [ngClass]="{ active: isActive() }">
       <p>
         Energy Origin emerges as a transformative solution designed to guide companies through the
-        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
-        Environmental, Social, and Governance (ESG) directives.
+        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD)
+        and Environmental, Social, and Governance (ESG) directives.
       </p>
       <p>
         By leveraging advanced blockchain technology to provide unassailable traceability of
@@ -168,36 +157,25 @@ export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
   private observer!: IntersectionObserver;
   private elementRef = inject(ElementRef);
   protected isActive = signal<boolean>(false);
-  private resizeObserver!: ResizeObserver;
 
   ngAfterViewInit(): void {
     this.observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && this.isActive() === false) {
             this.isActive.set(true);
-          } else {
+          } else if(!entry.isIntersecting && this.isActive() === true) {
             this.isActive.set(false);
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.4 }
     );
 
     this.observer.observe(this.elementRef.nativeElement);
-
-    this.setHeight();
-  }
-
-  setHeight(): void {
-    this.resizeObserver = new ResizeObserver(() => {
-      this.elementRef.nativeElement.style.height = `${this.elementRef.nativeElement.clientHeight}px`;
-    });
-    this.resizeObserver.observe(this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {
     this.observer.disconnect();
-    this.resizeObserver.disconnect();
   }
 }
