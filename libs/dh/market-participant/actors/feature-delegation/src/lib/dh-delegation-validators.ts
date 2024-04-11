@@ -14,15 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ApolloLink, Operation, FetchResult, Observable } from '@apollo/client/core';
-import { print } from 'graphql';
-import { Client } from 'graphql-sse';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { dayjs } from '@energinet-datahub/watt/date';
 
-export default class SSELink extends ApolloLink {
-  constructor(private client: Client) {
-    super();
-  }
+export const dateCannotBeOlderThanTodayValidator =
+  () =>
+  (control: AbstractControl): ValidationErrors | null => {
+    const controlStart = control.value as string;
+    if (!controlStart) return null;
 
-  public override request = (op: Operation): Observable<FetchResult> =>
-    new Observable((sink) => this.client.subscribe({ ...op, query: print(op.query) }, sink));
-}
+    const now = dayjs();
+    const startDate = dayjs(controlStart);
+
+    if (startDate.isBefore(now, 'day')) {
+      return { dateCannotBeOlderThanTodayValidator: true };
+    }
+
+    return null;
+  };

@@ -56,6 +56,8 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -85,6 +87,7 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
     WattButtonComponent,
     WattDropdownComponent,
     WattDatepickerV2Component,
+    WattFieldErrorComponent,
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,
@@ -98,12 +101,16 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
 
+  date = new Date();
   isSaving = signal(false);
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
-    startDate: new FormControl<Date | null>(null, Validators.required),
+    startDate: new FormControl<Date | null>(null, [
+      Validators.required,
+      dateCannotBeOlderThanTodayValidator(),
+    ]),
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
@@ -203,7 +210,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
             .filter((delegate) => delegate.id !== this.modalData.id)
             .map((delegate) => ({
               value: delegate.id,
-              displayValue: delegate.name,
+              displayValue: `${delegate.glnOrEicNumber} • ${delegate.name}`,
             }))
         )
       );

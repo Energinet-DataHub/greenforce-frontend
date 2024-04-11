@@ -23,7 +23,9 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             // These values are required Program.cs configuration, but the actual token validation is mocked.
+            Environment.SetEnvironmentVariable("MITID_EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
             Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
+            Environment.SetEnvironmentVariable("INTERNAL_OPEN_ID_URL", "http://localhost:8080/");
             Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
         }
     }

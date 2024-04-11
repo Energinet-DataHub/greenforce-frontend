@@ -182,6 +182,8 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "startDateError": "A delegation cannot be started in the past",
+      "stopDateError": "A delegation cannot be stopped in the past",
       "table": {
         "selectedRows": "Selected rows",
         "columns": {
@@ -268,6 +270,7 @@
           "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
+          "cancelled": "The delegation has been cancelled and cannot be modified",
           "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}"
         }
       }

@@ -81,6 +81,7 @@ public partial class Query
         string? documentId,
         ExchangeEventSortProperty sortProperty,
         SortDirection sortDirection,
+        string? actorNumber,
         [Service] IESettExchangeClient_V1 client)
     {
         var file = await client.DownloadPOSTAsync(locale, new ExchangeEventDownloadFilter
@@ -96,6 +97,7 @@ public partial class Query
                 DocumentId = documentId,
                 CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
                 CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                ActorNumber = actorNumber,
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
