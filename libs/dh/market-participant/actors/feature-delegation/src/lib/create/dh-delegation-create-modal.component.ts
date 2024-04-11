@@ -56,6 +56,9 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -85,9 +88,11 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
     WattButtonComponent,
     WattDropdownComponent,
     WattDatepickerV2Component,
+    WattFieldErrorComponent,
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,
+    NgIf
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
@@ -98,12 +103,16 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
 
+  date = new Date();
   isSaving = signal(false);
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
-    startDate: new FormControl<Date | null>(null, Validators.required),
+    startDate: new FormControl<Date | null>(null, [
+      Validators.required,
+      dateCannotBeOlderThanTodayValidator(),
+    ]),
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
