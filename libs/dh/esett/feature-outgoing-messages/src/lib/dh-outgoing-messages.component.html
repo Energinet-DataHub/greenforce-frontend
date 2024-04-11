@@ -19,6 +19,7 @@ limitations under the License.
     <vater-stack direction="row" gap="s">
       <h3>{{ t("tabHeading") }}</h3>
       <span class="watt-chip-label">{{ totalCount }}</span>
+      <span class="watt-chip-label">{{ t("countGridAreas", { gridAreaCount }) }}</span>
 
       <div class="health-icons" *rxLet="serviceStatus$ as serviceStatus">
         @for (status of serviceStatus; track status) {
