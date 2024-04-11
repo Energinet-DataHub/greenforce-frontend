@@ -17,16 +17,17 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { dayjs } from '@energinet-datahub/watt/date';
 
-export const startDateCannotBeOlderThan3DaysValidator =
+export const dateCannotBeOlderThanTodayValidator =
   () =>
   (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-    if (!value) return null;
+    const controlStart = control.value as string;
+    if (!controlStart) return null;
 
-    const startDate = dayjs(value).toDate();
+    const now = dayjs();
+    const startDate = dayjs(controlStart);
 
-    if (startDate < dayjs().subtract(3, 'days').toDate()) {
-      return { startDateCannotBeOlderThan3Days: true };
+    if (startDate.isBefore(now, 'day')) {
+      return { dateCannotBeOlderThanTodayValidator: true };
     }
 
     return null;
