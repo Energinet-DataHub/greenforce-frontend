@@ -40,5 +40,6 @@ query getOutgoingMessages(
       documentStatus
     }
     totalCount
+    gridAreaCount
   }
 }

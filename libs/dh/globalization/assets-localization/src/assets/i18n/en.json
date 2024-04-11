@@ -683,6 +683,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "messagesNotSent": "{{number}} messages not sent",
       "resendMessages": "Resend",
+      "countGridAreas": "{{gridAreaCount}} grid areas",
       "drawer": {
         "tabs": {
           "message": "Message",

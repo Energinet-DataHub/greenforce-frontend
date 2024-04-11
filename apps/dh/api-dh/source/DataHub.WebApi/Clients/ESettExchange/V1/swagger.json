@@ -811,6 +811,10 @@
           "totalCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "gridAreaCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

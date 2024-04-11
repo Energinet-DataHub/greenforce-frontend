@@ -130,6 +130,7 @@ function getOutgoingMessagesQuery() {
           esettExchangeEvents: {
             __typename: 'ExchangeEventSearchResponse',
             totalCount: eSettExchangeEvents.length,
+            gridAreaCount: 1,
             items: eSettExchangeEvents,
           },
         },
