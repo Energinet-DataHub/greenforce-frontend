@@ -92,7 +92,7 @@ import { NgIf } from '@angular/common';
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,
-    NgIf
+    NgIf,
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
