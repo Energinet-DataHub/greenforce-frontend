@@ -182,6 +182,8 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
+      "startDateError": "Delegering kan ikke startes tilbage i tiden",
+      "stopDateError": "Delegering kan ikke stoppes tilbage i tiden",
       "table": {
         "selectedRows": "rækker valgt",
         "columns": {
@@ -268,6 +270,7 @@
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
+          "cancelled": "Delegering er annulleret og kan ikke ændres",
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}"
         }
       }
