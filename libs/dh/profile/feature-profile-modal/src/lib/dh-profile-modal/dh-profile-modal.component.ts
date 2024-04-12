@@ -103,8 +103,6 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
   private readonly _getUserProfileQuery = this._apollo.watchQuery({
     returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetUserProfileDocument,
   });
   protected loadingUserProfile = signal<boolean>(false);

@@ -146,14 +146,10 @@ export class DhWholesaleRequestCalculationComponent {
   progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetSelectedActorDocument,
   });
 
   energySupplierQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsForRequestCalculationDocument,
     variables: {
       eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],

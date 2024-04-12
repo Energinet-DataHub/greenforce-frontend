@@ -97,8 +97,6 @@ export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit 
           .watchQuery({
             errorPolicy: 'all',
             returnPartialData: true,
-            useInitialLoading: true,
-            notifyOnNetworkStatusChange: true,
             query: GetCalculationByIdDocument,
             variables: { id },
           })

@@ -129,8 +129,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   serviceStatus$ = this._apollo
     .watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
       fetchPolicy: 'cache-and-network',
       query: GetServiceStatusDocument,
     })
@@ -141,8 +139,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   statusReport$ = this._apollo
     .watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
       query: GetStatusReportDocument,
     })
     .valueChanges.pipe(
@@ -159,8 +155,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
     switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
       this._apollo
         .watchQuery({
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetOutgoingMessagesDocument,
           variables: {
@@ -234,7 +228,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
         switchMap(({ filters, documentId, sortMetaData }) =>
           this._apollo.query({
             returnPartialData: false,
-            notifyOnNetworkStatusChange: true,
             fetchPolicy: 'no-cache',
             query: DownloadEsettExchangeEventsDocument,
             variables: {

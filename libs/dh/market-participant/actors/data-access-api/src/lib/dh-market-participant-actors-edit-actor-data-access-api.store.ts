@@ -37,8 +37,6 @@ export class DhMarketParticipantActorsEditActorDataAccessApiStore {
   private readonly apollo = inject(Apollo);
   private readonly getActorEditableFieldsQuery = this.apollo.watchQuery({
     returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorEditableFieldsDocument,
   });
 

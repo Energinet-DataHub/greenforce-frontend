@@ -96,7 +96,6 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   private readonly userEmailExistsQuery = this.apollo.watchQuery({
     returnPartialData: false,
     useInitialLoading: false,
-    notifyOnNetworkStatusChange: true,
     query: GetKnownEmailsDocument,
   });
 

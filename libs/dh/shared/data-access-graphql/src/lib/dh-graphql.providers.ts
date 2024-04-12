@@ -15,9 +15,15 @@
  * limitations under the License.
  */
 import { makeEnvironmentProviders } from '@angular/core';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink, Operation, split } from '@apollo/client/core';
+import {
+  InMemoryCache,
+  ApolloLink,
+  Operation,
+  split,
+  ApolloClientOptions,
+} from '@apollo/client/core';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { getMainDefinition } from '@apollo/client/utilities';
 
@@ -39,18 +45,33 @@ function isSubscriptionQuery(operation: Operation) {
 
 export const graphQLProviders = makeEnvironmentProviders([
   {
+    provide: APOLLO_FLAGS,
+    useValue: {
+      useInitialLoading: true,
+      useMutationLoading: true,
+    },
+  },
+  {
     provide: APOLLO_OPTIONS,
     useFactory(
       httpLink: HttpLink,
       sseLink: DhSseLink,
       dhApiEnvironment: DhApiEnvironment,
       dhApplicationInsights: DhApplicationInsights
-    ) {
+    ): ApolloClientOptions<unknown> {
       if (environment.production === false) {
         loadDevMessages();
         loadErrorMessages();
       }
       return {
+        defaultOptions: {
+          query: {
+            notifyOnNetworkStatusChange: true,
+          },
+          watchQuery: {
+            notifyOnNetworkStatusChange: true,
+          },
+        },
         cache: new InMemoryCache({
           typePolicies: {
             ...scalarTypePolicies,

@@ -24,8 +24,6 @@ export class DhActorAuditLogService {
 
   public getActorAuditLogByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetAuditLogByActorIdDocument,
   });
 
