@@ -128,11 +128,11 @@ export class DhCoreLoginComponent implements AfterViewInit {
     const mitIdRelogin = Boolean(localStorage.getItem('mitIdRelogin'));
     if (mitIdRelogin) {
       this.showProgressBar.set(true);
-      localStorage.removeItem('mitIdRelogin');
       setInterval(() => {
         this.progressBarValue.set(this.progressBarValue() + 1);
       }, 200);
       setTimeout(() => {
+        localStorage.removeItem('mitIdRelogin');
         this.mitIdButton.redirectToMitIdSignup();
         this.showProgressBar.set(false);
       }, 20000);
