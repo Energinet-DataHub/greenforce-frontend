@@ -29,7 +29,7 @@ public partial class Query
         [Service] IWholesaleClient_V3 client) =>
         await client.QueryCalculationsAsync(input);
 
-    public async Task<CalculationDto> GetLatestBalanceFixingAsync(
+    public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
         Interval period,
         [Service] IWholesaleClient_V3 client)
     {
@@ -41,6 +41,6 @@ public partial class Query
         };
 
         var calculations = await client.QueryCalculationsAsync(input);
-        return calculations.First();
+        return calculations.FirstOrDefault();
     }
 }
