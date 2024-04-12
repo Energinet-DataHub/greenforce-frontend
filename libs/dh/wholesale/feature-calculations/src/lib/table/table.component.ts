@@ -124,7 +124,7 @@ export class DhCalculationsTableComponent implements OnInit {
     // Check if the updated calculation is already in the cache
     const isExistingCalculation = prev.calculations.some((c) => c.id === calculation.id);
 
-    // If the calculation exist, update it with the new values
+    // If the calculation exists, update it with the new values
     const calculations = isExistingCalculation
       ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
       : prev.calculations;
@@ -134,7 +134,8 @@ export class DhCalculationsTableComponent implements OnInit {
 
     // Reaching this point means that the calculation is new. Add it to the cache if
     // the current filter is a live query (arbitrarily defined as a query with an end
-    // date in the future and with no other filters applied)
+    // date in the future and with no other filters applied). This behavior is subject
+    // to change at some point.
     const input = this.filter();
     const isLiveQuery =
       input.executionTime?.end && Object.values(input).filter(Boolean).length === 1
