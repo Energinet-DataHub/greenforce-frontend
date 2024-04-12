@@ -22,13 +22,13 @@ import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
-import { WattTimepickerV2Component } from './';
+import { WattTimepickerComponent } from './';
 import { WattDateRange } from '../../../utils/date';
 import { danishDatetimeProviders } from '../../../configuration/watt-danish-datetime.providers';
 
 const backspace = '{backspace}';
 
-describe(WattTimepickerV2Component, () => {
+describe(WattTimepickerComponent, () => {
   async function setup({
     template,
     initialState = null,
@@ -48,12 +48,7 @@ describe(WattTimepickerV2Component, () => {
 
     const { fixture } = await render(TestComponent, {
       providers: [danishLocalProviders, danishDatetimeProviders, FormGroupDirective],
-      imports: [
-        WattTimepickerV2Component,
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-      ],
+      imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule, BrowserAnimationsModule],
     });
 
     const [startTimeInput, endTimeInput, _3rdInput] = screen.queryAllByRole(
@@ -70,7 +65,7 @@ describe(WattTimepickerV2Component, () => {
 
   describe('with reactive forms', () => {
     const template = `
-      <watt-timepicker-v2
+      <watt-timepicker
         [formControl]="timeRangeControl"
         [range]="true"
         sliderLabel="Adjust time range"

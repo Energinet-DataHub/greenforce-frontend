@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattTimepickerV2Component } from './watt-timepicker-v2.component';
+export { WattTimepickerComponent } from './watt-timepicker.component';

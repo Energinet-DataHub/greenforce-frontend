@@ -37,7 +37,7 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDateRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTimepickerV2Component } from '@energinet-datahub/watt/timepicker';
+import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 
 import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-message-archive-log-search-result.component';
 
@@ -63,7 +63,7 @@ import { DhMessageArchiveLogSearchResultComponent } from './searchresult/dh-mess
     WattButtonComponent,
     WattCheckboxComponent,
     WattDatepickerComponent,
-    WattTimepickerV2Component,
+    WattTimepickerComponent,
     WattBadgeComponent,
     WattDropdownComponent,
     WattSpinnerComponent,
