@@ -148,7 +148,6 @@ export class DhCalculationsTableComponent implements OnInit {
   ngOnInit() {
     this.query.valueChanges.subscribe({
       next: (result) => {
-        console.log(result);
         this.loading = result.loading;
         this.error = !!result.errors;
         if (result.data?.calculations) this.dataSource.data = result.data.calculations;
