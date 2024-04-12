@@ -54,7 +54,6 @@ export class DhMarketParticipantActorsEditActorDataAccessApiStore {
 
   update(actor: ActorEditableFields) {
     return this.apollo.mutate({
-      useMutationLoading: true,
       mutation: UpdateActorDocument,
       variables: {
         input: actor,

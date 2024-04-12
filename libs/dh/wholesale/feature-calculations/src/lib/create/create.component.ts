@@ -204,7 +204,6 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: CreateCalculationDocument,
         variables: {
           input: {

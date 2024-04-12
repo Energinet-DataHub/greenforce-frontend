@@ -145,7 +145,6 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
     this._apollo
       .mutate<UpdateUserProfileMutation>({
-        useMutationLoading: true,
         mutation: UpdateUserProfileDocument,
         variables: {
           input: {

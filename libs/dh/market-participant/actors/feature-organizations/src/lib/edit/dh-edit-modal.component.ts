@@ -102,7 +102,6 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
 
     this.apollo
       .mutate({
-        useMutationLoading: true,
         mutation: UpdateOrganizationDocument,
         variables: {
           input: {

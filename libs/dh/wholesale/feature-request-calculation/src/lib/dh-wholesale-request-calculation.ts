@@ -269,7 +269,6 @@ export class DhWholesaleRequestCalculationComponent {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: RequestCalculationDocument,
         variables: {
           meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,
