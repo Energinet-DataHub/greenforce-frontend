@@ -331,7 +331,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         },
       })
       .pipe(
-        tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing.period?.end)),
+        tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
         map(() => null)
       );
   }
