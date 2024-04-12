@@ -66,11 +66,11 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
  * The styling is calculated based on our monospaced font.
  */
 @Component({
-  selector: 'watt-datepicker-v2',
-  templateUrl: './watt-datepicker-v2.component.html',
+  selector: 'watt-datepicker',
+  templateUrl: './watt-datepicker.component.html',
   styleUrls: ['./watt-datepicker.component.scss'],
   providers: [
-    { provide: MatFormFieldControl, useExisting: WattDatepickerV2Component },
+    { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
@@ -85,7 +85,7 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     WattPlaceholderMaskComponent,
   ],
 })
-export class WattDatepickerV2Component extends WattPickerBase {
+export class WattDatepickerComponent extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
@@ -186,7 +186,7 @@ export class WattDatepickerV2Component extends WattPickerBase {
     return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
   }
   constructor() {
-    super(`watt-datepicker-v2-${WattDatepickerV2Component.nextId++}`);
+    super(`watt-datepicker-${WattDatepickerComponent.nextId++}`);
     this.localeService.onLocaleChange$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((locale) => {
