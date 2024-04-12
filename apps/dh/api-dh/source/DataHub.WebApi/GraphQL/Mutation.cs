@@ -102,10 +102,7 @@ public class Mutation
         var calculationId = await client
             .CreateCalculationAsync(calculationRequestDto, cancellationToken);
 
-        await sender.SendAsync(
-            nameof(Subscription.CalculationCreatedAsync),
-            calculationId,
-            cancellationToken);
+        await sender.SendAsync(nameof(CreateCalculationAsync), calculationId, cancellationToken);
 
         return calculationId;
     }

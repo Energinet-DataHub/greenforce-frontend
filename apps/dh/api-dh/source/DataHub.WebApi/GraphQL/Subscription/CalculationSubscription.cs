@@ -12,16 +12,45 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reactive.Linq;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using HotChocolate.Subscriptions;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
 public partial class Subscription
 {
-    [Subscribe]
-    public async Task<CalculationDto> CalculationCreatedAsync(
-        [EventMessage] Guid id,
+    public IObservable<CalculationDto> OnCalculationProgressAsync(
+        [Service] ITopicEventReceiver eventReceiver,
         [Service] IWholesaleClient_V3 client,
-        CancellationToken cancellationToken) =>
-        await client.GetCalculationAsync(id, cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        var calculationIdStream = eventReceiver
+            .Observe<Guid>(nameof(Mutation.CreateCalculationAsync), cancellationToken);
+
+        var input = new CalculationQueryInput
+            { ExecutionStates = [CalculationState.Pending, CalculationState.Executing] };
+
+        return Observable
+            .FromAsync(() => client.QueryCalculationsAsync(input))
+            .SelectMany(calculations => calculations)
+            .Select(calculation => calculation.CalculationId)
+            .Merge(calculationIdStream)
+            .SelectMany(id => Observable
+                .Interval(TimeSpan.FromSeconds(10))
+                .Select(_ => id)
+                .StartWith(id)
+                .SelectMany(client.GetCalculationAsync)
+                .DistinctUntilChanged(calculation => calculation.ExecutionState)
+                .TakeUntil((calculation) => calculation.ExecutionState switch
+                {
+                    CalculationState.Pending => false,
+                    CalculationState.Executing => false,
+                    _ => true,
+                }));
+    }
+
+    [Subscribe(With = nameof(OnCalculationProgressAsync))]
+    public CalculationDto CalculationProgress([EventMessage] CalculationDto calculation) =>
+        calculation;
 }

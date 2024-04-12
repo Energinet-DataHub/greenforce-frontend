@@ -240,7 +240,7 @@ type Query {
   associatedActors(email: String!): AssociatedActors!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
-  latestBalanceFixing(period: DateRange!): Calculation!
+  latestBalanceFixing(period: DateRange!): Calculation
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -284,7 +284,7 @@ type Mutation {
 }
 
 type Subscription {
-  calculationCreated: Calculation!
+  calculationProgress: Calculation!
 }
 
 enum ActorAuditedChange {
