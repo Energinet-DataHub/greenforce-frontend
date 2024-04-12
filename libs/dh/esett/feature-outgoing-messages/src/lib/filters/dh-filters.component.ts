@@ -40,7 +40,6 @@ import {
   DocumentStatus,
   EicFunction,
   ExchangeEventCalculationType,
-  GetActorsDocument,
   GetActorsForEicFunctionDocument,
   GetGridAreasDocument,
   TimeSeriesType,
