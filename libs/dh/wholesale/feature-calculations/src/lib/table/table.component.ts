@@ -136,7 +136,7 @@ export class DhCalculationsTableComponent implements OnInit {
     // the current filter is a live query (arbitrarily defined as a query with an end
     // date in the future and with no other filters applied). This is the default state
     // of the query when first entering the page. The reason for this is to avoid having
-    // the table rows change position when viewing the data.
+    // the table rows change position when viewing the data with different filters.
     const input = this.filter();
     const isLiveQuery =
       input.executionTime?.end && Object.values(input).filter(Boolean).length === 1
