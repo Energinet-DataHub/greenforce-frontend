@@ -14,8 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *ngIf="!range; else rangeTemplate">
-  <watt-field [id]="id" [control]="control" [label]="label">
+<watt-field [id]="id" [control]="control" [label]="label">
+  <ng-container *ngIf="!range; else rangeTemplate">
     <input
       matInput
       aria-label="time-input"
@@ -32,14 +32,9 @@ limitations under the License.
       [placeholder]="hoursMinutesPlaceholder"
       (maskApplied)="inputChanged($event)"
     />
-    <ng-content />
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
-    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field>
-</ng-container>
+  </ng-container>
 
-<ng-template #rangeTemplate>
-  <watt-field [id]="id" [control]="control" [label]="label">
+  <ng-template #rangeTemplate>
     <mat-date-range-input
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -104,8 +99,8 @@ limitations under the License.
         />
       </div>
     </ng-template>
-    <ng-content />
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
-    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field>
-</ng-template>
+  </ng-template>
+  <ng-content />
+  <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+  <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+</watt-field>
