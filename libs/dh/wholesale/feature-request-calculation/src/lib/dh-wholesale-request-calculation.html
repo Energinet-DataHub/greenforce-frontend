@@ -26,7 +26,7 @@ limitations under the License.
           dhDropdownTranslator
         />
 
-        <watt-datepicker-v2
+        <watt-datepicker
           [label]="t('period')"
           [range]="true"
           [min]="minDate"
@@ -45,7 +45,7 @@ limitations under the License.
           <watt-field-error *ngIf="form.controls.period.errors?.startAndEndDateCannotBeInTheFuture">
             {{ t('startAndEndDateCannotBeInTheFuture')}}
           </watt-field-error>
-        </watt-datepicker-v2>
+        </watt-datepicker>
 
         <watt-dropdown
           [label]="t('gridAreas')"
