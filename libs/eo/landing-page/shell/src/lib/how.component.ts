@@ -43,101 +43,125 @@ import {
       font-style: normal;
       font-weight: 400;
       line-height: 28px;
-      padding: 150px 0;
+      padding: 0 24px 96px 24px;
       --transition: all 1500ms cubic-bezier(.75, 0, .25, 1);
       --scale: scale(1.15766, 1);
-      min-height: 100vh;
-    }
+      container: eo-landing-page-how / inline-size;
 
-    eo-landing-page-how .highlight {
-      color: #13ECB8;
-    }
-
-    eo-landing-page-how .heading-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-
-    eo-landing-page-how .how-heading, eo-landing-page-how .how-subheading {
-      text-transform: uppercase;
-    }
-
-    eo-landing-page-how .how-heading {
-      position: relative;
-      font-size: 62px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      color: #fff;
-      margin-top: 32px;
-      z-index: 1;
-      padding-top: 150px;
-      transition: var(--transition);
-    }
-
-    eo-landing-page-how h3 {
-        position: relative;
-        font-size: 62px;
+      h3 {
+        color: #FFF;
+        text-align: center;
+        font-size: 32px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-        color: #fff;
-        margin-top: 32px;
-        z-index: 1;
-        padding-top: 150px;
-        transition: var(--transition);
+      }
 
-        margin-top: 32px;
+      h2 {
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 0.54px;
+      }
+
+      h2, h3 {
+        text-transform: uppercase;
+      }
+
+      .highlight {
+        color: #13ECB8;
+      }
+
+      .heading {
+        position: relative;
+        z-index: 1;
         border-radius: 32px;
-        transition: var(--transition);
-        background: url('/assets/landing-page/Rectangle 12.avif') no-repeat;
-        min-height: 570px;
-        min-width: 888px;
-
-        &.active {
-          background: url('/assets/landing-page/Rectangle 12 transformed.avif') no-repeat;
-          min-width: 1028px;
-          min-height: 790px;
-          padding-left: 4%;
-          padding-top: 14%;
-        }
-      }
-
-      eo-landing-page-how .text-container {
+        min-width: calc(100vw + 64px);
+        min-height: 500px;
         display: flex;
-        gap: 46px;
-        margin-top: 80px;
-        z-index: 1;
-        transition: var(--transition);
-
-        &.active {
-          transform: translate3d(0, -200%, 0);
-        }
+        align-items: center;
+        justify-content: center;
+        background: url('/assets/landing-page/Rectangle 12 transformed.avif') no-repeat;
+        background-size: cover;
+        flex-direction: column;
+        gap: 24px;
       }
 
-    eo-landing-page-how .how-subheading {
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      letter-spacing: 0.54px;
-      order: -1;
-      text-align: left;
-      width: 100%;
+      .text-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 48px;
+        gap: 16px;
+      }
     }
 
-    eo-landing-page-how > * {
-      max-width: 888px;
+    @container eo-landing-page-how (min-width: 1150px) {
+      eo-landing-page-how {
+        min-height: 1100px;
+        padding: 150px 0;
+
+        * {
+          max-width: 888px;
+        }
+
+        h3 {
+          font-size: 62px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          text-align: left;
+          transition: var(--transition);
+        }
+
+        h2 {
+          transform: translate3d(0, -200%, 0);
+        }
+
+        .heading {
+          min-height: 570px;
+          min-width: 888px;
+          margin-top: 208px;
+          transition: var(--transition);
+          background: url('/assets/landing-page/Rectangle 12.avif') no-repeat;
+          align-items: flex-start;
+          justify-content: flex-start;
+
+          &.active {
+            background: url('/assets/landing-page/Rectangle 12 transformed.avif') no-repeat;
+            min-width: 1028px;
+            min-height: 790px;
+
+            h3 {
+              transform: translate3d(9%, 75%, 0);
+            }
+          }
+        }
+
+        .text-container {
+          display: flex;
+          gap: 46px;
+          margin-top: 80px;
+          z-index: 1;
+          transition: var(--transition);
+          flex-direction: row;
+
+          &.active {
+            transform: translate3d(0, -200%, 0);
+          }
+        }
+      }
     }
   `,
   template: `
-    <h2 class="how-subheading highlight">how we make sustainability reporting easier</h2>
+    <div class="heading" [ngClass]="{ active: isActive() }">
+      <h2 class="highlight">how we make sustainability reporting easier</h2>
+      <h3>
+        Fast-Track Compliance<br/> with <span class="highlight">EU Sustainability</span
+        ><br />Regulations
+      </h3>
+    </div>
 
-    <h3 [ngClass]="{ active: isActive() }">
-      Fast-Track Compliance<br/> with <span class="highlight">EU Sustainability</span
-      ><br />Regulations
-    </h3>
 
     <section class="text-container" [ngClass]="{ active: isActive() }">
       <p>
