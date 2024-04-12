@@ -1,0 +1,16 @@
+subscription OnCalculationProgress {
+  calculationProgress {
+    id
+    executionState
+    executionTimeEnd
+    executionTimeStart
+    period
+    statusType
+    calculationType
+    createdByUserName
+    gridAreas {
+      code
+      name
+    }
+  }
+}
