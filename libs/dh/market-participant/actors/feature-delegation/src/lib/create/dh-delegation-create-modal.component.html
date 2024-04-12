@@ -40,7 +40,7 @@ limitations under the License.
         [options]="gridAreaOptions$ | push"
       />
 
-      <watt-datepicker-v2
+      <watt-datepicker
         [label]="t('start')"
         [formControl]="createDelegationForm.controls.startDate"
         [min]="date"
@@ -52,7 +52,7 @@ limitations under the License.
             {{ t("startDateError") }}
           </watt-field-error>
         }
-      </watt-datepicker-v2>
+      </watt-datepicker>
     </vater-stack>
   </form>
   <watt-modal-actions>

@@ -68,16 +68,16 @@ function minutesToTime(value: number): string {
 }
 /**
  * Usage:
- * `import { WattTimepickerV2Component } from '@energinet-datahub/watt/timepicker';`
+ * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.
  */
 @Component({
-  selector: 'watt-timepicker-v2',
-  templateUrl: './watt-timepicker-v2.component.html',
+  selector: 'watt-timepicker',
+  templateUrl: './watt-timepicker.component.html',
   styleUrls: ['./watt-timepicker.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: WattTimepickerV2Component }],
+  providers: [{ provide: MatFormFieldControl, useExisting: WattTimepickerComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
@@ -92,7 +92,7 @@ function minutesToTime(value: number): string {
     WattPlaceholderMaskComponent,
   ],
 })
-export class WattTimepickerV2Component extends WattPickerBase {
+export class WattTimepickerComponent extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
@@ -216,7 +216,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
   destroyRef = inject(DestroyRef);
 
   constructor() {
-    super(`watt-timepicker-v2-${WattTimepickerV2Component.nextId++}`);
+    super(`watt-timepicker-${WattTimepickerComponent.nextId++}`);
   }
 
   /**
@@ -301,7 +301,7 @@ export class WattTimepickerV2Component extends WattPickerBase {
     value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
   ) {
-    input.value = value ? value : '';
+    input.value = value ?? '';
   }
 
   /**
