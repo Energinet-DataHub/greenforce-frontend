@@ -22,6 +22,8 @@ import {
   inject,
   OnInit,
   Input,
+  signal,
+  effect,
 } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -41,11 +43,13 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
-import { BehaviorSubject, filter, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, map, switchMap, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,
   CalculationQueryInput,
+  OnCalculationProgressDocument,
+  GetCalculationsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
@@ -54,7 +58,6 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   standalone: true,
   imports: [
     TranslocoDirective,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterUtilityDirective,
@@ -65,7 +68,6 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattEmptyStateComponent,
-
     DhCalculationsFiltersComponent,
     DhEmDashFallbackPipe,
   ],
@@ -83,28 +85,30 @@ export class DhCalculationsTableComponent implements OnInit {
   loading = false;
   error = false;
 
-  filter$ = new BehaviorSubject<CalculationQueryInput>({
+  filter = signal<CalculationQueryInput>({
     executionTime: {
       start: dayjs().startOf('day').subtract(10, 'days').toDate(),
       end: dayjs().endOf('day').toDate(),
     },
   });
 
-  calculations$ = this.filter$.pipe(
-    filter((variables) => !!variables.executionTime?.start && !!variables.executionTime?.end),
-    switchMap(
-      (input) =>
-        this.apollo.watchQuery({
-          pollInterval: 10000,
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
-          fetchPolicy: 'cache-and-network',
-          query: GetCalculationsDocument,
-          variables: { input },
-        }).valueChanges
-    ),
-    takeUntilDestroyed()
-  );
+  query = this.apollo.watchQuery({
+    useInitialLoading: true,
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
+    query: GetCalculationsDocument,
+    variables: { input: this.filter() },
+  });
+
+  // The subscription returned by `subscribeToMore` is automatically disposed
+  // when the dependent query is stopped, so no need to manually unsubscribe.
+  subscription = this.query.subscribeToMore({
+    document: OnCalculationProgressDocument,
+    updateQuery: (prev, options) =>
+      this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
+  });
+
+  refetch = effect(() => this.query.refetch({ input: this.filter() }));
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
@@ -118,8 +122,25 @@ export class DhCalculationsTableComponent implements OnInit {
 
   getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
 
+  updateQuery = (prev: GetCalculationsQuery, calculation: Calculation) => {
+    const input = this.filter();
+    const isExistingCalculation = prev.calculations.some((c) => c.id === calculation.id);
+    const calculations = isExistingCalculation
+      ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
+      : prev.calculations;
+
+    if (isExistingCalculation) return { ...prev, calculations };
+
+    const isLiveQuery =
+      input.executionTime?.end && Object.values(input).filter(Boolean).length === 1
+        ? input.executionTime.end > new Date()
+        : false;
+
+    return { ...prev, calculations: isLiveQuery ? [calculation, ...calculations] : calculations };
+  };
+
   ngOnInit() {
-    this.calculations$.subscribe({
+    this.query.valueChanges.subscribe({
       next: (result) => {
         this.loading = result.loading;
         this.error = !!result.errors;
