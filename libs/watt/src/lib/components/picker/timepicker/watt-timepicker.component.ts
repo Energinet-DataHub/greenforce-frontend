@@ -301,7 +301,7 @@ export class WattTimepickerComponent extends WattPickerBase {
     value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
   ) {
-    input.value = value ? value : '';
+    input.value = value ?? '';
   }
 
   /**
