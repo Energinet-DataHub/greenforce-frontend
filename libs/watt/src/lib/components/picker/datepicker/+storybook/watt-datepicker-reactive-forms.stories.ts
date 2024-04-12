@@ -26,7 +26,7 @@ import { WattRangeValidators } from '../../shared/validators';
 
 import { WattDateChipComponent } from '../watt-date-chip.component';
 import { WattDateRangeChipComponent } from '../watt-date-range-chip.component';
-import { WattDatepickerV2Component } from '../watt-datepicker-v2.component';
+import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { startDateCannotBeOlderThan3DaysValidator } from './watt-datepicker-custom-validator';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
@@ -34,7 +34,7 @@ export const initialValueRangeStart = initialValueSingle;
 export const initialValueRangeEnd_StartOfDay = '2022-09-14T22:00:00.000Z';
 export const initialValueRangeEnd_EndOfDay = '2022-09-15T21:59:59.999Z';
 
-export interface WattDatepickerStoryConfig extends WattDatepickerV2Component {
+export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
   disableAnimations?: boolean; // Used to disable animations for the tests
 }
 
@@ -51,11 +51,11 @@ export default {
         WattDateChipComponent,
         WattDateRangeChipComponent,
         WattFieldErrorComponent,
-        WattDatepickerV2Component,
+        WattDatepickerComponent,
       ],
     }),
   ],
-  component: WattDatepickerV2Component,
+  component: WattDatepickerComponent,
   excludeStories: [
     'initialValueSingle',
     'initialValueRangeStart',
@@ -66,16 +66,16 @@ export default {
 
 const template = `
 
-<watt-datepicker-v2 label="Single date" [formControl]="exampleFormControlSingle">
+<watt-datepicker label="Single date" [formControl]="exampleFormControlSingle">
   <watt-field-error *ngIf="exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days">Start date cannot be older than 3 days</watt-field-error>
-</watt-datepicker-v2>
+</watt-datepicker>
 
 <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
 
-<watt-datepicker-v2 label="Date range" [formControl]="exampleFormControlRange" [range]="true" />
+<watt-datepicker label="Date range" [formControl]="exampleFormControlRange" [range]="true" />
 
 <p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
