@@ -29,13 +29,13 @@ export class WattLocaleService {
 
   constructor(private dateAdapter: DateAdapter<unknown>) {}
 
-  setActiveLocale(locale: WattSupportedLocales): void {
+  async setActiveLocale(locale: WattSupportedLocales): Promise<void> {
     if (locale === 'da') {
-      import('dayjs/locale/da');
+      await import('dayjs/locale/da');
     }
 
     if (locale === 'en') {
-      import('dayjs/locale/en');
+      await import('dayjs/locale/en');
     }
 
     dayjs.locale(locale);
