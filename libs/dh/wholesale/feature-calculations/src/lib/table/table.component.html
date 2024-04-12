@@ -20,7 +20,7 @@ limitations under the License.
     {{ t("new") }}
   </watt-button>
   <watt-data-filters>
-    <dh-calculations-filters [initial]="filter$.value" (filter)="filter$.next($event)" />
+    <dh-calculations-filters [initial]="filter()" (filter)="filter.set($event)" />
   </watt-data-filters>
   <watt-table
     *transloco="let translateHeader; read: 'wholesale.calculations.columns'"
