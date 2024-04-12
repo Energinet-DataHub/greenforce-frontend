@@ -31,7 +31,6 @@ import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
@@ -43,7 +42,6 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
-import { BehaviorSubject, filter, map, switchMap, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import {
   GetCalculationsDocument,
@@ -123,7 +121,6 @@ export class DhCalculationsTableComponent implements OnInit {
   getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
 
   updateQuery = (prev: GetCalculationsQuery, calculation: Calculation) => {
-    const input = this.filter();
     const isExistingCalculation = prev.calculations.some((c) => c.id === calculation.id);
     const calculations = isExistingCalculation
       ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
@@ -131,6 +128,7 @@ export class DhCalculationsTableComponent implements OnInit {
 
     if (isExistingCalculation) return { ...prev, calculations };
 
+    const input = this.filter();
     const isLiveQuery =
       input.executionTime?.end && Object.values(input).filter(Boolean).length === 1
         ? input.executionTime.end > new Date()
