@@ -1,4 +1,4 @@
-/**
+/*ss*
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -43,7 +43,7 @@ import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldComponent, WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { MaskitoDirective } from '@maskito/angular';
-import { MASKITO_DEFAULT_OPTIONS } from '@maskito/core';
+import { MASKITO_DEFAULT_OPTIONS, maskitoTransform } from '@maskito/core';
 import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
 import { MetadataJson, isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
 
@@ -52,6 +52,7 @@ import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
 type Contry = {
   countryIsoCode: CountryCode;
   icon: WattIcon;
+  phoneExtension: string;
 };
 
 function phoneValidator(countryCode: CountryCode): ValidatorFn {
@@ -124,12 +125,12 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   readonly countries = [
-    { countryIsoCode: 'DK', icon: 'custom-flag-da' },
-    { countryIsoCode: 'SE', icon: 'custom-flag-se' },
-    { countryIsoCode: 'NO', icon: 'custom-flag-no' },
-    { countryIsoCode: 'DE', icon: 'custom-flag-de' },
-    { countryIsoCode: 'FI', icon: 'custom-flag-fi' },
-    { countryIsoCode: 'PL', icon: 'custom-flag-pl' },
+    { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
+    { countryIsoCode: 'SE', icon: 'custom-flag-se', phoneExtension: '+46' },
+    { countryIsoCode: 'NO', icon: 'custom-flag-no', phoneExtension: '+47' },
+    { countryIsoCode: 'DE', icon: 'custom-flag-de', phoneExtension: '+49' },
+    { countryIsoCode: 'FI', icon: 'custom-flag-fi', phoneExtension: '+358' },
+    { countryIsoCode: 'PL', icon: 'custom-flag-pl', phoneExtension: '+48' },
   ] as Contry[];
 
   formControl = input.required<FormControl>();
@@ -163,11 +164,15 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
     if (!this._metadata) return Promise.reject('Metadata not loaded');
 
-    this.setup();
+    this.writeValue(this.value ?? '');
   }
 
   /** @ignore */
   writeValue(value: string): void {
+    if (value && this._metadata) {
+      this.setCountry(this.countries.find((x) => value.startsWith(x.phoneExtension)));
+      value = maskitoTransform(value, this.mask);
+    }
     this.value = value;
   }
 
@@ -198,18 +203,16 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   async selectedContry(event: MatSelectChange): Promise<void> {
-    const choosenContry = this.countries.find((contry) => contry.countryIsoCode === event.value);
-
-    if (!choosenContry) return Promise.reject('Prefix not found');
-
-    this.choosenCountry.set(choosenContry);
-
+    this.setCountry(this.countries.find((contry) => contry.countryIsoCode === event.value));
     this.formControl().reset();
-
     setTimeout(() => {
       this.phoneNumberInput.nativeElement.focus();
     }, 100);
+  }
 
+  async setCountry(country?: Contry) {
+    if (!country) return Promise.reject('Prefix not found');
+    this.choosenCountry.set(country);
     this.setup();
   }
 
