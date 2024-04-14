@@ -143,7 +143,6 @@ export class DhNewActorStepComponent {
   constructor() {
     this._apollo
       .query({
-        notifyOnNetworkStatusChange: true,
         query: GetGridAreasDocument,
       })
       .subscribe((result) => {

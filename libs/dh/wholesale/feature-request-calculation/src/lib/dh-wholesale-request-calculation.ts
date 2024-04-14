@@ -146,14 +146,10 @@ export class DhWholesaleRequestCalculationComponent {
   progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetSelectedActorDocument,
   });
 
   energySupplierQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsForRequestCalculationDocument,
     variables: {
       eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],
@@ -273,7 +269,6 @@ export class DhWholesaleRequestCalculationComponent {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: RequestCalculationDocument,
         variables: {
           meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,

@@ -124,8 +124,6 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   });
 
   gridAreasQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetGridAreasDocument,
   });
 
@@ -206,7 +204,6 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: CreateCalculationDocument,
         variables: {
           input: {

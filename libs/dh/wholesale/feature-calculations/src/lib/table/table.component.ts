@@ -91,8 +91,6 @@ export class DhCalculationsTableComponent implements OnInit {
   });
 
   query = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     fetchPolicy: 'network-only',
     query: GetCalculationsDocument,
     variables: { input: this.filter() },

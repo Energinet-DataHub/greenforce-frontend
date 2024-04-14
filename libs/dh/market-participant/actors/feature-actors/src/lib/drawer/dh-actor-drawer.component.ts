@@ -118,8 +118,6 @@ export class DhActorDrawerComponent {
   private getActorByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
     returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorByIdDocument,
   });
 

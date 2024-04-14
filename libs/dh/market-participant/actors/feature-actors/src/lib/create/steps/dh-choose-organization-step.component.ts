@@ -78,7 +78,6 @@ export class DhChooseOrganizationStepComponent {
   @Output() selectOrganization = new EventEmitter<DhOrganizationDetails>();
 
   private _getOrganizationsQuery$ = this._apollo.query({
-    notifyOnNetworkStatusChange: true,
     query: GetOrganizationsDocument,
   });
 
@@ -99,7 +98,6 @@ export class DhChooseOrganizationStepComponent {
     this._apollo
       .query({
         variables: { id },
-        notifyOnNetworkStatusChange: true,
         query: GetOrganizationByIdDocument,
       })
       .subscribe((result) => {

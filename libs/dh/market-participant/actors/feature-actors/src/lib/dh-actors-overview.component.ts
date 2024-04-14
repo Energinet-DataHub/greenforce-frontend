@@ -95,14 +95,10 @@ export class DhActorsOverviewComponent implements OnInit {
   private _modalService = inject(WattModalService);
 
   getActorsQuery$ = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsDocument,
   });
 
   getGridAreasQuery$ = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetGridAreasDocument,
   });
 
