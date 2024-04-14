@@ -187,7 +187,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   writeValue(value: string): void {
     if (value && this._metadata) {
       const country = this.countries.find((x) => value.startsWith(x.phoneExtension));
-      if (country && country !== this.chosenCountry()) {
+      if (country) {
         this.setCountry(country);
         value = maskitoTransform(value, this.mask);
       }
