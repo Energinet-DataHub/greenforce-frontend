@@ -89,11 +89,11 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
         panelWidth=""
         panelClass="watt-phone-field__select"
         hideSingleSelectionIndicator="true"
-        [value]="choosenCountry().countryIsoCode"
+        [value]="chosenCountry().countryIsoCode"
         (selectionChange)="selectedContry($event)"
       >
         <mat-select-trigger>
-          <watt-icon [name]="choosenCountry().icon" />
+          <watt-icon [name]="chosenCountry().icon" />
         </mat-select-trigger>
         @for (contry of countries; track contry; let index = $index) {
           <mat-option value="{{ contry.countryIsoCode }}">
@@ -137,7 +137,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   label = input<string>();
 
   /** @ignore */
-  choosenCountry = signal<Contry>(this.countries[0]);
+  chosenCountry = signal<Contry>(this.countries[0]);
 
   /** @ignore */
   mask = MASKITO_DEFAULT_OPTIONS;
@@ -170,8 +170,11 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   writeValue(value: string): void {
     if (value && this._metadata) {
-      this.setCountry(this.countries.find((x) => value.startsWith(x.phoneExtension)));
-      value = maskitoTransform(value, this.mask);
+      const country = this.countries.find((x) => value.startsWith(x.phoneExtension));
+      if (country && country !== this.chosenCountry()) {
+        this.setCountry(country);
+        value = maskitoTransform(value, this.mask);
+      }
     }
     this.value = value;
   }
@@ -203,16 +206,17 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   async selectedContry(event: MatSelectChange): Promise<void> {
-    this.setCountry(this.countries.find((contry) => contry.countryIsoCode === event.value));
+    const country = this.countries.find((contry) => contry.countryIsoCode === event.value);
+    if (!country) return Promise.reject('Prefix not found');
+    this.setCountry(country);
     this.formControl().reset();
     setTimeout(() => {
       this.phoneNumberInput.nativeElement.focus();
     }, 100);
   }
 
-  async setCountry(country?: Contry) {
-    if (!country) return Promise.reject('Prefix not found');
-    this.choosenCountry.set(country);
+  async setCountry(country: Contry) {
+    this.chosenCountry.set(country);
     this.setup();
   }
 
@@ -225,7 +229,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
-      countryIsoCode: this.choosenCountry().countryIsoCode,
+      countryIsoCode: this.chosenCountry().countryIsoCode,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       metadata: this._metadata!,
       separator: ' ',
@@ -242,7 +246,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   private setValidator() {
-    const countryCode = this.choosenCountry().countryIsoCode;
+    const countryCode = this.chosenCountry().countryIsoCode;
     this.formControl().addValidators(phoneValidator(countryCode));
   }
 
