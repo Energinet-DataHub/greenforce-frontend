@@ -71,8 +71,6 @@ import {
 export class DhRoleAuditLogsComponent implements OnChanges {
   private readonly apollo = inject(Apollo);
   private readonly getUserRoleAuditLogsQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetUserRoleAuditLogsDocument,
     fetchPolicy: 'cache-and-network',
   });

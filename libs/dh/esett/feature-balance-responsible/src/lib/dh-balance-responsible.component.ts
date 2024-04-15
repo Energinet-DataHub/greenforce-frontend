@@ -108,8 +108,6 @@ export class DhBalanceResponsibleComponent implements OnInit {
     switchMap(({ pageMetaData, sortMetaData }) =>
       this.apollo
         .watchQuery({
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetBalanceResponsibleMessagesDocument,
           variables: {
@@ -163,7 +161,6 @@ export class DhBalanceResponsibleComponent implements OnInit {
         switchMap(({ sortMetaData }) =>
           this.apollo.query({
             returnPartialData: false,
-            notifyOnNetworkStatusChange: true,
             fetchPolicy: 'no-cache',
             query: DownloadBalanceResponsiblesDocument,
             variables: {

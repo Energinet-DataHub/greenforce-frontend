@@ -116,8 +116,6 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
     switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
       this._apollo
         .watchQuery({
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetMeteringGridAreaImbalanceDocument,
           variables: {
@@ -188,7 +186,6 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
         switchMap(({ filters, documentId, sortMetaData }) =>
           this._apollo.query({
             returnPartialData: false,
-            notifyOnNetworkStatusChange: true,
             fetchPolicy: 'no-cache',
             query: DownloadMeteringGridAreaImbalanceDocument,
             variables: {

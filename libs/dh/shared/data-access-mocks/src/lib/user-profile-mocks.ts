@@ -83,7 +83,7 @@ function getUserProfileQuery() {
           __typename: 'GetUserProfileResponse',
           firstName: 'John',
           lastName: 'Doe',
-          phoneNumber: '+45 23344434',
+          phoneNumber: '+46 123000001',
           email: 'mock@energinet.dk',
         },
       } as GetUserProfileQuery,
