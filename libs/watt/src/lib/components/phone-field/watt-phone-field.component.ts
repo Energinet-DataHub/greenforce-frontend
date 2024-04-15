@@ -18,7 +18,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  OnInit,
   ViewChild,
   ViewEncapsulation,
   forwardRef,
@@ -48,6 +47,8 @@ import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
 import { MetadataJson, isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
 
 import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
+
+import phoneMetadata from 'libphonenumber-js/min/metadata';
 
 type Contry = {
   countryIsoCode: CountryCode;
@@ -122,7 +123,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   </watt-field>`,
   styleUrl: './watt-phone-field.component.scss',
 })
-export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
+export class WattPhoneFieldComponent implements ControlValueAccessor {
   /** @ignore */
   readonly countries = [
     { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
@@ -159,17 +160,8 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
 
   /** @ignore */
-  async ngOnInit(): Promise<void> {
-    this._metadata = await import('libphonenumber-js/min/metadata').then((m) => m.default);
-
-    if (!this._metadata) return Promise.reject('Metadata not loaded');
-
-    this.writeValue(this.value ?? '');
-  }
-
-  /** @ignore */
   writeValue(value: string): void {
-    if (value && this._metadata) {
+    if (value) {
       const country = this.countries.find((x) => value.startsWith(x.phoneExtension));
       if (country) {
         this.setCountry(country);
@@ -231,7 +223,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     const phoneOptions = maskitoPhoneOptionsGenerator({
       countryIsoCode: this.chosenCountry().countryIsoCode,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      metadata: this._metadata!,
+      metadata: phoneMetadata!,
       separator: ' ',
     });
 
