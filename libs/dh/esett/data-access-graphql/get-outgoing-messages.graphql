@@ -10,6 +10,7 @@ query getOutgoingMessages(
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
+  $actorNumber: String
 ) {
   esettExchangeEvents(
     pageNumber: $pageNumber
@@ -23,6 +24,7 @@ query getOutgoingMessages(
     sortProperty: $sortProperty
     sortDirection: $sortDirection
     createdInterval: $createdInterval
+    actorNumber: $actorNumber
   ) {
     items {
       created
