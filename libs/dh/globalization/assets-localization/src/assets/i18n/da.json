@@ -669,6 +669,7 @@
       },
       "columns": {
         "created": "Oprettet",
+        "lastDispatched": "Sendt",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
