@@ -32,23 +32,6 @@ public class MarketParticipantActorController : MarketParticipantControllerBase
     }
 
     /// <summary>
-    /// Retrieves currently configured credentials for an actor, or returns 404.
-    /// </summary>
-    [HttpGet]
-    [Route("GetActorCredentials")]
-    public async Task<ActionResult<ActorCredentialsDto>> GetActorCredentialsAsync(Guid actorId)
-    {
-        try
-        {
-            return Ok(await _client.ActorCredentialsGetAsync(actorId).ConfigureAwait(false));
-        }
-        catch (ApiException ex) when (ex.StatusCode == 404)
-        {
-            return NotFound();
-        }
-    }
-
-    /// <summary>
     /// Assigns the given certificate credentials to the actor.
     /// </summary>
     [HttpPost]
@@ -61,24 +44,5 @@ public class MarketParticipantActorController : MarketParticipantControllerBase
             await using var openReadStream = certificate.OpenReadStream();
             await _client.ActorCredentialsCertificateAsync(actorId, new FileParameter(openReadStream)).ConfigureAwait(false);
         });
-    }
-
-    /// <summary>
-    /// Request ClientSecret credentials to the actor.
-    /// </summary>
-    [HttpPost]
-    [Route("RequestClientSecretCredentials")]
-    public Task<ActionResult<ActorClientSecretDto>> RequestClientSecretCredentialsAsync(Guid actorId)
-    {
-        return HandleExceptionAsync(() => _client.ActorCredentialsSecretAsync(actorId));
-    }
-
-    /// <summary>
-    /// Removes the current credentials from the actor.
-    /// </summary>
-    [HttpDelete("RemoveActorCredentials")]
-    public Task<ActionResult> RemoveActorCredentialsAsync(Guid actorId)
-    {
-        return HandleExceptionAsync(() => _client.ActorCredentialsDeleteAsync(actorId));
     }
 }
