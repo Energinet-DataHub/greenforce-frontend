@@ -669,6 +669,7 @@
       },
       "columns": {
         "created": "Created",
+        "lastDispatched": "Sent",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",

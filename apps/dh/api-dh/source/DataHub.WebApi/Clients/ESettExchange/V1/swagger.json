@@ -860,6 +860,11 @@
                 "$ref": "#/components/schemas/DocumentStatus"
               }
             ]
+          },
+          "lastDispatched": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -946,6 +951,11 @@
                 "$ref": "#/components/schemas/DocumentStatus"
               }
             ]
+          },
+          "lastDispatched": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },

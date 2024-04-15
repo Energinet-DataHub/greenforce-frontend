@@ -93,6 +93,7 @@ type EsettOutgoingMessage {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+  lastDispatched: DateTime
 }
 
 enum ExchangeEventCalculationType {
@@ -110,6 +111,7 @@ type ExchangeEventSearchResult {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+  lastDispatched: DateTime
 }
 
 type GridAreaDto {
