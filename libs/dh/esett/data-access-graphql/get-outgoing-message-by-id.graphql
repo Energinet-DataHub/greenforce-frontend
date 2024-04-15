@@ -5,6 +5,7 @@ query GetOutgoingMessageById($documentId: String!) {
     created
     period
     documentStatus
+    lastDispatched
     gridArea {
       displayName
     }

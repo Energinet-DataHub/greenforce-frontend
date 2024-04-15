@@ -63,7 +63,7 @@ export class DhOutgoingMessagesTableComponent {
   drawer: DhOutgoingMessageDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
-    created: { accessor: 'created' },
+    lastDispatched: { accessor: 'lastDispatched' },
     id: { accessor: 'documentId' },
     energySupplier: { accessor: null },
     calculationType: { accessor: 'calculationType' },

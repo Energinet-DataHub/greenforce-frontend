@@ -43,6 +43,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
   {
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
+    lastDispatched: new Date(2023, 1, 1, 14, 23),
     documentId: '390161908',
     energySupplier: null,
     actorNumber: null,
@@ -63,6 +64,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
   {
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
+    lastDispatched: new Date(2023, 1, 1, 2, 15),
     documentId: '390161909',
     energySupplier: {
       __typename: 'ActorNameDto',
@@ -86,6 +88,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
   {
     __typename: 'ExchangeEventSearchResult',
     created: new Date(2023, 1, 1),
+    lastDispatched: new Date(2023, 1, 1, 23, 54),
     documentId: '390161910',
     energySupplier: {
       __typename: 'ActorNameDto',
@@ -109,6 +112,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
   {
     __typename: 'ExchangeEventSearchResult',
     created: new Date(),
+    lastDispatched: new Date(),
     documentId: '390161911',
     energySupplier: {
       __typename: 'ActorNameDto',
@@ -129,4 +133,28 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Production,
   },
+  {
+    __typename: 'ExchangeEventSearchResult',
+    created: new Date(),
+    lastDispatched: null,
+    documentId: '390161911',
+    energySupplier: {
+      __typename: 'ActorNameDto',
+      value: 'Test Supplier 4',
+    },
+    actorNumber: '444',
+    gridArea: {
+      code: '007',
+      name: 'DK1',
+      displayName: '007 • DK1',
+      id: '6c6d12ee',
+      priceAreaCode: PriceAreaCode.Dk1,
+      validFrom: new Date('2020-01-01T00:00:00.000Z'),
+      __typename: 'GridAreaDto',
+    },
+    calculationType: ExchangeEventCalculationType.BalanceFixing,
+    gridAreaCodeOut: '333',
+    documentStatus: DocumentStatus.AwaitingReply,
+    timeSeriesType: TimeSeriesType.Production,
+  }
 ];
