@@ -238,6 +238,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
+  balanceResponsiblesForActor(actorId: UUID!): BalanceResponsibleActors!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -444,11 +445,6 @@ interface Error {
   message: String!
 }
 
-type KeyValuePairOfStringAndIEnumerableOfString {
-  key: String!
-  value: [String!]!
-}
-
 type ApiErrorDescriptor {
   message: String!
   code: String!
@@ -621,9 +617,28 @@ input CalculationQueryInput {
   period: DateRange
 }
 
+type BalanceResponsibleActors {
+  actors: [BalanceResponsibleActor!]!
+}
+
 type AssociatedActors {
   email: String!
   actors: [UUID!]!
+}
+
+type KeyValuePairOfStringAndIEnumerableOfString {
+  key: String!
+  value: [String!]!
+}
+
+type BalanceResponsibleActor {
+  energySupplierId: UUID!
+  balanceResponsibleId: UUID!
+  gridAreaCode: String!
+  meteringPointType: Int!
+  received: DateTime!
+  validFrom: DateTime!
+  validTo: DateTime!
 }
 
 enum ESettStageComponent {

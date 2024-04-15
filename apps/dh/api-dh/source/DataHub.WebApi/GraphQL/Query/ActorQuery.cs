@@ -101,4 +101,23 @@ public partial class Query
             Actors = associatedActors.ActorIds,
         };
     }
+
+    public async Task<BalanceResponsibleActors> GetBalanceResponsiblesForActorAsync(Guid actorId, [Service] IMarketParticipantClient_V1 client)
+    {
+        var balanceResponsibles = await client.ActorBalanceResponsiblesAsync(actorId);
+
+        return new BalanceResponsibleActors
+        {
+            Actors = balanceResponsibles.BalanceResponsibles.Select(x => new BalanceResponsibleActor
+            {
+                Received = x.Received,
+                ValidFrom = x.ValidFrom,
+                ValidTo = x.ValidTo,
+                BalanceResponsibleId = x.BalanceResponsibleId,
+                EnergySupplierId = x.EnergySupplierId,
+                GridAreaCode = x.GridAreaCode,
+                MeteringPointType = x.MeteringPointType,
+            }),
+        };
+    }
 }

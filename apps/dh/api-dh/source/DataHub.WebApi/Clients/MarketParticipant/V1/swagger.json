@@ -580,6 +580,47 @@
         }
       }
     },
+    "/actor/{actorId}/BalanceResponsibles": {
+      "get": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "BalanceResponsibles",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBalanceResponsiblesForActorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBalanceResponsiblesForActorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBalanceResponsiblesForActorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/{actorId}/contact": {
       "get": {
         "tags": [
@@ -3098,6 +3139,39 @@
           }
         }
       },
+      "BalanceResponsibleDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "energySupplierId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "balanceResponsibleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          },
+          "meteringPointType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "received": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "ChangeActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3414,6 +3488,18 @@
         "properties": {
           "displayName": {
             "type": "string"
+          }
+        }
+      },
+      "GetBalanceResponsiblesForActorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "balanceResponsibles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BalanceResponsibleDto"
+            }
           }
         }
       },
