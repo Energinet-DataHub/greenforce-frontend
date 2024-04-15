@@ -26,7 +26,6 @@ import {
   input,
   signal,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -36,20 +35,17 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-
+import { MaskitoDirective } from '@maskito/angular';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MASKITO_DEFAULT_OPTIONS, maskitoTransform } from '@maskito/core';
+import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
+import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
+import phoneMetadata from 'libphonenumber-js/min/metadata';
 
 import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldComponent, WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
-import { MaskitoDirective } from '@maskito/angular';
-import { MASKITO_DEFAULT_OPTIONS, maskitoTransform } from '@maskito/core';
-import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
-import { MetadataJson, isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
-
 import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
-
-import phoneMetadata from 'libphonenumber-js/min/metadata';
 
 type Contry = {
   countryIsoCode: CountryCode;
@@ -155,11 +151,9 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   value: string | null = null;
 
   /** @ignore */
-  private _metadata: MetadataJson | null = null;
-
-  /** @ignore */
   @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
 
+  /** @ignore */
   ngOnInit(): void {
     this.setup();
   }
@@ -205,14 +199,16 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   selectedContry(event: MatSelectChange) {
     const country = this.countries.find((contry) => contry.countryIsoCode === event.value);
     if (!country) throw new Error('Prefix not found');
+
     this.setCountry(country);
     this.formControl().reset();
+
     setTimeout(() => {
       this.phoneNumberInput.nativeElement.focus();
     }, 100);
   }
 
-  async setCountry(country: Contry) {
+  setCountry(country: Contry) {
     this.chosenCountry.set(country);
     this.setup();
   }
@@ -227,8 +223,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
       countryIsoCode: this.chosenCountry().countryIsoCode,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      metadata: phoneMetadata!,
+      metadata: phoneMetadata,
       separator: ' ',
     });
 
