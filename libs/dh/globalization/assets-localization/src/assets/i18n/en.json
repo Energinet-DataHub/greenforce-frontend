@@ -8,7 +8,9 @@
   "sessionExpirationContentPartB": "You will be signed out in",
   "shell": {
     "logout": "Sign out",
-    "profile": "Profile"
+    "profile": "Profile",
+    "danish": "Dansk",
+    "english": "English"
   },
   "login": {
     "loginWithUsername": "Login with username",

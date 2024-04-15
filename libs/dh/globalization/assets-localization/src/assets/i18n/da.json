@@ -8,7 +8,9 @@
   "sessionExpirationContentPartB": "Du blive logget af om",
   "shell": {
     "logout": "Log ud",
-    "profile": "Profil"
+    "profile": "Profil",
+    "danish": "Dansk",
+    "english": "English"
   },
   "login": {
     "loginWithUsername": "Login med brugernavn",
