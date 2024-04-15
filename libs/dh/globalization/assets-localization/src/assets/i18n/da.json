@@ -62,21 +62,15 @@
     },
     "profile": {
       "myInformation": "Mine oplysninger",
-      "general": "Generelt",
       "login": "Login",
       "title": "Profil",
       "name": "Fornavn",
       "lastname": "Efternavn",
       "email": "E-mail",
       "phone": "Telefonnr.",
-      "language": "Sprog",
       "save": "Gem ændringer",
       "cancel": "Fortryd",
-      "success": "Profil opdateret",
-      "languages": {
-        "da": "Dansk",
-        "en": "Engelsk"
-      }
+      "success": "Profil opdateret"
     },
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
