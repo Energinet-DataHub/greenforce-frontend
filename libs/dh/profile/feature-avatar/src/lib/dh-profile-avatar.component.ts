@@ -36,7 +36,7 @@ import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-l
     </button>
     <mat-menu #menu="matMenu" xPosition="before" class="dh-profile__menu">
       <ng-container *transloco="let transloco; read: 'shell'">
-        <button data-testid="openProfile" (click)="openProfileModal()" mat-menu-item>
+        <button (click)="openProfileModal()" mat-menu-item>
           <watt-icon name="account" class="watt-icon--small" />
           <span>{{ transloco('profile') }}</span>
         </button>
