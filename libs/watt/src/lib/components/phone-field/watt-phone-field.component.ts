@@ -18,6 +18,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  OnInit,
   ViewChild,
   ViewEncapsulation,
   forwardRef,
@@ -123,7 +124,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   </watt-field>`,
   styleUrl: './watt-phone-field.component.scss',
 })
-export class WattPhoneFieldComponent implements ControlValueAccessor {
+export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   readonly countries = [
     { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
@@ -158,6 +159,10 @@ export class WattPhoneFieldComponent implements ControlValueAccessor {
 
   /** @ignore */
   @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
+
+  ngOnInit(): void {
+    this.setup();
+  }
 
   /** @ignore */
   writeValue(value: string): void {
@@ -197,9 +202,9 @@ export class WattPhoneFieldComponent implements ControlValueAccessor {
   }
 
   /** @ignore */
-  async selectedContry(event: MatSelectChange): Promise<void> {
+  selectedContry(event: MatSelectChange) {
     const country = this.countries.find((contry) => contry.countryIsoCode === event.value);
-    if (!country) return Promise.reject('Prefix not found');
+    if (!country) throw new Error('Prefix not found');
     this.setCountry(country);
     this.formControl().reset();
     setTimeout(() => {
