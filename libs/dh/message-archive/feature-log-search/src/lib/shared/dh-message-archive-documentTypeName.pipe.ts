@@ -23,7 +23,7 @@ export class DocumentTypeNamePipe implements PipeTransform {
     if (!key) return undefined;
     const indexOfS = Object.keys(DocumentTypes)
       .map((x) => x.toLowerCase())
-      .indexOf(key);
+      .indexOf(key.toLowerCase());
 
     return Object.values(DocumentTypes)[indexOfS];
   }
