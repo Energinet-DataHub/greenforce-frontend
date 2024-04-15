@@ -116,7 +116,7 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
     email: { value: this.modalData.email, disabled: true },
     phoneNumber: ['', Validators.required],
-    language: [this._languageService.selectedLanguage],
+    language: [this._languageService.selectedLanguage()],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
   });
@@ -182,6 +182,6 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
       this._profileModalService.notifyAboutProfileUpdate();
     }
 
-    this._languageService.selectedLanguage = selectedLanguage;
+    this._languageService.selectedLanguage.set(selectedLanguage);
   }
 }
