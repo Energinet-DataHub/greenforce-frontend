@@ -156,5 +156,5 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     gridAreaCodeOut: '333',
     documentStatus: DocumentStatus.AwaitingReply,
     timeSeriesType: TimeSeriesType.Production,
-  }
+  },
 ];
