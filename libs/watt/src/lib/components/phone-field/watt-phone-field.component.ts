@@ -26,7 +26,6 @@ import {
   input,
   signal,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -36,22 +35,22 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-
+import { MaskitoDirective } from '@maskito/angular';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MASKITO_DEFAULT_OPTIONS, maskitoTransform } from '@maskito/core';
+import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
+import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
+import phoneMetadata from 'libphonenumber-js/min/metadata';
 
 import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldComponent, WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-
-import { MaskitoDirective } from '@maskito/angular';
-import { MASKITO_DEFAULT_OPTIONS } from '@maskito/core';
-import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
-import { MetadataJson, isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
 
 import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
 
 type Contry = {
   countryIsoCode: CountryCode;
   icon: WattIcon;
+  phoneExtension: string;
 };
 
 function phoneValidator(countryCode: CountryCode): ValidatorFn {
@@ -88,11 +87,11 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
         panelWidth=""
         panelClass="watt-phone-field__select"
         hideSingleSelectionIndicator="true"
-        [value]="choosenCountry().countryIsoCode"
+        [value]="chosenCountry().countryIsoCode"
         (selectionChange)="selectedContry($event)"
       >
         <mat-select-trigger>
-          <watt-icon [name]="choosenCountry().icon" />
+          <watt-icon [name]="chosenCountry().icon" />
         </mat-select-trigger>
         @for (contry of countries; track contry; let index = $index) {
           <mat-option value="{{ contry.countryIsoCode }}">
@@ -124,19 +123,19 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   readonly countries = [
-    { countryIsoCode: 'DK', icon: 'custom-flag-da' },
-    { countryIsoCode: 'SE', icon: 'custom-flag-se' },
-    { countryIsoCode: 'NO', icon: 'custom-flag-no' },
-    { countryIsoCode: 'DE', icon: 'custom-flag-de' },
-    { countryIsoCode: 'FI', icon: 'custom-flag-fi' },
-    { countryIsoCode: 'PL', icon: 'custom-flag-pl' },
+    { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
+    { countryIsoCode: 'SE', icon: 'custom-flag-se', phoneExtension: '+46' },
+    { countryIsoCode: 'NO', icon: 'custom-flag-no', phoneExtension: '+47' },
+    { countryIsoCode: 'DE', icon: 'custom-flag-de', phoneExtension: '+49' },
+    { countryIsoCode: 'FI', icon: 'custom-flag-fi', phoneExtension: '+358' },
+    { countryIsoCode: 'PL', icon: 'custom-flag-pl', phoneExtension: '+48' },
   ] as Contry[];
 
   formControl = input.required<FormControl>();
   label = input<string>();
 
   /** @ignore */
-  choosenCountry = signal<Contry>(this.countries[0]);
+  chosenCountry = signal<Contry>(this.countries[0]);
 
   /** @ignore */
   mask = MASKITO_DEFAULT_OPTIONS;
@@ -152,22 +151,22 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   value: string | null = null;
 
   /** @ignore */
-  private _metadata: MetadataJson | null = null;
-
-  /** @ignore */
   @ViewChild('phoneNumberInput') phoneNumberInput!: ElementRef<HTMLInputElement>;
 
   /** @ignore */
-  async ngOnInit(): Promise<void> {
-    this._metadata = await import('libphonenumber-js/min/metadata').then((m) => m.default);
-
-    if (!this._metadata) return Promise.reject('Metadata not loaded');
-
+  ngOnInit(): void {
     this.setup();
   }
 
   /** @ignore */
   writeValue(value: string): void {
+    if (value) {
+      const country = this.countries.find((x) => value.startsWith(x.phoneExtension));
+      if (country) {
+        this.setCountry(country);
+        value = maskitoTransform(value, this.mask);
+      }
+    }
     this.value = value;
   }
 
@@ -197,19 +196,20 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @ignore */
-  async selectedContry(event: MatSelectChange): Promise<void> {
-    const choosenContry = this.countries.find((contry) => contry.countryIsoCode === event.value);
+  selectedContry(event: MatSelectChange) {
+    const country = this.countries.find((contry) => contry.countryIsoCode === event.value);
+    if (!country) throw new Error('Prefix not found');
 
-    if (!choosenContry) return Promise.reject('Prefix not found');
-
-    this.choosenCountry.set(choosenContry);
-
+    this.setCountry(country);
     this.formControl().reset();
 
     setTimeout(() => {
       this.phoneNumberInput.nativeElement.focus();
     }, 100);
+  }
 
+  setCountry(country: Contry) {
+    this.chosenCountry.set(country);
     this.setup();
   }
 
@@ -222,9 +222,8 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   private generatePhoneOptions(): void {
     const phoneOptions = maskitoPhoneOptionsGenerator({
-      countryIsoCode: this.choosenCountry().countryIsoCode,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      metadata: this._metadata!,
+      countryIsoCode: this.chosenCountry().countryIsoCode,
+      metadata: phoneMetadata,
       separator: ' ',
     });
 
@@ -239,7 +238,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
 
   /** @ignore */
   private setValidator() {
-    const countryCode = this.choosenCountry().countryIsoCode;
+    const countryCode = this.chosenCountry().countryIsoCode;
     this.formControl().addValidators(phoneValidator(countryCode));
   }
 
