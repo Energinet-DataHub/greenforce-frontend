@@ -24,53 +24,52 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Energinet.DataHub.WebApi.Tests.ServiceMocks
+namespace Energinet.DataHub.WebApi.Tests.ServiceMocks;
+
+public sealed class JwtAuthenticationServiceMock
 {
-    public sealed class JwtAuthenticationServiceMock
+    public static void ConfigureServices(IServiceCollection services)
     {
-        public static void ConfigureServices(IServiceCollection services)
-        {
-            services
-                .AddAuthentication(options =>
+        services
+            .AddAuthentication(options =>
+            {
+                // Remove existing registrations, so a mocked token can be accepted.
+                options.SchemeMap.Clear();
+
+                var schemas = (ICollection<AuthenticationSchemeBuilder>)options.Schemes;
+                schemas.Clear();
+            });
+
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // Remove existing registrations, so a mocked token can be accepted.
-                    options.SchemeMap.Clear();
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = false,
+                    ValidateLifetime = false,
+                    RequireExpirationTime = false,
+                    RequireSignedTokens = false,
+                    SignatureValidator = (token, _) => new JsonWebToken(token),
+                };
+            });
+    }
 
-                    var schemas = (ICollection<AuthenticationSchemeBuilder>)options.Schemes;
-                    schemas.Clear();
-                });
+    public static void AddAuthorizationHeader(HttpClient client, Guid actorId, params Claim[] claims)
+    {
+        var azpClaim = new Claim("azp", actorId.ToString());
+        var jwtToken = new JwtSecurityToken(
+            "issuer",
+            "audience",
+            claims.Prepend(azpClaim));
 
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateAudience = false,
-                        ValidateIssuer = false,
-                        ValidateIssuerSigningKey = false,
-                        ValidateLifetime = false,
-                        RequireExpirationTime = false,
-                        RequireSignedTokens = false,
-                        SignatureValidator = (token, _) => new JsonWebToken(token),
-                    };
-                });
-        }
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var finalToken = tokenHandler.WriteToken(jwtToken);
 
-        public static void AddAuthorizationHeader(HttpClient client, Guid actorId, params Claim[] claims)
-        {
-            var azpClaim = new Claim("azp", actorId.ToString());
-            var jwtToken = new JwtSecurityToken(
-                "issuer",
-                "audience",
-                claims.Prepend(azpClaim));
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var finalToken = tokenHandler.WriteToken(jwtToken);
-
-            const string authHeaderName = "Authorization";
-            client.DefaultRequestHeaders.Remove(authHeaderName);
-            client.DefaultRequestHeaders.Add(authHeaderName, $"Bearer {finalToken}");
-        }
+        const string authHeaderName = "Authorization";
+        client.DefaultRequestHeaders.Remove(authHeaderName);
+        client.DefaultRequestHeaders.Add(authHeaderName, $"Bearer {finalToken}");
     }
 }
