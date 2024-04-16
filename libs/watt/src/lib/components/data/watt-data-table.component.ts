@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, ContentChild, Input, ViewEncapsulation, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 
 import {
   VaterFlexComponent,
@@ -36,7 +35,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
   selector: 'watt-data-table',
   standalone: true,
   imports: [
-    NgIf,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -85,22 +83,23 @@ import { WattDataIntlService } from './watt-data-intl.service';
             <span class="watt-chip-label">{{ count ?? this.table.dataSource.data.length }}</span>
           </vater-stack>
           <vater-spacer />
-          <watt-search *ngIf="enableSearch" [label]="intl.search" (search)="onSearch($event)" />
+          @if (enableSearch) {
+            <watt-search [label]="intl.search" (search)="onSearch($event)" />
+          }
           <ng-content select="watt-button" />
         </vater-stack>
         <ng-content select="watt-data-filters" />
         <vater-flex scrollable fill="vertical">
           <ng-content select="watt-table" />
-          <div
-            *ngIf="!table.loading && this.table.dataSource.filteredData.length === 0"
-            class="watt-data-table--empty-state"
-          >
-            <watt-empty-state
-              [icon]="error ? 'custom-power' : 'cancel'"
-              [title]="error ? intl.errorTitle : intl.emptyTitle"
-              [message]="error ? intl.errorMessage : intl.emptyMessage"
-            />
-          </div>
+          @if (!table.loading && this.table.dataSource.filteredData.length === 0) {
+            <div class="watt-data-table--empty-state">
+              <watt-empty-state
+                [icon]="error ? 'custom-power' : 'cancel'"
+                [title]="error ? intl.errorTitle : intl.emptyTitle"
+                [message]="error ? intl.errorMessage : intl.emptyMessage"
+              />
+            </div>
+          }
         </vater-flex>
         <watt-paginator [for]="this.table.dataSource" />
       </vater-flex>

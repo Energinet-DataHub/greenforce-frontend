@@ -34,7 +34,7 @@ import {
   ValidatorFn,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -55,8 +55,6 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   standalone: true,
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     MatSelectModule,
     RxPush,
     ReactiveFormsModule,

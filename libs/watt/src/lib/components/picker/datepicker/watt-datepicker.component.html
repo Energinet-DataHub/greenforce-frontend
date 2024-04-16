@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-field [control]="control" [label]="label">
-  <ng-container *ngIf="range; else singleInputTemplate">
+  @if (range) {
     <mat-date-range-input
       [disabled]="disabled"
       [rangePicker]="rangeDatepicker"
@@ -70,9 +70,7 @@ limitations under the License.
       (closed)="rangePickerClosed()"
       #rangeDatepicker
     />
-  </ng-container>
-
-  <ng-template #singleInputTemplate>
+  } @else {
     <input
       matInput
       tabindex="-1"
@@ -111,7 +109,8 @@ limitations under the License.
       [startAt]="startAt"
       (closed)="datepickerClosed()"
     />
-  </ng-template>
+  }
+
   <ng-content />
   <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
   <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />

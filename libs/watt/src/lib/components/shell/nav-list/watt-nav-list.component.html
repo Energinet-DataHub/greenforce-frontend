@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *ngIf="expandable; else navListTemplate">
+@if (expandable) {
   <mat-expansion-panel
     wattExpandOnActiveLink
     [wattNavListItemComponents]="navListItemComponents"
@@ -25,7 +25,9 @@ limitations under the License.
     </mat-expansion-panel-header>
     <ng-container *ngTemplateOutlet="navListTemplate" />
   </mat-expansion-panel>
-</ng-container>
+} @else {
+  <ng-container *ngTemplateOutlet="navListTemplate" />
+}
 
 <ng-template #navListTemplate>
   <ng-content />

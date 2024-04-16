@@ -26,18 +26,20 @@ limitations under the License.
   [attr.aria-label]="description"
   (matSortChange)="sortChange.emit($event)"
 >
-  <ng-container *ngIf="selectable" [matColumnDef]="_checkboxColumn" [sticky]="true">
-    <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
-      <watt-checkbox [(ngModel)]="_columnSelection" />
-    </th>
-    <td mat-cell *matCellDef="let row" class="watt-table-checkbox-cell">
-      <watt-checkbox
-        [ngModel]="_selectionModel.isSelected(row)"
-        (ngModelChange)="_selectionModel.toggle(row)"
-        (click)="$event.stopPropagation()"
-      />
-    </td>
-  </ng-container>
+  @if (selectable) {
+    <ng-container [matColumnDef]="_checkboxColumn" [sticky]="true">
+      <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
+        <watt-checkbox [(ngModel)]="_columnSelection" />
+      </th>
+      <td mat-cell *matCellDef="let row" class="watt-table-checkbox-cell">
+        <watt-checkbox
+          [ngModel]="_selectionModel.isSelected(row)"
+          (ngModelChange)="_selectionModel.toggle(row)"
+          (click)="$event.stopPropagation()"
+        />
+      </td>
+    </ng-container>
+  }
 
   @for (column of columns | keyvalue; track column.key) {
     <ng-container [matColumnDef]="column.key">
@@ -46,11 +48,9 @@ limitations under the License.
         *matHeaderCellDef
         class="watt-table-align-{{ column.value.align ?? 'left' }}"
       >
-        <watt-icon
-          name="help"
-          *ngIf="_getColumnHelperAction(column); let action"
-          (click)="action()"
-        />
+        @if (_getColumnHelperAction(column); as action) {
+          <watt-icon name="help" (click)="action()" />
+        }
 
         <div
           class="watt-table-header-cell"
@@ -66,12 +66,13 @@ limitations under the License.
         *matCellDef="let row"
         class="watt-table-align-{{ column.value.align ?? 'left' }}"
       >
-        <ng-template #default>{{ _getColumnCell(column, row) }}</ng-template>
-        <ng-container *ngIf="_getColumnTemplate(column.value) as template; else default">
+        @if (_getColumnTemplate(column.value); as template) {
           <div>
             <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
           </div>
-        </ng-container>
+        } @else {
+          {{ _getColumnCell(column, row) }}
+        }
       </td>
     </ng-container>
   }
@@ -80,9 +81,9 @@ limitations under the License.
     <td class="watt-table-footer-spacer" mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
-  <ng-container *ngIf="!hideColumnHeaders">
+  @if (!hideColumnHeaders) {
     <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
-  </ng-container>
+  }
   <tr
     mat-row
     *matRowDef="let row; columns: _getColumns()"
@@ -96,23 +97,27 @@ limitations under the License.
     }"
   ></tr>
 
-  <ng-container *ngIf="_toolbar">
+  @if (_toolbar) {
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
-  </ng-container>
+  }
 
   <ng-container *matNoDataRow>
-    <ng-container *ngIf="loading">
-      <tr class="mat-mdc-row" *ngFor="let i of [1, 2, 3]">
-        <ng-container *ngFor="let _ of _getColumns(); index as i">
-          <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable"></td>
-        </ng-container>
-      </tr>
-    </ng-container>
+    @if (loading) {
+      @for (i of [1, 2, 3]; track i) {
+        <tr class="mat-mdc-row">
+          @for (_ of _getColumns(); track _; let i = $index) {
+            <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable"></td>
+          }
+        </tr>
+      }
+    }
   </ng-container>
 </table>
 
-<div *ngIf="_toolbar" class="watt-table-toolbar" role="toolbar">
-  <ng-container
-    *ngTemplateOutlet="_toolbar.templateRef; context: { $implicit: _filteredSelection }"
-  />
-</div>
+@if (_toolbar) {
+  <div class="watt-table-toolbar" role="toolbar">
+    <ng-container
+      *ngTemplateOutlet="_toolbar.templateRef; context: { $implicit: _filteredSelection }"
+    />
+  </div>
+}
