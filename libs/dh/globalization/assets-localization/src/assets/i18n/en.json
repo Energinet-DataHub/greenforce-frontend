@@ -656,10 +656,10 @@
         "documentStatus": {
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
-          "AWAITING_REPLY": "Awaiting reply (delivered to ECP)",
+          "AWAITING_REPLY": "Awaiting reply from eSett",
           "ACCEPTED": "Accepted",
           "REJECTED": "Rejected",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply (delivered to BizTalk)"
+          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP"
         }
       },
       "filters": {
