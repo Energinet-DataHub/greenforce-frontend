@@ -16,20 +16,21 @@ limitations under the License.
 -->
 <h1>Color</h1>
 
-<ng-container *ngFor="let type of colorTypes">
+@for (type of colorTypes; track type) {
   <h2>{{ type.title }}</h2>
   <p>{{ type.description }}</p>
-
   <div class="color-grid">
-    <figure *ngFor="let color of type.colors" (click)="copyToClipboard(color.var)">
-      <div
-        class="color-sample"
-        [style.backgroundColor]="color.color"
-        [style.color]="color.contrast"
-      >
-        {{ color.var }}
-      </div>
-      <figcaption class="watt-label">{{ color.name }}</figcaption>
-    </figure>
+    @for (color of type.colors; track color) {
+      <figure (click)="copyToClipboard(color.var)">
+        <div
+          class="color-sample"
+          [style.backgroundColor]="color.color"
+          [style.color]="color.contrast"
+        >
+          {{ color.var }}
+        </div>
+        <figcaption class="watt-label">{{ color.name }}</figcaption>
+      </figure>
+    }
   </div>
-</ng-container>
+}

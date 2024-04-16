@@ -24,46 +24,53 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
+namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers;
+
+public class WholesaleSettlementReportControllerTests(WebApiFactory factory)
+    : WebApiTestBase(factory)
 {
-    public class WholesaleSettlementReportControllerTests(WebApiFactory factory)
-        : WebApiTestBase(factory)
+    private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
+
+    [Fact]
+    public async Task DownloadAsync_ReturnsOk()
     {
-        private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
-
-        [Fact]
-        public async Task DownloadAsync_ReturnsOk()
+        // arrange
+        const CalculationType calculationType = CalculationType.BalanceFixing;
+        var gridAreaCodes = new List<string>
         {
-            // arrange
-            const CalculationType calculationType = CalculationType.BalanceFixing;
-            var gridAreaCodes = new List<string> { "123" };
-            var gridAreaCodesString = string.Join(",", gridAreaCodes);
-            var headerDictionary = new Dictionary<string, IEnumerable<string>>
+            "123",
+        };
+        var gridAreaCodesString = string.Join(",", gridAreaCodes);
+        var headerDictionary = new Dictionary<string, IEnumerable<string>>
+        {
             {
-                { "Content-Disposition", new[] { "attachment; filename=SettlementReport.zip" } },
-            };
-            var fileResponse = new FileResponse(0, headerDictionary, new MemoryStream(), null, null);
+                "Content-Disposition", new[]
+                {
+                    "attachment; filename=SettlementReport.zip",
+                }
+            },
+        };
+        var fileResponse = new FileResponse(0, headerDictionary, new MemoryStream(), null, null);
 
-            WholesaleClientV3Mock.Setup(x => x.DownloadAsync(
-                    gridAreaCodes,
-                    calculationType,
-                    It.IsAny<DateTimeOffset>(),
-                    It.IsAny<DateTimeOffset>(),
-                    null,
-                    null,
-                    default))
-                .ReturnsAsync(fileResponse);
+        WholesaleClientV3Mock.Setup(x => x.DownloadAsync(
+                gridAreaCodes,
+                calculationType,
+                It.IsAny<DateTimeOffset>(),
+                It.IsAny<DateTimeOffset>(),
+                null,
+                null,
+                default))
+            .ReturnsAsync(fileResponse);
 
-            // act
-            var actual = await Client.GetAsync($"/v1/WholesaleSettlementReport/download?gridAreaCodes={gridAreaCodesString}&calculationType={calculationType}&periodStart=2021-01-01&periodEnd=2021-01-01");
+        // act
+        var actual = await Client.GetAsync($"/v1/WholesaleSettlementReport/download?gridAreaCodes={gridAreaCodesString}&calculationType={calculationType}&periodStart=2021-01-01&periodEnd=2021-01-01");
 
-            // assert
-            actual.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
+        // assert
+        actual.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
 
-        protected override void ConfigureMocks(IServiceCollection services)
-        {
-            services.AddSingleton(WholesaleClientV3Mock.Object);
-        }
+    protected override void ConfigureMocks(IServiceCollection services)
+    {
+        services.AddSingleton(WholesaleClientV3Mock.Object);
     }
 }

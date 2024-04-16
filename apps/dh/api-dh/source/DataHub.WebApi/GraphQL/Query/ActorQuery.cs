@@ -101,4 +101,9 @@ public partial class Query
             Actors = associatedActors.ActorIds,
         };
     }
+
+    public async Task<IEnumerable<BalanceResponsibilityAgreementDto>> GetBalanceResponsibleAgreementsAsync(Guid actorId, [Service] IMarketParticipantClient_V1 client)
+    {
+        return await client.BalanceResponsibilityAgreementsAsync(actorId);
+    }
 }

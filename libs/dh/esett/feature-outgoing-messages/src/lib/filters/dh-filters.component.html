@@ -66,6 +66,10 @@ limitations under the License.
     t("created")
   }}</watt-date-range-chip>
 
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.latestDispatch!">{{
+    t("latestDispatch")
+  }}</watt-date-range-chip>
+
   <vater-spacer />
   <watt-button variant="text" icon="undo" type="reset" (click)="formReset.emit()">
     {{ t("reset") }}

@@ -20,19 +20,27 @@ limitations under the License.
   [label]="label"
   (click)="matSelect.open()"
 >
-  <watt-menu-chip
-    *ngIf="chipMode"
-    [opened]="matSelect.panelOpen"
-    (toggle)="matSelect.open()"
-    [selected]="!!matSelect?.triggerValue && !disableSelectedMode"
-    [disabled]="matSelectControl.disabled"
-  >
-    {{ placeholder
-    }}<span *ngIf="showTriggerValue"
-      ><ng-container *ngIf="placeholder">:</ng-container> {{ matSelect?.triggerValue }}</span
+  @if (chipMode) {
+    <watt-menu-chip
+      [opened]="matSelect.panelOpen"
+      (toggle)="matSelect.open()"
+      [selected]="!!matSelect?.triggerValue && !disableSelectedMode"
+      [disabled]="matSelectControl.disabled"
     >
-    <span class="watt-chip-label" *ngIf="showChipLabel">{{ matSelectControl.value?.length }}</span>
-  </watt-menu-chip>
+      {{ placeholder }}
+      @if (showTriggerValue) {
+        <span>
+          @if (placeholder) {
+            :
+          }
+          {{ matSelect?.triggerValue }}
+        </span>
+      }
+      @if (showChipLabel) {
+        <span class="watt-chip-label">{{ matSelectControl.value?.length }}</span>
+      }
+    </watt-menu-chip>
+  }
 
   <mat-select
     [attr.aria-label]="label"
@@ -62,15 +70,15 @@ limitations under the License.
         <watt-icon ngxMatSelectSearchClear name="close" size="s" /> </ngx-mat-select-search
     ></mat-option>
 
-    <mat-option *ngIf="!multiple && showResetOption">{{ emDash }}</mat-option>
+    @if (!multiple && showResetOption) {
+      <mat-option>{{ emDash }}</mat-option>
+    }
 
-    <mat-option
-      *ngFor="let option of filteredOptions$ | push"
-      [value]="option.value"
-      [disabled]="option.disabled"
-    >
-      {{ option.displayValue }}
-    </mat-option>
+    @for (option of filteredOptions$ | push; track option) {
+      <mat-option [value]="option.value" [disabled]="option.disabled">
+        {{ option.displayValue }}
+      </mat-option>
+    }
   </mat-select>
   <ng-content />
   <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />

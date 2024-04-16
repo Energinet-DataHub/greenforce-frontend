@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChildren,
@@ -49,12 +49,12 @@ export class WattBreadcrumbComponent {
 @Component({
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgIf, NgFor, NgTemplateOutlet, WattIconComponent],
+  imports: [NgTemplateOutlet, WattIconComponent],
   selector: 'watt-breadcrumbs',
   styleUrls: ['./watt-breadcrumbs.component.scss'],
   template: `
     <nav>
-      <ng-container *ngFor="let breadcrumb of breadcrumbs; let isLast = last">
+      @for (breadcrumb of breadcrumbs; track breadcrumb; let isLast = $last) {
         <span
           class="watt-breadcrumb"
           (click)="breadcrumb.click.emit($event)"
@@ -62,9 +62,11 @@ export class WattBreadcrumbComponent {
           [attr.role]="breadcrumb.click.observed ? 'link' : null"
         >
           <ng-container *ngTemplateOutlet="breadcrumb.templateRef" />
-          <watt-icon *ngIf="!isLast" name="right" />
+          @if (!isLast) {
+            <watt-icon name="right" />
+          }
         </span>
-      </ng-container>
+      }
     </nav>
   `,
 })

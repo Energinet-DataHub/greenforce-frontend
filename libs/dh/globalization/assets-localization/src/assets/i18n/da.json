@@ -669,12 +669,13 @@
         "status": "{{ eSett.shared.status }}",
         "period": "Beregningsperiode",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
+        "latestDispatch": "{{ eSett.outgoingMessages.columns.latestDispatch }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID"
       },
       "columns": {
         "created": "Oprettet",
-        "lastDispatched": "Sendt",
+        "latestDispatch": "Sendt",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",

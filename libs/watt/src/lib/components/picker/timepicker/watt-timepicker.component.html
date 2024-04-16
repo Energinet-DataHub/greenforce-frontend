@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-field [id]="id" [control]="control" [label]="label">
-  <ng-container *ngIf="!range; else rangeTemplate">
+  @if (!range) {
     <input
       matInput
       aria-label="time-input"
@@ -32,9 +32,7 @@ limitations under the License.
       [placeholder]="hoursMinutesPlaceholder"
       (maskApplied)="inputChanged($event)"
     />
-  </ng-container>
-
-  <ng-template #rangeTemplate>
+  } @else {
     <mat-date-range-input
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -99,7 +97,8 @@ limitations under the License.
         />
       </div>
     </ng-template>
-  </ng-template>
+  }
+
   <ng-content />
   <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
   <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />

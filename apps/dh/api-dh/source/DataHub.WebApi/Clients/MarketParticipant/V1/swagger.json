@@ -816,6 +816,56 @@
         }
       }
     },
+    "/balance-responsibility-agreements/{actorId}": {
+      "get": {
+        "tags": [
+          "BalanceResponsibilityAgreements"
+        ],
+        "operationId": "balance-responsibility-agreements",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/GridArea": {
       "post": {
         "tags": [
@@ -3098,6 +3148,40 @@
           }
         }
       },
+      "BalanceResponsibilityAgreementDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "energySupplierId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "balanceResponsibleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "gridAreaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "meteringPointType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "ChangeActorDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3617,6 +3701,34 @@
             "type": "string"
           }
         }
+      },
+      "MeteringPointType": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "D01VeProduction",
+          "D02Analysis",
+          "D03NotUsed",
+          "D04SurplusProductionGroup6",
+          "D05NetProduction",
+          "D06SupplyToGrid",
+          "D07ConsumptionFromGrid",
+          "D08WholeSaleServicesInformation",
+          "D09OwnProduction",
+          "D10NetFromGrid",
+          "D11NetToGrid",
+          "D12TotalConsumption",
+          "D13NetLossCorrection",
+          "D14ElectricalHeating",
+          "D15NetConsumption",
+          "D17OtherConsumption",
+          "D18OtherProduction",
+          "D20ExchangeReactiveEnergy",
+          "D99InternalUse",
+          "E17Consumption",
+          "E18Production",
+          "E20Exchange"
+        ]
       },
       "OrganizationAuditedChange": {
         "type": "string",
