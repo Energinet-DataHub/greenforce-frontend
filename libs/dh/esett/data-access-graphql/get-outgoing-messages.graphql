@@ -28,6 +28,7 @@ query getOutgoingMessages(
   ) {
     items {
       created
+      lastDispatched
       documentId
       actorNumber
       energySupplier {

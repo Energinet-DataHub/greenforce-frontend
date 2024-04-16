@@ -8,7 +8,9 @@
   "sessionExpirationContentPartB": "Du blive logget af om",
   "shell": {
     "logout": "Log ud",
-    "profile": "Profil"
+    "profile": "Profil",
+    "danish": "Dansk",
+    "english": "English"
   },
   "login": {
     "loginWithUsername": "Login med brugernavn",
@@ -62,21 +64,15 @@
     },
     "profile": {
       "myInformation": "Mine oplysninger",
-      "general": "Generelt",
       "login": "Login",
       "title": "Profil",
       "name": "Fornavn",
       "lastname": "Efternavn",
       "email": "E-mail",
       "phone": "Telefonnr.",
-      "language": "Sprog",
       "save": "Gem ændringer",
       "cancel": "Fortryd",
-      "success": "Profil opdateret",
-      "languages": {
-        "da": "Dansk",
-        "en": "Engelsk"
-      }
+      "success": "Profil opdateret"
     },
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
@@ -669,6 +665,7 @@
       },
       "columns": {
         "created": "Oprettet",
+        "lastDispatched": "Sendt",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",

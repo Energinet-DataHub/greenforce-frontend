@@ -8,7 +8,9 @@
   "sessionExpirationContentPartB": "You will be signed out in",
   "shell": {
     "logout": "Sign out",
-    "profile": "Profile"
+    "profile": "Profile",
+    "danish": "Dansk",
+    "english": "English"
   },
   "login": {
     "loginWithUsername": "Login with username",
@@ -62,21 +64,15 @@
     },
     "profile": {
       "myInformation": "My information",
-      "general": "General",
       "login": "Login",
       "title": "Profile",
       "name": "First name",
       "lastname": "Last name",
       "email": "E-mail",
       "phone": "Phone no.",
-      "language": "Language",
       "save": "Save changes",
       "cancel": "Cancel",
-      "success": "Profile updated",
-      "languages": {
-        "da": "Danish",
-        "en": "English"
-      }
+      "success": "Profile updated"
     },
     "search": "Search",
     "selectedValues": "{{count}} selected",
@@ -669,6 +665,7 @@
       },
       "columns": {
         "created": "Created",
+        "lastDispatched": "Sent",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",

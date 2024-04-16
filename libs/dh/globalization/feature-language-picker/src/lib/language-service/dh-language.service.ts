@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, inject } from '@angular/core';
+import { Injectable, effect, inject, signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
@@ -26,21 +26,25 @@ const LOCALE_STORAGE_KEY = 'dh-language';
   providedIn: 'root',
 })
 export class DhLanguageService {
-  private readonly _transloco = inject(TranslocoService);
-  private readonly _localeService = inject(WattLocaleService);
-  /** Returns selected language, will default to 'DisplayLanguage.Danish' if none exsists */
-  get selectedLanguage(): string {
-    return localStorage.getItem(LOCALE_STORAGE_KEY) || DisplayLanguage.Danish;
-  }
+  private readonly transloco = inject(TranslocoService);
+  private readonly wattLocaleService = inject(WattLocaleService);
 
-  set selectedLanguage(language: string) {
-    this._localeService.setActiveLocale(toDisplayLanguage(language));
-    this._transloco.setActiveLang(language);
-    localStorage.setItem(LOCALE_STORAGE_KEY, language);
+  /** Returns selected language, will default to 'DisplayLanguage.Danish' if none exsists */
+  public selectedLanguage = signal(
+    localStorage.getItem(LOCALE_STORAGE_KEY) ?? DisplayLanguage.Danish
+  );
+
+  constructor() {
+    effect(() => {
+      this.transloco.setActiveLang(this.selectedLanguage());
+      this.wattLocaleService.setActiveLocale(toDisplayLanguage(this.selectedLanguage()));
+
+      localStorage.setItem(LOCALE_STORAGE_KEY, this.selectedLanguage());
+    });
   }
 
   init(): void {
-    this._transloco.setActiveLang(this.selectedLanguage);
-    this._localeService.setActiveLocale(toDisplayLanguage(this.selectedLanguage));
+    this.transloco.setActiveLang(this.selectedLanguage());
+    this.wattLocaleService.setActiveLocale(toDisplayLanguage(this.selectedLanguage()));
   }
 }

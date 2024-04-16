@@ -26,8 +26,10 @@ limitations under the License.
     (rowClick)="onRowClick($event)"
     (sortChange)="sortChange.emit($event)"
   >
-    <ng-container *wattTableCell="columns['created']; header: t('columns.created'); let message">
-      {{ message.created | wattDate: "long" }}
+    <ng-container
+      *wattTableCell="columns['lastDispatched']; header: t('columns.lastDispatched'); let message"
+    >
+      {{ message.lastDispatched | wattDate: "long" | dhEmDashFallback }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
