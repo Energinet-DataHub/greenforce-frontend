@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
-using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class ImbalancePrice : ObjectType<ImbalancePriceDto>
 {
@@ -30,8 +28,8 @@ public class ImbalancePrice : ObjectType<ImbalancePriceDto>
                 {
                     return context.Parent<ImbalancePriceDto>().PriceAreaCode switch
                     {
-                        PriceAreaCode.AreaCode1 => Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1,
-                        PriceAreaCode.AreaCode2 => Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2,
+                        PriceAreaCode.AreaCode1 => Enums.PriceAreaCode.Dk1,
+                        PriceAreaCode.AreaCode2 => Enums.PriceAreaCode.Dk2,
                         _ => throw new ArgumentOutOfRangeException(nameof(ImbalancePriceDto.PriceAreaCode)),
                 };
             });

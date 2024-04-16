@@ -18,10 +18,6 @@ using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
@@ -30,10 +26,10 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
-if (!System.Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
+if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
 {
     services
-        .ConfigureOpenTelemetryTracerProvider((provider, builder) => builder.AddHotChocolateInstrumentation())
+        .ConfigureOpenTelemetryTracerProvider((_, p) => p.AddHotChocolateInstrumentation())
         .AddOpenTelemetry()
         .UseAzureMonitor();
 }
@@ -63,7 +59,7 @@ if (environment.IsDevelopment())
 {
     services.AddCors(options =>
     {
-        options.AddDefaultPolicy(builder => builder
+        options.AddDefaultPolicy(b => b
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod());
@@ -117,4 +113,4 @@ app.MapReadyHealthChecks();
 app.RunWithGraphQLCommands(args);
 
 // Make the implicit Program class public so test projects can access it
-public partial class Program { }
+public partial class Program;

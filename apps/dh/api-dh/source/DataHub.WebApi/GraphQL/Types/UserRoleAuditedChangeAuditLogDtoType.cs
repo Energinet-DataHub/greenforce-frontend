@@ -13,9 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public sealed class UserRoleAuditedChangeAuditLogDtoType : ObjectType<UserRoleAuditedChangeAuditLogDto>
 {

@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {

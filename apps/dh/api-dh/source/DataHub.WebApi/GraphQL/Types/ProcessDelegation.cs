@@ -12,25 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public sealed class ProcessDelegation
 {
-    public Guid Id { get; set; } = default!;
+    public Guid Id { get; set; }
 
-    public Guid PeriodId { get; set; } = default!;
+    public Guid PeriodId { get; set; }
 
-    public Guid DelegatedBy { get; set; } = default!;
+    public Guid DelegatedBy { get; set; }
 
-    public Guid DelegatedTo { get; set; } = default!;
+    public Guid DelegatedTo { get; set; }
 
-    public Guid GridAreaId { get; set; } = default!;
+    public Guid GridAreaId { get; set; }
 
-    public DelegatedProcess Process { get; set; } = default!;
+    public DelegatedProcess Process { get; set; }
 
-    public Interval ValidPeriod { get; set; } = default!;
+    public Interval ValidPeriod { get; set; }
 }

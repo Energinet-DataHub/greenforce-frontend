@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 

@@ -13,10 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class MeteringGridAreaImbalanceSearchResultType : ObjectType<MeteringGridAreaImbalanceSearchResult>
 {
@@ -29,7 +29,7 @@ public class MeteringGridAreaImbalanceSearchResultType : ObjectType<MeteringGrid
 
         descriptor.Field(f => f.PeriodStart)
           .Name("period").
-          Resolve((context, token) =>
+          Resolve((context, _) =>
           {
               var meteringGridAreaImbalance = context.Parent<MeteringGridAreaImbalanceSearchResult>();
               return new Interval(Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodStart), Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodEnd));

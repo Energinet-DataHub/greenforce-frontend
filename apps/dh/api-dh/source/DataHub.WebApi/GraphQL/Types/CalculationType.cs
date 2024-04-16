@@ -13,10 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class CalculationType : ObjectType<CalculationDto>
 {

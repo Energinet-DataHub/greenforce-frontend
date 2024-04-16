@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public record CalculationQueryInput(
     string[]? GridAreaCodes = null,

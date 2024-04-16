@@ -13,10 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using NodaTime;
-using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using Energinet.DataHub.WebApi.GraphQL.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 public static class WholesaleClientExtensions
 {

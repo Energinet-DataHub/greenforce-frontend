@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class CVROrganizationResult
 {
     public string Name { get; set; } = string.Empty;
 
-    public bool HasResult { get; set; } = default!;
+    public bool HasResult { get; set; }
 }
