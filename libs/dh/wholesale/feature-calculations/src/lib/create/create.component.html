@@ -22,7 +22,7 @@ limitations under the License.
 >
   @if (!showPeriodWarning) {
     <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
-      @if (result.data.gridAreas) {
+      @if (result.data && result.data.gridAreas) {
         <form
           id="create-calculation"
           class="grid"
