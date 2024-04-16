@@ -27,7 +27,7 @@ limitations under the License.
     (sortChange)="sortChange.emit($event)"
   >
     <ng-container
-      *wattTableCell="columns['lastDispatched']; header: t('columns.lastDispatched'); let message"
+      *wattTableCell="columns['lastDispatched']; header: t('columns.latestDispatch'); let message"
     >
       {{ message.lastDispatched | wattDate: "long" | dhEmDashFallback }}
     </ng-container>
