@@ -389,6 +389,7 @@
             "energySupplier": "Energy Supplier",
             "status": "Status",
             "gridArea": "Grid Area",
+            "search": "Search",
             "usage": "Usage",
             "production": "Production"
           },
