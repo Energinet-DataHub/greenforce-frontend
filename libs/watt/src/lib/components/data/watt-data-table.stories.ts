@@ -29,6 +29,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { VaterStackComponent, VaterUtilityDirective } from '../vater';
 import { WattFilterChipComponent } from '../chip';
+import { WattDataFiltersComponent } from './watt-data-filters.component';
 
 // Slightly hacky way to get the template from the table story
 const tableStoryArgs = TableStory.args ?? {};
@@ -47,6 +48,7 @@ const meta: Meta = {
         WattIconComponent,
         WATT_TABLE,
         WattDataTableComponent,
+        WattDataFiltersComponent,
       ],
     }),
   ],
@@ -58,7 +60,7 @@ export const DataTable: StoryObj<WattDataTableComponent> = {
   render: (args) => ({
     props: { ...args, ...tableStoryArgs },
     template: `
-      <watt-data-table vater inset="m" [dataSource]="dataSource">
+      <watt-data-table vater inset="m">
         <h3>Results</h3>
         <watt-button icon="plus" variant="secondary">Add Element</watt-button>
         <watt-data-filters>

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -83,11 +82,11 @@ function minutesToTime(value: number): string {
   standalone: true,
   imports: [
     MatDatepickerModule,
-    WattButtonComponent,
-    WattSliderComponent,
     MatInputModule,
     OverlayModule,
-    CommonModule,
+
+    WattButtonComponent,
+    WattSliderComponent,
     WattFieldComponent,
     WattPlaceholderMaskComponent,
   ],

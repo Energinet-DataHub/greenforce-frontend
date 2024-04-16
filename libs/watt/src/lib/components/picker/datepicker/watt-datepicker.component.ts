@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, FormatWidth, getLocaleDateFormat } from '@angular/common';
+import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -75,7 +75,6 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
-    NgIf,
     MatDatepickerModule,
     MatInputModule,
     WattButtonComponent,

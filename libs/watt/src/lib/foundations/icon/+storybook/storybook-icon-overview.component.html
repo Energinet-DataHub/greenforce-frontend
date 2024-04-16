@@ -80,15 +80,19 @@ limitations under the License.
 </p>
 
 <ul class="groups">
-  <li *ngFor="let group of icons" class="group">
-    <span class="watt-label">{{ group.name }}</span>
-    <ul class="icons">
-      <li *ngFor="let icon of group.icons" class="icon">
-        <watt-icon [name]="icon.icon" [label]="icon.name" />
-        <span>{{ icon.name }}</span>
-      </li>
-    </ul>
-  </li>
+  @for (group of icons; track group) {
+    <li class="group">
+      <span class="watt-label">{{ group.name }}</span>
+      <ul class="icons">
+        @for (icon of group.icons; track icon) {
+          <li class="icon">
+            <watt-icon [name]="icon.icon" [label]="icon.name" />
+            <span>{{ icon.name }}</span>
+          </li>
+        }
+      </ul>
+    </li>
+  }
 </ul>
 
 <h2>Sizes</h2>

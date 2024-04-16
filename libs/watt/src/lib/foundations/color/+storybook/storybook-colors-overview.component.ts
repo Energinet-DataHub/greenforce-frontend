@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { NgFor } from '@angular/common';
 
 import { WattColorHelperService } from '../color-helper.service';
 import { WattColor } from '../colors';
@@ -40,7 +39,6 @@ interface Color {
   templateUrl: './storybook-colors-overview.component.html',
   styleUrls: ['./storybook-colors-overview.component.scss'],
   standalone: true,
-  imports: [NgFor],
 })
 export class StorybookColorsOverviewComponent {
   private colorHelperService = inject(WattColorHelperService);

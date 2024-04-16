@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,7 +39,6 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
   templateUrl: './watt-nav-list.component.html',
   standalone: true,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     RouterModule,
     MatExpansionModule,
