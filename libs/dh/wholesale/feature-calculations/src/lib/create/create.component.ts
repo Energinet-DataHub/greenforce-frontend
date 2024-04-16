@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
@@ -64,7 +63,6 @@ interface FormValues {
   styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
     RxLet,
     RxPush,
     ReactiveFormsModule,

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -107,7 +106,6 @@ type FormType = {
     TranslocoDirective,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-    NgIf,
   ],
 })
 export class DhWholesaleRequestCalculationComponent {
