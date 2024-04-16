@@ -580,47 +580,6 @@
         }
       }
     },
-    "/actor/{actorId}/BalanceResponsibles": {
-      "get": {
-        "tags": [
-          "Actor"
-        ],
-        "operationId": "BalanceResponsibles",
-        "parameters": [
-          {
-            "name": "actorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetBalanceResponsiblesForActorResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetBalanceResponsiblesForActorResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetBalanceResponsiblesForActorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/actor/{actorId}/contact": {
       "get": {
         "tags": [
@@ -850,6 +809,56 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetAuditIdentityResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/balance-responsibility-agreements/{actorId}": {
+      "get": {
+        "tags": [
+          "BalanceResponsibilityAgreements"
+        ],
+        "operationId": "balance-responsibility-agreements",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                  }
                 }
               }
             }
@@ -3139,7 +3148,7 @@
           }
         }
       },
-      "BalanceResponsibleDto": {
+      "BalanceResponsibilityAgreementDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3151,16 +3160,16 @@
             "type": "string",
             "format": "uuid"
           },
-          "gridAreaCode": {
-            "type": "string"
+          "gridAreaId": {
+            "type": "string",
+            "format": "uuid"
           },
           "meteringPointType": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "received": {
-            "type": "string",
-            "format": "date-time"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
           },
           "validFrom": {
             "type": "string",
@@ -3168,7 +3177,8 @@
           },
           "validTo": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -3491,18 +3501,6 @@
           }
         }
       },
-      "GetBalanceResponsiblesForActorResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "balanceResponsibles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BalanceResponsibleDto"
-            }
-          }
-        }
-      },
       "GetDelegationsForActorResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -3703,6 +3701,34 @@
             "type": "string"
           }
         }
+      },
+      "MeteringPointType": {
+        "type": "string",
+        "enum": [
+          "Unknown",
+          "D01VeProduction",
+          "D02Analysis",
+          "D03NotUsed",
+          "D04SurplusProductionGroup6",
+          "D05NetProduction",
+          "D06SupplyToGrid",
+          "D07ConsumptionFromGrid",
+          "D08WholeSaleServicesInformation",
+          "D09OwnProduction",
+          "D10NetFromGrid",
+          "D11NetToGrid",
+          "D12TotalConsumption",
+          "D13NetLossCorrection",
+          "D14ElectricalHeating",
+          "D15NetConsumption",
+          "D17OtherConsumption",
+          "D18OtherProduction",
+          "D20ExchangeReactiveEnergy",
+          "D99InternalUse",
+          "E17Consumption",
+          "E18Production",
+          "E20Exchange"
+        ]
       },
       "OrganizationAuditedChange": {
         "type": "string",

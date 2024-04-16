@@ -12,10 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-namespace Energinet.DataHub.WebApi.GraphQL;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-public class BalanceResponsibleActors
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
+
+public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAgreementDto>
 {
-    public IEnumerable<BalanceResponsibleActor> Actors { get; set; } = Enumerable.Empty<BalanceResponsibleActor>();
+    protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityAgreementDto> descriptor)
+    {
+        descriptor.Name(nameof(BalanceResponsibilityAgreement));
+        descriptor
+            .Field(x => x.MeteringPointType)
+            .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityAgreementDto>().MeteringPointType));
+    }
 }

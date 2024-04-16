@@ -146,15 +146,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetBalanceResponsiblesForActorResponse> ActorBalanceResponsiblesAsync(System.Guid actorId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetBalanceResponsiblesForActorResponse> ActorBalanceResponsiblesAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ActorContactGetAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -197,6 +188,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetAuditIdentityResponse> AuditIdentityAsync(System.Guid auditIdentityId, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1725,89 +1725,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetBalanceResponsiblesForActorResponse> ActorBalanceResponsiblesAsync(System.Guid actorId)
-        {
-            return ActorBalanceResponsiblesAsync(actorId, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetBalanceResponsiblesForActorResponse> ActorBalanceResponsiblesAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (actorId == null)
-                throw new System.ArgumentNullException("actorId");
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "actor/{actorId}/BalanceResponsibles"
-                    urlBuilder_.Append("actor/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/BalanceResponsibles");
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<GetBalanceResponsiblesForActorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ActorContactDto>> ActorContactGetAsync(System.Guid actorId)
         {
             return ActorContactGetAsync(actorId, System.Threading.CancellationToken.None);
@@ -2191,6 +2108,88 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<GetAuditIdentityResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId)
+        {
+            return BalanceResponsibilityAgreementsAsync(actorId, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (actorId == null)
+                throw new System.ArgumentNullException("actorId");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "balance-responsibility-agreements/{actorId}"
+                    urlBuilder_.Append("balance-responsibility-agreements/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6330,7 +6329,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class BalanceResponsibleDto
+    public partial class BalanceResponsibilityAgreementDto
     {
         [Newtonsoft.Json.JsonProperty("energySupplierId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid EnergySupplierId { get; set; } = default!;
@@ -6338,20 +6337,18 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("balanceResponsibleId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid BalanceResponsibleId { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string GridAreaCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("gridAreaId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid GridAreaId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int MeteringPointType { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("received", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Received { get; set; } = default!;
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public MeteringPointType MeteringPointType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("validFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ValidFrom { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset ValidTo { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? ValidTo { get; set; } = default!;
 
     }
 
@@ -6670,14 +6667,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetBalanceResponsiblesForActorResponse
-    {
-        [Newtonsoft.Json.JsonProperty("balanceResponsibles", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<BalanceResponsibleDto> BalanceResponsibles { get; set; } = default!;
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetDelegationsForActorResponse
     {
         [Newtonsoft.Json.JsonProperty("delegations", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -6831,6 +6820,81 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [Newtonsoft.Json.JsonProperty("phoneNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PhoneNumber { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringPointType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
+        Unknown = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D01VeProduction")]
+        D01VeProduction = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D02Analysis")]
+        D02Analysis = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D03NotUsed")]
+        D03NotUsed = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D04SurplusProductionGroup6")]
+        D04SurplusProductionGroup6 = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D05NetProduction")]
+        D05NetProduction = 5,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D06SupplyToGrid")]
+        D06SupplyToGrid = 6,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D07ConsumptionFromGrid")]
+        D07ConsumptionFromGrid = 7,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D08WholeSaleServicesInformation")]
+        D08WholeSaleServicesInformation = 8,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D09OwnProduction")]
+        D09OwnProduction = 9,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D10NetFromGrid")]
+        D10NetFromGrid = 10,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D11NetToGrid")]
+        D11NetToGrid = 11,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D12TotalConsumption")]
+        D12TotalConsumption = 12,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D13NetLossCorrection")]
+        D13NetLossCorrection = 13,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D14ElectricalHeating")]
+        D14ElectricalHeating = 14,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D15NetConsumption")]
+        D15NetConsumption = 15,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D17OtherConsumption")]
+        D17OtherConsumption = 16,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D18OtherProduction")]
+        D18OtherProduction = 17,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D20ExchangeReactiveEnergy")]
+        D20ExchangeReactiveEnergy = 18,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"D99InternalUse")]
+        D99InternalUse = 19,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"E17Consumption")]
+        E17Consumption = 20,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"E18Production")]
+        E18Production = 21,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"E20Exchange")]
+        E20Exchange = 22,
 
     }
 

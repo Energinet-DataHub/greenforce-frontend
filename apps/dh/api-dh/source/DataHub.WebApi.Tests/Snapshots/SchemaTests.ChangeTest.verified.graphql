@@ -66,18 +66,13 @@ type AssociatedActors {
   actors: [UUID!]!
 }
 
-type BalanceResponsibleActor {
+type BalanceResponsibilityAgreement {
+  meteringPointType: String
   energySupplierId: UUID!
   balanceResponsibleId: UUID!
-  gridAreaCode: String!
-  meteringPointType: Int!
-  received: DateTime!
+  gridAreaId: UUID!
   validFrom: DateTime!
-  validTo: DateTime!
-}
-
-type BalanceResponsibleActors {
-  actors: [BalanceResponsibleActor!]!
+  validTo: DateTime
 }
 
 type BalanceResponsiblePageResult {
@@ -328,7 +323,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
-  balanceResponsiblesForActor(actorId: UUID!): BalanceResponsibleActors!
+  balanceResponsibleAgreements(actorId: UUID!): [BalanceResponsibilityAgreement!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
