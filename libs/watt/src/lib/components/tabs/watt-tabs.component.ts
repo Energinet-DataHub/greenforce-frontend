@@ -26,7 +26,7 @@ import {
   Input,
   HostBinding,
 } from '@angular/core';
-import { NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { WattTabComponent } from './watt-tab.component';
@@ -38,7 +38,7 @@ import { WattTabComponent } from './watt-tab.component';
   templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [NgFor, NgTemplateOutlet, MatTabsModule],
+  imports: [NgTemplateOutlet, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
   @Input() variant!: string;

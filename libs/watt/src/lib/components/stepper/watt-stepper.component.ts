@@ -28,7 +28,7 @@ import {
   inject,
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
@@ -45,12 +45,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     RxPush,
-    WattStepperStepComponent,
     MatStepperModule,
+
+    WattStepperStepComponent,
     WattIconComponent,
     WattButtonComponent,
   ],

@@ -21,7 +21,7 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 import { WattIcon } from '../../foundations/icon';
@@ -43,22 +43,28 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       [color]="variant"
       [attr.form]="type === 'submit' ? formId : null"
     >
-      <watt-spinner *ngIf="loading" [diameter]="18" />
+      @if (loading) {
+        <watt-spinner [diameter]="18" />
+      }
       <div
         [ngClass]="{
           'content-wrapper--loading': loading,
           'content-wrapper': !loading
         }"
       >
-        <watt-icon *ngIf="hasIcon()" [name]="icon" />
-        <ng-content *ngIf="variant !== 'icon'" />
+        @if (hasIcon()) {
+          <watt-icon [name]="icon" />
+        }
+        @if (variant !== 'icon') {
+          <ng-content />
+        }
       </div>
     </button>
   `,
   styleUrls: ['./watt-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgIf, NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule],
+  imports: [NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule],
 })
 export class WattButtonComponent {
   @Input() icon?: WattIcon;

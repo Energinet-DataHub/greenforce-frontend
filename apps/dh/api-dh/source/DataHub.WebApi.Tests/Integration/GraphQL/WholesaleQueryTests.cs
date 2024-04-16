@@ -20,86 +20,86 @@ using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
+
+public class WholesaleQueryTests
 {
-    public class WholesaleQueryTests
+    private static readonly Guid _batchId = new("9cce3e8f-b56d-49f8-a6af-42cc6dc3246f");
+
+    private static readonly string _calculationByIdQuery = $$"""
+                                                               {
+                                                                 calculationById(id: "{{_batchId}}") {
+                                                                   id
+                                                                   statusType
+                                                                 }
+                                                               }
+                                                             """;
+
+    [Fact]
+    public async Task GetPendingCalculation()
     {
-        private static readonly Guid _batchId = new("9cce3e8f-b56d-49f8-a6af-42cc6dc3246f");
-        private static readonly string _calculationByIdQuery = $$"""
-          {
-            calculationById(id: "{{_batchId}}") {
-              id
-              statusType
-            }
-          }
-        """;
+        GraphQLTestService.WholesaleClientV3Mock
+            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .ReturnsAsync(new CalculationDto()
+            {
+                CalculationId = _batchId,
+                ExecutionState = CalculationState.Pending,
+            });
 
-        [Fact]
-        public async Task GetPendingCalculation()
-        {
-            GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(_batchId, default))
-                .ReturnsAsync(new CalculationDto()
-                {
-                    CalculationId = _batchId,
-                    ExecutionState = CalculationState.Pending,
-                });
+        var result = await GraphQLTestService
+            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            var result = await GraphQLTestService
-                .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        await result.MatchSnapshotAsync();
+    }
 
-            await result.MatchSnapshotAsync();
-        }
+    [Fact]
+    public async Task GetExecutingCalculation()
+    {
+        GraphQLTestService.WholesaleClientV3Mock
+            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .ReturnsAsync(new CalculationDto()
+            {
+                CalculationId = _batchId,
+                ExecutionState = CalculationState.Executing,
+            });
 
-        [Fact]
-        public async Task GetExecutingCalculation()
-        {
-            GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(_batchId, default))
-                .ReturnsAsync(new CalculationDto()
-                {
-                    CalculationId = _batchId,
-                    ExecutionState = CalculationState.Executing,
-                });
+        var result = await GraphQLTestService
+            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            var result = await GraphQLTestService
-                .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        await result.MatchSnapshotAsync();
+    }
 
-            await result.MatchSnapshotAsync();
-        }
+    [Fact]
+    public async Task GetCompletedCalculation()
+    {
+        GraphQLTestService.WholesaleClientV3Mock
+            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .ReturnsAsync(new CalculationDto()
+            {
+                CalculationId = _batchId,
+                ExecutionState = CalculationState.Completed,
+            });
 
-        [Fact]
-        public async Task GetCompletedCalculation()
-        {
-            GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(_batchId, default))
-                .ReturnsAsync(new CalculationDto()
-                {
-                    CalculationId = _batchId,
-                    ExecutionState = CalculationState.Completed,
-                });
+        var result = await GraphQLTestService
+            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            var result = await GraphQLTestService
-                .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        await result.MatchSnapshotAsync();
+    }
 
-            await result.MatchSnapshotAsync();
-        }
+    [Fact]
+    public async Task GetFailedCalculation()
+    {
+        GraphQLTestService.WholesaleClientV3Mock
+            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .ReturnsAsync(new CalculationDto()
+            {
+                CalculationId = _batchId,
+                ExecutionState = CalculationState.Failed,
+            });
 
-        [Fact]
-        public async Task GetFailedCalculation()
-        {
-            GraphQLTestService.WholesaleClientV3Mock
-                .Setup(x => x.GetCalculationAsync(_batchId, default))
-                .ReturnsAsync(new CalculationDto()
-                {
-                    CalculationId = _batchId,
-                    ExecutionState = CalculationState.Failed,
-                });
+        var result = await GraphQLTestService
+            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-            var result = await GraphQLTestService
-                .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
-
-            await result.MatchSnapshotAsync();
-        }
+        await result.MatchSnapshotAsync();
     }
 }

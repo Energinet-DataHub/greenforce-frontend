@@ -760,6 +760,16 @@
             "format": "date-time",
             "nullable": true
           },
+          "latestDispatchedFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "latestDispatchedTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "documentId": {
             "type": "string",
             "nullable": true
@@ -876,7 +886,8 @@
           "DocumentId",
           "DocumentStatus",
           "GridAreaCode",
-          "TimeSeriesType"
+          "TimeSeriesType",
+          "LatestDispatched"
         ]
       },
       "ExchangeEventSortPropertySorting": {

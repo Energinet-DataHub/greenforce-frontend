@@ -670,12 +670,13 @@
         "status": "{{ eSett.shared.status }}",
         "period": "Calculation period",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
+        "latestDispatch": "{{ eSett.outgoingMessages.columns.latestDispatch }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID"
       },
       "columns": {
         "created": "Created",
-        "lastDispatched": "Sent",
+        "latestDispatch": "Sent",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
         "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",

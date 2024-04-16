@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   Input,
@@ -30,7 +30,7 @@ import { WattFieldComponent } from '../field/watt-field.component';
 
 @Component({
   standalone: true,
-  imports: [NgClass, FormsModule, WattFieldComponent, NgIf],
+  imports: [NgClass, FormsModule, WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

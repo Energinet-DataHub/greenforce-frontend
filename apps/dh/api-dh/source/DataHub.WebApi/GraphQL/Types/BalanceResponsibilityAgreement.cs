@@ -12,8 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma warning disable SA1300 // Element should begin with upper-case letter
-namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-#pragma warning restore SA1300 // Element should begin with upper-case letter
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-public sealed record ApiErrorResponse(IReadOnlyCollection<ApiErrorDescriptor> Errors);
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
+
+public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAgreementDto>
+{
+    protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityAgreementDto> descriptor)
+    {
+        descriptor.Name(nameof(BalanceResponsibilityAgreement));
+        descriptor
+            .Field(x => x.MeteringPointType)
+            .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityAgreementDto>().MeteringPointType));
+    }
+}

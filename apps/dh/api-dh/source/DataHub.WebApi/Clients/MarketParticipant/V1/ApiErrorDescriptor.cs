@@ -18,6 +18,7 @@ using System.Text.Json;
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 #pragma warning restore SA1300 // Element should begin with upper-case letter
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record ApiErrorDescriptor(
     string Message,
     string Code,
