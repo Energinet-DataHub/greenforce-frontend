@@ -20,9 +20,9 @@ limitations under the License.
   [title]="showPeriodWarning ? t('create.warning.title') : t('create.title')"
   (closed)="onClose($event)"
 >
-  <ng-container *ngIf="!showPeriodWarning">
+  @if (!showPeriodWarning) {
     <ng-container *rxLet="gridAreasQuery.valueChanges; let result">
-      <ng-container *ngIf="result.data?.gridAreas">
+      @if (result.data.gridAreas) {
         <form
           id="create-calculation"
           class="grid"
@@ -35,15 +35,16 @@ limitations under the License.
           "
         >
           <!-- Period Warning-->
-          <watt-validation-message
-            *ngIf="latestPeriodEnd && formGroup.controls.calculationType.value === 'BALANCE_FIXING'"
-            size="normal"
-            type="warning"
-            icon="warning"
-            message="{{
-              t('create.periodWarning', { latestPeriodEnd: latestPeriodEnd | wattDate })
-            }}"
-          />
+          @if (latestPeriodEnd && formGroup.controls.calculationType.value === "BALANCE_FIXING") {
+            <watt-validation-message
+              size="normal"
+              type="warning"
+              icon="warning"
+              message="{{
+                t('create.periodWarning', { latestPeriodEnd: latestPeriodEnd | wattDate })
+              }}"
+            />
+          }
 
           <!-- Execution type -->
           <div class="chips">
@@ -87,9 +88,11 @@ limitations under the License.
             [showResetOption]="false"
             [multiple]="false"
           >
-            <watt-field-error *ngIf="formGroup.controls.calculationType.errors?.required">
-              {{ t("create.calculationType.error") }}
-            </watt-field-error>
+            @if (formGroup.controls.calculationType.errors?.required) {
+              <watt-field-error>
+                {{ t("create.calculationType.error") }}
+              </watt-field-error>
+            }
           </watt-dropdown>
 
           <!-- Monthly summation -->
@@ -112,14 +115,14 @@ limitations under the License.
             [min]="minDate"
             [max]="maxDate"
           >
-            <watt-field-error
-              *ngIf="
-                formGroup.controls.dateRange.errors?.invalidPeriod &&
-                !formGroup.controls.dateRange.errors?.rangeRequired
-              "
-            >
-              {{ t("create.period.invalid") }}
-            </watt-field-error>
+            @if (
+              formGroup.controls.dateRange.errors?.invalidPeriod &&
+              !formGroup.controls.dateRange.errors?.rangeRequired
+            ) {
+              <watt-field-error>
+                {{ t("create.period.invalid") }}
+              </watt-field-error>
+            }
           </watt-datepicker>
 
           <!-- Grid areas -->
@@ -133,26 +136,34 @@ limitations under the License.
             <watt-field-hint>{{
               t("create.gridArea.hint", { count: formGroup.controls.gridAreas.value?.length })
             }}</watt-field-hint>
-            <watt-field-error *ngIf="formGroup.controls.gridAreas.errors?.required">
-              {{ t("create.gridArea.required") }}
-            </watt-field-error>
+            @if (formGroup.controls.gridAreas.errors?.required) {
+              <watt-field-error>
+                {{ t("create.gridArea.required") }}
+              </watt-field-error>
+            }
           </watt-dropdown>
         </form>
-      </ng-container>
+      }
 
-      <div *ngIf="result.loading" class="center">
-        <watt-spinner />
-      </div>
+      @if (result.loading) {
+        <div class="center">
+          <watt-spinner />
+        </div>
+      }
 
-      <div *ngIf="result.error" class="center">
-        <watt-empty-state
-          icon="custom-power"
-          [title]="t('create.emptyTitle')"
-          [message]="t('create.emptyMessage')"
-        />
-      </div>
+      @if (result.error) {
+        <div class="center">
+          <watt-empty-state
+            icon="custom-power"
+            [title]="t('create.emptyTitle')"
+            [message]="t('create.emptyMessage')"
+          />
+        </div>
+      }
     </ng-container>
+  }
 
+  @if (!showPeriodWarning) {
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="modal.close(false)">
         {{ t("create.cancel") }}
@@ -165,8 +176,9 @@ limitations under the License.
         {{ t("create.confirm") }}
       </watt-button>
     </watt-modal-actions>
-  </ng-container>
-  <ng-container *ngIf="showPeriodWarning">
+  }
+
+  @if (showPeriodWarning) {
     <ng-container *transloco="let t; read: 'wholesale.calculations.create.warning'">
       <watt-validation-message
         type="warning"
@@ -194,5 +206,5 @@ limitations under the License.
         </watt-button>
       </watt-modal-actions>
     </ng-container>
-  </ng-container>
+  }
 </watt-modal>

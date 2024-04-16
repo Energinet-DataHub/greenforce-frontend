@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -29,7 +28,6 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 @Component({
   standalone: true,
   imports: [
-    NgIf,
     MatSortModule,
     TranslocoDirective,
 
