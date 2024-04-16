@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
 
 #pragma warning disable SA1300 // Element should begin with upper-case letter
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 #pragma warning restore SA1300 // Element should begin with upper-case letter
 
+// ReSharper disable UnusedMember.Global
 public partial class ApiException
 {
     private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
