@@ -29,7 +29,7 @@ var environment = builder.Environment;
 if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
 {
     services
-        .ConfigureOpenTelemetryTracerProvider((_, p) => p.AddHotChocolateInstrumentation())
+        .ConfigureOpenTelemetryTracerProvider((_, b) => b.AddHotChocolateInstrumentation())
         .AddOpenTelemetry()
         .UseAzureMonitor();
 }
