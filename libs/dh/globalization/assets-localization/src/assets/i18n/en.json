@@ -381,7 +381,17 @@
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-            "gridArea": "Grid area"
+            "gridArea": "Grid area",
+            "search": "Search"
+          },
+          "balanceResponsibleRelation": {
+            "tabLabel": "Balance Responsible Relation",
+            "energySupplier": "Energy Supplier",
+            "status": "Status",
+            "gridArea": "Grid Area",
+            "search": "Search",
+            "usage": "Usage",
+            "production": "Production"
           },
           "b2bAccess": {
             "tabLabel": "B2B Access",

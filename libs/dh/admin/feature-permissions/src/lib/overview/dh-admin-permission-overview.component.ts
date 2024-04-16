@@ -35,7 +35,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -81,7 +80,6 @@ import { switchMap } from 'rxjs';
     DhPermissionsTableComponent,
     DhEmDashFallbackPipe,
     DhAdminPermissionDetailComponent,
-    DhSharedUiSearchComponent,
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit {
