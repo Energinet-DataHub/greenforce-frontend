@@ -86,7 +86,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       <mat-select
         panelWidth=""
         panelClass="watt-phone-field__select"
-        hideSingleSelectionIndicator="true"
+        [hideSingleSelectionIndicator]="true"
         [value]="chosenCountry().countryIsoCode"
         (selectionChange)="selectedContry($event)"
       >
@@ -208,6 +208,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
     }, 100);
   }
 
+  /** @ignore */
   setCountry(country: Contry) {
     this.chosenCountry.set(country);
     this.setup();
