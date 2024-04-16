@@ -2,6 +2,7 @@ query getOutgoingMessages(
   $pageNumber: Int!
   $pageSize: Int!
   $periodInterval: DateRange
+  $sentInterval: DateRange
   $gridAreaCode: String
   $createdInterval: DateRange
   $calculationType: ExchangeEventCalculationType
@@ -24,6 +25,7 @@ query getOutgoingMessages(
     sortProperty: $sortProperty
     sortDirection: $sortDirection
     createdInterval: $createdInterval
+    sentInterval: $sentInterval
     actorNumber: $actorNumber
   ) {
     items {
