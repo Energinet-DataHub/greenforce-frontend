@@ -19,48 +19,47 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration
+namespace Energinet.DataHub.WebApi.Tests.Integration;
+
+/// <summary>
+/// Proves the Open API endpoint and Swagger UI can be reached.
+/// </summary>
+public class EndpointTests
 {
-    /// <summary>
-    /// Proves the Open API endpoint and Swagger UI can be reached.
-    /// </summary>
-    public class EndpointTests
+    public class GetOpenApiDocumentation(WebApiFactory factory)
+        : WebApiTestBase(factory)
     {
-        public class GetOpenApiDocumentation(WebApiFactory factory)
-            : WebApiTestBase(factory)
+        [Fact]
+        public async Task When_StandardRequest_Then_ResponseIsOKAndContainsJsonAndOpenAPIv3()
         {
-            [Fact]
-            public async Task When_StandardRequest_Then_ResponseIsOKAndContainsJsonAndOpenAPIv3()
-            {
-                // Arrange
-                var url = "swagger/v1/swagger.json";
+            // Arrange
+            var url = "swagger/v1/swagger.json";
 
-                // Act
-                var actualResponse = await Client.GetAsync(url);
+            // Act
+            var actualResponse = await Client.GetAsync(url);
 
-                // Assert
-                using var assertionScope = new AssertionScope();
-                actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-                actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("application/json");
+            // Assert
+            using var assertionScope = new AssertionScope();
+            actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("application/json");
 
-                var content = await actualResponse.Content.ReadAsStringAsync();
-                content.Should().Contain("\"openapi\": \"3.");
-            }
+            var content = await actualResponse.Content.ReadAsStringAsync();
+            content.Should().Contain("\"openapi\": \"3.");
+        }
 
-            [Fact]
-            public async Task When_StandardRequest_Then_ResponseIsOKAndContainsHtml()
-            {
-                // Arrange
-                var url = "swagger";
+        [Fact]
+        public async Task When_StandardRequest_Then_ResponseIsOKAndContainsHtml()
+        {
+            // Arrange
+            var url = "swagger";
 
-                // Act
-                var actualResponse = await Client.GetAsync(url);
+            // Act
+            var actualResponse = await Client.GetAsync(url);
 
-                // Assert
-                using var assertionScope = new AssertionScope();
-                actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-                actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("text/html");
-            }
+            // Assert
+            using var assertionScope = new AssertionScope();
+            actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("text/html");
         }
     }
 }

@@ -17,15 +17,14 @@ using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
+
+public class SchemaTests
 {
-    public class SchemaTests
+    [Fact]
+    public async Task ChangeTest()
     {
-        [Fact]
-        public async Task ChangeTest()
-        {
-            var schema = await GraphQLTestService.Executor.GetSchemaAsync(default);
-            await schema.MatchSnapshotAsync();
-        }
+        var schema = await GraphQLTestService.Executor.GetSchemaAsync(default);
+        await schema.MatchSnapshotAsync();
     }
 }
