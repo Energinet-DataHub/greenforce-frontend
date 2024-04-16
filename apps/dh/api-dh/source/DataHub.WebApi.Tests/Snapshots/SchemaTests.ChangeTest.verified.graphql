@@ -141,6 +141,7 @@ type EsettOutgoingMessage {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+  lastDispatched: DateTime
 }
 
 type ExchangeEventSearchResponse {
@@ -159,6 +160,7 @@ type ExchangeEventSearchResult {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+  lastDispatched: DateTime
 }
 
 type ExchangeEventStatusReportResponse {
