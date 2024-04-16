@@ -391,7 +391,6 @@
             "gridArea": "Grid Area",
             "usage": "Usage",
             "production": "Production"
-          }
           },
           "b2bAccess": {
             "tabLabel": "B2B Access",
