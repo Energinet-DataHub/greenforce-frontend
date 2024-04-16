@@ -646,10 +646,10 @@
         "documentStatus": {
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
-          "AWAITING_REPLY": "Afventer svar (leveret til ECP)",
+          "AWAITING_REPLY": "Afventer svar fra eSett",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
-          "BIZ_TALK_ACCEPTED": "Afventer svar (leveret til BizTalk)"
+          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP"
         }
       },
       "filters": {
