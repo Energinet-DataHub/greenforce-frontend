@@ -30,4 +30,5 @@ export type DhOutgoingMessagesFilters = {
   status?: InputMaybe<DocumentStatus>;
   period?: InputMaybe<Scalars['DateRange']['input']>;
   created?: InputMaybe<Scalars['DateRange']['input']>;
+  latestDispatch?: InputMaybe<Scalars['DateRange']['input']>;
 };

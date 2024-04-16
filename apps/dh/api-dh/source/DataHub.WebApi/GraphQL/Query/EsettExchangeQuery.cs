@@ -37,6 +37,7 @@ public partial class Query
         int pageSize,
         Interval? periodInterval,
         Interval? createdInterval,
+        Interval? sentInterval,
         string? gridAreaCode,
         Clients.ESettExchange.v1.CalculationType? calculationType,
         DocumentStatus? documentStatus,
@@ -61,6 +62,8 @@ public partial class Query
                 DocumentId = documentId,
                 CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
                 CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                LatestDispatchedFrom = sentInterval?.Start.ToDateTimeOffset(),
+                LatestDispatchedTo = sentInterval?.End.ToDateTimeOffset(),
                 ActorNumber = actorNumber,
             },
             Sorting = new ExchangeEventSortPropertySorting
@@ -74,6 +77,7 @@ public partial class Query
         string locale,
         Interval? periodInterval,
         Interval? createdInterval,
+        Interval? sentInterval,
         string? gridAreaCode,
         Clients.ESettExchange.v1.CalculationType? calculationType,
         DocumentStatus? documentStatus,
@@ -97,6 +101,8 @@ public partial class Query
                 DocumentId = documentId,
                 CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
                 CreatedTo = createdInterval?.End.ToDateTimeOffset(),
+                LatestDispatchedFrom = sentInterval?.Start.ToDateTimeOffset(),
+                LatestDispatchedTo = sentInterval?.End.ToDateTimeOffset(),
                 ActorNumber = actorNumber,
             },
             Sorting = new ExchangeEventSortPropertySorting

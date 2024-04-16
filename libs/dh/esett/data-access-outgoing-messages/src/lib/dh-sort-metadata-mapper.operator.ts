@@ -51,6 +51,9 @@ export const dhExchangeSortMetadataMapper = pipe<InType, OutType>(
       case 'status':
         sortProperty = ExchangeEventSortProperty.DocumentStatus;
         break;
+      case 'lastDispatched':
+        sortProperty = ExchangeEventSortProperty.LatestDispatched;
+        break;
       case 'created':
       default:
         sortProperty = ExchangeEventSortProperty.Created;

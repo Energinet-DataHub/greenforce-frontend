@@ -2,6 +2,7 @@ query downloadEsettExchangeEvents(
   $locale: String!
   $periodInterval: DateRange
   $createdInterval: DateRange
+  $sentInterval: DateRange
   $gridAreaCode: String
   $calculationType: ExchangeEventCalculationType
   $timeSeriesType: TimeSeriesType
@@ -15,6 +16,7 @@ query downloadEsettExchangeEvents(
     locale: $locale
     periodInterval: $periodInterval
     createdInterval: $createdInterval
+    sentInterval: $sentInterval
     gridAreaCode: $gridAreaCode
     calculationType: $calculationType
     timeSeriesType: $timeSeriesType
