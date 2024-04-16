@@ -48,11 +48,11 @@ export const dhExchangeSortMetadataMapper = pipe<InType, OutType>(
       case 'gridArea':
         sortProperty = ExchangeEventSortProperty.GridAreaCode;
         break;
-      case 'status':
-        sortProperty = ExchangeEventSortProperty.DocumentStatus;
-        break;
       case 'lastDispatched':
         sortProperty = ExchangeEventSortProperty.LatestDispatched;
+        break;
+      case 'status':
+        sortProperty = ExchangeEventSortProperty.DocumentStatus;
         break;
       case 'created':
       default:
