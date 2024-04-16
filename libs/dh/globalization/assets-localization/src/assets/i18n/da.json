@@ -388,7 +388,9 @@
             "energySupplier": "Elleverandør",
             "status": "Status",
             "gridArea": "Netområde",
-            "search": "Søg"
+            "search": "Søg",
+            "usage": "Forbrug",
+            "production": "Produktion"
           },
           "b2bAccess": {
             "tabLabel": "B2B-adgang",
