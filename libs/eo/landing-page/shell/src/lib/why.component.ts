@@ -111,7 +111,10 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
           "
           type="image/avif"
         />
-        <img alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub" src="/assets/landing-page/martin-lundoe.avif" />
+        <img
+          alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub"
+          src="/assets/landing-page/martin-lundoe.avif"
+        />
       </picture>
 
       <p>
