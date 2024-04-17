@@ -102,10 +102,18 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
     </picture>
 
     <blockquote>
-      <img
-        src="/assets/landing-page/martin-lundø.png"
-        alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub"
-      />
+      <picture>
+        <source
+          srcset="
+            /assets/landing-page/martin-lundoe.avif    1x,
+            /assets/landing-page/martin-lundoe@2x.avif 2x,
+            /assets/landing-page/martin-lundoe@3x.avif 3x
+          "
+          type="image/avif"
+        />
+        <img alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub" src="/assets/landing-page/martin-lundoe.avif" />
+      </picture>
+
       <p>
         “We want the industry to<br />
         believe in true, sustainable energy<br />
