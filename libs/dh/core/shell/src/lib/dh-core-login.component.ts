@@ -46,7 +46,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
   ],
   styles: [
     `
-      dh-app {
+      datahub-app {
         height: inherit;
       }
 
