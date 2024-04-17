@@ -84,7 +84,7 @@ jobs:
 
       - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:build --base=origin/$BASE_BRANCH --parallel=false
+        run: yarn affected:build --base=origin/$BASE_BRANCH --parallel=1
 
       - name: "Merge: Production build of all products"
         if: ${{ env.is-pull-request == 'false' }}
