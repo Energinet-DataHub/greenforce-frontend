@@ -17,7 +17,7 @@
 
 import { render, screen } from '@testing-library/angular';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { MatExpansionPanelHarness } from '@angular/material/expansion/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
@@ -26,6 +26,19 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
 const httpEnerginetDkUrl = 'http://energinet.dk';
 const httpsEnerginetDkUrl = 'https://energinet.dk';
+
+let index = 0;
+
+function generateComponent(content = '') {
+  @Component({
+    selector: `watt-test-page-${index++}`,
+    template: `<h2>${content}</h2>`,
+    standalone: true,
+  })
+  class TestPageComponent {}
+
+  return TestPageComponent;
+}
 
 describe(WattNavListComponent.name, () => {
   it('exports shared Watt Design System nav list', async () => {
@@ -48,22 +61,17 @@ describe(WattNavListComponent.name, () => {
   });
 
   it('adds "active" class when a route path is activated', async () => {
-    @Component({
-      template: '<h2>Page route</h2>',
-    })
-    class TestPageComponent {}
-
     const view = await render(
       `
       <watt-nav-list>
         <watt-nav-list-item link="/default-page">Default page</watt-nav-list-item>
         <watt-nav-list-item link="/other-page">Other page</watt-nav-list-item>
       </watt-nav-list>
-      <router-outlet></router-outlet>
+
+      <router-outlet />
     `,
       {
-        declarations: [TestPageComponent],
-        imports: [WattNavListComponent, WattNavListItemComponent, RouterModule],
+        imports: [RouterOutlet, WattNavListComponent, WattNavListItemComponent],
         routes: [
           {
             path: '',
@@ -72,11 +80,11 @@ describe(WattNavListComponent.name, () => {
           },
           {
             path: 'default-page',
-            component: TestPageComponent,
+            component: generateComponent('Default page'),
           },
           {
             path: 'other-page',
-            component: TestPageComponent,
+            component: generateComponent('Other page'),
           },
         ],
       }
@@ -243,16 +251,6 @@ describe(WattNavListComponent.name, () => {
     });
 
     it('expands the nav list automatically when navigating to a sub page', async () => {
-      function generateComponent(content = '') {
-        @Component({
-          template: `<h2>${content}</h2>`,
-          standalone: true,
-        })
-        class TestPageComponent {}
-
-        return TestPageComponent;
-      }
-
       const view = await render(
         `
         <watt-nav-list>
@@ -262,10 +260,11 @@ describe(WattNavListComponent.name, () => {
         <watt-nav-list [title]="'Title'" [expandable]="true">
           <watt-nav-list-item link="/sub-page">Sub page</watt-nav-list-item>
         </watt-nav-list>
-        <router-outlet></router-outlet>
+
+        <router-outlet />
       `,
         {
-          imports: [WattNavListComponent, WattNavListItemComponent, RouterModule],
+          imports: [RouterOutlet, WattNavListComponent, WattNavListItemComponent],
           routes: [
             {
               path: 'top-page',
