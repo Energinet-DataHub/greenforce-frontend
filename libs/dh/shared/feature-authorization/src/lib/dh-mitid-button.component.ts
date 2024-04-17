@@ -20,11 +20,13 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-mitid-button',
   standalone: true,
-  imports: [WattSpinnerComponent],
+  imports: [WattSpinnerComponent, WattButtonComponent, DhFeatureFlagDirective],
   styles: [
     `
       .mitid-link {
@@ -68,6 +70,10 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
         </span>
       }
     </a>
+
+    <ng-container *dhFeatureFlag="'new-login-flow'">
+      <watt-button textContent="Fjern MitID tilknytning" (click)="resetMitId()" />
+    </ng-container>
   `,
 })
 export class DhMitIDButtonComponent {
@@ -88,6 +94,10 @@ export class DhMitIDButtonComponent {
         .v1MarketParticipantUserInitiateMitIdSignupPost()
         .subscribe(() => this.redirectToMitID());
     }
+  }
+
+  resetMitId() {
+    console.log("Debug")
   }
 
   private async redirectToMitID() {
