@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { inject } from '@angular/core/testing';
+import { firstValueFrom, of } from 'rxjs';
 
 import { PermissionService } from './permission.service';
-import { firstValueFrom, of } from 'rxjs';
-import { inject } from '@angular/core/testing';
 import { permissionGuardCore } from './permission.guard';
 
-describe(PermissionService.name, () => {
+describe(PermissionService, () => {
   const permissionService: Partial<PermissionService> = {
     hasPermission: (permission) => of(permission === 'actors:manage'),
   };

@@ -19,7 +19,7 @@ import { firstValueFrom, of } from 'rxjs';
 import { PermissionService } from './permission.service';
 import { DhActorTokenService } from './dh-actor-token.service';
 
-describe(PermissionService.name, () => {
+describe(PermissionService, () => {
   // base64 encoded access token: { role: ['actors:manage'] }
   const fakeAccessToken = 'ignored.eyJyb2xlIjpbImFjdG9yczptYW5hZ2UiXX0';
 
