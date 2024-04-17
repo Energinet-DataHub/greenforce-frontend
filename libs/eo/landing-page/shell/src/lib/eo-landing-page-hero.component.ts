@@ -19,8 +19,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -33,7 +35,6 @@ import { EoLearnMoreComponent } from './learn-more.component';
   selector: 'eo-landing-page-hero',
   styles: `
   :host {
-    container: hero / size;
     display: block;
     position: relative;
     overflow: hidden;
@@ -48,13 +49,13 @@ import { EoLearnMoreComponent } from './learn-more.component';
       --actions-container-alignment: column;
 
       position: relative;
+      container-type: size;
+
       width: 100%;
       height: 100%;
       padding-top: 44px; // annouce bar height
-    }
 
-    @container hero (width > 478px) and (height > 650px) {
-      .container {
+      @media (min-width: 478px) and (min-height: 650px) {
         --headings-aligment: left;
         --heading-size: 62px;
         --heading-line-height: normal;
@@ -151,6 +152,14 @@ import { EoLearnMoreComponent } from './learn-more.component';
     background: transparent;
     color: #fff;
   }
+
+  button {
+    &:hover, &:focus-visible {
+      background: #EE9331;
+      border-color: #EE9331;
+      outline: none;
+    }
+  }
   `,
   template: `
     <div class="container">
@@ -193,15 +202,37 @@ import { EoLearnMoreComponent } from './learn-more.component';
     </div>
   `,
 })
-export class EoLandingPageHeroComponent implements AfterViewInit {
+export class EoLandingPageHeroComponent implements AfterViewInit, OnDestroy {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;
   private authService = inject(EoAuthService);
+  private observer!: IntersectionObserver;
+  private elementRef = inject(ElementRef);
+
+  protected isSticky = signal<boolean>(false);
 
   ngAfterViewInit(): void {
     if (this.videoplayer) {
       // HACK: Even though the video is muted, the browser may still block autoplay
       this.videoplayer.nativeElement.muted = true;
     }
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.isSticky.set(false);
+          } else {
+            this.isSticky.set(true);
+          }
+        });
+      }
+    );
+
+    //this.observer.observe(this.elementRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.observer.disconnect();
   }
 
   onLogin(): void {

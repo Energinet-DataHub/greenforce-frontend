@@ -28,7 +28,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoLandingPageAudienceComponent } from './eo-landing-page-audience.component';
 import { EoLandingPageCompanyComponent } from './eo-landing-page-company.component';
-import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component';
 import { EoLandingPageHeroComponent } from './eo-landing-page-hero.component';
 import { EoLandingPageIntroductionComponent } from './eo-landing-page-introduction.component';
 import { EoLandingPageNotificationComponent } from './eo-landing-page-notification.component';
@@ -37,6 +36,13 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 import { EoLandingPageWhyComponent } from './why.component';
 import { EoLandingPageHowComponent } from './how.component';
 import { EoLandingPageWhatComponent } from './what.component';
+import { EoPercentageCounterComponent } from './counter.component';
+import { EoLandingPageElectricalGridComponent } from './eo-landing-page-electrical-grid.component';
+import { EoLandingPageBlockchainTechComponent } from './eo-landing-page-blockchain-tech.component';
+import { EoLandingPageGranularCertificatesComponent } from './eo-landing-page-granular-certificates.component';
+import { EoLandingPageFooterComponent } from './eo-landing-page-footer.component';
+import { EoLandingPageCTAComponent } from './eo-landing-page-cta.component';
+import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +51,6 @@ import { EoLandingPageWhatComponent } from './what.component';
     EoFooterComponent,
     EoLandingPageAudienceComponent,
     EoLandingPageCompanyComponent,
-    EoLandingPageHeaderComponent,
     EoLandingPageHeroComponent,
     EoLandingPageIntroductionComponent,
     EoLandingPageNotificationComponent,
@@ -57,6 +62,13 @@ import { EoLandingPageWhatComponent } from './what.component';
     EoLandingPageWhyComponent,
     EoLandingPageHowComponent,
     EoLandingPageWhatComponent,
+    EoPercentageCounterComponent,
+    EoLandingPageElectricalGridComponent,
+    EoLandingPageBlockchainTechComponent,
+    EoLandingPageGranularCertificatesComponent,
+    EoLandingPageFooterComponent,
+    EoLandingPageCTAComponent,
+    EoLandingPageHeaderComponent,
   ],
   selector: 'eo-landing-page-shell',
   template: `
@@ -74,8 +86,45 @@ import { EoLandingPageWhatComponent } from './what.component';
       <p>Loading...</p>
     }
 
+    <!--
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-what />
+    } @placeholder {
+      <p>Loading...</p>
+    }-->
+
+    @defer (on viewport) {
+      <eo-landing-page-electrical-grid />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport) {
+      <eo-landing-page-blockchain-tech />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport) {
+      <eo-landing-page-granular-certificates />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport) {
+      <eo-percentage-counter />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport) {
+      <eo-landing-page-cta />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport) {
+      <eo-landing-page-footer />
     } @placeholder {
       <p>Loading...</p>
     }

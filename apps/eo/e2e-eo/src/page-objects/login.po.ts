@@ -21,8 +21,8 @@ export class LoginPo {
   private peter = '[value="Peter Producent"]';
 
   // Interaction
-  clickIvanLogin = () => cy.get(this.ivan).click();
-  clickCharlotteLogin = () => cy.get(this.charlotte).click();
-  clickThomasLogin = () => cy.get(this.thomas).click();
-  clickPeterLogin = () => cy.get(this.peter).click();
+  clickIvanLogin = () => cy.get(this.ivan, {timeout: 10000}).click();
+  clickCharlotteLogin = () => cy.get(this.charlotte, {timeout: 10000}).click();
+  clickThomasLogin = () => cy.get(this.thomas, {timeout: 10000}).click();
+  clickPeterLogin = () => cy.get(this.peter, {timeout: 10000}).click();
 }

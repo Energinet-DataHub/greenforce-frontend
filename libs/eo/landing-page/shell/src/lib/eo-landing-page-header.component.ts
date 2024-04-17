@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
@@ -24,6 +24,9 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
+import { distinctUntilChanged, fromEvent, map, pairwise, throttleTime } from 'rxjs';
+import { ViewportScroller } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +48,36 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
       z-index: 100;
 
       --watt-button-color: #fff;
+      --watt-button-text-hover-color: #EE9331;
+      --watt-button-text-focus-color: #EE9331;
       --watt-button-text-transform: uppercase;
+
+      &:not(.sticky) .logo.secondary {
+        display: block;
+      }
+
+      &.sticky {
+        position: fixed;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        --watt-button-color: #01857D;
+        transform: translate3d(0, -100%, 0);
+
+        &.show {
+          transition: transform 0.25s linear;
+          transform: translate3d(0, 0, 0);
+        }
+
+        .logo.primary {
+          display: block;
+        }
+
+        .topbar {
+          padding-top: 0;
+          padding-bottom: 0;
+          background-color: #fff;
+        }
+      }
     }
 
     .topbar {
@@ -57,12 +89,14 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
     .logo {
       width: 150px;
       height: 44px;
+      display: none;
     }
   `,
   template: `
     <eo-announcement-bar [announcement]="translations.announcementBar.message | transloco" />
     <div class="topbar">
-      <img eoProductLogo version="secondary" class="logo" />
+      <img eoProductLogo version="secondary" class="logo secondary" />
+      <img eoProductLogo class="logo primary" />
 
       <div class="actions">
         <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
@@ -75,11 +109,44 @@ import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization
     </div>
   `,
 })
-export class EoLandingPageHeaderComponent {
+export class EoLandingPageHeaderComponent implements AfterViewInit {
   private authService = inject(EoAuthService);
+  private elementRef = inject(ElementRef);
+  private viewportScroller = inject(ViewportScroller);
+  private destroyRef = inject(DestroyRef);
   protected translations = translations;
 
   login() {
     this.authService.startLogin();
+  }
+
+  ngAfterViewInit(): void {
+    // ADD / REMOVE STICKY MODE
+    fromEvent(window, 'scroll').pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map(() => this.viewportScroller.getScrollPosition()[1]),
+      distinctUntilChanged(),
+    ).subscribe((scrollY) => {
+      if(scrollY <= this.elementRef.nativeElement.getBoundingClientRect().height) {
+        this.elementRef.nativeElement.classList.remove('sticky');
+      } else if(scrollY > this.elementRef.nativeElement.getBoundingClientRect().height) {
+        this.elementRef.nativeElement.classList.add('sticky');
+      }
+    });
+
+    // SHOW / HIDE HEADER
+    fromEvent(window, 'scroll').pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map(() => this.viewportScroller.getScrollPosition()[1]),
+      throttleTime(150),
+      pairwise(),
+      distinctUntilChanged(),
+    ).subscribe(([prev, curr]) => {
+        if(prev > curr && this.elementRef.nativeElement.classList.contains('sticky')) {
+          this.elementRef.nativeElement.classList.add('show');
+        } else {
+          this.elementRef.nativeElement.classList.remove('show');
+        }
+    });
   }
 }

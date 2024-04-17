@@ -55,6 +55,7 @@ import {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
+        max-width: 475px;
       }
 
       h2 {
@@ -63,6 +64,7 @@ import {
         font-weight: 700;
         line-height: normal;
         letter-spacing: 0.54px;
+        max-width: 295px;
       }
 
       h2, h3 {
@@ -78,13 +80,15 @@ import {
         z-index: 1;
         border-radius: 32px;
         min-width: calc(100vw + 64px);
-        min-height: 500px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: url('/assets/landing-page/Rectangle 12 transformed.avif') no-repeat;
+        background-position: center;
         background-size: cover;
         flex-direction: column;
+        text-align: center;
+        padding: 88px;
         gap: 24px;
       }
 
@@ -112,16 +116,19 @@ import {
           line-height: normal;
           text-align: left;
           transition: var(--transition);
+          max-width: 85%;
         }
 
         h2 {
           transform: translate3d(0, -200%, 0);
+          max-width: 100%;
         }
 
         .heading {
           min-height: 570px;
           min-width: 888px;
           margin-top: 208px;
+          padding: 0;
           transition: var(--transition);
           background: url('/assets/landing-page/Rectangle 12.avif') no-repeat;
           align-items: flex-start;
@@ -133,7 +140,7 @@ import {
             min-height: 790px;
 
             h3 {
-              transform: translate3d(9%, 75%, 0);
+              transform: translate3d(7.5%, 75%, 0);
             }
           }
         }
@@ -157,8 +164,8 @@ import {
     <div class="heading" [ngClass]="{ active: isActive() }">
       <h2 class="highlight">how we make sustainability reporting easier</h2>
       <h3>
-        Fast-Track Compliance<br/> with <span class="highlight">EU Sustainability</span
-        ><br />Regulations
+        Fast-Track Compliance with <span class="highlight">EU Sustainability</span
+        > Regulations
       </h3>
     </div>
 

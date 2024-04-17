@@ -17,7 +17,7 @@
 export class LandingPagePO {
   private path = '/';
   private loginButton = '[data-testid="login-button"]';
-  private pageHeaderText = 'Your emissions and renewables overview';
+  private pageHeaderText = 'Trace Energy to Its Origin.Truthfully.';
   private privateNotAllowed = 'errorCode=601';
 
   // Visibility
@@ -27,5 +27,5 @@ export class LandingPagePO {
 
   // Interaction
   navigateTo = () => cy.visit(this.path);
-  clickLoginButton = () => cy.get(this.loginButton).click();
+  clickLoginButton = () => cy.get(this.loginButton, {timeout: 10000}).click();
 }
