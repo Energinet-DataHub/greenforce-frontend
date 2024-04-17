@@ -13,10 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
 {
@@ -27,7 +27,7 @@ public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
 
         descriptor.Field(f => f.ValidFromDate)
            .Name("validPeriod").
-           Resolve((context, token) =>
+           Resolve((context, _) =>
            {
                var balanceResponsible = context.Parent<BalanceResponsibleResult>();
                return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : null);
