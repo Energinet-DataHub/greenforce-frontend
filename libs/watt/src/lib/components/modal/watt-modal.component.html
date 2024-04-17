@@ -16,15 +16,16 @@ limitations under the License.
 -->
 <ng-template #modal>
   <div class="watt-modal" [ngClass]="'watt-modal--' + size">
-    <watt-button
-      *ngIf="!disableClose && !hideCloseButton"
-      variant="icon"
-      icon="close"
-      class="watt-modal-close"
-      [attr.aria-label]="closeLabel"
-      (click)="close(false)"
-    />
-    <h2 class="watt-modal-title" *ngIf="title">{{ title }}</h2>
+    @if (!disableClose && !hideCloseButton) {
+      <watt-button
+        variant="icon"
+        icon="close"
+        class="watt-modal-close"
+        [attr.aria-label]="closeLabel"
+        (click)="close(false)"
+      />
+    }
+    <h2 class="watt-modal-title">{{ title }}</h2>
     <div
       wattResizeObserver
       class="watt-modal-content"
@@ -35,13 +36,17 @@ limitations under the License.
     </div>
     <ng-content select="watt-modal-actions" />
 
-    <div *ngIf="loading" class="watt-modal__spinner">
-      <div>
-        <watt-spinner />
-        <p>{{ loadingMessage }}</p>
+    @if (loading) {
+      <div class="watt-modal__spinner">
+        <div>
+          <watt-spinner />
+          <p>{{ loadingMessage }}</p>
+        </div>
       </div>
-    </div>
+    }
   </div>
 </ng-template>
 
-<ng-container *ngIf="dialogRef; then modal" />
+@if (dialogRef) {
+  <ng-template [ngTemplateOutlet]="modal" />
+}

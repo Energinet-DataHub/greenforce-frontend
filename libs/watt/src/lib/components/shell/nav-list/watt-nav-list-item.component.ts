@@ -16,24 +16,24 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
   standalone: true,
-  imports: [NgIf, NgTemplateOutlet, RouterModule],
+  imports: [NgTemplateOutlet, RouterModule],
   template: `
-    <a *ngIf="isExternalLink; else internalLink" [href]="link" [attr.target]="target"
-      ><ng-container *ngTemplateOutlet="templateContent"
-    /></a>
-
-    <ng-template #internalLink>
+    @if (isExternalLink) {
+      <a [href]="link" [attr.target]="target"
+        ><ng-container *ngTemplateOutlet="templateContent"
+      /></a>
+    } @else {
       <a [routerLink]="link" routerLinkActive="active" (isActiveChange)="onRouterLinkActive($event)"
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
-    </ng-template>
+    }
 
     <ng-template #templateContent>
       <ng-content />

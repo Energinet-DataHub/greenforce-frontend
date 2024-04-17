@@ -116,8 +116,6 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
     switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
       this._apollo
         .watchQuery({
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetMeteringGridAreaImbalanceDocument,
           variables: {
@@ -126,8 +124,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             pageNumber: pageMetaData.pageIndex + 1,
             pageSize: pageMetaData.pageSize,
             gridAreaCode: filters.gridArea,
-            periodFrom: filters.period?.start,
-            periodTo: filters.period?.end,
+            createdFrom: filters.created?.start,
+            createdTo: filters.created?.end,
+            calculationPeriod: filters.calculationPeriod,
             documentId,
             sortProperty: sortMetaData.sortProperty,
             sortDirection: sortMetaData.sortDirection,
@@ -187,14 +186,14 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
         switchMap(({ filters, documentId, sortMetaData }) =>
           this._apollo.query({
             returnPartialData: false,
-            notifyOnNetworkStatusChange: true,
             fetchPolicy: 'no-cache',
             query: DownloadMeteringGridAreaImbalanceDocument,
             variables: {
               locale: translate('selectedLanguageIso'),
               gridAreaCode: filters.gridArea,
-              periodFrom: filters.period?.start,
-              periodTo: filters.period?.end,
+              createdFrom: filters.created?.start,
+              createdTo: filters.created?.end,
+              calculationPeriod: filters.calculationPeriod,
               valuesToInclude: filters.valuesToInclude,
               documentId,
               sortProperty: sortMetaData.sortProperty,

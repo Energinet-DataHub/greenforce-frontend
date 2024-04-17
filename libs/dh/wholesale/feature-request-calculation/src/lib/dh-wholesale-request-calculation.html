@@ -26,30 +26,28 @@ limitations under the License.
           dhDropdownTranslator
         />
 
-        <watt-datepicker-v2
+        <watt-datepicker
           [label]="t('period')"
           [range]="true"
           [min]="minDate"
           [max]="maxDate"
           [formControl]="form.controls.period"
         >
-          <watt-field-error *ngIf="form.controls.period.errors?.maxOneMonthDateRange">
-            {{ t('maxPeriodLength')}}
-          </watt-field-error>
-          <watt-field-error *ngIf="form.controls.period.errors?.startDateCannotBeAfterEndDate">
-            {{ t('startDateCannotBeAfterEndDate')}}
-          </watt-field-error>
-          <watt-field-error *ngIf="form.controls.period.errors?.startDateCannotBeOlderThan3Years">
-            {{ t('startDateCannotBeOlderThan3Years')}}
-          </watt-field-error>
-          <watt-field-error *ngIf="form.controls.period.errors?.startAndEndDateCannotBeInTheFuture">
-            {{ t('startAndEndDateCannotBeInTheFuture')}}
-          </watt-field-error>
-        </watt-datepicker-v2>
+          @if (form.controls.period.errors?.maxOneMonthDateRange) {
+          <watt-field-error> {{ t('maxPeriodLength')}} </watt-field-error>
+          } @if (form.controls.period.errors?.startDateCannotBeAfterEndDate) {
+          <watt-field-error> {{ t('startDateCannotBeAfterEndDate')}} </watt-field-error>
+          } @if (form.controls.period.errors?.startDateCannotBeOlderThan3Years) {
+          <watt-field-error> {{ t('startDateCannotBeOlderThan3Years')}} </watt-field-error>
+          } @if (form.controls.period.errors?.startAndEndDateCannotBeInTheFuture) {
+          <watt-field-error> {{ t('startAndEndDateCannotBeInTheFuture')}} </watt-field-error>
+          }
+        </watt-datepicker>
 
         <watt-dropdown
           [label]="t('gridAreas')"
           [formControl]="form.controls.gridarea"
+          sortDirection="asc"
           [options]="gridAreaOptions"
         />
 
@@ -62,12 +60,13 @@ limitations under the License.
           dhDropdownTranslator
         />
 
+        @if (showEnergySupplierDropdown()) {
         <watt-dropdown
-          *ngIf="showEnergySupplierDropdown()"
           [label]="t('energySupplier')"
           [formControl]="form.controls.energySupplierId"
           [options]="energySupplierOptions"
         />
+        }
       </vater-stack>
       <vater-stack direction="column" align="flex-end">
         <watt-button variant="primary" type="submit" [loading]="isLoading">

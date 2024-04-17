@@ -1,17 +1,5 @@
-query GetCalculations(
-  $executionTime: DateRange
-  $period: DateRange
-  $calculationTypes: [CalculationType!]
-  $gridAreaCodes: [String!]
-  $executionStates: [CalculationState!]
-) {
-  calculations(
-    executionTime: $executionTime
-    period: $period
-    calculationTypes: $calculationTypes
-    gridAreaCodes: $gridAreaCodes
-    executionStates: $executionStates
-  ) {
+query GetCalculations($input: CalculationQueryInput!) {
+  calculations(input: $input) {
     id
     executionState
     executionTimeEnd

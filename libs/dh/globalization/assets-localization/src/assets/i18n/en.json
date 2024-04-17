@@ -8,7 +8,14 @@
   "sessionExpirationContentPartB": "You will be signed out in",
   "shell": {
     "logout": "Sign out",
-    "profile": "Profile"
+    "profile": "Profile",
+    "danish": "Dansk",
+    "english": "English"
+  },
+  "login": {
+    "loginWithUsername": "Login with username",
+    "loginWithMitID": "Login with MitID",
+    "linkingMitId": "Linking MitID"
   },
   "shared": {
     "error": {
@@ -57,21 +64,15 @@
     },
     "profile": {
       "myInformation": "My information",
-      "general": "General",
       "login": "Login",
       "title": "Profile",
       "name": "First name",
       "lastname": "Last name",
       "email": "E-mail",
       "phone": "Phone no.",
-      "language": "Language",
       "save": "Save changes",
       "cancel": "Cancel",
-      "success": "Profile updated",
-      "languages": {
-        "da": "Danish",
-        "en": "English"
-      }
+      "success": "Profile updated"
     },
     "search": "Search",
     "selectedValues": "{{count}} selected",
@@ -169,16 +170,16 @@
       "stopModalTitle": "Stop delegation?",
       "stopDate": "Stop on date",
       "setUpDelegation": "Set up delegation",
-      "outgoingMessages": "Outgoing messages",
-      "incomingMessages": "Incoming messages",
       "modalTitle": "Set up delegation",
       "gridArea": "Netområde",
       "start": "Start",
       "emptyTitle": "No delegations found",
-      "emptyMessage": "Delegate outgoing or incoming messages to a meter operator",
+      "emptyMessage": "Delegate messages to another market participant",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Set up delegation for messages",
+      "startDateError": "A delegation cannot be started in the past",
+      "stopDateError": "A delegation cannot be stopped in the past",
       "table": {
         "selectedRows": "Selected rows",
         "columns": {
@@ -189,10 +190,10 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-14)",
-        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-16)",
-        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-17)",
-        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-19)"
+        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
+        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
+        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -265,6 +266,7 @@
           "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
+          "cancelled": "The delegation has been cancelled and cannot be modified",
           "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}"
         }
       }
@@ -379,7 +381,17 @@
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-            "gridArea": "Grid area"
+            "gridArea": "Grid area",
+            "search": "Search"
+          },
+          "balanceResponsibleRelation": {
+            "tabLabel": "Balance Responsible Relation",
+            "energySupplier": "Energy Supplier",
+            "status": "Status",
+            "gridArea": "Grid Area",
+            "search": "Search",
+            "usage": "Usage",
+            "production": "Production"
           },
           "b2bAccess": {
             "tabLabel": "B2B Access",
@@ -609,7 +621,8 @@
       "calculationType": "Calculation type",
       "messageType": "Message type",
       "gridArea": "Grid area",
-      "status": "Status"
+      "status": "Status",
+      "energySupplier": "Energy supplier"
     },
     "tabs": {
       "outgoingMessages": {
@@ -643,28 +656,33 @@
         "documentStatus": {
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
-          "AWAITING_REPLY": "Awaiting reply (delivered to ECP)",
+          "AWAITING_REPLY": "Awaiting reply from eSett",
           "ACCEPTED": "Accepted",
           "REJECTED": "Rejected",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply (delivered to BizTalk)"
+          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP"
         }
       },
       "filters": {
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "status": "{{ eSett.shared.status }}",
         "period": "Calculation period",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
+        "latestDispatch": "{{ eSett.outgoingMessages.columns.latestDispatch }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID"
       },
       "columns": {
         "created": "Created",
+        "latestDispatch": "Sent",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Out grid",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "No outgoing messages found",
@@ -673,6 +691,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "messagesNotSent": "{{number}} messages not sent",
       "resendMessages": "Resend",
+      "countGridAreas": "{{gridAreaCount}} grid areas",
       "drawer": {
         "tabs": {
           "message": "Message",
@@ -698,6 +717,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
+        "calculationPeriod": "Calculation period",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Message ID",
         "valuesToInclude": "Pricetypes"
@@ -1035,6 +1055,16 @@
           "body": "User {{first}} {{last}} ({{email}}) will be deactivated, and sign-in will be blocked.",
           "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
           "confirm": "Deactivate user",
+          "reject": "Cancel"
+        },
+        "reactivate": "Reactivate",
+        "reactivateError": "Something went wrong. User could not be activated. Please try again",
+        "reactivateSuccess": "User activated",
+        "reactivateConfirmation": {
+          "title": "Reactivate user?",
+          "body": "User {{first}} {{last}} ({{email}}) will be activated.",
+          "important": "It may take up to 30 minutes before the user can log in again.",
+          "confirm": "Activate user",
           "reject": "Cancel"
         },
         "editRole": "Edit user role",

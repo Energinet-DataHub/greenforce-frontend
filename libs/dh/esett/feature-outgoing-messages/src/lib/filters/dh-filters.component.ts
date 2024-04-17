@@ -38,7 +38,9 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DocumentStatus,
+  EicFunction,
   ExchangeEventCalculationType,
+  GetActorsForEicFunctionDocument,
   GetGridAreasDocument,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -95,6 +97,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
   calculationTypeOptions$ = this.getCalculationTypeOptions();
   messageTypeOptions$ = this.getMessageTypeOptions();
   gridAreaOptions$ = this.getGridAreaOptions();
+  energySupplierOptions$ = this.getEnergySupplierOptions();
   documentStatusOptions$ = this.getDocumentStatusOptions();
 
   formGroup!: FormGroup<Filters>;
@@ -104,9 +107,11 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
       messageTypes: dhMakeFormControl(this.initial?.messageTypes),
       gridAreas: dhMakeFormControl(this.initial?.gridAreas),
+      actorNumber: dhMakeFormControl(this.initial?.actorNumber),
       status: dhMakeFormControl(this.initial?.status),
       period: dhMakeFormControl(this.initial?.period),
       created: dhMakeFormControl(this.initial?.created),
+      latestDispatch: dhMakeFormControl(this.initial?.latestDispatch),
     });
 
     this.subscription = this.formGroup.valueChanges
@@ -127,6 +132,26 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
           Object.values(ExchangeEventCalculationType).map((type) => ({
             displayValue: translationObject[type],
             value: type,
+          }))
+        )
+      );
+  }
+
+  private getEnergySupplierOptions(): Observable<WattDropdownOptions> {
+    return this.apollo
+      .query({
+        query: GetActorsForEicFunctionDocument,
+        variables: {
+          eicFunctions: [EicFunction.EnergySupplier],
+        },
+      })
+      .pipe(
+        map((result) => result.data?.actorsForEicFunction),
+        exists(),
+        map((actors) =>
+          actors.map((actor) => ({
+            value: actor.glnOrEicNumber,
+            displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
           }))
         )
       );

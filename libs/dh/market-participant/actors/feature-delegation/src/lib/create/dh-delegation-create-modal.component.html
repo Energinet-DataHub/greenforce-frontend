@@ -22,6 +22,7 @@ limitations under the License.
         [formControl]="createDelegationForm.controls.delegation"
         [options]="delegations$ | push"
       />
+
       <watt-dropdown
         [multiple]="true"
         label="{{ t('message') }}"
@@ -31,18 +32,27 @@ limitations under the License.
         dhDropdownTranslator
       />
 
-      @if (showGridAreaDropdown()) {
-        <watt-dropdown
-          [multiple]="true"
-          label="{{ t('gridArea') }}"
-          [formControl]="createDelegationForm.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        />
-      }
+      <watt-dropdown
+        [multiple]="true"
+        label="{{ t('gridArea') }}"
+        [formControl]="createDelegationForm.controls.gridAreas"
+        sortDirection="asc"
+        [options]="gridAreaOptions$ | push"
+      />
+
       <watt-datepicker
         [label]="t('start')"
         [formControl]="createDelegationForm.controls.startDate"
-      />
+        [min]="date"
+      >
+        @if (
+          createDelegationForm.controls.startDate.errors?.["dateCannotBeOlderThanTodayValidator"]
+        ) {
+          <watt-field-error>
+            {{ t("startDateError") }}
+          </watt-field-error>
+        }
+      </watt-datepicker>
     </vater-stack>
   </form>
   <watt-modal-actions>

@@ -27,7 +27,6 @@ import {
   Injector,
   AfterViewInit,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -40,16 +39,15 @@ import {
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+
 import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
 
 @Component({
   standalone: true,
   imports: [
-    NgIf,
     TranslocoDirective,
 
     WATT_DRAWER,
@@ -97,8 +95,6 @@ export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit 
           .watchQuery({
             errorPolicy: 'all',
             returnPartialData: true,
-            useInitialLoading: true,
-            notifyOnNetworkStatusChange: true,
             query: GetCalculationByIdDocument,
             variables: { id },
           })

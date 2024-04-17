@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
@@ -27,7 +26,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -64,7 +63,6 @@ interface FormValues {
   styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
     RxLet,
     RxPush,
     ReactiveFormsModule,
@@ -72,7 +70,7 @@ interface FormValues {
 
     WATT_MODAL,
     WattButtonComponent,
-    WattDatepickerV2Component,
+    WattDatepickerComponent,
     WattDatePipe,
     WattDropdownComponent,
     WattEmptyStateComponent,
@@ -124,8 +122,6 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   });
 
   gridAreasQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetGridAreasDocument,
   });
 
@@ -206,7 +202,6 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: CreateCalculationDocument,
         variables: {
           input: {
@@ -331,7 +326,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         },
       })
       .pipe(
-        tap((result) => (this.latestPeriodEnd = result.data?.calculations?.[0]?.period?.end)),
+        tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
         map(() => null)
       );
   }

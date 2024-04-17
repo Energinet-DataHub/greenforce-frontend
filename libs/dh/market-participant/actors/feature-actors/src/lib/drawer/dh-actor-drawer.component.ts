@@ -19,38 +19,41 @@ import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco'
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   DhPermissionRequiredDirective,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
-
-import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
 
 import {
   DhActorExtended,
   dhActorAuditLogEntry,
 } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
-import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
-import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
+
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
+import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
+import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
+import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
+import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -103,6 +106,8 @@ import { DhActorAuditLogService } from './dh-actor-audit-log.service';
     DhActorStatusBadgeComponent,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
+    DhCanDelegateForDirective,
+    DhBalanceResponsibleRelationTabComponent,
   ],
 })
 export class DhActorDrawerComponent {
@@ -116,8 +121,6 @@ export class DhActorDrawerComponent {
   private getActorByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
     returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorByIdDocument,
   });
 

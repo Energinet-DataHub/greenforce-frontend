@@ -2,6 +2,7 @@ query downloadEsettExchangeEvents(
   $locale: String!
   $periodInterval: DateRange
   $createdInterval: DateRange
+  $sentInterval: DateRange
   $gridAreaCode: String
   $calculationType: ExchangeEventCalculationType
   $timeSeriesType: TimeSeriesType
@@ -9,11 +10,13 @@ query downloadEsettExchangeEvents(
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
+  $actorNumber: String
 ) {
   downloadEsettExchangeEvents(
     locale: $locale
     periodInterval: $periodInterval
     createdInterval: $createdInterval
+    sentInterval: $sentInterval
     gridAreaCode: $gridAreaCode
     calculationType: $calculationType
     timeSeriesType: $timeSeriesType
@@ -21,5 +24,6 @@ query downloadEsettExchangeEvents(
     documentId: $documentId
     sortProperty: $sortProperty
     sortDirection: $sortDirection
+    actorNumber: $actorNumber
   )
 }

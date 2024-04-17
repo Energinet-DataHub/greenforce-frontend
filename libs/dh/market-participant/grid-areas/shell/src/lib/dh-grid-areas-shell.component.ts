@@ -34,8 +34,6 @@ export class DhGridAreasShellComponent {
   private readonly apollo = inject(Apollo);
 
   getActorsQuery$ = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetGridAreaOverviewDocument,
   });
 

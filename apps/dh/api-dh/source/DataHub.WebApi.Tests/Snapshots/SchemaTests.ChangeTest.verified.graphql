@@ -66,6 +66,15 @@ type AssociatedActors {
   actors: [UUID!]!
 }
 
+type BalanceResponsibilityAgreement {
+  meteringPointType: String
+  energySupplierId: UUID!
+  balanceResponsibleId: UUID!
+  gridAreaId: UUID!
+  validFrom: DateTime!
+  validTo: DateTime
+}
+
 type BalanceResponsiblePageResult {
   page: [BalanceResponsibleType!]!
   totalCount: Int!
@@ -111,7 +120,7 @@ type CreateAggregatedMeasureDataRequestPayload {
 }
 
 type CreateCalculationPayload {
-  calculation: Calculation
+  uuid: UUID
 }
 
 type CreateDelegationsForActorPayload {
@@ -132,20 +141,26 @@ type EsettOutgoingMessage {
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+  lastDispatched: DateTime
 }
 
 type ExchangeEventSearchResponse {
   items: [ExchangeEventSearchResult!]!
   totalCount: Int!
+  gridAreaCount: Int!
 }
 
 type ExchangeEventSearchResult {
   gridArea: GridAreaDto
+  energySupplier: ActorNameDto
   documentId: String!
+  actorNumber: String
+  gridAreaCodeOut: String
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: TimeSeriesType!
   documentStatus: DocumentStatus!
+  lastDispatched: DateTime
 }
 
 type ExchangeEventStatusReportResponse {
@@ -310,15 +325,17 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
+  balanceResponsibleAgreements(actorId: UUID!): [BalanceResponsibilityAgreement!]!
   calculationById(id: UUID!): Calculation!
-  calculations(executionTime: DateRange executionStates: [CalculationState!] calculationTypes: [CalculationType!] gridAreaCodes: [String!] period: DateRange first: Int): [Calculation!]!
+  calculations(input: CalculationQueryInput!): [Calculation!]!
+  latestBalanceFixing(period: DateRange!): Calculation
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): ExchangeEventSearchResponse!
-  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection!): String!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   downloadBalanceResponsibles(locale: String! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): String!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
@@ -445,6 +462,14 @@ input AddressDtoInput {
   zipCode: String
   city: String
   country: String!
+}
+
+input CalculationQueryInput {
+  gridAreaCodes: [String!]
+  executionStates: [CalculationState!]
+  calculationTypes: [CalculationType!]
+  executionTime: DateRange
+  period: DateRange
 }
 
 input CreateActorContactDtoInput {
@@ -673,6 +698,7 @@ enum ExchangeEventSortProperty {
   DOCUMENT_STATUS
   GRID_AREA_CODE
   TIME_SERIES_TYPE
+  LATEST_DISPATCHED
 }
 
 enum ImbalancePriceStatus {

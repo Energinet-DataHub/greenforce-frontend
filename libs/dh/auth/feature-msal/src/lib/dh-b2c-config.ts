@@ -33,6 +33,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
       authority: config.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
+      navigateToLoginRequestUrl: false,
       knownAuthorities: config.knownAuthorities,
     },
     cache: {
@@ -48,6 +49,10 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
         piiLoggingEnabled: false,
       },
       allowNativeBroker: false,
+      // This value should be higher than the interval of the timer in DhSseLink,
+      // which is currently set to 30 seconds. If the value is less than that
+      // interval, GraphQL subscriptions may briefly be using an expired token.
+      tokenRenewalOffsetSeconds: 60,
     },
   });
 }
@@ -70,6 +75,18 @@ export function MSALInterceptorConfigFactory(
   return {
     interactionType: InteractionType.Redirect,
     protectedResourceMap,
+    authRequest: (msalService, req, originalAuthRequest) => {
+      if (!originalAuthRequest.account?.idTokenClaims) return originalAuthRequest;
+
+      const tfp = originalAuthRequest.account?.idTokenClaims['tfp'] as unknown as string;
+
+      const midId = config.mitIdFlowUri.endsWith(tfp);
+
+      return {
+        ...originalAuthRequest,
+        authority: midId ? config.mitIdFlowUri : config.authority,
+      };
+    },
   };
 }
 

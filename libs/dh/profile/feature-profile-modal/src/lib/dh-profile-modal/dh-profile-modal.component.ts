@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
 import {
@@ -28,18 +28,11 @@ import {
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhSignupMitIdComponent } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-} from '@energinet-datahub/dh/shared/ui-util';
 import {
   GetUserProfileDocument,
   UpdateUserProfileDocument,
@@ -51,7 +44,6 @@ import { DhProfileModalService } from './dh-profile-modal.service';
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
   phoneNumber: FormControl<string>;
-  language: FormControl<string>;
   firstName: FormControl<string>;
   lastName: FormControl<string>;
 }>;
@@ -61,19 +53,18 @@ type UserPreferencesForm = FormGroup<{
   standalone: true,
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
     ReactiveFormsModule,
     ApolloModule,
 
     WATT_MODAL,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
-    WattDropdownComponent,
     WattButtonComponent,
     VaterStackComponent,
     VaterFlexComponent,
 
-    DhDropdownTranslatorDirective,
-    DhSignupMitIdComponent,
+    DhMitIDButtonComponent,
   ],
   styles: `
 
@@ -96,14 +87,11 @@ type UserPreferencesForm = FormGroup<{
 export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   private readonly _toastService = inject(WattToastService);
-  private readonly _languageService = inject(DhLanguageService);
   private readonly _apollo = inject(Apollo);
   private readonly _profileModalService = inject(DhProfileModalService);
 
   private readonly _getUserProfileQuery = this._apollo.watchQuery({
     returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetUserProfileDocument,
   });
   protected loadingUserProfile = signal<boolean>(false);
@@ -112,12 +100,9 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   @ViewChild(WattModalComponent)
   private _profileModal!: WattModalComponent;
 
-  languages: WattDropdownOptions = dhEnumToWattDropdownOptions(DisplayLanguage);
-
   userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
     email: { value: this.modalData.email, disabled: true },
     phoneNumber: ['', Validators.required],
-    language: [this._languageService.selectedLanguage],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
   });
@@ -142,11 +127,10 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
       return;
     }
 
-    const { language, firstName, lastName, phoneNumber } = this.userPreferencesForm.getRawValue();
+    const { firstName, lastName, phoneNumber } = this.userPreferencesForm.getRawValue();
 
     this._apollo
       .mutate<UpdateUserProfileMutation>({
-        useMutationLoading: true,
         mutation: UpdateUserProfileDocument,
         variables: {
           input: {
@@ -158,13 +142,10 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
           },
         },
       })
-      .subscribe((result) => this.handleUpdateUserProfileResponse(result, language));
+      .subscribe((result) => this.handleUpdateUserProfileResponse(result));
   }
 
-  private handleUpdateUserProfileResponse(
-    response: MutationResult<UpdateUserProfileMutation>,
-    selectedLanguage: string
-  ) {
+  private handleUpdateUserProfileResponse(response: MutationResult<UpdateUserProfileMutation>) {
     this.updatingUserProfile.set(response.loading);
 
     if (
@@ -183,7 +164,5 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
       this._getUserProfileQuery.refetch();
       this._profileModalService.notifyAboutProfileUpdate();
     }
-
-    this._languageService.selectedLanguage = selectedLanguage;
   }
 }

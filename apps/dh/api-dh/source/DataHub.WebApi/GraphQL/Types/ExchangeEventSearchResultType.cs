@@ -29,5 +29,9 @@ public class ExchangeEventSearchResultType : ObjectType<ExchangeEventSearchResul
         descriptor
            .Field("gridArea")
            .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventSearchResult)!, default!));
+
+        descriptor
+           .Field("energySupplier")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default(ExchangeEventSearchResult)!, default!));
     }
 }

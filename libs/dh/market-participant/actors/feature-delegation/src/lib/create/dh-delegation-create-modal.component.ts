@@ -48,6 +48,7 @@ import {
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
+  GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -55,30 +56,8 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-
-/** TODO: Remove when Typescript 5.4 lands with support for groupBy  */
-declare global {
-  interface ObjectConstructor {
-    /**
-     * Groups members of an iterable according to the return value of the passed callback.
-     * @param items An iterable.
-     * @param keySelector A callback which will be invoked for each item in items.
-     */
-    groupBy<K extends PropertyKey, T>(
-      items: Iterable<T>,
-      keySelector: (item: T, index: number) => K
-    ): Partial<Record<K, T[]>>;
-  }
-
-  interface MapConstructor {
-    /**
-     * Groups members of an iterable according to the return value of the passed callback.
-     * @param items An iterable.
-     * @param keySelector A callback which will be invoked for each item in items.
-     */
-    groupBy<K, T>(items: Iterable<T>, keySelector: (item: T, index: number) => K): Map<K, T[]>;
-  }
-}
+import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -108,6 +87,7 @@ declare global {
     WattButtonComponent,
     WattDropdownComponent,
     WattDatepickerComponent,
+    WattFieldErrorComponent,
 
     VaterStackComponent,
     DhDropdownTranslatorDirective,
@@ -121,13 +101,16 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
 
+  date = new Date();
   isSaving = signal(false);
-  showGridAreaDropdown = signal(true);
 
   createDelegationForm = this._fb.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
-    startDate: new FormControl<Date | null>(null, Validators.required),
+    startDate: new FormControl<Date | null>(null, [
+      Validators.required,
+      dateCannotBeOlderThanTodayValidator(),
+    ]),
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
@@ -144,10 +127,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
     this.gridAreaOptions$.pipe(takeUntilDestroyed()).subscribe((gridAreas) => {
       if (gridAreas.length === 1) {
-        this.showGridAreaDropdown.set(false);
         this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
-      } else {
-        this.showGridAreaDropdown.set(true);
       }
     });
   }
@@ -165,7 +145,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     this._apollo
       .mutate({
         mutation: CreateDelegationForActorDocument,
-        refetchQueries: [GetDelegationsForActorDocument],
         variables: {
           input: {
             actorId: this.modalData.id,
@@ -178,6 +157,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
             },
           },
         },
+        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
       })
       .subscribe((result) => this.handleCreateDelegationResponse(result));
   }
@@ -195,6 +175,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
         }))
       );
     }
+
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
       map((result) => result.data?.gridAreas),
       exists(),
@@ -208,16 +189,31 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegations(): Observable<WattDropdownOptions> {
-    return this._apollo.query({ query: GetDelegatesDocument }).pipe(
-      map((result) => result.data?.actorsForEicFunction),
-      exists(),
-      map((delegates) =>
-        delegates.map((delegate) => ({
-          value: delegate.id,
-          displayValue: delegate.name,
-        }))
-      )
-    );
+    const eicFunctions = [EicFunction.Delegated];
+
+    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
+      eicFunctions.push(EicFunction.GridAccessProvider);
+    }
+
+    return this._apollo
+      .query({
+        query: GetDelegatesDocument,
+        variables: {
+          eicFunctions,
+        },
+      })
+      .pipe(
+        map((result) => result.data?.actorsForEicFunction),
+        exists(),
+        map((delegates) =>
+          delegates
+            .filter((delegate) => delegate.id !== this.modalData.id)
+            .map((delegate) => ({
+              value: delegate.id,
+              displayValue: `${delegate.glnOrEicNumber} • ${delegate.name}`,
+            }))
+        )
+      );
   }
 
   private handleCreateDelegationResponse(

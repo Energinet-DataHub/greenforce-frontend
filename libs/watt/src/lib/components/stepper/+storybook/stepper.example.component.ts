@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -40,7 +39,6 @@ import { WattFieldErrorComponent } from '../../field/watt-field-error.component'
     `,
   ],
   imports: [
-    NgIf,
     WATT_STEPPER,
     ReactiveFormsModule,
     WattButtonComponent,

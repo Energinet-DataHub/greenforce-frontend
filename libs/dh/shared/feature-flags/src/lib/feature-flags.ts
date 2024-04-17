@@ -40,6 +40,10 @@ export const dhFeatureFlagsConfig = {
     created: '18-03-2024',
     disabledEnvironments: [DhAppEnvironment.test_001],
   },
+  'new-login-flow': {
+    created: '18-03-2024',
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

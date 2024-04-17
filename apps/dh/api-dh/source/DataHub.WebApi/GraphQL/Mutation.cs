@@ -12,19 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using HotChocolate;
-using HotChocolate.Types;
+using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
+using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
@@ -84,11 +79,13 @@ public class Mutation
         return true;
     }
 
-    public Task<CalculationDto> CreateCalculationAsync(
+    public async Task<Guid> CreateCalculationAsync(
         Interval period,
         string[] gridAreaCodes,
         WholesaleCalculationType calculationType,
-        [Service] IWholesaleClient_V3 client)
+        [Service] IWholesaleClient_V3 client,
+        [Service] ITopicEventSender sender,
+        CancellationToken cancellationToken)
     {
         if (!period.HasEnd || !period.HasStart)
         {
@@ -103,20 +100,12 @@ public class Mutation
             CalculationType = calculationType,
         };
 
-        return client
-            .CreateCalculationAsync(calculationRequestDto)
-            .Then(calculationId => new CalculationDto
-            {
-                CalculationId = calculationId,
-                ExecutionState = CalculationState.Pending,
-                PeriodStart = calculationRequestDto.StartDate,
-                PeriodEnd = calculationRequestDto.EndDate,
-                ExecutionTimeEnd = null,
-                ExecutionTimeStart = null,
-                AreSettlementReportsCreated = false,
-                GridAreaCodes = gridAreaCodes,
-                CalculationType = calculationType,
-            });
+        var calculationId = await client
+            .CreateCalculationAsync(calculationRequestDto, cancellationToken);
+
+        await sender.SendAsync(nameof(CreateCalculationAsync), calculationId, cancellationToken);
+
+        return calculationId;
     }
 
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(

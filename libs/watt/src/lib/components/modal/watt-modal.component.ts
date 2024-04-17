@@ -25,7 +25,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { WattResizeObserverDirective } from '../../utils/resize-observer';
@@ -51,7 +51,8 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   standalone: true,
   imports: [
     NgClass,
-    NgIf,
+    NgTemplateOutlet,
+
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,

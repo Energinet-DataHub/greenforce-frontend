@@ -760,7 +760,21 @@
             "format": "date-time",
             "nullable": true
           },
+          "latestDispatchedFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "latestDispatchedTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "documentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "actorNumber": {
             "type": "string",
             "nullable": true
           }
@@ -807,6 +821,10 @@
           "totalCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "gridAreaCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -819,6 +837,14 @@
           },
           "gridAreaCode": {
             "type": "string"
+          },
+          "actorNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "gridAreaCodeOut": {
+            "type": "string",
+            "nullable": true
           },
           "created": {
             "type": "string",
@@ -844,6 +870,11 @@
                 "$ref": "#/components/schemas/DocumentStatus"
               }
             ]
+          },
+          "lastDispatched": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -855,7 +886,8 @@
           "DocumentId",
           "DocumentStatus",
           "GridAreaCode",
-          "TimeSeriesType"
+          "TimeSeriesType",
+          "LatestDispatched"
         ]
       },
       "ExchangeEventSortPropertySorting": {
@@ -930,6 +962,11 @@
                 "$ref": "#/components/schemas/DocumentStatus"
               }
             ]
+          },
+          "lastDispatched": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -960,6 +997,16 @@
             "nullable": true
           },
           "createdTo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "calculationPeriodFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "calculationPeriodTo": {
             "type": "string",
             "format": "date-time",
             "nullable": true

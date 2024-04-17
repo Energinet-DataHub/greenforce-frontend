@@ -14,26 +14,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *ngIf="!range; else rangeTemplate">
-  <watt-field [id]="id" [control]="control" [label]="label">
+<watt-field [id]="id" [control]="control" [label]="label">
+  @if (!range) {
     <input
       matInput
       aria-label="time-input"
-      #timeInput
       autocomplete="off"
       spellcheck="false"
       [disabled]="disabled"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />
-    <ng-content />
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
-    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field>
-</ng-container>
-
-<ng-template #rangeTemplate>
-  <watt-field [id]="id" [control]="control" [label]="label">
+    <input #timeInput class="mask-input" [disabled]="disabled" />
+    <watt-placeholder-mask
+      [primaryInputElement]="timeInput"
+      [mask]="inputMask"
+      [placeholder]="hoursMinutesPlaceholder"
+      (maskApplied)="inputChanged($event)"
+    />
+  } @else {
     <mat-date-range-input
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -45,7 +44,6 @@ limitations under the License.
         aria-label="start-time-input"
         matStartDate
         #startTimeInput
-        [placeholder]="placeholder"
         autocomplete="off"
         spellcheck="false"
       />
@@ -53,11 +51,17 @@ limitations under the License.
         aria-label="end-time-input"
         matEndDate
         #endTimeInput
-        [placeholder]="placeholder"
         autocomplete="off"
         spellcheck="false"
       />
     </mat-date-range-input>
+    <input #timeInput class="mask-input" [disabled]="disabled" />
+    <watt-placeholder-mask
+      [primaryInputElement]="timeInput"
+      [mask]="rangeInputMask"
+      [placeholder]="rangePlaceholder"
+      (maskApplied)="rangeInputChanged($event)"
+    />
 
     <watt-button
       variant="icon"
@@ -93,8 +97,9 @@ limitations under the License.
         />
       </div>
     </ng-template>
-    <ng-content />
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
-    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field>
-</ng-template>
+  }
+
+  <ng-content />
+  <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+  <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+</watt-field>

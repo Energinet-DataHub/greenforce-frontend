@@ -99,8 +99,6 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
 
   ngOnInit(): void {
     this.getPermissionQuery = this.apollo.watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
       query: GetPermissionDetailsDocument,
       variables: { id: this.selectedPermission.id },
     });

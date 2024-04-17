@@ -39,8 +39,16 @@ limitations under the License.
   <watt-dropdown
     [formControl]="formGroup.controls.gridAreas!"
     [chipMode]="true"
+    sortDirection="asc"
     [options]="gridAreaOptions$ | push"
     [placeholder]="t('gridArea')"
+  />
+
+  <watt-dropdown
+    [formControl]="formGroup.controls.actorNumber!"
+    [chipMode]="true"
+    [options]="energySupplierOptions$ | push"
+    [placeholder]="t('energySupplier')"
   />
 
   <watt-dropdown
@@ -56,6 +64,10 @@ limitations under the License.
 
   <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.created!">{{
     t("created")
+  }}</watt-date-range-chip>
+
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.latestDispatch!">{{
+    t("latestDispatch")
   }}</watt-date-range-chip>
 
   <vater-spacer />

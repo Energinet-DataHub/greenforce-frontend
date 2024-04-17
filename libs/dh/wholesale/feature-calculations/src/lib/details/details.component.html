@@ -15,13 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-drawer #drawer (closed)="closed.emit()">
-  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale.calculations'"
-    ><watt-badge [type]="calculation?.statusType ?? 'skeleton'" *ngIf="!error">{{
-      calculation?.executionState
-        ? transloco("executionStates." + calculation?.executionState)
-        : "unknown"
-    }}</watt-badge></watt-drawer-topbar
-  >
+  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale.calculations'">
+    @if (!error) {
+      <watt-badge [type]="calculation?.statusType ?? 'skeleton'">{{
+        calculation?.executionState
+          ? transloco("executionStates." + calculation?.executionState)
+          : "unknown"
+      }}</watt-badge>
+    }
+  </watt-drawer-topbar>
   <watt-drawer-heading *transloco="let transloco; read: 'wholesale.calculations'">
     <div class="headline-container">
       <h3 class="headline watt-headline-1">
@@ -41,20 +43,26 @@ limitations under the License.
       />
     </watt-description-list>
 
-    <ng-container *ngIf="calculation">
-      <dh-calculations-grid-areas *ngIf="calculation.gridAreas" [data]="calculation.gridAreas" />
-    </ng-container>
+    @if (calculation) {
+      @if (calculation.gridAreas) {
+        <dh-calculations-grid-areas [data]="calculation.gridAreas" />
+      }
+    }
 
-    <div class="center" *ngIf="loading && !calculation?.gridAreas">
-      <watt-spinner />
-    </div>
+    @if (loading && !calculation?.gridAreas) {
+      <div class="center">
+        <watt-spinner />
+      </div>
+    }
 
-    <div *ngIf="error" class="center">
-      <watt-empty-state
-        icon="custom-power"
-        [title]="transloco('details.emptyTitle')"
-        [message]="transloco('details.emptyMessage')"
-      />
-    </div>
+    @if (error) {
+      <div class="center">
+        <watt-empty-state
+          icon="custom-power"
+          [title]="transloco('details.emptyTitle')"
+          [message]="transloco('details.emptyMessage')"
+        />
+      </div>
+    }
   </watt-drawer-content>
 </watt-drawer>

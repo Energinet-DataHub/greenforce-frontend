@@ -17,7 +17,6 @@
 import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -49,7 +48,7 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
   standalone: true,
-  imports: [NgIf, A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
+  imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
 })
 export class WattDrawerComponent implements OnDestroy {
   private cdr = inject(ChangeDetectorRef);

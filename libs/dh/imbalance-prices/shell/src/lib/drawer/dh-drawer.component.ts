@@ -193,7 +193,6 @@ export class DhImbalancePricesDrawerComponent {
 
     return this.apollo
       .query({
-        notifyOnNetworkStatusChange: true,
         query: GetImbalancePricesMonthOverviewDocument,
         variables: {
           year,

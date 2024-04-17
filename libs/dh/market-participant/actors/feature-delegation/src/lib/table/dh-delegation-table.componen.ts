@@ -16,6 +16,7 @@
  */
 import { Component, ViewChild, effect, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RxPush } from '@rx-angular/template/push';
 
 import {
   WATT_TABLE,
@@ -24,13 +25,14 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhDelegation, DhDelegations } from '../dh-delegations';
 import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
 import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
+
 @Component({
   selector: 'dh-delegation-table',
   standalone: true,
@@ -44,7 +46,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
       <watt-table
         [dataSource]="tableDataSource"
         [columns]="columns"
-        [selectable]="true"
+        [selectable]="canManageDelegations()"
         [sortClear]="false"
         [suppressRowHoverHighlight]="true"
       >
@@ -61,12 +63,21 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.validPeriod | wattDate: 'short' }}
+          @if (entry.status === 'CANCELLED') {
+            {{ null | dhEmDashFallback }}
+          } @else {
+            {{ entry.validPeriod.start | wattDate: 'short' }}
+            @if (entry.validPeriod.end) {
+              -
+              {{ entry.validPeriod.end | wattDate: 'short' }}
+            }
+          }
         </ng-container>
 
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
           <dh-delegation-status [status]="entry.status" />
         </ng-container>
+
         <ng-container *wattTableToolbar="let selection">
           {{ selection.length }} {{ t('selectedRows') }}
           <watt-table-toolbar-spacer />
@@ -83,14 +94,19 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   `,
   imports: [
     TranslocoDirective,
+    RxPush,
+
     WATT_TABLE,
     WattDatePipe,
     WattButtonComponent,
+
     DhDelegationStatusComponent,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhDelegationTableComponent {
-  private _modalService = inject(WattModalService);
+  private readonly modalService = inject(WattModalService);
+
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
 
   @ViewChild(WattTableComponent)
@@ -104,6 +120,7 @@ export class DhDelegationTableComponent {
   };
 
   data = input.required<DhDelegations>();
+  canManageDelegations = input.required<boolean>();
 
   constructor() {
     effect(() => {
@@ -112,7 +129,7 @@ export class DhDelegationTableComponent {
   }
 
   stopSelectedDelegations(selected: DhDelegation[]) {
-    this._modalService.open({
+    this.modalService.open({
       component: DhDelegationStopModalComponent,
       data: selected,
       onClosed: (result) => {

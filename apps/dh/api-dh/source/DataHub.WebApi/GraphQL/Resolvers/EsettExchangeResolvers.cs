@@ -44,6 +44,11 @@ public class EsettExchangeResolvers
         await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
     public Task<ActorNameDto?> GetSupplierWithNameAsync(
+        [Parent] ExchangeEventSearchResult result,
+        ActorNameByMarketRoleDataLoader dataLoader) =>
+        dataLoader.LoadAsync((result.ActorNumber ?? string.Empty, EicFunction.EnergySupplier));
+
+    public Task<ActorNameDto?> GetSupplierWithNameAsync(
         [Parent] BalanceResponsibleResult result,
         ActorNameByMarketRoleDataLoader dataLoader) =>
         dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));

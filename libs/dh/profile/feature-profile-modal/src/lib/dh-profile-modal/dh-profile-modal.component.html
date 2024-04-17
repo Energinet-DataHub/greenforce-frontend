@@ -39,20 +39,11 @@ limitations under the License.
           [label]="t('phone')"
           [formControl]="userPreferencesForm.controls.phoneNumber"
         />
-        <h4>{{ t("general") }}</h4>
-        <watt-dropdown
-          class="lang-field"
-          [label]="t('language')"
-          [formControl]="userPreferencesForm.controls.language"
-          [options]="languages"
-          data-testid="language-dropdown"
-          dhDropdownTranslator
-          translate="shared.profile.languages"
-          [showResetOption]="false"
-        />
 
         <h4>{{ t("login") }}</h4>
-        <dh-signup-mitid class="mitid-field" />
+        <dh-mitid-button class="mitid-field" mode="signup">
+          {{ "admin.userManagement.connect" | transloco }}
+        </dh-mitid-button>
       </vater-stack>
     </vater-flex>
   </form>

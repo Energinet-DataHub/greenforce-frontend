@@ -14,10 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { makeEnvironmentProviders } from '@angular/core';
+import { APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink, Operation } from '@apollo/client/core';
+import {
+  InMemoryCache,
+  ApolloLink,
+  Operation,
+  split,
+  ApolloClientOptions,
+} from '@apollo/client/core';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 import {
   DhApiEnvironment,
@@ -25,24 +33,45 @@ import {
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-
-import { errorHandler } from './error-handler';
-import { makeEnvironmentProviders } from '@angular/core';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { errorHandler } from './error-handler';
+import DhSseLink from './dh-sse-link';
+
+function isSubscriptionQuery(operation: Operation) {
+  const definition = getMainDefinition(operation.query);
+  return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+}
+
 export const graphQLProviders = makeEnvironmentProviders([
+  {
+    provide: APOLLO_FLAGS,
+    useValue: {
+      useInitialLoading: true,
+      useMutationLoading: true,
+    },
+  },
   {
     provide: APOLLO_OPTIONS,
     useFactory(
       httpLink: HttpLink,
+      sseLink: DhSseLink,
       dhApiEnvironment: DhApiEnvironment,
       dhApplicationInsights: DhApplicationInsights
-    ) {
+    ): ApolloClientOptions<unknown> {
       if (environment.production === false) {
         loadDevMessages();
         loadErrorMessages();
       }
       return {
+        defaultOptions: {
+          query: {
+            notifyOnNetworkStatusChange: true,
+          },
+          watchQuery: {
+            notifyOnNetworkStatusChange: true,
+          },
+        },
         cache: new InMemoryCache({
           typePolicies: {
             ...scalarTypePolicies,
@@ -69,14 +98,18 @@ export const graphQLProviders = makeEnvironmentProviders([
         }),
         link: ApolloLink.from([
           errorHandler(dhApplicationInsights),
-          httpLink.create({
-            uri: (operation: Operation) => {
-              return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
-            },
-          }),
+          split(
+            isSubscriptionQuery,
+            sseLink.create(`${dhApiEnvironment.apiBase}/graphql`),
+            httpLink.create({
+              uri: (operation: Operation) => {
+                return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
+              },
+            })
+          ),
         ]),
       };
     },
-    deps: [HttpLink, dhApiEnvironmentToken, DhApplicationInsights],
+    deps: [HttpLink, DhSseLink, dhApiEnvironmentToken, DhApplicationInsights],
   },
 ]);

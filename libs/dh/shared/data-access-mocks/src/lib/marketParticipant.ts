@@ -48,13 +48,8 @@ import {
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import organizationsData from './data/marketParticipantOrganizations.json';
-import { marketParticipantOrganizationsWithActors } from './data/marketParticipantOrganizationsWithActors';
-import gridAreaData from './data/marketParticipantGridArea.json';
-import gridAreaOverviewData from './data/marketParticipantGridAreaOverview.json';
 import actorData from './data/marketPaticipantActor.json';
 import actorContactsData from './data/marketPaticipantActorContacts.json';
-import organizationData from './data/marketPaticipantOrganization.json';
 import userRoleData from './data/marketParticipantUserRoleTemplates.json';
 import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
@@ -70,13 +65,8 @@ import { actors } from './data/get-actors-by-organizationId';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
-    getOrganizations_REST(apiBase),
-    getAllOrganizationsWithActors(apiBase),
-    getMarketParticipantGridArea(apiBase),
-    getMarketParticipantGridAreaOverview(apiBase),
     getActor(apiBase),
     getActorContact(apiBase),
-    getOrganization(apiBase),
     getUserRoles(apiBase),
     getActors(),
     getActorById(),
@@ -101,52 +91,6 @@ export function marketParticipantMocks(apiBase: string) {
     createDelegation(),
     stopDelegation(),
   ];
-}
-
-function getOrganizations_REST(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizations`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(organizationsData);
-  });
-}
-
-function getAllOrganizationsWithActors(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetAllOrganizationsWithActors`,
-    async () => {
-      await delay(mswConfig.delay);
-      return HttpResponse.json(marketParticipantOrganizationsWithActors);
-    }
-  );
-}
-
-function getOrganization(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/MarketParticipant/Organization/GetOrganization`,
-    async ({ params }) => {
-      const { orgId } = params;
-      const organizationDataWithUpdatedId = {
-        ...organizationData,
-        orgId,
-      };
-      await delay(mswConfig.delay);
-      return HttpResponse.json(organizationDataWithUpdatedId);
-    }
-  );
-}
-
-function getMarketParticipantGridArea(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantGridArea/GetAllGridAreas`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(gridAreaData);
-  });
-}
-
-function getMarketParticipantGridAreaOverview(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantGridAreaOverview/GetAllGridAreas`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(gridAreaOverviewData);
-  });
 }
 
 function getActor(apiBase: string) {
@@ -284,16 +228,19 @@ function getDelegates() {
             __typename: 'Actor',
             id: '00000000-0000-0000-0000-000000000002',
             name: 'Test Actor 2',
+            glnOrEicNumber: '22222222',
           },
           {
             __typename: 'Actor',
             id: '00000000-0000-0000-0000-000000000003',
             name: 'Test Actor 3',
+            glnOrEicNumber: '33333333',
           },
           {
             __typename: 'Actor',
             id: '00000000-0000-0000-0000-000000000004',
             name: 'Test Actor 4',
+            glnOrEicNumber: '44444444444',
           },
         ],
       },

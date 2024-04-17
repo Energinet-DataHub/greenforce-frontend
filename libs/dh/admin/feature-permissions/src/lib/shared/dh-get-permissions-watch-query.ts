@@ -23,8 +23,6 @@ export function getPermissionsWatchQuery(searchTerm = '') {
   const apollo = inject(Apollo);
 
   return apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetPermissionsDocument,
     variables: { searchTerm },
   });

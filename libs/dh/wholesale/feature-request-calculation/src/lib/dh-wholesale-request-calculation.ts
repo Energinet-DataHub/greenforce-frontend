@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -45,7 +44,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
@@ -89,7 +88,7 @@ type FormType = {
         }
 
         watt-dropdown,
-        watt-datepicker-v2 {
+        watt-datepicker {
           width: 50%;
         }
       }
@@ -105,9 +104,8 @@ type FormType = {
     ReactiveFormsModule,
     FormsModule,
     TranslocoDirective,
-    WattDatepickerV2Component,
+    WattDatepickerComponent,
     WattFieldErrorComponent,
-    NgIf,
   ],
 })
 export class DhWholesaleRequestCalculationComponent {
@@ -146,14 +144,10 @@ export class DhWholesaleRequestCalculationComponent {
   progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetSelectedActorDocument,
   });
 
   energySupplierQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsForRequestCalculationDocument,
     variables: {
       eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],
@@ -273,7 +267,6 @@ export class DhWholesaleRequestCalculationComponent {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: RequestCalculationDocument,
         variables: {
           meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,

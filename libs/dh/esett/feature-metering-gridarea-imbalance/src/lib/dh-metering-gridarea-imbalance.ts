@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
+
 import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhMeteringGridAreaImbalance = ResultOf<

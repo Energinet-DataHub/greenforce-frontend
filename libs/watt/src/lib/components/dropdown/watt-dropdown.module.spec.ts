@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable sonarjs/no-duplicate-string */
 import { Component, DebugElement } from '@angular/core';
 import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -21,6 +22,7 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { parallel } from '@angular/cdk/testing';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownComponent } from './watt-dropdown.component';
@@ -308,15 +310,18 @@ describe(WattDropdownComponent, () => {
       initialState = null,
       multiple = false,
       noOptionsFoundLabel = '',
+      sortDirection = undefined,
     }: {
       initialState?: string | string[] | null;
       multiple?: boolean;
       noOptionsFoundLabel?: string;
+      sortDirection?: 'asc' | 'desc';
     } = {}) {
       @Component({
         template: `<watt-dropdown
           [placeholder]="placeholder"
           [(ngModel)]="dropdownModel"
+          [sortDirection]="sortDirection"
           [options]="options"
           [multiple]="multiple"
           [noOptionsFoundLabel]="noOptionsFoundLabel"
@@ -328,6 +333,7 @@ describe(WattDropdownComponent, () => {
         placeholder = placeholder;
         multiple = multiple;
         noOptionsFoundLabel = noOptionsFoundLabel;
+        sortDirection = sortDirection;
       }
 
       const { fixture } = await render(TestComponent, {
@@ -455,6 +461,47 @@ describe(WattDropdownComponent, () => {
         const actualLabel = noOptionsFoundDe.nativeElement.textContent.trim();
 
         expect(actualLabel).toBe(noOptionsFoundLabel);
+      });
+    });
+
+    describe('sorting', () => {
+      async function getOptionTexts(matSelect: MatSelectHarness): Promise<string[]> {
+        const options = await matSelect.getOptions();
+        return await parallel(() => options.map((option) => option.getText()));
+      }
+
+      it('do not apply sorting when not set', async () => {
+        const { matSelect } = await setup();
+
+        await matSelect.open();
+
+        const expectedTexts = dropdownOptions.map((option) => option.displayValue);
+
+        expect(await getOptionTexts(matSelect)).toEqual(['', '—', ...expectedTexts]);
+      });
+
+      it('sorts options in ascending order', async () => {
+        const { matSelect } = await setup({
+          sortDirection: 'asc',
+        });
+
+        await matSelect.open();
+
+        const expectedTexts = ['', '—', 'Batman', 'Joules', 'The Outlaws', 'Titans', 'Volt'];
+
+        expect(await getOptionTexts(matSelect)).toEqual(expectedTexts);
+      });
+
+      it('sorts options in descending order', async () => {
+        const { matSelect } = await setup({
+          sortDirection: 'desc',
+        });
+
+        await matSelect.open();
+
+        const expectedTexts = ['', '—', 'Volt', 'Titans', 'The Outlaws', 'Joules', 'Batman'];
+
+        expect(await getOptionTexts(matSelect)).toEqual(expectedTexts);
       });
     });
   });

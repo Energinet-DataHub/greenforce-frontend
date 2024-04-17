@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <dl>
-  <ng-container *ngFor="let item of descriptionItems">
+  @for (item of descriptionItems; track item) {
     <ng-container *ngTemplateOutlet="item.templateRef" />
-  </ng-container>
+  }
 </dl>

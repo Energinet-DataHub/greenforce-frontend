@@ -8,7 +8,14 @@
   "sessionExpirationContentPartB": "Du blive logget af om",
   "shell": {
     "logout": "Log ud",
-    "profile": "Profil"
+    "profile": "Profil",
+    "danish": "Dansk",
+    "english": "English"
+  },
+  "login": {
+    "loginWithUsername": "Login med brugernavn",
+    "loginWithMitID": "Login med MitID",
+    "linkingMitId": "Tilknytter MitID"
   },
   "shared": {
     "error": {
@@ -57,21 +64,15 @@
     },
     "profile": {
       "myInformation": "Mine oplysninger",
-      "general": "Generelt",
       "login": "Login",
       "title": "Profil",
       "name": "Fornavn",
       "lastname": "Efternavn",
       "email": "E-mail",
       "phone": "Telefonnr.",
-      "language": "Sprog",
       "save": "Gem ændringer",
       "cancel": "Fortryd",
-      "success": "Profil opdateret",
-      "languages": {
-        "da": "Dansk",
-        "en": "Engelsk"
-      }
+      "success": "Profil opdateret"
     },
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
@@ -169,16 +170,16 @@
       "stopModalTitle": "Stop delegering?",
       "stopDate": "Stop på dato",
       "setUpDelegation": "Opsæt delegering",
-      "outgoingMessages": "Udgående meddelelser",
-      "incomingMessages": "Indgående meddelelser",
       "modalTitle": "Opsæt delegering",
       "gridArea": "Netområde",
       "start": "Start",
       "emptyTitle": "Ingen delegering",
-      "emptyMessage": "Deleger udgående eller indgående meddelelser til en måleoperatør",
+      "emptyMessage": "Deleger meddelelser til anden aktør",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "emptyStateSetUpDelegation": "Opsæt delegering for meddelelser",
+      "startDateError": "Delegering kan ikke startes tilbage i tiden",
+      "stopDateError": "Delegering kan ikke stoppes tilbage i tiden",
       "table": {
         "selectedRows": "rækker valgt",
         "columns": {
@@ -189,10 +190,10 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-14)",
-        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-16)",
-        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-17)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-19)"
+        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
+        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
+        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -265,7 +266,8 @@
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der en {{conflicting_market_role}}"
+          "cancelled": "Delegering er annulleret og kan ikke ændres",
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}"
         }
       }
     },
@@ -380,6 +382,15 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Netområde"
+          },
+          "balanceResponsibleRelation": {
+            "tabLabel": "Balanceansvarsrelationer",
+            "energySupplier": "Elleverandør",
+            "status": "Status",
+            "gridArea": "Netområde",
+            "search": "Søg",
+            "usage": "Forbrug",
+            "production": "Produktion"
           },
           "b2bAccess": {
             "tabLabel": "B2B-adgang",
@@ -609,7 +620,8 @@
       "calculationType": "Beregningstype",
       "messageType": "Meddelelsestype",
       "gridArea": "Netområde",
-      "status": "Status"
+      "status": "Status",
+      "energySupplier": "Elleverandør"
     },
     "tabs": {
       "outgoingMessages": {
@@ -643,28 +655,33 @@
         "documentStatus": {
           "RECEIVED": "Modtaget",
           "AWAITING_DISPATCH": "Afventer afsendelse",
-          "AWAITING_REPLY": "Afventer svar (leveret til ECP)",
+          "AWAITING_REPLY": "Afventer svar fra eSett",
           "ACCEPTED": "Accepteret",
           "REJECTED": "Afvist",
-          "BIZ_TALK_ACCEPTED": "Afventer svar (leveret til BizTalk)"
+          "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP"
         }
       },
       "filters": {
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "status": "{{ eSett.shared.status }}",
         "period": "Beregningsperiode",
         "created": "{{ eSett.outgoingMessages.columns.created }}",
+        "latestDispatch": "{{ eSett.outgoingMessages.columns.latestDispatch }}",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID"
       },
       "columns": {
         "created": "Oprettet",
+        "latestDispatch": "Sendt",
         "id": "{{ eSett.outgoingMessages.filters.documentId }}",
+        "energySupplier": "{{ eSett.shared.energySupplier }}",
         "calculationType": "{{ eSett.shared.calculationType }}",
         "messageType": "{{ eSett.shared.messageType }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
+        "gridAreaCodeOut": "Ud net",
         "status": "{{ eSett.shared.status }}"
       },
       "emptyTitle": "Ingen udgående meddelelser fundet",
@@ -673,6 +690,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "messagesNotSent": "{{number}} meddelelser blev ikke sendt",
       "resendMessages": "Send igen",
+      "countGridAreas": "{{gridAreaCount}} netområder",
       "drawer": {
         "tabs": {
           "message": "Meddelelse",
@@ -698,6 +716,7 @@
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettet",
+        "calculationPeriod": "Beregningsperiode",
         "reset": "{{ shared.form.reset }}",
         "documentId": "Besked ID",
         "valuesToInclude": "MGA ubalancer"
@@ -1035,6 +1054,16 @@
           "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
+          "reject": "Fortryd"
+        },
+        "reactivate": "Genaktiver",
+        "reactivateError": "Noget gik galt. Brugeren blev ikke aktiveret. Prøv igen",
+        "reactivateSuccess": "Bruger blev aktiveret",
+        "reactivateConfirmation": {
+          "title": "Genaktiver bruger?",
+          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
+          "confirm": "Aktiver bruger",
           "reject": "Fortryd"
         },
         "editRole": "Rediger brugerrolle",

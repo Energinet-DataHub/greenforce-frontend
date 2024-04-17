@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgFor, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -38,7 +38,7 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   styleUrls: ['./watt-description-list.component.scss'],
   templateUrl: './watt-description-list.component.html',
   standalone: true,
-  imports: [NgFor, NgTemplateOutlet],
+  imports: [NgTemplateOutlet],
 })
 class WattDescriptionListComponent<T> implements AfterViewInit {
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

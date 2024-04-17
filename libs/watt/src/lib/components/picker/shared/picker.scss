@@ -29,6 +29,11 @@
     }
   }
 
+  mat-datepicker,
+  mat-date-range-picker {
+    display: none;
+  }
+
   input.mat-date-range-input-inner,
   input.mat-mdc-input-element,
   .mat-date-range-input-mirror,
@@ -46,11 +51,6 @@
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
-
-    &:disabled {
-      color: inherit;
-      background-image: none !important;
-    }
   }
 
   input.mask-input {

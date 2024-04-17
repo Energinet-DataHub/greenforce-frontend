@@ -16,15 +16,16 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Energinet.DataHub.WebApi.Tests.Fixtures
+namespace Energinet.DataHub.WebApi.Tests.Fixtures;
+
+public class WebApiFactory : WebApplicationFactory<Program>
 {
-    public class WebApiFactory : WebApplicationFactory<Program>
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            // These values are required Program.cs configuration, but the actual token validation is mocked.
-            Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
-            Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
-        }
+        // These values are required Program.cs configuration, but the actual token validation is mocked.
+        Environment.SetEnvironmentVariable("MITID_EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
+        Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
+        Environment.SetEnvironmentVariable("INTERNAL_OPEN_ID_URL", "http://localhost:8080/");
+        Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
     }
 }

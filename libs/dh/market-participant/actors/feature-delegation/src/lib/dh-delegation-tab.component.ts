@@ -27,6 +27,7 @@ import {
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -49,10 +50,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
+import { DhDelegations, DhDelegationsByType } from './dh-delegations';
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
-import { DhDelegations } from './dh-delegations';
-import { DhDelegationCreateModalComponent } from './dh-delegation-create-modal.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-modal.component';
+import { dhGroupDelegations } from './util/dh-group-delegations';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -92,7 +93,7 @@ export class DhDelegationTabComponent {
   isError = signal(false);
 
   delegationsRaw = signal<DhDelegations>([]);
-  delegations = signal<DhDelegations>([]);
+  delegationsByType = signal<DhDelegationsByType>([]);
 
   isEmpty = computed(() => this.delegationsRaw().length === 0);
 
@@ -115,14 +116,14 @@ export class DhDelegationTabComponent {
     const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {
-      return this.delegations.set(delegations);
+      return this.delegationsByType.set(dhGroupDelegations(delegations));
     }
 
     const delegationsFiltered = delegations.filter((delegation) => {
       return filter.includes(delegation.status);
     });
 
-    this.delegations.set(delegationsFiltered);
+    this.delegationsByType.set(dhGroupDelegations(delegationsFiltered));
   }
 
   private fetchData(actorId: string) {
@@ -143,7 +144,7 @@ export class DhDelegationTabComponent {
 
           this.delegationsRaw.set(result.data.delegationsForActor);
 
-          this.delegations.set(this.delegationsRaw());
+          this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw()));
         },
         error: () => {
           this.isLoading.set(false);

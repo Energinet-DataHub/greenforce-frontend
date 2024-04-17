@@ -19,6 +19,8 @@ import '@testing-library/cypress/add-commands';
 function loginViaB2C(email: string, password: string) {
   cy.visit('/');
 
+  cy.get('watt-button').click();
+
   // Login to B2C.
   cy.origin(
     Cypress.env('DH_E2E_B2C_URL'),
