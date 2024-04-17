@@ -289,15 +289,19 @@ interface Image {
           <picture>
             <source
               [srcset]="
-                '/assets/landing-page/' + section.id + '.avif 1x,' +
-                '/assets/landing-page/' + section.id + '@2x.avif 2x,' +
-                '/assets/landing-page/' + section.id + '@3x.avif 3x'
+                '/assets/landing-page/' +
+                section.id +
+                '.avif 1x,' +
+                '/assets/landing-page/' +
+                section.id +
+                '@2x.avif 2x,' +
+                '/assets/landing-page/' +
+                section.id +
+                '@3x.avif 3x'
               "
               type="image/avif"
             />
-            <img
-              [src]="'/assets/landing-page/' + section.id + '.avif'"
-            />
+            <img [src]="'/assets/landing-page/' + section.id + '.avif'" />
           </picture>
 
           <div>
