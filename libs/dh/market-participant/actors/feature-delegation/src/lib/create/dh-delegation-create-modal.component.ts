@@ -23,7 +23,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
@@ -32,7 +32,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import {
+  WattDropdownComponent,
+  WattDropdownOption,
+  WattDropdownOptions,
+} from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
@@ -168,12 +172,13 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
-      return of(
-        this.modalData.gridAreas.map((gridArea) => ({
-          value: gridArea.id,
-          displayValue: gridArea.displayName,
-        }))
-      );
+      const gridAreas = this.modalData.gridAreas.map((gridArea) => ({
+        value: gridArea.id,
+        displayValue: gridArea.displayName,
+      }));
+
+      this.selectGridAreas(gridAreas);
+      return of(gridAreas);
     }
 
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
@@ -184,8 +189,15 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           value: gridArea.id,
           displayValue: gridArea.displayName,
         }))
-      )
+      ),
+      tap((gridAreas) => this.selectGridAreas(gridAreas))
     );
+  }
+
+  private selectGridAreas(gridAreas: WattDropdownOption[]) {
+    this.createDelegationForm.patchValue({
+      gridAreas: gridAreas.map((gridArea) => gridArea.value),
+    });
   }
 
   private getDelegations(): Observable<WattDropdownOptions> {
