@@ -23,7 +23,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
@@ -184,7 +184,12 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           value: gridArea.id,
           displayValue: gridArea.displayName,
         }))
-      )
+      ),
+      tap((gridAreas) => {
+        this.createDelegationForm.patchValue({
+          gridAreas: gridAreas.map((gridArea) => gridArea.value),
+        });
+      })
     );
   }
 
