@@ -86,12 +86,11 @@ import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component
       <p>Loading...</p>
     }
 
-    <!--
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-what />
     } @placeholder {
       <p>Loading...</p>
-    }-->
+    }
 
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-electrical-grid />
