@@ -1,7 +1,4 @@
 {
-  "affected": {
-    "defaultBase": "main"
-  },
   "tasksRunnerOptions": {
     "default": {
       "options": {
@@ -104,5 +101,6 @@
       "!{projectRoot}/tsconfig.storybook.json",
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
-  }
+  },
+  "defaultBase": "main"
 }
