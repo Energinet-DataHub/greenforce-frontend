@@ -13,8 +13,7 @@
       "options": {
         "commands": [
           "npm run check:dotnet",
-          "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release",
-          "npm run generate-graphql-schema:ci"
+          "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
         ],
         "parallel": false
       },
@@ -65,6 +64,26 @@
           "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
         ],
         "parallel": false
+      }
+    },
+    "generate-schema": {
+      "executor": "nx:run-commands",
+      "inputs": ["default"],
+      "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],
+      "cache": true,
+      "options": {
+        "commands": [
+          "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
+        ]
+      }
+    },
+    "watch-schema": {
+      "executor": "nx:run-commands",
+      "inputs": ["default", "!{projectRoot}/source/DataHub.WebApi/schema.graphql"],
+      "options": {
+        "commands": [
+          "dotnet watch --no-hot-reload --non-interactive --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
+        ]
       }
     },
     "stop": {

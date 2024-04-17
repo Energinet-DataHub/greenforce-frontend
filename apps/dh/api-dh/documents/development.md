@@ -37,17 +37,25 @@ and copying it.
 The GraphQL server exposes a schema which is used to generate TypeScript
 files for the frontend. The code generation is handled by [GraphQL Code Generator]
 and must be run whenever new functionality in the GraphQL server needs
-to be tested in the frontend. To generate the code, make sure the local
-GraphQL server is running and then execute the following command:
+to be tested in the frontend. When working with a feature involving both
+server and client, use the following command to automatically start the
+client and run the code generation whenever the source files change:
 
 ```sh
-yarn generate-graphql-schema
+yarn dev
 ```
 
-The code generator will also generate a `schema.graphql` file in the root
-folder. This file is used by the VS Code GraphQL extension to provide
-IntelliSense in `.graphql` files and should be checked in to remote along
-with the other files.
+It is also possible to run the code generation manually (order is important):
+
+```sh
+yarn nx run api-dh:generate-schema
+yarn nx run dh-shared-domain:generate
+```
+
+The `api-dh:generate-schema` command will generate a `schema.graphql`
+file in `libs/dh/shared/data-access-graphql`. This file is used by the
+`dh-shared-domain:generate` command as well as the VS Code GraphQL
+extension (to provide IntelliSense in `.graphql` files).
 
 ### Creating a new query
 

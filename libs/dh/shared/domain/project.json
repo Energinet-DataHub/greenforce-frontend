@@ -15,6 +15,17 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi/schema.graphql",
+        "{workspaceRoot}/libs/**/*.graphql",
+        "!{projectRoot}/src/lib/generated/graphql.ts"
+      ],
+      "outputs": ["{projectRoot}/src/lib/generated/graphql.ts"],
+      "options": { "commands": ["graphql-codegen"] }
     }
   },
   "tags": ["product:dh", "scope:shared", "type:domain"]

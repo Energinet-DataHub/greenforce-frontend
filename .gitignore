@@ -37,6 +37,7 @@
 *.userprefs
 
 # Mono auto generated files
+.mono
 mono_crash.*
 
 # Build results
@@ -478,3 +479,7 @@ __blobstorage*
 
 # Verify mismatch file
 *.received.*
+
+# GraphQL generated files
+schema.graphql
+libs/dh/shared/domain/src/lib/generated/graphql.ts
