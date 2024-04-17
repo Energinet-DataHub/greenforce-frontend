@@ -19,6 +19,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -89,7 +90,7 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
       grid-area: devportal;
     }
 
-    button.primary {
+    button.primary, .button.primary {
       display: inline-flex;
       padding: 16px 24px;
       align-items: center;
@@ -101,7 +102,11 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
       border: none;
     }
 
-    button {
+    .button {
+      text-decoration: none;
+    }
+
+    button, .button {
       &:hover, &:focus-visible {
         background: #EE9331;
         border-color: #EE9331;
@@ -120,21 +125,17 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
     </section>
     <section class="devportal">
       <h3 class="heading-3">Collaboration. Interested in our APIs?</h3>
-      <button class="primary" (click)="openDeveloperPortal()">
-        <watt-icon name="openInNew" />
-        check it out
-      </button>
+      <a [href]="devPortalHref" target="_blank" class="button primary"
+        ><watt-icon name="openInNew" />check it out</a
+      >
     </section>
   `,
 })
 export class EoLandingPageCTAComponent {
+  protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
   private authService = inject(EoAuthService);
 
   onLogin(): void {
     this.authService.startLogin();
-  }
-
-  openDeveloperPortal(): void {
-    alert('Not implemented yet.');
   }
 }

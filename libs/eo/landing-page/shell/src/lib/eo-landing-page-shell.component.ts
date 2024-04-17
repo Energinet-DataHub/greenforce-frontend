@@ -93,37 +93,37 @@ import { EoLandingPageHeaderComponent } from './eo-landing-page-header.component
       <p>Loading...</p>
     }-->
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <eo-landing-page-electrical-grid />
     } @placeholder {
       <p>Loading...</p>
     }
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <eo-landing-page-blockchain-tech />
     } @placeholder {
       <p>Loading...</p>
     }
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <eo-landing-page-granular-certificates />
     } @placeholder {
       <p>Loading...</p>
     }
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <eo-percentage-counter />
     } @placeholder {
       <p>Loading...</p>
     }
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <eo-landing-page-cta />
     } @placeholder {
       <p>Loading...</p>
     }
 
-    @defer (on viewport) {
+    @defer (on viewport; prefetch on idle) {
       <eo-landing-page-footer />
     } @placeholder {
       <p>Loading...</p>

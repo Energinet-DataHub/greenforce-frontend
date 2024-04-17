@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
@@ -151,9 +152,11 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       <section class="developers">
         <h4>Developers</h4>
         <p>Get access to our</p>
-        <a href=""><watt-icon name="openInNew" />Developer portal</a>
+        <a [href]="devPortalHref" target="_blank"><watt-icon name="openInNew" />Developer portal</a>
       </section>
     </footer>
   `,
 })
-export class EoLandingPageFooterComponent {}
+export class EoLandingPageFooterComponent {
+  protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
+}
