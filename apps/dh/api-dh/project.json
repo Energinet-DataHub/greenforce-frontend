@@ -79,7 +79,6 @@
     },
     "watch-schema": {
       "executor": "nx:run-commands",
-      "inputs": ["default", "!{projectRoot}/source/DataHub.WebApi/schema.graphql"],
       "options": {
         "commands": [
           "dotnet watch --no-hot-reload --non-interactive --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
