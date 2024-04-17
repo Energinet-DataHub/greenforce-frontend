@@ -19,7 +19,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AbsoluteUrlGenerator } from './absolute-url-generator.service';
 
-describe(AbsoluteUrlGenerator.name, () => {
+describe(AbsoluteUrlGenerator, () => {
   beforeEach(() => {
     baseHref = TestBed.inject(APP_BASE_HREF);
     service = TestBed.inject(AbsoluteUrlGenerator);

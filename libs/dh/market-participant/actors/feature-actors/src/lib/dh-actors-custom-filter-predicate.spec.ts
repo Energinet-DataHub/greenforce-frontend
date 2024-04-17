@@ -40,7 +40,7 @@ function createActor({
   } as DhActor;
 }
 
-describe(dhActorsCustomFilterPredicate.name, () => {
+describe(dhActorsCustomFilterPredicate, () => {
   it('return a function', () => {
     expect(dhActorsCustomFilterPredicate).toBeInstanceOf(Function);
   });
