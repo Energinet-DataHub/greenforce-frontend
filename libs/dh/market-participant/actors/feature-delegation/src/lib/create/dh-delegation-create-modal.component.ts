@@ -32,7 +32,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownComponent, WattDropdownOption, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import {
+  WattDropdownComponent,
+  WattDropdownOption,
+  WattDropdownOptions,
+} from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
@@ -173,7 +177,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           value: gridArea.id,
           displayValue: gridArea.displayName,
         })),
-        tap((gridAreas) => this.selectGridAreas(gridAreas)));
+        tap((gridAreas) => this.selectGridAreas(gridAreas))
+      );
     }
 
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
