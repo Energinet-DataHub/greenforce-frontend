@@ -23,7 +23,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
 
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, map, of, pipe, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
@@ -172,13 +172,13 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
-      return of(
-        this.modalData.gridAreas.map((gridArea) => ({
-          value: gridArea.id,
-          displayValue: gridArea.displayName,
-        })),
-        tap((gridAreas) => this.selectGridAreas(gridAreas))
-      );
+      const gridAreas = this.modalData.gridAreas.map((gridArea) => ({
+        value: gridArea.id,
+        displayValue: gridArea.displayName,
+      }));
+
+      this.selectGridAreas(gridAreas);
+      return of(gridAreas)
     }
 
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
