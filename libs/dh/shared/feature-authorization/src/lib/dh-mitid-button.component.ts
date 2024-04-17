@@ -97,7 +97,7 @@ export class DhMitIDButtonComponent {
   }
 
   resetMitId() {
-    console.log("Debug")
+    console.log('Debug');
   }
 
   private async redirectToMitID() {
