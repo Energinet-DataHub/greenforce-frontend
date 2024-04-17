@@ -51,6 +51,7 @@
       "cache": true
     },
     "test": {
+      "dependsOn": ["app-dh:generate"],
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true
     },
