@@ -28,7 +28,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   styles: `
     footer {
       background-color: #102427;
-      background-image: url('/assets/landing-page/footer-bg.svg');
+      background-image: url('/assets/landing-page/footer-bg@small.svg');
       background-repeat: no-repeat;
       background-position: right bottom;
       min-height: 622px;
@@ -45,6 +45,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         "logo";
 
       @media (min-width: 754px) {
+        background-image: url('/assets/landing-page/footer-bg.svg');
         grid-template-areas:
           "logo logo logo logo"
           "address contact legal developers";
