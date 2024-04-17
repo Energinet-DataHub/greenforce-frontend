@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public sealed class MessageDelegationType : ObjectType<ProcessDelegation>
 {
@@ -40,7 +39,7 @@ public sealed class MessageDelegationType : ObjectType<ProcessDelegation>
 
         descriptor
             .Field("status")
-            .Resolve((ctx, ct) =>
+            .Resolve((ctx, _) =>
             {
                 var validPeriod = ctx.Parent<ProcessDelegation>().ValidPeriod;
 
@@ -48,11 +47,13 @@ public sealed class MessageDelegationType : ObjectType<ProcessDelegation>
                 {
                     return ActorDelegationStatus.Cancelled;
                 }
-                else if (validPeriod.Start < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(DateTimeOffset.UtcNow)))
+
+                if (validPeriod.Start < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(DateTimeOffset.UtcNow)))
                 {
                     return ActorDelegationStatus.Active;
                 }
-                else if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow))
+
+                if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow))
                 {
                     return ActorDelegationStatus.Expired;
                 }

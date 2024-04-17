@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.EDI;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.Registration;
 

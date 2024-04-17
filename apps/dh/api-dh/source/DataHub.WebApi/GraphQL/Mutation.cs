@@ -16,6 +16,8 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Types;
 using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;

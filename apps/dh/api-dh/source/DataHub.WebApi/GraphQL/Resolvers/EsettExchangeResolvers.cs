@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class EsettExchangeResolvers
 {

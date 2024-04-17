@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 [SuppressMessage("Usage", "VSTHRD200", Justification = "Name indicates that the task is awaited")]
 [SuppressMessage("Usage", "VSTHRD003", Justification = "The await will not cause deadlocks")]

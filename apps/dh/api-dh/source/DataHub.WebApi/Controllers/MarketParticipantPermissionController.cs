@@ -12,11 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers;
