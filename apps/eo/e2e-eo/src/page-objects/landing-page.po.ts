@@ -27,5 +27,5 @@ export class LandingPagePO {
 
   // Interaction
   navigateTo = () => cy.visit(this.path);
-  clickLoginButton = () => cy.get(this.loginButton, {timeout: 10000}).click();
+  clickLoginButton = () => cy.get(this.loginButton, { timeout: 10000 }).click();
 }

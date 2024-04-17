@@ -15,7 +15,17 @@
  * limitations under the License.
  */
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  ViewEncapsulation,
+  inject,
+  signal,
+} from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -129,21 +139,23 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, 
     }
   `,
   template: `
-  <div class="container">
-    <img class="chart" src="assets/landing-page/animationDonut.svg" />
+    <div class="container">
+      <img class="chart" src="assets/landing-page/animationDonut.svg" />
 
-    <div class="counter">
-      @for(num of currentNumbers(); track num) {
-        <div class="number" [@rollInOut]>
-          <span>{{ num }} %</span>
-        </div>
-      }
+      <div class="counter">
+        @for (num of currentNumbers(); track num) {
+          <div class="number" [@rollInOut]>
+            <span>{{ num }} %</span>
+          </div>
+        }
+      </div>
     </div>
-  </div>
 
-  <h2>The numbers prove that you run a<br />sustainable company</h2>
-  <p>Through reports and a dashboard, companies can track their effiency and optimize their consumption to match when the sustainable energy is being produced.</p>
-
+    <h2>The numbers prove that you run a<br />sustainable company</h2>
+    <p>
+      Through reports and a dashboard, companies can track their effiency and optimize their
+      consumption to match when the sustainable energy is being produced.
+    </p>
   `,
 })
 export class EoPercentageCounterComponent implements AfterViewInit, OnDestroy {
@@ -170,7 +182,7 @@ export class EoPercentageCounterComponent implements AfterViewInit, OnDestroy {
         this.currentNumbers.set([current]);
         current++;
         this.frameId = requestAnimationFrame(step);
-      } else if(this.frameId) {
+      } else if (this.frameId) {
         cancelAnimationFrame(this.frameId);
       }
     };
@@ -178,14 +190,17 @@ export class EoPercentageCounterComponent implements AfterViewInit, OnDestroy {
   }
 
   private initObserver() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.startCounting();
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.startCounting();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
 
     observer.observe(this.elementRef.nativeElement);
   }

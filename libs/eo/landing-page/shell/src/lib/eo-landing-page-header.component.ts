@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+} from '@angular/core';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
@@ -122,31 +129,35 @@ export class EoLandingPageHeaderComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     // ADD / REMOVE STICKY MODE
-    fromEvent(window, 'scroll').pipe(
-      takeUntilDestroyed(this.destroyRef),
-      map(() => this.viewportScroller.getScrollPosition()[1]),
-      distinctUntilChanged(),
-    ).subscribe((scrollY) => {
-      if(scrollY <= this.elementRef.nativeElement.getBoundingClientRect().height) {
-        this.elementRef.nativeElement.classList.remove('sticky');
-      } else if(scrollY > this.elementRef.nativeElement.getBoundingClientRect().height) {
-        this.elementRef.nativeElement.classList.add('sticky');
-      }
-    });
+    fromEvent(window, 'scroll')
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        map(() => this.viewportScroller.getScrollPosition()[1]),
+        distinctUntilChanged()
+      )
+      .subscribe((scrollY) => {
+        if (scrollY <= this.elementRef.nativeElement.getBoundingClientRect().height) {
+          this.elementRef.nativeElement.classList.remove('sticky');
+        } else if (scrollY > this.elementRef.nativeElement.getBoundingClientRect().height) {
+          this.elementRef.nativeElement.classList.add('sticky');
+        }
+      });
 
     // SHOW / HIDE HEADER
-    fromEvent(window, 'scroll').pipe(
-      takeUntilDestroyed(this.destroyRef),
-      map(() => this.viewportScroller.getScrollPosition()[1]),
-      throttleTime(150),
-      pairwise(),
-      distinctUntilChanged(),
-    ).subscribe(([prev, curr]) => {
-        if(prev > curr && this.elementRef.nativeElement.classList.contains('sticky')) {
+    fromEvent(window, 'scroll')
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        map(() => this.viewportScroller.getScrollPosition()[1]),
+        throttleTime(150),
+        pairwise(),
+        distinctUntilChanged()
+      )
+      .subscribe(([prev, curr]) => {
+        if (prev > curr && this.elementRef.nativeElement.classList.contains('sticky')) {
           this.elementRef.nativeElement.classList.add('show');
         } else {
           this.elementRef.nativeElement.classList.remove('show');
         }
-    });
+      });
   }
 }

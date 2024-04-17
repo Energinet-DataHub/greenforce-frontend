@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,14 +77,27 @@ import {
   template: `
     <section>
       <picture>
-        <source srcset="/assets/landing-page/blockchain-tech/blockchain-tech.avif 1x, /assets/landing-page/blockchain-tech/blockchain-tech@2x.avif 2x, /assets/landing-page/blockchain-tech/blockchain-tech@3x.avif 3x" type="image/avif">
-        <img src="/assets/landing-page/blockchain-tech/blockchain-tech.avif">
+        <source
+          srcset="
+            /assets/landing-page/blockchain-tech/blockchain-tech.avif    1x,
+            /assets/landing-page/blockchain-tech/blockchain-tech@2x.avif 2x,
+            /assets/landing-page/blockchain-tech/blockchain-tech@3x.avif 3x
+          "
+          type="image/avif"
+        />
+        <img src="/assets/landing-page/blockchain-tech/blockchain-tech.avif" />
       </picture>
 
       <div class="content">
         <h3>Blockchain technology ties granular certificates to renewable energy production</h3>
-        <p>For every quarter of an hour, Energy Origin generates production certificates from selected energy-producing assets, based on data from DataHub.</p>
-        <p>The certificates are stored in a digital wallet, with relevant meta-data, and can from now on be traced back to it's source.</p>
+        <p>
+          For every quarter of an hour, Energy Origin generates production certificates from
+          selected energy-producing assets, based on data from DataHub.
+        </p>
+        <p>
+          The certificates are stored in a digital wallet, with relevant meta-data, and can from now
+          on be traced back to it's source.
+        </p>
       </div>
     </section>
   `,

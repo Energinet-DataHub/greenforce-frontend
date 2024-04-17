@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,13 +87,26 @@ import {
   template: `
     <section>
       <div class="content">
-        <h3>Granular certificates are transferred between wallets to match consumption with production</h3>
-        <p>Transfer agreements can be made to automatically transfer certificates from one wallet to another. Either through our UI in Energy Origin or by the use of any third party using our API's.</p>
+        <h3>
+          Granular certificates are transferred between wallets to match consumption with production
+        </h3>
+        <p>
+          Transfer agreements can be made to automatically transfer certificates from one wallet to
+          another. Either through our UI in Energy Origin or by the use of any third party using our
+          API's.
+        </p>
       </div>
 
       <picture>
-        <source srcset="/assets/landing-page/granular-certificates/granular-certificates.avif 1x, /assets/landing-page/granular-certificates/granular-certificates@2x.avif 2x, /assets/landing-page/granular-certificates/granular-certificates@3x.avif 3x" type="image/avif">
-        <img src="/assets/landing-page/granular-certificates/granular-certificates.avif">
+        <source
+          srcset="
+            /assets/landing-page/granular-certificates/granular-certificates.avif    1x,
+            /assets/landing-page/granular-certificates/granular-certificates@2x.avif 2x,
+            /assets/landing-page/granular-certificates/granular-certificates@3x.avif 3x
+          "
+          type="image/avif"
+        />
+        <img src="/assets/landing-page/granular-certificates/granular-certificates.avif" />
       </picture>
     </section>
   `,

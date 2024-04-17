@@ -130,7 +130,10 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
       <section class="contact">
         <h4>Contact</h4>
-        <p>+45 70 22 28 10<br /> <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a></p>
+        <p>
+          +45 70 22 28 10<br />
+          <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
+        </p>
       </section>
 
       <section class="legal">

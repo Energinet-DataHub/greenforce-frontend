@@ -216,17 +216,15 @@ export class EoLandingPageHeroComponent implements AfterViewInit, OnDestroy {
       this.videoplayer.nativeElement.muted = true;
     }
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.isSticky.set(false);
-          } else {
-            this.isSticky.set(true);
-          }
-        });
-      }
-    );
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.isSticky.set(false);
+        } else {
+          this.isSticky.set(true);
+        }
+      });
+    });
 
     //this.observer.observe(this.elementRef.nativeElement);
   }

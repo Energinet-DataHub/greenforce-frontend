@@ -164,17 +164,15 @@ import {
     <div class="heading" [ngClass]="{ active: isActive() }">
       <h2 class="highlight">how we make sustainability reporting easier</h2>
       <h3>
-        Fast-Track Compliance with <span class="highlight">EU Sustainability</span
-        > Regulations
+        Fast-Track Compliance with <span class="highlight">EU Sustainability</span> Regulations
       </h3>
     </div>
-
 
     <section class="text-container" [ngClass]="{ active: isActive() }">
       <p>
         Energy Origin emerges as a transformative solution designed to guide companies through the
-        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD)
-        and Environmental, Social, and Governance (ESG) directives.
+        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
+        Environmental, Social, and Governance (ESG) directives.
       </p>
       <p>
         By leveraging advanced blockchain technology to provide unassailable traceability of
@@ -195,7 +193,7 @@ export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
         entries.forEach((entry) => {
           if (entry.isIntersecting && this.isActive() === false) {
             this.isActive.set(true);
-          } else if(!entry.isIntersecting && this.isActive() === true) {
+          } else if (!entry.isIntersecting && this.isActive() === true) {
             this.isActive.set(false);
           }
         });
