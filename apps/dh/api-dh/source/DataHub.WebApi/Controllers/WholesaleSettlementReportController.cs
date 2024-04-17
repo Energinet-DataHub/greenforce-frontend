@@ -12,11 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
-using System.Linq;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Mvc;
 

@@ -12,14 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
 public class ActorByOrganizationBatchDataLoader : BatchDataLoader<string, List<ActorDto>>
 {
@@ -38,7 +33,7 @@ public class ActorByOrganizationBatchDataLoader : BatchDataLoader<string, List<A
         {
             return (await _client
                 .ActorGetAsync())
-                .Where(x => keys.Contains<string>(x.OrganizationId.ToString()))
+                .Where(x => keys.Contains(x.OrganizationId.ToString()))
                 .GroupBy(x => x.OrganizationId)
                 .ToDictionary(x => x.Key.ToString(), y => y.ToList());
         }

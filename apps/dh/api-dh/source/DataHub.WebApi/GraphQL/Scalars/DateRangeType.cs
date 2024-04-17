@@ -12,16 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using HotChocolate.Language;
-using HotChocolate.Types;
 using NodaTime;
 using NodaTime.Text;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Scalars;
 
 public sealed class DateRangeType : AnyType
 {
@@ -49,7 +45,7 @@ public sealed class DateRangeType : AnyType
 
         if (valueSyntax is ObjectValueNode objectValue)
         {
-            var entries = objectValue.Fields?.ToDictionary(
+            var entries = objectValue.Fields.ToDictionary(
                 x => x.Name.Value,
                 x => x.Value switch
                 {
@@ -57,7 +53,7 @@ public sealed class DateRangeType : AnyType
                     _ => throw new FormatException(),
                 });
 
-            if (entries == null || !ContainsStartAndEnd(entries))
+            if (!ContainsStartAndEnd(entries))
             {
                 throw new SerializationException("Object must contain both start and end", this);
             }
@@ -77,8 +73,8 @@ public sealed class DateRangeType : AnyType
             null => NullValueNode.Default,
             Interval interval => new ObjectValueNode(new List<ObjectFieldNode>
             {
-                new ObjectFieldNode("start", new StringValueNode(FormatStart(interval.Start))),
-                new ObjectFieldNode("end", new StringValueNode(FormatEnd(interval.End))),
+                new("start", new StringValueNode(FormatStart(interval.Start))),
+                new("end", new StringValueNode(FormatEnd(interval.End))),
             }),
             _ => throw new SerializationException("Value must be an Interval", this),
         };
@@ -132,7 +128,7 @@ public sealed class DateRangeType : AnyType
     private static Instant? GetEndInstant(object? end) =>
         Parse(end) switch
         {
-            Instant instant => instant.Plus(Duration.FromMilliseconds(1)),
+            { } instant => instant.Plus(Duration.FromMilliseconds(1)),
             _ => null,
         };
 

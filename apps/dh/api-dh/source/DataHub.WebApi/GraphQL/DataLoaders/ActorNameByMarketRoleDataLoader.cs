@@ -12,14 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
 public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumber, EicFunction EicFunction), ActorNameDto?>
 {
@@ -37,7 +32,7 @@ public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumb
     {
         var actorNumbers = keys.Select(x => x.ActorNumber).ToHashSet();
 
-        var actors = await _client.ActorGetAsync().ConfigureAwait(false);
+        var actors = await _client.ActorGetAsync(cancellationToken).ConfigureAwait(false);
         var dictionary = new Dictionary<(string, EicFunction), ActorNameDto?>();
 
         foreach (var actor in actors.Where(x => actorNumbers.Contains(x.ActorNumber.Value)))
