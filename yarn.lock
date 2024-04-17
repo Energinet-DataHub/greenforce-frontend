@@ -8294,43 +8294,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/angular@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@maskito/angular@npm:2.2.0"
+"@maskito/angular@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@maskito/angular@npm:2.3.0"
   dependencies:
     tslib: "npm:2.6.2"
   peerDependencies:
     "@angular/core": ">=15.0.0"
     "@angular/forms": ">=15.0.0"
-    "@maskito/core": ^2.2.0
-  checksum: f89eb2ace76cdeb0dfc1e6163a96eb02b929470217a210c46283327221c61c39189c96b9e8b974e3b92ab4aa1ab5375e8d867b760ee5b7d4cbb369aadcc98a53
+    "@maskito/core": ^2.3.0
+  checksum: d086f961f117666baf0f28e4d54ed77de91e100e31768c30734585cc4f561b60f6f040fb908beeba031fca4ddc91127c865432eed7d32cb1a1a5031fdb769420
   languageName: node
   linkType: hard
 
-"@maskito/core@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@maskito/core@npm:2.2.0"
-  checksum: 249de33b793f3f3223e48257ca023e796a35fc8affb46c8c9d8a53ae9967ba959de6a792292308c2b81b0a6f359a206d933cc3e4c188f42af4b36487322e9a65
+"@maskito/core@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@maskito/core@npm:2.3.0"
+  checksum: 372c8d24126a51d5509faf5d537ef80e43ecc8b134e477b90eb782b3877a08cf3b8766fae2a09d23eb773afc7ff2e8400d1ffda702f7abea5b4e175347108c37
   languageName: node
   linkType: hard
 
-"@maskito/kit@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@maskito/kit@npm:2.2.0"
+"@maskito/kit@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@maskito/kit@npm:2.3.0"
   peerDependencies:
-    "@maskito/core": ^2.2.0
-  checksum: 806c5fa460ff5e354f3b368a8d3541419933bb5bdf184438538a11a47871ae333cce809220bb175a99427b810a667a0971115c7d286606e2ccadb3b874209491
+    "@maskito/core": ^2.3.0
+  checksum: 75832e06fb34e1803f02f2f885847460efc12f7a8362b1bb4498599fe7c10195d5111f9b2a1b389b62f2673fdbe01385a503a9dda09e3f2901ba0e26d3192989
   languageName: node
   linkType: hard
 
-"@maskito/phone@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@maskito/phone@npm:2.2.0"
+"@maskito/phone@npm:2.3.0":
+  version: 2.3.0
+  resolution: "@maskito/phone@npm:2.3.0"
   peerDependencies:
-    "@maskito/core": ^2.2.0
-    "@maskito/kit": ^2.2.0
-    libphonenumber-js: ">=1.0.0"
-  checksum: 13adf9348b441263add4713bb47a0556054fda24670f6a801ee97a7d6622372dfbe75648ed694dbb95fa00b2da38509444422509bd45339ec63e768dc4e6798b
+    "@maskito/core": ^2.3.0
+    "@maskito/kit": ^2.3.0
+    libphonenumber-js: ">=1.10.60"
+  checksum: 27bad23a87ea01ba505c2be0c7348daf730659fc5030d67bc1e4d74a0936472095d0a0223abeb09358672fa382e603734b1c64f4e8c74abc257125f2d8602943
   languageName: node
   linkType: hard
 
@@ -9561,22 +9561,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngrx/component-store@npm:17.0.1":
-  version: 17.0.1
-  resolution: "@ngrx/component-store@npm:17.0.1"
+"@ngrx/component-store@npm:17.2.0":
+  version: 17.2.0
+  resolution: "@ngrx/component-store@npm:17.2.0"
   dependencies:
     "@ngrx/operators": "npm:17.0.0-beta.0"
     tslib: "npm:^2.0.0"
   peerDependencies:
     "@angular/core": ^17.0.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: fe0cb9b29191b80f7acb326a4301d28af9ff9569eca558fd6b078e2e0c4f99f20e71baa4b7929bcf1b172d8184db3638c44b947d0b546919b451dac10ac03503
+  checksum: 7b55f7bd865eac155eaffd91a294ff46a107ce9f58f78c79b6dacfb19dda2a371375885015fa5e1f336e953e59ba769dd448d72070bd309dc90423613ee98da2
   languageName: node
   linkType: hard
 
-"@ngrx/eslint-plugin@npm:17.0.1":
-  version: 17.0.1
-  resolution: "@ngrx/eslint-plugin@npm:17.0.1"
+"@ngrx/eslint-plugin@npm:17.2.0":
+  version: 17.2.0
+  resolution: "@ngrx/eslint-plugin@npm:17.2.0"
   dependencies:
     "@typescript-eslint/experimental-utils": "npm:^5.4.0"
     eslint-etc: "npm:^5.1.0"
@@ -9584,8 +9584,8 @@ __metadata:
     strip-json-comments: "npm:3.1.1"
   peerDependencies:
     eslint: ">=8.0.0"
-    typescript: ">=4.4.0"
-  checksum: 0ec5d799583e182019c03aa718bd10d79e768c92f829b81626bec39e2dfb2891c7cff6edb23224f1b844ba2a9c7a34b67d30139a8efe4afc6735a36e2731e3ca
+    typescript: "*"
+  checksum: 5f8aa3141397bcc66a0fd433e385a06efa481a7da2739c5cef298cf5826bcf5940d57582030cee76aebf6eb0a0f0e3c4c20baa222b08304295c9caed21945110
   languageName: node
   linkType: hard
 
@@ -9597,6 +9597,17 @@ __metadata:
   peerDependencies:
     rxjs: ^6.5.3 || ^7.4.0
   checksum: 4173572632d97521d0a1035b983df8b2dac57713ab8d118dcbd92512d95bd2148df829baa49af075655c4249009d6b3d0ae0091c6b3f4d782dad633c1a362c66
+  languageName: node
+  linkType: hard
+
+"@ngrx/operators@npm:17.2.0":
+  version: 17.2.0
+  resolution: "@ngrx/operators@npm:17.2.0"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    rxjs: ^6.5.3 || ^7.4.0
+  checksum: bc3bc1fabf56570879c307104ee09b9188b4e076bf935f370f5cf3588b72aa837e952a5c0f66ff16472f3965c148017644edf2b22a866b7d776a3287e9e369e3
   languageName: node
   linkType: hard
 
@@ -21092,17 +21103,18 @@ __metadata:
     "@graphql-codegen/typescript-msw": "npm:2.1.0"
     "@graphql-codegen/typescript-operations": "npm:4.0.1"
     "@homebound/graphql-typescript-scalar-type-policies": "npm:2.11.0"
-    "@maskito/angular": "npm:2.2.0"
-    "@maskito/core": "npm:2.2.0"
-    "@maskito/kit": "npm:2.2.0"
-    "@maskito/phone": "npm:2.2.0"
+    "@maskito/angular": "npm:2.3.0"
+    "@maskito/core": "npm:2.3.0"
+    "@maskito/kit": "npm:2.3.0"
+    "@maskito/phone": "npm:2.3.0"
     "@microsoft/applicationinsights-angularplugin-js": "npm:15.0.1"
     "@microsoft/applicationinsights-web": "npm:3.0.7"
     "@ngneat/transloco": "npm:5.0.7"
     "@ngneat/transloco-keys-manager": "npm:3.8.0"
     "@ngneat/transloco-optimize": "npm:5.0.3"
-    "@ngrx/component-store": "npm:17.0.1"
-    "@ngrx/eslint-plugin": "npm:17.0.1"
+    "@ngrx/component-store": "npm:17.2.0"
+    "@ngrx/eslint-plugin": "npm:17.2.0"
+    "@ngrx/operators": "npm:17.2.0"
     "@nx/angular": "npm:18.3.0"
     "@nx/cypress": "npm:18.3.0"
     "@nx/devkit": "npm:18.3.0"

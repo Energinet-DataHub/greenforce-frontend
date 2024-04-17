@@ -21,7 +21,8 @@ import {
   MarketParticipantHttp,
   MarketParticipantOrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
