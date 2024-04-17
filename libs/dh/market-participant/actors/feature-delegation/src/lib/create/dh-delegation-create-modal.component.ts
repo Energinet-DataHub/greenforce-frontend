@@ -178,7 +178,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       }));
 
       this.selectGridAreas(gridAreas);
-      return of(gridAreas)
+      return of(gridAreas);
     }
 
     return this._apollo.query({ query: GetGridAreasDocument }).pipe(
