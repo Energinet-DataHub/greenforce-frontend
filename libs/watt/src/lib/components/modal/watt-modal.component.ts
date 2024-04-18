@@ -90,6 +90,9 @@ export class WattModalComponent {
 
   @Input() minHeight = '147px';
 
+  /** Whether the dialog should restore focus to the previously-focused element, after it's closed. */
+  @Input() restoreFocus = true;
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
@@ -114,6 +117,7 @@ export class WattModalComponent {
       onClosed: this.closed,
       minHeight: this.minHeight,
       panelClass: this.panelClass,
+      restoreFocus: this.restoreFocus,
     });
   }
 

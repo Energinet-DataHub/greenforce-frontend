@@ -64,6 +64,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       <watt-modal
         #modal
         size="small"
+        [restoreFocus]="false"
         [loading]="isLoading()"
         [title]="translations.languageSwitcher.title | transloco"
         [closeLabel]="translations.languageSwitcher.closeLabel | transloco"
@@ -145,6 +146,6 @@ export class EoLanguageSwitcherComponent implements OnInit {
   }
 
   onClosed() {
-    this.isOpen.set(false);
+    this.modal.close(false);
   }
 }
