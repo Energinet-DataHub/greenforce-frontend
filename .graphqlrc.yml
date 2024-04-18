@@ -1,2 +1,2 @@
-schema: 'schema.graphql'
+schema: 'libs/dh/shared/data-access-graphql/schema.graphql'
 documents: 'libs/**/*.{graphql,js,ts,jsx,tsx}'
