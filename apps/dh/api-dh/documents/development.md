@@ -42,7 +42,7 @@ server and client, use the following command to automatically start the
 client and run the code generation whenever the source files change:
 
 ```sh
-yarn dev
+yarn dh:dev
 ```
 
 It is also possible to run the code generation manually (order is important):
