@@ -31,7 +31,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
-import { distinctUntilChanged, fromEvent, map, pairwise, throttleTime } from 'rxjs';
+import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -109,7 +109,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
           Log in
         </watt-button>
-        <eo-language-switcher>
+        <eo-language-switcher (click)="pauseScrollEvents = true;" (closed)="pauseScrollEvents = false;">
           <watt-button variant="text" icon="language" />
         </eo-language-switcher>
       </div>
@@ -122,6 +122,7 @@ export class EoLandingPageHeaderComponent implements AfterViewInit {
   private viewportScroller = inject(ViewportScroller);
   private destroyRef = inject(DestroyRef);
   protected translations = translations;
+  protected pauseScrollEvents = false;
 
   login() {
     this.authService.startLogin();
@@ -131,6 +132,7 @@ export class EoLandingPageHeaderComponent implements AfterViewInit {
     // ADD / REMOVE STICKY MODE
     fromEvent(window, 'scroll')
       .pipe(
+        filter(() => !this.pauseScrollEvents),
         takeUntilDestroyed(this.destroyRef),
         map(() => this.viewportScroller.getScrollPosition()[1]),
         distinctUntilChanged()
@@ -146,6 +148,7 @@ export class EoLandingPageHeaderComponent implements AfterViewInit {
     // SHOW / HIDE HEADER
     fromEvent(window, 'scroll')
       .pipe(
+        filter(() => !this.pauseScrollEvents),
         takeUntilDestroyed(this.destroyRef),
         map(() => this.viewportScroller.getScrollPosition()[1]),
         throttleTime(150),

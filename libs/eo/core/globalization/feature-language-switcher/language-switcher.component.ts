@@ -20,10 +20,12 @@ import {
   DestroyRef,
   HostListener,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
   inject,
   signal,
+  EventEmitter,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -103,6 +105,8 @@ export class EoLanguageSwitcherComponent implements OnInit {
     this.modal.open();
   }
 
+  @Output() closed = new EventEmitter<void>();
+
   protected language = new FormControl();
 
   protected translations = translations;
@@ -147,5 +151,6 @@ export class EoLanguageSwitcherComponent implements OnInit {
 
   onClosed() {
     this.modal.close(false);
+    this.closed.emit();
   }
 }
