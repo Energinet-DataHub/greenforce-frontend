@@ -180,5 +180,5 @@
     }
   },
   "tags": ["product:dh", "type:app"],
-  "implicitDependencies": ["dh-globalization-assets-localization"]
+  "implicitDependencies": ["api-dh", "dh-globalization-assets-localization"]
 }
