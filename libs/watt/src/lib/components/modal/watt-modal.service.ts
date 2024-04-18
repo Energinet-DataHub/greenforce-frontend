@@ -72,7 +72,10 @@ export class WattModalService {
   /**
    * Opens the modal using the provided template and configuration.
    */
-  private openModal<T>(template: TemplateRef<unknown> | ComponentType<WattTypedModal<T>>, config: WattModalConfig<T>): MatDialogRef<unknown> {
+  private openModal<T>(
+    template: TemplateRef<unknown> | ComponentType<WattTypedModal<T>>,
+    config: WattModalConfig<T>
+  ): MatDialogRef<unknown> {
     return this.dialog.open(template, {
       autoFocus: 'dialog',
       panelClass: [
