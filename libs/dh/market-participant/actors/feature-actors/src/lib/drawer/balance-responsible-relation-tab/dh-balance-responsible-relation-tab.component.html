@@ -47,7 +47,7 @@ limitations under the License.
     <watt-dropdown
       [placeholder]="t('gridArea')"
       [chipMode]="true"
-      [options]="gridAreaOptions"
+      [options]="gridAreaOptions$ | push"
       [formControl]="filterForm.controls.gridArea"
     />
     <watt-search #searchComponent [label]="t('search')" (search)="(searchEvent)" />

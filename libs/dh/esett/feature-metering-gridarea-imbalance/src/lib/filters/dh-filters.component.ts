@@ -26,7 +26,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Observable, Subscription, debounceTime, map } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
 
@@ -39,14 +39,11 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  GetGridAreasDocument,
-  MeteringGridImbalanceValuesToInclude,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -95,7 +92,7 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
   @Output() filter = new EventEmitter<DhMeteringGridAreaImbalanceFilters>();
   @Output() formReset = new EventEmitter<void>();
 
-  gridAreaOptions$ = this.getGridAreaOptions();
+  gridAreaOptions$ = getGridAreaOptions();
   valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     MeteringGridImbalanceValuesToInclude
   );
@@ -118,18 +115,5 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscription = null;
-  }
-
-  private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    return this.apollo.watchQuery({ query: GetGridAreasDocument }).valueChanges.pipe(
-      map((result) => result.data?.gridAreas),
-      exists(),
-      map((gridAreas) =>
-        gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.displayName,
-        }))
-      )
-    );
   }
 }
