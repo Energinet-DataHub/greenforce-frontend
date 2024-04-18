@@ -2,16 +2,16 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 17.3.4 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/material](https://github.com/angular/components) | 17.3.4 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 17.3.4 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 17.3.4 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 17.3.5 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/material](https://github.com/angular/components) | 17.3.5 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 17.3.5 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 17.3.5 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.8 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.5.0 | MIT |
@@ -38,10 +38,10 @@
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 3.1.2 | MIT |
-| [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.54 | MIT |
+| [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.60 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
-| [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.3 | MIT |
-| [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.5 | MIT |
-| [rxjs](https://github.com/reactivex/rxjs) | 7.8.0 | Apache-2.0 |
+| [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
+| [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.6 | MIT |
+| [rxjs](https://github.com/reactivex/rxjs) | 7.8.1 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.14.2 | MIT |
