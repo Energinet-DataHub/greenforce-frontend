@@ -16,11 +16,10 @@
  */
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, Input, inject, signal } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Component, Input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { EicFunction, GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -32,6 +31,8 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import { ActorForm } from '../dh-actor-form.model';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -46,6 +47,7 @@ import { ActorForm } from '../dh-actor-form.model';
     WattPhoneFieldComponent,
     ReactiveFormsModule,
     DhDropdownTranslatorDirective,
+    RxPush,
   ],
   styles: [
     `
@@ -100,7 +102,7 @@ import { ActorForm } from '../dh-actor-form.model';
 
       @if (showGridAreaOptions()) {
         <watt-dropdown
-          [options]="gridAreaOptions"
+          [options]="gridAreaOptions | push"
           [multiple]="true"
           [formControl]="newActorForm.controls.gridArea"
           [label]="t('gridArea')"
@@ -131,29 +133,12 @@ import { ActorForm } from '../dh-actor-form.model';
   </vater-stack>`,
 })
 export class DhNewActorStepComponent {
-  private _apollo = inject(Apollo);
-
   @Input({ required: true }) newActorForm!: ActorForm;
 
   marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
-  gridAreaOptions: WattDropdownOptions = [];
+  gridAreaOptions = getGridAreaOptions();
 
   showGridAreaOptions = signal(false);
-
-  constructor() {
-    this._apollo
-      .query({
-        query: GetGridAreasDocument,
-      })
-      .subscribe((result) => {
-        if (result.data?.gridAreas) {
-          this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
-            value: gridArea.id,
-            displayValue: gridArea.displayName,
-          }));
-        }
-      });
-  }
 
   onMarketRoleChange(eicfunction: EicFunction): void {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);

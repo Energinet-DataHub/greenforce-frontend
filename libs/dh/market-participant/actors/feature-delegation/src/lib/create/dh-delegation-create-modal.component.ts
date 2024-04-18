@@ -46,7 +46,6 @@ import {
 
 import {
   EicFunction,
-  GetGridAreasDocument,
   GetDelegatesDocument,
   DelegatedProcess,
   GetDelegationsForActorDocument,
@@ -56,7 +55,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import {
+  parseGraphQLErrorResponse,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -181,17 +183,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       return of(gridAreas);
     }
 
-    return this._apollo.query({ query: GetGridAreasDocument }).pipe(
-      map((result) => result.data?.gridAreas),
-      exists(),
-      map((gridAreas) =>
-        gridAreas.map((gridArea) => ({
-          value: gridArea.id,
-          displayValue: gridArea.displayName,
-        }))
-      ),
-      tap((gridAreas) => this.selectGridAreas(gridAreas))
-    );
+    return getGridAreaOptions().pipe(tap((gridAreas) => this.selectGridAreas(gridAreas)));
   }
 
   private selectGridAreas(gridAreas: WattDropdownOption[]) {
