@@ -6,27 +6,18 @@
   "prefix": "dh",
   "targets": {
     "build": {
-      "configurations": {
-        "ci": {}
-      },
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"],
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "npm run check:dotnet",
-          "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
-        ],
-        "parallel": false
-      },
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"]
+        "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
+      }
     },
     "build-client": {
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
+      "outputs": ["{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"],
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "yarn check:java",
           "yarn openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net8.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/.openapi-generator/",
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/.gitignore",
@@ -34,36 +25,12 @@
           "rimraf libs/dh/shared/domain/src/lib/generated/v1/README.md"
         ],
         "parallel": false
-      },
-      "outputs": [
-        "{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"
-      ]
-    },
-    "ci-configuration": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "cp build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
-        ],
-        "parallel": false
       }
     },
     "serve": {
-      "configurations": {
-        "ci": {
-          "commands": [
-            "npm run check:dotnet",
-            "npx ts-node tools/dh/api-dh/ci/start-api-dh.ts"
-          ]
-        }
-      },
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "npm run check:dotnet",
-          "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
-        ],
-        "parallel": false
+        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
       }
     },
     "generate-schema": {
@@ -72,33 +39,14 @@
       "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],
       "cache": true,
       "options": {
-        "commands": [
-          "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
-        ]
+        "command": "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
       }
     },
     "watch-schema": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "dotnet watch --no-hot-reload --non-interactive --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
-        ]
+        "command": "dotnet watch --no-hot-reload --non-interactive --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
       }
-    },
-    "stop": {
-      "configurations": {
-        "ci": {}
-      },
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
-        ],
-        "parallel": false
-      },
-      "outputs": [
-        "{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"
-      ]
     }
   },
   "tags": [
