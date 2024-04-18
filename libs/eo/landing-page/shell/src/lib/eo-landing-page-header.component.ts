@@ -109,7 +109,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
           Log in
         </watt-button>
-        <eo-language-switcher (click)="pauseScrollEvents = true;" (closed)="pauseScrollEvents = false;">
+        <eo-language-switcher
+          (click)="pauseScrollEvents = true"
+          (closed)="pauseScrollEvents = false"
+        >
           <watt-button variant="text" icon="language" />
         </eo-language-switcher>
       </div>
