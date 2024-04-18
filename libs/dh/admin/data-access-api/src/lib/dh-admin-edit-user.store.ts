@@ -16,7 +16,8 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { Observable, exhaustMap, forkJoin, tap } from 'rxjs';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';

@@ -5,7 +5,13 @@
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
   "targets": {
+    "generate": {
+      "dependsOn": ["api-dh:generate-schema"],
+      "executor": "nx:run-commands",
+      "options": { "commands": ["nx run dh-shared-domain:generate"] }
+    },
     "build": {
+      "dependsOn": ["generate"],
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -15,7 +21,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["inputmask", "flat", "msw"],
+        "allowedCommonJsDependencies": ["flat", "msw", "dayjs"],
         "assets": [
           {
             "glob": "**/*",
@@ -98,7 +104,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "allowedCommonJsDependencies": ["inputmask", "flat", "msw"]
+          "allowedCommonJsDependencies": ["flat", "msw", "dayjs"]
         },
         "mocked": {
           "optimization": false,
@@ -115,15 +121,27 @@
             "@mswjs/cookies",
             "@mswjs/interceptors",
             "msw",
-            "inputmask",
             "flat",
-            "crypto-js"
+            "crypto-js",
+            "dayjs"
           ]
         }
       },
       "defaultConfiguration": "production"
     },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "parallel": true,
+        "commands": [
+          "nx run app-dh:serve:development",
+          "nx run api-dh:watch-schema",
+          "nx watch --projects='*,!api-dh,!dh-shared-domain' -- nx run dh-shared-domain:generate"
+        ]
+      }
+    },
     "serve": {
+      "dependsOn": ["generate"],
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
@@ -162,5 +180,5 @@
     }
   },
   "tags": ["product:dh", "type:app"],
-  "implicitDependencies": ["dh-globalization-assets-localization"]
+  "implicitDependencies": ["api-dh", "dh-globalization-assets-localization"]
 }

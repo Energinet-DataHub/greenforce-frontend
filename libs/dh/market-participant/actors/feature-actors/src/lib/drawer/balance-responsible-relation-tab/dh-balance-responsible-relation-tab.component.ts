@@ -23,6 +23,8 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -41,6 +43,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
     WattSearchComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     TranslocoDirective,
+    RxPush,
   ],
 })
 export class DhBalanceResponsibleRelationTabComponent {
@@ -48,7 +51,7 @@ export class DhBalanceResponsibleRelationTabComponent {
 
   statusOptions: WattDropdownOptions = [{ value: 'active', displayValue: 'Active' }];
   energySupplierOptions: WattDropdownOptions = [];
-  gridAreaOptions: WattDropdownOptions = [];
+  gridAreaOptions$ = getGridAreaOptions();
   searchEvent = new EventEmitter<string>();
 
   filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });

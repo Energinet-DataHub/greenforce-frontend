@@ -56,7 +56,7 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
-        ...dhCoreShellProviders,
+        dhCoreShellProviders,
         provideRouter(
           dhCoreShellRoutes,
           withInMemoryScrolling({

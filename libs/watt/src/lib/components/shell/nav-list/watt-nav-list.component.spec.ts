@@ -40,7 +40,7 @@ function generateComponent(content = '') {
   return TestPageComponent;
 }
 
-describe(WattNavListComponent.name, () => {
+describe(WattNavListComponent, () => {
   it('exports shared Watt Design System nav list', async () => {
     const text = 'Page 1';
 

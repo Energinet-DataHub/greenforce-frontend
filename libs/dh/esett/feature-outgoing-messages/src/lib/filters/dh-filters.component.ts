@@ -41,11 +41,11 @@ import {
   EicFunction,
   ExchangeEventCalculationType,
   GetActorsForEicFunctionDocument,
-  GetGridAreasDocument,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -96,7 +96,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
 
   calculationTypeOptions$ = this.getCalculationTypeOptions();
   messageTypeOptions$ = this.getMessageTypeOptions();
-  gridAreaOptions$ = this.getGridAreaOptions();
+  gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions$ = this.getEnergySupplierOptions();
   documentStatusOptions$ = this.getDocumentStatusOptions();
 
@@ -163,19 +163,6 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
         Object.values(TimeSeriesType).map((type) => ({
           displayValue: translationObject[type],
           value: type,
-        }))
-      )
-    );
-  }
-
-  private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    return this.apollo.watchQuery({ query: GetGridAreasDocument }).valueChanges.pipe(
-      map((result) => result.data?.gridAreas),
-      exists(),
-      map((gridAreas) =>
-        gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.displayName,
         }))
       )
     );
