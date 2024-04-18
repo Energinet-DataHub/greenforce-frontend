@@ -12,7 +12,7 @@
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.5 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 17.3.5 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.9.11 | MIT |
+| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
 | [@maskito/angular](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
@@ -28,7 +28,7 @@
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
-| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 6.0.0 | MIT |
+| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 5.0.2 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
