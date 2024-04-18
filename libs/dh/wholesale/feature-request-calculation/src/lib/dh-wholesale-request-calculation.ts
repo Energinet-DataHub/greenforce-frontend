@@ -56,6 +56,8 @@ import {
   startDateCannotBeAfterEndDateValidator,
   startDateCannotBeOlderThan3YearsValidator,
 } from './dh-whole-request-calculation-validators';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { RxPush } from '@rx-angular/template/push';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
@@ -106,6 +108,7 @@ type FormType = {
     TranslocoDirective,
     WattDatepickerComponent,
     WattFieldErrorComponent,
+    RxPush,
   ],
 })
 export class DhWholesaleRequestCalculationComponent {
@@ -137,7 +140,7 @@ export class DhWholesaleRequestCalculationComponent {
     meteringPointType: this._fb.control(null, Validators.required),
   });
 
-  gridAreaOptions: WattDropdownOptions = [];
+  gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
@@ -159,14 +162,6 @@ export class DhWholesaleRequestCalculationComponent {
   });
 
   constructor() {
-    this.gridAreaQuery.subscribe({
-      next: ({ data: { gridAreas } }) => {
-        this.gridAreaOptions = gridAreas.map((gridArea) => ({
-          displayValue: gridArea.displayName,
-          value: gridArea.code,
-        }));
-      },
-    });
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: (result) => {
         if (result.loading || result.error) return;

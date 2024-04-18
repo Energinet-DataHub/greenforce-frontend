@@ -48,7 +48,7 @@ limitations under the License.
           [label]="t('gridAreas')"
           [formControl]="form.controls.gridarea"
           sortDirection="asc"
-          [options]="gridAreaOptions"
+          [options]="gridAreaOptions$ | push"
         />
 
         <watt-dropdown
