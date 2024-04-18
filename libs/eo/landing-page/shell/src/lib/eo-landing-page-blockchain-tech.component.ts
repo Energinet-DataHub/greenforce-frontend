@@ -51,7 +51,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       flex-direction: column;
       justify-content: center;
       gap: 24px;
-      min-width: 390px;
     }
 
 

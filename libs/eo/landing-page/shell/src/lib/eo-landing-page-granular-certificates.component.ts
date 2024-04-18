@@ -61,7 +61,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       grid-area: content;
       flex-direction: column;
       justify-content: center;
-      min-width: 390px;
     }
 
 

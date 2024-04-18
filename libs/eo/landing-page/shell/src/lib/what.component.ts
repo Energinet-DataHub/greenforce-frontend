@@ -17,9 +17,9 @@
 import { NgClass, NgStyle } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   ViewEncapsulation,
   inject,
   signal,
@@ -55,7 +55,7 @@ interface Image {
     eo-landing-page-what {
       display: flex;
       flex-direction: column;
-      padding: 96px 24px;
+      padding: 6vw 24px 12vw 24px;
       min-height: 100vh;
       --on-light-high-emphasis: rgba(0, 0, 0, .87);
 
@@ -148,8 +148,6 @@ interface Image {
         position: relative;
         grid-area: images;
         display: flex;
-        justify-content: center;
-        align-items: center;
 
         img {
           position: absolute;
@@ -220,6 +218,10 @@ interface Image {
         align-items: center;
         gap: 30px 0;
         margin-top: 76px;
+
+        @media (min-width: 1024px) {
+          margin-top: 0;
+        }
       }
     }
   `,
@@ -313,7 +315,7 @@ interface Image {
     }
   `,
 })
-export class EoLandingPageWhatComponent implements AfterViewInit {
+export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private cd = inject(ChangeDetectorRef);
   private initialTransitionSectionId = 'sustainable-profile';
@@ -337,9 +339,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           height: '24.47vw',
           x: '32.67vw',
           y: '32.08vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5.avif 500w,
-              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5@2x.avif 768w,
-              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5@3x.avif 1200w`,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5.avif 1x,
+              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5@2x.avif 2x,
+              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle5@3x.avif 3x`,
         },
         {
           zIndex: '2',
@@ -347,9 +349,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           height: '5.89vw',
           x: '21.59vw',
           y: '15.31vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4.avif 500w,
-              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4@2x.avif 768w,
-              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4@3x.avif 1200w`,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4.avif 1x,
+              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4@2x.avif 2x,
+              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle4@3x.avif 3x`,
         },
         {
           zIndex: '3',
@@ -357,9 +359,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           height: '4.43vw',
           x: '17.26vw',
           y: '49.70vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3.avif 500w,
-              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3@2x.avif 768w,
-              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3@3x.avif 1200w`,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3.avif 1x,
+              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3@2x.avif 2x,
+              /assets/landing-page/how-can-energy-origin-help-my-business/production/Rectangle3@3x.avif 3x`,
         },
       ],
     },
@@ -375,9 +377,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           height: '45.97vw',
           x: '30.99vw',
           y: '32.44vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5.avif 500w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5@2x.avif 768w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5@3x.avif 1200w`,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5.avif 1x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5@2x.avif 2x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle5@3x.avif 3x`,
         },
         {
           zIndex: '2',
@@ -385,7 +387,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           height: '13.10vw',
           x: '17.59vw',
           y: '45.11vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4.avif 500w,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4.avif 1x,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle4@3x.avif 1200w`,
         },
@@ -395,7 +397,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           height: '16.67vw',
           x: '43.78vw',
           y: '20.24vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3.avif 500w,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3.avif 1x,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3@2x.avif 768w,
             /assets/landing-page/how-can-energy-origin-help-my-business/consumption/Rectangle3@3x.avif 1200w`,
         },
@@ -415,9 +417,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           transitionFrom: 0,
           x: '36.34vw',
           y: '13.56vw',
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5.avif 500w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5@2x.avif 768w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5@3x.avif 1200w`,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5.avif 1x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5@2x.avif 2x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle5@3x.avif 3x`,
         },
         {
           zIndex: '3',
@@ -427,8 +429,8 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           y: '50vw',
           transitionFrom: 2,
           srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4.avif 300w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4@2x.avif 768w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4@3x.avif 1200w`,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4@2x.avif 2x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle4@3x.avif 3x`,
         },
         {
           zIndex: '2',
@@ -437,9 +439,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
           x: '28.51vw',
           y: '33.04vw',
           transitionFrom: 1,
-          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3.avif 500w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@2x.avif 768w,
-            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@3x.avif 1200w`,
+          srcset: `/assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3.avif 1x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@2x.avif 2x,
+            /assets/landing-page/how-can-energy-origin-help-my-business/branding/Rectangle3@3x.avif 3x`,
         },
       ],
     },
@@ -454,6 +456,10 @@ export class EoLandingPageWhatComponent implements AfterViewInit {
     });
     this.initialTransition();
     this.resizeObserver.observe(document.body);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver.disconnect();
   }
 
   initialTransition() {
