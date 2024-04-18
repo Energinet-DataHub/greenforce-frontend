@@ -2,6 +2,7 @@
   "tasksRunnerOptions": {
     "default": {
       "options": {
+        "parallel": 1,
         "canTrackAnalytics": true,
         "maxParallel": 6
       }
