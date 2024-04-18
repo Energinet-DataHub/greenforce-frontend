@@ -77,7 +77,7 @@ function setup<T>(properties: WattTableOptions<T>, template = '') {
   );
 }
 
-describe(WattTableComponent.name, () => {
+describe(WattTableComponent, () => {
   it('renders all rows and columns from dataSource', async () => {
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {

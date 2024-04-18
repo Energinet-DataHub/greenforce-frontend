@@ -33,7 +33,7 @@ const testMeteringPointsPath = 'test-metering-points-path';
 const fakeParentTitleTranslationKey = 'fake.parent.title.translation.key';
 const fakeChildTitleTranslationKey = 'fake.child.title.translation.key';
 
-describe(DhTopBarStore.name, () => {
+describe(DhTopBarStore, () => {
   function setup(routes: Routes) {
     TestBed.configureTestingModule({
       declarations: [TestNestedComponent],

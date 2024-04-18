@@ -2,27 +2,28 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 17.2.2 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/material](https://github.com/angular/components) | 17.2.2 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 17.2.4 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 17.2.4 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 17.3.4 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/material](https://github.com/angular/components) | 17.3.4 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 17.3.4 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 17.3.4 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.8 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.5.0 | MIT |
-| [@maskito/angular](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
-| [@maskito/core](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
-| [@maskito/kit](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
-| [@maskito/phone](https://github.com/taiga-family/maskito) | 2.2.0 | Apache-2.0 |
+| [@maskito/angular](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
+| [@maskito/core](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
+| [@maskito/kit](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
+| [@maskito/phone](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.0.1 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.0.7 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
-| [@ngrx/component-store](https://github.com/ngrx/platform) | 17.0.1 | MIT |
+| [@ngrx/component-store](https://github.com/ngrx/platform) | 17.2.0 | MIT |
+| [@ngrx/operators](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.7 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |

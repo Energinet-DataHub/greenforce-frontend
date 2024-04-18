@@ -19,7 +19,7 @@ import { dhParseJSON, dhToJSON } from './dh-json-util';
 const testObject = { foo: 'bar' };
 const testObjectStringified = '{"foo":"bar"}';
 
-describe(dhToJSON.name, () => {
+describe(dhToJSON, () => {
   it('return a string', () => {
     expect(typeof dhToJSON({})).toBe('string');
   });
@@ -29,7 +29,7 @@ describe(dhToJSON.name, () => {
   });
 });
 
-describe(dhParseJSON.name, () => {
+describe(dhParseJSON, () => {
   it('return a JSON object', () => {
     expect(dhParseJSON(testObjectStringified)).toBeInstanceOf(Object);
   });

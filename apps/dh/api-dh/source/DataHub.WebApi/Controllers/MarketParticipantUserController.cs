@@ -93,6 +93,13 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         return HandleExceptionAsync(() => _client.UserInitiateMitidSignupAsync());
     }
 
+    [HttpPost]
+    [Route("ResetMitId")]
+    public Task ResetMitIdAsync()
+    {
+        return HandleExceptionAsync(() => _client.UserResetMitidAsync());
+    }
+
     /// <summary>
     /// Deactivates the specified user.
     /// </summary>

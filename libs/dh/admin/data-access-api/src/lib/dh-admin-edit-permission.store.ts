@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { exhaustMap, Observable, tap } from 'rxjs';
 
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
