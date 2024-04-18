@@ -21851,7 +21851,7 @@ __metadata:
     jest-preset-angular: "npm:14.0.3"
     jest-preview: "npm:0.3.1"
     jsonc-eslint-parser: "npm:2.1.0"
-    jwt-decode: "npm:3.1.2"
+    jwt-decode: "npm:4.0.0"
     kill-port-process: "npm:3.2.1"
     libphonenumber-js: "npm:1.10.60"
     lottie-web: "npm:5.12.2"
@@ -28891,10 +28891,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwt-decode@npm:3.1.2":
-  version: 3.1.2
-  resolution: "jwt-decode@npm:3.1.2"
-  checksum: a951547946b5e8b1d9df818152d6b1dbaf13eebb3a6e6daceedf888968f5d255959852c8188aae2c825dc9104a99d25cb6c23f25d76545d1aa0315b968b6912e
+"jwt-decode@npm:4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: de75bbf89220746c388cf6a7b71e56080437b77d2edb29bae1c2155048b02c6b8c59a3e5e8d6ccdfd54f0b8bda25226e491a4f1b55ac5f8da04cfbadec4e546c
   languageName: node
   linkType: hard
 
