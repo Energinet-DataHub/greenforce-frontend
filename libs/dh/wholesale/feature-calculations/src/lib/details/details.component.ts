@@ -24,6 +24,7 @@ import {
   effect,
   signal,
   Injector,
+  input,
 } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -68,7 +69,7 @@ export class DhCalculationsDetailsComponent {
   private injector = inject(Injector);
 
   @Output() closed = new EventEmitter<void>();
-  @Input() id?: string;
+  id = input<string>();
 
   @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
@@ -77,36 +78,31 @@ export class DhCalculationsDetailsComponent {
   error = false;
   loading = false;
 
-  calculationId = signal<string | undefined>(undefined);
-
   constructor() {
-    effect(
-      () => {
-        const id = this.calculationId();
-        if (!id) return;
-        this.drawer.open();
-        const subscription = this.apollo
-          .watchQuery({
-            errorPolicy: 'all',
-            returnPartialData: true,
-            query: GetCalculationByIdDocument,
-            variables: { id },
-          })
-          .valueChanges.subscribe({
-            next: (result) => {
-              this.calculation = result.data?.calculationById ?? undefined;
-              this.loading = result.loading;
-              this.error = !!result.errors;
-            },
-            error: (error) => {
-              this.error = error;
-              this.loading = false;
-            },
-          });
+    effect(() => {
+      const id = this.id();
+      if (!id) return;
+      this.drawer.open();
+      const subscription = this.apollo
+        .watchQuery({
+          errorPolicy: 'all',
+          returnPartialData: true,
+          query: GetCalculationByIdDocument,
+          variables: { id },
+        })
+        .valueChanges.subscribe({
+          next: (result) => {
+            this.calculation = result.data?.calculationById ?? undefined;
+            this.loading = result.loading;
+            this.error = !!result.errors;
+          },
+          error: (error) => {
+            this.error = error;
+            this.loading = false;
+          },
+        });
 
-        return () => subscription.unsubscribe();
-      },
-      { injector: this.injector }
-    );
+      return () => subscription.unsubscribe();
+    });
   }
 }
