@@ -14,6 +14,9 @@
 
 namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
+/// <summary>
+/// Represents the status of a balance responsibility agreement.
+/// </summary>
 public enum BalanceResponsibilityAgreementStatus
 {
     Awaiting,

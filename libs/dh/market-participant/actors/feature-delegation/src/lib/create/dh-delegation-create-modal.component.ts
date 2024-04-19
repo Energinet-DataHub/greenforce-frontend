@@ -175,7 +175,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       const gridAreas = this.modalData.gridAreas.map((gridArea) => ({
-        value: gridArea.id,
+        value: gridArea.code,
         displayValue: gridArea.displayName,
       }));
 

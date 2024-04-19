@@ -14,32 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
 
+import { Apollo } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { RxPush } from '@rx-angular/template/push';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
   BalanceResponsibilityAgreementStatus,
-  EicFunction,
-  GetActorsForEicFunctionDocument,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Apollo } from 'apollo-angular';
-import { Observable, map } from 'rxjs';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { JsonPipe } from '@angular/common';
+
+import {
+  getEnergySupplierOptions,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
 
 @Component({
   standalone: true,
@@ -53,16 +54,18 @@ import { JsonPipe } from '@angular/common';
     }
   `,
   imports: [
-    ReactiveFormsModule,
-    VaterStackComponent,
-    VaterFlexComponent,
-    WattDropdownComponent,
-    WattSearchComponent,
-    DhDropdownTranslatorDirective,
-    WATT_EXPANDABLE_CARD_COMPONENTS,
-    TranslocoDirective,
     RxPush,
-    JsonPipe,
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    VaterFlexComponent,
+    VaterStackComponent,
+
+    WattSearchComponent,
+    WattDropdownComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
@@ -76,7 +79,7 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
     BalanceResponsibilityAgreementStatus
   );
 
-  energySupplierOptions$ = this.getEnergySupplierOptions();
+  energySupplierOptions$ = getEnergySupplierOptions();
   gridAreaOptions$ = getGridAreaOptions();
   searchEvent = new EventEmitter<string>();
 
@@ -86,25 +89,5 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.actorQuery.refetch({ id: this.actorId() });
-  }
-
-  private getEnergySupplierOptions(): Observable<WattDropdownOptions> {
-    return this.apollo
-      .query({
-        query: GetActorsForEicFunctionDocument,
-        variables: {
-          eicFunctions: [EicFunction.EnergySupplier],
-        },
-      })
-      .pipe(
-        map((result) => result.data?.actorsForEicFunction),
-        exists(),
-        map((actors) =>
-          actors.map((actor) => ({
-            value: actor.glnOrEicNumber,
-            displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
-          }))
-        )
-      );
   }
 }
