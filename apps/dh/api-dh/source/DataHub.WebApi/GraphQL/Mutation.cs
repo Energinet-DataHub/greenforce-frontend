@@ -168,10 +168,27 @@ public class Mutation
             input.OrganizationId ??
             await client.OrganizationPostAsync(input.Organization!).ConfigureAwait(false);
 
-        input.Actor.OrganizationId = organizationId;
+        var gridAreas = await client.GridAreaGetAsync().ConfigureAwait(false);
+
+        var actorDto = new CreateActorDto()
+        {
+            Name = input.Actor.Name,
+            ActorNumber = input.Actor.ActorNumber,
+            OrganizationId = organizationId,
+            MarketRoles = input.Actor.MarketRoles.Select(mr => new ActorMarketRoleDto
+            {
+                EicFunction = mr.EicFunction,
+                GridAreas = mr.GridAreas.Select(ga => new ActorGridAreaDto()
+                {
+                    MeteringPointTypes = ga.MeteringPointTypes,
+                    Id = gridAreas.Single(g => g.Code == ga.Code).Id,
+                }).ToList(),
+                Comment = mr.Comment,
+            }).ToList(),
+        };
 
         var actorId = await client
-            .ActorPostAsync(input.Actor)
+            .ActorPostAsync(actorDto)
             .ConfigureAwait(false);
 
         await client
@@ -199,10 +216,18 @@ public class Mutation
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
-        CreateProcessDelegationsDto delegations,
+        CreateProcessDelegationsInput delegations,
         [Service] IMarketParticipantClient_V1 client)
     {
-        await client.ActorDelegationPostAsync(delegations);
+        var gridAreas = await client.GridAreaGetAsync().ConfigureAwait(false);
+        await client.ActorDelegationPostAsync(new CreateProcessDelegationsDto
+        {
+            DelegatedFrom = delegations.DelegatedFrom,
+            DelegatedTo = delegations.DelegatedTo,
+            GridAreas = delegations.GridAreas.Select(ga => gridAreas.Single(g => g.Code == ga).Id).ToList(),
+            DelegatedProcesses = delegations.DelegatedProcesses,
+            StartsAt = delegations.StartsAt,
+        });
         return true;
     }
 
