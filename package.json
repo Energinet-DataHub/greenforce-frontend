@@ -7,7 +7,7 @@
   "engines": {
     "node": "20.11.0",
     "npm": "Please use Yarn instead of npm to install dependencies.",
-    "yarn": "4.0.2"
+    "yarn": "4.1.1"
   },
   "scripts": {
     "postinstall": "yarn husky install",
@@ -87,7 +87,7 @@
     "@rx-angular/cdk": "17.0.1",
     "@rx-angular/template": "17.1.0",
     "@vimeo/player": "2.17.0",
-    "apollo-angular": "5.0.2",
+    "apollo-angular": "6.0.0",
     "chart.js": "4.4.0",
     "date-fns": "2.29.2",
     "date-fns-tz": "2.0.0",
@@ -123,14 +123,14 @@
     "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
     "@compodoc/compodoc": "1.1.23",
     "@cypress/webpack-dev-server": "2.0.0",
-    "@graphql-codegen/add": "5.0.0",
-    "@graphql-codegen/cli": "5.0.0",
-    "@graphql-codegen/introspection": "4.0.0",
-    "@graphql-codegen/schema-ast": "4.0.0",
-    "@graphql-codegen/typed-document-node": "5.0.1",
-    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/add": "5.0.2",
+    "@graphql-codegen/cli": "5.0.2",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@graphql-codegen/schema-ast": "4.0.2",
+    "@graphql-codegen/typed-document-node": "5.0.6",
+    "@graphql-codegen/typescript": "4.0.6",
     "@graphql-codegen/typescript-msw": "3.0.0",
-    "@graphql-codegen/typescript-operations": "4.0.1",
+    "@graphql-codegen/typescript-operations": "4.2.0",
     "@homebound/graphql-typescript-scalar-type-policies": "2.12.0",
     "@ngneat/transloco-keys-manager": "3.8.0",
     "@ngneat/transloco-optimize": "5.0.3",
@@ -145,7 +145,7 @@
     "@nx/plugin": "18.3.1",
     "@nx/storybook": "18.3.1",
     "@nx/workspace": "18.3.1",
-    "@openapitools/openapi-generator-cli": "2.6.0",
+    "@openapitools/openapi-generator-cli": "2.13.2",
     "@schematics/angular": "17.3.5",
     "@storybook/addon-a11y": "7.5.3",
     "@storybook/addon-docs": "7.5.3",
@@ -212,9 +212,9 @@
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
     "node": "20.11.0",
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
-    "yarn": "4.0.2"
+    "yarn": "4.1.1"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.1.1",
   "msw": {
     "workerDirectory": "libs/gf/msw/util-msw/src/assets"
   }

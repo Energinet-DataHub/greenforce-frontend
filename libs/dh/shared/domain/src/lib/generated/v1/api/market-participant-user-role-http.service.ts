@@ -87,7 +87,7 @@ export class MarketParticipantUserRoleHttp {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
+                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -108,10 +108,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<string>;
+    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantUserRoleCreatePost(marketParticipantCreateUserRoleDto?: MarketParticipantCreateUserRoleDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -139,6 +139,11 @@ export class MarketParticipantUserRoleHttp {
         let localVarHttpContext: HttpContext | undefined = options && options.context;
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
         }
 
 
@@ -173,6 +178,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -183,10 +189,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantUserRoleDeactivateGet(roleId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (roleId !== undefined && roleId !== null) {
@@ -219,6 +225,11 @@ export class MarketParticipantUserRoleHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -240,6 +251,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -249,10 +261,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantUserRoleDto>>;
-    public v1MarketParticipantUserRoleGetAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
-    public v1MarketParticipantUserRoleGetAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantUserRoleDto>>>;
-    public v1MarketParticipantUserRoleGetAllGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleGetAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MarketParticipantUserRoleDto>>;
+    public v1MarketParticipantUserRoleGetAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MarketParticipantUserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetAllGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -282,6 +294,11 @@ export class MarketParticipantUserRoleHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -302,6 +319,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -312,10 +330,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantUserRoleDto>>;
-    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
-    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantUserRoleDto>>>;
-    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MarketParticipantUserRoleDto>>;
+    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MarketParticipantUserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (actorId !== undefined && actorId !== null) {
@@ -349,6 +367,11 @@ export class MarketParticipantUserRoleHttp {
         let localVarHttpContext: HttpContext | undefined = options && options.context;
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
         }
 
 
@@ -372,6 +395,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -383,10 +407,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantUserRoleDto>>;
-    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
-    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantUserRoleDto>>>;
-    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MarketParticipantUserRoleDto>>;
+    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MarketParticipantUserRoleDto>>>;
+    public v1MarketParticipantUserRoleGetGet(actorId?: string, userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (actorId !== undefined && actorId !== null) {
@@ -426,6 +450,11 @@ export class MarketParticipantUserRoleHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -447,6 +476,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -457,10 +487,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantActorViewDto>>;
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantActorViewDto>>>;
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantActorViewDto>>>;
-    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MarketParticipantActorViewDto>>;
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MarketParticipantActorViewDto>>>;
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MarketParticipantActorViewDto>>>;
+    public v1MarketParticipantUserRoleGetUserRoleViewGet(userId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (userId !== undefined && userId !== null) {
@@ -496,6 +526,11 @@ export class MarketParticipantUserRoleHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -517,6 +552,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -527,10 +563,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantUserRoleWithPermissionsDto>;
-    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantUserRoleWithPermissionsDto>>;
-    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantUserRoleWithPermissionsDto>>;
-    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<MarketParticipantUserRoleWithPermissionsDto>;
+    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MarketParticipantUserRoleWithPermissionsDto>>;
+    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MarketParticipantUserRoleWithPermissionsDto>>;
+    public v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (userRoleId !== undefined && userRoleId !== null) {
@@ -566,6 +602,11 @@ export class MarketParticipantUserRoleHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -587,6 +628,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -597,10 +639,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<MarketParticipantPermissionDetailsDto>>;
-    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<MarketParticipantPermissionDetailsDto>>>;
-    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<MarketParticipantPermissionDetailsDto>>>;
-    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MarketParticipantPermissionDetailsDto>>;
+    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MarketParticipantPermissionDetailsDto>>>;
+    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MarketParticipantPermissionDetailsDto>>>;
+    public v1MarketParticipantUserRolePermissionsGet(eicFunction?: MarketParticipantEicFunction, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (eicFunction !== undefined && eicFunction !== null) {
@@ -636,6 +678,11 @@ export class MarketParticipantUserRoleHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -657,6 +704,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -668,10 +716,10 @@ export class MarketParticipantUserRoleHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantUserRoleUpdatePut(userRoleId?: string, marketParticipantUpdateUserRoleDto?: MarketParticipantUpdateUserRoleDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (userRoleId !== undefined && userRoleId !== null) {
@@ -702,6 +750,11 @@ export class MarketParticipantUserRoleHttp {
         let localVarHttpContext: HttpContext | undefined = options && options.context;
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
         }
 
 
@@ -737,6 +790,7 @@ export class MarketParticipantUserRoleHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
