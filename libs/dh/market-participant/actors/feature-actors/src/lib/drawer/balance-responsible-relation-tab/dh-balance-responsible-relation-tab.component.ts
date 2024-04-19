@@ -45,11 +45,13 @@ import { JsonPipe } from '@angular/common';
   standalone: true,
   selector: 'dh-balance-responsible-relation-tab',
   templateUrl: './dh-balance-responsible-relation-tab.component.html',
-  styles: `:host {
-    watt-search {
-      margin-left: auto;
+  styles: `
+    :host {
+      watt-search {
+        margin-left: auto;
+      }
     }
-  }`,
+  `,
   imports: [
     ReactiveFormsModule,
     VaterStackComponent,
