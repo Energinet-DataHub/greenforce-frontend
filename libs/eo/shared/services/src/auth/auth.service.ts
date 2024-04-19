@@ -18,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
 
@@ -68,9 +68,7 @@ export class EoAuthService {
   startLogin() {
     const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
-    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${
-      window.location.host
-    }/login`;
+    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login`;
 
     if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
 
@@ -82,9 +80,7 @@ export class EoAuthService {
 
     const isLocalhost = window.location.host.includes('localhost');
     const logoutUrl = isLocalhost
-      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${
-          window.location.host
-        }`
+      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
       : `${this.#authApiBase}/logout`;
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
@@ -116,7 +112,7 @@ export class EoAuthService {
   private handleToken(token: string | null) {
     if (!token) return;
 
-    const decodedToken: EoLoginToken = jwt_decode(token);
+    const decodedToken: EoLoginToken = jwtDecode(token);
 
     sessionStorage.setItem('token', token);
     this.store.token.next(token);
