@@ -20,9 +20,7 @@ import {
   inject,
   Output,
   EventEmitter,
-  Input,
   effect,
-  signal,
   Injector,
   input,
 } from '@angular/core';
