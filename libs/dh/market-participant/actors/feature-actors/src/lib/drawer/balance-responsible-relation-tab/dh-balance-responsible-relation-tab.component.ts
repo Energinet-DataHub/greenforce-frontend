@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, inject } from '@angular/core';
+import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -25,6 +25,21 @@ import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expanda
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { RxPush } from '@rx-angular/template/push';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import {
+  BalanceResponsibilityAgreementStatus,
+  EicFunction,
+  GetActorsForEicFunctionDocument,
+  GetBalanceResponsibleRelationDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { Apollo } from 'apollo-angular';
+import { Observable, map } from 'rxjs';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -41,18 +56,53 @@ import { RxPush } from '@rx-angular/template/push';
     VaterFlexComponent,
     WattDropdownComponent,
     WattSearchComponent,
+    DhDropdownTranslatorDirective,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     TranslocoDirective,
     RxPush,
+    JsonPipe,
   ],
 })
-export class DhBalanceResponsibleRelationTabComponent {
+export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
   private fb = inject(NonNullableFormBuilder);
+  private apollo = inject(Apollo);
+  private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
 
-  statusOptions: WattDropdownOptions = [{ value: 'active', displayValue: 'Active' }];
-  energySupplierOptions: WattDropdownOptions = [];
+  actorId = input.required<string>();
+
+  statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    BalanceResponsibilityAgreementStatus
+  );
+
+  energySupplierOptions$ = this.getEnergySupplierOptions();
   gridAreaOptions$ = getGridAreaOptions();
   searchEvent = new EventEmitter<string>();
 
+  balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
+
   filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });
+
+  ngOnChanges(): void {
+    this.actorQuery.refetch({ id: this.actorId() });
+  }
+
+  private getEnergySupplierOptions(): Observable<WattDropdownOptions> {
+    return this.apollo
+      .query({
+        query: GetActorsForEicFunctionDocument,
+        variables: {
+          eicFunctions: [EicFunction.EnergySupplier],
+        },
+      })
+      .pipe(
+        map((result) => result.data?.actorsForEicFunction),
+        exists(),
+        map((actors) =>
+          actors.map((actor) => ({
+            value: actor.glnOrEicNumber,
+            displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
+          }))
+        )
+      );
+  }
 }
