@@ -23,9 +23,7 @@ import {
   Input,
   effect,
   signal,
-  OnChanges,
   Injector,
-  AfterViewInit,
 } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -65,7 +63,7 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit {
+export class DhCalculationsDetailsComponent {
   private apollo = inject(Apollo);
   private injector = inject(Injector);
 
@@ -79,13 +77,9 @@ export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit 
   error = false;
   loading = false;
 
-  // This is required until we have real signal based components in Angular
   calculationId = signal<string | undefined>(undefined);
-  ngOnChanges() {
-    this.calculationId.set(this.id);
-  }
 
-  ngAfterViewInit() {
+  constructor() {
     effect(
       () => {
         const id = this.calculationId();
