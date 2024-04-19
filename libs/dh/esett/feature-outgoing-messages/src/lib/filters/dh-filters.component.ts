@@ -17,16 +17,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { Observable, Subscription, debounceTime, map } from 'rxjs';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { Observable, debounceTime, map } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo } from 'apollo-angular';
 
@@ -35,7 +35,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import {
   DocumentStatus,
   EicFunction,
@@ -46,6 +50,7 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -82,23 +87,24 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
+
+    DhDropdownTranslatorDirective,
   ],
 })
-export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
-  private transloco = inject(TranslocoService);
+export class DhOutgoingMessagesFiltersComponent implements OnInit {
   private apollo = inject(Apollo);
-  private subscription: Subscription | null = null;
+  private destoryRef = inject(DestroyRef);
 
   @Input() initial?: DhOutgoingMessagesFilters;
 
   @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
   @Output() formReset = new EventEmitter<void>();
 
-  calculationTypeOptions$ = this.getCalculationTypeOptions();
-  messageTypeOptions$ = this.getMessageTypeOptions();
+  calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
+  messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType);
   gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions$ = this.getEnergySupplierOptions();
-  documentStatusOptions$ = this.getDocumentStatusOptions();
+  documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   formGroup!: FormGroup<Filters>;
 
@@ -114,27 +120,9 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       latestDispatch: dhMakeFormControl(this.initial?.latestDispatch),
     });
 
-    this.subscription = this.formGroup.valueChanges
-      .pipe(debounceTime(500))
+    this.formGroup.valueChanges
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
       .subscribe((value) => this.filter.emit(value as DhOutgoingMessagesFilters));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = null;
-  }
-
-  private getCalculationTypeOptions(): Observable<WattDropdownOptions> {
-    return this.transloco
-      .selectTranslateObject('eSett.outgoingMessages.shared.calculationType')
-      .pipe(
-        map((translationObject) =>
-          Object.values(ExchangeEventCalculationType).map((type) => ({
-            displayValue: translationObject[type],
-            value: type,
-          }))
-        )
-      );
   }
 
   private getEnergySupplierOptions(): Observable<WattDropdownOptions> {
@@ -152,30 +140,6 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
           actors.map((actor) => ({
             value: actor.glnOrEicNumber,
             displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
-          }))
-        )
-      );
-  }
-
-  private getMessageTypeOptions(): Observable<WattDropdownOptions> {
-    return this.transloco.selectTranslateObject('eSett.outgoingMessages.shared.messageType').pipe(
-      map((translationObject) =>
-        Object.values(TimeSeriesType).map((type) => ({
-          displayValue: translationObject[type],
-          value: type,
-        }))
-      )
-    );
-  }
-
-  private getDocumentStatusOptions(): Observable<WattDropdownOptions> {
-    return this.transloco
-      .selectTranslateObject('eSett.outgoingMessages.shared.documentStatus')
-      .pipe(
-        map((translationObject) =>
-          Object.values(DocumentStatus).map((status) => ({
-            displayValue: translationObject[status],
-            value: status,
           }))
         )
       );
