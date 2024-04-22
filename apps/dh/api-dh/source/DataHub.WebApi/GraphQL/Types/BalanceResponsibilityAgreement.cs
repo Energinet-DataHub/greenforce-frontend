@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
@@ -23,6 +24,7 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
     protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityAgreementDto> descriptor)
     {
         descriptor.Name(nameof(BalanceResponsibilityAgreement));
+
         descriptor
             .Field(x => x.MeteringPointType)
             .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityAgreementDto>().MeteringPointType));
@@ -34,6 +36,16 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
         descriptor
             .Field(x => x.ValidTo)
             .Ignore();
+
+        descriptor
+            .Field(f => f.EnergySupplierId)
+            .Name("energySupplierWithName")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetEnergySupplierWithNameAsync(default!, default!));
+
+        descriptor
+            .Field(f => f.BalanceResponsibleId)
+            .Name("balanceResponsibleWithName")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
 
         descriptor
             .Field("validPeriod")
