@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Directive, Input, OnInit, inject } from '@angular/core';
+import { DestroyRef, Directive, OnInit, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -29,11 +29,11 @@ export class DhDropdownTranslatorDirective implements OnInit {
   private host = inject(WattDropdownComponent);
   private destroyRef = inject(DestroyRef);
 
-  @Input({ required: true }) translate = '';
+  translate = input.required<string>();
 
   ngOnInit(): void {
     this.translocoService
-      .selectTranslateObject<object>(this.translate)
+      .selectTranslateObject<object>(this.translate())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {

@@ -17,3 +17,4 @@
 export { graphQLProviders } from './lib/dh-graphql.providers';
 export { parseGraphQLErrorResponse } from './lib/error-handler';
 export { getGridAreaOptions } from './lib/graphql/get-grid-areas';
+export { getEnergySupplierOptions } from './lib/graphql/get-energy-suppliers';

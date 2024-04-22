@@ -29,6 +29,7 @@ export const actors = (organizationId: string): Actor[] => [
     name: 'Inactive balance responsible',
     gridAreas: [],
     marketRole: EicFunction.BalanceResponsibleParty,
+    balanceResponsibleAgreements: [],
     status: ActorStatus.Inactive,
     organization: {
       __typename: 'Organization',
@@ -43,6 +44,7 @@ export const actors = (organizationId: string): Actor[] => [
     name: 'Active energy supplier',
     gridAreas: [],
     marketRole: EicFunction.EnergySupplier,
+    balanceResponsibleAgreements: [],
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',

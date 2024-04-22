@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
-
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+/// <summary>
+/// Represents the status of a balance responsibility agreement.
+/// </summary>
+public enum BalanceResponsibilityAgreementStatus
+{
+    Awaiting,
+    Active,
+    SoonToExpire,
+    Expired,
+}

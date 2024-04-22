@@ -16,8 +16,9 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public sealed record CreateProcessDelegationsInput(
+        Guid DelegatedFrom,
+        Guid DelegatedTo,
+        ICollection<string> GridAreas,
+        ICollection<DelegatedProcess> DelegatedProcesses,
+        DateTimeOffset StartsAt);
