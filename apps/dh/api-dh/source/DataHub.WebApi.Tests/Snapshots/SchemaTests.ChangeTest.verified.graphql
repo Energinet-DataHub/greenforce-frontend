@@ -74,8 +74,8 @@ type AssociatedActors {
 
 type BalanceResponsibilityAgreement {
   meteringPointType: String
-  energysupplierName: ActorNameWithId
-  balanceresponsibleId: ActorNameWithId
+  energySupplierWithName: ActorNameWithId
+  balanceResponsibleWithName: ActorNameWithId
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
   gridAreaId: UUID!
