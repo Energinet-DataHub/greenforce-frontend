@@ -16,6 +16,7 @@ type Actor {
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
   organization: Organization!
+  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -68,11 +69,11 @@ type AssociatedActors {
 
 type BalanceResponsibilityAgreement {
   meteringPointType: String
+  validPeriod: DateRange!
+  status: BalanceResponsibilityAgreementStatus!
   energySupplierId: UUID!
   balanceResponsibleId: UUID!
   gridAreaId: UUID!
-  validFrom: DateTime!
-  validTo: DateTime
 }
 
 type BalanceResponsiblePageResult {
@@ -325,7 +326,6 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
-  balanceResponsibleAgreements(actorId: UUID!): [BalanceResponsibilityAgreement!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -593,6 +593,14 @@ enum ActorStatus {
   Active
   Inactive
   Passive
+}
+
+"Represents the status of a balance responsibility agreement."
+enum BalanceResponsibilityAgreementStatus {
+  AWAITING
+  ACTIVE
+  SOON_TO_EXPIRE
+  EXPIRED
 }
 
 enum BalanceResponsibleSortProperty {
