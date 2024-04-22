@@ -13,10 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ActorNameByIdBatchDataLoader : BatchDataLoader<Guid, ActorNameDto?>
+public class ActorNameByIdBatchDataLoader : BatchDataLoader<Guid, ActorNameWithId?>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
@@ -27,15 +28,15 @@ public class ActorNameByIdBatchDataLoader : BatchDataLoader<Guid, ActorNameDto?>
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<Guid, ActorNameDto?>> LoadBatchAsync(
+    protected override async Task<IReadOnlyDictionary<Guid, ActorNameWithId?>> LoadBatchAsync(
         IReadOnlyList<Guid> keys,
         CancellationToken cancellationToken)
         {
-            var result = new Dictionary<Guid, ActorNameDto?>();
+            var result = new Dictionary<Guid, ActorNameWithId?>();
             var actors = await _client.ActorGetAsync(cancellationToken).ConfigureAwait(false);
             foreach (var actor in actors.Where(x => keys.Contains(x.ActorId)))
             {
-                result.Add(actor.ActorId, actor.Name);
+                result.Add(actor.ActorId, new ActorNameWithId(actor.ActorId, actor.Name));
             }
 
             return result;

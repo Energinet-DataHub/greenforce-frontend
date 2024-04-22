@@ -39,12 +39,20 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
 
         descriptor
             .Field(f => f.EnergySupplierId)
-            .Name("energysupplier")
+            .Name("energysupplier");
+
+        descriptor
+            .Field(f => f.EnergySupplierId)
+            .Name("energysupplierName")
             .ResolveWith<MarketParticipantResolvers>(c => c.GetEnergySupplierWithNameAsync(default!, default!));
 
         descriptor
             .Field(f => f.BalanceResponsibleId)
-            .Name("balanceresponsibe")
+            .Name("balanceresponsible");
+
+        descriptor
+            .Field(f => f.BalanceResponsibleId)
+            .Name("balanceresponsibleId")
             .ResolveWith<MarketParticipantResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
 
         descriptor
