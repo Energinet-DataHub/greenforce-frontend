@@ -59,7 +59,7 @@ export class DhActorsTableComponent {
     name: { accessor: 'name' },
     marketRole: {
       accessor: (m) =>
-        m.marketRole && translate(`marketParticipant.marketRoles.${m.marketRole}` || ''),
+        (m.marketRole && translate(`marketParticipant.marketRoles.${m.marketRole}`)) || '',
     },
     status: {
       accessor: (m) => translate(`marketParticipant.actorsOverview.status.${m.status}`),
