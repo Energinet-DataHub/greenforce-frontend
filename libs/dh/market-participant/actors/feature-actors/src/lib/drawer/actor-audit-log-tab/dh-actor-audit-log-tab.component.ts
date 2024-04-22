@@ -48,20 +48,19 @@ import { dhActorAuditLogEntry } from '@energinet-datahub/dh/market-participant/a
 export class DhActorAuditLogTabComponent implements OnChanges {
   private readonly auditLogService = inject(DhActorAuditLogService);
 
-  private actorAuditLogSubscription: Subscription = this.auditLogService.getActorAuditLogByIdQuery$.valueChanges
-  .subscribe({
-    next: (result) => {
-      this.isLoadingAuditLog = result.loading;
-      this.auditLogFailedToLoad =
-        !result.loading && (!!result.error || !!result.errors?.length);
+  private actorAuditLogSubscription: Subscription =
+    this.auditLogService.getActorAuditLogByIdQuery$.valueChanges.subscribe({
+      next: (result) => {
+        this.isLoadingAuditLog = result.loading;
+        this.auditLogFailedToLoad = !result.loading && (!!result.error || !!result.errors?.length);
 
-      this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
-    },
-    error: () => {
-      this.auditLogFailedToLoad = true;
-      this.isLoadingAuditLog = false;
-    },
-  });
+        this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
+      },
+      error: () => {
+        this.auditLogFailedToLoad = true;
+        this.isLoadingAuditLog = false;
+      },
+    });
 
   @Input() actorId!: string;
   @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
