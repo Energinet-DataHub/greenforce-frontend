@@ -74,4 +74,14 @@ public class MarketParticipantResolvers
         [Parent] ActorDto actor,
         [Service] IMarketParticipantClient_V1 client) =>
         client.BalanceResponsibilityAgreementsAsync(actor.ActorId);
+
+    public Task<ActorNameWithId?> GetBalanceResponsibleWithNameAsync(
+        [Parent] BalanceResponsibilityAgreementDto result,
+        ActorNameByIdBatchDataLoader dataLoader) =>
+        dataLoader.LoadAsync(result.BalanceResponsibleId);
+
+    public Task<ActorNameWithId?> GetEnergySupplierWithNameAsync(
+        [Parent] BalanceResponsibilityAgreementDto result,
+        ActorNameByIdBatchDataLoader dataLoader) =>
+        dataLoader.LoadAsync(result.EnergySupplierId);
 }
