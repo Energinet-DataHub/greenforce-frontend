@@ -1,0 +1,7 @@
+query getBalanceResponsibleRelation($id: UUID!) {
+  actorById(id: $id) {
+    balanceResponsibleAgreements {
+      meteringPointType
+    }
+  }
+}

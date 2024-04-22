@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
@@ -24,5 +26,47 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
         descriptor
             .Field(x => x.MeteringPointType)
             .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityAgreementDto>().MeteringPointType));
+
+        descriptor
+            .Field(x => x.ValidFrom)
+            .Ignore();
+
+        descriptor
+            .Field(x => x.ValidTo)
+            .Ignore();
+
+        descriptor
+            .Field("validPeriod")
+            .Resolve((ctx, _) =>
+            {
+                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityAgreementDto>();
+                return new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
+            });
+
+        descriptor
+            .Field("status")
+            .Resolve((ctx, _) =>
+            {
+                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityAgreementDto>();
+                var dateTimeNow = DateTimeOffset.UtcNow;
+                var validPeriod = new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
+
+                if (validPeriod.Start < Instant.FromDateTimeOffset(dateTimeNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(dateTimeNow)))
+                {
+                    return BalanceResponsibilityAgreementStatus.Active;
+                }
+
+                if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(dateTimeNow))
+                {
+                    return BalanceResponsibilityAgreementStatus.Expired;
+                }
+
+                if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(dateTimeNow).Minus(Duration.FromDays(7)))
+                {
+                    return BalanceResponsibilityAgreementStatus.SoonToExpire;
+                }
+
+                return BalanceResponsibilityAgreementStatus.Awaiting;
+            });
     }
 }
