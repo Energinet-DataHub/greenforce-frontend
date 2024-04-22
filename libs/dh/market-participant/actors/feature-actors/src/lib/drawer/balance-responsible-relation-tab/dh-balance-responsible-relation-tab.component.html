@@ -37,11 +37,13 @@ limitations under the License.
       [chipMode]="true"
       [options]="statusOptions"
       [formControl]="filterForm.controls.status"
+      dhDropdownTranslator
+      translate="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
     />
     <watt-dropdown
       [placeholder]="t('energySupplier')"
       [chipMode]="true"
-      [options]="energySupplierOptions"
+      [options]="energySupplierOptions$ | push"
       [formControl]="filterForm.controls.energySupplier"
     />
     <watt-dropdown

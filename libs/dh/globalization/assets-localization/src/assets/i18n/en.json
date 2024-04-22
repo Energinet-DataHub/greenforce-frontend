@@ -391,7 +391,13 @@
             "gridArea": "Grid Area",
             "search": "Search",
             "usage": "Usage",
-            "production": "Production"
+            "production": "Production",
+            "statusOptions": {
+              "ACTIVE": "Active",
+              "AWAITING": "Awaiting",
+              "EXPIRED": "Expired",
+              "SOON_TO_EXPIRE": "Soon to expire"
+            }
           },
           "b2bAccess": {
             "tabLabel": "B2B Access",

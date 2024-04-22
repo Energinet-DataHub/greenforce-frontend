@@ -54,6 +54,7 @@ import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.comp
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -86,6 +87,7 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+    RxPush,
 
     WATT_DRAWER,
     WATT_TABS,
@@ -170,6 +172,13 @@ export class DhActorDrawerComponent {
   get gridAreaOrFallback() {
     const stringList = this.actor?.gridAreas?.map((gridArea) => gridArea.code).join(', ');
     return stringList ?? emDash;
+  }
+
+  public showBalanceResponsibleRelationTab(): boolean {
+    return (
+      this.actor?.marketRole === EicFunction.EnergySupplier ||
+      this.actor?.marketRole === EicFunction.BalanceResponsibleParty
+    );
   }
 
   private loadActor(id: string): void {
