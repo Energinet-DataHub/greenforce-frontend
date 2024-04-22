@@ -16,8 +16,7 @@
  */
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
-
+import { Component, EventEmitter, OnChanges, computed, inject, input } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -26,21 +25,20 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-
 import {
   BalanceResponsibilityAgreementStatus,
+  EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import {
   getEnergySupplierOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
   standalone: true,
@@ -73,7 +71,12 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
   private apollo = inject(Apollo);
   private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
 
-  actorId = input.required<string>();
+  actorId = input.required<DhActorExtended['id']>();
+  marketRole = input.required<DhActorExtended['marketRole']>();
+
+  isBalanceResponsibleParty = computed(() => {
+    return this.marketRole() === EicFunction.BalanceResponsibleParty;
+  });
 
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
@@ -81,6 +84,7 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
 
   energySupplierOptions$ = getEnergySupplierOptions();
   gridAreaOptions$ = getGridAreaOptions();
+
   searchEvent = new EventEmitter<string>();
 
   balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
