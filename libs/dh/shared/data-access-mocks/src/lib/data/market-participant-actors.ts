@@ -18,22 +18,37 @@ import {
   Actor,
   ActorStatus,
   BalanceResponsibilityAgreement,
+  BalanceResponsibilityAgreementStatus,
   EicFunction,
   GridAreaDto,
   Organization,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const balanceResponsibleAgreements = [
+const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
   {
     __typename: 'BalanceResponsibilityAgreement',
-    balanceResponsibleId: '232',
-    energySupplierId: '1212',
-    status: 'ACTIVE',
+    balanceResponsibleWithName: {
+      __typename: 'ActorNameWithId',
+      id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
+      actorName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Actor 1',
+      },
+    },
+    energySupplierWithName: {
+      __typename: 'ActorNameWithId',
+      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
+      actorName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Actor 2',
+      },
+    },
+    status: BalanceResponsibilityAgreementStatus.Active,
     gridAreaId: '1',
     validPeriod: { start: new Date(), end: null },
     meteringPointType: 'CONSUMPTION',
   },
-] as BalanceResponsibilityAgreement[];
+];
 
 export const marketParticipantActors: Actor[] = [
   {
