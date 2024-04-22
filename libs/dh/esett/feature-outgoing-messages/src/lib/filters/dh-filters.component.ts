@@ -15,42 +15,45 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  EventEmitter,
   Input,
   OnInit,
   Output,
   inject,
+  Component,
+  DestroyRef,
+  EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Observable, debounceTime, map } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { Apollo } from 'apollo-angular';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
   DocumentStatus,
-  EicFunction,
   ExchangeEventCalculationType,
-  GetActorsForEicFunctionDocument,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import {
+  getEnergySupplierOptions,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -92,7 +95,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
   ],
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit {
-  private apollo = inject(Apollo);
   private destoryRef = inject(DestroyRef);
 
   @Input() initial?: DhOutgoingMessagesFilters;
@@ -103,7 +105,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
   messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType);
   gridAreaOptions$ = getGridAreaOptions();
-  energySupplierOptions$ = this.getEnergySupplierOptions();
+  energySupplierOptions$ = getEnergySupplierOptions();
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   formGroup!: FormGroup<Filters>;
@@ -123,25 +125,5 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
     this.formGroup.valueChanges
       .pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
       .subscribe((value) => this.filter.emit(value as DhOutgoingMessagesFilters));
-  }
-
-  private getEnergySupplierOptions(): Observable<WattDropdownOptions> {
-    return this.apollo
-      .query({
-        query: GetActorsForEicFunctionDocument,
-        variables: {
-          eicFunctions: [EicFunction.EnergySupplier],
-        },
-      })
-      .pipe(
-        map((result) => result.data?.actorsForEicFunction),
-        exists(),
-        map((actors) =>
-          actors.map((actor) => ({
-            value: actor.glnOrEicNumber,
-            displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
-          }))
-        )
-      );
   }
 }

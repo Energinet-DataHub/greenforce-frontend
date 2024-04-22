@@ -106,9 +106,14 @@ limitations under the License.
             </ng-container>
           </ng-container>
 
-          <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
-            <dh-balance-responsible-relation-tab />
-          </watt-tab>
+          @if (showBalanceResponsibleRelationTab()) {
+            <watt-tab
+              *dhPermissionRequired="['balance-responsibility:view']"
+              [label]="t('tabs.balanceResponsibleRelation.tabLabel')"
+            >
+              <dh-balance-responsible-relation-tab [actorId]="actor?.id!" />
+            </watt-tab>
+          }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
             <dh-actor-audit-log-tab

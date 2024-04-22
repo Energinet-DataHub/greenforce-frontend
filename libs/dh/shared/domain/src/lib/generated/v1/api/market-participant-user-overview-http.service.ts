@@ -81,7 +81,7 @@ export class MarketParticipantUserOverviewHttp {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
+                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -106,10 +106,10 @@ export class MarketParticipantUserOverviewHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MarketParticipantGetUserOverviewResponse>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MarketParticipantGetUserOverviewResponse>>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MarketParticipantGetUserOverviewResponse>>;
-    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<MarketParticipantGetUserOverviewResponse>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MarketParticipantGetUserOverviewResponse>>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MarketParticipantGetUserOverviewResponse>>;
+    public v1MarketParticipantUserOverviewSearchUsersPost(pageNumber?: number, pageSize?: number, sortProperty?: MarketParticipantUserOverviewSortProperty, sortDirection?: MarketParticipantSortDirection, marketParticipantUserOverviewFilterDto?: MarketParticipantUserOverviewFilterDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -157,6 +157,11 @@ export class MarketParticipantUserOverviewHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -190,6 +195,7 @@ export class MarketParticipantUserOverviewHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );

@@ -49,6 +49,7 @@ import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-mo
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -81,6 +82,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+    RxPush,
     WATT_DRAWER,
     WATT_TABS,
     WATT_CARD,
@@ -148,6 +150,13 @@ export class DhActorDrawerComponent {
   get gridAreaOrFallback() {
     const stringList = this.actor?.gridAreas?.map((gridArea) => gridArea.code).join(', ');
     return stringList ?? emDash;
+  }
+
+  public showBalanceResponsibleRelationTab(): boolean {
+    return (
+      this.actor?.marketRole === EicFunction.EnergySupplier ||
+      this.actor?.marketRole === EicFunction.BalanceResponsibleParty
+    );
   }
 
   private loadActor(id: string): void {

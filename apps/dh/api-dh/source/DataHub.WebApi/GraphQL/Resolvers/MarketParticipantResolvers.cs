@@ -69,4 +69,9 @@ public class MarketParticipantResolvers
         [Parent] OrganizationDto organization,
         ActorByOrganizationBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
+
+    public Task<ICollection<BalanceResponsibilityAgreementDto>> GetBalanceResponsibleAgreementsAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client) =>
+        client.BalanceResponsibilityAgreementsAsync(actor.ActorId);
 }
