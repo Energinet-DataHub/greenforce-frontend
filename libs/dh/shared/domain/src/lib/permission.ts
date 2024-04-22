@@ -29,6 +29,7 @@ export const permissions = [
   'delegation:manage',
   'delegation:view',
   'users:reactivate',
+  'balance-responsibility:view',
 ] as const;
 
 export type Permission = (typeof permissions)[number];

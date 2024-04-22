@@ -16,8 +16,8 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public sealed record CreateActorInput(
+    Guid OrganizationId,
+    ActorNameDto Name,
+    ActorNumberDto ActorNumber,
+    ICollection<CreateActorMarketRoleInput> MarketRoles);
