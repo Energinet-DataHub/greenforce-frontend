@@ -37,6 +37,7 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
       align-items: center;
       flex-direction: column;
       width: 100%;
+      background: #F9F9F9;
 
       > * {
         max-width: 1169px;

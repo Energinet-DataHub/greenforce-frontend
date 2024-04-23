@@ -23,13 +23,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'eo-landing-page-granular-certificates',
   styles: `
     :host {
-      margin-top: 114px;
+      background: #F9F9F9;
+      padding-top: 114px;
       display: flex;
       justify-content: center;
       padding: 0 24px;
 
       @media (min-width: 754px) {
-        margin-top: 185px;
+        padding-top: 185px;
       }
     }
 
