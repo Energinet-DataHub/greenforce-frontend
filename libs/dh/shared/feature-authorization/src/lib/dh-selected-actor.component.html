@@ -35,6 +35,12 @@ limitations under the License.
             {{ selectedActor.actorName }}
           </div>
         }
+
+        @if (selectedActor.marketrole) {
+          <div [title]="selectedActor.marketrole" class="watt-label selected-actor-name-label">
+            {{ 'marketParticipant.marketRoles.' + selectedActor.marketrole | transloco }}
+          </div>
+        }
       </ng-container>
     }
   </div>
@@ -64,7 +70,7 @@ limitations under the License.
                     {{ actor.actorName }}
                   </div>
                   <div class="watt-text-s actor-name-label">
-                    {{ actor.actorName }}
+                    {{ 'marketParticipant.marketRoles.' + actor.marketrole | transloco }}
                   </div>
                 </div>
 
