@@ -43,7 +43,6 @@ import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
       flex-direction: column;
       padding: 18px 24px 48px 24px;
 
-
       @media (min-width: 768px) {
         padding-top: 160px;
         justify-content: center;
