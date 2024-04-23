@@ -3960,6 +3960,13 @@
           },
           "organizationName": {
             "type": "string"
+          },
+          "marketRole": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EicFunction"
+              }
+            ]
           }
         }
       },
