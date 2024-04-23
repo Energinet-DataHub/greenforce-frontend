@@ -40,7 +40,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     accessibilityStatement: 'Tilgængelighedserklæring',
   },
   userInformation: {
-    tin: 'CVR / SE-nr: {{tin}}',
+    tin: 'CVR / SE-nr: {{tin}} ',
   },
   topbar: {
     help: '{{shared.help}}',
