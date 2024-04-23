@@ -69,7 +69,9 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
   private fb = inject(NonNullableFormBuilder);
   private apollo = inject(Apollo);
-  private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
+  private balanceResponsibleRelationsQuery = this.apollo.watchQuery({
+    query: GetBalanceResponsibleRelationDocument,
+  });
 
   actorId = input.required<DhActorExtended['id']>();
   marketRole = input.required<DhActorExtended['marketRole']>();
@@ -87,11 +89,12 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
 
   searchEvent = new EventEmitter<string>();
 
-  balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
+  balanceResponsibleRelations$ =
+    this.balanceResponsibleRelationsQuery.valueChanges.pipe(takeUntilDestroyed());
 
   filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });
 
   ngOnChanges(): void {
-    this.actorQuery.refetch({ id: this.actorId() });
+    this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() });
   }
 }
