@@ -88,8 +88,8 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
                 gln: x.gln,
                 actorName: x.actorName,
                 organizationName: x.organizationName,
-                marketrole: x.marketRole,
                 selected: x.id === actorId,
+                marketrole: x.marketRole,
               }))
               .sort((a, b) => {
                 const nameCompare = a.organizationName.localeCompare(b.organizationName);
