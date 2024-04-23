@@ -30,7 +30,7 @@ import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments
     :host {
       display: block;
       width: 100%;
-      padding: 96px 32px;
+      padding: 48px 32px;
       background: #fff;
       display: grid;
       grid-template-areas:

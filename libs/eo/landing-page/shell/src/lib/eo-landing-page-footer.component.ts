@@ -32,7 +32,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       background-repeat: no-repeat;
       background-position: right bottom;
       min-height: 622px;
-      padding: 93px 32px;
+      padding: 48px 32px;
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: repeat(5, auto);

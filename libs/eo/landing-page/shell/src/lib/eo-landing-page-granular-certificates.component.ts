@@ -24,10 +24,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styles: `
     :host {
       background: #f9f9f9;
-      padding-top: 114px;
+      padding: 48px 24px 0 24px;
       display: flex;
       justify-content: center;
-      padding: 0 24px;
 
       @media (min-width: 754px) {
         padding-top: 185px;

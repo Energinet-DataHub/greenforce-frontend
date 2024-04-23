@@ -23,10 +23,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'eo-landing-page-blockchain-tech',
   styles: `
     :host {
-      padding-top: 114px;
+      padding: 48px 24px 0 24px;
       display: flex;
       justify-content: center;
-      padding: 0 24px;
       background: #f9f9f9;
 
       @media (min-width: 754px) {

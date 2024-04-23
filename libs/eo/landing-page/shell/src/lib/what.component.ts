@@ -55,9 +55,10 @@ interface Image {
     eo-landing-page-what {
       display: flex;
       flex-direction: column;
-      padding: 6vw 24px 12vw 24px;
       min-height: 100vh;
       --on-light-high-emphasis: rgba(0, 0, 0, 0.87);
+      padding: 48px 24px;
+      background: #f9f9f9;
 
       @media (min-width: 1024px) {
         display: grid;
@@ -65,6 +66,7 @@ interface Image {
         grid-template-rows: 1fr;
         gap: 0px 0px;
         grid-template-areas: 'images content';
+        padding: 6vw 24px 12vw 24px;
       }
 
       .headline {
@@ -216,7 +218,7 @@ interface Image {
         justify-content: center;
         align-items: center;
         gap: 30px 0;
-        margin-top: 76px;
+        margin-top: 48px;
 
         @media (min-width: 1024px) {
           margin-top: 0;

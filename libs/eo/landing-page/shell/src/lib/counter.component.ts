@@ -38,14 +38,15 @@ import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
     eo-percentage-counter {
       background: #f9f9f9;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       flex-direction: column;
-      min-height: 100vh;
-      padding: 96px 50px;
+      padding: 18px 24px 48px 24px;
+
 
       @media (min-width: 768px) {
         padding-top: 160px;
+        justify-content: center;
       }
 
       h2,

@@ -89,7 +89,7 @@ import {
         background-size: cover;
         flex-direction: column;
         text-align: center;
-        padding: 88px;
+        padding: 48px 88px;
         gap: 24px;
       }
 

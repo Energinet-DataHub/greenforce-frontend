@@ -26,7 +26,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10vh 24px;
+      padding: 48px 24px;
       width: 100%;
       background: #00363f;
       overflow: hidden;
