@@ -19,7 +19,7 @@ import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Component, EventEmitter, computed, effect, inject, input, signal } from '@angular/core';
-import { filter, map, switchMap, tap, startWith, of } from 'rxjs';
+import { filter, map, switchMap, startWith, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
@@ -52,6 +52,10 @@ import {
   dhGroupByMarketParticipant,
 } from '../util/dh-group-balance-responsible-relations';
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
+
+function isNullOrUndefined<T>(value: T | null | undefined): value is T {
+  return value === null || value === undefined;
+}
 
 @Component({
   standalone: true,
@@ -102,45 +106,30 @@ export class DhBalanceResponsibleRelationTabComponent {
 
   balanceResponsibleRelationsWithFilter$ = this.filterFormValueChanges$
     .pipe(
-      startWith(null),
+      startWith({ status: null, energySupplier: null, gridArea: null, balanceResponsible: null }),
       switchMap((filters) =>
         this.balanceResponsibleRelations$.pipe(
           filter((data) => data?.data?.actorById?.balanceResponsibleAgreements !== undefined),
           map((data) => data.data.actorById.balanceResponsibleAgreements),
           switchMap((balanceResponsibleAgreements) =>
             of(
-              filters
-                ? balanceResponsibleAgreements.filter((x) => x.status === filters.status)
-                : balanceResponsibleAgreements
+              balanceResponsibleAgreements.filter(
+                (x) =>
+                  // If all filters are null, return all agreements
+                  Object.values(filters).every((x) => x === null) ||
+                  ((isNullOrUndefined(filters.status) || x.status === filters.status) &&
+                    (isNullOrUndefined(filters.energySupplier) ||
+                      x.energySupplierWithName?.id === filters.energySupplier) &&
+                    (isNullOrUndefined(filters.gridArea) || x.gridAreaId === filters.gridArea) &&
+                    (isNullOrUndefined(filters.balanceResponsible) ||
+                      x.balanceResponsibleWithName?.id === filters.balanceResponsible))
+              )
             )
           )
         )
-      ),
-      tap((data) => console.log(data))
+      )
     )
-    .subscribe((result) => {
-      if (result === null) return;
-
-      this.balanceResponsibleRelationsRaw.set(result);
-
-      this.balanceResponsibleRelationsGrouped.set([]);
-
-      if (this.actor().marketRole === EicFunction.EnergySupplier) {
-        this.balanceResponsibleRelationsGrouped.set(
-          dhGroupByMarketParticipant(
-            dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
-            'balanceResponsibleWithName'
-          )
-        );
-      } else {
-        this.balanceResponsibleRelationsGrouped.set(
-          dhGroupByMarketParticipant(
-            dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
-            'energySupplierWithName'
-          )
-        );
-      }
-    });
+    .subscribe((result) => this.handleSubscription(result));
 
   public readonly eicFunction: typeof EicFunction = EicFunction;
 
@@ -157,13 +146,37 @@ export class DhBalanceResponsibleRelationTabComponent {
     BalanceResponsibilityAgreementStatus
   );
 
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
-  balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty]);
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier], 'actorId');
+  balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty], 'actorId');
   gridAreaOptions$ = getGridAreaOptions();
 
   searchEvent = new EventEmitter<string>();
 
   constructor() {
     effect(() => this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() }));
+  }
+
+  private handleSubscription(balanceResponsibleRelations: DhBalanceResponsibleAgreements | null) {
+    if (balanceResponsibleRelations === null) return;
+
+    this.balanceResponsibleRelationsRaw.set(balanceResponsibleRelations);
+
+    this.balanceResponsibleRelationsGrouped.set([]);
+
+    if (this.actor().marketRole === EicFunction.EnergySupplier) {
+      this.balanceResponsibleRelationsGrouped.set(
+        dhGroupByMarketParticipant(
+          dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+          'balanceResponsibleWithName'
+        )
+      );
+    } else {
+      this.balanceResponsibleRelationsGrouped.set(
+        dhGroupByMarketParticipant(
+          dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+          'energySupplierWithName'
+        )
+      );
+    }
   }
 }

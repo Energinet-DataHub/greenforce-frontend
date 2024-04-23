@@ -38,7 +38,7 @@ export const marketParticipantActors: Actor[] = [
       } as GridAreaDto,
     ],
     balanceResponsibleAgreements: [],
-    marketRole: EicFunction.BalanceResponsibleParty,
+    marketRole: EicFunction.EnergySupplier,
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
@@ -83,7 +83,7 @@ export const marketParticipantActors: Actor[] = [
     ],
     balanceResponsibleAgreements: [],
     marketRole: EicFunction.BalanceResponsibleParty,
-    status: ActorStatus.Inactive,
+    status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
       name: 'Test Organization 2',
