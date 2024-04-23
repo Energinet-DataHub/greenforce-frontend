@@ -35,7 +35,7 @@ import {
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
-  getEnergySupplierOptions,
+  getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
@@ -71,27 +71,30 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
   private apollo = inject(Apollo);
   private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
 
-  actorId = input.required<DhActorExtended['id']>();
-  marketRole = input.required<DhActorExtended['marketRole']>();
+  public readonly eicFunction: typeof EicFunction = EicFunction;
 
-  isBalanceResponsibleParty = computed(() => {
-    return this.marketRole() === EicFunction.BalanceResponsibleParty;
-  });
+  actor = input.required<DhActorExtended>();
 
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
   );
 
-  energySupplierOptions$ = getEnergySupplierOptions();
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty]);
   gridAreaOptions$ = getGridAreaOptions();
 
   searchEvent = new EventEmitter<string>();
 
   balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
 
-  filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });
+  filterForm = this.fb.group({
+    status: [],
+    energySupplier: [],
+    gridArea: [],
+    balanceResponsible: [],
+  });
 
   ngOnChanges(): void {
-    this.actorQuery.refetch({ id: this.actorId() });
+    this.actorQuery.refetch({ id: this.actor().id });
   }
 }
