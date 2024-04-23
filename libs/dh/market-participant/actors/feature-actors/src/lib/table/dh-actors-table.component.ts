@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, Input, ViewChild } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -57,8 +57,13 @@ export class DhActorsTableComponent {
   columns: WattTableColumnDef<DhActor> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
-    marketRole: { accessor: 'marketRole' },
-    status: { accessor: 'status' },
+    marketRole: {
+      accessor: (m) =>
+        (m.marketRole && translate(`marketParticipant.marketRoles.${m.marketRole}`)) || '',
+    },
+    status: {
+      accessor: (m) => translate(`marketParticipant.actorsOverview.status.${m.status}`),
+    },
   };
 
   @Input() isLoading!: boolean;
