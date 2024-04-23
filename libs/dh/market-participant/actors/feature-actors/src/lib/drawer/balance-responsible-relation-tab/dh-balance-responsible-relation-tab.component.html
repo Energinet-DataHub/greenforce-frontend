@@ -40,25 +40,32 @@ limitations under the License.
       dhDropdownTranslator
       translate="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
     />
-    <watt-dropdown
-      [placeholder]="t('energySupplier')"
-      [chipMode]="true"
-      [options]="energySupplierOptions$ | push"
-      [formControl]="filterForm.controls.energySupplier"
-    />
+
+    @if (isBalanceResponsibleParty()) {
+      <watt-dropdown
+        [placeholder]="t('energySupplier')"
+        [chipMode]="true"
+        [options]="energySupplierOptions$ | push"
+        [formControl]="filterForm.controls.energySupplier"
+      />
+    }
+
     <watt-dropdown
       [placeholder]="t('gridArea')"
       [chipMode]="true"
       [options]="gridAreaOptions$ | push"
       [formControl]="filterForm.controls.gridArea"
     />
+
     <watt-search #searchComponent [label]="t('search')" (search)="(searchEvent)" />
   </form>
+
   <watt-expandable-card togglePosition="before" variant="solid">
     <watt-expandable-card-title>
       {{ t("usage") }}
     </watt-expandable-card-title>
   </watt-expandable-card>
+
   <watt-expandable-card togglePosition="before" variant="solid">
     <watt-expandable-card-title>
       {{ t("production") }}

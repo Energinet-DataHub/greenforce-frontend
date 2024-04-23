@@ -44,6 +44,8 @@ import {
   CreateDelegationForActorMutation,
   mockStopDelegationsMutation,
   StopDelegationsMutation,
+  mockGetActorsForEicFunctionQuery,
+  mockGetBalanceResponsibleRelationQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -90,6 +92,8 @@ export function marketParticipantMocks(apiBase: string) {
     getDelegates(),
     createDelegation(),
     stopDelegation(),
+    getActorsForEicFunction(),
+    getBalanceResponsibleRelation(),
   ];
 }
 
@@ -499,6 +503,32 @@ function getDelegationsForActor() {
 
     return HttpResponse.json({
       data: getDelegationsForActorMock,
+    });
+  });
+}
+
+function getActorsForEicFunction() {
+  return mockGetActorsForEicFunctionQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorsForEicFunction: [] },
+    });
+  });
+}
+
+function getBalanceResponsibleRelation() {
+  return mockGetBalanceResponsibleRelationQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actorById: {
+          __typename: 'Actor',
+          balanceResponsibleAgreements: [],
+        },
+      },
     });
   });
 }
