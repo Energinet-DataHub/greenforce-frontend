@@ -40,13 +40,21 @@ limitations under the License.
       dhDropdownTranslator
       translate="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
     />
-
-    @if (isBalanceResponsibleParty()) {
+    @if (actor().marketRole === eicFunction.BalanceResponsibleParty) {
       <watt-dropdown
         [placeholder]="t('energySupplier')"
         [chipMode]="true"
         [options]="energySupplierOptions$ | push"
         [formControl]="filterForm.controls.energySupplier"
+      />
+    }
+
+    @if (actor().marketRole === eicFunction.EnergySupplier) {
+      <watt-dropdown
+        [placeholder]="t('balanceResponsible')"
+        [chipMode]="true"
+        [options]="balanceResponsibleOptions$ | push"
+        [formControl]="filterForm.controls.balanceResponsible"
       />
     }
 

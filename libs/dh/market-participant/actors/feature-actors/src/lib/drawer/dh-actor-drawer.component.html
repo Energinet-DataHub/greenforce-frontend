@@ -110,103 +110,18 @@ limitations under the License.
             <ng-container *dhPermissionRequired="['balance-responsibility:view']">
               @if (showBalanceResponsibleRelationTab()) {
                 <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
-                  <dh-balance-responsible-relation-tab
-                    [actorId]="actor?.id!"
-                    [marketRole]="actor?.marketRole"
-                  />
+                  <dh-balance-responsible-relation-tab [actor]="actor!" />
                 </watt-tab>
               }
             </ng-container>
           </ng-container>
 
-          <watt-tab [label]="t('tabs.history.tabLabel')">
-            <vater-stack [fill]="'horizontal'" [align]="'center'">
-              @if (isLoadingAuditLog) {
-                <watt-spinner />
-              }
-            </vater-stack>
-            @if (!isLoadingAuditLog && auditLog.data.length === 0) {
-              <watt-empty-state
-                [icon]="auditLogFailedToLoad ? 'custom-power' : 'cancel'"
-                size="small"
-                [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
-              />
-            }
-            @if (auditLog.data.length > 0 && !isLoadingAuditLog) {
-              <watt-card variant="solid">
-                <watt-table
-                  [dataSource]="auditLog"
-                  [columns]="auditLogColumns"
-                  [hideColumnHeaders]="true"
-                  [suppressRowHoverHighlight]="true"
-                  sortBy="timestamp"
-                  sortDirection="desc"
-                >
-                  <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
-                    {{ element.timestamp | wattDate: "long" }}
-                  </ng-container>
-                  <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
-                    @if (
-                      entry.change !== "CLIENT_SECRET_CREDENTIALS" &&
-                      entry.change !== "STATUS" &&
-                      entry.change !== "DELEGATION_START" &&
-                      entry.change !== "DELEGATION_STOP"
-                    ) {
-                      <div
-                        [innerHTML]="
-                          t(
-                            'tabs.history.changeTypes.' +
-                              entry.change +
-                              (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                            entry
-                          )
-                        "
-                      ></div>
-                    } @else if (entry.change === "STATUS") {
-                      <div
-                        [innerHTML]="
-                          t(
-                            'tabs.history.changeTypes.' +
-                              entry.change +
-                              (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                            {
-                              auditedBy: entry.auditedBy,
-                              status: t('tabs.history.status.' + entry.currentValue)
-                            }
-                          )
-                        "
-                      ></div>
-                    } @else if (entry.change === "CLIENT_SECRET_CREDENTIALS") {
-                      <div
-                        [innerHTML]="
-                          t(
-                            'tabs.history.changeTypes.' +
-                              entry.change +
-                              (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                            {
-                              auditedBy: entry.auditedBy,
-                              currentValue: entry.currentValue | wattDate,
-                              previousValue: entry.previousValue | wattDate
-                            }
-                          )
-                        "
-                      ></div>
-                    } @else if (
-                      entry.change === "DELEGATION_START" || entry.change === "DELEGATION_STOP"
-                    ) {
-                      <div
-                        [innerHTML]="
-                          t(
-                            'tabs.history.changeTypes.' + entry.change,
-                            formatDelegationEntry(entry)
-                          )
-                        "
-                      ></div>
-                    }
-                  </ng-container>
-                </watt-table>
-              </watt-card>
-            }
+          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
+            <dh-actor-audit-log-tab
+              [actorId]="actor!.id"
+              [actorNumberNameLookup]="actorNumberNameLookup"
+              [gridAreaCodeLookup]="gridAreaCodeLookup"
+            />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

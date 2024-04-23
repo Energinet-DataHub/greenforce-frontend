@@ -24,10 +24,7 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import {
-  DhActorExtended,
-  dhActorAuditLogEntry,
-} from '@energinet-datahub/dh/market-participant/actors/domain';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import {
   WattDescriptionListComponent,
@@ -36,16 +33,12 @@ import {
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
@@ -54,6 +47,8 @@ import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.comp
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
+import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { RxPush } from '@rx-angular/template/push';
 
 @Component({
@@ -88,19 +83,14 @@ import { RxPush } from '@rx-angular/template/push';
     TranslocoDirective,
     TranslocoPipe,
     RxPush,
-
     WATT_DRAWER,
     WATT_TABS,
     WATT_CARD,
-    WATT_TABLE,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
     WattSpinnerComponent,
-    WattEmptyStateComponent,
-    WattDatePipe,
     VaterStackComponent,
-
     DhFeatureFlagDirective,
     DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
@@ -110,15 +100,14 @@ import { RxPush } from '@rx-angular/template/push';
     DhDelegationTabComponent,
     DhCanDelegateForDirective,
     DhBalanceResponsibleRelationTabComponent,
+    DhActorAuditLogTabComponent,
   ],
 })
 export class DhActorDrawerComponent {
   private readonly apollo = inject(Apollo);
-  private readonly auditLogService = inject(DhActorAuditLogService);
   private readonly permissionService = inject(PermissionService);
 
   private subscription?: Subscription;
-  private actorAuditLogSubscription?: Subscription;
 
   private getActorByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
@@ -128,15 +117,6 @@ export class DhActorDrawerComponent {
 
   actor: DhActorExtended | undefined = undefined;
   hasActorAccess = false;
-
-  isLoadingAuditLog = false;
-  auditLogFailedToLoad = false;
-
-  auditLog = new WattTableDataSource<dhActorAuditLogEntry>([]);
-  auditLogColumns: WattTableColumnDef<dhActorAuditLogEntry> = {
-    timestamp: { accessor: 'timestamp' },
-    currentValue: { accessor: 'currentValue' },
-  };
 
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
@@ -148,9 +128,7 @@ export class DhActorDrawerComponent {
 
   public open(actorId: string): void {
     this.drawer?.open();
-
     this.loadActor(actorId);
-    this.loadAuditLog(actorId);
   }
 
   onClose(): void {
@@ -198,51 +176,5 @@ export class DhActorDrawerComponent {
       .hasActorAccess(id)
       .pipe(takeUntil(this.closed))
       .subscribe((hasAccess) => (this.hasActorAccess = hasAccess));
-  }
-
-  private loadAuditLog(actorId: string): void {
-    this.actorAuditLogSubscription?.unsubscribe();
-
-    this.auditLogService.getActorAuditLogByIdQuery$.setVariables({ actorId });
-
-    this.actorAuditLogSubscription = this.auditLogService.getActorAuditLogByIdQuery$.valueChanges
-      .pipe(takeUntil(this.closed))
-      .subscribe({
-        next: (result) => {
-          this.isLoadingAuditLog = result.loading;
-          this.auditLogFailedToLoad =
-            !result.loading && (!!result.error || !!result.errors?.length);
-
-          this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
-        },
-        error: () => {
-          this.auditLogFailedToLoad = true;
-          this.isLoadingAuditLog = false;
-        },
-      });
-  }
-
-  formatDelegationEntry(payload: dhActorAuditLogEntry) {
-    const values = payload.currentValue
-      ?.replace('(', '')
-      .replace(')', '')
-      .split(';')
-      .map((x) => x.trim());
-
-    if (!values) return {};
-    const [payloadGln, payloadStartsAt, payloadGridArea, payloadProcessType, payloadStopsAt] =
-      values;
-    const actorNumberName = this.actorNumberNameLookup[payloadGln];
-
-    return {
-      auditedBy: payload.auditedBy,
-      actor: `${actorNumberName.number} - ${actorNumberName.name}`,
-      startsAt: wattFormatDate(payloadStartsAt),
-      gridArea: this.gridAreaCodeLookup[payloadGridArea],
-      processType: translate(
-        'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + payloadProcessType
-      ),
-      stopsAt: payloadStopsAt !== undefined ? wattFormatDate(payloadStopsAt) : undefined,
-    };
   }
 }
