@@ -37,7 +37,7 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
       align-items: center;
       flex-direction: column;
       width: 100%;
-      background: #F9F9F9;
+      background: #f9f9f9;
 
       > * {
         max-width: 1169px;
@@ -78,24 +78,26 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
       position: absolute;
       top: 0;
       left: 0;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%);
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
 
       @media (min-width: 1170px) {
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%);
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
       }
     }
 
-    h2, h3 {
+    h2,
+    h3 {
       text-align: center;
       z-index: 2;
     }
 
-    h2, .highlight {
-      color: #13ECB8;
+    h2,
+    .highlight {
+      color: #13ecb8;
     }
 
     h2 {
-      color: #13ECB8;
+      color: #13ecb8;
       text-align: center;
       font-size: 18px;
       font-style: normal;
@@ -107,7 +109,7 @@ import { EoAuthService } from '@energinet-datahub/eo/shared/services';
       @media (min-width: 1170px) {
         width: 100%;
         text-align: left;
-        color: #02525E;
+        color: #02525e;
         margin: 160px 0 30px 0;
       }
     }

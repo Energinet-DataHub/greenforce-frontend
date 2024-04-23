@@ -36,7 +36,7 @@ import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
   imports: [EoLottieComponent],
   styles: `
     eo-percentage-counter {
-      background: #F9F9F9;
+      background: #f9f9f9;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -48,7 +48,8 @@ import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
         padding-top: 160px;
       }
 
-      h2, p {
+      h2,
+      p {
         text-align: left;
 
         @media (min-width: 768px) {
@@ -82,7 +83,13 @@ import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
     }
   `,
   template: `
-    <eo-lottie #animation height="auto" width="100%" [animationData]="sustainableChart" [autoPlay]="false" />
+    <eo-lottie
+      #animation
+      height="auto"
+      width="100%"
+      [animationData]="sustainableChart"
+      [autoPlay]="false"
+    />
 
     <h2>The numbers prove that you run a<br />sustainable company</h2>
     <p>

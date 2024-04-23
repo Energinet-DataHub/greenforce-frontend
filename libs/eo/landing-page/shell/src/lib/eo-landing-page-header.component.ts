@@ -55,8 +55,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       z-index: 100;
 
       --watt-button-color: #fff;
-      --watt-button-text-hover-color: #EE9331;
-      --watt-button-text-focus-color: #EE9331;
+      --watt-button-text-hover-color: #ee9331;
+      --watt-button-text-focus-color: #ee9331;
       --watt-button-text-transform: uppercase;
 
       &:not(.sticky) .logo.secondary {
@@ -67,7 +67,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         position: fixed;
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        --watt-button-color: #01857D;
+        --watt-button-color: #01857d;
         transform: translate3d(0, -100%, 0);
 
         &.show {

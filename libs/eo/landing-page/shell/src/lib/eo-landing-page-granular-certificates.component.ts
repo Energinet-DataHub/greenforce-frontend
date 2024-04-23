@@ -23,7 +23,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'eo-landing-page-granular-certificates',
   styles: `
     :host {
-      background: #F9F9F9;
+      background: #f9f9f9;
       padding-top: 114px;
       display: flex;
       justify-content: center;
@@ -39,15 +39,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       grid-template-columns: 1fr;
       grid-template-rows: repeat(2, auto);
       grid-template-areas:
-        "image"
-        "content";
+        'image'
+        'content';
       place-items: center;
       gap: 34px;
 
       @media (min-width: 754px) {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
-        grid-template-areas: "content image";
+        grid-template-areas: 'content image';
         gap: 75px;
         max-width: 1000px;
       }
@@ -64,8 +64,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       justify-content: center;
     }
 
-
-    h3, p {
+    h3,
+    p {
       color: rgba(0, 0, 0, 0.87);
     }
 
@@ -81,7 +81,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
-      line-height: 24px
+      line-height: 24px;
     }
   `,
   template: `

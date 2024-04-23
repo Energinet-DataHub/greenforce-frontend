@@ -37,19 +37,19 @@ import {
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: #02525E;
+      background: #02525e;
       color: #fff;
       font-size: 18px;
       font-style: normal;
       font-weight: 400;
       line-height: 28px;
       padding: 0 24px 96px 24px;
-      --transition: all 1500ms cubic-bezier(.75, 0, .25, 1);
+      --transition: all 1500ms cubic-bezier(0.75, 0, 0.25, 1);
       --scale: scale(1.15766, 1);
       container: eo-landing-page-how / inline-size;
 
       h3 {
-        color: #FFF;
+        color: #fff;
         text-align: center;
         font-size: 32px;
         font-style: normal;
@@ -67,12 +67,13 @@ import {
         max-width: 295px;
       }
 
-      h2, h3 {
+      h2,
+      h3 {
         text-transform: uppercase;
       }
 
       .highlight {
-        color: #13ECB8;
+        color: #13ecb8;
       }
 
       .heading {

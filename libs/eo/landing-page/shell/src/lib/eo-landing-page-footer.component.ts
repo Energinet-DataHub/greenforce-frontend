@@ -38,17 +38,17 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       grid-template-rows: repeat(5, auto);
       gap: 48px;
       grid-template-areas:
-        "address"
-        "contact"
-        "legal"
-        "developers"
-        "logo";
+        'address'
+        'contact'
+        'legal'
+        'developers'
+        'logo';
 
       @media (min-width: 754px) {
         background-image: url('/assets/landing-page/footer-bg.svg');
         grid-template-areas:
-          "logo logo logo logo"
-          "address contact legal developers";
+          'logo logo logo logo'
+          'address contact legal developers';
         grid-template-rows: auto 1fr;
         grid-template-columns: repeat(4, auto);
         gap: 1vw;
@@ -62,7 +62,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       @media (min-width: 1000px) {
         grid-template-columns: repeat(5, auto);
         grid-template-rows: auto;
-        grid-template-areas: "logo address contact legal developers";
+        grid-template-areas: 'logo address contact legal developers';
         gap: 64px;
       }
     }
@@ -89,7 +89,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     }
 
     h4 {
-      color: #24B492;
+      color: #24b492;
       font-size: 18px;
       font-style: normal;
       font-weight: 700;
@@ -99,8 +99,9 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       margin-bottom: 16px;
     }
 
-    p, a {
-      color: #F5F5F5;
+    p,
+    a {
+      color: #f5f5f5;
       font-size: 16px;
       font-style: normal;
       font-weight: 400;

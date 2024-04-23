@@ -34,16 +34,16 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
       background: #fff;
       display: grid;
       grid-template-areas:
-        "heading"
-        "login"
-        "devportal";
+        'heading'
+        'login'
+        'devportal';
       gap: 64px;
 
       @media (min-width: 895px) {
         padding: 212px 14vw;
         grid-template-areas:
-          "heading heading . ."
-          "login devportal . .";
+          'heading heading . .'
+          'login devportal . .';
         gap: 58px;
       }
     }
@@ -90,14 +90,15 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
       grid-area: devportal;
     }
 
-    button.primary, .button.primary {
+    button.primary,
+    .button.primary {
       display: inline-flex;
       padding: 16px 24px;
       align-items: center;
       gap: 8px;
       text-transform: uppercase;
       border-radius: 360px;
-      background: #24B492;
+      background: #24b492;
       color: #fff;
       border: none;
     }
@@ -106,10 +107,12 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
       text-decoration: none;
     }
 
-    button, .button {
-      &:hover, &:focus-visible {
-        background: #EE9331;
-        border-color: #EE9331;
+    button,
+    .button {
+      &:hover,
+      &:focus-visible {
+        background: #ee9331;
+        border-color: #ee9331;
         outline: none;
       }
     }

@@ -27,7 +27,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       display: flex;
       justify-content: center;
       padding: 0 24px;
-      background: #F9F9F9;
+      background: #f9f9f9;
 
       @media (min-width: 754px) {
         padding-top: 185px;
@@ -54,8 +54,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       gap: 24px;
     }
 
-
-    h3, p {
+    h3,
+    p {
       color: rgba(0, 0, 0, 0.87);
     }
 
@@ -71,7 +71,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
-      line-height: 24px
+      line-height: 24px;
     }
   `,
   template: `

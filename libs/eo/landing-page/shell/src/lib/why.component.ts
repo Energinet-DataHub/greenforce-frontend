@@ -28,7 +28,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       align-items: center;
       padding: 10vh 24px;
       width: 100%;
-      background: #00363F;
+      background: #00363f;
       overflow: hidden;
       position: relative;
 
@@ -55,7 +55,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       z-index: 1;
 
       p {
-        color: #FFF;
+        color: #fff;
         font-size: 28px;
         line-height: 34px;
         margin-top: 28px;
@@ -75,7 +75,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
       }
 
       cite {
-        color: #13ECB8;
+        color: #13ecb8;
         font-size: 18px;
         font-style: normal;
         font-weight: 700;

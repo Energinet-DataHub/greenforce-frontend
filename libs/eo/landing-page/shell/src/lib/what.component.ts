@@ -57,15 +57,14 @@ interface Image {
       flex-direction: column;
       padding: 6vw 24px 12vw 24px;
       min-height: 100vh;
-      --on-light-high-emphasis: rgba(0, 0, 0, .87);
+      --on-light-high-emphasis: rgba(0, 0, 0, 0.87);
 
       @media (min-width: 1024px) {
         display: grid;
         grid-template-columns: 55% 1fr;
         grid-template-rows: 1fr;
         gap: 0px 0px;
-        grid-template-areas:
-          "images content";
+        grid-template-areas: 'images content';
       }
 
       .headline {
@@ -73,7 +72,7 @@ interface Image {
       }
 
       .headline-4 {
-        color: #02525E;
+        color: #02525e;
         font-size: 18px;
         font-style: normal;
         font-weight: 700;
@@ -102,7 +101,6 @@ interface Image {
       }
 
       nav {
-
         a {
           font-size: 40px;
           font-style: normal;
@@ -111,18 +109,19 @@ interface Image {
           text-decoration: none;
           color: rgba(189, 189, 189, 0.87);
 
-          &.active, &:hover {
-            color: #0A515D;
+          &.active,
+          &:hover {
+            color: #0a515d;
           }
 
           &::after {
-              content: '';
-              display: block;
-              width: 100%;
-              height: 2px;
-              background: #00847C;
-              margin-top: 4px;
-              opacity: 0;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #00847c;
+            margin-top: 4px;
+            opacity: 0;
           }
 
           &.active::after {
@@ -151,7 +150,7 @@ interface Image {
 
         img {
           position: absolute;
-          transition: all 1500ms cubic-bezier(.77, 0, .28, 1);
+          transition: all 1500ms cubic-bezier(0.77, 0, 0.28, 1);
           border-radius: 30px;
         }
       }
@@ -170,9 +169,9 @@ interface Image {
         grid-template-rows: 0.5fr 2fr 1fr;
         gap: 76px 0px;
         grid-template-areas:
-          "headline"
-          "nav"
-          "content";
+          'headline'
+          'nav'
+          'content';
         max-height: 1018px;
 
         .headline {
@@ -207,7 +206,7 @@ interface Image {
       }
 
       .content-text {
-        transition: opacity 1500ms cubic-bezier(.77, 0, .28, 1);
+        transition: opacity 1500ms cubic-bezier(0.77, 0, 0.28, 1);
         height: 0;
       }
 
