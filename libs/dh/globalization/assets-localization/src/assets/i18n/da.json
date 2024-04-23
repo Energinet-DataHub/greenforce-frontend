@@ -390,8 +390,10 @@
             "status": "Status",
             "gridArea": "Netområde",
             "search": "Søg",
-            "usage": "Forbrug",
-            "production": "Produktion",
+            "agreementTypes": {
+              "CONSUMPTION": "Forbrug",
+              "PRODUCTION": "Produktion"
+            },
             "statusOptions": {
               "ACTIVE": "Aktiv",
               "AWAITING": "Afventer",
