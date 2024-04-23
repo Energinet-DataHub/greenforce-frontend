@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
