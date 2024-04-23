@@ -387,6 +387,7 @@
           "balanceResponsibleRelation": {
             "tabLabel": "Balance Responsible Relation",
             "energySupplier": "Energy Supplier",
+            "balanceResponsible": "Balance responsible",
             "status": "Status",
             "gridArea": "Grid Area",
             "search": "Search",
