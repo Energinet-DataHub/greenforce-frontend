@@ -16,15 +16,17 @@
  */
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
+
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -38,6 +40,7 @@ import {
   getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
