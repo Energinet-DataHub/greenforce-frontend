@@ -16,15 +16,17 @@
  */
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Component, EventEmitter, OnChanges, computed, inject, input } from '@angular/core';
+
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -35,9 +37,10 @@ import {
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
-  getEnergySupplierOptions,
+  getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
@@ -73,18 +76,16 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
     query: GetBalanceResponsibleRelationDocument,
   });
 
-  actorId = input.required<DhActorExtended['id']>();
-  marketRole = input.required<DhActorExtended['marketRole']>();
+  public readonly eicFunction: typeof EicFunction = EicFunction;
 
-  isBalanceResponsibleParty = computed(() => {
-    return this.marketRole() === EicFunction.BalanceResponsibleParty;
-  });
+  actor = input.required<DhActorExtended>();
 
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
   );
 
-  energySupplierOptions$ = getEnergySupplierOptions();
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty]);
   gridAreaOptions$ = getGridAreaOptions();
 
   searchEvent = new EventEmitter<string>();
@@ -92,9 +93,14 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
   balanceResponsibleRelations$ =
     this.balanceResponsibleRelationsQuery.valueChanges.pipe(takeUntilDestroyed());
 
-  filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });
+  filterForm = this.fb.group({
+    status: [],
+    energySupplier: [],
+    gridArea: [],
+    balanceResponsible: [],
+  });
 
   ngOnChanges(): void {
-    this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() });
+    this.balanceResponsibleRelationsQuery.refetch({ id: this.actor().id });
   }
 }

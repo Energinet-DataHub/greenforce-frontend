@@ -386,6 +386,7 @@
           "balanceResponsibleRelation": {
             "tabLabel": "Balanceansvarsrelationer",
             "energySupplier": "Elleverandør",
+            "balanceResponsible": "Balanceansvarlig",
             "status": "Status",
             "gridArea": "Netområde",
             "search": "Søg",
