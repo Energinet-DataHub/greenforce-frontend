@@ -77,7 +77,7 @@ export class WholesaleSettlementReportHttp {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
+                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -103,10 +103,10 @@ export class WholesaleSettlementReportHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<Stream>;
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<HttpEvent<Stream>>;
-    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext}): Observable<any> {
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
+    public v1WholesaleSettlementReportDownloadGet(gridAreaCodes?: Array<string>, calculationType?: WholesaleCalculationType, periodStart?: string, periodEnd?: string, energySupplier?: string, csvLanguage?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (gridAreaCodes) {
@@ -162,6 +162,11 @@ export class WholesaleSettlementReportHttp {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -183,6 +188,7 @@ export class WholesaleSettlementReportHttp {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );

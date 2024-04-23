@@ -13,6 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL;
+using Energinet.DataHub.WebApi.GraphQL.Query;
+using Energinet.DataHub.WebApi.GraphQL.Scalars;
+using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using HotChocolate.Execution.Configuration;
 using NodaTime;
 

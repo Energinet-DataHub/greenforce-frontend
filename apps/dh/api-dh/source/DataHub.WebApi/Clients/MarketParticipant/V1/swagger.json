@@ -2133,6 +2133,19 @@
         }
       }
     },
+    "/user/reset-mitid": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "reset-mitid",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/user/{userId}/deactivate": {
       "put": {
         "tags": [

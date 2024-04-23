@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class MarketParticipantResolvers
 {
@@ -72,4 +69,19 @@ public class MarketParticipantResolvers
         [Parent] OrganizationDto organization,
         ActorByOrganizationBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
+
+    public Task<ICollection<BalanceResponsibilityAgreementDto>> GetBalanceResponsibleAgreementsAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client) =>
+        client.BalanceResponsibilityAgreementsAsync(actor.ActorId);
+
+    public Task<ActorNameWithId?> GetBalanceResponsibleWithNameAsync(
+        [Parent] BalanceResponsibilityAgreementDto result,
+        ActorNameByIdBatchDataLoader dataLoader) =>
+        dataLoader.LoadAsync(result.BalanceResponsibleId);
+
+    public Task<ActorNameWithId?> GetEnergySupplierWithNameAsync(
+        [Parent] BalanceResponsibilityAgreementDto result,
+        ActorNameByIdBatchDataLoader dataLoader) =>
+        dataLoader.LoadAsync(result.EnergySupplierId);
 }

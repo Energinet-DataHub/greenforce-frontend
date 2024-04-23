@@ -17,10 +17,38 @@
 import {
   Actor,
   ActorStatus,
+  BalanceResponsibilityAgreement,
+  BalanceResponsibilityAgreementStatus,
   EicFunction,
   GridAreaDto,
   Organization,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
+  {
+    __typename: 'BalanceResponsibilityAgreement',
+    balanceResponsibleWithName: {
+      __typename: 'ActorNameWithId',
+      id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
+      actorName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Actor 1',
+      },
+    },
+    energySupplierWithName: {
+      __typename: 'ActorNameWithId',
+      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
+      actorName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Actor 2',
+      },
+    },
+    status: BalanceResponsibilityAgreementStatus.Active,
+    gridAreaId: '1',
+    validPeriod: { start: new Date(), end: null },
+    meteringPointType: 'CONSUMPTION',
+  },
+];
 
 export const marketParticipantActors: Actor[] = [
   {
@@ -37,6 +65,7 @@ export const marketParticipantActors: Actor[] = [
         id: '1',
       } as GridAreaDto,
     ],
+    balanceResponsibleAgreements,
     marketRole: EicFunction.BalanceResponsibleParty,
     status: ActorStatus.Active,
     organization: {
@@ -58,6 +87,7 @@ export const marketParticipantActors: Actor[] = [
         id: '2',
       } as GridAreaDto,
     ],
+    balanceResponsibleAgreements,
     marketRole: EicFunction.GridAccessProvider,
     status: ActorStatus.Active,
     organization: {
@@ -79,6 +109,7 @@ export const marketParticipantActors: Actor[] = [
         id: '3',
       } as GridAreaDto,
     ],
+    balanceResponsibleAgreements,
     marketRole: EicFunction.BalanceResponsibleParty,
     status: ActorStatus.Inactive,
     organization: {
@@ -100,6 +131,7 @@ export const marketParticipantActors: Actor[] = [
         id: '4',
       } as GridAreaDto,
     ],
+    balanceResponsibleAgreements,
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Inactive,
     organization: {
@@ -121,6 +153,7 @@ export const marketParticipantActors: Actor[] = [
         id: '5',
       } as GridAreaDto,
     ],
+    balanceResponsibleAgreements,
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Active,
     organization: {
@@ -133,6 +166,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
     glnOrEicNumber: '5790000555333',
     name: 'Test Actor 5',
+    balanceResponsibleAgreements,
     gridAreas: [
       {
         __typename: 'GridAreaDto',

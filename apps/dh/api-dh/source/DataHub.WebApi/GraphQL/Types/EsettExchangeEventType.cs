@@ -13,10 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
 {
@@ -27,7 +27,7 @@ public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
 
         descriptor.Field(f => f.PeriodFrom)
             .Name("period").
-            Resolve((context, token) =>
+            Resolve((context, _) =>
             {
                 var trackingResult = context.Parent<ExchangeEventTrackingResult>();
                 return new Interval(Instant.FromDateTimeOffset(trackingResult.PeriodFrom), Instant.FromDateTimeOffset(trackingResult.PeriodTo));

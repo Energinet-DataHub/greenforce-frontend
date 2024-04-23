@@ -14,9 +14,11 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Types;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
@@ -100,10 +102,5 @@ public partial class Query
             Email = email,
             Actors = associatedActors.ActorIds,
         };
-    }
-
-    public async Task<IEnumerable<BalanceResponsibilityAgreementDto>> GetBalanceResponsibleAgreementsAsync(Guid actorId, [Service] IMarketParticipantClient_V1 client)
-    {
-        return await client.BalanceResponsibilityAgreementsAsync(actorId);
     }
 }

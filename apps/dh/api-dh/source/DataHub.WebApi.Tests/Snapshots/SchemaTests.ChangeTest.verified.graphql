@@ -16,6 +16,7 @@ type Actor {
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
   organization: Organization!
+  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -37,6 +38,11 @@ type ActorContactDto {
 
 type ActorNameDto {
   value: String!
+}
+
+type ActorNameWithId {
+  id: UUID!
+  actorName: ActorNameDto!
 }
 
 type AddressDto {
@@ -68,11 +74,11 @@ type AssociatedActors {
 
 type BalanceResponsibilityAgreement {
   meteringPointType: String
-  energySupplierId: UUID!
-  balanceResponsibleId: UUID!
+  energySupplierWithName: ActorNameWithId
+  balanceResponsibleWithName: ActorNameWithId
+  validPeriod: DateRange!
+  status: BalanceResponsibilityAgreementStatus!
   gridAreaId: UUID!
-  validFrom: DateTime!
-  validTo: DateTime
 }
 
 type BalanceResponsiblePageResult {
@@ -325,7 +331,6 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
-  balanceResponsibleAgreements(actorId: UUID!): [BalanceResponsibilityAgreement!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -437,17 +442,6 @@ union UpdateOrganizationError = ApiError
 
 union UpdateUserProfileError = ApiError
 
-input ActorGridAreaDtoInput {
-  id: UUID!
-  meteringPointTypes: [String!]!
-}
-
-input ActorMarketRoleDtoInput {
-  eicFunction: EicFunction!
-  gridAreas: [ActorGridAreaDtoInput!]!
-  comment: String
-}
-
 input ActorNameDtoInput {
   value: String!
 }
@@ -479,11 +473,22 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
-input CreateActorDtoInput {
+input CreateActorGridAreaInput {
+  code: String!
+  meteringPointTypes: [String!]!
+}
+
+input CreateActorInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
   actorNumber: ActorNumberDtoInput!
-  marketRoles: [ActorMarketRoleDtoInput!]!
+  marketRoles: [CreateActorMarketRoleInput!]!
+}
+
+input CreateActorMarketRoleInput {
+  eicFunction: EicFunction!
+  gridAreas: [CreateActorGridAreaInput!]!
+  comment: String
 }
 
 input CreateAggregatedMeasureDataRequestInput {
@@ -504,13 +509,13 @@ input CreateCalculationInput {
 
 input CreateDelegationsForActorInput {
   actorId: UUID!
-  delegations: CreateProcessDelegationsDtoInput!
+  delegations: CreateProcessDelegationsInput!
 }
 
 input CreateMarketParticipantInput {
   organizationId: UUID
   organization: CreateOrganizationDtoInput
-  actor: CreateActorDtoInput!
+  actor: CreateActorInput!
   actorContact: CreateActorContactDtoInput!
 }
 
@@ -521,10 +526,10 @@ input CreateOrganizationDtoInput {
   domain: String!
 }
 
-input CreateProcessDelegationsDtoInput {
+input CreateProcessDelegationsInput {
   delegatedFrom: UUID!
   delegatedTo: UUID!
-  gridAreas: [UUID!]!
+  gridAreas: [String!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
 }
@@ -593,6 +598,14 @@ enum ActorStatus {
   Active
   Inactive
   Passive
+}
+
+"Represents the status of a balance responsibility agreement."
+enum BalanceResponsibilityAgreementStatus {
+  AWAITING
+  ACTIVE
+  SOON_TO_EXPIRE
+  EXPIRED
 }
 
 enum BalanceResponsibleSortProperty {

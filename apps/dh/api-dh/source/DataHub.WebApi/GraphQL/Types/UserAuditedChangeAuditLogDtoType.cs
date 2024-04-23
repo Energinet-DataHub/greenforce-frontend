@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public sealed class UserAuditedChangeAuditLogDtoType : ObjectType<UserAuditedChangeAuditLogDto>
 {

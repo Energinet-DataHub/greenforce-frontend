@@ -13,6 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
@@ -21,8 +24,61 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
     protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityAgreementDto> descriptor)
     {
         descriptor.Name(nameof(BalanceResponsibilityAgreement));
+
         descriptor
             .Field(x => x.MeteringPointType)
             .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityAgreementDto>().MeteringPointType));
+
+        descriptor
+            .Field(x => x.ValidFrom)
+            .Ignore();
+
+        descriptor
+            .Field(x => x.ValidTo)
+            .Ignore();
+
+        descriptor
+            .Field(f => f.EnergySupplierId)
+            .Name("energySupplierWithName")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetEnergySupplierWithNameAsync(default!, default!));
+
+        descriptor
+            .Field(f => f.BalanceResponsibleId)
+            .Name("balanceResponsibleWithName")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
+
+        descriptor
+            .Field("validPeriod")
+            .Resolve((ctx, _) =>
+            {
+                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityAgreementDto>();
+                return new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
+            });
+
+        descriptor
+            .Field("status")
+            .Resolve((ctx, _) =>
+            {
+                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityAgreementDto>();
+                var dateTimeNow = DateTimeOffset.UtcNow;
+                var validPeriod = new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
+
+                if (validPeriod.Start < Instant.FromDateTimeOffset(dateTimeNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(dateTimeNow)))
+                {
+                    return BalanceResponsibilityAgreementStatus.Active;
+                }
+
+                if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(dateTimeNow))
+                {
+                    return BalanceResponsibilityAgreementStatus.Expired;
+                }
+
+                if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(dateTimeNow).Minus(Duration.FromDays(7)))
+                {
+                    return BalanceResponsibilityAgreementStatus.SoonToExpire;
+                }
+
+                return BalanceResponsibilityAgreementStatus.Awaiting;
+            });
     }
 }

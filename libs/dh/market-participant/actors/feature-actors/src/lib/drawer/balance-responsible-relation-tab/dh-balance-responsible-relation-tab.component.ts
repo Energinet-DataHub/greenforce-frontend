@@ -14,42 +14,84 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-
+import { Component, EventEmitter, OnChanges, computed, inject, input } from '@angular/core';
+import { Apollo } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import {
+  BalanceResponsibilityAgreementStatus,
+  EicFunction,
+  GetBalanceResponsibleRelationDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  getEnergySupplierOptions,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
   standalone: true,
   selector: 'dh-balance-responsible-relation-tab',
   templateUrl: './dh-balance-responsible-relation-tab.component.html',
-  styles: `:host {
-    watt-search {
-      margin-left: auto;
+  styles: `
+    :host {
+      watt-search {
+        margin-left: auto;
+      }
     }
-  }`,
+  `,
   imports: [
-    ReactiveFormsModule,
-    VaterStackComponent,
-    VaterFlexComponent,
-    WattDropdownComponent,
-    WattSearchComponent,
-    WATT_EXPANDABLE_CARD_COMPONENTS,
+    RxPush,
     TranslocoDirective,
+    ReactiveFormsModule,
+
+    VaterFlexComponent,
+    VaterStackComponent,
+
+    WattSearchComponent,
+    WattDropdownComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+
+    DhDropdownTranslatorDirective,
   ],
 })
-export class DhBalanceResponsibleRelationTabComponent {
+export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
   private fb = inject(NonNullableFormBuilder);
+  private apollo = inject(Apollo);
+  private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
 
-  statusOptions: WattDropdownOptions = [{ value: 'active', displayValue: 'Active' }];
-  energySupplierOptions: WattDropdownOptions = [];
-  gridAreaOptions: WattDropdownOptions = [];
+  actorId = input.required<DhActorExtended['id']>();
+  marketRole = input.required<DhActorExtended['marketRole']>();
+
+  isBalanceResponsibleParty = computed(() => {
+    return this.marketRole() === EicFunction.BalanceResponsibleParty;
+  });
+
+  statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
+    BalanceResponsibilityAgreementStatus
+  );
+
+  energySupplierOptions$ = getEnergySupplierOptions();
+  gridAreaOptions$ = getGridAreaOptions();
+
   searchEvent = new EventEmitter<string>();
 
+  balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
+
   filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });
+
+  ngOnChanges(): void {
+    this.actorQuery.refetch({ id: this.actorId() });
+  }
 }

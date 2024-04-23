@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -93,6 +91,13 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
     public Task InitiateMitIdSignupAsync()
     {
         return HandleExceptionAsync(() => _client.UserInitiateMitidSignupAsync());
+    }
+
+    [HttpPost]
+    [Route("ResetMitId")]
+    public Task ResetMitIdAsync()
+    {
+        return HandleExceptionAsync(() => _client.UserResetMitidAsync());
     }
 
     /// <summary>

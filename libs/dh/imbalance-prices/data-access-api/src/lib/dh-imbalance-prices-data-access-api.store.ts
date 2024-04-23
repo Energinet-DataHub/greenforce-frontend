@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import { Injectable, inject } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { Observable, exhaustMap, finalize, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 interface ImbalancePricesState {

@@ -478,3 +478,7 @@ __blobstorage*
 
 # Verify mismatch file
 *.received.*
+
+# GraphQL generated files
+schema.graphql
+libs/dh/shared/domain/src/lib/generated/graphql.ts

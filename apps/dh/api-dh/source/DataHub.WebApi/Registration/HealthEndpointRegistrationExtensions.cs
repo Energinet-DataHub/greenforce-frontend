@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi.Registration;
 

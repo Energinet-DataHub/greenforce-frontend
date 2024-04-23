@@ -15,37 +15,45 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   inject,
+  Component,
+  DestroyRef,
+  EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { Observable, Subscription, debounceTime, map } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { Apollo } from 'apollo-angular';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
+
 import {
   DocumentStatus,
-  EicFunction,
   ExchangeEventCalculationType,
-  GetActorsForEicFunctionDocument,
-  GetGridAreasDocument,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+
+import {
+  getEnergySupplierOptions,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -82,23 +90,23 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
+
+    DhDropdownTranslatorDirective,
   ],
 })
-export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
-  private transloco = inject(TranslocoService);
-  private apollo = inject(Apollo);
-  private subscription: Subscription | null = null;
+export class DhOutgoingMessagesFiltersComponent implements OnInit {
+  private destoryRef = inject(DestroyRef);
 
   @Input() initial?: DhOutgoingMessagesFilters;
 
   @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
   @Output() formReset = new EventEmitter<void>();
 
-  calculationTypeOptions$ = this.getCalculationTypeOptions();
-  messageTypeOptions$ = this.getMessageTypeOptions();
-  gridAreaOptions$ = this.getGridAreaOptions();
-  energySupplierOptions$ = this.getEnergySupplierOptions();
-  documentStatusOptions$ = this.getDocumentStatusOptions();
+  calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
+  messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType);
+  gridAreaOptions$ = getGridAreaOptions();
+  energySupplierOptions$ = getEnergySupplierOptions();
+  documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   formGroup!: FormGroup<Filters>;
 
@@ -114,83 +122,8 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit, OnDestroy {
       latestDispatch: dhMakeFormControl(this.initial?.latestDispatch),
     });
 
-    this.subscription = this.formGroup.valueChanges
-      .pipe(debounceTime(500))
+    this.formGroup.valueChanges
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
       .subscribe((value) => this.filter.emit(value as DhOutgoingMessagesFilters));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = null;
-  }
-
-  private getCalculationTypeOptions(): Observable<WattDropdownOptions> {
-    return this.transloco
-      .selectTranslateObject('eSett.outgoingMessages.shared.calculationType')
-      .pipe(
-        map((translationObject) =>
-          Object.values(ExchangeEventCalculationType).map((type) => ({
-            displayValue: translationObject[type],
-            value: type,
-          }))
-        )
-      );
-  }
-
-  private getEnergySupplierOptions(): Observable<WattDropdownOptions> {
-    return this.apollo
-      .query({
-        query: GetActorsForEicFunctionDocument,
-        variables: {
-          eicFunctions: [EicFunction.EnergySupplier],
-        },
-      })
-      .pipe(
-        map((result) => result.data?.actorsForEicFunction),
-        exists(),
-        map((actors) =>
-          actors.map((actor) => ({
-            value: actor.glnOrEicNumber,
-            displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
-          }))
-        )
-      );
-  }
-
-  private getMessageTypeOptions(): Observable<WattDropdownOptions> {
-    return this.transloco.selectTranslateObject('eSett.outgoingMessages.shared.messageType').pipe(
-      map((translationObject) =>
-        Object.values(TimeSeriesType).map((type) => ({
-          displayValue: translationObject[type],
-          value: type,
-        }))
-      )
-    );
-  }
-
-  private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    return this.apollo.watchQuery({ query: GetGridAreasDocument }).valueChanges.pipe(
-      map((result) => result.data?.gridAreas),
-      exists(),
-      map((gridAreas) =>
-        gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.displayName,
-        }))
-      )
-    );
-  }
-
-  private getDocumentStatusOptions(): Observable<WattDropdownOptions> {
-    return this.transloco
-      .selectTranslateObject('eSett.outgoingMessages.shared.documentStatus')
-      .pipe(
-        map((translationObject) =>
-          Object.values(DocumentStatus).map((status) => ({
-            displayValue: translationObject[status],
-            value: status,
-          }))
-        )
-      );
   }
 }
