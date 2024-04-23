@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MarketParticipantEicFunction } from './market-participant-eic-function';
 
 
 export interface MarketParticipantSelectionActorDto { 
@@ -16,6 +17,10 @@ export interface MarketParticipantSelectionActorDto {
     gln: string;
     actorName: string;
     organizationName: string;
+    marketRole: MarketParticipantEicFunction;
 }
+export namespace MarketParticipantSelectionActorDto {
+}
+
 
 
