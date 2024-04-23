@@ -1,15 +1,12 @@
 {
   "name": "workspace-tools",
   "version": "0.0.1",
+  "type": "module",
   "dependencies": {
     "@nx/devkit": "18.3.1",
     "tslib": "^2.3.0",
-    "ts-morph": "20.0.0",
-    "prettier": "3.2.5",
-    "@nx/angular": "18.3.1",
-    "inquirer": "9.2.19"
+    "@nx/angular": "18.3.1"
   },
-  "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "generators": "./generators.json",
