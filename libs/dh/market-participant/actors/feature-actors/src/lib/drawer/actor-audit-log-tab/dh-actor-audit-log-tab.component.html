@@ -1,0 +1,100 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
+  <vater-stack [fill]="'horizontal'" [align]="'center'">
+    @if (isLoadingAuditLog) {
+      <watt-spinner />
+    }
+  </vater-stack>
+  @if (!isLoadingAuditLog && auditLog.data.length === 0) {
+    <watt-empty-state
+      [icon]="auditLogFailedToLoad ? 'custom-power' : 'cancel'"
+      size="small"
+      [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+    />
+  }
+  @if (auditLog.data.length > 0 && !isLoadingAuditLog) {
+    <watt-card variant="solid">
+      <watt-table
+        [dataSource]="auditLog"
+        [columns]="auditLogColumns"
+        [hideColumnHeaders]="true"
+        [suppressRowHoverHighlight]="true"
+        sortBy="timestamp"
+        sortDirection="desc"
+      >
+        <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
+          {{ element.timestamp | wattDate: "long" }}
+        </ng-container>
+        <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
+          @if (
+            entry.change !== "CLIENT_SECRET_CREDENTIALS" &&
+            entry.change !== "STATUS" &&
+            entry.change !== "DELEGATION_START" &&
+            entry.change !== "DELEGATION_STOP"
+          ) {
+            <div
+              [innerHTML]="
+                t(
+                  'tabs.history.changeTypes.' +
+                    entry.change +
+                    (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                  entry
+                )
+              "
+            ></div>
+          } @else if (entry.change === "STATUS") {
+            <div
+              [innerHTML]="
+                t(
+                  'tabs.history.changeTypes.' +
+                    entry.change +
+                    (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                  {
+                    auditedBy: entry.auditedBy,
+                    status: t('tabs.history.status.' + entry.currentValue)
+                  }
+                )
+              "
+            ></div>
+          } @else if (entry.change === "CLIENT_SECRET_CREDENTIALS") {
+            <div
+              [innerHTML]="
+                t(
+                  'tabs.history.changeTypes.' +
+                    entry.change +
+                    (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                  {
+                    auditedBy: entry.auditedBy,
+                    currentValue: entry.currentValue | wattDate,
+                    previousValue: entry.previousValue | wattDate
+                  }
+                )
+              "
+            ></div>
+          } @else if (entry.change === "DELEGATION_START" || entry.change === "DELEGATION_STOP") {
+            <div
+              [innerHTML]="
+                t('tabs.history.changeTypes.' + entry.change, formatDelegationEntry(entry))
+              "
+            ></div>
+          }
+        </ng-container>
+      </watt-table>
+    </watt-card>
+  }
+</ng-container>

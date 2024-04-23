@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, EventEmitter, computed, effect, inject, input, signal } from '@angular/core';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -31,16 +30,23 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-
 import {
   BalanceResponsibilityAgreementStatus,
+  EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import {
-  getEnergySupplierOptions,
+  getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import {
+  DhBalanceResponsibleAgreements,
+  DhBalanceResponsibleAgreementsByType,
+} from './dh-balance-responsible-relation';
+import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-responsible-agreements';
 
 @Component({
   standalone: true,
@@ -64,30 +70,73 @@ import {
     WattSearchComponent,
     WattDropdownComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattDatePipe,
 
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
+export class DhBalanceResponsibleRelationTabComponent {
   private fb = inject(NonNullableFormBuilder);
   private apollo = inject(Apollo);
-  private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
 
-  actorId = input.required<string>();
+  public readonly eicFunction: typeof EicFunction = EicFunction;
+
+  actor = input.required<DhActorExtended>();
+  actorId = computed(() => this.actor().id);
+
+  balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleAgreements>([]);
+  balanceResponsibleRelationsByType = signal<DhBalanceResponsibleAgreementsByType>([]);
+
+  isLoading = signal(false);
+  isError = signal(false);
 
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
   );
 
-  energySupplierOptions$ = getEnergySupplierOptions();
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty]);
   gridAreaOptions$ = getGridAreaOptions();
+
   searchEvent = new EventEmitter<string>();
 
-  balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
+  filterForm = this.fb.group({
+    status: [],
+    energySupplier: [],
+    gridArea: [],
+    balanceResponsible: [],
+  });
 
-  filterForm = this.fb.group({ status: [], energySupplier: [], gridArea: [] });
+  constructor() {
+    effect(() => this.fetchData(), { allowSignalWrites: true });
+  }
 
-  ngOnChanges(): void {
-    this.actorQuery.refetch({ id: this.actorId() });
+  private fetchData() {
+    this.isLoading.set(true);
+    this.isError.set(false);
+
+    this.apollo
+      .watchQuery({
+        query: GetBalanceResponsibleRelationDocument,
+        variables: { id: this.actorId() },
+      })
+      .valueChanges.pipe()
+      .subscribe({
+        next: (result) => {
+          this.isLoading.set(result.loading);
+
+          this.balanceResponsibleRelationsRaw.set(
+            result.data?.actorById.balanceResponsibleAgreements ?? []
+          );
+
+          this.balanceResponsibleRelationsByType.set(
+            dhGroupBalanceResponsibleAgreements(this.balanceResponsibleRelationsRaw())
+          );
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.isError.set(true);
+        },
+      });
   }
 }

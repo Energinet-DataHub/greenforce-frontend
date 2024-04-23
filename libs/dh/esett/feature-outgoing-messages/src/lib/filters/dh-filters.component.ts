@@ -46,12 +46,13 @@ import {
 
 import {
   DocumentStatus,
+  EicFunction,
   ExchangeEventCalculationType,
   TimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
-  getEnergySupplierOptions,
+  getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -105,7 +106,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
   messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType);
   gridAreaOptions$ = getGridAreaOptions();
-  energySupplierOptions$ = getEnergySupplierOptions();
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   formGroup!: FormGroup<Filters>;

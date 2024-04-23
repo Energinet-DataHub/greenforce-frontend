@@ -27,13 +27,13 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-export function getEnergySupplierOptions(): Observable<WattDropdownOptions> {
+export function getActorOptions(eicFunctions: [EicFunction]): Observable<WattDropdownOptions> {
   const apollo = inject(Apollo);
   return apollo
     .query({
       query: GetActorsForEicFunctionDocument,
       variables: {
-        eicFunctions: [EicFunction.EnergySupplier],
+        eicFunctions,
       },
     })
     .pipe(

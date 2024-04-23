@@ -1,7 +1,22 @@
 query getBalanceResponsibleRelation($id: UUID!) {
   actorById(id: $id) {
     balanceResponsibleAgreements {
+      validPeriod
+      status
+      gridAreaId
       meteringPointType
+      balanceResponsibleWithName {
+        id
+        actorName {
+          value
+        }
+      }
+      energySupplierWithName {
+        id
+        actorName {
+          value
+        }
+      }
     }
   }
 }

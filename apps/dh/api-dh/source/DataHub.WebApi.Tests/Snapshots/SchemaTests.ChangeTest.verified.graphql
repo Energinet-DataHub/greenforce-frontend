@@ -40,6 +40,11 @@ type ActorNameDto {
   value: String!
 }
 
+type ActorNameWithId {
+  id: UUID!
+  actorName: ActorNameDto!
+}
+
 type AddressDto {
   streetName: String
   number: String
@@ -69,10 +74,10 @@ type AssociatedActors {
 
 type BalanceResponsibilityAgreement {
   meteringPointType: String
+  energySupplierWithName: ActorNameWithId
+  balanceResponsibleWithName: ActorNameWithId
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
-  energySupplierId: UUID!
-  balanceResponsibleId: UUID!
   gridAreaId: UUID!
 }
 

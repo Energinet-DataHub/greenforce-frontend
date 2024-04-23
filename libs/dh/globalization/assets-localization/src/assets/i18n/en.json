@@ -387,11 +387,14 @@
           "balanceResponsibleRelation": {
             "tabLabel": "Balance Responsible Relation",
             "energySupplier": "Energy Supplier",
+            "balanceResponsible": "Balance responsible",
             "status": "Status",
             "gridArea": "Grid Area",
             "search": "Search",
-            "usage": "Usage",
-            "production": "Production",
+            "agreementTypes": {
+              "CONSUMPTION": "Usage",
+              "PRODUCTION": "Production"
+            },
             "statusOptions": {
               "ACTIVE": "Active",
               "AWAITING": "Awaiting",
