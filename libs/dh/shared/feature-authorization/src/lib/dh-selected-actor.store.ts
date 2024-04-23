@@ -19,7 +19,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { filter, Observable, switchMap, tap } from 'rxjs';
 
-import { MarketParticipantActorQueryHttp } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorQueryHttp, MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 
 import { DhActorStorage } from './dh-actor-storage';
 import { windowLocationToken } from './window-location';
@@ -40,6 +40,7 @@ export type Actor = {
   gln: string;
   actorName: string | null;
   organizationName: string;
+  marketrole: MarketParticipantEicFunction;
   selected: boolean;
   [key: string]: unknown;
 };
@@ -84,6 +85,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
                 gln: x.gln,
                 actorName: x.actorName,
                 organizationName: x.organizationName,
+                marketrole: x.marketRole,
                 selected: x.id === actorId,
               }))
               .sort((a, b) => {
@@ -103,6 +105,7 @@ export class DhSelectedActorStore extends ComponentStore<SelectedActorState> {
                 gln: actor.gln,
                 actorName: actor.actorName,
                 organizationName: actor.organizationName,
+                marketrole: actor.marketRole,
                 selected: actor.id === actorId,
               },
             });
