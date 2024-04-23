@@ -19,7 +19,7 @@ import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Component, EventEmitter, computed, effect, inject, input, signal } from '@angular/core';
-import { filter, from, map, switchMap, tap, startWith } from 'rxjs';
+import { filter, map, switchMap, tap, startWith, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
@@ -45,9 +45,12 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import {
   DhBalanceResponsibleAgreements,
-  DhBalanceResponsibleAgreementsByType,
+  DhBalanceResponsibleAgreementsGrouped,
 } from './dh-balance-responsible-relation';
-import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-responsible-agreements';
+import {
+  dhGroupBalanceResponsibleRelationsByType,
+  dhGroupByMarketParticipant,
+} from '../util/dh-group-balance-responsible-relations';
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 
 @Component({
@@ -105,7 +108,7 @@ export class DhBalanceResponsibleRelationTabComponent {
           filter((data) => data?.data?.actorById?.balanceResponsibleAgreements !== undefined),
           map((data) => data.data.actorById.balanceResponsibleAgreements),
           switchMap((balanceResponsibleAgreements) =>
-            from(
+            of(
               filters
                 ? balanceResponsibleAgreements.filter((x) => x.status === filters.status)
                 : balanceResponsibleAgreements
@@ -117,11 +120,26 @@ export class DhBalanceResponsibleRelationTabComponent {
     )
     .subscribe((result) => {
       if (result === null) return;
-      this.balanceResponsibleRelationsRaw.set([result]);
 
-      this.balanceResponsibleRelationsByType.set(
-        dhGroupBalanceResponsibleAgreements(this.balanceResponsibleRelationsRaw())
-      );
+      this.balanceResponsibleRelationsRaw.set(result);
+
+      this.balanceResponsibleRelationsGrouped.set([]);
+
+      if (this.actor().marketRole === EicFunction.EnergySupplier) {
+        this.balanceResponsibleRelationsGrouped.set(
+          dhGroupByMarketParticipant(
+            dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+            'balanceResponsibleWithName'
+          )
+        );
+      } else {
+        this.balanceResponsibleRelationsGrouped.set(
+          dhGroupByMarketParticipant(
+            dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+            'energySupplierWithName'
+          )
+        );
+      }
     });
 
   public readonly eicFunction: typeof EicFunction = EicFunction;
@@ -130,7 +148,7 @@ export class DhBalanceResponsibleRelationTabComponent {
   actorId = computed(() => this.actor().id);
 
   balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleAgreements>([]);
-  balanceResponsibleRelationsByType = signal<DhBalanceResponsibleAgreementsByType>([]);
+  balanceResponsibleRelationsGrouped = signal<DhBalanceResponsibleAgreementsGrouped>([]);
 
   isLoading$ = this.balanceResponsibleRelations$.pipe(map((result) => result.loading));
   isError$ = this.balanceResponsibleRelations$.pipe(map((result) => result.error !== undefined));
@@ -146,8 +164,6 @@ export class DhBalanceResponsibleRelationTabComponent {
   searchEvent = new EventEmitter<string>();
 
   constructor() {
-    effect(() => this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() }), {
-      allowSignalWrites: true,
-    });
+    effect(() => this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() }));
   }
 }

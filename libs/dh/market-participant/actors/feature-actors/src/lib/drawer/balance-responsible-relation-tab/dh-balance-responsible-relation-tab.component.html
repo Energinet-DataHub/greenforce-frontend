@@ -68,13 +68,21 @@ limitations under the License.
     <watt-search #searchComponent [label]="t('search')" (search)="(searchEvent)" />
   </form>
 
-  @for (entry of balanceResponsibleRelationsByType(); track entry) {
+  @for (group of balanceResponsibleRelationsGrouped(); track group) {
     <watt-expandable-card togglePosition="before" variant="solid">
       <watt-expandable-card-title>
-        {{ t("agreementTypes." + entry.type) }}
+        {{ t("agreementTypes." + group.type) }}
       </watt-expandable-card-title>
 
-      <dh-balance-responsible-relations-table [data]="entry.agreements" />
+      @for (marketParticipant of group.marketParticipants; track marketParticipant) {
+        <watt-expandable-card togglePosition="before" variant="solid">
+          <watt-expandable-card-title>
+            {{ marketParticipant.displayName }}
+          </watt-expandable-card-title>
+
+          <dh-balance-responsible-relations-table [data]="marketParticipant.agreements" />
+        </watt-expandable-card>
+      }
     </watt-expandable-card>
   }
 </vater-flex>
