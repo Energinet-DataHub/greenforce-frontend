@@ -16,7 +16,7 @@
  */
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Component, EventEmitter, OnChanges, computed, inject, input } from '@angular/core';
+import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
