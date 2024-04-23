@@ -17,7 +17,7 @@
 import { Component, inject } from '@angular/core';
 import { RxLet } from '@rx-angular/template/let';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-
+import { TranslocoPipe } from '@ngneat/transloco';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
@@ -28,7 +28,7 @@ import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [RxLet, WattIconComponent, WattSpinnerComponent, OverlayModule],
+  imports: [RxLet, WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
 })
 export class DhSelectedActorComponent {
   private store = inject(DhSelectedActorStore);
