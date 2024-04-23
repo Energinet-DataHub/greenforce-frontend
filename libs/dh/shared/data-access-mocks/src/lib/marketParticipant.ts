@@ -64,6 +64,7 @@ import {
 
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
 import { actors } from './data/get-actors-by-organizationId';
+import { balanceResponsibleAgreements } from './data/balance-responsible-agreements';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -526,7 +527,7 @@ function getBalanceResponsibleRelation() {
         __typename: 'Query',
         actorById: {
           __typename: 'Actor',
-          balanceResponsibleAgreements: [],
+          balanceResponsibleAgreements,
         },
       },
     });

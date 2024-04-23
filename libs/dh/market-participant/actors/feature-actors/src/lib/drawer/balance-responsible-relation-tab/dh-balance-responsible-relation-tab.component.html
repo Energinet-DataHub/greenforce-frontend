@@ -68,15 +68,18 @@ limitations under the License.
     <watt-search #searchComponent [label]="t('search')" (search)="(searchEvent)" />
   </form>
 
-  <watt-expandable-card togglePosition="before" variant="solid">
-    <watt-expandable-card-title>
-      {{ t("usage") }}
-    </watt-expandable-card-title>
-  </watt-expandable-card>
+  @for (entry of balanceResponsibleRelationsByType(); track entry) {
+    <watt-expandable-card togglePosition="before" variant="solid">
+      <watt-expandable-card-title>
+        {{ t("agreementTypes." + entry.type) }}
+      </watt-expandable-card-title>
 
-  <watt-expandable-card togglePosition="before" variant="solid">
-    <watt-expandable-card-title>
-      {{ t("production") }}
-    </watt-expandable-card-title>
-  </watt-expandable-card>
+      @for (agreement of entry.agreements; track agreement) {
+        <div>
+          {{ agreement.gridAreaId }} | {{ agreement.validPeriod | wattDate }} |
+          {{ agreement.status }}
+        </div>
+      }
+    </watt-expandable-card>
+  }
 </vater-flex>

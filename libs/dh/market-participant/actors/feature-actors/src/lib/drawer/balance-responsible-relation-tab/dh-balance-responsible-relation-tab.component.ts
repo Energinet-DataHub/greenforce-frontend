@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Component, EventEmitter, OnChanges, inject, input } from '@angular/core';
+import { Component, EventEmitter, computed, effect, inject, input, signal } from '@angular/core';
 
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -40,8 +39,16 @@ import {
   getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
-
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import {
+  DhBalanceResponsibleAgreements,
+  DhBalanceResponsibleAgreementsByType,
+} from './dh-balance-responsible-relation';
+import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-responsible-agreements';
+import { filter, from, map, switchMap, tap, startWith } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -65,18 +72,67 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
     WattSearchComponent,
     WattDropdownComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+    WattDatePipe,
 
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
+export class DhBalanceResponsibleRelationTabComponent {
   private fb = inject(NonNullableFormBuilder);
   private apollo = inject(Apollo);
-  private actorQuery = this.apollo.watchQuery({ query: GetBalanceResponsibleRelationDocument });
+  private balanceResponsibleRelationsQuery = this.apollo.watchQuery({
+    query: GetBalanceResponsibleRelationDocument,
+  });
+
+  private balanceResponsibleRelations$ =
+    this.balanceResponsibleRelationsQuery.valueChanges.pipe(takeUntilDestroyed());
+
+  filterForm = this.fb.group({
+    status: [],
+    energySupplier: [],
+    gridArea: [],
+    balanceResponsible: [],
+  });
+
+  private filterFormValueChanges$ = this.filterForm.valueChanges.pipe(takeUntilDestroyed());
+
+  balanceResponsibleRelationsWithFilter$ = this.filterFormValueChanges$
+    .pipe(
+      startWith(null),
+      switchMap((filters) =>
+        this.balanceResponsibleRelations$.pipe(
+          filter((data) => data?.data?.actorById?.balanceResponsibleAgreements !== undefined),
+          map((data) => data.data.actorById.balanceResponsibleAgreements),
+          switchMap((balanceResponsibleAgreements) =>
+            from(
+              filters
+                ? balanceResponsibleAgreements.filter((x) => x.status === filters.status)
+                : balanceResponsibleAgreements
+            )
+          )
+        )
+      ),
+      tap((data) => console.log(data))
+    )
+    .subscribe((result) => {
+      if (result === null) return;
+      this.balanceResponsibleRelationsRaw.set([result]);
+
+      this.balanceResponsibleRelationsByType.set(
+        dhGroupBalanceResponsibleAgreements(this.balanceResponsibleRelationsRaw())
+      );
+    });
 
   public readonly eicFunction: typeof EicFunction = EicFunction;
 
   actor = input.required<DhActorExtended>();
+  actorId = computed(() => this.actor().id);
+
+  balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleAgreements>([]);
+  balanceResponsibleRelationsByType = signal<DhBalanceResponsibleAgreementsByType>([]);
+
+  isLoading$ = this.balanceResponsibleRelations$.pipe(map((result) => result.loading));
+  isError$ = this.balanceResponsibleRelations$.pipe(map((result) => result.error !== undefined));
 
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
@@ -88,16 +144,9 @@ export class DhBalanceResponsibleRelationTabComponent implements OnChanges {
 
   searchEvent = new EventEmitter<string>();
 
-  balanceResponsibleRelations$ = this.actorQuery.valueChanges.pipe(takeUntilDestroyed());
-
-  filterForm = this.fb.group({
-    status: [],
-    energySupplier: [],
-    gridArea: [],
-    balanceResponsible: [],
-  });
-
-  ngOnChanges(): void {
-    this.actorQuery.refetch({ id: this.actor().id });
+  constructor() {
+    effect(() => this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() }), {
+      allowSignalWrites: true,
+    });
   }
 }
