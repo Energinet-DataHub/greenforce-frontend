@@ -47,6 +47,8 @@ import {
   DhBalanceResponsibleAgreementsByType,
 } from './dh-balance-responsible-relation';
 import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-responsible-agreements';
+import { filter, from, map, switchMap, tap, startWith } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -78,6 +80,48 @@ import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-re
 export class DhBalanceResponsibleRelationTabComponent {
   private fb = inject(NonNullableFormBuilder);
   private apollo = inject(Apollo);
+  private balanceResponsibleRelationsQuery = this.apollo.watchQuery({
+    query: GetBalanceResponsibleRelationDocument,
+  });
+
+  private balanceResponsibleRelations$ =
+    this.balanceResponsibleRelationsQuery.valueChanges.pipe(takeUntilDestroyed());
+
+  filterForm = this.fb.group({
+    status: [],
+    energySupplier: [],
+    gridArea: [],
+    balanceResponsible: [],
+  });
+
+  private filterFormValueChanges$ = this.filterForm.valueChanges.pipe(takeUntilDestroyed());
+
+  balanceResponsibleRelationsWithFilter$ = this.filterFormValueChanges$
+    .pipe(
+      startWith(null),
+      switchMap((filters) =>
+        this.balanceResponsibleRelations$.pipe(
+          filter((data) => data?.data?.actorById?.balanceResponsibleAgreements !== undefined),
+          map((data) => data.data.actorById.balanceResponsibleAgreements),
+          switchMap((balanceResponsibleAgreements) =>
+            from(
+              filters
+                ? balanceResponsibleAgreements.filter((x) => x.status === filters.status)
+                : balanceResponsibleAgreements
+            )
+          )
+        )
+      ),
+      tap((data) => console.log(data))
+    )
+    .subscribe((result) => {
+      if (result === null) return;
+      this.balanceResponsibleRelationsRaw.set([result]);
+
+      this.balanceResponsibleRelationsByType.set(
+        dhGroupBalanceResponsibleAgreements(this.balanceResponsibleRelationsRaw())
+      );
+    });
 
   public readonly eicFunction: typeof EicFunction = EicFunction;
 
@@ -87,8 +131,8 @@ export class DhBalanceResponsibleRelationTabComponent {
   balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleAgreements>([]);
   balanceResponsibleRelationsByType = signal<DhBalanceResponsibleAgreementsByType>([]);
 
-  isLoading = signal(false);
-  isError = signal(false);
+  isLoading$ = this.balanceResponsibleRelations$.pipe(map((result) => result.loading));
+  isError$ = this.balanceResponsibleRelations$.pipe(map((result) => result.error !== undefined));
 
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
@@ -100,43 +144,9 @@ export class DhBalanceResponsibleRelationTabComponent {
 
   searchEvent = new EventEmitter<string>();
 
-  filterForm = this.fb.group({
-    status: [],
-    energySupplier: [],
-    gridArea: [],
-    balanceResponsible: [],
-  });
-
   constructor() {
-    effect(() => this.fetchData(), { allowSignalWrites: true });
-  }
-
-  private fetchData() {
-    this.isLoading.set(true);
-    this.isError.set(false);
-
-    this.apollo
-      .watchQuery({
-        query: GetBalanceResponsibleRelationDocument,
-        variables: { id: this.actorId() },
-      })
-      .valueChanges.pipe()
-      .subscribe({
-        next: (result) => {
-          this.isLoading.set(result.loading);
-
-          this.balanceResponsibleRelationsRaw.set(
-            result.data?.actorById.balanceResponsibleAgreements ?? []
-          );
-
-          this.balanceResponsibleRelationsByType.set(
-            dhGroupBalanceResponsibleAgreements(this.balanceResponsibleRelationsRaw())
-          );
-        },
-        error: () => {
-          this.isLoading.set(false);
-          this.isError.set(true);
-        },
-      });
+    effect(() => this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() }), {
+      allowSignalWrites: true,
+    });
   }
 }
