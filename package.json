@@ -12,8 +12,6 @@
   "scripts": {
     "postinstall": "yarn husky install",
     "jest-preview": "jest-preview",
-    "check:dotnet": "dotnet --version || echo ❌ dotnet CLI must be installed",
-    "check:java": "java -version || echo ❌ Java must be installed",
     "affected": "nx affected",
     "affected:apps": "nx print-affected --type=app --select=projects",
     "affected:build": "nx affected:build --configuration=production --parallel",
