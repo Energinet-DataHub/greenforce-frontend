@@ -47,6 +47,7 @@ import {
   DhBalanceResponsibleAgreementsByType,
 } from './dh-balance-responsible-relation';
 import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-responsible-agreements';
+import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 
 @Component({
   standalone: true,
@@ -73,6 +74,7 @@ import { dhGroupBalanceResponsibleAgreements } from '../util/dh-group-balance-re
     WattDatePipe,
 
     DhDropdownTranslatorDirective,
+    DhBalanceResponsibleRelationsTableComponent,
   ],
 })
 export class DhBalanceResponsibleRelationTabComponent {

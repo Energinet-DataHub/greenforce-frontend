@@ -74,12 +74,7 @@ limitations under the License.
         {{ t("agreementTypes." + entry.type) }}
       </watt-expandable-card-title>
 
-      @for (agreement of entry.agreements; track agreement) {
-        <div>
-          {{ agreement.gridAreaId }} | {{ agreement.validPeriod | wattDate }} |
-          {{ agreement.status }}
-        </div>
-      }
+      <dh-balance-responsible-relations-table [data]="entry.agreements" />
     </watt-expandable-card>
   }
 </vater-flex>
