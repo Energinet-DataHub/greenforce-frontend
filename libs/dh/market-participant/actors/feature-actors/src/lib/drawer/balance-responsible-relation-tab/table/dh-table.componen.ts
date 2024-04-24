@@ -38,6 +38,8 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
       [dataSource]="tableDataSource"
       [columns]="columns"
       [sortClear]="false"
+      sortBy="gridArea"
+      sortDirection="asc"
       [suppressRowHoverHighlight]="true"
       [hideColumnHeaders]="true"
     >
@@ -61,8 +63,8 @@ export class DhBalanceResponsibleRelationsTableComponent {
 
   columns: WattTableColumnDef<DhBalanceResponsibleAgreement> = {
     gridArea: { accessor: 'gridAreaId' },
-    period: { accessor: null },
-    status: { accessor: null },
+    period: { accessor: null, size: '1fr' },
+    status: { accessor: null, size: '2fr' },
   };
 
   data = input.required<DhBalanceResponsibleAgreements>();
