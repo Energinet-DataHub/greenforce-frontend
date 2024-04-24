@@ -19,9 +19,10 @@ import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Component, EventEmitter, computed, effect, inject, input, signal } from '@angular/core';
-import { filter, map, switchMap, startWith, of } from 'rxjs';
+import { map, switchMap, startWith, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
@@ -109,8 +110,8 @@ export class DhBalanceResponsibleRelationTabComponent {
       startWith({ status: null, energySupplier: null, gridArea: null, balanceResponsible: null }),
       switchMap((filters) =>
         this.balanceResponsibleRelations$.pipe(
-          filter((data) => data?.data?.actorById?.balanceResponsibleAgreements !== undefined),
-          map((data) => data.data.actorById.balanceResponsibleAgreements),
+          map((data) => data?.data?.actorById?.balanceResponsibleAgreements),
+          exists(),
           switchMap((balanceResponsibleAgreements) =>
             of(
               balanceResponsibleAgreements.filter(
