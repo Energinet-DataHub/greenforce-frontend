@@ -19,15 +19,15 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
-public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAgreementDto>
+public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityRelationDto>
 {
-    protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityAgreementDto> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityRelationDto> descriptor)
     {
         descriptor.Name(nameof(BalanceResponsibilityAgreement));
 
         descriptor
             .Field(x => x.MeteringPointType)
-            .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityAgreementDto>().MeteringPointType));
+            .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityRelationDto>().MeteringPointType));
 
         descriptor
             .Field(x => x.ValidFrom)
@@ -51,7 +51,7 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
             .Field("validPeriod")
             .Resolve((ctx, _) =>
             {
-                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityAgreementDto>();
+                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityRelationDto>();
                 return new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
             });
 
@@ -59,7 +59,7 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityAg
             .Field("status")
             .Resolve((ctx, _) =>
             {
-                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityAgreementDto>();
+                var balanceResponsibilityAgreement = ctx.Parent<BalanceResponsibilityRelationDto>();
                 var dateTimeNow = DateTimeOffset.UtcNow;
                 var validPeriod = new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
 
