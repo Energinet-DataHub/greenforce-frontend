@@ -17,27 +17,27 @@
 import { BalanceResponsibilityAgreementStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
-  DhBalanceResponsibleAgreement,
-  DhBalanceResponsibleAgreements,
-  DhBalanceResponsibleAgreementsByType,
-  DhBalanceResponsibleAgreementsGrouped,
-  DhBalanceResponsibleAgreementsType,
+  DhBalanceResponsibleRelation,
+  DhBalanceResponsibleRelations,
+  DhBalanceResponsibleRelationsByType,
+  DhBalanceResponsibleRelationsGrouped,
+  DhBalanceResponsibleRelationType,
 } from '../balance-responsible-relation-tab/dh-balance-responsible-relation';
 
 export function dhGroupByType(
-  relations: DhBalanceResponsibleAgreements
-): DhBalanceResponsibleAgreementsByType {
-  const groups: DhBalanceResponsibleAgreementsByType = [];
+  relations: DhBalanceResponsibleRelations
+): DhBalanceResponsibleRelationsByType {
+  const groups: DhBalanceResponsibleRelationsByType = [];
 
   for (const relation of relations) {
     const group = groups.find((group) => group.type === relation.meteringPointType);
 
     if (group) {
-      group.agreements.push(relation);
+      group.relations.push(relation);
     } else {
       groups.push({
-        type: relation.meteringPointType as DhBalanceResponsibleAgreementsType,
-        agreements: [relation],
+        type: relation.meteringPointType as DhBalanceResponsibleRelationType,
+        relations: [relation],
       });
     }
   }
@@ -47,30 +47,30 @@ export function dhGroupByType(
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export function dhGroupByMarketParticipant(
-  groupsByType: DhBalanceResponsibleAgreementsByType,
+  groupsByType: DhBalanceResponsibleRelationsByType,
   propertyToGroupBy: keyof Pick<
-    DhBalanceResponsibleAgreement,
+    DhBalanceResponsibleRelation,
     'balanceResponsibleWithName' | 'energySupplierWithName'
   >
-): DhBalanceResponsibleAgreementsGrouped {
-  const groups: DhBalanceResponsibleAgreementsGrouped = [];
+): DhBalanceResponsibleRelationsGrouped {
+  const groups: DhBalanceResponsibleRelationsGrouped = [];
 
   for (const group of groupsByType) {
-    const marketParticipants: DhBalanceResponsibleAgreementsGrouped[0]['marketParticipants'] = [];
+    const marketParticipants: DhBalanceResponsibleRelationsGrouped[0]['marketParticipants'] = [];
 
-    for (const relation of group.agreements) {
+    for (const relation of group.relations) {
       const marketParticipant = marketParticipants.find(
         (mp) => mp.id === relation[propertyToGroupBy]?.id
       );
 
       if (marketParticipant) {
-        marketParticipant.agreements.push(relation);
+        marketParticipant.relations.push(relation);
       } else {
         marketParticipants.push({
           id: relation[propertyToGroupBy]?.id ?? '',
           displayName: relation[propertyToGroupBy]?.actorName.value ?? '',
-          agreements: [relation],
-          allAgreementsHaveExpired: false,
+          relations: [relation],
+          allRelationsHaveExpired: false,
         });
       }
     }
@@ -79,8 +79,8 @@ export function dhGroupByMarketParticipant(
       type: group.type,
       marketParticipants: marketParticipants.map((mp) => ({
         ...mp,
-        allAgreementsHaveExpired: mp.agreements.every(
-          (agreement) => agreement.status === BalanceResponsibilityAgreementStatus.Expired
+        allRelationsHaveExpired: mp.relations.every(
+          (relation) => relation.status === BalanceResponsibilityAgreementStatus.Expired
         ),
       })),
     });

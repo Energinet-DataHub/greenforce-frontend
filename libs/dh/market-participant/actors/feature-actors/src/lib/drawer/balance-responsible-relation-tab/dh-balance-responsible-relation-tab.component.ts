@@ -54,8 +54,8 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import {
-  DhBalanceResponsibleAgreements,
-  DhBalanceResponsibleAgreementsGrouped,
+  DhBalanceResponsibleRelations,
+  DhBalanceResponsibleRelationsGrouped,
 } from './dh-balance-responsible-relation';
 import {
   dhGroupByType,
@@ -94,7 +94,7 @@ type FilterFormValue =
       margin-left: auto;
     }
 
-    .group-status-text {
+    .group-status-label {
       margin-left: 12rem;
     }
   `,
@@ -164,8 +164,8 @@ export class DhBalanceResponsibleRelationTabComponent {
   actor = input.required<DhActorExtended>();
   actorId = computed(() => this.actor().id);
 
-  balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleAgreements>([]);
-  balanceResponsibleRelationsGrouped = signal<DhBalanceResponsibleAgreementsGrouped>([]);
+  balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleRelations>([]);
+  balanceResponsibleRelationsGrouped = signal<DhBalanceResponsibleRelationsGrouped>([]);
 
   isLoading$ = this.balanceResponsibleRelations$.pipe(map((result) => result.loading));
   isError$ = this.balanceResponsibleRelations$.pipe(map((result) => result.error !== undefined));
@@ -216,7 +216,7 @@ export class DhBalanceResponsibleRelationTabComponent {
     );
   }
 
-  private handleSubscription(balanceResponsibleRelations: DhBalanceResponsibleAgreements | null) {
+  private handleSubscription(balanceResponsibleRelations: DhBalanceResponsibleRelations | null) {
     if (balanceResponsibleRelations === null) return;
 
     this.balanceResponsibleRelationsRaw.set(balanceResponsibleRelations);

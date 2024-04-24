@@ -393,7 +393,7 @@
             "status": "Status",
             "gridArea": "Grid Area",
             "search": "Search",
-            "agreementTypes": {
+            "relationTypes": {
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
