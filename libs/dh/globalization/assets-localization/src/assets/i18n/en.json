@@ -295,7 +295,6 @@
           "create": "Create market participant"
         },
         "gridArea": "Grid area",
-        "tooltip": "The market participant will get the organisation name if no name is provided",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",

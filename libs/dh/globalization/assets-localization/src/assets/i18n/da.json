@@ -295,7 +295,6 @@
           "create": "Opret aktør"
         },
         "gridArea": "Netområde",
-        "tooltip": "Aktøren får organisationens navn, hvis du ikke angiver et aktørnavn",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC",
         "wrongEmailPattern": "E-mail skal indeholde @",
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
