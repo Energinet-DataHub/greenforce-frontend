@@ -20,8 +20,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import {
-  DhBalanceResponsibleAgreement,
-  DhBalanceResponsibleAgreements,
+  DhBalanceResponsibleRelation,
+  DhBalanceResponsibleRelations,
 } from '../dh-balance-responsible-relation';
 import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balance-responsible-relation-status.component';
 
@@ -38,6 +38,8 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
       [dataSource]="tableDataSource"
       [columns]="columns"
       [sortClear]="false"
+      sortBy="gridArea"
+      sortDirection="asc"
       [suppressRowHoverHighlight]="true"
       [hideColumnHeaders]="true"
     >
@@ -57,15 +59,15 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
   imports: [WATT_TABLE, WattDatePipe, DhBalanceResponsibleRelationStatusComponent],
 })
 export class DhBalanceResponsibleRelationsTableComponent {
-  tableDataSource = new WattTableDataSource<DhBalanceResponsibleAgreement>([]);
+  tableDataSource = new WattTableDataSource<DhBalanceResponsibleRelation>([]);
 
-  columns: WattTableColumnDef<DhBalanceResponsibleAgreement> = {
+  columns: WattTableColumnDef<DhBalanceResponsibleRelation> = {
     gridArea: { accessor: 'gridAreaId' },
-    period: { accessor: null },
-    status: { accessor: null },
+    period: { accessor: null, size: '1fr' },
+    status: { accessor: null, size: '2fr' },
   };
 
-  data = input.required<DhBalanceResponsibleAgreements>();
+  data = input.required<DhBalanceResponsibleRelations>();
 
   constructor() {
     effect(() => {

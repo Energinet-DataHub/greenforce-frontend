@@ -392,7 +392,7 @@
             "status": "Status",
             "gridArea": "Grid Area",
             "search": "Search",
-            "agreementTypes": {
+            "relationTypes": {
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
@@ -401,7 +401,8 @@
               "AWAITING": "Awaiting",
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
-            }
+            },
+            "allRelationsHaveExpired": "All relations have expired"
           },
           "b2bAccess": {
             "tabLabel": "B2B Access",

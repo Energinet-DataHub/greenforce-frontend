@@ -59,12 +59,12 @@ import {
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import {
-  DhBalanceResponsibleAgreements,
-  DhBalanceResponsibleAgreementsGrouped,
+  DhBalanceResponsibleRelations,
+  DhBalanceResponsibleRelationsGrouped,
 } from './dh-balance-responsible-relation';
 
 import {
-  dhGroupBalanceResponsibleRelationsByType,
+  dhGroupByType,
   dhGroupByMarketParticipant,
 } from '../util/dh-group-balance-responsible-relations';
 
@@ -94,9 +94,15 @@ type FilterFormValue =
   templateUrl: './dh-balance-responsible-relation-tab.component.html',
   styles: `
     :host {
-      watt-search {
-        margin-left: auto;
-      }
+      display: block;
+    }
+
+    watt-search {
+      margin-left: auto;
+    }
+
+    .group-status-label {
+      margin-left: 12rem;
     }
   `,
   imports: [
@@ -165,8 +171,8 @@ export class DhBalanceResponsibleRelationTabComponent {
   actor = input.required<DhActorExtended>();
   actorId = computed(() => this.actor().id);
 
-  balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleAgreements>([]);
-  balanceResponsibleRelationsGrouped = signal<DhBalanceResponsibleAgreementsGrouped>([]);
+  balanceResponsibleRelationsRaw = signal<DhBalanceResponsibleRelations>([]);
+  balanceResponsibleRelationsGrouped = signal<DhBalanceResponsibleRelationsGrouped>([]);
 
   isLoading$ = this.balanceResponsibleRelations$.pipe(map((result) => result.loading));
   isError$ = this.balanceResponsibleRelations$.pipe(map((result) => result.error !== undefined));
@@ -217,7 +223,7 @@ export class DhBalanceResponsibleRelationTabComponent {
     );
   }
 
-  private handleSubscription(balanceResponsibleRelations: DhBalanceResponsibleAgreements | null) {
+  private handleSubscription(balanceResponsibleRelations: DhBalanceResponsibleRelations | null) {
     if (balanceResponsibleRelations === null) return;
 
     this.balanceResponsibleRelationsRaw.set(balanceResponsibleRelations);
@@ -227,14 +233,14 @@ export class DhBalanceResponsibleRelationTabComponent {
     if (this.actor().marketRole === EicFunction.EnergySupplier) {
       this.balanceResponsibleRelationsGrouped.set(
         dhGroupByMarketParticipant(
-          dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+          dhGroupByType(this.balanceResponsibleRelationsRaw()),
           'balanceResponsibleWithName'
         )
       );
     } else {
       this.balanceResponsibleRelationsGrouped.set(
         dhGroupByMarketParticipant(
-          dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+          dhGroupByType(this.balanceResponsibleRelationsRaw()),
           'energySupplierWithName'
         )
       );

@@ -391,7 +391,7 @@
             "status": "Status",
             "gridArea": "Netområde",
             "search": "Søg",
-            "agreementTypes": {
+            "relationTypes": {
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
@@ -400,7 +400,8 @@
               "AWAITING": "Afventer",
               "EXPIRED": "Udløbet",
               "SOON_TO_EXPIRE": "Udløber snart"
-            }
+            },
+            "allRelationsHaveExpired": "Alle aftaler udløbet"
           },
           "b2bAccess": {
             "tabLabel": "B2B-adgang",
