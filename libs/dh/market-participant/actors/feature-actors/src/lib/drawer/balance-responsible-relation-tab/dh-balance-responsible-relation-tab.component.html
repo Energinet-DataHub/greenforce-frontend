@@ -78,6 +78,12 @@ limitations under the License.
         <watt-expandable-card togglePosition="before" variant="solid">
           <watt-expandable-card-title>
             {{ marketParticipant.displayName }}
+
+            @if (marketParticipant.allAgreementsHaveExpired) {
+              <span class="group-status-label watt-text-s watt-on-light--medium-emphasis">{{
+                t("allRelationsHaveExpired")
+              }}</span>
+            }
           </watt-expandable-card-title>
 
           <dh-balance-responsible-relations-table [data]="marketParticipant.agreements" />

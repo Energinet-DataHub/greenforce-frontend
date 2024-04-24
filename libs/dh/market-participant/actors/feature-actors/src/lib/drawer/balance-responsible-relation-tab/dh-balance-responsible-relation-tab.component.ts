@@ -58,7 +58,7 @@ import {
   DhBalanceResponsibleAgreementsGrouped,
 } from './dh-balance-responsible-relation';
 import {
-  dhGroupBalanceResponsibleRelationsByType,
+  dhGroupByType,
   dhGroupByMarketParticipant,
 } from '../util/dh-group-balance-responsible-relations';
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
@@ -87,9 +87,15 @@ type FilterFormValue =
   templateUrl: './dh-balance-responsible-relation-tab.component.html',
   styles: `
     :host {
-      watt-search {
-        margin-left: auto;
-      }
+      display: block;
+    }
+
+    watt-search {
+      margin-left: auto;
+    }
+
+    .group-status-text {
+      margin-left: 12rem;
     }
   `,
   imports: [
@@ -220,14 +226,14 @@ export class DhBalanceResponsibleRelationTabComponent {
     if (this.actor().marketRole === EicFunction.EnergySupplier) {
       this.balanceResponsibleRelationsGrouped.set(
         dhGroupByMarketParticipant(
-          dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+          dhGroupByType(this.balanceResponsibleRelationsRaw()),
           'balanceResponsibleWithName'
         )
       );
     } else {
       this.balanceResponsibleRelationsGrouped.set(
         dhGroupByMarketParticipant(
-          dhGroupBalanceResponsibleRelationsByType(this.balanceResponsibleRelationsRaw()),
+          dhGroupByType(this.balanceResponsibleRelationsRaw()),
           'energySupplierWithName'
         )
       );

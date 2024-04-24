@@ -39,5 +39,6 @@ export type DhBalanceResponsibleAgreementsGrouped = {
     id: string;
     displayName: string;
     agreements: DhBalanceResponsibleAgreements;
+    allAgreementsHaveExpired: boolean;
   }[];
 }[];

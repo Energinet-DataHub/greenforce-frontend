@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { BalanceResponsibilityAgreementStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   DhBalanceResponsibleAgreement,
   DhBalanceResponsibleAgreements,
@@ -22,7 +24,7 @@ import {
   DhBalanceResponsibleAgreementsType,
 } from '../balance-responsible-relation-tab/dh-balance-responsible-relation';
 
-export function dhGroupBalanceResponsibleRelationsByType(
+export function dhGroupByType(
   relations: DhBalanceResponsibleAgreements
 ): DhBalanceResponsibleAgreementsByType {
   const groups: DhBalanceResponsibleAgreementsByType = [];
@@ -54,28 +56,33 @@ export function dhGroupByMarketParticipant(
   const groups: DhBalanceResponsibleAgreementsGrouped = [];
 
   for (const group of groupsByType) {
-    const groupByMarketParticipant: DhBalanceResponsibleAgreementsGrouped[0]['marketParticipants'] =
-      [];
+    const marketParticipants: DhBalanceResponsibleAgreementsGrouped[0]['marketParticipants'] = [];
 
     for (const relation of group.agreements) {
-      const marketParticipant = groupByMarketParticipant.find(
+      const marketParticipant = marketParticipants.find(
         (mp) => mp.id === relation[propertyToGroupBy]?.id
       );
 
       if (marketParticipant) {
         marketParticipant.agreements.push(relation);
       } else {
-        groupByMarketParticipant.push({
+        marketParticipants.push({
           id: relation[propertyToGroupBy]?.id ?? '',
           displayName: relation[propertyToGroupBy]?.actorName.value ?? '',
           agreements: [relation],
+          allAgreementsHaveExpired: false,
         });
       }
     }
 
     groups.push({
       type: group.type,
-      marketParticipants: groupByMarketParticipant,
+      marketParticipants: marketParticipants.map((mp) => ({
+        ...mp,
+        allAgreementsHaveExpired: mp.agreements.every(
+          (agreement) => agreement.status === BalanceResponsibilityAgreementStatus.Expired
+        ),
+      })),
     });
   }
 
