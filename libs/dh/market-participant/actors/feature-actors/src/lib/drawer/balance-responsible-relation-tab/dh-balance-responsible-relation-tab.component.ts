@@ -18,8 +18,16 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Component, EventEmitter, computed, effect, inject, input, signal } from '@angular/core';
-import { map, switchMap, startWith, of } from 'rxjs';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  map,
+  switchMap,
+  startWith,
+  of,
+  BehaviorSubject,
+  combineLatestWith,
+  debounceTime,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -33,6 +41,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import {
+  BalanceResponsibilityAgreement,
   BalanceResponsibilityAgreementStatus,
   EicFunction,
   GetBalanceResponsibleRelationDocument,
@@ -57,6 +66,20 @@ import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.co
 function isNullOrUndefined<T>(value: T | null | undefined): value is T {
   return value === null || value === undefined;
 }
+
+type FilterFormValue =
+  | Partial<{
+      status: never;
+      energySupplier: never;
+      gridArea: never;
+      balanceResponsible: never;
+    }>
+  | {
+      status: null;
+      energySupplier: null;
+      gridArea: null;
+      balanceResponsible: null;
+    };
 
 @Component({
   standalone: true,
@@ -103,12 +126,15 @@ export class DhBalanceResponsibleRelationTabComponent {
     balanceResponsible: [],
   });
 
+  searchEvent$ = new BehaviorSubject<string>('');
+
   private filterFormValueChanges$ = this.filterForm.valueChanges.pipe(takeUntilDestroyed());
 
   balanceResponsibleRelationsWithFilter$ = this.filterFormValueChanges$
     .pipe(
       startWith({ status: null, energySupplier: null, gridArea: null, balanceResponsible: null }),
-      switchMap((filters) =>
+      combineLatestWith(this.searchEvent$.pipe(debounceTime(250))),
+      switchMap(([filters, search]) =>
         this.balanceResponsibleRelations$.pipe(
           map((data) => data?.data?.actorById?.balanceResponsibleAgreements),
           exists(),
@@ -116,14 +142,9 @@ export class DhBalanceResponsibleRelationTabComponent {
             of(
               balanceResponsibleAgreements.filter(
                 (x) =>
-                  // If all filters are null, return all agreements
-                  Object.values(filters).every((x) => x === null) ||
-                  ((isNullOrUndefined(filters.status) || x.status === filters.status) &&
-                    (isNullOrUndefined(filters.energySupplier) ||
-                      x.energySupplierWithName?.id === filters.energySupplier) &&
-                    (isNullOrUndefined(filters.gridArea) || x.gridAreaId === filters.gridArea) &&
-                    (isNullOrUndefined(filters.balanceResponsible) ||
-                      x.balanceResponsibleWithName?.id === filters.balanceResponsible))
+                  // If all filters are null, and search is empty return all agreements
+                  (Object.values(filters).every((x) => x === null) && search === '') ||
+                  (this.applyFilter(filters, x) && this.applySearch(search, x))
               )
             )
           )
@@ -151,10 +172,42 @@ export class DhBalanceResponsibleRelationTabComponent {
   balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty], 'actorId');
   gridAreaOptions$ = getGridAreaOptions();
 
-  searchEvent = new EventEmitter<string>();
-
   constructor() {
     effect(() => this.balanceResponsibleRelationsQuery.refetch({ id: this.actorId() }));
+  }
+
+  private applyFilter(
+    filters: FilterFormValue,
+    balanceResponsibilityAgreement: BalanceResponsibilityAgreement
+  ) {
+    return (
+      (isNullOrUndefined(filters.status) ||
+        balanceResponsibilityAgreement.status === filters.status) &&
+      (isNullOrUndefined(filters.energySupplier) ||
+        balanceResponsibilityAgreement.energySupplierWithName?.id === filters.energySupplier) &&
+      (isNullOrUndefined(filters.gridArea) ||
+        balanceResponsibilityAgreement.gridAreaId === filters.gridArea) &&
+      (isNullOrUndefined(filters.balanceResponsible) ||
+        balanceResponsibilityAgreement.balanceResponsibleWithName?.id ===
+          filters.balanceResponsible)
+    );
+  }
+
+  private applySearch(
+    search: string,
+    balanceResponsibilityAgreement: BalanceResponsibilityAgreement
+  ) {
+    return (
+      balanceResponsibilityAgreement.gridAreaId === search ||
+      (this.actor().marketRole === EicFunction.EnergySupplier &&
+        balanceResponsibilityAgreement.balanceResponsibleWithName?.actorName.value
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase())) ||
+      (this.actor().marketRole === EicFunction.BalanceResponsibleParty &&
+        balanceResponsibilityAgreement.energySupplierWithName?.actorName.value
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()))
+    );
   }
 
   private handleSubscription(balanceResponsibleRelations: DhBalanceResponsibleAgreements | null) {
