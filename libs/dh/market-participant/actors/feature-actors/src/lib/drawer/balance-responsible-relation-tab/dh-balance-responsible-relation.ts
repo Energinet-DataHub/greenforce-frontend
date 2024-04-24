@@ -30,3 +30,12 @@ export type DhBalanceResponsibleAgreementsByType = {
   type: DhBalanceResponsibleAgreementsType;
   agreements: DhBalanceResponsibleAgreements;
 }[];
+
+export type DhBalanceResponsibleAgreementsGrouped = {
+  type: DhBalanceResponsibleAgreementsType;
+  marketParticipants: {
+    id: string;
+    displayName: string;
+    agreements: DhBalanceResponsibleAgreements;
+  }[];
+}[];

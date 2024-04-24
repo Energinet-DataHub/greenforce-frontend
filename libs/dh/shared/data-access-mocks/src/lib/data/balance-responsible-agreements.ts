@@ -28,7 +28,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     meteringPointType: 'CONSUMPTION',
     balanceResponsibleWithName: {
       __typename: 'ActorNameWithId',
-      id: 'efad0fee-9d7c-49c6-0001-08da5f28ddb1',
+      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
         value: 'Test Actor 1',
@@ -36,7 +36,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     },
     energySupplierWithName: {
       __typename: 'ActorNameWithId',
-      id: 'efad0fee-9d7c-49c6-0002-08da5f28ddb1',
+      id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
         value: 'Test Actor 2',

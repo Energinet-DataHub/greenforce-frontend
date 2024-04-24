@@ -27,7 +27,10 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-export function getActorOptions(eicFunctions: [EicFunction]): Observable<WattDropdownOptions> {
+export function getActorOptions(
+  eicFunctions: [EicFunction],
+  valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
+): Observable<WattDropdownOptions> {
   const apollo = inject(Apollo);
   return apollo
     .query({
@@ -41,7 +44,7 @@ export function getActorOptions(eicFunctions: [EicFunction]): Observable<WattDro
       exists(),
       map((actors) =>
         actors.map((actor) => ({
-          value: actor.glnOrEicNumber,
+          value: valueType === 'glnOrEicNumber' ? actor.glnOrEicNumber : actor.id,
           displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
         }))
       )
