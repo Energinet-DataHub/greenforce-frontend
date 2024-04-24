@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, Output, EventEmitter } from '@angular/core';
+import { Component, Input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -22,6 +22,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import { input } from '@angular/core';
 
 @Component({
   selector: 'dh-generate-client-secret',
@@ -55,13 +56,13 @@ export class DhGenerateClientSecretComponent {
   });
   doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
 
-  @Input({ required: true }) actorId = '';
+  actorId = input.required<string>();
 
-  @Output() generateSuccess = new EventEmitter<void>();
+  generateSuccess = output<void>();
 
   generateSecret(): void {
     this.store.generateClientSecret({
-      actorId: this.actorId,
+      actorId: this.actorId(),
       onSuccess: this.onGenerateSecretSuccessFn,
       onError: this.onGenerateSecretErrorFn,
     });
@@ -75,8 +76,8 @@ export class DhGenerateClientSecretComponent {
     this.toastService.open({ type: 'success', message });
 
     this.generateSuccess.emit();
-    this.store.getCredentials(this.actorId);
-    this.auditLogService.refreshAuditLog(this.actorId);
+    this.store.getCredentials(this.actorId());
+    this.auditLogService.refreshAuditLog(this.actorId());
   };
 
   private onGenerateSecretErrorFn = () => {
