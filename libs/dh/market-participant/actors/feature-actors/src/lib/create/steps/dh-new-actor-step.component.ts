@@ -85,11 +85,7 @@ import { RxPush } from '@rx-angular/template/push';
         }
       </watt-text-field>
 
-      <watt-text-field
-        [formControl]="newActorForm.controls.name"
-        [label]="t('name')"
-        [tooltip]="t('tooltip')"
-      />
+      <watt-text-field [formControl]="newActorForm.controls.name" [label]="t('name')" />
       <watt-dropdown
         translate="marketParticipant.marketRoles"
         dhDropdownTranslator
