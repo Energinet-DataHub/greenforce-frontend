@@ -14,28 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { BalanceResponsibilityAgreementStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
-  DhBalanceResponsibleAgreement,
-  DhBalanceResponsibleAgreements,
-  DhBalanceResponsibleAgreementsByType,
-  DhBalanceResponsibleAgreementsGrouped,
-  DhBalanceResponsibleAgreementsType,
+  DhBalanceResponsibleRelation,
+  DhBalanceResponsibleRelations,
+  DhBalanceResponsibleRelationsByType,
+  DhBalanceResponsibleRelationsGrouped,
+  DhBalanceResponsibleRelationType,
 } from '../balance-responsible-relation-tab/dh-balance-responsible-relation';
 
-export function dhGroupBalanceResponsibleRelationsByType(
-  relations: DhBalanceResponsibleAgreements
-): DhBalanceResponsibleAgreementsByType {
-  const groups: DhBalanceResponsibleAgreementsByType = [];
+export function dhGroupByType(
+  relations: DhBalanceResponsibleRelations
+): DhBalanceResponsibleRelationsByType {
+  const groups: DhBalanceResponsibleRelationsByType = [];
 
   for (const relation of relations) {
     const group = groups.find((group) => group.type === relation.meteringPointType);
 
     if (group) {
-      group.agreements.push(relation);
+      group.relations.push(relation);
     } else {
       groups.push({
-        type: relation.meteringPointType as DhBalanceResponsibleAgreementsType,
-        agreements: [relation],
+        type: relation.meteringPointType as DhBalanceResponsibleRelationType,
+        relations: [relation],
       });
     }
   }
@@ -45,37 +47,42 @@ export function dhGroupBalanceResponsibleRelationsByType(
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export function dhGroupByMarketParticipant(
-  groupsByType: DhBalanceResponsibleAgreementsByType,
+  groupsByType: DhBalanceResponsibleRelationsByType,
   propertyToGroupBy: keyof Pick<
-    DhBalanceResponsibleAgreement,
+    DhBalanceResponsibleRelation,
     'balanceResponsibleWithName' | 'energySupplierWithName'
   >
-): DhBalanceResponsibleAgreementsGrouped {
-  const groups: DhBalanceResponsibleAgreementsGrouped = [];
+): DhBalanceResponsibleRelationsGrouped {
+  const groups: DhBalanceResponsibleRelationsGrouped = [];
 
   for (const group of groupsByType) {
-    const groupByMarketParticipant: DhBalanceResponsibleAgreementsGrouped[0]['marketParticipants'] =
-      [];
+    const marketParticipants: DhBalanceResponsibleRelationsGrouped[0]['marketParticipants'] = [];
 
-    for (const relation of group.agreements) {
-      const marketParticipant = groupByMarketParticipant.find(
+    for (const relation of group.relations) {
+      const marketParticipant = marketParticipants.find(
         (mp) => mp.id === relation[propertyToGroupBy]?.id
       );
 
       if (marketParticipant) {
-        marketParticipant.agreements.push(relation);
+        marketParticipant.relations.push(relation);
       } else {
-        groupByMarketParticipant.push({
+        marketParticipants.push({
           id: relation[propertyToGroupBy]?.id ?? '',
           displayName: relation[propertyToGroupBy]?.actorName.value ?? '',
-          agreements: [relation],
+          relations: [relation],
+          allRelationsHaveExpired: false,
         });
       }
     }
 
     groups.push({
       type: group.type,
-      marketParticipants: groupByMarketParticipant,
+      marketParticipants: marketParticipants.map((mp) => ({
+        ...mp,
+        allRelationsHaveExpired: mp.relations.every(
+          (relation) => relation.status === BalanceResponsibilityAgreementStatus.Expired
+        ),
+      })),
     });
   }
 
