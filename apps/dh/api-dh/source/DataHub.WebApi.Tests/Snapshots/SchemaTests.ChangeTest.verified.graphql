@@ -697,6 +697,7 @@ enum EicFunction {
   IndependentAggregator
   SerialEnergyTrader
   Delegated
+  ItSupplier
 }
 
 enum ExchangeEventCalculationType {

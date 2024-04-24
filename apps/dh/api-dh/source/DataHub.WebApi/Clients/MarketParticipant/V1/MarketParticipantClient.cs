@@ -191,12 +191,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityRelationDto>> BalanceResponsibilityRelationsAsync(System.Guid actorId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityRelationDto>> BalanceResponsibilityRelationsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -2145,15 +2145,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityRelationDto>> BalanceResponsibilityRelationsAsync(System.Guid actorId)
         {
-            return BalanceResponsibilityAgreementsAsync(actorId, System.Threading.CancellationToken.None);
+            return BalanceResponsibilityRelationsAsync(actorId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>> BalanceResponsibilityAgreementsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BalanceResponsibilityRelationDto>> BalanceResponsibilityRelationsAsync(System.Guid actorId, System.Threading.CancellationToken cancellationToken)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -2169,8 +2169,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "balance-responsibility-agreements/{actorId}"
-                    urlBuilder_.Append("balance-responsibility-agreements/");
+                    // Operation Path: "balance-responsibility-relations/{actorId}"
+                    urlBuilder_.Append("balance-responsibility-relations/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2198,7 +2198,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<BalanceResponsibilityAgreementDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<BalanceResponsibilityRelationDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6411,7 +6411,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class BalanceResponsibilityAgreementDto
+    public partial class BalanceResponsibilityRelationDto
     {
         [Newtonsoft.Json.JsonProperty("energySupplierId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid EnergySupplierId { get; set; } = default!;
@@ -6718,6 +6718,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [System.Runtime.Serialization.EnumMember(Value = @"Delegated")]
         Delegated = 14,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"ItSupplier")]
+        ItSupplier = 15,
 
     }
 
