@@ -267,7 +267,9 @@
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}"
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
+          "actor_to_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede delegerer til en anden aktør.",
+          "actor_from_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede er delegeret til."
         }
       }
     },

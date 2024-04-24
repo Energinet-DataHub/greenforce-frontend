@@ -235,6 +235,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       response.data?.createDelegationsForActor?.errors.length > 0
     ) {
       this._toastService.open({
+        duration: 120_000,
         type: 'danger',
         message: readApiErrorResponse(response.data?.createDelegationsForActor?.errors),
       });
