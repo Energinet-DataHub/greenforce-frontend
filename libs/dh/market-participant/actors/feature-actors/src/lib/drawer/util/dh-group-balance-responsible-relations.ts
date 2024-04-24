@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  DhBalanceResponsibleAgreement,
   DhBalanceResponsibleAgreements,
   DhBalanceResponsibleAgreementsByType,
   DhBalanceResponsibleAgreementsGrouped,
@@ -45,7 +46,10 @@ export function dhGroupBalanceResponsibleRelationsByType(
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export function dhGroupByMarketParticipant(
   groupsByType: DhBalanceResponsibleAgreementsByType,
-  propertyToGroupBy: 'balanceResponsibleWithName' | 'energySupplierWithName'
+  propertyToGroupBy: keyof Pick<
+    DhBalanceResponsibleAgreement,
+    'balanceResponsibleWithName' | 'energySupplierWithName'
+  >
 ): DhBalanceResponsibleAgreementsGrouped {
   const groups: DhBalanceResponsibleAgreementsGrouped = [];
 

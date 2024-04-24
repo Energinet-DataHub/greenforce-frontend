@@ -69,7 +69,7 @@ limitations under the License.
   </form>
 
   @for (group of balanceResponsibleRelationsGrouped(); track group) {
-    <watt-expandable-card togglePosition="before" variant="solid">
+    <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
       <watt-expandable-card-title>
         {{ t("agreementTypes." + group.type) }}
       </watt-expandable-card-title>
