@@ -31,7 +31,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
-        value: 'Test Actor 1',
+        value: 'Test Actor 2',
       },
     },
     energySupplierWithName: {
@@ -39,7 +39,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
-        value: 'Test Actor 2',
+        value: 'Test Actor 1',
       },
     },
   },
@@ -51,10 +51,10 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     meteringPointType: 'CONSUMPTION',
     balanceResponsibleWithName: {
       __typename: 'ActorNameWithId',
-      id: 'efad0fee-9d7c-49c6-0001-08da5f28ddb1',
+      id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
-        value: 'Test Actor 1',
+        value: 'Test Actor 2',
       },
     },
     energySupplierWithName: {
@@ -72,7 +72,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       start: new Date('2024-02-01T00:00+01:00'),
       end: new Date('2024-04-01T00:00+02:00'),
     },
-    status: BalanceResponsibilityAgreementStatus.Expired,
+    status: BalanceResponsibilityAgreementStatus.SoonToExpire,
     gridAreaId: '005',
     meteringPointType: 'PRODUCTION',
     balanceResponsibleWithName: {
@@ -98,7 +98,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       start: new Date('2024-01-01T00:00+01:00'),
       end: new Date('2024-03-01T00:00+02:00'),
     },
-    status: BalanceResponsibilityAgreementStatus.SoonToExpire,
+    status: BalanceResponsibilityAgreementStatus.Expired,
     gridAreaId: '005',
     meteringPointType: 'PRODUCTION',
     balanceResponsibleWithName: {
@@ -115,6 +115,32 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       actorName: {
         __typename: 'ActorNameDto',
         value: 'Test Actor 5',
+      },
+    },
+  },
+  {
+    __typename: 'BalanceResponsibilityAgreement',
+    validPeriod: {
+      start: new Date('2023-01-10T00:00+01:00'),
+      end: new Date('2023-03-10T00:00+02:00'),
+    },
+    status: BalanceResponsibilityAgreementStatus.Expired,
+    gridAreaId: '007',
+    meteringPointType: 'PRODUCTION',
+    balanceResponsibleWithName: {
+      __typename: 'ActorNameWithId',
+      id: 'efad0fee-9d7c-49c6-0006-08da5f28ddb1',
+      actorName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Actor 6',
+      },
+    },
+    energySupplierWithName: {
+      __typename: 'ActorNameWithId',
+      id: 'efad0fee-9d7c-49c6-0008-08da5f28ddb1',
+      actorName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Actor 8',
       },
     },
   },
