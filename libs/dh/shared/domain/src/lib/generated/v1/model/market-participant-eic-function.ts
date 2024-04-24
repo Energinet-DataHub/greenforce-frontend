@@ -11,7 +11,7 @@
  */
 
 
-export type MarketParticipantEicFunction = 'BalanceResponsibleParty' | 'BillingAgent' | 'EnergySupplier' | 'GridAccessProvider' | 'ImbalanceSettlementResponsible' | 'MeterOperator' | 'MeteredDataAdministrator' | 'MeteredDataResponsible' | 'MeteringPointAdministrator' | 'SystemOperator' | 'DanishEnergyAgency' | 'DataHubAdministrator' | 'IndependentAggregator' | 'SerialEnergyTrader' | 'Delegated';
+export type MarketParticipantEicFunction = 'BalanceResponsibleParty' | 'BillingAgent' | 'EnergySupplier' | 'GridAccessProvider' | 'ImbalanceSettlementResponsible' | 'MeterOperator' | 'MeteredDataAdministrator' | 'MeteredDataResponsible' | 'MeteringPointAdministrator' | 'SystemOperator' | 'DanishEnergyAgency' | 'DataHubAdministrator' | 'IndependentAggregator' | 'SerialEnergyTrader' | 'Delegated' | 'ItSupplier';
 
 export const MarketParticipantEicFunction = {
     BalanceResponsibleParty: 'BalanceResponsibleParty' as MarketParticipantEicFunction,
@@ -28,6 +28,7 @@ export const MarketParticipantEicFunction = {
     DataHubAdministrator: 'DataHubAdministrator' as MarketParticipantEicFunction,
     IndependentAggregator: 'IndependentAggregator' as MarketParticipantEicFunction,
     SerialEnergyTrader: 'SerialEnergyTrader' as MarketParticipantEicFunction,
-    Delegated: 'Delegated' as MarketParticipantEicFunction
+    Delegated: 'Delegated' as MarketParticipantEicFunction,
+    ItSupplier: 'ItSupplier' as MarketParticipantEicFunction
 };
 
