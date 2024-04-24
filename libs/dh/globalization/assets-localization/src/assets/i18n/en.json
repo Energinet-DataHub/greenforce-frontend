@@ -590,7 +590,8 @@
       "DataHubAdministrator": "DataHub system administrator",
       "IndependentAggregator": "Independent aggregator",
       "SerialEnergyTrader": "Serial Energy Trader",
-      "Delegated": "Delegated"
+      "Delegated": "Delegated",
+      "ItSupplier": "IT supplier"
     },
     "marketRoleDescriptions": {
       "BalanceResponsibleParty": "Responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
@@ -607,7 +608,8 @@
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
       "SerialEnergyTrader": " ",
-      "Delegated": " "
+      "Delegated": " ",
+      "ItSupplier": "IT supplier"
     },
     "gridAreas": {
       "topBarTitle": "Grid Areas",
