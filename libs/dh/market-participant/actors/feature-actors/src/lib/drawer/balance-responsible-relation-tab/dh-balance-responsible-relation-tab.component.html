@@ -65,7 +65,7 @@ limitations under the License.
       [formControl]="filterForm.controls.gridArea"
     />
 
-    <watt-search #searchComponent [label]="t('search')" (search)="(searchEvent)" />
+    <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
   </form>
 
   @for (group of balanceResponsibleRelationsGrouped(); track group) {
