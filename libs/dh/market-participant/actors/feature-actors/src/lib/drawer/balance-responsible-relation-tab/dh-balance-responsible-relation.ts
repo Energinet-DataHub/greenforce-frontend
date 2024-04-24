@@ -18,9 +18,11 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { GetBalanceResponsibleRelationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type DhBalanceResponsibleAgreement = ResultOf<
-  typeof GetBalanceResponsibleRelationDocument
->['actorById']['balanceResponsibleAgreements'][0];
+export type DhBalanceResponsibleAgreement = NonNullable<
+  ResultOf<
+    typeof GetBalanceResponsibleRelationDocument
+  >['actorById']['balanceResponsibleAgreements']
+>[0];
 
 export type DhBalanceResponsibleAgreements = DhBalanceResponsibleAgreement[];
 
