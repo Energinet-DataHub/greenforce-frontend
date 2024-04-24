@@ -517,8 +517,6 @@ function getActorsForEicFunction() {
       (x) => eicFunctions && x.marketRole && eicFunctions.includes(x.marketRole)
     );
 
-    console.log({ actorsForEicFunction, eicFunctions });
-
     return HttpResponse.json({
       data: {
         __typename: 'Query',
