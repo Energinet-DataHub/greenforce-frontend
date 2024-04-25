@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, output } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -22,7 +22,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
-import { input } from '@angular/core';
 
 @Component({
   selector: 'dh-generate-client-secret',
