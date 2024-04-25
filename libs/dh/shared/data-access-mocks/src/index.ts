@@ -37,5 +37,5 @@ export const mocks = [
   eSettMocks,
   imbalancePricesMocks,
   userProfileMocks,
-  defaultMocks, // Keep this last
+  defaultMocks,
 ];
