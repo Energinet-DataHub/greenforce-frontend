@@ -16,7 +16,7 @@ type Actor {
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
   organization: Organization!
-  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]!
+  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -697,6 +697,7 @@ enum EicFunction {
   IndependentAggregator
   SerialEnergyTrader
   Delegated
+  ItSupplier
 }
 
 enum ExchangeEventCalculationType {

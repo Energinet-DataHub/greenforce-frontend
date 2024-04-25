@@ -16,7 +16,7 @@
  */
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, Input, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -64,6 +64,7 @@ import { RxPush } from '@rx-angular/template/push';
       }
     `,
   ],
+
   template: `<vater-stack
     gap="xl"
     align="flex-start"
@@ -74,29 +75,25 @@ import { RxPush } from '@rx-angular/template/push';
       <h4>{{ t('marketParty') }}</h4>
 
       <watt-text-field
-        [formControl]="newActorForm.controls.glnOrEicNumber"
+        [formControl]="newActorForm().controls.glnOrEicNumber"
         [label]="t('glnOrEicNumber')"
       >
         <watt-field-hint>{{ t('glnOrEicHint') }}</watt-field-hint>
-        @if (newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
+        @if (newActorForm().controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
           <watt-field-error>
             {{ t('glnOrEicInvalid') }}
           </watt-field-error>
         }
       </watt-text-field>
 
-      <watt-text-field
-        [formControl]="newActorForm.controls.name"
-        [label]="t('name')"
-        [tooltip]="t('tooltip')"
-      />
+      <watt-text-field [formControl]="newActorForm().controls.name" [label]="t('name')" />
       <watt-dropdown
         translate="marketParticipant.marketRoles"
         dhDropdownTranslator
         [options]="marketRoleOptions"
         [showResetOption]="false"
         (ngModelChange)="onMarketRoleChange($event)"
-        [formControl]="newActorForm.controls.marketrole"
+        [formControl]="newActorForm().controls.marketrole"
         [label]="t('marketRole')"
       />
 
@@ -104,7 +101,7 @@ import { RxPush } from '@rx-angular/template/push';
         <watt-dropdown
           [options]="gridAreaOptions | push"
           [multiple]="true"
-          [formControl]="newActorForm.controls.gridArea"
+          [formControl]="newActorForm().controls.gridArea"
           [label]="t('gridArea')"
         />
       }
@@ -112,28 +109,28 @@ import { RxPush } from '@rx-angular/template/push';
     <vater-stack fill="horizontal" align="flex-start" direction="column">
       <h4>{{ t('contact') }}</h4>
       <watt-text-field
-        [formControl]="newActorForm.controls.contact.controls.departmentOrName"
+        [formControl]="newActorForm().controls.contact.controls.departmentOrName"
         [label]="t('departmentOrName')"
       />
       <watt-text-field
-        [formControl]="newActorForm.controls.contact.controls.email"
+        [formControl]="newActorForm().controls.contact.controls.email"
         [label]="t('email')"
       >
-        @if (newActorForm.controls.contact.controls.email.hasError('pattern')) {
+        @if (newActorForm().controls.contact.controls.email.hasError('pattern')) {
           <watt-field-error>
             {{ t('wrongEmailPattern') }}
           </watt-field-error>
         }
       </watt-text-field>
       <watt-phone-field
-        [formControl]="newActorForm.controls.contact.controls.phone"
+        [formControl]="newActorForm().controls.contact.controls.phone"
         [label]="t('phone')"
       />
     </vater-stack>
   </vater-stack>`,
 })
 export class DhNewActorStepComponent {
-  @Input({ required: true }) newActorForm!: ActorForm;
+  newActorForm = input.required<ActorForm>();
 
   marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   gridAreaOptions = getGridAreaOptions();
@@ -144,7 +141,7 @@ export class DhNewActorStepComponent {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
 
     if (eicfunction === EicFunction.GridAccessProvider) {
-      this.newActorForm.controls.gridArea.enable();
+      this.newActorForm().controls.gridArea.enable();
     }
   }
 }

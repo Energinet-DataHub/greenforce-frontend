@@ -70,18 +70,18 @@ public class MarketParticipantResolvers
         ActorByOrganizationBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
 
-    public Task<ICollection<BalanceResponsibilityAgreementDto>> GetBalanceResponsibleAgreementsAsync(
+    public async Task<ICollection<BalanceResponsibilityRelationDto>?> GetBalanceResponsibleAgreementsAsync(
         [Parent] ActorDto actor,
         [Service] IMarketParticipantClient_V1 client) =>
-        client.BalanceResponsibilityAgreementsAsync(actor.ActorId);
+        await client.BalanceResponsibilityRelationsAsync(actor.ActorId);
 
     public Task<ActorNameWithId?> GetBalanceResponsibleWithNameAsync(
-        [Parent] BalanceResponsibilityAgreementDto result,
+        [Parent] BalanceResponsibilityRelationDto result,
         ActorNameByIdBatchDataLoader dataLoader) =>
         dataLoader.LoadAsync(result.BalanceResponsibleId);
 
     public Task<ActorNameWithId?> GetEnergySupplierWithNameAsync(
-        [Parent] BalanceResponsibilityAgreementDto result,
+        [Parent] BalanceResponsibilityRelationDto result,
         ActorNameByIdBatchDataLoader dataLoader) =>
         dataLoader.LoadAsync(result.EnergySupplierId);
 }

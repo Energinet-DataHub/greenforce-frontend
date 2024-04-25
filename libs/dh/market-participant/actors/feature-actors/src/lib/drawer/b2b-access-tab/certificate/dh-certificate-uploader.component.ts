@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -75,9 +75,9 @@ export class DhCertificateUploaderComponent {
   doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
   uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
-  @Input({ required: true }) actorId = '';
+  actorId = input.required<string>();
 
-  @Output() uploadSuccess = new EventEmitter<void>();
+  uploadSuccess = output<void>();
 
   onFileSelected(files: FileList | null): void {
     if (files == null) {
@@ -87,7 +87,7 @@ export class DhCertificateUploaderComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      return this.startUpload(this.actorId, file);
+      return this.startUpload(this.actorId(), file);
     }
   }
 
@@ -121,8 +121,8 @@ export class DhCertificateUploaderComponent {
     this.toastService.open({ type: 'success', message });
 
     this.uploadSuccess.emit();
-    this.store.getCredentials(this.actorId);
-    this.auditLogService.refreshAuditLog(this.actorId);
+    this.store.getCredentials(this.actorId());
+    this.auditLogService.refreshAuditLog(this.actorId());
   };
 
   private onUploadErrorFn = (apiErrorCollection: ApiErrorCollection) => {

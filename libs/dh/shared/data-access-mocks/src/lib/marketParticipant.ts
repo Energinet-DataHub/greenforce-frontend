@@ -509,11 +509,19 @@ function getDelegationsForActor() {
 }
 
 function getActorsForEicFunction() {
-  return mockGetActorsForEicFunctionQuery(async () => {
+  return mockGetActorsForEicFunctionQuery(async ({ variables }) => {
+    const { eicFunctions } = variables;
     await delay(mswConfig.delay);
 
+    const actorsForEicFunction = marketParticipantActors.filter(
+      (x) => eicFunctions && x.marketRole && eicFunctions.includes(x.marketRole)
+    );
+
     return HttpResponse.json({
-      data: { __typename: 'Query', actorsForEicFunction: [] },
+      data: {
+        __typename: 'Query',
+        actorsForEicFunction,
+      },
     });
   });
 }

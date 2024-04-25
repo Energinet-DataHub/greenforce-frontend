@@ -267,7 +267,9 @@
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
           "cancelled": "The delegation has been cancelled and cannot be modified",
-          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}"
+          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}",
+          "actor_to_already_has_delegations": "Trying to delegate to an actor that already has delegations to another actor.",
+          "actor_from_already_has_delegations": "Trying to delegate from an actor that already has a delegation assigned to them."
         }
       }
     },
@@ -293,7 +295,6 @@
           "create": "Create market participant"
         },
         "gridArea": "Grid area",
-        "tooltip": "The market participant will get the organisation name if no name is provided",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
@@ -391,7 +392,7 @@
             "status": "Status",
             "gridArea": "Grid Area",
             "search": "Search",
-            "agreementTypes": {
+            "relationTypes": {
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
@@ -400,7 +401,8 @@
               "AWAITING": "Awaiting",
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
-            }
+            },
+            "allRelationsHaveExpired": "All relations have expired"
           },
           "b2bAccess": {
             "tabLabel": "B2B Access",
@@ -590,7 +592,8 @@
       "DataHubAdministrator": "DataHub system administrator",
       "IndependentAggregator": "Independent aggregator",
       "SerialEnergyTrader": "Serial Energy Trader",
-      "Delegated": "Delegated"
+      "Delegated": "Delegated",
+      "ItSupplier": "IT supplier"
     },
     "marketRoleDescriptions": {
       "BalanceResponsibleParty": "Responsible for its imbalances, meaning the difference between the energy volume physically injected to or withdrawn from the system and the final nominated energy volume, including any imbalance adjustment within a given imbalance settlement period.",
@@ -607,7 +610,8 @@
       "DataHubAdministrator": " ",
       "IndependentAggregator": " ",
       "SerialEnergyTrader": " ",
-      "Delegated": " "
+      "Delegated": " ",
+      "ItSupplier": "IT supplier"
     },
     "gridAreas": {
       "topBarTitle": "Grid Areas",
