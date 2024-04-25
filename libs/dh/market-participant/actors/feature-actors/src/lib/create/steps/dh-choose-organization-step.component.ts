@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, inject, output, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -60,7 +60,7 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
       [options]="organizationOptions"
       [label]="t('organization')"
       (ngModelChange)="onOrganizationChange($event)"
-      [formControl]="chooseOrganizationForm.controls.orgId"
+      [formControl]="chooseOrganizationForm().controls.orgId"
     />
     <watt-button variant="text" icon="plus" (click)="toggleShowCreateNewOrganization.emit()">{{
       t('newOrganization')
@@ -70,12 +70,14 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
 export class DhChooseOrganizationStepComponent {
   private _apollo = inject(Apollo);
 
-  @Input({ required: true }) chooseOrganizationForm!: FormGroup<{
-    orgId: FormControl<string | null>;
-  }>;
+  chooseOrganizationForm = input.required<
+    FormGroup<{
+      orgId: FormControl<string | null>;
+    }>
+  >();
 
-  @Output() toggleShowCreateNewOrganization = new EventEmitter<void>();
-  @Output() selectOrganization = new EventEmitter<DhOrganizationDetails>();
+  toggleShowCreateNewOrganization = output<void>();
+  selectOrganization = output<DhOrganizationDetails>();
 
   private _getOrganizationsQuery$ = this._apollo.query({
     query: GetOrganizationsDocument,

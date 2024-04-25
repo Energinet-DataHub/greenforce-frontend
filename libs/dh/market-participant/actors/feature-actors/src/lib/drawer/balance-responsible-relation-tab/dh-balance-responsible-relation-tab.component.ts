@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
+
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+
 import {
   map,
   switchMap,
@@ -28,9 +31,9 @@ import {
   combineLatestWith,
   debounceTime,
 } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
@@ -40,27 +43,31 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
   BalanceResponsibilityAgreement,
   BalanceResponsibilityAgreementStatus,
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import {
   DhBalanceResponsibleRelations,
   DhBalanceResponsibleRelationsGrouped,
 } from './dh-balance-responsible-relation';
+
 import {
   dhGroupByType,
   dhGroupByMarketParticipant,
 } from '../util/dh-group-balance-responsible-relations';
+
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 
 function isNullOrUndefined<T>(value: T | null | undefined): value is T {
