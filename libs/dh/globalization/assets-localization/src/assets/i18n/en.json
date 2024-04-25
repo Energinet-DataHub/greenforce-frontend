@@ -850,6 +850,7 @@
       "create": {
         "title": "New calculation",
         "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+        "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{quarterlyResolutionTransitionDate}} threshold, which is not permitted. Please choose a start and end date either entirely before or after {{quarterlyResolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",

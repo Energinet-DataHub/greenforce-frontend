@@ -34,8 +34,22 @@ limitations under the License.
               : modal.close(true)
           "
         >
-          <!-- Period Warning-->
-          @if (latestPeriodEnd && formGroup.controls.calculationType.value === "BALANCE_FIXING") {
+          <!-- Quarterly Resolution Transition Error -->
+          @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
+            <watt-validation-message
+              size="normal"
+              type="danger"
+              icon="danger"
+              message="{{
+                t('create.quarterlyResolutionTransitionError', {
+                  quarterlyResolutionTransitionDate:
+                    quarterlyResolutionTransitionDate.toDate() | wattDate
+                })
+              }}"
+            />
+          } @else if (
+            latestPeriodEnd && formGroup.controls.calculationType.value === "BALANCE_FIXING"
+          ) {
             <watt-validation-message
               size="normal"
               type="warning"
@@ -116,7 +130,8 @@ limitations under the License.
             [max]="maxDate"
           >
             @if (
-              formGroup.controls.dateRange.errors?.invalidPeriod &&
+              (formGroup.controls.dateRange.errors?.resolutionTransition ||
+                formGroup.controls.dateRange.errors?.invalidPeriod) &&
               !formGroup.controls.dateRange.errors?.rangeRequired
             ) {
               <watt-field-error>

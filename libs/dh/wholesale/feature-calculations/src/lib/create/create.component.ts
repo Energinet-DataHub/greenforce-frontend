@@ -16,7 +16,15 @@
  */
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
@@ -91,6 +99,9 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   private executionTypeChanged_$ = new Subject<void>();
 
+  // todo: this value should be set from environment
+  quarterlyResolutionTransitionDate = dayjs.utc('2023-01-31T23:00:00Z');
+
   @ViewChild('modal') modal?: WattModalComponent;
 
   featureFlagsService = inject(DhFeatureFlagsService);
@@ -116,7 +127,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
       { validators: Validators.required }
     ),
     dateRange: new FormControl(null, {
-      validators: WattRangeValidators.required(),
+      validators: [WattRangeValidators.required(), this.validateResolutionTransition()],
       asyncValidators: () => this.validateBalanceFixing(),
     }),
   });
@@ -329,5 +340,17 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
         map(() => null)
       );
+  }
+
+  private validateResolutionTransition(): ValidatorFn {
+    return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
+      if (!control.value) return null;
+      const start = dayjs.utc(control.value.start);
+      const end = dayjs.utc(control.value.end);
+      const resolutionTransitionDate = this.quarterlyResolutionTransitionDate;
+      return start.isBefore(resolutionTransitionDate) && end.isAfter(resolutionTransitionDate)
+        ? { resolutionTransition: true }
+        : null;
+    };
   }
 }
