@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,6 +24,43 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  styles: `
+    @use '@energinet-datahub/watt/utils' as watt;
+
+    dh-market-participant-actors-shell {
+      display: block;
+    }
+
+    .mat-mdc-tab-nav-bar {
+      --mat-tab-header-active-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-header-inactive-label-text-color: var(--watt-on-light-low-emphasis);
+    }
+
+    .mat-mdc-tab-header {
+      box-shadow: var(--watt-bottom-box-shadow);
+      background-color: var(--watt-color-neutral-white);
+    }
+
+    .mat-mdc-tab-nav-panel {
+      display: block;
+      padding: var(--watt-space-ml);
+    }
+
+    .mat-mdc-tab-links {
+      padding-left: var(--watt-space-ml);
+    }
+
+    .mat-mdc-tab-link.mat-mdc-tab-link {
+      min-width: 120px;
+      opacity: 1;
+    }
+
+    .mat-mdc-tab-link .mdc-tab__content {
+      @include watt.typography-watt-button;
+      color: var(--watt-on-light-medium-emphasis);
+    }
+  `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
       <nav mat-tab-nav-bar [mat-stretch-tabs]="false" [tabPanel]="tabPanel">
@@ -31,8 +68,8 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
           mat-tab-link
           routerLink="/market-participant/actors"
           routerLinkActive
-          #rla="routerLinkActive"
-          [active]="rla.isActive"
+          #rla1="routerLinkActive"
+          [active]="rla1.isActive"
         >
           {{ t('actors.tabLabel') }}
         </a>
@@ -40,8 +77,8 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
           mat-tab-link
           routerLink="/market-participant/organizations"
           routerLinkActive
-          #rla="routerLinkActive"
-          [active]="rla.isActive"
+          #rla2="routerLinkActive"
+          [active]="rla2.isActive"
         >
           {{ t('organizations.tabLabel') }}
         </a>
@@ -49,8 +86,8 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
           mat-tab-link
           routerLink="/market-participant/market-roles"
           routerLinkActive
-          #rla="routerLinkActive"
-          [active]="rla.isActive"
+          #rla3="routerLinkActive"
+          [active]="rla3.isActive"
         >
           {{ t('marketRoles.tabLabel') }}
         </a>
