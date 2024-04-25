@@ -55,7 +55,6 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
-    onCalculationProgress(apiBase),
   ];
 }
 
@@ -462,17 +461,6 @@ function requestCalculationMutation() {
           __typename: 'CreateAggregatedMeasureDataRequestPayload',
           success: true,
         },
-      },
-    });
-  });
-}
-
-function onCalculationProgress(apiBase: string) {
-  return http.post(`${apiBase}/graphql`, () => {
-    return new HttpResponse(new ReadableStream(), {
-      headers: {
-        Connection: 'keep-alive',
-        'Content-Type': 'text/event-stream',
       },
     });
   });
