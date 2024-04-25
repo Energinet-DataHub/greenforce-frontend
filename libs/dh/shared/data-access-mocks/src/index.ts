@@ -27,6 +27,7 @@ import { userProfileMocks } from './lib/user-profile-mocks';
 import { defaultMocks } from './lib/default-mocks';
 
 export const mocks = [
+  wholesaleMocks,
   marketParticipantMocks,
   messageArchiveMocks,
   adminMocks,
@@ -36,6 +37,5 @@ export const mocks = [
   eSettMocks,
   imbalancePricesMocks,
   userProfileMocks,
-  wholesaleMocks,
   defaultMocks, // Keep this last
 ];
