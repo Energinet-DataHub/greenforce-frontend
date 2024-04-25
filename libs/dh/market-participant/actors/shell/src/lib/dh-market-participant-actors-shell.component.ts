@@ -16,18 +16,51 @@
  */
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-roles';
-import { DhActorsOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
-import { DhOrganizationsOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-organizations';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
-      <watt-tabs>
+      <nav mat-tab-nav-bar [mat-stretch-tabs]="false" [tabPanel]="tabPanel">
+        <a
+          mat-tab-link
+          routerLink="/market-participant/actors"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+        >
+          {{ t('actors.tabLabel') }}
+        </a>
+        <a
+          mat-tab-link
+          routerLink="/market-participant/organizations"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+        >
+          {{ t('organizations.tabLabel') }}
+        </a>
+        <a
+          mat-tab-link
+          routerLink="/market-participant/market-roles"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+        >
+          {{ t('marketRoles.tabLabel') }}
+        </a>
+      </nav>
+
+      <mat-tab-nav-panel #tabPanel>
+        <router-outlet />
+      </mat-tab-nav-panel>
+
+      <!-- <watt-tabs>
         <watt-tab [label]="t('actors.tabLabel')">
           <dh-actors-overview />
         </watt-tab>
@@ -39,16 +72,17 @@ import { DhOrganizationsOverviewComponent } from '@energinet-datahub/dh/market-p
         <watt-tab [label]="t('marketRoles.tabLabel')">
           <dh-market-roles-overview />
         </watt-tab>
-      </watt-tabs>
+      </watt-tabs> -->
     </ng-container>
   `,
   imports: [
     TranslocoDirective,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatTabsModule,
 
     WATT_TABS,
-    DhActorsOverviewComponent,
-    DhOrganizationsOverviewComponent,
-    DhMarketRolesOverviewComponent,
   ],
 })
 export class DhMarketParticipantActorsShellComponent {}

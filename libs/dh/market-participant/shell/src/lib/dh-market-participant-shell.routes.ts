@@ -24,18 +24,47 @@ import {
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: dhMarketParticipantActorsPath,
-  },
-  {
-    path: dhMarketParticipantActorsPath,
     loadComponent: () =>
       import('@energinet-datahub/dh/market-participant/actors/shell').then(
         (esModule) => esModule.DhMarketParticipantActorsShellComponent
       ),
-    data: {
-      titleTranslationKey: 'marketParticipant.actors.topBarTitle',
-    },
+    children: [
+      {
+        path: '',
+        redirectTo: dhMarketParticipantActorsPath,
+        pathMatch: 'full',
+      },
+      {
+        path: dhMarketParticipantActorsPath,
+        loadComponent: () =>
+          import('@energinet-datahub/dh/market-participant/actors/feature-actors').then(
+            (esModule) => esModule.DhActorsOverviewComponent
+          ),
+        data: {
+          titleTranslationKey: 'marketParticipant.actors.topBarTitle',
+        },
+      },
+      {
+        path: 'organizations',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/market-participant/actors/feature-organizations').then(
+            (esModule) => esModule.DhOrganizationsOverviewComponent
+          ),
+        data: {
+          titleTranslationKey: 'marketParticipant.organizationsOverview.organizations',
+        },
+      },
+      {
+        path: 'market-roles',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/market-participant/actors/feature-market-roles').then(
+            (esModule) => esModule.DhMarketRolesOverviewComponent
+          ),
+        data: {
+          titleTranslationKey: 'marketParticipant.marketRolesOverview.marketRoles',
+        },
+      },
+    ],
   },
   {
     path: dhMarketParticipantGridAreasPath,
