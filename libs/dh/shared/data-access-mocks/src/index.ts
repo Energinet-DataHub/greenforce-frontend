@@ -24,6 +24,7 @@ import { tokenMocks } from './lib/token';
 import { eSettMocks } from './lib/esett-mocks';
 import { imbalancePricesMocks } from './lib/imbalance-prices-mocks';
 import { userProfileMocks } from './lib/user-profile-mocks';
+import { defaultMocks } from './lib/default-mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -36,4 +37,5 @@ export const mocks = [
   eSettMocks,
   imbalancePricesMocks,
   userProfileMocks,
+  defaultMocks,
 ];
