@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
@@ -71,6 +71,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       }
     `,
   ],
+
   template: ` <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
     <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>
@@ -87,13 +88,13 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
           [label]="t('country')"
           [showResetOption]="false"
           [options]="countryOptions"
-          [formControl]="newOrganizationForm.controls.country"
+          [formControl]="newOrganizationForm().controls.country"
         />
         <watt-text-field
-          [formControl]="newOrganizationForm.controls.cvrNumber"
+          [formControl]="newOrganizationForm().controls.cvrNumber"
           [label]="t('cvrNumber')"
         >
-          @if (newOrganizationForm.controls.cvrNumber.hasError('invalidCvrNumber')) {
+          @if (newOrganizationForm().controls.cvrNumber.hasError('invalidCvrNumber')) {
             <watt-field-error>
               {{ t('cvrInvalid') }}
             </watt-field-error>
@@ -110,15 +111,15 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
     <vater-stack gap="m" align="flex-start">
       <watt-text-field
-        [formControl]="newOrganizationForm.controls.companyName"
+        [formControl]="newOrganizationForm().controls.companyName"
         [label]="t('companyName')"
       />
       <watt-text-field
         [prefix]="'alternateEmail'"
-        [formControl]="newOrganizationForm.controls.domain"
+        [formControl]="newOrganizationForm().controls.domain"
         [label]="t('domain')"
       >
-        @if (newOrganizationForm.controls.domain.hasError('pattern')) {
+        @if (newOrganizationForm().controls.domain.hasError('pattern')) {
           <watt-field-error>
             {{ t('domainInvalid') }}
           </watt-field-error>
@@ -128,14 +129,16 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   </ng-container>`,
 })
 export class DhNewOrganizationStepComponent {
-  @Output() toggleShowCreateNewOrganization = new EventEmitter<void>();
-  @Input({ required: true }) isCvrBusy$!: Observable<boolean>;
-  @Input({ required: true }) newOrganizationForm!: FormGroup<{
-    country: FormControl<string>;
-    cvrNumber: FormControl<string>;
-    companyName: FormControl<string>;
-    domain: FormControl<string>;
-  }>;
+  toggleShowCreateNewOrganization = output<void>();
+  isCvrBusy$ = input.required<Observable<boolean>>();
+  newOrganizationForm = input.required<
+    FormGroup<{
+      country: FormControl<string>;
+      cvrNumber: FormControl<string>;
+      companyName: FormControl<string>;
+      domain: FormControl<string>;
+    }>
+  >();
 
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges, inject } from '@angular/core';
+import { Component, input, inject, effect } from '@angular/core';
 
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
@@ -45,7 +45,7 @@ import { dhActorAuditLogEntry } from '@energinet-datahub/dh/market-participant/a
     RxPush,
   ],
 })
-export class DhActorAuditLogTabComponent implements OnChanges {
+export class DhActorAuditLogTabComponent {
   private readonly auditLogService = inject(DhActorAuditLogService);
 
   private actorAuditLogSubscription: Subscription =
@@ -62,9 +62,16 @@ export class DhActorAuditLogTabComponent implements OnChanges {
       },
     });
 
-  @Input() actorId!: string;
-  @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
-  @Input() gridAreaCodeLookup!: { [Key: string]: string };
+  actorId = input.required<string>();
+  actorNumberNameLookup = input.required<{
+    [Key: string]: {
+      number: string;
+      name: string;
+    };
+  }>();
+  gridAreaCodeLookup = input.required<{
+    [Key: string]: string;
+  }>();
 
   isLoadingAuditLog = false;
   auditLogFailedToLoad = false;
@@ -75,11 +82,11 @@ export class DhActorAuditLogTabComponent implements OnChanges {
     currentValue: { accessor: 'currentValue' },
   };
 
-  ngOnChanges(): void {
-    if (this.actorId) {
+  constructor() {
+    effect(() => {
       this.isLoadingAuditLog = true;
-      this.loadAuditLog(this.actorId);
-    }
+      this.loadAuditLog(this.actorId());
+    });
   }
 
   private loadAuditLog(actorId: string): void {
@@ -96,13 +103,13 @@ export class DhActorAuditLogTabComponent implements OnChanges {
     if (!values) return {};
     const [payloadGln, payloadStartsAt, payloadGridArea, payloadProcessType, payloadStopsAt] =
       values;
-    const actorNumberName = this.actorNumberNameLookup[payloadGln];
+    const actorNumberName = this.actorNumberNameLookup()[payloadGln];
 
     return {
       auditedBy: payload.auditedBy,
       actor: `${actorNumberName.number} - ${actorNumberName.name}`,
       startsAt: wattFormatDate(payloadStartsAt),
-      gridArea: this.gridAreaCodeLookup[payloadGridArea],
+      gridArea: this.gridAreaCodeLookup()[payloadGridArea],
       processType: translate(
         'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + payloadProcessType
       ),
