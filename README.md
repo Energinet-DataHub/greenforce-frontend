@@ -50,7 +50,7 @@ over the Angular CLI._
 ## Prerequisites
 
 - [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js® and Yarn.
-- [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing the Backend For Frontend.
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
 - [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
 ## DataHub
@@ -87,10 +87,10 @@ Run the following command as an administrator from the root of the repository (W
 certutil -addstore -f "Root" localhost.crt
 ```
 
-Use the following command to serve the DataHub application locally:
+Use the following command to serve the DataHub application locally (with request mocking):
 
 ```sh
-yarn nx serve app-dh
+yarn dh:mock
 ```
 
 The application utilizes request mocking for some of the requests to the
@@ -101,7 +101,7 @@ required to serve the BFF locally as well. To do so, run the following command
 [Setup of BFF](apps/dh/api-dh/documents/development.md#setup-of-bff)).
 
 ```sh
-yarn nx serve api-dh
+yarn api:dev
 ```
 
 _Note: It is recommended to use mocking as much as possible, see
@@ -110,7 +110,7 @@ _Note: It is recommended to use mocking as much as possible, see
 ### Development
 
 When it is time to add a new library, refrain from writing files manually or
-copying from existing libraries. Instead, use the provided workspace generators
+copying from existing libraries. Instead, use the provided local generators
 that takes care of all the manual work and avoids common pitfalls.
 
 _Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
@@ -136,13 +136,13 @@ yarn nx g workspace-tools:domain-generator
 ### Backend For Frontend (BFF)
 
 There is currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 7.x.
+It is for `app-dh` and is using .NET 8.x.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
 
 ### Configuration
 
-Configuration files are located in the `libs/dh/shared/assets/src/configuration`
+Configuration files are located in the `libs/dh/shared/assets/src/assets/configuration`
 folder. These local configurations have a `.local` filename suffix, but is
 overridable by a configuration file without the suffix. For example,
 `dh-api-environment.local.json` configures the DataHub frontend to use a local
@@ -151,10 +151,10 @@ in the same folder and set the remote address in the relevant property.
 
 ## Energy Origin
 
-Use the following command to serve the Energy Origin application locally:
+Use the following command to serve the Energy Origin application locally (with request mocking):
 
 ```sh
-yarn nx serve app-eo
+yarn eo:mock
 ```
 
 ## Watt Design System
@@ -284,10 +284,10 @@ workflows. Expanding it looks like this:
 
 ```|
 ...
-└── tools
-   ├── <product>           # Various non-Nx tools separated by product
-   ├── executors           # Perform all sorts of actions on your code
-   └── workspace-plugin    # Automate tasks using code generation
+└── tools/src
+   ├── executors     # Perform all sorts of actions on your code
+   ├── generators    # Automate tasks using code generation
+   └── <helpers>     # Various other helper tools e.g. for scripting
 ```
 
 Executors and generators are [Nx] inventions; for
@@ -325,7 +325,7 @@ _Bots are used for certain trivial tasks such as adding license headers to files
 formatting code, fixing lint errors, and generating API clients based on OpenAPI.
 For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing
 changes or creating releases that trigger a workflow. Only do this for idempotent
-tasks to prevent circular workflows from causing inifinite workflow runs._
+tasks to prevent circular workflows from causing infinite workflow runs._
 
 ## Visual Studio Code
 
