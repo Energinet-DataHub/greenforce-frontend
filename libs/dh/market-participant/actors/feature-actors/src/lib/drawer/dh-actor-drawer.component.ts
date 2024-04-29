@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, viewChild, input } from '@angular/core';
+import { Component, inject, ViewChild, input } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
@@ -120,7 +120,8 @@ export class DhActorDrawerComponent {
   actor: DhActorExtended | undefined = undefined;
   hasActorAccess = false;
 
-  drawer = viewChild.required(WattDrawerComponent);
+  @ViewChild(WattDrawerComponent)
+  drawer: WattDrawerComponent | undefined;
 
   closed = outputFromObservable(this.closed$);
 
@@ -135,7 +136,7 @@ export class DhActorDrawerComponent {
   }>();
 
   public open(actorId: string): void {
-    this.drawer().open();
+    this.drawer?.open();
     this.loadActor(actorId);
   }
 
