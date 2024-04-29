@@ -25,49 +25,31 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableDataSource,
+  WattTableColumnDef,
+  WattTableComponent,
+} from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattTypedModal, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
   EoMeteringPoint,
-  MeteringPointType,
   AibTechCode,
 } from '@energinet-datahub/eo/metering-points/domain';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-@Component({
-  standalone: true,
-  imports: [WATT_MODAL, WattButtonComponent, TranslocoPipe],
-  template: `
-    <watt-modal
-      #modal
-      [title]="translations.meteringPoints.onOffTooltipTitle | transloco"
-      closeLabel="Close modal"
-      size="small"
-    >
-      <p>{{ translations.meteringPoints.onOffTooltipMessage | transloco }}</p>
-      <watt-modal-actions>
-        <watt-button (click)="modal.close(false)">{{
-          translations.meteringPoints.onOffTooltipClose | transloco
-        }}</watt-button>
-      </watt-modal-actions>
-    </watt-modal>
-  `,
-})
-class GranularCertificateHelperComponent extends WattTypedModal {
-  protected translations = translations;
-}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,12 +60,12 @@ class GranularCertificateHelperComponent extends WattTypedModal {
     WattSpinnerComponent,
     WATT_TABLE,
     WattPaginatorComponent,
+    WattButtonComponent,
     WattEmptyStateComponent,
     MatSlideToggleModule,
     TranslocoPipe,
     JsonPipe,
   ],
-  providers: [WattModalService],
   standalone: true,
   selector: 'eo-metering-points-table',
   styles: [
@@ -106,65 +88,61 @@ class GranularCertificateHelperComponent extends WattTypedModal {
   ],
   template: `
     @if (columns) {
-      <watt-table [loading]="loading" [columns]="columns" [dataSource]="dataSource">
-        <!-- ADDRESS Column -->
-        <ng-container *wattTableCell="columns.address; let meteringPoint">
-          <ng-container *ngIf="meteringPoint.address?.address1">
-            {{ meteringPoint.address.address1 + ',' }}
-          </ng-container>
-          <ng-container *ngIf="meteringPoint.address?.address2">
-            {{ meteringPoint.address.address2 + ',' }}
-          </ng-container>
-          <ng-container *ngIf="meteringPoint.address?.locality">
-            {{ meteringPoint.address.locality + ',' }}
-          </ng-container>
-          {{ meteringPoint?.address?.postalCode }}
-          {{ meteringPoint?.address?.city }}
-        </ng-container>
-
+      <watt-table
+        #table
+        [selectable]="true"
+        [loading]="loading"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        (selectionChange)="onSelection($event)"
+      >
+        <!-- UNIT Column -->
         <ng-container *wattTableCell="columns.unit; let meteringPoint">
           @switch (meteringPoint.type) {
             @case ('Consumption') {
-              <watt-badge type="neutral">{{
-                translations.meteringPoints.consumptionUnit | transloco
-              }}</watt-badge>
+              {{ translations.meteringPoints.consumptionUnit | transloco }}
             }
             @case ('Production') {
-              <watt-badge type="neutral">{{
-                translations.meteringPoints.productionUnit | transloco
-              }}</watt-badge>
+              {{ translations.meteringPoints.productionUnit | transloco }}
             }
           }
         </ng-container>
 
-        <!-- GRANULAR CERTIFICATES Column -->
-        <ng-container *wattTableCell="columns.gc; let meteringPoint">
-          <div
-            *ngIf="
-              meteringPoint.type === 'Consumption' ||
-              (meteringPoint.type === 'Production' &&
-                (meteringPoint.technology.aibTechCode === techCodes.Wind ||
-                  meteringPoint.technology.aibTechCode === techCodes.Solar))
-            "
-            style="display: flex; align-items: center;"
+        <ng-container *wattTableCell="columns.status; let meteringPoint">
+          @if (meteringPoint.contract) {
+            <watt-badge type="success">{{
+              translations.meteringPoints.active | transloco
+            }}</watt-badge>
+          } @else {
+            <watt-badge type="neutral">{{
+              translations.meteringPoints.inactive | transloco
+            }}</watt-badge>
+          }
+        </ng-container>
+
+        <ng-container *wattTableToolbar="let selection">
+          {{ translations.meteringPoints.selected | transloco: { amount: selection.length } }}
+          <watt-table-toolbar-spacer />
+
+          <watt-button
+            variant="primary"
+            icon="toggleOff"
+            [disabled]="!canDeactivate()"
+            (click)="onDeactivateContracts(selection)"
+            [loading]="deactivatingContracts"
           >
-            <mat-slide-toggle
-              (change)="
-                toggleContract.emit({
-                  checked: $event.checked,
-                  gsrn: meteringPoint.gsrn,
-                  type: meteringPoint.type
-                })
-              "
-              [disabled]="meteringPoint.loadingContract"
-              [checked]="meteringPoint.contract && !meteringPoint.loadingContract"
-            />
-            <watt-spinner
-              [diameter]="24"
-              style="margin-left: var(--watt-space-m);"
-              [style.opacity]="meteringPoint.loadingContract ? 1 : 0"
-            />
-          </div>
+            {{ translations.meteringPoints.deactivate | transloco }}
+          </watt-button>
+
+          <watt-button
+            variant="primary"
+            icon="toggleOn"
+            [disabled]="!canActivate()"
+            (click)="onActivateContracts(selection)"
+            [loading]="creatingContracts"
+          >
+            {{ translations.meteringPoints.activate | transloco }}
+          </watt-button>
         </ng-container>
       </watt-table>
 
@@ -205,25 +183,34 @@ export class EoMeteringPointsTableComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
-  protected translations = translations;
 
-  dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
-  columns!: WattTableColumnDef<EoMeteringPoint>;
-  techCodes = AibTechCode;
+  protected translations = translations;
+  protected canActivate = signal<boolean>(false);
+  protected canDeactivate = signal<boolean>(false);
+  protected dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
+  protected columns!: WattTableColumnDef<EoMeteringPoint>;
+  protected techCodes = AibTechCode;
+
+  @ViewChild('table') table!: WattTableComponent<EoMeteringPoint>;
 
   @Input() set meteringPoints(data: EoMeteringPoint[] | null) {
-    this.dataSource.data = data || [];
+    this.dataSource.data =
+      data?.map((meteringPoint: EoMeteringPoint, index) => {
+        return {
+          id: index,
+          ...meteringPoint,
+        };
+      }) || [];
+
+    this.table?.clearSelection();
   }
   @Input() loading = false;
+  @Input() creatingContracts = false;
+  @Input() deactivatingContracts = false;
   @Input() hasError = false;
   @Input() showPendingRelationStatus = false;
-  @Output() toggleContract = new EventEmitter<{
-    checked: boolean;
-    gsrn: string;
-    type: MeteringPointType;
-  }>();
-
-  private modalService = inject(WattModalService);
+  @Output() activateContracts = new EventEmitter<EoMeteringPoint[]>();
+  @Output() deactivateContracts = new EventEmitter<EoMeteringPoint[]>();
 
   ngOnInit(): void {
     this.transloco
@@ -234,15 +221,50 @@ export class EoMeteringPointsTableComponent implements OnInit {
       });
   }
 
+  onSelection(selection: EoMeteringPoint[]): void {
+    const toggableMeteringPoints = selection.filter((meteringPoint) =>
+      this.isToggleable(meteringPoint)
+    );
+
+    this.canActivate.set(toggableMeteringPoints.some((meteringPoint) => !meteringPoint.contract));
+
+    this.canDeactivate.set(toggableMeteringPoints.some((meteringPoint) => meteringPoint.contract));
+  }
+
+  onActivateContracts(selection: EoMeteringPoint[]): void {
+    if(this.creatingContracts) return;
+    const toggableMeteringPoints = selection.filter(
+      (meteringPoint) => this.isToggleable(meteringPoint) && !meteringPoint.contract
+    );
+    if (toggableMeteringPoints.length === 0) return;
+
+    this.activateContracts.emit(toggableMeteringPoints);
+  }
+
+  onDeactivateContracts(selection: EoMeteringPoint[]): void {
+    if(this.deactivatingContracts) return;
+    const toggableMeteringPoints = selection.filter(
+      (meteringPoint) => this.isToggleable(meteringPoint) && meteringPoint.contract
+    );
+    if (toggableMeteringPoints.length === 0) return;
+
+    this.deactivateContracts.emit(toggableMeteringPoints);
+  }
+
+  private isToggleable(meteringPoint: EoMeteringPoint): boolean {
+    return (
+      meteringPoint.type === 'Consumption' ||
+      (meteringPoint.type === 'Production' &&
+        (meteringPoint.technology.aibTechCode === this.techCodes.Wind ||
+          meteringPoint.technology.aibTechCode === this.techCodes.Solar))
+    );
+  }
+
   private setColumns(): void {
     this.columns = {
       gsrn: {
         accessor: 'gsrn',
         header: this.transloco.translate(this.translations.meteringPoints.gsrnTableHeader),
-      },
-      address: {
-        accessor: (meteringPoint) => meteringPoint.address.address1,
-        header: this.transloco.translate(this.translations.meteringPoints.addressTableHeader),
       },
       unit: {
         accessor: (meteringPoint) => meteringPoint.type,
@@ -265,23 +287,32 @@ export class EoMeteringPointsTableComponent implements OnInit {
         },
         header: this.transloco.translate(this.translations.meteringPoints.sourceTableHeader),
       },
-      gc: {
+      address: {
         accessor: (meteringPoint) => {
-          const itemHasActiveContract = meteringPoint.contract ? 'active' : 'enable';
-          return meteringPoint.type === 'Production' ? itemHasActiveContract : '';
+          let adress = meteringPoint.address.address1;
+          if (meteringPoint.address.address2) {
+            adress += ',' + meteringPoint.address.address2;
+          }
+          if (meteringPoint.address.locality) {
+            adress += ',' + meteringPoint.address.locality;
+          }
+          return adress;
         },
-        header: this.transloco.translate(this.translations.meteringPoints.onOffTableHeader),
-        align: 'center',
-        helperAction: () => this.onToggleGranularCertificatesHelperText(),
+        header: this.transloco.translate(this.translations.meteringPoints.addressTableHeader),
+      },
+      city: {
+        accessor: (meteringPoint) =>
+          `${meteringPoint.address.postalCode} ${meteringPoint.address.city}`,
+        header: this.transloco.translate(this.translations.meteringPoints.cityTableHeader),
+      },
+      status: {
+        header: this.transloco.translate(this.translations.meteringPoints.statusTableHeader),
+        accessor: (meteringPoint) => {
+          return meteringPoint.contract ? 'active' : 'inactive';
+        },
       },
     };
 
     this.cd.detectChanges();
-  }
-
-  onToggleGranularCertificatesHelperText() {
-    this.modalService.open({
-      component: GranularCertificateHelperComponent,
-    });
   }
 }

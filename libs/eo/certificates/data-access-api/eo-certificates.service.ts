@@ -20,6 +20,7 @@ import { Observable, map } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
@@ -73,16 +74,23 @@ export class EoCertificatesService {
    * @param gsrn ID of meteringpoint
    * Sends request to create a GC contract for a specific meteringpoint
    */
-  createContract(gsrn: string) {
-    return this.http.post<EoCertificateContract>(`${this.#apiBase}/certificates/contracts`, {
-      gsrn,
-      startDate: Math.floor(new Date().getTime() / 1000),
-    });
+  createContracts(meteringPoints: EoMeteringPoint[]) {
+    return this.http.post<{result: EoCertificateContract[]}>(`${this.#apiBase}/certificates/contracts`, {
+      contracts: meteringPoints.map((mp) => ({
+        gsrn: mp.gsrn,
+        startDate: Math.floor(new Date().getTime() / 1000),
+      }))
+    }).pipe(
+      map((response) => response.result)
+    );
   }
 
-  patchContract(id: string) {
-    return this.http.put<EoCertificateContract>(`${this.#apiBase}/certificates/contracts/${id}`, {
-      endDate: Math.floor(Date.now() / 1000),
+  patchContracts(meteringPoints: EoMeteringPoint[]) {
+    return this.http.put(`${this.#apiBase}/certificates/contracts`, {
+      contracts: meteringPoints.map((mp) => ({
+        id: mp.contract?.id,
+        endDate: Math.floor(Date.now() / 1000)
+      }))
     });
   }
 }

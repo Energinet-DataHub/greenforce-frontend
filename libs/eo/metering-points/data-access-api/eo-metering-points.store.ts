@@ -23,7 +23,7 @@ import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 
-import { MeteringPoint, MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
+import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsService } from './eo-metering-points.service';
 
@@ -33,6 +33,8 @@ interface EoMeteringPointsState {
   meteringPointError: HttpErrorResponse | null;
   contractError: HttpErrorResponse | null;
   relationStatus: 'Created' | 'Pending' | null;
+  creatingContracts: boolean;
+  deativatingContracts: boolean;
 }
 
 @Injectable({
@@ -49,11 +51,15 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       meteringPointError: null,
       contractError: null,
       relationStatus: null,
+      creatingContracts: false,
+      deativatingContracts: false,
     });
   }
 
   readonly loading$ = this.select((state) => state.loading);
   readonly relationStatus$ = this.select((state) => state.relationStatus);
+  readonly creatingContracts$ = this.select((state) => state.creatingContracts);
+  readonly deativatingContracts$ = this.select((state) => state.deativatingContracts);
 
   private readonly setLoading = this.updater(
     (state, loading: boolean): EoMeteringPointsState => ({ ...state, loading })
@@ -111,36 +117,15 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
-  private readonly updateMeteringPointContract = this.updater(
-    (state, contract: { gsrn: string; active: boolean }): EoMeteringPointsState => ({
+  private readonly removeContract = this.updater(
+    (state, id: string): EoMeteringPointsState => ({
       ...state,
-      meteringPoints: state.meteringPoints.map((meteringPoint) => {
-        if (meteringPoint.gsrn !== contract.gsrn) return meteringPoint;
-
-        return {
-          ...meteringPoint,
-          contract: contract.active ? this.generateActiveContract(contract.gsrn) : undefined,
-        };
+      meteringPoints: state.meteringPoints.map((mp) => {
+        if (mp.contract?.id === id) {
+          return { ...mp, contract: undefined };
+        }
+        return mp;
       }),
-    })
-  );
-
-  private generateActiveContract(gsrn: string): EoCertificateContract {
-    return {
-      gsrn,
-      created: Math.floor(Date.now() / 1000),
-      id: '',
-      startDate: Math.floor(Date.now() / 1000),
-      endDate: null,
-    };
-  }
-
-  private readonly toggleContractLoading = this.updater(
-    (state, gsrn: string): EoMeteringPointsState => ({
-      ...state,
-      meteringPoints: state.meteringPoints.map((mp) =>
-        mp.gsrn === gsrn ? { ...mp, loadingContract: !mp.loadingContract } : mp
-      ),
     })
   );
 
@@ -179,36 +164,30 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     });
   }
 
-  private getContractIdForGsrn(gsrn: string): Observable<string | null> {
-    return this.meteringPoints$.pipe(
-      take(1),
-      map((meteringPoints) => meteringPoints.find((mp) => mp.gsrn === gsrn)?.contract?.id || null)
-    );
-  }
-
-  createCertificateContract(gsrn: string, meteringPointType: MeteringPointType) {
-    this.toggleContractLoading(gsrn);
+  createCertificateContracts(meteringPoints: EoMeteringPoint[]) {
+    const hasConsumptionMeteringPoint = meteringPoints.some(meteringPoint => meteringPoint.type === 'Consumption');
 
     const createContract$ =
-      meteringPointType === 'Consumption' ? this.service.startClaim() : of(EMPTY);
+      hasConsumptionMeteringPoint ? this.service.startClaim() : of(EMPTY);
+
+    this.patchState({ creatingContracts: true });
+
     (createContract$ as Observable<unknown>)
-      .pipe(switchMap(() => this.certService.createContract(gsrn)))
+      .pipe(switchMap(() => this.certService.createContracts(meteringPoints)))
       .subscribe({
-        next: (contract) => {
-          this.setContract(contract);
-          this.toggleContractLoading(gsrn);
-          this.patchState({ contractError: null });
+        next: (contracts) => {
+          contracts.forEach(contract => {
+            this.setContract(contract);
+          });
+          this.patchState({ contractError: null, creatingContracts: false });
         },
         error: (error) => {
-          this.patchState({ contractError: error });
-          this.toggleContractLoading(gsrn);
+          this.patchState({ contractError: error, creatingContracts: false });
         },
       });
   }
 
-  deactivateCertificateContract(gsrn: string, meteringPointType: MeteringPointType): void {
-    this.toggleContractLoading(gsrn);
-
+  deactivateCertificateContracts(meteringPoints: EoMeteringPoint[]): void {
     const deactivateConsumptionContract$ = this.consumptionMeteringPointsWithContract$.pipe(
       take(1),
       switchMap((consumptionMeteringPointsWithContract) => {
@@ -218,23 +197,27 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       })
     );
 
+    const hasConsumptionMeteringPoint = meteringPoints.some(meteringPoint => meteringPoint.type === 'Consumption');
     const deactivateContract$ =
-      meteringPointType === 'Consumption' ? deactivateConsumptionContract$ : of(EMPTY);
+    hasConsumptionMeteringPoint ? deactivateConsumptionContract$ : of(EMPTY);
+
+    this.patchState({ deativatingContracts: true });
+
     deactivateContract$
       .pipe(
-        switchMap(() => this.getContractIdForGsrn(gsrn)),
-        filter((id): id is string => !!id),
-        switchMap((id) => this.certService.patchContract(id))
+        switchMap(() => this.certService.patchContracts(meteringPoints))
       )
       .subscribe({
         next: () => {
-          this.updateMeteringPointContract({ gsrn, active: false });
-          this.toggleContractLoading(gsrn);
-          this.patchState({ contractError: null });
+          meteringPoints.forEach(meteringPoint => {
+            const contractId = meteringPoint.contract?.id;
+            if (!contractId) return;
+            this.removeContract(contractId);
+          });
+          this.patchState({ contractError: null, deativatingContracts: false });
         },
         error: (error) => {
-          this.patchState({ contractError: error });
-          this.toggleContractLoading(gsrn);
+          this.patchState({ contractError: error, deativatingContracts: false });
         },
       });
   }

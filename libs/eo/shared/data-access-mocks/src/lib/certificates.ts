@@ -136,25 +136,38 @@ function getCertificatesContracts(apiBase: string) {
 
 function postCertificatesContracts(apiBase: string) {
   return http.post(`${apiBase}/certificates/contracts`, async ({ request }) => {
-    const requestBody = (await request.json()) as { gsrn: string } | null;
+    const requestBody = (await request.json()) as {contracts: { gsrn: string }[]} | null;
 
     if (!requestBody) return new HttpResponse(null, { status: 400 });
 
-    const data = {
-      id: 'ef38c770-a8c0-48ea-8f25-d9a38e84b01c',
-      gsrn: requestBody.gsrn,
+    const data = requestBody.contracts.map((contract) => ({
+      id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(),
+      gsrn: contract.gsrn,
       startDate: 1698311588,
       endDate: null,
       created: 1698311589,
       meteringPointType: null,
-    };
-    return HttpResponse.json(data, { status: 200 });
+    }));
+
+    return HttpResponse.json(data, { status: 500 });
   });
 }
 
 function patchCertificatesContracts(apiBase: string) {
-  return http.patch(`${apiBase}/certificates/contracts/:id`, () => {
-    return new HttpResponse(null, { status: 200 });
+  return http.put(`${apiBase}/certificates/contracts`, async ({ request }) => {
+    const requestBody = (await request.json()) as {contracts: { id: string }[]} | null;
+
+    if (!requestBody) return new HttpResponse(null, { status: 400 });
+
+    const data = requestBody.contracts.map((contract) => ({
+      id: contract.id,
+      startDate: 1698311588,
+      endDate: null,
+      created: 1698311589,
+      meteringPointType: null,
+    }));
+
+    return HttpResponse.json(data, { status: 200 });
   });
 }
 
