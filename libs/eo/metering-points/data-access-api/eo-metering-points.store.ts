@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ComponentStore } from '@ngrx/component-store';
-import { EMPTY, filter, forkJoin, map, Observable, of, switchMap, take } from 'rxjs';
+import { EMPTY, forkJoin, Observable, of, switchMap, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
