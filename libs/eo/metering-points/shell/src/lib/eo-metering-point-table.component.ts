@@ -26,6 +26,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ViewEncapsulation,
   inject,
   signal,
 } from '@angular/core';
@@ -64,23 +65,30 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     JsonPipe,
   ],
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   selector: 'eo-metering-points-table',
   styles: [
     `
-      :host {
+      eo-metering-points-table {
         --mdc-switch-selected-track-color: var(--watt-color-primary);
         --mdc-switch-selected-hover-track-color: var(--watt-color-primary);
         --mdc-switch-selected-focus-track-color: var(--watt-color-primary);
+
+        watt-empty-state {
+          padding: var(--watt-space-l);
+        }
+
+        watt-table .mat-mdc-table:not(.watt-table-has-selection) tr.mdc-data-table__row:last-child .mat-mdc-cell {
+          border-bottom: none;
+        }
+
+        watt-paginator {
+          display: block;
+          margin: 1px -24px -24px -24px;
+        }
       }
 
-      watt-empty-state {
-        padding: var(--watt-space-l);
-      }
 
-      watt-paginator {
-        display: block;
-        margin: 0 -24px -24px -24px;
-      }
     `,
   ],
   template: `
