@@ -16,7 +16,7 @@
  */
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, debounceTime, filter, map, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -46,6 +46,8 @@ import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-act
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { dhToJSON } from './dh-json-util';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -74,6 +76,8 @@ import { dhToJSON } from './dh-json-util';
     TranslocoDirective,
     TranslocoPipe,
 
+    RxPush,
+
     WATT_CARD,
     WattPaginatorComponent,
     VaterFlexComponent,
@@ -93,6 +97,8 @@ export class DhActorsOverviewComponent implements OnInit {
   private _apollo = inject(Apollo);
   private _destroyRef = inject(DestroyRef);
   private _modalService = inject(WattModalService);
+  private _route = inject(ActivatedRoute);
+  private _router = inject(Router);
 
   getActorsQuery$ = this._apollo.watchQuery({
     query: GetActorsDocument,
@@ -155,12 +161,32 @@ export class DhActorsOverviewComponent implements OnInit {
     const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
       this.filters$,
       this.searchInput$.pipe(debounceTime(250)),
-    ]).pipe(map(([filters, searchInput]) => ({ ...filters, searchInput })));
+    ]).pipe(
+      takeUntilDestroyed(this._destroyRef),
+      map(([filters, searchInput]) => ({ ...filters, searchInput }))
+    );
+
+    filtersCombined$.subscribe({
+      next: ({ searchInput, actorStatus, marketRoles }) => {
+        console.log({ searchInput, actorStatus, marketRoles });
+        if (searchInput === '' && actorStatus === null && marketRoles === null) return;
+        this.updateRouteParameters({
+          search: searchInput,
+          status: actorStatus?.join(','),
+          marketRoles: marketRoles?.join(','),
+        });
+      },
+    });
 
     subscription?.add(
-      filtersCombined$.subscribe({
-        next: (filters) => {
-          this.tableDataSource.filter = dhToJSON(filters);
+      this._route.queryParams.subscribe({
+        next: (params) => {
+          const test = {
+            marketRoles: (params as any)?.marketRoles.split(',') ?? [],
+            actorStatus: (params as any)?.status.split(',') ?? [],
+          } as ActorsFilters;
+          this.filters$.next(test);
+          this.tableDataSource.filter = dhToJSON(params);
         },
       })
     );
@@ -211,5 +237,12 @@ export class DhActorsOverviewComponent implements OnInit {
     ]);
 
     exportToCSV({ headers, lines, fileName: 'actors' });
+  }
+
+  private updateRouteParameters(params: { [key: string]: string | undefined }): void {
+    this._router.navigate([], {
+      queryParams: params,
+      queryParamsHandling: 'merge',
+    });
   }
 }

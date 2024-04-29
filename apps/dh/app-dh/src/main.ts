@@ -16,7 +16,7 @@
  */
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withDebugTracing, withInMemoryScrolling } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
@@ -59,6 +59,7 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
         dhCoreShellProviders,
         provideRouter(
           dhCoreShellRoutes,
+          withDebugTracing(),
           withInMemoryScrolling({
             anchorScrolling: 'enabled',
             scrollPositionRestoration: 'enabled',

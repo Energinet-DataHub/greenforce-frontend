@@ -42,7 +42,7 @@ limitations under the License.
     </vater-stack>
 
     <dh-actors-filters
-      [initial]="filters$.value"
+      [initial]="filters$ | push"
       (filter)="filters$.next($event)"
       (formReset)="searchComponent.clear()"
     />
