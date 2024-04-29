@@ -78,7 +78,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           padding: var(--watt-space-l);
         }
 
-        watt-table .mat-mdc-table:not(.watt-table-has-selection) tr.mdc-data-table__row:last-child .mat-mdc-cell {
+        watt-table
+          .mat-mdc-table:not(.watt-table-has-selection)
+          tr.mdc-data-table__row:last-child
+          .mat-mdc-cell {
           border-bottom: none;
         }
 
@@ -87,8 +90,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           margin: 1px -24px -24px -24px;
         }
       }
-
-
     `,
   ],
   template: `
