@@ -75,22 +75,22 @@ export class EoCertificatesService {
    * Sends request to create a GC contract for a specific meteringpoint
    */
   createContracts(meteringPoints: EoMeteringPoint[]) {
-    return this.http.post<{result: EoCertificateContract[]}>(`${this.#apiBase}/certificates/contracts`, {
-      contracts: meteringPoints.map((mp) => ({
-        gsrn: mp.gsrn,
-        startDate: Math.floor(new Date().getTime() / 1000),
-      }))
-    }).pipe(
-      map((response) => response.result)
-    );
+    return this.http
+      .post<{ result: EoCertificateContract[] }>(`${this.#apiBase}/certificates/contracts`, {
+        contracts: meteringPoints.map((mp) => ({
+          gsrn: mp.gsrn,
+          startDate: Math.floor(new Date().getTime() / 1000),
+        })),
+      })
+      .pipe(map((response) => response.result));
   }
 
   patchContracts(meteringPoints: EoMeteringPoint[]) {
     return this.http.put(`${this.#apiBase}/certificates/contracts`, {
       contracts: meteringPoints.map((mp) => ({
         id: mp.contract?.id,
-        endDate: Math.floor(Date.now() / 1000)
-      }))
+        endDate: Math.floor(Date.now() / 1000),
+      })),
     });
   }
 }

@@ -43,10 +43,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import {
-  EoMeteringPoint,
-  AibTechCode,
-} from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -232,7 +229,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   onActivateContracts(selection: EoMeteringPoint[]): void {
-    if(this.creatingContracts) return;
+    if (this.creatingContracts) return;
     const toggableMeteringPoints = selection.filter(
       (meteringPoint) => this.isToggleable(meteringPoint) && !meteringPoint.contract
     );
@@ -242,7 +239,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   onDeactivateContracts(selection: EoMeteringPoint[]): void {
-    if(this.deactivatingContracts) return;
+    if (this.deactivatingContracts) return;
     const toggableMeteringPoints = selection.filter(
       (meteringPoint) => this.isToggleable(meteringPoint) && meteringPoint.contract
     );

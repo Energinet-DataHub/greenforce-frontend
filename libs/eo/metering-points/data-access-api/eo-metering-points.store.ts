@@ -165,10 +165,11 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   }
 
   createCertificateContracts(meteringPoints: EoMeteringPoint[]) {
-    const hasConsumptionMeteringPoint = meteringPoints.some(meteringPoint => meteringPoint.type === 'Consumption');
+    const hasConsumptionMeteringPoint = meteringPoints.some(
+      (meteringPoint) => meteringPoint.type === 'Consumption'
+    );
 
-    const createContract$ =
-      hasConsumptionMeteringPoint ? this.service.startClaim() : of(EMPTY);
+    const createContract$ = hasConsumptionMeteringPoint ? this.service.startClaim() : of(EMPTY);
 
     this.patchState({ creatingContracts: true });
 
@@ -176,7 +177,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       .pipe(switchMap(() => this.certService.createContracts(meteringPoints)))
       .subscribe({
         next: (contracts) => {
-          contracts.forEach(contract => {
+          contracts.forEach((contract) => {
             this.setContract(contract);
           });
           this.patchState({ contractError: null, creatingContracts: false });
@@ -197,19 +198,20 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       })
     );
 
-    const hasConsumptionMeteringPoint = meteringPoints.some(meteringPoint => meteringPoint.type === 'Consumption');
-    const deactivateContract$ =
-    hasConsumptionMeteringPoint ? deactivateConsumptionContract$ : of(EMPTY);
+    const hasConsumptionMeteringPoint = meteringPoints.some(
+      (meteringPoint) => meteringPoint.type === 'Consumption'
+    );
+    const deactivateContract$ = hasConsumptionMeteringPoint
+      ? deactivateConsumptionContract$
+      : of(EMPTY);
 
     this.patchState({ deativatingContracts: true });
 
     deactivateContract$
-      .pipe(
-        switchMap(() => this.certService.patchContracts(meteringPoints))
-      )
+      .pipe(switchMap(() => this.certService.patchContracts(meteringPoints)))
       .subscribe({
         next: () => {
-          meteringPoints.forEach(meteringPoint => {
+          meteringPoints.forEach((meteringPoint) => {
             const contractId = meteringPoint.contract?.id;
             if (!contractId) return;
             this.removeContract(contractId);

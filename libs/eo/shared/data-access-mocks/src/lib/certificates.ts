@@ -136,7 +136,7 @@ function getCertificatesContracts(apiBase: string) {
 
 function postCertificatesContracts(apiBase: string) {
   return http.post(`${apiBase}/certificates/contracts`, async ({ request }) => {
-    const requestBody = (await request.json()) as {contracts: { gsrn: string }[]} | null;
+    const requestBody = (await request.json()) as { contracts: { gsrn: string }[] } | null;
 
     if (!requestBody) return new HttpResponse(null, { status: 400 });
 
@@ -155,7 +155,7 @@ function postCertificatesContracts(apiBase: string) {
 
 function patchCertificatesContracts(apiBase: string) {
   return http.put(`${apiBase}/certificates/contracts`, async ({ request }) => {
-    const requestBody = (await request.json()) as {contracts: { id: string }[]} | null;
+    const requestBody = (await request.json()) as { contracts: { id: string }[] } | null;
 
     if (!requestBody) return new HttpResponse(null, { status: 400 });
 
