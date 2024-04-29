@@ -22,7 +22,7 @@ import { createEsbuildPlugin } from '@badeball/cypress-cucumber-preprocessor/esb
 
 export default defineConfig({
   e2e: {
-    ...nxE2EPreset(__dirname),
+    ...nxE2EPreset(__dirname, { bundler: 'vite' }),
     chromeWebSecurity: false,
     specPattern: '**/*.feature',
     supportFile: false,

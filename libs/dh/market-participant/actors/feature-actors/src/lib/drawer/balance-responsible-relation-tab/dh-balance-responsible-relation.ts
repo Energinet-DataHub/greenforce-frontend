@@ -18,15 +18,27 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { GetBalanceResponsibleRelationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type DhBalanceResponsibleAgreement = ResultOf<
-  typeof GetBalanceResponsibleRelationDocument
->['actorById']['balanceResponsibleAgreements'][0];
+export type DhBalanceResponsibleRelation = NonNullable<
+  ResultOf<
+    typeof GetBalanceResponsibleRelationDocument
+  >['actorById']['balanceResponsibleAgreements']
+>[0];
 
-export type DhBalanceResponsibleAgreements = DhBalanceResponsibleAgreement[];
+export type DhBalanceResponsibleRelations = DhBalanceResponsibleRelation[];
 
-export type DhBalanceResponsibleAgreementsType = 'CONSUMPTION' | 'PRODUCTION';
+export type DhBalanceResponsibleRelationType = 'CONSUMPTION' | 'PRODUCTION';
 
-export type DhBalanceResponsibleAgreementsByType = {
-  type: DhBalanceResponsibleAgreementsType;
-  agreements: DhBalanceResponsibleAgreements;
+export type DhBalanceResponsibleRelationsByType = {
+  type: DhBalanceResponsibleRelationType;
+  relations: DhBalanceResponsibleRelations;
+}[];
+
+export type DhBalanceResponsibleRelationsGrouped = {
+  type: DhBalanceResponsibleRelationType;
+  marketParticipants: {
+    id: string;
+    displayName: string;
+    relations: DhBalanceResponsibleRelations;
+    allRelationsHaveExpired: boolean;
+  }[];
 }[];

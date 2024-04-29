@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter, inject, Input } from '@angular/core';
+import { Component, inject, viewChild, input } from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
-import { Subscription, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import {
   DhPermissionRequiredDirective,
@@ -106,6 +107,7 @@ import { RxPush } from '@rx-angular/template/push';
 export class DhActorDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly permissionService = inject(PermissionService);
+  private readonly closed$ = new Subject<void>();
 
   private subscription?: Subscription;
 
@@ -118,21 +120,27 @@ export class DhActorDrawerComponent {
   actor: DhActorExtended | undefined = undefined;
   hasActorAccess = false;
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
+  drawer = viewChild.required(WattDrawerComponent);
 
-  @Output() closed = new EventEmitter<void>();
+  closed = outputFromObservable(this.closed$);
 
-  @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
-  @Input() gridAreaCodeLookup!: { [Key: string]: string };
+  actorNumberNameLookup = input.required<{
+    [Key: string]: {
+      number: string;
+      name: string;
+    };
+  }>();
+  gridAreaCodeLookup = input.required<{
+    [Key: string]: string;
+  }>();
 
   public open(actorId: string): void {
-    this.drawer?.open();
+    this.drawer().open();
     this.loadActor(actorId);
   }
 
   onClose(): void {
-    this.closed.emit();
+    this.closed$.next();
   }
 
   get marketRoleOrFallback(): string {
@@ -165,7 +173,7 @@ export class DhActorDrawerComponent {
     this.getActorByIdQuery$.setVariables({ id });
 
     this.subscription = this.getActorByIdQuery$.valueChanges
-      .pipe(takeUntil(this.closed))
+      .pipe(takeUntil(this.closed$))
       .subscribe({
         next: (result) => {
           this.actor = result.data?.actorById;
@@ -174,7 +182,7 @@ export class DhActorDrawerComponent {
 
     this.permissionService
       .hasActorAccess(id)
-      .pipe(takeUntil(this.closed))
+      .pipe(takeUntil(this.closed$))
       .subscribe((hasAccess) => (this.hasActorAccess = hasAccess));
   }
 }

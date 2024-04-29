@@ -84,9 +84,9 @@ export const mockedGridAreas: GridAreaDto[] = [
   {
     __typename: 'GridAreaDto',
     id: '1',
-    code: '805',
+    code: '001',
     name: 'hello',
-    displayName: '805 • hello',
+    displayName: '001 • hello',
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
@@ -94,9 +94,9 @@ export const mockedGridAreas: GridAreaDto[] = [
   {
     __typename: 'GridAreaDto',
     id: '2',
-    code: '806',
+    code: '002',
     name: 'hello again',
-    displayName: '806 • hello again',
+    displayName: '002 • hello again',
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,

@@ -14,11 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { defineConfig } from 'cypress';
-import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
+import { http, HttpResponse } from 'msw';
 
-export default defineConfig({
-  e2e: nxE2EPreset(__dirname, { bundler: 'vite' }),
-  video: true,
-  defaultCommandTimeout: 6000,
-});
+export function defaultMocks(apiBase: string) {
+  return [eventStream(apiBase)];
+}
+
+function eventStream(apiBase: string) {
+  return http.post(`${apiBase}/graphql`, (x) => {
+    if (x.request.headers.get('accept') !== 'text/event-stream') return;
+    return new HttpResponse(new ReadableStream(), {
+      headers: {
+        Connection: 'keep-alive',
+        'Content-Type': 'text/event-stream',
+      },
+    });
+  });
+}

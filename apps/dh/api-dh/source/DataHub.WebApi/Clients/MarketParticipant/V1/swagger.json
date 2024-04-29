@@ -816,12 +816,12 @@
         }
       }
     },
-    "/balance-responsibility-agreements/{actorId}": {
+    "/balance-responsibility-relations/{actorId}": {
       "get": {
         "tags": [
-          "BalanceResponsibilityAgreements"
+          "BalanceResponsibilityRelations"
         ],
-        "operationId": "balance-responsibility-agreements",
+        "operationId": "balance-responsibility-relations",
         "parameters": [
           {
             "name": "actorId",
@@ -841,7 +841,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                    "$ref": "#/components/schemas/BalanceResponsibilityRelationDto"
                   }
                 }
               },
@@ -849,7 +849,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                    "$ref": "#/components/schemas/BalanceResponsibilityRelationDto"
                   }
                 }
               },
@@ -857,7 +857,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BalanceResponsibilityAgreementDto"
+                    "$ref": "#/components/schemas/BalanceResponsibilityRelationDto"
                   }
                 }
               }
@@ -3161,7 +3161,7 @@
           }
         }
       },
-      "BalanceResponsibilityAgreementDto": {
+      "BalanceResponsibilityRelationDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3472,7 +3472,8 @@
           "DataHubAdministrator",
           "IndependentAggregator",
           "SerialEnergyTrader",
-          "Delegated"
+          "Delegated",
+          "ItSupplier"
         ]
       },
       "GetActorsAssociatedWithExternalUserIdResponse": {

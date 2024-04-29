@@ -37,8 +37,7 @@ export const marketParticipantActors: Actor[] = [
         id: '1',
       } as GridAreaDto,
     ],
-    balanceResponsibleAgreements: [],
-    marketRole: EicFunction.BalanceResponsibleParty,
+    marketRole: EicFunction.EnergySupplier,
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
@@ -59,7 +58,6 @@ export const marketParticipantActors: Actor[] = [
         id: '2',
       } as GridAreaDto,
     ],
-    balanceResponsibleAgreements: [],
     marketRole: EicFunction.GridAccessProvider,
     status: ActorStatus.Active,
     organization: {
@@ -81,9 +79,8 @@ export const marketParticipantActors: Actor[] = [
         id: '3',
       } as GridAreaDto,
     ],
-    balanceResponsibleAgreements: [],
     marketRole: EicFunction.BalanceResponsibleParty,
-    status: ActorStatus.Inactive,
+    status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
       name: 'Test Organization 2',
@@ -103,7 +100,6 @@ export const marketParticipantActors: Actor[] = [
         id: '4',
       } as GridAreaDto,
     ],
-    balanceResponsibleAgreements: [],
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Inactive,
     organization: {
@@ -125,7 +121,6 @@ export const marketParticipantActors: Actor[] = [
         id: '5',
       } as GridAreaDto,
     ],
-    balanceResponsibleAgreements: [],
     marketRole: EicFunction.DanishEnergyAgency,
     status: ActorStatus.Active,
     organization: {
