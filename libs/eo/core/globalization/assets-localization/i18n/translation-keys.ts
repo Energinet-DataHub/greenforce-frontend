@@ -183,18 +183,21 @@ export interface TranslationKeys {
     tableTitle: string;
     gsrnTableHeader: string;
     addressTableHeader: string;
+    cityTableHeader: string;
+    statusTableHeader: string;
     unitTableHeader: string;
     sourceTableHeader: string;
-    onOffTableHeader: string;
-    onOffTooltipTitle: string;
-    onOffTooltipClose: string;
-    onOffTooltipMessage: string;
     consumptionUnit: string;
     productionUnit: string;
     solarSource: string;
     windSource: string;
     otherSource: string;
     contractError: string;
+    selected: string;
+    activate: string;
+    deactivate: string;
+    active: string;
+    inactive: string;
   };
   claims: {
     title: string;
