@@ -24,7 +24,6 @@ using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
-using WholesaleOrchestrationsCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto.StartCalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -88,7 +87,7 @@ public class Mutation
     public async Task<Guid> CreateCalculationAsync(
         Interval period,
         string[] gridAreaCodes,
-        WholesaleOrchestrationsCalculationType calculationType,
+        StartCalculationType calculationType,
         [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,
         CancellationToken cancellationToken)
