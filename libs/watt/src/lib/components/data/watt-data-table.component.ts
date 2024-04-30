@@ -63,6 +63,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
         margin: calc(-1 * var(--watt-space-m)) -24px -24px;
       }
 
+      watt-data-table watt-table .mat-mdc-table tr.mdc-data-table__row:last-child .mat-mdc-cell {
+        border-bottom: none;
+      }
+
       .watt-data-table--empty-state {
         margin-bottom: var(--watt-space-m);
         overflow: auto;
