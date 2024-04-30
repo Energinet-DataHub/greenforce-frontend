@@ -535,7 +535,7 @@ input CreateAggregatedMeasureDataRequestInput {
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: CalculationType!
+  calculationType: StartCalculationType!
 }
 
 input CreateDelegationsForActorInput {
@@ -819,6 +819,22 @@ enum SettlementReportStatusType {
 enum SortDirection {
   ASCENDING
   DESCENDING
+}
+
+"Defines the wholesale orchestrations calculation type"
+enum StartCalculationType {
+  "Balance fixing"
+  BALANCE_FIXING
+  "Aggregation."
+  AGGREGATION
+  "Wholesale fixing."
+  WHOLESALE_FIXING
+  "First correction settlement."
+  FIRST_CORRECTION_SETTLEMENT
+  "Second correction settlement."
+  SECOND_CORRECTION_SETTLEMENT
+  "Third correction settlement."
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum TimeSeriesType {
