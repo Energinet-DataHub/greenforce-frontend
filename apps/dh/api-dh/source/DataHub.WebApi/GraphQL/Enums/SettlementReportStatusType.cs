@@ -16,8 +16,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
 public enum SettlementReportStatusType
 {
-    Info,
-    Warning,
+    InProgress,
     Error,
     Completed,
 }

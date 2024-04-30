@@ -387,12 +387,12 @@ type ResendWaitingEsettExchangeMessagesPayload {
 
 type SettlementReportType {
   id: UUID!
-  actorName: ActorNameDto!
+  actorName: ActorNameDto
   calculationType: CalculationType!
   period: DateRange!
   gridAreas: Int!
   includesBaseData: Boolean!
-  status: String!
+  statusMessage: String!
   progress: Int!
   statusType: SettlementReportStatusType!
   fileId: UUID!
@@ -807,8 +807,7 @@ enum ProcessStatus {
 }
 
 enum SettlementReportStatusType {
-  INFO
-  WARNING
+  IN_PROGRESS
   ERROR
   COMPLETED
 }

@@ -20,12 +20,12 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 public sealed record SettlementReportType(
     Guid Id,
-    ActorNameDto ActorName,
+    ActorNameDto? ActorName,
     Clients.Wholesale.v3.CalculationType CalculationType,
     Interval Period,
     int GridAreas,
     bool IncludesBaseData,
-    string Status,
+    string StatusMessage,
     int Progress,
     SettlementReportStatusType StatusType,
     Guid FileId);
