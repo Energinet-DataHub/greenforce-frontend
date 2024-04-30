@@ -14,37 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LowerCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  DestroyRef,
   Input,
   OnChanges,
-  OnInit,
   SimpleChanges,
   ViewChild,
-  inject,
-  signal,
 } from '@angular/core';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { translations } from '@energinet-datahub/eo/translations';
 
 import {
   EoListedTransfer,
-  EoTransferAgreementsHistory,
-  EoTransfersService,
 } from './eo-transfers.service';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { HttpErrorResponse } from '@angular/common/http';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
 import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
 
@@ -52,14 +33,6 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-history',
   imports: [
-    LowerCasePipe,
-    WATT_TABLE,
-    WattBadgeComponent,
-    WattButtonComponent,
-    WattDatePipe,
-    WattEmptyStateComponent,
-    WattPaginatorComponent,
-    TranslocoPipe,
     EoActivityLogComponent,
   ],
   styles: [
@@ -107,40 +80,9 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
     />
   `,
 })
-export class EoTransfersHistoryComponent implements OnInit, OnChanges {
+export class EoTransfersHistoryComponent implements OnChanges {
   @Input() transfer?: EoListedTransfer;
-
   @ViewChild(EoActivityLogComponent) log!: EoActivityLogComponent;
-
-  private transloco = inject(TranslocoService);
-  private cd = inject(ChangeDetectorRef);
-  private transferService = inject(EoTransfersService);
-  private destroyRef = inject(DestroyRef);
-
-  protected translations = translations;
-  protected dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
-  protected columns!: WattTableColumnDef<EoTransferAgreementsHistory>;
-
-  protected transferHistoryState = signal<{ loading: boolean; error: HttpErrorResponse | null }>({
-    loading: false,
-    error: null,
-  });
-
-  filter(logEntries: ActivityLogEntryResponse[]) {
-    return logEntries.filter((entry) => {
-      return entry.entityId === this.transfer?.id;
-    });
-  }
-
-  ngOnInit(): void {
-    this.transloco
-      .selectTranslation()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.setColumns();
-        this.cd.detectChanges();
-      });
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['transfer']?.currentValue && this.log && this.log.refresh) {
@@ -148,42 +90,15 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
     }
   }
 
+  filter(logEntries: ActivityLogEntryResponse[]) {
+    return logEntries.filter((entry) => {
+      return entry.entityId === this.transfer?.id;
+    });
+  }
+
   refresh() {
     if (this.log && this.log.refetch) {
       this.log.refetch();
     }
-  }
-
-  private setColumns(): void {
-    this.columns = {
-      createdAt: {
-        accessor: 'createdAt',
-        header: this.transloco.translate(
-          this.translations.transferAgreementHistory.timeTableHeader
-        ),
-      },
-      action: {
-        accessor: 'action',
-        header: this.transloco.translate(
-          this.translations.transferAgreementHistory.eventTableHeader
-        ),
-      },
-    };
-  }
-
-  getHistory(transferAgreementId?: string): void {
-    if (!transferAgreementId) return;
-
-    this.transferHistoryState.set({ loading: true, error: null });
-
-    this.transferService.getHistory(transferAgreementId).subscribe({
-      next: (response) => {
-        this.dataSource.data = response;
-        this.transferHistoryState.set({ loading: false, error: null });
-      },
-      error: (error: HttpErrorResponse) => {
-        this.transferHistoryState.set({ loading: false, error });
-      },
-    });
   }
 }

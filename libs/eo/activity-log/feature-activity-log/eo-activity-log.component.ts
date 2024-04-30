@@ -29,7 +29,7 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { endOfToday, getUnixTime, startOfDay, startOfToday, subDays } from 'date-fns';
+import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
@@ -53,7 +53,7 @@ import {
 import { WATT_CARD_VARIANT } from '@energinet-datahub/watt/card';
 
 interface ActivityLogForm {
-  period: FormControl<{ start: number; end: number }>;
+  period: FormControl<{ start: number | null; end: number | null }>;
   eventTypes: FormControl<activityLogEntityType[]>;
 }
 
@@ -192,7 +192,7 @@ export class EoActivityLogComponent implements OnInit {
 
   private initForm() {
     this.form = new FormGroup({
-      period: new FormControl(this.last30days(), { nonNullable: true }),
+      period: new FormControl(this.period, { nonNullable: true }),
       eventTypes: new FormControl<activityLogEntityType[]>(
         this.eventTypeOptions.map((option) => option.value as activityLogEntityType),
         { nonNullable: true }

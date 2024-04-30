@@ -91,7 +91,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
       <watt-drawer-heading>
         <h2>
           {{ transfer?.receiverTin }} -
-          {{ transfer?.receiverName || translations.transferAgreement.unknownReceiver | transloco }}
+          {{ transfer?.receiverName || (translations.transferAgreement.unknownReceiver | transloco) }}
         </h2>
         <p class="sub-header">
           <span class="watt-label">{{
@@ -120,8 +120,8 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
                     [value]="
                       transfer?.receiverTin +
                       ' - ' +
-                      (transfer?.receiverName || translations.transferAgreement.unknownReceiver
-                        | transloco)
+                      (transfer?.receiverName || (translations.transferAgreement.unknownReceiver
+                        | transloco))
                     "
                   />
                   <watt-description-list-item
