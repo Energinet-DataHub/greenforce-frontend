@@ -103,7 +103,7 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
       [showFilters]="false"
       [eventTypes]="['TransferAgreement']"
       [filter]="filter.bind(this)"
-      [period]="{start: null, end: null}"
+      [period]="{ start: null, end: null }"
     />
   `,
 })
@@ -151,7 +151,7 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   }
 
   refresh() {
-    if(this.log && this.log.refetch) {
+    if (this.log && this.log.refetch) {
       this.log.refetch();
     }
   }

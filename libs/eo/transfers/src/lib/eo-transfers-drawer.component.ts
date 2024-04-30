@@ -184,7 +184,7 @@ export class EoTransfersDrawerComponent {
 
   onEdit(event: unknown) {
     this.saveTransferAgreement.emit(event);
-    if(this.history && this.history.refresh) {
+    if (this.history && this.history.refresh) {
       this.history.refresh();
     }
   }
