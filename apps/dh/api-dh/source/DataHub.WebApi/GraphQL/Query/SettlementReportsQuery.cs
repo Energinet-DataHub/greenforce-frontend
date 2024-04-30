@@ -29,7 +29,7 @@ public partial class Query
         await Task.FromResult(new List<SettlementReportType>());
 
     public async Task<IEnumerable<RequestSettlementReportGridAreaCalculation>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
-        Guid gridAreaId,
+        Guid[] gridAreaId,
         Interval calucaltionPeriod,
         [Service] IWholesaleClient_V3 client) =>
 

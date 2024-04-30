@@ -356,7 +356,7 @@ type Query {
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   settlementReports(input: CalculationQueryInput!): [SettlementReportType!]!
-  settlementReportGridAreaCalculationsForPeriod(gridAreaId: UUID! calucaltionPeriod: DateRange!): [RequestSettlementReportGridAreaCalculation!]!
+  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [RequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
