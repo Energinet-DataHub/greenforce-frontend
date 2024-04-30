@@ -1,10 +1,9 @@
+# GreenForce
+
 [nx]: https://nx.dev
 [angular]: https://angular.io
 
-# GreenForce
-
 [![GitHub Workflow Status (event)](https://img.shields.io/github/actions/workflow/status/Energinet-DataHub/greenforce-frontend/dh-cd.yml?branch=main)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-cd.yml)
-[![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/geh-frontend-app/main?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=geh-frontend-app)
 [![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)](https://github.com/angular/angular/blob/main/CHANGELOG.md)
 
 Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
@@ -315,7 +314,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
 - `dh-ci-frontend.yml` - Used by DataHub frontend for publishing a release and generating API clients. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 - `dh-healthchecks.yml` - Runs E2E health check tests every hour against all DataHub environments.
 - `eo-cd.yml` - Used by "Energy Origin" app.
-- `frontend-ci.yml` - Used to build, scan with SonarCloud, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
+- `frontend-ci.yml` - Used to build, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
 - `license-check-ci.yml` - Used to check for license headers in files and adding them if missing.
 - `production-dependencies-license-check.yml` - Used for documenting used versions and licenses of production dependencies.
 - `watt-cd.yml` - Used for publishing Watt to Chromatic and dispatching a notification on failure.
