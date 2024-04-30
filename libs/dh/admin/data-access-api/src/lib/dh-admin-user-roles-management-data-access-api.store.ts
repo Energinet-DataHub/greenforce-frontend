@@ -74,7 +74,19 @@ export class DhAdminUserRolesManagementDataAccessApiStore
         (!filter.eicFunctions ||
           filter.eicFunctions.length == 0 ||
           filter.eicFunctions.includes(role.eicFunction)) &&
-        (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()))
+        (!filter.searchTerm ||
+          filter.searchTerm
+            .split(' ')
+            .reduce(
+              (p, c) =>
+                p ||
+                role.name.toUpperCase().includes(c.toUpperCase()) ||
+                this._transloco
+                  .translate(`marketParticipant.marketRoles.${role.eicFunction}`)
+                  .toUpperCase()
+                  .includes(c.toUpperCase()),
+              false
+            ))
     )
   );
 

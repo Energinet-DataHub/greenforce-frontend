@@ -210,19 +210,21 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     tableTitle: 'Available metering points',
     gsrnTableHeader: 'Metering Point',
     addressTableHeader: 'Address',
+    cityTableHeader: 'City',
+    statusTableHeader: 'Status',
     unitTableHeader: 'Unit',
     sourceTableHeader: 'Source',
-    onOffTableHeader: 'Off/On',
-    onOffTooltipTitle: 'Not all metering points can be enabled',
-    onOffTooltipMessage:
-      'A metering point must have a wind or solar source to become eligible for activation.',
-    onOffTooltipClose: 'Close',
     consumptionUnit: 'Consumption',
     productionUnit: 'Production',
     solarSource: 'Solar',
     windSource: 'Wind',
     otherSource: 'Other',
     contractError: 'Issue encountered. Please try again or reload the page.',
+    selected: '{{amount}} metering points selected',
+    activate: 'Activate',
+    deactivate: 'Deactivate',
+    active: 'Active',
+    inactive: 'Inactive',
   },
   claims: {
     title: 'Claims',
@@ -422,27 +424,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Receiver',
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
-  },
-  transferAgreementHistory: {
-    tableTitle: 'Changes',
-    timeTableHeader: 'Time',
-    eventTableHeader: 'Change',
-    events: {
-      createdTransferAgreement: '<strong>{{actor}}</strong> has created the transfer agreement',
-      updatedTransferAgreementToHaveNoEndDate:
-        '<strong>{{actor}}</strong> has updated the transfer agreement to have <strong>no end date</strong>',
-      updatedTransferAgreementToHaveEndDate:
-        '<strong>{{actor}}</strong> has updated the end date to <strong>{{endDate}}</strong>',
-      deletedTransferAgreement: '<strong>{{actor}}</strong> has deleted the transfer agreement',
-    },
-    noData: {
-      title: 'No history was found',
-    },
-    error: {
-      title: 'An unexpected error occured',
-      message: 'Try again or contact your system administrator if you keep getting this error.',
-      retry: 'Try again',
-    },
   },
   transferAgreementEdit: {
     title: 'Edit transfer agreement',

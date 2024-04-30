@@ -23,7 +23,7 @@ import {
   VaterUtilityDirective,
 } from '../vater';
 
-import { WattCardComponent } from '../card';
+import { WATT_CARD_VARIANT, WattCardComponent } from '../card';
 import { WattSearchComponent } from '../search';
 import { WattTableComponent } from '../table';
 import { WattPaginatorComponent } from '../paginator';
@@ -63,6 +63,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
         margin: calc(-1 * var(--watt-space-m)) -24px -24px;
       }
 
+      watt-data-table watt-table .mat-mdc-table tr.mdc-data-table__row:last-child .mat-mdc-cell {
+        border-bottom: none;
+      }
+
       .watt-data-table--empty-state {
         margin-bottom: var(--watt-space-m);
         overflow: auto;
@@ -74,7 +78,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
     `,
   ],
   template: `
-    <watt-card vater fill="vertical">
+    <watt-card vater fill="vertical" [variant]="variant">
       <vater-flex fill="vertical" gap="m">
         <vater-stack direction="row" gap="m">
           <vater-stack direction="row" gap="s">
@@ -110,6 +114,7 @@ export class WattDataTableComponent {
   @Input() error: unknown;
   @Input() enableSearch = true;
   @Input() count?: number;
+  @Input() variant: WATT_CARD_VARIANT = 'elevation';
 
   @ContentChild(WattTableComponent, { descendants: true })
   table!: WattTableComponent<unknown>;
