@@ -15,6 +15,8 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types;
@@ -23,7 +25,7 @@ using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
-using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using WholesaleOrchestrationsCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -85,8 +87,8 @@ public class Mutation
     public async Task<Guid> CreateCalculationAsync(
         Interval period,
         string[] gridAreaCodes,
-        WholesaleCalculationType calculationType,
-        [Service] IWholesaleClient_V3 client,
+        WholesaleOrchestrationsCalculationType calculationType,
+        [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,
         CancellationToken cancellationToken)
     {
@@ -95,16 +97,14 @@ public class Mutation
             throw new Exception("Period cannot be open-ended");
         }
 
-        var calculationRequestDto = new CalculationRequestDto
-        {
-            StartDate = period.Start.ToDateTimeOffset(),
-            EndDate = period.End.ToDateTimeOffset(),
-            GridAreaCodes = gridAreaCodes,
-            CalculationType = calculationType,
-        };
+        var requestDto = new StartCalculationRequestDto(
+            StartDate: period.Start.ToDateTimeOffset(),
+            EndDate: period.End.ToDateTimeOffset(),
+            GridAreaCodes: gridAreaCodes,
+            CalculationType: calculationType);
 
         var calculationId = await client
-            .CreateCalculationAsync(calculationRequestDto, cancellationToken);
+            .StartCalculationAsync(requestDto, cancellationToken);
 
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId, cancellationToken);
 
