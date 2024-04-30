@@ -120,8 +120,6 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   protected translations = translations;
   protected dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
   protected columns!: WattTableColumnDef<EoTransferAgreementsHistory>;
-  protected startDate: Date | null = null;
-  protected endDate: Date | null = null;
 
   protected transferHistoryState = signal<{ loading: boolean; error: HttpErrorResponse | null }>({
     loading: false,
