@@ -21,6 +21,7 @@
   --watt-button-text-hover-color: var(--watt-color-primary-dark);
   --watt-button-text-focus-color: var(--watt-color-primary);
   --watt-button-text-transform: none;
+  --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
 }
 
 @mixin primary-hover {
@@ -65,7 +66,7 @@ watt-button {
   &.watt-button--primary {
     &.watt-button--disabled .mat-mdc-button.mat-primary {
       background-color: transparent;
-      color: var(--watt-color-neutral-grey-500);
+      color: var(--watt-button-primary-disabled-color);
     }
 
     watt-spinner {

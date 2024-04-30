@@ -45,6 +45,8 @@ export class StorybookIconOverviewComponent {
     {
       icons: [
         { name: 'Search', icon: 'search' },
+        { name: 'Toggle On', icon: 'toggleOn' },
+        { name: 'Toggle Off', icon: 'toggleOff' },
         { name: 'Filter', icon: 'filter' },
         { name: 'Plus', icon: 'plus' },
         { name: 'Minus', icon: 'minus' },

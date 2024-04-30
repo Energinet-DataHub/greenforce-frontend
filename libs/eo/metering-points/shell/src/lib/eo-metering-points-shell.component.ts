@@ -25,7 +25,7 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { MeteringPointType } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
 import { Observable, combineLatest, map } from 'rxjs';
@@ -71,8 +71,11 @@ import { Observable, combineLatest, map } from 'rxjs';
         [meteringPoints]="meteringPoints$ | async"
         [showPendingRelationStatus]="!!(showPendingRelationStatus$ | async)"
         [loading]="!!(isLoading$ | async)"
+        [creatingContracts]="!!(creatingContracts$ | async)"
+        [deactivatingContracts]="!!(deactivatingContracts$ | async)"
         [hasError]="!!(meteringPointError$ | async)"
-        (toggleContract)="onToggleContract($event)"
+        (activateContracts)="activateContracts($event)"
+        (deactivateContracts)="deactivateContracts($event)"
       />
     </watt-card>
   `,
@@ -84,6 +87,8 @@ export class EoMeteringPointsShellComponent implements OnInit {
   private transloco = inject(TranslocoService);
 
   protected isLoading$ = this.meteringPointStore.loading$;
+  protected creatingContracts$ = this.meteringPointStore.creatingContracts$;
+  protected deactivatingContracts$ = this.meteringPointStore.deativatingContracts$;
   protected meteringPoints$ = this.meteringPointStore.meteringPoints$;
   protected showPendingRelationStatus$: Observable<boolean> = combineLatest([
     this.meteringPoints$,
@@ -110,12 +115,11 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  onToggleContract(event: { checked: boolean; gsrn: string; type: MeteringPointType }) {
-    const { checked, gsrn, type } = event;
-    if (checked) {
-      this.meteringPointStore.createCertificateContract(gsrn, type);
-    } else {
-      this.meteringPointStore.deactivateCertificateContract(gsrn, type);
-    }
+  activateContracts(meteringPoints: EoMeteringPoint[]) {
+    this.meteringPointStore.createCertificateContracts(meteringPoints);
+  }
+
+  deactivateContracts(meteringPoints: EoMeteringPoint[]) {
+    this.meteringPointStore.deactivateCertificateContracts(meteringPoints);
   }
 }
