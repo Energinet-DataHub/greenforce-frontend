@@ -15,7 +15,7 @@
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 
 /// <summary>
-/// Defines the wholesale calculation type
+/// Defines the wholesale orchestrations calculation type
 /// </summary>
 public enum StartCalculationType
 {
