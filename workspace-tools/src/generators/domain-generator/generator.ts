@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { installPackagesTask, Tree } from '@nx/devkit';
-import libraryGenerator, { LibraryType } from '../library-generator';
+import libraryGenerator, { LibraryType } from '../library-generator/generator';
 
 interface Schema {
   domain: string;
