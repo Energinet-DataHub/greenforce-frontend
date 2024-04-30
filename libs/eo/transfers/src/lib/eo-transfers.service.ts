@@ -159,27 +159,4 @@ export class EoTransfersService {
         }))
       );
   }
-
-  getHistory(transferAgreementId: string, limit = 10, offset = 0) {
-    return this.http
-      .get<EoTransferAgreementsHistoryResponse>(
-        `${this.#apiBase}/transfer/transfer-agreements/${transferAgreementId}/history?limit=${limit}&offset=${offset}`
-      )
-      .pipe(
-        map((response) => response.items),
-        map((items) =>
-          items.map((item) => ({
-            ...item,
-            createdAt: item.createdAt * 1000,
-            transferAgreement: {
-              ...item.transferAgreement,
-              startDate: item.transferAgreement.startDate * 1000,
-              endDate: item.transferAgreement.endDate
-                ? item.transferAgreement.endDate * 1000
-                : null,
-            },
-          }))
-        )
-      );
-  }
 }

@@ -210,19 +210,21 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     tableTitle: 'Tilgængelige målepunkter',
     gsrnTableHeader: 'Målepunkt',
     addressTableHeader: 'Adresse',
+    cityTableHeader: 'By',
+    statusTableHeader: 'Status',
     unitTableHeader: 'Enhed',
     sourceTableHeader: 'Kilde',
-    onOffTableHeader: 'Fra/Til',
-    onOffTooltipTitle: 'Ikke alle målepunkter kan aktiveres',
-    onOffTooltipMessage:
-      'Et målepunkt skal have en vind- eller solkilde for at blive berettiget til aktivering.',
-    onOffTooltipClose: 'Luk',
     consumptionUnit: 'Forbrug',
     productionUnit: 'Produktion',
     solarSource: 'Sol',
     windSource: 'Vind',
     otherSource: 'Andet',
     contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.',
+    selected: '{{amount}} målepunkt(er) valgt',
+    activate: 'Aktiver',
+    deactivate: 'Deaktiver',
+    active: 'Aktiv',
+    inactive: 'Inaktiv',
   },
   claims: {
     title: 'Grønt Forbrug',
@@ -422,28 +424,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Modtager',
     unknownReceiver: 'Ukendt virksomhed',
     idLabel: 'ID',
-  },
-  transferAgreementHistory: {
-    tableTitle: 'Ændringer',
-    timeTableHeader: 'Tid',
-    eventTableHeader: 'Handling',
-    events: {
-      createdTransferAgreement: '<strong>{{actor}}</strong> har oprettet overførselsaftalen',
-      updatedTransferAgreementToHaveNoEndDate:
-        '<strong>{{actor}}</strong> har opdateret overførselsaftalen til ikke at have <strong>ingen slutdato</strong>',
-      updatedTransferAgreementToHaveEndDate:
-        '<strong>{{actor}}</strong> har opdateret slutdatoen til <strong>{{endDate}}</strong>',
-      deletedTransferAgreement: '<strong>{{actor}}</strong> har slettet overførselsaftalen',
-    },
-    noData: {
-      title: 'Ingen historik blev fundet',
-    },
-    error: {
-      title: 'Ups! Noget gik galt.',
-      message:
-        'Prøv igen eller kontakt din systemadministrator, hvis du fortsat modtager denne fejl.',
-      retry: 'Prøv igen',
-    },
   },
   transferAgreementEdit: {
     title: 'Rediger overførselsaftale',
