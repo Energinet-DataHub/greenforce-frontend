@@ -232,6 +232,11 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
+type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
+  key: String!
+  value: [RequestSettlementReportGridAreaCalculation!]!
+}
+
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
@@ -276,6 +281,7 @@ type Mutation {
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
 }
 
 type Organization {
@@ -354,6 +360,8 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  settlementReports: [SettlementReportType!]!
+  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -368,8 +376,31 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+type RequestSettlementReportGridAreaCalculation {
+  calculationId: UUID!
+  calculationDate: DateTime!
+  gridAreaId: UUID!
+}
+
+type RequestSettlementReportPayload {
+  boolean: Boolean
+}
+
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
+}
+
+type SettlementReportType {
+  id: UUID!
+  actorName: ActorNameDto
+  calculationType: CalculationType!
+  period: DateRange!
+  gridAreas: Int!
+  includesBaseData: Boolean!
+  statusMessage: String!
+  progress: Int!
+  statusType: SettlementReportStatusType!
+  fileId: UUID!
 }
 
 type StopDelegationPayload {
@@ -532,6 +563,21 @@ input CreateProcessDelegationsInput {
   gridAreas: [String!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
+}
+
+input RequestSettlementReportGridAreaInput {
+  calculationId: UUID!
+  gridAreaId: UUID!
+}
+
+input RequestSettlementReportInput {
+  calculationType: CalculationType!
+  period: DateRange!
+  gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
+  combineResultInASingleFile: Boolean!
+  includeMonthlySums: Boolean!
+  inculdeBasicData: Boolean!
+  supplierId: UUID
 }
 
 input StopDelegationInput {
@@ -762,6 +808,12 @@ enum ProcessStatus {
   success
   danger
   info
+}
+
+enum SettlementReportStatusType {
+  IN_PROGRESS
+  ERROR
+  COMPLETED
 }
 
 enum SortDirection {
