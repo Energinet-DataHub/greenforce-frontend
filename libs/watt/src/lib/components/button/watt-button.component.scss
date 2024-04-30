@@ -16,6 +16,10 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+:root {
+  --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
+}
+
 @mixin primary-hover {
   background: var(--watt-color-primary-dark);
 }
@@ -58,7 +62,7 @@ watt-button {
   &.watt-button--primary {
     &.watt-button--disabled .mat-mdc-button.mat-primary {
       background-color: transparent;
-      color: var(--watt-color-neutral-grey-500);
+      color: var(--watt-button-primary-disabled-color);
     }
 
     watt-spinner {

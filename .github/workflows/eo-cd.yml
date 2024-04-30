@@ -113,28 +113,6 @@ jobs:
         id: version
         uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
 
-  sonarcloud:
-    name: SonarCloud
-    if: ${{ needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          args: >
-            -Dsonar.projectKey=energinet-datahub_energy-origin-frontend
-            -Dsonar.organization=energinet-datahub
-            -Dsonar.sources=apps/eo/app-eo,libs/eo
-            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts,libs/eo/shared/data-access-mocks/src/lib/**/*,libs/eo/core/globalization/assets-localization/**/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
-
   build:
     runs-on: ubuntu-latest
     name: Build
