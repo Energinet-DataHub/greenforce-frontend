@@ -218,6 +218,9 @@
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
       ],
+      "@energinet-datahub/dh/wholesale/feature-settlement-reports-v2": [
+        "libs/dh/wholesale/feature-settlement-reports-v2/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/routing": [
         "libs/dh/wholesale/routing/src/index.ts"
       ],
