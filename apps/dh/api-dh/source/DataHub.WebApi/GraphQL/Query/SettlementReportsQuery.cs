@@ -22,7 +22,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 public partial class Query
 {
     public async Task<IEnumerable<SettlementReportType>> GetSettlementReportsAsync(
-        CalculationQueryInput input,
         [Service] IWholesaleClient_V3 client) =>
 
         // Temporary return value until client is ready to provide data
