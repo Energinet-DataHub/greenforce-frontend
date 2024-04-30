@@ -46,11 +46,12 @@ import { WattCardTitleComponent } from './watt-card-title.component';
   standalone: true,
 })
 export class WattCardComponent {
-  @Input() variant: 'solid' | 'elevation' = 'elevation';
+  @Input() variant: WATT_CARD_VARIANT = 'elevation';
   @HostBinding('class')
   get cssClass() {
     return `watt-card watt-${this.variant}`;
   }
 }
 
+export type WATT_CARD_VARIANT = 'solid' | 'elevation';
 export const WATT_CARD = [WattCardComponent, WattCardTitleComponent];
