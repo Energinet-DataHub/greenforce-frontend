@@ -232,6 +232,11 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
+type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
+  key: String!
+  value: [RequestSettlementReportGridAreaCalculation!]!
+}
+
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
@@ -356,7 +361,7 @@ type Query {
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   settlementReports: [SettlementReportType!]!
-  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [RequestSettlementReportGridAreaCalculation!]!
+  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -560,16 +565,15 @@ input CreateProcessDelegationsInput {
   startsAt: DateTime!
 }
 
-input RequestSettlementReportGridAreaCalculationInput {
+input RequestSettlementReportGridAreaInput {
   calculationId: UUID!
-  calculationName: String!
   gridAreaId: UUID!
 }
 
 input RequestSettlementReportInput {
   calculationType: CalculationType!
   period: DateRange!
-  gridAreasWithCalculations: [RequestSettlementReportGridAreaCalculationInput!]!
+  gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
   inculdeBasicData: Boolean!

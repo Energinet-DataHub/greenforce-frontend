@@ -27,11 +27,11 @@ public partial class Query
         // Temporary return value until client is ready to provide data
         await Task.FromResult(new List<SettlementReportType>());
 
-    public async Task<IEnumerable<RequestSettlementReportGridAreaCalculation>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
+    public async Task<Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
         Guid[] gridAreaId,
         Interval calucaltionPeriod,
         [Service] IWholesaleClient_V3 client) =>
 
         // Temporary return value until client is ready to provide data
-        await Task.FromResult(new List<RequestSettlementReportGridAreaCalculation>());
+        await Task.FromResult(new Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>());
 }

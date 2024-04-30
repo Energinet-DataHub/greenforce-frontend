@@ -14,7 +14,6 @@
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
-public record RequestSettlementReportGridAreaCalculation(
+public record RequestSettlementReportGridAreaInput(
     Guid CalculationId,
-    string CalculationName,
     Guid GridAreaId);
