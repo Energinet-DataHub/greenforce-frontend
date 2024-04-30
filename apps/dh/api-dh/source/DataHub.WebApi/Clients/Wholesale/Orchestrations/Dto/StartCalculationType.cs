@@ -17,7 +17,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 /// <summary>
 /// Defines the wholesale calculation type
 /// </summary>
-public enum CalculationType
+public enum StartCalculationType
 {
     /// <summary>
     /// Balance fixing

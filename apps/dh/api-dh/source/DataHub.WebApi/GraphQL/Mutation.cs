@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -25,7 +24,7 @@ using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
-using WholesaleOrchestrationsCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto.CalculationType;
+using WholesaleOrchestrationsCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto.StartCalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -34,10 +33,12 @@ public class Mutation
     [UseMutationConvention(Disable = true)]
     public Task<PermissionDto> UpdatePermissionAsync(
         UpdatePermissionDto input,
-        [Service] IMarketParticipantClient_V1 client) =>
-        client
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        return client
             .PermissionPutAsync(input)
             .Then(() => client.PermissionGetAsync(input.Id));
+    }
 
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> UpdateActorAsync(
