@@ -14,24 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
-
-import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
-
-@Component({
-  selector: 'eo-activity-log-shell',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    EoActivityLogComponent
-  ],
-  encapsulation: ViewEncapsulation.None,
-  template: `
-    <eo-activity-log />
-  `,
-})
-export class EoActivityLogShellComponent {}
+export { EoActivityLogComponent } from './eo-activity-log.component';

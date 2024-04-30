@@ -24,6 +24,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
   inject,
   signal,
 } from '@angular/core';
@@ -44,6 +45,8 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
+import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +60,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     WattEmptyStateComponent,
     WattPaginatorComponent,
     TranslocoPipe,
+    EoActivityLogComponent,
   ],
   styles: [
     `
@@ -93,111 +97,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
   standalone: true,
   template: `
-    <h3>
-      {{ translations.transferAgreementHistory.tableTitle | transloco }}
-      <watt-badge type="neutral">{{ dataSource.data.length }}</watt-badge>
-    </h3>
-
-    @if (columns) {
-      <watt-table
-        #table
-        [columns]="columns"
-        [loading]="transferHistoryState().loading"
-        [dataSource]="dataSource"
-        sortBy="createdAt"
-        sortDirection="desc"
-        [sortClear]="false"
-        class="watt-space-stack-s"
-        data-testid="transfers-table"
-      >
-        <!-- createdAt - Custom column -->
-        <ng-container *wattTableCell="table.columns['createdAt']; let element">
-          {{ element.createdAt | wattDate: 'long' }}
-        </ng-container>
-
-        <!-- action - Custom column -->
-        <ng-container *wattTableCell="table.columns['action']; let element">
-          @switch (element.action) {
-            @case ('Created') {
-              <p
-                [innerHTML]="
-                  translations.transferAgreementHistory.events.createdTransferAgreement
-                    | transloco
-                      : { actor: element.actorName || element.transferAgreement.senderName }
-                "
-              ></p>
-            }
-            @case ('Updated') {
-              @if (element.transferAgreement.endDate) {
-                <p
-                  [innerHTML]="
-                    translations.transferAgreementHistory.events
-                      .updatedTransferAgreementToHaveEndDate
-                      | transloco
-                        : {
-                            actor: element.actorName || element.transferAgreement.senderName,
-                            endDate: element.transferAgreement.endDate | wattDate: 'long'
-                          }
-                  "
-                ></p>
-              } @else {
-                <p
-                  [innerHTML]="
-                    translations.transferAgreementHistory.events
-                      .updatedTransferAgreementToHaveNoEndDate
-                      | transloco
-                        : { actor: element.actorName || element.transferAgreement.senderName }
-                  "
-                ></p>
-              }
-            }
-            @case ('Deleted') {
-              <p
-                [innerHTML]="
-                  translations.transferAgreementHistory.events.deletedTransferAgreement
-                    | transloco
-                      : { actor: element.actorName || element.transferAgreement.senderName }
-                "
-              ></p>
-            }
-          }
-        </ng-container>
-      </watt-table>
-    }
-
-    @if (
-      dataSource.data.length === 0 &&
-      !transferHistoryState().error &&
-      !transferHistoryState().loading
-    ) {
-      <watt-empty-state
-        icon="power"
-        [title]="translations.transferAgreementHistory.noData.title | transloco"
-      />
-    }
-
-    @if (transferHistoryState().error) {
-      <watt-empty-state
-        icon="power"
-        [title]="translations.transferAgreementHistory.error.title | transloco"
-        [message]="translations.transferAgreementHistory.error.message | transloco"
-      >
-        <watt-button (click)="getHistory(transfer?.id)">{{
-          translations.transferAgreementHistory.error.retry | transloco
-        }}</watt-button>
-      </watt-empty-state>
-    }
-
-    <watt-paginator
-      data-testid="table-paginator"
-      [pageSize]="10"
-      [pageSizeOptions]="[10, 25, 50, 100, 250]"
-      [for]="dataSource"
+    <eo-activity-log
+      #log
+      variant="solid"
+      [showFilters]="false"
+      [eventTypes]="['TransferAgreement']"
+      [filter]="filter.bind(this)"
+      [period]="{start: null, end: null}"
     />
   `,
 })
 export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   @Input() transfer?: EoListedTransfer;
+
+  @ViewChild(EoActivityLogComponent) log!: EoActivityLogComponent;
 
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
@@ -207,11 +120,19 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   protected translations = translations;
   protected dataSource = new WattTableDataSource<EoTransferAgreementsHistory>();
   protected columns!: WattTableColumnDef<EoTransferAgreementsHistory>;
+  protected startDate: Date | null = null;
+  protected endDate: Date | null = null;
 
   protected transferHistoryState = signal<{ loading: boolean; error: HttpErrorResponse | null }>({
     loading: false,
     error: null,
   });
+
+  filter(logEntries: ActivityLogEntryResponse[]) {
+    return logEntries.filter((entry) => {
+      return entry.entityId === this.transfer?.id;
+    });
+  }
 
   ngOnInit(): void {
     this.transloco
@@ -224,8 +145,15 @@ export class EoTransfersHistoryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['transfer']?.currentValue) return;
-    this.getHistory(this.transfer?.id);
+    if (changes['transfer']?.currentValue && this.log && this.log.refresh) {
+      this.log.refresh();
+    }
+  }
+
+  refresh() {
+    if(this.log && this.log.refetch) {
+      this.log.refetch();
+    }
   }
 
   private setColumns(): void {

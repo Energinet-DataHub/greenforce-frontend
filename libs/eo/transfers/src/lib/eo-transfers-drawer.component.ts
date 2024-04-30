@@ -132,11 +132,9 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
               </watt-card>
             </watt-tab>
             <watt-tab [label]="translations.transferAgreement.historyTab | transloco">
-              <watt-card variant="solid">
-                @if (tabs.activeTabIndex === 1) {
-                  <eo-transfers-history [transfer]="transfer" />
-                }
-              </watt-card>
+              @if (tabs.activeTabIndex === 1) {
+                <eo-transfers-history #history [transfer]="transfer" />
+              }
             </watt-tab>
           </watt-tabs>
         </watt-drawer-content>
@@ -146,7 +144,7 @@ import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
     <eo-transfers-edit-modal
       [transfer]="transfer"
       [transferAgreements]="transferAgreements"
-      (save)="saveTransferAgreement.emit($event)"
+      (save)="onEdit($event)"
     />
   `,
 })
@@ -157,6 +155,7 @@ export class EoTransfersDrawerComponent {
 
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
+  @ViewChild(EoTransfersHistoryComponent) history!: EoTransfersHistoryComponent;
 
   isActive!: boolean;
   isEditable = false;
@@ -182,6 +181,13 @@ export class EoTransfersDrawerComponent {
 
   @Output()
   closed = new EventEmitter<void>();
+
+  onEdit(event: unknown) {
+    this.saveTransferAgreement.emit(event);
+    if(this.history && this.history.refresh) {
+      this.history.refresh();
+    }
+  }
 
   open() {
     this.drawer.open();

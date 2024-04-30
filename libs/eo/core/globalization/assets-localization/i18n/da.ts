@@ -423,28 +423,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     unknownReceiver: 'Ukendt virksomhed',
     idLabel: 'ID',
   },
-  transferAgreementHistory: {
-    tableTitle: 'Ændringer',
-    timeTableHeader: 'Tid',
-    eventTableHeader: 'Handling',
-    events: {
-      createdTransferAgreement: '<strong>{{actor}}</strong> har oprettet overførselsaftalen',
-      updatedTransferAgreementToHaveNoEndDate:
-        '<strong>{{actor}}</strong> har opdateret overførselsaftalen til ikke at have <strong>ingen slutdato</strong>',
-      updatedTransferAgreementToHaveEndDate:
-        '<strong>{{actor}}</strong> har opdateret slutdatoen til <strong>{{endDate}}</strong>',
-      deletedTransferAgreement: '<strong>{{actor}}</strong> har slettet overførselsaftalen',
-    },
-    noData: {
-      title: 'Ingen historik blev fundet',
-    },
-    error: {
-      title: 'Ups! Noget gik galt.',
-      message:
-        'Prøv igen eller kontakt din systemadministrator, hvis du fortsat modtager denne fejl.',
-      retry: 'Prøv igen',
-    },
-  },
   transferAgreementEdit: {
     title: 'Rediger overførselsaftale',
     closeLabel: 'Afbryd redigering af overførselsaftale',

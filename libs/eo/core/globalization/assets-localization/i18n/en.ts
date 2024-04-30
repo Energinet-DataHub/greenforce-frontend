@@ -423,27 +423,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
   },
-  transferAgreementHistory: {
-    tableTitle: 'Changes',
-    timeTableHeader: 'Time',
-    eventTableHeader: 'Change',
-    events: {
-      createdTransferAgreement: '<strong>{{actor}}</strong> has created the transfer agreement',
-      updatedTransferAgreementToHaveNoEndDate:
-        '<strong>{{actor}}</strong> has updated the transfer agreement to have <strong>no end date</strong>',
-      updatedTransferAgreementToHaveEndDate:
-        '<strong>{{actor}}</strong> has updated the end date to <strong>{{endDate}}</strong>',
-      deletedTransferAgreement: '<strong>{{actor}}</strong> has deleted the transfer agreement',
-    },
-    noData: {
-      title: 'No history was found',
-    },
-    error: {
-      title: 'An unexpected error occured',
-      message: 'Try again or contact your system administrator if you keep getting this error.',
-      retry: 'Try again',
-    },
-  },
   transferAgreementEdit: {
     title: 'Edit transfer agreement',
     closeLabel: 'Cancel editing transfer agreement',

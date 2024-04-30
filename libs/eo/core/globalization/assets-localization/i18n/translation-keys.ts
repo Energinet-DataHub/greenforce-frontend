@@ -363,25 +363,6 @@ export interface TranslationKeys {
     unknownReceiver: string;
     idLabel: string;
   };
-  transferAgreementHistory: {
-    tableTitle: string;
-    timeTableHeader: string;
-    eventTableHeader: string;
-    events: {
-      createdTransferAgreement: string;
-      updatedTransferAgreementToHaveNoEndDate: string;
-      updatedTransferAgreementToHaveEndDate: string;
-      deletedTransferAgreement: string;
-    };
-    noData: {
-      title: string;
-    };
-    error: {
-      title: string;
-      message: string;
-      retry: string;
-    };
-  };
   transferAgreementEdit: {
     title: string;
     closeLabel: string;
