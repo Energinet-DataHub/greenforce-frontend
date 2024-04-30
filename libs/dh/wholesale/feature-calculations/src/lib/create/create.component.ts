@@ -46,6 +46,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
@@ -99,12 +100,13 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   private executionTypeChanged_$ = new Subject<void>();
 
-  // todo: this value should be set from environment
-  quarterlyResolutionTransitionDate = dayjs.utc('2023-01-31T23:00:00Z');
-
   @ViewChild('modal') modal?: WattModalComponent;
 
   featureFlagsService = inject(DhFeatureFlagsService);
+
+  environment = inject(dhAppEnvironmentToken);
+
+  resolutionTransitionDate = this.environment.quarterlyResolutionTransitionDatetime;
 
   loading = false;
 
@@ -347,8 +349,8 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
       if (!control.value) return null;
       const start = dayjs.utc(control.value.start);
       const end = dayjs.utc(control.value.end);
-      const resolutionTransitionDate = this.quarterlyResolutionTransitionDate;
-      return start.isBefore(resolutionTransitionDate) && end.isAfter(resolutionTransitionDate)
+      const transitionDate = dayjs.utc(this.resolutionTransitionDate);
+      return start.isBefore(transitionDate) && end.isAfter(transitionDate)
         ? { resolutionTransition: true }
         : null;
     };
