@@ -16,7 +16,12 @@
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { GetBalanceResponsibleRelationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  BalanceResponsibilityAgreementStatus,
+  GetBalanceResponsibleRelationDocument,
+  InputMaybe,
+  Scalars,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhBalanceResponsibleRelation = NonNullable<
   ResultOf<
@@ -42,3 +47,11 @@ export type DhBalanceResponsibleRelationsGrouped = {
     allRelationsHaveExpired: boolean;
   }[];
 }[];
+
+export type DhBalanceResponsibleRelationFilters = {
+  status?: InputMaybe<BalanceResponsibilityAgreementStatus>;
+  energySupplierWithNameId?: InputMaybe<string>;
+  gridAreaId?: InputMaybe<Scalars['UUID']['input']>;
+  balanceResponsibleWithNameId?: InputMaybe<string>;
+  search?: InputMaybe<string>;
+};

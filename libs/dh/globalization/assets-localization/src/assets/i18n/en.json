@@ -402,6 +402,10 @@
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
             },
+            "emptyTitle": "No relations found",
+            "emptyMessage": "There are no relations for this actor",
+            "errorTitle": "{{ shared.error.title }}",
+            "errorMessage": "{{ shared.error.message }}",
             "allRelationsHaveExpired": "All relations have expired"
           },
           "b2bAccess": {

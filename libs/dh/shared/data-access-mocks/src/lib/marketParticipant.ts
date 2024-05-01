@@ -527,8 +527,34 @@ function getActorsForEicFunction() {
 }
 
 function getBalanceResponsibleRelation() {
-  return mockGetBalanceResponsibleRelationQuery(async () => {
+  return mockGetBalanceResponsibleRelationQuery(async ({ variables }) => {
+    const { id } = variables;
     await delay(mswConfig.delay);
+
+    if (id === 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1') {
+      if (Math.random() > 0.5) {
+        console.log('Error');
+        return HttpResponse.json({
+          errors: [
+            {
+              message: 'Failed to fetch balance responsible agreements',
+              extensions: { code: '500', details: 'test' },
+            },
+          ],
+          data: null,
+        });
+      }
+
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          actorById: {
+            __typename: 'Actor',
+            balanceResponsibleAgreements: [],
+          },
+        },
+      });
+    }
 
     return HttpResponse.json({
       data: {
