@@ -15,10 +15,34 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   selector: 'dh-wholesale-feature-settlement-reports-v2',
   standalone: true,
-  template: 'Test',
+  imports: [
+    TranslocoDirective,
+
+    WATT_CARD,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    WattEmptyStateComponent,
+  ],
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+  template: `
+    <watt-card vater inset="ml" *transloco="let t; read: 'wholesale.settlementReportsV2'">
+      <vater-stack fill="vertical" justify="center">
+        <watt-empty-state icon="custom-no-results" [message]="t('emptyMessage')" />
+      </vater-stack>
+    </watt-card>
+  `,
 })
 export class DhWholesaleFeatureSettlementReportsV2Component {}
