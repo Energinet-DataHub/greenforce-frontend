@@ -16,7 +16,15 @@
  */
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
@@ -38,6 +46,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
@@ -95,6 +104,10 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   featureFlagsService = inject(DhFeatureFlagsService);
 
+  environment = inject(dhAppEnvironmentToken);
+
+  resolutionTransitionDate = this.environment.quarterlyResolutionTransitionDatetime;
+
   loading = false;
 
   confirmFormControl = new FormControl('');
@@ -116,7 +129,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
       { validators: Validators.required }
     ),
     dateRange: new FormControl(null, {
-      validators: WattRangeValidators.required(),
+      validators: [WattRangeValidators.required(), this.validateResolutionTransition()],
       asyncValidators: () => this.validateBalanceFixing(),
     }),
   });
@@ -329,5 +342,17 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
         map(() => null)
       );
+  }
+
+  private validateResolutionTransition(): ValidatorFn {
+    return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
+      if (!control.value) return null;
+      const start = dayjs.utc(control.value.start);
+      const end = dayjs.utc(control.value.end);
+      const transitionDate = dayjs.utc(this.resolutionTransitionDate);
+      return start.isBefore(transitionDate) && end.isAfter(transitionDate)
+        ? { resolutionTransition: true }
+        : null;
+    };
   }
 }
