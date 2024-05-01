@@ -14,11 +14,93 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-wholesale-feature-settlement-reports-v2',
   standalone: true,
-  template: 'Test',
+  imports: [
+    TranslocoDirective,
+
+    WATT_CARD,
+    VaterStackComponent,
+    VaterFlexComponent,
+    VaterUtilityDirective,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+  ],
+  styles: `
+    :host {
+      display: block;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  `,
+  template: `
+    <watt-card vater inset="ml" *transloco="let t; read: 'wholesale.settlementReportsV2'">
+      @if (isLoading) {
+        <vater-stack fill="vertical" justify="center">
+          <watt-spinner />
+        </vater-stack>
+      } @else {
+        @if (totalCount === 0) {
+          <vater-stack fill="vertical" justify="center">
+            <watt-empty-state icon="custom-no-results" [message]="t('emptyMessage')" />
+          </vater-stack>
+        } @else {
+          <vater-flex gap="ml">
+            <vater-stack direction="row" gap="s">
+              <h3>{{ t('topBarTitle') }}</h3>
+              <span class="watt-chip-label">{{ totalCount }}</span>
+            </vater-stack>
+          </vater-flex>
+        }
+      }
+    </watt-card>
+  `,
 })
-export class DhWholesaleFeatureSettlementReportsV2Component {}
+export class DhWholesaleFeatureSettlementReportsV2Component {
+  private readonly apollo = inject(Apollo);
+
+  private readonly settlementReports$ = this.apollo.query({
+    fetchPolicy: 'network-only',
+    query: GetSettlementReportsDocument,
+  });
+
+  totalCount = 0;
+  isLoading = false;
+
+  constructor() {
+    this.fetchData();
+  }
+
+  private fetchData(): void {
+    this.isLoading = true;
+
+    this.settlementReports$.pipe(takeUntilDestroyed()).subscribe({
+      next: ({ loading, data }) => {
+        this.isLoading = loading;
+
+        this.totalCount = data.settlementReports.length;
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+    });
+  }
+}

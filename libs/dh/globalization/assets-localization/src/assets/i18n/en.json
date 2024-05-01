@@ -979,6 +979,10 @@
         "EXCHANGE": "Exchange"
       }
     },
+    "settlementReportsV2": {
+      "topBarTitle": "Settlement Reports",
+      "emptyMessage": "There are no settlement reports"
+    },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "downloadNoBasisData": "Download (no basis data)",
