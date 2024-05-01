@@ -1,5 +1,6 @@
 {
   "current": "localhost",
+  "quarterlyResolutionTransitionDatetime": "2023-01-31T23:00:00Z",
   "applicationInsights": {
     "instrumentationKey": "<instrumentation-key>"
   }
