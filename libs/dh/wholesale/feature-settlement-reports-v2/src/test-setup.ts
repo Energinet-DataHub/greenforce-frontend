@@ -14,4 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhWholesaleSettlementsReportsTabComponent as default } from './lib/dh-wholesale-settlements-reports-tab.component';
+import 'jest-preset-angular/setup-jest';
+
+import {
+  setUpAngularTestingLibrary,
+  setUpNgMocks,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
+setUpNgMocks();

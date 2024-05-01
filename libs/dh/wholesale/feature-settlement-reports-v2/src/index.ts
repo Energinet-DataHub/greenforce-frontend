@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhWholesaleSettlementsReportsTabComponent as default } from './lib/dh-wholesale-settlements-reports-tab.component';
+export { DhWholesaleFeatureSettlementReportsV2Component as default } from './lib/dh-wholesale-feature-settlement-reports-v2.component';
