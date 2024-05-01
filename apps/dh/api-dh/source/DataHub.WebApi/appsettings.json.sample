@@ -11,6 +11,7 @@
     "EdiB2CWebApiBaseUrl": "https://localhost:5091",
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "WholesaleBaseUrl": "https://localhost:7133",
+    "WholesaleOrchestrationsBaseUrl": "https://localhost:7133",
     "ESettExchangeBaseUrl": "https://localhost:5001",
     "ImbalancePricesBaseUrl": "https://localhost:5091"
   },
