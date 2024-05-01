@@ -1,29 +1,34 @@
-import { Component, DestroyRef, OnInit, inject, input, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, DestroyRef, OnInit, inject, input, output } from '@angular/core';
+
+import { BehaviorSubject } from 'rxjs';
+import { RxPush } from '@rx-angular/template/push';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import {
   getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+
 import {
   BalanceResponsibilityAgreementStatus,
   EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
+
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
 import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-relation';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject } from 'rxjs';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -33,16 +38,18 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
   standalone: true,
   selector: 'dh-balance-responsible-relation-filters',
   imports: [
+    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-    RxPush,
+
     VaterStackComponent,
     WattButtonComponent,
-    WattDateRangeChipComponent,
-    WattFormChipDirective,
-    WattDropdownComponent,
-    DhDropdownTranslatorDirective,
     WattSearchComponent,
+    WattDropdownComponent,
+    WattFormChipDirective,
+    WattDateRangeChipComponent,
+
+    DhDropdownTranslatorDirective,
   ],
   template: ` <form
     vater-stack
@@ -127,7 +134,7 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
       .subscribe((value) => this.filter.emit(value as DhBalanceResponsibleRelationFilters));
 
     this.searchEvent$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((search) => {
-      this.filterForm.patchValue({ search });
+      this.filterForm.patchValue({ search: search === '' ? null : search });
     });
   }
 }

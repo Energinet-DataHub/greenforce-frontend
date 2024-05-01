@@ -10273,6 +10273,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ngrx/signals@npm:^17.2.0":
+  version: 17.2.0
+  resolution: "@ngrx/signals@npm:17.2.0"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/core": ^17.0.0
+    rxjs: ^6.5.3 || ^7.4.0
+  peerDependenciesMeta:
+    rxjs:
+      optional: true
+  checksum: a20284ad4aeb45977814b26df0fa5888d472b718a795ae00691401a3c1337675dc214f54bca772251548ff32a10d46324c0305a91f124cfb1c79af5e15868f83
+  languageName: node
+  linkType: hard
+
 "@ngtools/webpack@npm:17.3.5":
   version: 17.3.5
   resolution: "@ngtools/webpack@npm:17.3.5"
@@ -21770,6 +21785,7 @@ __metadata:
     "@ngrx/component-store": "npm:17.2.0"
     "@ngrx/eslint-plugin": "npm:17.2.0"
     "@ngrx/operators": "npm:17.2.0"
+    "@ngrx/signals": "npm:^17.2.0"
     "@nx/angular": "npm:18.3.1"
     "@nx/cypress": "npm:18.3.1"
     "@nx/devkit": "npm:18.3.1"

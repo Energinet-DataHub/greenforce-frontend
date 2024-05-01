@@ -23,7 +23,6 @@ limitations under the License.
     read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
   "
 >
-  {{ isEmpty() }}
   @if (isLoading()) {
     <vater-stack direction="row" justify="center">
       <watt-spinner />
@@ -38,8 +37,8 @@ limitations under the License.
     </vater-stack>
   } @else {
     <dh-balance-responsible-relation-filters
-      (filter)="onFiltersEvent($event)"
-      [inital]="filters$ | push"
+      (filter)="store.updateFilters($event)"
+      [inital]="store.filters()"
       [marketRole]="actor().marketRole!"
     />
     @for (group of balanceResponsibleRelationsGrouped(); track group) {

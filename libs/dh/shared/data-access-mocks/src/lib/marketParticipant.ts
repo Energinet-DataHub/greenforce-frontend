@@ -533,7 +533,6 @@ function getBalanceResponsibleRelation() {
 
     if (id === 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1') {
       if (Math.random() > 0.5) {
-        console.log('Error');
         return HttpResponse.json({
           errors: [
             {
