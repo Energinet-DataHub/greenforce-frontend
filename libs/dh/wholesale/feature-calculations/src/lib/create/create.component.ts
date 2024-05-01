@@ -43,7 +43,7 @@ import {
   CreateCalculationDocument,
   GetGridAreasDocument,
   GetLatestBalanceFixingDocument,
-  CalculationType,
+  StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   filterValidGridAreas,
@@ -52,7 +52,7 @@ import {
 } from '@energinet-datahub/dh/wholesale/domain';
 
 interface FormValues {
-  calculationType: FormControl<CalculationType>;
+  calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
 }
@@ -100,14 +100,14 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    CalculationType.WholesaleFixing,
-    CalculationType.FirstCorrectionSettlement,
-    CalculationType.SecondCorrectionSettlement,
-    CalculationType.ThirdCorrectionSettlement,
+    StartCalculationType.WholesaleFixing,
+    StartCalculationType.FirstCorrectionSettlement,
+    StartCalculationType.SecondCorrectionSettlement,
+    StartCalculationType.ThirdCorrectionSettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
-    calculationType: new FormControl<CalculationType>(CalculationType.BalanceFixing, {
+    calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
