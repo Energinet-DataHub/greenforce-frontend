@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -76,7 +76,6 @@ import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domai
 })
 export class DhWholesaleFeatureSettlementReportsV2Component {
   private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
 
   private readonly settlementReports$ = this.apollo.query({
     fetchPolicy: 'network-only',
@@ -93,7 +92,7 @@ export class DhWholesaleFeatureSettlementReportsV2Component {
   private fetchData(): void {
     this.isLoading = true;
 
-    this.settlementReports$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.settlementReports$.pipe(takeUntilDestroyed()).subscribe({
       next: ({ loading, data }) => {
         this.isLoading = loading;
 
