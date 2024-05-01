@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Energinet.DataHub.ImbalancePrices.Hosts.WebApi",
-    "version": "v1"
+    "title": "ImbalancePrices",
+    "version": "1.0"
   },
   "paths": {
     "/imbalance-prices/upload": {
@@ -11,6 +11,15 @@
           "Imbalance"
         ],
         "operationId": "upload",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -59,6 +68,13 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -109,6 +125,13 @@
                   "$ref": "#/components/schemas/PriceAreaCode"
                 }
               ]
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -178,6 +201,13 @@
                 }
               ]
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -210,6 +240,15 @@
           "Ping"
         ],
         "operationId": "ping",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -223,6 +262,15 @@
           "Ping"
         ],
         "operationId": "authorized-ping",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -302,7 +350,7 @@
       "Bearer": {
         "type": "http",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        "scheme": "bearer"
+        "scheme": "Bearer"
       }
     }
   },
