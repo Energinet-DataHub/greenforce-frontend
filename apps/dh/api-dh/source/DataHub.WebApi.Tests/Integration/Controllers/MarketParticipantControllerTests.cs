@@ -89,15 +89,15 @@ public class MarketParticipantControllerTests(WebApiFactory factory)
             });
 
         MarketParticipantClientMock
-            .Setup(client => client.OrganizationGetAsync())
+            .Setup(client => client.OrganizationGetAsync(null))
             .ReturnsAsync(organizations);
 
         MarketParticipantClientMock
-            .Setup(client => client.ActorGetAsync())
+            .Setup(client => client.ActorGetAsync(null))
             .ReturnsAsync(actors);
 
         MarketParticipantClientMock
-            .Setup(client => client.GridAreaGetAsync())
+            .Setup(client => client.GridAreaGetAsync(null))
             .ReturnsAsync(gridAreas.ToList);
 
         // Act
@@ -153,15 +153,15 @@ public class MarketParticipantControllerTests(WebApiFactory factory)
             });
 
         MarketParticipantClientMock
-            .Setup(client => client.OrganizationGetAsync())
+            .Setup(client => client.OrganizationGetAsync(null))
             .ReturnsAsync(organizations);
 
         MarketParticipantClientMock
-            .Setup(client => client.ActorGetAsync())
+            .Setup(client => client.ActorGetAsync(null))
             .ReturnsAsync(actors);
 
         MarketParticipantClientMock
-            .Setup(client => client.GridAreaGetAsync())
+            .Setup(client => client.GridAreaGetAsync(null))
             .ReturnsAsync(gridAreas.ToList);
 
         // Act
