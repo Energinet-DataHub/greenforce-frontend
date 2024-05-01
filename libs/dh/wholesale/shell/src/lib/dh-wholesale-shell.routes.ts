@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { inject } from '@angular/core';
 import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   WHOLESALE_CALCULATIONS_PATH,
   WHOLESALE_SETTLEMENT_REPORTS_PATH,
@@ -42,11 +44,17 @@ export const dhWholesaleShellRoutes: Route[] = [
   },
   {
     path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    canMatch: [() => inject(DhFeatureFlagsService).isEnabled('settlement-reports-v2')],
     canActivate: [PermissionGuard(['settlement-reports:manage'])],
-    loadComponent: () =>
-      import('@energinet-datahub/dh/wholesale/feature-settlement-reports').then(
-        (m) => m.DhWholesaleSettlementsReportsTabComponent
-      ),
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports-v2'),
+    data: {
+      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
+    },
+  },
+  {
+    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    canActivate: [PermissionGuard(['settlement-reports:manage'])],
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports'),
     data: {
       titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
     },
