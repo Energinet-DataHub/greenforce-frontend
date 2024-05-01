@@ -48,6 +48,17 @@ export const dhFeatureFlagsConfig = {
     created: '21-03-2024',
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
+  'settlement-reports-v2': {
+    created: '30-04-2024',
+    disabledEnvironments: [
+      DhAppEnvironment.dev_001,
+      DhAppEnvironment.dev_002,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
