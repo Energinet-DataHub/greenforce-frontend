@@ -978,6 +978,10 @@
         "EXCHANGE": "Udveksling"
       }
     },
+    "settlementReportsV2": {
+      "topBarTitle": "Afregningsrapporter",
+      "emptyMessage": "Der er ingen afregningsrapporter"
+    },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "downloadNoBasisData": "Download (uden basisdata)",
