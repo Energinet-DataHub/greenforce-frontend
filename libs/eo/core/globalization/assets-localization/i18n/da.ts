@@ -139,7 +139,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         heading: 'Udviklere',
         content: `
           <p>Få adgang til vores</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} udvikler portal</a>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a>
         `,
       },
     },
