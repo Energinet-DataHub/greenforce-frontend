@@ -24,6 +24,7 @@
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 17.2.0 | MIT |
+| [@ngrx/signals](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
