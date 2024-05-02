@@ -853,6 +853,7 @@
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{quarterlyResolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
@@ -980,6 +981,10 @@
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
       }
+    },
+    "settlementReportsV2": {
+      "topBarTitle": "Afregningsrapporter",
+      "emptyMessage": "Der er ingen afregningsrapporter"
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",

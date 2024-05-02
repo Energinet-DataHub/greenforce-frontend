@@ -48,6 +48,8 @@ const materialIcons = {
   refresh: 'refresh',
   language: 'language',
   pendingActions: 'pending_actions',
+  toggleOn: 'toggle_on',
+  toggleOff: 'toggle_off',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
