@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [],
+  imports: [TranslocoPipe],
   selector: 'eo-landing-page-granular-certificates',
   styles: `
     :host {
@@ -86,17 +89,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <section>
       <div class="content">
-        <h3>
-          Granular certificates are transferred between wallets to match consumption with production
-        </h3>
-        <p>
-          Transfer agreements can be made to automatically transfer certificates from one wallet to
-          another. Either through our UI in Energy Origin or by the use of any third party using our
-          API's.
-        </p>
+        <h3>{{ translations.landingPage.granularCertificates.heading | transloco }}</h3>
+        <p>{{ translations.landingPage.granularCertificates.content | transloco }}</p>
       </div>
 
-      <picture>
+      <picture aria-hidden>
         <source
           srcset="
             /assets/landing-page/granular-certificates/granular-certificates.avif    1x,
@@ -110,4 +107,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     </section>
   `,
 })
-export class EoLandingPageGranularCertificatesComponent {}
+export class EoLandingPageGranularCertificatesComponent {
+  protected translations = translations;
+}

@@ -19,19 +19,23 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   ViewChild,
   inject,
   signal,
 } from '@angular/core';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { TranslocoPipe } from '@ngneat/transloco';
+
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+
+import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { translations } from '@energinet-datahub/eo/translations';
+
 import { EoLearnMoreComponent } from './learn-more.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconComponent, EoLearnMoreComponent],
+  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe],
   selector: 'eo-landing-page-hero',
   styles: `
     :host {
@@ -180,22 +184,20 @@ import { EoLearnMoreComponent } from './learn-more.component';
       <div class="content">
         <section aria-labelledby="hero-heading" class="heading-container">
           <!-- Main heading of the hero component -->
-          <h1 id="hero-heading" class="hero-heading">
-            Trace Energy to Its Origin.<br />Truthfully.
-          </h1>
+          <h1 id="hero-heading" class="hero-heading" [innerHTML]="translations.landingPage.hero.heading | transloco"></h1>
           <!-- Subheading or slogan -->
-          <p class="hero-subheading">Green Proof You Can Trust</p>
+          <p class="hero-subheading">{{ translations.landingPage.hero.subheading | transloco }}</p>
         </section>
 
         <section aria-labelledby="hero-heading" class="actions-container">
           <button class="primary" (click)="onLogin()">
             <watt-icon name="login" />
-            Log in
+            {{ translations.landingPage.hero.loginButton | transloco }}
           </button>
           <eo-learn-more>
-            <button class="secondary" (click)="onLearnMore()">
+            <button class="secondary">
               <watt-icon name="smartDisplay" />
-              Learn more
+              {{ translations.landingPage.hero.learnMoreButton | transloco }}
             </button>
           </eo-learn-more>
         </section>
@@ -203,12 +205,12 @@ import { EoLearnMoreComponent } from './learn-more.component';
     </div>
   `,
 })
-export class EoLandingPageHeroComponent implements AfterViewInit, OnDestroy {
+export class EoLandingPageHeroComponent implements AfterViewInit {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;
-  private authService = inject(EoAuthService);
-  private observer!: IntersectionObserver;
-  private elementRef = inject(ElementRef);
 
+  private authService = inject(EoAuthService);
+
+  protected translations = translations;
   protected isSticky = signal<boolean>(false);
 
   ngAfterViewInit(): void {
@@ -216,29 +218,9 @@ export class EoLandingPageHeroComponent implements AfterViewInit, OnDestroy {
       // HACK: Even though the video is muted, the browser may still block autoplay
       this.videoplayer.nativeElement.muted = true;
     }
-
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.isSticky.set(false);
-        } else {
-          this.isSticky.set(true);
-        }
-      });
-    });
-
-    //this.observer.observe(this.elementRef.nativeElement);
-  }
-
-  ngOnDestroy(): void {
-    this.observer.disconnect();
   }
 
   onLogin(): void {
     this.authService.startLogin();
-  }
-
-  onLearnMore(): void {
-    // Handle learn more
   }
 }

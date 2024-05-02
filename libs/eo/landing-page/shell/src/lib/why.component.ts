@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   standalone: true,
   selector: 'eo-landing-page-why',
   encapsulation: ViewEncapsulation.None,
@@ -88,6 +92,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
   template: `
     <picture>
       <img
+        aria-hidden="true"
         class="background-image"
         sizes="(max-width: 4033px) 100vw, 4033px"
         srcset="
@@ -97,7 +102,6 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
           /assets/landing-page/solar-cells/solar-cells_f715xq_c_scale,w_4033.jpg 4033w
         "
         src="/assets/landing-page/solar-cells/solar-cells_f715xq_c_scale,w_4033.jpg"
-        alt=""
       />
     </picture>
 
@@ -112,25 +116,18 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
           type="image/avif"
         />
         <img
-          alt="Martin Lervad Lundø - Vice President & CEO, Energinet DataHub"
+          [alt]="translations.landingPage.why.quoteAuthorDescription | transloco"
           src="/assets/landing-page/martin-lundoe.avif"
         />
       </picture>
 
-      <p>
-        “We want the industry to<br />
-        believe in true, sustainable energy<br />
-        and eradicate greenwashing<br />
-        through ground-breaking<br />
-        new technology.”
-      </p>
+      <p [innerHTML]="translations.landingPage.why.quote | transloco"></p>
       <footer>
-        <cite
-          >Martin Lervad Lundø<br />
-          Vice President & CEO, Energinet DataHub</cite
-        >
+        <cite [innerHTML]="translations.landingPage.why.quoteAuthor | transloco"></cite>
       </footer>
     </blockquote>
   `,
 })
-export class EoLandingPageWhyComponent {}
+export class EoLandingPageWhyComponent {
+  protected translations = translations;
+}

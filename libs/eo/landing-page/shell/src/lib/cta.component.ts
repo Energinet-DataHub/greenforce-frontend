@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconComponent],
+  imports: [WattIconComponent, TranslocoPipe],
   selector: 'eo-landing-page-cta',
   styles: `
     :host {
@@ -74,7 +75,6 @@ import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments
     }
 
     h2 {
-      max-width: 680px;
       grid-area: heading;
     }
 
@@ -118,25 +118,27 @@ import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments
     }
   `,
   template: `
-    <h2 class="heading-1">Ready to track your company’s energy?</h2>
+    <h2 class="heading-1">{{ translations.landingPage.cta.heading | transloco }}</h2>
     <section class="login">
-      <h3 class="heading-3">Try it out. Energy Origin Beta.</h3>
+      <h3 class="heading-3">{{ translations.landingPage.cta.section1.heading | transloco }}</h3>
       <button class="primary" (click)="onLogin()">
         <watt-icon name="login" />
-        Log in
+        {{ translations.landingPage.cta.section1.cta | transloco }}
       </button>
     </section>
     <section class="devportal">
-      <h3 class="heading-3">Collaboration. Interested in our APIs?</h3>
+      <h3 class="heading-3">{{ translations.landingPage.cta.section2.heading | transloco }}</h3>
       <a [href]="devPortalHref" target="_blank" class="button primary"
-        ><watt-icon name="openInNew" />check it out</a
+        ><watt-icon name="openInNew" />{{ translations.landingPage.cta.section2.cta | transloco }}</a
       >
     </section>
   `,
 })
 export class EoLandingPageCTAComponent {
-  protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
   private authService = inject(EoAuthService);
+
+  protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
+  protected translations = translations;
 
   onLogin(): void {
     this.authService.startLogin();

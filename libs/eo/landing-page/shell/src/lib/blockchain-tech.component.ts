@@ -14,15 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { translations } from '@energinet-datahub/eo/translations';
+
+const selector = 'eo-landing-page-blockchain-tech';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [],
-  selector: 'eo-landing-page-blockchain-tech',
+  imports: [TranslocoPipe],
+  encapsulation: ViewEncapsulation.None,
+  selector,
   styles: `
-    :host {
+    ${selector} {
       padding: 48px 24px 0 24px;
       display: flex;
       justify-content: center;
@@ -31,46 +37,46 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       @media (min-width: 754px) {
         padding-top: 185px;
       }
-    }
 
-    section {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      place-items: center;
-      gap: 34px;
+      section {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        place-items: center;
+        gap: 34px;
 
-      @media (min-width: 754px) {
-        grid-template-columns: auto 1fr;
-        gap: 75px;
-        max-width: 1000px;
+        @media (min-width: 754px) {
+          grid-template-columns: auto 1fr;
+          gap: 75px;
+          max-width: 1000px;
+        }
       }
-    }
 
-    .content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 24px;
-    }
+      .content, .content > * {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+      }
 
-    h3,
-    p {
-      color: rgba(0, 0, 0, 0.87);
-    }
+      h3,
+      p {
+        color: rgba(0, 0, 0, 0.87);
+      }
 
-    h3 {
-      font-size: 28px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 34px;
-      margin-bottom: 6px;
-    }
+      h3 {
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 34px;
+        margin-bottom: 6px;
+      }
 
-    p {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
+      p {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+      }
     }
   `,
   template: `
@@ -88,17 +94,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </picture>
 
       <div class="content">
-        <h3>Blockchain technology ties granular certificates to renewable energy production</h3>
-        <p>
-          For every quarter of an hour, Energy Origin generates production certificates from
-          selected energy-producing assets, based on data from DataHub.
-        </p>
-        <p>
-          The certificates are stored in a digital wallet, with relevant meta-data, and can from now
-          on be traced back to it's source.
-        </p>
+        <h3>{{ translations.landingPage.blockchainTech.heading | transloco }}</h3>
+        <div [innerHTML]="translations.landingPage.blockchainTech.content | transloco"></div>
       </div>
     </section>
   `,
 })
-export class EoLandingPageBlockchainTechComponent {}
+export class EoLandingPageBlockchainTechComponent {
+  protected translations = translations;
+}

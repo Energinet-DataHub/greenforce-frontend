@@ -25,12 +25,15 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   selector: 'eo-landing-page-how',
-  imports: [NgClass],
+  imports: [NgClass, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   styles: `
     eo-landing-page-how {
@@ -163,29 +166,18 @@ import {
   `,
   template: `
     <div class="heading" [ngClass]="{ active: isActive() }">
-      <h2 class="highlight">how we make sustainability reporting easier</h2>
-      <h3>
-        Fast-Track Compliance with <span class="highlight">EU Sustainability</span> Regulations
-      </h3>
+      <h2 class="highlight">{{ translations.landingPage.how.heading | transloco }}</h2>
+      <h3 [innerHTML]="translations.landingPage.how.subheading | transloco"></h3>
     </div>
 
-    <section class="text-container" [ngClass]="{ active: isActive() }">
-      <p>
-        Energy Origin emerges as a transformative solution designed to guide companies through the
-        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
-        Environmental, Social, and Governance (ESG) directives.
-      </p>
-      <p>
-        By leveraging advanced blockchain technology to provide unassailable traceability of
-        sustainable energy back to its source, Energy Origin offers businesses a robust tool to
-        validate their green energy commitments.
-      </p>
-    </section>
+    <section class="text-container" [ngClass]="{ active: isActive() }" [innerHTML]="translations.landingPage.how.content | transloco"></section>
   `,
 })
 export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
   private observer!: IntersectionObserver;
   private elementRef = inject(ElementRef);
+
+  protected translations = translations;
   protected isActive = signal<boolean>(false);
 
   ngAfterViewInit(): void {

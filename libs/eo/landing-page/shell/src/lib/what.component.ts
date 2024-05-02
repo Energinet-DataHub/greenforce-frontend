@@ -25,7 +25,10 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { filter } from 'rxjs';
+
+import { translations } from '@energinet-datahub/eo/translations';
 
 interface Section {
   title?: string;
@@ -49,7 +52,7 @@ interface Image {
 @Component({
   standalone: true,
   selector: 'eo-landing-page-what',
-  imports: [NgClass, NgStyle],
+  imports: [NgClass, NgStyle, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   styles: `
     eo-landing-page-what {
@@ -234,6 +237,7 @@ interface Image {
             @for (image of section.images; track image.srcset; let idx = $index) {
               <div class="image-container">
                 <img
+                  aria-hidden="true"
                   [attr.width]="activeSection().images[idx].width"
                   [attr.height]="activeSection().images[idx].height"
                   [style.z-index]="activeSection().images[idx].zIndex"
@@ -258,7 +262,7 @@ interface Image {
       </section>
 
       <section class="content">
-        <h2 class="headline headline-4">How can Energy Origin help my business?</h2>
+        <h2 class="headline headline-4">{{ translations.landingPage.what.heading | transloco }}</h2>
 
         <nav>
           <ul>
@@ -268,7 +272,7 @@ interface Image {
                   href="#{{ section.id }}"
                   (click)="activeSection.set(section)"
                   [ngClass]="{ active: activeSection().id === section.id }"
-                  >{{ section.title }}</a
+                  >{{ section.title | transloco }}</a
                 >
               </li>
             }
@@ -277,19 +281,19 @@ interface Image {
 
         @for (section of sections(); track section.id) {
           <div class="content-text" [style.opacity]="activeSection().id === section.id ? 1 : 0">
-            <h3 class="headline-3">{{ section.headline }}</h3>
-            <p>{{ section.content }}</p>
+            <h3 class="headline-3">{{ section.headline | transloco }}</h3>
+            <p>{{ section.content | transloco }}</p>
           </div>
         }
       </section>
     } @else {
-      <h2 class="headline headline-4">How can Energy Origin help my business?</h2>
+      <h2 class="headline headline-4">{{ translations.landingPage.what.heading | transloco }}</h2>
 
       @for (section of sections(); track section.id; let idx = $index) {
         <section>
-          <h3>{{ section.title }}</h3>
+          <h3>{{ section.title | transloco }}</h3>
 
-          <picture>
+          <picture aria-hidden="true">
             <source
               [srcset]="
                 '/assets/landing-page/' +
@@ -308,8 +312,8 @@ interface Image {
           </picture>
 
           <div>
-            <h4 class="headline-3">{{ section.headline }}</h4>
-            <p>{{ section.content }}</p>
+            <h4 class="headline-3">{{ section.headline | transloco }}</h4>
+            <p>{{ section.content | transloco }}</p>
           </div>
         </section>
       }
@@ -319,20 +323,21 @@ interface Image {
 export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private cd = inject(ChangeDetectorRef);
+
   private initialTransitionSectionId = 'sustainable-profile';
   private resizeObserver = new ResizeObserver(() => {
     this.showLarge = this.isLarge();
     this.cd.detectChanges();
   });
-  protected showLarge = this.isLarge();
 
+  protected translations = translations;
+  protected showLarge = this.isLarge();
   protected sections = signal<Section[]>([
     {
       id: this.initialTransitionSectionId,
-      title: 'Sustainable Profile',
-      headline: 'Bolster investor and consumer trust with accurate reports',
-      content:
-        'With Energy Origin, businesses can confidently showcase their genuine contribution to a greener planet, bolstering investor and consumer trust while navigating the evolving landscape of sustainability reporting with ease and integrity.',
+      title: this.translations.landingPage.what.section1.title,
+      headline: this.translations.landingPage.what.section1.headline,
+      content: this.translations.landingPage.what.section1.content,
       images: [
         {
           zIndex: '1',
@@ -368,9 +373,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
     },
     {
       id: 'renewable-production',
-      title: 'Renewable Production',
-      headline: 'Increase earnings with higher demands for transparency about sustainability',
-      content: `Our precise, granular certification process not only simplifies compliance with stringent EU regulations but also enhances the credibility of companies' sustainability reports.`,
+      title: this.translations.landingPage.what.section2.title,
+      headline: this.translations.landingPage.what.section2.headline,
+      content: this.translations.landingPage.what.section2.content,
       images: [
         {
           zIndex: '1',
@@ -406,10 +411,9 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
     },
     {
       id: 'green-energy-trading',
-      title: 'Green Energy Trading',
-      headline: 'Help the market juggle granular certificates and connect digital wallets',
-      content:
-        'With such high demands for showcasing and proving sources used in production, we expect that marketplaces will evolve, aiding companies in buying green energy at the right time, to match their consumption.',
+      title: this.translations.landingPage.what.section3.title,
+      headline: this.translations.landingPage.what.section3.headline,
+      content: this.translations.landingPage.what.section3.content,
       images: [
         {
           zIndex: '1',

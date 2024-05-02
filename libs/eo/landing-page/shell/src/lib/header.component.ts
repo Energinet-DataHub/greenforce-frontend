@@ -22,18 +22,18 @@ import {
   ElementRef,
   inject,
 } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslocoPipe } from '@ngneat/transloco';
+import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-
-import { EoAnnouncementBarComponent } from './announcement-bar.component';
 import { translations } from '@energinet-datahub/eo/translations';
-import { TranslocoPipe } from '@ngneat/transloco';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
-import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
-import { ViewportScroller } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { EoAnnouncementBarComponent } from './announcement-bar.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,6 +44,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TranslocoPipe,
     EoProductLogoDirective,
     EoLanguageSwitcherComponent,
+    TranslocoPipe,
   ],
   selector: 'eo-landing-page-header',
   styles: `
@@ -100,14 +101,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     }
   `,
   template: `
-    <eo-announcement-bar [announcement]="translations.announcementBar.message | transloco" />
+    <eo-announcement-bar [announcement]="translations.landingPage.announcementBar.message | transloco" />
     <div class="topbar">
       <img eoProductLogo version="secondary" class="logo secondary" />
       <img eoProductLogo class="logo primary" />
 
       <div class="actions">
         <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
-          Log in
+          {{ translations.landingPage.header.loginButton | transloco }}
         </watt-button>
         <eo-language-switcher
           (click)="pauseScrollEvents = true"

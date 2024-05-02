@@ -24,18 +24,23 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
+import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoLottieComponent } from './eo-lottie.component';
-import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
+
+const selector = 'eo-landing-page-prove-sustainability';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  selector: 'eo-percentage-counter',
-  imports: [EoLottieComponent],
+  selector,
+  imports: [EoLottieComponent, TranslocoPipe],
   styles: `
-    eo-percentage-counter {
+    ${selector} {
       background: #f9f9f9;
       display: flex;
       justify-content: flex-start;
@@ -91,18 +96,17 @@ import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
       [autoPlay]="false"
     />
 
-    <h2>The numbers prove that you run a<br />sustainable company</h2>
-    <p>
-      Through reports and a dashboard, companies can track their effiency and optimize their
-      consumption to match when the sustainable energy is being produced.
-    </p>
+    <h2 [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"></h2>
+    <p>{{ translations.landingPage.proveSustainability.content | transloco}}</p>
   `,
 })
-export class EoPercentageCounterComponent implements AfterViewInit, OnDestroy {
+export class EoLandingPageProveSustainabilityComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('animation') private animation!: EoLottieComponent;
+
   private observer!: IntersectionObserver;
   private elementRef = inject(ElementRef);
 
-  @ViewChild('animation') private animation!: EoLottieComponent;
+  protected translations = translations;
   protected sustainableChart = sustainableChart;
 
   ngAfterViewInit(): void {

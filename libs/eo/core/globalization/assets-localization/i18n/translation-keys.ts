@@ -15,9 +15,93 @@
  * limitations under the License.
  */
 export interface TranslationKeys {
-  announcementBar: {
-    message: string;
-  };
+  landingPage: {
+    announcementBar: {
+      message: string;
+    };
+    header: {
+      loginButton: string;
+    };
+    hero: {
+      heading: string;
+      subheading: string;
+      loginButton: string;
+      learnMoreButton: string;
+    }
+    why: {
+      quote: string;
+      quoteAuthor: string;
+      quoteAuthorDescription: string;
+    };
+    how: {
+      heading: string;
+      subheading: string;
+      content: string;
+    };
+    what: {
+      heading: string;
+      section1: {
+        title: string;
+        headline: string;
+        content: string;
+      };
+      section2: {
+        title: string;
+        headline: string;
+        content: string;
+      };
+      section3: {
+        title: string;
+        headline: string;
+        content: string;
+      };
+    };
+    electricalGrid: {
+      heading: string;
+      subheading: string;
+    };
+    blockchainTech: {
+      heading: string;
+      content: string;
+    };
+    granularCertificates: {
+      heading: string;
+      content: string;
+    };
+    proveSustainability: {
+      heading: string;
+      content: string;
+    };
+    cta: {
+      heading: string;
+      section1: {
+        heading: string;
+        cta: string;
+      };
+      section2: {
+        heading: string;
+        cta: string;
+      };
+    };
+    footer: {
+      section1: {
+        heading: string;
+        content: string;
+      }
+      section2: {
+        heading: string;
+        content: string;
+      }
+      section3: {
+        heading: string;
+        content: string;
+      }
+      section4: {
+        heading: string;
+        content: string;
+      }
+    };
+  },
   sidebar: {
     dashboard: string;
     meteringPoints: string;
