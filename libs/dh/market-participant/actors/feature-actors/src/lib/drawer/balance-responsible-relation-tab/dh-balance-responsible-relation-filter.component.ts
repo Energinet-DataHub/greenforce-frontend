@@ -38,7 +38,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
@@ -59,6 +59,8 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     TranslocoDirective,
 
     VaterStackComponent,
+    VaterSpacerComponent,
+
     WattButtonComponent,
     WattSearchComponent,
     WattDropdownComponent,
@@ -67,11 +69,15 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 
     DhDropdownTranslatorDirective,
   ],
+  styles: `
+    :host {
+      width: 100%;
+    }
+  `,
   template: ` <form
     vater-stack
     direction="row"
     gap="m"
-    class="watt-space-stack-m"
     tabindex="-1"
     fill="horizontal"
     *transloco="
@@ -112,7 +118,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
       [options]="gridAreaOptions$ | push"
       [formControl]="filterForm.controls.gridAreaId!"
     />
-
+    <vater-spacer />
     <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
   </form>`,
 })

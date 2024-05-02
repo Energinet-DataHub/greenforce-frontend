@@ -67,23 +67,28 @@ const initialSignalState: BalanceResponsbleRelationsState = {
 export const DhBalanceResponsibleRelationsStore = signalStore(
   withState(initialSignalState),
   withComputed(({ loadingState, filters, relations }) => ({
-    filteredAndGroupedRelations: computed(() => {
-      const filteredRelations = relations().filter(
+    filteredRelations: computed(() =>
+      relations().filter(
         (relation) => applyFilter(filters(), relation) && applySearch(filters(), relation)
-      );
-      if (filters().eicFunction === EicFunction.EnergySupplier)
-        return dhGroupByMarketParticipant(
-          dhGroupByType(filteredRelations),
-          'balanceResponsibleWithName'
-        );
-
-      return dhGroupByMarketParticipant(dhGroupByType(filteredRelations), 'energySupplierWithName');
-    }),
+      )
+    ),
     isLoading: computed(() => loadingState() === LoadingState.LOADING),
     hasError: computed(() => loadingState() === ErrorState.GENERAL_ERROR),
   })),
-  withComputed(({ filteredAndGroupedRelations }) => ({
-    isEmpty: computed(() => filteredAndGroupedRelations().length === 0),
+  withComputed(({ filteredRelations, filters }) => ({
+    filteredAndGroupedRelations: computed(() => {
+      if (filters().eicFunction === EicFunction.EnergySupplier)
+        return dhGroupByMarketParticipant(
+          dhGroupByType(filteredRelations()),
+          'balanceResponsibleWithName'
+        );
+
+      return dhGroupByMarketParticipant(
+        dhGroupByType(filteredRelations()),
+        'energySupplierWithName'
+      );
+    }),
+    isEmpty: computed(() => filteredRelations().length === 0),
   })),
   withMethods((store, apollo = inject(Apollo)) => ({
     updateFilters: (filters: DhBalanceResponsibleRelationFilters): void => {

@@ -405,6 +405,17 @@
             "emptyMessage": "Der er ingen relationer for denne aktør",
             "errorTitle": "{{ shared.error.title }}",
             "errorMessage": "{{ shared.error.message }}",
+            "columns": {
+              "balanceResponsibleName": "Balanceansvarlig",
+              "balanceResponsibleId": "BalanceansvarligId",
+              "energySupplierId": "ElleverandørId",
+              "energySupplierName": "Elleverandør",
+              "status": "Status",
+              "gridAreaId": "Netområde",
+              "meteringPointType": "Målepunktstype",
+              "start": "Start",
+              "end": "Slut"
+            },
             "allRelationsHaveExpired": "Alle aftaler udløbet"
           },
           "b2bAccess": {
