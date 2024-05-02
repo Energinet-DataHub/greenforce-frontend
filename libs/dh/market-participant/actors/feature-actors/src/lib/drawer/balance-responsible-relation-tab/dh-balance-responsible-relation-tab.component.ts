@@ -35,6 +35,7 @@ import {
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-relation.store';
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 @Component({
   standalone: true,
@@ -73,8 +74,8 @@ export class DhBalanceResponsibleRelationTabComponent {
 
   actor = input.required<DhActorExtended>();
 
-  isLoading = computed(() => this.store.loading());
-  hasError = computed(() => this.store.error());
+  isLoading = computed(() => this.store.loadingState() === LoadingState.LOADING);
+  hasError = computed(() => this.store.loadingState() === ErrorState.GENERAL_ERROR);
   actorId = computed(() => this.actor().id);
   eicFunction = computed(() => this.actor().marketRole);
   balanceResponsibleRelationsGrouped = computed(() => {

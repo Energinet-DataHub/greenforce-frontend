@@ -15,18 +15,17 @@ import {
   DhBalanceResponsibleRelationFilters,
   DhBalanceResponsibleRelations,
 } from './dh-balance-responsible-relation';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 type BalanceResponsbleRelationsState = {
   relations: DhBalanceResponsibleRelations;
-  loading: boolean;
-  error: boolean;
+  loadingState: LoadingState | ErrorState;
   filters: DhBalanceResponsibleRelationFilters;
 };
 
 const initialSignalState: BalanceResponsbleRelationsState = {
   relations: [],
-  loading: false,
-  error: false,
+  loadingState: LoadingState.INIT,
   filters: {
     actorId: null,
     eicFunction: null,
@@ -54,7 +53,7 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
     loadByFilters: rxMethod<DhBalanceResponsibleRelationFilters>(
       pipe(
         distinctUntilKeyChanged('actorId'),
-        tap(() => patchState(store, { loading: true, error: false })),
+        tap(() => patchState(store, (state) => ({ ...state, loadingState: LoadingState.LOADING }))),
         switchMap((filters) => {
           return apollo
             .watchQuery({
@@ -65,8 +64,7 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
               catchError(() => {
                 patchState(store, (state) => ({
                   ...state,
-                  error: true,
-                  loading: false,
+                  loadingState: ErrorState.GENERAL_ERROR,
                   relations: [],
                 }));
                 return EMPTY;
@@ -77,8 +75,7 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
                 patchState(store, (state) => ({
                   ...state,
                   relations: relations ?? [],
-                  loading: false,
-                  error: false,
+                  loadingState: LoadingState.LOADED,
                 }));
               })
             );
