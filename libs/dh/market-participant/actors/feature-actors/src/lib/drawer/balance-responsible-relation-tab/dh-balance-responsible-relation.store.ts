@@ -69,7 +69,6 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
     loadByFilters: rxMethod<DhBalanceResponsibleRelationFilters>(
       pipe(
         distinctUntilKeyChanged('actorId'),
-        tap(() => patchState(store, (state) => ({ ...state, loadingState: LoadingState.LOADING }))),
         switchMap((filters) => {
           return apollo
             .watchQuery({
@@ -86,6 +85,19 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
                 return EMPTY;
               }),
               tap((data) => {
+                if (data.loading) {
+                  patchState(store, (state) => ({ ...state, loadingState: LoadingState.LOADING }));
+                  return;
+                }
+
+                if (data.error || data.errors) {
+                  patchState(store, (state) => ({
+                    ...state,
+                    loadingState: ErrorState.GENERAL_ERROR,
+                  }));
+                  return;
+                }
+
                 const relations = data?.data?.actorById?.balanceResponsibleAgreements;
 
                 patchState(store, (state) => ({

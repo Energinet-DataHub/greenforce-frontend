@@ -529,7 +529,7 @@ function getActorsForEicFunction() {
 function getBalanceResponsibleRelation() {
   return mockGetBalanceResponsibleRelationQuery(async ({ variables }) => {
     const { id } = variables;
-    await delay(mswConfig.delay);
+    await delay(5000);
 
     if (id === 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1') {
       if (Math.random() > 0.5) {
