@@ -239,7 +239,7 @@ describe('EO - Activity Log', () => {
 
   it('should show correctly formatted timestamps', () => {
     setup();
-    const formattedDate = format(endOfToday(), 'dd-MMM-yyyy HH:mm:ss');
+    const formattedDate = format(endOfToday(), 'dd-MMM yyyy HH:mm:ss');
     cy.findAllByText(formattedDate).should('exist');
   });
 

@@ -36,6 +36,7 @@ import {
   mockGetGridAreasQuery,
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
+  mockGetSettlementReportsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -55,6 +56,7 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
+    getSettlementReports(),
   ];
 }
 
@@ -461,6 +463,19 @@ function requestCalculationMutation() {
           __typename: 'CreateAggregatedMeasureDataRequestPayload',
           success: true,
         },
+      },
+    });
+  });
+}
+
+function getSettlementReports() {
+  return mockGetSettlementReportsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        settlementReports: [],
       },
     });
   });

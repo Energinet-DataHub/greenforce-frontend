@@ -861,6 +861,7 @@
       "create": {
         "title": "New calculation",
         "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+        "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted. Please choose a start and end date either entirely before or after {{quarterlyResolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
@@ -988,6 +989,10 @@
         "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
         "EXCHANGE": "Exchange"
       }
+    },
+    "settlementReportsV2": {
+      "topBarTitle": "Settlement Reports",
+      "emptyMessage": "There are no settlement reports"
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
