@@ -116,6 +116,13 @@ import { translations } from '@energinet-datahub/eo/translations';
         outline: none;
       }
     }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: space-between;
+    }
   `,
   template: `
     <h2 class="heading-1">{{ translations.landingPage.cta.heading | transloco }}</h2>

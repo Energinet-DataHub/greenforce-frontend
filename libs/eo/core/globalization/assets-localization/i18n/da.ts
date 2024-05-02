@@ -19,10 +19,10 @@ import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     announcementBar: {
-      message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+      message: `Har du brug for en introduktion til Energy Origin? Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
     },
     header: {
-      loginButton: 'Log in',
+      loginButton: 'Log ind',
     },
     hero: {
       heading: 'Spor energien tilbage til <br/>dets oprindelse.',
