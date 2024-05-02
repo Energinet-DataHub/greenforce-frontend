@@ -66,6 +66,10 @@ limitations under the License.
     />
 
     <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
+
+    <watt-button icon="download" variant="text" (click)="download()">{{
+      "shared.download" | transloco
+    }}</watt-button>
   </form>
 
   @for (group of balanceResponsibleRelationsGrouped(); track group) {
