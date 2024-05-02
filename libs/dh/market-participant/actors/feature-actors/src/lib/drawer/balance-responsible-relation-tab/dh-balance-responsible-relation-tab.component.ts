@@ -275,15 +275,15 @@ export class DhBalanceResponsibleRelationTabComponent {
     ];
 
     const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id}"`,
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.id}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value}"`,
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
       `"${balanceResponsibleRelation.gridAreaId}"`,
-      `"${balanceResponsibleRelation.meteringPointType}"`,
+      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
       `"${balanceResponsibleRelation.status}"`,
       `"${balanceResponsibleRelation.validPeriod.start}"`,
-      `"${balanceResponsibleRelation.validPeriod.end}"`,
+      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
     ]);
 
     exportToCSV({ headers, lines, fileName: 'balance-responsible-relations' });
