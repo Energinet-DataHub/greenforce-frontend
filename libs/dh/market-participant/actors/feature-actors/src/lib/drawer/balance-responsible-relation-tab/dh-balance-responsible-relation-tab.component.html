@@ -23,16 +23,16 @@ limitations under the License.
     read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
   "
 >
-  @if (isLoading()) {
+  @if (store.isLoading()) {
     <vater-stack direction="row" justify="center">
       <watt-spinner />
     </vater-stack>
-  } @else if (isEmpty()) {
+  } @else if (store.isEmpty()) {
     <vater-stack>
       <watt-empty-state
-        [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
-        [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
-        [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
+        [icon]="store.hasError() ? 'custom-power' : 'custom-no-results'"
+        [title]="store.hasError() ? t('errorTitle') : t('emptyTitle')"
+        [message]="store.hasError() ? t('errorMessage') : t('emptyMessage')"
       />
     </vater-stack>
   } @else {
@@ -41,7 +41,7 @@ limitations under the License.
       [inital]="store.filters()"
       [marketRole]="actor().marketRole!"
     />
-    @for (group of balanceResponsibleRelationsGrouped(); track group) {
+    @for (group of store.filteredAndGroupedRelations(); track group) {
       <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
         <watt-expandable-card-title>
           {{ t("relationTypes." + group.type) }}

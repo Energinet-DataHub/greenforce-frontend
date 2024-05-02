@@ -19,7 +19,14 @@ import { computed, inject } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { EMPTY, catchError, distinctUntilKeyChanged, pipe, switchMap, tap } from 'rxjs';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 
 import {
   BalanceResponsibilityAgreement,
@@ -32,6 +39,10 @@ import {
   DhBalanceResponsibleRelations,
 } from './dh-balance-responsible-relation';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  dhGroupByMarketParticipant,
+  dhGroupByType,
+} from '../util/dh-group-balance-responsible-relations';
 
 type BalanceResponsbleRelationsState = {
   relations: DhBalanceResponsibleRelations;
@@ -55,12 +66,22 @@ const initialSignalState: BalanceResponsbleRelationsState = {
 
 export const DhBalanceResponsibleRelationsStore = signalStore(
   withState(initialSignalState),
-  withComputed(({ filters, relations }) => ({
-    filteredRelations: computed(() =>
-      relations().filter(
+  withComputed(({ loadingState, filters, relations }) => ({
+    filteredAndGroupedRelations: computed(() => {
+      const filteredRelations = relations().filter(
         (relation) => applyFilter(filters(), relation) && applySearch(filters(), relation)
-      )
-    ),
+      );
+      if (filters().eicFunction === EicFunction.EnergySupplier)
+        return dhGroupByMarketParticipant(
+          dhGroupByType(filteredRelations),
+          'balanceResponsibleWithName'
+        );
+
+      return dhGroupByMarketParticipant(dhGroupByType(filteredRelations), 'energySupplierWithName');
+    }),
+    isLoading: computed(() => loadingState() === LoadingState.LOADING),
+    hasError: computed(() => loadingState() === ErrorState.GENERAL_ERROR),
+    isEmpty: computed(() => relations().length === 0),
   })),
   withMethods((store, apollo = inject(Apollo)) => ({
     updateFilters: (filters: DhBalanceResponsibleRelationFilters): void => {
@@ -110,7 +131,8 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
         })
       )
     ),
-  }))
+  })),
+  withHooks({ onInit: (store) => store.loadByFilters(store.filters) })
 );
 
 const applySearch = (

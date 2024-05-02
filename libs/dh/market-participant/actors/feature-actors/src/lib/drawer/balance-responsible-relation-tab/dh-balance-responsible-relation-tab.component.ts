@@ -23,19 +23,11 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-
-import {
-  dhGroupByType,
-  dhGroupByMarketParticipant,
-} from '../util/dh-group-balance-responsible-relations';
 
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-relation.store';
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 @Component({
   standalone: true,
@@ -74,26 +66,13 @@ export class DhBalanceResponsibleRelationTabComponent {
 
   actor = input.required<DhActorExtended>();
 
-  isLoading = computed(() => this.store.loadingState() === LoadingState.LOADING);
-  hasError = computed(() => this.store.loadingState() === ErrorState.GENERAL_ERROR);
-  actorId = computed(() => this.actor().id);
-  eicFunction = computed(() => this.actor().marketRole);
-  balanceResponsibleRelationsGrouped = computed(() => {
-    const relations = this.store.filteredRelations();
-
-    if (this.eicFunction() === EicFunction.EnergySupplier)
-      return dhGroupByMarketParticipant(dhGroupByType(relations), 'balanceResponsibleWithName');
-
-    return dhGroupByMarketParticipant(dhGroupByType(relations), 'energySupplierWithName');
-  });
-  isEmpty = computed(() => this.store.relations().length === 0);
-
   constructor() {
-    const filters = this.store.filters;
-    this.store.loadByFilters(filters);
     effect(
       () => {
-        this.store.updateFilters({ actorId: this.actorId(), eicFunction: this.eicFunction() });
+        this.store.updateFilters({
+          actorId: this.actor().id,
+          eicFunction: this.actor().marketRole,
+        });
       },
       { allowSignalWrites: true }
     );
