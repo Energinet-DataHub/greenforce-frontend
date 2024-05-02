@@ -81,7 +81,9 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
     }),
     isLoading: computed(() => loadingState() === LoadingState.LOADING),
     hasError: computed(() => loadingState() === ErrorState.GENERAL_ERROR),
-    isEmpty: computed(() => relations().length === 0),
+  })),
+  withComputed(({ filteredAndGroupedRelations }) => ({
+    isEmpty: computed(() => filteredAndGroupedRelations().length === 0),
   })),
   withMethods((store, apollo = inject(Apollo)) => ({
     updateFilters: (filters: DhBalanceResponsibleRelationFilters): void => {
