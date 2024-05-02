@@ -401,6 +401,17 @@
               "EXPIRED": "Udløbet",
               "SOON_TO_EXPIRE": "Udløber snart"
             },
+            "columns": {
+              "balanceResponsibleName": "Balanceansvarlig",
+              "balanceResponsibleId": "BalanceansvarligId",
+              "energySupplierId": "ElleverandørId",
+              "energySupplierName": "Elleverandør",
+              "status": "Status",
+              "gridAreaId": "Netområde",
+              "meteringPointType": "Målepunktstype",
+              "start": "Start",
+              "end": "Slut"
+            },
             "allRelationsHaveExpired": "Alle aftaler udløbet"
           },
           "b2bAccess": {

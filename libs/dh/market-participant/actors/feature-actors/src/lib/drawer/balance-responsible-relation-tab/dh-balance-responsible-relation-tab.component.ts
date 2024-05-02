@@ -20,7 +20,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
   map,
@@ -33,8 +33,10 @@ import {
 } from 'rxjs';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -42,6 +44,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  exportToCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -108,6 +111,7 @@ type FilterFormValue =
   imports: [
     RxPush,
     TranslocoDirective,
+    TranslocoPipe,
     ReactiveFormsModule,
 
     VaterFlexComponent,
@@ -115,6 +119,7 @@ type FilterFormValue =
 
     WattSearchComponent,
     WattDropdownComponent,
+    WattButtonComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WattDatePipe,
 
@@ -245,5 +250,42 @@ export class DhBalanceResponsibleRelationTabComponent {
         )
       );
     }
+  }
+
+  download() {
+    const balanceResponsibleRelations = this.balanceResponsibleRelationsRaw();
+
+    if (!balanceResponsibleRelations) {
+      return;
+    }
+
+    const columnsPath =
+      'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.columns';
+
+    const headers = [
+      `"${translate(columnsPath + '.balanceResponsibleId')}"`,
+      `"${translate(columnsPath + '.balanceResponsibleName')}"`,
+      `"${translate(columnsPath + '.energySupplierId')}"`,
+      `"${translate(columnsPath + '.energySupplierName')}"`,
+      `"${translate(columnsPath + '.gridAreaId')}"`,
+      `"${translate(columnsPath + '.meteringPointType')}"`,
+      `"${translate(columnsPath + '.status')}"`,
+      `"${translate(columnsPath + '.start')}"`,
+      `"${translate(columnsPath + '.end')}"`,
+    ];
+
+    const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.gridAreaId}"`,
+      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
+      `"${balanceResponsibleRelation.status}"`,
+      `"${balanceResponsibleRelation.validPeriod.start}"`,
+      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'balance-responsible-relations' });
   }
 }
