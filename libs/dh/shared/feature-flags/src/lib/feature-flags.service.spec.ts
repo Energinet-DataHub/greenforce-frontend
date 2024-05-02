@@ -35,6 +35,7 @@ describe('Feature flags service', () => {
     const isFeatureEnabled = new DhFeatureFlagsService(
       {
         current: DhAppEnvironment.local,
+        quarterlyResolutionTransitionDatetime: '',
         applicationInsights: {
           instrumentationKey: '',
         },
@@ -73,6 +74,7 @@ describe('Feature flags service', () => {
       const isFeatureEnabled = new DhFeatureFlagsService(
         {
           current: environment as DhAppEnvironment,
+          quarterlyResolutionTransitionDatetime: '',
           applicationInsights: {
             instrumentationKey: '',
           },

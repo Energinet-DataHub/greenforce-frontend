@@ -23,7 +23,7 @@ export const formatStrings = {
   long: 'DD-MM-YYYY, HH:mm',
   longAbbr: 'DD-MMM-YYYY HH:mm',
   time: 'HH:mm',
-  longAbbrWithSeconds: 'DD-MMM-YYYY HH:mm:ss',
+  longAbbrWithSeconds: 'DD-MMM YYYY HH:mm:ss',
 };
 
 export function wattFormatDate(

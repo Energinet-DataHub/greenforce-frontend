@@ -159,6 +159,11 @@ watt-table .mat-mdc-table {
   opacity: 0;
   visibility: hidden;
   transition: none;
+
+  .watt-button--disabled {
+    opacity: 0.4;
+    --watt-button-primary-disabled-color: #fff;
+  }
 }
 
 .watt-table-loading-cell:before {
