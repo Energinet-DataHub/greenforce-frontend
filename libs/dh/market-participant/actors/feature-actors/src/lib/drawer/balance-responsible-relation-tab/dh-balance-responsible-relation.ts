@@ -50,11 +50,11 @@ export type DhBalanceResponsibleRelationsGrouped = {
 }[];
 
 export type DhBalanceResponsibleRelationFilters = {
-  actorId?: InputMaybe<Scalars['UUID']['input']>;
-  eicFunction?: InputMaybe<EicFunction>;
-  status?: InputMaybe<BalanceResponsibilityAgreementStatus>;
-  energySupplierWithNameId?: InputMaybe<string>;
-  gridAreaId?: InputMaybe<Scalars['UUID']['input']>;
-  balanceResponsibleWithNameId?: InputMaybe<string>;
-  search?: InputMaybe<string>;
+  actorId: InputMaybe<Scalars['UUID']['input']>;
+  eicFunction: InputMaybe<EicFunction>;
+  status: InputMaybe<BalanceResponsibilityAgreementStatus>;
+  energySupplierWithNameId: InputMaybe<string>;
+  gridAreaId: InputMaybe<Scalars['UUID']['input']>;
+  balanceResponsibleWithNameId: InputMaybe<string>;
+  search: InputMaybe<string>;
 };

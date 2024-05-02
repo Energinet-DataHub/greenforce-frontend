@@ -16,7 +16,7 @@
  */
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, DestroyRef, OnInit, inject, input, output } from '@angular/core';
+import { Component, DestroyRef, OnInit, effect, inject, input, output } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -48,7 +48,7 @@ import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-re
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
+type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' | 'eicFunction'>>;
 
 @Component({
   standalone: true,
@@ -126,7 +126,7 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   marketRole = input.required<EicFunction>();
   inital = input.required<DhBalanceResponsibleRelationFilters>();
-  filter = output<DhBalanceResponsibleRelationFilters>();
+  filter = output<Partial<DhBalanceResponsibleRelationFilters>>();
 
   searchEvent$ = new BehaviorSubject<string>('');
 
@@ -139,6 +139,24 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   );
 
   filterForm!: FormGroup<Filters>;
+
+  constructor() {
+    effect(() => {
+      const { status, energySupplierWithNameId, balanceResponsibleWithNameId, gridAreaId, search } =
+        this.inital();
+
+      this.filterForm.patchValue(
+        {
+          status: status ?? null,
+          energySupplierWithNameId: energySupplierWithNameId ?? null,
+          balanceResponsibleWithNameId: balanceResponsibleWithNameId ?? null,
+          gridAreaId: gridAreaId ?? null,
+          search: search ?? null,
+        },
+        { emitEvent: false }
+      );
+    });
+  }
 
   ngOnInit(): void {
     const { status, energySupplierWithNameId, balanceResponsibleWithNameId, gridAreaId, search } =
@@ -153,7 +171,9 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
 
     this.filterForm.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.filter.emit(value as DhBalanceResponsibleRelationFilters));
+      .subscribe((value) =>
+        this.filter.emit(value as Partial<DhBalanceResponsibleRelationFilters>)
+      );
 
     this.searchEvent$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((search) => {
       this.filterForm.patchValue({ search: search === '' ? null : search });

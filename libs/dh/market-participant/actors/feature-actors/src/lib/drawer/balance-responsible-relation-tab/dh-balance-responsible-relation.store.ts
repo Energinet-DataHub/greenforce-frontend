@@ -91,10 +91,10 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
     isEmpty: computed(() => filteredRelations().length === 0),
   })),
   withMethods((store, apollo = inject(Apollo)) => ({
-    updateFilters: (filters: DhBalanceResponsibleRelationFilters): void => {
+    updateFilters: (filters: Partial<DhBalanceResponsibleRelationFilters>): void => {
       patchState(store, (state) => ({ ...state, filters: { ...state.filters, ...filters } }));
     },
-    loadByFilters: rxMethod<DhBalanceResponsibleRelationFilters>(
+    loadByFilters: rxMethod<Partial<DhBalanceResponsibleRelationFilters>>(
       pipe(
         distinctUntilKeyChanged('actorId'),
         switchMap((filters) => {
@@ -176,34 +176,45 @@ const applySearch = (
 };
 
 const applyFilter = (
-  {
-    balanceResponsibleWithNameId,
-    energySupplierWithNameId,
-    gridAreaId: gridAreaIdFilter,
-    status,
-  }: DhBalanceResponsibleRelationFilters,
+  filters: DhBalanceResponsibleRelationFilters,
   balanceResponsibilityAgreement: BalanceResponsibilityAgreement
 ) => {
-  const { gridAreaId, balanceResponsibleWithName, energySupplierWithName } =
+  const { gridAreaId, balanceResponsibleWithName, energySupplierWithName, status } =
     balanceResponsibilityAgreement;
 
-  if (
+  const {
+    energySupplierWithNameId,
+    balanceResponsibleWithNameId,
+    status: statusFilter,
+    gridAreaId: gridAreaIdFilter,
+  } = filters;
+
+  if (checkifAllAreNull(filters)) return true;
+
+  return (
+    (isNullOrUndefined(status) || status === statusFilter) &&
+    (isNullOrUndefined(energySupplierWithNameId) ||
+      energySupplierWithName?.id === energySupplierWithNameId) &&
+    (isNullOrUndefined(gridAreaIdFilter) || gridAreaId === gridAreaIdFilter) &&
+    (isNullOrUndefined(balanceResponsibleWithNameId) ||
+      balanceResponsibleWithName?.id === balanceResponsibleWithNameId)
+  );
+};
+
+const isNullOrUndefined = <T>(value: T | null | undefined): value is T => {
+  return value === null || value === undefined;
+};
+
+const checkifAllAreNull = ({
+  energySupplierWithNameId,
+  balanceResponsibleWithNameId,
+  status,
+  gridAreaId,
+}: DhBalanceResponsibleRelationFilters) => {
+  return (
     energySupplierWithNameId === null &&
     balanceResponsibleWithNameId === null &&
     status === null &&
-    gridAreaIdFilter === null
-  )
-    return true;
-
-  if (balanceResponsibleWithNameId === balanceResponsibleWithName?.id) {
-    return true;
-  }
-
-  if (energySupplierWithNameId === energySupplierWithName?.id) {
-    return true;
-  }
-
-  if (status === balanceResponsibilityAgreement.status) return true;
-
-  return gridAreaId === gridAreaIdFilter;
+    gridAreaId === null
+  );
 };

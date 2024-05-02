@@ -79,8 +79,13 @@ export class DhBalanceResponsibleRelationTabComponent {
     effect(
       () => {
         this.store.updateFilters({
+          balanceResponsibleWithNameId: null,
+          energySupplierWithNameId: null,
+          gridAreaId: null,
+          search: null,
+          status: null,
           actorId: this.actor().id,
-          eicFunction: this.actor().marketRole,
+          eicFunction: this.actor().marketRole ?? null,
         });
       },
       { allowSignalWrites: true }
