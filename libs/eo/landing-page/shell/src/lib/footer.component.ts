@@ -150,13 +150,19 @@ const selector = 'eo-landing-page-footer';
 
       <section class="developers">
         <h4>{{ translations.landingPage.footer.section4.heading | transloco }}</h4>
-        <div [innerHTML]="translations.landingPage.footer.section4.content | transloco:{linkToDevPortal: devPortalHref, icon: openInNewIcon}"></div>
+        <div
+          [innerHTML]="
+            translations.landingPage.footer.section4.content
+              | transloco: { linkToDevPortal: devPortalHref, icon: openInNewIcon }
+          "
+        ></div>
       </section>
     </footer>
   `,
 })
 export class EoLandingPageFooterComponent {
   protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
-  protected openInNewIcon = '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
+  protected openInNewIcon =
+    '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
   protected translations = translations;
 }

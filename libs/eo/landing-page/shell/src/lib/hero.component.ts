@@ -184,7 +184,11 @@ import { EoLearnMoreComponent } from './learn-more.component';
       <div class="content">
         <section aria-labelledby="hero-heading" class="heading-container">
           <!-- Main heading of the hero component -->
-          <h1 id="hero-heading" class="hero-heading" [innerHTML]="translations.landingPage.hero.heading | transloco"></h1>
+          <h1
+            id="hero-heading"
+            class="hero-heading"
+            [innerHTML]="translations.landingPage.hero.heading | transloco"
+          ></h1>
           <!-- Subheading or slogan -->
           <p class="hero-subheading">{{ translations.landingPage.hero.subheading | transloco }}</p>
         </section>

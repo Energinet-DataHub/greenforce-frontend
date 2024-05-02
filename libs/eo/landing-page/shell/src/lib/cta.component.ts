@@ -136,7 +136,9 @@ import { translations } from '@energinet-datahub/eo/translations';
     <section class="devportal">
       <h3 class="heading-3">{{ translations.landingPage.cta.section2.heading | transloco }}</h3>
       <a [href]="devPortalHref" target="_blank" class="button primary"
-        ><watt-icon name="openInNew" />{{ translations.landingPage.cta.section2.cta | transloco }}</a
+        ><watt-icon name="openInNew" />{{
+          translations.landingPage.cta.section2.cta | transloco
+        }}</a
       >
     </section>
   `,

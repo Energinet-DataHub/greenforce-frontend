@@ -51,7 +51,8 @@ const selector = 'eo-landing-page-blockchain-tech';
         }
       }
 
-      .content, .content > * {
+      .content,
+      .content > * {
         display: flex;
         flex-direction: column;
         justify-content: center;

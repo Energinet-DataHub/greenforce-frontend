@@ -27,7 +27,7 @@ export interface TranslationKeys {
       subheading: string;
       loginButton: string;
       learnMoreButton: string;
-    }
+    };
     why: {
       quote: string;
       quoteAuthor: string;
@@ -87,21 +87,21 @@ export interface TranslationKeys {
       section1: {
         heading: string;
         content: string;
-      }
+      };
       section2: {
         heading: string;
         content: string;
-      }
+      };
       section3: {
         heading: string;
         content: string;
-      }
+      };
       section4: {
         heading: string;
         content: string;
-      }
+      };
     };
-  },
+  };
   sidebar: {
     dashboard: string;
     meteringPoints: string;

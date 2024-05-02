@@ -62,7 +62,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       section1: {
         title: 'Sustainable Profile',
         headline: 'Bolster investor and consumer trust with accurate reports',
-        content: 'With Energy Origin, businesses can confidently showcase their genuine contribution to a greener planet, bolstering investor and consumer trust while navigating the evolving landscape of sustainability reporting with ease and integrity.',
+        content:
+          'With Energy Origin, businesses can confidently showcase their genuine contribution to a greener planet, bolstering investor and consumer trust while navigating the evolving landscape of sustainability reporting with ease and integrity.',
       },
       section2: {
         title: 'Renewable Production',
@@ -72,7 +73,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       section3: {
         title: 'Green Energy Trading',
         headline: 'Help the market juggle granular certificates and connect digital wallets',
-        content: 'With such high demands for showcasing and proving sources used in production, we expect that marketplaces will evolve, aiding companies in buying green energy at the right time, to match their consumption.',
+        content:
+          'With such high demands for showcasing and proving sources used in production, we expect that marketplaces will evolve, aiding companies in buying green energy at the right time, to match their consumption.',
       },
     },
     electricalGrid: {
@@ -92,7 +94,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       </p>`,
     },
     granularCertificates: {
-      heading: 'Granular certificates are transferred between wallets to match consumption with production',
+      heading:
+        'Granular certificates are transferred between wallets to match consumption with production',
       content: `Transfer agreements can be made to automatically transfer certificates from one wallet to
       another. Either through our UI in Energy Origin or by the use of any third party using our
       API's.`,
@@ -148,7 +151,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           <p>Get access to our</p>
           <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a>
         `,
-      }
+      },
     },
   },
   sidebar: {

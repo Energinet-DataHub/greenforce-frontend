@@ -55,7 +55,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       section1: {
         title: 'Bæredygtig profil',
         headline: 'Styrke investorers og forbrugeres tillid med nøjagtige rapporter',
-        content: 'Med Energioprindelse kan virksomheder trygt fremvise deres reelle bidrag til en grønnere planet. De kan styrke tilliden fra investorer og forbrugere, og på samme tid med lethed og integration navigere i det udviklende landskab af rapportering af bæredygtighed.',
+        content:
+          'Med Energioprindelse kan virksomheder trygt fremvise deres reelle bidrag til en grønnere planet. De kan styrke tilliden fra investorer og forbrugere, og på samme tid med lethed og integration navigere i det udviklende landskab af rapportering af bæredygtighed.',
       },
       section2: {
         title: 'Produktion af vedvarende energi',
@@ -64,8 +65,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
       section3: {
         title: 'Grøn energi handel',
-        headline: 'Hjælp markedet med at jonglere granulære certifikater og forbinde digitale beholdninger.',
-        content: 'Med så store krav til fremvisning og bevis for anvendte kilder i produktionen forventer vi, at markedspladser vil udvikle sig, hvilket hjælper virksomheder med at købe grøn energi på det rigtige tidspunkt for at matche deres forbrug.',
+        headline:
+          'Hjælp markedet med at jonglere granulære certifikater og forbinde digitale beholdninger.',
+        content:
+          'Med så store krav til fremvisning og bevis for anvendte kilder i produktionen forventer vi, at markedspladser vil udvikle sig, hvilket hjælper virksomheder med at købe grøn energi på det rigtige tidspunkt for at matche deres forbrug.',
       },
     },
     electricalGrid: {
@@ -73,7 +76,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       subheading: `Beviser at energien <span class="highlight">faktisk stammer fra</span> vedvarende kilder.`,
     },
     blockchainTech: {
-      heading: 'Block-chain teknologi binder granulære certifikater sammen med produktion af vedvarende energi.',
+      heading:
+        'Block-chain teknologi binder granulære certifikater sammen med produktion af vedvarende energi.',
       content: `
       <p>
         Baseret på data fra DataHub udsteder Energioprindelse produktions certifikater fra udvalgte energiproducerende aktiver - hvert kvarter - hver time.
@@ -83,7 +87,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       </p>`,
     },
     granularCertificates: {
-      heading: 'Granulære certifikater overføres mellem forbundne konti og matcher forbrug med produktion.',
+      heading:
+        'Granulære certifikater overføres mellem forbundne konti og matcher forbrug med produktion.',
       content: `Der kan laves aftaler om at overføre certifikater mellem konti automatisk. Enten ved at bruge vores portal til Energioprindelse eller via en 3. part, der benytter sig af vores API’er.`,
     },
     proveSustainability: {
@@ -136,7 +141,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           <p>Få adgang til vores</p>
           <a href="{{linkToDevPortal}}" target="_blank">{{icon}} udvikler portal</a>
         `,
-      }
+      },
     },
   },
   sidebar: {

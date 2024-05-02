@@ -170,7 +170,11 @@ import { translations } from '@energinet-datahub/eo/translations';
       <h3 [innerHTML]="translations.landingPage.how.subheading | transloco"></h3>
     </div>
 
-    <section class="text-container" [ngClass]="{ active: isActive() }" [innerHTML]="translations.landingPage.how.content | transloco"></section>
+    <section
+      class="text-container"
+      [ngClass]="{ active: isActive() }"
+      [innerHTML]="translations.landingPage.how.content | transloco"
+    ></section>
   `,
 })
 export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
