@@ -21,6 +21,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
   VaterFlexComponent,
+  VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
@@ -31,6 +32,7 @@ import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domai
 
 import { DhSettlementReports } from './dh-settlement-report';
 import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports-table.component';
+import { DhRequestSettlementReportButtonComponent } from './button/dh-request-settlement-report-button.component';
 
 @Component({
   selector: 'dh-wholesale-feature-settlement-reports-v2',
@@ -42,10 +44,12 @@ import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports
     VaterStackComponent,
     VaterFlexComponent,
     VaterUtilityDirective,
+    VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
 
     DhSettlementReportsTableComponent,
+    DhRequestSettlementReportButtonComponent,
   ],
   styles: `
     :host {
@@ -64,14 +68,20 @@ import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports
         </vater-stack>
       } @else {
         @if (totalCount() === 0) {
-          <vater-stack fill="vertical" justify="center">
+          <vater-stack fill="vertical" justify="center" gap="l">
             <watt-empty-state icon="custom-no-results" [message]="t('emptyMessage')" />
+
+            <dh-request-settlement-report-button />
           </vater-stack>
         } @else {
           <vater-flex gap="ml">
             <vater-stack direction="row" gap="s">
               <h3>{{ t('topBarTitle') }}</h3>
               <span class="watt-chip-label">{{ totalCount() }}</span>
+
+              <vater-spacer />
+
+              <dh-request-settlement-report-button />
             </vater-stack>
 
             <dh-settlement-reports-table [settlementReports]="settlementReports()" />

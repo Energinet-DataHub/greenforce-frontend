@@ -395,6 +395,11 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "meteringPointTypes": {
+              "E20Exchange": "Udveksling",
+              "E18Production": "Produktion",
+              "E17Consumption": "Forbrug"
+            },
             "statusOptions": {
               "ACTIVE": "Aktiv",
               "AWAITING": "Afventer",
@@ -996,6 +1001,7 @@
     "settlementReportsV2": {
       "topBarTitle": "Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
+      "requestSettlementReport": "Anmod om afregningsrapport",
       "columns": {
         "calculationType": "Beregningstype",
         "period": "Periode",
@@ -1010,6 +1016,11 @@
         "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
         "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
+      },
+      "requestReportModal": {
+        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "cancel": "Fortryd",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
     },
     "settlementReports": {

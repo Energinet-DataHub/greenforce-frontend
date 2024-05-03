@@ -3,7 +3,11 @@ query getBalanceResponsibleRelation($id: UUID!) {
     balanceResponsibleAgreements {
       validPeriod
       status
-      gridAreaId
+      gridArea {
+        displayName
+        id
+        code
+      }
       meteringPointType
       balanceResponsibleWithName {
         id
