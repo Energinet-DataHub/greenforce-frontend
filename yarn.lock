@@ -567,6 +567,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular/platform-server@npm:~17.3.0":
+  version: 17.3.7
+  resolution: "@angular/platform-server@npm:17.3.7"
+  dependencies:
+    tslib: "npm:^2.3.0"
+    xhr2: "npm:^0.2.0"
+  peerDependencies:
+    "@angular/animations": 17.3.7
+    "@angular/common": 17.3.7
+    "@angular/compiler": 17.3.7
+    "@angular/core": 17.3.7
+    "@angular/platform-browser": 17.3.7
+  checksum: d5e1a51b593eadaadfdf7ff4f518406bfb59e213eedd2f8c7d96444b10844f351934439e4da233ae9bcf246d6adea799c5c388a623f2143d6d7e4346192130d2
+  languageName: node
+  linkType: hard
+
 "@angular/router@npm:17.3.5":
   version: 17.3.5
   resolution: "@angular/router@npm:17.3.5"
@@ -578,6 +594,19 @@ __metadata:
     "@angular/platform-browser": 17.3.5
     rxjs: ^6.5.3 || ^7.4.0
   checksum: bd60c802c3c9bb4d964b964c9f94d1065ccbbe27dd86535aef406e56186bda5254bac0c11dc45b183ebf02c0e4c85b154ef2f1561eace0d86be1f3ac20ec5b40
+  languageName: node
+  linkType: hard
+
+"@angular/ssr@npm:17.3.5":
+  version: 17.3.5
+  resolution: "@angular/ssr@npm:17.3.5"
+  dependencies:
+    critters: "npm:0.0.22"
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^17.0.0
+    "@angular/core": ^17.0.0
+  checksum: 8252fc503c15ae1b4283f9416d976e8d0f81d7e49b0cc40dfcb924e7da1a0190789bc944124dc52a2d2c9821b8a8e2b8850b73857834dc2d3d05ddc96af0f5e0
   languageName: node
   linkType: hard
 
@@ -14577,7 +14606,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.13":
+"@types/express@npm:*, @types/express@npm:4.17.14, @types/express@npm:^4.17.13":
   version: 4.17.14
   resolution: "@types/express@npm:4.17.14"
   dependencies:
@@ -19909,17 +19938,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie@npm:0.5.0, cookie@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "cookie@npm:0.5.0"
+  checksum: c01ca3ef8d7b8187bae434434582288681273b5a9ed27521d4d7f9f7928fe0c920df0decd9f9d3bbd2d14ac432b8c8cf42b98b3bdd5bfe0e6edddeebebe8b61d
+  languageName: node
+  linkType: hard
+
 "cookie@npm:0.6.0":
   version: 0.6.0
   resolution: "cookie@npm:0.6.0"
   checksum: f2318b31af7a31b4ddb4a678d024514df5e705f9be5909a192d7f116cfb6d45cbacf96a473fa733faa95050e7cff26e7832bb3ef94751592f1387b71c8956686
-  languageName: node
-  linkType: hard
-
-"cookie@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "cookie@npm:0.5.0"
-  checksum: c01ca3ef8d7b8187bae434434582288681273b5a9ed27521d4d7f9f7928fe0c920df0decd9f9d3bbd2d14ac432b8c8cf42b98b3bdd5bfe0e6edddeebebe8b61d
   languageName: node
   linkType: hard
 
@@ -21728,7 +21757,9 @@ __metadata:
     "@angular/material": "npm:17.3.5"
     "@angular/platform-browser": "npm:17.3.5"
     "@angular/platform-browser-dynamic": "npm:17.3.5"
+    "@angular/platform-server": "npm:~17.3.0"
     "@angular/router": "npm:17.3.5"
+    "@angular/ssr": "npm:17.3.5"
     "@apollo/client": "npm:3.8.1"
     "@azure/msal-angular": "npm:3.0.16"
     "@azure/msal-browser": "npm:3.13.0"
@@ -21794,6 +21825,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:5.16.5"
     "@testing-library/user-event": "npm:13.5.0"
     "@types/crypto-js": "npm:4.2.2"
+    "@types/express": "npm:4.17.14"
     "@types/highlight.js": "npm:10.1.0"
     "@types/inquirer": "npm:9.0.7"
     "@types/jest": "npm:29.5.12"
@@ -21814,6 +21846,7 @@ __metadata:
     eslint-plugin-cypress: "npm:2.13.4"
     eslint-plugin-sonarjs: "npm:0.19.0"
     eslint-plugin-storybook: "npm:0.6.13"
+    express: "npm:~4.18.2"
     glob: "npm:10.3.12"
     graphql: "npm:16.8.1"
     graphql-sse: "npm:^2.5.3"
@@ -23531,6 +23564,45 @@ __metadata:
     utils-merge: "npm:1.0.1"
     vary: "npm:~1.1.2"
   checksum: e82e2662ea9971c1407aea9fc3c16d6b963e55e3830cd0ef5e00b533feda8b770af4e3be630488ef8a752d7c75c4fcefb15892868eeaafe7353cb9e3e269fdcb
+  languageName: node
+  linkType: hard
+
+"express@npm:~4.18.2":
+  version: 4.18.3
+  resolution: "express@npm:4.18.3"
+  dependencies:
+    accepts: "npm:~1.3.8"
+    array-flatten: "npm:1.1.1"
+    body-parser: "npm:1.20.2"
+    content-disposition: "npm:0.5.4"
+    content-type: "npm:~1.0.4"
+    cookie: "npm:0.5.0"
+    cookie-signature: "npm:1.0.6"
+    debug: "npm:2.6.9"
+    depd: "npm:2.0.0"
+    encodeurl: "npm:~1.0.2"
+    escape-html: "npm:~1.0.3"
+    etag: "npm:~1.8.1"
+    finalhandler: "npm:1.2.0"
+    fresh: "npm:0.5.2"
+    http-errors: "npm:2.0.0"
+    merge-descriptors: "npm:1.0.1"
+    methods: "npm:~1.1.2"
+    on-finished: "npm:2.4.1"
+    parseurl: "npm:~1.3.3"
+    path-to-regexp: "npm:0.1.7"
+    proxy-addr: "npm:~2.0.7"
+    qs: "npm:6.11.0"
+    range-parser: "npm:~1.2.1"
+    safe-buffer: "npm:5.2.1"
+    send: "npm:0.18.0"
+    serve-static: "npm:1.15.0"
+    setprototypeof: "npm:1.2.0"
+    statuses: "npm:2.0.1"
+    type-is: "npm:~1.6.18"
+    utils-merge: "npm:1.0.1"
+    vary: "npm:~1.1.2"
+  checksum: 0b9eeafbac549e3c67d92d083bf1773e358359f41ad142b92121935c6348d29079b75054555b3f62de39263fffc8ba06898b09fdd3e213e28e714c03c5d9f44c
   languageName: node
   linkType: hard
 
@@ -40537,6 +40609,13 @@ __metadata:
   version: 4.0.0
   resolution: "xdg-basedir@npm:4.0.0"
   checksum: 1b5d70d58355af90363a4e0a51c992e77fc5a1d8de5822699c7d6e96a6afea9a1e048cb93312be6870f338ca45ebe97f000425028fa149c1e87d1b5b8b212a06
+  languageName: node
+  linkType: hard
+
+"xhr2@npm:^0.2.0":
+  version: 0.2.1
+  resolution: "xhr2@npm:0.2.1"
+  checksum: eebe95bd0ae9087da9b4dda636abee1f30cf9b424fbe8ebd0c7dcfd9be5db3e4aa634cf1837fa3e82b486aace9396a2dbf6be2dc8084862c8239dccec4e16dca
   languageName: node
   linkType: hard
 

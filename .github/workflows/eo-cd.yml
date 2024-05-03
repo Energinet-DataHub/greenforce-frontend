@@ -19,6 +19,7 @@ concurrency:
 
 env:
   app-name: app-eo
+  landing-page-app-name: eo-app-landing-page
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}
@@ -73,10 +74,16 @@ jobs:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
 
+      - name: Is landing-page afftected?
+        id: hest
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.landing-page-app-name }}
   app:
     name: Build app
-    if: ${{ needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
+    if: ${{ needs.affected.result == 'true' }}
+    needs: [affected]
     runs-on: ubuntu-latest
 
     steps:

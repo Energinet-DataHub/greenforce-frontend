@@ -1,0 +1,84 @@
+{
+  "name": "eo-app-landing-page",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/eo/app-landing-page/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/eo/app-landing-page",
+        "index": "apps/eo/app-landing-page/src/index.html",
+        "browser": "apps/eo/app-landing-page/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/eo/app-landing-page/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/eo/app-landing-page/src/favicon.ico",
+          "apps/eo/app-landing-page/src/assets"
+        ],
+        "styles": ["apps/eo/app-landing-page/src/styles.scss"],
+        "scripts": [],
+        "server": "apps/eo/app-landing-page/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/eo/app-landing-page/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "eo-app-landing-page:build:production"
+        },
+        "development": {
+          "buildTarget": "eo-app-landing-page:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "eo-app-landing-page:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/eo/app-landing-page/jest.config.ts"
+      }
+    }
+  }
+}
