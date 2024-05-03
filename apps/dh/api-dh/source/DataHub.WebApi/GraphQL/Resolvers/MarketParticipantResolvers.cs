@@ -50,6 +50,11 @@ public class MarketParticipantResolvers
         GridAreaByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
 
+    public async Task<GridAreaDto?> GetGridAreaForBalanceResponsibilityRelationAsync(
+        [Parent] BalanceResponsibilityRelationDto result,
+        GridAreaByIdBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
+
     public async Task<ActorDto?> GetActorDelegatedByAsync(
         [Parent] ProcessDelegation actor,
         ActorByIdBatchDataLoader dataLoader) =>
