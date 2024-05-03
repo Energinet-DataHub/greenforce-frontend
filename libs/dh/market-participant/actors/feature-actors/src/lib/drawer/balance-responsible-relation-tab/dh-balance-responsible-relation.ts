@@ -16,7 +16,14 @@
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { GetBalanceResponsibleRelationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  BalanceResponsibilityAgreementStatus,
+  EicFunction,
+  GetBalanceResponsibleRelationDocument,
+  InputMaybe,
+  MarketParticipantMeteringPointType,
+  Scalars,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhBalanceResponsibleRelation = NonNullable<
   ResultOf<
@@ -26,15 +33,13 @@ export type DhBalanceResponsibleRelation = NonNullable<
 
 export type DhBalanceResponsibleRelations = DhBalanceResponsibleRelation[];
 
-export type DhBalanceResponsibleRelationType = 'CONSUMPTION' | 'PRODUCTION';
-
 export type DhBalanceResponsibleRelationsByType = {
-  type: DhBalanceResponsibleRelationType;
+  type: MarketParticipantMeteringPointType;
   relations: DhBalanceResponsibleRelations;
 }[];
 
 export type DhBalanceResponsibleRelationsGrouped = {
-  type: DhBalanceResponsibleRelationType;
+  type: MarketParticipantMeteringPointType;
   marketParticipants: {
     id: string;
     displayName: string;
@@ -42,3 +47,13 @@ export type DhBalanceResponsibleRelationsGrouped = {
     allRelationsHaveExpired: boolean;
   }[];
 }[];
+
+export type DhBalanceResponsibleRelationFilters = {
+  actorId: InputMaybe<Scalars['UUID']['input']>;
+  eicFunction: InputMaybe<EicFunction>;
+  status: InputMaybe<BalanceResponsibilityAgreementStatus>;
+  energySupplierWithNameId: InputMaybe<string>;
+  gridAreaId: InputMaybe<Scalars['UUID']['input']>;
+  balanceResponsibleWithNameId: InputMaybe<string>;
+  search: InputMaybe<string>;
+};

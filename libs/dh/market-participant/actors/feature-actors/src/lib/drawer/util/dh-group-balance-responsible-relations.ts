@@ -21,7 +21,6 @@ import {
   DhBalanceResponsibleRelations,
   DhBalanceResponsibleRelationsByType,
   DhBalanceResponsibleRelationsGrouped,
-  DhBalanceResponsibleRelationType,
 } from '../balance-responsible-relation-tab/dh-balance-responsible-relation';
 
 export function dhGroupByType(
@@ -36,7 +35,7 @@ export function dhGroupByType(
       group.relations.push(relation);
     } else {
       groups.push({
-        type: relation.meteringPointType as DhBalanceResponsibleRelationType,
+        type: relation.meteringPointType,
         relations: [relation],
       });
     }
