@@ -12,21 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 
-public class ApiClientSettings
-{
-    public string MeteringPointBaseUrl { get; set; } = string.Empty;
-
-    public string MarketParticipantBaseUrl { get; set; } = string.Empty;
-
-    public string WholesaleBaseUrl { get; set; } = string.Empty;
-
-    public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
-
-    public string ESettExchangeBaseUrl { get; set; } = string.Empty;
-
-    public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
-
-    public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
-}
+/// <summary>
+/// An immutable request to create (start) a calculation.
+/// </summary>
+public sealed record StartCalculationRequestDto(StartCalculationType CalculationType, IEnumerable<string> GridAreaCodes, DateTimeOffset StartDate, DateTimeOffset EndDate);
