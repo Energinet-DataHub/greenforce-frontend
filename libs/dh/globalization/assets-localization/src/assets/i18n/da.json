@@ -401,6 +401,10 @@
               "EXPIRED": "Udløbet",
               "SOON_TO_EXPIRE": "Udløber snart"
             },
+            "emptyTitle": "Ingen relationer fundet",
+            "emptyMessage": "Der er ingen relationer for denne aktør",
+            "errorTitle": "{{ shared.error.title }}",
+            "errorMessage": "{{ shared.error.message }}",
             "columns": {
               "balanceResponsibleName": "Balanceansvarlig",
               "balanceResponsibleId": "BalanceansvarligId",
