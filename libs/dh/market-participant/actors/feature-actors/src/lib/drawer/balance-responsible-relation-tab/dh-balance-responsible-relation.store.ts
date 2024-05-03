@@ -192,7 +192,7 @@ const applyFilter = (
   if (checkifAllAreNull(filters)) return true;
 
   return (
-    (isNullOrUndefined(status) || status === statusFilter) &&
+    (isNullOrUndefined(statusFilter) || status === statusFilter) &&
     (isNullOrUndefined(energySupplierWithNameId) ||
       energySupplierWithName?.id === energySupplierWithNameId) &&
     (isNullOrUndefined(gridAreaIdFilter) || gridArea?.id === gridAreaIdFilter) &&
