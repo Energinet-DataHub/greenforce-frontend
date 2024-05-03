@@ -12,21 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 
-public class ApiClientSettings
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
+
+/// <summary>
+/// Interface of client for working with the Wholesale Orchestrations API.
+/// </summary>
+public interface IWholesaleOrchestrationsClient
 {
-    public string MeteringPointBaseUrl { get; set; } = string.Empty;
-
-    public string MarketParticipantBaseUrl { get; set; } = string.Empty;
-
-    public string WholesaleBaseUrl { get; set; } = string.Empty;
-
-    public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
-
-    public string ESettExchangeBaseUrl { get; set; } = string.Empty;
-
-    public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
-
-    public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
+    /// <summary>
+    /// Start a calculation and return its id.
+    /// </summary>
+    public Task<Guid> StartCalculationAsync(StartCalculationRequestDto requestDto, CancellationToken cancellationToken);
 }
