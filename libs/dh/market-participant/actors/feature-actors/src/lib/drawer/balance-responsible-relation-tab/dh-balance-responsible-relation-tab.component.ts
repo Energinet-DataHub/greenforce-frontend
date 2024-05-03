@@ -119,7 +119,7 @@ export class DhBalanceResponsibleRelationTabComponent {
       `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
       `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
       `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.gridAreaId}"`,
+      `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
       `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
       `"${balanceResponsibleRelation.status}"`,
       `"${balanceResponsibleRelation.validPeriod.start}"`,

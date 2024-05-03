@@ -396,6 +396,11 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "meteringPointTypes": {
+              "E20Exchange": "Exchange",
+              "E18Production": "Production",
+              "E17Consumption": "Consumption"
+            },
             "statusOptions": {
               "ACTIVE": "Active",
               "AWAITING": "Awaiting",

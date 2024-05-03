@@ -50,7 +50,7 @@ limitations under the License.
     @for (group of store.filteredAndGroupedRelations(); track group) {
       <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
         <watt-expandable-card-title>
-          {{ t("relationTypes." + group.type) }}
+          {{ t("meteringPointTypes." + group.type) }}
         </watt-expandable-card-title>
 
         @for (marketParticipant of group.marketParticipants; track marketParticipant) {

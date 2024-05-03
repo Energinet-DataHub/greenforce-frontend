@@ -395,6 +395,11 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "meteringPointTypes": {
+              "E20Exchange": "Udveksling",
+              "E18Production": "Produktion",
+              "E17Consumption": "Forbrug"
+            },
             "statusOptions": {
               "ACTIVE": "Aktiv",
               "AWAITING": "Afventer",
