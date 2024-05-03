@@ -402,6 +402,21 @@
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
             },
+            "emptyTitle": "No relations found",
+            "emptyMessage": "There are no relations for this actor",
+            "errorTitle": "{{ shared.error.title }}",
+            "errorMessage": "{{ shared.error.message }}",
+            "columns": {
+              "balanceResponsibleName": "Balance Responsible Name",
+              "balanceResponsibleId": "Balance Responsible ID",
+              "energySupplierId": "Energy Supplier ID",
+              "energySupplierName": "Energy Supplier",
+              "status": "Status",
+              "gridAreaId": "Grid Area",
+              "meteringPointType": "Metering Point Type",
+              "start": "Start",
+              "end": "End"
+            },
             "allRelationsHaveExpired": "All relations have expired"
           },
           "b2bAccess": {
