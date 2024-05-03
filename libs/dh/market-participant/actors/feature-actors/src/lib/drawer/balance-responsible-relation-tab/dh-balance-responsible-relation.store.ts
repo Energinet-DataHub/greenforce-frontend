@@ -29,7 +29,6 @@ import {
 } from '@ngrx/signals';
 
 import {
-  BalanceResponsibilityAgreement,
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
