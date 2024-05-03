@@ -995,7 +995,22 @@
     },
     "settlementReportsV2": {
       "topBarTitle": "Afregningsrapporter",
-      "emptyMessage": "Der er ingen afregningsrapporter"
+      "emptyMessage": "Der er ingen afregningsrapporter",
+      "columns": {
+        "calculationType": "Beregningstype",
+        "period": "Periode",
+        "gridAreas": "Netområder",
+        "basisData": "Datagrundlag",
+        "status": "Status"
+      },
+      "calculationTypes": {
+        "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ wholesale.shared.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
+      }
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",

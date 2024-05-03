@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -29,6 +29,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhSettlementReports } from './dh-settlement-report';
+import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports-table.component';
+
 @Component({
   selector: 'dh-wholesale-feature-settlement-reports-v2',
   standalone: true,
@@ -41,6 +44,8 @@ import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domai
     VaterUtilityDirective,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+
+    DhSettlementReportsTableComponent,
   ],
   styles: `
     :host {
@@ -53,12 +58,12 @@ import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domai
   `,
   template: `
     <watt-card vater inset="ml" *transloco="let t; read: 'wholesale.settlementReportsV2'">
-      @if (isLoading) {
+      @if (isLoading()) {
         <vater-stack fill="vertical" justify="center">
           <watt-spinner />
         </vater-stack>
       } @else {
-        @if (totalCount === 0) {
+        @if (totalCount() === 0) {
           <vater-stack fill="vertical" justify="center">
             <watt-empty-state icon="custom-no-results" [message]="t('emptyMessage')" />
           </vater-stack>
@@ -66,8 +71,10 @@ import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domai
           <vater-flex gap="ml">
             <vater-stack direction="row" gap="s">
               <h3>{{ t('topBarTitle') }}</h3>
-              <span class="watt-chip-label">{{ totalCount }}</span>
+              <span class="watt-chip-label">{{ totalCount() }}</span>
             </vater-stack>
+
+            <dh-settlement-reports-table [settlementReports]="settlementReports()" />
           </vater-flex>
         }
       }
@@ -82,24 +89,26 @@ export class DhWholesaleFeatureSettlementReportsV2Component {
     query: GetSettlementReportsDocument,
   });
 
-  totalCount = 0;
-  isLoading = false;
+  settlementReports = signal<DhSettlementReports>([]);
+  totalCount = computed(() => this.settlementReports().length);
+  isLoading = signal(false);
 
   constructor() {
     this.fetchData();
   }
 
   private fetchData(): void {
-    this.isLoading = true;
+    this.isLoading.set(true);
 
     this.settlementReports$.pipe(takeUntilDestroyed()).subscribe({
       next: ({ loading, data }) => {
-        this.isLoading = loading;
+        this.isLoading.set(loading);
 
-        this.totalCount = data.settlementReports.length;
+        this.settlementReports.set(data.settlementReports);
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading.set(false);
+        this.settlementReports.set([]);
       },
     });
   }
