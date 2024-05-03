@@ -29,12 +29,12 @@ import {
 } from '@ngrx/signals';
 
 import {
-  BalanceResponsibilityAgreement,
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
+  DhBalanceResponsibleRelation,
   DhBalanceResponsibleRelationFilters,
   DhBalanceResponsibleRelations,
 } from './dh-balance-responsible-relation';
@@ -144,17 +144,17 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
 
 const applySearch = (
   filters: DhBalanceResponsibleRelationFilters,
-  balanceResponsibilityAgreement: BalanceResponsibilityAgreement
+  balanceResponsibilityAgreement: DhBalanceResponsibleRelation
 ) => {
   const { search, eicFunction } = filters;
-  const { gridAreaId, balanceResponsibleWithName, energySupplierWithName } =
+  const { gridArea, balanceResponsibleWithName, energySupplierWithName } =
     balanceResponsibilityAgreement;
 
   if (search === null || search === undefined) {
     return true;
   }
 
-  if (gridAreaId === search) {
+  if (gridArea?.code === search) {
     return true;
   }
 
@@ -177,9 +177,9 @@ const applySearch = (
 
 const applyFilter = (
   filters: DhBalanceResponsibleRelationFilters,
-  balanceResponsibilityAgreement: BalanceResponsibilityAgreement
+  balanceResponsibilityAgreement: DhBalanceResponsibleRelation
 ) => {
-  const { gridAreaId, balanceResponsibleWithName, energySupplierWithName, status } =
+  const { gridArea, balanceResponsibleWithName, energySupplierWithName, status } =
     balanceResponsibilityAgreement;
 
   const {
@@ -195,7 +195,7 @@ const applyFilter = (
     (isNullOrUndefined(status) || status === statusFilter) &&
     (isNullOrUndefined(energySupplierWithNameId) ||
       energySupplierWithName?.id === energySupplierWithNameId) &&
-    (isNullOrUndefined(gridAreaIdFilter) || gridAreaId === gridAreaIdFilter) &&
+    (isNullOrUndefined(gridAreaIdFilter) || gridArea?.id === gridAreaIdFilter) &&
     (isNullOrUndefined(balanceResponsibleWithNameId) ||
       balanceResponsibleWithName?.id === balanceResponsibleWithNameId)
   );
