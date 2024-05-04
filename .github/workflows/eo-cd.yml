@@ -69,14 +69,14 @@ jobs:
 
       - name: Prepare projects array
         id: prepare
-        run: echo "::set-output name=projects::[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]"
+        run: echo "[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]" >> $GITHUB_OUTPUT
 
       - name: Is affected?
         id: affected
         uses: ./.github/actions/affected
         with:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          projects: ${{ steps.prepare.outputs.project }}
+          projects: ${{ steps.prepare.outputs }}
   app:
     name: Build app
     if: ${{ needs.affected.result == 'true' }}

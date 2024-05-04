@@ -28,7 +28,7 @@ import * as core from '@actions/core';
 
 function readAffectedApps(base) {
   const affected = execSync(
-    `npx nx print-affected --type=app --select=projects --base=${base} --head=HEAD`,
+    `npx nx show projects --affected --type=app --base=${base} --head=HEAD`,
     {
       encoding: 'utf-8',
     }
@@ -39,7 +39,7 @@ function readAffectedApps(base) {
 
 function readAffectedLibs(base) {
   const affected = execSync(
-    `npx nx print-affected --type=lib --select=projects --base=${base} --head=HEAD`,
+    `npx nx show projects --affected --type=lib --base=${base} --head=HEAD`,
     {
       encoding: 'utf-8',
     }
