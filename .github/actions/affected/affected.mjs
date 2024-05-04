@@ -92,7 +92,7 @@ try {
     ...JSON.parse(core.getInput('projects', { required: false }))
   ];
   const project = core.getInput('project', { required: false });
-  if(project) {
+  if(project && project !== '') {
     projects.push(project);
   }
 
