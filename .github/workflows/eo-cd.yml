@@ -79,8 +79,8 @@ jobs:
           projects: ${{ steps.prepare.outputs.projects }}
   app:
     name: Build app
-    if: ${{ needs.affected.result == 'true' }}
-    needs: [affected]
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
     runs-on: ubuntu-latest
 
     steps:
