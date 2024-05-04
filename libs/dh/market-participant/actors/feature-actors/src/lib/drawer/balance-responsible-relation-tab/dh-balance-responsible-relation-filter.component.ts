@@ -71,7 +71,7 @@ type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' 
   ],
   styles: `
     :host {
-      width: 100%;
+      width: 85%;
     }
   `,
   template: ` <form
