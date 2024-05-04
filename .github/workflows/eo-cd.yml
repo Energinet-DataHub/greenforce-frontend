@@ -69,7 +69,7 @@ jobs:
 
       - name: Prepare projects array
         id: prepare
-        run: echo "projects=[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]" >> $GITHUB_OUTPUT
+        run: echo "projects="[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]" >> $GITHUB_OUTPUT
 
       - name: Is affected?
         id: affected
