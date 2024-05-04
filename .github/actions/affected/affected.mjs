@@ -90,7 +90,7 @@ let base;
 try {
   projects = [
     core.getInput('project', { required: false }),
-    ...core.getInput('projects', { required: false })
+    ...JSON.parse(core.getInput('projects', { required: false }))
   ];
   base = core.getInput('base', { required: true });
 } catch (err) {
