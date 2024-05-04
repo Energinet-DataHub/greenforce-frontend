@@ -89,9 +89,13 @@ let base;
 
 try {
   projects = [
-    core.getInput('project', { required: false }),
     ...JSON.parse(core.getInput('projects', { required: false }))
   ];
+  const project = core.getInput('project', { required: false });
+  if(project) {
+    projects.push(project);
+  }
+
   base = core.getInput('base', { required: true });
 } catch (err) {
   [, , projects, base] = process.argv;
