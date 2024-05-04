@@ -102,8 +102,12 @@ validateProjectParameter(projects);
 const affectedProjects = readAffectedProjects(base);
 let isAffected = false;
 projects.forEach((project) => {
+  console.log(`Checking if ${project} is affected...`);
   if (affectedProjects.includes(project)) {
+    console.log(`${project} is affected.`);
     isAffected = true;
+  } else {
+    console.log(`${project} is not affected.`);
   }
 });
 
