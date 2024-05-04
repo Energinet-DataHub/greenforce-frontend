@@ -58,9 +58,7 @@ function readAffectedProjects(base) {
 }
 
 function sanitizeAffectedOutput(affectedOutput) {
-  console.log('Affected output:', affectedOutput.replaceAll(/\s/g, ''));
-
-  return affectedOutput.replaceAll(/\s/g, '').split(',');
+  return affectedOutput.replaceAll(/\s/g, ',').split(',');
 }
 
 function readAllProjects() {
