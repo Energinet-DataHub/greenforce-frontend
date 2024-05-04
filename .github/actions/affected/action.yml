@@ -31,7 +31,10 @@ inputs:
     required: true
   project:
     description: The name of the project to check.
-    required: true
+    required: false
+  projects:
+    description: The name of the projects to check.
+    required: false
 
 runs:
   using: node20

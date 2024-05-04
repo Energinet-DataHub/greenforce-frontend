@@ -67,38 +67,44 @@ function readAllProjects() {
   return projects.split('\n');
 }
 
-function validateProjectParameter(projectName) {
-  if (!projectName) {
-    console.error('No project argument passed.');
-
+function validateProjectParameter(projectNames) {
+  if (!projectNames.length === 0) {
+    console.error('No project(s) argument passed.');
     process.exit(1);
   }
 
   const allProjects = readAllProjects();
-  const isProjectFound = allProjects.includes(projectName);
-
-  if (!isProjectFound) {
-    console.error(
-      `"${projectName}" is not the name of a project in this workspace.`
-    );
-
-    process.exit(1);
-  }
+  projectNames.forEach((projectName) => {
+    if(!allProjects.includes(projectName)) {
+      console.error(
+        `"${projectName}" is not the name of a project in this workspace.`
+      );
+      process.exit(1);
+    }
+  });
 }
 
-let project;
+let projects = [];
 let base;
 
 try {
-  project = core.getInput('project', { required: true });
+  projects = [
+    core.getInput('project', { required: false }),
+    ...core.getInput('projects', { required: false })
+  ];
   base = core.getInput('base', { required: true });
 } catch (err) {
-  [, , project, base] = process.argv;
+  [, , projects, base] = process.argv;
 }
 
-validateProjectParameter(project);
+validateProjectParameter(projects);
 
 const affectedProjects = readAffectedProjects(base);
-const isAffected = affectedProjects.includes(project);
+let isAffected = false;
+projects.forEach((project) => {
+  if (affectedProjects.includes(project)) {
+    isAffected = true;
+  }
+});
 
 core.setOutput('is-affected', isAffected);
