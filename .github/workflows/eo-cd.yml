@@ -64,6 +64,9 @@ jobs:
           node-version-file: ${{ env.node-version-file }}
           cache: yarn
 
+      - name: Install dependencies
+        run: yarn install --immutable
+
       - name: Prepare projects array
         id: prepare
         run: echo "projects=[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]" >> $GITHUB_OUTPUT
