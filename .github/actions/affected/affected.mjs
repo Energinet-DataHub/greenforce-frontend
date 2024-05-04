@@ -53,6 +53,7 @@ function readAffectedProjects(base) {
   const affectedLibs = readAffectedLibs(base);
 
   console.log('Affected apps:', affectedApps);
+  console.log('Affected libs:', affectedLibs);
 
   return affectedApps.concat(affectedLibs);
 }
@@ -117,4 +118,5 @@ projects.forEach((project) => {
   }
 });
 
+console.log('RESULT IS AFFECTED:', isAffected);
 core.setOutput('is-affected', isAffected);
