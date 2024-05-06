@@ -98,7 +98,7 @@ try {
   const projectInput = core.getInput('project', { required: false });
 
   if(projectsInput) {
-    projects.push(JSON.parse(projectsInput));
+    projects = [...projects, ...JSON.parse(projectsInput)];
   }
 
   if (projectInput && projectInput !== '') {
