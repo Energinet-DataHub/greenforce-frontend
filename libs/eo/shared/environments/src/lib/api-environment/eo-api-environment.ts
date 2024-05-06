@@ -5,6 +5,7 @@ import { environment } from '../environment';
 
 export interface EoApiEnvironment {
   readonly apiBase: string;
+  readonly developerPortal: string;
   readonly apiVersions: {
     readonly [key: string]: string;
   };
