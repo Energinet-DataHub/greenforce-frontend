@@ -26,7 +26,11 @@ limitations under the License.
   >
     <mat-accordion multi class="container">
       @for (actor of userRolesPrActor; track actor) {
-        <watt-expandable-card variant="solid" [expanded]="expanded">
+        <watt-expandable-card
+          variant="solid"
+          [expanded]="expanded"
+          *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+        >
           @if (!selectMode) {
             <watt-badge>{{
               t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
@@ -35,11 +39,13 @@ limitations under the License.
 
           @if (actor.name) {
             <watt-expandable-card-title
-              >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }}
+              >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }} -
+              {{ translateMarketRole(actor.userRoles[0].marketRole) }}
             </watt-expandable-card-title>
           } @else {
             <watt-expandable-card-title
-              >{{ actor.actorNumber }} – {{ actor.organizationName }}
+              >{{ actor.actorNumber }} – {{ actor.organizationName }} -
+              {{ translateMarketRole(actor.userRoles[0].marketRole) }}
             </watt-expandable-card-title>
           }
 
@@ -57,17 +63,7 @@ limitations under the License.
             sortDirection="asc"
             [selectable]="selectMode"
             (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
-            *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
           >
-            <ng-container
-              *wattTableCell="
-                columns['marketRole'];
-                header: t('assigned.columns.marketRole');
-                let element
-              "
-            >
-              {{ translateMarketRole(element.marketRole) }}
-            </ng-container>
             <ng-container
               *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
             >
