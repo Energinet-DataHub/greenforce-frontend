@@ -94,12 +94,15 @@ let projects = [];
 let base;
 
 try {
-  projects = [
-    ...JSON.parse(core.getInput('projects', { required: false }))
-  ];
-  const project = core.getInput('project', { required: false });
-  if(project && project !== '') {
-    projects.push(project);
+  const projectsInput = core.getInput('projects', { required: false });
+  const projectInput = core.getInput('project', { required: false });
+
+  if(projectsInput) {
+    projects.push(JSON.parse(projectsInput));
+  }
+
+  if (projectInput && projectInput !== '') {
+    projects.push(projectInput);
   }
 
   base = core.getInput('base', { required: true });
