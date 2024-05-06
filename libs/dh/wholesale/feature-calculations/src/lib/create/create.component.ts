@@ -52,7 +52,7 @@ import {
   CreateCalculationDocument,
   GetGridAreasDocument,
   GetLatestBalanceFixingDocument,
-  CalculationType,
+  StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   filterValidGridAreas,
@@ -61,7 +61,7 @@ import {
 } from '@energinet-datahub/dh/wholesale/domain';
 
 interface FormValues {
-  calculationType: FormControl<CalculationType>;
+  calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
 }
@@ -102,25 +102,27 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') modal?: WattModalComponent;
 
-  featureFlagsService = inject(DhFeatureFlagsService);
+  ffs = inject(DhFeatureFlagsService);
 
   environment = inject(dhAppEnvironmentToken);
 
-  resolutionTransitionDate = this.environment.quarterlyResolutionTransitionDatetime;
+  resolutionTransitionDate = this.ffs.isEnabled('quarterly-resolution-transition-datetime-override')
+    ? '2023-01-31T23:00:00Z'
+    : '2023-04-30T22:00:00Z';
 
   loading = false;
 
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    CalculationType.WholesaleFixing,
-    CalculationType.FirstCorrectionSettlement,
-    CalculationType.SecondCorrectionSettlement,
-    CalculationType.ThirdCorrectionSettlement,
+    StartCalculationType.WholesaleFixing,
+    StartCalculationType.FirstCorrectionSettlement,
+    StartCalculationType.SecondCorrectionSettlement,
+    StartCalculationType.ThirdCorrectionSettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
-    calculationType: new FormControl<CalculationType>(CalculationType.BalanceFixing, {
+    calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
@@ -165,7 +167,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
     map((gridAreas) =>
       // HACK: This is a temporary solution to filter out grid areas that has no data
-      this.featureFlagsService.isEnabled('calculations-include-all-grid-areas')
+      this.ffs.isEnabled('calculations-include-all-grid-areas')
         ? gridAreas
         : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code))
     ),
