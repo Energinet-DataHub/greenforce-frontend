@@ -58,7 +58,7 @@ const initialSignalState: BalanceResponsbleRelationsState = {
     eicFunction: null,
     status: null,
     energySupplierWithNameId: null,
-    gridAreaId: null,
+    gridAreaCode: null,
     balanceResponsibleWithNameId: null,
     search: null,
   },
@@ -186,16 +186,18 @@ const applyFilter = (
     energySupplierWithNameId,
     balanceResponsibleWithNameId,
     status: statusFilter,
-    gridAreaId: gridAreaIdFilter,
+    gridAreaCode: gridAreaIdFilter,
   } = filters;
 
   if (checkifAllAreNull(filters)) return true;
+
+  console.log({ gridAreaIdFilter, gridAreaId: gridArea?.id });
 
   return (
     (isNullOrUndefined(statusFilter) || status === statusFilter) &&
     (isNullOrUndefined(energySupplierWithNameId) ||
       energySupplierWithName?.id === energySupplierWithNameId) &&
-    (isNullOrUndefined(gridAreaIdFilter) || gridArea?.id === gridAreaIdFilter) &&
+    (isNullOrUndefined(gridAreaIdFilter) || gridArea?.code === gridAreaIdFilter) &&
     (isNullOrUndefined(balanceResponsibleWithNameId) ||
       balanceResponsibleWithName?.id === balanceResponsibleWithNameId)
   );
@@ -209,7 +211,7 @@ const checkifAllAreNull = ({
   energySupplierWithNameId,
   balanceResponsibleWithNameId,
   status,
-  gridAreaId,
+  gridAreaCode: gridAreaId,
 }: DhBalanceResponsibleRelationFilters) => {
   return (
     energySupplierWithNameId === null &&
