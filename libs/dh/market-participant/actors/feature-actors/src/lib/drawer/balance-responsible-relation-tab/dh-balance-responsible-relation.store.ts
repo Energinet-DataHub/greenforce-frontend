@@ -209,12 +209,12 @@ const checkifAllAreNull = ({
   energySupplierWithNameId,
   balanceResponsibleWithNameId,
   status,
-  gridAreaCode: gridAreaId,
+  gridAreaCode,
 }: DhBalanceResponsibleRelationFilters) => {
   return (
     energySupplierWithNameId === null &&
     balanceResponsibleWithNameId === null &&
     status === null &&
-    gridAreaId === null
+    gridAreaCode === null
   );
 };
