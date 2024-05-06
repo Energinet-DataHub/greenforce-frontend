@@ -23,7 +23,7 @@ public sealed record SettlementReportType(
     ActorNameDto? ActorName,
     Clients.Wholesale.v3.CalculationType CalculationType,
     Interval Period,
-    int GridAreas,
+    int NumberOfGridAreasInReport,
     bool IncludesBaseData,
     string StatusMessage,
     int Progress,

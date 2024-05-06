@@ -379,7 +379,7 @@ type ReadinessStatusDto {
 type RequestSettlementReportGridAreaCalculation {
   calculationId: UUID!
   calculationDate: DateTime!
-  gridAreaId: UUID!
+  gridAreaCode: String!
 }
 
 type RequestSettlementReportPayload {
@@ -395,7 +395,7 @@ type SettlementReportType {
   actorName: ActorNameDto
   calculationType: CalculationType!
   period: DateRange!
-  gridAreas: Int!
+  numberOfGridAreasInReport: Int!
   includesBaseData: Boolean!
   statusMessage: String!
   progress: Int!
@@ -567,7 +567,7 @@ input CreateProcessDelegationsInput {
 
 input RequestSettlementReportGridAreaInput {
   calculationId: UUID!
-  gridAreaId: UUID!
+  gridAreaCode: String!
 }
 
 input RequestSettlementReportInput {
