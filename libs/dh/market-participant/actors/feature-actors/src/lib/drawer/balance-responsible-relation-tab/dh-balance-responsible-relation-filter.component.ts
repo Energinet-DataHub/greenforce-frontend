@@ -23,9 +23,10 @@ import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
-  getActorOptions,
-  getGridAreaOptions,
-} from '@energinet-datahub/dh/shared/data-access-graphql';
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   BalanceResponsibilityAgreementStatus,
@@ -33,10 +34,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
-} from '@energinet-datahub/dh/shared/ui-util';
+  getActorOptions,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -116,7 +116,7 @@ type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' 
       [placeholder]="t('gridArea')"
       [chipMode]="true"
       [options]="gridAreaOptions$ | push"
-      [formControl]="filterForm.controls.gridAreaId!"
+      [formControl]="filterForm.controls.gridAreaCode!"
     />
     <vater-spacer />
     <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
@@ -142,15 +142,20 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const { status, energySupplierWithNameId, balanceResponsibleWithNameId, gridAreaId, search } =
-        this.inital();
+      const {
+        status,
+        energySupplierWithNameId,
+        balanceResponsibleWithNameId,
+        gridAreaCode: gridAreaId,
+        search,
+      } = this.inital();
 
       this.filterForm.patchValue(
         {
           status: status ?? null,
           energySupplierWithNameId: energySupplierWithNameId ?? null,
           balanceResponsibleWithNameId: balanceResponsibleWithNameId ?? null,
-          gridAreaId: gridAreaId ?? null,
+          gridAreaCode: gridAreaId ?? null,
           search: search ?? null,
         },
         { emitEvent: false }
@@ -159,13 +164,13 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const { status, energySupplierWithNameId, balanceResponsibleWithNameId, gridAreaId, search } =
+    const { status, energySupplierWithNameId, balanceResponsibleWithNameId, gridAreaCode, search } =
       this.inital();
     this.filterForm = new FormGroup<Filters>({
       status: dhMakeFormControl(status),
       energySupplierWithNameId: dhMakeFormControl(energySupplierWithNameId),
       balanceResponsibleWithNameId: dhMakeFormControl(balanceResponsibleWithNameId),
-      gridAreaId: dhMakeFormControl(gridAreaId),
+      gridAreaCode: dhMakeFormControl(gridAreaCode),
       search: dhMakeFormControl(search),
     });
 
