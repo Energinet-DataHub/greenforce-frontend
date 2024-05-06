@@ -20,10 +20,12 @@ import {
   DestroyRef,
   HostListener,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
   inject,
   signal,
+  EventEmitter,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -46,11 +48,6 @@ import { translations } from '@energinet-datahub/eo/translations';
     ReactiveFormsModule,
   ],
   styles: `
-    eo-language-switcher {
-      display: block;
-      width: 100%;
-    }
-
     .eo-language-switcher-content {
       watt-dropdown {
         width: 100%;
@@ -69,6 +66,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       <watt-modal
         #modal
         size="small"
+        [restoreFocus]="false"
         [loading]="isLoading()"
         [title]="translations.languageSwitcher.title | transloco"
         [closeLabel]="translations.languageSwitcher.closeLabel | transloco"
@@ -106,6 +104,8 @@ export class EoLanguageSwitcherComponent implements OnInit {
     this.cd.detectChanges();
     this.modal.open();
   }
+
+  @Output() closed = new EventEmitter<void>();
 
   protected language = new FormControl();
 
@@ -150,6 +150,7 @@ export class EoLanguageSwitcherComponent implements OnInit {
   }
 
   onClosed() {
-    this.isOpen.set(false);
+    this.modal.close(false);
+    this.closed.emit();
   }
 }

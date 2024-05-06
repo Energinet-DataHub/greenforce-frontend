@@ -18,8 +18,141 @@
 import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
-  announcementBar: {
-    message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+  landingPage: {
+    announcementBar: {
+      message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+    },
+    header: {
+      loginButton: 'Log in',
+    },
+    hero: {
+      heading: 'Trace Energy to Its Origin.<br />Truthfully.',
+      subheading: 'Green Proof You Can Trust',
+      loginButton: 'Log in',
+      learnMoreButton: 'Learn more',
+    },
+    why: {
+      quote: `“We want the industry to<br />
+      believe in true, sustainable energy<br />
+      and address greenwashing<br />
+      through ground-breaking<br />
+      new technology.”`,
+      quoteAuthor: `Martin Lervad Lundø<br />
+      Vice President & CEO, Energinet DataHub`,
+      quoteAuthorDescription: 'Martin Lervad Lundø - Vice President & CEO, Energinet DataHub',
+    },
+    how: {
+      heading: 'HOW WE MAKE SUSTAINABILITY REPORTING EASIER',
+      subheading: `Fast-Track Compliance with <span class="highlight">EU Sustainability</span> Regulations`,
+      content: `
+      <p>
+        Energy Origin emerges as a transformative solution designed to guide companies through the
+        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
+        Environmental, Social, and Governance (ESG) directives.
+      </p>
+      <p>
+        By leveraging advanced blockchain technology to provide unassailable traceability of
+        sustainable energy back to its source, Energy Origin offers businesses a robust tool to
+        validate their green energy commitments.
+      </p>
+    `,
+    },
+    what: {
+      heading: 'How can Energy Origin help my business?',
+      section1: {
+        title: 'Sustainable Profile',
+        headline: 'Bolster investor and consumer trust with accurate reports',
+        content:
+          'With Energy Origin, businesses can confidently showcase their genuine contribution to a greener planet, bolstering investor and consumer trust while navigating the evolving landscape of sustainability reporting with ease and integrity.',
+      },
+      section2: {
+        title: 'Renewable Production',
+        headline: 'Increase earnings with higher demands for transparency about sustainability',
+        content: `Our precise, granular certification process not only simplifies compliance with stringent EU regulations but also enhances the credibility of companies' sustainability reports.`,
+      },
+      section3: {
+        title: 'Green Energy Trading',
+        headline: 'Help the market juggle granular certificates and connect digital wallets',
+        content:
+          'With such high demands for showcasing and proving sources used in production, we expect that marketplaces will evolve, aiding companies in buying green energy at the right time, to match their consumption.',
+      },
+    },
+    electricalGrid: {
+      heading: 'How does it work?',
+      subheading: `proof that energy has a <span class="highlight">truly</span> sustainable origin`,
+    },
+    blockchainTech: {
+      heading: 'Blockchain technology ties granular certificates to renewable energy production',
+      content: `
+      <p>
+        For every quarter of an hour, Energy Origin generates production certificates from
+        selected energy-producing assets, based on data from DataHub.
+      </p>
+      <p>
+        The certificates are stored in a digital wallet, with relevant meta-data, and can from now
+        on be traced back to it's source.
+      </p>`,
+    },
+    granularCertificates: {
+      heading:
+        'Granular certificates are transferred between wallets to match consumption with production',
+      content: `Transfer agreements can be made to automatically transfer certificates from one wallet to
+      another. Either through our UI in Energy Origin or by the use of any third party using our
+      API's.`,
+    },
+    proveSustainability: {
+      heading: 'The numbers prove that you run a<br />sustainable company',
+      content: `Through reports and a dashboard, companies can track their effiency and optimize their
+      consumption to match when the sustainable energy is being produced.`,
+    },
+    cta: {
+      heading: `Ready to track your company’s energy?`,
+      section1: {
+        heading: 'Try it out. Energy Origin Beta.',
+        cta: 'Log in',
+      },
+      section2: {
+        heading: 'Collaboration. Interested in our APIs?',
+        cta: 'check it out',
+      },
+    },
+    footer: {
+      section1: {
+        heading: 'Address',
+        content: `
+          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
+        `,
+      },
+      section2: {
+        heading: 'Contact',
+        content: `
+          <p>
+            <a href="tel:+4570222810">+45 70 22 28 10</a><br />
+            <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
+          </p>
+        `,
+      },
+      section3: {
+        heading: 'Legal',
+        content: `
+          <ul>
+            <li>
+              <a href="/privacy-policy">Privacy policy</a>
+            </li>
+            <li>
+              <a href="/terms">Terms of use</a>
+            </li>
+          </ul>
+        `,
+      },
+      section4: {
+        heading: 'Developers',
+        content: `
+          <p>Get access to our</p>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a>
+        `,
+      },
+    },
   },
   sidebar: {
     dashboard: 'Dashboard',

@@ -16,6 +16,8 @@
  */
 import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
 import graphLoader from './assets/graph-loader.json';
+import sustainableChart from './assets/landing-page/sustainable-chart.json';
 
 export { eoLocalApiEnvironment };
 export { graphLoader };
+export { sustainableChart };

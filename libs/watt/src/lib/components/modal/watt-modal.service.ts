@@ -31,7 +31,9 @@ export interface WattModalConfig<T> {
   disableClose?: boolean;
   onClosed?: EventEmitter<boolean> | ((result: boolean) => void);
   minHeight?: string;
+  panelClass?: string[];
   injector?: Injector;
+  restoreFocus?: boolean;
 }
 
 export abstract class WattTypedModal<T = void> {
@@ -53,17 +55,7 @@ export class WattModalService {
 
     if (!template) return;
 
-    this.matDialogRef = this.dialog.open(template, {
-      autoFocus: 'dialog',
-      panelClass: [
-        'watt-modal-panel',
-        ...(config.component ? ['watt-modal-panel--component'] : []),
-      ],
-      disableClose: config.disableClose ?? false,
-      data: config.data,
-      maxWidth: 'none',
-      injector: config.injector,
-    });
+    this.matDialogRef = this.openModal(template, config);
 
     this.matDialogRef
       .afterClosed()
@@ -76,6 +68,28 @@ export class WattModalService {
 
     if (config.minHeight) this.setMinHeight(config.minHeight);
   };
+
+  /**
+   * Opens the modal using the provided template and configuration.
+   */
+  private openModal<T>(
+    template: TemplateRef<unknown> | ComponentType<WattTypedModal<T>>,
+    config: WattModalConfig<T>
+  ): MatDialogRef<unknown> {
+    return this.dialog.open(template, {
+      autoFocus: 'dialog',
+      panelClass: [
+        'watt-modal-panel',
+        ...(config.component ? ['watt-modal-panel--component'] : []),
+        ...(config.panelClass ?? []),
+      ],
+      disableClose: config.disableClose ?? false,
+      data: config.data,
+      maxWidth: 'none',
+      injector: config.injector,
+      restoreFocus: config.restoreFocus === false ? false : true,
+    });
+  }
 
   /**
    * Closes the modal with `true` for acceptance or `false` for rejection.

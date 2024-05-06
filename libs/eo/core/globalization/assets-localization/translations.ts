@@ -16,8 +16,92 @@
  */
 // !!!!! This file is auto-generated. Do not edit. !!!!!
 export const translations = {
-  announcementBar: {
-    message: 'announcementBar.message' as const,
+  landingPage: {
+    announcementBar: {
+      message: 'landingPage.announcementBar.message' as const,
+    } as const,
+    header: {
+      loginButton: 'landingPage.header.loginButton' as const,
+    } as const,
+    hero: {
+      heading: 'landingPage.hero.heading' as const,
+      subheading: 'landingPage.hero.subheading' as const,
+      loginButton: 'landingPage.hero.loginButton' as const,
+      learnMoreButton: 'landingPage.hero.learnMoreButton' as const,
+    } as const,
+    why: {
+      quote: 'landingPage.why.quote' as const,
+      quoteAuthor: 'landingPage.why.quoteAuthor' as const,
+      quoteAuthorDescription: 'landingPage.why.quoteAuthorDescription' as const,
+    } as const,
+    how: {
+      heading: 'landingPage.how.heading' as const,
+      subheading: 'landingPage.how.subheading' as const,
+      content: 'landingPage.how.content' as const,
+    } as const,
+    what: {
+      heading: 'landingPage.what.heading' as const,
+      section1: {
+        title: 'landingPage.what.section1.title' as const,
+        headline: 'landingPage.what.section1.headline' as const,
+        content: 'landingPage.what.section1.content' as const,
+      } as const,
+      section2: {
+        title: 'landingPage.what.section2.title' as const,
+        headline: 'landingPage.what.section2.headline' as const,
+        content: 'landingPage.what.section2.content' as const,
+      } as const,
+      section3: {
+        title: 'landingPage.what.section3.title' as const,
+        headline: 'landingPage.what.section3.headline' as const,
+        content: 'landingPage.what.section3.content' as const,
+      } as const,
+    } as const,
+    electricalGrid: {
+      heading: 'landingPage.electricalGrid.heading' as const,
+      subheading: 'landingPage.electricalGrid.subheading' as const,
+    } as const,
+    blockchainTech: {
+      heading: 'landingPage.blockchainTech.heading' as const,
+      content: 'landingPage.blockchainTech.content' as const,
+    } as const,
+    granularCertificates: {
+      heading: 'landingPage.granularCertificates.heading' as const,
+      content: 'landingPage.granularCertificates.content' as const,
+    } as const,
+    proveSustainability: {
+      heading: 'landingPage.proveSustainability.heading' as const,
+      content: 'landingPage.proveSustainability.content' as const,
+    } as const,
+    cta: {
+      heading: 'landingPage.cta.heading' as const,
+      section1: {
+        heading: 'landingPage.cta.section1.heading' as const,
+        cta: 'landingPage.cta.section1.cta' as const,
+      } as const,
+      section2: {
+        heading: 'landingPage.cta.section2.heading' as const,
+        cta: 'landingPage.cta.section2.cta' as const,
+      } as const,
+    } as const,
+    footer: {
+      section1: {
+        heading: 'landingPage.footer.section1.heading' as const,
+        content: 'landingPage.footer.section1.content' as const,
+      } as const,
+      section2: {
+        heading: 'landingPage.footer.section2.heading' as const,
+        content: 'landingPage.footer.section2.content' as const,
+      } as const,
+      section3: {
+        heading: 'landingPage.footer.section3.heading' as const,
+        content: 'landingPage.footer.section3.content' as const,
+      } as const,
+      section4: {
+        heading: 'landingPage.footer.section4.heading' as const,
+        content: 'landingPage.footer.section4.content' as const,
+      } as const,
+    } as const,
   } as const,
   sidebar: {
     dashboard: 'sidebar.dashboard' as const,
@@ -368,27 +452,6 @@ export const translations = {
     receiverLabel: 'transferAgreement.receiverLabel' as const,
     unknownReceiver: 'transferAgreement.unknownReceiver' as const,
     idLabel: 'transferAgreement.idLabel' as const,
-  } as const,
-  transferAgreementHistory: {
-    tableTitle: 'transferAgreementHistory.tableTitle' as const,
-    timeTableHeader: 'transferAgreementHistory.timeTableHeader' as const,
-    eventTableHeader: 'transferAgreementHistory.eventTableHeader' as const,
-    events: {
-      createdTransferAgreement: 'transferAgreementHistory.events.createdTransferAgreement' as const,
-      updatedTransferAgreementToHaveNoEndDate:
-        'transferAgreementHistory.events.updatedTransferAgreementToHaveNoEndDate' as const,
-      updatedTransferAgreementToHaveEndDate:
-        'transferAgreementHistory.events.updatedTransferAgreementToHaveEndDate' as const,
-      deletedTransferAgreement: 'transferAgreementHistory.events.deletedTransferAgreement' as const,
-    } as const,
-    noData: {
-      title: 'transferAgreementHistory.noData.title' as const,
-    } as const,
-    error: {
-      title: 'transferAgreementHistory.error.title' as const,
-      message: 'transferAgreementHistory.error.message' as const,
-      retry: 'transferAgreementHistory.error.retry' as const,
-    } as const,
   } as const,
   transferAgreementEdit: {
     title: 'transferAgreementEdit.title' as const,
