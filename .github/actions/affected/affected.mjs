@@ -27,9 +27,8 @@ import { execSync } from 'child_process';
 import * as core from '@actions/core';
 
 function readAffectedApps(base) {
-  console.log('BASE:', base);
   const affected = execSync(
-    `npx nx show projects --affected --type=app --base=${base} --head=HEAD`,
+    `npx nx show projects --affected --type=app --base=${sanitizeInput(base)} --head=HEAD`,
     {
       encoding: 'utf-8',
     }
@@ -40,7 +39,7 @@ function readAffectedApps(base) {
 
 function readAffectedLibs(base) {
   const affected = execSync(
-    `npx nx show projects --affected --type=lib --base=${base} --head=HEAD`,
+    `npx nx show projects --affected --type=lib --base=${sanitizeInput(base)} --head=HEAD`,
     {
       encoding: 'utf-8',
     }
@@ -72,7 +71,7 @@ function readAllProjects() {
 }
 
 function validateProjectParameter(projectNames) {
-  if (projectNames.length !== 0) {
+  if (projectNames.length === 0) {
     console.error('No project(s) argument passed.');
     process.exit(1);
   }
