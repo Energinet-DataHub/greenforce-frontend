@@ -16,6 +16,6 @@
  */
 
 import { Routes } from '@angular/router';
-import { EoLandingPageShellComponent } from './eo-landing-page-shell.component';
+import { EoLandingPageShellComponent } from './shell.component';
 
 export const eoLandingPageRoutes: Routes = [{ path: '', component: EoLandingPageShellComponent }];

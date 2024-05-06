@@ -76,13 +76,22 @@ export class WattModalComponent {
   /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input() disableClose = false;
 
+  /** Whether to show the close button */
+  @Input() hideCloseButton = false;
+
   /** Disable ESC, backdrop click as methods of closing. */
   @Input() disableEscAndBackdropClose = false;
 
   /** The aria-label for the close button. */
   @Input() closeLabel = 'Close';
 
+  /** Classes added to the modal panel */
+  @Input() panelClass: string[] = [];
+
   @Input() minHeight = '147px';
+
+  /** Whether the dialog should restore focus to the previously-focused element, after it's closed. */
+  @Input() restoreFocus = true;
 
   /**
    * When modal is closed, emits `true` if it was "accepted",
@@ -107,6 +116,8 @@ export class WattModalComponent {
       templateRef: this.modal,
       onClosed: this.closed,
       minHeight: this.minHeight,
+      panelClass: this.panelClass,
+      restoreFocus: this.restoreFocus,
     });
   }
 

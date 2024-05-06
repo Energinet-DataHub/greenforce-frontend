@@ -17,6 +17,10 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 :root {
+  --watt-button-color: var(--watt-color-primary);
+  --watt-button-text-hover-color: var(--watt-color-primary-dark);
+  --watt-button-text-focus-color: var(--watt-color-primary);
+  --watt-button-text-transform: none;
   --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
 }
 
@@ -39,12 +43,12 @@
 }
 
 @mixin text-hover {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-button-text-hover-color);
 }
 
 @mixin text-focus {
   @include text-hover;
-  outline: 2px solid var(--watt-color-primary);
+  outline: 2px solid var(--watt-button-text-focus-color);
 }
 
 @mixin icon-hover {
@@ -114,7 +118,8 @@ watt-button {
     }
 
     .mat-mdc-button.mat-text {
-      color: var(--watt-color-primary);
+      color: var(--watt-button-color);
+      text-transform: var(--watt-button-text-transform);
       outline: 2px solid transparent;
 
       &:focus-visible {

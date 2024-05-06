@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ng-template #modal>
   <div class="watt-modal" [ngClass]="'watt-modal--' + size">
-    @if (!disableClose) {
+    @if (!disableClose && !hideCloseButton) {
       <watt-button
         variant="icon"
         icon="close"
