@@ -73,12 +73,12 @@ type AssociatedActors {
 }
 
 type BalanceResponsibilityAgreement {
-  meteringPointType: String
+  meteringPointType: MarketParticipantMeteringPointType!
+  gridArea: GridAreaDto
   energySupplierWithName: ActorNameWithId
   balanceResponsibleWithName: ActorNameWithId
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
-  gridAreaId: UUID!
 }
 
 type BalanceResponsiblePageResult {
@@ -535,7 +535,7 @@ input CreateAggregatedMeasureDataRequestInput {
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: CalculationType!
+  calculationType: StartCalculationType!
 }
 
 input CreateDelegationsForActorInput {
@@ -767,6 +767,32 @@ enum ImbalancePriceStatus {
   COMPLETE
 }
 
+enum MarketParticipantMeteringPointType {
+  Unknown
+  D01VeProduction
+  D02Analysis
+  D03NotUsed
+  D04SurplusProductionGroup6
+  D05NetProduction
+  D06SupplyToGrid
+  D07ConsumptionFromGrid
+  D08WholeSaleServicesInformation
+  D09OwnProduction
+  D10NetFromGrid
+  D11NetToGrid
+  D12TotalConsumption
+  D13NetLossCorrection
+  D14ElectricalHeating
+  D15NetConsumption
+  D17OtherConsumption
+  D18OtherProduction
+  D20ExchangeReactiveEnergy
+  D99InternalUse
+  E17Consumption
+  E18Production
+  E20Exchange
+}
+
 enum MeteringGridAreaImbalanceSortProperty {
   DOCUMENT_DATE_TIME
   GRID_AREA_CODE
@@ -819,6 +845,22 @@ enum SettlementReportStatusType {
 enum SortDirection {
   ASCENDING
   DESCENDING
+}
+
+"Defines the wholesale orchestrations calculation type"
+enum StartCalculationType {
+  "Balance fixing"
+  BALANCE_FIXING
+  "Aggregation."
+  AGGREGATION
+  "Wholesale fixing."
+  WHOLESALE_FIXING
+  "First correction settlement."
+  FIRST_CORRECTION_SETTLEMENT
+  "Second correction settlement."
+  SECOND_CORRECTION_SETTLEMENT
+  "Third correction settlement."
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum TimeSeriesType {

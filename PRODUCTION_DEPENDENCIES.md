@@ -2,16 +2,16 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 17.3.5 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/material](https://github.com/angular/components) | 17.3.5 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 17.3.5 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 17.3.5 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 17.3.7 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/material](https://github.com/angular/components) | 17.3.7 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 17.3.7 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
@@ -24,6 +24,7 @@
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 17.2.0 | MIT |
+| [@ngrx/signals](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |

@@ -37,6 +37,7 @@ import {
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
+  SettlementReportStatusType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -475,7 +476,21 @@ function getSettlementReports() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        settlementReports: [],
+        settlementReports: [
+          {
+            __typename: 'SettlementReportType',
+            id: '1',
+            calculationType: CalculationType.BalanceFixing,
+            period: { start: periodStart, end: periodEnd },
+            gridAreas: 1,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.Completed,
+            actorName: {
+              __typename: 'ActorNameDto',
+              value: 'Sort Strøm',
+            },
+          },
+        ],
       },
     });
   });

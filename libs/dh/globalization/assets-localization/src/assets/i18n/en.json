@@ -396,12 +396,21 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "meteringPointTypes": {
+              "E20Exchange": "Exchange",
+              "E18Production": "Production",
+              "E17Consumption": "Consumption"
+            },
             "statusOptions": {
               "ACTIVE": "Active",
               "AWAITING": "Awaiting",
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
             },
+            "emptyTitle": "No relations found",
+            "emptyMessage": "There are no relations for this actor",
+            "errorTitle": "{{ shared.error.title }}",
+            "errorMessage": "{{ shared.error.message }}",
             "columns": {
               "balanceResponsibleName": "Balance Responsible Name",
               "balanceResponsibleId": "Balance Responsible ID",
@@ -992,7 +1001,28 @@
     },
     "settlementReportsV2": {
       "topBarTitle": "Settlement Reports",
-      "emptyMessage": "There are no settlement reports"
+      "emptyMessage": "There are no settlement reports",
+      "requestSettlementReport": "Request settlement report",
+      "columns": {
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "gridAreas": "Grid areas",
+        "basisData": "Basis data",
+        "status": "Status"
+      },
+      "calculationTypes": {
+        "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ wholesale.shared.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "1st correction settlement",
+        "SECOND_CORRECTION_SETTLEMENT": "2nd correction settlement",
+        "THIRD_CORRECTION_SETTLEMENT": "3rd correction settlement"
+      },
+      "requestReportModal": {
+        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "cancel": "Cancel",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
+      }
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",

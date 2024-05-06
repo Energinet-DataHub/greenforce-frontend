@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-public class ApiClientSettings
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
+
+public class MeteringPointType : EnumType<MarketParticipant.MeteringPointType>
 {
-    public string MeteringPointBaseUrl { get; set; } = string.Empty;
-
-    public string MarketParticipantBaseUrl { get; set; } = string.Empty;
-
-    public string WholesaleBaseUrl { get; set; } = string.Empty;
-
-    public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
-
-    public string ESettExchangeBaseUrl { get; set; } = string.Empty;
-
-    public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
-
-    public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
+    protected override void Configure(IEnumTypeDescriptor<MarketParticipant.MeteringPointType> descriptor)
+    {
+        descriptor.Name("MarketParticipantMeteringPointType");
+        descriptor.AsIsCase();
+    }
 }
