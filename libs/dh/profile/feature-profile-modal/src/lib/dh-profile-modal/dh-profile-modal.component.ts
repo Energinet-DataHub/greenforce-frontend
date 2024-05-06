@@ -16,7 +16,7 @@
  */
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Component, ViewChild, inject, signal } from '@angular/core';
-import { Apollo, ApolloModule, MutationResult } from 'apollo-angular';
+import { Apollo, MutationResult } from 'apollo-angular';
 import {
   FormControl,
   FormGroup,
@@ -55,7 +55,6 @@ type UserPreferencesForm = FormGroup<{
     TranslocoDirective,
     TranslocoPipe,
     ReactiveFormsModule,
-    ApolloModule,
 
     WATT_MODAL,
     WattTextFieldComponent,
@@ -67,9 +66,8 @@ type UserPreferencesForm = FormGroup<{
     DhMitIDButtonComponent,
   ],
   styles: `
-
     h4 {
-      margin:0;
+      margin: 0;
       margin-bottom: var(--watt-space-s);
     }
 
@@ -77,7 +75,9 @@ type UserPreferencesForm = FormGroup<{
       width: 75%;
     }
 
-    .phone-field, .lang-field, .mitid-field {
+    .phone-field,
+    .lang-field,
+    .mitid-field {
       width: 50%;
       display: block;
     }
