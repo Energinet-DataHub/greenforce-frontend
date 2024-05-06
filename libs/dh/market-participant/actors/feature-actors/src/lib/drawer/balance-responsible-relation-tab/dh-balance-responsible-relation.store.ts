@@ -58,7 +58,7 @@ const initialSignalState: BalanceResponsbleRelationsState = {
     eicFunction: null,
     status: null,
     energySupplierWithNameId: null,
-    gridAreaId: null,
+    gridAreaCode: null,
     balanceResponsibleWithNameId: null,
     search: null,
   },
@@ -186,16 +186,16 @@ const applyFilter = (
     energySupplierWithNameId,
     balanceResponsibleWithNameId,
     status: statusFilter,
-    gridAreaId: gridAreaIdFilter,
+    gridAreaCode,
   } = filters;
 
   if (checkifAllAreNull(filters)) return true;
 
   return (
-    (isNullOrUndefined(status) || status === statusFilter) &&
+    (isNullOrUndefined(statusFilter) || status === statusFilter) &&
     (isNullOrUndefined(energySupplierWithNameId) ||
       energySupplierWithName?.id === energySupplierWithNameId) &&
-    (isNullOrUndefined(gridAreaIdFilter) || gridArea?.id === gridAreaIdFilter) &&
+    (isNullOrUndefined(gridAreaCode) || gridArea?.code === gridAreaCode) &&
     (isNullOrUndefined(balanceResponsibleWithNameId) ||
       balanceResponsibleWithName?.id === balanceResponsibleWithNameId)
   );
@@ -209,12 +209,12 @@ const checkifAllAreNull = ({
   energySupplierWithNameId,
   balanceResponsibleWithNameId,
   status,
-  gridAreaId,
+  gridAreaCode,
 }: DhBalanceResponsibleRelationFilters) => {
   return (
     energySupplierWithNameId === null &&
     balanceResponsibleWithNameId === null &&
     status === null &&
-    gridAreaId === null
+    gridAreaCode === null
   );
 };

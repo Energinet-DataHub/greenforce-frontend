@@ -24,11 +24,20 @@ public static class HealthEndpointRegistrationExtensions
             .AddLiveCheck()
             .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(settings.MarketParticipantBaseUrl))
             .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(settings.WholesaleBaseUrl))
+            .AddServiceHealthCheck("wholesaleOrchestrations", CreateHealthEndpointUri(settings.WholesaleOrchestrationsBaseUrl, isAzureFunction: true))
             .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
             .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
 
-    private static Uri CreateHealthEndpointUri(string baseUri) =>
-        string.IsNullOrWhiteSpace(baseUri)
+    private static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
+    {
+        var liveEndpoint = "/monitor/live";
+        if (isAzureFunction)
+        {
+            liveEndpoint = "/api" + liveEndpoint;
+        }
+
+        return string.IsNullOrWhiteSpace(baseUri)
             ? new Uri("https://empty")
-            : new Uri(baseUri + "/monitor/live");
+            : new Uri(baseUri + liveEndpoint);
+    }
 }
