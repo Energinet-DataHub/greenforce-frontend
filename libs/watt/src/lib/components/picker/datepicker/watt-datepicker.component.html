@@ -19,8 +19,8 @@ limitations under the License.
     <mat-date-range-input
       [disabled]="disabled"
       [rangePicker]="rangeDatepicker"
-      [min]="min"
-      [max]="max"
+      [min]="min() ?? null"
+      [max]="max() ?? null"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     >
@@ -47,7 +47,7 @@ limitations under the License.
     <input #actualInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
-      [mask]="rangeInputMask"
+      [mask]="rangeInputMask()"
       [placeholder]="rangePlaceholder"
       (maskApplied)="rangeInputChanged($event)"
     />
@@ -88,7 +88,7 @@ limitations under the License.
     <input #actualInput class="mask-input" [disabled]="disabled" />
     <watt-placeholder-mask
       [primaryInputElement]="actualInput"
-      [mask]="inputMask"
+      [mask]="inputMask()"
       [placeholder]="datePlaceholder"
       (maskApplied)="inputChanged($event)"
     />
