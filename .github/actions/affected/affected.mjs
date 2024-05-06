@@ -25,7 +25,7 @@
  */
 import { execSync } from 'child_process';
 import * as core from '@actions/core';
-import * as quote from 'shell-quote';
+import * as quote from 'shell-quote/quote';
 
 function readAffectedApps(base) {
   const sanitizedBase = quote([base])
