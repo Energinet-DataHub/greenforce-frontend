@@ -24,7 +24,6 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -40,7 +39,6 @@ import { RxPush } from '@rx-angular/template/push';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxPush,
 
     WATT_TABLE,
     WattEmptyStateComponent,
