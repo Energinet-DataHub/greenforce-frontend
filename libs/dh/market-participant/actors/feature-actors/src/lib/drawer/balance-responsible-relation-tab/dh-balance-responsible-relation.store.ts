@@ -186,18 +186,16 @@ const applyFilter = (
     energySupplierWithNameId,
     balanceResponsibleWithNameId,
     status: statusFilter,
-    gridAreaCode: gridAreaIdFilter,
+    gridAreaCode,
   } = filters;
 
   if (checkifAllAreNull(filters)) return true;
-
-  console.log({ gridAreaIdFilter, gridAreaId: gridArea?.id });
 
   return (
     (isNullOrUndefined(statusFilter) || status === statusFilter) &&
     (isNullOrUndefined(energySupplierWithNameId) ||
       energySupplierWithName?.id === energySupplierWithNameId) &&
-    (isNullOrUndefined(gridAreaIdFilter) || gridArea?.code === gridAreaIdFilter) &&
+    (isNullOrUndefined(gridAreaCode) || gridArea?.code === gridAreaCode) &&
     (isNullOrUndefined(balanceResponsibleWithNameId) ||
       balanceResponsibleWithName?.id === balanceResponsibleWithNameId)
   );
