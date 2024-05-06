@@ -17,8 +17,132 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
-  announcementBar: {
-    message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+  landingPage: {
+    announcementBar: {
+      message: `Har du brug for en introduktion til Energy Origin? Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
+    },
+    header: {
+      loginButton: 'Log ind',
+    },
+    hero: {
+      heading: 'Spor energien tilbage til <br/>dets oprindelse.',
+      subheading: 'Grønt bevis du kan stole på',
+      loginButton: 'Log ind',
+      learnMoreButton: 'Lær mere',
+    },
+    why: {
+      quote: `“Vi ønsker, at industrien<br /> skal tro på ægte, bæredygtig energi og gøre<br /> op med greenwashing gennem<br /> banebrydende og ny teknologi.”`,
+      quoteAuthor: `Martin Lervad Lundø<br />
+      Vice President & CEO, Energinet DataHub`,
+      quoteAuthorDescription: 'Martin Lervad Lundø - Vice President & CEO, Energinet DataHub',
+    },
+    how: {
+      heading: 'Sådan gør vi det nemmere at rapportere bæredygtighed',
+      subheading: `Overholdelse af<br/> <span class="highlight">EU’s regler</span><br /> for bæredygtighed`,
+      content: `
+      <p>
+        Energioprindelse er en transformativ løsning, der hjælper virksomheder med håndtering af kompleksiteten i at overholde EU’s direktiver
+        indenfor rapportering af CSRD (Corporate Sustainability Reporting Directive) og ESG (Environmental, Social, and Governance  directive).
+      </p>
+      <p>
+        Ved at spore energien tilbage til kilden ved hjælp af avanceret block-chain teknologi,
+        tilbyder Energioprindelse virksomheder et robust værktøj til at validere deres forpligtelser inden for grøn energi.
+      </p>
+    `,
+    },
+    what: {
+      heading: 'Hvordan kan Energioprindelse hjælpe min virksomhed?',
+      section1: {
+        title: 'Bæredygtig profil',
+        headline: 'Styrke investorers og forbrugeres tillid med nøjagtige rapporter',
+        content:
+          'Med Energioprindelse kan virksomheder trygt fremvise deres reelle bidrag til en grønnere planet. De kan styrke tilliden fra investorer og forbrugere, og på samme tid med lethed og integration navigere i det udviklende landskab af rapportering af bæredygtighed.',
+      },
+      section2: {
+        title: 'Produktion af vedvarende energi',
+        headline: 'Øg indtjeningen med højere krav til gennemsigtighed om bæredygtighed.',
+        content: `Vores præcise, detaljerede certificeringsproces forenkler ikke kun overholdelsen af strenge EU-regler, men øger også troværdigheden af virksomheders bæredygtighedsrapporter.`,
+      },
+      section3: {
+        title: 'Grøn energi handel',
+        headline:
+          'Hjælp markedet med at jonglere granulære certifikater og forbinde digitale beholdninger.',
+        content:
+          'Med så store krav til fremvisning og bevis for anvendte kilder i produktionen forventer vi, at markedspladser vil udvikle sig, hvilket hjælper virksomheder med at købe grøn energi på det rigtige tidspunkt for at matche deres forbrug.',
+      },
+    },
+    electricalGrid: {
+      heading: 'Hvordan virker det?',
+      subheading: `Beviser at energien <span class="highlight">faktisk stammer fra</span> vedvarende kilder.`,
+    },
+    blockchainTech: {
+      heading:
+        'Block-chain teknologi binder granulære certifikater sammen med produktion af vedvarende energi.',
+      content: `
+      <p>
+        Baseret på data fra DataHub udsteder Energioprindelse produktions certifikater fra udvalgte energiproducerende aktiver - hvert kvarter - hver time.
+      </p>
+      <p>
+        Certifikaterne med de relevante meta-data gemmes på en digital konto, og de kan nu spores tilbage til kilden.
+      </p>`,
+    },
+    granularCertificates: {
+      heading:
+        'Granulære certifikater overføres mellem forbundne konti og matcher forbrug med produktion.',
+      content: `Der kan laves aftaler om at overføre certifikater mellem konti automatisk. Enten ved at bruge vores portal til Energioprindelse eller via en 3. part, der benytter sig af vores API’er.`,
+    },
+    proveSustainability: {
+      heading: 'Tallene viser, at du driver en bæredygtig virksomhed',
+      content: `Via rapporter og grafer kan virksomheder spore deres effektivitet og optimere deres forbrug, så det svarer til produktionstidspunktet for vedvarende energi.`,
+    },
+    cta: {
+      heading: `Er du klar til at spore din virkshomheds energi?`,
+      section1: {
+        heading: 'Prøv det. Energioprindelse Beta-version',
+        cta: 'Log ind',
+      },
+      section2: {
+        heading: 'Samarbejde. Er du interesseret i vores API’er?',
+        cta: 'Tjek det ud',
+      },
+    },
+    footer: {
+      section1: {
+        heading: 'Adresse',
+        content: `
+          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
+        `,
+      },
+      section2: {
+        heading: 'Kontakt',
+        content: `
+          <p>
+            <a href="tel:+4570222810">+45 70 22 28 10</a><br />
+            <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
+          </p>
+        `,
+      },
+      section3: {
+        heading: 'Politikker',
+        content: `
+          <ul>
+            <li>
+              <a href="/privacy-policy">Privatlivspolitik</a>
+            </li>
+            <li>
+              <a href="/terms">Vilkår og betingelser</a>
+            </li>
+          </ul>
+        `,
+      },
+      section4: {
+        heading: 'Udviklere',
+        content: `
+          <p>Få adgang til vores</p>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a>
+        `,
+      },
+    },
   },
   sidebar: {
     dashboard: 'Overblik',

@@ -24,7 +24,9 @@ import {
   LOCALE_ID,
   ViewChild,
   ViewEncapsulation,
+  computed,
   inject,
+  input,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import {
@@ -44,7 +46,6 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 import { MaskitoModule } from '@maskito/angular';
-import { MaskitoOptions } from '@maskito/core';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
 import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
 import { WattDateRange, dayjs } from '../../../utils/date';
@@ -91,8 +92,9 @@ export class WattDatepickerComponent extends WattPickerBase {
   private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
   private destroyRef = inject(DestroyRef);
 
-  @Input() max: Date | null = null;
-  @Input() min: Date | null = null;
+  max = input<Date>();
+  min = input<Date>();
+
   @Input() startAt: Date | null = null;
   @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
@@ -166,14 +168,26 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  inputMask: MaskitoOptions = maskitoDateOptionsGenerator({ mode: 'dd/mm/yyyy', separator: '-' });
+  inputMask = computed(() =>
+    maskitoDateOptionsGenerator({
+      mode: 'dd/mm/yyyy',
+      separator: '-',
+      max: this.max(),
+      min: this.min(),
+    })
+  );
+
   /**
    * @ignore
    */
-  rangeInputMask: MaskitoOptions = maskitoDateRangeOptionsGenerator({
-    mode: 'dd/mm/yyyy',
-    dateSeparator: '-',
-  });
+  rangeInputMask = computed(() =>
+    maskitoDateRangeOptionsGenerator({
+      mode: 'dd/mm/yyyy',
+      dateSeparator: '-',
+      max: this.max(),
+      min: this.min(),
+    })
+  );
   /**
    * @ignore
    */
