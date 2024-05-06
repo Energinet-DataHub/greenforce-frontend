@@ -59,6 +59,12 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.prod,
     ],
   },
+  // This feature flag should be removed in favor of injected environment variables
+  // from terraform, whenever the new web application setup is ready (outlaws).
+  'quarterly-resolution-transition-datetime-override': {
+    created: '06-05-2024',
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
