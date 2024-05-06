@@ -26,7 +26,13 @@ limitations under the License.
       {{ entry.period | wattDate: "short" }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['numberOfGridAreasInReport']; header: t('columns.gridAreas'); let entry">
+    <ng-container
+      *wattTableCell="
+        columns['numberOfGridAreasInReport'];
+        header: t('columns.gridAreas');
+        let entry
+      "
+    >
       {{ entry.numberOfGridAreasInReport }}
     </ng-container>
 
