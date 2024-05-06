@@ -92,7 +92,6 @@ export class DhUserRolesComponent implements OnChanges {
   userRolesPrActor$ = this.store.userRolesPrActor$;
 
   columns: WattTableColumnDef<MarketParticipantUserRoleViewDto> = {
-    marketRole: { accessor: 'marketRole' },
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };

@@ -22,7 +22,6 @@ import { environment } from '../environment';
 
 export interface DhAppEnvironmentConfig {
   current: DhAppEnvironment;
-  quarterlyResolutionTransitionDatetime: string;
   applicationInsights: {
     instrumentationKey: string;
   };

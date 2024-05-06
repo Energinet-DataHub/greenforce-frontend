@@ -18,7 +18,6 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
-import { ApolloModule } from 'apollo-angular';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
@@ -38,7 +37,6 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
   standalone: true,
   imports: [
     TranslocoPipe,
-    ApolloModule,
     RouterOutlet,
     RxPush,
 
