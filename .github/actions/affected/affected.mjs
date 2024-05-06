@@ -25,10 +25,10 @@
  */
 import { execSync } from 'child_process';
 import * as core from '@actions/core';
-import * as quote from 'shell-quote/quote';
+import * as shellQuote from 'shell-quote';
 
 function readAffectedApps(base) {
-  const sanitizedBase = quote([base])
+  const sanitizedBase = shellQuote.quote([base])
   const affected = execSync(
     `npx nx show projects --affected --type=app --base=${sanitizedBase} --head=HEAD`,
     {
@@ -40,7 +40,7 @@ function readAffectedApps(base) {
 }
 
 function readAffectedLibs(base) {
-  const sanitizedBase = quote([base])
+  const sanitizedBase = shellQuote.quote([base])
   const affected = execSync(
     `npx nx show projects --affected --type=lib --base=${sanitizedBase} --head=HEAD`,
     {
