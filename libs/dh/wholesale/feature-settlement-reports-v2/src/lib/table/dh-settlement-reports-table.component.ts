@@ -48,7 +48,6 @@ import { RxPush } from '@rx-angular/template/push';
     VaterFlexComponent,
     VaterStackComponent,
   ],
-  providers: [PermissionService],
 })
 export class DhSettlementReportsTableComponent {
   private readonly permissionService = inject(PermissionService);

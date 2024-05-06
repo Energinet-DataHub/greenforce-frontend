@@ -93,8 +93,6 @@ export interface WattTableColumn<T> {
    * Helper icon will be shown in the header cell, with an click event.
    */
   helperAction?: () => void;
-
-  hidden?: boolean;
 }
 
 /**

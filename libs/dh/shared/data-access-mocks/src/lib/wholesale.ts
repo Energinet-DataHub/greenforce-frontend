@@ -488,7 +488,7 @@ function getSettlementReports() {
             actor: {
               __typename: 'Actor',
               id: '1',
-              name: 'Energy Go',
+              name: 'Sort Strøm',
             },
           },
         ],
