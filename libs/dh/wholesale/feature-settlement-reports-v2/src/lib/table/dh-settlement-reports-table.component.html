@@ -15,7 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <vater-flex fill="vertical" scrollable *transloco="let t; read: 'wholesale.settlementReportsV2'">
-  <watt-table [dataSource]="tableDataSource" [columns]="columns">
+  <watt-table
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+  >
+    <ng-container *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry">
+      {{ entry.actor?.name }}
+    </ng-container>
+
     <ng-container
       *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let entry"
     >
