@@ -32,13 +32,9 @@ import { TranslocoDirective } from '@ngneat/transloco';
         <watt-badge type="warning">{{ t(status()) }}</watt-badge>
       }
       @case ('COMPLETED') {
-        <watt-button
-          type="button"
-          variant="text"
-          icon="fileDownload"
-          (click)="download.emit(reportId())"
-          >{{ t('download') }}</watt-button
-        >
+        <watt-button type="button" variant="text" icon="fileDownload" (click)="download.emit()">{{
+          t('download')
+        }}</watt-button>
       }
     }
   </ng-container>`,
@@ -46,6 +42,5 @@ import { TranslocoDirective } from '@ngneat/transloco';
 })
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();
-  reportId = input.required<string>();
-  download = output<string>();
+  download = output<void>();
 }

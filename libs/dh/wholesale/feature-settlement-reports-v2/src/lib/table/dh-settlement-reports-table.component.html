@@ -57,8 +57,7 @@ limitations under the License.
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
       <dh-settlement-reports-status
         [status]="entry.statusType"
-        [reportId]="entry.id"
-        (download)="downloadReport($event)"
+        (download)="downloadReport(entry.id)"
       />
     </ng-container>
   </watt-table>
