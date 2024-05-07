@@ -18,8 +18,8 @@ import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 export function dhEnumToWattDropdownOptions<T extends object>(
   enumObj: T,
-  exclude?: string[],
-  sort: 'asc' | 'desc' = 'asc'
+  sort: 'asc' | 'desc' | null = null,
+  exclude?: string[]
 ) {
   return Object.keys(enumObj)
     .map((key) => ({
@@ -27,6 +27,8 @@ export function dhEnumToWattDropdownOptions<T extends object>(
       value: Object.values(enumObj)[Object.keys(enumObj).indexOf(key)],
     }))
     .sort((a, b) => {
+      if (sort === null) return 0;
+
       if (sort === 'asc') {
         return a.displayValue.localeCompare(b.displayValue);
       } else {

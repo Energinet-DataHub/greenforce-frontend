@@ -98,7 +98,7 @@ export class DhDelegationTabComponent {
   isEmpty = computed(() => this.delegationsRaw().length === 0);
 
   statusControl = new FormControl<ActorDelegationStatus[] | null>(null);
-  statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus);
+  statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus, 'asc');
 
   constructor() {
     effect(() => this.fetchData(this.actor().id), { allowSignalWrites: true });
