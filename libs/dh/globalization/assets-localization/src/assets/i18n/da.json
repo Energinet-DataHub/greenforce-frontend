@@ -1017,7 +1017,6 @@
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet"
       },
-
       "calculationTypes": {
         "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
         "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
