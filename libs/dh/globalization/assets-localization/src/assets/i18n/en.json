@@ -1016,7 +1016,8 @@
       "reportStatus": {
         "IN_PROGRESS": "In progress",
         "ERROR": "Error",
-        "COMPLETED": "Completed"
+        "COMPLETED": "Completed",
+        "download": "Download"
       },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
