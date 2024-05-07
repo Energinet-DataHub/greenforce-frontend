@@ -1,8 +1,9 @@
 query getSettlementReports {
   settlementReports {
     id
-    actorName {
-      value
+    actor {
+      id
+      name
     }
     calculationType
     period

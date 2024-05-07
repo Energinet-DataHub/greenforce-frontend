@@ -48,6 +48,15 @@ export class PermissionService {
     );
   }
 
+  public isFas() {
+    return this.actorTokenService.acquireToken().pipe(
+      map((internalToken) => {
+        const claims = this.parseClaims(internalToken);
+        return this.acquireMultiTenancy(claims);
+      })
+    );
+  }
+
   private acquireRoles(claims: Claims): Permission[] {
     const roles = claims['role'] as Permission[];
     return roles || [];

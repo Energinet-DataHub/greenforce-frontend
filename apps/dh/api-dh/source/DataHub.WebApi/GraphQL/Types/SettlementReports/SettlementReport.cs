@@ -18,9 +18,9 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
-public sealed record SettlementReportType(
+public sealed record SettlementReport(
     Guid Id,
-    ActorNameDto? ActorName,
+    ActorDto? Actor,
     Clients.Wholesale.v3.CalculationType CalculationType,
     Interval Period,
     int NumberOfGridAreasInReport,
