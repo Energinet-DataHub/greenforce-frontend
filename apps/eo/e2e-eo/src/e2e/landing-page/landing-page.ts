@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
-import { FooterPO, LandingPagePO } from '../../page-objects';
+import { LandingPagePO } from '../../page-objects';
 
 const landingPage = new LandingPagePO();
-const footer = new FooterPO();
 
 Given('I am on the landing page', () => {
   landingPage.navigateTo();
@@ -26,12 +25,3 @@ Given('I am on the landing page', () => {
 });
 
 Then('I can see 1 login button', () => landingPage.loginButtonsVisible(1));
-
-Then('I can see a footer with content in it', () => {
-  footer.isVisible();
-  footer.hasLogo();
-  footer.hasPrivacyPolicyLink();
-  footer.hasAccessibilityLink();
-  footer.hasPhoneLink();
-  footer.hasEmailLink();
-});

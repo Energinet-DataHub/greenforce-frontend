@@ -1008,7 +1008,8 @@
         "period": "Period",
         "gridAreas": "Grid areas",
         "basisData": "Basis data",
-        "status": "Status"
+        "status": "Status",
+        "actorName": "Market participant"
       },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",

@@ -478,16 +478,17 @@ function getSettlementReports() {
         __typename: 'Query',
         settlementReports: [
           {
-            __typename: 'SettlementReportType',
+            __typename: 'SettlementReport',
             id: '1',
             calculationType: CalculationType.BalanceFixing,
             period: { start: periodStart, end: periodEnd },
             gridAreas: 1,
             includesBaseData: true,
             statusType: SettlementReportStatusType.Completed,
-            actorName: {
-              __typename: 'ActorNameDto',
-              value: 'Sort Strøm',
+            actor: {
+              __typename: 'Actor',
+              id: '1',
+              name: 'Sort Strøm',
             },
           },
         ],

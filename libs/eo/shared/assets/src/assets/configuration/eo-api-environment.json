@@ -1,5 +1,6 @@
 {
   "apiBase": "/api",
+  "developerPortal": "/developer/",
   "apiVersions": {
     "certificates": "20240423",
     "transfer": "20240103",

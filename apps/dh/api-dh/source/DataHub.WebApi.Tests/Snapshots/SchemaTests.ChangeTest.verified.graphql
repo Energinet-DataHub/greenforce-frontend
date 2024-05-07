@@ -360,7 +360,7 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
-  settlementReports: [SettlementReportType!]!
+  settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
@@ -390,9 +390,9 @@ type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
 }
 
-type SettlementReportType {
+type SettlementReport {
   id: UUID!
-  actorName: ActorNameDto
+  actor: Actor
   calculationType: CalculationType!
   period: DateRange!
   gridAreas: Int!
