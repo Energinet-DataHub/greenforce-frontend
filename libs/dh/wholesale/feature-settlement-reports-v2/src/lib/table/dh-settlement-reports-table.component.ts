@@ -23,6 +23,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
+import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -44,6 +45,8 @@ import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhSettlementReportsStatusComponent,
   ],
 })
 export class DhSettlementReportsTableComponent {

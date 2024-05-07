@@ -1009,6 +1009,11 @@
         "basisData": "Datagrundlag",
         "status": "Status"
       },
+      "reportStatus": {
+        "IN_PROGRESS": "I gang",
+        "ERROR": "Fejl",
+        "COMPLETED": "Afsluttet"
+      },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
         "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",

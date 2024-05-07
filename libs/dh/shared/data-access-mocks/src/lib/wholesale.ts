@@ -490,6 +490,32 @@ function getSettlementReports() {
               value: 'Sort Strøm',
             },
           },
+          {
+            __typename: 'SettlementReportType',
+            id: '2',
+            calculationType: CalculationType.Aggregation,
+            period: { start: periodStart, end: periodEnd },
+            gridAreas: 1,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.InProgress,
+            actorName: {
+              __typename: 'ActorNameDto',
+              value: 'Hvid Strøm',
+            },
+          },
+          {
+            __typename: 'SettlementReportType',
+            id: '3',
+            calculationType: CalculationType.WholesaleFixing,
+            period: { start: periodStart, end: periodEnd },
+            gridAreas: 1,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.Error,
+            actorName: {
+              __typename: 'ActorNameDto',
+              value: 'Blå Strøm',
+            },
+          },
         ],
       },
     });
