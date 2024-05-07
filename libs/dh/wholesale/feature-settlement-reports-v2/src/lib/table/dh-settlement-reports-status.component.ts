@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { SettlementReportStatusType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
@@ -31,12 +32,20 @@ import { TranslocoDirective } from '@ngneat/transloco';
         <watt-badge type="warning">{{ t(status()) }}</watt-badge>
       }
       @case ('COMPLETED') {
-        <watt-badge type="success">{{ t(status()) }}</watt-badge>
+        <watt-button
+          type="button"
+          variant="text"
+          icon="fileDownload"
+          (click)="download.emit(reportId())"
+          >{{ t('download') }}</watt-button
+        >
       }
     }
   </ng-container>`,
-  imports: [WattBadgeComponent, TranslocoDirective],
+  imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent],
 })
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();
+  reportId = input.required<string>();
+  download = output<string>();
 }
