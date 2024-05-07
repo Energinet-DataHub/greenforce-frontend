@@ -100,7 +100,13 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   multipleGridAreasSelected = computed(() => {
     const gridAreas = this.valueChanges()?.gridAreas;
-    return gridAreas?.length ? gridAreas.length > 1 : false;
+    const numberOfSelectedGridAreas = gridAreas?.length;
+
+    if (!numberOfSelectedGridAreas || numberOfSelectedGridAreas <= 1) {
+      this.form.controls.combineResultsInOneFile.setValue(false, { emitEvent: false });
+    }
+
+    return numberOfSelectedGridAreas ? numberOfSelectedGridAreas > 1 : false;
   });
 
   submit(): void {
