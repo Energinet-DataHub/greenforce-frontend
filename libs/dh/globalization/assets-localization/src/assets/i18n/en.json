@@ -1018,6 +1018,7 @@
       },
       "calculationTypes": {
         "BALANCE_FIXING": "Balance fixing",
+        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
         "WHOLESALE_FIXING": "Wholesale fixing",
         "FIRST_CORRECTION_SETTLEMENT": "1st correction settlement",
         "SECOND_CORRECTION_SETTLEMENT": "2nd correction settlement",

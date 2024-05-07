@@ -1017,6 +1017,7 @@
       },
       "calculationTypes": {
         "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
         "WHOLESALE_FIXING": "Engrosfiksering",
         "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
         "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
