@@ -1007,7 +1007,8 @@
         "period": "Periode",
         "gridAreas": "Netområder",
         "basisData": "Datagrundlag",
-        "status": "Status"
+        "status": "Status",
+        "actorName": "Aktørnavn"
       },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
