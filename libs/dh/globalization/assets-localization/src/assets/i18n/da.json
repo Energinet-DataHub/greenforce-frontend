@@ -1007,7 +1007,8 @@
         "period": "Periode",
         "gridAreas": "Netområder",
         "basisData": "Datagrundlag",
-        "status": "Status"
+        "status": "Status",
+        "actorName": "Aktørnavn"
       },
       "reportStatus": {
         "IN_PROGRESS": "I gang",

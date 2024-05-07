@@ -29,7 +29,7 @@ import {
   mockGetGridAreasQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import marketParticipantActorQuerySelectionActors from './data/marketParticipantActorQuerySelectionActors.json';
+import { actorQuerySelection } from './data/marketParticipantActorQuerySelectionActors';
 import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
 import { marketParticipantUserGetUserAuditLogs } from './data/marketParticipantUserGetUserAuditLogs';
 import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
@@ -96,7 +96,7 @@ function getMarketParticipantUserSearchUsers(apiBase: string) {
 function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
   return http.get(`${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantActorQuerySelectionActors);
+    return HttpResponse.json(actorQuerySelection);
   });
 }
 

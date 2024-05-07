@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Types;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 using NodaTime;
 
@@ -21,11 +20,11 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
-    public async Task<IEnumerable<SettlementReportType>> GetSettlementReportsAsync(
+    public async Task<IEnumerable<SettlementReport>> GetSettlementReportsAsync(
         [Service] IWholesaleClient_V3 client) =>
 
         // Temporary return value until client is ready to provide data
-        await Task.FromResult(new List<SettlementReportType>());
+        await Task.FromResult(new List<SettlementReport>());
 
     public async Task<Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
         Guid[] gridAreaId,
