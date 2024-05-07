@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import {
   FormControl,
@@ -39,6 +39,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-longer';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-request-settlement-report-modal',
@@ -95,14 +96,12 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
 
-  miltipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
-    map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
-    tap((moreThanOneGridAreas) => {
-      if (!moreThanOneGridAreas) {
-        this.form.controls.combineResultsInOneFile.setValue(false);
-      }
-    })
-  );
+  private valueChanges = toSignal(this.form.valueChanges);
+
+  multipleGridAreasSelected = computed(() => {
+    const gridAreas = this.valueChanges()?.gridAreas;
+    return gridAreas?.length ? gridAreas.length > 1 : false;
+  });
 
   submit(): void {
     if (this.form.invalid) {

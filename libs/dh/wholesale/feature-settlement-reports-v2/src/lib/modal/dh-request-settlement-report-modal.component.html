@@ -64,7 +64,7 @@ limitations under the License.
           [options]="gridAreaOptions$ | push"
         />
 
-        @if (miltipleGridAreasSelected$ | push) {
+        @if (multipleGridAreasSelected()) {
           <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
             {{ t("combineResultsInOneFile") }}
           </watt-checkbox>
