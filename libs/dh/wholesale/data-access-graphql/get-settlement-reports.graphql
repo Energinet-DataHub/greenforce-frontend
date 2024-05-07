@@ -7,7 +7,7 @@ query getSettlementReports {
     }
     calculationType
     period
-    gridAreas
+    numberOfGridAreasInReport
     includesBaseData
     statusType
   }

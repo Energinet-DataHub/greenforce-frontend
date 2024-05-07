@@ -482,7 +482,7 @@ function getSettlementReports() {
             id: '1',
             calculationType: CalculationType.BalanceFixing,
             period: { start: periodStart, end: periodEnd },
-            gridAreas: 1,
+            numberOfGridAreasInReport: 1,
             includesBaseData: true,
             statusType: SettlementReportStatusType.Completed,
             actor: {
