@@ -17,8 +17,20 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+
+import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideClientHydration(), provideRouter(appRoutes)],
+  providers: [
+    provideClientHydration(
+      withHttpTransferCacheOptions({
+        includePostRequests: true,
+      }),
+    ),
+    provideRouter(appRoutes),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    ...translocoProviders,
+  ],
 };

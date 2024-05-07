@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, afterNextRender, afterRender, inject } from '@angular/core';
+
 
 import { EoLandingPageHeaderComponent } from './header.component';
 import { EoLandingPageHeroComponent } from './hero.component';
@@ -27,6 +28,7 @@ import { EoLandingPageBlockchainTechComponent } from './blockchain-tech.componen
 import { EoLandingPageGranularCertificatesComponent } from './granular-certificates.component';
 import { EoLandingPageFooterComponent } from './footer.component';
 import { EoLandingPageCTAComponent } from './cta.component';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,26 +36,28 @@ import { EoLandingPageCTAComponent } from './cta.component';
   imports: [
     EoLandingPageHeaderComponent,
     EoLandingPageHeroComponent,
+    TranslocoPipe,
     EoLandingPageWhyComponent,
-    EoLandingPageHowComponent,
-    EoLandingPageWhatComponent,
-    EoLandingPageProveSustainabilityComponent,
-    EoLandingPageElectricalGridComponent,
-    EoLandingPageBlockchainTechComponent,
-    EoLandingPageGranularCertificatesComponent,
-    EoLandingPageFooterComponent,
-    EoLandingPageCTAComponent,
+    //EoLandingPageHowComponent,
+    //EoLandingPageWhatComponent,
+    //EoLandingPageProveSustainabilityComponent,
+    //EoLandingPageElectricalGridComponent,
+    //EoLandingPageBlockchainTechComponent,
+    //EoLandingPageGranularCertificatesComponent,
+    //EoLandingPageFooterComponent,
+    //EoLandingPageCTAComponent,
   ],
   selector: 'eo-landing-page-shell',
   template: `
     <eo-landing-page-header />
     <eo-landing-page-hero />
+
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-why />
     } @placeholder {
       <p>Loading...</p>
     }
-
+<!--
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-how />
     } @placeholder {
@@ -100,7 +104,25 @@ import { EoLandingPageCTAComponent } from './cta.component';
       <eo-landing-page-footer />
     } @placeholder {
       <p>Loading...</p>
-    }
+    }-->
   `,
 })
-export class EoLandingPageShellComponent {}
+export class EoLandingPageShellComponent {
+  private transloco = inject(TranslocoService);
+
+  constructor() {
+    console.log('HEST');
+    afterNextRender(() => {
+      console.log('ACTIVE LANG', this.transloco.getActiveLang());
+      this.transloco.selectTranslate('landing-page').subscribe((res) => {
+        console.log('WHAAT', res);
+      });
+    });
+
+    afterRender(() => {
+      console.log('WHAAT')
+    });
+
+
+  }
+}

@@ -16,7 +16,7 @@
  */
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Translation, TranslocoLoader } from '@ngneat/transloco';
-import { Observable, from } from 'rxjs';
+import { Observable, from, tap } from 'rxjs';
 
 export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>(
   'TRANSLOCO_TYPED_TRANSLATION_PATH'
@@ -29,6 +29,7 @@ export class TranslocoTypedLoader implements TranslocoLoader {
   ) {}
 
   getTranslation(lang: string): Observable<Translation> {
+    console.log('GET TRANSLATIONS!!');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return from(this.path[lang]().then((m: any) => m[`${lang.toUpperCase()}_TRANSLATIONS`]));
   }

@@ -20,6 +20,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  afterNextRender,
   inject,
 } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
@@ -122,7 +123,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     </div>
   `,
 })
-export class EoLandingPageHeaderComponent implements AfterViewInit {
+export class EoLandingPageHeaderComponent {
   private authService = inject(EoAuthService);
   private elementRef = inject(ElementRef);
   private viewportScroller = inject(ViewportScroller);
@@ -130,11 +131,18 @@ export class EoLandingPageHeaderComponent implements AfterViewInit {
   protected translations = translations;
   protected pauseScrollEvents = false;
 
+  constructor() {
+    afterNextRender(() => {
+      console.log('HELLO')
+      this.init();
+    });
+  }
+
   login() {
     this.authService.startLogin();
   }
 
-  ngAfterViewInit(): void {
+  init(): void {
     // ADD / REMOVE STICKY MODE
     fromEvent(window, 'scroll')
       .pipe(

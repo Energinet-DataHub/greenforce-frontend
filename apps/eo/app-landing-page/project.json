@@ -17,9 +17,30 @@
         "tsConfig": "apps/eo/app-landing-page/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/eo/app-landing-page/src/favicon.ico",
-          "apps/eo/app-landing-page/src/assets"
+          {
+            "glob": "favicon.ico",
+            "input": "libs/eo/shared/assets/src",
+            "output": ""
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "libs/eo/core/globalization/assets-localization",
+            "output": "assets"
+          },
+          {
+            "input": "libs/watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/watt"
+          }
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/watt/src/lib/styles"]
+        },
         "styles": ["apps/eo/app-landing-page/src/styles.scss"],
         "scripts": [],
         "server": "apps/eo/app-landing-page/src/main.server.ts",
