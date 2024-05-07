@@ -1019,17 +1019,24 @@
         "download": "Download"
       },
       "calculationTypes": {
-        "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",
+        "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
-        "WHOLESALE_FIXING": "{{ wholesale.shared.WHOLESALE_FIXING }}",
+        "WHOLESALE_FIXING": "Engrosfiksering",
         "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
         "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
       },
       "requestReportModal": {
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "calculationType": "Beregningstype",
+        "includeBasisData": "Inkluder datagrundlag",
+        "period": "Periode",
+        "includeMonthlySum": "Inkluder månedssummer",
+        "gridArea": "Netområde",
+        "combineResultsInOneFile": "Kombiner resultater i en fil",
         "cancel": "Fortryd",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned"
       }
     },
     "settlementReports": {
