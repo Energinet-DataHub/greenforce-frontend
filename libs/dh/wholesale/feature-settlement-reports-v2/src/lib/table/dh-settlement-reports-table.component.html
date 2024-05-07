@@ -15,7 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <vater-flex fill="vertical" scrollable *transloco="let t; read: 'wholesale.settlementReportsV2'">
-  <watt-table [dataSource]="tableDataSource" [columns]="columns">
+  <watt-table
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+  >
+    <ng-container *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry">
+      {{ entry.actor?.name }}
+    </ng-container>
+
     <ng-container
       *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let entry"
     >
@@ -26,8 +34,14 @@ limitations under the License.
       {{ entry.period | wattDate: "short" }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry">
-      {{ entry.gridAreas }}
+    <ng-container
+      *wattTableCell="
+        columns['numberOfGridAreasInReport'];
+        header: t('columns.numberOfGridAreasInReport');
+        let entry
+      "
+    >
+      {{ entry.numberOfGridAreasInReport }}
     </ng-container>
 
     <ng-container
@@ -41,7 +55,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
-      {{ entry.statusType }}
+      <dh-settlement-reports-status [status]="entry.statusType" />
     </ng-container>
   </watt-table>
 </vater-flex>
