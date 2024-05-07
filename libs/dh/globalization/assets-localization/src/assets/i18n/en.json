@@ -1006,10 +1006,15 @@
       "columns": {
         "calculationType": "Calculation type",
         "period": "Period",
-        "gridAreas": "Grid areas",
+        "numberOfGridAreasInReport": "Gridareas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
+      },
+      "reportStatus": {
+        "IN_PROGRESS": "In progress",
+        "ERROR": "Error",
+        "COMPLETED": "Completed"
       },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ wholesale.shared.BALANCE_FIXING }}",

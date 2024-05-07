@@ -24,6 +24,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -45,6 +46,8 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhSettlementReportsStatusComponent,
   ],
 })
 export class DhSettlementReportsTableComponent {
