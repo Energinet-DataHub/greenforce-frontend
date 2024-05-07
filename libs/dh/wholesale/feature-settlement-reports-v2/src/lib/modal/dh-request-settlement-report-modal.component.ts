@@ -27,14 +27,17 @@ import { Observable, combineLatest, map, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { CalculationType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
@@ -90,7 +93,9 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     combineResultsInOneFile: new FormControl<boolean>(false),
   });
 
-  calculationTypeOptions = this.getCalculationTypeOptions();
+  calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
+    CalculationType.Aggregation,
+  ]);
   gridAreaOptions$ = getGridAreaOptions();
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
@@ -137,20 +142,5 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
         }
       })
     );
-  }
-
-  private getCalculationTypeOptions(): WattDropdownOptions {
-    const options = [
-      CalculationType.BalanceFixing,
-      CalculationType.WholesaleFixing,
-      CalculationType.FirstCorrectionSettlement,
-      CalculationType.SecondCorrectionSettlement,
-      CalculationType.ThirdCorrectionSettlement,
-    ];
-
-    return options.map((key) => ({
-      value: key,
-      displayValue: key,
-    }));
   }
 }
