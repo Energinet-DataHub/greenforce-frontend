@@ -473,6 +473,17 @@ function getSettlementReports() {
   return mockGetSettlementReportsQuery(async () => {
     await delay(mswConfig.delay);
 
+    if (window.location.href.includes('error'))
+      return HttpResponse.json({
+        errors: [
+          {
+            message: 'Failed to fetch settlement reports',
+            extensions: { code: '500', details: 'test' },
+          },
+        ],
+        data: null,
+      });
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',

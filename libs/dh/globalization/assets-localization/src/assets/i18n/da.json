@@ -1001,6 +1001,8 @@
     "settlementReportsV2": {
       "topBarTitle": "Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "columns": {
         "calculationType": "Beregningstype",
