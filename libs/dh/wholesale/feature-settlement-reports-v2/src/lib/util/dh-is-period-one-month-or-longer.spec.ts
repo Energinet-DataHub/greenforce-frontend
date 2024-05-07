@@ -16,11 +16,11 @@
  */
 import { dhIsPeriodOneMonthOrLonger } from './dh-is-period-one-month-or-longer';
 
-const _1stJaruaryStartOfDay = '2021-01-01T00:00:00+01:00';
-const _14thJanuaryEndOfDay = '2021-01-14T23:59:59.999+01:00';
-const _31stJanuaryEndOfDay = '2021-01-31T23:59:59.999+01:00';
+const _1stJaruaryStartOfDay = '2020-12-31T23:00:00.000Z';
+const _14thJanuaryEndOfDay = '2021-01-14T22:59:59.999Z';
+const _31stJanuaryEndOfDay = '2021-01-31T22:59:59.999Z';
 
-const _14thFebruaryEndOfDay = '2021-02-14T23:59:59.999+01:00';
+const _14thFebruaryEndOfDay = '2021-02-14T22:59:59.999Z';
 
 describe(dhIsPeriodOneMonthOrLonger, () => {
   it('should return `true` if the period is exactly one month', () => {

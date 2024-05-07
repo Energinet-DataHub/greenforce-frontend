@@ -17,8 +17,21 @@
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 
 export function dhIsPeriodOneMonthOrLonger(period: WattRange<string>): boolean {
+  console.log(
+    'dhIsPeriodOneMonthOrLonger',
+    dayjs(period.start).toDate(),
+    dayjs(period.start).startOf('month').toDate()
+  );
+  console.log(
+    'dhIsPeriodOneMonthOrLonger',
+    dayjs(period.end).toDate(),
+    dayjs(period.end).endOf('month').toDate()
+  );
+
   const isStartOfMonth = dayjs(period.start).isSame(dayjs(period.start).startOf('month'));
   const isEndOfMonth = dayjs(period.end).isSame(dayjs(period.end).endOf('month'));
+
+  console.log('dhIsPeriodOneMonthOrLonger', isStartOfMonth, isEndOfMonth);
 
   if (isStartOfMonth && isEndOfMonth) {
     return true;
