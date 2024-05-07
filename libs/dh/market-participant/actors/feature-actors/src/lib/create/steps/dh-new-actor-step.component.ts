@@ -132,7 +132,7 @@ import { RxPush } from '@rx-angular/template/push';
 export class DhNewActorStepComponent {
   newActorForm = input.required<ActorForm>();
 
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction, 'asc');
   gridAreaOptions = getGridAreaOptions();
 
   showGridAreaOptions = signal(false);
