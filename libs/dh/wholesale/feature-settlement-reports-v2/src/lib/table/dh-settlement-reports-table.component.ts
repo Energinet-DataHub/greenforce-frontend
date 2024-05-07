@@ -78,4 +78,8 @@ export class DhSettlementReportsTableComponent {
       this.tableDataSource.data = this.settlementReports();
     });
   }
+
+  downloadReport(reportId: string) {
+    console.log('Download report', reportId);
+  }
 }
