@@ -16,7 +16,7 @@
  */
 import { dhIsPeriodOneMonthOrLonger } from './dh-is-period-one-month-or-longer';
 
-const _1stJaruaryStartOfDay = '2020-12-31T23:00:00.000Z';
+const _1stJanuaryStartOfDay = '2020-12-31T23:00:00.000Z';
 const _14thJanuaryEndOfDay = '2021-01-14T22:59:59.999Z';
 const _31stJanuaryEndOfDay = '2021-01-31T22:59:59.999Z';
 
@@ -25,7 +25,7 @@ const _14thFebruaryEndOfDay = '2021-02-14T22:59:59.999Z';
 describe(dhIsPeriodOneMonthOrLonger, () => {
   it('should return `true` if the period is exactly one month', () => {
     const period = {
-      start: _1stJaruaryStartOfDay,
+      start: _1stJanuaryStartOfDay,
       end: _31stJanuaryEndOfDay,
     };
     expect(dhIsPeriodOneMonthOrLonger(period)).toBeTruthy();
@@ -33,7 +33,7 @@ describe(dhIsPeriodOneMonthOrLonger, () => {
 
   it('should return `true` if the period is longer than one month', () => {
     const period = {
-      start: _1stJaruaryStartOfDay,
+      start: _1stJanuaryStartOfDay,
       end: _14thFebruaryEndOfDay,
     };
     expect(dhIsPeriodOneMonthOrLonger(period)).toBeTruthy();
@@ -41,7 +41,7 @@ describe(dhIsPeriodOneMonthOrLonger, () => {
 
   it('should return `false` if the period is shorter than one month', () => {
     const period = {
-      start: _1stJaruaryStartOfDay,
+      start: _1stJanuaryStartOfDay,
       end: _14thJanuaryEndOfDay,
     };
     expect(dhIsPeriodOneMonthOrLonger(period)).toBeFalsy();
