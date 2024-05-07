@@ -1005,7 +1005,7 @@
       "columns": {
         "calculationType": "Beregningstype",
         "period": "Periode",
-        "gridAreas": "Netområder",
+        "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
         "actorName": "Aktørnavn"

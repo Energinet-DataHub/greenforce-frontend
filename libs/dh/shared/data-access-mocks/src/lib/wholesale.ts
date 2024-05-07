@@ -482,7 +482,7 @@ function getSettlementReports() {
             id: '1',
             calculationType: CalculationType.BalanceFixing,
             period: { start: periodStart, end: periodEnd },
-            gridAreas: 1,
+            numberOfGridAreasInReport: 1,
             includesBaseData: true,
             statusType: SettlementReportStatusType.Completed,
             actor: {
@@ -496,7 +496,7 @@ function getSettlementReports() {
             id: '2',
             calculationType: CalculationType.Aggregation,
             period: { start: periodStart, end: periodEnd },
-            gridAreas: 1,
+            numberOfGridAreasInReport: 2,
             includesBaseData: true,
             statusType: SettlementReportStatusType.InProgress,
             actor: {
@@ -510,7 +510,7 @@ function getSettlementReports() {
             id: '3',
             calculationType: CalculationType.WholesaleFixing,
             period: { start: periodStart, end: periodEnd },
-            gridAreas: 1,
+            numberOfGridAreasInReport: 3,
             includesBaseData: true,
             statusType: SettlementReportStatusType.Error,
             actor: {

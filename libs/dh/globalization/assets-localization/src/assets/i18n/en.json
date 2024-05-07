@@ -1006,7 +1006,7 @@
       "columns": {
         "calculationType": "Calculation type",
         "period": "Period",
-        "gridAreas": "Grid areas",
+        "numberOfGridAreasInReport": "Gridareas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
