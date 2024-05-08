@@ -24,15 +24,12 @@ import {
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('@energinet-datahub/dh/market-participant/actors/shell').then(
-        (esModule) => esModule.DhMarketParticipantActorsShellComponent
-      ),
+    loadComponent: () => import('@energinet-datahub/dh/market-participant/actors/shell'),
     children: [
       {
         path: '',
-        redirectTo: dhMarketParticipantActorsPath,
         pathMatch: 'full',
+        redirectTo: dhMarketParticipantActorsPath,
       },
       {
         path: dhMarketParticipantActorsPath,
@@ -47,9 +44,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: 'organizations',
         loadComponent: () =>
-          import('@energinet-datahub/dh/market-participant/actors/feature-organizations').then(
-            (esModule) => esModule.DhOrganizationsOverviewComponent
-          ),
+          import('@energinet-datahub/dh/market-participant/actors/feature-organizations'),
         data: {
           titleTranslationKey: 'marketParticipant.organizationsOverview.organizations',
         },
@@ -57,9 +52,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: 'market-roles',
         loadComponent: () =>
-          import('@energinet-datahub/dh/market-participant/actors/feature-market-roles').then(
-            (esModule) => esModule.DhMarketRolesOverviewComponent
-          ),
+          import('@energinet-datahub/dh/market-participant/actors/feature-market-roles'),
         data: {
           titleTranslationKey: 'marketParticipant.marketRolesOverview.marketRoles',
         },
@@ -68,10 +61,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
   },
   {
     path: dhMarketParticipantGridAreasPath,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/market-participant/grid-areas/shell').then(
-        (esModule) => esModule.DhGridAreasShellComponent
-      ),
+    loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
     data: {
       titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
     },
