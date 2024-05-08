@@ -27,7 +27,7 @@ public partial class Query
         await Task.FromResult(new List<SettlementReport>());
 
     public async Task<Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
-        Guid[] gridAreaId,
+        string[] gridAreaId,
         Interval calucaltionPeriod,
         [Service] IWholesaleClient_V3 client) =>
 
