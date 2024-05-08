@@ -50,12 +50,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import {
-  maxOneMonthDateRangeValidator,
-  startAndEndDateCannotBeInTheFutureValidator,
-  startDateCannotBeAfterEndDateValidator,
-  startDateCannotBeOlderThan3YearsValidator,
-} from './dh-whole-request-calculation-validators';
+import { maxOneMonthDateRangeValidator } from './dh-whole-request-calculation-validators';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -120,7 +115,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
-  minDate = dayjs().subtract(3, 'years').toDate();
+  minDate = dayjs().startOf('month').subtract(38, 'months').toDate();
 
   isLoading = false;
 
@@ -129,10 +124,7 @@ export class DhWholesaleRequestCalculationComponent {
     period: this._fb.control({ start: null, end: null }, [
       Validators.required,
       WattRangeValidators.required(),
-      maxOneMonthDateRangeValidator(),
-      startAndEndDateCannotBeInTheFutureValidator(),
-      startDateCannotBeAfterEndDateValidator(),
-      startDateCannotBeOlderThan3YearsValidator(),
+      maxOneMonthDateRangeValidator,
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),

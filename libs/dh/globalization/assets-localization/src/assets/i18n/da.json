@@ -980,7 +980,7 @@
       "period": "Periode",
       "gridAreas": "Netområder",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være en måned",
+      "maxPeriodLength": "Perioden må max være 31 dage",
       "calculationTypes": {
         "preliminaryaggregation": "Aggregering",
         "balancefixing": "Balancefiksering",

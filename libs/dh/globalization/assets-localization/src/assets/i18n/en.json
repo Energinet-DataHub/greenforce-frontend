@@ -981,7 +981,7 @@
       "period": "Period",
       "gridareas": "Grid areas",
       "request": "Request",
-      "maxPeriodLength": "Period must be less than one month",
+      "maxPeriodLength": "Period cannot be longer than 31 days",
       "calculationTypes": {
         "preliminaryaggregation": "Aggregation",
         "balancefixing": "Balance fixing",

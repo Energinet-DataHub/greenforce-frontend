@@ -14,69 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 
-export const maxOneMonthDateRangeValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-
-    if (!range) return null;
-
-    const rangeInDays = dayjs(range.end).diff(range.start, 'days');
-    if (rangeInDays > 31) {
-      return { maxOneMonthDateRange: true };
-    }
-
-    return null;
-  };
-
-export const startDateCannotBeAfterEndDateValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-
-    if (!range) return null;
-
-    const startDate = dayjs(range.start).toDate();
-    const endDate = dayjs(range.end).toDate();
-
-    if (startDate > endDate) {
-      return { startDateCannotBeAfterEndDate: true };
-    }
-
-    return null;
-  };
-
-export const startDateCannotBeOlderThan3YearsValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-    if (!range) return null;
-
-    const startDate = dayjs(range.start).toDate();
-
-    if (startDate < dayjs().subtract(3, 'years').toDate()) {
-      return { startDateCannotBeOlderThan3Years: true };
-    }
-
-    return null;
-  };
-
-export const startAndEndDateCannotBeInTheFutureValidator =
-  () =>
-  (control: AbstractControl): ValidationErrors | null => {
-    const range = control.value as WattRange<string>;
-    if (!range) return null;
-
-    const endDate = dayjs(range.end).toDate();
-    const startDate = dayjs(range.start).toDate();
-    const now = new Date();
-
-    if (endDate > now || startDate > now) {
-      return { startAndEndDateCannotBeInTheFuture: true };
-    }
-
-    return null;
-  };
+type rangeControl = AbstractControl<WattRange<string>>;
+export const maxOneMonthDateRangeValidator: ValidatorFn = ({ value }: rangeControl) => {
+  if (!value?.end || !value?.start) return null;
+  return dayjs(value.end).diff(value.start, 'days') > 30 ? { maxOneMonthDateRange: true } : null;
+};
