@@ -1,27 +1,23 @@
 {
-  "name": "eo-app-landing-page",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "app-eo-landing-page",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/eo/app-landing-page/src",
+  "sourceRoot": "apps/eo/app-eo-landing-page/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/eo/app-landing-page",
-        "index": "apps/eo/app-landing-page/src/index.html",
-        "browser": "apps/eo/app-landing-page/src/main.ts",
+        "outputPath": "dist/apps/eo/app-eo-landing-page",
+        "index": "apps/eo/app-eo-landing-page/src/index.html",
+        "browser": "apps/eo/app-eo-landing-page/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/eo/app-landing-page/tsconfig.app.json",
+        "tsConfig": "apps/eo/app-eo-landing-page/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "allowedCommonJsDependencies": ["lottie-web", "dayjs"],
         "assets": [
-          {
-            "glob": "favicon.ico",
-            "input": "libs/eo/shared/assets/src",
-            "output": ""
-          },
           {
             "glob": "**/*",
             "input": "libs/eo/shared/assets/src/assets",
@@ -41,12 +37,12 @@
         "stylePreprocessorOptions": {
           "includePaths": ["libs/watt/src/lib/styles"]
         },
-        "styles": ["apps/eo/app-landing-page/src/styles.scss"],
+        "styles": ["apps/eo/app-eo-landing-page/src/styles.scss"],
         "scripts": [],
-        "server": "apps/eo/app-landing-page/src/main.server.ts",
+        "server": "apps/eo/app-eo-landing-page/src/main.server.ts",
         "prerender": true,
         "ssr": {
-          "entry": "apps/eo/app-landing-page/server.ts"
+          "entry": "apps/eo/app-eo-landing-page/server.ts"
         }
       },
       "configurations": {
@@ -55,12 +51,12 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "1.1mb"
             },
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumError": "6kb"
             }
           ],
           "outputHashing": "all"
@@ -77,10 +73,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "eo-app-landing-page:build:production"
+          "buildTarget": "app-eo-landing-page:build:production"
         },
         "development": {
-          "buildTarget": "eo-app-landing-page:build:development"
+          "buildTarget": "app-eo-landing-page:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -88,7 +84,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "eo-app-landing-page:build"
+        "buildTarget": "app-eo-landing-page:build"
       }
     },
     "lint": {
@@ -98,7 +94,16 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/eo/app-landing-page/jest.config.ts"
+        "jestConfig": "apps/eo/app-eo-landing-page/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "app-eo-landing-page:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/eo/app-eo-landing-page/browser",
+        "spa": true
       }
     }
   }

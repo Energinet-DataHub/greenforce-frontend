@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   OnDestroy,
+  PLATFORM_ID,
   ViewEncapsulation,
+  afterNextRender,
+  afterRender,
   inject,
   signal,
 } from '@angular/core';
@@ -29,6 +32,7 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { filter } from 'rxjs';
 
 import { translations } from '@energinet-datahub/eo/translations';
+import { isBrowser } from './is-browser';
 
 interface Section {
   title?: string;
@@ -325,13 +329,11 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private cd = inject(ChangeDetectorRef);
 
   private initialTransitionSectionId = 'sustainable-profile';
-  private resizeObserver = new ResizeObserver(() => {
-    this.showLarge = this.isLarge();
-    this.cd.detectChanges();
-  });
+  private resizeObserver!: ResizeObserver;
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected translations = translations;
-  protected showLarge = this.isLarge();
+  protected showLarge = false;
   protected sections = signal<Section[]>([
     {
       id: this.initialTransitionSectionId,
@@ -453,18 +455,33 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   ]);
   protected activeSection = signal<Section>(this.sections()[0]);
 
+
+  constructor() {
+    afterNextRender(() => {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.showLarge = this.isLarge();
+        this.cd.detectChanges();
+      });
+
+      this.initialTransition();
+      this.resizeObserver.observe(document.body);
+    });
+
+    this.showLarge = this.isLarge();
+  }
+
   ngAfterViewInit(): void {
     this.route.fragment.pipe(filter((fragment) => !!fragment)).subscribe((fragment) => {
       this.activeSection.set(
         this.sections().find((section) => section.id === fragment) || this.sections()[0]
       );
     });
-    this.initialTransition();
-    this.resizeObserver.observe(document.body);
   }
 
   ngOnDestroy(): void {
-    this.resizeObserver.disconnect();
+    if(this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   initialTransition() {
@@ -513,6 +530,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   }
 
   private isLarge(): boolean {
+    if(!this.isBrowser) return false;
     return window.innerWidth >= 1024;
   }
 }

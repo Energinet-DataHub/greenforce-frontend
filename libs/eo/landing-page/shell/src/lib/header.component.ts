@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
@@ -113,12 +112,18 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
         <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
           {{ translations.landingPage.header.loginButton | transloco }}
         </watt-button>
-        <eo-language-switcher
-          (click)="pauseScrollEvents = true"
-          (closed)="pauseScrollEvents = false"
-        >
+
+        <!-- We defer the language picker to avoid loading dayjs locales on initial load -->
+        @defer (on viewport; prefetch on idle) {
+          <eo-language-switcher
+            (click)="pauseScrollEvents = true"
+            (closed)="pauseScrollEvents = false"
+          >
+            <watt-button variant="text" icon="language" />
+          </eo-language-switcher>
+        } @placeholder {
           <watt-button variant="text" icon="language" />
-        </eo-language-switcher>
+        }
       </div>
     </div>
   `,
@@ -133,7 +138,6 @@ export class EoLandingPageHeaderComponent {
 
   constructor() {
     afterNextRender(() => {
-      console.log('HELLO')
       this.init();
     });
   }
