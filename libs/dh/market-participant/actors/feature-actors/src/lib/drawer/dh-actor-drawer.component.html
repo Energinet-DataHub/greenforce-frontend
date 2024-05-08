@@ -105,14 +105,12 @@ limitations under the License.
               </ng-container>
             </ng-container>
 
-            <ng-container>
-              <ng-container *dhPermissionRequired="['balance-responsibility:view']">
-                @if (showBalanceResponsibleRelationTab()) {
-                  <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
-                    <dh-balance-responsible-relation-tab [actor]="actor!" />
-                  </watt-tab>
-                }
-              </ng-container>
+            <ng-container *dhPermissionRequired="['balance-responsibility:view']">
+              @if (showBalanceResponsibleRelationTab()) {
+                <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
+                  <dh-balance-responsible-relation-tab [actor]="actor!" />
+                </watt-tab>
+              }
             </ng-container>
           }
 
