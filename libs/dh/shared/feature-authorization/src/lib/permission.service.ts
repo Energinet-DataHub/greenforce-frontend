@@ -23,7 +23,9 @@ import { DhActorTokenService } from './dh-actor-token.service';
 
 type Claims = { [name: string]: unknown };
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class PermissionService {
   constructor(private actorTokenService: DhActorTokenService) {}
 
