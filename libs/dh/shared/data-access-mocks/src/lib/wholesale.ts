@@ -50,6 +50,7 @@ export function wholesaleMocks(apiBase: string) {
     getCalculation(),
     getCalculations(),
     downloadSettlementReportData(apiBase),
+    downloadSettlementReportDataV2(apiBase),
     getFilteredActors(),
     getGridAreasQuery(),
     getLatestBalanceFixing(),
@@ -397,7 +398,7 @@ function getCalculation() {
 }
 
 function downloadSettlementReportData(apiBase: string) {
-  return http.get(`${apiBase}/v1/WholesaleSettlementReport`, async () => {
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport/Download`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 500 });
 
@@ -416,6 +417,39 @@ function downloadSettlementReportData(apiBase: string) {
   });
 }
 
+function downloadSettlementReportDataV2(apiBase: string) {
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport/DownloadReport`, async () => {
+    await delay(mswConfig.delay);
+
+    const text = 'This is some text';
+    const encoder = new TextEncoder();
+    const readableStream = new ReadableStream({
+      start(controller) {
+        const encodedData = encoder.encode(text);
+        controller.enqueue(encodedData);
+        controller.close();
+      },
+    });
+
+    const compressedReadableStream = readableStream.pipeThrough(new CompressionStream('gzip'));
+
+    const response = new Response(compressedReadableStream, {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Encoding': 'gzip',
+      },
+    });
+
+    const buffer = await response.arrayBuffer();
+
+    return HttpResponse.arrayBuffer(buffer, {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Encoding': 'gzip',
+      },
+    });
+  });
+}
 function getCalculations() {
   return mockGetCalculationsQuery(async ({ variables }) => {
     if (!variables.input.executionTime) {
