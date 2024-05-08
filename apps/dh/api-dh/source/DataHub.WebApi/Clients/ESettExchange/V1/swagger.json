@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Energinet.DataHub.ESett.Exchange.Hosts.WebApi",
-    "version": "v1"
+    "title": "EsettExchangeWebApi",
+    "version": "1.0"
   },
   "paths": {
     "/esett/balance-responsible": {
@@ -48,6 +48,13 @@
                   "$ref": "#/components/schemas/SortDirection"
                 }
               ]
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -110,6 +117,13 @@
                 }
               ]
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -138,6 +152,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -163,6 +184,13 @@
             "name": "documentId",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -206,6 +234,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -234,6 +269,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -254,6 +296,15 @@
           "ESett"
         ],
         "operationId": "search",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -322,6 +373,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -373,6 +431,15 @@
           "ESett"
         ],
         "operationId": "statusReport",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -403,6 +470,15 @@
           "ESett"
         ],
         "operationId": "resendMessagesWithoutResponse",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -421,6 +497,13 @@
             "name": "imbalanceId",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -444,6 +527,15 @@
           "MeteringGridAreaImbalance"
         ],
         "operationId": "search2",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -512,6 +604,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -563,6 +662,15 @@
           "Status"
         ],
         "operationId": "status",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1190,7 +1298,7 @@
       "Bearer": {
         "type": "http",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        "scheme": "bearer"
+        "scheme": "Bearer"
       }
     }
   },

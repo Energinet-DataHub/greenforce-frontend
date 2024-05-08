@@ -28,6 +28,7 @@ public sealed class HealthCheckFixture : IDisposable
     [
         "/marketparticipant/monitor/live",
         "/wholesale/monitor/live",
+        "/wholesaleorchestrations/api/monitor/live",
         "/esett/monitor/live",
         "/edib2capi/monitor/live",
     ];
@@ -36,6 +37,7 @@ public sealed class HealthCheckFixture : IDisposable
     {
         Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
         Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
+        Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleOrchestrationsBaseUrl", "http://localhost:8080/wholesaleorchestrations");
         Environment.SetEnvironmentVariable("ApiClientSettings__ESettExchangeBaseUrl", "http://localhost:8080/esett");
         Environment.SetEnvironmentVariable("ApiClientSettings__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
 

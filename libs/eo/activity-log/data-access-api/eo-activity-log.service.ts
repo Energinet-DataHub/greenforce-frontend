@@ -65,12 +65,12 @@ export class EoActivityLogService {
   private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
 
   getLogs(options: {
-    period: { start: number; end: number };
+    period: { start: number | null; end: number | null };
     eventTypes: activityLogEntityType[];
   }): Observable<ActivityLogEntryResponse[]> {
     const period = {
-      start: getUnixTime(options.period.start),
-      end: getUnixTime(options.period.end),
+      start: options.period.start ? getUnixTime(options.period.start) : null,
+      end: options.period.end ? getUnixTime(options.period.end) : null,
     };
     return forkJoin({
       transfers: options.eventTypes?.includes('TransferAgreement')
@@ -98,8 +98,8 @@ export class EoActivityLogService {
   }
 
   getTransferLogs(period: {
-    start: number;
-    end: number;
+    start: number | null;
+    end: number | null;
   }): Observable<ActivityLogListEntryResponse> {
     return this.http.post<ActivityLogListEntryResponse>(`${this.apiBase}/transfer/activity-log`, {
       start: period?.start,
@@ -109,8 +109,8 @@ export class EoActivityLogService {
   }
 
   getCertificateLogs(period: {
-    start: number;
-    end: number;
+    start: number | null;
+    end: number | null;
   }): Observable<ActivityLogListEntryResponse> {
     return this.http.post<ActivityLogListEntryResponse>(
       `${this.apiBase}/certificates/activity-log`,

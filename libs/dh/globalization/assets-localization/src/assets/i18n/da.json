@@ -395,11 +395,31 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "meteringPointTypes": {
+              "E20Exchange": "Udveksling",
+              "E18Production": "Produktion",
+              "E17Consumption": "Forbrug"
+            },
             "statusOptions": {
               "ACTIVE": "Aktiv",
               "AWAITING": "Afventer",
               "EXPIRED": "Udløbet",
               "SOON_TO_EXPIRE": "Udløber snart"
+            },
+            "emptyTitle": "Ingen relationer fundet",
+            "emptyMessage": "Der er ingen relationer for denne aktør",
+            "errorTitle": "{{ shared.error.title }}",
+            "errorMessage": "{{ shared.error.message }}",
+            "columns": {
+              "balanceResponsibleName": "Balanceansvarlig",
+              "balanceResponsibleId": "BalanceansvarligId",
+              "energySupplierId": "ElleverandørId",
+              "energySupplierName": "Elleverandør",
+              "status": "Status",
+              "gridAreaId": "Netområde",
+              "meteringPointType": "Målepunktstype",
+              "start": "Start",
+              "end": "Slut"
             },
             "allRelationsHaveExpired": "Alle aftaler udløbet"
           },
@@ -849,6 +869,7 @@
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{quarterlyResolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
@@ -975,6 +996,49 @@
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
+      }
+    },
+    "settlementReportsV2": {
+      "topBarTitle": "Afregningsrapporter",
+      "emptyMessage": "Der er ingen afregningsrapporter",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "requestSettlementReport": "Anmod om afregningsrapport",
+      "columns": {
+        "calculationType": "Beregningstype",
+        "period": "Periode",
+        "numberOfGridAreasInReport": "Netområder",
+        "basisData": "Datagrundlag",
+        "status": "Status",
+        "actorName": "Aktørnavn"
+      },
+      "reportStatus": {
+        "IN_PROGRESS": "I gang",
+        "ERROR": "Fejl",
+        "COMPLETED": "Afsluttet",
+        "download": "Download"
+      },
+      "calculationTypes": {
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
+        "WHOLESALE_FIXING": "Engrosfiksering",
+        "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
+      },
+      "requestReportModal": {
+        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "calculationType": "Beregningstype",
+        "includeBasisData": "Inkluder datagrundlag",
+        "period": "Periode",
+        "includeMonthlySum": "Inkluder månedssummer",
+        "energySupplier": "Elleverandør",
+        "gridArea": "Netområde",
+        "gridAreaHint": "{{ count }} valgte",
+        "combineResultsInOneFile": "Kombiner resultater i en fil",
+        "cancel": "Fortryd",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned"
       }
     },
     "settlementReports": {

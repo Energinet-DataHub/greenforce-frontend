@@ -23,7 +23,9 @@ import { DhActorTokenService } from './dh-actor-token.service';
 
 type Claims = { [name: string]: unknown };
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class PermissionService {
   constructor(private actorTokenService: DhActorTokenService) {}
 
@@ -44,6 +46,15 @@ export class PermissionService {
         const tokenActorId = this.acquireActorId(claims);
         const multitenancy = this.acquireMultiTenancy(claims);
         return tokenActorId === actorId || multitenancy;
+      })
+    );
+  }
+
+  public isFas() {
+    return this.actorTokenService.acquireToken().pipe(
+      map((internalToken) => {
+        const claims = this.parseClaims(internalToken);
+        return this.acquireMultiTenancy(claims);
       })
     );
   }

@@ -16,7 +16,15 @@
  */
 import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
@@ -38,12 +46,13 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
   GetGridAreasDocument,
   GetLatestBalanceFixingDocument,
-  CalculationType,
+  StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   filterValidGridAreas,
@@ -52,7 +61,7 @@ import {
 } from '@energinet-datahub/dh/wholesale/domain';
 
 interface FormValues {
-  calculationType: FormControl<CalculationType>;
+  calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
 }
@@ -93,21 +102,27 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') modal?: WattModalComponent;
 
-  featureFlagsService = inject(DhFeatureFlagsService);
+  ffs = inject(DhFeatureFlagsService);
+
+  environment = inject(dhAppEnvironmentToken);
+
+  resolutionTransitionDate = this.ffs.isEnabled('quarterly-resolution-transition-datetime-override')
+    ? '2023-01-31T23:00:00Z'
+    : '2023-04-30T22:00:00Z';
 
   loading = false;
 
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    CalculationType.WholesaleFixing,
-    CalculationType.FirstCorrectionSettlement,
-    CalculationType.SecondCorrectionSettlement,
-    CalculationType.ThirdCorrectionSettlement,
+    StartCalculationType.WholesaleFixing,
+    StartCalculationType.FirstCorrectionSettlement,
+    StartCalculationType.SecondCorrectionSettlement,
+    StartCalculationType.ThirdCorrectionSettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
-    calculationType: new FormControl<CalculationType>(CalculationType.BalanceFixing, {
+    calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
@@ -116,7 +131,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
       { validators: Validators.required }
     ),
     dateRange: new FormControl(null, {
-      validators: WattRangeValidators.required(),
+      validators: [WattRangeValidators.required(), this.validateResolutionTransition()],
       asyncValidators: () => this.validateBalanceFixing(),
     }),
   });
@@ -152,7 +167,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
     map((gridAreas) =>
       // HACK: This is a temporary solution to filter out grid areas that has no data
-      this.featureFlagsService.isEnabled('calculations-include-all-grid-areas')
+      this.ffs.isEnabled('calculations-include-all-grid-areas')
         ? gridAreas
         : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code))
     ),
@@ -164,7 +179,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
     tap((gridAreas) => this.selectGridAreas(gridAreas))
   );
 
-  minDate: Date | null = null;
+  minDate?: Date;
   maxDate = new Date();
 
   ngOnInit(): void {
@@ -329,5 +344,17 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
         tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
         map(() => null)
       );
+  }
+
+  private validateResolutionTransition(): ValidatorFn {
+    return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
+      if (!control.value) return null;
+      const start = dayjs.utc(control.value.start);
+      const end = dayjs.utc(control.value.end);
+      const transitionDate = dayjs.utc(this.resolutionTransitionDate);
+      return start.isBefore(transitionDate) && end.isAfter(transitionDate)
+        ? { resolutionTransition: true }
+        : null;
+    };
   }
 }

@@ -26,8 +26,12 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityRe
         descriptor.Name(nameof(BalanceResponsibilityAgreement));
 
         descriptor
-            .Field(x => x.MeteringPointType)
-            .Resolve(c => Enum.GetName(c.Parent<BalanceResponsibilityRelationDto>().MeteringPointType));
+            .Field(x => x.MeteringPointType);
+
+        descriptor
+            .Field(x => x.GridAreaId)
+            .Name("gridArea")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreaForBalanceResponsibilityRelationAsync(default!, default!));
 
         descriptor
             .Field(x => x.ValidFrom)

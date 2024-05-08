@@ -73,12 +73,12 @@ type AssociatedActors {
 }
 
 type BalanceResponsibilityAgreement {
-  meteringPointType: String
+  meteringPointType: MarketParticipantMeteringPointType!
+  gridArea: GridAreaDto
   energySupplierWithName: ActorNameWithId
   balanceResponsibleWithName: ActorNameWithId
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
-  gridAreaId: UUID!
 }
 
 type BalanceResponsiblePageResult {
@@ -232,6 +232,11 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
+type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
+  key: String!
+  value: [RequestSettlementReportGridAreaCalculation!]!
+}
+
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
@@ -276,6 +281,7 @@ type Mutation {
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
 }
 
 type Organization {
@@ -354,6 +360,8 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  settlementReports: [SettlementReport!]!
+  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -368,8 +376,31 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+type RequestSettlementReportGridAreaCalculation {
+  calculationId: UUID!
+  calculationDate: DateTime!
+  gridAreaCode: String!
+}
+
+type RequestSettlementReportPayload {
+  boolean: Boolean
+}
+
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
+}
+
+type SettlementReport {
+  id: UUID!
+  actor: Actor
+  calculationType: CalculationType!
+  period: DateRange!
+  numberOfGridAreasInReport: Int!
+  includesBaseData: Boolean!
+  statusMessage: String!
+  progress: Int!
+  statusType: SettlementReportStatusType!
+  fileId: UUID!
 }
 
 type StopDelegationPayload {
@@ -504,7 +535,7 @@ input CreateAggregatedMeasureDataRequestInput {
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: CalculationType!
+  calculationType: StartCalculationType!
 }
 
 input CreateDelegationsForActorInput {
@@ -532,6 +563,21 @@ input CreateProcessDelegationsInput {
   gridAreas: [String!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
+}
+
+input RequestSettlementReportGridAreaInput {
+  calculationId: UUID!
+  gridAreaCode: String!
+}
+
+input RequestSettlementReportInput {
+  calculationType: CalculationType!
+  period: DateRange!
+  gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
+  combineResultInASingleFile: Boolean!
+  includeMonthlySums: Boolean!
+  inculdeBasicData: Boolean!
+  supplierId: UUID
 }
 
 input StopDelegationInput {
@@ -721,6 +767,32 @@ enum ImbalancePriceStatus {
   COMPLETE
 }
 
+enum MarketParticipantMeteringPointType {
+  Unknown
+  D01VeProduction
+  D02Analysis
+  D03NotUsed
+  D04SurplusProductionGroup6
+  D05NetProduction
+  D06SupplyToGrid
+  D07ConsumptionFromGrid
+  D08WholeSaleServicesInformation
+  D09OwnProduction
+  D10NetFromGrid
+  D11NetToGrid
+  D12TotalConsumption
+  D13NetLossCorrection
+  D14ElectricalHeating
+  D15NetConsumption
+  D17OtherConsumption
+  D18OtherProduction
+  D20ExchangeReactiveEnergy
+  D99InternalUse
+  E17Consumption
+  E18Production
+  E20Exchange
+}
+
 enum MeteringGridAreaImbalanceSortProperty {
   DOCUMENT_DATE_TIME
   GRID_AREA_CODE
@@ -764,9 +836,31 @@ enum ProcessStatus {
   info
 }
 
+enum SettlementReportStatusType {
+  IN_PROGRESS
+  ERROR
+  COMPLETED
+}
+
 enum SortDirection {
   ASCENDING
   DESCENDING
+}
+
+"Defines the wholesale orchestrations calculation type"
+enum StartCalculationType {
+  "Balance fixing"
+  BALANCE_FIXING
+  "Aggregation."
+  AGGREGATION
+  "Wholesale fixing."
+  WHOLESALE_FIXING
+  "First correction settlement."
+  FIRST_CORRECTION_SETTLEMENT
+  "Second correction settlement."
+  SECOND_CORRECTION_SETTLEMENT
+  "Third correction settlement."
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum TimeSeriesType {

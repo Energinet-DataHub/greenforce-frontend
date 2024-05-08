@@ -1,10 +1,9 @@
+# GreenForce
+
 [nx]: https://nx.dev
 [angular]: https://angular.io
 
-# GreenForce
-
 [![GitHub Workflow Status (event)](https://img.shields.io/github/actions/workflow/status/Energinet-DataHub/greenforce-frontend/dh-cd.yml?branch=main)](https://github.com/Energinet-DataHub/greenforce-frontend/actions/workflows/dh-cd.yml)
-[![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/geh-frontend-app/main?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=geh-frontend-app)
 [![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)](https://github.com/angular/angular/blob/main/CHANGELOG.md)
 
 Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
@@ -50,7 +49,7 @@ over the Angular CLI._
 ## Prerequisites
 
 - [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js® and Yarn.
-- [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing the Backend For Frontend.
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
 - [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
 ## DataHub
@@ -87,10 +86,10 @@ Run the following command as an administrator from the root of the repository (W
 certutil -addstore -f "Root" localhost.crt
 ```
 
-Use the following command to serve the DataHub application locally:
+Use the following command to serve the DataHub application locally (with request mocking):
 
 ```sh
-yarn nx serve app-dh
+yarn dh:mock
 ```
 
 The application utilizes request mocking for some of the requests to the
@@ -101,7 +100,7 @@ required to serve the BFF locally as well. To do so, run the following command
 [Setup of BFF](apps/dh/api-dh/documents/development.md#setup-of-bff)).
 
 ```sh
-yarn nx serve api-dh
+yarn api:dev
 ```
 
 _Note: It is recommended to use mocking as much as possible, see
@@ -110,7 +109,7 @@ _Note: It is recommended to use mocking as much as possible, see
 ### Development
 
 When it is time to add a new library, refrain from writing files manually or
-copying from existing libraries. Instead, use the provided workspace generators
+copying from existing libraries. Instead, use the provided local generators
 that takes care of all the manual work and avoids common pitfalls.
 
 _Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
@@ -136,13 +135,13 @@ yarn nx g workspace-tools:domain-generator
 ### Backend For Frontend (BFF)
 
 There is currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 7.x.
+It is for `app-dh` and is using .NET 8.x.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
 
 ### Configuration
 
-Configuration files are located in the `libs/dh/shared/assets/src/configuration`
+Configuration files are located in the `libs/dh/shared/assets/src/assets/configuration`
 folder. These local configurations have a `.local` filename suffix, but is
 overridable by a configuration file without the suffix. For example,
 `dh-api-environment.local.json` configures the DataHub frontend to use a local
@@ -151,10 +150,10 @@ in the same folder and set the remote address in the relevant property.
 
 ## Energy Origin
 
-Use the following command to serve the Energy Origin application locally:
+Use the following command to serve the Energy Origin application locally (with request mocking):
 
 ```sh
-yarn nx serve app-eo
+yarn eo:mock
 ```
 
 ## Watt Design System
@@ -284,10 +283,10 @@ workflows. Expanding it looks like this:
 
 ```|
 ...
-└── tools
-   ├── <product>           # Various non-Nx tools separated by product
-   ├── executors           # Perform all sorts of actions on your code
-   └── workspace-plugin    # Automate tasks using code generation
+└── tools/src
+   ├── executors     # Perform all sorts of actions on your code
+   ├── generators    # Automate tasks using code generation
+   └── <helpers>     # Various other helper tools e.g. for scripting
 ```
 
 Executors and generators are [Nx] inventions; for
@@ -315,7 +314,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
 - `dh-ci-frontend.yml` - Used by DataHub frontend for publishing a release and generating API clients. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 - `dh-healthchecks.yml` - Runs E2E health check tests every hour against all DataHub environments.
 - `eo-cd.yml` - Used by "Energy Origin" app.
-- `frontend-ci.yml` - Used to build, scan with SonarCloud, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
+- `frontend-ci.yml` - Used to build, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
 - `license-check-ci.yml` - Used to check for license headers in files and adding them if missing.
 - `production-dependencies-license-check.yml` - Used for documenting used versions and licenses of production dependencies.
 - `watt-cd.yml` - Used for publishing Watt to Chromatic and dispatching a notification on failure.
@@ -325,7 +324,7 @@ _Bots are used for certain trivial tasks such as adding license headers to files
 formatting code, fixing lint errors, and generating API clients based on OpenAPI.
 For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing
 changes or creating releases that trigger a workflow. Only do this for idempotent
-tasks to prevent circular workflows from causing inifinite workflow runs._
+tasks to prevent circular workflows from causing infinite workflow runs._
 
 ## Visual Studio Code
 

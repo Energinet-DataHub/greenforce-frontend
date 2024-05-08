@@ -190,14 +190,14 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
-          excludedMeteringpointTypes,
-          'asc'
+          'asc',
+          excludedMeteringpointTypes
         );
 
         this.progressTypeOptions = dhEnumToWattDropdownOptions(
           EdiB2CProcessType,
-          excludeProcessTypes,
-          'asc'
+          'asc',
+          excludeProcessTypes
         );
       },
     });

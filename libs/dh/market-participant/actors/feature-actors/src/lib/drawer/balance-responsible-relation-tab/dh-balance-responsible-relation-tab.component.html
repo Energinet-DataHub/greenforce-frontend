@@ -23,72 +23,52 @@ limitations under the License.
     read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
   "
 >
-  <form
-    vater-stack
-    direction="row"
-    gap="m"
-    class="watt-space-stack-m"
-    tabindex="-1"
-    fill="horizontal"
-    [formGroup]="filterForm"
-  >
-    <watt-dropdown
-      [placeholder]="t('status')"
-      [chipMode]="true"
-      [options]="statusOptions"
-      [formControl]="filterForm.controls.status"
-      dhDropdownTranslator
-      translate="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
+  <vater-stack direction="row" gap="s" class="watt-space-stack-m">
+    <dh-balance-responsible-relation-filters
+      (filter)="store.updateFilters($event)"
+      [inital]="store.filters()"
+      [marketRole]="actor().marketRole!"
     />
-    @if (actor().marketRole === eicFunction.BalanceResponsibleParty) {
-      <watt-dropdown
-        [placeholder]="t('energySupplier')"
-        [chipMode]="true"
-        [options]="energySupplierOptions$ | push"
-        [formControl]="filterForm.controls.energySupplier"
+    <watt-button icon="download" variant="text" (click)="download()">{{
+      "shared.download" | transloco
+    }}</watt-button>
+  </vater-stack>
+
+  @if (store.isLoading()) {
+    <vater-stack direction="row" justify="center">
+      <watt-spinner />
+    </vater-stack>
+  } @else if (store.isEmpty()) {
+    <vater-stack>
+      <watt-empty-state
+        [icon]="store.hasError() ? 'custom-power' : 'custom-no-results'"
+        [title]="store.hasError() ? t('errorTitle') : t('emptyTitle')"
+        [message]="store.hasError() ? t('errorMessage') : t('emptyMessage')"
       />
+    </vater-stack>
+  } @else {
+    @for (group of store.filteredAndGroupedRelations(); track group) {
+      <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
+        <watt-expandable-card-title>
+          {{ t("meteringPointTypes." + group.type) }}
+        </watt-expandable-card-title>
+
+        @for (marketParticipant of group.marketParticipants; track marketParticipant) {
+          <watt-expandable-card togglePosition="before" variant="solid">
+            <watt-expandable-card-title>
+              {{ marketParticipant.displayName }}
+
+              @if (marketParticipant.allRelationsHaveExpired) {
+                <span class="group-status-label watt-text-s watt-on-light--medium-emphasis">{{
+                  t("allRelationsHaveExpired")
+                }}</span>
+              }
+            </watt-expandable-card-title>
+
+            <dh-balance-responsible-relations-table [data]="marketParticipant.relations" />
+          </watt-expandable-card>
+        }
+      </watt-expandable-card>
     }
-
-    @if (actor().marketRole === eicFunction.EnergySupplier) {
-      <watt-dropdown
-        [placeholder]="t('balanceResponsible')"
-        [chipMode]="true"
-        [options]="balanceResponsibleOptions$ | push"
-        [formControl]="filterForm.controls.balanceResponsible"
-      />
-    }
-
-    <watt-dropdown
-      [placeholder]="t('gridArea')"
-      [chipMode]="true"
-      [options]="gridAreaOptions$ | push"
-      [formControl]="filterForm.controls.gridArea"
-    />
-
-    <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
-  </form>
-
-  @for (group of balanceResponsibleRelationsGrouped(); track group) {
-    <watt-expandable-card togglePosition="before" variant="solid" [expanded]="true">
-      <watt-expandable-card-title>
-        {{ t("relationTypes." + group.type) }}
-      </watt-expandable-card-title>
-
-      @for (marketParticipant of group.marketParticipants; track marketParticipant) {
-        <watt-expandable-card togglePosition="before" variant="solid">
-          <watt-expandable-card-title>
-            {{ marketParticipant.displayName }}
-
-            @if (marketParticipant.allRelationsHaveExpired) {
-              <span class="group-status-label watt-text-s watt-on-light--medium-emphasis">{{
-                t("allRelationsHaveExpired")
-              }}</span>
-            }
-          </watt-expandable-card-title>
-
-          <dh-balance-responsible-relations-table [data]="marketParticipant.relations" />
-        </watt-expandable-card>
-      }
-    </watt-expandable-card>
   }
 </vater-flex>

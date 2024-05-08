@@ -1,7 +1,8 @@
 {
   "apiBase": "https://demo.energioprindelse.dk/api",
+  "developerPortal": "https://demo.energioprindelse.dk/developer/",
   "apiVersions": {
-    "certificates": "20230101",
+    "certificates": "20240423",
     "transfer": "20240103",
     "claim-automation": "20240103",
     "measurements": "20240110"

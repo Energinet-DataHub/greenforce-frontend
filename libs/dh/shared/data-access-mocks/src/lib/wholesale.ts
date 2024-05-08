@@ -36,6 +36,8 @@ import {
   mockGetGridAreasQuery,
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
+  mockGetSettlementReportsQuery,
+  SettlementReportStatusType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 
@@ -55,6 +57,7 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
+    getSettlementReports(),
   ];
 }
 
@@ -461,6 +464,73 @@ function requestCalculationMutation() {
           __typename: 'CreateAggregatedMeasureDataRequestPayload',
           success: true,
         },
+      },
+    });
+  });
+}
+
+function getSettlementReports() {
+  return mockGetSettlementReportsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    if (window.location.href.includes('error'))
+      return HttpResponse.json({
+        errors: [
+          {
+            message: 'Failed to fetch settlement reports',
+            extensions: { code: '500', details: 'test' },
+          },
+        ],
+        data: null,
+      });
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        settlementReports: [
+          {
+            __typename: 'SettlementReport',
+            id: '1',
+            calculationType: CalculationType.BalanceFixing,
+            period: { start: periodStart, end: periodEnd },
+            numberOfGridAreasInReport: 1,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.Completed,
+            actor: {
+              __typename: 'Actor',
+              id: '1',
+              name: 'Sort Strøm',
+            },
+          },
+          {
+            __typename: 'SettlementReport',
+            id: '2',
+            calculationType: CalculationType.Aggregation,
+            period: { start: periodStart, end: periodEnd },
+            numberOfGridAreasInReport: 2,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.InProgress,
+            actor: {
+              __typename: 'Actor',
+              id: '2',
+              name: 'Hvid Strøm',
+            },
+          },
+          {
+            __typename: 'SettlementReport',
+            id: '3',
+            calculationType: CalculationType.WholesaleFixing,
+            period: { start: periodStart, end: periodEnd },
+            numberOfGridAreasInReport: 3,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.Error,
+            actor: {
+              __typename: 'Actor',
+              id: '3',
+              name: 'Blå Strøm',
+            },
+          },
+        ],
       },
     });
   });

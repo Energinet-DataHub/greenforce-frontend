@@ -1,0 +1,14 @@
+query getSettlementReports {
+  settlementReports {
+    id
+    actor {
+      id
+      name
+    }
+    calculationType
+    period
+    numberOfGridAreasInReport
+    includesBaseData
+    statusType
+  }
+}

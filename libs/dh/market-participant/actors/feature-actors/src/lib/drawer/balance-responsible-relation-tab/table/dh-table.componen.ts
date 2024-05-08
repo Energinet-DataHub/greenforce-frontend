@@ -51,6 +51,10 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
         }
       </ng-container>
 
+      <ng-container *wattTableCell="columns['gridArea']; let entry">
+        {{ entry.gridArea?.displayName }}
+      </ng-container>
+
       <ng-container *wattTableCell="columns['status']; let entry">
         <dh-balance-responsible-relation-status [status]="entry.status" />
       </ng-container>
@@ -62,7 +66,7 @@ export class DhBalanceResponsibleRelationsTableComponent {
   tableDataSource = new WattTableDataSource<DhBalanceResponsibleRelation>([]);
 
   columns: WattTableColumnDef<DhBalanceResponsibleRelation> = {
-    gridArea: { accessor: 'gridAreaId' },
+    gridArea: { accessor: 'gridArea' },
     period: { accessor: null, size: '1fr' },
     status: { accessor: null, size: '2fr' },
   };
