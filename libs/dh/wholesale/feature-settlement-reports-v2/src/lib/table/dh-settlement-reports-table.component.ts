@@ -56,6 +56,7 @@ import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-stat
 })
 export class DhSettlementReportsTableComponent {
   private readonly permissionService = inject(PermissionService);
+
   columns: WattTableColumnDef<DhSettlementReport> = {
     actorName: { accessor: 'actor' },
     calculationType: { accessor: 'calculationType' },
