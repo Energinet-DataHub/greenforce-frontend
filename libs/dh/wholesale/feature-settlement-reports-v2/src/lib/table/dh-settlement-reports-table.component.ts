@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input } from '@angular/core';
+
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
 
 @Component({
@@ -42,8 +45,9 @@ import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-stat
     TranslocoPipe,
 
     WATT_TABLE,
-    WattEmptyStateComponent,
     WattDatePipe,
+    WattEmptyStateComponent,
+
     VaterFlexComponent,
     VaterStackComponent,
 
@@ -68,13 +72,15 @@ export class DhSettlementReportsTableComponent {
   settlementReports = input.required<DhSettlementReports>();
 
   constructor() {
-    effect(() => {
-      this.permissionService.isFas().subscribe((isFas) => {
+    this.permissionService
+      .isFas()
+      .pipe(takeUntilDestroyed())
+      .subscribe((isFas) => {
         this.displayedColumns = isFas
           ? this.displayedColumns
           : this.displayedColumns.filter((column) => column !== 'actorName');
       });
-
+    effect(() => {
       this.tableDataSource.data = this.settlementReports();
     });
   }
