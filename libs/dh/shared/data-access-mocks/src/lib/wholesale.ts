@@ -473,21 +473,61 @@ function getSettlementReports() {
   return mockGetSettlementReportsQuery(async () => {
     await delay(mswConfig.delay);
 
+    if (window.location.href.includes('error'))
+      return HttpResponse.json({
+        errors: [
+          {
+            message: 'Failed to fetch settlement reports',
+            extensions: { code: '500', details: 'test' },
+          },
+        ],
+        data: null,
+      });
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
         settlementReports: [
           {
-            __typename: 'SettlementReportType',
+            __typename: 'SettlementReport',
             id: '1',
             calculationType: CalculationType.BalanceFixing,
             period: { start: periodStart, end: periodEnd },
-            gridAreas: 1,
+            numberOfGridAreasInReport: 1,
             includesBaseData: true,
             statusType: SettlementReportStatusType.Completed,
-            actorName: {
-              __typename: 'ActorNameDto',
-              value: 'Sort Strøm',
+            actor: {
+              __typename: 'Actor',
+              id: '1',
+              name: 'Sort Strøm',
+            },
+          },
+          {
+            __typename: 'SettlementReport',
+            id: '2',
+            calculationType: CalculationType.Aggregation,
+            period: { start: periodStart, end: periodEnd },
+            numberOfGridAreasInReport: 2,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.InProgress,
+            actor: {
+              __typename: 'Actor',
+              id: '2',
+              name: 'Hvid Strøm',
+            },
+          },
+          {
+            __typename: 'SettlementReport',
+            id: '3',
+            calculationType: CalculationType.WholesaleFixing,
+            period: { start: periodStart, end: periodEnd },
+            numberOfGridAreasInReport: 3,
+            includesBaseData: true,
+            statusType: SettlementReportStatusType.Error,
+            actor: {
+              __typename: 'Actor',
+              id: '3',
+              name: 'Blå Strøm',
             },
           },
         ],

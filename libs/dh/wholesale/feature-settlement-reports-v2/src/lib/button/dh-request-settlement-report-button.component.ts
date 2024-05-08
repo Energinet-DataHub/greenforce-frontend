@@ -36,6 +36,8 @@ export class DhRequestSettlementReportButtonComponent {
   private readonly modalService = inject(WattModalService);
 
   openModal() {
-    this.modalService.open({ component: DhRequestSettlementReportModalComponent });
+    this.modalService.open({
+      component: DhRequestSettlementReportModalComponent,
+    });
   }
 }
