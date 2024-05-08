@@ -89,32 +89,32 @@ limitations under the License.
             >
               <dh-b2b-access-tab [actorId]="actor.id" />
             </watt-tab>
-          }
 
-          <ng-container *dhFeatureFlag="'market-participant-delegation'">
-            <ng-container *dhPermissionRequired="['delegation:view']">
-              <watt-tab
-                [label]="t('tabs.delegation.tabLabel')"
-                *dhCanDelegateFor="actor?.marketRole"
-              >
-                @defer (on viewport) {
-                  <dh-delegation-tab [actor]="actor!" />
-                } @placeholder {
-                  <watt-spinner />
-                }
-              </watt-tab>
-            </ng-container>
-          </ng-container>
-
-          <ng-container *dhFeatureFlag="'market-participant-balance-responsible-relations'">
-            <ng-container *dhPermissionRequired="['balance-responsibility:view']">
-              @if (showBalanceResponsibleRelationTab()) {
-                <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
-                  <dh-balance-responsible-relation-tab [actor]="actor!" />
+            <ng-container *dhFeatureFlag="'market-participant-delegation'">
+              <ng-container *dhPermissionRequired="['delegation:view']">
+                <watt-tab
+                  [label]="t('tabs.delegation.tabLabel')"
+                  *dhCanDelegateFor="actor?.marketRole"
+                >
+                  @defer (on viewport) {
+                    <dh-delegation-tab [actor]="actor!" />
+                  } @placeholder {
+                    <watt-spinner />
+                  }
                 </watt-tab>
-              }
+              </ng-container>
             </ng-container>
-          </ng-container>
+
+            <ng-container>
+              <ng-container *dhPermissionRequired="['balance-responsibility:view']">
+                @if (showBalanceResponsibleRelationTab()) {
+                  <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
+                    <dh-balance-responsible-relation-tab [actor]="actor!" />
+                  </watt-tab>
+                }
+              </ng-container>
+            </ng-container>
+          }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
             <dh-actor-audit-log-tab
