@@ -50,6 +50,7 @@ export function wholesaleMocks(apiBase: string) {
     getCalculation(),
     getCalculations(),
     downloadSettlementReportData(apiBase),
+    downloadSettlementReportDataV2(apiBase),
     getFilteredActors(),
     getGridAreasQuery(),
     getLatestBalanceFixing(),
@@ -397,7 +398,7 @@ function getCalculation() {
 }
 
 function downloadSettlementReportData(apiBase: string) {
-  return http.get(`${apiBase}/v1/WholesaleSettlementReport`, async () => {
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport/Download`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 500 });
 
@@ -416,6 +417,22 @@ function downloadSettlementReportData(apiBase: string) {
   });
 }
 
+function downloadSettlementReportDataV2(apiBase: string) {
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport/DownloadReport`, async () => {
+    await delay(mswConfig.delay);
+
+    const content = 'Hello, world!';
+    const encoder = new TextEncoder();
+    const data = encoder.encode(content);
+    const buffer = data.buffer;
+
+    return HttpResponse.arrayBuffer(buffer, {
+      headers: {
+        'Content-Type': 'text/csv',
+      },
+    });
+  });
+}
 function getCalculations() {
   return mockGetCalculationsQuery(async ({ variables }) => {
     if (!variables.input.executionTime) {
