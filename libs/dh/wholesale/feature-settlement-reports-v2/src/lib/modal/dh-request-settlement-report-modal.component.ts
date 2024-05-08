@@ -18,6 +18,7 @@ import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import {
   FormControl,
+  FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
@@ -32,16 +33,30 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { CalculationType } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  getActorOptions,
+  getGridAreaOptions,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
+import { CalculationType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-longer';
+
+type DhFormType = FormGroup<{
+  calculationType: FormControl<string | null>;
+  includeBasisData: FormControl<boolean>;
+  period: FormControl<WattRange<string> | null>;
+  includeMonthlySum: FormControl<boolean>;
+  energySupplier?: FormControl<string | null>;
+  gridAreas: FormControl<string[] | null>;
+  combineResultsInOneFile: FormControl<boolean>;
+}>;
 
 @Component({
   selector: 'dh-request-settlement-report-modal',
@@ -58,6 +73,7 @@ import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-lo
     WattDatepickerComponent,
     WattButtonComponent,
     WattFieldErrorComponent,
+    WattFieldHintComponent,
 
     DhDropdownTranslatorDirective,
   ],
@@ -78,25 +94,37 @@ import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-lo
 })
 export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly permissionService = inject(PermissionService);
 
   minDate = dayjs().startOf('month').subtract(6, 'months').subtract(1, 'year').toDate();
 
-  form = this.formBuilder.group({
+  form: DhFormType = this.formBuilder.group({
     calculationType: new FormControl<string | null>(null, Validators.required),
-    includeBasisData: new FormControl<boolean>(false),
+    includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
     period: new FormControl<WattRange<string> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
     ]),
-    includeMonthlySum: new FormControl<boolean>(false),
+    includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
-    combineResultsInOneFile: new FormControl<boolean>(false),
+    combineResultsInOneFile: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
     CalculationType.Aggregation,
   ]);
   gridAreaOptions$ = getGridAreaOptions();
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  isFas$ = this.permissionService.isFas().pipe(
+    tap((isFas) => {
+      if (isFas) {
+        this.form.addControl(
+          'energySupplier',
+          new FormControl<string | null>(null, Validators.required)
+        );
+      }
+    })
+  );
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
 
