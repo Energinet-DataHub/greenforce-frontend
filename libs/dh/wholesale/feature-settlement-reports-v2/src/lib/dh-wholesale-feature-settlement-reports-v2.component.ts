@@ -71,7 +71,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
           <vater-stack fill="vertical" justify="center" gap="l">
             <watt-empty-state
               [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
-              [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
+              [title]="hasError() ? t('errorTitle') : ''"
               [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
             >
               @if (hasError() === false) {
