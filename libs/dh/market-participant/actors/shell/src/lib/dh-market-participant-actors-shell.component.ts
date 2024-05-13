@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
@@ -22,7 +22,6 @@ import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
-  encapsulation: ViewEncapsulation.None,
   styles: `
     dh-market-participant-actors-shell {
       display: block;

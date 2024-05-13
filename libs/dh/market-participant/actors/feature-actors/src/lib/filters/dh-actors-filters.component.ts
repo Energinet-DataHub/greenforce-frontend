@@ -22,14 +22,11 @@ import {
   Input,
   OnInit,
   Output,
-  effect,
   inject,
-  input,
-  output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { debounceTime, skip } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -43,7 +40,6 @@ import {
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { ActorsFilters } from '../actors-filters';
-import { only } from 'node:test';
 
 type Form = FormGroup<{
   actorStatus: FormControl<ActorStatus[] | null>;
@@ -112,16 +108,15 @@ type Form = FormGroup<{
     </form>
   `,
 })
-export class DhActorsFiltersComponent {
-  initial = input.required<ActorsFilters>();
+export class DhActorsFiltersComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
-  filter = output<ActorsFilters>();
-  formReset = output<void>();
+  @Input({ required: true }) initial!: ActorsFilters;
 
-  formGroup = new FormGroup({
-    actorStatus: dhMakeFormControl<ActorStatus[]>(),
-    marketRoles: dhMakeFormControl<EicFunction[]>(),
-  });
+  @Output() filter = new EventEmitter<ActorsFilters>();
+  @Output() formReset = new EventEmitter<void>();
+
+  formGroup!: Form;
 
   actorStatusOptions = Object.keys(ActorStatus)
     .filter((key) => !(key === ActorStatus.New || key === ActorStatus.Passive))
@@ -135,19 +130,14 @@ export class DhActorsFiltersComponent {
     displayValue: marketRole,
   }));
 
-  constructor() {
-    effect(() => {
-      this.formGroup.controls.actorStatus.setValue(this.initial().actorStatus, {
-        emitEvent: false,
-      });
-      this.formGroup.controls.marketRoles.setValue(this.initial().marketRoles, {
-        emitEvent: false,
-      });
-      //this.formGroup.setValue({ actorStatus, marketRoles }), { emitEvent: false, onlySelf: true };
+  ngOnInit() {
+    this.formGroup = new FormGroup({
+      actorStatus: dhMakeFormControl<ActorStatus[]>(this.initial.actorStatus),
+      marketRoles: dhMakeFormControl<EicFunction[]>(this.initial.marketRoles),
     });
 
     this.formGroup.valueChanges
-      .pipe(debounceTime(250), takeUntilDestroyed(), skip(1))
+      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => this.filter.emit(value as ActorsFilters));
   }
 }
