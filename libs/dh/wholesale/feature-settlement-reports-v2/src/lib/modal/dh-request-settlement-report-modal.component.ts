@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import {
   FormControl,
@@ -25,9 +25,10 @@ import {
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, combineLatest, map, tap } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -37,7 +38,11 @@ import {
   getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { CalculationType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  CalculationType,
+  EicFunction,
+  RequestSettlementReportDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -49,7 +54,7 @@ import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-no
 import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-longer';
 
 type DhFormType = FormGroup<{
-  calculationType: FormControl<string | null>;
+  calculationType: FormControl<string>;
   includeBasisData: FormControl<boolean>;
   period: FormControl<WattRange<string> | null>;
   includeMonthlySum: FormControl<boolean>;
@@ -95,11 +100,17 @@ type DhFormType = FormGroup<{
 export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly permissionService = inject(PermissionService);
+  private readonly apollo = inject(Apollo);
+
+  private modal = viewChild(WattModalComponent);
 
   minDate = dayjs().startOf('month').subtract(6, 'months').subtract(1, 'year').toDate();
 
   form: DhFormType = this.formBuilder.group({
-    calculationType: new FormControl<string | null>(null, Validators.required),
+    calculationType: new FormControl<string>('', {
+      validators: Validators.required,
+      nonNullable: true,
+    }),
     includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
     period: new FormControl<WattRange<string> | null>(null, [
       Validators.required,
@@ -137,12 +148,64 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     })
   );
 
+  submitInProgress = signal(false);
+
   submit(): void {
     if (this.form.invalid) {
       return;
     }
 
-    console.log(this.form.value);
+    this.requestSettlementReport()?.subscribe({
+      next: (response) => {
+        if (response.loading) {
+          return this.submitInProgress.set(true);
+        }
+
+        if (response.data?.requestSettlementReport.boolean) {
+          this.modal()?.close(true);
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
+  private requestSettlementReport() {
+    const {
+      calculationType,
+      includeBasisData,
+      period,
+      includeMonthlySum,
+      gridAreas,
+      energySupplier,
+      combineResultsInOneFile,
+    } = this.form.getRawValue();
+
+    if (period == null || gridAreas == null) {
+      return;
+    }
+
+    return this.apollo.mutate({
+      mutation: RequestSettlementReportDocument,
+      variables: {
+        input: {
+          calculationType: calculationType as CalculationType,
+          inculdeBasicData: includeBasisData,
+          period: {
+            start: new Date(period.start),
+            end: period.end ? new Date(period.end) : null,
+          },
+          includeMonthlySums: includeMonthlySum,
+          gridAreasWithCalculations: gridAreas.map((gridAreaCode) => ({
+            gridAreaCode,
+            calculationId: '',
+          })),
+          combineResultInASingleFile: combineResultsInOneFile,
+          supplierId: energySupplier,
+        },
+      },
+    });
   }
 
   private shouldShowMonthlySumCheckbox(): Observable<boolean> {
