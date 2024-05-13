@@ -29,6 +29,6 @@ export class AppComponent implements OnInit {
   title = 'app-eo-landing-page';
 
   ngOnInit(): void {
-      console.log('AppComponent ngOnInit');
+    console.log('AppComponent ngOnInit');
   }
 }

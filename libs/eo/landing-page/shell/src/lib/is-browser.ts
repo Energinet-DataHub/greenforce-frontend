@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { isPlatformBrowser } from "@angular/common";
-import { PLATFORM_ID, inject } from "@angular/core";
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, inject } from '@angular/core';
 
 export const isBrowser = () => {
   return isPlatformBrowser(inject(PLATFORM_ID));
-}
+};

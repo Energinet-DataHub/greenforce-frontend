@@ -455,7 +455,6 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   ]);
   protected activeSection = signal<Section>(this.sections()[0]);
 
-
   constructor() {
     afterNextRender(() => {
       this.resizeObserver = new ResizeObserver(() => {
@@ -479,7 +478,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.resizeObserver) {
+    if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
   }
@@ -530,7 +529,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   }
 
   private isLarge(): boolean {
-    if(!this.isBrowser) return false;
+    if (!this.isBrowser) return false;
     return window.innerWidth >= 1024;
   }
 }
