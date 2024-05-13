@@ -14,6 +14,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Route } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Route } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
 
-export const appRoutes: Route[] = [];
+const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
+  const transloco = inject(TranslocoService);
+  transloco.setActiveLang(RouterStateSnapshot.url.toString());
+  return true;
+};
+
+export const appRoutes: Route[] = [
+  {
+    path: 'en',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadChildren: () =>
+          import('@energinet-datahub/eo/landing-page/shell').then(
+            (esModule) => esModule.eoLandingPageRoutes
+          ),
+      },
+    ],
+    canActivate: [setDefaultLang]
+  },
+  {
+    path: 'da',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadChildren: () =>
+          import('@energinet-datahub/eo/landing-page/shell').then(
+            (esModule) => esModule.eoLandingPageRoutes
+          ),
+      },
+    ],
+    canActivate: [setDefaultLang]
+  },
+  // Redirect from the root to the default language
+  { path: '', redirectTo: getDefaultLanguage(), pathMatch: 'full' },
+  { path: '**', redirectTo: '/' },
+];
+
+function getDefaultLanguage(): string {
+  try {
+    return navigator.language.split('-')[0];
+  } catch (error) {
+    return 'en';
+  }
+}
+

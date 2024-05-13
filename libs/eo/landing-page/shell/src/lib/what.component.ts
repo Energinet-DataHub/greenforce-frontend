@@ -23,7 +23,6 @@ import {
   PLATFORM_ID,
   ViewEncapsulation,
   afterNextRender,
-  afterRender,
   inject,
   signal,
 } from '@angular/core';
@@ -32,7 +31,6 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { filter } from 'rxjs';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { isBrowser } from './is-browser';
 
 interface Section {
   title?: string;
