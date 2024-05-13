@@ -37,7 +37,7 @@ export const appRoutes: Route[] = [
           ),
       },
     ],
-    canActivate: [setDefaultLang]
+    canActivate: [setDefaultLang],
   },
   {
     path: 'da',
@@ -51,7 +51,7 @@ export const appRoutes: Route[] = [
           ),
       },
     ],
-    canActivate: [setDefaultLang]
+    canActivate: [setDefaultLang],
   },
   // Redirect from the root to the default language
   { path: '', redirectTo: getDefaultLanguage(), pathMatch: 'full' },
@@ -65,4 +65,3 @@ function getDefaultLanguage(): string {
     return 'en';
   }
 }
-

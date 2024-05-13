@@ -22,7 +22,10 @@ import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configura
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideTransloco } from '@ngneat/transloco';
-import { TRANSLOCO_TYPED_TRANSLATION_PATH, TranslocoTypedLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
+import {
+  TRANSLOCO_TYPED_TRANSLATION_PATH,
+  TranslocoTypedLoader,
+} from '@energinet-datahub/gf/globalization/data-access-localization';
 
 import { DA_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/da';
 import { EN_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/en';

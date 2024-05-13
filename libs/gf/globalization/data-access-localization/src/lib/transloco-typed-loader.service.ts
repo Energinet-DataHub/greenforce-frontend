@@ -25,20 +25,23 @@ export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>(
 @Injectable()
 export class TranslocoTypedLoader implements TranslocoLoader {
   constructor(
-    @Inject(TRANSLOCO_TYPED_TRANSLATION_PATH) private path: Record<string, () => Promise<Translation> | Translation>
+    @Inject(TRANSLOCO_TYPED_TRANSLATION_PATH)
+    private path: Record<string, () => Promise<Translation> | Translation>
   ) {}
 
   getTranslation(lang: string): Observable<Translation> {
-    if(!this.path[lang]) {
+    if (!this.path[lang]) {
       return from(Promise.resolve({}));
     }
 
-    if(typeof this.path[lang] === 'object') {
+    if (typeof this.path[lang] === 'object') {
       return of(this.path[lang]);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const translations: Promise<Translation> = this.path[lang]().then((m: any) => m[`${lang.toUpperCase()}_TRANSLATIONS`]);
+    const translations: Promise<Translation> = this.path[lang]().then(
+      (m: any) => m[`${lang.toUpperCase()}_TRANSLATIONS`]
+    );
     return from(translations);
   }
 }
