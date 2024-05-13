@@ -69,9 +69,15 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
       } @else {
         @if (totalCount() === 0) {
           <vater-stack fill="vertical" justify="center" gap="l">
-            <watt-empty-state icon="custom-no-results" [message]="t('emptyMessage')" />
-
-            <dh-request-settlement-report-button />
+            <watt-empty-state
+              [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
+              [title]="hasError() ? t('errorTitle') : ''"
+              [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
+            >
+              @if (hasError() === false) {
+                <dh-request-settlement-report-button />
+              }
+            </watt-empty-state>
           </vater-stack>
         } @else {
           <vater-flex gap="ml">
@@ -102,6 +108,7 @@ export class DhWholesaleFeatureSettlementReportsV2Component {
   settlementReports = signal<DhSettlementReports>([]);
   totalCount = computed(() => this.settlementReports().length);
   isLoading = signal(false);
+  hasError = signal(false);
 
   constructor() {
     this.fetchData();
@@ -118,6 +125,7 @@ export class DhWholesaleFeatureSettlementReportsV2Component {
       },
       error: () => {
         this.isLoading.set(false);
+        this.hasError.set(true);
         this.settlementReports.set([]);
       },
     });

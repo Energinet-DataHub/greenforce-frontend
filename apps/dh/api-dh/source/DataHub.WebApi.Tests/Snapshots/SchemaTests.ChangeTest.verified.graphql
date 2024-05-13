@@ -361,7 +361,7 @@ type Query {
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [UUID!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
+  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [String!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -379,7 +379,7 @@ type ReadinessStatusDto {
 type RequestSettlementReportGridAreaCalculation {
   calculationId: UUID!
   calculationDate: DateTime!
-  gridAreaId: UUID!
+  gridAreaCode: String!
 }
 
 type RequestSettlementReportPayload {
@@ -395,7 +395,7 @@ type SettlementReport {
   actor: Actor
   calculationType: CalculationType!
   period: DateRange!
-  gridAreas: Int!
+  numberOfGridAreasInReport: Int!
   includesBaseData: Boolean!
   statusMessage: String!
   progress: Int!
@@ -567,7 +567,7 @@ input CreateProcessDelegationsInput {
 
 input RequestSettlementReportGridAreaInput {
   calculationId: UUID!
-  gridAreaId: UUID!
+  gridAreaCode: String!
 }
 
 input RequestSettlementReportInput {

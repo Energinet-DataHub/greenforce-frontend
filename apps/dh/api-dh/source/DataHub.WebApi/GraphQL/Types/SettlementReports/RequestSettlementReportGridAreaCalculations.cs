@@ -17,4 +17,4 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 public record RequestSettlementReportGridAreaCalculation(
     Guid CalculationId,
     DateTimeOffset CalculationDate,
-    Guid GridAreaId);
+    string GridAreaCode);

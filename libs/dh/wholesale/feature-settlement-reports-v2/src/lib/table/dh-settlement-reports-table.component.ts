@@ -14,16 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { WholesaleSettlementReportHttp } from '@energinet-datahub/dh/shared/domain';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -41,19 +49,25 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
     TranslocoPipe,
 
     WATT_TABLE,
-    WattEmptyStateComponent,
     WattDatePipe,
+    WattEmptyStateComponent,
+
     VaterFlexComponent,
     VaterStackComponent,
+
+    DhSettlementReportsStatusComponent,
   ],
 })
 export class DhSettlementReportsTableComponent {
-  private readonly permissionService = inject(PermissionService);
+  private permissionService = inject(PermissionService);
+  private reportEndpoint = inject(WholesaleSettlementReportHttp);
+  private toastService = inject(WattToastService);
+
   columns: WattTableColumnDef<DhSettlementReport> = {
     actorName: { accessor: 'actor' },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period' },
-    gridAreas: { accessor: 'gridAreas' },
+    numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
     includesBaseData: { accessor: 'includesBaseData' },
     status: { accessor: 'statusType' },
   };
@@ -65,14 +79,37 @@ export class DhSettlementReportsTableComponent {
   settlementReports = input.required<DhSettlementReports>();
 
   constructor() {
-    effect(() => {
-      this.permissionService.isFas().subscribe((isFas) => {
+    this.permissionService
+      .isFas()
+      .pipe(takeUntilDestroyed())
+      .subscribe((isFas) => {
         this.displayedColumns = isFas
           ? this.displayedColumns
           : this.displayedColumns.filter((column) => column !== 'actorName');
       });
-
+    effect(() => {
       this.tableDataSource.data = this.settlementReports();
     });
+  }
+
+  downloadReport(reportId: string) {
+    const fileOptions = { name: 'SettlementReport.zip', type: 'application/zip' };
+
+    this.toastService.open({
+      type: 'loading',
+      message: translate('shared.downloadStart'),
+    });
+
+    this.reportEndpoint
+      .v1WholesaleSettlementReportDownloadReportGet(reportId)
+      .pipe(switchMap(streamToFile(fileOptions)))
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: () =>
+          this.toastService.open({
+            type: 'danger',
+            message: translate('shared.downloadFailed'),
+          }),
+      });
   }
 }
