@@ -61,9 +61,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       section2: {
         title: 'Produktion af VE',
         headline: 'Øg indtjeningen med højere krav til gennemsigtighed om bæredygtighed',
-        content: 
+        content:
           'Vores præcise certificering af grøn strøm med Granulære Certifikater forenkler ikke kun overholdelsen af strenge EU-regler, men øger troværdigheden til de virksomheder, der bruger dem. Som Producent af strøm giver det dig mulighed for at tilbyde dine kunder et bedre produkt.',
-
       },
       section3: {
         title: 'Handel med Grøn Energi',
