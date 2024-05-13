@@ -529,6 +529,7 @@ function getSettlementReports() {
 function requestSettlementReportMutation() {
   return mockRequestSettlementReportMutation(async () => {
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',

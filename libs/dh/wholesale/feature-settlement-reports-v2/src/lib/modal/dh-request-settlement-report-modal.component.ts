@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, inject, signal, viewChild } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import {
   FormControl,
   FormGroup,
@@ -25,7 +25,7 @@ import {
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, combineLatest, map, tap } from 'rxjs';
-import { Apollo } from 'apollo-angular';
+import { Apollo, MutationResult } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -41,7 +41,9 @@ import {
 import {
   CalculationType,
   EicFunction,
+  GetSettlementReportsDocument,
   RequestSettlementReportDocument,
+  RequestSettlementReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -49,6 +51,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-longer';
@@ -101,6 +104,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
+  private readonly notificationService = inject(WattToastService);
 
   private modal = viewChild(WattModalComponent);
 
@@ -156,17 +160,25 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     }
 
     this.requestSettlementReport()?.subscribe({
-      next: (response) => {
-        if (response.loading) {
-          return this.submitInProgress.set(true);
+      next: ({ loading, data }) => {
+        this.submitInProgress.set(loading);
+
+        if (loading) {
+          return;
         }
 
-        if (response.data?.requestSettlementReport.boolean) {
+        if (this.isUpdateSuccessful(data)) {
           this.modal()?.close(true);
+
+          this.showSuccessNotification();
+        } else {
+          this.showErrorNotification();
         }
       },
-      error: (error) => {
-        console.error(error);
+      error: () => {
+        this.submitInProgress.set(false);
+
+        this.showErrorNotification();
       },
     });
   }
@@ -205,6 +217,13 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           supplierId: energySupplier,
         },
       },
+      refetchQueries: (result) => {
+        if (this.isUpdateSuccessful(result.data)) {
+          return [GetSettlementReportsDocument];
+        }
+
+        return [];
+      },
     });
   }
 
@@ -233,5 +252,25 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
         }
       })
     );
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<RequestSettlementReportMutation>['data']
+  ): boolean {
+    return !!mutationResult?.requestSettlementReport.boolean;
+  }
+
+  private showSuccessNotification(): void {
+    this.notificationService.open({
+      message: translate('wholesale.settlementReportsV2.requestReportModal.requestSuccess'),
+      type: 'success',
+    });
+  }
+
+  private showErrorNotification(): void {
+    this.notificationService.open({
+      message: translate('wholesale.settlementReportsV2.requestReportModal.requestError'),
+      type: 'danger',
+    });
   }
 }
