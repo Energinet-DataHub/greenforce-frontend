@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-modal
-  *transloco="let t; read: 'wholesale.settlementReportsV2.requestReportModal'"
-  [title]="t('title')"
   #modal
+  [title]="t('title')"
+  *transloco="let t; read: 'wholesale.settlementReportsV2.requestReportModal'"
 >
   <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-stack align="stretch" direction="column" gap="l">
@@ -93,7 +93,11 @@ limitations under the License.
   <watt-modal-actions>
     <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
 
-    <watt-button type="submit" formId="request-settlement-report-form">
+    <watt-button
+      type="submit"
+      formId="request-settlement-report-form"
+      [loading]="submitInProgress()"
+    >
       {{ t("confirm") }}
     </watt-button>
   </watt-modal-actions>
