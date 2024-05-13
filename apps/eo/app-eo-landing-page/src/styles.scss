@@ -21,6 +21,7 @@ body {
   background: #000;
 }
 
+// Resets
 body,
 h1,
 h2,
@@ -41,4 +42,8 @@ fieldset,
 legend {
   margin: 0;
   padding: 0;
+}
+
+ul {
+  list-style: none;
 }
