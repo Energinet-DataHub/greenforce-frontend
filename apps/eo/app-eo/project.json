@@ -148,5 +148,5 @@
     }
   },
   "tags": ["product:eo", "type:app"],
-  "implicitDependencies": ["eo-shared-styles", "eo-app-landing-page"]
+  "implicitDependencies": ["eo-shared-styles", "app-eo-landing-page"]
 }

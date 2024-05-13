@@ -1,5 +1,5 @@
 {
-  "name": "eo-app-landing-page",
+  "name": "app-eo-landing-page",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
