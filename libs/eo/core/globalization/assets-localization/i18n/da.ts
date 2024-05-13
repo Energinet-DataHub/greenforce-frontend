@@ -19,19 +19,19 @@ import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     announcementBar: {
-      message: `Har du brug for en introduktion til Energy Origin? Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
+      message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
     },
     header: {
       loginButton: 'Log ind',
     },
     hero: {
-      heading: 'Spor energien tilbage til <br/>dets oprindelse.',
-      subheading: 'Grønt bevis du kan stole på',
+      heading: 'Sporing og certificering <br /> af grøn strøm',
+      subheading: 'Vi beviser, hvor din strøm kommer fra',
       loginButton: 'Log ind',
-      learnMoreButton: 'Lær mere',
+      learnMoreButton: 'Se mere',
     },
     why: {
-      quote: `“Vi ønsker, at industrien<br /> skal tro på ægte, bæredygtig energi og gøre<br /> op med greenwashing gennem<br /> banebrydende og ny teknologi.”`,
+      quote: `“Vi ønsker at opbygge<br /> tillid til den bæredygtige energi<br /> og adressere greenwashing med vores<br /> banebrydende, nye teknologi.”`,
       quoteAuthor: `Martin Lervad Lundø<br />
       Vice President & CEO, Energinet DataHub`,
       quoteAuthorDescription: 'Martin Lervad Lundø - Vice President & CEO, Energinet DataHub',
@@ -41,64 +41,71 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       subheading: `Overholdelse af<br/> <span class="highlight">EU’s regler</span><br /> for bæredygtighed`,
       content: `
       <p>
-        Energioprindelse er en transformativ løsning, der hjælper virksomheder med håndtering af kompleksiteten i at overholde EU’s direktiver
-        indenfor rapportering af CSRD (Corporate Sustainability Reporting Directive) og ESG (Environmental, Social, and Governance  directive).
+        Energy Track & Trace™ er en innovativ løsning, der understøtter din virksomhed i at håndtere udfordringerne ved at følge EU’s direktiv
+        for CSRD rapportering (Corporate Sustainability Reporting Directive) inden for ESG området (Environmental, Social, and Governance  directive).
       </p>
       <p>
-        Ved at spore energien tilbage til kilden ved hjælp af avanceret block-chain teknologi,
-        tilbyder Energioprindelse virksomheder et robust værktøj til at validere deres forpligtelser inden for grøn energi.
+        Ved at spore energiens oprindelse via avanceret teknologi, giver Energy Track & Trace™ din virksomhed
+        et solidt værktøj til at verificere og dokumentere jeres reelle forbrug af grøn energi.
       </p>
     `,
     },
     what: {
-      heading: 'Hvordan kan Energioprindelse hjælpe min virksomhed?',
+      heading: 'Hvordan kan Energy Track & Trace™ hjælpe min virksomhed?',
       section1: {
-        title: 'Bæredygtig profil',
-        headline: 'Styrke investorers og forbrugeres tillid med nøjagtige rapporter',
+        title: 'Bæredygtig virksomhedsprofil',
+        headline: 'Styrk investorers og forbrugeres tillid med nøjagtige rapporter',
         content:
-          'Med Energioprindelse kan virksomheder trygt fremvise deres reelle bidrag til en grønnere planet. De kan styrke tilliden fra investorer og forbrugere, og på samme tid med lethed og integration navigere i det udviklende landskab af rapportering af bæredygtighed.',
+          'Med Energy Track & Trace™ kan din virksomhed med god samvittighed fremvise jeres reelle bidrag til den grønne omstilling. I kan styrke tilliden fra investorer og forbrugere, og på samme tid lettere håndtere en korrekt rapportering af jeres grønne strømforbrug.',
       },
       section2: {
-        title: 'Produktion af vedvarende energi',
-        headline: 'Øg indtjeningen med højere krav til gennemsigtighed om bæredygtighed.',
-        content: `Vores præcise, detaljerede certificeringsproces forenkler ikke kun overholdelsen af strenge EU-regler, men øger også troværdigheden af virksomheders bæredygtighedsrapporter.`,
+        title: 'Produktion af VE',
+        headline: 'Øg indtjeningen med højere krav til gennemsigtighed om bæredygtighed',
+        content:
+          'Vores præcise certificering af grøn strøm med Granulære Certifikater forenkler ikke kun overholdelsen af strenge EU-regler, men øger troværdigheden til de virksomheder, der bruger dem. Som Producent af strøm giver det dig mulighed for at tilbyde dine kunder et bedre produkt.',
       },
       section3: {
-        title: 'Grøn energi handel',
+        title: 'Handel med Grøn Energi',
         headline:
-          'Hjælp markedet med at jonglere granulære certifikater og forbinde digitale beholdninger.',
+          'Hjælp aktørerne med køb og salg af Granulære Certifikater på en digital markedsplads',
         content:
-          'Med så store krav til fremvisning og bevis for anvendte kilder i produktionen forventer vi, at markedspladser vil udvikle sig, hvilket hjælper virksomheder med at købe grøn energi på det rigtige tidspunkt for at matche deres forbrug.',
+          'Der stilles stigende krav til dokumentation for anvendte kilder i produktion af grøn strøm. Derfor forventer vi i Energy Track & Trace™, at markedspladser vil udvikle sig, og nye vil opstå. Det vil understøtte virksomhedernes mulighed for at købe grøn strøm 24 timer i døgnet.',
       },
     },
     electricalGrid: {
       heading: 'Hvordan virker det?',
-      subheading: `Beviser at energien <span class="highlight">faktisk stammer fra</span> vedvarende kilder.`,
+      subheading: `Beviser, at energien har en<span class="highlight">reel</span> bæredygtig oprindelse`,
     },
     blockchainTech: {
       heading:
-        'Block-chain teknologi binder granulære certifikater sammen med produktion af vedvarende energi.',
+        'Blockchain teknologi binder Granulære Certifikater sammen med produktion af vedvarende energi',
       content: `
       <p>
-        Baseret på data fra DataHub udsteder Energioprindelse produktions certifikater fra udvalgte energiproducerende aktiver - hvert kvarter - hver time.
+        Baseret på data fra DataHub i Energinet, udstedes der produktionscertifikater fra godkendte energikilder hvert 15. minut.
       </p>
       <p>
-        Certifikaterne med de relevante meta-data gemmes på en digital konto, og de kan nu spores tilbage til kilden.
+        Certifikaterne indeholder relevante metadata og gemmes digitalt i et Register, en Wallet og på en Blockchain. Det gør det muligt at spore dem tilbage til deres oprindelse, opdage snyd og undgå dobbelt udstedelse uden at gå på kompromis med GDPR.
       </p>`,
     },
     granularCertificates: {
       heading:
-        'Granulære certifikater overføres mellem forbundne konti og matcher forbrug med produktion.',
-      content: `Der kan laves aftaler om at overføre certifikater mellem konti automatisk. Enten ved at bruge vores portal til Energioprindelse eller via en 3. part, der benytter sig af vores API’er.`,
+        'Granulære Certifikater handles mellem forskellige Wallets, hvor Forbrug og Produktion matches',
+      content: `De Granulære Certifikater kan flyttes mellem to parter. Enten via vores dashboard eller via 3. parts løsninger, der benytter vores API’er.`,
     },
     proveSustainability: {
-      heading: 'Tallene viser, at du driver en bæredygtig virksomhed',
-      content: `Via rapporter og grafer kan virksomheder spore deres effektivitet og optimere deres forbrug, så det svarer til produktionstidspunktet for vedvarende energi.`,
+      heading: 'Energy Track & Trace™ sætter tal på dit grønne strømforbrug',
+      content: `
+      <p>
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf">Vores beregninger</a> viser med 95% sikkerhed om din strøm kommer fra grønne energikilder.
+      </p>
+      <p>
+      Via vores løsning kan du som virksomhed se, hvornår du er tilstrækkelig dækket med grøn strøm, og hvornår du ikke er. Det giver dig et overblik, du kan handle ud fra og en sikkerhed for, at du handler rigtigt.
+      </p>`,
     },
     cta: {
       heading: `Er du klar til at spore din virkshomheds energi?`,
       section1: {
-        heading: 'Prøv det. Energioprindelse Beta-version',
+        heading: 'Prøv det. Energy Track & Trace™ Beta-version',
         cta: 'Log ind',
       },
       section2: {
