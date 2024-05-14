@@ -971,9 +971,6 @@
       "energySupplier": "Energy supplier",
       "balanceResponsible": "Balance responsible",
       "error": "Unfortunately, an error occurred requesting the calculation",
-      "startDateCannotBeAfterEndDate": "Start date cannot be after end date",
-      "startDateCannotBeOlderThan3Years": "Start date cannot be older than 3 years",
-      "startAndEndDateCannotBeInTheFuture": "Start and end date cannot be in the future",
       "success": "The calculation has been requested",
       "topBarTitle": "Request Calculation",
       "calculationType": "{{shared.calculationType}}",
@@ -981,7 +978,7 @@
       "period": "Period",
       "gridareas": "Grid areas",
       "request": "Request",
-      "maxPeriodLength": "Period must be less than one month",
+      "maxPeriodLength": "Period cannot be longer than 31 days",
       "calculationTypes": {
         "preliminaryaggregation": "Aggregation",
         "balancefixing": "Balance fixing",
