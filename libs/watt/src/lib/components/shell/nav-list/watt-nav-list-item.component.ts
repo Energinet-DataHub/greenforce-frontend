@@ -26,7 +26,7 @@ import { RouterModule } from '@angular/router';
   imports: [NgTemplateOutlet, RouterModule],
   template: `
     @if (isExternalLink) {
-      <a [href]="link" [attr.target]="target"
+      <a [href]="link()" [attr.target]="target()"
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
     } @else {
