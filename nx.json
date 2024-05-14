@@ -51,7 +51,7 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["app-dh:generate"],
+      "dependsOn": ["^generate"],
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true
     },
@@ -64,7 +64,7 @@
       ]
     },
     "component-test": {
-      "dependsOn": ["app-dh:generate"],
+      "dependsOn": ["^generate"],
       "inputs": ["default", "^production"],
       "cache": true
     },
