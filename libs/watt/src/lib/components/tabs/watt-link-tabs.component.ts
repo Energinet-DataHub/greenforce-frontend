@@ -18,66 +18,71 @@ import { Component, ViewEncapsulation, contentChildren } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { WattLinkTabComponent } from './watt-link-tab.component';
+import { VaterFlexComponent } from '../vater';
 
 @Component({
   standalone: true,
   selector: 'watt-link-tabs',
   encapsulation: ViewEncapsulation.None,
-  imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
-    .mat-mdc-tab-header {
-      box-shadow: var(--watt-bottom-box-shadow);
-      background-color: var(--watt-color-neutral-white);
-    }
-
-    .mat-mdc-tab-nav-panel {
-      display: block;
-      padding: var(--watt-space-ml);
-    }
-
-    .mat-mdc-tab-links,
-    .mat-mdc-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
-      color: var(--mat-tab-header-active-label-text-color);
-    }
-
-    .mat-mdc-tab-labels,
-    .mat-mdc-tab-links {
-      padding-left: var(--watt-space-ml);
-    }
-
-    .mat-mdc-tab,
-    .mat-mdc-tab-link {
-      min-width: 120px;
-      opacity: 1;
-
-      .mdc-tab__content {
-        @include watt.typography-watt-button;
-        color: var(--watt-on-light-medium-emphasis);
+    watt-link-tabs {
+      .mat-mdc-tab-header {
+        box-shadow: var(--watt-bottom-box-shadow);
+        background-color: var(--watt-color-neutral-white);
       }
 
-      &.mat-mdc-tab-active,
-      &.mat-mdc-tab-link.active {
-        border-bottom: 2px solid var(--watt-color-primary);
-      }
-      &.mat-mdc-tab:hover,
-      &.mat-mdc-tab-link:hover {
-        border-bottom: 2px solid var(--watt-color-primary);
+      .mat-mdc-tab-nav-panel {
+        display: block;
+        position: relative;
+        height: 100%;
       }
 
-      &.mat-mdc-tab-active,
-      &.mat-mdc-tab-link.active,
-      &.mat-mdc-tab:hover,
-      &.mat-mdc-tab-link:hover {
-        color: var(--watt-on-light-medium-emphasis);
+      .mat-mdc-tab-links,
+      .mat-mdc-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
+        color: var(--mat-tab-header-active-label-text-color);
+      }
+
+      .mat-mdc-tab-labels,
+      .mat-mdc-tab-links {
+        padding-left: var(--watt-space-ml);
+      }
+
+      .mat-mdc-tab,
+      .mat-mdc-tab-link {
+        min-width: 120px;
+        opacity: 1;
 
         .mdc-tab__content {
-          color: var(--watt-color-primary);
+          @include watt.typography-watt-button;
+          color: var(--watt-on-light-medium-emphasis);
+        }
+
+        &.mat-mdc-tab-active,
+        &.mat-mdc-tab-link.active {
+          border-bottom: 2px solid var(--watt-color-primary);
+        }
+        &.mat-mdc-tab:hover,
+        &.mat-mdc-tab-link:hover {
+          border-bottom: 2px solid var(--watt-color-primary);
+        }
+
+        &.mat-mdc-tab-active,
+        &.mat-mdc-tab-link.active,
+        &.mat-mdc-tab:hover,
+        &.mat-mdc-tab-link:hover {
+          color: var(--watt-on-light-medium-emphasis);
+
+          .mdc-tab__content {
+            color: var(--watt-color-primary);
+          }
         }
       }
     }
   `,
-  template: `<nav
+  template: ` <vater-flex direction="column" fill="vertical">
+    <nav
       mat-tab-nav-bar
       [disableRipple]="true"
       animationDuration="0ms"
@@ -91,9 +96,8 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
       }
     </nav>
 
-    <mat-tab-nav-panel #tabPanel>
-      <router-outlet />
-    </mat-tab-nav-panel>`,
+    <mat-tab-nav-panel #tabPanel> <router-outlet /> </mat-tab-nav-panel
+  ></vater-flex>`,
 })
 export class WattLinkTabsComponent {
   tabElements = contentChildren(WattLinkTabComponent);

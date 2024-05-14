@@ -34,9 +34,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: dhMarketParticipantActorsPath,
         loadComponent: () =>
-          import('@energinet-datahub/dh/market-participant/actors/feature-actors').then(
-            (esModule) => esModule.DhActorsOverviewComponent
-          ),
+          import('@energinet-datahub/dh/market-participant/actors/feature-actors'),
         data: {
           titleTranslationKey: 'marketParticipant.actors.topBarTitle',
         },

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -30,7 +30,11 @@ import { RouterModule } from '@angular/router';
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
     } @else {
-      <a [routerLink]="link" routerLinkActive="active" (isActiveChange)="onRouterLinkActive($event)"
+      {{ link() }}
+      <a
+        [routerLink]="link()"
+        routerLinkActive="active"
+        (isActiveChange)="onRouterLinkActive($event)"
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
     }
@@ -41,13 +45,12 @@ import { RouterModule } from '@angular/router';
   `,
 })
 export class WattNavListItemComponent {
-  @Input() link: string | null = null;
-  @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
-
-  @Output() isActive = new EventEmitter<boolean>();
+  link = input.required<string>();
+  target = input<'_self' | '_blank' | '_parent' | '_top'>('_self');
+  isActive = output<boolean>();
 
   get isExternalLink(): boolean {
-    return /^(http:\/\/|https:\/\/)/i.test(this.link ?? '');
+    return /^(http:\/\/|https:\/\/)/i.test(this.link());
   }
 
   onRouterLinkActive(isActive: boolean) {
