@@ -244,7 +244,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           CalculationType.ThirdCorrectionSettlement,
         ].includes(calculationType as CalculationType);
 
-        return isSpecificCalculationType && dhIsPeriodOneMonth(period);
+        return isSpecificCalculationType && dhIsPeriodOneFullMonth(period);
       }),
       tap((shouldShow) => {
         if (!shouldShow) {
