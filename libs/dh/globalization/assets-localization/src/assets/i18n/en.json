@@ -1039,7 +1039,9 @@
         "combineResultsInOneFile": "Combine results in one file",
         "cancel": "Cancel",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
-        "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month"
+        "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
+        "requestSuccess": "Settlement report has been requested.",
+        "requestError": "Something went wrong. Settlement report was not requested. Please try again."
       }
     },
     "settlementReports": {

@@ -74,7 +74,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     electricalGrid: {
       heading: 'Hvordan virker det?',
-      subheading: `Beviser, at energien har en<span class="highlight">reel</span> bæredygtig oprindelse`,
+      subheading: `Beviser, at energien har en <span class="highlight">reel</span> bæredygtig oprindelse`,
     },
     blockchainTech: {
       heading:
