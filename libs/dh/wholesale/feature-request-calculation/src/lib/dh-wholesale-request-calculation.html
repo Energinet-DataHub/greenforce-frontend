@@ -33,7 +33,7 @@ limitations under the License.
           [max]="maxDate"
           [formControl]="form.controls.period"
         >
-          @if (form.controls.period.errors?.maxOneMonthDateRange) {
+          @if (form.controls.period.errors?.max31DaysDateRange) {
           <watt-field-error> {{ t('maxPeriodLength')}} </watt-field-error>
           }
         </watt-datepicker>

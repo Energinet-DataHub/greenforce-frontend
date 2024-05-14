@@ -50,7 +50,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { maxOneMonthDateRangeValidator } from './dh-whole-request-calculation-validators';
+import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -124,7 +124,7 @@ export class DhWholesaleRequestCalculationComponent {
     period: this._fb.control({ start: null, end: null }, [
       Validators.required,
       WattRangeValidators.required(),
-      maxOneMonthDateRangeValidator,
+      max31DaysDateRangeValidator,
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
