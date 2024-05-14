@@ -163,6 +163,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
         background: #ee9331;
         border-color: #ee9331;
         outline: none;
+        cursor: pointer;
       }
     }
   `,
