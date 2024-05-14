@@ -70,12 +70,12 @@ jobs:
           directory: ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Create prerelease
-        uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
+        uses: marvinpinto/action-automatic-releases@6273874b61ebc8c71f1a61b2d98e234cf389b303
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ env.RELEASE_VERSION }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
           prerelease: true
-          name: ${{ env.RELEASE_VERSION }}
+          title: ${{ env.RELEASE_VERSION }}
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   #
