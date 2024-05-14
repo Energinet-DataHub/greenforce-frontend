@@ -27,7 +27,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { filter } from 'rxjs';
 
 import { translations } from '@energinet-datahub/eo/translations';
@@ -271,7 +271,7 @@ interface Image {
             @for (section of sections(); track section.id) {
               <li>
                 <a
-                  href="#{{ section.id }}"
+                  href="/{{language}}#{{ section.id }}"
                   (click)="activeSection.set(section)"
                   [ngClass]="{ active: activeSection().id === section.id }"
                   >{{ section.title | transloco }}</a
@@ -325,12 +325,14 @@ interface Image {
 export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
 
   private initialTransitionSectionId = 'sustainable-profile';
   private resizeObserver!: ResizeObserver;
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected translations = translations;
+  protected language = this.transloco.getActiveLang();
   protected showLarge = false;
   protected sections = signal<Section[]>([
     {

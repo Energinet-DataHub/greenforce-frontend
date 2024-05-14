@@ -118,6 +118,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
           <eo-language-switcher
             (click)="pauseScrollEvents = true"
             (closed)="pauseScrollEvents = false"
+            [changeUrl]="true"
           >
             <watt-button variant="text" icon="language" />
           </eo-language-switcher>
