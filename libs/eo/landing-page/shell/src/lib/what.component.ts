@@ -284,7 +284,7 @@ interface Image {
         @for (section of sections(); track section.id) {
           <div class="content-text" [style.opacity]="activeSection().id === section.id ? 1 : 0">
             <h3 class="headline-3">{{ section.headline | transloco }}</h3>
-            <p>{{ section.content | transloco }}</p>
+            <p [innerHTML]="section.content | transloco"></p>
           </div>
         }
       </section>
@@ -315,7 +315,7 @@ interface Image {
 
           <div>
             <h4 class="headline-3">{{ section.headline | transloco }}</h4>
-            <p>{{ section.content | transloco }}</p>
+            <p [innerHTML]="section.content | transloco"></p>
           </div>
         </section>
       }
