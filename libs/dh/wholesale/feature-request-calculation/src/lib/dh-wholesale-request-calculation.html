@@ -33,14 +33,8 @@ limitations under the License.
           [max]="maxDate"
           [formControl]="form.controls.period"
         >
-          @if (form.controls.period.errors?.maxOneMonthDateRange) {
+          @if (form.controls.period.errors?.max31DaysDateRange) {
           <watt-field-error> {{ t('maxPeriodLength')}} </watt-field-error>
-          } @if (form.controls.period.errors?.startDateCannotBeAfterEndDate) {
-          <watt-field-error> {{ t('startDateCannotBeAfterEndDate')}} </watt-field-error>
-          } @if (form.controls.period.errors?.startDateCannotBeOlderThan3Years) {
-          <watt-field-error> {{ t('startDateCannotBeOlderThan3Years')}} </watt-field-error>
-          } @if (form.controls.period.errors?.startAndEndDateCannotBeInTheFuture) {
-          <watt-field-error> {{ t('startAndEndDateCannotBeInTheFuture')}} </watt-field-error>
           }
         </watt-datepicker>
 
