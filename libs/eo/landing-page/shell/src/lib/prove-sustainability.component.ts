@@ -97,7 +97,7 @@ const selector = 'eo-landing-page-prove-sustainability';
     />
 
     <h2 [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"></h2>
-    <p>{{ translations.landingPage.proveSustainability.content | transloco }}</p>
+    <p [innerHTML]="translations.landingPage.proveSustainability.content | transloco"></p>
   `,
 })
 export class EoLandingPageProveSustainabilityComponent implements AfterViewInit, OnDestroy {
