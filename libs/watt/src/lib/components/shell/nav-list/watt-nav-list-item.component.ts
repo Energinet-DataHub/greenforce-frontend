@@ -30,7 +30,6 @@ import { RouterModule } from '@angular/router';
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
     } @else {
-      {{ link() }}
       <a
         [routerLink]="link()"
         routerLinkActive="active"
