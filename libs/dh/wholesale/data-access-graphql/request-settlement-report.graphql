@@ -1,0 +1,5 @@
+mutation RequestSettlementReport($input: RequestSettlementReportInput!) {
+  requestSettlementReport(requestSettlementReportInput: $input) {
+    boolean
+  }
+}

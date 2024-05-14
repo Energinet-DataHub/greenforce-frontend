@@ -53,4 +53,18 @@ public sealed class WholesaleSettlementReportController : ControllerBase
 
         return File(fileResponse.Stream, MediaTypeNames.Application.Zip, fileName);
     }
+
+    [HttpGet("DownloadReport")]
+    [Produces("application/zip")]
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] Guid settlementReportId)
+    {
+        var fileName = "SettlementReport.zip";
+
+        // if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
+        // {
+        //     var contentDisposition = new ContentDisposition(values.First());
+        //     fileName = contentDisposition.FileName ?? fileName;
+        // }
+        return await Task.FromResult(File(Stream.Null, MediaTypeNames.Application.Zip, fileName));
+    }
 }

@@ -36,10 +36,6 @@ export const dhFeatureFlagsConfig = {
     created: '22-04-2024',
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  'market-participant-balance-responsible-relations': {
-    created: '22-04-2024',
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
   'calculations-include-all-grid-areas': {
     created: '21-03-2024',
     disabledEnvironments: [DhAppEnvironment.test_001],
