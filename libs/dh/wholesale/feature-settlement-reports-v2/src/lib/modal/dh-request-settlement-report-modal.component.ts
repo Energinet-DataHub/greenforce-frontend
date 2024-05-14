@@ -54,7 +54,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
-import { dhIsPeriodOneMonthOrLonger } from '../util/dh-is-period-one-month-or-longer';
+import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
 
 type DhFormType = FormGroup<{
   calculationType: FormControl<string>;
@@ -244,7 +244,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           CalculationType.ThirdCorrectionSettlement,
         ].includes(calculationType as CalculationType);
 
-        return isSpecificCalculationType && dhIsPeriodOneMonthOrLonger(period);
+        return isSpecificCalculationType && dhIsPeriodOneMonth(period);
       }),
       tap((shouldShow) => {
         if (!shouldShow) {
