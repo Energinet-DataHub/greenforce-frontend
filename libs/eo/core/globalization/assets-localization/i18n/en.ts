@@ -20,7 +20,7 @@ import { TranslationKeys } from './translation-keys';
 export const EN_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     announcementBar: {
-      message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+      message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
     },
     header: {
       loginButton: 'Log in',
@@ -32,11 +32,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       learnMoreButton: 'Learn more',
     },
     why: {
-      quote: `“We want the industry to<br />
-      believe in true, sustainable energy<br />
-      and address greenwashing<br />
-      through ground-breaking<br />
-      new technology.”`,
+      quote: `“We want to build trust in<br />
+      genuine, sustainable energy<br />
+      while addressing greenwashing<br />
+      with our cutting-edge<br />
+      technology.”`,
       quoteAuthor: `Martin Lervad Lundø<br />
       Vice President & CEO, Energinet DataHub`,
       quoteAuthorDescription: 'Martin Lervad Lundø - Vice President & CEO, Energinet DataHub',
@@ -46,35 +46,41 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       subheading: `Fast-Track Compliance with <span class="highlight">EU Sustainability</span> Regulations`,
       content: `
       <p>
-        Energy Origin emerges as a transformative solution designed to guide companies through the
+        Energy Track & Trace™ emerges as a transformative solution designed to support companies through the
         complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
         Environmental, Social, and Governance (ESG) directives.
       </p>
       <p>
-        By leveraging advanced blockchain technology to provide unassailable traceability of
-        sustainable energy back to its source, Energy Origin offers businesses a robust tool to
-        validate their green energy commitments.
+        By leveraging advanced blockchain technology Energy Track & Trace™ ensures indisputable traceability of
+        sustainable energy from its origin. This empowers businesses with a powerful tool to
+        authenticate their pledges to green energy initiatives.
       </p>
     `,
     },
     what: {
-      heading: 'How can Energy Origin help my business?',
+      heading: 'How can Energy Track & Trace™ support my business?',
       section1: {
         title: 'Sustainable Profile',
         headline: 'Bolster investor and consumer trust with accurate reports',
         content:
-          'With Energy Origin, businesses can confidently showcase their genuine contribution to a greener planet, bolstering investor and consumer trust while navigating the evolving landscape of sustainability reporting with ease and integrity.',
+          'With Energy Track & Trace™ your company can display your contribution to the green transition with a clear conscience. You can strengthen the trust of investors and consumers and at the same time facilitate accurate reporting of your green power consumption.',
       },
       section2: {
-        title: 'Renewable Production',
+        title: 'RE Production',
         headline: 'Increase earnings with higher demands for transparency about sustainability',
-        content: `Our precise, granular certification process not only simplifies compliance with stringent EU regulations but also enhances the credibility of companies' sustainability reports.`,
+        content: `
+        <p>
+        Our accurate Granular Certificates makes it easier to meet the strict EU rules on compliance and also boost the trustworthiness of companies' reports on sustainability.
+        </p>
+        <p>
+        As a Producer it empowers you to offer your customers a better product.
+        </p>`,
       },
       section3: {
         title: 'Green Energy Trading',
         headline: 'Help the market juggle granular certificates and connect digital wallets',
         content:
-          'With such high demands for showcasing and proving sources used in production, we expect that marketplaces will evolve, aiding companies in buying green energy at the right time, to match their consumption.',
+          'With high demands for showcasing and proving sources used in production we expect that marketplaces will evolve, aiding companies in buying green energy at the right time to match their consumption 24/7.',
       },
     },
     electricalGrid: {
@@ -85,30 +91,35 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       heading: 'Blockchain technology ties granular certificates to renewable energy production',
       content: `
       <p>
-        For every quarter of an hour, Energy Origin generates production certificates from
-        selected energy-producing assets, based on data from DataHub.
+        Based on data from Energinet's DataHub production certificates from approved energy sources are issued every 15 minutes.
       </p>
       <p>
-        The certificates are stored in a digital wallet, with relevant meta-data, and can from now
-        on be traced back to it's source.
+        The certificates contain relevant metadata and are stored digitally in a Register, a Wallet and on a Blockchain.
+        This makes it possible to trace them back to their origin, detect fraud and avoid double issuance without compromising GDPR.
       </p>`,
     },
     granularCertificates: {
       heading:
         'Granular certificates are transferred between wallets to match consumption with production',
       content: `Transfer agreements can be made to automatically transfer certificates from one wallet to
-      another. Either through our UI in Energy Origin or by the use of any third party using our
+      another. Either through our UI in Energy Track & Trace™ or by the use of any third party using our
       API's.`,
     },
     proveSustainability: {
-      heading: 'The numbers prove that you run a<br />sustainable company',
-      content: `Through reports and a dashboard, companies can track their effiency and optimize their
-      consumption to match when the sustainable energy is being produced.`,
+      heading: 'Energy Track & Trace™ quantifies your<br />green electricity consumption',
+      content: `
+      <p>
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf">Our calculations</a> show with 95% certainty whether your electricity comes from green energy sources.
+      </p>
+      <p>
+      With our software your company can see whether and when you are sufficiently supplied with green electricity and when you are not.
+      This gives you an insight you can act on and the certainty that you are making the right decision.
+      </p>`,
     },
     cta: {
       heading: `Ready to track your company’s energy?`,
       section1: {
-        heading: 'Try it out. Energy Origin Beta.',
+        heading: 'Try it out. Energy Track & Trace™ Beta.',
         cta: 'Log in',
       },
       section2: {
