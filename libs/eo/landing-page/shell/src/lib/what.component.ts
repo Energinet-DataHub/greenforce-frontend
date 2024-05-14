@@ -271,7 +271,7 @@ interface Image {
             @for (section of sections(); track section.id) {
               <li>
                 <a
-                  href="/{{language}}#{{ section.id }}"
+                  href="/{{ language }}#{{ section.id }}"
                   (click)="activeSection.set(section)"
                   [ngClass]="{ active: activeSection().id === section.id }"
                   >{{ section.title | transloco }}</a
