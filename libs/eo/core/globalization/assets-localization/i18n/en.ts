@@ -94,7 +94,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         Based on data from Energinet's DataHub production certificates from approved energy sources are issued every 15 minutes.
       </p>
       <p>
-        The certificates contain relevant metadata and are stored digitally in a Register, a Wallet and on a Blockchain. 
+        The certificates contain relevant metadata and are stored digitally in a Register, a Wallet and on a Blockchain.
         This makes it possible to trace them back to their origin, detect fraud and avoid double issuance without compromising GDPR.
       </p>`,
     },
@@ -109,10 +109,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       heading: 'Energy Track & Trace™ quantifies your<br />green electricity consumption',
       content: `
       <p>
-      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf>Our calculations</a> show with 95% certainty whether your electricity comes from green energy sources.
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf">Our calculations</a> show with 95% certainty whether your electricity comes from green energy sources.
       </p>
       <p>
-      With our software your company can see whether and when you are sufficiently supplied with green electricity and when you are not. 
+      With our software your company can see whether and when you are sufficiently supplied with green electricity and when you are not.
       This gives you an insight you can act on and the certainty that you are making the right decision.
       </p>`,
     },
