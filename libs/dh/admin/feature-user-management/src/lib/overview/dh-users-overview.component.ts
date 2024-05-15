@@ -47,18 +47,18 @@ import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
 
-import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
-import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
-import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
-import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
-import { DhInviteUserModalComponent } from '../../invite/dh-invite-user-modal.component';
+import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
+import { DhUsersOverviewStatusFilterComponent } from './dh-users-overview-status-filter.component';
+import { DhUsersOverviewActorFilterComponent } from './dh-users-overview-actor-filter.component';
+import { DhUsersOverviewUserRoleFilterComponent } from './dh-users-overview-userrole-filter.component';
+import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
 
 export const debounceTimeValue = 250;
 
 @Component({
-  selector: 'dh-users-tab',
+  selector: 'dh-users-overview',
   standalone: true,
-  templateUrl: './dh-users-tab.component.html',
+  templateUrl: './dh-users-overview.component.html',
   styles: [
     `
       :host {
@@ -99,14 +99,14 @@ export const debounceTimeValue = 250;
     WattSearchComponent,
 
     DhUsersTabTableComponent,
-    DhUsersTabStatusFilterComponent,
-    DhUsersTabActorFilterComponent,
-    DhUsersTabUserRoleFilterComponent,
+    DhUsersOverviewStatusFilterComponent,
+    DhUsersOverviewActorFilterComponent,
+    DhUsersOverviewUserRoleFilterComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
   ],
 })
-export class DhUsersTabComponent {
+export class DhUsersOverviewComponent {
   private destroyRef = inject(DestroyRef);
   private store = inject(DhAdminUserManagementDataAccessApiStore);
   private actorStore = inject(DhUserActorsDataAccessApiStore);

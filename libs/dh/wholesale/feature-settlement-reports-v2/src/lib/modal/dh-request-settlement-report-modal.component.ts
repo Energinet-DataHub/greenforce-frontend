@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  inject,
+  runInInjectionContext,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 import {
   FormControl,
@@ -24,12 +31,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, combineLatest, map, tap } from 'rxjs';
+import { Observable, combineLatest, map, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -41,6 +49,7 @@ import {
 import {
   CalculationType,
   EicFunction,
+  GetActorByIdDocument,
   GetSettlementReportsDocument,
   RequestSettlementReportDocument,
   RequestSettlementReportMutation,
@@ -50,7 +59,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhSelectedActorStore,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
@@ -102,13 +114,17 @@ type DhFormType = FormGroup<{
 })
 export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly environmentInjector = inject(EnvironmentInjector);
+
   private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
-  private readonly notificationService = inject(WattToastService);
+  private readonly toastService = inject(WattToastService);
+  private readonly actorStore = inject(DhSelectedActorStore);
 
   private modal = viewChild(WattModalComponent);
 
-  minDate = dayjs().startOf('month').subtract(6, 'months').subtract(1, 'year').toDate();
+  minDate = dayjs().startOf('month').subtract(6, 'months').subtract(3, 'year').toDate();
+  maxDate = new Date();
 
   form: DhFormType = this.formBuilder.group({
     calculationType: new FormControl<string>('', {
@@ -125,11 +141,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     combineResultsInOneFile: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
-    CalculationType.Aggregation,
-  ]);
-  gridAreaOptions$ = getGridAreaOptions();
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
   isFas$ = this.permissionService.isFas().pipe(
     tap((isFas) => {
       if (isFas) {
@@ -140,6 +151,14 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       }
     })
   );
+
+  calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
+    CalculationType.Aggregation,
+  ]);
+  gridAreaOptions$ = this.getGridAreaOptions();
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+
+  hasMoreThanOneGridAreaOption = toSignal(this.hasMoreThanOneGridAreaOption$());
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
 
@@ -227,6 +246,46 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     });
   }
 
+  private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    return this.isFas$.pipe(
+      switchMap((isFas) => {
+        if (isFas) {
+          return runInInjectionContext(this.environmentInjector, () => getGridAreaOptions());
+        }
+
+        return this.getGridAreaOptionsForActor();
+      })
+    );
+  }
+
+  private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
+    return this.actorStore.selectedActor$.pipe(
+      switchMap((actor) =>
+        this.apollo.query({
+          query: GetActorByIdDocument,
+          variables: {
+            id: actor?.id,
+          },
+        })
+      ),
+      map((result) =>
+        result.data.actorById.gridAreas.map((gridArea) => ({
+          value: gridArea.code,
+          displayValue: gridArea.displayName,
+        }))
+      ),
+      tap((gridAreaOptions) => {
+        if (gridAreaOptions.length === 1) {
+          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+        }
+      })
+    );
+  }
+
+  private hasMoreThanOneGridAreaOption$(): Observable<boolean> {
+    return this.gridAreaOptions$.pipe(map((gridAreaOptions) => gridAreaOptions.length > 1));
+  }
+
   private shouldShowMonthlySumCheckbox(): Observable<boolean> {
     return combineLatest([
       this.form.controls.calculationType.valueChanges,
@@ -261,14 +320,14 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private showSuccessNotification(): void {
-    this.notificationService.open({
+    this.toastService.open({
       message: translate('wholesale.settlementReportsV2.requestReportModal.requestSuccess'),
       type: 'success',
     });
   }
 
   private showErrorNotification(): void {
-    this.notificationService.open({
+    this.toastService.open({
       message: translate('wholesale.settlementReportsV2.requestReportModal.requestError'),
       type: 'danger',
     });

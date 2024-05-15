@@ -49,9 +49,9 @@ import {
   MarketParticipantUpdateUserRoleDto,
   MarketParticipantUserRoleWithPermissionsDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
