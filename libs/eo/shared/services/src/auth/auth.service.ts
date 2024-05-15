@@ -99,7 +99,7 @@ export class EoAuthService {
         this.clearToken();
         window.location.href = response.redirectionUri;
         window.location.reload();
-      }
+      },
     });
   }
 
