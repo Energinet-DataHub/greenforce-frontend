@@ -96,7 +96,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       heading: 'Energy Track & Trace™ sætter tal på dit grønne strømforbrug',
       content: `
       <p>
-      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf">Vores beregninger</a> viser med 95% sikkerhed om din strøm kommer fra grønne energikilder.
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf" target="_blank">Vores beregninger</a> viser med 95% sikkerhed om din strøm kommer fra grønne energikilder.
       </p>
       <p>
       Via vores løsning kan du som virksomhed se, hvornår du er tilstrækkelig dækket med grøn strøm, og hvornår du ikke er. Det giver dig et overblik, du kan handle ud fra og en sikkerhed for, at du handler rigtigt.
