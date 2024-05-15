@@ -24,7 +24,7 @@ import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-users-tab-status-filter',
+  selector: 'dh-users-overview-status-filter',
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
@@ -54,7 +54,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhUsersTabStatusFilterComponent {
+export class DhUsersOverviewStatusFilterComponent {
   statusControl = new FormControl<MarketParticipantUserStatus[]>([], { nonNullable: true });
 
   @Input() set initialValue(value: MarketParticipantUserStatus[]) {

@@ -43,16 +43,17 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhRoleDrawerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
   DhRoleStatusComponent,
   DhTabDataGeneralErrorComponent,
 } from '@energinet-datahub/dh/admin/shared';
 
+import { DhRoleDrawerComponent } from '../drawer/dh-role-drawer.component';
+
 @Component({
-  selector: 'dh-roles-tab-table',
+  selector: 'dh-roles-overview-table',
   standalone: true,
-  templateUrl: './dh-roles-tab-table.component.html',
+  templateUrl: './dh-roles-overview-table.component.html',
   styles: [
     `
       :host {
