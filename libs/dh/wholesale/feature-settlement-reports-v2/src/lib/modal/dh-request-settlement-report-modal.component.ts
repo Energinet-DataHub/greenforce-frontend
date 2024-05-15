@@ -108,7 +108,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private modal = viewChild(WattModalComponent);
 
-  minDate = dayjs().startOf('month').subtract(6, 'months').subtract(1, 'year').toDate();
+  minDate = dayjs().startOf('month').subtract(6, 'months').subtract(3, 'year').toDate();
 
   form: DhFormType = this.formBuilder.group({
     calculationType: new FormControl<string>('', {
