@@ -19,7 +19,6 @@ import { ApolloError } from '@apollo/client';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   MarketParticipantPermissionsHttp,
@@ -46,6 +45,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { switchMap } from 'rxjs';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 
 @Component({
   selector: 'dh-admin-permission-overview',

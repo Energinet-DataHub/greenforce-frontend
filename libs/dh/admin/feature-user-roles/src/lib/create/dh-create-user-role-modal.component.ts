@@ -50,11 +50,11 @@ import {
   MarketParticipantPermissionDetailsDto,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import {
   DhAdminCreateUserRoleManagementDataAccessApiStore,
   DhAdminMarketRolePermissionsStore,
 } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 
 interface UserRoleForm {
   eicFunction: FormControl<MarketParticipantEicFunction>;
