@@ -43,9 +43,11 @@ import {
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { DhUserStatusComponent } from '../../shared/dh-user-status.component';
 import { DhUserDrawerComponent } from '../../drawer/dh-user-drawer.component';
-import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
+import {
+  DhTabDataGeneralErrorComponent,
+  DhUserStatusComponent,
+} from '@energinet-datahub/dh/admin/shared';
 
 @Component({
   selector: 'dh-users-tab-table',
