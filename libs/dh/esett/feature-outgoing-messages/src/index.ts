@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhOutgoingMessagesComponent } from './lib/dh-outgoing-messages.component';
+export { DhOutgoingMessagesComponent as default } from './lib/dh-outgoing-messages.component';
