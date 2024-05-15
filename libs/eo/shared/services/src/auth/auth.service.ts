@@ -46,6 +46,7 @@ export class EoAuthService {
   }
 
   checkForExistingToken() {
+    console.log('checking for existing token');
     this.handleToken(sessionStorage.getItem('token'));
   }
 
@@ -94,31 +95,18 @@ export class EoAuthService {
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
       next: (response) => {
-        sessionStorage.removeItem('token');
         console.log('logging out', response.redirectionUri);
+        this.clearToken();
         window.location.href = response.redirectionUri;
         window.location.reload();
-      },
-      error: () => {
-        // TODO: Remove this when the backend for the "next" method has been deployed
-        sessionStorage.removeItem('token');
-        const logoutUrl = `${this.#authApiBase}/logout`;
-        window.location.href = isLocalhost
-          ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
-          : logoutUrl;
-        window.location.reload();
-      },
+      }
     });
   }
 
   private clearToken() {
-    this.store.isTokenExpired$.subscribe((state) => {
-      if (state === true) {
-        sessionStorage.removeItem('token');
-        this.store.token.next('');
-        this.store.setTokenClaims({});
-      }
-    });
+    sessionStorage.removeItem('token');
+    this.store.token.next('');
+    this.store.setTokenClaims({});
   }
 
   private handleToken(token: string | null) {
