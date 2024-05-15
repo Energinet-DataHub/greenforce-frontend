@@ -87,7 +87,11 @@ export class EoLoginComponent {
             ? redirectionPath
             : `/${this.transloco.getActiveLang()}/dashboard`;
           console.log('path:', path);
-          this.router.navigate([path]);
+
+          this.service.refreshToken().subscribe(() => {
+            this.router.navigate([path]);
+          });
+
           return;
         }
 
