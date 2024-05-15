@@ -28,26 +28,6 @@ import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
       <watt-link-tab [label]="t('roles.tabLabel')" link="/admin/roles" />
       <watt-link-tab [label]="t('permissions.tabLabel')" link="/admin/permissions" />
     </watt-link-tabs>
-
-    <!-- <ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
-      <watt-tabs>
-        <watt-tab [label]="t('users.tabLabel')">
-          <dh-users-tab />
-        </watt-tab>
-
-        <watt-tab (changed)="roleTabSelected = true" [label]="t('roles.tabLabel')">
-          @if (roleTabSelected) {
-            <dh-roles-tab />
-          }
-        </watt-tab>
-
-        <watt-tab (changed)="permissionTabSelected = true" [label]="t('permissions.tabLabel')">
-          @if (permissionTabSelected) {
-            <dh-permissions-tab />
-          }
-        </watt-tab>
-      </watt-tabs>
-    </ng-container> -->
   `,
   imports: [TranslocoDirective, WATT_LINK_TABS],
 })
