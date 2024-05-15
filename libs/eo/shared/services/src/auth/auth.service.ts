@@ -21,6 +21,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
+import { TranslocoService } from '@ngneat/transloco';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -38,6 +39,7 @@ export class EoAuthService {
     private store: EoAuthStore,
     private router: Router,
     private route: ActivatedRoute,
+    private transloco: TranslocoService,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
@@ -81,7 +83,7 @@ export class EoAuthService {
 
     const isLocalhost = window.location.host.includes('localhost');
     const logoutUrl = isLocalhost
-      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
+      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
       : `${this.#authApiBase}/logout`;
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
@@ -94,7 +96,7 @@ export class EoAuthService {
         sessionStorage.removeItem('token');
         const logoutUrl = `${this.#authApiBase}/logout`;
         window.location.href = isLocalhost
-          ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
+          ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
           : logoutUrl;
       },
     });

@@ -38,8 +38,8 @@ export class TranslocoTypedLoader implements TranslocoLoader {
       return of(this.path[lang]);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const translations: Promise<Translation> = this.path[lang]().then(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (m: any) => m[`${lang.toUpperCase()}_TRANSLATIONS`]
     );
     return from(translations);

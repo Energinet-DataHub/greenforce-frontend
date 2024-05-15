@@ -60,7 +60,7 @@ export class EoLoginComponent {
             : this.router.navigate(['/', this.transloco.getActiveLang()], {
                 queryParamsHandling: 'preserve',
               });
-          console.log('scope is empty');
+          console.log('scope is empty', this.transloco.getActiveLang());
           return;
         }
 
