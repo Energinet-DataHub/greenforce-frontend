@@ -18,7 +18,6 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-esett-shell',
@@ -34,6 +33,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       ></watt-link-tabs
     >
   `,
-  imports: [TranslocoDirective, WATT_LINK_TABS, WattSpinnerComponent],
+  imports: [TranslocoDirective, WATT_LINK_TABS],
 })
 export class DhESettShellComponent {}
