@@ -25,6 +25,7 @@ import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
   styles: `
     :host {
       display: block;
+      height: 100%;
     }
   `,
   template: `
