@@ -109,7 +109,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       heading: 'Energy Track & Trace™ quantifies your<br />green electricity consumption',
       content: `
       <p>
-      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf">Our calculations</a> show with 95% certainty whether your electricity comes from green energy sources.
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf" target="_blank">Our calculations</a> show with 95% certainty whether your electricity comes from green energy sources.
       </p>
       <p>
       With our software your company can see whether and when you are sufficiently supplied with green electricity and when you are not.
