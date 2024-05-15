@@ -62,7 +62,7 @@ export class EoAuthService {
   }
 
   refreshToken() {
-    console.log('refreshing token')
+    console.log('refreshing token');
     return this.http
       .get(`${this.#authApiBase}/token`, { responseType: 'text' })
       .pipe(tap((token) => this.handleToken(token)));
