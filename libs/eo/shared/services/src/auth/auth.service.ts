@@ -91,7 +91,8 @@ export class EoAuthService {
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
       next: (response) => {
         sessionStorage.removeItem('token');
-        window.location.href = response.redirectionUri;
+        console.log('logging out', response.redirectionUri);
+        //window.location.href = response.redirectionUri;
       },
       error: () => {
         // TODO: Remove this when the backend for the "next" method has been deployed
