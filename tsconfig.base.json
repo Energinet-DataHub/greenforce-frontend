@@ -41,9 +41,6 @@
       "@energinet-datahub/dh/admin/feature-user-roles": [
         "libs/dh/admin/feature-user-roles/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/routing": [
-        "libs/dh/admin/routing/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/shared": [
         "libs/dh/admin/shared/src/index.ts"
       ],
@@ -115,9 +112,6 @@
       ],
       "@energinet-datahub/dh/market-participant/grid-areas/shell": [
         "libs/dh/market-participant/grid-areas/shell/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/routing": [
-        "libs/dh/market-participant/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
