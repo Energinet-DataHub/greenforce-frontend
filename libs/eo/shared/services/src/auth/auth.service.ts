@@ -93,6 +93,7 @@ export class EoAuthService {
         sessionStorage.removeItem('token');
         console.log('logging out', response.redirectionUri);
         //window.location.href = response.redirectionUri;
+        //window.location.reload();
       },
       error: () => {
         // TODO: Remove this when the backend for the "next" method has been deployed
@@ -101,6 +102,7 @@ export class EoAuthService {
         window.location.href = isLocalhost
           ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
           : logoutUrl;
+        window.location.reload();
       },
     });
   }
