@@ -62,6 +62,7 @@ export class EoAuthService {
   }
 
   refreshToken() {
+    console.log('refreshing token')
     return this.http
       .get(`${this.#authApiBase}/token`, { responseType: 'text' })
       .pipe(tap((token) => this.handleToken(token)));
@@ -118,6 +119,7 @@ export class EoAuthService {
   }
 
   private handleToken(token: string | null) {
+    console.log('handle token', token);
     if (!token) return;
 
     const decodedToken: EoLoginToken = jwtDecode(token);

@@ -89,7 +89,7 @@ export class EoLoginComponent {
           console.log('path:', path);
 
           this.service.refreshToken().subscribe(() => {
-            this.router.navigate([path]);
+            //this.router.navigate([path]);
           });
 
           return;
