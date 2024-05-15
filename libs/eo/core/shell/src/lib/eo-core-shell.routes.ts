@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import { CanActivateFn, Routes } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
@@ -29,8 +29,10 @@ import {
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
 import { translations } from '@energinet-datahub/eo/translations';
+import { inject } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 
-export const eoShellRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -116,3 +118,34 @@ export const eoShellRoutes: Routes = [
   },
   { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
 ];
+
+const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
+  const transloco = inject(TranslocoService);
+  transloco.setActiveLang(RouterStateSnapshot.url.toString());
+  return true;
+};
+
+export const eoShellRoutes: Routes = [
+  {
+    path: 'en',
+    children: routes,
+    canActivate: [setDefaultLang],
+  },
+  {
+    path: 'da',
+    children: routes,
+    canActivate: [setDefaultLang],
+  },
+  // Redirect from the root to the default language
+  { path: '', redirectTo: getDefaultLanguage(), pathMatch: 'full' },
+  { path: '**', redirectTo: '/' },
+];
+
+function getDefaultLanguage(): string {
+  try {
+    return navigator.language.split('-')[0];
+  } catch (error) {
+    return 'en';
+  }
+}
+

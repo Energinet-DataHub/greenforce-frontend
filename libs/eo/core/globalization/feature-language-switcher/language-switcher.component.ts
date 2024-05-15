@@ -150,7 +150,10 @@ export class EoLanguageSwitcherComponent implements OnInit {
 
   onSave() {
     if (this.changeUrl) {
-      this.router.navigate([this.language.value], { preserveFragment: true });
+      const currentUrl = this.router.url;
+      const baseUrl = currentUrl.split('/')[1];
+      const newUrl = currentUrl.replace(baseUrl, this.language.value);
+      this.router.navigateByUrl(newUrl);
     }
 
     this.transloco.setActiveLang(this.language.value);

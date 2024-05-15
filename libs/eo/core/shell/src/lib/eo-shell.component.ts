@@ -129,7 +129,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
           <vater-spacer />
 
           <eo-account-menu>
-            <eo-language-switcher>
+            <eo-language-switcher [changeUrl]="true">
               <watt-button variant="text" icon="language">
                 {{ translations.languageSwitcher.title | transloco }}</watt-button
               >
