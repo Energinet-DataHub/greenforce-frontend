@@ -82,7 +82,9 @@ export class EoLoginComponent {
 
         if (scope.includes('dashboard')) {
           console.log('scope includes dashboard');
-          const path = redirectionPath ? redirectionPath : `/${this.transloco.getActiveLang()}/dashboard`;
+          const path = redirectionPath
+            ? redirectionPath
+            : `/${this.transloco.getActiveLang()}/dashboard`;
           window.location.href = window.location.origin + path;
           return;
         }

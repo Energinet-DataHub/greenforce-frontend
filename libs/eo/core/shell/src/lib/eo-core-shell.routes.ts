@@ -148,4 +148,3 @@ function getDefaultLanguage(): string {
     return 'en';
   }
 }
-
