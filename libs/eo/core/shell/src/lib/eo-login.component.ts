@@ -60,25 +60,25 @@ export class EoLoginComponent {
         }
 
         if (isTokenExpired) {
-          console.log('token expired')
+          console.log('token expired');
           this.service.logout();
           return;
         }
 
         if (scope.includes('not-accepted-privacypolicy-terms')) {
-          console.log('not-accepted-privacypolicy-terms')
+          console.log('not-accepted-privacypolicy-terms');
           this.router.navigate(['/terms']);
           return;
         }
 
         if (scope.includes('dashboard')) {
-          console.log('scope includes dashboard')
+          console.log('scope includes dashboard');
           const path = redirectionPath ? redirectionPath : '/dashboard';
           window.location.href = window.location.origin + path;
           return;
         }
 
-        console.log('navigate to default')
+        console.log('navigate to default');
         this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });
   }
