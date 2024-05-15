@@ -22,7 +22,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'dh-users-tab-userrole-filter',
+  selector: 'dh-users-overview-userrole-filter',
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.filter'">
@@ -44,7 +44,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
   imports: [TranslocoDirective, ReactiveFormsModule, WattDropdownComponent],
 })
-export class DhUsersTabUserRoleFilterComponent implements OnInit {
+export class DhUsersOverviewUserRoleFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
 
   userRoleControl = new FormControl<string[]>([], { nonNullable: true });
