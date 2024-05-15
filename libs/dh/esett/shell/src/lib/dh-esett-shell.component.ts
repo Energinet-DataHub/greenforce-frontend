@@ -17,45 +17,23 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
-import { DhMeteringGridAreaImbalanceComponent } from '@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance';
-import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/feature-balance-responsible';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-esett-shell',
   standalone: true,
-  template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
-    <watt-tab [label]="t('outgoingMessages.tabLabel')">
-      <dh-outgoing-messages />
-    </watt-tab>
-
-    <watt-tab [label]="t('meteringGridareaImbalance.tabLabel')">
-      @defer (on viewport) {
-        <dh-metering-gridarea-imbalance />
-      } @placeholder {
-        <watt-spinner />
-      }
-    </watt-tab>
-
-    <watt-tab [label]="t('balanceResponsible.tabLabel')">
-      @defer (on viewport) {
-        <dh-balance-responsible />
-      } @placeholder {
-        <watt-spinner />
-      }
-    </watt-tab>
-  </watt-tabs>`,
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABS,
-    WattSpinnerComponent,
-
-    DhOutgoingMessagesComponent,
-    DhMeteringGridAreaImbalanceComponent,
-    DhBalanceResponsibleComponent,
-  ],
+  template: `
+    <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
+      <watt-link-tab [label]="t('outgoingMessages.tabLabel')" link="/esett/outgoing-messages" />
+      <watt-link-tab
+        [label]="t('meteringGridareaImbalance.tabLabel')"
+        link="/esett/metering-gridarea-imbalance"
+      />
+      <watt-link-tab [label]="t('balanceResponsible.tabLabel')" link="/esett/balance-responsible" />
+      ></watt-link-tabs
+    >
+  `,
+  imports: [TranslocoDirective, WATT_LINK_TABS, WattSpinnerComponent],
 })
 export class DhESettShellComponent {}
