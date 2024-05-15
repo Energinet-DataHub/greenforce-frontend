@@ -55,11 +55,15 @@ export class EoLoginComponent {
         console.log('scope', scope);
 
         if (scope.length == 0) {
+          /*
           redirectionPath
             ? this.service.startLogin()
             : this.router.navigate(['/', this.transloco.getActiveLang()], {
                 queryParamsHandling: 'preserve',
               });
+          */
+          window.location.href = window.location.origin + '/' + this.transloco.getActiveLang();
+
           console.log('scope is empty', this.transloco.getActiveLang());
           return;
         }
