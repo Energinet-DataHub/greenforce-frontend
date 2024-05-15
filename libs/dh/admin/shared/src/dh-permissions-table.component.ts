@@ -31,12 +31,35 @@ import {
   WATT_TABLE,
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
+
 import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-permissions-table',
   standalone: true,
-  templateUrl: './dh-permissions-table.component.html',
+  template: `<ng-container *transloco="let t; read: 'admin.userManagement.permissionsTable'">
+    <watt-table
+      #permissionTable
+      description="permissions"
+      [dataSource]="dataSource"
+      [columns]="columns"
+      sortBy="name"
+      [selectable]="permissions.length > 0"
+      [initialSelection]="initialSelection"
+      sortDirection="asc"
+      (selectionChange)="onSelectionChange($event)"
+    >
+      <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+        {{ element.name }}
+      </ng-container>
+
+      <ng-container
+        *wattTableCell="columns['description']; header: t('columns.description'); let element"
+      >
+        {{ element.description }}
+      </ng-container>
+    </watt-table>
+  </ng-container>`,
   styles: [
     `
       :host {
