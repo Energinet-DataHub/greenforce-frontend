@@ -104,7 +104,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
-  private readonly notificationService = inject(WattToastService);
+  private readonly toastService = inject(WattToastService);
 
   private modal = viewChild(WattModalComponent);
 
@@ -261,14 +261,14 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private showSuccessNotification(): void {
-    this.notificationService.open({
+    this.toastService.open({
       message: translate('wholesale.settlementReportsV2.requestReportModal.requestSuccess'),
       type: 'success',
     });
   }
 
   private showErrorNotification(): void {
-    this.notificationService.open({
+    this.toastService.open({
       message: translate('wholesale.settlementReportsV2.requestReportModal.requestError'),
       type: 'danger',
     });
