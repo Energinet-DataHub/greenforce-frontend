@@ -18,6 +18,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { TranslocoService } from '@ngneat/transloco';
 import { combineLatest, take } from 'rxjs';
 
 @Component({
@@ -41,6 +42,8 @@ export class EoLoginComponent {
   private store = inject(EoAuthStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private transloco = inject(TranslocoService);
+
   constructor() {
     this.service.handleLogin();
     combineLatest([this.store.getScope$, this.store.isTokenExpired$])
@@ -54,7 +57,9 @@ export class EoLoginComponent {
         if (scope.length == 0) {
           redirectionPath
             ? this.service.startLogin()
-            : this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+            : this.router.navigate(['/', this.transloco.getActiveLang()], {
+                queryParamsHandling: 'preserve',
+              });
           console.log('scope is empty');
           return;
         }
@@ -79,7 +84,9 @@ export class EoLoginComponent {
         }
 
         console.log('navigate to default');
-        this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+        this.router.navigate(['/', this.transloco.getActiveLang()], {
+          queryParamsHandling: 'preserve',
+        });
       });
   }
 }
