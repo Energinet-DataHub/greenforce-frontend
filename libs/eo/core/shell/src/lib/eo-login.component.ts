@@ -85,7 +85,8 @@ export class EoLoginComponent {
           const path = redirectionPath
             ? redirectionPath
             : `/${this.transloco.getActiveLang()}/dashboard`;
-          window.location.href = window.location.origin + path;
+          console.log('path:', path);
+          this.router.navigate([path]);
           return;
         }
 
