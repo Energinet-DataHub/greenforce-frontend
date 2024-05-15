@@ -25,7 +25,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   MarketParticipantEicFunction,
@@ -42,14 +41,15 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
-import { DhRolesTabTableComponent } from './dh-roles-tab-table.component';
-import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.component';
+import { DhRolesTabTableComponent } from './dh-roles-overview-table.component';
+import { DhRolesOverviewListFilterComponent } from './dh-roles-overview-list-filter.component';
+import { DhCreateUserRoleModalComponent } from '../create/dh-create-user-role-modal.component';
 
 @Component({
-  selector: 'dh-roles-tab',
+  selector: 'dh-roles-overview',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-roles-tab.component.html',
+  templateUrl: './dh-roles-overview.component.html',
   styles: [
     `
       :host {
@@ -86,12 +86,12 @@ import { DhRolesTabListFilterComponent } from './dh-roles-tab-list-filter.compon
     WattPaginatorComponent,
 
     DhRolesTabTableComponent,
-    DhRolesTabListFilterComponent,
+    DhRolesOverviewListFilterComponent,
     DhPermissionRequiredDirective,
     DhCreateUserRoleModalComponent,
   ],
 })
-export class DhUserRolesTabComponent {
+export class DhUserRolesOverviewComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private readonly trans = inject(TranslocoService);

@@ -17,17 +17,19 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-
-import { DhUsersTabComponent } from './tabs/users-tab/dh-users-tab.component';
-import { DhUserRolesTabComponent } from './tabs/roles-tab/dh-roles-tab.component';
-import { DhPermissionsTabComponent } from './tabs/permissions-tab/dh-permissions-tab.component';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 
 @Component({
-  selector: 'dh-admin-feature-user-management',
+  selector: 'dh-admin-shell',
   standalone: true,
   template: `
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
+    <watt-link-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
+      <watt-link-tab [label]="t('users.tabLabel')" link="/admin/user" />
+      <watt-link-tab [label]="t('roles.tabLabel')" link="/admin/roles" />
+      <watt-link-tab [label]="t('permissions.tabLabel')" link="/admin/permissions" />
+    </watt-link-tabs>
+
+    <!-- <ng-container *transloco="let t; read: 'admin.userManagement.tabs'">
       <watt-tabs>
         <watt-tab [label]="t('users.tabLabel')">
           <dh-users-tab />
@@ -45,18 +47,8 @@ import { DhPermissionsTabComponent } from './tabs/permissions-tab/dh-permissions
           }
         </watt-tab>
       </watt-tabs>
-    </ng-container>
+    </ng-container> -->
   `,
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABS,
-    DhUsersTabComponent,
-    DhUserRolesTabComponent,
-    DhPermissionsTabComponent,
-  ],
+  imports: [TranslocoDirective, WATT_LINK_TABS],
 })
-export class DhAdminFeatureUserManagementComponent {
-  permissionTabSelected = false;
-  roleTabSelected = false;
-}
+export class DhAdminShellComponent {}

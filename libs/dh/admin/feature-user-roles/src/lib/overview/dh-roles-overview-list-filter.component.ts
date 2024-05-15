@@ -30,9 +30,9 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
-  selector: 'dh-roles-tab-list-filter',
+  selector: 'dh-roles-overview-list-filter',
   standalone: true,
-  templateUrl: './dh-roles-tab-list-filter.component.html',
+  templateUrl: './dh-roles-overview-list-filter.component.html',
   styles: [
     `
       :host {
@@ -51,7 +51,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhRolesTabListFilterComponent implements OnInit {
+export class DhRolesOverviewListFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
   private _translocoService = inject(TranslocoService);
 

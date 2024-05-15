@@ -22,7 +22,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 @Component({
-  selector: 'dh-users-tab-actor-filter',
+  selector: 'dh-users-overview-actor-filter',
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users.filter'">
@@ -44,7 +44,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
   ],
   imports: [TranslocoDirective, ReactiveFormsModule, WattDropdownComponent],
 })
-export class DhUsersTabActorFilterComponent implements OnInit {
+export class DhUsersOverviewActorFilterComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
 
   actorControl = new FormControl<string | undefined>(undefined, {
