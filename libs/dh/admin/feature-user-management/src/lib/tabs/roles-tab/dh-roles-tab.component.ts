@@ -25,6 +25,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   MarketParticipantEicFunction,
@@ -32,7 +33,6 @@ import {
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhCreateUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-create-user-role';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,

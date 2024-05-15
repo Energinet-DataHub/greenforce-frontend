@@ -26,23 +26,28 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
+
 import {
   WattTableDataSource,
   WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
-import { DhRoleDrawerComponent } from '../../drawer/roles/dh-role-drawer.component';
-import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-general-error.component';
+import { DhRoleDrawerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import {
+  DhRoleStatusComponent,
+  DhTabDataGeneralErrorComponent,
+} from '@energinet-datahub/dh/admin/shared';
 
 @Component({
   selector: 'dh-roles-tab-table',
@@ -66,9 +71,9 @@ import { DhTabDataGeneralErrorComponent } from '../general-error/dh-tab-data-gen
     WattPaginatorComponent,
     WattEmptyStateComponent,
 
-    DhTabDataGeneralErrorComponent,
     DhRoleStatusComponent,
     DhRoleDrawerComponent,
+    DhTabDataGeneralErrorComponent,
   ],
 })
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
