@@ -99,7 +99,7 @@ export class EoAuthService {
         console.log('logging out', response.redirectionUri);
         this.clearToken();
         window.location.assign(response.redirectionUri);
-      }
+      },
     });
   }
 
