@@ -81,6 +81,8 @@ export class EoAuthService {
   logout() {
     this.stopMonitor();
 
+    console.log('logging out', this.transloco.getActiveLang());
+
     const isLocalhost = window.location.host.includes('localhost');
     const logoutUrl = isLocalhost
       ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
