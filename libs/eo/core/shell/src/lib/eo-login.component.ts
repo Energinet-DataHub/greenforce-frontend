@@ -48,7 +48,7 @@ export class EoLoginComponent {
       .subscribe(([scope, isTokenExpired]) => {
         const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
-        console.log('redirectionPath', redirectionPath);
+        console.log('redirectionPath:', redirectionPath);
         console.log('scope', scope);
 
         if (scope.length == 0) {
