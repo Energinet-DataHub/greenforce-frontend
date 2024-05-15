@@ -23,7 +23,7 @@ import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
   styles: `
-    dh-market-participant-actors-shell {
+    :host {
       display: block;
     }
   `,
