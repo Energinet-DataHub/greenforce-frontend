@@ -31,8 +31,8 @@ import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shar
 import { MatMenuModule } from '@angular/material/menu';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
-import { DhUserStatusComponent } from '../shared/dh-user-status.component';
-import { DhEditUserModalComponent } from './dh-edit-user-modal/dh-edit-user-modal.component';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   DhAdminInviteUserStore,

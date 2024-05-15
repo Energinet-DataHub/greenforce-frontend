@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhBalanceResponsibleComponent } from './lib/dh-balance-responsible.component';
+export { DhBalanceResponsibleComponent as default } from './lib/dh-balance-responsible.component';

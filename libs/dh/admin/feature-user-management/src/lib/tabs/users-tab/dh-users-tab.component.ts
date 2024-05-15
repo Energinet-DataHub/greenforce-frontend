@@ -36,7 +36,6 @@ import {
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhInviteUserModalComponent } from '@energinet-datahub/dh/admin/feature-invite-user-modal';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
@@ -52,6 +51,7 @@ import { DhUsersTabTableComponent } from './dh-users-tab-table.component';
 import { DhUsersTabStatusFilterComponent } from './dh-users-tab-status-filter.component';
 import { DhUsersTabActorFilterComponent } from './dh-users-tab-actor-filter.component';
 import { DhUsersTabUserRoleFilterComponent } from './dh-users-tab-userrole-filter.component';
+import { DhInviteUserModalComponent } from '../../invite/dh-invite-user-modal.component';
 
 export const debounceTimeValue = 250;
 
