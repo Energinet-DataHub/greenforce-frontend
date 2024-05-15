@@ -13,11 +13,5 @@
     "jest.config.ts",
     "**/*.test.ts"
   ],
-  "include": [
-    "**/*.ts",
-    "../feature-user-roles/src/lib/drawer/dh-role-drawer.component.ts",
-    "../shared/src/dh-role-status.component.ts",
-    "../shared/src/dh-user-status.component.ts",
-    "../shared/src/dh-tab-data-general-error.component.ts"
-  ]
+  "include": ["**/*.ts"]
 }
