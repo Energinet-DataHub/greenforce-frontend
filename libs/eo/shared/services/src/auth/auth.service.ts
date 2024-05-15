@@ -50,6 +50,9 @@ export class EoAuthService {
   }
 
   handleLogin() {
+    const token = this.route.snapshot.queryParamMap.get('token');
+    console.log('handle login', token);
+
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
     this.router.navigate([], {
