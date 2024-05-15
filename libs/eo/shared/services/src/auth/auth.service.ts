@@ -43,6 +43,7 @@ export class EoAuthService {
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
+    console.log('auth api base', this.#authApiBase);
   }
 
   checkForExistingToken() {
@@ -97,9 +98,8 @@ export class EoAuthService {
       next: (response) => {
         console.log('logging out', response.redirectionUri);
         this.clearToken();
-        window.location.href = response.redirectionUri;
-        window.location.reload();
-      },
+        window.location.assign(response.redirectionUri);
+      }
     });
   }
 

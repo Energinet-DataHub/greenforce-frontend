@@ -14,8 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+
+import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
 
-bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
+if (environment.production) {
+  enableProdMode();
+}
+
+loadEoApiEnvironment()
+  .then((eoApiEnvironment) =>
+    bootstrapApplication(AppComponent, {
+      ...appConfig,
+      providers: [
+        ...appConfig.providers,
+        { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
+      ],
+    })
+  )
+  .catch((error: unknown) => console.error(error));
