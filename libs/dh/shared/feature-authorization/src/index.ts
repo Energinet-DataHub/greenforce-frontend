@@ -22,3 +22,4 @@ export * from './lib/dh-inactivity-detection.service';
 export * from './lib/dh-selected-actor.component';
 export * from './lib/dh-mitid-button.component';
 export * from './lib/dh-actor-token.service';
+export * from './lib/dh-selected-actor.store';
