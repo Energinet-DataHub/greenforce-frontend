@@ -15,24 +15,32 @@
  * limitations under the License.
  */
 import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { provideComponentStore } from '@ngrx/component-store';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+
+import { provideComponentStore } from '@ngrx/component-store';
+
+import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
+
+import {
+  DhRoleStatusComponent,
+  DhTabDataGeneralErrorComponent,
+} from '@energinet-datahub/dh/admin/shared';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { DhEditUserRoleModalComponent } from '@energinet-datahub/dh/admin/feature-edit-user-role-modal';
+
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
-import { DhRoleStatusComponent } from '../../shared/dh-role-status.component';
-import { DhTabDataGeneralErrorComponent } from '../../tabs/general-error/dh-tab-data-general-error.component';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.component';
+
 @Component({
   selector: 'dh-role-drawer',
   standalone: true,
@@ -40,20 +48,21 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
   styleUrls: [`./dh-role-drawer.component.scss`],
   providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
   imports: [
-    TranslocoDirective,
-    RxPush,
     RxLet,
+    RxPush,
+    TranslocoDirective,
 
+    WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
     WattSpinnerComponent,
-    WATT_MODAL,
 
-    DhTabDataGeneralErrorComponent,
-    DhEditUserRoleModalComponent,
     DhPermissionRequiredDirective,
+
     DhRoleStatusComponent,
     DhDrawerRoleTabsComponent,
+    DhEditUserRoleModalComponent,
+    DhTabDataGeneralErrorComponent,
   ],
 })
 export class DhRoleDrawerComponent {
