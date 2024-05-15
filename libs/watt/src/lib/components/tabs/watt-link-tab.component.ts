@@ -14,4 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhOrganizationsOverviewComponent as default } from './lib/dh-organizations-overview.component';
+import { Component, input } from '@angular/core';
+
+@Component({
+  standalone: true,
+  selector: 'watt-link-tab',
+  template: ``,
+})
+export class WattLinkTabComponent {
+  label = input.required<string>();
+  link = input.required<string>();
+}
