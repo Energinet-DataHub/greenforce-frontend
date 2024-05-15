@@ -62,8 +62,8 @@ export class EoLoginComponent {
                 queryParamsHandling: 'preserve',
               });
           */
-          //window.location.href = window.location.origin + '/' + this.transloco.getActiveLang();
-          //window.location.reload();
+          window.location.href = window.location.origin + '/' + this.transloco.getActiveLang();
+          window.location.reload();
 
           console.log('scope is empty', this.transloco.getActiveLang());
           return;
@@ -88,9 +88,7 @@ export class EoLoginComponent {
             : `/${this.transloco.getActiveLang()}/dashboard`;
           console.log('path:', path);
 
-          this.service.refreshToken().subscribe(() => {
-            //this.router.navigate([path]);
-          });
+          this.router.navigate([path]);
 
           return;
         }

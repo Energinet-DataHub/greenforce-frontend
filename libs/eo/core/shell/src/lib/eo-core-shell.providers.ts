@@ -22,7 +22,7 @@ import { TitleStrategy } from '@angular/router';
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 import {
   eoApiVersioningInterceptorProvider,
-  eoAuthorizationInterceptorProvider,
+  //eoAuthorizationInterceptorProvider,
 } from '@energinet-datahub/eo/shared/services';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
@@ -38,7 +38,7 @@ export const eoCoreShellProviders = [
   danishLocalProviders,
   danishDatetimeProviders,
   importProvidersFrom(MatDialogModule, MatSnackBarModule),
-  eoAuthorizationInterceptorProvider,
+  //eoAuthorizationInterceptorProvider,
   eoApiVersioningInterceptorProvider,
   WattModalService,
   ...translocoProviders,
