@@ -48,29 +48,37 @@ export class EoLoginComponent {
       .subscribe(([scope, isTokenExpired]) => {
         const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
+        console.log('redirectionPath', redirectionPath);
+        console.log('scope', scope);
+
         if (scope.length == 0) {
           redirectionPath
             ? this.service.startLogin()
             : this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
+          console.log('scope is empty');
           return;
         }
 
         if (isTokenExpired) {
+          console.log('token expired')
           this.service.logout();
           return;
         }
 
         if (scope.includes('not-accepted-privacypolicy-terms')) {
+          console.log('not-accepted-privacypolicy-terms')
           this.router.navigate(['/terms']);
           return;
         }
 
         if (scope.includes('dashboard')) {
+          console.log('scope includes dashboard')
           const path = redirectionPath ? redirectionPath : '/dashboard';
           window.location.href = window.location.origin + path;
           return;
         }
 
+        console.log('navigate to default')
         this.router.navigate(['/'], { queryParamsHandling: 'preserve' });
       });
   }

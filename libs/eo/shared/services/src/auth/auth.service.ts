@@ -71,6 +71,7 @@ export class EoAuthService {
     let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login`;
 
     if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
+    console.log('redirecting to:', href);
 
     window.location.href = href;
   }
