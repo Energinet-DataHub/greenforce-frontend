@@ -19,6 +19,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { from, filter, mergeMap } from 'rxjs';
 
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Directive({
   selector: '[wattExpandOnActiveLink]',
@@ -35,7 +36,7 @@ export class WattExpandOnActiveLinkDirective implements AfterViewInit {
     if (navListItems) {
       from(navListItems)
         .pipe(
-          mergeMap((item) => item.isActive),
+          mergeMap((item) => outputToObservable(item.isActive)),
           filter((isActive) => isActive)
         )
         .subscribe(() => {
