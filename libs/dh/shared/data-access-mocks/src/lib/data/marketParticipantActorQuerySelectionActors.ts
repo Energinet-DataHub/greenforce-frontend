@@ -14,21 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MarketParticipantSelectionActorDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantEicFunction,
+  MarketParticipantSelectionActorDto,
+} from '@energinet-datahub/dh/shared/domain';
 
-export const actorQuerySelection = [
+export const actorQuerySelection: MarketParticipantSelectionActorDto[] = [
   {
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     gln: '5799999933317',
     actorName: 'Energinet DataHub A/S',
     organizationName: 'Test organization 12',
-    marketRole: 'DataHubAdministrator',
+    marketRole: MarketParticipantEicFunction.DataHubAdministrator,
   },
   {
-    id: 'f73d05cd-cb00-4be3-89b2-115c8425b837',
+    id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
     gln: '5799999933318',
     actorName: 'Test Actor',
     organizationName: 'Test organization 22',
-    marketRole: 'BalanceResponsibleParty',
+    marketRole: MarketParticipantEicFunction.BalanceResponsibleParty,
   },
-] as MarketParticipantSelectionActorDto[];
+];
