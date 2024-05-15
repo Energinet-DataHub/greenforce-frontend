@@ -22,6 +22,11 @@ import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
       <watt-link-tabs>
