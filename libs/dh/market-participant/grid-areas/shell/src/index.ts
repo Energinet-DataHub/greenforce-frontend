@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export { DhGridAreasShellComponent as default } from './lib/dh-grid-areas-shell.component';
-export { dhGridAreasShellRoutes } from './lib/dh-grid-areas-shell.routes';

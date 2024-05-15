@@ -62,10 +62,10 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: 'grid-areas',
-        loadChildren: () =>
-          import('@energinet-datahub/dh/market-participant/grid-areas/shell').then(
-            (esModule) => esModule.dhGridAreasShellRoutes
-          ),
+        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
+        data: {
+          titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
+        },
         canActivate: [MsalGuard],
       },
       {
