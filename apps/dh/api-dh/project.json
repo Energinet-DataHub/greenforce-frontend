@@ -34,7 +34,7 @@
         "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
       }
     },
-    "generate-schema": {
+    "generate": {
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],

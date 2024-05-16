@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "generate": {
-      "dependsOn": ["api-dh:generate-schema"],
+      "dependsOn": ["api-dh:generate"],
       "executor": "nx:run-commands",
       "options": { "commands": ["nx run dh-shared-domain:generate"] }
     },
