@@ -74,6 +74,7 @@ const selector = 'eo-landing-page-electrical-grid';
           min-height: 730px;
           justify-content: flex-end;
           padding-bottom: 60px;
+          padding-left: 75px;
         }
       }
 
@@ -134,7 +135,6 @@ const selector = 'eo-landing-page-electrical-grid';
         @media (min-width: 1170px) {
           font-size: 62px;
           text-align: left;
-          margin-left: 75px;
           max-width: 100%;
         }
       }
