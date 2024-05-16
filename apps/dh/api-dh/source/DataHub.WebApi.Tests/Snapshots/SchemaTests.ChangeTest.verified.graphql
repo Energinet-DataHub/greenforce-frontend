@@ -139,6 +139,10 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
+type CreateWholesaleSettlementRequestPayload {
+  boolean: Boolean
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   gridArea: GridAreaDto
@@ -275,6 +279,7 @@ type Mutation {
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  createWholesaleSettlementRequest(input: CreateWholesaleSettlementRequestInput!): CreateWholesaleSettlementRequestPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
@@ -523,7 +528,7 @@ input CreateActorMarketRoleInput {
 }
 
 input CreateAggregatedMeasureDataRequestInput {
-  processType: EdiB2CProcessType!
+  calculationType: EdiB2CProcessType!
   meteringPointType: MeteringPointType
   startDate: String!
   endDate: String
@@ -565,6 +570,17 @@ input CreateProcessDelegationsInput {
   startsAt: DateTime!
 }
 
+input CreateWholesaleSettlementRequestInput {
+  calculationType: EdiB2CProcessType!
+  startDate: String!
+  endDate: String
+  gridArea: String
+  energySupplierId: String
+  chargeOwner: String
+  resolution: String
+  chargeTypes: [RequestWholesaleSettlementChargeTypeInput!]!
+}
+
 input RequestSettlementReportGridAreaInput {
   calculationId: UUID!
   gridAreaCode: String!
@@ -578,6 +594,11 @@ input RequestSettlementReportInput {
   includeMonthlySums: Boolean!
   inculdeBasicData: Boolean!
   supplierId: UUID
+}
+
+input RequestWholesaleSettlementChargeTypeInput {
+  id: String
+  type: String
 }
 
 input StopDelegationInput {
