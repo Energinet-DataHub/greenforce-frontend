@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass } from '@angular/common';
 import { Component, forwardRef, ViewEncapsulation, input } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
