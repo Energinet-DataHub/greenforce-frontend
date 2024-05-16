@@ -102,6 +102,8 @@ import { translations } from '@energinet-datahub/eo/translations';
           /assets/landing-page/solar-cells/solar-cells_f715xq_c_scale,w_4033.jpg 4033w
         "
         src="/assets/landing-page/solar-cells/solar-cells_f715xq_c_scale,w_4033.jpg"
+        height="1963"
+        width="4033"
       />
     </picture>
 
@@ -118,6 +120,8 @@ import { translations } from '@energinet-datahub/eo/translations';
         <img
           [alt]="translations.landingPage.why.quoteAuthorDescription | transloco"
           src="/assets/landing-page/martin-lundoe.avif"
+          height="64"
+          width="64"
         />
       </picture>
 
