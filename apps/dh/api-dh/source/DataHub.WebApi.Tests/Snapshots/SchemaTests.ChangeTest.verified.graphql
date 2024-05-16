@@ -382,9 +382,9 @@ type ReadinessStatusDto {
 }
 
 type RequestSettlementReportGridAreaCalculation {
+  gridAreaWithName: GridAreaDto
   calculationId: UUID!
   calculationDate: DateTime!
-  gridAreaCode: String!
 }
 
 type RequestSettlementReportPayload {
