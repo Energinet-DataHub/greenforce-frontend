@@ -43,18 +43,13 @@ export class EoAuthService {
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
-    console.log('auth api base', this.#authApiBase);
   }
 
   checkForExistingToken() {
-    console.log('checking for existing token');
     this.handleToken(sessionStorage.getItem('token'));
   }
 
   handleLogin() {
-    const token = this.route.snapshot.queryParamMap.get('token');
-    console.log('handle login', token);
-
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
     this.router.navigate([], {
@@ -67,7 +62,6 @@ export class EoAuthService {
   }
 
   refreshToken() {
-    console.log('refreshing token');
     return this.http
       .get(`${this.#authApiBase}/token`, { responseType: 'text' })
       .pipe(tap((token) => this.handleToken(token)));
@@ -79,15 +73,12 @@ export class EoAuthService {
     let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}/login`;
 
     if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
-    console.log('redirecting to:', href);
 
     window.location.href = href;
   }
 
   logout() {
     this.stopMonitor();
-
-    console.log('logging out', this.transloco.getActiveLang());
 
     const isLocalhost = window.location.host.includes('localhost');
     const logoutUrl = isLocalhost
@@ -96,10 +87,10 @@ export class EoAuthService {
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
       next: (response) => {
-        console.log('logging out', response.redirectionUri);
         this.clearToken();
         window.location.assign(response.redirectionUri);
-      },
+        window.location.reload();
+      }
     });
   }
 
@@ -110,7 +101,6 @@ export class EoAuthService {
   }
 
   private handleToken(token: string | null) {
-    console.log('handle token', token);
     if (!token) return;
 
     const decodedToken: EoLoginToken = jwtDecode(token);

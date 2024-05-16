@@ -21,7 +21,6 @@ import {
 } from '@energinet-datahub/eo/shared/environments';
 
 export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
-  console.log('xxxxx', environment.production);
   const configurationFilename = environment.production
     ? 'eo-api-environment.json'
     : 'eo-api-environment.local.json';

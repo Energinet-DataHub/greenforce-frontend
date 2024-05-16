@@ -51,49 +51,31 @@ export class EoLoginComponent {
       .subscribe(([scope, isTokenExpired]) => {
         const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
-        console.log('redirectionPath:', redirectionPath);
-        console.log('scope', scope);
-
         if (scope.length == 0) {
-          /*
-          redirectionPath
-            ? this.service.startLogin()
-            : this.router.navigate(['/', this.transloco.getActiveLang()], {
-                queryParamsHandling: 'preserve',
-              });
-          */
-          window.location.href = window.location.origin + '/' + this.transloco.getActiveLang();
+          window.location.assign(window.location.origin + '/' + this.transloco.getActiveLang());
           window.location.reload();
-
-          console.log('scope is empty', this.transloco.getActiveLang());
           return;
         }
 
         if (isTokenExpired) {
-          console.log('token expired');
           this.service.logout();
           return;
         }
 
         if (scope.includes('not-accepted-privacypolicy-terms')) {
-          console.log('not-accepted-privacypolicy-terms');
           this.router.navigate(['/terms']);
           return;
         }
 
         if (scope.includes('dashboard')) {
-          console.log('scope includes dashboard');
           const path = redirectionPath
             ? redirectionPath
             : `/${this.transloco.getActiveLang()}/dashboard`;
-          console.log('path:', path);
-
           this.router.navigate([path]);
 
           return;
         }
 
-        console.log('navigate to default');
         this.router.navigate(['/', this.transloco.getActiveLang()], {
           queryParamsHandling: 'preserve',
         });
