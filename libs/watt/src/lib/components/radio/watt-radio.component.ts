@@ -33,7 +33,7 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
     <label class="watt-text-m">
       <input
         type="radio"
-        [attr.name]="group()"
+        [name]="group()"
         [value]="value()"
         [(ngModel)]="model"
         [disabled]="isDisabled"
