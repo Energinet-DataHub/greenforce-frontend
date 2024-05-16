@@ -16,8 +16,6 @@
  */
 import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
-
-import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { WHOLESALE_BASE_PATH } from '@energinet-datahub/dh/wholesale/routing';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
@@ -54,11 +52,19 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: dhMarketParticipantPath,
+        path: 'market-participant',
         loadChildren: () =>
           import('@energinet-datahub/dh/market-participant/shell').then(
             (esModule) => esModule.dhMarketParticipantShellRoutes
           ),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: 'grid-areas',
+        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
+        data: {
+          titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
+        },
         canActivate: [MsalGuard],
       },
       {
