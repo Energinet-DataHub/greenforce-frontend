@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgClass } from '@angular/common';
-import { Component, Input, forwardRef, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, ViewEncapsulation, input } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -34,8 +34,8 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
     <label class="watt-text-m">
       <input
         type="radio"
-        [attr.name]="group"
-        [value]="value"
+        [attr.name]="group()"
+        [value]="value()"
         [(ngModel)]="model"
         [disabled]="isDisabled"
         (ngModelChange)="onChange($event)"
@@ -50,8 +50,8 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
   },
 })
 export class WattRadioComponent implements ControlValueAccessor {
-  @Input() group!: string;
-  @Input() value!: string | boolean;
+  group = input.required<string>();
+  value = input.required<string | boolean>();
 
   /** @ignore */
   model!: string;
