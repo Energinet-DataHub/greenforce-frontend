@@ -46,7 +46,7 @@ public class ArchivedMessagesSearch
 
     public async Task<string> GetDocumentAsync(Guid id, CancellationToken cancellationToken)
     {
-       return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, cancellationToken).ConfigureAwait(false);
+       return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, "1.0", cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(
@@ -70,7 +70,7 @@ public class ArchivedMessagesSearch
             IncludeRelatedMessages = archivedMessageSearch.IncludeRelatedMessages,
         };
 
-        return await _b2CWebAppClient.ArchivedMessageSearchAsync(criteria, cancellationToken);
+        return await _b2CWebAppClient.ArchivedMessageSearchAsync("1.0", criteria, cancellationToken);
     }
 
     private static SearchResult MapResult(ICollection<ArchivedMessageResult> searchResultResponseMessages)
