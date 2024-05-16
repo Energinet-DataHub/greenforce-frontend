@@ -90,7 +90,7 @@ export class EoAuthService {
         this.clearToken();
         window.location.assign(response.redirectionUri);
         window.location.reload();
-      }
+      },
     });
   }
 
