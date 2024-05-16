@@ -5,13 +5,8 @@
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
   "targets": {
-    "generate": {
-      "dependsOn": ["api-dh:generate"],
-      "executor": "nx:run-commands",
-      "options": { "commands": ["nx run dh-shared-domain:generate"] }
-    },
     "build": {
-      "dependsOn": ["generate"],
+      "dependsOn": ["^generate"],
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -141,7 +136,7 @@
       }
     },
     "serve": {
-      "dependsOn": ["generate"],
+      "dependsOn": ["^generate"],
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
@@ -180,5 +175,8 @@
     }
   },
   "tags": ["product:dh", "type:app"],
-  "implicitDependencies": ["api-dh", "dh-globalization-assets-localization"]
+  "implicitDependencies": [
+    "dh-shared-domain",
+    "dh-globalization-assets-localization"
+  ]
 }
