@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhActorsOverviewComponent } from './lib/dh-actors-overview.component';
+export { DhActorsOverviewComponent as default } from './lib/dh-actors-overview.component';
 export { DhActorStatusBadgeComponent } from './lib/status-badge/dh-actor-status-badge.component';

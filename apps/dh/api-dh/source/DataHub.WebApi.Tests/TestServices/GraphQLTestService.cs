@@ -17,55 +17,56 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL;
+using Energinet.DataHub.WebApi.GraphQL.Query;
+using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
-namespace Energinet.DataHub.WebApi.Tests.TestServices
+namespace Energinet.DataHub.WebApi.Tests.TestServices;
+
+public static class GraphQLTestService
 {
-    public static class GraphQLTestService
+    static GraphQLTestService()
     {
-        static GraphQLTestService()
-        {
-            WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
+        WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
 
-            Services = new ServiceCollection()
-                .AddGraphQLServer()
-                .AddQueryType<Query>()
-                .AddMutationConventions(applyToAllMutations: true)
-                .AddMutationType<Mutation>()
-                .AddTypes()
-                .BindRuntimeType<NodaTime.Interval, DateRangeType>()
-                .Services
-                .AddSingleton(WholesaleClientV3Mock.Object)
-                .AddSingleton(
-                    sp => new RequestExecutorProxy(
-                        sp.GetRequiredService<IRequestExecutorResolver>(),
-                        Schema.DefaultName))
-                .BuildServiceProvider();
+        Services = new ServiceCollection()
+            .AddGraphQLServer()
+            .AddQueryType<Query>()
+            .AddMutationConventions(applyToAllMutations: true)
+            .AddMutationType<Mutation>()
+            .AddTypes()
+            .BindRuntimeType<NodaTime.Interval, DateRangeType>()
+            .Services
+            .AddSingleton(WholesaleClientV3Mock.Object)
+            .AddSingleton(
+                sp => new RequestExecutorProxy(
+                    sp.GetRequiredService<IRequestExecutorResolver>(),
+                    Schema.DefaultName))
+            .BuildServiceProvider();
 
-            Executor = Services.GetRequiredService<RequestExecutorProxy>();
-        }
+        Executor = Services.GetRequiredService<RequestExecutorProxy>();
+    }
 
-        public static Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; }
+    public static Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; }
 
-        public static IServiceProvider Services { get; }
+    public static IServiceProvider Services { get; }
 
-        public static RequestExecutorProxy Executor { get; }
+    public static RequestExecutorProxy Executor { get; }
 
-        public static async Task<IExecutionResult> ExecuteRequestAsync(
-            Action<IQueryRequestBuilder> configureRequest,
-            CancellationToken cancellationToken = default)
-        {
-            var scope = Services.CreateAsyncScope();
-            var requestBuilder = new QueryRequestBuilder();
-            requestBuilder.SetServices(scope.ServiceProvider);
-            configureRequest(requestBuilder);
-            var request = requestBuilder.Create();
-            var result = await Executor.ExecuteAsync(request, cancellationToken);
-            result.RegisterForCleanup(scope.DisposeAsync);
-            return result;
-        }
+    public static async Task<IExecutionResult> ExecuteRequestAsync(
+        Action<IQueryRequestBuilder> configureRequest,
+        CancellationToken cancellationToken = default)
+    {
+        var scope = Services.CreateAsyncScope();
+        var requestBuilder = new QueryRequestBuilder();
+        requestBuilder.SetServices(scope.ServiceProvider);
+        configureRequest(requestBuilder);
+        var request = requestBuilder.Create();
+        var result = await Executor.ExecuteAsync(request, cancellationToken);
+        result.RegisterForCleanup(scope.DisposeAsync);
+        return result;
     }
 }

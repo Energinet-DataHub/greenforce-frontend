@@ -15,9 +15,15 @@
  * limitations under the License.
  */
 import { makeEnvironmentProviders } from '@angular/core';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, ApolloLink, Operation, split } from '@apollo/client/core';
+import {
+  InMemoryCache,
+  ApolloLink,
+  Operation,
+  split,
+  ApolloClientOptions,
+} from '@apollo/client/core';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { getMainDefinition } from '@apollo/client/utilities';
 
@@ -29,13 +35,8 @@ import {
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { DhActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
-
 import { errorHandler } from './error-handler';
-import SSELink from './sse-link';
-import { createClient } from 'graphql-sse';
-import { firstValueFrom, map } from 'rxjs';
+import DhSseLink from './dh-sse-link';
 
 function isSubscriptionQuery(operation: Operation) {
   const definition = getMainDefinition(operation.query);
@@ -44,18 +45,33 @@ function isSubscriptionQuery(operation: Operation) {
 
 export const graphQLProviders = makeEnvironmentProviders([
   {
+    provide: APOLLO_FLAGS,
+    useValue: {
+      useInitialLoading: true,
+      useMutationLoading: true,
+    },
+  },
+  {
     provide: APOLLO_OPTIONS,
     useFactory(
       httpLink: HttpLink,
+      sseLink: DhSseLink,
       dhApiEnvironment: DhApiEnvironment,
-      dhApplicationInsights: DhApplicationInsights,
-      dhActorTokenService: DhActorTokenService
-    ) {
+      dhApplicationInsights: DhApplicationInsights
+    ): ApolloClientOptions<unknown> {
       if (environment.production === false) {
         loadDevMessages();
         loadErrorMessages();
       }
       return {
+        defaultOptions: {
+          query: {
+            notifyOnNetworkStatusChange: true,
+          },
+          watchQuery: {
+            notifyOnNetworkStatusChange: true,
+          },
+        },
         cache: new InMemoryCache({
           typePolicies: {
             ...scalarTypePolicies,
@@ -84,17 +100,7 @@ export const graphQLProviders = makeEnvironmentProviders([
           errorHandler(dhApplicationInsights),
           split(
             isSubscriptionQuery,
-            new SSELink(
-              createClient({
-                url: `${dhApiEnvironment.apiBase}/graphql`,
-                headers: () =>
-                  firstValueFrom(
-                    dhActorTokenService
-                      .acquireToken()
-                      .pipe(map((token) => ({ Authorization: `Bearer ${token}` })))
-                  ),
-              })
-            ),
+            sseLink.create(`${dhApiEnvironment.apiBase}/graphql`),
             httpLink.create({
               uri: (operation: Operation) => {
                 return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
@@ -104,6 +110,6 @@ export const graphQLProviders = makeEnvironmentProviders([
         ]),
       };
     },
-    deps: [HttpLink, dhApiEnvironmentToken, DhApplicationInsights, DhActorTokenService],
+    deps: [HttpLink, DhSseLink, dhApiEnvironmentToken, DhApplicationInsights],
   },
 ]);

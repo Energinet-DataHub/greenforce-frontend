@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass } from '@angular/common';
-import { Component, Input, forwardRef, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, ViewEncapsulation, input } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -34,8 +33,8 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
     <label class="watt-text-m">
       <input
         type="radio"
-        [attr.name]="group"
-        [value]="value"
+        [name]="group()"
+        [value]="value()"
         [(ngModel)]="model"
         [disabled]="isDisabled"
         (ngModelChange)="onChange($event)"
@@ -50,41 +49,41 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
   },
 })
 export class WattRadioComponent implements ControlValueAccessor {
-  @Input() group!: string;
-  @Input() value!: string | boolean;
+  group = input.required<string>();
+  value = input.required<string | boolean>();
 
-  /* @ignore */
+  /** @ignore */
   model!: string;
 
-  /* @ignore */
+  /** @ignore */
   isDisabled = false;
 
-  /* @ignore */
+  /** @ignore */
   onChange: (value: string) => void = () => {
     /* left blank intentionally */
   };
 
-  /* @ignore */
+  /** @ignore */
   onTouched: () => void = () => {
     /* left blank intentionally */
   };
 
-  /* @ignore */
+  /** @ignore */
   writeValue(value: string): void {
     this.model = value;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }

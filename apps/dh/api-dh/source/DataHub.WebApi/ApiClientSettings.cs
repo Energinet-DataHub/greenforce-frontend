@@ -22,6 +22,8 @@ public class ApiClientSettings
 
     public string WholesaleBaseUrl { get; set; } = string.Empty;
 
+    public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
+
     public string ESettExchangeBaseUrl { get; set; } = string.Empty;
 
     public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;

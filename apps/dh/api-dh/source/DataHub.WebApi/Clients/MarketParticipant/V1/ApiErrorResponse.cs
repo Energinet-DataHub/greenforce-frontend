@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
-
 #pragma warning disable SA1300 // Element should begin with upper-case letter
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 #pragma warning restore SA1300 // Element should begin with upper-case letter

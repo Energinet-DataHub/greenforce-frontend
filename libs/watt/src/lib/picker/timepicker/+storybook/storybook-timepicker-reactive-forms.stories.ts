@@ -22,7 +22,8 @@ import { within, fireEvent } from '@storybook/testing-library';
 import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
 import { WattRangeValidators } from '../../../utils/validators';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
-import { WattTimepickerV2Component } from '../watt-timepicker-v2.component';
+import { WattTimepickerComponent } from '../watt-timepicker.component';
+import { startTimeCannotBeLaterThan3HoursValidator } from './watt-timepicker-custom-validator';
 
 export default {
   title: 'Components/Timepicker',
@@ -31,29 +32,25 @@ export default {
       providers: [provideAnimations(), localizationProviders],
     }),
     moduleMetadata({
-      imports: [ReactiveFormsModule, WattTimepickerV2Component, WattFieldErrorComponent],
+      imports: [ReactiveFormsModule, WattTimepickerComponent, WattFieldErrorComponent],
     }),
   ],
-  component: WattTimepickerV2Component,
+  component: WattTimepickerComponent,
 } as Meta;
 
 const template = `
-  <watt-timepicker-v2 label="Single time" [formControl]="exampleFormControlSingle">
-    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.required">
-      Time is required
+  <watt-timepicker label="Single time" [formControl]="exampleFormControlSingle">
+    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.startTimeCannotBeLaterThan3Hours">
+      Time cannot be later than 3 hours ago
     </watt-field-error>
-  </watt-timepicker-v2>
+  </watt-timepicker>
 
- <p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
- <p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
+  <p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
+  <p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
 
- <br />
+  <br />
 
-  <watt-timepicker-v2 label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true">
-    <watt-field-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
-      Time range is required
-    </watt-field-error>
-  </watt-timepicker-v2>
+  <watt-timepicker label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true" />
 
   <p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
   <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
@@ -61,7 +58,7 @@ const template = `
 
 const initialValue = '00:00';
 
-export const WithFormControl: StoryFn<WattTimepickerV2Component> = (args) => ({
+export const WithFormControl: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -83,7 +80,7 @@ WithFormControl.parameters = {
   },
 };
 
-export const WithInitialValue: StoryFn<WattTimepickerV2Component> = (args) => ({
+export const WithInitialValue: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValue),
     exampleFormControlRange: new FormControl({
@@ -95,9 +92,12 @@ export const WithInitialValue: StoryFn<WattTimepickerV2Component> = (args) => ({
   template,
 });
 
-export const WithValidations: StoryFn<WattTimepickerV2Component> = (args) => ({
+export const WithValidations: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(null, [Validators.required]),
+    exampleFormControlSingle: new FormControl(null, [
+      Validators.required,
+      startTimeCannotBeLaterThan3HoursValidator(),
+    ]),
     exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
     withValidations: true,
     ...args,
@@ -117,7 +117,7 @@ WithValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startTimeInput);
 };
 
-export const WithFormControlDisabled: StoryFn<WattTimepickerV2Component> = (args) => ({
+export const WithFormControlDisabled: StoryFn<WattTimepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),

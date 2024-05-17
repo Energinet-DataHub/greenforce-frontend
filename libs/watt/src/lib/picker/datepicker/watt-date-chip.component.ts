@@ -16,7 +16,6 @@
  */
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 
@@ -28,7 +27,6 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
 @Component({
   standalone: true,
   imports: [
-    NgIf,
     MatDatepickerModule,
     WattMenuChipComponent,
     WattFieldComponent,
@@ -73,9 +71,12 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
           (dateChange)="selectionChange.emit($event.value)"
         />
         <ng-content />
-        <ng-container *ngIf="value"
-          ><ng-container *ngIf="placeholder">:</ng-container> {{ value | wattDate }}</ng-container
-        >
+        @if (value) {
+          @if (placeholder) {
+            :
+          }
+          {{ value | wattDate }}
+        }
       </watt-menu-chip>
       <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />

@@ -19,7 +19,9 @@ import { Router, RouterOutlet } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 
 @Component({
-  selector: 'dh-app',
+  // Intentionally use full product name prefix for the root component
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'datahub-app',
   styles: [
     `
       :host {

@@ -29,7 +29,7 @@ import {
   Component,
   inject,
   signal,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RxPush } from '@rx-angular/template/push';
@@ -89,8 +89,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
   showCreateNewOrganization = signal(false);
   isCompleting = signal(false);
 
-  @ViewChild(WattModalComponent)
-  modal: WattModalComponent | undefined;
+  modal = viewChild.required(WattModalComponent);
 
   chooseOrganizationForm = this._fb.group({
     orgId: new FormControl<string | null>(null, Validators.required),
@@ -221,11 +220,11 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
   }
 
   open(): void {
-    this.modal?.open();
+    this.modal().open();
   }
 
   close(isSuccess = false): void {
-    this.modal?.close(isSuccess);
+    this.modal().close(isSuccess);
   }
 
   createMarketParticipent(): void {
@@ -272,7 +271,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
                 {
                   eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
                   gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
-                    id: gridArea,
+                    code: gridArea,
                     meteringPointTypes: [],
                   })),
                 },

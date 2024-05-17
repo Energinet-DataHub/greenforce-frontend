@@ -14,8 +14,10 @@
 
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Types;
+using PriceAreaCode = Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1.PriceAreaCode;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
@@ -57,8 +59,8 @@ public partial class Query
             {
                 PriceAreaCode = priceAreaCode switch
                 {
-                    PriceAreaCode.AreaCode1 => Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1,
-                    PriceAreaCode.AreaCode2 => Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2,
+                    PriceAreaCode.AreaCode1 => Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk1,
+                    PriceAreaCode.AreaCode2 => Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk2,
                     _ => throw new ArgumentOutOfRangeException(nameof(priceAreaCode)),
                 },
                 Name = from,
@@ -76,13 +78,13 @@ public partial class Query
     public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
         int year,
         int month,
-        Controllers.MarketParticipant.Dto.PriceAreaCode areaCode,
+        Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode areaCode,
         [Service] IImbalancePricesClient_V1 client)
     {
         var parsedAreaCode = areaCode switch
         {
-            Controllers.MarketParticipant.Dto.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
-            Controllers.MarketParticipant.Dto.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
+            Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
+            Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
             _ => throw new ArgumentOutOfRangeException(nameof(areaCode)),
         };
 

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { dayjs } from '@energinet-datahub/watt/utils/date';
@@ -27,39 +26,42 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   standalone: true,
   selector: 'dh-outgoing-message-status-badge',
   template: `
-    <ng-container
-      [ngSwitch]="status"
-      *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'"
-    >
-      <watt-badge *ngSwitchCase="'RECEIVED'" [type]="isSevere() ? 'danger' : 'neutral'">
-        {{ t(status!) }}
-      </watt-badge>
-      <watt-badge *ngSwitchCase="'AWAITING_DISPATCH'" [type]="isSevere() ? 'danger' : 'neutral'">
-        {{ t(status!) }}
-      </watt-badge>
-      <watt-badge *ngSwitchCase="'BIZ_TALK_ACCEPTED'" [type]="isSevere() ? 'danger' : 'neutral'">
-        {{ t(status!) }}
-      </watt-badge>
-      <watt-badge *ngSwitchCase="'AWAITING_REPLY'" [type]="isSevere() ? 'danger' : 'neutral'">
-        {{ t(status!) }}
-      </watt-badge>
-
-      <watt-badge *ngSwitchCase="'ACCEPTED'" type="success">{{ t(status!) }}</watt-badge>
-      <watt-badge *ngSwitchCase="'REJECTED'" type="warning">{{ t(status!) }}</watt-badge>
-
-      <ng-container *ngSwitchDefault>{{ status | dhEmDashFallback }}</ng-container>
+    <ng-container *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'">
+      @switch (status) {
+        @case ('RECEIVED') {
+          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
+            {{ t(status!) }}
+          </watt-badge>
+        }
+        @case ('AWAITING_DISPATCH') {
+          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
+            {{ t(status!) }}
+          </watt-badge>
+        }
+        @case ('BIZ_TALK_ACCEPTED') {
+          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
+            {{ t(status!) }}
+          </watt-badge>
+        }
+        @case ('AWAITING_REPLY') {
+          <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
+            {{ t(status!) }}
+          </watt-badge>
+        }
+        @case ('ACCEPTED') {
+          <watt-badge type="success">{{ t(status!) }}</watt-badge>
+        }
+        @case ('REJECTED') {
+          <watt-badge type="warning">{{ t(status!) }}</watt-badge>
+        }
+        @default {
+          {{ status | dhEmDashFallback }}
+        }
+      }
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
-    TranslocoDirective,
-
-    WattBadgeComponent,
-    DhEmDashFallbackPipe,
-  ],
+  imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhOutgoingMessageStatusBadgeComponent {
   @Input({ required: true }) status: DocumentStatus | null | undefined = null;

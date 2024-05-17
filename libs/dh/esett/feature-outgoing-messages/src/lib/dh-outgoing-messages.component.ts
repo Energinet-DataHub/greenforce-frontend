@@ -114,6 +114,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], { disableClientSideSort: true });
   totalCount = 0;
+  gridAreaCount = 0;
 
   filters$ = this._store.filters$;
   pageMetaData$ = this._store.pageMetaData$;
@@ -127,8 +128,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   serviceStatus$ = this._apollo
     .watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
       fetchPolicy: 'cache-and-network',
       query: GetServiceStatusDocument,
     })
@@ -139,8 +138,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
   statusReport$ = this._apollo
     .watchQuery({
-      useInitialLoading: true,
-      notifyOnNetworkStatusChange: true,
       query: GetStatusReportDocument,
     })
     .valueChanges.pipe(
@@ -157,8 +154,6 @@ export class DhOutgoingMessagesComponent implements OnInit {
     switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
       this._apollo
         .watchQuery({
-          useInitialLoading: true,
-          notifyOnNetworkStatusChange: true,
           fetchPolicy: 'cache-and-network',
           query: GetOutgoingMessagesDocument,
           variables: {
@@ -169,9 +164,11 @@ export class DhOutgoingMessagesComponent implements OnInit {
             calculationType: filters.calculationTypes,
             timeSeriesType: filters.messageTypes,
             gridAreaCode: filters.gridAreas,
+            actorNumber: filters.actorNumber,
             documentStatus: filters.status,
             periodInterval: filters.period,
             createdInterval: filters.created,
+            sentInterval: filters.latestDispatch,
             documentId,
             sortProperty: sortMetaData.sortProperty,
             sortDirection: sortMetaData.sortDirection,
@@ -189,6 +186,7 @@ export class DhOutgoingMessagesComponent implements OnInit {
 
         this.tableDataSource.data = result.data?.esettExchangeEvents.items ?? [];
         this.totalCount = result.data?.esettExchangeEvents.totalCount ?? 0;
+        this.gridAreaCount = result.data?.esettExchangeEvents.gridAreaCount ?? 0;
 
         this.hasError = !!result.errors;
       },
@@ -230,18 +228,19 @@ export class DhOutgoingMessagesComponent implements OnInit {
         switchMap(({ filters, documentId, sortMetaData }) =>
           this._apollo.query({
             returnPartialData: false,
-            notifyOnNetworkStatusChange: true,
             fetchPolicy: 'no-cache',
             query: DownloadEsettExchangeEventsDocument,
             variables: {
               locale: translate('selectedLanguageIso'),
               periodInterval: filters.period,
               createdInterval: filters.created,
+              sentInterval: filters.latestDispatch,
               gridAreaCode: filters.gridAreas,
               calculationType: filters.calculationTypes,
               timeSeriesType: filters.messageTypes,
               documentStatus: filters.status,
               documentId,
+              actorNumber: filters.actorNumber,
               sortProperty: sortMetaData.sortProperty,
               sortDirection: sortMetaData.sortDirection,
             },

@@ -19,52 +19,51 @@ using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.HealthCheck
+namespace Energinet.DataHub.WebApi.Tests.Integration.HealthCheck;
+
+public class HealthCheckTests(WebApiFactory factory, HealthCheckFixture fixture)
+    : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
 {
-    public class HealthCheckTests(WebApiFactory factory, HealthCheckFixture fixture)
-        : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
+    [Fact]
+    public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
     {
-        [Fact]
-        public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
-        {
-            var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute);
 
-            // Assert
-            actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        // Assert
+        actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var actualContent = await actualResponse.Content.ReadAsStringAsync();
-            actualContent.Should().StartWith("{\"status\":\"Healthy\"");
-        }
+        var actualContent = await actualResponse.Content.ReadAsStringAsync();
+        actualContent.Should().StartWith("{\"status\":\"Healthy\"");
+    }
 
-        [Fact]
-        public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
-        {
-            var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
+    [Fact]
+    public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
+    {
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
 
-            // Assert
-            actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        // Assert
+        actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var actualContent = await actualResponse.Content.ReadAsStringAsync();
-            actualContent.Should().StartWith("{\"status\":\"Healthy\"");
-        }
+        var actualContent = await actualResponse.Content.ReadAsStringAsync();
+        actualContent.Should().StartWith("{\"status\":\"Healthy\"");
+    }
 
-        [Fact]
-        public async Task If_ADependentServiceIsUnavailable_When_RequestReadinessStatus_Then_ResponseIsServiceUnavailableAndUnhealthy()
-        {
-            fixture.SetServiceAsUnavailable();
+    [Fact]
+    public async Task If_ADependentServiceIsUnavailable_When_RequestReadinessStatus_Then_ResponseIsServiceUnavailableAndUnhealthy()
+    {
+        fixture.SetServiceAsUnavailable();
 
-            var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
+        var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
 
-            // Assert
-            actualResponse.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+        // Assert
+        actualResponse.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
 
-            var actualContent = await actualResponse.Content.ReadAsStringAsync();
-            actualContent.Should().StartWith("{\"status\":\"Unhealthy\"");
-        }
+        var actualContent = await actualResponse.Content.ReadAsStringAsync();
+        actualContent.Should().StartWith("{\"status\":\"Unhealthy\"");
+    }
 
-        protected override void Dispose(bool disposing)
-        {
-            fixture.Reset();
-        }
+    protected override void Dispose(bool disposing)
+    {
+        fixture.Reset();
     }
 }

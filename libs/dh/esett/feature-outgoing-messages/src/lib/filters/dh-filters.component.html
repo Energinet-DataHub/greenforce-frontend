@@ -25,29 +25,43 @@ limitations under the License.
   <watt-dropdown
     [formControl]="formGroup.controls.calculationTypes!"
     [chipMode]="true"
-    [options]="calculationTypeOptions$ | push"
+    [options]="calculationTypeOptions"
     [placeholder]="t('calculationType')"
+    dhDropdownTranslator
+    translate="eSett.outgoingMessages.shared.calculationType"
   />
 
   <watt-dropdown
     [formControl]="formGroup.controls.messageTypes!"
     [chipMode]="true"
-    [options]="messageTypeOptions$ | push"
+    [options]="messageTypeOptions"
     [placeholder]="t('messageType')"
+    dhDropdownTranslator
+    translate="eSett.outgoingMessages.shared.messageType"
   />
 
   <watt-dropdown
     [formControl]="formGroup.controls.gridAreas!"
     [chipMode]="true"
+    sortDirection="asc"
     [options]="gridAreaOptions$ | push"
     [placeholder]="t('gridArea')"
   />
 
   <watt-dropdown
+    [formControl]="formGroup.controls.actorNumber!"
+    [chipMode]="true"
+    [options]="energySupplierOptions$ | push"
+    [placeholder]="t('energySupplier')"
+  />
+
+  <watt-dropdown
     [formControl]="formGroup.controls.status!"
     [chipMode]="true"
-    [options]="documentStatusOptions$ | push"
+    [options]="documentStatusOptions"
     [placeholder]="t('status')"
+    dhDropdownTranslator
+    translate="eSett.outgoingMessages.shared.documentStatus"
   />
 
   <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.period!">{{
@@ -56,6 +70,10 @@ limitations under the License.
 
   <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.created!">{{
     t("created")
+  }}</watt-date-range-chip>
+
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.latestDispatch!">{{
+    t("latestDispatch")
   }}</watt-date-range-chip>
 
   <vater-spacer />

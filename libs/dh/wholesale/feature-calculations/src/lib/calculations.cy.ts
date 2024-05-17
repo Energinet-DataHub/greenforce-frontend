@@ -29,6 +29,7 @@ import { translocoProviders } from '@energinet-datahub/dh/globalization/configur
 
 import { DhCalculationsComponent } from './calculations.component';
 import { FormGroupDirective } from '@angular/forms';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 const { calculations } = daTranslations.wholesale;
 
@@ -40,6 +41,7 @@ it('mounts', () => {
       translocoProviders,
       danishDatetimeProviders,
       FormGroupDirective,
+      MsalServiceMock,
     ],
     imports: [
       ApolloModule,

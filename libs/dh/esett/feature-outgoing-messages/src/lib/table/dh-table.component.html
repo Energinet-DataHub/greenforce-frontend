@@ -26,12 +26,24 @@ limitations under the License.
     (rowClick)="onRowClick($event)"
     (sortChange)="sortChange.emit($event)"
   >
-    <ng-container *wattTableCell="columns['created']; header: t('columns.created'); let message">
-      {{ message.created | wattDate: "long" }}
+    <ng-container
+      *wattTableCell="columns['lastDispatched']; header: t('columns.latestDispatch'); let message"
+    >
+      {{ message.lastDispatched | wattDate: "long" | dhEmDashFallback }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
       {{ message.documentId }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['energySupplier']; header: t('columns.energySupplier'); let message"
+    >
+      @if (message?.actorNumber && message?.energySupplier?.value) {
+        {{ message.actorNumber }} • {{ message.energySupplier?.value }}
+      } @else {
+        {{ null | dhEmDashFallback }}
+      }
     </ng-container>
 
     <ng-container
@@ -48,6 +60,12 @@ limitations under the License.
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
       {{ message.gridArea?.displayName }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['gridAreaCodeOut']; header: t('columns.gridAreaCodeOut'); let message"
+    >
+      {{ message.gridAreaCodeOut | dhEmDashFallback }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">

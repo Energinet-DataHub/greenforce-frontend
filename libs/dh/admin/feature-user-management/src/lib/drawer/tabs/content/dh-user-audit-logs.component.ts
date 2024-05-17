@@ -69,8 +69,6 @@ import {
 export class DhUserAuditLogsComponent implements OnChanges {
   private readonly apollo = inject(Apollo);
   private readonly getUserAuditLogsQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetUserAuditLogsDocument,
     fetchPolicy: 'cache-and-network',
   });

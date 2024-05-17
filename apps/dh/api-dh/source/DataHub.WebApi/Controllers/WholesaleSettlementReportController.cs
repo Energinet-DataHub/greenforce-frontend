@@ -12,11 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
-using System.Linq;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,5 +52,19 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         }
 
         return File(fileResponse.Stream, MediaTypeNames.Application.Zip, fileName);
+    }
+
+    [HttpGet("DownloadReport")]
+    [Produces("application/zip")]
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] Guid settlementReportId)
+    {
+        var fileName = "SettlementReport.zip";
+
+        // if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
+        // {
+        //     var contentDisposition = new ContentDisposition(values.First());
+        //     fileName = contentDisposition.FileName ?? fileName;
+        // }
+        return await Task.FromResult(File(Stream.Null, MediaTypeNames.Application.Zip, fileName));
     }
 }

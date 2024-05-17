@@ -20,14 +20,10 @@ import {
   inject,
   Output,
   EventEmitter,
-  Input,
   effect,
-  signal,
-  OnChanges,
   Injector,
-  AfterViewInit,
+  input,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -40,16 +36,15 @@ import {
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+
 import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
 
 @Component({
   standalone: true,
   imports: [
-    NgIf,
     TranslocoDirective,
 
     WATT_DRAWER,
@@ -67,12 +62,12 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit {
+export class DhCalculationsDetailsComponent {
   private apollo = inject(Apollo);
   private injector = inject(Injector);
 
   @Output() closed = new EventEmitter<void>();
-  @Input() id?: string;
+  id = input<string>();
 
   @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
@@ -81,42 +76,31 @@ export class DhCalculationsDetailsComponent implements OnChanges, AfterViewInit 
   error = false;
   loading = false;
 
-  // This is required until we have real signal based components in Angular
-  calculationId = signal<string | undefined>(undefined);
-  ngOnChanges() {
-    this.calculationId.set(this.id);
-  }
+  constructor() {
+    effect(() => {
+      const id = this.id();
+      if (!id) return;
+      this.drawer.open();
+      const subscription = this.apollo
+        .watchQuery({
+          errorPolicy: 'all',
+          returnPartialData: true,
+          query: GetCalculationByIdDocument,
+          variables: { id },
+        })
+        .valueChanges.subscribe({
+          next: (result) => {
+            this.calculation = result.data?.calculationById ?? undefined;
+            this.loading = result.loading;
+            this.error = !!result.errors;
+          },
+          error: (error) => {
+            this.error = error;
+            this.loading = false;
+          },
+        });
 
-  ngAfterViewInit() {
-    effect(
-      () => {
-        const id = this.calculationId();
-        if (!id) return;
-        this.drawer.open();
-        const subscription = this.apollo
-          .watchQuery({
-            errorPolicy: 'all',
-            returnPartialData: true,
-            useInitialLoading: true,
-            notifyOnNetworkStatusChange: true,
-            query: GetCalculationByIdDocument,
-            variables: { id },
-          })
-          .valueChanges.subscribe({
-            next: (result) => {
-              this.calculation = result.data?.calculationById ?? undefined;
-              this.loading = result.loading;
-              this.error = !!result.errors;
-            },
-            error: (error) => {
-              this.error = error;
-              this.loading = false;
-            },
-          });
-
-        return () => subscription.unsubscribe();
-      },
-      { injector: this.injector }
-    );
+      return () => subscription.unsubscribe();
+    });
   }
 }

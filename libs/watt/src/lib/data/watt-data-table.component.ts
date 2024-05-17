@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 import { Component, ContentChild, Input, ViewEncapsulation, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattTableComponent, WattPaginatorComponent } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+} from '../vater';
+
+import { WATT_CARD_VARIANT, WattCardComponent } from '../card';
+import { WattSearchComponent } from '../search';
+import { WattTableComponent } from '../table';
+import { WattPaginatorComponent } from '../table/paginator';
+import { WattEmptyStateComponent } from '../empty-state';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 
@@ -34,7 +35,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
   selector: 'watt-data-table',
   standalone: true,
   imports: [
-    NgIf,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -63,6 +63,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
         margin: calc(-1 * var(--watt-space-m)) -24px -24px;
       }
 
+      watt-data-table watt-table .mat-mdc-table tr.mdc-data-table__row:last-child .mat-mdc-cell {
+        border-bottom: none;
+      }
+
       .watt-data-table--empty-state {
         margin-bottom: var(--watt-space-m);
         overflow: auto;
@@ -74,7 +78,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
     `,
   ],
   template: `
-    <watt-card vater fill="vertical">
+    <watt-card vater fill="vertical" [variant]="variant">
       <vater-flex fill="vertical" gap="m">
         <vater-stack direction="row" gap="m">
           <vater-stack direction="row" gap="s">
@@ -83,22 +87,23 @@ import { WattDataIntlService } from './watt-data-intl.service';
             <span class="watt-chip-label">{{ count ?? this.table.dataSource.data.length }}</span>
           </vater-stack>
           <vater-spacer />
-          <watt-search *ngIf="enableSearch" [label]="intl.search" (search)="onSearch($event)" />
+          @if (enableSearch) {
+            <watt-search [label]="intl.search" (search)="onSearch($event)" />
+          }
           <ng-content select="watt-button" />
         </vater-stack>
         <ng-content select="watt-data-filters" />
         <vater-flex scrollable fill="vertical">
           <ng-content select="watt-table" />
-          <div
-            *ngIf="!table.loading && this.table.dataSource.filteredData.length === 0"
-            class="watt-data-table--empty-state"
-          >
-            <watt-empty-state
-              [icon]="error ? 'custom-power' : 'cancel'"
-              [title]="error ? intl.errorTitle : intl.emptyTitle"
-              [message]="error ? intl.errorMessage : intl.emptyMessage"
-            />
-          </div>
+          @if (!table.loading && this.table.dataSource.filteredData.length === 0) {
+            <div class="watt-data-table--empty-state">
+              <watt-empty-state
+                [icon]="error ? 'custom-power' : 'cancel'"
+                [title]="error ? intl.errorTitle : intl.emptyTitle"
+                [message]="error ? intl.errorMessage : intl.emptyMessage"
+              />
+            </div>
+          }
         </vater-flex>
         <watt-paginator [for]="this.table.dataSource" />
       </vater-flex>
@@ -109,6 +114,7 @@ export class WattDataTableComponent {
   @Input() error: unknown;
   @Input() enableSearch = true;
   @Input() count?: number;
+  @Input() variant: WATT_CARD_VARIANT = 'elevation';
 
   @ContentChild(WattTableComponent, { descendants: true })
   table!: WattTableComponent<unknown>;

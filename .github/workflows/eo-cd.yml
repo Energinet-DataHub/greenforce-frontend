@@ -111,29 +111,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Generate version
         id: version
-        uses: Energinet-DataHub/energy-origin/.github/actions/docker-image-version@main
-
-  sonarcloud:
-    name: SonarCloud
-    if: ${{ needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          args: >
-            -Dsonar.projectKey=energinet-datahub_energy-origin-frontend
-            -Dsonar.organization=energinet-datahub
-            -Dsonar.sources=apps/eo/app-eo,libs/eo
-            -Dsonar.exclusions=**/*.spec.ts,jest.config.ts,test-setup.ts,libs/eo/shared/data-access-mocks/src/lib/**/*,libs/eo/core/globalization/assets-localization/**/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
+        uses: Energinet-DataHub/acorn-actions/actions/docker-image-version@v1
 
   build:
     runs-on: ubuntu-latest
@@ -146,7 +124,7 @@ jobs:
 
       - name: Build and push container image
         id: docker_build
-        uses: Energinet-DataHub/energy-origin/.github/actions/build-and-push-container@main
+        uses: Energinet-DataHub/acorn-actions/actions/docker-build-and-push@v1
         with:
           dockerfile: build/infrastructure/eo/host/Dockerfile
           image-name: eo-frontend-app
@@ -160,7 +138,7 @@ jobs:
     concurrency: commits-base-environment
     steps:
       - name: Update environment
-        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        uses: Energinet-DataHub/acorn-actions/actions/update-base-environment@v1
         with:
           configuration: build/infrastructure/eo/configuration.yaml
           deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}

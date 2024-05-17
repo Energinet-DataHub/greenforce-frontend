@@ -22,52 +22,56 @@ limitations under the License.
     <watt-icon name="checkmark" />
   </ng-template>
   <ng-template matStepperIcon="number" let-index="index">
-    <ng-container
-      *ngIf="
-        stepper.steps.get(index)?.completed &&
-          stepper.steps.get(index)?.interacted &&
-          index !== stepper.selectedIndex;
-        else notCompleted
-      "
-    >
+    @if (
+      stepper.steps.get(index)?.completed &&
+      stepper.steps.get(index)?.interacted &&
+      index !== stepper.selectedIndex
+    ) {
       <watt-icon name="checkmark" />
-    </ng-container>
-    <ng-template #notCompleted>
+    } @else {
       {{ index + 1 }}
-    </ng-template>
+    }
   </ng-template>
   <ng-template matStepperIcon="error" let-index="index">
     {{ index + 1 }}
   </ng-template>
-  <ng-container *ngFor="let step of steps">
-    <mat-step *ngIf="step.enabled" [stepControl]="step.stepControl">
-      <ng-template matStepLabel>{{ step.label }}</ng-template>
-      <div class="watt-stepper-content-wrapper">
-        <ng-container *ngTemplateOutlet="step.templateRef" />
-      </div>
-      <div class="watt-stepper-button-wrapper">
-        <watt-button *ngIf="!(onFirstStep$ | push)" variant="secondary" (click)="previousStep()">
-          <watt-icon name="left" />
-          {{ step.previousButtonLabel }}
-        </watt-button>
-        <watt-button
-          *ngIf="!(onLastStep$ | push)"
-          variant="secondary"
-          (click)="nextStep(step)"
-          [loading]="step.loadingNextButton"
-          [disabled]="step.disableNextButton"
-        >
-          {{ step.nextButtonLabel }}<watt-icon name="right" />
-        </watt-button>
-        <watt-button
-          *ngIf="onLastStep$ | push"
-          variant="primary"
-          [loading]="isCompleting"
-          (click)="complete()"
-          [disabled]="step.disableNextButton"
-          >{{ step.nextButtonLabel }}</watt-button
-        >
-      </div>
-    </mat-step>
-  </ng-container>
+  @for (step of steps; track step) {
+    @if (step.enabled) {
+      <mat-step [stepControl]="step.stepControl">
+        <ng-template matStepLabel>{{ step.label }}</ng-template>
+        <div class="watt-stepper-content-wrapper">
+          <ng-container *ngTemplateOutlet="step.templateRef" />
+        </div>
+        <div class="watt-stepper-button-wrapper">
+          @if (!(onFirstStep$ | push)) {
+            <watt-button variant="secondary" (click)="previousStep()">
+              <watt-icon name="left" />
+              {{ step.previousButtonLabel }}
+            </watt-button>
+          }
+
+          @if (!(onLastStep$ | push)) {
+            <watt-button
+              variant="secondary"
+              (click)="nextStep(step)"
+              [loading]="step.loadingNextButton"
+              [disabled]="step.disableNextButton"
+            >
+              {{ step.nextButtonLabel }}<watt-icon name="right" />
+            </watt-button>
+          }
+
+          @if (onLastStep$ | push) {
+            <watt-button
+              variant="primary"
+              [loading]="isCompleting"
+              (click)="complete()"
+              [disabled]="step.disableNextButton"
+              >{{ step.nextButtonLabel }}</watt-button
+            >
+          }
+        </div>
+      </mat-step>
+    }
+  }
 </mat-stepper>

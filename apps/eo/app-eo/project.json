@@ -36,7 +36,7 @@
             "output": "/"
           }
         ],
-        "allowedCommonJsDependencies": ["date-fns", "inputmask", "lottie-web"],
+        "allowedCommonJsDependencies": ["date-fns", "lottie-web", "dayjs"],
         "baseHref": "/",
         "index": "apps/eo/app-eo/src/index.html",
         "inlineStyleLanguage": "scss",

@@ -73,3 +73,4 @@ $watt-theme: mat.define-light-theme(
 @include mat.stepper-theme($watt-theme);
 @include mat.divider-theme($watt-theme);
 @include mat.slide-toggle-theme($watt-theme);
+@include mat.progress-bar-theme($watt-theme);

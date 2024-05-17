@@ -15,11 +15,15 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 using HotChocolate.Subscriptions;
 using NodaTime;
 using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
-using WholesaleCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.GraphQL;
 
@@ -28,10 +32,12 @@ public class Mutation
     [UseMutationConvention(Disable = true)]
     public Task<PermissionDto> UpdatePermissionAsync(
         UpdatePermissionDto input,
-        [Service] IMarketParticipantClient_V1 client) =>
-        client
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        return client
             .PermissionPutAsync(input)
             .Then(() => client.PermissionGetAsync(input.Id));
+    }
 
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> UpdateActorAsync(
@@ -81,8 +87,8 @@ public class Mutation
     public async Task<Guid> CreateCalculationAsync(
         Interval period,
         string[] gridAreaCodes,
-        WholesaleCalculationType calculationType,
-        [Service] IWholesaleClient_V3 client,
+        StartCalculationType calculationType,
+        [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,
         CancellationToken cancellationToken)
     {
@@ -91,21 +97,16 @@ public class Mutation
             throw new Exception("Period cannot be open-ended");
         }
 
-        var calculationRequestDto = new CalculationRequestDto
-        {
-            StartDate = period.Start.ToDateTimeOffset(),
-            EndDate = period.End.ToDateTimeOffset(),
-            GridAreaCodes = gridAreaCodes,
-            CalculationType = calculationType,
-        };
+        var requestDto = new StartCalculationRequestDto(
+            StartDate: period.Start.ToDateTimeOffset(),
+            EndDate: period.End.ToDateTimeOffset(),
+            GridAreaCodes: gridAreaCodes,
+            CalculationType: calculationType);
 
         var calculationId = await client
-            .CreateCalculationAsync(calculationRequestDto, cancellationToken);
+            .StartCalculationAsync(requestDto, cancellationToken);
 
-        await sender.SendAsync(
-            nameof(Subscription.CalculationCreatedAsync),
-            calculationId,
-            cancellationToken);
+        await sender.SendAsync(nameof(CreateCalculationAsync), calculationId, cancellationToken);
 
         return calculationId;
     }
@@ -168,10 +169,27 @@ public class Mutation
             input.OrganizationId ??
             await client.OrganizationPostAsync(input.Organization!).ConfigureAwait(false);
 
-        input.Actor.OrganizationId = organizationId;
+        var gridAreas = await client.GridAreaGetAsync().ConfigureAwait(false);
+
+        var actorDto = new CreateActorDto()
+        {
+            Name = input.Actor.Name,
+            ActorNumber = input.Actor.ActorNumber,
+            OrganizationId = organizationId,
+            MarketRoles = input.Actor.MarketRoles.Select(mr => new ActorMarketRoleDto
+            {
+                EicFunction = mr.EicFunction,
+                GridAreas = mr.GridAreas.Select(ga => new ActorGridAreaDto()
+                {
+                    MeteringPointTypes = ga.MeteringPointTypes,
+                    Id = gridAreas.Single(g => g.Code == ga.Code).Id,
+                }).ToList(),
+                Comment = mr.Comment,
+            }).ToList(),
+        };
 
         var actorId = await client
-            .ActorPostAsync(input.Actor)
+            .ActorPostAsync(actorDto)
             .ConfigureAwait(false);
 
         await client
@@ -199,10 +217,18 @@ public class Mutation
     [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
     public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
-        CreateProcessDelegationsDto delegations,
+        CreateProcessDelegationsInput delegations,
         [Service] IMarketParticipantClient_V1 client)
     {
-        await client.ActorDelegationPostAsync(delegations);
+        var gridAreas = await client.GridAreaGetAsync().ConfigureAwait(false);
+        await client.ActorDelegationPostAsync(new CreateProcessDelegationsDto
+        {
+            DelegatedFrom = delegations.DelegatedFrom,
+            DelegatedTo = delegations.DelegatedTo,
+            GridAreas = delegations.GridAreas.Select(ga => gridAreas.Single(g => g.Code == ga).Id).ToList(),
+            DelegatedProcesses = delegations.DelegatedProcesses,
+            StartsAt = delegations.StartsAt,
+        });
         return true;
     }
 
@@ -217,5 +243,12 @@ public class Mutation
         }
 
         return true;
+    }
+
+    public async Task<bool> RequestSettlementReportAsync(
+        RequestSettlementReportInput requestSettlementReportInput,
+        [Service] IESettExchangeClient_V1 client)
+    {
+        return await Task.FromResult(true);
     }
 }

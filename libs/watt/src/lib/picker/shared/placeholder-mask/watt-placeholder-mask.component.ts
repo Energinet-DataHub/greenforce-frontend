@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -35,7 +34,6 @@ import { Maskito, MaskitoOptions } from '@maskito/core';
   styleUrls: ['./watt-placeholder-mask.component.scss'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [CommonModule],
 })
 export class WattPlaceholderMaskComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input({ required: true })

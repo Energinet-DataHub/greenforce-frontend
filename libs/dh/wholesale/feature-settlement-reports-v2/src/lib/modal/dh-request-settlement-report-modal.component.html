@@ -1,0 +1,107 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  #modal
+  [title]="t('title')"
+  *transloco="let t; read: 'wholesale.settlementReportsV2.requestReportModal'"
+>
+  <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
+    <vater-stack align="stretch" direction="column" gap="l">
+      <div class="items-group">
+        <watt-dropdown
+          [label]="t('calculationType')"
+          [showResetOption]="false"
+          [formControl]="form.controls.calculationType"
+          [options]="calculationTypeOptions"
+          translate="wholesale.settlementReportsV2.calculationTypes"
+          dhDropdownTranslator
+        />
+
+        <watt-checkbox [formControl]="form.controls.includeBasisData">
+          {{ t("includeBasisData") }}
+        </watt-checkbox>
+      </div>
+
+      <div class="items-group">
+        <watt-datepicker
+          [range]="true"
+          [label]="t('period')"
+          [min]="minDate"
+          [max]="maxDate"
+          [formControl]="form.controls.period"
+        >
+          @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
+            <watt-field-error> {{ t("startDateIsBeforeMinDate") }} </watt-field-error>
+          }
+        </watt-datepicker>
+
+        @if (showMonthlySumCheckbox$ | push) {
+          <watt-checkbox [formControl]="form.controls.includeMonthlySum">
+            {{ t("includeMonthlySum") }}
+          </watt-checkbox>
+        }
+      </div>
+
+      @if ((isFas$ | push) && form.controls.energySupplier) {
+        <div class="items-group">
+          <watt-dropdown
+            [label]="t('energySupplier')"
+            [showResetOption]="false"
+            [formControl]="form.controls.energySupplier"
+            [options]="energySupplierOptions$ | push"
+          />
+        </div>
+      }
+
+      @if (hasMoreThanOneGridAreaOption()) {
+        <div class="items-group">
+          <watt-dropdown
+            [multiple]="true"
+            sortDirection="asc"
+            [label]="t('gridArea')"
+            [formControl]="form.controls.gridAreas"
+            [options]="gridAreaOptions$ | push"
+          >
+            @if (miltipleGridAreasSelected$ | push) {
+              <watt-field-hint>
+                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+              </watt-field-hint>
+            }
+          </watt-dropdown>
+
+          @if (miltipleGridAreasSelected$ | push) {
+            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+              {{ t("combineResultsInOneFile") }}
+            </watt-checkbox>
+          }
+        </div>
+      }
+    </vater-stack>
+  </form>
+
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
+
+    <watt-button
+      type="submit"
+      formId="request-settlement-report-form"
+      [loading]="submitInProgress()"
+    >
+      {{ t("confirm") }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>

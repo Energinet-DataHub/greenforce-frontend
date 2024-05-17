@@ -16,25 +16,20 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NgIf } from '@angular/common';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   standalone: true,
-  imports: [NgIf, WattIconComponent],
+  imports: [WattIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-chip',
   styleUrls: ['./watt-chip.component.scss'],
   template: `
     <label [class.selected]="selected" [class.disabled]="disabled">
-      <watt-icon
-        *ngIf="selected"
-        class="selected-icon"
-        name="checkmark"
-        size="s"
-        [attr.aria-hidden]="true"
-      />
+      @if (selected) {
+        <watt-icon class="selected-icon" name="checkmark" size="s" [attr.aria-hidden]="true" />
+      }
       <ng-content />
     </label>
   `,

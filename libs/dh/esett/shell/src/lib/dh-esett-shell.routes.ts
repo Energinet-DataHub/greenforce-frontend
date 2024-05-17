@@ -23,11 +23,30 @@ import { DhESettShellComponent } from './dh-esett-shell.component';
 export const dhESettShellRoutes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
     component: DhESettShellComponent,
     canActivate: [PermissionGuard(['esett-exchange:manage'])],
     data: {
       titleTranslationKey: 'eSett.topBarTitle',
     },
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'outgoing-messages',
+      },
+      {
+        path: 'outgoing-messages',
+        loadComponent: () => import('@energinet-datahub/dh/esett/feature-outgoing-messages'),
+      },
+      {
+        path: 'metering-gridarea-imbalance',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance'),
+      },
+      {
+        path: 'balance-responsible',
+        loadComponent: () => import('@energinet-datahub/dh/esett/feature-balance-responsible'),
+      },
+    ],
   },
 ];

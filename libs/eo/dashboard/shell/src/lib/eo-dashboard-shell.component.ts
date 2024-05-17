@@ -118,7 +118,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       @if (
         (productionAndConsumptionMeteringPoints$ | async)?.length === 0 &&
-        !(meteringPointError$ | async)
+        (meteringPointError$ | async) === null
       ) {
         <watt-empty-state
           data-testid="no-data"

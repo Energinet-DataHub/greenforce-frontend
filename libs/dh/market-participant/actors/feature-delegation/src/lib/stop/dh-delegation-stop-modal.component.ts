@@ -29,7 +29,7 @@ import { distinctUntilKeyChanged } from 'rxjs';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -43,6 +43,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDelegation } from '../dh-delegations';
+import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   standalone: true,
@@ -56,7 +58,7 @@ import { DhDelegation } from '../dh-delegations';
         margin-top: var(--watt-space-m);
       }
 
-      watt-datepicker-v2 {
+      watt-datepicker {
         watt-field {
           span.label {
             display: none;
@@ -71,8 +73,9 @@ import { DhDelegation } from '../dh-delegations';
 
     WATT_MODAL,
     WattButtonComponent,
-    WattDatepickerV2Component,
+    WattDatepickerComponent,
     WattRadioComponent,
+    WattFieldErrorComponent,
 
     VaterStackComponent,
   ],
@@ -100,7 +103,15 @@ import { DhDelegation } from '../dh-delegations';
           >
             {{ t('stopDate') }}
           </watt-radio>
-          <watt-datepicker-v2 [min]="date" [formControl]="stopDelegationForm.controls.stopDate" />
+          <watt-datepicker [min]="date" [formControl]="stopDelegationForm.controls.stopDate">
+            @if (
+              stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
+            ) {
+              <watt-field-error>
+                {{ t('stopDateError') }}
+              </watt-field-error>
+            }
+          </watt-datepicker>
         </vater-stack>
       </vater-stack>
     </form>
@@ -132,7 +143,10 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
 
   stopDelegationForm = this._fb.group({
     selectedOption: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
-    stopDate: [{ value: null, disabled: true }, Validators.required],
+    stopDate: [
+      { value: null, disabled: true },
+      [Validators.required, dateCannotBeOlderThanTodayValidator()],
+    ],
   });
 
   constructor() {

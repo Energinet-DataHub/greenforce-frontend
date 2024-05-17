@@ -19,7 +19,6 @@ import { ApolloError } from '@apollo/client';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-permissions-table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   MarketParticipantPermissionsHttp,
@@ -35,7 +34,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhSharedUiSearchComponent } from '@energinet-datahub/dh/shared/ui-search';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -47,6 +45,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { switchMap } from 'rxjs';
+import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -81,7 +80,6 @@ import { switchMap } from 'rxjs';
     DhPermissionsTableComponent,
     DhEmDashFallbackPipe,
     DhAdminPermissionDetailComponent,
-    DhSharedUiSearchComponent,
   ],
 })
 export class DhAdminPermissionOverviewComponent implements OnInit {

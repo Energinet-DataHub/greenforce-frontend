@@ -14,34 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Directive, Input, OnInit, inject } from '@angular/core';
+import { DestroyRef, Directive, OnInit, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { TranslocoService } from '@ngneat/transloco';
-import { withLatestFrom } from 'rxjs';
+
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 
 @Directive({
   standalone: true,
   selector: '[dhDropdownTranslator]',
 })
 export class DhDropdownTranslatorDirective implements OnInit {
-  private trans = inject(TranslocoService);
+  private translocoService = inject(TranslocoService);
   private host = inject(WattDropdownComponent);
-  @Input({ required: true }) translate = '';
-  destroyRef = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
+
+  translate = input.required<string>();
 
   ngOnInit(): void {
-    this.host.filteredOptions$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        withLatestFrom(this.trans.selectTranslateObject<object>(this.translate))
-      )
-      .subscribe(([, keys]) => {
-        this.setTranslation(keys);
-      });
-
-    this.trans
-      .selectTranslateObject<object>(this.translate)
+    this.translocoService
+      .selectTranslateObject<object>(this.translate())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {
@@ -51,8 +43,13 @@ export class DhDropdownTranslatorDirective implements OnInit {
   }
 
   private setTranslation(keys: object): void {
-    this.host.options.forEach((option) => {
-      option.displayValue = keys[option.value as keyof typeof keys];
-    });
+    const translatedOptions = this.host.options.map((option) => ({
+      ...option,
+      displayValue: keys[option.value as keyof typeof keys],
+    }));
+
+    this.host.options = this.host.sortDirection
+      ? this.host.sortOptions(translatedOptions)
+      : translatedOptions;
   }
 }

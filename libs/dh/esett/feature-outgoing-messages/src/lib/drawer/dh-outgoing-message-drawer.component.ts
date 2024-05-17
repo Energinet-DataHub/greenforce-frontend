@@ -127,8 +127,6 @@ export class DhOutgoingMessageDrawerComponent {
     this.subscription = this.apollo
       .watchQuery({
         errorPolicy: 'all',
-        useInitialLoading: true,
-        notifyOnNetworkStatusChange: true,
         query: GetOutgoingMessageByIdDocument,
         variables: { documentId: id },
       })

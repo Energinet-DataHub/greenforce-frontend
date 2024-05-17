@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, effect, inject, Injector } from '@angular/core';
+import { Component, input, effect, inject, Injector } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -89,7 +89,7 @@ export class DhCertificateViewComponent {
 
   certificateMetadata = toSignal(this.store.certificateMetadata$);
 
-  @Input({ required: true }) actorId = '';
+  actorId = input.required<string>();
 
   constructor() {
     effect(() => {
@@ -116,7 +116,7 @@ export class DhCertificateViewComponent {
       onClosed: (result) => {
         if (result) {
           this.store.removeActorCredentials({
-            actorId: this.actorId,
+            actorId: this.actorId(),
             onSuccess: this.onRemoveSuccessFn,
             onError: this.onRemoveErrorFn,
           });
@@ -129,7 +129,7 @@ export class DhCertificateViewComponent {
     this.modalService.open({
       component: DhReplaceCertificateModalComponent,
       injector: this.injector,
-      data: { actorId: this.actorId },
+      data: { actorId: this.actorId() },
     });
   }
 
@@ -140,7 +140,7 @@ export class DhCertificateViewComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.auditLogService.refreshAuditLog(this.actorId);
+    this.auditLogService.refreshAuditLog(this.actorId());
   };
 
   private readonly onRemoveErrorFn = () => {

@@ -25,7 +25,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { debounceTime, map } from 'rxjs';
 
@@ -33,18 +32,15 @@ import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import {
-  GetCalculationsQueryVariables,
-  GetGridAreasDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { CalculationQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { executionStates, calculationTypes } from '@energinet-datahub/dh/wholesale/domain';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<GetCalculationsQueryVariables>;
+type Filters = FormControls<CalculationQueryInput>;
 
 @Component({
   standalone: true,
@@ -92,7 +88,8 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
         formControlName="gridAreaCodes"
         [chipMode]="true"
         [multiple]="true"
-        [options]="_gridAreaOptions | push"
+        sortDirection="asc"
+        [options]="gridAreaOptions$ | push"
         [placeholder]="t('gridAreas')"
       />
       <watt-date-range-chip [formControl]="this._formGroup.controls.executionTime!">
@@ -111,10 +108,9 @@ type Filters = FormControls<GetCalculationsQueryVariables>;
   `,
 })
 export class DhCalculationsFiltersComponent implements OnInit {
-  @Input() initial?: GetCalculationsQueryVariables;
-  @Output() filter = new EventEmitter<GetCalculationsQueryVariables>();
+  @Input() initial?: CalculationQueryInput;
+  @Output() filter = new EventEmitter<CalculationQueryInput>();
 
-  private apollo = inject(Apollo);
   private transloco = inject(TranslocoService);
 
   _formGroup!: FormGroup<Filters>;
@@ -136,16 +132,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
     .selectTranslateObject('wholesale.calculations.executionStates')
     .pipe(map((t) => executionStates.map((k) => ({ displayValue: t[k], value: k }))));
 
-  _gridAreaOptions = this.apollo.watchQuery({ query: GetGridAreasDocument }).valueChanges.pipe(
-    map((result) => result.data?.gridAreas),
-    exists(),
-    map((gridAreas) =>
-      gridAreas.map((gridArea) => ({
-        value: gridArea.code,
-        displayValue: gridArea.displayName,
-      }))
-    )
-  );
+  gridAreaOptions$ = getGridAreaOptions();
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({

@@ -2,6 +2,7 @@ query getOutgoingMessages(
   $pageNumber: Int!
   $pageSize: Int!
   $periodInterval: DateRange
+  $sentInterval: DateRange
   $gridAreaCode: String
   $createdInterval: DateRange
   $calculationType: ExchangeEventCalculationType
@@ -10,6 +11,7 @@ query getOutgoingMessages(
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
+  $actorNumber: String
 ) {
   esettExchangeEvents(
     pageNumber: $pageNumber
@@ -23,17 +25,26 @@ query getOutgoingMessages(
     sortProperty: $sortProperty
     sortDirection: $sortDirection
     createdInterval: $createdInterval
+    sentInterval: $sentInterval
+    actorNumber: $actorNumber
   ) {
     items {
       created
+      lastDispatched
       documentId
+      actorNumber
+      energySupplier {
+        value
+      }
+      calculationType
+      timeSeriesType
       gridArea {
         displayName
       }
-      calculationType
+      gridAreaCodeOut
       documentStatus
-      timeSeriesType
     }
     totalCount
+    gridAreaCount
   }
 }

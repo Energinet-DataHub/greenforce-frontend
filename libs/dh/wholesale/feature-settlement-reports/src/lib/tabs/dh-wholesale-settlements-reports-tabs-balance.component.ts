@@ -132,8 +132,6 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   };
 
   actorsQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsForSettlementReportDocument,
     variables: {
       eicFunctions: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
@@ -141,14 +139,10 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   });
 
   gridAreasQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetGridAreasDocument,
   });
 
   gridAreasForFilterQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetGridAreasDocument,
   });
 

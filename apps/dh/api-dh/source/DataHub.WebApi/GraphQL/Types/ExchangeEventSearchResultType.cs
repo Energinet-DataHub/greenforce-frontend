@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using HotChocolate.Types;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class ExchangeEventSearchResultType : ObjectType<ExchangeEventSearchResult>
 {
@@ -29,5 +29,9 @@ public class ExchangeEventSearchResultType : ObjectType<ExchangeEventSearchResul
         descriptor
            .Field("gridArea")
            .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventSearchResult)!, default!));
+
+        descriptor
+           .Field("energySupplier")
+           .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default(ExchangeEventSearchResult)!, default!));
     }
 }

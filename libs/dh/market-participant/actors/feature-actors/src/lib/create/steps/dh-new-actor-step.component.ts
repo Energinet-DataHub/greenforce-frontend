@@ -16,11 +16,10 @@
  */
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, Input, inject, signal } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { EicFunction, GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -32,6 +31,8 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import { ActorForm } from '../dh-actor-form.model';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { RxPush } from '@rx-angular/template/push';
 
 @Component({
   standalone: true,
@@ -46,6 +47,7 @@ import { ActorForm } from '../dh-actor-form.model';
     WattPhoneFieldComponent,
     ReactiveFormsModule,
     DhDropdownTranslatorDirective,
+    RxPush,
   ],
   styles: [
     `
@@ -62,6 +64,7 @@ import { ActorForm } from '../dh-actor-form.model';
       }
     `,
   ],
+
   template: `<vater-stack
     gap="xl"
     align="flex-start"
@@ -72,37 +75,33 @@ import { ActorForm } from '../dh-actor-form.model';
       <h4>{{ t('marketParty') }}</h4>
 
       <watt-text-field
-        [formControl]="newActorForm.controls.glnOrEicNumber"
+        [formControl]="newActorForm().controls.glnOrEicNumber"
         [label]="t('glnOrEicNumber')"
       >
         <watt-field-hint>{{ t('glnOrEicHint') }}</watt-field-hint>
-        @if (newActorForm.controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
+        @if (newActorForm().controls.glnOrEicNumber.hasError('invalidGlnOrEic')) {
           <watt-field-error>
             {{ t('glnOrEicInvalid') }}
           </watt-field-error>
         }
       </watt-text-field>
 
-      <watt-text-field
-        [formControl]="newActorForm.controls.name"
-        [label]="t('name')"
-        [tooltip]="t('tooltip')"
-      />
+      <watt-text-field [formControl]="newActorForm().controls.name" [label]="t('name')" />
       <watt-dropdown
         translate="marketParticipant.marketRoles"
         dhDropdownTranslator
         [options]="marketRoleOptions"
         [showResetOption]="false"
         (ngModelChange)="onMarketRoleChange($event)"
-        [formControl]="newActorForm.controls.marketrole"
+        [formControl]="newActorForm().controls.marketrole"
         [label]="t('marketRole')"
       />
 
       @if (showGridAreaOptions()) {
         <watt-dropdown
-          [options]="gridAreaOptions"
+          [options]="gridAreaOptions | push"
           [multiple]="true"
-          [formControl]="newActorForm.controls.gridArea"
+          [formControl]="newActorForm().controls.gridArea"
           [label]="t('gridArea')"
         />
       }
@@ -110,57 +109,39 @@ import { ActorForm } from '../dh-actor-form.model';
     <vater-stack fill="horizontal" align="flex-start" direction="column">
       <h4>{{ t('contact') }}</h4>
       <watt-text-field
-        [formControl]="newActorForm.controls.contact.controls.departmentOrName"
+        [formControl]="newActorForm().controls.contact.controls.departmentOrName"
         [label]="t('departmentOrName')"
       />
       <watt-text-field
-        [formControl]="newActorForm.controls.contact.controls.email"
+        [formControl]="newActorForm().controls.contact.controls.email"
         [label]="t('email')"
       >
-        @if (newActorForm.controls.contact.controls.email.hasError('pattern')) {
+        @if (newActorForm().controls.contact.controls.email.hasError('pattern')) {
           <watt-field-error>
             {{ t('wrongEmailPattern') }}
           </watt-field-error>
         }
       </watt-text-field>
       <watt-phone-field
-        [formControl]="newActorForm.controls.contact.controls.phone"
+        [formControl]="newActorForm().controls.contact.controls.phone"
         [label]="t('phone')"
       />
     </vater-stack>
   </vater-stack>`,
 })
 export class DhNewActorStepComponent {
-  private _apollo = inject(Apollo);
+  newActorForm = input.required<ActorForm>();
 
-  @Input({ required: true }) newActorForm!: ActorForm;
-
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
-  gridAreaOptions: WattDropdownOptions = [];
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction, 'asc');
+  gridAreaOptions = getGridAreaOptions();
 
   showGridAreaOptions = signal(false);
-
-  constructor() {
-    this._apollo
-      .query({
-        notifyOnNetworkStatusChange: true,
-        query: GetGridAreasDocument,
-      })
-      .subscribe((result) => {
-        if (result.data?.gridAreas) {
-          this.gridAreaOptions = result.data.gridAreas.map((gridArea) => ({
-            value: gridArea.id,
-            displayValue: gridArea.displayName,
-          }));
-        }
-      });
-  }
 
   onMarketRoleChange(eicfunction: EicFunction): void {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
 
     if (eicfunction === EicFunction.GridAccessProvider) {
-      this.newActorForm.controls.gridArea.enable();
+      this.newActorForm().controls.gridArea.enable();
     }
   }
 }

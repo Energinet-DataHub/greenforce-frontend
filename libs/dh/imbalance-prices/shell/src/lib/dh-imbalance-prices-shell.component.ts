@@ -77,7 +77,6 @@ export class DhImbalancePricesShellComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly getImbalancePricesOverview$ = this.apollo.query({
-    notifyOnNetworkStatusChange: true,
     fetchPolicy: 'network-only',
     query: GetImbalancePricesOverviewDocument,
   });

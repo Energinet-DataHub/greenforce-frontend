@@ -36,11 +36,14 @@ import {
   mockGetGridAreasQuery,
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
+  mockGetSettlementReportsQuery,
+  mockRequestSettlementReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
+import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
-import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';
 
 export function wholesaleMocks(apiBase: string) {
   return [
@@ -48,6 +51,7 @@ export function wholesaleMocks(apiBase: string) {
     getCalculation(),
     getCalculations(),
     downloadSettlementReportData(apiBase),
+    downloadSettlementReportDataV2(apiBase),
     getFilteredActors(),
     getGridAreasQuery(),
     getLatestBalanceFixing(),
@@ -55,6 +59,8 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
+    getSettlementReports(),
+    requestSettlementReportMutation(),
   ];
 }
 
@@ -84,9 +90,9 @@ export const mockedGridAreas: GridAreaDto[] = [
   {
     __typename: 'GridAreaDto',
     id: '1',
-    code: '805',
+    code: '001',
     name: 'hello',
-    displayName: '805 • hello',
+    displayName: '001 • hello',
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
@@ -94,9 +100,9 @@ export const mockedGridAreas: GridAreaDto[] = [
   {
     __typename: 'GridAreaDto',
     id: '2',
-    code: '806',
+    code: '002',
     name: 'hello again',
-    displayName: '806 • hello again',
+    displayName: '002 • hello again',
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
@@ -394,7 +400,7 @@ function getCalculation() {
 }
 
 function downloadSettlementReportData(apiBase: string) {
-  return http.get(`${apiBase}/v1/WholesaleSettlementReport`, async () => {
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport/Download`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 500 });
 
@@ -413,9 +419,42 @@ function downloadSettlementReportData(apiBase: string) {
   });
 }
 
+function downloadSettlementReportDataV2(apiBase: string) {
+  return http.get(`${apiBase}/v1/WholesaleSettlementReport/DownloadReport`, async () => {
+    await delay(mswConfig.delay);
+
+    const text = 'This is some text';
+    const encoder = new TextEncoder();
+    const readableStream = new ReadableStream({
+      start(controller) {
+        const encodedData = encoder.encode(text);
+        controller.enqueue(encodedData);
+        controller.close();
+      },
+    });
+
+    const compressedReadableStream = readableStream.pipeThrough(new CompressionStream('gzip'));
+
+    const response = new Response(compressedReadableStream, {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Encoding': 'gzip',
+      },
+    });
+
+    const buffer = await response.arrayBuffer();
+
+    return HttpResponse.arrayBuffer(buffer, {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Encoding': 'gzip',
+      },
+    });
+  });
+}
 function getCalculations() {
   return mockGetCalculationsQuery(async ({ variables }) => {
-    if (!variables.executionTime) {
+    if (!variables.input.executionTime) {
       return HttpResponse.json({ data: null }, { status: 500 });
     } else {
       await delay(mswConfig.delay);
@@ -442,9 +481,10 @@ function getLatestBalanceFixing() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        calculations: [
-          { __typename: 'Calculation', period: { start: periodStart, end: periodEnd } },
-        ],
+        latestBalanceFixing: {
+          __typename: 'Calculation',
+          period: { start: periodStart, end: periodEnd },
+        },
       },
     });
   });
@@ -459,6 +499,43 @@ function requestCalculationMutation() {
         createAggregatedMeasureDataRequest: {
           __typename: 'CreateAggregatedMeasureDataRequestPayload',
           success: true,
+        },
+      },
+    });
+  });
+}
+
+function getSettlementReports() {
+  return mockGetSettlementReportsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    if (window.location.href.includes('error'))
+      return HttpResponse.json({
+        errors: [
+          {
+            message: 'Failed to fetch settlement reports',
+            extensions: { code: '500', details: 'test' },
+          },
+        ],
+        data: null,
+      });
+
+    return HttpResponse.json({
+      data: wholesaleSettlementReportsQueryMock,
+    });
+  });
+}
+
+function requestSettlementReportMutation() {
+  return mockRequestSettlementReportMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestSettlementReport: {
+          __typename: 'RequestSettlementReportPayload',
+          boolean: true,
         },
       },
     });

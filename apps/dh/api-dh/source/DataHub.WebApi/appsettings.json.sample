@@ -11,10 +11,12 @@
     "EdiB2CWebApiBaseUrl": "https://localhost:5091",
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "WholesaleBaseUrl": "https://localhost:7133",
+    "WholesaleOrchestrationsBaseUrl": "https://localhost:7133",
     "ESettExchangeBaseUrl": "https://localhost:5001",
     "ImbalancePricesBaseUrl": "https://localhost:5091"
   },
   "APPLICATIONINSIGHTS_CONNECTION_STRING": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+  "MITID_EXTERNAL_OPEN_ID_URL": "MITID_EXTERNAL_OPEN_ID_URL",
   "BACKEND_BFF_APP_ID": "BACKEND_BFF_APP_ID",
   "EXTERNAL_OPEN_ID_URL": "EXTERNAL_OPEN_ID_URL",
   "INTERNAL_OPEN_ID_URL": "INTERNAL_OPEN_ID_URL"

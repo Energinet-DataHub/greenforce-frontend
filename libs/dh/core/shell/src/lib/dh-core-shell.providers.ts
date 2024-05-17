@@ -30,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormGroupDirective } from '@angular/forms';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { of } from 'rxjs';
+import { ApolloModule } from 'apollo-angular';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -104,7 +105,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot()]),
+  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot(), ApolloModule]),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,

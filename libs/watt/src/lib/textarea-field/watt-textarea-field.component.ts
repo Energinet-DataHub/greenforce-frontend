@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   Input,
@@ -30,7 +30,7 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   standalone: true,
-  imports: [NgClass, FormsModule, WattFieldComponent, NgIf],
+  imports: [NgClass, FormsModule, WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -61,34 +61,37 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   @Input() required = false;
   @Input() label!: string;
 
-  /* @ignore */
+  /** @ignore */
   model!: string;
+
+  /** @ignore */
   private element = inject(ElementRef);
 
+  /** @ignore */
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
-  /* @ignore */
+  /** @ignore */
   onChange: (value: string) => void = () => {
     /* left blank intentionally */
   };
 
-  /* @ignore */
+  /** @ignore */
   writeValue(value: string): void {
     this.model = value;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnTouched(fn: () => void): void {
     this.element.nativeElement.addEventListener('focusout', fn);
   }
 
-  /* @ignore */
+  /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }

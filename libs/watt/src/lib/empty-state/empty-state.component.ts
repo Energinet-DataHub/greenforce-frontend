@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 
 import { WattIcon, WattIconComponent, WattIconSize } from '@energinet-datahub/watt/icon';
 
@@ -29,7 +29,7 @@ import { WattIcon, WattIconComponent, WattIconSize } from '@energinet-datahub/wa
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgClass, NgIf, NgTemplateOutlet, WattIconComponent],
+  imports: [NgClass, NgTemplateOutlet, WattIconComponent],
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;

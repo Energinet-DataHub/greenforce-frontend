@@ -28,12 +28,6 @@
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/feature-create-user-role": [
-        "libs/dh/admin/feature-create-user-role/src/index.ts"
-      ],
-      "@energinet-datahub/dh/admin/feature-edit-permission-modal": [
-        "libs/dh/admin/feature-edit-permission-modal/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/feature-edit-user-role-modal": [
         "libs/dh/admin/feature-edit-user-role-modal/src/index.ts"
       ],
@@ -52,10 +46,10 @@
       "@energinet-datahub/dh/admin/routing": [
         "libs/dh/admin/routing/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
-      "@energinet-datahub/dh/admin/ui-permissions-table": [
-        "libs/dh/admin/ui-permissions-table/src/index.ts"
+      "@energinet-datahub/dh/admin/shared": [
+        "libs/dh/admin/shared/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
@@ -120,9 +114,6 @@
       ],
       "@energinet-datahub/dh/market-participant/grid-areas/shell": [
         "libs/dh/market-participant/grid-areas/shell/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/routing": [
-        "libs/dh/market-participant/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
@@ -220,11 +211,17 @@
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
       ],
+      "@energinet-datahub/dh/wholesale/feature-settlement-reports-v2": [
+        "libs/dh/wholesale/feature-settlement-reports-v2/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/routing": [
         "libs/dh/wholesale/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/activity-log": [
+        "libs/eo/activity-log/feature-activity-log/index.ts"
       ],
       "@energinet-datahub/eo/activity-log/data-access-api": [
         "libs/eo/activity-log/data-access-api/index.ts"

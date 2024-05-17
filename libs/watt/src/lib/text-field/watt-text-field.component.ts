@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgForOf, NgIf } from '@angular/common';
 import {
   Component,
   Input,
@@ -43,14 +42,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
 
 @Component({
   standalone: true,
-  imports: [
-    MatAutocompleteModule,
-    NgForOf,
-    NgIf,
-    ReactiveFormsModule,
-    WattFieldComponent,
-    WattIconComponent,
-  ],
+  imports: [MatAutocompleteModule, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -68,9 +60,11 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     [tooltip]="tooltip"
     matAutocompleteOrigin
   >
-    <watt-icon *ngIf="prefix" [name]="prefix" />
+    @if (prefix) {
+      <watt-icon [name]="prefix" />
+    }
 
-    <ng-container *ngIf="!autocompleteOptions; else autocomplete">
+    @if (!autocompleteOptions) {
       <input
         [attr.aria-label]="label"
         [attr.type]="type"
@@ -82,9 +76,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         [maxlength]="maxLength"
         #inputField
       />
-    </ng-container>
-
-    <ng-template #autocomplete>
+    } @else {
       <input
         [attr.aria-label]="label"
         [attr.type]="type"
@@ -104,11 +96,13 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         class="watt-autocomplete-panel"
         (optionSelected)="autocompleteOptionSelected.emit($event.option.value)"
       >
-        <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
-          {{ option }}
-        </mat-option>
+        @for (option of autocompleteOptions; track option) {
+          <mat-option [value]="option">
+            {{ option }}
+          </mat-option>
+        }
       </mat-autocomplete>
-    </ng-template>
+    }
 
     <ng-content />
     <ng-content ngProjectAs="watt-field-descriptor" select=".descriptor" />
@@ -128,6 +122,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   @Input() autocompleteOptions!: string[];
   @Input() autocompleteMatcherFn!: (value: string, option: string) => boolean;
 
+  /** @ignore */
   @ViewChild(MatAutocomplete) autocompleteRef!: MatAutocomplete;
 
   /**
@@ -145,16 +140,21 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
    */
   @Output() autocompleteOptionDeselected = new EventEmitter<void>();
 
+  /** @ignore */
   private element = inject(ElementRef);
 
+  /** @ignore */
   @ViewChild('inputField') inputField!: ElementRef<HTMLInputElement>;
   model!: string;
 
+  /** @ignore */
   @HostBinding('attr.watt-field-disabled')
   isDisabled = false;
 
+  /** @ignore */
   onTouchedCallbacks: (() => void)[] = [];
 
+  /** @ignore */
   ngAfterViewInit(): void {
     const attrName = 'data-testid';
     const testIdAttribute = this.element.nativeElement.getAttribute(attrName);
@@ -167,6 +167,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
     });
   }
 
+  /** @ignore */
   onChanged(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
 
@@ -191,37 +192,39 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
     this.onChange(value);
   }
 
-  /* @ignore */
+  /** @ignore */
   onChange: (value: string) => void = () => {
     /* noop function */
   };
 
+  /** @ignore */
   onTouched: () => void = () => {
     for (const callback of this.onTouchedCallbacks) {
       callback();
     }
   };
 
-  /* @ignore */
+  /** @ignore */
   writeValue(value: string): void {
     this.model = value;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  /* @ignore */
+  /** @ignore */
   registerOnTouched(fn: () => void): void {
     this.onTouchedCallbacks.push(fn);
   }
 
-  /* @ignore */
+  /** @ignore */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }
 
+  /** @ignore */
   setFocus(): void {
     this.inputField.nativeElement.focus();
   }

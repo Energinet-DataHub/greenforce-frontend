@@ -16,7 +16,8 @@
  */
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap, tap } from 'rxjs';
-import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
+import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {

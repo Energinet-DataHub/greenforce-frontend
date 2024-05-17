@@ -1,7 +1,4 @@
 {
-  "affected": {
-    "defaultBase": "main"
-  },
   "tasksRunnerOptions": {
     "default": {
       "options": {
@@ -54,6 +51,7 @@
       "cache": true
     },
     "test": {
+      "dependsOn": ["^generate"],
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true
     },
@@ -66,6 +64,7 @@
       ]
     },
     "component-test": {
+      "dependsOn": ["^generate"],
       "inputs": ["default", "^production"],
       "cache": true
     },
@@ -104,5 +103,6 @@
       "!{projectRoot}/tsconfig.storybook.json",
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
-  }
+  },
+  "defaultBase": "main"
 }

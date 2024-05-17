@@ -79,8 +79,6 @@ export class DhOrganizationsOverviewComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly getOrganizationsQuery$ = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetOrganizationsDocument,
   });
 

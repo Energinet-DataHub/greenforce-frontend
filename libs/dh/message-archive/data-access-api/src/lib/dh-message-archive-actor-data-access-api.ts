@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Actor, MessageArchiveHttp } from '@energinet-datahub/dh/shared/domain';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ComponentStore } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+
+import { Actor, MessageArchiveHttp } from '@energinet-datahub/dh/shared/domain';
+import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 
 interface ActorsResultState {
   readonly actorResult: Actor[] | null;

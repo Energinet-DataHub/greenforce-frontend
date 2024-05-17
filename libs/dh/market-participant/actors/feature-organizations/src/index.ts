@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhOrganizationsOverviewComponent } from './lib/dh-organizations-overview.component';
+export { DhOrganizationsOverviewComponent as default } from './lib/dh-organizations-overview.component';

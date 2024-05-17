@@ -15,8 +15,92 @@
  * limitations under the License.
  */
 export interface TranslationKeys {
-  announcementBar: {
-    message: string;
+  landingPage: {
+    announcementBar: {
+      message: string;
+    };
+    header: {
+      loginButton: string;
+    };
+    hero: {
+      heading: string;
+      subheading: string;
+      loginButton: string;
+      learnMoreButton: string;
+    };
+    why: {
+      quote: string;
+      quoteAuthor: string;
+      quoteAuthorDescription: string;
+    };
+    how: {
+      heading: string;
+      subheading: string;
+      content: string;
+    };
+    what: {
+      heading: string;
+      section1: {
+        title: string;
+        headline: string;
+        content: string;
+      };
+      section2: {
+        title: string;
+        headline: string;
+        content: string;
+      };
+      section3: {
+        title: string;
+        headline: string;
+        content: string;
+      };
+    };
+    electricalGrid: {
+      heading: string;
+      subheading: string;
+    };
+    blockchainTech: {
+      heading: string;
+      content: string;
+    };
+    granularCertificates: {
+      heading: string;
+      content: string;
+    };
+    proveSustainability: {
+      heading: string;
+      content: string;
+    };
+    cta: {
+      heading: string;
+      section1: {
+        heading: string;
+        cta: string;
+      };
+      section2: {
+        heading: string;
+        cta: string;
+      };
+    };
+    footer: {
+      section1: {
+        heading: string;
+        content: string;
+      };
+      section2: {
+        heading: string;
+        content: string;
+      };
+      section3: {
+        heading: string;
+        content: string;
+      };
+      section4: {
+        heading: string;
+        content: string;
+      };
+    };
   };
   sidebar: {
     dashboard: string;
@@ -183,18 +267,21 @@ export interface TranslationKeys {
     tableTitle: string;
     gsrnTableHeader: string;
     addressTableHeader: string;
+    cityTableHeader: string;
+    statusTableHeader: string;
     unitTableHeader: string;
     sourceTableHeader: string;
-    onOffTableHeader: string;
-    onOffTooltipTitle: string;
-    onOffTooltipClose: string;
-    onOffTooltipMessage: string;
     consumptionUnit: string;
     productionUnit: string;
     solarSource: string;
     windSource: string;
     otherSource: string;
     contractError: string;
+    selected: string;
+    activate: string;
+    deactivate: string;
+    active: string;
+    inactive: string;
   };
   claims: {
     title: string;
@@ -362,25 +449,6 @@ export interface TranslationKeys {
     receiverLabel: string;
     unknownReceiver: string;
     idLabel: string;
-  };
-  transferAgreementHistory: {
-    tableTitle: string;
-    timeTableHeader: string;
-    eventTableHeader: string;
-    events: {
-      createdTransferAgreement: string;
-      updatedTransferAgreementToHaveNoEndDate: string;
-      updatedTransferAgreementToHaveEndDate: string;
-      deletedTransferAgreement: string;
-    };
-    noData: {
-      title: string;
-    };
-    error: {
-      title: string;
-      message: string;
-      retry: string;
-    };
   };
   transferAgreementEdit: {
     title: string;

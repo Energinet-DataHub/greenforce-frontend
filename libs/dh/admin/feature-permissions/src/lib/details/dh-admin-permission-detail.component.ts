@@ -28,13 +28,13 @@ import {
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhEditPermissionModalComponent } from '@energinet-datahub/dh/admin/feature-edit-permission-modal';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
 import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
 import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
+import { DhEditPermissionModalComponent } from '../edit/dh-edit-permission-modal.component';
 
 @Component({
   selector: 'dh-admin-permission-detail',

@@ -12,15 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using GreenDonut;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
 public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
 {
@@ -39,10 +33,10 @@ public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
         {
             ActorId = null,
             SearchText = null,
-            UserRoleIds = (ICollection<Guid>)Array.Empty<Guid>(),
-            UserStatus = (ICollection<UserStatus>)Array.Empty<UserStatus>(),
+            UserRoleIds = Array.Empty<Guid>(),
+            UserStatus = Array.Empty<UserStatus>(),
         };
-        var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters);
+        var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters, cancellationToken);
         return result.Users.ToDictionary(x => x.Id);
     }
 }

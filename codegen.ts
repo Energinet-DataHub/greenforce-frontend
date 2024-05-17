@@ -2,13 +2,10 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'https://localhost:5001/graphql',
+  schema: 'libs/dh/shared/data-access-graphql/schema.graphql',
   config: { sort: false },
   documents: 'libs/**/*.graphql',
   generates: {
-    './schema.graphql': {
-      plugins: ['schema-ast'],
-    },
     'libs/dh/shared/domain/src/lib/generated/graphql.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },

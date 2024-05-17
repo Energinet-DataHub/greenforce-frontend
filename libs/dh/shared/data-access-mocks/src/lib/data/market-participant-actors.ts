@@ -37,7 +37,7 @@ export const marketParticipantActors: Actor[] = [
         id: '1',
       } as GridAreaDto,
     ],
-    marketRole: EicFunction.BalanceResponsibleParty,
+    marketRole: EicFunction.EnergySupplier,
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
@@ -80,7 +80,7 @@ export const marketParticipantActors: Actor[] = [
       } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
-    status: ActorStatus.Inactive,
+    status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
       name: 'Test Organization 2',
@@ -142,7 +142,7 @@ export const marketParticipantActors: Actor[] = [
         id: '6',
       } as GridAreaDto,
     ],
-    marketRole: null,
+    marketRole: EicFunction.BalanceResponsibleParty,
     status: null as unknown as ActorStatus,
     organization: null as unknown as Organization,
   },

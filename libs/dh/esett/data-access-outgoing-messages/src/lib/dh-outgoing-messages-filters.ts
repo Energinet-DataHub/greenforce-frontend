@@ -26,7 +26,9 @@ export type DhOutgoingMessagesFilters = {
   calculationTypes?: InputMaybe<ExchangeEventCalculationType>;
   messageTypes?: InputMaybe<TimeSeriesType>;
   gridAreas?: InputMaybe<string>;
+  actorNumber?: InputMaybe<string>;
   status?: InputMaybe<DocumentStatus>;
   period?: InputMaybe<Scalars['DateRange']['input']>;
   created?: InputMaybe<Scalars['DateRange']['input']>;
+  latestDispatch?: InputMaybe<Scalars['DateRange']['input']>;
 };

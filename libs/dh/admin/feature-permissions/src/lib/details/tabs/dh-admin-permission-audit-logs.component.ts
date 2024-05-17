@@ -70,8 +70,6 @@ import {
 export class DhPermissionAuditLogsComponent implements OnChanges {
   private readonly apollo = inject(Apollo);
   private readonly getPermissionAuditLogsQuery = this.apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetPermissionAuditLogsDocument,
     fetchPolicy: 'cache-and-network',
   });

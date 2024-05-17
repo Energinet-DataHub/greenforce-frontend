@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { SelectionModel } from '@angular/cdk/collections';
-import { KeyValue, KeyValuePipe, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -148,8 +148,6 @@ export class WattTableToolbarDirective<T> {
   standalone: true,
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     KeyValuePipe,
     FormsModule,

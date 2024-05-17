@@ -49,6 +49,10 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
         piiLoggingEnabled: false,
       },
       allowNativeBroker: false,
+      // This value should be higher than the interval of the timer in DhSseLink,
+      // which is currently set to 30 seconds. If the value is less than that
+      // interval, GraphQL subscriptions may briefly be using an expired token.
+      tokenRenewalOffsetSeconds: 60,
     },
   });
 }

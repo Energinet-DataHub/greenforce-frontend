@@ -18,10 +18,6 @@ using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
@@ -30,10 +26,10 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
-if (!System.Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
+if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
 {
     services
-        .ConfigureOpenTelemetryTracerProvider((provider, builder) => builder.AddHotChocolateInstrumentation())
+        .ConfigureOpenTelemetryTracerProvider((_, b) => b.AddHotChocolateInstrumentation())
         .AddOpenTelemetry()
         .UseAzureMonitor();
 }
@@ -48,11 +44,12 @@ services.AddHttpContextAccessor();
 
 services.AddSwagger();
 
-var externalOpenIdUrl = configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? string.Empty;
-var internalOpenIdUrl = configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? string.Empty;
-var backendBffAppId = configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? string.Empty;
+var mitIdExternalOpenIdUrl = configuration.GetValue<string>("MITID_EXTERNAL_OPEN_ID_URL") ?? "-";
+var externalOpenIdUrl = configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? "-";
+var internalOpenIdUrl = configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? "-";
+var backendBffAppId = configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? "-";
 
-services.AddJwtBearerAuthentication(externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
+services.AddJwtBearerAuthentication(mitIdExternalOpenIdUrl, externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
 
 services
     .AddAuthorizationBuilder()
@@ -62,7 +59,7 @@ if (environment.IsDevelopment())
 {
     services.AddCors(options =>
     {
-        options.AddDefaultPolicy(builder => builder
+        options.AddDefaultPolicy(b => b
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod());
@@ -116,4 +113,4 @@ app.MapReadyHealthChecks();
 app.RunWithGraphQLCommands(args);
 
 // Make the implicit Program class public so test projects can access it
-public partial class Program { }
+public partial class Program;

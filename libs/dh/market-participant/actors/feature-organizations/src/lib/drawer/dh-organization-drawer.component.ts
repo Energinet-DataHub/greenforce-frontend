@@ -114,23 +114,17 @@ export class DhOrganizationDrawerComponent {
   private getOrganizationByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
     returnPartialData: true,
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetOrganizationByIdDocument,
   });
 
   private getActorsByOrganizationIdQuery$ = this.apollo.watchQuery({
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsByOrganizationIdDocument,
   });
 
   private getAuditLogByOrganizationIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetAuditLogByOrganizationIdDocument,
   });
 

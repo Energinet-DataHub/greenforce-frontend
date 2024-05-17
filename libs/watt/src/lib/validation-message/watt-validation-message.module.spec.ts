@@ -22,7 +22,7 @@ import {
   WattValidationMessageType,
 } from './watt-validation-message.component';
 
-describe(WattValidationMessageComponent.name, () => {
+describe(WattValidationMessageComponent, () => {
   it('exports shared Watt Design System validation message', async () => {
     const label = 'Error';
     const message = 'The metering point is not active';

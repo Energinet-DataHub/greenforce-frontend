@@ -1,0 +1,9 @@
+query GetActorsForEicFunction($eicFunctions: [EicFunction!]) {
+  actorsForEicFunction(eicFunctions: $eicFunctions) {
+    id
+    glnOrEicNumber
+    name
+    marketRole
+    status
+  }
+}

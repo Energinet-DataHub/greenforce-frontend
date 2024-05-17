@@ -65,6 +65,14 @@ export const WithRequired: StoryFn<WattPhoneFieldComponent> = () => ({
   template: `<watt-phone-field [label]="label" [formControl]="exampleFormControl" />`,
 });
 
+export const WithValue: StoryFn<WattPhoneFieldComponent> = () => ({
+  props: {
+    label: 'With Phone number',
+    exampleFormControl: new FormControl('+49 25242322'),
+  },
+  template: `<watt-phone-field [label]="label" [formControl]="exampleFormControl" />`,
+});
+
 export const WithHint: StoryFn<WattPhoneFieldComponent> = () => ({
   props: {
     label: 'Phone number with hint',

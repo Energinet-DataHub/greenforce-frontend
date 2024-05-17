@@ -34,7 +34,7 @@ import {
   ValidatorFn,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -56,8 +56,6 @@ import type { WattDropdownValue } from './watt-dropdown-value';
   standalone: true,
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     MatSelectModule,
     RxPush,
     ReactiveFormsModule,
@@ -168,14 +166,24 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
   @Input() disableSelectedMode = false;
 
+  @Input()
+  sortDirection: 'asc' | 'desc' | undefined = undefined;
+
   /**
-   *
    * Sets the options for the dropdown.
    */
   @Input()
   set options(options: WattDropdownOptions) {
-    this._options = options;
-    this.filteredOptions$.next(options);
+    if (Array.isArray(options)) {
+      let optionsCopy = [...options];
+
+      if (this.sortDirection) {
+        optionsCopy = this.sortOptions(optionsCopy);
+      }
+
+      this._options = optionsCopy;
+      this.filteredOptions$.next(optionsCopy);
+    }
   }
   get options(): WattDropdownOptions {
     return this._options;
@@ -268,6 +276,14 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
         const optionsToSelect = toggleAllState ? filteredOptions : [];
         this.matSelectControl.patchValue(optionsToSelect);
       });
+  }
+
+  public sortOptions(options: WattDropdownOptions): WattDropdownOptions {
+    return [...options].sort((a, b) => {
+      return this.sortDirection === 'asc'
+        ? a.displayValue.localeCompare(b.displayValue)
+        : b.displayValue.localeCompare(a.displayValue);
+    });
   }
 
   /**

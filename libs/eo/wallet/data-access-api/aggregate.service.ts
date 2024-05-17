@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { EMPTY, ReplaySubject, catchError, map, of, shareReplay, tap } from 'rxjs';
 import {
+  addDays,
   eachDayOfInterval,
   eachHourOfInterval,
   eachMinuteOfInterval,
@@ -27,6 +28,7 @@ import {
   isSameDay,
   isSameHour,
   isSameMonth,
+  startOfDay,
 } from 'date-fns';
 import { da, enGB } from 'date-fns/locale';
 import { TranslocoService } from '@ngneat/transloco';
@@ -66,10 +68,10 @@ export class EoAggregateService {
       this.#cache.set(cacheKey, subject);
 
       const intervals = this.getIntervals(timeAggregate, start, end) ?? [];
-
+      const endDate = startOfDay(addDays(fromUnixTime(end), 1)).getTime() / 1000; // Add one day to end date
       this.#http
         .get<AggregatedResponse>(
-          `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${this.#timeZone}&start=${start}&end=${end}`
+          `${this.#apiBase}/aggregate-claims?timeAggregate=${timeAggregate}&timeZone=${this.#timeZone}&start=${start}&end=${endDate}`
         )
         .pipe(
           map((response) => response.result),

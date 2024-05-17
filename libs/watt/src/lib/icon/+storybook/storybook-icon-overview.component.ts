@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
 
 import { WattIcon } from '../icons';
 import { WattIconComponent } from '../icon.component';
@@ -36,7 +35,7 @@ interface IconGroup {
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],
   standalone: true,
-  imports: [NgFor, WattIconComponent],
+  imports: [WattIconComponent],
 })
 export class StorybookIconOverviewComponent {
   /**
@@ -46,6 +45,8 @@ export class StorybookIconOverviewComponent {
     {
       icons: [
         { name: 'Search', icon: 'search' },
+        { name: 'Toggle On', icon: 'toggleOn' },
+        { name: 'Toggle Off', icon: 'toggleOff' },
         { name: 'Filter', icon: 'filter' },
         { name: 'Plus', icon: 'plus' },
         { name: 'Minus', icon: 'minus' },
@@ -138,6 +139,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'power', icon: 'power' },
         { name: 'location', icon: 'location' },
+        { name: 'Smart Display', icon: 'smartDisplay' },
       ],
     },
   ];

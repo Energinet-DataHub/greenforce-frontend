@@ -18,8 +18,152 @@
 import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
-  announcementBar: {
-    message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+  landingPage: {
+    announcementBar: {
+      message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+    },
+    header: {
+      loginButton: 'Log in',
+    },
+    hero: {
+      heading: 'Trace Energy to Its Origin.<br />Truthfully.',
+      subheading: 'Green Proof You Can Trust',
+      loginButton: 'Log in',
+      learnMoreButton: 'Learn more',
+    },
+    why: {
+      quote: `“We want to build trust in<br />
+      genuine, sustainable energy<br />
+      while addressing greenwashing<br />
+      with our cutting-edge<br />
+      technology.”`,
+      quoteAuthor: `Martin Lervad Lundø<br />
+      Vice President & CEO, Energinet DataHub`,
+      quoteAuthorDescription: 'Martin Lervad Lundø - Vice President & CEO, Energinet DataHub',
+    },
+    how: {
+      heading: 'HOW WE MAKE SUSTAINABILITY REPORTING EASIER',
+      subheading: `Fast-Track Compliance with <span class="highlight">EU Sustainability</span> Regulations`,
+      content: `
+      <p>
+        Energy Track & Trace™ emerges as a transformative solution designed to support companies through the
+        complexities of adhering to the EU's Corporate Sustainability Reporting Directive (CSRD) and
+        Environmental, Social, and Governance (ESG) directives.
+      </p>
+      <p>
+        By leveraging advanced blockchain technology Energy Track & Trace™ ensures indisputable traceability of
+        sustainable energy from its origin. This empowers businesses with a powerful tool to
+        authenticate their pledges to green energy initiatives.
+      </p>
+    `,
+    },
+    what: {
+      heading: 'How can Energy Track & Trace™ support my business?',
+      section1: {
+        title: 'Sustainable Profile',
+        headline: 'Bolster investor and consumer trust with accurate reports',
+        content:
+          'With Energy Track & Trace™ your company can display your contribution to the green transition with a clear conscience. You can strengthen the trust of investors and consumers and at the same time facilitate accurate reporting of your green power consumption.',
+      },
+      section2: {
+        title: 'RE Production',
+        headline: 'Increase earnings with higher demands for transparency about sustainability',
+        content: `
+        <p>
+        Our accurate Granular Certificates makes it easier to meet the strict EU rules on compliance and also boost the trustworthiness of companies' reports on sustainability.
+        </p>
+        <p>
+        As a Producer it empowers you to offer your customers a better product.
+        </p>`,
+      },
+      section3: {
+        title: 'Green Energy Trading',
+        headline: 'Help the market juggle granular certificates and connect digital wallets',
+        content:
+          'With high demands for showcasing and proving sources used in production we expect that marketplaces will evolve, aiding companies in buying green energy at the right time to match their consumption 24/7.',
+      },
+    },
+    electricalGrid: {
+      heading: 'How does it work?',
+      subheading: `proof that energy has a <span class="highlight">truly</span> sustainable origin`,
+    },
+    blockchainTech: {
+      heading: 'Blockchain technology ties granular certificates to renewable energy production',
+      content: `
+      <p>
+        Based on data from Energinet's DataHub production certificates from approved energy sources are issued every 15 minutes.
+      </p>
+      <p>
+        The certificates contain relevant metadata and are stored digitally in a Register, a Wallet and on a Blockchain.
+        This makes it possible to trace them back to their origin, detect fraud and avoid double issuance without compromising GDPR.
+      </p>`,
+    },
+    granularCertificates: {
+      heading:
+        'Granular certificates are transferred between wallets to match consumption with production',
+      content: `Transfer agreements can be made to automatically transfer certificates from one wallet to
+      another. Either through our UI in Energy Track & Trace™ or by the use of any third party using our
+      API's.`,
+    },
+    proveSustainability: {
+      heading: 'Energy Track & Trace™ quantifies your<br />green electricity consumption',
+      content: `
+      <p>
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf" target="_blank">Our calculations</a> show with 95% certainty whether your electricity comes from green energy sources.
+      </p>
+      <p>
+      With our software your company can see whether and when you are sufficiently supplied with green electricity and when you are not.
+      This gives you an insight you can act on and the certainty that you are making the right decision.
+      </p>`,
+    },
+    cta: {
+      heading: `Ready to track your company’s energy?`,
+      section1: {
+        heading: 'Try it out. Energy Track & Trace™ Beta.',
+        cta: 'Log in',
+      },
+      section2: {
+        heading: 'Collaboration. Interested in our APIs?',
+        cta: 'check it out',
+      },
+    },
+    footer: {
+      section1: {
+        heading: 'Address',
+        content: `
+          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
+        `,
+      },
+      section2: {
+        heading: 'Contact',
+        content: `
+          <p>
+            <a href="tel:+4570222810">+45 70 22 28 10</a><br />
+            <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
+          </p>
+        `,
+      },
+      section3: {
+        heading: 'Legal',
+        content: `
+          <ul>
+            <li>
+              <a href="/privacy-policy">Privacy policy</a>
+            </li>
+            <li>
+              <a href="/terms">Terms of use</a>
+            </li>
+          </ul>
+        `,
+      },
+      section4: {
+        heading: 'Developers',
+        content: `
+          <p>Get access to our</p>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a>
+        `,
+      },
+    },
   },
   sidebar: {
     dashboard: 'Dashboard',
@@ -210,19 +354,21 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     tableTitle: 'Available metering points',
     gsrnTableHeader: 'Metering Point',
     addressTableHeader: 'Address',
+    cityTableHeader: 'City',
+    statusTableHeader: 'Status',
     unitTableHeader: 'Unit',
     sourceTableHeader: 'Source',
-    onOffTableHeader: 'Off/On',
-    onOffTooltipTitle: 'Not all metering points can be enabled',
-    onOffTooltipMessage:
-      'A metering point must have a wind or solar source to become eligible for activation.',
-    onOffTooltipClose: 'Close',
     consumptionUnit: 'Consumption',
     productionUnit: 'Production',
     solarSource: 'Solar',
     windSource: 'Wind',
     otherSource: 'Other',
     contractError: 'Issue encountered. Please try again or reload the page.',
+    selected: '{{amount}} metering points selected',
+    activate: 'Activate',
+    deactivate: 'Deactivate',
+    active: 'Active',
+    inactive: 'Inactive',
   },
   claims: {
     title: 'Claims',
@@ -422,27 +568,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Receiver',
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
-  },
-  transferAgreementHistory: {
-    tableTitle: 'Changes',
-    timeTableHeader: 'Time',
-    eventTableHeader: 'Change',
-    events: {
-      createdTransferAgreement: '<strong>{{actor}}</strong> has created the transfer agreement',
-      updatedTransferAgreementToHaveNoEndDate:
-        '<strong>{{actor}}</strong> has updated the transfer agreement to have <strong>no end date</strong>',
-      updatedTransferAgreementToHaveEndDate:
-        '<strong>{{actor}}</strong> has updated the end date to <strong>{{endDate}}</strong>',
-      deletedTransferAgreement: '<strong>{{actor}}</strong> has deleted the transfer agreement',
-    },
-    noData: {
-      title: 'No history was found',
-    },
-    error: {
-      title: 'An unexpected error occured',
-      message: 'Try again or contact your system administrator if you keep getting this error.',
-      retry: 'Try again',
-    },
   },
   transferAgreementEdit: {
     title: 'Edit transfer agreement',

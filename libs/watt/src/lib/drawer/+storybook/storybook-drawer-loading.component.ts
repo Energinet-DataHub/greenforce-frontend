@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
@@ -26,12 +25,14 @@ import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
 
 @Component({
   standalone: true,
-  imports: [NgIf, WattButtonComponent, WattSpinnerComponent, WATT_DRAWER, RxPush],
+  imports: [WattButtonComponent, WattSpinnerComponent, WATT_DRAWER, RxPush],
   selector: 'watt-storybook-drawer-loading',
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
       <watt-drawer-topbar>
-        <span *ngIf="drawer.isOpen">Top bar</span>
+        @if (drawer.isOpen) {
+          <span>Top bar</span>
+        }
       </watt-drawer-topbar>
 
       <watt-drawer-actions>
@@ -39,7 +40,9 @@ import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
         <watt-button>Primary action</watt-button>
       </watt-drawer-actions>
 
-      <watt-drawer-content *ngIf="drawer.isOpen">{{ content$ | push }}</watt-drawer-content>
+      @if (drawer.isOpen) {
+        <watt-drawer-content>{{ content$ | push }}</watt-drawer-content>
+      }
     </watt-drawer>
     <watt-button (click)="open('first')">Open first</watt-button>
     <br />

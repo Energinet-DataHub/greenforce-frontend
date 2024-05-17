@@ -23,7 +23,6 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import { NgIf } from '@angular/common';
 
 import { WattIcon, WattIconComponent } from '@energinet-datahub/watt/icon';
 
@@ -39,7 +38,7 @@ export type WattValidationMessageSize = 'compact' | 'normal';
   styleUrls: ['./watt-validation-message.component.scss'],
   templateUrl: './watt-validation-message.component.html',
   standalone: true,
-  imports: [NgIf, WattIconComponent],
+  imports: [WattIconComponent],
 })
 export class WattValidationMessageComponent implements AfterViewInit {
   @Input() label = '';

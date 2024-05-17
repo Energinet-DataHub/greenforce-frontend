@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -37,16 +37,20 @@ import { WattFieldErrorComponent } from './watt-field-error.component';
 @Component({
   selector: 'watt-field',
   standalone: true,
-  imports: [NgIf, NgClass, WattIconComponent, WattTooltipDirective, WattFieldErrorComponent],
+  imports: [NgClass, WattIconComponent, WattTooltipDirective, WattFieldErrorComponent],
   encapsulation: ViewEncapsulation.None,
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
-      <span *ngIf="!chipMode" class="label" [ngClass]="{ required: _isRequired }">
-        {{ label }}
-        <watt-icon name="info" *ngIf="tooltip" wattTooltipPosition="top" [wattTooltip]="tooltip" />
-      </span>
+      @if (!chipMode) {
+        <span class="label" [ngClass]="{ required: _isRequired }">
+          {{ label }}
+          @if (tooltip) {
+            <watt-icon name="info" wattTooltipPosition="top" [wattTooltip]="tooltip" />
+          }
+        </span>
+      }
       <div style="display: flex;align-items: center; gap: var(--watt-space-s);">
         <div class="watt-field-wrapper" #wrapper>
           <ng-content />
@@ -55,10 +59,9 @@ import { WattFieldErrorComponent } from './watt-field-error.component';
       </div>
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
-      <watt-field-error
-        *ngIf="control?.errors?.['required'] || control?.errors?.['rangeRequired']"
-        >{{ intl.required }}</watt-field-error
-      >
+      @if (control?.errors?.['required'] || control?.errors?.['rangeRequired']) {
+        <watt-field-error>{{ intl.required }}</watt-field-error>
+      }
     </label>
   `,
 })

@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Net.Http;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMethodReturnValue.Local
@@ -39,6 +36,8 @@ public static class DomainRegistrationExtensions
                 GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
             .AddWholesaleClient(
                 GetBaseUri(apiClientSettings.WholesaleBaseUrl))
+            .AddWholesaleOrchestrationsClient(
+                GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
             .AddESettClient(
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(
@@ -63,12 +62,20 @@ public static class DomainRegistrationExtensions
             : new Uri("https://empty");
     }
 
-    private static IServiceCollection AddWholesaleClient(this IServiceCollection serviceCollection, Uri wholesaleBaseUri)
+    private static IServiceCollection AddWholesaleClient(this IServiceCollection serviceCollection, Uri baseUri)
     {
         return serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(
             provider => new WholesaleClient_V3(
-                wholesaleBaseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(wholesaleBaseUri)));
+                baseUri.ToString(),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+    }
+
+    private static IServiceCollection AddWholesaleOrchestrationsClient(this IServiceCollection serviceCollection, Uri baseUri)
+    {
+        return serviceCollection.AddScoped<IWholesaleOrchestrationsClient, WholesaleOrchestrationsClient>(
+            provider => new WholesaleOrchestrationsClient(
+                baseUri.ToString(),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }
 
     private static IServiceCollection AddESettClient(this IServiceCollection serviceCollection, Uri baseUri)

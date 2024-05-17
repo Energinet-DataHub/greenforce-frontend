@@ -25,10 +25,16 @@ import { ApolloModule } from 'apollo-angular';
 import { within } from '@testing-library/angular';
 
 import { DhCalculationsComponent } from './calculations.component';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 async function setup() {
   await render(`<dh-calculations />`, {
-    providers: [importProvidersFrom(MatSnackBarModule), graphQLProviders, danishDatetimeProviders],
+    providers: [
+      importProvidersFrom(MatSnackBarModule),
+      graphQLProviders,
+      danishDatetimeProviders,
+      MsalServiceMock,
+    ],
     imports: [ApolloModule, DhCalculationsComponent, getTranslocoTestingModule(), HttpClientModule],
   });
 }

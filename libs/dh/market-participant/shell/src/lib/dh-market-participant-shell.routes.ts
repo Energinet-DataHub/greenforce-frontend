@@ -16,35 +16,40 @@
  */
 import { Routes } from '@angular/router';
 
-import {
-  dhMarketParticipantActorsPath,
-  dhMarketParticipantGridAreasPath,
-} from '@energinet-datahub/dh/market-participant/routing';
-
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: dhMarketParticipantActorsPath,
-  },
-  {
-    path: dhMarketParticipantActorsPath,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/market-participant/actors/shell').then(
-        (esModule) => esModule.DhMarketParticipantActorsShellComponent
-      ),
-    data: {
-      titleTranslationKey: 'marketParticipant.actors.topBarTitle',
-    },
-  },
-  {
-    path: dhMarketParticipantGridAreasPath,
-    loadComponent: () =>
-      import('@energinet-datahub/dh/market-participant/grid-areas/shell').then(
-        (esModule) => esModule.DhGridAreasShellComponent
-      ),
-    data: {
-      titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
-    },
+    loadComponent: () => import('@energinet-datahub/dh/market-participant/actors/shell'),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'actors',
+      },
+      {
+        path: 'actors',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/market-participant/actors/feature-actors'),
+        data: {
+          titleTranslationKey: 'marketParticipant.actors.topBarTitle',
+        },
+      },
+      {
+        path: 'organizations',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/market-participant/actors/feature-organizations'),
+        data: {
+          titleTranslationKey: 'marketParticipant.organizationsOverview.organizations',
+        },
+      },
+      {
+        path: 'market-roles',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/market-participant/actors/feature-market-roles'),
+        data: {
+          titleTranslationKey: 'marketParticipant.marketRolesOverview.marketRoles',
+        },
+      },
+    ],
   },
 ];

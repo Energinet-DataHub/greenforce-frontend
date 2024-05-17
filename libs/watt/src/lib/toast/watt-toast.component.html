@@ -15,22 +15,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <span>
-  <watt-spinner [diameter]="24" *ngIf="config.type === 'loading'" />
-  <watt-icon *ngIf="config.type && config.type !== 'loading'" [name]="config.type" />
+  @if (config.type === "loading") {
+    <watt-spinner [diameter]="24" />
+  }
+
+  @if (config.type && config.type !== "loading") {
+    <watt-icon [name]="config.type" />
+  }
   <p>{{ config.message }}</p>
 </span>
 <span class="toast__actions">
-  <watt-button
-    variant="text"
-    *ngIf="config.action && config.actionLabel"
-    (click)="config.action(matSnackBarRef)"
-    >{{ config.actionLabel }}</watt-button
-  >
-  <watt-button
-    data-testid="dismiss"
-    variant="icon"
-    icon="close"
-    (click)="onClose()"
-    *ngIf="config.type !== 'loading'"
-  />
+  @if (config.action && config.actionLabel) {
+    <watt-button variant="text" (click)="config.action(matSnackBarRef)">{{
+      config.actionLabel
+    }}</watt-button>
+  }
+
+  @if (config.type !== "loading") {
+    <watt-button data-testid="dismiss" variant="icon" icon="close" (click)="onClose()" />
+  }
 </span>

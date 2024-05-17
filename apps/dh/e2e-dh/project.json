@@ -5,6 +5,7 @@
   "projectType": "application",
   "targets": {
     "e2e": {
+      "dependsOn": ["^generate"],
       "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/dh/e2e-dh/cypress.config.ts",

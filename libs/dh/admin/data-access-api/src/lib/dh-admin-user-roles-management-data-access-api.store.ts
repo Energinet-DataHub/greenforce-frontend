@@ -26,7 +26,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs';
-import { ComponentStore, OnStoreInit, tapResponse } from '@ngrx/component-store';
+import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
+import { tapResponse } from '@ngrx/operators';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
@@ -89,7 +90,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     trigger$.pipe(
       withLatestFrom(this.state$),
       tap(() => {
-        this.resetState();
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap(() =>
@@ -190,8 +190,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore
     this.updateUserRoles([]);
     this.patchState({ requestState: ErrorState.GENERAL_ERROR });
   };
-
-  private resetState = () => this.setState(initialState);
 
   ngrxOnStoreInit(): void {
     this.rolesOptions$ = this._transloco

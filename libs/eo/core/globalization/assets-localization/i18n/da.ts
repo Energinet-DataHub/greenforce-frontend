@@ -17,8 +17,139 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
-  announcementBar: {
-    message: `Do you need an introduction to EnergyOrigin? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+  landingPage: {
+    announcementBar: {
+      message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
+    },
+    header: {
+      loginButton: 'Log ind',
+    },
+    hero: {
+      heading: 'Sporing og certificering <br /> af grøn strøm',
+      subheading: 'Vi beviser, hvor din strøm kommer fra',
+      loginButton: 'Log ind',
+      learnMoreButton: 'Se mere',
+    },
+    why: {
+      quote: `“Vi ønsker at opbygge<br /> tillid til den bæredygtige energi<br /> og adressere greenwashing med vores<br /> banebrydende, nye teknologi.”`,
+      quoteAuthor: `Martin Lervad Lundø<br />
+      Vice President & CEO, Energinet DataHub`,
+      quoteAuthorDescription: 'Martin Lervad Lundø - Vice President & CEO, Energinet DataHub',
+    },
+    how: {
+      heading: 'Sådan gør vi det nemmere at rapportere bæredygtighed',
+      subheading: `Overholdelse af<br/> <span class="highlight">EU’s regler</span><br /> for bæredygtighed`,
+      content: `
+      <p>
+        Energy Track & Trace™ er en innovativ løsning, der understøtter din virksomhed i at håndtere udfordringerne ved at følge EU’s direktiv
+        for CSRD rapportering (Corporate Sustainability Reporting Directive) inden for ESG området (Environmental, Social, and Governance  directive).
+      </p>
+      <p>
+        Ved at spore energiens oprindelse via avanceret teknologi, giver Energy Track & Trace™ din virksomhed
+        et solidt værktøj til at verificere og dokumentere jeres reelle forbrug af grøn energi.
+      </p>
+    `,
+    },
+    what: {
+      heading: 'Hvordan kan Energy Track & Trace™ hjælpe min virksomhed?',
+      section1: {
+        title: 'Bæredygtig virksomhedsprofil',
+        headline: 'Styrk investorers og forbrugeres tillid med nøjagtige rapporter',
+        content:
+          'Med Energy Track & Trace™ kan din virksomhed med god samvittighed fremvise jeres reelle bidrag til den grønne omstilling. I kan styrke tilliden fra investorer og forbrugere, og på samme tid lettere håndtere en korrekt rapportering af jeres grønne strømforbrug.',
+      },
+      section2: {
+        title: 'Produktion af VE',
+        headline: 'Øg indtjeningen med højere krav til gennemsigtighed om bæredygtighed',
+        content:
+          'Vores præcise certificering af grøn strøm med Granulære Certifikater forenkler ikke kun overholdelsen af strenge EU-regler, men øger troværdigheden til de virksomheder, der bruger dem. Som Producent af strøm giver det dig mulighed for at tilbyde dine kunder et bedre produkt.',
+      },
+      section3: {
+        title: 'Handel med Grøn Energi',
+        headline:
+          'Hjælp aktørerne med køb og salg af Granulære Certifikater på en digital markedsplads',
+        content:
+          'Der stilles stigende krav til dokumentation for anvendte kilder i produktion af grøn strøm. Derfor forventer vi i Energy Track & Trace™, at markedspladser vil udvikle sig, og nye vil opstå. Det vil understøtte virksomhedernes mulighed for at købe grøn strøm 24 timer i døgnet.',
+      },
+    },
+    electricalGrid: {
+      heading: 'Hvordan virker det?',
+      subheading: `Beviser, at energien har en <span class="highlight">reel</span> bæredygtig oprindelse`,
+    },
+    blockchainTech: {
+      heading:
+        'Blockchain teknologi binder Granulære Certifikater sammen med produktion af vedvarende energi',
+      content: `
+      <p>
+        Baseret på data fra DataHub i Energinet, udstedes der produktionscertifikater fra godkendte energikilder hvert 15. minut.
+      </p>
+      <p>
+        Certifikaterne indeholder relevante metadata og gemmes digitalt i et Register, en Wallet og på en Blockchain. Det gør det muligt at spore dem tilbage til deres oprindelse, opdage snyd og undgå dobbelt udstedelse uden at gå på kompromis med GDPR.
+      </p>`,
+    },
+    granularCertificates: {
+      heading:
+        'Granulære Certifikater handles mellem forskellige Wallets, hvor Forbrug og Produktion matches',
+      content: `De Granulære Certifikater kan flyttes mellem to parter. Enten via vores dashboard eller via 3. parts løsninger, der benytter vores API’er.`,
+    },
+    proveSustainability: {
+      heading: 'Energy Track & Trace™ sætter tal på dit grønne strømforbrug',
+      content: `
+      <p>
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf" target="_blank">Vores beregninger</a> viser med 95% sikkerhed om din strøm kommer fra grønne energikilder.
+      </p>
+      <p>
+      Via vores løsning kan du som virksomhed se, hvornår du er tilstrækkelig dækket med grøn strøm, og hvornår du ikke er. Det giver dig et overblik, du kan handle ud fra og en sikkerhed for, at du handler rigtigt.
+      </p>`,
+    },
+    cta: {
+      heading: `Er du klar til at spore din virkshomheds energi?`,
+      section1: {
+        heading: 'Prøv det. Energy Track & Trace™ Beta-version',
+        cta: 'Log ind',
+      },
+      section2: {
+        heading: 'Samarbejde. Er du interesseret i vores API’er?',
+        cta: 'Tjek det ud',
+      },
+    },
+    footer: {
+      section1: {
+        heading: 'Adresse',
+        content: `
+          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
+        `,
+      },
+      section2: {
+        heading: 'Kontakt',
+        content: `
+          <p>
+            <a href="tel:+4570222810">+45 70 22 28 10</a><br />
+            <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
+          </p>
+        `,
+      },
+      section3: {
+        heading: 'Politikker',
+        content: `
+          <ul>
+            <li>
+              <a href="/privacy-policy">Privatlivspolitik</a>
+            </li>
+            <li>
+              <a href="/terms">Vilkår og betingelser</a>
+            </li>
+          </ul>
+        `,
+      },
+      section4: {
+        heading: 'Udviklere',
+        content: `
+          <p>Få adgang til vores</p>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a>
+        `,
+      },
+    },
   },
   sidebar: {
     dashboard: 'Overblik',
@@ -40,7 +171,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     accessibilityStatement: 'Tilgængelighedserklæring',
   },
   userInformation: {
-    tin: 'CVR / SE-nr: {{tin}}',
+    tin: 'CVR / SE-nr: {{tin}} ',
   },
   topbar: {
     help: '{{shared.help}}',
@@ -210,19 +341,21 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     tableTitle: 'Tilgængelige målepunkter',
     gsrnTableHeader: 'Målepunkt',
     addressTableHeader: 'Adresse',
+    cityTableHeader: 'By',
+    statusTableHeader: 'Status',
     unitTableHeader: 'Enhed',
     sourceTableHeader: 'Kilde',
-    onOffTableHeader: 'Fra/Til',
-    onOffTooltipTitle: 'Ikke alle målepunkter kan aktiveres',
-    onOffTooltipMessage:
-      'Et målepunkt skal have en vind- eller solkilde for at blive berettiget til aktivering.',
-    onOffTooltipClose: 'Luk',
     consumptionUnit: 'Forbrug',
     productionUnit: 'Produktion',
     solarSource: 'Sol',
     windSource: 'Vind',
     otherSource: 'Andet',
     contractError: 'Der opstod et problem. Prøv venligst igen eller genindlæs siden.',
+    selected: '{{amount}} målepunkt(er) valgt',
+    activate: 'Aktiver',
+    deactivate: 'Deaktiver',
+    active: 'Aktiv',
+    inactive: 'Inaktiv',
   },
   claims: {
     title: 'Grønt Forbrug',
@@ -422,28 +555,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Modtager',
     unknownReceiver: 'Ukendt virksomhed',
     idLabel: 'ID',
-  },
-  transferAgreementHistory: {
-    tableTitle: 'Ændringer',
-    timeTableHeader: 'Tid',
-    eventTableHeader: 'Handling',
-    events: {
-      createdTransferAgreement: '<strong>{{actor}}</strong> har oprettet overførselsaftalen',
-      updatedTransferAgreementToHaveNoEndDate:
-        '<strong>{{actor}}</strong> har opdateret overførselsaftalen til ikke at have <strong>ingen slutdato</strong>',
-      updatedTransferAgreementToHaveEndDate:
-        '<strong>{{actor}}</strong> har opdateret slutdatoen til <strong>{{endDate}}</strong>',
-      deletedTransferAgreement: '<strong>{{actor}}</strong> har slettet overførselsaftalen',
-    },
-    noData: {
-      title: 'Ingen historik blev fundet',
-    },
-    error: {
-      title: 'Ups! Noget gik galt.',
-      message:
-        'Prøv igen eller kontakt din systemadministrator, hvis du fortsat modtager denne fejl.',
-      retry: 'Prøv igen',
-    },
   },
   transferAgreementEdit: {
     title: 'Rediger overførselsaftale',

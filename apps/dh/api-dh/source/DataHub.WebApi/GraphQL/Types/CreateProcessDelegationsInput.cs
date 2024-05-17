@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public sealed record CreateProcessDelegationsInput(
-    Guid DelegatedBy,
-    Guid DelegatedTo,
-    ICollection<Guid> GridAreas,
-    ICollection<DelegatedProcess> DelegatedProcesses,
-    DateTimeOffset StartsAt);
+        Guid DelegatedFrom,
+        Guid DelegatedTo,
+        ICollection<string> GridAreas,
+        ICollection<DelegatedProcess> DelegatedProcesses,
+        DateTimeOffset StartsAt);

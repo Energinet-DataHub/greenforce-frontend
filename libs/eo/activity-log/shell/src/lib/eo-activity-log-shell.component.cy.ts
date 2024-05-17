@@ -239,7 +239,7 @@ describe('EO - Activity Log', () => {
 
   it('should show correctly formatted timestamps', () => {
     setup();
-    const formattedDate = format(endOfToday(), 'dd-MMM-yyyy HH:mm:ss');
+    const formattedDate = format(endOfToday(), 'dd-MMM yyyy HH:mm:ss');
     cy.findAllByText(formattedDate).should('exist');
   });
 
@@ -247,18 +247,18 @@ describe('EO - Activity Log', () => {
     setup();
     findTimestamps().then((timestamps) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      timestamps = Array.from(timestamps).map((timestamp: any) =>
+      const mappedTimestamps = Array.from(timestamps).map((timestamp: any) =>
         new Date(timestamp.textContent).getTime()
       );
 
-      timestamps.reverse().forEach((timestamp, index) => {
+      mappedTimestamps.reverse().forEach((timestamp, index) => {
         if (index === timestamps.length - 1) return;
         cy.log(
           `Comparing ${new Date(timestamp)} to be less than or equal to ${new Date(
-            timestamps[index + 1]
+            mappedTimestamps[index + 1]
           )}`
         );
-        cy.wrap(timestamp).should('be.lte', timestamps[index + 1]);
+        cy.wrap(timestamp).should('be.lte', mappedTimestamps[index + 1]);
       });
     });
   });

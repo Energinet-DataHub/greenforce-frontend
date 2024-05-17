@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Injector, Input, effect, inject } from '@angular/core';
+import { Component, Injector, input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -93,7 +93,7 @@ export class DhClientSecretViewComponent {
   clientSecretExists = toSignal(this.store.clientSecretExists$);
   clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
 
-  @Input({ required: true }) actorId = '';
+  actorId = input.required<string>();
 
   constructor() {
     effect(() => {
@@ -132,7 +132,7 @@ export class DhClientSecretViewComponent {
       onClosed: (result) => {
         if (result) {
           this.store.removeActorCredentials({
-            actorId: this.actorId,
+            actorId: this.actorId(),
             onSuccess: this.onRemoveSuccessFn,
             onError: this.onRemoveErrorFn,
           });
@@ -145,7 +145,7 @@ export class DhClientSecretViewComponent {
     this.modalService.open({
       component: DhReplaceClientSecretModalComponent,
       injector: this.injector,
-      data: { actorId: this.actorId },
+      data: { actorId: this.actorId() },
     });
   }
 
@@ -156,7 +156,7 @@ export class DhClientSecretViewComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.auditLogService.refreshAuditLog(this.actorId);
+    this.auditLogService.refreshAuditLog(this.actorId());
   };
 
   private readonly onRemoveErrorFn = () => {

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -30,7 +30,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
   standalone: true,
-  imports: [NgIf, AsyncPipe, MatSidenavModule, MatToolbarModule, WattButtonComponent],
+  imports: [AsyncPipe, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit {
   private breakpointObserver = inject(WattBreakpointsObserver);

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -45,18 +44,15 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatepickerV2Component } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import {
-  maxOneMonthDateRangeValidator,
-  startAndEndDateCannotBeInTheFutureValidator,
-  startDateCannotBeAfterEndDateValidator,
-  startDateCannotBeOlderThan3YearsValidator,
-} from './dh-whole-request-calculation-validators';
+import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { RxPush } from '@rx-angular/template/push';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
@@ -89,7 +85,7 @@ type FormType = {
         }
 
         watt-dropdown,
-        watt-datepicker-v2 {
+        watt-datepicker {
           width: 50%;
         }
       }
@@ -105,9 +101,9 @@ type FormType = {
     ReactiveFormsModule,
     FormsModule,
     TranslocoDirective,
-    WattDatepickerV2Component,
+    WattDatepickerComponent,
     WattFieldErrorComponent,
-    NgIf,
+    RxPush,
   ],
 })
 export class DhWholesaleRequestCalculationComponent {
@@ -119,7 +115,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
-  minDate = dayjs().subtract(3, 'years').toDate();
+  minDate = dayjs().startOf('month').subtract(38, 'months').toDate();
 
   isLoading = false;
 
@@ -128,10 +124,7 @@ export class DhWholesaleRequestCalculationComponent {
     period: this._fb.control({ start: null, end: null }, [
       Validators.required,
       WattRangeValidators.required(),
-      maxOneMonthDateRangeValidator(),
-      startAndEndDateCannotBeInTheFutureValidator(),
-      startDateCannotBeAfterEndDateValidator(),
-      startDateCannotBeOlderThan3YearsValidator(),
+      max31DaysDateRangeValidator,
     ]),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
@@ -139,21 +132,17 @@ export class DhWholesaleRequestCalculationComponent {
     meteringPointType: this._fb.control(null, Validators.required),
   });
 
-  gridAreaOptions: WattDropdownOptions = [];
+  gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
   progressTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetSelectedActorDocument,
   });
 
   energySupplierQuery = this._apollo.watchQuery({
-    useInitialLoading: true,
-    notifyOnNetworkStatusChange: true,
     query: GetActorsForRequestCalculationDocument,
     variables: {
       eicFunctions: [EicFunction.EnergySupplier, EicFunction.BalanceResponsibleParty],
@@ -165,14 +154,6 @@ export class DhWholesaleRequestCalculationComponent {
   });
 
   constructor() {
-    this.gridAreaQuery.subscribe({
-      next: ({ data: { gridAreas } }) => {
-        this.gridAreaOptions = gridAreas.map((gridArea) => ({
-          displayValue: gridArea.displayName,
-          value: gridArea.code,
-        }));
-      },
-    });
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: (result) => {
         if (result.loading || result.error) return;
@@ -201,14 +182,14 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
-          excludedMeteringpointTypes,
-          'asc'
+          'asc',
+          excludedMeteringpointTypes
         );
 
         this.progressTypeOptions = dhEnumToWattDropdownOptions(
           EdiB2CProcessType,
-          excludeProcessTypes,
-          'asc'
+          'asc',
+          excludeProcessTypes
         );
       },
     });
@@ -273,7 +254,6 @@ export class DhWholesaleRequestCalculationComponent {
 
     this._apollo
       .mutate({
-        useMutationLoading: true,
         mutation: RequestCalculationDocument,
         variables: {
           meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,

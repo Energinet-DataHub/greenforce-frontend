@@ -16,6 +16,7 @@
  */
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { Sort } from '@angular/material/sort';
 
 import {
   WATT_TABLE,
@@ -26,11 +27,11 @@ import {
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhOutgoingMessage } from '../dh-outgoing-message';
 import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-drawer.component';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
-import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'dh-outgoing-messages-table',
@@ -56,6 +57,7 @@ import { Sort } from '@angular/material/sort';
 
     DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageStatusBadgeComponent,
+    DhEmDashFallbackPipe,
   ],
 })
 export class DhOutgoingMessagesTableComponent {
@@ -65,11 +67,13 @@ export class DhOutgoingMessagesTableComponent {
   drawer: DhOutgoingMessageDrawerComponent | undefined;
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
-    created: { accessor: 'created' },
+    lastDispatched: { accessor: 'lastDispatched' },
     id: { accessor: 'documentId' },
+    energySupplier: { accessor: null },
     calculationType: { accessor: 'calculationType' },
     messageType: { accessor: 'timeSeriesType' },
     gridArea: { accessor: 'gridArea' },
+    gridAreaCodeOut: { accessor: null },
     status: { accessor: 'documentStatus' },
   };
 
