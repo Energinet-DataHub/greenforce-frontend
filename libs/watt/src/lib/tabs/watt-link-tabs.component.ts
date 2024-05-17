@@ -22,7 +22,6 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 import { WattLinkTabComponent } from './watt-link-tab.component';
 
-
 @Component({
   standalone: true,
   selector: 'watt-link-tabs',

@@ -39,7 +39,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateRange } from '@energinet-datahub/watt/utils/date';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 import { WattSliderComponent, WattSliderValue } from '@energinet-datahub/watt/slider';
-import { WattPlaceholderMaskComponent, WattPickerBase, WattPickerValue, maskitoTimeRangeOptionsGenerator } from '@energinet-datahub/watt/picker/shared';
+import {
+  WattPlaceholderMaskComponent,
+  WattPickerBase,
+  WattPickerValue,
+  maskitoTimeRangeOptionsGenerator,
+} from '@energinet-datahub/watt/picker/shared';
 
 // Constants for working with time intervals
 const minutesInADay = 24 * 60;
