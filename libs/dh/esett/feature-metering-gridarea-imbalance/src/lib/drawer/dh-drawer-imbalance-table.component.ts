@@ -56,7 +56,7 @@ import { DecimalPipe } from '@angular/common';
     watt-table {
       margin: var(--watt-space-m) 0;
     }
-    `,
+  `,
   imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {
