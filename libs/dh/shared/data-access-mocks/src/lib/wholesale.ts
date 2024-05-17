@@ -510,7 +510,7 @@ function requestCalculationMutation() {
 
 function getSettlementReports() {
   return mockGetSettlementReportsQuery(async () => {
-    await delay(1500);
+    await delay(mswConfig.delay);
 
     if (window.location.href.includes('error'))
       return HttpResponse.json({
