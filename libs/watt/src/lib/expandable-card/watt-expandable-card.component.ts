@@ -19,12 +19,15 @@ import {
   Component,
   ContentChild,
   Directive,
+  EventEmitter,
   Input,
+  Output,
   TemplateRef,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { MatAccordionTogglePosition, MatExpansionModule } from '@angular/material/expansion';
+
 
 @Directive({
   standalone: true,
@@ -67,6 +70,19 @@ export class WattExpandableCardComponent {
 
   /** Whether the card is elevated or has solid border */
   @Input() variant: 'solid' | 'elevation' = 'elevation';
+
+  /** Emitted when card is opened */
+  @Output() cardOpened = new EventEmitter<void>();
+  /** Emitted when after card was expanded */
+  @Output() afterExpanded = new EventEmitter<void>();
+
+  opened() {
+    this.cardOpened.emit();
+  }
+
+  afterExpand() {
+    this.afterExpanded.emit();
+  }
 }
 
 @Component({
