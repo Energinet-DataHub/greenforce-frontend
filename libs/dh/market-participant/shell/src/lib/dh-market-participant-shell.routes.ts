@@ -16,7 +16,7 @@
  */
 import { Routes } from '@angular/router';
 
-import { MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/shared/routing';
+import { MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhMarketParticipantShellRoutes: Routes = [
   {

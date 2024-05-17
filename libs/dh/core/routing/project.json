@@ -4,5 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/routing/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:shared", "type:util"]
+  "tags": ["product:dh", "domain:core", "type:configuration"]
 }

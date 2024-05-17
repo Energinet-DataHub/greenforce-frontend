@@ -20,7 +20,7 @@ import { Routes } from '@angular/router';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
 
-import { BasePaths, getPath } from '@energinet-datahub/dh/shared/routing';
+import { BasePaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhCoreShellRoutes: Routes = [
   {

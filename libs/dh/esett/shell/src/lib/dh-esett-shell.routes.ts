@@ -20,7 +20,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 import { DhESettShellComponent } from './dh-esett-shell.component';
 
-import { type ESettSubPaths, getPath } from '@energinet-datahub/dh/shared/routing';
+import { type ESettSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhESettShellRoutes: Routes = [
   {
