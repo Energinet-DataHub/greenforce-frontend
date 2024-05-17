@@ -28,7 +28,6 @@ import {
 } from '@angular/core';
 import { MatAccordionTogglePosition, MatExpansionModule } from '@angular/material/expansion';
 
-
 @Directive({
   standalone: true,
   selector: '[wattExpandableCardContent]',
