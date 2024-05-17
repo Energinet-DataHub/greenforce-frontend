@@ -20,7 +20,7 @@ import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/ang
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
-import { WattRangeValidators } from '../../../utils/validators';
+import { WattRangeValidators } from '../../shared/validators';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
 import { startTimeCannotBeLaterThan3HoursValidator } from './watt-timepicker-custom-validator';

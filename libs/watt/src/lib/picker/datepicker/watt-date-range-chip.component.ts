@@ -25,20 +25,21 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+
 import {
   DateRange,
   DefaultMatCalendarRangeStrategy,
   MAT_DATE_RANGE_SELECTION_STRATEGY,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
+import { dayjs } from '@energinet-datahub/watt/date';
+
+import { WattIconComponent } from '../../../foundations/icon/icon.component';
+import { WattDatePipe, WattRange } from '../../../utils/date';
+import { WattButtonComponent } from '../../button/watt-button.component';
+import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
+import { WattFieldComponent } from '../../field/watt-field.component';
 import { DateAdapter } from '@angular/material/core';
-
-import { dayjs, WattDatePipe, WattRange } from '@energinet-datahub/watt/utils/date';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattMenuChipComponent } from '@energinet-datahub/watt/chip';
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
-
 import { WattDatepickerIntlService } from './watt-datepicker-intl.service';
 
 type customSelectionStrategy = (date: Date | null) => DateRange<Date>;

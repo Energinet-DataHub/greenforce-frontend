@@ -31,20 +31,20 @@ import { NgControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
+import { Subject } from 'rxjs';
+import { WattButtonComponent } from '../../button';
+import { WattSliderComponent } from '../../slider';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { maskitoTimeOptionsGenerator } from '@maskito/kit';
-import { Subject } from 'rxjs';
-
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSliderComponent, WattSliderValue } from '@energinet-datahub/watt/slider';
-import { WattDateRange } from '@energinet-datahub/watt/utils/date';
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
-import {
-  WattPlaceholderMaskComponent,
-  WattPickerBase,
-  WattPickerValue,
-  maskitoTimeRangeOptionsGenerator,
-} from '@energinet-datahub/watt/picker/shared';
+import { WattDateRange } from '../../../utils/date';
+import { WattFieldComponent } from '../../field/watt-field.component';
+import { WattSliderValue } from '../../slider/watt-slider.component';
+import { maskitoTimeRangeOptionsGenerator } from '../shared/maskito-time-range-mask';
+import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
+import { WattPickerBase } from '../shared/watt-picker-base';
+import { WattPickerValue } from '../shared/watt-picker-value';
 
 // Constants for working with time intervals
 const minutesInADay = 24 * 60;

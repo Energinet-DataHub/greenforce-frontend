@@ -22,7 +22,7 @@ import { within, fireEvent } from '@storybook/testing-library';
 import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 import { WattFormChipDirective } from '../../../field/chip.directive';
-import { WattRangeValidators } from '../../../utils/validators';
+import { WattRangeValidators } from '../../shared/validators';
 
 import { WattDateChipComponent } from '../watt-date-chip.component';
 import { WattDateRangeChipComponent } from '../watt-date-range-chip.component';
