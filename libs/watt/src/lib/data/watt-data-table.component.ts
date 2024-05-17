@@ -21,13 +21,11 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '../vater';
-
-import { WATT_CARD_VARIANT, WattCardComponent } from '../card';
-import { WattSearchComponent } from '../search';
-import { WattTableComponent } from '../table';
-import { WattPaginatorComponent } from '../table/paginator';
-import { WattEmptyStateComponent } from '../empty-state';
+} from '@energinet-datahub/watt/vater';
+import { WATT_CARD_VARIANT, WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattTableComponent, WattPaginatorComponent } from '@energinet-datahub/watt/table';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 

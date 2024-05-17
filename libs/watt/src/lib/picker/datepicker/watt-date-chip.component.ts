@@ -16,13 +16,13 @@
  */
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WattIconComponent } from '../../../foundations/icon/icon.component';
-import { WattDatePipe } from '../../../utils/date';
-import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
-import { WattFieldComponent } from '../../field/watt-field.component';
-import { FormControl } from '@angular/forms';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { WattMenuChipComponent } from '@energinet-datahub/watt/chip';
+import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   standalone: true,

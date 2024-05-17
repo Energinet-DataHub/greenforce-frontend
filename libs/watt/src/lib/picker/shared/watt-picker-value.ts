@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattDateRange } from '../../../utils/date';
+import { WattDateRange } from '@energinet-datahub/watt/utils/date';
 
 export type WattPickerValue = string | WattDateRange | null | undefined;

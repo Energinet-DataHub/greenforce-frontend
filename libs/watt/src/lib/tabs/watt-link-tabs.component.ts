@@ -17,8 +17,11 @@
 import { Component, ViewEncapsulation, contentChildren } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+
 import { WattLinkTabComponent } from './watt-link-tab.component';
-import { VaterFlexComponent } from '../vater';
+
 
 @Component({
   standalone: true,

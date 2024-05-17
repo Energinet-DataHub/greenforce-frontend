@@ -41,18 +41,15 @@ import {
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
-
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattLocaleService } from '@energinet-datahub/watt/locale';
 import { MaskitoModule } from '@maskito/angular';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
-import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
-import { WattDateRange, dayjs } from '../../../utils/date';
-import { WattButtonComponent } from '../../button';
-import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
-import { WattPickerBase } from '../shared/watt-picker-base';
-import { WattPickerValue } from '../shared/watt-picker-value';
+
+import { WattFieldComponent } from '@energinet-datahub/watt/field';
+import { WattLocaleService, WattSupportedLocales } from '@energinet-datahub/watt/core/datetime';
+import { WattDateRange, WattDateUtils } from '@energinet-datahub/watt/utils/date';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattPlaceholderMaskComponent, WattPickerBase, WattPickerValue } from '@energinet-datahub/watt/picker/shared';
 
 const dateShortFormat = 'DD-MM-YYYY';
 const danishLocaleCode = 'da';
@@ -88,6 +85,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
+  private dateUtils = inject(WattDateUtils);
   private localeService = inject(WattLocaleService);
   private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
   private destroyRef = inject(DestroyRef);
@@ -243,8 +241,8 @@ export class WattDatepickerComponent extends WattPickerBase {
 
   onMonthSelected(date: Date) {
     if (this.rangeMonthOnlyMode && date) {
-      this.matDateRangePicker.select(dayjs(date).startOf('month').toDate());
-      this.matDateRangePicker.select(dayjs(date).endOf('month').toDate());
+      this.matDateRangePicker.select(this.dateUtils.startOf(date, 'month'));
+      this.matDateRangePicker.select(this.dateUtils.endOf(date, 'month'));
       this.matDateRangePicker.close();
     }
   }
@@ -353,14 +351,14 @@ export class WattDatepickerComponent extends WattPickerBase {
    * @ignore
    */
   private parseDateShortFormat(value: string): Date {
-    return dayjs(value, dateShortFormat).toDate();
+    return this.dateUtils.parse(value, dateShortFormat);
   }
 
   /**
    * @ignore
    */
   private parseISO8601Format(value: string): Date {
-    return dayjs(value).toDate();
+    return this.dateUtils.parse(value);
   }
 
   /**
@@ -372,7 +370,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     matDateInput: D
   ): void {
     nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
-    matDateInput.value = value ? dayjs(value).utc().toDate() : null;
+    matDateInput.value = value ? this.dateUtils.utc(value) : null;
   }
 
   /**
@@ -380,28 +378,28 @@ export class WattDatepickerComponent extends WattPickerBase {
    * Formats Date to full ISO 8601 format (e.g. `2022-08-31T22:00:00.000Z`)
    */
   private formatDateFromViewToModel(value: Date): string {
-    return dayjs(value).utc().toISOString();
+    return this.dateUtils.utc(value).toISOString();
   }
 
   /**
    * @ignore
    */
   private formatDateTimeFromModelToView(value: string): string {
-    return dayjs(value).tz(danishTimeZoneIdentifier).format(dateShortFormat);
+    return this.dateUtils.format(value, dateShortFormat, danishTimeZoneIdentifier);
   }
 
   /**
    * @ignore
    */
   private toDanishTimeZone(value: Date): Date {
-    return dayjs(value.toISOString()).tz(danishTimeZoneIdentifier).toDate();
+    return this.dateUtils.toTimeZone(value.toISOString(), danishTimeZoneIdentifier) as Date;
   }
 
   /**
    * @ignore
    */
   private setToEndOfDay(value: Date): Date {
-    return dayjs(value).endOf('day').toDate();
+    return this.dateUtils.endOf(value, 'day');
   }
 
   /**
@@ -413,9 +411,9 @@ export class WattDatepickerComponent extends WattPickerBase {
 
     let maybeDateInDanishTimeZone: Date | null = null;
 
-    if (dayjs(dateBasedOnShortFormat).isValid()) {
+    if (this.dateUtils.isValid(dateBasedOnShortFormat)) {
       maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
-    } else if (dayjs(dateBasedOnISO8601Format).isValid()) {
+    } else if (this.dateUtils.isValid(dateBasedOnISO8601Format)) {
       maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnISO8601Format);
     }
 
