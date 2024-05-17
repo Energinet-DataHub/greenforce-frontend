@@ -1,0 +1,67 @@
+{
+  "name": "@energinet-datahub/watt",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "The units of power",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Energinet-DataHub/greenforce-frontend.git"
+  },
+  "scripts": {},
+  "keywords": [
+    "DataHub design system"
+  ],
+  "author": "Energinet DataHub",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Energinet-DataHub/greenforce-frontend/issues"
+  },
+  "homepage": "https://github.com/Energinet-DataHub/greenforce-frontend#readme",
+  "peerDependencies": {
+    "@angular/common": "0.0.0-PLACEHOLDER",
+    "@angular/core": "0.0.0-PLACEHOLDER",
+    "@angular/material": "0.0.0-PLACEHOLDER",
+    "@maskito/angular": "0.0.0-PLACEHOLDER",
+    "@maskito/core": "0.0.0-PLACEHOLDER",
+    "@maskito/kit": "0.0.0-PLACEHOLDER",
+    "@maskito/phone": "0.0.0-PLACEHOLDER",
+    "@popperjs/core": "0.0.0-PLACEHOLDER",
+    "dayjs": "0.0.0-PLACEHOLDER"
+  },
+  "exports": {
+    ".": {
+      "sass": "./core/styles/@energinet-datahub/watt/_index.scss"
+    },
+    "./utils": {
+      "sass": "./core/styles/@energinet-datahub/watt/_utils.scss"
+    },
+    "./datepicker": {
+      "types": "./picker/datepicker/index.d.ts",
+      "esm2022": "./esm2022/picker/datepicker/energinet-datahub-watt-picker-datepicker.mjs",
+      "esm": "./esm2022/picker/datepicker/energinet-datahub-watt-picker-datepicker.mjs",
+      "default": "./fesm2022/energinet-datahub-watt-picker-datepicker.mjs"
+    },
+    "./timepicker": {
+      "types": "./picker/timepicker/index.d.ts",
+      "esm2022": "./esm2022/picker/timepicker/energinet-datahub-watt-picker-timepicker.mjs",
+      "esm": "./esm2022/picker/timepicker/energinet-datahub-watt-picker-timepicker.mjs",
+      "default": "./fesm2022/energinet-datahub-watt-picker-timepicker.mjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "datepicker": [
+        "./picker/datepicker/index.d.ts"
+      ],
+      "timepicker": [
+        "./picker/timepicker/index.d.ts"
+      ],
+      "breakpoints": [
+        "./core/breakpoints/index.d.ts"
+      ],
+      "color": [
+        "./core/color/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false
+}

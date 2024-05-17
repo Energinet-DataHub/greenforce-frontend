@@ -25,7 +25,7 @@ import { Sort } from '@angular/material/sort';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattPaginatorComponent, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   VaterFlexComponent,
@@ -36,7 +36,6 @@ import {
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhMeteringGridAreaImbalanceTableComponent } from './table/dh-table.component';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
   DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,

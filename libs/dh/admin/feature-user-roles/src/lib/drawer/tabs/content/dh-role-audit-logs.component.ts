@@ -22,7 +22,7 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { catchError, map, of, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';

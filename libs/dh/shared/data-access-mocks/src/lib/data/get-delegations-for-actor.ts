@@ -19,7 +19,7 @@ import {
   DelegatedProcess,
   GetDelegationsForActorQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 import { actors } from './get-actors-by-organizationId';
 

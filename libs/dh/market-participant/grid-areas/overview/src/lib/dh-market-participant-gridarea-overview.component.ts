@@ -26,10 +26,14 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WATT_TABLE,
+  WattTableColumnDef,
+  WattTableDataSource,
+  WattPaginatorComponent,
+} from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 export interface GridAreaOverviewRow {

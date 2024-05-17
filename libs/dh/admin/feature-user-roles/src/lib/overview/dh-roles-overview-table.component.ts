@@ -37,9 +37,8 @@ import {
   WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
+  WattPaginatorComponent,
 } from '@energinet-datahub/watt/table';
-
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 

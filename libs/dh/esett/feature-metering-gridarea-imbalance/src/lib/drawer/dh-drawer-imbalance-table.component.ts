@@ -18,7 +18,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { Component, OnInit, input } from '@angular/core';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -56,7 +56,7 @@ import { DecimalPipe } from '@angular/common';
     watt-table {
       margin: var(--watt-space-m) 0;
     }
-    `,
+  `,
   imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {

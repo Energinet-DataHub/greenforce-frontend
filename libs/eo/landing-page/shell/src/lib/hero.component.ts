@@ -189,7 +189,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
             class="hero-heading"
             [innerHTML]="translations.landingPage.hero.heading | transloco"
           ></h1>
-          <!-- Subheading or slogan -->
+          <!-- Subheading -->
           <p class="hero-subheading">{{ translations.landingPage.hero.subheading | transloco }}</p>
         </section>
 

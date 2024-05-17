@@ -61,7 +61,7 @@ import {
   GridAreaDto,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 export type settlementReportsTableColumns = GridAreaDto & { download: boolean };
 

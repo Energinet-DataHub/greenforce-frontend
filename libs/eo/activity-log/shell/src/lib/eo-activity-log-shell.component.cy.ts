@@ -20,7 +20,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { endOfToday, format } from 'date-fns';
 
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
 import { EoActivityLogShellComponent } from './eo-activity-log-shell.component';

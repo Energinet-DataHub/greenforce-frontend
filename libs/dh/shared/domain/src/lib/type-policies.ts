@@ -16,7 +16,7 @@
  */
 import { FieldPolicy } from '@apollo/client/cache';
 import { Range } from './range';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 
 /** Parses a date from an unknown type. */
 function parseDate(date: unknown): Date | null | undefined {

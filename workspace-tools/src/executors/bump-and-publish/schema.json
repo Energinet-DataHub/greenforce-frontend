@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "Bump & Publish executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "packageJson": {
+      "type": "string",
+      "description": "package.json to bump versioning and publish",
+      "required": true
+    }
+  },
+  "required": []
+}

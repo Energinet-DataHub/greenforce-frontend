@@ -35,7 +35,6 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-
 import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,

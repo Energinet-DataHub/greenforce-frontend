@@ -24,6 +24,6 @@ import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
   standalone: true,
   imports: [EoActivityLogComponent],
   encapsulation: ViewEncapsulation.None,
-  template: ` <eo-activity-log /> `,
+  template: `<eo-activity-log />`,
 })
 export class EoActivityLogShellComponent {}

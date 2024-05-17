@@ -24,7 +24,7 @@
         "configDir": "libs/watt/.storybook",
         "browserTarget": "watt:build-storybook",
         "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "./libs/watt"]
+        "compodocArgs": ["-e", "json", "-d", "./libs/watt/src/lib"]
       },
       "configurations": {
         "ci": {
@@ -39,7 +39,7 @@
       "options": {
         "styles": ["libs/watt/.storybook/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": ["libs/watt/src/lib/core/styles"]
         },
         "outputDir": "dist/designsystem",
         "configDir": "libs/watt/.storybook",
@@ -51,6 +51,36 @@
         "ci": {
           "quiet": true
         }
+      }
+    },
+    "build-package": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/watt/src/lib/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/watt/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/watt/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "commands": ["nx build-package watt", "cd dist/watt && npm pack"],
+        "parallel": false
+      }
+    },
+    "bump-and-publish": {
+      "executor": "workspace-tools:bump-and-publish",
+      "options": {
+        "packageJson": "/dist/watt/package.json"
       }
     }
   },

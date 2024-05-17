@@ -51,7 +51,7 @@
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": ["libs/watt/src/lib/core/styles"]
         },
         "scripts": []
       },

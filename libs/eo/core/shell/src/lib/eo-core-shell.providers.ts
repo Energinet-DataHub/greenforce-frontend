@@ -26,7 +26,7 @@ import {
 } from '@energinet-datahub/eo/shared/services';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { eoLanguageServiceInitializer } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 import { eoWattTranslationsProviders } from '@energinet-datahub/eo/globalization/configuration-watt-translation';

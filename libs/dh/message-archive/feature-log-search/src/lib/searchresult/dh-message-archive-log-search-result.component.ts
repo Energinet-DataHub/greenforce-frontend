@@ -28,7 +28,7 @@ import { RxLet } from '@rx-angular/template/let';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

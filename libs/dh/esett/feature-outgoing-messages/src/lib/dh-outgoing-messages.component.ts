@@ -25,7 +25,7 @@ import { Sort } from '@angular/material/sort';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattTableDataSource, WattPaginatorComponent } from '@energinet-datahub/watt/table';
 import {
   DownloadEsettExchangeEventsDocument,
   GetOutgoingMessagesDocument,
@@ -33,7 +33,6 @@ import {
   GetStatusReportDocument,
   ResendExchangeMessagesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 import {

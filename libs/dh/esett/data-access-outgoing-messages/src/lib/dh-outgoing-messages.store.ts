@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 import { ComponentStore } from '@ngrx/component-store';
 
 import { dhExchangeSortMetadataMapper } from './dh-sort-metadata-mapper.operator';

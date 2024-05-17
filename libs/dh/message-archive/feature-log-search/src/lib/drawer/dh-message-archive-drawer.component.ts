@@ -34,7 +34,7 @@ import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/tra
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ArchivedMessage } from '@energinet-datahub/dh/shared/domain';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattDrawerComponent, WATT_DRAWER, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -44,7 +44,7 @@ import { DhMessageArchiveDocumentStore } from '@energinet-datahub/dh/message-arc
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/breakpoints';
+import { WattBreakpoint, WattBreakpointsObserver } from '@energinet-datahub/watt/core/breakpoints';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,

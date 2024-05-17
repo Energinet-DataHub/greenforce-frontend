@@ -20,7 +20,7 @@ import { importProvidersFrom } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloModule } from 'apollo-angular';
 
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/datetime';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
