@@ -18,21 +18,30 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { BasePaths, ESettSubPaths, getPath } from '@energinet-datahub/dh/shared/routing';
 
 @Component({
   selector: 'dh-esett-shell',
   standalone: true,
   template: `
     <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
-      <watt-link-tab [label]="t('outgoingMessages.tabLabel')" link="/esett/outgoing-messages" />
+      <watt-link-tab
+        [label]="t('outgoingMessages.tabLabel')"
+        [link]="getLink('outgoing-messages')"
+      />
       <watt-link-tab
         [label]="t('meteringGridareaImbalance.tabLabel')"
-        link="/esett/metering-gridarea-imbalance"
+        [link]="getLink('metering-gridarea-imbalance')"
       />
-      <watt-link-tab [label]="t('balanceResponsible.tabLabel')" link="/esett/balance-responsible" />
+      <watt-link-tab
+        [label]="t('balanceResponsible.tabLabel')"
+        [link]="getLink('balance-responsible')"
+      />
       ></watt-link-tabs
     >
   `,
   imports: [TranslocoDirective, WATT_LINK_TABS],
 })
-export class DhESettShellComponent {}
+export class DhESettShellComponent {
+  getLink = (path: ESettSubPaths) => `/${getPath<BasePaths>('esett')}/${getPath(path)}`;
+}

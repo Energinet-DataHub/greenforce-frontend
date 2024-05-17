@@ -20,6 +20,8 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 import { DhESettShellComponent } from './dh-esett-shell.component';
 
+import { type ESettSubPaths, getPath } from '@energinet-datahub/dh/shared/routing';
+
 export const dhESettShellRoutes: Routes = [
   {
     path: '',
@@ -32,19 +34,19 @@ export const dhESettShellRoutes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'outgoing-messages',
+        redirectTo: getPath<ESettSubPaths>('outgoing-messages'),
       },
       {
-        path: 'outgoing-messages',
+        path: getPath<ESettSubPaths>('outgoing-messages'),
         loadComponent: () => import('@energinet-datahub/dh/esett/feature-outgoing-messages'),
       },
       {
-        path: 'metering-gridarea-imbalance',
+        path: getPath<ESettSubPaths>('metering-gridarea-imbalance'),
         loadComponent: () =>
           import('@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance'),
       },
       {
-        path: 'balance-responsible',
+        path: getPath<ESettSubPaths>('balance-responsible'),
         loadComponent: () => import('@energinet-datahub/dh/esett/feature-balance-responsible'),
       },
     ],

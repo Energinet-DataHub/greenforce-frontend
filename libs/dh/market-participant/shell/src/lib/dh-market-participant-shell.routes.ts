@@ -16,6 +16,8 @@
  */
 import { Routes } from '@angular/router';
 
+import { MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/shared/routing';
+
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
@@ -24,10 +26,10 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'actors',
+        redirectTo: getPath<MarketParticipantSubPaths>('actors'),
       },
       {
-        path: 'actors',
+        path: getPath<MarketParticipantSubPaths>('actors'),
         loadComponent: () =>
           import('@energinet-datahub/dh/market-participant/actors/feature-actors'),
         data: {
@@ -35,7 +37,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
         },
       },
       {
-        path: 'organizations',
+        path: getPath<MarketParticipantSubPaths>('organizations'),
         loadComponent: () =>
           import('@energinet-datahub/dh/market-participant/actors/feature-organizations'),
         data: {
@@ -43,7 +45,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
         },
       },
       {
-        path: 'market-roles',
+        path: getPath<MarketParticipantSubPaths>('market-roles'),
         loadComponent: () =>
           import('@energinet-datahub/dh/market-participant/actors/feature-market-roles'),
         data: {

@@ -41,9 +41,6 @@
       "@energinet-datahub/dh/admin/feature-user-roles": [
         "libs/dh/admin/feature-user-roles/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/routing": [
-        "libs/dh/admin/routing/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/shared": [
         "libs/dh/admin/shared/src/index.ts"
       ],
@@ -137,6 +134,9 @@
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/routing": [
+        "libs/dh/shared/routing/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
       ],
@@ -211,9 +211,6 @@
       ],
       "@energinet-datahub/dh/wholesale/feature-settlement-reports-v2": [
         "libs/dh/wholesale/feature-settlement-reports-v2/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/routing": [
-        "libs/dh/wholesale/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
