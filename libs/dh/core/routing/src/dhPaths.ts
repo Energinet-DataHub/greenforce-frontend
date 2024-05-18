@@ -62,16 +62,7 @@ export type AdminSubPaths = (typeof adminSubPaths)[keyof typeof adminSubPaths];
 
 type SubPaths = MarketParticipantSubPaths | ESettSubPaths | WholesaleSubPaths | AdminSubPaths;
 
-export const getPath = <
-  T extends
-    | BasePaths
-    | MarketParticipantSubPaths
-    | ESettSubPaths
-    | WholesaleSubPaths
-    | AdminSubPaths,
->(
-  route: T
-) => route;
+export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
 export const combinePaths = <T extends SubPaths, Y extends BasePaths>(basePath: Y, path: T) =>
   `/${basePath}/${path}`;
