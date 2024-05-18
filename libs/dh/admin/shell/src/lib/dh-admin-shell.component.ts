@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { AdminSubPaths, BasePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { AdminSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-admin-shell',
@@ -33,5 +33,5 @@ import { AdminSubPaths, BasePaths, getPath } from '@energinet-datahub/dh/core/ro
   imports: [TranslocoDirective, WATT_LINK_TABS],
 })
 export class DhAdminShellComponent {
-  getLink = (path: AdminSubPaths) => `/${getPath<BasePaths>('admin')}/${getPath(path)}`;
+  getLink = (path: AdminSubPaths) => combinePaths('admin', path);
 }

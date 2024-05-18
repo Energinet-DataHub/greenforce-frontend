@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { BasePaths, MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { MarketParticipantSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
@@ -38,6 +38,5 @@ import { BasePaths, MarketParticipantSubPaths, getPath } from '@energinet-datahu
   imports: [TranslocoDirective, WATT_LINK_TABS],
 })
 export class DhMarketParticipantActorsShellComponent {
-  getLink = (path: MarketParticipantSubPaths) =>
-    `/${getPath<BasePaths>('market-participant')}/${getPath(path)}`;
+  getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
 }

@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { BasePaths, ESettSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-esett-shell',
@@ -43,5 +43,5 @@ import { BasePaths, ESettSubPaths, getPath } from '@energinet-datahub/dh/core/ro
   imports: [TranslocoDirective, WATT_LINK_TABS],
 })
 export class DhESettShellComponent {
-  getLink = (path: ESettSubPaths) => `/${getPath<BasePaths>('esett')}/${getPath(path)}`;
+  getLink = (path: ESettSubPaths) => combinePaths('esett', path);
 }
