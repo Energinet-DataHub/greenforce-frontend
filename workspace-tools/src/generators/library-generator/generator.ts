@@ -24,7 +24,7 @@ import {
   updateJson,
   offsetFromRoot,
 } from '@nx/devkit';
-import { libraryGenerator, angularMoveGenerator } from '@nx/angular/generators';
+import { libraryGenerator } from '@nx/angular/generators';
 
 export enum LibraryType {
   configuration = 'configuration',
