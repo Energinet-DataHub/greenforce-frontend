@@ -48,6 +48,9 @@
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
+      "@energinet-datahub/dh/core/routing": [
+        "libs/dh/core/routing/src/index.ts"
+      ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
         "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
@@ -133,9 +136,6 @@
       ],
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
-      ],
-      "@energinet-datahub/dh/core/routing": [
-        "libs/dh/core/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
