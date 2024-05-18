@@ -6,16 +6,17 @@
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
     "node": "20.11.0",
-    "npm": "Please use Yarn instead of npm to install dependencies.",
-    "yarn": "4.0.2"
+    "npm": "Please use Bun instead of npm to install dependencies.",
+    "yarn": "Please use Bun instead of npm to install dependencies.",
+    "bun": "1.1.8"
   },
   "scripts": {
-    "postinstall": "yarn husky install",
+    "postinstall": "bun husky install",
     "jest-preview": "jest-preview",
     "affected": "nx affected",
     "affected:apps": "nx print-affected --type=app --select=projects",
     "affected:build": "nx affected:build --configuration=production --parallel",
-    "affected:ci": "yarn run affected:lint && yarn run affected:test && yarn run affected:build && yarn run affected:e2e -- --configuration=ci",
+    "affected:ci": "bun run affected:lint && bun run affected:test && bun run affected:build && bun run affected:e2e -- --configuration=ci",
     "affected:graph": "nx affected:graph",
     "affected:e2e": "nx affected:e2e",
     "affected:libs": "nx print-affected --type=lib --select=projects",
@@ -24,7 +25,7 @@
     "affected:test": "nx affected:test --parallel",
     "analyze:app-dh": "source-map-explorer dist/apps/dh/app-dh/**/*.js",
     "build": "nx run-many --target=build --configuration=production --parallel",
-    "ci": "yarn run lint && yarn run test && yarn run build && yarn run e2e -- --configuration=ci",
+    "ci": "bun run lint && bun run test && bun run build && bun run e2e -- --configuration=ci",
     "designsystem:build": "nx run watt:build-storybook",
     "designsystem:start": "nx run watt:storybook",
     "graph": "nx graph",
@@ -53,10 +54,10 @@
     "test": "nx run-many --target=test --parallel",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
-    "take": "node --import tsx ./tools/github/create-branch-from-issue.ts",
-    "branch": "node --import tsx ./tools/github/create-branch.ts",
-    "pr": "node --import tsx ./tools/github/create-pr.ts",
-    "task": "yarn run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
+    "take": "bun ./tools/github/create-branch-from-issue.ts",
+    "branch": "bun ./tools/github/create-branch.ts",
+    "pr": "bun ./tools/github/create-pr.ts",
+    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
   },
   "dependencies": {
     "@angular/animations": "17.3.7",
@@ -76,8 +77,8 @@
     "@maskito/core": "2.3.0",
     "@maskito/kit": "2.3.0",
     "@maskito/phone": "2.3.0",
-    "@microsoft/applicationinsights-angularplugin-js": "15.0.1",
-    "@microsoft/applicationinsights-web": "3.0.7",
+    "@microsoft/applicationinsights-angularplugin-js": "15.2.0",
+    "@microsoft/applicationinsights-web": "3.2.1",
     "@ngneat/transloco": "5.0.7",
     "@ngrx/component-store": "17.2.0",
     "@ngrx/operators": "17.2.0",
@@ -202,7 +203,6 @@
     "source-map-explorer": "2.5.3",
     "storybook-addon-pseudo-states": "2.1.0",
     "ts-jest": "29.1.2",
-    "ts-node": "10.9.2",
     "tsx": "4.7.2",
     "typescript": "5.4.5",
     "typescript-eslint": "7.3.0"
@@ -210,10 +210,10 @@
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
     "node": "20.11.0",
-    "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
-    "yarn": "4.0.2"
+    "//bun-comment": "Keep this in sync with GitHub actions pipelines",
+    "bun": "1.1.8"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "bun@1.1.8",
   "msw": {
     "workerDirectory": "libs/gf/msw/util-msw/src/assets"
   }
