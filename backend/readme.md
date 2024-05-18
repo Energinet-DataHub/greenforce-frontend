@@ -46,5 +46,5 @@ When generating clients and types from these local backend repositories,
 remember to add the `--skip-nx-cache` flag to the build-client script:
 
 ```sh
-yarn nx run api-dh:build-client --skip-nx-cache
+bun nx run api-dh:build-client --skip-nx-cache
 ```

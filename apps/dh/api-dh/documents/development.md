@@ -42,14 +42,14 @@ server and client, use the following command to automatically start the
 client and run the code generation whenever the source files change:
 
 ```sh
-yarn dh:dev
+bun dh:dev
 ```
 
 It is also possible to run the code generation manually (order is important):
 
 ```sh
-yarn nx run api-dh:generate
-yarn nx run dh-shared-domain:generate
+bun nx run api-dh:generate
+bun nx run dh-shared-domain:generate
 ```
 
 The `api-dh:generate` command will generate a `schema.graphql`
@@ -101,7 +101,7 @@ stored snapshot exactly, this test will fail.
 To determine if any changes have occurred in the snapshots, execute the following command:
 
 ```sh
-yarn api:test
+bun api:test
 ```
 
 If the tests fail because of snapshot mismatches, you should see a diff in the console, and one or
@@ -110,7 +110,7 @@ more `.received.` files will appear inside the `Snapshots` folder, located at
 manually or use the following tool:
 
 ```sh
-yarn api:verify
+bun api:verify
 ```
 
 Take a close look at the changes. If they're intentional, accept the changes from the `.received.`
@@ -132,7 +132,7 @@ az login
 When that is done, it should be possible to run the telemetry tests using this command:
 
 ```sh
-yarn api:test:telemetry
+bun api:test:telemetry
 ```
 
 Keep in mind that these tests usually takes about 3-5 minutes, but may run for as long as 20 minutes.
@@ -153,7 +153,7 @@ used to auto-generate any HttpClients and DTOs needed to communicate with the
 BFF. To do that run:
 
 ```sh
-yarn nx run api-dh:build-client
+bun nx run api-dh:build-client
 ```
 
 *Note: The files are automatically placed in
