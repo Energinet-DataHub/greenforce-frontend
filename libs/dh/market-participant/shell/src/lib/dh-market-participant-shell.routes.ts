@@ -16,11 +16,6 @@
  */
 import { Routes } from '@angular/router';
 
-import {
-  dhMarketParticipantActorsPath,
-  dhMarketParticipantGridAreasPath,
-} from '@energinet-datahub/dh/market-participant/routing';
-
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
@@ -29,10 +24,10 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: dhMarketParticipantActorsPath,
+        redirectTo: 'actors',
       },
       {
-        path: dhMarketParticipantActorsPath,
+        path: 'actors',
         loadComponent: () =>
           import('@energinet-datahub/dh/market-participant/actors/feature-actors'),
         data: {
@@ -56,12 +51,5 @@ export const dhMarketParticipantShellRoutes: Routes = [
         },
       },
     ],
-  },
-  {
-    path: dhMarketParticipantGridAreasPath,
-    loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
-    data: {
-      titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
-    },
   },
 ];

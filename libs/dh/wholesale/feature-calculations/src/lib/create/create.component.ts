@@ -348,7 +348,10 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   private validateResolutionTransition(): ValidatorFn {
     return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
-      if (!control.value) return null;
+      // List of calculation types that are affected by the validator
+      const affected = [StartCalculationType.BalanceFixing, StartCalculationType.Aggregation];
+      const calculationType = control.parent?.get('calculationType')?.value;
+      if (!affected.includes(calculationType) || !control.value) return null;
       const start = dayjs.utc(control.value.start);
       const end = dayjs.utc(control.value.end);
       const transitionDate = dayjs.utc(this.resolutionTransitionDate);
