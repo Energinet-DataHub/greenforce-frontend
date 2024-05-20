@@ -34,7 +34,7 @@ const selector = 'eo-landing-page-blockchain-tech';
       justify-content: center;
       background: #f9f9f9;
 
-      @media (min-width: 754px) {
+      @media (min-width: 960px) {
         padding-top: 185px;
       }
 
@@ -44,7 +44,7 @@ const selector = 'eo-landing-page-blockchain-tech';
         place-items: center;
         gap: 34px;
 
-        @media (min-width: 754px) {
+        @media (min-width: 960px) {
           grid-template-columns: auto 1fr;
           gap: 75px;
           max-width: 1000px;

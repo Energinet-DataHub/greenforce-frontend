@@ -31,7 +31,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       display: flex;
       justify-content: center;
 
-      @media (min-width: 754px) {
+      @media (min-width: 960px) {
         padding-top: 185px;
       }
     }
@@ -46,7 +46,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       place-items: center;
       gap: 34px;
 
-      @media (min-width: 754px) {
+      @media (min-width: 960px) {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
         grid-template-areas: 'content image';
