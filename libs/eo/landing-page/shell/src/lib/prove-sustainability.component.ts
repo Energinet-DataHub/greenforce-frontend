@@ -88,7 +88,10 @@ const selector = 'eo-landing-page-prove-sustainability';
       [autoPlay]="false"
     />
 
-    <h2 class="headline-3" [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"></h2>
+    <h2
+      class="headline-3"
+      [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"
+    ></h2>
     <p [innerHTML]="translations.landingPage.proveSustainability.content | transloco"></p>
   `,
 })

@@ -125,22 +125,30 @@ const selector = 'eo-landing-page-footer';
       <img eoProductLogo version="secondary" class="logo" />
 
       <section class="address">
-        <h4 class="headline-4">{{ translations.landingPage.footer.section1.heading | transloco }}</h4>
+        <h4 class="headline-4">
+          {{ translations.landingPage.footer.section1.heading | transloco }}
+        </h4>
         <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
       </section>
 
       <section class="contact">
-        <h4 class="headline-4">{{ translations.landingPage.footer.section2.heading | transloco }}</h4>
+        <h4 class="headline-4">
+          {{ translations.landingPage.footer.section2.heading | transloco }}
+        </h4>
         <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
       </section>
 
       <section class="legal">
-        <h4 class="headline-4">{{ translations.landingPage.footer.section3.heading | transloco }}</h4>
+        <h4 class="headline-4">
+          {{ translations.landingPage.footer.section3.heading | transloco }}
+        </h4>
         <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
       </section>
 
       <section class="developers">
-        <h4 class="headline-4">{{ translations.landingPage.footer.section4.heading | transloco }}</h4>
+        <h4 class="headline-4">
+          {{ translations.landingPage.footer.section4.heading | transloco }}
+        </h4>
         <div
           [innerHTML]="
             translations.landingPage.footer.section4.content

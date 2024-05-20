@@ -145,7 +145,9 @@ import { EoLearnMoreComponent } from './learn-more.component';
             [innerHTML]="translations.landingPage.hero.heading | transloco"
           ></h1>
           <!-- Subheading or slogan -->
-          <p class="hero-subheading headline-4">{{ translations.landingPage.hero.subheading | transloco }}</p>
+          <p class="hero-subheading headline-4">
+            {{ translations.landingPage.hero.subheading | transloco }}
+          </p>
         </section>
 
         <section aria-labelledby="hero-heading" class="actions-container">

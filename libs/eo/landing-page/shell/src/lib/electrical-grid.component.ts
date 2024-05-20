@@ -143,7 +143,9 @@ const selector = 'eo-landing-page-electrical-grid';
     }
   `,
   template: `
-    <h2 class="large-only headline-4">{{ translations.landingPage.electricalGrid.heading | transloco }}</h2>
+    <h2 class="large-only headline-4">
+      {{ translations.landingPage.electricalGrid.heading | transloco }}
+    </h2>
     <div class="container">
       <video
         #videoPlayer
@@ -157,8 +159,13 @@ const selector = 'eo-landing-page-electrical-grid';
       >
         <source src="/assets/landing-page/electrical-grid.mp4" type="video/mp4" />
       </video>
-      <h2 class="small-only headline-4">{{ translations.landingPage.electricalGrid.heading | transloco }}</h2>
-      <h3 class="headline-1" [innerHTML]="translations.landingPage.electricalGrid.subheading | transloco"></h3>
+      <h2 class="small-only headline-4">
+        {{ translations.landingPage.electricalGrid.heading | transloco }}
+      </h2>
+      <h3
+        class="headline-1"
+        [innerHTML]="translations.landingPage.electricalGrid.subheading | transloco"
+      ></h3>
     </div>
   `,
 })

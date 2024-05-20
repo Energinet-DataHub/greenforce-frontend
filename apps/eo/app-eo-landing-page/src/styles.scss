@@ -56,10 +56,11 @@ img {
 
 // Typography
 @font-face {
-  font-family: 'D-DIN';
-  src: url('/assets/fonts/d-din-font-family/D-DIN.woff2') format('woff2'),
-       url('/assets/fonts/d-din-font-family/D-DIN.woff') format('woff'),
-       url('/assets/fonts/d-din-font-family/D-DIN.ttf') format('truetype');
+  font-family: "D-DIN";
+  src:
+    url("/assets/fonts/d-din-font-family/D-DIN.woff2") format("woff2"),
+    url("/assets/fonts/d-din-font-family/D-DIN.woff") format("woff"),
+    url("/assets/fonts/d-din-font-family/D-DIN.ttf") format("truetype");
   font-weight: normal;
   font-stretch: 100%;
   font-style: normal;
@@ -67,10 +68,11 @@ img {
 }
 
 @font-face {
-  font-family: 'D-DIN';
-  src: url('/assets/fonts/d-din-font-family/D-DIN-Bold.woff2') format('woff2'),
-       url('/assets/fonts/d-din-font-family/D-DIN-Bold.woff') format('woff'),
-       url('/assets/fonts/d-din-font-family/D-DIN-Bold.ttf') format('truetype');
+  font-family: "D-DIN";
+  src:
+    url("/assets/fonts/d-din-font-family/D-DIN-Bold.woff2") format("woff2"),
+    url("/assets/fonts/d-din-font-family/D-DIN-Bold.woff") format("woff"),
+    url("/assets/fonts/d-din-font-family/D-DIN-Bold.ttf") format("truetype");
   font-weight: bold;
   font-stretch: 100%;
   font-style: normal;
@@ -79,7 +81,8 @@ img {
 
 // TODO: MOBILE STYLES
 
-body, .normal {
+body,
+.normal {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-style: normal;

@@ -84,7 +84,9 @@ const selector = 'eo-landing-page-blockchain-tech';
       </picture>
 
       <div class="content">
-        <h3 class="headline-3">{{ translations.landingPage.blockchainTech.heading | transloco }}</h3>
+        <h3 class="headline-3">
+          {{ translations.landingPage.blockchainTech.heading | transloco }}
+        </h3>
         <div [innerHTML]="translations.landingPage.blockchainTech.content | transloco"></div>
       </div>
     </section>

@@ -97,7 +97,7 @@ interface Image {
 
       nav {
         a {
-          font-family: "D-DIN", sans-serif;
+          font-family: 'D-DIN', sans-serif;
           font-size: 40px;
           font-style: normal;
           font-weight: 400;

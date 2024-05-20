@@ -78,7 +78,9 @@ import { translations } from '@energinet-datahub/eo/translations';
   template: `
     <section>
       <div class="content">
-        <h3 class="headline-3">{{ translations.landingPage.granularCertificates.heading | transloco }}</h3>
+        <h3 class="headline-3">
+          {{ translations.landingPage.granularCertificates.heading | transloco }}
+        </h3>
         <p>{{ translations.landingPage.granularCertificates.content | transloco }}</p>
       </div>
 

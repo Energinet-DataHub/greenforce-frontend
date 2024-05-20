@@ -113,7 +113,10 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       <p [innerHTML]="translations.landingPage.why.quote | transloco" class="headline-2"></p>
       <footer>
-        <cite [innerHTML]="translations.landingPage.why.quoteAuthor | transloco" class="headline-4"></cite>
+        <cite
+          [innerHTML]="translations.landingPage.why.quoteAuthor | transloco"
+          class="headline-4"
+        ></cite>
       </footer>
     </blockquote>
   `,
