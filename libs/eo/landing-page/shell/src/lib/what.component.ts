@@ -269,7 +269,7 @@ interface Image {
 
       @for (section of sections(); track section.id; let idx = $index) {
         <section>
-          <h3>{{ section.title | transloco }}</h3>
+          <h3 class="headline-2">{{ section.title | transloco }}</h3>
 
           <picture aria-hidden="true">
             <source
