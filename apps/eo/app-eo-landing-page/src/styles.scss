@@ -52,6 +52,10 @@ img {
   display: inline-block;
   max-width: 100%;
   height: auto;
+
+  @media screen and (orientation: landscape) and (max-width: 960px) {
+    max-width: 60vh;
+  }
 }
 
 // Typography

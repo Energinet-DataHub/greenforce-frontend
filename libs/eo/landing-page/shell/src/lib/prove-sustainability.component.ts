@@ -77,6 +77,12 @@ const selector = 'eo-landing-page-prove-sustainability';
           max-width: 438px;
         }
       }
+
+      @media screen and (orientation: landscape) and (max-width: 960px) {
+        eo-lottie {
+          max-width: 60vh;
+        }
+      }
     }
   `,
   template: `

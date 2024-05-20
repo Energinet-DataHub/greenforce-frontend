@@ -76,6 +76,10 @@ const selector = 'eo-landing-page-electrical-grid';
           padding-bottom: 60px;
           padding-left: 75px;
         }
+
+        @media screen and (orientation: landscape) and (max-width: 960px) {
+          min-height: 100vh;
+        }
       }
 
       .container::after {
@@ -111,7 +115,7 @@ const selector = 'eo-landing-page-electrical-grid';
           width: 100%;
           text-align: left;
           color: #02525e;
-          margin: 160px 0 30px 0;
+          margin: 160px 0 30px 96px;
         }
       }
 
