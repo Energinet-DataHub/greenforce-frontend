@@ -120,40 +120,6 @@ import { EoLearnMoreComponent } from './learn-more.component';
       color: #13ecb8;
       order: 1;
     }
-
-    button.primary {
-      display: inline-flex;
-      padding: 16px 24px;
-      align-items: center;
-      gap: 8px;
-      text-transform: uppercase;
-      border-radius: 360px;
-      background: #24b492;
-      color: #fff;
-      border: none;
-    }
-
-    button.secondary {
-      display: inline-flex;
-      padding: 16px 24px;
-      text-transform: uppercase;
-      align-items: center;
-      gap: 8px;
-      border-radius: 360px;
-      border: 1px solid #24b492;
-      background: transparent;
-      color: #fff;
-    }
-
-    button {
-      &:hover,
-      &:focus-visible {
-        background: #ee9331;
-        border-color: #ee9331;
-        outline: none;
-        cursor: pointer;
-      }
-    }
   `,
   template: `
     <div class="container">
@@ -183,12 +149,12 @@ import { EoLearnMoreComponent } from './learn-more.component';
         </section>
 
         <section aria-labelledby="hero-heading" class="actions-container">
-          <button class="primary" (click)="onLogin()">
+          <button class="button primary" (click)="onLogin()">
             <watt-icon name="login" />
             {{ translations.landingPage.hero.loginButton | transloco }}
           </button>
           <eo-learn-more>
-            <button class="secondary">
+            <button class="button secondary">
               <watt-icon name="smartDisplay" />
               {{ translations.landingPage.hero.learnMoreButton | transloco }}
             </button>

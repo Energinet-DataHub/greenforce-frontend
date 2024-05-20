@@ -77,6 +77,8 @@ img {
   font-display: swap;
 }
 
+// TODO: MOBILE STYLES
+
 body, .normal {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
@@ -118,4 +120,47 @@ body, .normal {
   line-height: normal;
   letter-spacing: 0.034rem;
   text-transform: uppercase;
+}
+
+// buttons
+.button {
+  font-family: "D-DIN", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  &.primary {
+    display: inline-flex;
+    padding: 16px 24px;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    border-radius: 360px;
+    background: #24b492;
+    color: #fff;
+    border: none;
+  }
+
+  &.secondary {
+    display: inline-flex;
+    padding: 16px 24px;
+    text-transform: uppercase;
+    align-items: center;
+    gap: 8px;
+    border-radius: 360px;
+    border: 1px solid #24b492;
+    background: transparent;
+    color: #fff;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: #ee9331;
+    border-color: #ee9331;
+    outline: none;
+    cursor: pointer;
+  }
 }

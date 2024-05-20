@@ -73,33 +73,6 @@ import { translations } from '@energinet-datahub/eo/translations';
       grid-area: devportal;
     }
 
-    button.primary,
-    .button.primary {
-      display: inline-flex;
-      padding: 16px 24px;
-      align-items: center;
-      gap: 8px;
-      text-transform: uppercase;
-      border-radius: 360px;
-      background: #24b492;
-      color: #fff;
-      border: none;
-    }
-
-    .button {
-      text-decoration: none;
-    }
-
-    button,
-    .button {
-      &:hover,
-      &:focus-visible {
-        background: #ee9331;
-        border-color: #ee9331;
-        outline: none;
-      }
-    }
-
     section {
       display: flex;
       flex-direction: column;
@@ -111,7 +84,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     <h2 class="headline-1">{{ translations.landingPage.cta.heading | transloco }}</h2>
     <section class="login">
       <h3 class="headline-3">{{ translations.landingPage.cta.section1.heading | transloco }}</h3>
-      <button class="primary" (click)="onLogin()">
+      <button class="button primary" (click)="onLogin()">
         <watt-icon name="login" />
         {{ translations.landingPage.cta.section1.cta | transloco }}
       </button>
