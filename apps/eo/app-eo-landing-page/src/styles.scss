@@ -53,3 +53,69 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+// Typography
+@font-face {
+  font-family: 'D-DIN';
+  src: url('/assets/fonts/d-din-font-family/D-DIN.woff2') format('woff2'),
+       url('/assets/fonts/d-din-font-family/D-DIN.woff') format('woff'),
+       url('/assets/fonts/d-din-font-family/D-DIN.ttf') format('truetype');
+  font-weight: normal;
+  font-stretch: 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'D-DIN';
+  src: url('/assets/fonts/d-din-font-family/D-DIN-Bold.woff2') format('woff2'),
+       url('/assets/fonts/d-din-font-family/D-DIN-Bold.woff') format('woff'),
+       url('/assets/fonts/d-din-font-family/D-DIN-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-stretch: 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+body, .normal {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.headline-1 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 3.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.headline-2 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.125rem;
+}
+
+.headline-3 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.125rem;
+}
+
+.headline-4 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.034rem;
+  text-transform: uppercase;
+}

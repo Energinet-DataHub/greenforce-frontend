@@ -60,15 +60,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       p {
         color: #fff;
-        font-size: 28px;
-        line-height: 34px;
         margin-top: 28px;
-        font-weight: 400;
-
-        @media only screen and (min-width: 860px) {
-          font-size: 48px;
-          line-height: 50px;
-        }
       }
 
       footer {
@@ -80,12 +72,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       cite {
         color: #13ecb8;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.54px;
-        text-transform: uppercase;
       }
     }
   `,
@@ -125,9 +111,9 @@ import { translations } from '@energinet-datahub/eo/translations';
         />
       </picture>
 
-      <p [innerHTML]="translations.landingPage.why.quote | transloco"></p>
+      <p [innerHTML]="translations.landingPage.why.quote | transloco" class="headline-2"></p>
       <footer>
-        <cite [innerHTML]="translations.landingPage.why.quoteAuthor | transloco"></cite>
+        <cite [innerHTML]="translations.landingPage.why.quoteAuthor | transloco" class="headline-4"></cite>
       </footer>
     </blockquote>
   `,

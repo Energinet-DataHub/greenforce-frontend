@@ -49,29 +49,12 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
     }
 
-    .heading-1 {
+    .headline-1 {
       color: rgba(0, 0, 0, 0.87);
-      font-size: 38px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      text-transform: uppercase;
-
-      @media (min-width: 895px) {
-        font-size: 62px;
-      }
     }
 
-    .heading-3 {
+    .headline-3 {
       color: rgba(0, 0, 0, 0.87);
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 34px;
-
-      @media (min-width: 895px) {
-        font-size: 28px;
-      }
     }
 
     h2 {
@@ -125,16 +108,16 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
   `,
   template: `
-    <h2 class="heading-1">{{ translations.landingPage.cta.heading | transloco }}</h2>
+    <h2 class="headline-1">{{ translations.landingPage.cta.heading | transloco }}</h2>
     <section class="login">
-      <h3 class="heading-3">{{ translations.landingPage.cta.section1.heading | transloco }}</h3>
+      <h3 class="headline-3">{{ translations.landingPage.cta.section1.heading | transloco }}</h3>
       <button class="primary" (click)="onLogin()">
         <watt-icon name="login" />
         {{ translations.landingPage.cta.section1.cta | transloco }}
       </button>
     </section>
     <section class="devportal">
-      <h3 class="heading-3">{{ translations.landingPage.cta.section2.heading | transloco }}</h3>
+      <h3 class="headline-3">{{ translations.landingPage.cta.section2.heading | transloco }}</h3>
       <a [href]="devPortalHref" target="_blank" class="button primary"
         ><watt-icon name="openInNew" />{{
           translations.landingPage.cta.section2.cta | transloco

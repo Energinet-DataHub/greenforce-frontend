@@ -80,35 +80,24 @@ interface Image {
 
       .headline-4 {
         color: #02525e;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.54px;
-        text-transform: uppercase;
       }
 
       .headline-3 {
+        text-align: center;
         color: var(--on-light-high-emphasis, rgba(0, 0, 0, 0.87));
-        font-size: 28px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 34px;
 
         &:has(+ p) {
           margin-bottom: 27px;
         }
-      }
 
-      p {
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px;
+        @media (min-width: 1024px) {
+          text-align: left;
+        }
       }
 
       nav {
         a {
+          font-family: "D-DIN", sans-serif;
           font-size: 40px;
           font-style: normal;
           font-weight: 400;
@@ -196,19 +185,6 @@ interface Image {
         .content-text {
           grid-area: content;
           align-content: center;
-        }
-      }
-
-      h3 {
-        color: rgba(0, 0, 0, 0.87);
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        text-align: center;
-
-        @media (min-width: 1024px) {
-          text-align: left;
         }
       }
 

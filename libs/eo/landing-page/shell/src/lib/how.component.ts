@@ -42,10 +42,6 @@ import { translations } from '@energinet-datahub/eo/translations';
       align-items: center;
       background: #02525e;
       color: #fff;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 28px;
       padding: 0 24px 96px 24px;
       --transition: all 1500ms cubic-bezier(0.75, 0, 0.25, 1);
       --scale: scale(1.15766, 1);
@@ -53,20 +49,10 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       h3 {
         color: #fff;
-        text-align: center;
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
         max-width: 475px;
       }
 
       h2 {
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.54px;
         max-width: 295px;
       }
 
@@ -114,10 +100,6 @@ import { translations } from '@energinet-datahub/eo/translations';
         }
 
         h3 {
-          font-size: 62px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: normal;
           text-align: left;
           transition: var(--transition);
           max-width: 85%;
@@ -166,8 +148,8 @@ import { translations } from '@energinet-datahub/eo/translations';
   `,
   template: `
     <div class="heading" [ngClass]="{ active: isActive() }">
-      <h2 class="highlight">{{ translations.landingPage.how.heading | transloco }}</h2>
-      <h3 [innerHTML]="translations.landingPage.how.subheading | transloco"></h3>
+      <h2 class="highlight headline-4">{{ translations.landingPage.how.heading | transloco }}</h2>
+      <h3 class="headline-1" [innerHTML]="translations.landingPage.how.subheading | transloco"></h3>
     </div>
 
     <section

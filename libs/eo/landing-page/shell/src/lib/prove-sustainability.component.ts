@@ -64,10 +64,6 @@ const selector = 'eo-landing-page-prove-sustainability';
 
       h2 {
         margin-top: 16px;
-        font-size: 28px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 34px;
 
         @media (min-width: 768px) {
           margin-top: 32px;
@@ -76,10 +72,6 @@ const selector = 'eo-landing-page-prove-sustainability';
 
       p {
         margin-top: 24px;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px;
 
         @media (min-width: 768px) {
           max-width: 438px;
@@ -96,7 +88,7 @@ const selector = 'eo-landing-page-prove-sustainability';
       [autoPlay]="false"
     />
 
-    <h2 [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"></h2>
+    <h2 class="headline-3" [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"></h2>
     <p [innerHTML]="translations.landingPage.proveSustainability.content | transloco"></p>
   `,
 })

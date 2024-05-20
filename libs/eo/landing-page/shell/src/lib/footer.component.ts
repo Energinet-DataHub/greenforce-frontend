@@ -96,22 +96,13 @@ const selector = 'eo-landing-page-footer';
 
       h4 {
         color: #24b492;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.54px;
-        text-transform: uppercase;
         margin-bottom: 16px;
       }
 
       p,
       a {
         color: #f5f5f5;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 31px;
+        line-height: 30px;
       }
 
       ul li {
@@ -134,22 +125,22 @@ const selector = 'eo-landing-page-footer';
       <img eoProductLogo version="secondary" class="logo" />
 
       <section class="address">
-        <h4>{{ translations.landingPage.footer.section1.heading | transloco }}</h4>
+        <h4 class="headline-4">{{ translations.landingPage.footer.section1.heading | transloco }}</h4>
         <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
       </section>
 
       <section class="contact">
-        <h4>{{ translations.landingPage.footer.section2.heading | transloco }}</h4>
+        <h4 class="headline-4">{{ translations.landingPage.footer.section2.heading | transloco }}</h4>
         <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
       </section>
 
       <section class="legal">
-        <h4>{{ translations.landingPage.footer.section3.heading | transloco }}</h4>
+        <h4 class="headline-4">{{ translations.landingPage.footer.section3.heading | transloco }}</h4>
         <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
       </section>
 
       <section class="developers">
-        <h4>{{ translations.landingPage.footer.section4.heading | transloco }}</h4>
+        <h4 class="headline-4">{{ translations.landingPage.footer.section4.heading | transloco }}</h4>
         <div
           [innerHTML]="
             translations.landingPage.footer.section4.content

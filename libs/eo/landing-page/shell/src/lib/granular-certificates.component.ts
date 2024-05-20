@@ -72,24 +72,13 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
 
     h3 {
-      font-size: 28px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 34px;
       margin-bottom: 30px;
-    }
-
-    p {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
     }
   `,
   template: `
     <section>
       <div class="content">
-        <h3>{{ translations.landingPage.granularCertificates.heading | transloco }}</h3>
+        <h3 class="headline-3">{{ translations.landingPage.granularCertificates.heading | transloco }}</h3>
         <p>{{ translations.landingPage.granularCertificates.content | transloco }}</p>
       </div>
 

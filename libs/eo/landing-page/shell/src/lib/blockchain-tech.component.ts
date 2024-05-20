@@ -65,18 +65,7 @@ const selector = 'eo-landing-page-blockchain-tech';
       }
 
       h3 {
-        font-size: 28px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 34px;
         margin-bottom: 6px;
-      }
-
-      p {
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px;
       }
     }
   `,
@@ -95,7 +84,7 @@ const selector = 'eo-landing-page-blockchain-tech';
       </picture>
 
       <div class="content">
-        <h3>{{ translations.landingPage.blockchainTech.heading | transloco }}</h3>
+        <h3 class="headline-3">{{ translations.landingPage.blockchainTech.heading | transloco }}</h3>
         <div [innerHTML]="translations.landingPage.blockchainTech.content | transloco"></div>
       </div>
     </section>

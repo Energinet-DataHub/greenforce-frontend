@@ -49,7 +49,6 @@ import { EoLearnMoreComponent } from './learn-more.component';
 
       .container {
         --headings-aligment: center;
-        --heading-size: 38px;
         --actions-container-alignment: column;
 
         position: relative;
@@ -61,8 +60,6 @@ import { EoLearnMoreComponent } from './learn-more.component';
 
         @media (min-width: 478px) and (min-height: 650px) {
           --headings-aligment: left;
-          --heading-size: 62px;
-          --heading-line-height: normal;
           --actions-container-alignment: row;
         }
       }
@@ -113,22 +110,13 @@ import { EoLearnMoreComponent } from './learn-more.component';
 
     #hero-heading {
       color: #fff;
-      text-transform: uppercase;
       text-align: var(--headings-aligment);
-      font-size: var(--heading-size);
-      line-height: normal;
       order: 2;
       margin-top: 14px;
     }
 
     .hero-subheading {
-      font-size: 18px;
       text-align: var(--headings-aligment);
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      letter-spacing: 0.54px;
-      text-transform: uppercase;
       color: #13ecb8;
       order: 1;
     }
@@ -187,11 +175,11 @@ import { EoLearnMoreComponent } from './learn-more.component';
           <!-- Main heading of the hero component -->
           <h1
             id="hero-heading"
-            class="hero-heading"
+            class="hero-heading headline-1"
             [innerHTML]="translations.landingPage.hero.heading | transloco"
           ></h1>
           <!-- Subheading or slogan -->
-          <p class="hero-subheading">{{ translations.landingPage.hero.subheading | transloco }}</p>
+          <p class="hero-subheading headline-4">{{ translations.landingPage.hero.subheading | transloco }}</p>
         </section>
 
         <section aria-labelledby="hero-heading" class="actions-container">
