@@ -40,7 +40,6 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
 
 import { translations } from '@energinet-datahub/eo/translations';
 
-
 @Component({
   standalone: true,
   selector: 'eo-language-switcher',
