@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { TitleStrategy, provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configuration-localization';
@@ -29,6 +29,8 @@ import {
 
 import { DA_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/da';
 import { EN_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/en';
+
+import { MetaStrategy } from './meta-strategy.service';
 
 export const translocoProviders = [
   provideTransloco({
@@ -51,5 +53,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideRouter(appRoutes),
     ...translocoProviders,
+    {
+      provide: TitleStrategy,
+      useClass: MetaStrategy,
+    },
   ],
 };

@@ -16,6 +16,13 @@
  */
 export interface TranslationKeys {
   landingPage: {
+    meta: {
+      title: string;
+      description: string;
+      keywords: string;
+      author: string;
+      url: string;
+    },
     announcementBar: {
       message: string;
     };
