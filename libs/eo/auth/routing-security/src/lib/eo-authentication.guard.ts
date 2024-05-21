@@ -44,7 +44,10 @@ export class EoScopeGuard implements CanActivate {
         }
 
         if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
-        if (!this.authStore.token.getValue()) this.router.navigate(['']);
+        if (!this.authStore.token.getValue()) {
+          console.log('debug: no token');
+          this.router.navigate(['']);
+        }
 
         return !scope.includes('not-accepted-privacypolicy-terms');
       })
