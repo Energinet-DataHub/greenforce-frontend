@@ -55,11 +55,13 @@ export class EoLoginComponent {
           window.location.assign(
             `${window.location.protocol}//${window.location.origin}/${this.transloco.getActiveLang()}`
           );
+          console.log('debug: scope is empty');
           return;
         }
 
         if (isTokenExpired) {
           this.service.logout();
+          console.log('debug: token expired');
           return;
         }
 
@@ -74,9 +76,11 @@ export class EoLoginComponent {
             : `/${this.transloco.getActiveLang()}/dashboard`;
           this.router.navigate([path]);
 
+          console.log('debug: dashboard');
           return;
         }
 
+        console.log('debug: else is triggered');
         this.router.navigate(['/', this.transloco.getActiveLang()], {
           queryParamsHandling: 'preserve',
         });
