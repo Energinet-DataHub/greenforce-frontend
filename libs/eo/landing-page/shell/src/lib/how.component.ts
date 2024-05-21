@@ -42,7 +42,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       align-items: center;
       background: #02525e;
       color: #fff;
-      padding: 0 24px 96px 24px;
+      padding: 0 24px 48px 24px;
       --transition: all 1500ms cubic-bezier(0.75, 0, 0.25, 1);
       --scale: scale(1.15766, 1);
       container: eo-landing-page-how / inline-size;

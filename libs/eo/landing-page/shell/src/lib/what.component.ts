@@ -87,7 +87,7 @@ interface Image {
         color: var(--on-light-high-emphasis, rgba(0, 0, 0, 0.87));
 
         &:has(+ p) {
-          margin-bottom: 27px;
+          margin-bottom: 28px;
         }
 
         @media (min-width: 1024px) {
@@ -128,7 +128,7 @@ interface Image {
         ul {
           display: flex;
           flex-direction: column;
-          gap: 27px;
+          gap: 28px;
 
           li {
             padding-left: 0;
