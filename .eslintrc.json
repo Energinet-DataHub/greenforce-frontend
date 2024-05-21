@@ -42,7 +42,6 @@
                   "type:domain",
                   "type:environments",
                   "type:feature",
-                  "type:routing",
                   "type:test-util",
                   "type:ui",
                   "type:util"
@@ -63,22 +62,10 @@
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
-                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:domain",
                   "type:environments"
-                ]
-              },
-              {
-                "sourceTag": "type:routing",
-                "onlyDependOnLibsWithTags": [
-                  "type:data-access",
-                  "type:routing",
-                  "type:util",
-                  "type:test-util",
-                  "type:shell",
-                  "type:domain"
                 ]
               },
               {
@@ -123,7 +110,6 @@
                   "type:feature",
                   "type:ui",
                   "type:data-access",
-                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:e2e-util",
@@ -139,7 +125,6 @@
                 "sourceTag": "type:configuration",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
-                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:configuration",

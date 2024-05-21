@@ -1,0 +1,8 @@
+{
+  "name": "dh-core-routing",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/core/routing/src",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:core", "type:configuration"]
+}

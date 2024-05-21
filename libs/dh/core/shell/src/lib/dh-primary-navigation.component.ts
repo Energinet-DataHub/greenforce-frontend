@@ -20,6 +20,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,4 +43,9 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     DhPermissionRequiredDirective,
   ],
 })
-export class DhPrimaryNavigationComponent {}
+export class DhPrimaryNavigationComponent {
+  getLink(route: BasePaths) {
+    return `/${route}`;
+  }
+  getWholesaleLink = (path: WholesaleSubPaths) => combinePaths('wholesale', path);
+}
