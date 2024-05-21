@@ -1038,6 +1038,13 @@
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
+      },
+      "selectCalculationModal": {
+        "title": "Hvilken beregning ønsker du data for?",
+        "description": "Der er foretaget mere end en balancefiksering. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "latest": "nyeste",
+        "cancel": "Luk",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
     },
     "settlementReports": {
