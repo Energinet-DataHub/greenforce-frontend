@@ -53,7 +53,7 @@ export class EoLoginComponent {
 
         if (scope.length == 0) {
           window.location.assign(
-            `${window.location.protocol}//${window.location.origin}/${this.transloco.getActiveLang()}`
+            `${window.location.protocol}//${window.location.origin}/${this.transloco.getActiveLang()}?no-scope`
           );
           console.log('debug: scope is empty');
           return;
