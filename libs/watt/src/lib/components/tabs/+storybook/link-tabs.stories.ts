@@ -77,8 +77,7 @@ const template = `<watt-link-tabs>
   <watt-link-tab label="First" link="/menu-1" />
   <watt-link-tab label="Second" link="/menu-2" />
   <watt-link-tab label="Third" link="/menu-3" />
-</watt-link-tabs>
-<router-outlet></router-outlet>`;
+</watt-link-tabs>`;
 
 export const LinkTabs: StoryFn<WattLinkTabsComponent> = (args) => ({
   props: args,
