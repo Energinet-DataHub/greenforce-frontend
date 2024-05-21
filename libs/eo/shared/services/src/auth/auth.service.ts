@@ -86,9 +86,8 @@ export class EoAuthService {
       : `${this.#authApiBase}/logout`;
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
-      next: (response) => {
+      next: () => {
         this.clearToken();
-        console.log('logoutUrl', response.redirectionUri);
         window.location.assign(
           `${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
         );
