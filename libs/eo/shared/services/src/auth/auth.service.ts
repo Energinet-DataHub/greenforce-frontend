@@ -88,8 +88,8 @@ export class EoAuthService {
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
       next: (response) => {
         this.clearToken();
+        console.log('logoutUrl', response.redirectionUri);
         window.location.assign(response.redirectionUri);
-        window.location.reload();
       },
     });
   }
