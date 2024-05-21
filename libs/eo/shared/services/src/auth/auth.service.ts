@@ -89,7 +89,9 @@ export class EoAuthService {
       next: (response) => {
         this.clearToken();
         console.log('logoutUrl', response.redirectionUri);
-        window.location.assign(`${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`);
+        window.location.assign(
+          `${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
+        );
       },
     });
   }
