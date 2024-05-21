@@ -21,7 +21,7 @@ import {
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 
-import { dhFeatureFlagsConfig, DhFeatureFlags, FeatureFlagConfig } from './feature-flags';
+import { dhFeatureFlagsConfig, DhFeatureFlags, FeatureFlagConfig } from './dh-feature-flags';
 
 export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>('dhFeatureFlagsToken', {
   factory: (): FeatureFlagConfig => {
