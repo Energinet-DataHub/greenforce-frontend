@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using NodaTime;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-public sealed record SettlementReport(
-    string Id,
-    ActorDto? Actor,
-    Clients.Wholesale.v3.CalculationType CalculationType,
-    Interval Period,
-    int NumberOfGridAreasInReport,
-    bool IncludesBaseData,
-    string StatusMessage,
+public sealed record RequestedSettlementReportDto(
+    SettlementReportRequestId RequestId,
+    CalculationType CalculationType,
+    DateTimeOffset PeriodStart,
+    DateTimeOffset PeriodEnd,
+    SettlementReportStatus Status,
+    int GridAreaCount,
     int Progress,
-    SettlementReportStatusType StatusType);
+    Guid RequestedByActorId,
+    bool ContainsBasisData);

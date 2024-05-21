@@ -12,19 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using NodaTime;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-
-public sealed record SettlementReport(
-    string Id,
-    ActorDto? Actor,
-    Clients.Wholesale.v3.CalculationType CalculationType,
-    Interval Period,
-    int NumberOfGridAreasInReport,
-    bool IncludesBaseData,
-    string StatusMessage,
-    int Progress,
-    SettlementReportStatusType StatusType);
+public enum SettlementReportStatus
+{
+    InProgress,
+    Completed,
+    Failed,
+}
