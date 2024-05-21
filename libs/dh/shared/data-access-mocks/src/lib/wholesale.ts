@@ -37,6 +37,7 @@ import {
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
+  mockGetSettlementReportCalculationsByGridAreasQuery,
   mockRequestSettlementReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
@@ -44,6 +45,7 @@ import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/dom
 
 import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
 import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';
+import { mockSettlementReportCalculationsByGridAreas } from './data/get-settlement-report-calculations-by-grid-areas';
 
 export function wholesaleMocks(apiBase: string) {
   return [
@@ -60,6 +62,7 @@ export function wholesaleMocks(apiBase: string) {
     getSelectedActorQuery(),
     requestCalculationMutation(),
     getSettlementReports(),
+    getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
   ];
 }
@@ -522,6 +525,16 @@ function getSettlementReports() {
 
     return HttpResponse.json({
       data: wholesaleSettlementReportsQueryMock,
+    });
+  });
+}
+
+function getSettlementReportCalculationsByGridAreas() {
+  return mockGetSettlementReportCalculationsByGridAreasQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: mockSettlementReportCalculationsByGridAreas,
     });
   });
 }
