@@ -41,6 +41,7 @@ limitations under the License.
           [range]="true"
           [label]="t('period')"
           [min]="minDate"
+          [max]="maxDate"
           [formControl]="form.controls.period"
         >
           @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
@@ -66,27 +67,29 @@ limitations under the License.
         </div>
       }
 
-      <div class="items-group">
-        <watt-dropdown
-          [multiple]="true"
-          sortDirection="asc"
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        >
-          @if (miltipleGridAreasSelected$ | push) {
-            <watt-field-hint>
-              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-            </watt-field-hint>
-          }
-        </watt-dropdown>
+      @if (hasMoreThanOneGridAreaOption()) {
+        <div class="items-group">
+          <watt-dropdown
+            [multiple]="true"
+            sortDirection="asc"
+            [label]="t('gridArea')"
+            [formControl]="form.controls.gridAreas"
+            [options]="gridAreaOptions$ | push"
+          >
+            @if (miltipleGridAreasSelected$ | push) {
+              <watt-field-hint>
+                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+              </watt-field-hint>
+            }
+          </watt-dropdown>
 
-        @if (miltipleGridAreasSelected$ | push) {
-          <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
-            {{ t("combineResultsInOneFile") }}
-          </watt-checkbox>
-        }
-      </div>
+          @if (miltipleGridAreasSelected$ | push) {
+            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+              {{ t("combineResultsInOneFile") }}
+            </watt-checkbox>
+          }
+        </div>
+      }
     </vater-stack>
   </form>
 

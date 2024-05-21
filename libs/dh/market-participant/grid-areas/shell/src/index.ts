@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-grid-areas-shell.component';
+export { DhGridAreasShellComponent as default } from './lib/dh-grid-areas-shell.component';

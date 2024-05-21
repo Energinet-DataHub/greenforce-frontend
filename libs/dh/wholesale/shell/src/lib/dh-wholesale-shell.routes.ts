@@ -19,15 +19,12 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WHOLESALE_CALCULATIONS_PATH,
-  WHOLESALE_SETTLEMENT_REPORTS_PATH,
-  WHOLESALE_REQUEST_CALCULATION_PATH,
-} from '@energinet-datahub/dh/wholesale/routing';
+
+import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
-    path: WHOLESALE_REQUEST_CALCULATION_PATH,
+    path: getPath<WholesaleSubPaths>('request-calculation'),
     canActivate: [PermissionGuard(['request-aggregated-measured-data:view'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
     data: {
@@ -35,7 +32,7 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
-    path: WHOLESALE_CALCULATIONS_PATH,
+    path: getPath<WholesaleSubPaths>('calculations'),
     canActivate: [PermissionGuard(['calculations:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
@@ -43,7 +40,7 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
-    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    path: getPath<WholesaleSubPaths>('settlement-reports'),
     canMatch: [() => inject(DhFeatureFlagsService).isEnabled('settlement-reports-v2')],
     canActivate: [PermissionGuard(['settlement-reports:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports-v2'),
@@ -52,7 +49,7 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
-    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    path: getPath<WholesaleSubPaths>('settlement-reports'),
     canActivate: [PermissionGuard(['settlement-reports:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports'),
     data: {

@@ -17,28 +17,35 @@
 import { Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAdminUserManagementPath } from '@energinet-datahub/dh/admin/routing';
+import { DhAdminShellComponent } from './dh-admin-shell.component';
+
+import { AdminSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhAdminShellRoutes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: dhAdminUserManagementPath,
-  },
-  {
-    path: dhAdminUserManagementPath,
+    component: DhAdminShellComponent,
+    canActivate: [PermissionGuard(['users:manage'])],
+    data: {
+      titleTranslationKey: 'admin.userManagement.topBarTitle',
+    },
     children: [
       {
         path: '',
         pathMatch: 'full',
-        loadComponent: () =>
-          import('@energinet-datahub/dh/admin/feature-user-management').then(
-            (m) => m.DhAdminFeatureUserManagementComponent
-          ),
-        canActivate: [PermissionGuard(['users:manage'])],
-        data: {
-          titleTranslationKey: 'admin.userManagement.topBarTitle',
-        },
+        redirectTo: getPath<AdminSubPaths>('user'),
+      },
+      {
+        path: getPath<AdminSubPaths>('user'),
+        loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-management'),
+      },
+      {
+        path: getPath<AdminSubPaths>('roles'),
+        loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-roles'),
+      },
+      {
+        path: getPath<AdminSubPaths>('permissions'),
+        loadComponent: () => import('@energinet-datahub/dh/admin/feature-permissions'),
       },
     ],
   },

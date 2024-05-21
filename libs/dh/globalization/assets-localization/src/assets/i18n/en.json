@@ -870,7 +870,7 @@
       "create": {
         "title": "New calculation",
         "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
-        "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted. Please choose a start and end date either entirely before or after {{quarterlyResolutionTransitionDate}} to proceed.",
+        "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{resolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
@@ -1039,6 +1039,13 @@
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."
+      },
+      "selectCalculationModal": {
+        "title": "Which calculation do you want data for?",
+        "description": "More than one balance fixation has been carried out. Which calculation do you want to include in the settlement report?",
+        "latest": "latest",
+        "cancel": "Close",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
     },
     "settlementReports": {

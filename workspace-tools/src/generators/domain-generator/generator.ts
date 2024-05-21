@@ -33,12 +33,6 @@ export default async function (tree: Tree, schema: Schema) {
 
   await libraryGenerator(tree, {
     domain: schema.domain,
-    libraryType: LibraryType.routing,
-    product: schema.product,
-  });
-
-  await libraryGenerator(tree, {
-    domain: schema.domain,
     libraryType: LibraryType.dataAccess,
     name: 'api',
     product: schema.product,

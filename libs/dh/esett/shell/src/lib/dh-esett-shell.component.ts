@@ -17,45 +17,31 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhOutgoingMessagesComponent } from '@energinet-datahub/dh/esett/feature-outgoing-messages';
-import { DhMeteringGridAreaImbalanceComponent } from '@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance';
-import { DhBalanceResponsibleComponent } from '@energinet-datahub/dh/esett/feature-balance-responsible';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-esett-shell',
   standalone: true,
-  template: `<watt-tabs *transloco="let t; read: 'eSett.tabs'">
-    <watt-tab [label]="t('outgoingMessages.tabLabel')">
-      <dh-outgoing-messages />
-    </watt-tab>
-
-    <watt-tab [label]="t('meteringGridareaImbalance.tabLabel')">
-      @defer (on viewport) {
-        <dh-metering-gridarea-imbalance />
-      } @placeholder {
-        <watt-spinner />
-      }
-    </watt-tab>
-
-    <watt-tab [label]="t('balanceResponsible.tabLabel')">
-      @defer (on viewport) {
-        <dh-balance-responsible />
-      } @placeholder {
-        <watt-spinner />
-      }
-    </watt-tab>
-  </watt-tabs>`,
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABS,
-    WattSpinnerComponent,
-
-    DhOutgoingMessagesComponent,
-    DhMeteringGridAreaImbalanceComponent,
-    DhBalanceResponsibleComponent,
-  ],
+  template: `
+    <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
+      <watt-link-tab
+        [label]="t('outgoingMessages.tabLabel')"
+        [link]="getLink('outgoing-messages')"
+      />
+      <watt-link-tab
+        [label]="t('meteringGridareaImbalance.tabLabel')"
+        [link]="getLink('metering-gridarea-imbalance')"
+      />
+      <watt-link-tab
+        [label]="t('balanceResponsible.tabLabel')"
+        [link]="getLink('balance-responsible')"
+      />
+      ></watt-link-tabs
+    >
+  `,
+  imports: [TranslocoDirective, WATT_LINK_TABS],
 })
-export class DhESettShellComponent {}
+export class DhESettShellComponent {
+  getLink = (path: ESettSubPaths) => combinePaths('esett', path);
+}

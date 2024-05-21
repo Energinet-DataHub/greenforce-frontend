@@ -48,11 +48,11 @@ yarn dh:dev
 It is also possible to run the code generation manually (order is important):
 
 ```sh
-yarn nx run api-dh:generate-schema
+yarn nx run api-dh:generate
 yarn nx run dh-shared-domain:generate
 ```
 
-The `api-dh:generate-schema` command will generate a `schema.graphql`
+The `api-dh:generate` command will generate a `schema.graphql`
 file in `libs/dh/shared/data-access-graphql`. This file is used by the
 `dh-shared-domain:generate` command as well as the VS Code GraphQL
 extension (to provide IntelliSense in `.graphql` files).
