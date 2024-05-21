@@ -16,8 +16,8 @@
  */
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-import { DhFeatureFlags, FeatureFlagConfig } from './feature-flags';
-import { DhFeatureFlagsService } from './feature-flags.service';
+import { DhFeatureFlags, FeatureFlagConfig } from './dh-feature-flags';
+import { DhFeatureFlagsService } from './dh-feature-flags.service';
 
 const featureFlagMocks: FeatureFlagConfig = {
   'dummy-feature': {

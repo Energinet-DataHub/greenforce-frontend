@@ -16,8 +16,8 @@
  */
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 
-import { DhFeatureFlags } from './feature-flags';
-import { DhFeatureFlagsService } from './feature-flags.service';
+import { DhFeatureFlags } from './dh-feature-flags';
+import { DhFeatureFlagsService } from './dh-feature-flags.service';
 
 @Directive({ selector: '[dhFeatureFlag]', standalone: true })
 export class DhFeatureFlagDirective implements OnInit {
