@@ -22,7 +22,7 @@ export interface TranslationKeys {
       keywords: string;
       author: string;
       url: string;
-    },
+    };
     announcementBar: {
       message: string;
     };

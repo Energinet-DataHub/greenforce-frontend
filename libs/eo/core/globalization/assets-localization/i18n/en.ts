@@ -20,11 +20,13 @@ import { TranslationKeys } from './translation-keys';
 export const EN_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     meta: {
-      title: "Energy Track & Trace™",
-      description: "Energy Track & Trace™ is your reliable source for tracking and certification of green power. We prove where your power comes from.",
-      keywords: "green power, green energy, tracking, certification, granular certificates, Energy Track & Trace, sustainable energy, renewable energy",
-      author: "Energy Track & Trace™",
-      url: "https://energytrackandtrace.dk"
+      title: 'Energy Track & Trace™',
+      description:
+        'Energy Track & Trace™ is your reliable source for tracking and certification of green power. We prove where your power comes from.',
+      keywords:
+        'green power, green energy, tracking, certification, granular certificates, Energy Track & Trace, sustainable energy, renewable energy',
+      author: 'Energy Track & Trace™',
+      url: 'https://energytrackandtrace.dk',
     },
     announcementBar: {
       message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,

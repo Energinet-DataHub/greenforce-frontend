@@ -32,17 +32,22 @@ export class MetaStrategy extends TitleStrategy {
   }
 
   override updateTitle() {
-    this.#transloco.selectTranslateObject('landingPage.meta').subscribe((meta: typeof translations.landingPage.meta) => {
-      this.#title.setTitle(meta.title);
-      this.#meta.updateTag({ name: 'description', content: meta.description });
-      this.#meta.updateTag({ name: 'keywords', content: meta.keywords });
-      this.#meta.updateTag({ name: 'author', content: meta.author });
+    this.#transloco
+      .selectTranslateObject('landingPage.meta')
+      .subscribe((meta: typeof translations.landingPage.meta) => {
+        this.#title.setTitle(meta.title);
+        this.#meta.updateTag({ name: 'description', content: meta.description });
+        this.#meta.updateTag({ name: 'keywords', content: meta.keywords });
+        this.#meta.updateTag({ name: 'author', content: meta.author });
 
-      // LinkedIn
-      this.#meta.updateTag({ property: 'og:title', content: meta.title });
-      this.#meta.updateTag({ property: 'og:description', content: meta.description });
-      this.#meta.updateTag({ property: 'og:image', content: meta.url + '/assets/landing-page/linkedin-poster.jpg'});
-      this.#meta.updateTag({ property: 'og:url', content: meta.url });
-    });
+        // LinkedIn
+        this.#meta.updateTag({ property: 'og:title', content: meta.title });
+        this.#meta.updateTag({ property: 'og:description', content: meta.description });
+        this.#meta.updateTag({
+          property: 'og:image',
+          content: meta.url + '/assets/landing-page/linkedin-poster.jpg',
+        });
+        this.#meta.updateTag({ property: 'og:url', content: meta.url });
+      });
   }
 }
