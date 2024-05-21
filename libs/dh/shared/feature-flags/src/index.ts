@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhFeatureFlag } from './lib/feature-flags';
+export { type DhFeatureFlag } from './lib/feature-flags';
 export * from './lib/feature-flags.service';
 export * from './lib/feature-flag.directive';
