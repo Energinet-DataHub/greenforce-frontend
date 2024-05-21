@@ -18,9 +18,9 @@ import { render, screen } from '@testing-library/angular';
 
 import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { DhFeatureFlagDirective } from './feature-flag.directive';
-import { FeatureFlagConfig } from './feature-flags';
-import { dhFeatureFlagsToken } from './feature-flags.service';
+import { DhFeatureFlagDirective } from './dh-feature-flag.directive';
+import { FeatureFlagConfig } from './dh-feature-flags';
+import { dhFeatureFlagsToken } from './dh-feature-flags.service';
 
 describe(DhFeatureFlagDirective, () => {
   const featureFlagsConfigMock: FeatureFlagConfig = {
