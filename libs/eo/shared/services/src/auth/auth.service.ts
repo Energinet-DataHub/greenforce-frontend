@@ -82,7 +82,7 @@ export class EoAuthService {
 
     const isLocalhost = window.location.host.includes('localhost');
     const logoutUrl = isLocalhost
-      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}}`
+      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
       : `${this.#authApiBase}/logout`;
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({

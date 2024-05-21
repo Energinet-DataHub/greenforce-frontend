@@ -53,7 +53,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         concatMap((httpEvent) => this.authService.refreshToken().pipe(map(() => httpEvent))),
         catchError((error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
-          //if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
+          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
           this.authService.refreshToken().pipe(take(1)).subscribe();
           return throwError(() => new Error(`An error occurred`));
         })
@@ -64,7 +64,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       tap({
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
-          //if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
+          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
           tokenRefreshTrigger && this.authService.refreshToken();
         },
       })
