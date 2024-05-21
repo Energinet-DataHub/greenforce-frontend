@@ -16,6 +16,7 @@
  */
 import {
   Component,
+  DestroyRef,
   EnvironmentInjector,
   inject,
   runInInjectionContext,
@@ -33,10 +34,15 @@ import {
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, combineLatest, map, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+import {
+  WATT_MODAL,
+  WattModalComponent,
+  WattModalService,
+  WattTypedModal,
+} from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -50,6 +56,7 @@ import {
   CalculationType,
   EicFunction,
   GetActorByIdDocument,
+  GetSettlementReportCalculationsByGridAreasDocument,
   GetSettlementReportsDocument,
   RequestSettlementReportDocument,
   RequestSettlementReportMutation,
@@ -65,6 +72,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
+import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal.component';
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
 
@@ -76,6 +84,9 @@ type DhFormType = FormGroup<{
   energySupplier?: FormControl<string | null>;
   gridAreas: FormControl<string[] | null>;
   combineResultsInOneFile: FormControl<boolean>;
+  calculationIdForGridAreaGroup?: FormGroup<{
+    [gridAreaCode: string]: FormControl<string>;
+  }>;
 }>;
 
 @Component({
@@ -115,13 +126,15 @@ type DhFormType = FormGroup<{
 export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly destroyRef = inject(DestroyRef);
 
   private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
   private readonly toastService = inject(WattToastService);
   private readonly actorStore = inject(DhSelectedActorStore);
+  private readonly modalService = inject(WattModalService);
 
-  private modal = viewChild(WattModalComponent);
+  private modal = viewChild.required(WattModalComponent);
 
   minDate = dayjs().startOf('month').subtract(6, 'months').subtract(3, 'year').toDate();
   maxDate = new Date();
@@ -173,35 +186,64 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   submitInProgress = signal(false);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
     if (this.form.invalid) {
       return;
     }
 
-    this.requestSettlementReport()?.subscribe({
-      next: ({ loading, data }) => {
-        this.submitInProgress.set(loading);
+    this.getCalculationByGridAreas()
+      ?.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ settlementReportGridAreaCalculationsForPeriod }) => {
+          // If there are no calculations for all of the selected grid areas
+          if (settlementReportGridAreaCalculationsForPeriod.length === 0) {
+            return this.requestSettlementReport();
+          }
 
-        if (loading) {
-          return;
-        }
+          this.form.controls.calculationIdForGridAreaGroup = this.formBuilder.group({});
 
-        if (this.isUpdateSuccessful(data)) {
-          this.modal()?.close(true);
+          for (const {
+            key,
+            value: [firstElement],
+          } of settlementReportGridAreaCalculationsForPeriod) {
+            this.form.controls.calculationIdForGridAreaGroup?.addControl(
+              key,
+              new FormControl(firstElement.calculationId, { nonNullable: true })
+            );
+          }
 
-          this.showSuccessNotification();
-        } else {
+          // If there is only one calculation per selected grid area
+          const onlyOneCalculationPerSelectedGridArea =
+            settlementReportGridAreaCalculationsForPeriod.every(
+              (gridArea) => gridArea.value.length === 1
+            );
+
+          if (onlyOneCalculationPerSelectedGridArea) {
+            return this.requestSettlementReport();
+          }
+
+          // If there are multiple calculations for any selected grid area
+          this.modalService.open({
+            component: DhSelectCalculationModalComponent,
+            data: {
+              rawData: settlementReportGridAreaCalculationsForPeriod,
+              formGroup: this.form.controls.calculationIdForGridAreaGroup,
+            },
+            onClosed: (isSuccess) => {
+              if (isSuccess) {
+                this.requestSettlementReport();
+              }
+            },
+          });
+        },
+        error: () => {
           this.showErrorNotification();
-        }
-      },
-      error: () => {
-        this.submitInProgress.set(false);
-
-        this.showErrorNotification();
-      },
-    });
+        },
+      });
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   private requestSettlementReport() {
     const {
       calculationType,
@@ -217,33 +259,58 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       return;
     }
 
-    return this.apollo.mutate({
-      mutation: RequestSettlementReportDocument,
-      variables: {
-        input: {
-          calculationType: calculationType as CalculationType,
-          inculdeBasicData: includeBasisData,
-          period: {
-            start: new Date(period.start),
-            end: period.end ? new Date(period.end) : null,
+    this.apollo
+      .mutate({
+        mutation: RequestSettlementReportDocument,
+        variables: {
+          input: {
+            calculationType: calculationType as CalculationType,
+            inculdeBasicData: includeBasisData,
+            period: {
+              start: new Date(period.start),
+              end: period.end ? new Date(period.end) : null,
+            },
+            includeMonthlySums: includeMonthlySum,
+            gridAreasWithCalculations: gridAreas.map((gridAreaCode) => ({
+              gridAreaCode,
+              calculationId:
+                this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
+            })),
+            combineResultInASingleFile: combineResultsInOneFile,
+            supplierId: energySupplier,
           },
-          includeMonthlySums: includeMonthlySum,
-          gridAreasWithCalculations: gridAreas.map((gridAreaCode) => ({
-            gridAreaCode,
-            calculationId: '',
-          })),
-          combineResultInASingleFile: combineResultsInOneFile,
-          supplierId: energySupplier,
         },
-      },
-      refetchQueries: (result) => {
-        if (this.isUpdateSuccessful(result.data)) {
-          return [GetSettlementReportsDocument];
-        }
+        refetchQueries: (result) => {
+          if (this.isUpdateSuccessful(result.data)) {
+            return [GetSettlementReportsDocument];
+          }
 
-        return [];
-      },
-    });
+          return [];
+        },
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ loading, data }) => {
+          this.submitInProgress.set(loading);
+
+          if (loading) {
+            return;
+          }
+
+          if (this.isUpdateSuccessful(data)) {
+            this.modal().close(true);
+
+            this.showSuccessNotification();
+          } else {
+            this.showErrorNotification();
+          }
+        },
+        error: () => {
+          this.submitInProgress.set(false);
+
+          this.showErrorNotification();
+        },
+      });
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
@@ -284,6 +351,27 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private hasMoreThanOneGridAreaOption$(): Observable<boolean> {
     return this.gridAreaOptions$.pipe(map((gridAreaOptions) => gridAreaOptions.length > 1));
+  }
+
+  private getCalculationByGridAreas() {
+    const { period, gridAreas } = this.form.getRawValue();
+
+    if (period == null || gridAreas == null) {
+      return;
+    }
+
+    return this.apollo
+      .query({
+        query: GetSettlementReportCalculationsByGridAreasDocument,
+        variables: {
+          gridAreaIds: gridAreas,
+          calculationPeriod: {
+            start: new Date(period.start),
+            end: period?.end ? new Date(period.end) : null,
+          },
+        },
+      })
+      .pipe(map((result) => result.data));
   }
 
   private shouldShowMonthlySumCheckbox(): Observable<boolean> {
