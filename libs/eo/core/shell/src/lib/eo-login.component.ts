@@ -52,8 +52,9 @@ export class EoLoginComponent {
         const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
         if (scope.length == 0) {
-          window.location.assign(window.location.origin + '/' + this.transloco.getActiveLang());
-          window.location.reload();
+          window.location.assign(
+            `${window.location.protocol}//${window.location.origin}/${this.transloco.getActiveLang()}`
+          );
           return;
         }
 

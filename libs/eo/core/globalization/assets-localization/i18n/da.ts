@@ -148,6 +148,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
             <li>
               <a href="/terms">Vilkår og betingelser</a>
             </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
+            </li>
           </ul>
         `,
       },
