@@ -28,6 +28,7 @@ import {
   EventEmitter,
   Input,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -38,6 +39,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
+
 
 @Component({
   standalone: true,
@@ -122,6 +124,7 @@ export class EoLanguageSwitcherComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  private readonly document = inject(DOCUMENT);
 
   ngOnInit(): void {
     this.transloco
@@ -146,6 +149,7 @@ export class EoLanguageSwitcherComponent implements OnInit {
     ];
 
     this.language.setValue(this.transloco.getActiveLang());
+    this.document.documentElement.lang = this.transloco.getActiveLang();
   }
 
   onSave() {
