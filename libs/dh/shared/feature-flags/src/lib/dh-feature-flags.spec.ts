@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { dayjs } from '@energinet-datahub/watt/date';
-import { DhFeatureFlag, DhFeatureFlags, dhFeatureFlagsConfig } from './feature-flags';
+import { DhFeatureFlag, DhFeatureFlags, dhFeatureFlagsConfig } from './dh-feature-flags';
 
 const maxAgeOfDays = 62;
 
