@@ -23,7 +23,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '05-21-2024';
+const latestBump = '21-05-2024';
 
 /**
  * Feature flag example:
