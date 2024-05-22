@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   OnDestroy,
+  PLATFORM_ID,
   ViewEncapsulation,
+  afterNextRender,
   inject,
   signal,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { filter } from 'rxjs';
 
 import { translations } from '@energinet-datahub/eo/translations';
@@ -78,35 +80,24 @@ interface Image {
 
       .headline-4 {
         color: #02525e;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.54px;
-        text-transform: uppercase;
       }
 
       .headline-3 {
+        text-align: center;
         color: var(--on-light-high-emphasis, rgba(0, 0, 0, 0.87));
-        font-size: 28px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 34px;
 
         &:has(+ p) {
-          margin-bottom: 27px;
+          margin-bottom: 28px;
         }
-      }
 
-      p {
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px;
+        @media (min-width: 1024px) {
+          text-align: left;
+        }
       }
 
       nav {
         a {
+          font-family: 'D-DIN', sans-serif;
           font-size: 40px;
           font-style: normal;
           font-weight: 400;
@@ -137,7 +128,7 @@ interface Image {
         ul {
           display: flex;
           flex-direction: column;
-          gap: 27px;
+          gap: 28px;
 
           li {
             padding-left: 0;
@@ -194,19 +185,6 @@ interface Image {
         .content-text {
           grid-area: content;
           align-content: center;
-        }
-      }
-
-      h3 {
-        color: rgba(0, 0, 0, 0.87);
-        font-size: 36px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        text-align: center;
-
-        @media (min-width: 1024px) {
-          text-align: left;
         }
       }
 
@@ -269,7 +247,7 @@ interface Image {
             @for (section of sections(); track section.id) {
               <li>
                 <a
-                  href="#{{ section.id }}"
+                  href="/{{ language }}#{{ section.id }}"
                   (click)="activeSection.set(section)"
                   [ngClass]="{ active: activeSection().id === section.id }"
                   >{{ section.title | transloco }}</a
@@ -291,7 +269,7 @@ interface Image {
 
       @for (section of sections(); track section.id; let idx = $index) {
         <section>
-          <h3>{{ section.title | transloco }}</h3>
+          <h3 class="headline-2">{{ section.title | transloco }}</h3>
 
           <picture aria-hidden="true">
             <source
@@ -323,15 +301,15 @@ interface Image {
 export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
 
   private initialTransitionSectionId = 'sustainable-profile';
-  private resizeObserver = new ResizeObserver(() => {
-    this.showLarge = this.isLarge();
-    this.cd.detectChanges();
-  });
+  private resizeObserver!: ResizeObserver;
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected translations = translations;
-  protected showLarge = this.isLarge();
+  protected language = this.transloco.getActiveLang();
+  protected showLarge = false;
   protected sections = signal<Section[]>([
     {
       id: this.initialTransitionSectionId,
@@ -453,18 +431,32 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   ]);
   protected activeSection = signal<Section>(this.sections()[0]);
 
+  constructor() {
+    afterNextRender(() => {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.showLarge = this.isLarge();
+        this.cd.detectChanges();
+      });
+
+      this.initialTransition();
+      this.resizeObserver.observe(document.body);
+    });
+
+    this.showLarge = this.isLarge();
+  }
+
   ngAfterViewInit(): void {
     this.route.fragment.pipe(filter((fragment) => !!fragment)).subscribe((fragment) => {
       this.activeSection.set(
         this.sections().find((section) => section.id === fragment) || this.sections()[0]
       );
     });
-    this.initialTransition();
-    this.resizeObserver.observe(document.body);
   }
 
   ngOnDestroy(): void {
-    this.resizeObserver.disconnect();
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   initialTransition() {
@@ -513,6 +505,7 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   }
 
   private isLarge(): boolean {
+    if (!this.isBrowser) return false;
     return window.innerWidth >= 1024;
   }
 }
