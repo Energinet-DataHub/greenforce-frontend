@@ -1003,7 +1003,7 @@
       "requestSettlementReport": "Anmod om afregningsrapport",
       "columns": {
         "calculationType": "Beregningstype",
-        "period": "Periode",
+        "period": "Beregningsperiode",
         "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
@@ -1027,7 +1027,7 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
-        "period": "Periode",
+        "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
