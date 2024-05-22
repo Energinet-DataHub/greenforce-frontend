@@ -140,7 +140,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
             }}</watt-button>
           </eo-account-menu>
 
-          <watt-button variant="text" [routerLink]="['/help']" icon="help" />
+          <watt-button variant="text" [routerLink]="['help']" icon="help" />
         </vater-stack>
       </ng-container>
 
