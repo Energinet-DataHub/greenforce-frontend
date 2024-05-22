@@ -682,9 +682,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Help',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">FAQ</a></li>
+      <li><a class="internal-link" href="/en/{{faqLink}}">FAQ</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
+        <a class="internal-link" href="/en/{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
       </li>
       <li>
         <a

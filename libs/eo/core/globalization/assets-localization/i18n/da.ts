@@ -668,9 +668,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Hjælp',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
+      <li><a class="internal-link" href="/da/{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduktion til Energy Origin</a>
+        <a class="internal-link" href="/da/{{introductionLink}}">Introduktion til Energy Origin</a>
       </li>
       <li>
         <a
