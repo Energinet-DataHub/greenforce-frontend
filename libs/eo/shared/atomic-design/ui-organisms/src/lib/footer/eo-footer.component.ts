@@ -87,7 +87,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         </p>
         <p>
           <a
-            href="https://www.was.digst.dk/energioprindelse-dk"
+            href="https://www.was.digst.dk/energytrackandtrace-dk"
             aria-label="accessibility"
             target="_blank"
             rel="noopener noreferrer"
