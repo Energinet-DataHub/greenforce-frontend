@@ -39,6 +39,7 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -147,6 +148,8 @@ export class EoDashboardShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
   private destroyRef = inject(DestroyRef);
+  private snapshot = inject(ActivatedRoute).snapshot;
+  private router = inject(Router);
 
   period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
@@ -162,6 +165,8 @@ export class EoDashboardShellComponent implements OnInit {
   protected activeTab = 'production';
 
   ngOnInit(): void {
+    console.log('snapshot', this.snapshot);
+    console.log('router', this.router.url);
     this.meteringPointStore.loadMeteringPoints();
     this.aggregateService.clearCache();
 
