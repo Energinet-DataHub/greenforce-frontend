@@ -12,15 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NodaTime;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-
-public record RequestSettlementReportInput(
-    Clients.Wholesale.v3.CalculationType CalculationType,
-    Interval Period,
-    RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
-    bool CombineResultInASingleFile,
-    bool IncludeMonthlySums,
-    bool IncludeBasisData,
-    string? SupplierId);
+public enum SettlementReportStatus
+{
+    InProgress,
+    Completed,
+    Failed,
+}
