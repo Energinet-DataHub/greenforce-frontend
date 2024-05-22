@@ -67,9 +67,7 @@ export class EoAuthService {
       .pipe(tap((token) => this.handleToken(token)));
   }
 
-  startLogin() {
-    const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
-
+  startLogin(redirectionPath?: string) {
     let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}/login`;
 
     if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
