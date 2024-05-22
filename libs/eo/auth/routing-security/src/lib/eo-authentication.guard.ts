@@ -16,8 +16,10 @@
  */
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { TranslocoService } from '@ngneat/transloco';
 import { map } from 'rxjs';
+
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +27,8 @@ import { map } from 'rxjs';
 export class EoScopeGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authStore: EoAuthStore
+    private authStore: EoAuthStore,
+    private transloco: TranslocoService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
@@ -36,23 +39,19 @@ export class EoScopeGuard implements CanActivate {
 
     return this.authStore.getScope$.pipe(
       map((scope) => {
-        console.log('debug: entering auth guard scope', scope);
-
         if (scope.length === 0) {
-          console.log('debug: auth guard no token, length 0');
-          this.router.navigate(['/login'], {
-            queryParams: { redirectionPath: window.location.pathname + window.location.search },
-          });
+          window.location.assign(
+            `${window.location.protocol}://${window.location.origin}/${this.transloco.getActiveLang()}?redirectionPath=${window.location.pathname}${window.location.search}`
+          );
           return false;
         }
 
         if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
         if (!this.authStore.token.getValue()) {
-          console.log('debug: auth guard no token value');
-          this.router.navigate(['']);
+          window.location.assign(
+            `${window.location.protocol}://${window.location.origin}/${this.transloco.getActiveLang()}`
+          );
         }
-
-        console.log('debug: auth guard scope, no if');
 
         return !scope.includes('not-accepted-privacypolicy-terms');
       })
