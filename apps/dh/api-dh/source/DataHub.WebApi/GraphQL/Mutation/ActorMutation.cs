@@ -12,34 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
-using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types;
-using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-using HotChocolate.Subscriptions;
-using NodaTime;
-using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
-using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
-namespace Energinet.DataHub.WebApi.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
-public class Mutation
+public partial class Mutation
 {
-    [UseMutationConvention(Disable = true)]
-    public Task<PermissionDto> UpdatePermissionAsync(
-        UpdatePermissionDto input,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        return client
-            .PermissionPutAsync(input)
-            .Then(() => client.PermissionGetAsync(input.Id));
-    }
-
-    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    [Error(typeof(ApiException))]
     public async Task<bool> UpdateActorAsync(
         Guid actorId,
         string actorName,
@@ -84,83 +64,7 @@ public class Mutation
         return true;
     }
 
-    public async Task<Guid> CreateCalculationAsync(
-        Interval period,
-        string[] gridAreaCodes,
-        StartCalculationType calculationType,
-        [Service] IWholesaleOrchestrationsClient client,
-        [Service] ITopicEventSender sender,
-        CancellationToken cancellationToken)
-    {
-        if (!period.HasEnd || !period.HasStart)
-        {
-            throw new Exception("Period cannot be open-ended");
-        }
-
-        var requestDto = new StartCalculationRequestDto(
-            StartDate: period.Start.ToDateTimeOffset(),
-            EndDate: period.End.ToDateTimeOffset(),
-            GridAreaCodes: gridAreaCodes,
-            CalculationType: calculationType);
-
-        var calculationId = await client
-            .StartCalculationAsync(requestDto, cancellationToken);
-
-        await sender.SendAsync(nameof(CreateCalculationAsync), calculationId, cancellationToken);
-
-        return calculationId;
-    }
-
-    public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
-        EdiB2CWebAppProcessType processType,
-        MeteringPointType? meteringPointType,
-        string startDate,
-        string? endDate,
-        string? gridArea,
-        string? energySupplierId,
-        string? balanceResponsibleId,
-        CancellationToken cancellationToken,
-        [Service] IEdiB2CWebAppClient_V1 client)
-    {
-        await client.RequestAggregatedMeasureDataAsync(
-            new RequestAggregatedMeasureDataMarketRequest()
-            {
-                ProcessType = processType,
-                MeteringPointType = meteringPointType,
-                StartDate = startDate,
-                EndDate = endDate,
-                GridArea = gridArea,
-                EnergySupplierId = energySupplierId,
-                BalanceResponsibleId = balanceResponsibleId,
-            },
-            cancellationToken)
-            .ConfigureAwait(false);
-        return true;
-    }
-
-    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
-    public async Task<bool> UpdateOrganizationAsync(
-        Guid orgId,
-        string domain,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        var organization = await client.OrganizationGetAsync(orgId).ConfigureAwait(false);
-        if (!string.Equals(organization.Domain, domain, StringComparison.Ordinal))
-        {
-            var changes = new ChangeOrganizationDto()
-            {
-                Name = organization.Name,
-                Domain = domain,
-                Status = organization.Status,
-            };
-
-            await client.OrganizationPutAsync(orgId, changes).ConfigureAwait(false);
-        }
-
-        return true;
-    }
-
-    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    [Error(typeof(ApiException))]
     public async Task<bool> CreateMarketParticipantAsync(
             CreateMarketParticipantInput input,
             [Service] IMarketParticipantClient_V1 client)
@@ -199,22 +103,7 @@ public class Mutation
         return true;
     }
 
-    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
-    public async Task<bool> UpdateUserProfileAsync(
-           UserProfileUpdateDto userProfileUpdateDto,
-           [Service] IMarketParticipantClient_V1 client)
-    {
-        await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
-        return true;
-    }
-
-    public async Task<bool> ResendWaitingEsettExchangeMessagesAsync([Service] IESettExchangeClient_V1 client)
-    {
-        await client.ResendMessagesWithoutResponseAsync();
-        return true;
-    }
-
-    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    [Error(typeof(ApiException))]
     public async Task<bool> CreateDelegationsForActorAsync(
         Guid actorId,
         CreateProcessDelegationsInput delegations,
@@ -232,7 +121,7 @@ public class Mutation
         return true;
     }
 
-    [Error(typeof(Clients.MarketParticipant.v1.ApiException))]
+    [Error(typeof(ApiException))]
     public async Task<bool> StopDelegationAsync(
         IEnumerable<StopProcessDelegationDto> stopMessageDelegationDto,
         [Service] IMarketParticipantClient_V1 client)
@@ -243,12 +132,5 @@ public class Mutation
         }
 
         return true;
-    }
-
-    public async Task<bool> RequestSettlementReportAsync(
-        RequestSettlementReportInput requestSettlementReportInput,
-        [Service] IESettExchangeClient_V1 client)
-    {
-        return await Task.FromResult(true);
     }
 }
