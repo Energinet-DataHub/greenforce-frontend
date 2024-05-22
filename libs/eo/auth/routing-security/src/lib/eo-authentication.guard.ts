@@ -39,7 +39,7 @@ export class EoScopeGuard implements CanActivate {
         console.log('debug: entering auth guard scope', scope);
 
         if (scope.length === 0) {
-          console.log('debug: auth guard no token');
+          console.log('debug: auth guard no token, length 0');
           this.router.navigate(['/login'], {
             queryParams: { redirectionPath: window.location.pathname + window.location.search },
           });
@@ -48,7 +48,7 @@ export class EoScopeGuard implements CanActivate {
 
         if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
         if (!this.authStore.token.getValue()) {
-          console.log('debug: auth guard no token');
+          console.log('debug: auth guard no token value');
           this.router.navigate(['']);
         }
 
