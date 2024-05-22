@@ -91,6 +91,28 @@ watt-tabs {
     }
   }
 
+  .mat-mdc-tab.mdc-tab.watt-tabs-actions {
+    flex-grow: 1;
+    justify-content: flex-end;
+    cursor: default;
+    height: auto;
+
+    &.mat-mdc-tab-disabled {
+      opacity: 1;
+    }
+    &.mat-mdc-tab-disabled,
+    .mdc-tab__content {
+      pointer-events: initial;
+    }
+
+    &:hover {
+      border-bottom: none;
+      .mdc-tab__ripple {
+        display: none;
+      }
+    }
+  }
+
   .mat-mdc-tab-body {
     width: 100%;
   }

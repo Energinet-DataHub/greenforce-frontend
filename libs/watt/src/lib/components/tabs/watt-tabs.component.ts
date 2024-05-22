@@ -25,11 +25,13 @@ import {
   inject,
   Input,
   HostBinding,
+  contentChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { WattTabComponent } from './watt-tab.component';
+import { WattTabsActionsComponent } from './watt-tabs-actions.component';
 
 @Component({
   standalone: true,
@@ -41,6 +43,8 @@ import { WattTabComponent } from './watt-tab.component';
   imports: [NgTemplateOutlet, MatTabsModule],
 })
 export class WattTabsComponent implements AfterViewInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   @Input() variant!: string;
 
   @HostBinding('class')
@@ -48,11 +52,11 @@ export class WattTabsComponent implements AfterViewInit {
     return this.variant ? `watt-tabs-${this.variant}` : '';
   }
 
-  private readonly cdr = inject(ChangeDetectorRef);
-
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   activeTabIndex = 0;
+
+  actionsTab = contentChild(WattTabsActionsComponent);
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
