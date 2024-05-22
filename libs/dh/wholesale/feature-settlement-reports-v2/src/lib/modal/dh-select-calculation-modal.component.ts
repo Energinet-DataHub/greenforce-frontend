@@ -21,7 +21,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { JsonPipe } from '@angular/common';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -32,7 +31,6 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    JsonPipe,
 
     VaterStackComponent,
     WATT_MODAL,
