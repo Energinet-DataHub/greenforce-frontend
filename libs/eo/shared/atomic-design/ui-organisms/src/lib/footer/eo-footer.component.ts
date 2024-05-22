@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -81,7 +81,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           <a
             aria-label="privacypolicy"
             class="watt-text-s watt-space-stack-s"
-            routerLink="/${eoPrivacyPolicyRoutePath}"
+            [routerLink]="privacyPolicyRoutePath"
             >{{ translations.footer.privacyPolicy | transloco }}</a
           >
         </p>
@@ -133,5 +133,8 @@ import { translations } from '@energinet-datahub/eo/translations';
   `,
 })
 export class EoFooterComponent {
+  private lang = inject(TranslocoService).getActiveLang();
   protected translations = translations;
+
+  protected privacyPolicyRoutePath = `/${this.lang}/${eoPrivacyPolicyRoutePath}`;
 }

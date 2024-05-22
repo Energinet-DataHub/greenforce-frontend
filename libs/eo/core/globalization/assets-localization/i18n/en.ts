@@ -157,10 +157,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privacy policy</a>
+              <a href="/en/privacy-policy">Privacy policy</a>
             </li>
             <li>
-              <a href="/terms">Terms of use</a>
+              <a href="/en/terms">Terms of use</a>
             </li>
           </ul>
         `,

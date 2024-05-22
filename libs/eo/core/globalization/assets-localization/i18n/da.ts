@@ -143,10 +143,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privatlivspolitik</a>
+              <a href="/da/privacy-policy">Privatlivspolitik</a>
             </li>
             <li>
-              <a href="/terms">Vilkår og betingelser</a>
+              <a href="/da/terms">Vilkår og betingelser</a>
             </li>
             <li>
               <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
