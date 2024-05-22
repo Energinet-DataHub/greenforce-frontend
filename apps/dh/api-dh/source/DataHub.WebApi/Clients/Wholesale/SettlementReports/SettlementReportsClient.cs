@@ -60,10 +60,9 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
             Encoding.UTF8,
             "application/json");
 
-        using var response = await _httpClient.SendAsync(request, cancellationToken);
+        using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        // TODO: This does not actually stream - this wraps everything in a MemoryStream. :(
         return await response.Content.ReadAsStreamAsync(cancellationToken);
     }
 }
