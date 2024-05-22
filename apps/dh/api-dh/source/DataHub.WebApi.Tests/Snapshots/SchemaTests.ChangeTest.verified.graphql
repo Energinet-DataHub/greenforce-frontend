@@ -396,7 +396,7 @@ type SettlementReport {
   calculationType: CalculationType!
   period: DateRange!
   numberOfGridAreasInReport: Int!
-  includesBaseData: Boolean!
+  includesBasisData: Boolean!
   statusMessage: String!
   progress: Int!
   statusType: SettlementReportStatusType!
@@ -575,7 +575,7 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
-  includeBasicData: Boolean!
+  includeBasisData: Boolean!
   supplierId: String
 }
 

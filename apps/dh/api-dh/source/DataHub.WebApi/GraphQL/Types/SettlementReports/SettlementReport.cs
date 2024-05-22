@@ -24,7 +24,7 @@ public sealed record SettlementReport(
     Clients.Wholesale.v3.CalculationType CalculationType,
     Interval Period,
     int NumberOfGridAreasInReport,
-    bool IncludesBaseData,
+    bool IncludesBasisData,
     string StatusMessage,
     int Progress,
     SettlementReportStatusType StatusType);
