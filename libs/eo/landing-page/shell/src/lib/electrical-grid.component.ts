@@ -74,6 +74,11 @@ const selector = 'eo-landing-page-electrical-grid';
           min-height: 730px;
           justify-content: flex-end;
           padding-bottom: 60px;
+          padding-left: 75px;
+        }
+
+        @media screen and (orientation: landscape) and (max-width: 960px) {
+          min-height: 100vh;
         }
       }
 
@@ -105,18 +110,12 @@ const selector = 'eo-landing-page-electrical-grid';
       h2 {
         color: #13ecb8;
         text-align: center;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        letter-spacing: 0.54px;
-        text-transform: uppercase;
 
         @media (min-width: 1170px) {
           width: 100%;
           text-align: left;
           color: #02525e;
-          margin: 160px 0 30px 0;
+          margin: 160px 0 30px 96px;
         }
       }
 
@@ -124,17 +123,10 @@ const selector = 'eo-landing-page-electrical-grid';
         margin-top: 26px;
         width: 100%;
         color: #fff;
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        text-transform: uppercase;
         max-width: 391px;
 
         @media (min-width: 1170px) {
-          font-size: 62px;
           text-align: left;
-          margin-left: 75px;
           max-width: 100%;
         }
       }
@@ -155,7 +147,9 @@ const selector = 'eo-landing-page-electrical-grid';
     }
   `,
   template: `
-    <h2 class="large-only">{{ translations.landingPage.electricalGrid.heading | transloco }}</h2>
+    <h2 class="large-only headline-4">
+      {{ translations.landingPage.electricalGrid.heading | transloco }}
+    </h2>
     <div class="container">
       <video
         #videoPlayer
@@ -169,8 +163,13 @@ const selector = 'eo-landing-page-electrical-grid';
       >
         <source src="/assets/landing-page/electrical-grid.mp4" type="video/mp4" />
       </video>
-      <h2 class="small-only">{{ translations.landingPage.electricalGrid.heading | transloco }}</h2>
-      <h3 [innerHTML]="translations.landingPage.electricalGrid.subheading | transloco"></h3>
+      <h2 class="small-only headline-4">
+        {{ translations.landingPage.electricalGrid.heading | transloco }}
+      </h2>
+      <h3
+        class="headline-1"
+        [innerHTML]="translations.landingPage.electricalGrid.subheading | transloco"
+      ></h3>
     </div>
   `,
 })
