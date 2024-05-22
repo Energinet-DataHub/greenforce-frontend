@@ -47,15 +47,8 @@ export class DhApplicationInsights {
       return;
     }
 
-    const { ApplicationInsights } = await import(
-      /* webpackChunkName: "application-insights" */
-      '@microsoft/applicationinsights-web'
-    );
-
-    const { AngularPlugin } = await import(
-      /* webpackChunkName: "application-insights-angular-plugin" */
-      '@microsoft/applicationinsights-angularplugin-js'
-    );
+    const { ApplicationInsights } = await import('@microsoft/applicationinsights-web');
+    const { AngularPlugin } = await import('@microsoft/applicationinsights-angularplugin-js');
 
     this.angularPlugin = new AngularPlugin();
     this.appInsights = new ApplicationInsights({
