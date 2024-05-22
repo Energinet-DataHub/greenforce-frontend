@@ -16,8 +16,10 @@
  */
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { TranslocoService } from '@ngneat/transloco';
 import { map } from 'rxjs';
+
+import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +27,9 @@ import { map } from 'rxjs';
 export class EoScopeGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authStore: EoAuthStore
+    private authStore: EoAuthStore,
+    private authService: EoAuthService,
+    private transloco: TranslocoService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
@@ -36,16 +40,13 @@ export class EoScopeGuard implements CanActivate {
 
     return this.authStore.getScope$.pipe(
       map((scope) => {
-        if (scope.length === 0) {
-          this.router.navigate(['/login'], {
-            queryParams: { redirectionPath: window.location.pathname + window.location.search },
-          });
+        if (scope.length === 0 || !this.authStore.token.getValue()) {
+          this.authService.startLogin(window.location.pathname + window.location.search);
           return false;
         }
 
-        if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
-        if (!this.authStore.token.getValue()) this.router.navigate(['']);
-
+        if (scope.includes('not-accepted-privacypolicy-terms'))
+          this.router.navigate([this.transloco.getActiveLang(), 'terms']);
         return !scope.includes('not-accepted-privacypolicy-terms');
       })
     );
