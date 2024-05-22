@@ -575,8 +575,8 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
-  inculdeBasicData: Boolean!
-  supplierId: UUID
+  includeBasicData: Boolean!
+  supplierId: String
 }
 
 input StopDelegationInput {

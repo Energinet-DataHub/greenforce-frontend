@@ -22,5 +22,5 @@ public record RequestSettlementReportInput(
     RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,
     bool IncludeMonthlySums,
-    bool InculdeBasicData,
-    Guid? SupplierId);
+    bool IncludeBasicData,
+    string? SupplierId);
