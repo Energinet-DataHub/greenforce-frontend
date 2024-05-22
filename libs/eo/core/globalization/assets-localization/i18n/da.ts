@@ -21,7 +21,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     meta: {
       title: 'Energy Track & Trace™',
       description:
-        'Energy Track & Trace™ er din pålidelige kilde til sporing og certificering af grøn strøm. Vi beviser, hvor din strøm kommer fra.',
+        'Energy Track & Trace™ er din pålidelige kilde til sporing, og certificering, af grøn strøm. Vi beviser hvor din strøm kommer fra.',
       keywords:
         'grøn strøm, sporing, certificering, granulære certifikater, Energy Track & Trace, bæredygtig energi, vedvarende energi',
       author: 'Energy Track & Trace™',
