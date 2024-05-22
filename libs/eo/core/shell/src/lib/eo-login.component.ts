@@ -67,16 +67,13 @@ export class EoLoginComponent {
         }
 
         if (scope.includes('dashboard')) {
-          const path =
-            redirectionPath && redirectionPath !== '/'
-              ? redirectionPath
-              : `/${this.transloco.getActiveLang()}/dashboard`;
-          this.router.navigate([path]);
-
+          redirectionPath && redirectionPath !== '/'
+            ? this.router.navigateByUrl(redirectionPath)
+            : this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
           return;
         }
 
-        this.router.navigate(['/', this.transloco.getActiveLang()], {
+        this.router.navigate([this.transloco.getActiveLang(), 'dashboard'], {
           queryParamsHandling: 'preserve',
         });
       });
