@@ -41,7 +41,7 @@ export class EoScopeGuard implements CanActivate {
       map((scope) => {
         if (scope.length === 0) {
           window.location.assign(
-            `${window.location.protocol}://${window.location.origin}/${this.transloco.getActiveLang()}?redirectionPath=${window.location.pathname}${window.location.search}`
+            `${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}?redirectionPath=${window.location.pathname}${window.location.search}`
           );
           return false;
         }
@@ -49,7 +49,7 @@ export class EoScopeGuard implements CanActivate {
         if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate(['/terms']);
         if (!this.authStore.token.getValue()) {
           window.location.assign(
-            `${window.location.protocol}://${window.location.origin}/${this.transloco.getActiveLang()}`
+            `${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
           );
         }
 
