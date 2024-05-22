@@ -105,7 +105,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
       [announcement]="translations.landingPage.announcementBar.message | transloco"
     />
     <div class="topbar">
-      <img eoProductLogo version="secondary" class="logo secondary" />
+      <img eoProductLogo version="secondary" class="logo secondary" style="margin-top: -6px" />
       <img eoProductLogo class="logo primary" />
 
       <div class="actions">
