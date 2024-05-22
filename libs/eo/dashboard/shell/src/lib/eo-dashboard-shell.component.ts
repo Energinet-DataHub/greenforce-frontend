@@ -36,7 +36,11 @@ import { EoDashboardChoosePeriodComponent } from './eo-dashboard-choose-period.c
 import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
 import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import {
+  WattTabComponent,
+  WattTabsActionsComponent,
+  WattTabsComponent,
+} from '@energinet-datahub/watt/tabs';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
@@ -83,6 +87,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     WattEmptyStateComponent,
     WattTabsComponent,
     WattTabComponent,
+    WattTabsActionsComponent,
     TranslocoPipe,
   ],
   selector: 'eo-dashboard-shell',
@@ -112,7 +117,9 @@ import { translations } from '@energinet-datahub/eo/translations';
             </watt-tab>
           }
 
-          <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+          <watt-tabs-actions>
+            <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+          </watt-tabs-actions>
         </watt-tabs>
       }
 
