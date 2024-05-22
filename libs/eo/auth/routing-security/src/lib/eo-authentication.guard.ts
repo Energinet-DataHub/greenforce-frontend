@@ -41,6 +41,7 @@ export class EoScopeGuard implements CanActivate {
     return this.authStore.getScope$.pipe(
       map((scope) => {
         if (scope.length === 0 || !this.authStore.token.getValue()) {
+          console.log('Router url', this.router.url);
           this.authService.startLogin(this.router.url);
           return false;
         }
