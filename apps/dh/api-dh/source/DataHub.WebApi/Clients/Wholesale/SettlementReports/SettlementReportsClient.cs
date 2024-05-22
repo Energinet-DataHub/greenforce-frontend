@@ -54,7 +54,7 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
     public async Task<Stream> DownloadAsync(SettlementReportRequestId requestId, CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Post, "api/RequestSettlementReport");
+        using var request = new HttpRequestMessage(HttpMethod.Post, "api/SettlementReportDownload");
         request.Content = new StringContent(
             JsonConvert.SerializeObject(requestId),
             Encoding.UTF8,
