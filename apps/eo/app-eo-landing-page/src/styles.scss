@@ -1,0 +1,187 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "@energinet-datahub/watt";
+
+/* You can add global styles to this file, and also import other style files */
+body {
+  background: #000;
+}
+
+// Resets
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+p,
+pre,
+dl,
+dd,
+ol,
+ul,
+figure,
+hr,
+fieldset,
+legend {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+
+  @media screen and (orientation: landscape) and (max-width: 960px) {
+    max-width: 60vh;
+  }
+}
+
+// Typography
+@font-face {
+  font-family: "D-DIN";
+  src:
+    url("/assets/fonts/d-din-font-family/D-DIN.woff2") format("woff2"),
+    url("/assets/fonts/d-din-font-family/D-DIN.woff") format("woff"),
+    url("/assets/fonts/d-din-font-family/D-DIN.ttf") format("truetype");
+  font-weight: normal;
+  font-stretch: 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "D-DIN";
+  src:
+    url("/assets/fonts/d-din-font-family/D-DIN-Bold.woff2") format("woff2"),
+    url("/assets/fonts/d-din-font-family/D-DIN-Bold.woff") format("woff"),
+    url("/assets/fonts/d-din-font-family/D-DIN-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-stretch: 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+// TODO: MOBILE STYLES
+
+body,
+.normal {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.headline-1 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 2.375rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+
+  @media (min-width: 1198px) {
+    font-size: 3.875rem;
+  }
+}
+
+.headline-2 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.125rem;
+
+  @media (min-width: 1198px) {
+    font-size: 3rem;
+    line-height: 3.125rem;
+  }
+}
+
+.headline-3 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 1.38rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem;
+
+  @media (min-width: 1198px) {
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+  }
+}
+
+.headline-4 {
+  font-family: "D-DIN", sans-serif;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.034rem;
+  text-transform: uppercase;
+}
+
+// buttons
+.button {
+  font-family: "D-DIN", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  &.primary {
+    display: inline-flex;
+    padding: 16px 24px;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    border-radius: 360px;
+    background: #24b492;
+    color: #fff;
+    border: none;
+  }
+
+  &.secondary {
+    display: inline-flex;
+    padding: 16px 24px;
+    text-transform: uppercase;
+    align-items: center;
+    gap: 8px;
+    border-radius: 360px;
+    border: 1px solid #24b492;
+    background: transparent;
+    color: #fff;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: #ee9331;
+    border-color: #ee9331;
+    outline: none;
+    cursor: pointer;
+  }
+}

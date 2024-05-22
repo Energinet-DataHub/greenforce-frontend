@@ -19,6 +19,15 @@ import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
   landingPage: {
+    meta: {
+      title: 'Energy Track & Trace™',
+      description:
+        'Energy Track & Trace™ is your reliable source for tracking and certification of green power. We prove where your power comes from.',
+      keywords:
+        'green power, green energy, tracking, certification, granular certificates, Energy Track & Trace, sustainable energy, renewable energy',
+      author: 'Energy Track & Trace™',
+      url: 'https://energytrackandtrace.dk',
+    },
     announcementBar: {
       message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
     },
@@ -148,10 +157,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privacy policy</a>
+              <a href="/en/privacy-policy">Privacy policy</a>
             </li>
             <li>
-              <a href="/terms">Terms of use</a>
+              <a href="/en/terms">Terms of use</a>
             </li>
           </ul>
         `,
@@ -673,9 +682,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Help',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">FAQ</a></li>
+      <li><a class="internal-link" href="/en/{{faqLink}}">FAQ</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
+        <a class="internal-link" href="/en/{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
       </li>
       <li>
         <a

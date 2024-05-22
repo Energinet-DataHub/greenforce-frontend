@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import {
+  environment,
+  EoApiEnvironment,
+  loadEoApiEnvironment as _loadEoApiEnvironment,
+} from '@energinet-datahub/eo/shared/environments';
 
-const wattScreenMediumMinWidthPixels = 960;
+export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
+  const configurationFilename = environment.production
+    ? 'eo-api-environment.json'
+    : 'eo-api-environment.local.json';
 
-@Injectable()
-export class EoLandingPagePresenter {
-  contentMaxWidthPixels = wattScreenMediumMinWidthPixels;
-  gutterPixels = 40; //Magic number by designer.
+  return _loadEoApiEnvironment(configurationFilename);
 }

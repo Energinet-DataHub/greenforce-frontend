@@ -19,10 +19,15 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
+import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 
 import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
+
+const translocoConfig: TranslocoTestingOptions = {
+  langs: { en: {} }, // provide your translations here
+};
 
 @Component({
   template: '',
@@ -39,10 +44,11 @@ describe(EoAuthorizationInterceptor, () => {
       declarations: [TestDefaultRouteComponent],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
           { path: defaultRoutePath, component: TestDefaultRouteComponent },
         ]),
+        TranslocoTestingModule.forRoot(translocoConfig),
         MatSnackBarModule,
       ],
       providers: [eoAuthorizationInterceptorProvider],
