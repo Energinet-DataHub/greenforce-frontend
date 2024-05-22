@@ -45,7 +45,8 @@ export class EoScopeGuard implements CanActivate {
           return false;
         }
 
-        if (scope.includes('not-accepted-privacypolicy-terms')) this.router.navigate([this.transloco.getActiveLang(), 'terms']);
+        if (scope.includes('not-accepted-privacypolicy-terms'))
+          this.router.navigate([this.transloco.getActiveLang(), 'terms']);
         return !scope.includes('not-accepted-privacypolicy-terms');
       })
     );
