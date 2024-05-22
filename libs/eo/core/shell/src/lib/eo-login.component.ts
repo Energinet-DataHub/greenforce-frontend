@@ -52,9 +52,7 @@ export class EoLoginComponent {
         const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
 
         if (scope.length == 0) {
-          window.location.assign(
-            `${window.location.protocol}//${window.location.origin}/${this.transloco.getActiveLang()}?no-scope`
-          );
+          this.service.startLogin();
           return;
         }
 
@@ -64,7 +62,7 @@ export class EoLoginComponent {
         }
 
         if (scope.includes('not-accepted-privacypolicy-terms')) {
-          this.router.navigate(['/terms']);
+          this.router.navigate([this.transloco.getActiveLang(), 'terms']);
           return;
         }
 
