@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System.Net.Mime;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,10 +25,14 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class WholesaleSettlementReportController : ControllerBase
 {
     private readonly IWholesaleClient_V3 _client;
+    private readonly ISettlementReportsClient _settlementReportsClient;
 
-    public WholesaleSettlementReportController(IWholesaleClient_V3 client)
+    public WholesaleSettlementReportController(
+        IWholesaleClient_V3 client,
+        ISettlementReportsClient settlementReportsClient)
     {
         _client = client;
+        _settlementReportsClient = settlementReportsClient;
     }
 
     [HttpGet("Download")]
@@ -56,15 +62,10 @@ public sealed class WholesaleSettlementReportController : ControllerBase
 
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] Guid settlementReportId)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId)
     {
+        var reportStream = await _settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
         var fileName = "SettlementReport.zip";
-
-        // if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
-        // {
-        //     var contentDisposition = new ContentDisposition(values.First());
-        //     fileName = contentDisposition.FileName ?? fileName;
-        // }
-        return await Task.FromResult(File(Stream.Null, MediaTypeNames.Application.Zip, fileName));
+        return File(reportStream, MediaTypeNames.Application.Zip, fileName);
     }
 }

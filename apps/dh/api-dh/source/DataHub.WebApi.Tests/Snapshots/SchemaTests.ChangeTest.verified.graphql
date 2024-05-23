@@ -363,7 +363,7 @@ type Query {
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [String!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
+  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -393,16 +393,15 @@ type ResendWaitingEsettExchangeMessagesPayload {
 }
 
 type SettlementReport {
-  id: UUID!
+  id: String!
   actor: Actor
   calculationType: CalculationType!
   period: DateRange!
   numberOfGridAreasInReport: Int!
-  includesBaseData: Boolean!
+  includesBasisData: Boolean!
   statusMessage: String!
   progress: Int!
   statusType: SettlementReportStatusType!
-  fileId: UUID!
 }
 
 type StopDelegationPayload {
@@ -578,8 +577,8 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
-  inculdeBasicData: Boolean!
-  supplierId: UUID
+  includeBasisData: Boolean!
+  supplierId: String
 }
 
 input StopDelegationInput {
