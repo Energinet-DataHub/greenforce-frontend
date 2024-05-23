@@ -106,6 +106,6 @@ import { EoLandingPageCTAComponent } from './cta.component';
 })
 export class EoLandingPageShellComponent {
   constructor() {
-    alert('INITIALIZED!')
+    alert('INITIALIZED!');
   }
 }
