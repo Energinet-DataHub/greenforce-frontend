@@ -1004,7 +1004,7 @@
       "requestSettlementReport": "Request settlement report",
       "columns": {
         "calculationType": "Calculation type",
-        "period": "Period",
+        "period": "Calculation period",
         "numberOfGridAreasInReport": "Gridareas",
         "basisData": "Basis data",
         "status": "Status",
@@ -1028,7 +1028,7 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Calculation type",
         "includeBasisData": "Include basis data",
-        "period": "Period",
+        "period": "Calculation period",
         "includeMonthlySum": "Include monthly sum",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",

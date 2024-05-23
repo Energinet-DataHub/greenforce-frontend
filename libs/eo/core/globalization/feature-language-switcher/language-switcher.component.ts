@@ -26,10 +26,13 @@ import {
   inject,
   signal,
   EventEmitter,
+  Input,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -97,6 +100,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 })
 export class EoLanguageSwitcherComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
+  @Input() changeUrl = false;
 
   @HostListener('click')
   onClick() {
@@ -118,6 +122,8 @@ export class EoLanguageSwitcherComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+  private readonly document = inject(DOCUMENT);
 
   ngOnInit(): void {
     this.transloco
@@ -142,9 +148,17 @@ export class EoLanguageSwitcherComponent implements OnInit {
     ];
 
     this.language.setValue(this.transloco.getActiveLang());
+    this.document.documentElement.lang = this.transloco.getActiveLang();
   }
 
   onSave() {
+    if (this.changeUrl) {
+      const currentUrl = this.router.url;
+      const baseUrl = currentUrl.split('/')[1];
+      const newUrl = currentUrl.replace(baseUrl, this.language.value);
+      this.router.navigateByUrl(newUrl);
+    }
+
     this.transloco.setActiveLang(this.language.value);
     this.modal.close(true);
   }
