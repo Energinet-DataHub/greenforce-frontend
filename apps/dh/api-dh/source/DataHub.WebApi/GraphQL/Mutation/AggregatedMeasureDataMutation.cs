@@ -13,14 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using EdiB2CWebAppProcessType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.ProcessType;
+using NodaTime;
+using EdiB2CWebAppCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
+using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
 public partial class Mutation
 {
     public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
-        EdiB2CWebAppProcessType processType,
+        EdiB2CWebAppCalculationType calculationType,
         MeteringPointType? meteringPointType,
         string startDate,
         string? endDate,
@@ -31,17 +33,47 @@ public partial class Mutation
         [Service] IEdiB2CWebAppClient_V1 client)
     {
         await client.RequestAggregatedMeasureDataAsync(
-            new RequestAggregatedMeasureDataMarketRequest()
-            {
-                ProcessType = processType,
-                MeteringPointType = meteringPointType,
-                StartDate = startDate,
-                EndDate = endDate,
-                GridArea = gridArea,
-                EnergySupplierId = energySupplierId,
-                BalanceResponsibleId = balanceResponsibleId,
-            },
-            cancellationToken)
+                "1.0",
+                new RequestAggregatedMeasureDataMarketRequest()
+                {
+                    CalculationType = calculationType,
+                    MeteringPointType = meteringPointType!.Value,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    GridArea = gridArea,
+                    EnergySupplierId = energySupplierId,
+                    BalanceResponsibleId = balanceResponsibleId,
+                },
+                cancellationToken)
+            .ConfigureAwait(false);
+        return true;
+    }
+
+    public async Task<bool> CreateWholesaleSettlementRequestAsync(
+        EdiB2CWebAppCalculationType calculationType,
+        Interval period,
+        string? gridArea,
+        string? energySupplierId,
+        string? chargeOwner,
+        string? resolution,
+        RequestWholesaleSettlementChargeType[] chargeTypes,
+        CancellationToken cancellationToken,
+        [Service] IEdiB2CWebAppClient_V1 client)
+    {
+        await client.RequestWholesaleSettlementAsync(
+                "1.0",
+                new RequestWholesaleSettlementMarketRequest()
+                {
+                    CalculationType = calculationType,
+                    StartDate = period.Start.ToString(),
+                    EndDate = period.End.ToString(),
+                    GridArea = gridArea,
+                    EnergySupplierId = energySupplierId,
+                    ChargeOwner = chargeOwner,
+                    Resolution = resolution,
+                    ChargeTypes = chargeTypes,
+                },
+                cancellationToken)
             .ConfigureAwait(false);
         return true;
     }
