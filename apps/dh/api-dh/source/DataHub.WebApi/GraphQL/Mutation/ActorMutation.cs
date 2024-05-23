@@ -17,6 +17,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
