@@ -117,7 +117,9 @@ type Calculation {
   executionTimeStart: DateTime
   executionTimeEnd: DateTime
   executionState: CalculationState!
+  orchestrationState: CalculationOrchestrationState!
   areSettlementReportsCreated: Boolean!
+  "Defines the wholesale calculation type"
   calculationType: CalculationType!
 }
 
@@ -657,6 +659,17 @@ enum BalanceResponsibleSortProperty {
   VALID_FROM
   VALID_TO
   RECEIVED_DATE
+}
+
+enum CalculationOrchestrationState {
+  SCHEDULED
+  CALCULATING
+  CALCULATED
+  CALCULATION_FAILED
+  ACTOR_MESSAGES_ENQUEUING
+  ACTOR_MESSAGES_ENQUEUED
+  ACTOR_MESSAGES_ENQUEUING_FAILED
+  COMPLETED
 }
 
 enum CalculationState {
