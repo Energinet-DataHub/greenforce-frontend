@@ -156,6 +156,34 @@ of updating existing fields.
 
 ## REST
 
+### Generating subsystem clients
+
+The BFF API uses generated clients to communicate with other subsystems. These are generated from `swagger.json` files using NSwag.
+
+#### Current subsystem clients
+
+The current subsystem clients can be found at:
+
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\EDI
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\ESettExchange
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\ImbalancePrices
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\MarketParticipant
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\Wholesale
+
+#### Update subsystem clients
+
+Update the subsystem clients using NSwag:
+
+1. Update the respective `swagger.json` files
+1. Build the `DataHub.WebApi` dotnet project
+
+If building the project file doesn't update the client, you might have to run NSwag manually:
+
+1. Download the nswag commandline (`npm install nswag -g` or see the [NSwag documentation])
+1. Navigate to the client's `nswag.json` file (eg. `apps\dh\api-dh\source\DataHub.WebApi\Clients\Wholesale\V3` folder that contains the `nswag.json` file to generate the Wholesale V3 client)
+1. Run the command `nswag run nswag.json` to generate a new `swagger.json` and a matching client
+    - The swagger source is defined in the respective `nswag.json` file, in this example the Wholesale V3 client's `nswag.json` configuration retreives the `swagger.json` from [https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json](https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json)
+
 ### Generating HttpClient and DTOs
 
 After the BFF is built, a Swagger definition file is generated. This file is
@@ -193,3 +221,4 @@ with the version (e.g. `\v1\`).
 [Swashbuckle-get-started]: https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 [GraphQL Code Generator]: https://the-guild.dev/graphql/codegen
 [Testing]: ./development.md#testing
+[NSwag documentation]: https://github.com/RicoSuter/NSwag/wiki/CommandLine
