@@ -131,7 +131,7 @@
         "commands": [
           "nx run app-dh:serve:development",
           "nx run api-dh:watch-schema",
-          "nx watch --projects='*,!api-dh,!dh-shared-domain' -- nx run dh-shared-domain:generate"
+          "nx watch --projects='*,!api-dh,!dh-shared-domain' -- nx run dh-shared-domain:generate-no-deps"
         ]
       }
     },
