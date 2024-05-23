@@ -17,6 +17,8 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -247,8 +249,21 @@ public class Mutation
 
     public async Task<bool> RequestSettlementReportAsync(
         RequestSettlementReportInput requestSettlementReportInput,
-        [Service] IESettExchangeClient_V1 client)
+        [Service] ISettlementReportsClient client)
     {
-        return await Task.FromResult(true);
+        var requestFilter = new SettlementReportRequestFilterDto(
+            requestSettlementReportInput.GridAreasWithCalculations.Select(ga => new GridAreaCode(ga.GridAreaCode)).ToList(),
+            requestSettlementReportInput.Period.Start.ToDateTimeOffset(),
+            requestSettlementReportInput.Period.End.ToDateTimeOffset(),
+            null);
+
+        await client.RequestAsync(
+            new SettlementReportRequestDto(
+                requestSettlementReportInput.CalculationType,
+                !requestSettlementReportInput.CombineResultInASingleFile,
+                requestFilter),
+            default);
+
+        return true;
     }
 }
