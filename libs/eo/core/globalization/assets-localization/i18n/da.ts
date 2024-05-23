@@ -18,6 +18,15 @@
 import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
+    meta: {
+      title: 'Energy Track & Trace™',
+      description:
+        'Energy Track & Trace™ er din pålidelige kilde til sporing, og certificering, af grøn strøm. Vi beviser hvor din strøm kommer fra.',
+      keywords:
+        'grøn strøm, sporing, certificering, granulære certifikater, Energy Track & Trace, bæredygtig energi, vedvarende energi',
+      author: 'Energy Track & Trace™',
+      url: 'https://energytrackandtrace.dk',
+    },
     announcementBar: {
       message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
     },
@@ -134,10 +143,13 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privatlivspolitik</a>
+              <a href="/da/privacy-policy">Privatlivspolitik</a>
             </li>
             <li>
-              <a href="/terms">Vilkår og betingelser</a>
+              <a href="/da/terms">Vilkår og betingelser</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
             </li>
           </ul>
         `,
@@ -656,9 +668,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Hjælp',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
+      <li><a class="internal-link" href="/da/{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduktion til Energy Origin</a>
+        <a class="internal-link" href="/da/{{introductionLink}}">Introduktion til Energy Origin</a>
       </li>
       <li>
         <a

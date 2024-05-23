@@ -37,7 +37,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 
 function generateLink(id: string | null): string | null {
-  return id ? `${window.location.origin}/${eoRoutes.transfer}?respond-proposal=${id}` : null;
+  const lang = window.location.pathname.split('/')[1];
+  return id
+    ? `${window.location.origin}/${lang}/${eoRoutes.transfer}?respond-proposal=${id}`
+    : null;
 }
 
 @Component({
