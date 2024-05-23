@@ -273,17 +273,17 @@ type MeteringGridAreaImbalanceSearchResult {
 }
 
 type Mutation {
-  updatePermission(input: UpdatePermissionDtoInput!): Permission!
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
-  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
-  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
-  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
-  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
-  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+  updatePermission(input: UpdatePermissionDtoInput!): Permission!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
 }
 
 type Organization {
