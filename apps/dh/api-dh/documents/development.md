@@ -174,24 +174,25 @@ The current subsystem clients can be found at:
 
 Update the subsystem clients using NSwag:
 
-1. Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
-1. Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file
+- Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
+- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file
+    Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
 
-Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
-```json
-{
-  ...
-  "documentGenerator": {
-    "fromDocument": {
-      "url": "https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json",
-      "output": "swagger.json",
-      "newLineBehavior": "Auto"
+    ```json
+    {
+        ...
+        "documentGenerator": {
+            "fromDocument": {
+            "url": "https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json",
+            "output": "swagger.json",
+            "newLineBehavior": "Auto"
+            }
+        },
+        ...
     }
-  },
-  ...
-}
-```
-3. Build the `DataHub.WebApi` dotnet project
+    ```
+
+- Build the `DataHub.WebApi` dotnet project
 
 ### Generating HttpClient and DTOs
 
@@ -230,4 +231,3 @@ with the version (e.g. `\v1\`).
 [Swashbuckle-get-started]: https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 [GraphQL Code Generator]: https://the-guild.dev/graphql/codegen
 [Testing]: ./development.md#testing
-[NSwag documentation]: https://github.com/RicoSuter/NSwag/wiki/CommandLine
