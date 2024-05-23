@@ -23,4 +23,5 @@ public record RequestSettlementReportInput(
     bool CombineResultInASingleFile,
     bool IncludeMonthlySums,
     bool IncludeBasisData,
-    string? SupplierId);
+    string? EnergySupplier,
+    string? CsvLanguage);

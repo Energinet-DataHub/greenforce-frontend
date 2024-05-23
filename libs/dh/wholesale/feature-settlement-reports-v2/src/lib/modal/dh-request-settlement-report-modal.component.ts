@@ -281,7 +281,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
                 this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
             })),
             combineResultInASingleFile: combineResultsInOneFile,
-            supplierId: energySupplier,
+            energySupplier: energySupplier,
+            csvLanguage: translate('selectedLanguageIso'),
           },
         },
         refetchQueries: (result) => {
