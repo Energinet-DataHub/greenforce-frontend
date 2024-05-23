@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ApplicationConfig } from '@angular/core';
-import { TitleStrategy, provideRouter } from '@angular/router';
+import { TitleStrategy, provideRouter, withDebugTracing } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configuration-localization';
@@ -51,7 +51,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    provideRouter(appRoutes),
+    provideRouter(appRoutes, withDebugTracing()),
     ...translocoProviders,
     {
       provide: TitleStrategy,
