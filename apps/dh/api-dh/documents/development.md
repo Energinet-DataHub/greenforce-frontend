@@ -174,15 +174,24 @@ The current subsystem clients can be found at:
 
 Update the subsystem clients using NSwag:
 
-1. Update the respective `swagger.json` files
-1. Build the `DataHub.WebApi` dotnet project
+1. Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
+1. Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file
 
-If building the project file doesn't update the client, you might have to run NSwag manually:
-
-1. Download the nswag commandline (`npm install nswag -g` or see the [NSwag documentation])
-1. Navigate to the client's `nswag.json` file (eg. `apps\dh\api-dh\source\DataHub.WebApi\Clients\Wholesale\V3` folder that contains the `nswag.json` file to generate the Wholesale V3 client)
-1. Run the command `nswag run nswag.json` to generate a new `swagger.json` and a matching client
-    - The swagger source is defined in the respective `nswag.json` file, in this example the Wholesale V3 client's `nswag.json` configuration retreives the `swagger.json` from [https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json](https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json)
+Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
+```json
+{
+  ...
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json",
+      "output": "swagger.json",
+      "newLineBehavior": "Auto"
+    }
+  },
+  ...
+}
+```
+3. Build the `DataHub.WebApi` dotnet project
 
 ### Generating HttpClient and DTOs
 
