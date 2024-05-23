@@ -32,7 +32,7 @@ export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
       calculationType: CalculationType.BalanceFixing,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 1,
-      includesBaseData: true,
+      includesBasisData: true,
       statusType: SettlementReportStatusType.Completed,
       actor: {
         __typename: 'Actor',
@@ -46,7 +46,7 @@ export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
       calculationType: CalculationType.Aggregation,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 2,
-      includesBaseData: true,
+      includesBasisData: true,
       statusType: SettlementReportStatusType.InProgress,
       actor: {
         __typename: 'Actor',
@@ -60,7 +60,7 @@ export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
       calculationType: CalculationType.WholesaleFixing,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 3,
-      includesBaseData: true,
+      includesBasisData: true,
       statusType: SettlementReportStatusType.Error,
       actor: {
         __typename: 'Actor',

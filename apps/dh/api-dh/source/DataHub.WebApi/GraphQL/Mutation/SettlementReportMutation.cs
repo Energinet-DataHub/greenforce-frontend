@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
@@ -21,8 +22,21 @@ public partial class Mutation
 {
     public async Task<bool> RequestSettlementReportAsync(
         RequestSettlementReportInput requestSettlementReportInput,
-        [Service] IESettExchangeClient_V1 client)
+        [Service] ISettlementReportsClient client)
     {
-        return await Task.FromResult(true);
+        var requestFilter = new SettlementReportRequestFilterDto(
+            requestSettlementReportInput.GridAreasWithCalculations.Select(ga => new GridAreaCode(ga.GridAreaCode)).ToList(),
+            requestSettlementReportInput.Period.Start.ToDateTimeOffset(),
+            requestSettlementReportInput.Period.End.ToDateTimeOffset(),
+            null);
+
+        await client.RequestAsync(
+            new SettlementReportRequestDto(
+                requestSettlementReportInput.CalculationType,
+                !requestSettlementReportInput.CombineResultInASingleFile,
+                requestFilter),
+            default);
+
+        return true;
     }
 }

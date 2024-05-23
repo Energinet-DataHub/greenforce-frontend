@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
+  afterNextRender,
   inject,
 } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
@@ -105,24 +105,31 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
       [announcement]="translations.landingPage.announcementBar.message | transloco"
     />
     <div class="topbar">
-      <img eoProductLogo version="secondary" class="logo secondary" />
+      <img eoProductLogo version="secondary" class="logo secondary" style="margin-top: -6px" />
       <img eoProductLogo class="logo primary" />
 
       <div class="actions">
         <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
           {{ translations.landingPage.header.loginButton | transloco }}
         </watt-button>
-        <eo-language-switcher
-          (click)="pauseScrollEvents = true"
-          (closed)="pauseScrollEvents = false"
-        >
+
+        <!-- We defer the language picker to avoid loading dayjs locales on initial load -->
+        @defer (on viewport; prefetch on idle) {
+          <eo-language-switcher
+            (click)="pauseScrollEvents = true"
+            (closed)="pauseScrollEvents = false"
+            [changeUrl]="true"
+          >
+            <watt-button variant="text" icon="language" />
+          </eo-language-switcher>
+        } @placeholder {
           <watt-button variant="text" icon="language" />
-        </eo-language-switcher>
+        }
       </div>
     </div>
   `,
 })
-export class EoLandingPageHeaderComponent implements AfterViewInit {
+export class EoLandingPageHeaderComponent {
   private authService = inject(EoAuthService);
   private elementRef = inject(ElementRef);
   private viewportScroller = inject(ViewportScroller);
@@ -130,11 +137,17 @@ export class EoLandingPageHeaderComponent implements AfterViewInit {
   protected translations = translations;
   protected pauseScrollEvents = false;
 
+  constructor() {
+    afterNextRender(() => {
+      this.init();
+    });
+  }
+
   login() {
     this.authService.startLogin();
   }
 
-  ngAfterViewInit(): void {
+  init(): void {
     // ADD / REMOVE STICKY MODE
     fromEvent(window, 'scroll')
       .pipe(
