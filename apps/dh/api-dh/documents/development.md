@@ -57,6 +57,16 @@ file in `libs/dh/shared/data-access-graphql`. This file is used by the
 `dh-shared-domain:generate` command as well as the VS Code GraphQL
 extension (to provide IntelliSense in `.graphql` files).
 
+#### Verify new generated GraphQL schema
+
+If there is any changes to the GraphQL schema, the new schema must be verified. To verify the generated `.graphql` schema, you need to:
+
+- Run the dotnet unit test `Energinet.DataHub.WebApi.Tests.Integration.GraphQL.SchemaTests.ChangeTest`
+- Update the `apps\dh\api-dh\source\DataHub.WebApi.Tests\Snapshots\SchemaTests.ChangeTest.verified.graphql` so it is equal to the generated schema
+    - The test automatically launches the `diff` viewer if ran in Visual Studio or Rider, which helps you merge the changes into the verified file
+
+See the [Testing] section for additional info.
+
 ### Creating a new query
 
 To create a new query using Hot Chocolate, follow this example:
@@ -182,3 +192,4 @@ with the version (e.g. `\v1\`).
 [Swashbuckle]: https://github.com/domaindrivendev/Swashbuckle.AspNetCore
 [Swashbuckle-get-started]: https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 [GraphQL Code Generator]: https://the-guild.dev/graphql/codegen
+[Testing]: ./development.md#testing
