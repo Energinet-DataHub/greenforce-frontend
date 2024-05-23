@@ -99,6 +99,7 @@ interface EoTransferTableElement extends EoListedTransfer {
           data-testid="new-agreement-button"
           icon="plus"
           variant="secondary"
+          [disabled]="!enableCreateTransferAgreementProposal"
           (click)="transfersModal.open()"
         >
           {{ translations.transfers.createNewTransferAgreement | transloco }}
@@ -188,6 +189,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 export class EoTransfersTableComponent implements OnInit, OnChanges {
   @Input() transfers: EoListedTransfer[] = [];
   @Input() loading = false;
+  @Input() enableCreateTransferAgreementProposal = false;
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
   @Output() saveTransferAgreement = new EventEmitter();

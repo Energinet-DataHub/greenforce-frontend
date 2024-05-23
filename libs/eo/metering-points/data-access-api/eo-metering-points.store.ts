@@ -84,6 +84,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
             mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
   );
+  readonly hasProductionMeteringPoints$ = this.select(this.productionMeteringPoints$, (mps) => mps.length > 0);
   readonly productionAndConsumptionMeteringPoints$ = this.select((state) => {
     return (
       state.meteringPoints?.filter(
