@@ -141,8 +141,7 @@ public class Mutation
 
     public async Task<bool> CreateWholesaleSettlementRequestAsync(
         EdiB2CWebAppCalculationType calculationType,
-        string startDate,
-        string? endDate,
+        Interval period,
         string? gridArea,
         string? energySupplierId,
         string? chargeOwner,
@@ -156,8 +155,8 @@ public class Mutation
                 new RequestWholesaleSettlementMarketRequest()
                 {
                     CalculationType = calculationType,
-                    StartDate = startDate,
-                    EndDate = endDate,
+                    StartDate = period.Start.ToString(),
+                    EndDate = period.End.ToString(),
                     GridArea = gridArea,
                     EnergySupplierId = energySupplierId,
                     ChargeOwner = chargeOwner,
