@@ -572,8 +572,7 @@ input CreateProcessDelegationsInput {
 
 input CreateWholesaleSettlementRequestInput {
   calculationType: EdiB2CProcessType!
-  startDate: String!
-  endDate: String
+  period: DateRange!
   gridArea: String
   energySupplierId: String
   chargeOwner: String
