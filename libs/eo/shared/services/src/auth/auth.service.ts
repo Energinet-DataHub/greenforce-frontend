@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
@@ -37,7 +37,6 @@ export class EoAuthService {
   constructor(
     private http: HttpClient,
     private store: EoAuthStore,
-    private router: Router,
     private route: ActivatedRoute,
     private transloco: TranslocoService,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
@@ -52,13 +51,6 @@ export class EoAuthService {
   handleLogin() {
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
-    this.router.navigate([], {
-      queryParams: {
-        token: undefined,
-        redirectionPath: this.route.snapshot.queryParamMap.get('redirectionPath'),
-      },
-      replaceUrl: true,
-    });
   }
 
   refreshToken() {
