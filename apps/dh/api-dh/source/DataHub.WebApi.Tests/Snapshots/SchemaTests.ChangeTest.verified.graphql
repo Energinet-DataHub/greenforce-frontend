@@ -119,6 +119,7 @@ type Calculation {
   executionState: CalculationState!
   orchestrationState: CalculationOrchestrationState!
   areSettlementReportsCreated: Boolean!
+  "Defines the wholesale calculation type"
   calculationType: CalculationType!
 }
 
