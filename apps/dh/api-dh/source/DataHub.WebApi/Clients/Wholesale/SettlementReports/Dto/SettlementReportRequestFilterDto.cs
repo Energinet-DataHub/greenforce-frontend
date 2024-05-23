@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-namespace Energinet.DataHub.WebApi.Controllers.Wholesale.Dto;
-
-public sealed record CalculationDto(Guid CalculationId, DateTimeOffset PeriodStart, DateTimeOffset PeriodEnd, DateTimeOffset? ExecutionTimeStart, DateTimeOffset? ExecutionTimeEnd, CalculationState ExecutionState, bool IsBasisDataDownloadAvailable, GridAreaDto[] GridAreas);
+public sealed record SettlementReportRequestFilterDto(
+    IReadOnlyCollection<GridAreaCode> GridAreas,
+    DateTimeOffset PeriodStart,
+    DateTimeOffset PeriodEnd,
+    string? CsvFormatLocale);
