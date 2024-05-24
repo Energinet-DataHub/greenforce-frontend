@@ -60,7 +60,7 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
             Encoding.UTF8,
             "application/json");
 
-        using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadAsStreamAsync(cancellationToken);
