@@ -14,4 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-public sealed record GridAreaCode(string Code);
+public sealed record CalculationFilterDto(string CalculationId, string GridAreaCode);
