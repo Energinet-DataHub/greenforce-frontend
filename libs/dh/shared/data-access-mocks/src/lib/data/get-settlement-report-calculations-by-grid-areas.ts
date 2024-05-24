@@ -22,22 +22,6 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
     settlementReportGridAreaCalculationsForPeriod: [
       {
         __typename: 'KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation',
-        key: '001',
-        value: [
-          {
-            __typename: 'RequestSettlementReportGridAreaCalculation',
-            calculationDate: new Date('2021-12-01T23:00:00Z'),
-            calculationId: '911d0c33-3232-49e1-a0ef-bcef313d1098',
-            gridAreaWithName: {
-              __typename: 'GridAreaDto',
-              code: '001',
-              displayName: '001 • Sort netvirksomhed',
-            },
-          },
-        ],
-      },
-      {
-        __typename: 'KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation',
         key: '002',
         value: [
           {

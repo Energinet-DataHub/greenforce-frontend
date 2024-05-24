@@ -3,5 +3,5 @@
 **/*.spec.ts
 **/datahub-bookmarks.html
 libs/gf/msw/util-msw/src/assets/mockServiceWorker.js
-!schema.graphql
+!libs/dh/shared/data-access-graphql/schema.graphql
 !libs/dh/shared/domain/src/lib/generated/graphql.ts
