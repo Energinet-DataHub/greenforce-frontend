@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
-public class EdiB2CProcessType : EnumType<ProcessType>
+public class EdiB2CCalculationType : EnumType<Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType>
 {
-    protected override void Configure(IEnumTypeDescriptor<ProcessType> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType> descriptor)
     {
         descriptor.Name("EdiB2CProcessType");
         descriptor.AsLowerCase();

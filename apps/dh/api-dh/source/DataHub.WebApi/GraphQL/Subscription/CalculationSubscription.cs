@@ -28,7 +28,7 @@ public class Subscription
         CancellationToken cancellationToken)
     {
         var calculationIdStream = eventReceiver
-            .Observe<Guid>(nameof(Mutation.CreateCalculationAsync), cancellationToken);
+            .Observe<Guid>(nameof(Mutation.Mutation.CreateCalculationAsync), cancellationToken);
 
         var input = new CalculationQueryInput
             { ExecutionStates = [CalculationState.Pending, CalculationState.Executing] };
