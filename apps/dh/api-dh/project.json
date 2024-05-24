@@ -38,7 +38,7 @@
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],
-      "cache": true,
+      "cache": false,
       "options": {
         "command": "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
       }
