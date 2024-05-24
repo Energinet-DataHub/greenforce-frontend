@@ -23,7 +23,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService, translate } from '@ngneat/transloco';
 import {
   FormControl,
   FormGroup,
@@ -76,6 +76,8 @@ import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
 
+const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
+
 type DhFormType = FormGroup<{
   calculationType: FormControl<string>;
   includeBasisData: FormControl<boolean>;
@@ -127,7 +129,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
-
+  private readonly transloco = inject(TranslocoService);
   private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
   private readonly toastService = inject(WattToastService);
@@ -173,7 +175,14 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     CalculationType.ThirdCorrectionSettlement,
   ]);
   gridAreaOptions$ = this.getGridAreaOptions();
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
+    tap((options) =>
+      options.unshift({
+        displayValue: this.transloco.translate('shared.all'),
+        value: ALL_ENERGY_SUPPLIERS,
+      })
+    )
+  );
 
   hasMoreThanOneGridAreaOption = toSignal(this.hasMoreThanOneGridAreaOption$());
 
@@ -277,7 +286,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas),
             combineResultInASingleFile: combineResultsInOneFile,
-            energySupplier,
+            energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
           },
         },
