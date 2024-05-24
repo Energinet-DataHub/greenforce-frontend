@@ -20,7 +20,6 @@
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
-        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi/schema.graphql",
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql.ts"
       ],
@@ -29,9 +28,8 @@
     },
     "generate": {
       "executor": "nx:run-commands",
-      "cache": false,
+      "cache": true,
       "inputs": [
-        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi/schema.graphql",
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql.ts"
       ],
