@@ -76,7 +76,7 @@ import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
 
-const ALL_ENERGY_SUPPLIERS = "ALL_ENERGY_SUPPLIERS";
+const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
 type DhFormType = FormGroup<{
   calculationType: FormControl<string>;
@@ -129,7 +129,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly transloco = inject(TranslocoService)
+  private readonly transloco = inject(TranslocoService);
   private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
   private readonly toastService = inject(WattToastService);
@@ -176,7 +176,12 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   ]);
   gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
-    tap(options => options.unshift({displayValue: this.transloco.translate('shared.all'), value: ALL_ENERGY_SUPPLIERS }))
+    tap((options) =>
+      options.unshift({
+        displayValue: this.transloco.translate('shared.all'),
+        value: ALL_ENERGY_SUPPLIERS,
+      })
+    )
   );
 
   hasMoreThanOneGridAreaOption = toSignal(this.hasMoreThanOneGridAreaOption$());
