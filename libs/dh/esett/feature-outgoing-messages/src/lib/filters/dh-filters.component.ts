@@ -55,6 +55,7 @@ import {
   getActorOptions,
   getGridAreaOptions,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -91,6 +92,7 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
+    WattQueryParamsDirective,
 
     DhDropdownTranslatorDirective,
   ],
