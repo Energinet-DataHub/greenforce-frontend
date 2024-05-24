@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public class ImbalancePricePeriod
+{
+    public DateTimeOffset Name { get; set; } = DateTimeOffset.UtcNow;
+
+    public PriceAreaCode PriceAreaCode { get; set; }
+
+    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.Complete;
+}
