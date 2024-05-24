@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Process;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public class ProcessStatusType : EnumType<ProcessStatus>
+{
+    protected override void Configure(IEnumTypeDescriptor<ProcessStatus> descriptor)
+    {
+        descriptor.AsLowerCase();
+    }
+}

@@ -13,12 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public sealed record CreateActorInput(
+    Guid OrganizationId,
+    ActorNameDto Name,
+    ActorNumberDto ActorNumber,
+    ICollection<CreateActorMarketRoleInput> MarketRoles);

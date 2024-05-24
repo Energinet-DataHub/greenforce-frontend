@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public class ExchangeEventCalculationType : EnumType<ExchangeCalculationTypeExchange>
+{
+    protected override void Configure(IEnumTypeDescriptor<ExchangeCalculationTypeExchange> descriptor)
+    {
+        descriptor.Name("ExchangeEventCalculationType");
+    }
+}
