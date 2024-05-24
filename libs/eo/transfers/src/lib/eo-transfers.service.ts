@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, inject } from '@angular/core';
 import { map, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 export interface EoTransfer {
   startDate: number;
@@ -27,6 +29,7 @@ export interface EoTransfer {
   endDate: number | null;
   receiverName?: string | null;
   receiverTin: string;
+  transferAgreementStatus: 'Active' | 'Inactive' | 'Proposal' | 'ProposalExpired';
 }
 
 export interface EoListedTransfer extends EoTransfer {
@@ -63,6 +66,9 @@ export interface EoTransferAgreementProposal {
 })
 export class EoTransfersService {
   #apiBase: string;
+  #authStore = inject(EoAuthStore);
+
+  private user = toSignal(this.#authStore.getUserInfo$);
 
   constructor(
     private http: HttpClient,
@@ -73,16 +79,19 @@ export class EoTransfersService {
 
   getTransfers() {
     return this.http
-      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements`)
+      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements/overview`)
       .pipe(
         map((x) => x.result),
         switchMap((transfers) => {
-          return this.getCompanyNames(transfers.map((transfer) => transfer.receiverTin)).pipe(
+          const receiverTins = transfers
+            .filter((transfer) => transfer.receiverTin && transfer.receiverTin !== '')
+            .map((transfer) => transfer.receiverTin);
+
+          return this.getCompanyNames(receiverTins).pipe(
             map((companyNames) => {
               return transfers.map((transfer, index) => ({
                 ...transfer,
-                senderName: transfer.senderName ?? '',
-                senderTin: transfer.senderTin ?? '',
+                ...this.setSender(transfer),
                 receiverName: companyNames[index],
                 startDate: transfer.startDate,
                 endDate: transfer.endDate ? transfer.endDate : null,
@@ -91,6 +100,14 @@ export class EoTransfersService {
           );
         })
       );
+  }
+
+  private setSender(transfer: EoListedTransfer) {
+    return {
+      ...transfer,
+      senderName: transfer.senderName === '' ? this.user()?.name : transfer.senderName,
+      senderTin: transfer.senderTin === '' ? this.user()?.tin ?? '' : transfer.senderTin,
+    };
   }
 
   getCompanyNames(cvrNumbers: string[]) {
@@ -144,6 +161,10 @@ export class EoTransfersService {
           endDate: proposal.endDate * 1000,
         }))
       );
+  }
+
+  deleteAgreementProposal(proposalId: string) {
+    return this.http.delete(`${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`);
   }
 
   updateAgreement(transferId: string, endDate: number | null) {
