@@ -281,9 +281,9 @@ type Mutation {
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
   createWholesaleSettlementRequest(input: CreateWholesaleSettlementRequestInput!): CreateWholesaleSettlementRequestPayload!
-  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
@@ -592,8 +592,8 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
-  includeBasisData: Boolean!
-  supplierId: String
+  energySupplier: String
+  csvLanguage: String
 }
 
 input RequestWholesaleSettlementChargeTypeInput {

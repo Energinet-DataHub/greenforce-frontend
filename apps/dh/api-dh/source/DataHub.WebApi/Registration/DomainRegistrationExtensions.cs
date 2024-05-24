@@ -40,7 +40,7 @@ public static class DomainRegistrationExtensions
             .AddWholesaleOrchestrationsClient(
                 GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
             .AddSettlementReportsClient(
-                GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl)) // TODO: Settlement reports are currently under same function app as Wholesale orchestrations.
+                GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
             .AddESettClient(
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(

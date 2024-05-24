@@ -428,11 +428,15 @@ export const translations = {
   transfers: {
     title: 'transfers.title' as const,
     creationOfTransferAgreementFailed: 'transfers.creationOfTransferAgreementFailed' as const,
+    removalOfTransferAgreementProposalFailed:
+      'transfers.removalOfTransferAgreementProposalFailed' as const,
     tableTitle: 'transfers.tableTitle' as const,
     createNewTransferAgreement: 'transfers.createNewTransferAgreement' as const,
     transferAgreementStatusFilterLabel: 'transfers.transferAgreementStatusFilterLabel' as const,
     activeTransferAgreement: 'transfers.activeTransferAgreement' as const,
     inactiveTransferAgreement: 'transfers.inactiveTransferAgreement' as const,
+    pendingTransferAgreement: 'transfers.pendingTransferAgreement' as const,
+    expiredTransferAgreementProposals: 'transfers.expiredTransferAgreementProposals' as const,
     noData: {
       title: 'transfers.noData.title' as const,
       message: 'transfers.noData.message' as const,
@@ -528,6 +532,7 @@ export const translations = {
       } as const,
       link: {
         hint: 'createTransferAgreementProposal.invitation.link.hint' as const,
+        hintProposal: 'createTransferAgreementProposal.invitation.link.hintProposal' as const,
         error: 'createTransferAgreementProposal.invitation.link.error' as const,
         copy: 'createTransferAgreementProposal.invitation.link.copy' as const,
         retry: 'createTransferAgreementProposal.invitation.link.retry' as const,

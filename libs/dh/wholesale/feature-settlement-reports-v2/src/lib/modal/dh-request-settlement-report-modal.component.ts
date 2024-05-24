@@ -269,7 +269,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
         variables: {
           input: {
             calculationType: calculationType as CalculationType,
-            includeBasisData: includeBasisData,
+            includeBasisData,
             period: {
               start: new Date(period.start),
               end: period.end ? new Date(period.end) : null,
@@ -277,7 +277,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas),
             combineResultInASingleFile: combineResultsInOneFile,
-            supplierId: energySupplier,
+            energySupplier,
+            csvLanguage: translate('selectedLanguageIso'),
           },
         },
         refetchQueries: (result) => {

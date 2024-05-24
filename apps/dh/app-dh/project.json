@@ -176,6 +176,7 @@
   },
   "tags": ["product:dh", "type:app"],
   "implicitDependencies": [
+    "api-dh",
     "dh-shared-domain",
     "dh-globalization-assets-localization"
   ]

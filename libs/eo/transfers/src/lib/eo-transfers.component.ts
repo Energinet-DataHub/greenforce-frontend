@@ -32,14 +32,17 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoTransfersTableComponent } from './eo-transfers-table.component';
+import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+
+import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import {
   EoListedTransfer,
   EoTransferAgreementProposal,
   EoTransfersService,
 } from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +56,7 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
     VaterStackComponent,
     EoTransfersRespondProposalComponent,
     TranslocoPipe,
+    AsyncPipe,
   ],
   standalone: true,
   template: `
@@ -65,11 +69,14 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
 
     <watt-card class="watt-space-stack-m">
       <eo-transfers-table
+        [enableCreateTransferAgreementProposal]="!!(hasProductionMeteringPoints | async)"
         [transfers]="transferAgreements().data"
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
         (saveTransferAgreement)="onSaveTransferAgreement($event)"
+        (proposalCreated)="addTransfer($event)"
+        (removeProposal)="onRemoveProposal($event)"
       />
     </watt-card>
 
@@ -77,6 +84,7 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
     <eo-transfers-repsond-proposal
       [proposalId]="proposalId"
       (accepted)="onAcceptedProposal($event)"
+      (declined)="onRemoveProposal($event)"
     />
   `,
 })
@@ -90,7 +98,9 @@ export class EoTransfersComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private transfersService = inject(EoTransfersService);
   private toastService = inject(WattToastService);
+  private meteringPointStore = inject(EoMeteringPointsStore);
 
+  protected hasProductionMeteringPoints = this.meteringPointStore.hasProductionMeteringPoints$;
   protected translations = translations;
   protected transferAgreements = signal<{
     loading: boolean;
@@ -105,10 +115,34 @@ export class EoTransfersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTransfers();
+    this.meteringPointStore.loadMeteringPoints();
 
     if (this.proposalId) {
       this.respondProposal.open();
     }
+  }
+
+  protected onRemoveProposal(id: string) {
+    const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
+    if (proposal) {
+      this.removeTransfer(id);
+    }
+
+    this.transfersService.deleteAgreementProposal(id).subscribe({
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate(
+            this.translations.transfers.removalOfTransferAgreementProposalFailed
+          ),
+          type: 'danger',
+          duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+
+        if (proposal) {
+          this.addTransfer(proposal);
+        }
+      },
+    });
   }
 
   protected onAcceptedProposal(proposal: EoTransferAgreementProposal) {
@@ -164,6 +198,13 @@ export class EoTransfersComponent implements OnInit {
     );
   }
 
+  protected addTransfer(transfer: EoListedTransfer) {
+    this.transferAgreements.set({
+      ...this.transferAgreements(),
+      data: [...this.transferAgreements().data, transfer],
+    });
+  }
+
   private addTransferProposal(proposal: EoTransferAgreementProposal) {
     this.transferAgreements.set({
       ...this.transferAgreements(),
@@ -173,6 +214,7 @@ export class EoTransfersComponent implements OnInit {
           ...proposal,
           senderName: proposal.senderCompanyName,
           senderTin: '',
+          transferAgreementStatus: 'Proposal',
         },
       ],
     });
