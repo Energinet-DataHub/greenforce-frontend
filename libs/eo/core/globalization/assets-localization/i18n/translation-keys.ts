@@ -425,11 +425,14 @@ export interface TranslationKeys {
   transfers: {
     title: string;
     creationOfTransferAgreementFailed: string;
+    removalOfTransferAgreementProposalFailed: string;
     tableTitle: string;
     createNewTransferAgreement: string;
     transferAgreementStatusFilterLabel: string;
     activeTransferAgreement: string;
     inactiveTransferAgreement: string;
+    pendingTransferAgreement: string;
+    expiredTransferAgreementProposals: string;
     noData: {
       title: string;
       message: string;
@@ -516,6 +519,7 @@ export interface TranslationKeys {
       };
       link: {
         hint: string;
+        hintProposal: string;
         error: string;
         copy: string;
         retry: string;

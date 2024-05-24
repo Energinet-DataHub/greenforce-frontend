@@ -18,12 +18,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
   ViewEncapsulation,
   inject,
-  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -70,7 +72,7 @@ export interface EoTransferAgreementsWithRecipient {
         }
 
         <eo-transfers-form
-          [senderTin]="ownTin()"
+          [senderTin]="this.user()?.tin"
           [transferAgreements]="transferAgreements"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
@@ -82,23 +84,24 @@ export interface EoTransferAgreementsWithRecipient {
   `,
 })
 export class EoTransfersCreateModalComponent {
+  @Input() transferAgreements: EoListedTransfer[] = [];
+  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  @Input() transferAgreements: EoListedTransfer[] = [];
+  private authStore = inject(EoAuthStore);
+  private service = inject(EoTransfersService);
+  private cd = inject(ChangeDetectorRef);
 
   protected translations = translations;
   protected recipientTins: string[] = [];
-  protected ownTin = signal<string | undefined>(undefined);
 
   protected creatingTransferAgreementProposal = false;
   protected creatingTransferAgreementProposalFailed = false;
   protected isFormValid = false;
   protected opened = false;
   protected proposalId: null | string = null;
-
-  protected authStore = inject(EoAuthStore);
-  private service = inject(EoTransfersService);
-  private cd = inject(ChangeDetectorRef);
+  protected user = toSignal(this.authStore.getUserInfo$);
 
   open() {
     /**
@@ -107,10 +110,6 @@ export class EoTransfersCreateModalComponent {
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
-
-    this.authStore.getTin$.subscribe((tin) => {
-      this.ownTin.set(tin);
-    });
   }
 
   onClosed() {
@@ -131,11 +130,23 @@ export class EoTransfersCreateModalComponent {
 
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
-    this.service.createAgreementProposal({ receiverTin, startDate, endDate }).subscribe({
+    const proposal = {
+      receiverTin,
+      startDate,
+      endDate,
+      transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
+    };
+    this.service.createAgreementProposal(proposal).subscribe({
       next: (proposalId) => {
         this.proposalId = proposalId;
         this.creatingTransferAgreementProposal = false;
         this.creatingTransferAgreementProposalFailed = false;
+        this.proposalCreated.emit({
+          ...proposal,
+          id: proposalId,
+          senderTin: this.user()?.tin as string,
+          senderName: this.user()?.name as string,
+        });
         this.cd.detectChanges();
       },
       error: () => {
