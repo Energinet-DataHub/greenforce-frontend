@@ -277,7 +277,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas),
             combineResultInASingleFile: combineResultsInOneFile,
-            supplierId: energySupplier,
+            energySupplier: energySupplier,
+            csvLanguage: translate('selectedLanguageIso'),
           },
         },
         refetchQueries: (result) => {
