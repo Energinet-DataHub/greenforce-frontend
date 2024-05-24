@@ -15,7 +15,8 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;

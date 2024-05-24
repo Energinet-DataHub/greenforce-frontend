@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
 using PriceAreaCode = Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1.PriceAreaCode;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
