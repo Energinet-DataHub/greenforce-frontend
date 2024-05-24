@@ -536,11 +536,14 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Overførselsaftaler',
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
+    removalOfTransferAgreementProposalFailed: 'Fjernelse af forslaget til overførselsaftalen mislykkedes.',
     tableTitle: 'Resultater',
     createNewTransferAgreement: 'Ny overførselsaftale',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Aktiv',
     inactiveTransferAgreement: 'Inaktiv',
+    pendingTransferAgreement: 'Afventer',
+    expiredTransferAgreementProposals: 'Udløbet',
     noData: {
       title: 'Ingen overførselsaftaler fundet',
       message: 'Du har ikke nogen overførselsaftaler.',
@@ -639,6 +642,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
       link: {
         hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
+        hintProposal: 'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
         error: 'Kunne ikke generere link. Prøv igen.',
         copy: 'Kopiér link',
         retry: 'Generer',

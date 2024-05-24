@@ -75,6 +75,8 @@ import { AsyncPipe } from '@angular/common';
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
         (saveTransferAgreement)="onSaveTransferAgreement($event)"
+        (proposalCreated)="addTransfer($event)"
+        (removeProposal)="onRemoveProposal($event)"
       />
     </watt-card>
 
@@ -82,6 +84,7 @@ import { AsyncPipe } from '@angular/common';
     <eo-transfers-repsond-proposal
       [proposalId]="proposalId"
       (accepted)="onAcceptedProposal($event)"
+      (declined)="onRemoveProposal($event)"
     />
   `,
 })
@@ -117,6 +120,29 @@ export class EoTransfersComponent implements OnInit {
     if (this.proposalId) {
       this.respondProposal.open();
     }
+  }
+
+  protected onRemoveProposal(id: string) {
+    const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
+    if(proposal) {
+      this.removeTransfer(id);
+    }
+
+    this.transfersService.deleteAgreementProposal(id).subscribe({
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate(
+            this.translations.transfers.removalOfTransferAgreementProposalFailed
+          ),
+          type: 'danger',
+          duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+
+        if(proposal) {
+          this.addTransfer(proposal);
+        }
+      },
+    });
   }
 
   protected onAcceptedProposal(proposal: EoTransferAgreementProposal) {
@@ -172,6 +198,13 @@ export class EoTransfersComponent implements OnInit {
     );
   }
 
+  protected addTransfer(transfer: EoListedTransfer) {
+    this.transferAgreements.set({
+      ...this.transferAgreements(),
+      data: [...this.transferAgreements().data, transfer],
+    });
+  }
+
   private addTransferProposal(proposal: EoTransferAgreementProposal) {
     this.transferAgreements.set({
       ...this.transferAgreements(),
@@ -181,6 +214,7 @@ export class EoTransfersComponent implements OnInit {
           ...proposal,
           senderName: proposal.senderCompanyName,
           senderTin: '',
+          transferAgreementStatus: 'Proposal',
         },
       ],
     });

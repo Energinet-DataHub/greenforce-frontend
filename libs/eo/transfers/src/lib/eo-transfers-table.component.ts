@@ -47,7 +47,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
-  status?: boolean;
 }
 
 @Component({
@@ -133,7 +132,7 @@ interface EoTransferTableElement extends EoListedTransfer {
         [columns]="columns"
         [dataSource]="dataSource"
         sortBy="status"
-        sortDirection="desc"
+        sortDirection="asc"
         [sortClear]="false"
         (rowClick)="onRowClick($event)"
         [activeRow]="activeRow"
@@ -150,9 +149,17 @@ interface EoTransferTableElement extends EoListedTransfer {
 
         <!-- Status - Custom column -->
         <ng-container *wattTableCell="table.columns['status']; let element">
-          @if (utils.isDateActive(element.startDate, element.endDate)) {
+          @if (element.transferAgreementStatus === 'Active') {
             <watt-badge type="success">{{
               translations.transfers.activeTransferAgreement | transloco
+            }}</watt-badge>
+          } @else if(element.transferAgreementStatus === 'Proposal') {
+            <watt-badge type="warning">{{
+              translations.transfers.pendingTransferAgreement | transloco
+            }}</watt-badge>
+          } @else if(element.transferAgreementStatus === 'ProposalExpired') {
+            <watt-badge type="neutral">{{
+              translations.transfers.expiredTransferAgreementProposals | transloco
             }}</watt-badge>
           } @else {
             <watt-badge type="neutral">{{
@@ -177,11 +184,12 @@ interface EoTransferTableElement extends EoListedTransfer {
       [for]="dataSource"
     />
 
-    <eo-transfers-create-modal [transferAgreements]="transfers" />
+    <eo-transfers-create-modal [transferAgreements]="transfers" (proposalCreated)="proposalCreated.emit($event)" />
     <eo-transfers-drawer
       [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"
+      (removeProposal)="removeProposal.emit($event)"
       (saveTransferAgreement)="saveTransferAgreement.emit($event)"
     />
   `,
@@ -193,6 +201,8 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
   @Input() selectedTransfer?: EoListedTransfer;
   @Output() transferSelected = new EventEmitter<EoListedTransfer>();
   @Output() saveTransferAgreement = new EventEmitter();
+  @Output() removeProposal = new EventEmitter<string>();
+  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
@@ -234,6 +244,9 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
               const unknownReceiver = this.transloco.translate(
                 this.translations.transfers.unknownReceiver
               );
+              if(!transfer.receiverTin) {
+                return unknownReceiver;
+              }
               return `${transfer.receiverName ?? unknownReceiver} (${transfer.receiverTin})`;
             },
             header: this.transloco.translate(this.translations.transfers.receiverTableHeader),
@@ -248,9 +261,7 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
           },
           status: {
             accessor: (transfer) => {
-              return transfer.endDate
-                ? this.utils.isDateActive(transfer.startDate, transfer.endDate)
-                : true;
+              return transfer.transferAgreementStatus;
             },
             header: this.transloco.translate(this.translations.transfers.statusTableHeader),
           },

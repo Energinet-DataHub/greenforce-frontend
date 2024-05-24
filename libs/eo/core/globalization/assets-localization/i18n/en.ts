@@ -546,11 +546,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Transfers',
     creationOfTransferAgreementFailed:
       'Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.',
+    removalOfTransferAgreementProposalFailed: 'Removing the transfer agreement proposal failed.',
     tableTitle: 'Transfer agreements',
     createNewTransferAgreement: 'New transfer agreement',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Active',
     inactiveTransferAgreement: 'Inactive',
+    pendingTransferAgreement: 'Pending',
+    expiredTransferAgreementProposals: 'Expired',
     noData: {
       title: 'No transfer agreements found',
       message: 'You do not have any transfer agreements.',
@@ -650,6 +653,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
       link: {
         hint: 'Link expires in 14 days, usable by one organization or specific company.',
+        hintProposal: 'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
         error: `Couldn't generate link. Please try again.`,
         copy: 'Copy link',
         retry: 'Generate',
