@@ -23,9 +23,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhOutgoingMessagesFilters = {
-  calculationTypes?: InputMaybe<ExchangeEventCalculationType>;
+  calculationType?: InputMaybe<ExchangeEventCalculationType>;
   messageTypes?: InputMaybe<TimeSeriesType>;
-  gridAreas?: InputMaybe<string>;
+  gridAreaCode?: InputMaybe<string>;
   actorNumber?: InputMaybe<string>;
   status?: InputMaybe<DocumentStatus>;
   period?: InputMaybe<Scalars['DateRange']['input']>;

@@ -29,7 +29,7 @@ type OutType = Observable<{
   sortDirection: SortDirection;
 }>;
 
-export const dhExchangeSortMetadataMapper = pipe<InType, OutType>(
+export const dhExchangeSortMetadataPipeMapper = pipe<InType, OutType>(
   map(({ active, direction }) => {
     const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
 
@@ -63,3 +63,39 @@ export const dhExchangeSortMetadataMapper = pipe<InType, OutType>(
     return { sortProperty, sortDirection };
   })
 );
+
+export const dhExchangeSortMetadataMapper = (
+  input: Sort
+): { sortProperty: ExchangeEventSortProperty; sortDirection: SortDirection } => {
+  const { active, direction } = input;
+  const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
+
+  let sortProperty: ExchangeEventSortProperty;
+
+  switch (active) {
+    case 'id':
+      sortProperty = ExchangeEventSortProperty.DocumentId;
+      break;
+    case 'calculationType':
+      sortProperty = ExchangeEventSortProperty.CalculationType;
+      break;
+    case 'messageType':
+      sortProperty = ExchangeEventSortProperty.TimeSeriesType;
+      break;
+    case 'gridArea':
+      sortProperty = ExchangeEventSortProperty.GridAreaCode;
+      break;
+    case 'lastDispatched':
+      sortProperty = ExchangeEventSortProperty.LatestDispatched;
+      break;
+    case 'status':
+      sortProperty = ExchangeEventSortProperty.DocumentStatus;
+      break;
+    case 'created':
+    default:
+      sortProperty = ExchangeEventSortProperty.Created;
+      break;
+  }
+
+  return { sortProperty, sortDirection };
+};

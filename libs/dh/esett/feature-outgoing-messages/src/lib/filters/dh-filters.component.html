@@ -23,7 +23,7 @@ limitations under the License.
   *transloco="let t; read: 'eSett.outgoingMessages.filters'"
 >
   <watt-dropdown
-    [formControl]="formGroup.controls.calculationTypes!"
+    [formControl]="formGroup.controls.calculationType!"
     [chipMode]="true"
     [options]="calculationTypeOptions"
     [placeholder]="t('calculationType')"
@@ -41,7 +41,7 @@ limitations under the License.
   />
 
   <watt-dropdown
-    [formControl]="formGroup.controls.gridAreas!"
+    [formControl]="formGroup.controls.gridAreaCode!"
     [chipMode]="true"
     sortDirection="asc"
     [options]="gridAreaOptions$ | push"

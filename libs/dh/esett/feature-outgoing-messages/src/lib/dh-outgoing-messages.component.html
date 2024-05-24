@@ -17,9 +17,12 @@ limitations under the License.
 <watt-card vater inset="ml" *transloco="let t; read: 'eSett.outgoingMessages'">
   <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
+      {{ store.isLoading() }}
       <h3>{{ t("tabHeading") }}</h3>
-      <span class="watt-chip-label">{{ totalCount }}</span>
-      <span class="watt-chip-label">{{ t("countGridAreas", { gridAreaCount }) }}</span>
+      <span class="watt-chip-label">{{ store.totalCount() }}</span>
+      <span class="watt-chip-label">{{
+        t("countGridAreas", { gridAreaCount: store.gridAreaCount() })
+      }}</span>
 
       <div class="health-icons" *rxLet="serviceStatus$ as serviceStatus">
         @for (status of serviceStatus; track status) {
@@ -39,9 +42,13 @@ limitations under the License.
         (search)="documentIdSearch$.next($event)"
       />
 
-      <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download()">{{
-        "shared.download" | transloco
-      }}</watt-button>
+      <watt-button
+        icon="download"
+        variant="text"
+        [loading]="store.isLoading()"
+        (click)="download()"
+        >{{ "shared.download" | transloco }}</watt-button
+      >
     </vater-stack>
 
     <ng-container *rxLet="statusReport$ as report">
@@ -58,22 +65,22 @@ limitations under the License.
     </ng-container>
 
     <dh-outgoing-messages-filters
-      [initial]="filters$ | push"
+      [initial]="store.queryVariables().filters"
       (filter)="onFiltersEvent($event)"
       (formReset)="searchComponent.clear()"
     />
 
     <dh-outgoing-messages-table
-      [tableDataSource]="tableDataSource"
-      [sortMetadata]="sortMetaData$ | push"
-      [isLoading]="isLoading"
-      [hasError]="hasError"
+      [tableDataSource]="tableDataSource()"
+      [sortMetadata]="store.queryVariables().sortMetaData"
+      [isLoading]="store.isLoading()"
+      [hasError]="store.hasError()"
       (sortChange)="onSortEvent($event)"
     />
 
     <watt-paginator
-      [length]="totalCount"
-      *rxLet="pageMetaData$ as pageMetaData"
+      [length]="store.totalCount()"
+      *rxLet="store.queryVariables().pageMetaData as pageMetaData"
       [pageIndex]="pageMetaData.pageIndex"
       [pageSize]="pageMetaData.pageSize"
       (changed)="onPageEvent($event)"

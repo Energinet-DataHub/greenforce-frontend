@@ -113,9 +113,9 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
-      calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
+      calculationType: dhMakeFormControl(this.initial?.calculationType),
       messageTypes: dhMakeFormControl(this.initial?.messageTypes),
-      gridAreas: dhMakeFormControl(this.initial?.gridAreas),
+      gridAreaCode: dhMakeFormControl(this.initial?.gridAreaCode),
       actorNumber: dhMakeFormControl(this.initial?.actorNumber),
       status: dhMakeFormControl(this.initial?.status),
       period: dhMakeFormControl(this.initial?.period),
