@@ -997,7 +997,7 @@
       }
     },
     "settlementReportsV2": {
-      "topBarTitle": "Settlement Reports",
+      "topBarTitle": "Settlement Reports (v2)",
       "emptyMessage": "There are no settlement reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",

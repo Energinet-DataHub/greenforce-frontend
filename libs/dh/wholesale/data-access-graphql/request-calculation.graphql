@@ -1,5 +1,5 @@
 mutation requestCalculation(
-  $processtType: EdiB2CProcessType!
+  $calculationType: EdiB2CProcessType!
   $meteringPointType: MeteringPointType
   $startDate: String!
   $endDate: String
@@ -10,7 +10,7 @@ mutation requestCalculation(
   createAggregatedMeasureDataRequest(
     input: {
       balanceResponsibleId: $balanceResponsibleId
-      processType: $processtType
+      calculationType: $calculationType
       meteringPointType: $meteringPointType
       startDate: $startDate
       endDate: $endDate
