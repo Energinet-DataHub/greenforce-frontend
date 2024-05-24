@@ -39,6 +39,7 @@ import {
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
   mockRequestSettlementReportMutation,
+  CalculationOrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -125,6 +126,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.Aggregation,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueued,
   },
   {
     __typename: 'Calculation',
@@ -138,6 +140,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: '',
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuing,
   },
   {
     __typename: 'Calculation',
@@ -151,6 +154,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
   },
   {
     __typename: 'Calculation',
@@ -164,6 +168,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Calculated,
   },
   {
     __typename: 'Calculation',
@@ -177,6 +182,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Calculating,
   },
   {
     __typename: 'Calculation',
@@ -190,6 +196,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.CalculationFailed,
   },
   {
     __typename: 'Calculation',
@@ -203,6 +210,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Completed,
   },
   {
     __typename: 'Calculation',
@@ -216,6 +224,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Scheduled,
   },
   {
     __typename: 'Calculation',
@@ -229,6 +238,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueued,
   },
   {
     __typename: 'Calculation',
@@ -242,6 +252,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuing,
   },
   {
     __typename: 'Calculation',
@@ -255,6 +266,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
   },
   {
     __typename: 'Calculation',
@@ -268,6 +280,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Calculated,
   },
 ];
 

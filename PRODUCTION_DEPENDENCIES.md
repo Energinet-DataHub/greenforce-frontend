@@ -11,7 +11,9 @@
 | [@angular/material](https://github.com/angular/components) | 17.3.7 | MIT |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.7 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 17.3.7 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 17.3.6 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
@@ -34,6 +36,7 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.10 | MIT |
+| [express](https://github.com/expressjs/express) | 4.18.3 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |

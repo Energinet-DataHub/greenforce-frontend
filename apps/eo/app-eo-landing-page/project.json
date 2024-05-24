@@ -1,0 +1,120 @@
+{
+  "name": "app-eo-landing-page",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/eo/app-eo-landing-page/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/eo/app-eo-landing-page",
+        "index": "apps/eo/app-eo-landing-page/src/index.html",
+        "browser": "apps/eo/app-eo-landing-page/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/eo/app-eo-landing-page/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "allowedCommonJsDependencies": ["lottie-web", "dayjs"],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "libs/eo/core/globalization/assets-localization",
+            "output": "assets"
+          },
+          {
+            "input": "libs/watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/watt"
+          }
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/watt/src/lib/styles"]
+        },
+        "styles": ["apps/eo/app-eo-landing-page/src/styles.scss"],
+        "scripts": [],
+        "server": "apps/eo/app-eo-landing-page/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/eo/app-eo-landing-page/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1.1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "6kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/eo/app-eo-landing-page/src/configuration/load-eo-api-environment.ts",
+              "with": "apps/eo/app-eo-landing-page/src/configuration/load-eo-api-environment.prod.ts"
+            },
+            {
+              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
+              "with": "libs/eo/shared/environments/src/lib/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "app-eo-landing-page:build:production"
+        },
+        "development": {
+          "buildTarget": "app-eo-landing-page:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "app-eo-landing-page:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/eo/app-eo-landing-page/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "app-eo-landing-page:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/eo/app-eo-landing-page/browser",
+        "spa": true
+      }
+    }
+  }
+}

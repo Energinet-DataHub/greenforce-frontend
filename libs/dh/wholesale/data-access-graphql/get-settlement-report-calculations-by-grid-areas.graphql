@@ -4,7 +4,7 @@ query GetSettlementReportCalculationsByGridAreas(
 ) {
   settlementReportGridAreaCalculationsForPeriod(
     gridAreaId: $gridAreaIds
-    calucaltionPeriod: $calculationPeriod
+    calculationPeriod: $calculationPeriod
   ) {
     key
     value {

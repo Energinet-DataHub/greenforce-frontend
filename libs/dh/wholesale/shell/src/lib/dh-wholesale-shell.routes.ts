@@ -40,12 +40,12 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
-    path: getPath<WholesaleSubPaths>('settlement-reports'),
+    path: getPath<WholesaleSubPaths>('settlement-reports-v2'),
     canMatch: [() => inject(DhFeatureFlagsService).isEnabled('settlement-reports-v2')],
     canActivate: [PermissionGuard(['settlement-reports:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports-v2'),
     data: {
-      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
+      titleTranslationKey: 'wholesale.settlementReportsV2.topBarTitle',
     },
   },
   {

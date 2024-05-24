@@ -17,6 +17,13 @@
 // !!!!! This file is auto-generated. Do not edit. !!!!!
 export const translations = {
   landingPage: {
+    meta: {
+      title: 'landingPage.meta.title' as const,
+      description: 'landingPage.meta.description' as const,
+      keywords: 'landingPage.meta.keywords' as const,
+      author: 'landingPage.meta.author' as const,
+      url: 'landingPage.meta.url' as const,
+    } as const,
     announcementBar: {
       message: 'landingPage.announcementBar.message' as const,
     } as const,

@@ -62,7 +62,7 @@ type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendM
 type SelectedEicFunctionType = EicFunction | null | undefined;
 
 type FormType = {
-  processType: FormControl<EdiB2CProcessType | null>;
+  calculationType: FormControl<EdiB2CProcessType | null>;
   period: FormControl<WattRange<string | null>>;
   gridarea: FormControl<string | null>;
   meteringPointType: FormControl<ExtendMeteringPointType | null>;
@@ -120,7 +120,7 @@ export class DhWholesaleRequestCalculationComponent {
   isLoading = false;
 
   form = this._fb.group<FormType>({
-    processType: this._fb.control(null, Validators.required),
+    calculationType: this._fb.control(null, Validators.required),
     period: this._fb.control({ start: null, end: null }, [
       Validators.required,
       WattRangeValidators.required(),
@@ -136,7 +136,7 @@ export class DhWholesaleRequestCalculationComponent {
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
-  progressTypeOptions: WattDropdownOptions = [];
+  calculationTypeOptions: WattDropdownOptions = [];
 
   selectedActorQuery = this._apollo.watchQuery({
     query: GetSelectedActorDocument,
@@ -186,7 +186,7 @@ export class DhWholesaleRequestCalculationComponent {
           excludedMeteringpointTypes
         );
 
-        this.progressTypeOptions = dhEnumToWattDropdownOptions(
+        this.calculationTypeOptions = dhEnumToWattDropdownOptions(
           EdiB2CProcessType,
           'asc',
           excludeProcessTypes
@@ -239,16 +239,10 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   requestCalculation(): void {
-    const {
-      gridarea,
-      meteringPointType,
-      period,
-      energySupplierId,
-      balanceResponsibleId,
-      processType: processtType,
-    } = this.form.getRawValue();
+    const { gridarea, meteringPointType, period, balanceResponsibleId, calculationType } =
+      this.form.getRawValue();
 
-    if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
+    if (!gridarea || !meteringPointType || !calculationType || !period.start || !period.end) return;
 
     const meteringPoint = meteringPointType as MeteringPointType;
 
@@ -257,11 +251,10 @@ export class DhWholesaleRequestCalculationComponent {
         mutation: RequestCalculationDocument,
         variables: {
           meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,
-          processtType,
+          calculationType,
           startDate: period.start,
           endDate: period.end,
           balanceResponsibleId,
-          energySupplierId,
           gridArea: gridarea,
         },
       })

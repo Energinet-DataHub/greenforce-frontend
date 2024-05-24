@@ -19,13 +19,12 @@ using NodaTime;
 namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 public sealed record SettlementReport(
-    Guid Id,
+    string Id,
     ActorDto? Actor,
     Clients.Wholesale.v3.CalculationType CalculationType,
     Interval Period,
     int NumberOfGridAreasInReport,
-    bool IncludesBaseData,
+    bool IncludesBasisData,
     string StatusMessage,
     int Progress,
-    SettlementReportStatusType StatusType,
-    Guid FileId);
+    SettlementReportStatusType StatusType);

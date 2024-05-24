@@ -63,6 +63,14 @@ limitations under the License.
         [link]="getWholesaleLink('settlement-reports')"
         >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
       >
+
+      <ng-container *dhFeatureFlag="'settlement-reports-v2'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['settlement-reports:manage']"
+          [link]="getWholesaleLink('settlement-reports-v2')"
+          >{{ transloco("wholesale.settlementReports") }} (v2)</watt-nav-list-item
+        >
+      </ng-container>
     </watt-nav-list>
   </ng-container>
 
