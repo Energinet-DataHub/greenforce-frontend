@@ -13,12 +13,21 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Organization;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public class OrganizationType : ObjectType<OrganizationDto>
+{
+    protected override void Configure(IObjectTypeDescriptor<OrganizationDto> descriptor)
+    {
+        descriptor.Name("Organization");
+
+        descriptor
+            .Field(f => f.OrganizationId)
+            .Resolve(context => context.Parent<OrganizationDto>().OrganizationId.ToString());
+        descriptor
+            .Field("actors")
+           .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsForOrganizationAsync(default!, default!));
+    }
+}

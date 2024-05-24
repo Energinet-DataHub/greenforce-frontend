@@ -13,12 +13,23 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Process;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public sealed class ProcessDelegation
+{
+    public Guid Id { get; set; }
+
+    public Guid PeriodId { get; set; }
+
+    public Guid DelegatedBy { get; set; }
+
+    public Guid DelegatedTo { get; set; }
+
+    public Guid GridAreaId { get; set; }
+
+    public DelegatedProcess Process { get; set; }
+
+    public Interval ValidPeriod { get; set; }
+}

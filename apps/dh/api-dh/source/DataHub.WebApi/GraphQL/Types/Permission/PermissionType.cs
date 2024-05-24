@@ -13,12 +13,17 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public class PermissionType : ObjectType<PermissionDto>
+{
+    protected override void Configure(IObjectTypeDescriptor<PermissionDto> descriptor)
+    {
+        descriptor.Name("Permission");
+        descriptor
+           .Field("userRoles")
+           .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
+    }
+}

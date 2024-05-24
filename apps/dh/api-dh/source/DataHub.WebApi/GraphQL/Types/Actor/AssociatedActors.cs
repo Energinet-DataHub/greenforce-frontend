@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+public class AssociatedActors
+{
+    public string Email { get; set; } = string.Empty;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+    public IEnumerable<Guid> Actors { get; set; } = Enumerable.Empty<Guid>();
+}
