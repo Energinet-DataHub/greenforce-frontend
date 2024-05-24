@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Metering;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public class MeteringPointType : EnumType<MarketParticipant.MeteringPointType>
+{
+    protected override void Configure(IEnumTypeDescriptor<MarketParticipant.MeteringPointType> descriptor)
+    {
+        descriptor.Name("MarketParticipantMeteringPointType");
+        descriptor.AsIsCase();
+    }
+}
