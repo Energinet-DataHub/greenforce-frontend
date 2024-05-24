@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
-public sealed record CreateMarketParticipantInput(
-    Guid? OrganizationId,
-    CreateOrganizationDto? Organization,
-    CreateActorInput Actor,
-    CreateActorContactDto ActorContact);
+public record CalculationQueryInput(
+    string[]? GridAreaCodes = null,
+    CalculationState[]? ExecutionStates = null,
+    Clients.Wholesale.v3.CalculationType[]? CalculationTypes = null,
+    Interval? ExecutionTime = null,
+    Interval? Period = null);
