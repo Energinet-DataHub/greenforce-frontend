@@ -31,7 +31,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { WattTabComponent } from './watt-tab.component';
-import { WattTabActionComponent } from './watt-tab-action.component';
+import { WattTabsActionComponent } from './watt-tabs-action.component';
 
 @Component({
   standalone: true,
@@ -56,7 +56,7 @@ export class WattTabsComponent implements AfterViewInit {
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   activeTabIndex = 0;
 
-  actionsTab = contentChild(WattTabActionComponent);
+  actionsTab = contentChild(WattTabsActionComponent);
 
   ngAfterViewInit() {
     this.cdr.detectChanges();

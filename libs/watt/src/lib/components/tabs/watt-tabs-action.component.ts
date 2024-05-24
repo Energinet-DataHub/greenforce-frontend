@@ -17,8 +17,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'watt-tab-action',
+  selector: 'watt-tabs-action',
   standalone: true,
   template: `<ng-content />`,
 })
-export class WattTabActionComponent {}
+export class WattTabsActionComponent {}
