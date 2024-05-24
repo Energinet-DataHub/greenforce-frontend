@@ -593,7 +593,8 @@ input RequestSettlementReportInput {
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
   includeBasisData: Boolean!
-  supplierId: String
+  energySupplier: String
+  csvLanguage: String
 }
 
 input RequestWholesaleSettlementChargeTypeInput {
