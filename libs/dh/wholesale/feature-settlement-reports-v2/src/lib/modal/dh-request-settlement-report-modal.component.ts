@@ -275,11 +275,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
               end: period.end ? new Date(period.end) : null,
             },
             includeMonthlySums: includeMonthlySum,
-            gridAreasWithCalculations: gridAreas.map((gridAreaCode) => ({
-              gridAreaCode,
-              calculationId:
-                this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
-            })),
+            gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas),
             combineResultInASingleFile: combineResultsInOneFile,
             energySupplier: energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
@@ -316,6 +312,17 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           this.showErrorNotification();
         },
       });
+  }
+
+  private getGridAreasWithCalculations(
+    gridAreas: string[]
+  ): { gridAreaCode: string; calculationId: string }[] {
+    return gridAreas
+      .map((gridAreaCode) => ({
+        gridAreaCode,
+        calculationId: this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
+      }))
+      .filter(({ calculationId }) => !!calculationId);
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
