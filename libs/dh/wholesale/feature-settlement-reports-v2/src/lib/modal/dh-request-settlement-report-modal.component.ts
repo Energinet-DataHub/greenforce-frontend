@@ -23,7 +23,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { TranslocoDirective, TranslocoService, translate } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 import {
   FormControl,
   FormGroup,
@@ -129,9 +129,9 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly transloco = inject(TranslocoService);
-  private readonly permissionService = inject(PermissionService);
   private readonly apollo = inject(Apollo);
+
+  private readonly permissionService = inject(PermissionService);
   private readonly toastService = inject(WattToastService);
   private readonly actorStore = inject(DhSelectedActorStore);
   private readonly modalService = inject(WattModalService);
@@ -176,12 +176,13 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   ]);
   gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
-    tap((options) =>
-      options.unshift({
-        displayValue: this.transloco.translate('shared.all'),
+    map((options) => [
+      {
+        displayValue: translate('shared.all'),
         value: ALL_ENERGY_SUPPLIERS,
-      })
-    )
+      },
+      ...options,
+    ])
   );
 
   hasMoreThanOneGridAreaOption = toSignal(this.hasMoreThanOneGridAreaOption$());
