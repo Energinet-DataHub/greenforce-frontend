@@ -153,11 +153,11 @@ interface EoTransferTableElement extends EoListedTransfer {
             <watt-badge type="success">{{
               translations.transfers.activeTransferAgreement | transloco
             }}</watt-badge>
-          } @else if(element.transferAgreementStatus === 'Proposal') {
+          } @else if (element.transferAgreementStatus === 'Proposal') {
             <watt-badge type="warning">{{
               translations.transfers.pendingTransferAgreement | transloco
             }}</watt-badge>
-          } @else if(element.transferAgreementStatus === 'ProposalExpired') {
+          } @else if (element.transferAgreementStatus === 'ProposalExpired') {
             <watt-badge type="neutral">{{
               translations.transfers.expiredTransferAgreementProposals | transloco
             }}</watt-badge>
@@ -184,7 +184,10 @@ interface EoTransferTableElement extends EoListedTransfer {
       [for]="dataSource"
     />
 
-    <eo-transfers-create-modal [transferAgreements]="transfers" (proposalCreated)="proposalCreated.emit($event)" />
+    <eo-transfers-create-modal
+      [transferAgreements]="transfers"
+      (proposalCreated)="proposalCreated.emit($event)"
+    />
     <eo-transfers-drawer
       [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
@@ -244,7 +247,7 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
               const unknownReceiver = this.transloco.translate(
                 this.translations.transfers.unknownReceiver
               );
-              if(!transfer.receiverTin) {
+              if (!transfer.receiverTin) {
                 return unknownReceiver;
               }
               return `${transfer.receiverName ?? unknownReceiver} (${transfer.receiverTin})`;

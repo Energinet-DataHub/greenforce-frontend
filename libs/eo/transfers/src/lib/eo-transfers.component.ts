@@ -124,7 +124,7 @@ export class EoTransfersComponent implements OnInit {
 
   protected onRemoveProposal(id: string) {
     const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
-    if(proposal) {
+    if (proposal) {
       this.removeTransfer(id);
     }
 
@@ -138,7 +138,7 @@ export class EoTransfersComponent implements OnInit {
           duration: 24 * 60 * 60 * 1000, // 24 hours
         });
 
-        if(proposal) {
+        if (proposal) {
           this.addTransfer(proposal);
         }
       },

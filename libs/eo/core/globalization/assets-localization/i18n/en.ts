@@ -653,7 +653,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
       link: {
         hint: 'Link expires in 14 days, usable by one organization or specific company.',
-        hintProposal: 'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
+        hintProposal:
+          'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
         error: `Couldn't generate link. Please try again.`,
         copy: 'Copy link',
         retry: 'Generate',

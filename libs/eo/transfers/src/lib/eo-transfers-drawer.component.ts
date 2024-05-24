@@ -175,7 +175,10 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
               </watt-card>
 
               @if (transfer && transfer.transferAgreementStatus === 'Proposal') {
-                <eo-transfers-invitation-link [proposalId]="transfer.id.toString()" [isNewlyCreated]="false" />
+                <eo-transfers-invitation-link
+                  [proposalId]="transfer.id.toString()"
+                  [isNewlyCreated]="false"
+                />
               }
             </watt-tab>
             <watt-tab [label]="translations.transferAgreement.historyTab | transloco">

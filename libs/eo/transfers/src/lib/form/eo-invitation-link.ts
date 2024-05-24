@@ -88,7 +88,7 @@ function generateLink(id: string | null): string | null {
           }}</watt-field-hint>
         }
 
-        @if(!isNewlyCreated) {
+        @if (!isNewlyCreated) {
           <watt-field-hint>{{
             translations.createTransferAgreementProposal.invitation.link.hintProposal | transloco
           }}</watt-field-hint>
@@ -129,7 +129,7 @@ export class EoTransferInvitationLinkComponent implements OnInit, OnChanges {
   @Input({ alias: 'proposalId', transform: generateLink }) link!: string | null;
   @Input() hasError = false;
   @Input() isNewlyCreated = true;
-  @Output() retry = new EventEmitter<void>()
+  @Output() retry = new EventEmitter<void>();
 
   @ViewChild('copyButton', { read: ElementRef }) copyButton!: ElementRef<HTMLButtonElement>;
 
