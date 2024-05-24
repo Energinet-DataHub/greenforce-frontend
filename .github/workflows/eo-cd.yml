@@ -19,6 +19,7 @@ concurrency:
 
 env:
   app-name: app-eo
+  landing-page-app-name: app-eo-landing-page
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}
@@ -63,13 +64,16 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Prepare projects array
+        id: prepare
+        run: echo "projects=[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]" >> $GITHUB_OUTPUT
+
       - name: Is affected?
         id: affected
         uses: ./.github/actions/affected
         with:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ${{ env.app-name }}
-
+          projects: ${{ steps.prepare.outputs.projects }}
   app:
     name: Build app
     if: ${{ needs.affected.outputs.is-affected == 'true' }}
@@ -94,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/eo/${{ env.app-name }}/browser/
+          path: ./dist/apps/eo/
           if-no-files-found: error
 
   define_build:
