@@ -25,10 +25,11 @@ public partial class Mutation
         [Service] ISettlementReportsClient client)
     {
         var requestFilter = new SettlementReportRequestFilterDto(
-            requestSettlementReportInput.GridAreasWithCalculations.Select(ga => new GridAreaCode(ga.GridAreaCode)).ToList(),
+            requestSettlementReportInput.GridAreasWithCalculations.Select(ga => new CalculationFilterDto(ga.CalculationId.ToString(), ga.GridAreaCode)).ToList(),
             requestSettlementReportInput.Period.Start.ToDateTimeOffset(),
             requestSettlementReportInput.Period.End.ToDateTimeOffset(),
-            null);
+            requestSettlementReportInput.EnergySupplier,
+            requestSettlementReportInput.CsvLanguage);
 
         await client.RequestAsync(
             new SettlementReportRequestDto(
