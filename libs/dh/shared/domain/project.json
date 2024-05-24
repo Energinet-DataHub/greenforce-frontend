@@ -29,7 +29,7 @@
     },
     "generate": {
       "executor": "nx:run-commands",
-      "cache": true,
+      "cache": false,
       "inputs": [
         "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi/schema.graphql",
         "{workspaceRoot}/libs/**/*.graphql",
