@@ -46,5 +46,5 @@ loadEoApiEnvironment('eo-api-environment.local.json')
     setupServiceWorker(env.apiBase, mocks);
   })
   .catch(() => {
-    setupServiceWorker('https://demo.energioprindelse.dk/api', mocks);
+    setupServiceWorker('https://demo.energytrackandtrace.dk/api', mocks);
   });
