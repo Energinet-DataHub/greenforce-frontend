@@ -146,4 +146,25 @@ export const marketParticipantActors: Actor[] = [
     status: null as unknown as ActorStatus,
     organization: null as unknown as Organization,
   },
+  {
+    __typename: 'Actor',
+    id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb2',
+    glnOrEicNumber: '5790000555588',
+    name: 'Test Actor 6',
+    gridAreas: [
+      {
+        __typename: 'GridAreaDto',
+        displayName: `DK1 - DK1`,
+        code: 'DK1',
+        name: 'DK1',
+        id: '1',
+      } as GridAreaDto,
+    ],
+    marketRole: EicFunction.EnergySupplier,
+    status: ActorStatus.Active,
+    organization: {
+      __typename: 'Organization',
+      name: 'Test Organization 1',
+    } as Organization,
+  },
 ];

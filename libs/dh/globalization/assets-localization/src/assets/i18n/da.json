@@ -76,7 +76,8 @@
     },
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
-    "calculationType": "Beregningstype"
+    "calculationType": "Beregningstype",
+    "all": "Alle"
   },
   "clipboard": {
     "success": "Kopieret",

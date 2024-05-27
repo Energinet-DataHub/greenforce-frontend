@@ -76,7 +76,8 @@
     },
     "search": "Search",
     "selectedValues": "{{count}} selected",
-    "calculationType": "Calculation type"
+    "calculationType": "Calculation type",
+    "all": "All"
   },
   "clipboard": {
     "success": "Copied",
