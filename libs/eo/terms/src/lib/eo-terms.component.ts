@@ -32,6 +32,7 @@ import {
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
+import { TranslocoService } from '@ngneat/transloco';
 
 interface VersionResponse {
   version: number;
@@ -115,6 +116,7 @@ interface VersionResponse {
 })
 export class EoTermsComponent {
   private http = inject(HttpClient);
+  private transloco = inject(TranslocoService);
   private termsService = inject(EoTermsService);
   private authService = inject(EoAuthService);
   private router = inject(Router);
@@ -148,8 +150,8 @@ export class EoTermsComponent {
     this.startedAcceptFlow = true;
 
     this.termsService.acceptTerms().subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: () => this.router.navigate(['/']),
+      next: () => this.router.navigate([this.transloco.getActiveLang(), 'login']),
+      error: () => this.router.navigate([this.transloco.getActiveLang()]),
     });
   }
 }
