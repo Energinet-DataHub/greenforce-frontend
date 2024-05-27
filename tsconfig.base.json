@@ -398,6 +398,9 @@
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/components/description-list/index.ts"
       ],
+      "@energinet-datahub/watt/directives": [
+        "libs/watt/src/lib/directives/index.ts"
+      ],
       "@energinet-datahub/watt/drawer": [
         "libs/watt/src/lib/components/drawer/index.ts"
       ],
@@ -484,9 +487,6 @@
       ],
       "@energinet-datahub/watt/vater": [
         "libs/watt/src/lib/components/vater/index.ts"
-      ],
-      "@energinet-datahub/watt/directives": [
-        "libs/watt/src/lib/directives/index.ts"
       ],
       "rxjs": ["./node_modules/rxjs"],
       "workspace-tools": ["workspace-tools/src/index.ts"]
