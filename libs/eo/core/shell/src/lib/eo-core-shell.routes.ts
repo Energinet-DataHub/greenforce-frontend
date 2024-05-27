@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CanActivateFn, Routes } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  Routes,
+} from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
@@ -36,10 +42,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () =>
-      import('@energinet-datahub/eo/landing-page/shell').then(
-        (esModule) => esModule.eoLandingPageRoutes
-      ),
+    component: EoLoginComponent,
   },
   { path: 'login', component: EoLoginComponent },
   {
@@ -119,9 +122,20 @@ const routes: Routes = [
   { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
 ];
 
-const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
+const LanguagePrefixGuard: CanActivateFn = (
+  _: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
   const transloco = inject(TranslocoService);
-  transloco.setActiveLang(RouterStateSnapshot.url.toString());
+  const router = inject(Router);
+
+  const url: string = state.url;
+  const hasLanguagePrefix = url.startsWith('/en') || url.startsWith('/da');
+
+  if (!hasLanguagePrefix) {
+    router.navigate([`/${transloco.getActiveLang()}${url}`]);
+    return false;
+  }
   return true;
 };
 
@@ -129,22 +143,12 @@ export const eoShellRoutes: Routes = [
   {
     path: 'en',
     children: routes,
-    canActivate: [setDefaultLang],
   },
   {
     path: 'da',
     children: routes,
-    canActivate: [setDefaultLang],
   },
   // Redirect from the root to the default language
-  { path: '', redirectTo: getDefaultLanguage(), pathMatch: 'full' },
-  { path: '**', redirectTo: '/' },
+  { path: '', component: EoLoginComponent, canActivate: [LanguagePrefixGuard], pathMatch: 'full' },
+  { path: '**', component: EoLoginComponent, canActivate: [LanguagePrefixGuard] },
 ];
-
-function getDefaultLanguage(): string {
-  try {
-    return navigator.language.split('-')[0];
-  } catch (error) {
-    return 'en';
-  }
-}
