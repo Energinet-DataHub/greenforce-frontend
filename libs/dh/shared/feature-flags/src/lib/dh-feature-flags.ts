@@ -49,9 +49,6 @@ export const dhFeatureFlagsConfig = {
   'settlement-reports-v2': {
     created: '30-04-2024',
     disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
     ],
   },
