@@ -41,13 +41,6 @@ export class WattQueryParamsDirective implements OnInit {
 
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: {
-            state: JSON.stringify(formValues),
-          },
-          queryParamsHandling: 'merge',
-        });
-        this.router.navigate([], {
-          relativeTo: this.route,
           queryParams: { state: JSON.stringify(formValues) },
           queryParamsHandling: 'merge',
         });
