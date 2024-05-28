@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 using NodaTime;
 using NodaTime.Extensions;
+using CalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 using SettlementReport = Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports.SettlementReport;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -62,12 +63,14 @@ public partial class Query
     }
 
     public async Task<Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
+        CalculationType calculationType,
         string[] gridAreaId,
         Interval calculationPeriod,
         [Service] IWholesaleClient_V3 client)
     {
         var query = new CalculationQueryInput
         {
+            CalculationTypes = [calculationType],
             GridAreaCodes = gridAreaId,
             Period = calculationPeriod,
             ExecutionStates = [CalculationState.Completed],
