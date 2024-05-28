@@ -42,7 +42,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: EoLoginComponent,
+    redirectTo: 'dashboard',
   },
   { path: 'login', component: EoLoginComponent },
   {
@@ -119,7 +119,7 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
+  { path: '**', redirectTo: 'dashboard' }, // Catch-all that can be used for 404 redirects in the future
 ];
 
 const LanguagePrefixGuard: CanActivateFn = (

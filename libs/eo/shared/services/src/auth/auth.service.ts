@@ -50,12 +50,9 @@ export class EoAuthService {
   }
 
   handleLogin() {
-    console.log('handleLogin', this.route.snapshot.queryParamMap.get('token'));
     this.clearToken();
     this.handleToken(this.route.snapshot.queryParamMap.get('token'));
-
-    console.log('redirectionPath', this.route.snapshot.queryParamMap.get('redirectionPath'));
-    this.router.navigate([this.transloco.getActiveLang()], {
+    this.router.navigate([], {
       queryParams: {
         token: undefined,
         redirectionPath: this.route.snapshot.queryParamMap.get('redirectionPath'),
@@ -102,7 +99,6 @@ export class EoAuthService {
   }
 
   private handleToken(token: string | null) {
-    console.log('handleToken', token);
     if (!token) return;
 
     const decodedToken: EoLoginToken = jwtDecode(token);
@@ -110,7 +106,6 @@ export class EoAuthService {
     sessionStorage.setItem('token', token);
     this.store.token.next(token);
     this.store.setTokenClaims(decodedToken);
-    console.log('decodedToken', decodedToken);
     this.store.isTokenExpired$
       .pipe(take(1))
       .subscribe((expired) => !expired && this.startMonitor());
