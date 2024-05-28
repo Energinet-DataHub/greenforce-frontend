@@ -9,7 +9,7 @@
 **_⚠️ Note: `traceparent` header won't be added on outgoing requests in the mocking environment due to the usage of MSW (Mock Service Worker). To see the `traceparent` header, run the development environment instead._**
 
 ```sh
-yarn dh:dev
+bun dh:dev
 ```
 
 ## Getting started

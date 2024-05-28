@@ -48,7 +48,8 @@ over the Angular CLI._
 
 ## Prerequisites
 
-- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js® and Yarn.
+- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®, Yarn and bun.
+- [Bun](https://bun.sh): Alternative to node and yarn that this repository use. Can also be installed with volta.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
 - [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
@@ -89,7 +90,7 @@ certutil -addstore -f "Root" localhost.crt
 Use the following command to serve the DataHub application locally (with request mocking):
 
 ```sh
-yarn dh:mock
+bun dh:mock
 ```
 
 The application utilizes request mocking for some of the requests to the
@@ -100,7 +101,7 @@ required to serve the BFF locally as well. To do so, run the following command
 [Setup of BFF](apps/dh/api-dh/documents/development.md#setup-of-bff)).
 
 ```sh
-yarn api:dev
+bun api:dev
 ```
 
 _Note: It is recommended to use mocking as much as possible, see
@@ -119,7 +120,7 @@ libraries of type `assets` and `styles`**._
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
-yarn nx g workspace-tools:library-generator
+bun nx g workspace-tools:library-generator
 ```
 
 While rarely needed, it is also possible to generate an entirely new domain.
@@ -127,7 +128,7 @@ Running the following command\* will create a new domain with
 `data-access-api`, `feature`, and `shell` libraries included:
 
 ```sh
-yarn nx g workspace-tools:domain-generator
+bun nx g workspace-tools:domain-generator
 ```
 
 > Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).
@@ -153,7 +154,7 @@ in the same folder and set the remote address in the relevant property.
 Use the following command to serve the Energy Origin application locally (with request mocking):
 
 ```sh
-yarn eo:mock
+bun eo:mock
 ```
 
 ## Watt Design System
@@ -295,7 +296,7 @@ documentation on how to work with them, see
 
 ## Scripts
 
-- `yarn dep-graph`: Generate a dependency graph for the applications in the monorepo.
+- `bun dep-graph`: Generate a dependency graph for the applications in the monorepo.
 
 ## Workflows (CI/CD)
 

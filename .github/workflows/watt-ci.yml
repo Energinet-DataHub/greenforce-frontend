@@ -20,9 +20,8 @@ on:
 
 env:
   APP_NAME: designsystem
-  NODE_VERSION_FILE: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 4.0.2
+  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
+  BUN_VERSION: 1.1.8
 
 jobs:
   #
@@ -33,14 +32,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Production build
-        run: yarn ${{ env.APP_NAME }}:build
+        run: bun run ${{ env.APP_NAME }}:build

@@ -76,7 +76,7 @@
     {
       "label": "Serve app-dh",
       "type": "shell",
-      "command": "yarn nx run app-dh:serve:mocked",
+      "command": "bun run nx run app-dh:serve:mocked",
       "isBackground": true,
       "presentation": {
         "focus": true,
