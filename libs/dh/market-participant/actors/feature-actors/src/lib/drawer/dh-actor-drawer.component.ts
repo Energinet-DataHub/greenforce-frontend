@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, ViewChild, input } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { Component, inject, ViewChild, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+
 import { Apollo } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import {
@@ -33,6 +35,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -47,10 +50,8 @@ import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
-import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { RxPush } from '@rx-angular/template/push';
+import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -117,7 +118,7 @@ export class DhActorDrawerComponent {
     query: GetActorByIdDocument,
   });
 
-  actor: DhActorExtended | undefined = undefined;
+  actor = signal<DhActorExtended | undefined>(undefined);
   hasActorAccess = false;
 
   @ViewChild(WattDrawerComponent)
@@ -145,26 +146,28 @@ export class DhActorDrawerComponent {
   }
 
   get marketRoleOrFallback(): string {
-    if (this.actor?.marketRole) {
-      return translate('marketParticipant.marketRoles.' + this.actor.marketRole);
+    if (this.actor()?.marketRole) {
+      return translate('marketParticipant.marketRoles.' + this.actor()?.marketRole);
     }
 
     return emDash;
   }
 
   get isGridAccessProvider(): boolean {
-    return this.actor?.marketRole === EicFunction.GridAccessProvider;
+    return this.actor()?.marketRole === EicFunction.GridAccessProvider;
   }
 
   get gridAreaOrFallback() {
-    const stringList = this.actor?.gridAreas?.map((gridArea) => gridArea.code).join(', ');
+    const stringList = this.actor()
+      ?.gridAreas?.map((gridArea) => gridArea.code)
+      .join(', ');
     return stringList ?? emDash;
   }
 
   public showBalanceResponsibleRelationTab(): boolean {
     return (
-      this.actor?.marketRole === EicFunction.EnergySupplier ||
-      this.actor?.marketRole === EicFunction.BalanceResponsibleParty
+      this.actor()?.marketRole === EicFunction.EnergySupplier ||
+      this.actor()?.marketRole === EicFunction.BalanceResponsibleParty
     );
   }
 
@@ -177,7 +180,7 @@ export class DhActorDrawerComponent {
       .pipe(takeUntil(this.closed$))
       .subscribe({
         next: (result) => {
-          this.actor = result.data?.actorById;
+          this.actor.set(result.data?.actorById);
         },
       });
 
