@@ -19,6 +19,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+const filtersKey = 'filters';
+
 @Directive({
   standalone: true,
   selector: '[wattQueryParams]',
@@ -33,22 +35,23 @@ export class WattQueryParamsDirective implements OnInit {
     this.formGroup.valueChanges
       ?.pipe(takeUntilDestroyed(this.destoryRef))
       .subscribe((formValues) => {
-        for (const key in formValues) {
-          if (formValues[key] === null || formValues[key] === undefined) {
-            delete formValues[key];
+        const formValuesClone = structuredClone(formValues);
+
+        for (const key in formValuesClone) {
+          if (formValuesClone[key] === null || formValuesClone[key] === undefined) {
+            delete formValuesClone[key];
           }
         }
 
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { state: JSON.stringify(formValues) },
+          queryParams: { [filtersKey]: JSON.stringify(formValuesClone) },
           queryParamsHandling: 'merge',
         });
       });
 
-    if (location.search) {
-      const queryParams = new URLSearchParams(location.search);
-      const value = JSON.parse(queryParams.get('state') ?? '');
+    if (Object.keys(this.route.snapshot.queryParams).length > 0) {
+      const value = JSON.parse(this.route.snapshot.queryParams[filtersKey] ?? '');
       this.formGroup.control.patchValue(value);
     }
   }
