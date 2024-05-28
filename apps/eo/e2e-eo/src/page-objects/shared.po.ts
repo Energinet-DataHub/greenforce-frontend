@@ -21,9 +21,8 @@ export class SharedPO {
   // Interaction
   clickLogoutMenuItem = () => {
     cy.get('eo-account-menu').click();
-    cy.get('watt-button').contains('Logout').as('logout-btn').click({ force: true });
-    cy.get('@logout-btn').click({ force: true });
+    cy.get('watt-button').contains('Logout').click({ force: true });
   };
-  clickTransfersMenuItem = () => cy.get(this.navListItem).contains('Transfers').click();
-  clickConnectionsMenuItem = () => cy.get(this.navListItem).contains('Connections').click();
+  clickTransfersMenuItem = () => cy.get(this.navListItem, { timeout: 10000 }).contains('Transfers').click();
+  clickConnectionsMenuItem = () => cy.get(this.navListItem, { timeout: 10000 }).contains('Connections').click();
 }

@@ -2,7 +2,6 @@ Feature: Transfers Page
 
   Background: The transfers page is where users go to see information about transfer agreements they have.
 
-  @skip
   Scenario: Charlotte CSR can see components on the transfers page
     Given I am logged in as Charlotte CSR
     When I go to the transfers page
@@ -11,7 +10,6 @@ Feature: Transfers Page
     And I can see the table has a paginator
     And I can see a button to create a new agreement
 
-  @skip
   Scenario: Charlotte CSR can create a new transfer agreement
     Given I am logged in as Charlotte CSR
     When I go to the transfers page
