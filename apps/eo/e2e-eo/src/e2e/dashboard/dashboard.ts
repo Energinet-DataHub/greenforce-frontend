@@ -15,15 +15,13 @@
  * limitations under the License.
  */
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { DashboardPo, LandingPagePO, LoginPo } from '../../page-objects';
+import { DashboardPo, LoginPo } from '../../page-objects';
 
 const dashboard = new DashboardPo();
-const landingPage = new LandingPagePO();
 const login = new LoginPo();
 
 Given('I am logged in as Charlotte CSR', () => {
-  landingPage.navigateTo();
-  landingPage.clickLoginButton();
+  login.visit();
   login.clickCharlotteLogin();
 });
 
