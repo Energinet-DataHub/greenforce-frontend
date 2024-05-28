@@ -33,7 +33,6 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 export interface GridAreaOverviewRow {
-  id: string;
   code: string;
   actor: string;
   organization: string;
