@@ -23,7 +23,7 @@ const filtersKey = 'filters';
 
 @Directive({
   standalone: true,
-  selector: '[wattQueryParams]',
+  selector: '[formGroup][wattQueryParams]',
 })
 export class WattQueryParamsDirective implements OnInit {
   private formGroup = inject(FormGroupDirective);
