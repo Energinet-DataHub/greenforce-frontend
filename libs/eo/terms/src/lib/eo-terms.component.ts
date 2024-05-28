@@ -150,8 +150,14 @@ export class EoTermsComponent {
     this.startedAcceptFlow = true;
 
     this.termsService.acceptTerms().subscribe({
-      next: () => this.router.navigate([this.transloco.getActiveLang(), 'login']),
-      error: () => this.router.navigate([this.transloco.getActiveLang()]),
+      next: () => {
+        console.log('Redirecting to login');
+        this.router.navigate([this.transloco.getActiveLang(), 'login']);
+      },
+      error: () => {
+        console.log('Error accepting terms');
+        this.router.navigate([this.transloco.getActiveLang()])
+      },
     });
   }
 }
