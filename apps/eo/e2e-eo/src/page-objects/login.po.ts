@@ -25,4 +25,6 @@ export class LoginPo {
   clickCharlotteLogin = () => cy.get(this.charlotte, { timeout: 10000 }).click();
   clickThomasLogin = () => cy.get(this.thomas, { timeout: 10000 }).click();
   clickPeterLogin = () => cy.get(this.peter, { timeout: 10000 }).click();
+
+  visit = () => cy.visit('/en/login');
 }

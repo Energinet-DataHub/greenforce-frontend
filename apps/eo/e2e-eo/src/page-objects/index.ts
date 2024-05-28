@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './landing-page.po';
 export * from './shared.po';
 export * from './login.po';
 export * from './dashboard.po';
