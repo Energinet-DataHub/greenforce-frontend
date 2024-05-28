@@ -332,14 +332,25 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    return this.isFas$.pipe(
-      switchMap((isFas) => {
-        if (isFas) {
+    return this.showAllGridAres().pipe(
+      switchMap((showAllGridAreas) => {
+        if (showAllGridAreas) {
           return runInInjectionContext(this.environmentInjector, () => getGridAreaOptions());
         }
 
         return this.getGridAreaOptionsForActor();
       })
+    );
+  }
+
+  private showAllGridAres(): Observable<boolean> {
+    const isFas$ = this.permissionService.isFas();
+    const isEnergySupplier$ = this.actorStore.selectedActor$.pipe(
+      map((actor) => actor?.marketrole === EicFunction.EnergySupplier)
+    );
+
+    return combineLatest([isFas$, isEnergySupplier$]).pipe(
+      map(([isFas, isEnergySupplier]) => isFas || isEnergySupplier)
     );
   }
 

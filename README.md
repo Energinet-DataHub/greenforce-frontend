@@ -48,8 +48,8 @@ over the Angular CLI._
 
 ## Prerequisites
 
-- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®, Yarn and bun.
-- [Bun](https://bun.sh): Alternative to node and yarn that this repository use. Can also be installed with volta.
+- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®, Yarn and Bun.
+- [Bun](https://bun.sh): Alternative to Node.js® and Yarn that this repository use. Can also be installed with Volta.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
 - [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
