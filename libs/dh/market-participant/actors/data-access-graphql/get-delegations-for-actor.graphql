@@ -6,10 +6,12 @@ query GetDelegationsForActor($actorId: UUID!) {
     delegatedBy {
       id
       name
+      glnOrEicNumber
     }
     delegatedTo {
       id
       name
+      glnOrEicNumber
     }
     validPeriod
     gridArea {

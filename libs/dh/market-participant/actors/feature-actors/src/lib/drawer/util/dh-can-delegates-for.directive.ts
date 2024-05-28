@@ -36,12 +36,17 @@ export class DhCanDelegateForDirective {
   dhCanDelegateFor = input.required<DhActorExtended['marketRole']>();
 
   constructor() {
-    effect(() => {
-      this.viewContainerRef.clear();
+    effect(
+      () => {
+        this.viewContainerRef.clear();
 
-      if (this.canDelegateForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))) {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    });
+        if (
+          this.canDelegateForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))
+        ) {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 }
