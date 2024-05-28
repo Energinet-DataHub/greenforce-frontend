@@ -169,10 +169,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
     CalculationType.Aggregation,
-    CalculationType.WholesaleFixing,
-    CalculationType.FirstCorrectionSettlement,
-    CalculationType.SecondCorrectionSettlement,
-    CalculationType.ThirdCorrectionSettlement,
   ]);
   gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
@@ -376,7 +372,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private getCalculationByGridAreas() {
-    const { period, gridAreas } = this.form.getRawValue();
+    const { calculationType, period, gridAreas } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
       return;
@@ -386,6 +382,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       .query({
         query: GetSettlementReportCalculationsByGridAreasDocument,
         variables: {
+          calculationType: calculationType as CalculationType,
           gridAreaIds: gridAreas,
           calculationPeriod: {
             start: new Date(period.start),

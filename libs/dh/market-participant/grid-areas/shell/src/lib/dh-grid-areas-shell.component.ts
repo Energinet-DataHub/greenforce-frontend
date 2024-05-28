@@ -47,7 +47,6 @@ export class DhGridAreasShellComponent {
       this.isLoading = result.loading;
       this.rows =
         result.data?.gridAreaOverview?.map((x) => ({
-          id: x.id,
           code: x.code,
           actor: x.actorNumber
             ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
