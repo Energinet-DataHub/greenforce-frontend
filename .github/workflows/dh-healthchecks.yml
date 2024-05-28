@@ -13,9 +13,8 @@
 # limitations under the License.
 name: DH UI Frontend Healthchecks
 env:
-  node-version-file: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 4.0.2
+  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
+  BUN_VERSION: 1.1.8
   # See https://github.com/cypress-io/cypress/issues/25357
   ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 on:
@@ -32,17 +31,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Run healthchecks
-        run: npx nx run e2e-dh:e2e:health
+        run: bun run nx run e2e-dh:e2e:health
 
       - name: Upload artifact
         if: failure()

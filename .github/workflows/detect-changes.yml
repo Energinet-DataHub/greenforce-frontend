@@ -32,6 +32,10 @@ on:
       render_c4model_views:
         value: ${{ jobs.changes.outputs.render_c4model_views }}
 
+env:
+  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
+  BUN_VERSION: 1.1.8
+
 jobs:
   changes:
     name: Determine relevant jobs
@@ -77,14 +81,13 @@ jobs:
         if: ${{ env.IS_PULL_REQUEST == 'true' }}
         run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: .nvmrc
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Is DH affected?
         id: dh_affected

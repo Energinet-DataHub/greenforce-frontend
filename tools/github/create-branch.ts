@@ -36,7 +36,7 @@ const answers = await inquirer.prompt([
     type: 'list',
     name: 'type',
     message: 'Choose type:',
-    choices: ['feature', 'bugfix', 'chore', 'refactor', 'test'],
+    choices: ['feature', 'bugfix', 'chore', 'refactor', 'test', 'experiment'],
   },
   {
     type: 'input',

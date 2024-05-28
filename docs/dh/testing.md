@@ -5,7 +5,7 @@
 To run all test for every application and library, use the following command:
 
 ```sh
-yarn test
+bun test
 ```
 
 While this command can be useful when working with shared libraries to test for
@@ -13,15 +13,15 @@ any regression, it is slow and not recommended during developing. Instead, the
 test execution can be scoped to a specific application or library:
 
 ```sh
-yarn nx run app-dh:test
-yarn nx run dh-metering-point-feature-overview:test
+bun nx run app-dh:test
+bun nx run dh-metering-point-feature-overview:test
 ```
 
 For running the tests in watch mode, add the `--watch` flag to the command:
 
 ```sh
-yarn test --watch
-yarn nx run app-dh:test --watch
+bun test --watch
+bun nx run app-dh:test --watch
 ```
 
 Currently the test suites are running agains a mocked BFF, meaning that any code
@@ -109,7 +109,7 @@ You can use [Jest Preview](https://github.com/nvh95/jest-preview) to visually de
 
 In order to do that, you need to:
 
-1. Start the Jest Preview Server by running `yarn jest-preview` in a Terminal. A new page will open in the browser where failing tests can be previewed.
+1. Start the Jest Preview Server by running `bun jest-preview` in a Terminal. A new page will open in the browser where failing tests can be previewed.
 2. Add `debug()` to the test you want to debug.
 
 ```ts
@@ -128,8 +128,8 @@ describe('AppComponent', () => {
 
 To be able to running the tests locally, you will need to rename `apps/e2e-dh/cypress.env.json.sample` to `apps/e2e-dh/cypress.env.json` and insert the required information. The `DH_E2E_B2C_URL` should reflect the application B2C config `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`. To run the tests use following command:
 
-`yarn nx e2e e2e-dh`
+`bun nx e2e e2e-dh`
 
 To debug / watch-mode E2E tests:
 
-`yarn nx e2e e2e-dh --watch`
+`bun nx e2e e2e-dh --watch`
