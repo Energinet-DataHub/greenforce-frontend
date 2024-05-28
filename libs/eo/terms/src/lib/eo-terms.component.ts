@@ -156,7 +156,7 @@ export class EoTermsComponent {
       },
       error: () => {
         console.log('Error accepting terms');
-        this.router.navigate([this.transloco.getActiveLang()])
+        this.router.navigate([this.transloco.getActiveLang()]);
       },
     });
   }
