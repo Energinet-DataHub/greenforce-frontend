@@ -21,10 +21,8 @@ env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}
-  NODE_OPTIONS: --max_old_space_size=6144
-  node-version-file: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 4.0.2
+  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
+  BUN_VERSION: 1.1.8
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
@@ -73,22 +71,21 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: "PR: Production build of affected products"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:build --base=origin/$BASE_BRANCH
+        run: bun run affected:build --base=origin/$BASE_BRANCH
 
       - name: "Merge: Production build of all products"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn build
+        run: bun run build
 
   e2e:
     name: End-to-end test
@@ -112,18 +109,17 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: "PR: End-to-end test affected products"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
+        run: bun run affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
 
       - name: Upload artifact
         if: failure()
@@ -134,7 +130,7 @@ jobs:
 
       - name: "Merge: End-to-end test all products"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn e2e --configuration=ci
+        run: bun run e2e --configuration=ci
 
   format:
     name: "PR: Format"
@@ -153,20 +149,19 @@ jobs:
       - name: Fetch base branch Git history
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Revert postinstall changes
         run: git reset --hard
 
       - name: Format projects and configuration files
-        run: yarn format --base=origin/$BASE_BRANCH
+        run: bun run format --base=origin/$BASE_BRANCH
 
       - name: Commit formatted files
         run: |
@@ -177,7 +172,7 @@ jobs:
           git push origin --force-with-lease || cd .
 
       - name: Check formatting of projects and configuration files
-        run: yarn format:check --base=origin/$BASE_BRANCH
+        run: bun run format:check --base=origin/$BASE_BRANCH
 
   lint:
     name: Lint
@@ -201,21 +196,20 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Revert postinstall changes
         run: git reset --hard
 
       - name: "PR: Fix affected projects using lint rules"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
+        run: bun run affected:lint:fix --base=origin/$BASE_BRANCH
 
       - name: "PR: Commit fixed files"
         if: ${{ env.is-pull-request == 'true' }}
@@ -228,7 +222,7 @@ jobs:
 
       - name: "Merge: Lint workspace and all projects"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn lint
+        run: bun run lint
 
   test:
     name: Unit and integration test
@@ -252,22 +246,21 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:test --base=origin/$BASE_BRANCH
+        run: bun run affected:test --base=origin/$BASE_BRANCH
 
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn test
+        run: bun run test
 
   componentTests:
     name: Component test
@@ -291,22 +284,21 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: "PR: Test affected projects"
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected -t component-test --base=origin/$BASE_BRANCH
+        run: bun run affected -t component-test --base=origin/$BASE_BRANCH
 
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
-        run: yarn nx run-many -t component-test
+        run: bun run nx run-many -t component-test
 
       - name: Upload artifact
         if: failure()
