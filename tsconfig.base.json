@@ -398,6 +398,9 @@
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/components/description-list/index.ts"
       ],
+      "@energinet-datahub/watt/directives": [
+        "libs/watt/src/lib/directives/index.ts"
+      ],
       "@energinet-datahub/watt/drawer": [
         "libs/watt/src/lib/components/drawer/index.ts"
       ],
