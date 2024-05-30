@@ -21,9 +21,9 @@ limitations under the License.
   [disableRipple]="true"
   (selectedIndexChange)="emitSelectedTabChange($event)"
 >
-  @for (tab of tabElements; track tab) {
-    <mat-tab [label]="tab.label">
-      <ng-container *ngTemplateOutlet="tab.templateRef" />
+  @for (tab of tabElements(); track tab) {
+    <mat-tab [label]="tab.label()">
+      <ng-container *ngTemplateOutlet="tab.templateRef()" />
     </mat-tab>
   }
 
