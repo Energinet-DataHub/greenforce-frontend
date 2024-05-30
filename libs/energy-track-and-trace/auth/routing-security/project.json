@@ -1,0 +1,20 @@
+{
+  "name": "eo-auth-routing-security",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/energy-track-and-trace/auth/routing-security/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/energy-track-and-trace/auth/routing-security"],
+      "options": {
+        "jestConfig": "libs/energy-track-and-trace/auth/routing-security/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:util"]
+}

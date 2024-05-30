@@ -1,0 +1,13 @@
+{
+  "name": "eo-metering-points-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/energy-track-and-trace/metering-points/domain",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:metering-points", "type:domain"]
+}

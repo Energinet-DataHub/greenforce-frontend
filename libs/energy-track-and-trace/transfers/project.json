@@ -1,0 +1,20 @@
+{
+  "name": "eo-transfers",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/energy-track-and-trace/transfers/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/energy-track-and-trace/transfers"],
+      "options": {
+        "jestConfig": "libs/energy-track-and-trace/transfers/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:transfers", "type:feature"]
+}

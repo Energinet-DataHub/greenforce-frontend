@@ -20,12 +20,12 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "libs/eo/shared/assets/src/assets",
+            "input": "libs/energy-track-and-trace/shared/assets/src/assets",
             "output": "assets"
           },
           {
             "glob": "**/*.json",
-            "input": "libs/eo/core/globalization/assets-localization",
+            "input": "libs/energy-track-and-trace/core/globalization/assets-localization",
             "output": "assets"
           },
           {
@@ -65,8 +65,8 @@
               "with": "apps/energy-track-and-trace/app-ett-landing-page/src/configuration/load-eo-api-environment.prod.ts"
             },
             {
-              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
-              "with": "libs/eo/shared/environments/src/lib/environment.prod.ts"
+              "replace": "libs/energy-track-and-trace/shared/environments/src/lib/environment.ts",
+              "with": "libs/energy-track-and-trace/shared/environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all"

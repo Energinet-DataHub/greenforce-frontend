@@ -1,0 +1,29 @@
+{
+  "name": "eo-dashboard-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/energy-track-and-trace/dashboard/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/energy-track-and-trace/dashboard/shell"],
+      "options": {
+        "jestConfig": "libs/energy-track-and-trace/dashboard/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/energy-track-and-trace/dashboard/shell/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "app-ett:build:mocked"
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:dashboard", "type:shell"]
+}

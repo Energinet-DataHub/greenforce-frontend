@@ -1,0 +1,20 @@
+{
+  "name": "eo-help-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/energy-track-and-trace/help/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/energy-track-and-trace/help/shell"],
+      "options": {
+        "jestConfig": "libs/energy-track-and-trace/help/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:help", "type:shell"]
+}

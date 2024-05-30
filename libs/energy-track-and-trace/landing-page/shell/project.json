@@ -1,0 +1,20 @@
+{
+  "name": "eo-landing-page-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/energy-track-and-trace/landing-page/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/energy-track-and-trace/landing-page/shell"],
+      "options": {
+        "jestConfig": "libs/energy-track-and-trace/landing-page/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:landing-page", "type:shell"]
+}

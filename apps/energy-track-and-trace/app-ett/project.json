@@ -12,17 +12,17 @@
         "assets": [
           {
             "glob": "favicon.ico",
-            "input": "libs/eo/shared/assets/src",
+            "input": "libs/energy-track-and-trace/shared/assets/src",
             "output": ""
           },
           {
             "glob": "**/*",
-            "input": "libs/eo/shared/assets/src/assets",
+            "input": "libs/energy-track-and-trace/shared/assets/src/assets",
             "output": "assets"
           },
           {
             "glob": "**/*.json",
-            "input": "libs/eo/core/globalization/assets-localization",
+            "input": "libs/energy-track-and-trace/core/globalization/assets-localization",
             "output": "assets"
           },
           {
@@ -46,11 +46,11 @@
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "libs/eo/shared/styles/src/lib",
+            "libs/energy-track-and-trace/shared/styles/src/lib",
             "libs/watt/src/lib/styles"
           ]
         },
-        "styles": ["libs/eo/shared/styles/src/index.scss"],
+        "styles": ["libs/energy-track-and-trace/shared/styles/src/index.scss"],
         "tsConfig": "apps/energy-track-and-trace/app-ett/tsconfig.app.json"
       },
       "configurations": {
@@ -67,8 +67,8 @@
           "sourceMap": true,
           "fileReplacements": [
             {
-              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
-              "with": "libs/eo/shared/environments/src/lib/environment.mocked.ts"
+              "replace": "libs/energy-track-and-trace/shared/environments/src/lib/environment.ts",
+              "with": "libs/energy-track-and-trace/shared/environments/src/lib/environment.mocked.ts"
             }
           ]
         },
@@ -91,8 +91,8 @@
               "with": "apps/energy-track-and-trace/app-ett/src/configuration/load-eo-api-environment.prod.ts"
             },
             {
-              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
-              "with": "libs/eo/shared/environments/src/lib/environment.prod.ts"
+              "replace": "libs/energy-track-and-trace/shared/environments/src/lib/environment.ts",
+              "with": "libs/energy-track-and-trace/shared/environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all",
