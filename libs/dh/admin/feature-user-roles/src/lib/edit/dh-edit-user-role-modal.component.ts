@@ -23,6 +23,7 @@ import {
   Output,
   ViewChild,
   DestroyRef,
+  viewChild,
 } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -136,6 +137,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
 
+  tabs = viewChild(WattTabsComponent);
+
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
   ngOnInit(): void {
@@ -182,6 +185,9 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
 
   save(userRole: MarketParticipantUserRoleWithPermissionsDto): void {
     if (this.userRoleEditForm.invalid) {
+      if (this.userRoleEditForm.controls.description.hasError('required')) {
+        this.tabs()?.setSelectedIndex(0);
+      }
       return;
     }
 
