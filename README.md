@@ -212,7 +212,7 @@ grouped by a product root folder. Expanding the **apps** folder looks like this:
    │  └── e2e-dh    # - E2E tests for DataHub
    └── eo           # Energy Track And Trace (product root)
       ├── app-ett    # - Frontend for Energy Track And Trace
-      └── e2e-eo    # - E2E tests for Energy Track And Trace
+      └── e2e-ett    # - E2E tests for Energy Track And Trace
 ```
 
 In other words, all applications must follow the naming scheme
