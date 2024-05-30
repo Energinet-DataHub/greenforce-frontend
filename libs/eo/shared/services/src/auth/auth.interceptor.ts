@@ -15,15 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  HTTP_INTERCEPTORS,
-  HttpErrorResponse,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-  HttpResponse,
-  HttpStatusCode,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, concatMap, filter, map, take, tap, throwError } from 'rxjs';
