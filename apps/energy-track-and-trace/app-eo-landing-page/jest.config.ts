@@ -16,10 +16,10 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'app-eo-landing-page',
+  displayName: 'app-ett-landing-page',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/apps/app-eo-landing-page',
+  coverageDirectory: '../../../coverage/apps/app-ett-landing-page',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

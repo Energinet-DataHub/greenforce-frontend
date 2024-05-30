@@ -1,8 +1,8 @@
 {
-  "name": "app-eo",
+  "name": "app-ett",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/energy-track-and-trace/app-eo/src",
+  "sourceRoot": "apps/energy-track-and-trace/app-ett/src",
   "prefix": "eo",
   "targets": {
     "build": {
@@ -38,10 +38,10 @@
         ],
         "allowedCommonJsDependencies": ["date-fns", "lottie-web", "dayjs"],
         "baseHref": "/",
-        "index": "apps/energy-track-and-trace/app-eo/src/index.html",
+        "index": "apps/energy-track-and-trace/app-ett/src/index.html",
         "inlineStyleLanguage": "scss",
-        "browser": "apps/energy-track-and-trace/app-eo/src/main.ts",
-        "outputPath": "dist/apps/energy-track-and-trace/app-eo",
+        "browser": "apps/energy-track-and-trace/app-ett/src/main.ts",
+        "outputPath": "dist/apps/energy-track-and-trace/app-ett",
         "polyfills": ["zone.js"],
         "scripts": [],
         "stylePreprocessorOptions": {
@@ -51,7 +51,7 @@
           ]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],
-        "tsConfig": "apps/energy-track-and-trace/app-eo/tsconfig.app.json"
+        "tsConfig": "apps/energy-track-and-trace/app-ett/tsconfig.app.json"
       },
       "configurations": {
         "development": {
@@ -87,8 +87,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/energy-track-and-trace/app-eo/src/configuration/load-eo-api-environment.ts",
-              "with": "apps/energy-track-and-trace/app-eo/src/configuration/load-eo-api-environment.prod.ts"
+              "replace": "apps/energy-track-and-trace/app-ett/src/configuration/load-eo-api-environment.ts",
+              "with": "apps/energy-track-and-trace/app-ett/src/configuration/load-eo-api-environment.prod.ts"
             },
             {
               "replace": "libs/eo/shared/environments/src/lib/environment.ts",
@@ -111,17 +111,17 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "buildTarget": "app-eo:build:development"
+        "buildTarget": "app-ett:build:development"
       },
       "configurations": {
         "development": {
           "hmr": true
         },
         "production": {
-          "buildTarget": "app-eo:build:production"
+          "buildTarget": "app-ett:build:production"
         },
         "mocked": {
-          "buildTarget": "app-eo:build:mocked",
+          "buildTarget": "app-ett:build:mocked",
           "host": "0.0.0.0"
         }
       },
@@ -130,8 +130,8 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "app-eo:build:mocked",
-        "staticFilePath": "dist/apps/energy-track-and-trace/app-eo/browser",
+        "buildTarget": "app-ett:build:mocked",
+        "staticFilePath": "dist/apps/energy-track-and-trace/app-ett/browser",
         "spa": true
       }
     },
@@ -141,12 +141,12 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/energy-track-and-trace/app-eo"],
+      "outputs": ["{workspaceRoot}/coverage/apps/energy-track-and-trace/app-ett"],
       "options": {
-        "jestConfig": "apps/energy-track-and-trace/app-eo/jest.config.ts"
+        "jestConfig": "apps/energy-track-and-trace/app-ett/jest.config.ts"
       }
     }
   },
   "tags": ["product:eo", "type:app"],
-  "implicitDependencies": ["eo-shared-styles", "app-eo-landing-page"]
+  "implicitDependencies": ["eo-shared-styles", "app-ett-landing-page"]
 }

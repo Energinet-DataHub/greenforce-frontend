@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'app-eo',
+  displayName: 'app-ett',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../coverage/apps/energy-track-and-trace/app-eo',
+  coverageDirectory: '../../coverage/apps/energy-track-and-trace/app-ett',
   /**
    * https://stackoverflow.com/questions/42260218/jest-setup-syntaxerror-unexpected-token-export
    * NG2-charts has an error with lodash-es, Jest tests fail if this is not added.

@@ -18,8 +18,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  app-name: app-eo
-  landing-page-app-name: app-eo-landing-page
+  app-name: app-ett
+  landing-page-app-name: app-ett-landing-page
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}

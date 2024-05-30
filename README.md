@@ -211,7 +211,7 @@ grouped by a product root folder. Expanding the **apps** folder looks like this:
    │  ├── app-dh    # - Frontend for DataHub
    │  └── e2e-dh    # - E2E tests for DataHub
    └── eo           # Energy Track And Trace (product root)
-      ├── app-eo    # - Frontend for Energy Track And Trace
+      ├── app-ett    # - Frontend for Energy Track And Trace
       └── e2e-eo    # - E2E tests for Energy Track And Trace
 ```
 

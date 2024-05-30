@@ -8,24 +8,24 @@
       "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/energy-track-and-trace/e2e-eo/cypress.config.ts",
-        "devServerTarget": "app-eo:serve:mocked",
+        "devServerTarget": "app-ett:serve:mocked",
         "headed": true,
         "testingType": "e2e"
       },
       "configurations": {
         "ci": {
           "cypressConfig": "apps/energy-track-and-trace/e2e-eo/cypress.config.ts",
-          "devServerTarget": "app-eo:serve-static",
+          "devServerTarget": "app-ett:serve-static",
           "headed": false
         },
         "production": {
-          "devServerTarget": "app-eo:serve:e2e"
+          "devServerTarget": "app-ett:serve:e2e"
         },
         "watch": {
           "watch": true
         },
         "watch-production": {
-          "devServerTarget": "app-eo:serve:mocked",
+          "devServerTarget": "app-ett:serve:mocked",
           "watch": true
         }
       }
@@ -36,5 +36,5 @@
     }
   },
   "tags": ["product:eo", "type:e2e"],
-  "implicitDependencies": ["app-eo"]
+  "implicitDependencies": ["app-ett"]
 }

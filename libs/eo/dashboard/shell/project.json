@@ -21,7 +21,7 @@
         "cypressConfig": "libs/eo/dashboard/shell/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "app-eo:build:mocked"
+        "devServerTarget": "app-ett:build:mocked"
       }
     }
   },
