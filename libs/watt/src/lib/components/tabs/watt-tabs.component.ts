@@ -49,7 +49,7 @@ export class WattTabsComponent implements AfterViewInit {
 
   @HostBinding('class')
   get hostClass() {
-    return this.variant() ? `watt-tabs-${this.variant}` : '';
+    return this.variant() ? `watt-tabs-${this.variant()}` : '';
   }
 
   tabElements = contentChildren(WattTabComponent);
