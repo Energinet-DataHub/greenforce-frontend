@@ -1,4 +1,4 @@
-# Energy Origin atomic design atoms
+# Energy Track And Trace atomic design atoms
 
 ## Media atom
 

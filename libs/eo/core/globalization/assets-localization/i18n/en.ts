@@ -689,7 +689,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     <ul>
       <li><a class="internal-link" href="/en/{{faqLink}}">FAQ</a></li>
       <li>
-        <a class="internal-link" href="/en/{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
+        <a class="internal-link" href="/en/{{introductionLink}}">Introduction to Energy Track And Trace (Danish)</a>
       </li>
       <li>
         <a
@@ -726,7 +726,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'FAQ',
     content: `
     <div class="watt-space-stack-m faq-link">
-    <a href="#what-is-energy-origin">What is Energy Origin?</a>
+    <a href="#what-is-energy-origin">What is Energy Track And Trace?</a>
   </div>
   <div class="watt-space-stack-m faq-link">
     <a href="#who-can-access-the-platform"
@@ -747,9 +747,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     <a href="#where-can-i-read-more">Where can I read more?</a>
   </div>
 
-  <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
+  <h3 id="what-is-energy-origin">What is Energy Track And Trace?</h3>
   <p>
-    The aim of the Energy Origin platform is to create transparency on the origin of energy for
+    The aim of the Energy Track And Trace platform is to create transparency on the origin of energy for
     all energy consumers and to facilitate a market for for green energy. Currently, we are
     working on data related to electricity consumption. Upon login, you will soon be able to
     access your hourly electricity declaration and corresponding emissions for 2021.
@@ -778,7 +778,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
 
   <h3 id="where-can-i-read-more">Where can I read more?</h3>
   <p>
-    You can read more about the history and intention of Energy Origin on our website:
+    You can read more about the history and intention of Energy Track And Trace on our website:
     <a
       href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
       target="_blank"

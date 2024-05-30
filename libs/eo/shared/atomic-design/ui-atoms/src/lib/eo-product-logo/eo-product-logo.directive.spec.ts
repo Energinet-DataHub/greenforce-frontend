@@ -30,7 +30,7 @@ describe(EoProductLogoDirective, () => {
   let hostElement: HTMLImageElement;
 
   it('has an accessible name', () => {
-    expect(hostElement).toHaveAccessibleName('Energy Origin');
+    expect(hostElement).toHaveAccessibleName('Energy Track And Trace');
   });
 
   it('renders the product logo', () => {

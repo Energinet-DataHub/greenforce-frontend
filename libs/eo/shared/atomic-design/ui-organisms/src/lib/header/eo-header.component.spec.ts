@@ -18,9 +18,9 @@ import { render, screen } from '@testing-library/angular';
 import { EoHeaderComponent } from './eo-header.component';
 
 describe(EoHeaderComponent, () => {
-  const findEnergyOriginLogo = () => screen.findByRole('img', { name: 'Energy Origin' });
+  const findEnergyOriginLogo = () => screen.findByRole('img', { name: 'Energy Track And Trace' });
 
-  it('displays the Energy Origin logo', async () => {
+  it('displays the Energy Track And Trace logo', async () => {
     await render(EoHeaderComponent);
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });

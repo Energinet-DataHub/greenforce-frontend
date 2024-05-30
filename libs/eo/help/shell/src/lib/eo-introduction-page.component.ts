@@ -87,7 +87,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         <img
           width="383"
           src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
-          alt="Energy Origin graph of energy"
+          alt="Energy Track And Trace graph of energy"
         />
         <h3>Hvad kan du bruge energioprindelse.dk til?</h3>
         <eo-stack size="M">

@@ -18,7 +18,7 @@ import { render, screen } from '@testing-library/angular';
 
 import { EO_MEDIA } from './eo-media.component';
 
-describe('Energy Origin Media atom', () => {
+describe('Energy Track And Trace Media atom', () => {
   const findMedia = () => screen.findByTestId('media');
   const findMediaBox = () => screen.findByTestId('media-box');
   const findMediaBody = () => screen.findByTestId('media-body-box');

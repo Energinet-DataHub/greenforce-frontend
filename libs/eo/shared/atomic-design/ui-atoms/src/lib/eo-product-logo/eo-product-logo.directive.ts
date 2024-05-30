@@ -26,7 +26,7 @@ const selector = 'eoProductLogo';
 export class EoProductLogoDirective {
   @HostBinding('attr.alt')
   get altAttribute(): string {
-    return 'Energy Origin';
+    return 'Energy Track And Trace';
   }
   @HostBinding('attr.src')
   get srcAttribute(): string {

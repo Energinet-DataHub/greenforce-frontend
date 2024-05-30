@@ -16,8 +16,8 @@
         "properties": {
           "structurizr.dsl.identifier": "energyoriginuser"
         },
-        "name": "Energy Origin user",
-        "description": "Person who on behalf of a power producer/consumer interacts with Energy Origin.",
+        "name": "Energy Track And Trace user",
+        "description": "Person who on behalf of a power producer/consumer interacts with Energy Track And Trace.",
         "relationships": [
           {
             "id": "41",
@@ -215,8 +215,8 @@
         "properties": {
           "structurizr.dsl.identifier": "energyoriginthirdpartysystem"
         },
-        "name": "Energy Origin Third Party",
-        "description": "Third party system that interacts with Energy Origin APIs.",
+        "name": "Energy Track And Trace Third Party",
+        "description": "Third party system that interacts with Energy Track And Trace APIs.",
         "relationships": [
           {
             "id": "42",
@@ -313,7 +313,7 @@
         "properties": {
           "structurizr.dsl.identifier": "energyorigin"
         },
-        "name": "Energy Origin",
+        "name": "Energy Track And Trace",
         "description": "Provides a way to issue and claim granular certificates",
         "relationships": [
           {

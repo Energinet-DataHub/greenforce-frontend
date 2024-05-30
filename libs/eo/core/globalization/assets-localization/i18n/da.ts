@@ -676,7 +676,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     <ul>
       <li><a class="internal-link" href="/da/{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
-        <a class="internal-link" href="/da/{{introductionLink}}">Introduktion til Energy Origin</a>
+        <a class="internal-link" href="/da/{{introductionLink}}">Introduktion til Energy Track And Trace</a>
       </li>
       <li>
         <a
@@ -712,7 +712,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Ofte Stillede Spørgsmål',
     content: `
     <div class="watt-space-stack-m faq-link">
-    <a href="#what-is-energy-origin">Hvad er Energy Origin?</a>
+    <a href="#what-is-energy-origin">Hvad er Energy Track And Trace?</a>
   </div>
   <div class="watt-space-stack-m faq-link">
     <a href="#who-can-access-the-platform"
@@ -733,9 +733,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     <a href="#where-can-i-read-more">Hvor kan jeg læse mere?</a>
   </div>
 
-  <h3 id="what-is-energy-origin">Hvad er Energy Origin?</h3>
+  <h3 id="what-is-energy-origin">Hvad er Energy Track And Trace?</h3>
   <p>
-    Målet med Energy Origin-platformen er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere og at skabe et marked for grøn energi.
+    Målet med Energy Track And Trace-platformen er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere og at skabe et marked for grøn energi.
     I øjeblikket arbejder vi på data relateret til elforbrug.
     Efter login vil du snart kunne tilgå dit elforbrug pr. time og tilsvarende emissioner for 2021.
   </p>
@@ -762,7 +762,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   <h3 id="where-can-i-read-more">Hvor kan jeg læse mere?</h3>
   <p>
-    Du kan læse mere om historien og intentionen bag Energy Origin på vores hjemmeside:
+    Du kan læse mere om historien og intentionen bag Energy Track And Trace på vores hjemmeside:
     <a
       href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
       target="_blank"
