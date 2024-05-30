@@ -116,7 +116,7 @@ limitations under the License.
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
             <dh-actor-audit-log-tab
-              [actorId]="actor()!.id"
+              [actorId]="actor()?.id!"
               [actorNumberNameLookup]="actorNumberNameLookup()"
               [gridAreaCodeLookup]="gridAreaCodeLookup()"
             />
