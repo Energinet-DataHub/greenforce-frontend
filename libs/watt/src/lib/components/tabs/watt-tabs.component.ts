@@ -18,17 +18,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
-  QueryList,
   AfterViewInit,
   ViewEncapsulation,
   inject,
-  Input,
   HostBinding,
   contentChild,
+  viewChild,
+  input,
+  contentChildren,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
 import { WattTabComponent } from './watt-tab.component';
 import { WattTabsActionComponent } from './watt-tabs-action.component';
@@ -45,16 +45,17 @@ import { WattTabsActionComponent } from './watt-tabs-action.component';
 export class WattTabsComponent implements AfterViewInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
-  @Input() variant!: string;
+  variant = input<string>();
 
   @HostBinding('class')
   get hostClass() {
-    return this.variant ? `watt-tabs-${this.variant}` : '';
+    return this.variant() ? `watt-tabs-${this.variant}` : '';
   }
 
-  @ContentChildren(WattTabComponent)
-  public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
+  tabElements = contentChildren(WattTabComponent);
   activeTabIndex = 0;
+
+  tabGroup = viewChild.required(MatTabGroup);
 
   actionsTab = contentChild(WattTabsActionComponent);
 
@@ -64,8 +65,12 @@ export class WattTabsComponent implements AfterViewInit {
 
   emitSelectedTabChange(selectedIndex: number) {
     this.activeTabIndex = selectedIndex;
-    const currentTab = this.tabElements.find((tab, index) => index === selectedIndex);
+    const currentTab = this.tabElements().find((tab, index) => index === selectedIndex);
     currentTab?.emitChange();
+  }
+
+  setSelectedIndex(index: number) {
+    this.tabGroup().selectedIndex = index;
   }
 
   triggerChange() {

@@ -36,7 +36,7 @@ const latestBump = '21-05-2024';
 export const dhFeatureFlagsConfig = {
   'market-participant-delegation': {
     created: '22-04-2024',
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'calculations-include-all-grid-areas': {
     created: latestBump,
