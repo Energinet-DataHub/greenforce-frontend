@@ -512,8 +512,8 @@ function requestCalculationMutation() {
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        createAggregatedMeasureDataRequest: {
-          __typename: 'CreateAggregatedMeasureDataRequestPayload',
+        requestCalculation: {
+          __typename: 'RequestCalculationPayload',
           success: true,
         },
       },

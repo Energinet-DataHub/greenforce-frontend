@@ -14,6 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+@if (isReady) {
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
   <form [formGroup]="form" (ngSubmit)="requestCalculation()">
     <vater-flex fill="vertical" gap="m">
@@ -32,6 +33,7 @@ limitations under the License.
           [min]="minDate"
           [max]="maxDate"
           [formControl]="form.controls.period"
+          [rangeMonthOnlyMode]="isWholesaleRequest()"
         >
           @if (form.controls.period.errors?.max31DaysDateRange) {
           <watt-field-error> {{ t('maxPeriodLength')}} </watt-field-error>
@@ -40,11 +42,20 @@ limitations under the License.
 
         <watt-dropdown
           [label]="t('gridAreas')"
-          [formControl]="form.controls.gridarea"
+          [formControl]="form.controls.gridArea"
           sortDirection="asc"
           [options]="gridAreaOptions$ | push"
         />
 
+        @if (isWholesaleRequest()) {
+        <watt-dropdown
+          translate="wholesale.requestCalculation.resolutionOptions"
+          [label]="t('resolution')"
+          [formControl]="form.controls.resolution"
+          [options]="resolutionOptions"
+          dhDropdownTranslator
+        />
+        } @else {
         <watt-dropdown
           translate="wholesale.requestCalculation.meteringPointTypes"
           [label]="t('meteringPointType')"
@@ -52,13 +63,6 @@ limitations under the License.
           [options]="meteringPointOptions"
           [showResetOption]="false"
           dhDropdownTranslator
-        />
-
-        @if (showEnergySupplierDropdown()) {
-        <watt-dropdown
-          [label]="t('energySupplier')"
-          [formControl]="form.controls.energySupplierId"
-          [options]="energySupplierOptions"
         />
         }
       </vater-stack>
@@ -70,3 +74,4 @@ limitations under the License.
     </vater-flex>
   </form>
 </watt-card>
+}

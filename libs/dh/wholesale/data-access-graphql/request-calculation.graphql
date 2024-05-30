@@ -1,19 +1,19 @@
 mutation requestCalculation(
-  $calculationType: EdiB2CProcessType!
+  $calculationType: CalculationType!
+  $period: DateRange!
+  $gridArea: String!
   $meteringPointType: MeteringPointType
-  $startDate: String!
-  $endDate: String
-  $gridArea: String
   $balanceResponsibleId: String
+  $energySupplierId: String
 ) {
-  createAggregatedMeasureDataRequest(
+  requestCalculation(
     input: {
-      balanceResponsibleId: $balanceResponsibleId
       calculationType: $calculationType
-      meteringPointType: $meteringPointType
-      startDate: $startDate
-      endDate: $endDate
+      period: $period
       gridArea: $gridArea
+      meteringPointType: $meteringPointType
+      balanceResponsibleId: $balanceResponsibleId
+      energySupplierId: $energySupplierId
     }
   ) {
     success: boolean
