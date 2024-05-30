@@ -168,7 +168,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   );
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
-    CalculationType.Aggregation
+    CalculationType.Aggregation,
   ]);
   gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
