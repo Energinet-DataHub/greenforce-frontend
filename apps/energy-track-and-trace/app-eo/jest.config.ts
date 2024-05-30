@@ -20,7 +20,7 @@ export default {
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../coverage/apps/eo/app-eo',
+  coverageDirectory: '../../coverage/apps/energy-track-and-trace/app-eo',
   /**
    * https://stackoverflow.com/questions/42260218/jest-setup-syntaxerror-unexpected-token-export
    * NG2-charts has an error with lodash-es, Jest tests fail if this is not added.

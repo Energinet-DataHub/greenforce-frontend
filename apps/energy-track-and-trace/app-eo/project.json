@@ -2,7 +2,7 @@
   "name": "app-eo",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/eo/app-eo/src",
+  "sourceRoot": "apps/energy-track-and-trace/app-eo/src",
   "prefix": "eo",
   "targets": {
     "build": {
@@ -38,10 +38,10 @@
         ],
         "allowedCommonJsDependencies": ["date-fns", "lottie-web", "dayjs"],
         "baseHref": "/",
-        "index": "apps/eo/app-eo/src/index.html",
+        "index": "apps/energy-track-and-trace/app-eo/src/index.html",
         "inlineStyleLanguage": "scss",
-        "browser": "apps/eo/app-eo/src/main.ts",
-        "outputPath": "dist/apps/eo/app-eo",
+        "browser": "apps/energy-track-and-trace/app-eo/src/main.ts",
+        "outputPath": "dist/apps/energy-track-and-trace/app-eo",
         "polyfills": ["zone.js"],
         "scripts": [],
         "stylePreprocessorOptions": {
@@ -51,7 +51,7 @@
           ]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],
-        "tsConfig": "apps/eo/app-eo/tsconfig.app.json"
+        "tsConfig": "apps/energy-track-and-trace/app-eo/tsconfig.app.json"
       },
       "configurations": {
         "development": {
@@ -87,8 +87,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/eo/app-eo/src/configuration/load-eo-api-environment.ts",
-              "with": "apps/eo/app-eo/src/configuration/load-eo-api-environment.prod.ts"
+              "replace": "apps/energy-track-and-trace/app-eo/src/configuration/load-eo-api-environment.ts",
+              "with": "apps/energy-track-and-trace/app-eo/src/configuration/load-eo-api-environment.prod.ts"
             },
             {
               "replace": "libs/eo/shared/environments/src/lib/environment.ts",
@@ -131,7 +131,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "app-eo:build:mocked",
-        "staticFilePath": "dist/apps/eo/app-eo/browser",
+        "staticFilePath": "dist/apps/energy-track-and-trace/app-eo/browser",
         "spa": true
       }
     },
@@ -141,9 +141,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/eo/app-eo"],
+      "outputs": ["{workspaceRoot}/coverage/apps/energy-track-and-trace/app-eo"],
       "options": {
-        "jestConfig": "apps/eo/app-eo/jest.config.ts"
+        "jestConfig": "apps/energy-track-and-trace/app-eo/jest.config.ts"
       }
     }
   },

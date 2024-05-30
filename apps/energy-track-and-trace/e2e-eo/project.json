@@ -1,20 +1,20 @@
 {
   "name": "e2e-eo",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/eo/e2e-eo/src",
+  "sourceRoot": "apps/energy-track-and-trace/e2e-eo/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/eo/e2e-eo/cypress.config.ts",
+        "cypressConfig": "apps/energy-track-and-trace/e2e-eo/cypress.config.ts",
         "devServerTarget": "app-eo:serve:mocked",
         "headed": true,
         "testingType": "e2e"
       },
       "configurations": {
         "ci": {
-          "cypressConfig": "apps/eo/e2e-eo/cypress.config.ts",
+          "cypressConfig": "apps/energy-track-and-trace/e2e-eo/cypress.config.ts",
           "devServerTarget": "app-eo:serve-static",
           "headed": false
         },

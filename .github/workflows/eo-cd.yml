@@ -102,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/eo/
+          path: ./dist/apps/energy-track-and-trace/
           if-no-files-found: error
 
   define_build:
