@@ -207,6 +207,7 @@ export class DhImbalancePricesDrawerComponent {
       .subscribe({
         next: (result) => {
           this.isLoading.set(result.loading);
+
           this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
         },
         error: () => {
