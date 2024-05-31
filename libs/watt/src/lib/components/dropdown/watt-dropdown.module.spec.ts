@@ -303,7 +303,7 @@ describe(WattDropdownComponent, () => {
         expect(actualLabel).toBe(noOptionsFoundLabel);
       });
 
-      it('final value is output after filter + selection', async () => {
+      it('final value is emitted after filter + selection', async () => {
         const [firstDropdownOption, secondDropdownOption] = dropdownOptions;
 
         const { matSelect, fixture } = await setup({
