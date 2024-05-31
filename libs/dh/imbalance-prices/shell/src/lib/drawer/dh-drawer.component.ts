@@ -24,6 +24,7 @@ import {
   signal,
   inject,
   computed,
+  DestroyRef,
 } from '@angular/core';
 import { switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
@@ -45,6 +46,7 @@ import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-pri
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigger';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -109,6 +111,7 @@ export class DhImbalancePricesDrawerComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(ImbalancePricesHttp);
   private readonly apollo = inject(Apollo);
+  private readonly _destroyRef = inject(DestroyRef);
 
   private readonly yearAndMonth = computed(() => {
     const imbalancePrice = this.imbalancePrice();
@@ -192,7 +195,7 @@ export class DhImbalancePricesDrawerComponent {
     const { year, month } = this.yearAndMonth();
 
     return this.apollo
-      .query({
+      .watchQuery({
         query: GetImbalancePricesMonthOverviewDocument,
         variables: {
           year,
@@ -200,10 +203,11 @@ export class DhImbalancePricesDrawerComponent {
           areaCode: imbalancePrice.priceAreaCode,
         },
       })
+      .valueChanges.pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (result) => {
           this.isLoading.set(result.loading);
-
+          console.log("Works");
           this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
         },
         error: () => {
