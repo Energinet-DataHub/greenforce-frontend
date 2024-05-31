@@ -142,9 +142,9 @@ describe(WattDropdownComponent, () => {
         // Option 2. Reset option
         // Option 2 + n. Actual options
         const expectedOptions = dropdownOptions.length + 2;
-        const actialOptions = await matSelect.getOptions();
+        const actualOptions = await matSelect.getOptions();
 
-        expect(actialOptions.length).toBe(expectedOptions);
+        expect(actualOptions.length).toBe(expectedOptions);
       });
 
       it('can hide the reset option', async () => {
@@ -158,9 +158,9 @@ describe(WattDropdownComponent, () => {
         // Option 1. Filter input
         // Option 1 + n. Actual options
         const expectedOptions = dropdownOptions.length + 1;
-        const actialOptions = await matSelect.getOptions();
+        const actualOptions = await matSelect.getOptions();
 
-        expect(actialOptions.length).toBe(expectedOptions);
+        expect(actualOptions.length).toBe(expectedOptions);
       });
 
       // eslint-disable-next-line sonarjs/no-duplicate-string
@@ -218,9 +218,9 @@ describe(WattDropdownComponent, () => {
         // Option 2. Reset option
         // Option 3. Actual option containing the desired text
         const expectedOptions = 3;
-        const actialOptions = await matSelect.getOptions();
+        const actualOptions = await matSelect.getOptions();
 
-        expect(actialOptions.length).toBe(expectedOptions);
+        expect(actualOptions.length).toBe(expectedOptions);
       });
     });
 
@@ -290,9 +290,9 @@ describe(WattDropdownComponent, () => {
         // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
         const expectedOptions = 1;
-        const actialOptions = await matSelect.getOptions();
+        const actualOptions = await matSelect.getOptions();
 
-        expect(actialOptions.length).toBe(expectedOptions);
+        expect(actualOptions.length).toBe(expectedOptions);
 
         const noOptionsFoundDe: DebugElement = fixture.debugElement.query(
           By.css('.mat-mdc-option .mat-select-search-no-entries-found')
@@ -401,9 +401,9 @@ describe(WattDropdownComponent, () => {
         // Option 2. Reset option
         // Option 3. Actual option containing the desired text
         const expectedOptions = 3;
-        const actialOptions = await matSelect.getOptions();
+        const actualOptions = await matSelect.getOptions();
 
-        expect(actialOptions.length).toBe(expectedOptions);
+        expect(actualOptions.length).toBe(expectedOptions);
       });
     });
 
@@ -450,9 +450,9 @@ describe(WattDropdownComponent, () => {
         // Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
         const expectedOptions = 1;
-        const actialOptions = await matSelect.getOptions();
+        const actualOptions = await matSelect.getOptions();
 
-        expect(actialOptions.length).toBe(expectedOptions);
+        expect(actualOptions.length).toBe(expectedOptions);
 
         const noOptionsFoundDe: DebugElement = fixture.debugElement.query(
           By.css('.mat-mdc-option .mat-select-search-no-entries-found')
