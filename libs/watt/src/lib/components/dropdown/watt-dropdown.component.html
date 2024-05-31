@@ -56,8 +56,8 @@ limitations under the License.
     }"
   >
     <!-- We use this instead of ngIf, since it will trigger a NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. -->
-    <mat-option [style.display]="!hideSearch ? 'block' : 'none'"
-      ><ngx-mat-select-search
+    <mat-option [style.display]="!hideSearch ? 'block' : 'none'">
+      <ngx-mat-select-search
         [formControl]="filterControl"
         [placeholderLabel]="placeholder"
         closeIcon="close"
@@ -67,8 +67,9 @@ limitations under the License.
         [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate"
         [noEntriesFoundLabel]="noOptionsFoundLabel"
       >
-        <watt-icon ngxMatSelectSearchClear name="close" size="s" /> </ngx-mat-select-search
-    ></mat-option>
+        <watt-icon ngxMatSelectSearchClear name="close" size="s" />
+      </ngx-mat-select-search>
+    </mat-option>
 
     @if (!multiple && showResetOption) {
       <mat-option>{{ emDash }}</mat-option>
