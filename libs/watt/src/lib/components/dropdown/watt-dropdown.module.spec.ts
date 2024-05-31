@@ -302,6 +302,56 @@ describe(WattDropdownComponent, () => {
 
         expect(actualLabel).toBe(noOptionsFoundLabel);
       });
+
+      it('final value is output after filter + selection', async () => {
+        const [firstDropdownOption, secondDropdownOption] = dropdownOptions;
+
+        const { matSelect, fixture } = await setup({
+          initialState: [secondDropdownOption.value],
+          multiple: true,
+        });
+
+        const observer = jest.fn();
+        const observerJSON = jest.fn();
+        fixture.componentInstance.dropdownControl.valueChanges.subscribe((value) => {
+          observer(value);
+          observerJSON(JSON.stringify(value));
+        });
+
+        await matSelect.open();
+
+        const filterInput = getFilterInput();
+        userEvent.type(filterInput, 'outlaws');
+
+        // The first option holds the filter input
+        const [, secondOption] = await matSelect.getOptions();
+        await secondOption.click();
+
+        // The assertion below shows that the observer has been called twice with the same values
+        // but in reality it's been called with two different values (the observerJSON shows that)
+        // The first call is with the option selected after filtering
+        // The second call is with the final component value
+        // However, different behavior is shown below because the component's output is an array.
+        // In JavaScript, arrays are sent by reference, so when the component outputs its final value (the second time),
+        // the first output is also update because it's the same array
+        expect(observer).toHaveBeenNthCalledWith(1, [
+          firstDropdownOption.value,
+          secondDropdownOption.value,
+        ]);
+        expect(observer).toHaveBeenNthCalledWith(2, [
+          firstDropdownOption.value,
+          secondDropdownOption.value,
+        ]);
+
+        expect(observerJSON).toHaveBeenNthCalledWith(
+          1,
+          JSON.stringify([firstDropdownOption.value])
+        );
+        expect(observerJSON).toHaveBeenNthCalledWith(
+          2,
+          JSON.stringify([firstDropdownOption.value, secondDropdownOption.value])
+        );
+      });
     });
   });
 
