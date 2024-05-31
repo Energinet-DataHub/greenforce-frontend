@@ -349,12 +349,16 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private showAllGridAres(): Observable<boolean> {
     const isFas$ = this.permissionService.isFas();
-    const isEnergySupplier$ = this.actorStore.selectedActor$.pipe(
-      map((actor) => actor?.marketrole === EicFunction.EnergySupplier)
+    const canSeeAllGridAreas$ = this.actorStore.selectedActor$.pipe(
+      map((actor) =>
+        [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
+          actor?.marketrole as EicFunction
+        )
+      )
     );
 
-    return combineLatest([isFas$, isEnergySupplier$]).pipe(
-      map(([isFas, isEnergySupplier]) => isFas || isEnergySupplier)
+    return combineLatest([isFas$, canSeeAllGridAreas$]).pipe(
+      map(([isFas, canSeeAllGridAreas]) => isFas || canSeeAllGridAreas)
     );
   }
 
