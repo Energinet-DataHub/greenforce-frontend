@@ -36,7 +36,7 @@ const latestBump = '21-05-2024';
 export const dhFeatureFlagsConfig = {
   'market-participant-delegation': {
     created: '22-04-2024',
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'calculations-include-all-grid-areas': {
     created: latestBump,
@@ -48,7 +48,7 @@ export const dhFeatureFlagsConfig = {
   },
   'settlement-reports-v2': {
     created: '30-04-2024',
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
