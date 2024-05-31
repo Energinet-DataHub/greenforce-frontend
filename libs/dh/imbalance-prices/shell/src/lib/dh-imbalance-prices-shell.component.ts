@@ -28,7 +28,10 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { GetImbalancePricesMonthOverviewDocument, GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetImbalancePricesMonthOverviewDocument,
+  GetImbalancePricesOverviewDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhTableMonthViewComponent } from './table-month-view/dh-table-month-view.component';
@@ -97,7 +100,7 @@ export class DhImbalancePricesShellComponent {
     this.fetchData();
     this.apollo.client.refetchQueries({
       include: [GetImbalancePricesMonthOverviewDocument],
-    })
+    });
   }
 
   private fetchData(): void {
