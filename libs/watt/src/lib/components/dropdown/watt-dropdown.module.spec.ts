@@ -327,13 +327,13 @@ describe(WattDropdownComponent, () => {
         const [, secondOption] = await matSelect.getOptions();
         await secondOption.click();
 
-        // The assertion below shows that the observer has been called twice with the same values
-        // but in reality it's been called with two different values (the observerJSON shows that)
+        // The assertion below shows that the `observer` has been called twice with the same values
+        // but in reality it's been called with two different values (the `observerJSON` shows that)
         // The first call is with the option selected after filtering
         // The second call is with the final component value
         // However, different behavior is shown below because the component's output is an array.
         // In JavaScript, arrays are sent by reference, so when the component outputs its final value (the second time),
-        // the first output is also update because it's the same array
+        // the first output is also affected because it's the same array
         expect(observer).toHaveBeenNthCalledWith(1, [
           firstDropdownOption.value,
           secondDropdownOption.value,
