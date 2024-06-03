@@ -123,10 +123,6 @@ type Calculation {
   calculationType: CalculationType!
 }
 
-type CreateAggregatedMeasureDataRequestPayload {
-  boolean: Boolean
-}
-
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -139,10 +135,6 @@ type CreateDelegationsForActorPayload {
 type CreateMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateMarketParticipantError!]
-}
-
-type CreateWholesaleSettlementRequestPayload {
-  boolean: Boolean
 }
 
 type EsettOutgoingMessage {
@@ -282,8 +274,7 @@ type Mutation {
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
-  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
-  createWholesaleSettlementRequest(input: CreateWholesaleSettlementRequestInput!): CreateWholesaleSettlementRequestPayload!
+  requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
@@ -381,6 +372,10 @@ type Query {
 type ReadinessStatusDto {
   component: ESettStageComponent!
   isReady: Boolean!
+}
+
+type RequestCalculationPayload {
+  boolean: Boolean
 }
 
 type RequestSettlementReportGridAreaCalculation {
@@ -528,16 +523,6 @@ input CreateActorMarketRoleInput {
   comment: String
 }
 
-input CreateAggregatedMeasureDataRequestInput {
-  calculationType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType
-  startDate: String!
-  endDate: String
-  gridArea: String
-  energySupplierId: String
-  balanceResponsibleId: String
-}
-
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -571,14 +556,14 @@ input CreateProcessDelegationsInput {
   startsAt: DateTime!
 }
 
-input CreateWholesaleSettlementRequestInput {
-  calculationType: EdiB2CProcessType!
+input RequestCalculationInput {
+  calculationType: CalculationType!
   period: DateRange!
-  gridArea: String
-  energySupplierId: String
-  chargeOwner: String
+  gridArea: String!
+  meteringPointType: MeteringPointType
   resolution: String
-  chargeTypes: [RequestWholesaleSettlementChargeTypeInput!]!
+  energySupplierId: String
+  balanceResponsibleId: String
 }
 
 input RequestSettlementReportGridAreaInput {
@@ -594,11 +579,6 @@ input RequestSettlementReportInput {
   includeMonthlySums: Boolean!
   energySupplier: String
   csvLanguage: String
-}
-
-input RequestWholesaleSettlementChargeTypeInput {
-  id: String
-  type: String
 }
 
 input StopDelegationInput {
@@ -748,15 +728,6 @@ enum ESettStageComponent {
   CONVERTER
   SENDER
   RECEIVER
-}
-
-enum EdiB2CProcessType {
-  preliminaryaggregation
-  balancefixing
-  wholesalefixing
-  firstcorrection
-  secondcorrection
-  thirdcorrection
 }
 
 enum EicFunction {
