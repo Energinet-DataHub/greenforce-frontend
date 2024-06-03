@@ -14,7 +14,7 @@
 name: DH UI Frontend Healthchecks
 env:
   # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.8
+  BUN_VERSION: 1.1.12
   # See https://github.com/cypress-io/cypress/issues/25357
   ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu
 on:
