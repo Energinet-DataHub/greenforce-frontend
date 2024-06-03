@@ -1,9 +1,9 @@
 {
-  "name": "eo-metering-points-shell",
+  "name": "ett-metering-points-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/metering-points/shell/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

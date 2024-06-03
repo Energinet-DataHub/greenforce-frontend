@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-auth-routing-security',
+  displayName: 'ett-auth-routing-security',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},

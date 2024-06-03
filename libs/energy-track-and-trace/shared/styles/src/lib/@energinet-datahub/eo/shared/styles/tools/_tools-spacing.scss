@@ -24,9 +24,9 @@
   }
 
   @if $padding == true {
-    padding: var(--eo-space-xxl) #{$important-expression};
+    padding: var(--ett-space-xxl) #{$important-expression};
   } @else {
-    margin: var(--eo-space-xxl) #{$important-expression};
+    margin: var(--ett-space-xxl) #{$important-expression};
   }
 }
 
@@ -55,9 +55,9 @@
   }
 
   @if $padding == true {
-    padding: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+    padding: var(--watt-space-xl) var(--ett-space-xxl) #{$important-expression};
   } @else {
-    margin: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+    margin: var(--watt-space-xl) var(--ett-space-xxl) #{$important-expression};
   }
 }
 

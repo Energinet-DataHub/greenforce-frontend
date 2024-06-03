@@ -35,10 +35,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [TranslocoPipe, TranslocoDirective],
-  selector: 'eo-faq-page',
+  selector: 'ett-faq-page',
   styles: [
     `
-      eo-faq-page {
+      ett-faq-page {
         display: block;
         max-width: 1040px; // Magic number by designer
 
@@ -75,7 +75,7 @@ export class EoFaqPageComponent implements AfterViewInit {
 
         this.cd.detectChanges();
 
-        const scrollToElements = document.querySelectorAll('eo-faq-page a[href^="#"]');
+        const scrollToElements = document.querySelectorAll('ett-faq-page a[href^="#"]');
         scrollToElements.forEach((element) => {
           element.addEventListener('click', (event) => {
             event.preventDefault();

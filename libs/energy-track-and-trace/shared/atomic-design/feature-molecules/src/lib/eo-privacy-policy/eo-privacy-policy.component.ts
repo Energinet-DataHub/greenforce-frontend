@@ -25,7 +25,7 @@ import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-desig
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [EoScrollViewComponent, AsyncPipe, NgIf, WattEmptyStateComponent],
-  selector: 'eo-privacy-policy',
+  selector: 'ett-privacy-policy',
   styles: [
     `
       :host {

@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-idle-timer/idle-timer-countdown.component';
-export * from './lib/eo-idle-timer/idle-timer-logged-out.component';
-export * from './lib/eo-info-box/eo-info-box.component';
-export * from './lib/eo-media/eo-media-align';
-export * from './lib/eo-media/eo-media.component';
-export * from './lib/eo-product-logo/eo-product-logo.directive';
-export * from './lib/eo-scroll-view/eo-scroll-view.component';
-export * from './lib/eo-stack/eo-stack.component';
-export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
-export * from './lib/eo-beta-message/eo-beta-message.component';
+export * from './lib/ett-idle-timer/idle-timer-countdown.component';
+export * from './lib/ett-idle-timer/idle-timer-logged-out.component';
+export * from './lib/ett-info-box/ett-info-box.component';
+export * from './lib/ett-media/ett-media-align';
+export * from './lib/ett-media/ett-media.component';
+export * from './lib/ett-product-logo/ett-product-logo.directive';
+export * from './lib/ett-scroll-view/ett-scroll-view.component';
+export * from './lib/ett-stack/ett-stack.component';
+export * from './lib/ett-vimett-player/ett-vimett-player.component';
+export * from './lib/ett-beta-message/ett-beta-message.component';

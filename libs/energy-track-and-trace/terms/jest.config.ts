@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-terms',
+  displayName: 'ett-terms',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},

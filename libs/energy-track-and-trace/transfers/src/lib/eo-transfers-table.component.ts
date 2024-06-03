@@ -40,9 +40,9 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { translations } from '@energinet-datahub/eo/translations';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
-import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
-import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
+import { EoListedTransfer } from './ett-transfers.service';
+import { EoTransfersCreateModalComponent } from './ett-transfers-create-modal.component';
+import { EoTransfersDrawerComponent } from './ett-transfers-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface EoTransferTableElement extends EoListedTransfer {
@@ -50,7 +50,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 }
 
 @Component({
-  selector: 'eo-transfers-table',
+  selector: 'ett-transfers-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -184,11 +184,11 @@ interface EoTransferTableElement extends EoListedTransfer {
       [for]="dataSource"
     />
 
-    <eo-transfers-create-modal
+    <ett-transfers-create-modal
       [transferAgreements]="transfers"
       (proposalCreated)="proposalCreated.emit($event)"
     />
-    <eo-transfers-drawer
+    <ett-transfers-drawer
       [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
       (closed)="transferSelected.emit(undefined)"

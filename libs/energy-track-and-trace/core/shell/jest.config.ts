@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-core-shell',
+  displayName: 'ett-core-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},

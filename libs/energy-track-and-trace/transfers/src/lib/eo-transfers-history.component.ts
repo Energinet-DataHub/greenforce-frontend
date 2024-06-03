@@ -23,13 +23,13 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { EoListedTransfer } from './eo-transfers.service';
+import { EoListedTransfer } from './ett-transfers.service';
 import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
 import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers-history',
+  selector: 'ett-transfers-history',
   imports: [EoActivityLogComponent],
   styles: [
     `
@@ -66,7 +66,7 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
   ],
   standalone: true,
   template: `
-    <eo-activity-log
+    <ett-activity-log
       #log
       variant="solid"
       [showFilters]="false"

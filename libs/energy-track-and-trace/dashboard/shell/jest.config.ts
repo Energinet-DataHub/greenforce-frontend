@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'eo-dashboard-shell',
+  displayName: 'ett-dashboard-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},

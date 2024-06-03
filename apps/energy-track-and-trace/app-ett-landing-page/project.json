@@ -61,8 +61,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/energy-track-and-trace/app-ett-landing-page/src/configuration/load-eo-api-environment.ts",
-              "with": "apps/energy-track-and-trace/app-ett-landing-page/src/configuration/load-eo-api-environment.prod.ts"
+              "replace": "apps/energy-track-and-trace/app-ett-landing-page/src/configuration/load-ett-api-environment.ts",
+              "with": "apps/energy-track-and-trace/app-ett-landing-page/src/configuration/load-ett-api-environment.prod.ts"
             },
             {
               "replace": "libs/energy-track-and-trace/shared/environments/src/lib/environment.ts",

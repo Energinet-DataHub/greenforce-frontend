@@ -84,7 +84,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
           />
         </vater-stack>
       </watt-card-title>
-      <eo-claims-table
+      <ett-claims-table
         [claims]="claims().data"
         [loading]="claims().loading"
         [hasError]="claims().hasError"

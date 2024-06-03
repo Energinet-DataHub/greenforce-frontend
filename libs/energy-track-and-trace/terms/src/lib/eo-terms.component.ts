@@ -51,11 +51,11 @@ interface VersionResponse {
     NgIf,
     AsyncPipe,
   ],
-  selector: 'eo-auth-terms',
+  selector: 'ett-auth-terms',
   styles: [
     `
-      eo-header,
-      eo-footer {
+      ett-header,
+      ett-footer {
         flex-grow: 0;
         flex-shrink: 0;
         flex-basis: auto;
@@ -73,18 +73,18 @@ interface VersionResponse {
     `,
   ],
   template: `
-    <eo-header />
+    <ett-header />
 
     <div class="content-box watt-space-inset-l">
-      <div class="eo-layout-centered-content">
+      <div class="ett-layout-centered-content">
         <div class="content-wrapper">
-          <eo-scroll-view class="watt-space-stack-l">
-            <eo-privacy-policy
+          <ett-scroll-view class="watt-space-stack-l">
+            <ett-privacy-policy
               class="watt-space-stack-l"
               [policy]="privacyPolicy$ | async"
               [hasError]="loadingPrivacyPolicyFailed"
             />
-          </eo-scroll-view>
+          </ett-scroll-view>
           <div class="watt-space-stack-m">
             <watt-checkbox
               [(ngModel)]="hasAcceptedPrivacyPolicy"
@@ -110,7 +110,7 @@ interface VersionResponse {
       </div>
     </div>
 
-    <eo-footer />
+    <ett-footer />
   `,
 })
 export class EoTermsComponent {

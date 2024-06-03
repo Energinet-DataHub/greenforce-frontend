@@ -60,7 +60,7 @@ interface ActivityLogForm {
 type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
 
 @Component({
-  selector: 'eo-activity-log',
+  selector: 'ett-activity-log',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -78,7 +78,7 @@ type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      eo-activity-log-shell .watt-data-table--empty-state {
+      ett-activity-log-shell .watt-data-table--empty-state {
         margin-bottom: var(--watt-space-xl);
       }
     `,

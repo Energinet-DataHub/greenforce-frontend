@@ -21,16 +21,16 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
-import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
+import { EoDashboardShellComponent } from './ett-dashboard-shell.component';
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 
 describe('EO - Dashboard', () => {
   const getProductionTab = () => cy.findByRole('tab', { name: /Production/i });
   const getConsumptionTab = () => cy.findByRole('tab', { name: /Consumption/i });
 
-  const getProductionChart = () => cy.get('eo-dashboard-production-transferred');
-  const getConsumptionChart = () => cy.get('eo-dashboard-consumption');
-  const getChoosePeriod = () => cy.get('eo-dashboard-choose-period');
+  const getProductionChart = () => cy.get('ett-dashboard-production-transferred');
+  const getConsumptionChart = () => cy.get('ett-dashboard-consumption');
+  const getChoosePeriod = () => cy.get('ett-dashboard-choose-period');
 
   const getNoData = () => cy.findByTestId('no-data');
   const getError = () => cy.findByTestId('error');

@@ -42,7 +42,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   standalone: true,
-  selector: 'eo-language-switcher',
+  selector: 'ett-language-switcher',
   imports: [
     WattButtonComponent,
     WATT_MODAL,
@@ -51,7 +51,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     ReactiveFormsModule,
   ],
   styles: `
-    .eo-language-switcher-content {
+    .ett-language-switcher-content {
       watt-dropdown {
         width: 100%;
       }
@@ -75,7 +75,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         [closeLabel]="translations.languageSwitcher.closeLabel | transloco"
         (closed)="onClosed()"
       >
-        <div class="eo-language-switcher-content">
+        <div class="ett-language-switcher-content">
           <watt-dropdown
             [label]="translations.languageSwitcher.languagesLabel | transloco"
             [options]="languages"

@@ -44,61 +44,61 @@ import { EoLandingPageCTAComponent } from './cta.component';
     EoLandingPageFooterComponent,
     EoLandingPageCTAComponent,
   ],
-  selector: 'eo-landing-page-shell',
+  selector: 'ett-landing-page-shell',
   template: `
-    <eo-landing-page-header />
-    <eo-landing-page-hero />
+    <ett-landing-page-header />
+    <ett-landing-page-hero />
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-why />
+      <ett-landing-page-why />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-how />
+      <ett-landing-page-how />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-what />
+      <ett-landing-page-what />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-electrical-grid />
+      <ett-landing-page-electrical-grid />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-blockchain-tech />
+      <ett-landing-page-blockchain-tech />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-granular-certificates />
+      <ett-landing-page-granular-certificates />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-prove-sustainability />
+      <ett-landing-page-prove-sustainability />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-cta />
+      <ett-landing-page-cta />
     } @placeholder {
       <p>Loading...</p>
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-footer />
+      <ett-landing-page-footer />
     } @placeholder {
       <p>Loading...</p>
     }

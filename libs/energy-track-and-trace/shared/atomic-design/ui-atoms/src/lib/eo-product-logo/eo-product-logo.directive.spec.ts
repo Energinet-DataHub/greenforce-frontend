@@ -16,7 +16,7 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import { EoProductLogoDirective } from './eo-product-logo.directive';
+import { EoProductLogoDirective } from './ett-product-logo.directive';
 
 describe(EoProductLogoDirective, () => {
   beforeEach(async () => {

@@ -1,9 +1,9 @@
 {
-  "name": "eo-auth-routing-security",
+  "name": "ett-auth-routing-security",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/auth/routing-security/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

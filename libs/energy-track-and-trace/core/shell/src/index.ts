@@ -15,5 +15,5 @@
  * limitations under the License.
  */
 
-export * from './lib/eo-core-shell.routes';
-export { eoCoreShellProviders } from './lib/eo-core-shell.providers';
+export * from './lib/ett-core-shell.routes';
+export { eoCoreShellProviders } from './lib/ett-core-shell.providers';

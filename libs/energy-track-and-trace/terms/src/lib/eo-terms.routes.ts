@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
-import { EoTermsComponent } from './eo-terms.component';
+import { EoTermsComponent } from './ett-terms.component';
 
 export const eoTermsRoutes: Routes = [{ path: '', component: EoTermsComponent }];

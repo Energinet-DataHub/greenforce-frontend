@@ -33,8 +33,8 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
-import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
+import { EoListedTransfer, EoTransfersService } from './ett-transfers.service';
+import { EoTransfersFormComponent } from './form/ett-transfers-form.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
 
 // TODO: MOVE THIS TO DOMAIN
@@ -46,7 +46,7 @@ export interface EoTransferAgreementsWithRecipient {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  selector: 'eo-transfers-create-modal',
+  selector: 'ett-transfers-create-modal',
   imports: [
     EoTransfersFormComponent,
     WATT_MODAL,
@@ -71,7 +71,7 @@ export interface EoTransferAgreementsWithRecipient {
           </div>
         }
 
-        <eo-transfers-form
+        <ett-transfers-form
           [senderTin]="this.user()?.tin"
           [transferAgreements]="transferAgreements"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"

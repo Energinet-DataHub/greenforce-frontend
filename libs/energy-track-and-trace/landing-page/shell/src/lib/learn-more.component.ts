@@ -38,7 +38,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
 
 @Component({
   standalone: true,
-  selector: 'eo-learn-more',
+  selector: 'ett-learn-more',
   imports: [
     WattButtonComponent,
     WATT_MODAL,
@@ -48,7 +48,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
     EoVimeoPlayerComponent,
   ],
   styles: `
-    .eo-learn-more-modal {
+    .ett-learn-more-modal {
       --watt-modal-content-padding: 0;
 
       .watt-modal {
@@ -67,10 +67,10 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
         [loading]="isLoading()"
         (closed)="onClosed()"
         [hideCloseButton]="true"
-        [panelClass]="['eo-learn-more-modal']"
+        [panelClass]="['ett-learn-more-modal']"
       >
-        <eo-vimeo-player
-          poster="assets/images/vimeo-video-poster.png"
+        <ett-vimett-player
+          poster="assets/images/vimett-vidett-poster.png"
           video="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
         />
       </watt-modal>

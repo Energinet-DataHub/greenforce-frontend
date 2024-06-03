@@ -23,7 +23,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
 
-import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { loadEoApiEnvironment } from './configuration/load-ett-api-environment';
 import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
 
 if (environment.production) {

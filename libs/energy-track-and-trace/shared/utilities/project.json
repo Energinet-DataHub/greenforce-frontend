@@ -1,9 +1,9 @@
 {
-  "name": "eo-shared-utilities",
+  "name": "ett-shared-utilities",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/shared/utilities/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { eoWattTranslationsProviders } from './lib/eo-watt-translation.providers';
+export { eoWattTranslationsProviders } from './lib/ett-watt-translation.providers';

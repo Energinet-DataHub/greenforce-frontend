@@ -28,14 +28,14 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { translations } from '@energinet-datahub/eo/translations';
 
-const selector = 'eo-landing-page-electrical-grid';
+const selector = 'ett-landing-page-electrical-grid';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
-  selector: 'eo-landing-page-electrical-grid',
+  selector: 'ett-landing-page-electrical-grid',
   styles: `
     ${selector} {
       position: relative;
@@ -157,7 +157,7 @@ const selector = 'eo-landing-page-electrical-grid';
         loop
         muted
         playsinline
-        class="video-filter"
+        class="vidett-filter"
         poster="/assets/landing-page/electrical-grid-poster.png"
         aria-hidden="true"
       >

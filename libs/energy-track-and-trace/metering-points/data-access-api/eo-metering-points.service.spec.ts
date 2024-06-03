@@ -18,7 +18,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { lastValueFrom } from 'rxjs';
-import { EoMeteringPointsService } from './eo-metering-points.service';
+import { EoMeteringPointsService } from './ett-metering-points.service';
 
 function setup() {
   TestBed.configureTestingModule({

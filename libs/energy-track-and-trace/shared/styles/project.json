@@ -1,9 +1,9 @@
 {
-  "name": "eo-shared-styles",
+  "name": "ett-shared-styles",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/shared/styles/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {},
   "tags": ["product:eo", "scope:shared", "type:styles"],
   "implicitDependencies": ["watt"]

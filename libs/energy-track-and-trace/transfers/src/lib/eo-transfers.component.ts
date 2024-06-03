@@ -35,18 +35,18 @@ import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-des
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
-import { EoTransfersTableComponent } from './eo-transfers-table.component';
+import { EoTransfersTableComponent } from './ett-transfers-table.component';
 import {
   EoListedTransfer,
   EoTransferAgreementProposal,
   EoTransfersService,
-} from './eo-transfers.service';
-import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
+} from './ett-transfers.service';
+import { EoTransfersRespondProposalComponent } from './ett-transfers-respond-proposal.component';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers',
+  selector: 'ett-transfers',
   imports: [
     WattCardComponent,
     EoTransfersTableComponent,
@@ -61,14 +61,14 @@ import { AsyncPipe } from '@angular/common';
   standalone: true,
   template: `
     @if (transferAgreements().error) {
-      <eo-popup-message
+      <ett-popup-message
         [title]="translations.transfers.error.title | transloco"
         [message]="translations.transfers.error.message | transloco"
       />
     }
 
     <watt-card class="watt-space-stack-m">
-      <eo-transfers-table
+      <ett-transfers-table
         [enableCreateTransferAgreementProposal]="!!(hasProductionMeteringPoints | async)"
         [transfers]="transferAgreements().data"
         [loading]="transferAgreements().loading"
@@ -81,7 +81,7 @@ import { AsyncPipe } from '@angular/common';
     </watt-card>
 
     <!-- Respond proposal modal -->
-    <eo-transfers-repsond-proposal
+    <ett-transfers-repsond-proposal
       [proposalId]="proposalId"
       (accepted)="onAcceptedProposal($event)"
       (declined)="onRemoveProposal($event)"

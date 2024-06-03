@@ -1,9 +1,9 @@
 {
-  "name": "eo-core-shell",
+  "name": "ett-core-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/core/shell/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

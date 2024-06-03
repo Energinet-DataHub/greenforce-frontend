@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-terms.routes';
+export * from './lib/ett-terms.routes';

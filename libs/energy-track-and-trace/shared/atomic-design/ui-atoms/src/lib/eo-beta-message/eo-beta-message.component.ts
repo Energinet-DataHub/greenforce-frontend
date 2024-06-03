@@ -21,10 +21,10 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-eo-beta-message',
+  selector: 'ett-ett-beta-message',
   standalone: true,
   imports: [CommonModule, WattButtonComponent, WattCardComponent],
-  templateUrl: './eo-beta-message.component.html',
-  styleUrls: ['./eo-beta-message.component.scss'],
+  templateUrl: './ett-beta-message.component.html',
+  styleUrls: ['./ett-beta-message.component.scss'],
 })
 export class EoBetaMessageComponent {}

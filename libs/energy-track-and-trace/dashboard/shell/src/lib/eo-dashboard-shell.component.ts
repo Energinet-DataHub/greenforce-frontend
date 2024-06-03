@@ -32,9 +32,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-import { EoDashboardChoosePeriodComponent } from './eo-dashboard-choose-period.component';
-import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
-import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
+import { EoDashboardChoosePeriodComponent } from './ett-dashboard-choose-period.component';
+import { EoDashboardConsumptionComponent } from './ett-dashboard-consumption.component';
+import { EoDashboardProductionTransferredComponent } from './ett-dashboard-production-transferred.component';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -65,7 +65,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         align-items: center;
       }
 
-      eo-dashboard-choose-period {
+      ett-dashboard-choose-period {
         margin-top: var(--watt-space-s);
         @include watt.media('>=Large') {
           margin-top: 0;
@@ -85,7 +85,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     WattTabComponent,
     TranslocoPipe,
   ],
-  selector: 'eo-dashboard-shell',
+  selector: 'ett-dashboard-shell',
   template: `
     @if ((isLoadingMeteringPoints$ | async) === false) {
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
@@ -96,7 +96,7 @@ import { translations } from '@energinet-datahub/eo/translations';
               (changed)="activeTab = 'production'"
             >
               @if (activeTab === 'production') {
-                <eo-dashboard-production-transferred [period]="period()" />
+                <ett-dashboard-production-transferred [period]="period()" />
               }
             </watt-tab>
           }
@@ -107,12 +107,12 @@ import { translations } from '@energinet-datahub/eo/translations';
               (changed)="activeTab = 'consumption'"
             >
               @if (activeTab === 'consumption') {
-                <eo-dashboard-consumption [period]="period()" />
+                <ett-dashboard-consumption [period]="period()" />
               }
             </watt-tab>
           }
 
-          <eo-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
+          <ett-dashboard-choose-period (periodChanged)="onPeriodChanged($event)" />
         </watt-tabs>
       }
 

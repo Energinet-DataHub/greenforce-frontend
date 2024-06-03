@@ -36,7 +36,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe],
-  selector: 'eo-landing-page-hero',
+  selector: 'ett-landing-page-hero',
   styles: `
     :host {
       display: block;
@@ -74,7 +74,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
       object-fit: cover;
     }
 
-    .video-filter {
+    .vidett-filter {
       position: absolute;
       top: 0;
       left: 0;
@@ -129,7 +129,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
         loop
         muted
         playsinline
-        class="video-filter"
+        class="vidett-filter"
         poster="/assets/landing-page/blockchain-concept-cover.png"
         aria-hidden="true"
       >
@@ -155,12 +155,12 @@ import { EoLearnMoreComponent } from './learn-more.component';
             <watt-icon name="login" />
             {{ translations.landingPage.hero.loginButton | transloco }}
           </button>
-          <eo-learn-more>
+          <ett-learn-more>
             <button class="button secondary">
               <watt-icon name="smartDisplay" />
               {{ translations.landingPage.hero.learnMoreButton | transloco }}
             </button>
-          </eo-learn-more>
+          </ett-learn-more>
         </section>
       </div>
     </div>

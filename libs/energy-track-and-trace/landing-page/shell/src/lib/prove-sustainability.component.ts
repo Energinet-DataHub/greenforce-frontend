@@ -29,9 +29,9 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoLottieComponent } from './eo-lottie.component';
+import { EoLottieComponent } from './ett-lottie.component';
 
-const selector = 'eo-landing-page-prove-sustainability';
+const selector = 'ett-landing-page-prove-sustainability';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,14 +79,14 @@ const selector = 'eo-landing-page-prove-sustainability';
       }
 
       @media screen and (orientation: landscape) and (max-width: 960px) {
-        eo-lottie {
+        ett-lottie {
           max-width: 60vh;
         }
       }
     }
   `,
   template: `
-    <eo-lottie
+    <ett-lottie
       #animation
       height="auto"
       width="100%"

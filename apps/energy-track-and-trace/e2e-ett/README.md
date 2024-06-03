@@ -1,11 +1,11 @@
 # Project targets
 
 `e2e` target configurations using a `development` application configuration will
-load the `eo-api-environment.local.json` configuration file which can be
+load the `ett-api-environment.local.json` configuration file which can be
 configured to target a feature environment.
 
 `e2e` target configurations using a `production` application configuration will
-load the `eo-api-environment.json` configuration file which targets local/same
+load the `ett-api-environment.json` configuration file which targets local/same
 environment `/api` endpoints which we stub using Cypress interceptors for now.
 
 | Command                              | Description                                                                     |

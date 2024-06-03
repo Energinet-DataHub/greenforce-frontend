@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-scroll-view',
+  selector: 'ett-scroll-view',
   standalone: true,
   styles: [
     `

@@ -16,7 +16,7 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import { EO_MEDIA } from './eo-media.component';
+import { EO_MEDIA } from './ett-media.component';
 
 describe('Energy Track And Trace Media atom', () => {
   const findMedia = () => screen.findByTestId('media');
@@ -32,7 +32,7 @@ describe('Energy Track And Trace Media atom', () => {
     // Arrange
     await render(
       `
-      <eo-media [eoMediaGapPixels]="40"><!-- 👈 -->
+      <ett-media [eoMediaGapPixels]="40"><!-- 👈 -->
         <img
           eoMediaImage
           alt="Example image"
@@ -43,7 +43,7 @@ describe('Energy Track And Trace Media atom', () => {
         <p>
           Example copy
         </p>
-      </eo-media>
+      </ett-media>
     `,
       {
         imports: [EO_MEDIA],
@@ -68,7 +68,7 @@ describe('Energy Track And Trace Media atom', () => {
       // Arrange
       await render(
         `
-        <eo-media [eoMediaMaxWidthPixels]="1000"><!-- 👈 -->
+        <ett-media [eoMediaMaxWidthPixels]="1000"><!-- 👈 -->
           <img eoMediaImage [eoMediaImageMaxWidthPixels]="600" /><!-- 👈 -->
 
           <h1>Example title</h1>
@@ -76,7 +76,7 @@ describe('Energy Track And Trace Media atom', () => {
           <p>
             Example copy
           </p>
-        </eo-media>
+        </ett-media>
       `,
         {
           imports: [EO_MEDIA],
@@ -100,7 +100,7 @@ describe('Energy Track And Trace Media atom', () => {
       // Arrange
       await render(
         `
-        <eo-media [eoMediaMaxWidthPixels]="1000"><!-- 👈 -->
+        <ett-media [eoMediaMaxWidthPixels]="1000"><!-- 👈 -->
           <img eoMediaImage alt="Example image" />
 
           <h1>Example title</h1>
@@ -108,7 +108,7 @@ describe('Energy Track And Trace Media atom', () => {
           <p>
             Example copy
           </p>
-        </eo-media>
+        </ett-media>
       `,
         {
           imports: [EO_MEDIA],
@@ -129,7 +129,7 @@ describe('Energy Track And Trace Media atom', () => {
   Then the media image is aligned to the start of the media box`, async () => {
     await render(
       `
-      <eo-media>
+      <ett-media>
         <img eoMediaImage [eoMediaImageAlign]="null" /><!-- 👈 -->
         <!-- or: <img eoMediaImage /> -->
 
@@ -138,7 +138,7 @@ describe('Energy Track And Trace Media atom', () => {
         <p>
           Example copy
         </p>
-      </eo-media>
+      </ett-media>
     `,
       {
         imports: [EO_MEDIA],
@@ -159,7 +159,7 @@ describe('Energy Track And Trace Media atom', () => {
     // Arrange
     await render(
       `
-      <eo-media>
+      <ett-media>
         <img eoMediaImage eoMediaImageAlign="start" /><!-- 👈 -->
 
         <h1>Example title</h1>
@@ -167,7 +167,7 @@ describe('Energy Track And Trace Media atom', () => {
         <p>
           Example copy
         </p>
-      </eo-media>
+      </ett-media>
     `,
       {
         imports: [EO_MEDIA],
@@ -188,7 +188,7 @@ describe('Energy Track And Trace Media atom', () => {
     // Arrange
     await render(
       `
-      <eo-media>
+      <ett-media>
         <img eoMediaImage eoMediaImageAlign="end" /><!-- 👈 -->
 
         <h1>Example title</h1>
@@ -196,7 +196,7 @@ describe('Energy Track And Trace Media atom', () => {
         <p>
           Example copy
         </p>
-      </eo-media>
+      </ett-media>
     `,
       {
         imports: [EO_MEDIA],

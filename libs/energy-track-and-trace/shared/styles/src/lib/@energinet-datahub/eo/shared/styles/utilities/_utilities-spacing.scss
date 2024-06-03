@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "../tools/tools-spacing" as eo-spacing;
+@use "../tools/tools-spacing" as ett-spacing;
 
 // SQUISHED INSET
-.eo-spacing-squished-inset-m {
-  @include eo-spacing.squished-inset-m;
+.ett-spacing-squished-inset-m {
+  @include ett-spacing.squished-inset-m;
 }
 
-.eo-spacing-squished-inset-xxl {
-  @include eo-spacing.squished-inset-xxl;
+.ett-spacing-squished-inset-xxl {
+  @include ett-spacing.squished-inset-xxl;
 }
 
 // STRETCHED INSET
-.eo-spacing-stretched-inset-l {
-  @include eo-spacing.stretched-inset-l;
+.ett-spacing-stretched-inset-l {
+  @include ett-spacing.stretched-inset-l;
 }

@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
-import { EoActivityLogShellComponent } from './eo-activity-log-shell.component';
+import { EoActivityLogShellComponent } from './ett-activity-log-shell.component';
 
 export const eoActivityLogRoutes: Routes = [{ path: '', component: EoActivityLogShellComponent }];

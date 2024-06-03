@@ -20,7 +20,7 @@ import { provideRouter } from '@angular/router';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 
-import { EoDashboardConsumptionComponent } from './eo-dashboard-consumption.component';
+import { EoDashboardConsumptionComponent } from './ett-dashboard-consumption.component';
 
 describe('EO - Consumption Chart', () => {
   type configKey = 'aggregate-claims' | 'aggregate-certificates';

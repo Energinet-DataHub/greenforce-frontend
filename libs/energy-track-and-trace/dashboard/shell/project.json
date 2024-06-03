@@ -1,9 +1,9 @@
 {
-  "name": "eo-dashboard-shell",
+  "name": "ett-dashboard-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/dashboard/shell/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

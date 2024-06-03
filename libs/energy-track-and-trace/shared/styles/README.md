@@ -16,8 +16,8 @@ Tools, that is Sass variables, functions, and mixins, are exported in separate p
 
 | Module name | How to load the module                                              |
 | ----------- | ------------------------------------------------------------------- |
-| Layout      | `@use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;`   |
-| Spacing     | `@use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;` |
+| Layout      | `@use '@energinet-datahub/eo/shared/styles/layout' as ett-layout;`   |
+| Spacing     | `@use '@energinet-datahub/eo/shared/styles/spacing' as ett-spacing;` |
 
 The tools are available to component stylesheets because the following setting is added to the application project's `projects.json#targets.build.options` configuration:
 

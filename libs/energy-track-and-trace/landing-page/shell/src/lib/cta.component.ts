@@ -26,7 +26,7 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [WattIconComponent, TranslocoPipe],
-  selector: 'eo-landing-page-cta',
+  selector: 'ett-landing-page-cta',
   styles: `
     :host {
       display: block;

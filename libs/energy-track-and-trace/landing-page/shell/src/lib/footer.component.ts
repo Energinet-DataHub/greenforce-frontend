@@ -22,7 +22,7 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-desi
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { translations } from '@energinet-datahub/eo/translations';
 
-const selector = 'eo-landing-page-footer';
+const selector = 'ett-landing-page-footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

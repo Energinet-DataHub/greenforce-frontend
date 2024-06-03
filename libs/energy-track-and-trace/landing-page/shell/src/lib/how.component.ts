@@ -32,11 +32,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  selector: 'eo-landing-page-how',
+  selector: 'ett-landing-page-how',
   imports: [NgClass, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   styles: `
-    eo-landing-page-how {
+    ett-landing-page-how {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -45,7 +45,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       padding: 0 24px 48px 24px;
       --transition: all 1500ms cubic-bezier(0.75, 0, 0.25, 1);
       --scale: scale(1.15766, 1);
-      container: eo-landing-page-how / inline-size;
+      container: ett-landing-page-how / inline-size;
 
       h3 {
         color: #fff;
@@ -90,8 +90,8 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
     }
 
-    @container eo-landing-page-how (min-width: 1150px) {
-      eo-landing-page-how {
+    @container ett-landing-page-how (min-width: 1150px) {
+      ett-landing-page-how {
         min-height: 1100px;
         padding: 150px 0;
 

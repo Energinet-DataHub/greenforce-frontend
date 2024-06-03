@@ -131,7 +131,7 @@ jobs:
         uses: Energinet-DataHub/acorn-actions/actions/docker-build-and-push@v1
         with:
           dockerfile: build/infrastructure/eo/host/Dockerfile
-          image-name: eo-frontend-app
+          image-name: ett-frontend-app
           image-tag: ${{ needs.define_build.outputs.version }}
 
   update-environment:

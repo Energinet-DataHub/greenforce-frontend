@@ -1,9 +1,9 @@
 {
-  "name": "eo-globalization-configuration-localization",
+  "name": "ett-globalization-configuration-localization",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/core/globalization/configuration-localization/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

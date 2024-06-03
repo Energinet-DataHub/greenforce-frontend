@@ -28,8 +28,8 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
-import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
-import { EoAccountMenuComponent } from './eo-account-menu';
+import { EoPrimaryNavigationComponent } from './ett-primary-navigation.component';
+import { EoAccountMenuComponent } from './ett-account-menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +47,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     EoLanguageSwitcherComponent,
     EoAccountMenuComponent,
   ],
-  selector: 'eo-shell',
+  selector: 'ett-shell',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -113,13 +113,13 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     `,
   ],
   template: `
-    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
+    <!--<ett-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
           <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
         </div>
-        <eo-primary-navigation />
+        <ett-primary-navigation />
       </ng-container>
 
       <ng-container watt-shell-toolbar>
@@ -128,17 +128,17 @@ import { EoAccountMenuComponent } from './eo-account-menu';
 
           <vater-spacer />
 
-          <eo-account-menu>
-            <eo-language-switcher [changeUrl]="true">
+          <ett-account-menu>
+            <ett-language-switcher [changeUrl]="true">
               <watt-button variant="text" icon="language">
                 {{ translations.languageSwitcher.title | transloco }}</watt-button
               >
-            </eo-language-switcher>
+            </ett-language-switcher>
             <hr />
             <watt-button variant="text" (click)="onLogout()" icon="logout">{{
               translations.topbar.logout | transloco
             }}</watt-button>
-          </eo-account-menu>
+          </ett-account-menu>
 
           <watt-button variant="text" [routerLink]="['help']" icon="help" />
         </vater-stack>
@@ -148,7 +148,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
         <router-outlet />
       </div>
 
-      <eo-footer />
+      <ett-footer />
     </watt-shell>
   `,
 })

@@ -25,7 +25,7 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [RouterModule, TranslocoPipe],
-  selector: 'eo-footer',
+  selector: 'ett-footer',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;

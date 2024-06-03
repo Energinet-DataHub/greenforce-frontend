@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoEnvironment } from './eo-environment';
+import { EoEnvironment } from './ett-environment';
 
 export const environment: EoEnvironment = {
   production: true,

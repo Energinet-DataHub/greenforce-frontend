@@ -1,9 +1,9 @@
 {
-  "name": "eo-shared-data-access-mocks",
+  "name": "ett-shared-data-access-mocks",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/shared/data-access-mocks/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

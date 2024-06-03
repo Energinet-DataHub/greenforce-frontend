@@ -19,11 +19,11 @@ import { Routes } from '@angular/router';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoFaqPageComponent } from './lib/eo-faq-page.component';
-import { EoGeographyPageComponent } from './lib/eo-geography-page.component';
-import { EoHelpPageComponent } from './lib/eo-help-page.component';
-import { EoIntroductionPageComponent } from './lib/eo-introduction-page.component';
-import { EoSimultaneityPageComponent } from './lib/eo-simultaneity-page.component';
+import { EoFaqPageComponent } from './lib/ett-faq-page.component';
+import { EoGeographyPageComponent } from './lib/ett-geography-page.component';
+import { EoHelpPageComponent } from './lib/ett-help-page.component';
+import { EoIntroductionPageComponent } from './lib/ett-introduction-page.component';
+import { EoSimultaneityPageComponent } from './lib/ett-simultaneity-page.component';
 
 export const eoHelpRoutes: Routes = [
   { path: '', component: EoHelpPageComponent, title: translations.help.title },

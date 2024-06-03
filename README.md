@@ -312,7 +312,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
 - `dh-ci-dotnet.yml` - Verifies the ASP.NET Core Web API by building and running all tests. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 - `dh-ci-frontend.yml` - Used by DataHub frontend for publishing a release and generating API clients. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 - `dh-healthchecks.yml` - Runs E2E health check tests every hour against all DataHub environments.
-- `eo-cd.yml` - Used by "Energy Track And Trace" app.
+- `ett-cd.yml` - Used by "Energy Track And Trace" app.
 - `frontend-ci.yml` - Used to build, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
 - `license-check-ci.yml` - Used to check for license headers in files and adding them if missing.
 - `production-dependencies-license-check.yml` - Used for documenting used versions and licenses of production dependencies.

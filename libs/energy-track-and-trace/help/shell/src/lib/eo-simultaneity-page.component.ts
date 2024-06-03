@@ -25,7 +25,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  selector: 'eo-simultaneity-page',
+  selector: 'ett-simultaneity-page',
   styles: [
     `
       :host {
@@ -37,7 +37,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       * + h1,
       * + h3,
       * + .nav-link,
-      * + eo-info-box {
+      * + ett-info-box {
         margin-block-start: var(--watt-space-l);
       }
 
@@ -61,9 +61,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <div>
-      <eo-info-box>
+      <ett-info-box>
         <h3>Houston, we have a problem!</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             I elsystemet, som det er i dag, mangler der en sammenhæng i tid, mellem produktion og
             forbrug. Selvom du køber “grønne certifikater” for f.eks. 100% af dit energiforbrug, så
@@ -77,12 +77,12 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           <div>
             <img alt="Hourly declaration" src="/assets/images/help/hour_declaration.png" />
           </div>
-        </eo-stack>
-      </eo-info-box>
+        </ett-stack>
+      </ett-info-box>
 
-      <eo-info-box>
+      <ett-info-box>
         <h3>Flyt energiforbruget for en grønnere profil</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             Med det nuværende energisystem, hvor energiforbrug baseres på et årsgennemsnit, kan to
             energiforbrugere begge have en lignende grøn profil, uanset hvornår de placerer deres
@@ -99,30 +99,30 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           <div>
             <img alt="Move consumption" src="/assets/images/help/move_consumption.png" />
           </div>
-        </eo-stack>
-      </eo-info-box>
+        </ett-stack>
+      </ett-info-box>
       <a class="nav-link" routerLink="../{{ routes.introduction }}">
         << Tilbage til Introduktion til EnergiOprindelse
       </a>
     </div>
     <div>
       <div class="title-container">
-        <eo-stack size="M">
+        <ett-stack size="M">
           <h1>Samtidighed</h1>
           <p>
             Det er helt afgørende for den grønne omstilling af energisystemet, at vi kan
             dokumentere, at vi faktisk bruger strømmen, når den er grøn.
           </p>
-        </eo-stack>
+        </ett-stack>
       </div>
-      <eo-info-box variant="dark">
+      <ett-info-box variant="dark">
         <h3>Vi danner grundlaget for at kunne træffe de grønne valg</h3>
         <p>
           Et tættere match mellem produktion og forbrug kan blive fundamentet for et mere fleksibelt
           elmarked, hvor man som forbruger har incitament til at forbruge grøn el, når det er
           gunstigt og dermed være med til at gøre en forskel.
         </p>
-      </eo-info-box>
+      </ett-info-box>
     </div>
   `,
   imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],

@@ -23,7 +23,7 @@ import { translocoProviders } from '@energinet-datahub/eo/globalization/configur
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
-import { EoActivityLogShellComponent } from './eo-activity-log-shell.component';
+import { EoActivityLogShellComponent } from './ett-activity-log-shell.component';
 
 const transferActivityLogConfigKey = 'transfer-activity-log';
 const certificatesActivityLogConfigKey = 'certificates-activity-log';

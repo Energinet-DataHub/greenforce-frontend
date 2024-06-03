@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './eo-metering-points.service';
-export * from './eo-metering-points.store';
+export * from './ett-metering-points.service';
+export * from './ett-metering-points.store';

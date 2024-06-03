@@ -26,9 +26,9 @@ import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
-import { EoTransferFormPeriod } from './eo-transfers-form.component';
-import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
+import { EoTransfersDateTimeComponent } from './ett-transfers-date-time.component';
+import { EoTransferFormPeriod } from './ett-transfers-form.component';
+import { EoTransferErrorsComponent } from './ett-transfers-errors.component';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
@@ -36,7 +36,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 }
 
 @Component({
-  selector: 'eo-transfers-form-period',
+  selector: 'ett-transfers-form-period',
   standalone: true,
   imports: [
     CommonModule,
@@ -52,15 +52,15 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      eo-transfers-form-period .start-date {
+      ett-transfers-form-period .start-date {
         position: relative;
       }
 
-      eo-transfers-form-period .watt-label {
+      ett-transfers-form-period .watt-label {
         width: 100%;
       }
 
-      eo-transfers-form-period .end-date {
+      ett-transfers-form-period .end-date {
         position: relative;
 
         .radio-buttons-container {
@@ -97,12 +97,12 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         }
       }
 
-      eo-transfers-form-period .asterisk {
+      ett-transfers-form-period .asterisk {
         color: var(--watt-color-primary);
         margin-left: var(--watt-space-s);
       }
 
-      eo-transfers-form-period .has-error {
+      ett-transfers-form-period .has-error {
         --watt-radio-color: var(--watt-color-state-danger);
 
         p,
@@ -116,7 +116,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     <ng-container [formGroup]="form">
       <!-- Start of period -->
       <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
-        <eo-transfers-datetime
+        <ett-transfers-datetime
           formControlName="startDate"
           [label]="
             translations.createTransferAgreementProposal.timeframe.startDate.label | transloco
@@ -125,7 +125,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           [existingTransferAgreements]="existingTransferAgreements"
         />
 
-        <eo-transfers-errors
+        <ett-transfers-errors
           [showError]="
             (form.controls.startDate.touched || form.controls.startDate.dirty) &&
             !!form.controls.startDate.errors
@@ -161,7 +161,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               }}
             }
           </watt-field-error>
-        </eo-transfers-errors>
+        </ett-transfers-errors>
       </fieldset>
 
       <!-- End of period -->
@@ -188,14 +188,14 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               }}
             </watt-radio>
             @if (form.value.hasEndDate) {
-              <eo-transfers-datetime
+              <ett-transfers-datetime
                 formControlName="endDate"
                 [min]="minEndDate"
                 [existingTransferAgreements]="existingTransferAgreements"
               />
             }
 
-            <eo-transfers-errors
+            <ett-transfers-errors
               [showError]="!!form.controls.endDate.errors || !!form.controls.hasEndDate.errors"
             >
               <watt-field-error
@@ -252,7 +252,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                   }}
                 }
               </watt-field-error>
-            </eo-transfers-errors>
+            </ett-transfers-errors>
           </div>
         </div>
       </fieldset>

@@ -22,7 +22,7 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-desi
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [MatToolbarModule, EoProductLogoDirective],
-  selector: 'eo-header',
+  selector: 'ett-header',
   styles: [
     `
       .toolbar {

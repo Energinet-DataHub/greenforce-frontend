@@ -22,8 +22,8 @@ import {
 
 export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
   const configurationFilename = environment.production
-    ? 'eo-api-environment.json'
-    : 'eo-api-environment.local.json';
+    ? 'ett-api-environment.json'
+    : 'ett-api-environment.local.json';
 
   return _loadEoApiEnvironment(configurationFilename);
 }

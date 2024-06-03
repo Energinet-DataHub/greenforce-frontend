@@ -1,9 +1,9 @@
 {
-  "name": "eo-claims-feature-overview",
+  "name": "ett-claims-feature-overview",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/claims/feature-overview",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"

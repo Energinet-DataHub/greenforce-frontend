@@ -16,7 +16,7 @@
  */
 
 import { Routes } from '@angular/router';
-import { EoTransfersComponent } from './lib/eo-transfers.component';
+import { EoTransfersComponent } from './lib/ett-transfers.component';
 
 export const eoTransfersRoutes: Routes = [
   {

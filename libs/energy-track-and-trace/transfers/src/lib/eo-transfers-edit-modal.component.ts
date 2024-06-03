@@ -34,15 +34,15 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
+import { EoListedTransfer, EoTransfersService } from './ett-transfers.service';
 import {
   EoTransfersFormComponent,
   EoTransfersFormInitialValues,
-} from './form/eo-transfers-form.component';
+} from './form/ett-transfers-form.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers-edit-modal',
+  selector: 'ett-transfers-edit-modal',
   imports: [
     RxPush,
     WATT_MODAL,
@@ -70,7 +70,7 @@ import {
             size="compact"
           />
         }
-        <eo-transfers-form
+        <ett-transfers-form
           [submitButtonText]="translations.transferAgreementEdit.saveChanges | transloco"
           [cancelButtonText]="translations.transferAgreementEdit.cancel | transloco"
           mode="edit"

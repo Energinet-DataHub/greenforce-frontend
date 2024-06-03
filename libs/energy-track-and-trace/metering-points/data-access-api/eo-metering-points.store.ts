@@ -25,7 +25,7 @@ import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-poi
 
 import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
-import { EoMeteringPointsService } from './eo-metering-points.service';
+import { EoMeteringPointsService } from './ett-metering-points.service';
 
 interface EoMeteringPointsState {
   loading: boolean;

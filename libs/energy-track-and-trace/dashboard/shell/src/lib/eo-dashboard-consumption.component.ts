@@ -49,7 +49,7 @@ import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { graphLoader } from '@energinet-datahub/eo/shared/assets';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoLottieComponent } from './eo-lottie.component';
+import { EoLottieComponent } from './ett-lottie.component';
 
 interface Totals {
   green: number;
@@ -77,7 +77,7 @@ interface Totals {
     TranslocoPipe,
   ],
   providers: [EnergyUnitPipe],
-  selector: 'eo-dashboard-consumption',
+  selector: 'ett-dashboard-consumption',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -175,7 +175,7 @@ interface Totals {
     @if (isLoading || hasError) {
       <div class="loader-container">
         @if (isLoading) {
-          <eo-lottie height="64px" width="64px" [animationData]="lottieAnimation" />
+          <ett-lottie height="64px" width="64px" [animationData]="lottieAnimation" />
         }
 
         @if (hasError) {

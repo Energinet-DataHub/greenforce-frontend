@@ -57,7 +57,7 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
     WattDateRangeChipComponent,
     WattFormChipDirective,
   ],
-  selector: 'eo-dashboard-choose-period',
+  selector: 'ett-dashboard-choose-period',
   styles: [
     `
       :host {

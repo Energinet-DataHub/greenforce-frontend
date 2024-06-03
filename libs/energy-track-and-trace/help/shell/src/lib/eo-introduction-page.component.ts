@@ -27,7 +27,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [EoStackComponent, EO_MEDIA, RouterModule, EoInfoBoxComponent],
-  selector: 'eo-introduction-page',
+  selector: 'ett-introduction-page',
   styles: [
     `
       :host {
@@ -41,7 +41,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       * + h4,
       * + .case,
       * + .goal-7,
-      * + eo-info-box {
+      * + ett-info-box {
         margin-block-start: var(--watt-space-l);
       }
 
@@ -83,14 +83,14 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <div>
-      <eo-info-box>
+      <ett-info-box>
         <img
           width="383"
           src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
           alt="Energy Track And Trace graph of energy"
         />
         <h3>Hvad kan du bruge energioprindelse.dk til?</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             energioprindelse.dk er hovedsageligt beregnet til, at du kan
             <b>dokumentere</b>, hvor grøn du er. Du kan se alle <b>dine data</b> og bruge dem i
@@ -102,11 +102,11 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             også se dine <b>certifikater</b>, både dem du selv har produceret, og dem du har købt.
           </p>
           <p>Alle disse informationer kan du f.eks. bruge i din CSR-rapport.</p>
-        </eo-stack>
-      </eo-info-box>
-      <eo-info-box>
+        </ett-stack>
+      </ett-info-box>
+      <ett-info-box>
         <h3>Grøn energi med EnergiOprindelse</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             Energiforbrugere oplever et stigende behov for kendskab til deres energis oprindelse,
             både for at kunne holde øje med deres
@@ -125,11 +125,11 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             tilsvarende CO2-udledning, spores fra produktion til forbrug helt ned på
             <b>timeniveau</b>.
           </p>
-        </eo-stack>
-      </eo-info-box>
-      <eo-info-box>
+        </ett-stack>
+      </ett-info-box>
+      <ett-info-box>
         <h3>Hvordan kan du blive grønnere?</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             Helt overordnet kan du blive mere grøn ved at:
             <br />- <b>Flytte</b> dit forbrug <br />- <b>Producere</b> din egen energi <br />- Bruge
@@ -142,8 +142,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> kan du læse mere om, da det
             er en af de væsentlige ting i det nye certifikat.
           </p>
-        </eo-stack>
-      </eo-info-box>
+        </ett-stack>
+      </ett-info-box>
       <div class="case">
         <img alt="Iværksætter case" src="/assets/images/help/ivan_case.jpg" />
         <div class="text">
@@ -157,9 +157,9 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </div>
       </div>
 
-      <eo-info-box>
+      <ett-info-box>
         <h3>GO- vs. GC-certifikater</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             GO står for Guarantees of Origin, og er en oprindelsesgaranti, som dokumenterer og
             garanterer, at der er produceret strøm fra vedvarende energikilder. Garantien udstedes
@@ -171,17 +171,17 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
             <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> og
             <a routerLink="../{{ routes.geography }}">geografiske begrænsninger</a>.
           </p>
-        </eo-stack>
-      </eo-info-box>
+        </ett-stack>
+      </ett-info-box>
     </div>
     <div>
       <div class="title-container">
-        <eo-stack size="M">
+        <ett-stack size="M">
           <h1>Grøn energi</h1>
           <p>
             Med denne platform har du mulighed for at spore din energis oprindelse og se din andel
             af vedvarende energi og dine emissioner baseret på dit forbrug i den enkelte time.
-          </p></eo-stack
+          </p></ett-stack
         >
       </div>
       <div class="goal-7">
@@ -198,7 +198,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           >]
         </p>
       </div>
-      <eo-info-box variant="dark">
+      <ett-info-box variant="dark">
         <img alt="Law Paragraph icon" src="/assets/images/help/law_paragraph.png" />
         <h3>Aftale om et grønt og sikkert Danmark</h3>
         <p>
@@ -206,19 +206,19 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           produktion af sol- og vindenergi på land samt mulighed for femdobling af
           havvindemøllestrøm. Der er derfor for alvor sat turbo på den grønne omstilling.
         </p>
-      </eo-info-box>
-      <eo-info-box variant="dark">
+      </ett-info-box>
+      <ett-info-box variant="dark">
         <img alt="Power to X icon" src="/assets/images/help/power_to_x.png" />
         <h3>Power-to-X: Sikkerhed for grøn oprindelse</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>
             EU Kommissionen skal beskrive metode, der kan dokumentere, at strøm taget fra elnettet
             produceres samtidigt med produktion af grøn brint til transport. (EU-direktiv ark. 27)
           </p>
           <p>Dette vil netop kunne gøres med EnergiOprindelse.</p>
-        </eo-stack>
-      </eo-info-box>
-      <eo-info-box variant="light">
+        </ett-stack>
+      </ett-info-box>
+      <ett-info-box variant="light">
         <h3>CSR-rapport</h3>
         <p>
           Corporate Social Responsibility, eller CSR som forkortelse, er virksomheders sociale
@@ -226,10 +226,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           Danmark er det desuden lov, at visse virksomheder skal aflevere en rapportering om
           samfundsansvar inden for en række punkter. Et af punkterne er om brug af energi.
         </p>
-      </eo-info-box>
-      <eo-info-box variant="light">
+      </ett-info-box>
+      <ett-info-box variant="light">
         <h3>Timedeklarationen</h3>
-        <eo-stack size="M">
+        <ett-stack size="M">
           <p>Ny deklaration der baseres på faktiske time-for-time overblik af leveret strøm.</p>
           <p>
             Læs mere om timedeklaration her:
@@ -240,8 +240,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
               >Deklarationer</a
             >
           </p>
-        </eo-stack>
-      </eo-info-box>
+        </ett-stack>
+      </ett-info-box>
     </div>
   `,
 })

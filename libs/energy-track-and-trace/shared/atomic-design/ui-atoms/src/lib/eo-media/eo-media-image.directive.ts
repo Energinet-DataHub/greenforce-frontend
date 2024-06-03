@@ -16,8 +16,8 @@
  */
 import { Directive, Input, inject } from '@angular/core';
 
-import { EoMediaAlign } from './eo-media-align';
-import { EoMediaPresenter } from './eo-media.presenter';
+import { EoMediaAlign } from './ett-media-align';
+import { EoMediaPresenter } from './ett-media.presenter';
 
 @Directive({
   standalone: true,

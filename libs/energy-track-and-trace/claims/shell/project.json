@@ -1,9 +1,9 @@
 {
-  "name": "eo-claims-shell",
+  "name": "ett-claims-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/claims/shell",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"

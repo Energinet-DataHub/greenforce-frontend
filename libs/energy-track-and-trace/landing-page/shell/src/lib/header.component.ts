@@ -46,7 +46,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     EoLanguageSwitcherComponent,
     TranslocoPipe,
   ],
-  selector: 'eo-landing-page-header',
+  selector: 'ett-landing-page-header',
   styles: `
     :host {
       position: absolute;
@@ -101,7 +101,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     }
   `,
   template: `
-    <eo-announcement-bar
+    <ett-announcement-bar
       [announcement]="translations.landingPage.announcementBar.message | transloco"
     />
     <div class="topbar">
@@ -115,13 +115,13 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
 
         <!-- We defer the language picker to avoid loading dayjs locales on initial load -->
         @defer (on viewport; prefetch on idle) {
-          <eo-language-switcher
+          <ett-language-switcher
             (click)="pauseScrollEvents = true"
             (closed)="pauseScrollEvents = false"
             [changeUrl]="true"
           >
             <watt-button variant="text" icon="language" />
-          </eo-language-switcher>
+          </ett-language-switcher>
         } @placeholder {
           <watt-button variant="text" icon="language" />
         }

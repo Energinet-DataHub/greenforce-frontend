@@ -34,7 +34,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective, TranslocoPipe],
-  selector: 'eo-primary-navigation',
+  selector: 'ett-primary-navigation',
   styles: [
     `
       :host {

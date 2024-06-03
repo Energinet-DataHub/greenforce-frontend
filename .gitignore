@@ -23,7 +23,7 @@
 # Frontend configuration files
 **/configuration/**/*.json
 !**/configuration/**/*.local.json
-!**/configuration/**/eo-*.json
+!**/configuration/**/ett-*.json
 
 # User-specific files
 *.rsuser

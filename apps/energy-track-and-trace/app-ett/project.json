@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/energy-track-and-trace/app-ett/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
@@ -87,8 +87,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/energy-track-and-trace/app-ett/src/configuration/load-eo-api-environment.ts",
-              "with": "apps/energy-track-and-trace/app-ett/src/configuration/load-eo-api-environment.prod.ts"
+              "replace": "apps/energy-track-and-trace/app-ett/src/configuration/load-ett-api-environment.ts",
+              "with": "apps/energy-track-and-trace/app-ett/src/configuration/load-ett-api-environment.prod.ts"
             },
             {
               "replace": "libs/energy-track-and-trace/shared/environments/src/lib/environment.ts",
@@ -148,5 +148,5 @@
     }
   },
   "tags": ["product:eo", "type:app"],
-  "implicitDependencies": ["eo-shared-styles", "app-ett-landing-page"]
+  "implicitDependencies": ["ett-shared-styles", "app-ett-landing-page"]
 }

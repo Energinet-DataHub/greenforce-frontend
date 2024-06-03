@@ -23,7 +23,7 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [TranslocoPipe],
-  selector: 'eo-landing-page-granular-certificates',
+  selector: 'ett-landing-page-granular-certificates',
   styles: `
     :host {
       background: #f9f9f9;

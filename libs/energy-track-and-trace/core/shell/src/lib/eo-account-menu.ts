@@ -33,7 +33,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [MatMenuModule, WattButtonComponent, WattIconComponent, NgClass],
-  selector: 'eo-account-menu',
+  selector: 'ett-account-menu',
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
@@ -64,7 +64,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       }
     }
 
-    eo-account-menu {
+    ett-account-menu {
       .menu-icon {
         transition: transform 150ms;
 

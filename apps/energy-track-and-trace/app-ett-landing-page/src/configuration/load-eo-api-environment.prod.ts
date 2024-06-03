@@ -20,5 +20,5 @@ import {
 } from '@energinet-datahub/eo/shared/environments';
 
 export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
-  return _loadEoApiEnvironment('eo-api-environment.json');
+  return _loadEoApiEnvironment('ett-api-environment.json');
 }

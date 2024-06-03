@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 // API environment
-export * from './lib/api-environment/eo-api-environment';
-export * from './lib/api-environment/load-eo-api-environment';
+export * from './lib/api-environment/ett-api-environment';
+export * from './lib/api-environment/load-ett-api-environment';
 
 // Application environment
 export * from './lib/environment';

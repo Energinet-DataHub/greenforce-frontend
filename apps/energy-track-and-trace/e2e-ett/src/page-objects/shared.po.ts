@@ -20,7 +20,7 @@ export class SharedPO {
 
   // Interaction
   clickLogoutMenuItem = () => {
-    cy.get('eo-account-menu').click();
+    cy.get('ett-account-menu').click();
     cy.get('watt-button').contains('Logout').as('logout-btn').click({ force: true });
     cy.get('@logout-btn').click({ force: true });
   };

@@ -18,12 +18,12 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
 
 @Component({
   standalone: true,
-  selector: 'eo-transfers-errors',
+  selector: 'ett-transfers-errors',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
 
-      eo-transfers-errors {
+      ett-transfers-errors {
         display: block;
         margin-top: var(--watt-space-xs);
         min-height: 36px;

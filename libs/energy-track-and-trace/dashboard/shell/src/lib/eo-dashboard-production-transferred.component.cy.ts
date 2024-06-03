@@ -20,7 +20,7 @@ import { provideRouter } from '@angular/router';
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
-import { EoDashboardProductionTransferredComponent } from './eo-dashboard-production-transferred.component';
+import { EoDashboardProductionTransferredComponent } from './ett-dashboard-production-transferred.component';
 
 describe('EO - Transferred Chart', () => {
   type configKey = 'aggregate-claims' | 'aggregate-certificates' | 'aggregate-transfers';

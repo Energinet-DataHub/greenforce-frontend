@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
-import { EoDashboardShellComponent } from './eo-dashboard-shell.component';
+import { EoDashboardShellComponent } from './ett-dashboard-shell.component';
 
 export const eoDashboardRoutes: Routes = [
   {

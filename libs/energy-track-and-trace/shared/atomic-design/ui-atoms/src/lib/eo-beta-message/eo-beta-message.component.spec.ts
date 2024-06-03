@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EoBetaMessageComponent } from './eo-beta-message.component';
+import { EoBetaMessageComponent } from './ett-beta-message.component';
 
 describe('EoBetaMessageComponent', () => {
   let component: EoBetaMessageComponent;

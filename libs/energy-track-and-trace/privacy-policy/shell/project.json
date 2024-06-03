@@ -1,9 +1,9 @@
 {
-  "name": "eo-privacy-policy-shell",
+  "name": "ett-privacy-policy-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/privacy-policy/shell/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

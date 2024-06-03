@@ -31,7 +31,7 @@ import Player from '@vimeo/player';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [NgIf],
-  selector: 'eo-vimeo-player',
+  selector: 'ett-vimett-player',
   styles: [
     `
       :host {

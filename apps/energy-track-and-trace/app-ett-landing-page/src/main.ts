@@ -21,7 +21,7 @@ import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared
 
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { loadEoApiEnvironment } from './configuration/load-ett-api-environment';
 
 if (environment.production) {
   enableProdMode();

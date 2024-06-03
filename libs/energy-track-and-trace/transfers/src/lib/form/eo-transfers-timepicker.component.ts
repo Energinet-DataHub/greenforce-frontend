@@ -38,17 +38,17 @@ import {
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 @Component({
-  selector: 'eo-transfers-timepicker',
+  selector: 'ett-transfers-timepicker',
   standalone: true,
   imports: [ReactiveFormsModule, WattDropdownComponent],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      eo-transfers-timepicker {
+      ett-transfers-timepicker {
         max-width: 112px;
       }
 
-      eo-transfers-timepicker watt-dropdown {
+      ett-transfers-timepicker watt-dropdown {
         margin-top: var(--watt-space-xs);
 
         .label {

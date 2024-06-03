@@ -66,10 +66,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  selector: 'eo-metering-points-table',
+  selector: 'ett-metering-points-table',
   styles: [
     `
-      eo-metering-points-table {
+      ett-metering-points-table {
         --mdc-switch-selected-track-color: var(--watt-color-primary);
         --mdc-switch-selected-hover-track-color: var(--watt-color-primary);
         --mdc-switch-selected-focus-track-color: var(--watt-color-primary);

@@ -24,7 +24,7 @@ ul {
     padding-left: calc(var(--circle-size) + var(--watt-space-xs));
 
     &::before {
-      --eo-line-height-m: 1.5rem; // Watt Medium text line height;
+      --ett-line-height-m: 1.5rem; // Watt Medium text line height;
 
       content: "";
       display: inline-block;
@@ -33,7 +33,7 @@ ul {
       vertical-align: top;
 
       width: var(--circle-size);
-      height: var(--eo-line-height-m);
+      height: var(--ett-line-height-m);
 
       background-image: url(/assets/icons/list-item-circle-primary.svg);
       background-position: center center;

@@ -18,7 +18,7 @@ import { render, screen } from '@testing-library/angular';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/eo/globalization/test-util-i18n';
 
-import { EoFooterComponent } from './eo-footer.component';
+import { EoFooterComponent } from './ett-footer.component';
 
 describe(EoFooterComponent, () => {
   const findEnerginetLogo = () => screen.findByRole('img', { name: 'Energinet' });
@@ -56,7 +56,7 @@ describe(EoFooterComponent, () => {
 
 describe(`${EoFooterComponent.name} - Component API, Content projection`, () => {
   it('Inserts content into ng-content', async () => {
-    await render(`<eo-footer><p>test</p></eo-footer>`, {
+    await render(`<ett-footer><p>test</p></ett-footer>`, {
       imports: [EoFooterComponent, getTranslocoTestingModule()],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();

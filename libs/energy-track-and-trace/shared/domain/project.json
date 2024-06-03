@@ -1,8 +1,8 @@
 {
-  "name": "eo-shared-domain",
+  "name": "ett-shared-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/shared/domain",
-  "prefix": "eo",
+  "prefix": "ett",
   "tags": ["product:eo", "domain:shared", "type:domain"]
 }

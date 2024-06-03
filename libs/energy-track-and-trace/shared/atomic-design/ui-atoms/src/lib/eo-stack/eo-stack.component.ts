@@ -22,7 +22,7 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  selector: 'eo-stack',
+  selector: 'ett-stack',
   styles: [
     `
       :host {
@@ -30,27 +30,27 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
         --_stack-size: var(--watt-space-l);
       }
 
-      eo-stack > * + * {
+      ett-stack > * + * {
         margin-block-start: var(--_stack-size);
       }
 
-      eo-stack[size='XL'] > * {
+      ett-stack[size='XL'] > * {
         --_stack-size: var(--watt-space-xl);
       }
 
-      eo-stack[size='L'] > * {
+      ett-stack[size='L'] > * {
         --_stack-size: var(--watt-space-l);
       }
 
-      eo-stack[size='M'] > * {
+      ett-stack[size='M'] > * {
         --_stack-size: var(--watt-space-m);
       }
 
-      eo-stack[size='S'] > * {
+      ett-stack[size='S'] > * {
         --_stack-size: var(--watt-space-s);
       }
 
-      eo-stack[size='XS'] > * {
+      ett-stack[size='XS'] > * {
         --_stack-size: var(--watt-space-xs);
       }
     `,

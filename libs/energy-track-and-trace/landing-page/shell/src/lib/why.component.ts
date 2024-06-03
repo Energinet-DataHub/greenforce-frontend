@@ -23,10 +23,10 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe],
   standalone: true,
-  selector: 'eo-landing-page-why',
+  selector: 'ett-landing-page-why',
   encapsulation: ViewEncapsulation.None,
   styles: `
-    eo-landing-page-why {
+    ett-landing-page-why {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -41,7 +41,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
     }
 
-    eo-landing-page-why .background-image {
+    ett-landing-page-why .background-image {
       opacity: 0.2;
       object-fit: cover;
       object-position: center;
@@ -53,7 +53,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       left: 0;
     }
 
-    eo-landing-page-why blockquote {
+    ett-landing-page-why blockquote {
       text-align: center;
       position: relative;
       z-index: 1;

@@ -69,14 +69,14 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   template: `
     <div class="certificate" *ngIf="certificate(); let cert">
-      <eo-stack size="M">
+      <ett-stack size="M">
         <watt-card>
           <watt-card-title
             ><h4>
               <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
             </h4></watt-card-title
           >
-          <eo-stack size="M">
+          <ett-stack size="M">
             <div class="grid-table">
               <b>{{ translations.certificateDetails.energyLabel | transloco }}</b>
               <div>{{ cert?.quantity | energyUnit }}</div>
@@ -89,11 +89,11 @@ import { translations } from '@energinet-datahub/eo/translations';
               <b>{{ translations.certificateDetails.certificateIdLabel | transloco }}</b>
               <div>{{ cert?.federatedStreamId?.streamId }}</div>
             </div>
-          </eo-stack>
+          </ett-stack>
         </watt-card>
         <watt-card>
           <div class="space-between">
-            <eo-stack size="M">
+            <ett-stack size="M">
               <h4>
                 <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
               </h4>
@@ -103,7 +103,7 @@ import { translations } from '@energinet-datahub/eo/translations';
                 <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
                 <div>{{ cert?.attributes?.fuelCode }}</div>
               </div>
-            </eo-stack>
+            </ett-stack>
             <img
               alt="Windmill"
               src="/assets/images/certificates/windmill.png"
@@ -116,10 +116,10 @@ import { translations } from '@energinet-datahub/eo/translations';
             translations.certificateDetails.backToCertificatesLink | transloco
           }}</a>
         </h4>
-      </eo-stack>
-      <eo-stack size="M">
+      </ett-stack>
+      <ett-stack size="M">
         <watt-card>
-          <eo-stack size="M">
+          <ett-stack size="M">
             <h4>
               <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
             </h4>
@@ -131,9 +131,9 @@ import { translations } from '@energinet-datahub/eo/translations';
               src="/assets/images/certificates/dk1grid.png"
               style="height: 204px; display: block"
             />
-          </eo-stack>
+          </ett-stack>
         </watt-card>
-      </eo-stack>
+      </ett-stack>
     </div>
   `,
 })

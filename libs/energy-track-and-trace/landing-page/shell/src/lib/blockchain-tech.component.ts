@@ -19,7 +19,7 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { translations } from '@energinet-datahub/eo/translations';
 
-const selector = 'eo-landing-page-blockchain-tech';
+const selector = 'ett-landing-page-blockchain-tech';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -18,7 +18,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@ang
 import lottie, { AnimationItem } from 'lottie-web';
 
 @Component({
-  selector: 'eo-lottie',
+  selector: 'ett-lottie',
   standalone: true,
   template: '<div #lottieContainer [style.width]="width" [style.height]="height"></div>',
 })

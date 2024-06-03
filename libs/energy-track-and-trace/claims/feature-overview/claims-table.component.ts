@@ -38,10 +38,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, TranslocoPipe],
   standalone: true,
-  selector: 'eo-claims-table',
+  selector: 'ett-claims-table',
   styles: [
     `
-      eo-claims-table {
+      ett-claims-table {
         watt-empty-state {
           padding: var(--watt-space-l);
         }

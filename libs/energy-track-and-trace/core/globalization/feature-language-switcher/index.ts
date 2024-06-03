@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export * from './language-switcher.component';
-export * from './eo-language.initializer';
+export * from './ett-language.initializer';

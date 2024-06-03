@@ -1,9 +1,9 @@
 {
-  "name": "eo-certificates-feature-overview",
+  "name": "ett-certificates-feature-overview",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/certificates/feature-overview",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"

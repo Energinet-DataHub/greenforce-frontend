@@ -20,7 +20,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 @Component({
-  selector: 'eo-cookie-banner',
+  selector: 'ett-cookie-banner',
   styles: [
     `
       :host {

@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './eo-activity-log.service';
+export * from './ett-activity-log.service';

@@ -27,7 +27,7 @@ type Variant = 'normal' | 'dark' | 'light';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-info-box',
+  selector: 'ett-info-box',
   standalone: true,
   styles: [
     `

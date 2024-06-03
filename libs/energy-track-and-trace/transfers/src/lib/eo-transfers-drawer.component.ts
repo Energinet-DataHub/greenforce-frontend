@@ -38,15 +38,15 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
-import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
+import { EoListedTransfer } from './ett-transfers.service';
+import { EoTransfersEditModalComponent } from './ett-transfers-edit-modal.component';
+import { EoTransfersHistoryComponent } from './ett-transfers-history.component';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
+import { EoTransferInvitationLinkComponent } from './form/ett-invitation-link';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-transfers-drawer',
+  selector: 'ett-transfers-drawer',
   imports: [
     WATT_DRAWER,
     WattButtonComponent,
@@ -74,7 +74,7 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
         align-self: flex-start;
       }
 
-      eo-transfers-invitation-link {
+      ett-transfers-invitation-link {
         margin-top: var(--watt-space-l);
       }
 
@@ -175,7 +175,7 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
               </watt-card>
 
               @if (transfer && transfer.transferAgreementStatus === 'Proposal') {
-                <eo-transfers-invitation-link
+                <ett-transfers-invitation-link
                   [proposalId]="transfer.id.toString()"
                   [isNewlyCreated]="false"
                 />
@@ -183,7 +183,7 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
             </watt-tab>
             <watt-tab [label]="translations.transferAgreement.historyTab | transloco">
               @if (tabs.activeTabIndex === 1) {
-                <eo-transfers-history #history [transfer]="transfer" />
+                <ett-transfers-history #history [transfer]="transfer" />
               }
             </watt-tab>
           </watt-tabs>
@@ -191,7 +191,7 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
       }
     </watt-drawer>
 
-    <eo-transfers-edit-modal
+    <ett-transfers-edit-modal
       [transfer]="transfer"
       [transferAgreements]="transferAgreements"
       (save)="onEdit($event)"

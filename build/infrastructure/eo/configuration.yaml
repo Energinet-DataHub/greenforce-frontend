@@ -1,4 +1,4 @@
-name: eo-frontend-app
+name: ett-frontend-app
 repo: ghcr.io/energinet-datahub
 references:
   - file: k8s/energy-origin-apps/frontend/base/deployment.yaml

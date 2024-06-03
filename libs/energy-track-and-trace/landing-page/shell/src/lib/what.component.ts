@@ -53,11 +53,11 @@ interface Image {
 
 @Component({
   standalone: true,
-  selector: 'eo-landing-page-what',
+  selector: 'ett-landing-page-what',
   imports: [NgClass, NgStyle, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   styles: `
-    eo-landing-page-what {
+    ett-landing-page-what {
       display: flex;
       flex-direction: column;
       min-height: 100vh;

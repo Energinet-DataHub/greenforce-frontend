@@ -26,7 +26,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
-  selector: 'eo-geography-page',
+  selector: 'ett-geography-page',
   styles: [
     `
       :host {
@@ -41,7 +41,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       * + .case,
       * + figure,
       * + .nav-link,
-      * + eo-info-box {
+      * + ett-info-box {
         margin-block-start: var(--watt-space-l);
       }
 
@@ -86,7 +86,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <div>
-      <eo-info-box>
+      <ett-info-box>
         <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
         <p>
           Det er ikke uden udfordringer, når energi flyttes gennem elnettet. Det gælder både, når
@@ -103,7 +103,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           Island og Danmark, så energien produceret i Island kan umuligt være samme energi forbrugt
           i Danmark.
         </p>
-      </eo-info-box>
+      </ett-info-box>
       <figure>
         <img
           width="367"
@@ -114,14 +114,14 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           Billedet viser det europæiske transmissionsnet på tværs af landegrænser
         </figcaption>
       </figure>
-      <eo-info-box>
+      <ett-info-box>
         <h3>Hvordan løser vi udfordringerne?</h3>
         <p>
           En løsning er at sætte regler for, hvor lang afstanden må være fra produktions- til
           forbrugsstedet ved handel af grønne certifikater. Begrænsningerne sættes af de fysiske
           kabler, altså at man kun kan handle certifikater fra nabolande. På den måde sikrer man, at
           grøn energi kun kan bruges i produktionslandet og eventuelle nabolande.
-        </p></eo-info-box
+        </p></ett-info-box
       >
       <div class="case">
         <img alt="Producent case" src="/assets/images/help/case_geography.jpg" />
@@ -139,15 +139,15 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </div>
     <div>
       <div class="title-container">
-        <eo-stack size="M">
+        <ett-stack size="M">
           <h1>Geografi</h1>
           <p>
             Der er enkelte fysiske begrænsninger for, hvordan energi kan bevæge sig rundt, som
             bliver nødt til at være indarbejdet i systemet.
           </p>
-        </eo-stack>
+        </ett-stack>
       </div>
-      <eo-info-box variant="dark">
+      <ett-info-box variant="dark">
         <h3>Interconnectors</h3>
         <p>
           Sammenkoblinger er strømledninger forbundet til andre lande. De muliggør handel med el.
@@ -157,8 +157,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           flere vindsystemer. Disse Interconnectors har dog nogle fysiske begrænsninger i forhold
           til hvor meget strøm der kan løbe igennem dem.
         </p>
-      </eo-info-box>
-      <eo-info-box variant="light">
+      </ett-info-box>
+      <ett-info-box variant="light">
         <h3>Budzoner</h3>
         <p>
           Budzoner er geografisk definerede områder, inden for hvilke elhandlen foregår. I Danmark
@@ -168,7 +168,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
           tilfældet, og der er således eksempler på, at budzonegrænser ikke afspejler
           kapacitetsbegrænsningerne, men i stedet følger f.eks. landegrænser.
         </p>
-      </eo-info-box>
+      </ett-info-box>
     </div>
   `,
 })

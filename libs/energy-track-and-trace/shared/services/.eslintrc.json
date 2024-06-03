@@ -20,7 +20,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "eo",
+            "prefix": "ett",
             "style": "kebab-case"
           }
         ]

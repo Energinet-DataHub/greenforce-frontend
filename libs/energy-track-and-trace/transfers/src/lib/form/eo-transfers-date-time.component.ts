@@ -41,14 +41,14 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
+import { EoTransfersTimepickerComponent } from './ett-transfers-timepicker.component';
 
 import { isToday } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 @Component({
-  selector: 'eo-transfers-datetime',
+  selector: 'ett-transfers-datetime',
   standalone: true,
   imports: [
     CommonModule,
@@ -58,13 +58,13 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
   ],
   styles: [
     `
-      eo-transfers-datetime {
+      ett-transfers-datetime {
         display: flex;
         gap: var(--watt-space-m);
         align-items: flex-end;
       }
 
-      eo-transfers-datetime watt-field {
+      ett-transfers-datetime watt-field {
         max-width: 160px;
         margin: 0;
 
@@ -73,11 +73,11 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
         }
       }
 
-      eo-transfers-datetime watt-field:not(.watt-field--chip) {
+      ett-transfers-datetime watt-field:not(.watt-field--chip) {
         min-height: 0px;
       }
 
-      eo-transfers-datetime watt-field.watt-field--invalid watt-field-error {
+      ett-transfers-datetime watt-field.watt-field--invalid watt-field-error {
         display: none;
       }
 
@@ -96,7 +96,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
           box-shadow: none;
         }
 
-        &.eo-transfers-form-overlapping-date .mat-calendar-body-cell-content {
+        &.ett-transfers-form-overlapping-date .mat-calendar-body-cell-content {
           background: linear-gradient(
             -45deg,
             var(--watt-color-state-warning-light) 50%,
@@ -114,7 +114,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
           }
         }
 
-        &.eo-transfers-form-fully-booked {
+        &.ett-transfers-form-fully-booked {
           pointer-events: none;
           .mat-calendar-body-cell-content {
             pointer-events: none;
@@ -145,7 +145,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
         [min]="min"
         [dateClass]="dateClass"
       />
-      <eo-transfers-timepicker formControlName="time" [disabledHours]="disabledHours" />
+      <ett-transfers-timepicker formControlName="time" [disabledHours]="disabledHours" />
     </ng-container>
   `,
   providers: [
@@ -264,8 +264,8 @@ export class EoTransfersDateTimeComponent
     if (view !== 'month') return '';
 
     const disabledHours = this.getDisabledHours(cellDate.setHours(0, 0, 0, 0));
-    if (disabledHours.length >= 24) return 'eo-transfers-form-fully-booked';
-    if (disabledHours.length > 0) return 'eo-transfers-form-overlapping-date';
+    if (disabledHours.length >= 24) return 'ett-transfers-form-fully-booked';
+    if (disabledHours.length > 0) return 'ett-transfers-form-overlapping-date';
 
     return '';
   };

@@ -21,7 +21,7 @@ import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-de
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [EoPrivacyPolicyComponent],
-  selector: 'eo-privacy-policy-shell',
+  selector: 'ett-privacy-policy-shell',
   styles: [
     `
       :host {
@@ -36,7 +36,7 @@ import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-de
   ],
   template: `
     <div class="content-wrapper">
-      <eo-privacy-policy />
+      <ett-privacy-policy />
     </div>
   `,
 })

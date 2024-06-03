@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './eo-certificate-details.component';
+export * from './ett-certificate-details.component';

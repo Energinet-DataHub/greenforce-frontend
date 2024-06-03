@@ -7,7 +7,7 @@ The Media atom represent the classical OOCSS Media object.
 ### Usage
 
 ```html
-<eo-media [eoMediaGapPixels]="40" [eoMediaMaxWidthPixels]="960">
+<ett-media [eoMediaGapPixels]="40" [eoMediaMaxWidthPixels]="960">
   <img
     eoMediaImage
     eoMediaImageAlign="end"
@@ -18,5 +18,5 @@ The Media atom represent the classical OOCSS Media object.
   <!-- `eoMediaImage` directive -->
   <h1>Example title</h1>
   <p>Example copy</p>
-</eo-media>
+</ett-media>
 ```

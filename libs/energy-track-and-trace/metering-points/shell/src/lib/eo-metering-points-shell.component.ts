@@ -27,7 +27,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
-import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
+import { EoMeteringPointsTableComponent } from './ett-metering-point-table.component';
 import { Observable, combineLatest, map } from 'rxjs';
 
 @Component({
@@ -41,7 +41,7 @@ import { Observable, combineLatest, map } from 'rxjs';
     WattValidationMessageComponent,
     TranslocoPipe,
   ],
-  selector: 'eo-metering-points-shell',
+  selector: 'ett-metering-points-shell',
   styles: [
     `
       :host {
@@ -67,7 +67,7 @@ import { Observable, combineLatest, map } from 'rxjs';
           {{ translations.meteringPoints.tableTitle | transloco }}
         </h3>
       </watt-card-title>
-      <eo-metering-points-table
+      <ett-metering-points-table
         [meteringPoints]="meteringPoints$ | async"
         [showPendingRelationStatus]="!!(showPendingRelationStatus$ | async)"
         [loading]="!!(isLoading$ | async)"

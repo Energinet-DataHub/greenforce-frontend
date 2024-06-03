@@ -21,14 +21,14 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 /**
  * Component primarily used for displaying errors
  *
- * <eo-popup-message *ngIf="error" title="There was an error"
- * message="This is an error"></eo-popup-message>
+ * <ett-popup-message *ngIf="error" title="There was an error"
+ * message="This is an error"></ett-popup-message>
  */
 
 @Component({
   standalone: true,
   imports: [WattIconComponent],
-  selector: 'eo-popup-message',
+  selector: 'ett-popup-message',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;

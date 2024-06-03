@@ -26,8 +26,8 @@ import {
   eoTransferRoutePath,
   eoActivityLogRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { EoLoginComponent } from './eo-login.component';
-import { EoShellComponent } from './eo-shell.component';
+import { EoLoginComponent } from './ett-login.component';
+import { EoShellComponent } from './ett-shell.component';
 import { translations } from '@energinet-datahub/eo/translations';
 import { inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';

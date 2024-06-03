@@ -23,7 +23,7 @@ import { getTranslocoTestingModule } from '@energinet-datahub/eo/globalization/t
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { EoShellComponent } from './eo-shell.component';
+import { EoShellComponent } from './ett-shell.component';
 
 describe(EoShellComponent, () => {
   beforeEach(() => {

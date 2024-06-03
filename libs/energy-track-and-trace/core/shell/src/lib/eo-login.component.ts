@@ -23,7 +23,7 @@ import { combineLatest, take } from 'rxjs';
 
 @Component({
   standalone: true,
-  selector: 'eo-login',
+  selector: 'ett-login',
   imports: [WattSpinnerComponent],
   styles: [
     `

@@ -19,28 +19,28 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  selector: 'eo-announcement-bar',
+  selector: 'ett-announcement-bar',
   encapsulation: ViewEncapsulation.None,
   styles: `
   :root {
-    --eo-announcement-bar-animation-duration: 1s;
+    --ett-announcement-bar-animation-duration: 1s;
   }
 
-  eo-announcement-bar {
+  ett-announcement-bar {
     align-items: center;
     display: flex;
     min-height: 44px;
     padding: var(--watt-space-s);
     text-align: center;
     justify-content: center;
-    animation: highlightAnnouncementBar var(--eo-announcement-bar-animation-duration) forwards;
+    animation: highlightAnnouncementBar var(--ett-announcement-bar-animation-duration) forwards;
   }
 
-  eo-announcement-bar a {
-    animation: animateLinkColor var(--eo-announcement-bar-animation-duration) forwards;
+  ett-announcement-bar a {
+    animation: animateLinkColor var(--ett-announcement-bar-animation-duration) forwards;
   }
 
-  eo-announcement-bar p, eo-announcement-bar a {
+  ett-announcement-bar p, ett-announcement-bar a {
     font-size: 0.75rem !important;
     line-height: 1.375rem !important;
   }

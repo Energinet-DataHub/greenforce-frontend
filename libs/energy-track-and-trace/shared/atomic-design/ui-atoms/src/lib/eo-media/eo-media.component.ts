@@ -17,8 +17,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 
-import { EoMediaPresenter } from './eo-media.presenter';
-import { EoMediaImageDirective } from './eo-media-image.directive';
+import { EoMediaPresenter } from './ett-media.presenter';
+import { EoMediaImageDirective } from './ett-media-image.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,7 +26,7 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
   imports: [RxPush],
   exportAs: 'eoMedia',
   providers: [EoMediaPresenter],
-  selector: 'eo-media',
+  selector: 'ett-media',
   styles: [
     `
       :host {

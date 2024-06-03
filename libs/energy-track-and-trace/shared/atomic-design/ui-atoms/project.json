@@ -1,9 +1,9 @@
 {
-  "name": "eo-shared-atomic-design-ui-atoms",
+  "name": "ett-shared-atomic-design-ui-atoms",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/shared/atomic-design/ui-atoms/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

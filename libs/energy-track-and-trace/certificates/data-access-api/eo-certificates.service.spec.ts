@@ -21,7 +21,7 @@ import {
   EoCertificate,
   EoCertificateContract,
   EoCertificatesService,
-} from './eo-certificates.service';
+} from './ett-certificates.service';
 
 describe('EoCertificatesService', () => {
   let apiEnv: EoApiEnvironment;

@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 
-import { EoMediaAlign } from './eo-media-align';
+import { EoMediaAlign } from './ett-media-align';
 
 interface EoMediaState {
   /**

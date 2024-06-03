@@ -1,9 +1,9 @@
 {
-  "name": "eo-metering-points-domain",
+  "name": "ett-metering-points-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/metering-points/domain",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"

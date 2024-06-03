@@ -39,10 +39,10 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementProposal, EoTransfersService } from './ett-transfers.service';
 
 @Component({
-  selector: 'eo-transfers-repsond-proposal',
+  selector: 'ett-transfers-repsond-proposal',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [

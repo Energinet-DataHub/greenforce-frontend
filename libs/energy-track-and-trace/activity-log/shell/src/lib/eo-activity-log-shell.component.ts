@@ -19,11 +19,11 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
 
 @Component({
-  selector: 'eo-activity-log-shell',
+  selector: 'ett-activity-log-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [EoActivityLogComponent],
   encapsulation: ViewEncapsulation.None,
-  template: ` <eo-activity-log /> `,
+  template: ` <ett-activity-log /> `,
 })
 export class EoActivityLogShellComponent {}

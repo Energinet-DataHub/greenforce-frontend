@@ -34,10 +34,10 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, TranslocoPipe],
   standalone: true,
-  selector: 'eo-help-page',
+  selector: 'ett-help-page',
   styles: [
     `
-      eo-help-page li {
+      ett-help-page li {
         margin-bottom: var(--watt-space-m);
       }
     `,
@@ -72,7 +72,7 @@ export class EoHelpPageComponent implements AfterViewInit {
       .subscribe(() => {
         this.cd.detectChanges();
 
-        const links = document.querySelectorAll('eo-help-page a[class="internal-link"]');
+        const links = document.querySelectorAll('ett-help-page a[class="internal-link"]');
 
         links.forEach((link) => {
           link.addEventListener('click', (event) => {

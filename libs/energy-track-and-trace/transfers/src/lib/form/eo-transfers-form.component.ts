@@ -47,13 +47,13 @@ import {
   nextHourOrLaterValidator,
   overlappingTransferAgreementsValidator,
 } from '../validations';
-import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
-import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
-import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
-import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
+import { EoTransfersTimepickerComponent } from './ett-transfers-timepicker.component';
+import { EoTransfersPeriodComponent } from './ett-transfers-period.component';
+import { EoTransfersDateTimeComponent } from './ett-transfers-date-time.component';
+import { EoTransferErrorsComponent } from './ett-transfers-errors.component';
+import { EoTransferInvitationLinkComponent } from './ett-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { EoListedTransfer } from '../eo-transfers.service';
+import { EoListedTransfer } from '../ett-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 export interface EoTransfersFormInitialValues {
@@ -75,7 +75,7 @@ export interface EoTransfersForm {
 type FormField = 'receiverTin' | 'startDate' | 'endDate';
 
 @Component({
-  selector: 'eo-transfers-form',
+  selector: 'ett-transfers-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -100,33 +100,33 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      eo-transfers-form .fieldset {
+      ett-transfers-form .fieldset {
         display: flex;
         flex-wrap: wrap;
       }
 
-      eo-transfers-form form {
+      ett-transfers-form form {
         height: 100%;
       }
 
-      eo-transfers-form watt-stepper-content-wrapper {
+      ett-transfers-form watt-stepper-content-wrapper {
         min-height: 341px;
       }
 
-      eo-transfers-form .receiver,
-      eo-transfers-form .timeframe-step {
+      ett-transfers-form .receiver,
+      ett-transfers-form .timeframe-step {
         gap: var(--watt-space-l);
         display: flex;
         flex-direction: column;
       }
 
-      eo-transfers-form .descriptor {
+      ett-transfers-form .descriptor {
         color: var(--watt-color-neutral-grey-700);
         font-size: 14px;
         font-weight: normal;
       }
 
-      eo-transfers-form .receiver .watt-field-wrapper {
+      ett-transfers-form .receiver .watt-field-wrapper {
         max-width: 330px;
       }
     `,
@@ -166,7 +166,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
                 {{ translations.createTransferAgreementProposal.timeframe.description | transloco }}
               </p>
 
-              <eo-transfers-form-period
+              <ett-transfers-form-period
                 formGroupName="period"
                 [existingTransferAgreements]="existingTransferAgreements()"
               />
@@ -212,7 +212,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
                   "
                 ></div>
               }
-              <eo-transfers-invitation-link
+              <ett-transfers-invitation-link
                 [proposalId]="proposalId"
                 [hasError]="generateProposalFailed"
                 (retry)="onSubmit()"
@@ -225,7 +225,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     } @else {
       <form [formGroup]="form">
         <ng-container *ngTemplateOutlet="receiver" />
-        <eo-transfers-form-period
+        <ett-transfers-form-period
           formGroupName="period"
           [existingTransferAgreements]="existingTransferAgreements()"
         />

@@ -1,9 +1,9 @@
 {
-  "name": "eo-shared-atomic-design-feature-molecules",
+  "name": "ett-shared-atomic-design-feature-molecules",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/shared/atomic-design/feature-molecules/src",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

@@ -1,9 +1,9 @@
 {
-  "name": "eo-activity-log-data-access-api",
+  "name": "ett-activity-log-data-access-api",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/energy-track-and-trace/activity-log/data-access-api",
-  "prefix": "eo",
+  "prefix": "ett",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
