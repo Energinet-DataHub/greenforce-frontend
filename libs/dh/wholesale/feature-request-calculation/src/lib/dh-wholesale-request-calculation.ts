@@ -124,7 +124,7 @@ export class DhWholesaleRequestCalculationComponent {
   isReady = false;
 
   form = this._fb.group<FormType>({
-    calculationType: this._fb.control(null, Validators.required),
+    calculationType: this._fb.control(CalculationType.Aggregation, Validators.required),
     period: this._fb.control(null, [
       Validators.required,
       WattRangeValidators.required(),
@@ -196,7 +196,7 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.calculationTypeOptions = dhEnumToWattDropdownOptions(
           CalculationType,
-          'asc',
+          null,
           excludeProcessTypes
         );
 
@@ -256,6 +256,7 @@ export class DhWholesaleRequestCalculationComponent {
       period,
       gridArea,
       meteringPointType,
+      resolution,
       energySupplierId,
       balanceResponsibleId,
     } = this.form.getRawValue();
@@ -271,6 +272,7 @@ export class DhWholesaleRequestCalculationComponent {
           gridArea,
           meteringPointType:
             meteringPointType === ExtendMeteringPoint.All ? null : meteringPointType,
+          resolution,
           balanceResponsibleId,
           energySupplierId,
         },
