@@ -38,7 +38,7 @@ import { NgClass } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { of, ReplaySubject, map, take, filter } from 'rxjs';
+import { of, ReplaySubject, distinctUntilChanged, map, take, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFieldComponent } from '../field';
@@ -374,6 +374,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
           return value;
         }),
+        distinctUntilChanged(),
         takeUntilDestroyed(this._destroyRef)
       )
       .subscribe((value: WattDropdownValue) => {
