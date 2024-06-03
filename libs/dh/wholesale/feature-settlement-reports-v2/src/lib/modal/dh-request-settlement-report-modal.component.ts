@@ -167,9 +167,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     })
   );
 
-  calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
-    CalculationType.Aggregation,
-  ]);
+  calculationTypeOptions = this.getCalculationTypeOptions();
   gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
     map((options) => [
@@ -320,6 +318,17 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       });
   }
 
+  private getCalculationTypeOptions(): WattDropdownOptions {
+    const selectedUser = toSignal(this.actorStore.selectedActor$);
+
+    return dhEnumToWattDropdownOptions(CalculationType, null, [
+      CalculationType.Aggregation,
+      selectedUser()?.marketrole === EicFunction.SystemOperator
+        ? CalculationType.BalanceFixing
+        : '',
+    ]);
+  }
+
   private getGridAreasWithCalculations(
     gridAreas: string[]
   ): { gridAreaCode: string; calculationId: string }[] {
@@ -345,12 +354,16 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private showAllGridAres(): Observable<boolean> {
     const isFas$ = this.permissionService.isFas();
-    const isEnergySupplier$ = this.actorStore.selectedActor$.pipe(
-      map((actor) => actor?.marketrole === EicFunction.EnergySupplier)
+    const canSeeAllGridAreas$ = this.actorStore.selectedActor$.pipe(
+      map((actor) =>
+        [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
+          actor?.marketrole as EicFunction
+        )
+      )
     );
 
-    return combineLatest([isFas$, isEnergySupplier$]).pipe(
-      map(([isFas, isEnergySupplier]) => isFas || isEnergySupplier)
+    return combineLatest([isFas$, canSeeAllGridAreas$]).pipe(
+      map(([isFas, canSeeAllGridAreas]) => isFas || canSeeAllGridAreas)
     );
   }
 

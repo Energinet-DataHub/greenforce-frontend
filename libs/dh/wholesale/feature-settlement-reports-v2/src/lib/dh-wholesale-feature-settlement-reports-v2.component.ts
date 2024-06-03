@@ -80,7 +80,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
             </watt-empty-state>
           </vater-stack>
         } @else {
-          <vater-flex gap="ml">
+          <vater-flex fill="vertical" gap="ml">
             <vater-stack direction="row" gap="s">
               <h3>{{ t('topBarTitle') }}</h3>
               <span class="watt-chip-label">{{ totalCount() }}</span>
