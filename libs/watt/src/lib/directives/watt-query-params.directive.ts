@@ -18,6 +18,7 @@ import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import qs from 'qs';
 
 const filtersKey = 'filters';
 
@@ -45,13 +46,13 @@ export class WattQueryParamsDirective implements OnInit {
 
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { [filtersKey]: JSON.stringify(formValuesClone) },
+          queryParams: { [filtersKey]: qs.stringify(formValuesClone) },
           queryParamsHandling: 'merge',
         });
       });
 
     if (Object.keys(this.route.snapshot.queryParams).length > 0) {
-      const value = JSON.parse(this.route.snapshot.queryParams[filtersKey] ?? '');
+      const value = qs.parse(this.route.snapshot.queryParams[filtersKey] ?? '');
       this.formGroup.control.patchValue(value);
     }
   }

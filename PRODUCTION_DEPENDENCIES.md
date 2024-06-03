@@ -46,6 +46,7 @@
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.6 | MIT |
+| [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.1 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.14.2 | MIT |
