@@ -167,9 +167,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     })
   );
 
-  calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
-    CalculationType.Aggregation,
-  ]);
+  calculationTypeOptions = this.getCalculationTypeOptions();
   gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
     map((options) => [
@@ -318,6 +316,17 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           this.showErrorNotification();
         },
       });
+  }
+
+  private getCalculationTypeOptions(): WattDropdownOptions {
+    const selectedUser = toSignal(this.actorStore.selectedActor$);
+
+    return dhEnumToWattDropdownOptions(CalculationType, null, [
+      CalculationType.Aggregation,
+      selectedUser()?.marketrole === EicFunction.SystemOperator
+        ? CalculationType.BalanceFixing
+        : '',
+    ]);
   }
 
   private getGridAreasWithCalculations(
