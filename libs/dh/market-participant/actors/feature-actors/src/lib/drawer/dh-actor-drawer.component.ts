@@ -180,7 +180,9 @@ export class DhActorDrawerComponent {
       .pipe(takeUntil(this.closed$))
       .subscribe({
         next: (result) => {
-          this.actor.set(result.data?.actorById);
+          if (result.data && result.loading === false) {
+            this.actor.set(result.data?.actorById);
+          }
         },
       });
 
