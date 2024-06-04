@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { EoActivityLogComponent } from './ett-activity-log.component';
+export { EttActivityLogComponent } from './ett-activity-log.component';

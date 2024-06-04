@@ -26,10 +26,10 @@ import {
 } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
-import { translations } from '@energinet-datahub/eo/translations';
+import { sustainableChart } from '@energinet-datahub/ett/shared/assets';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoLottieComponent } from './ett-lottie.component';
+import { EttLottieComponent } from './ett-lottie.component';
 
 const selector = 'ett-landing-page-prove-sustainability';
 
@@ -38,7 +38,7 @@ const selector = 'ett-landing-page-prove-sustainability';
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   selector,
-  imports: [EoLottieComponent, TranslocoPipe],
+  imports: [EttLottieComponent, TranslocoPipe],
   styles: `
     ${selector} {
       background: #f9f9f9;
@@ -101,8 +101,8 @@ const selector = 'ett-landing-page-prove-sustainability';
     <p [innerHTML]="translations.landingPage.proveSustainability.content | transloco"></p>
   `,
 })
-export class EoLandingPageProveSustainabilityComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('animation') private animation!: EoLottieComponent;
+export class EttLandingPageProveSustainabilityComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('animation') private animation!: EttLottieComponent;
 
   private observer!: IntersectionObserver;
   private elementRef = inject(ElementRef);

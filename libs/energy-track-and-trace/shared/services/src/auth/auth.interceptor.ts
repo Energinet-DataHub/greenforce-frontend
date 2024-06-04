@@ -27,17 +27,17 @@ import {
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, concatMap, filter, map, take, tap, throwError } from 'rxjs';
-import { EoAuthService } from './auth.service';
-import { EoAuthStore } from './auth.store';
+import { EttAuthService } from './auth.service';
+import { EttAuthStore } from './auth.store';
 
 @Injectable()
-export class EoAuthorizationInterceptor implements HttpInterceptor {
+export class EttAuthorizationInterceptor implements HttpInterceptor {
   TokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
 
   constructor(
     private snackBar: MatSnackBar,
-    private authService: EoAuthService,
-    private authStore: EoAuthStore
+    private authService: EttAuthService,
+    private authStore: EttAuthStore
   ) {}
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -84,8 +84,8 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 }
 
-export const eoAuthorizationInterceptorProvider: ClassProvider = {
+export const ettAuthorizationInterceptorProvider: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
-  useClass: EoAuthorizationInterceptor,
+  useClass: EttAuthorizationInterceptor,
 };

@@ -28,22 +28,22 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
+import { EttAuthService } from '@energinet-datahub/ett/shared/services';
+import { translations } from '@energinet-datahub/ett/translations';
+import { EttProductLogoDirective } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
+import { EttLanguageSwitcherComponent } from '@energinet-datahub/ett/globalization/feature-language-switcher';
 
-import { EoAnnouncementBarComponent } from './announcement-bar.component';
+import { EttAnnouncementBarComponent } from './announcement-bar.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     WattButtonComponent,
-    EoAnnouncementBarComponent,
+    EttAnnouncementBarComponent,
     TranslocoPipe,
-    EoProductLogoDirective,
-    EoLanguageSwitcherComponent,
+    EttProductLogoDirective,
+    EttLanguageSwitcherComponent,
     TranslocoPipe,
   ],
   selector: 'ett-landing-page-header',
@@ -129,8 +129,8 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     </div>
   `,
 })
-export class EoLandingPageHeaderComponent {
-  private authService = inject(EoAuthService);
+export class EttLandingPageHeaderComponent {
+  private authService = inject(EttAuthService);
   private elementRef = inject(ElementRef);
   private viewportScroller = inject(ViewportScroller);
   private destroyRef = inject(DestroyRef);

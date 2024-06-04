@@ -35,10 +35,10 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
-import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EnergyUnitPipe, ettCertificatesRoutePath } from '@energinet-datahub/ett/shared/utilities';
+import { EttCertificate } from '@energinet-datahub/ett/certificates/domain';
+import { EttCertificatesService } from '@energinet-datahub/ett/certificates/data-access-api';
+import { translations } from '@energinet-datahub/ett/translations';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -116,7 +116,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           <ng-container *wattTableCell="columns.action; let element">
             <a
               class="link"
-              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
+              routerLink="/${ettCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
             >
               {{ translations.certificates.certificateDetailsLink | transloco }}
             </a>
@@ -144,8 +144,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     </watt-card>
   `,
 })
-export class EoCertificatesOverviewComponent implements OnInit {
-  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+export class EttCertificatesOverviewComponent implements OnInit {
+  private certificatesService: EttCertificatesService = inject(EttCertificatesService);
   private datePipe: WattDatePipe = inject(WattDatePipe);
   private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
   private transloco = inject(TranslocoService);
@@ -153,12 +153,12 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   protected translations = translations;
-  protected columns!: WattTableColumnDef<EoCertificate>;
+  protected columns!: WattTableColumnDef<EttCertificate>;
 
   protected set search(value: string) {
     this.dataSource.filter = value;
   }
-  protected dataSource: WattTableDataSource<EoCertificate> = new WattTableDataSource(undefined);
+  protected dataSource: WattTableDataSource<EttCertificate> = new WattTableDataSource(undefined);
   protected loading = signal<boolean>(false);
   protected hasError = signal<boolean>(false);
 
@@ -207,7 +207,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
     this.certificatesService
       .getCertificates()
       .pipe(
-        map((certificates: EoCertificate[]) => {
+        map((certificates: EttCertificate[]) => {
           return certificates.map((certificate) => {
             const start = this.datePipe.transform(certificate.start, 'longAbbr');
             const end = this.datePipe.transform(certificate.end, 'time');

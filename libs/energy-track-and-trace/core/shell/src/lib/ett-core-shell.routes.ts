@@ -14,21 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CanActivateFn, Routes } from '@angular/router';
-import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
-  eoCertificatesRoutePath,
-  eoClaimsRoutePath,
-  eoDashboardRoutePath,
-  eoHelpRoutePath,
-  eoMeteringPointsRoutePath,
-  eoPrivacyPolicyRoutePath,
-  eoTransferRoutePath,
-  eoActivityLogRoutePath,
-} from '@energinet-datahub/eo/shared/utilities';
-import { EoLoginComponent } from './ett-login.component';
-import { EoShellComponent } from './ett-shell.component';
-import { translations } from '@energinet-datahub/eo/translations';
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  Routes,
+} from '@angular/router';
+import { EttScopeGuard } from '@energinet-datahub/ett/auth/routing-security';
+import {
+  ettCertificatesRoutePath,
+  ettClaimsRoutePath,
+  ettDashboardRoutePath,
+  ettHelpRoutePath,
+  ettMeteringPointsRoutePath,
+  ettPrivacyPolicyRoutePath,
+  ettTransferRoutePath,
+  ettActivityLogRoutePath,
+} from '@energinet-datahub/ett/shared/utilities';
+import { EttLoginComponent } from './ett-login.component';
+import { EttShellComponent } from './ett-shell.component';
+import { translations } from '@energinet-datahub/ett/translations';
 import { inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -36,115 +42,113 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () =>
-      import('@energinet-datahub/eo/landing-page/shell').then(
-        (esModule) => esModule.eoLandingPageRoutes
-      ),
+    redirectTo: 'dashboard',
   },
-  { path: 'login', component: EoLoginComponent },
+  { path: 'login', component: EttLoginComponent },
   {
     path: 'terms',
     title: 'Terms',
     loadChildren: () =>
-      import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
+      import('@energinet-datahub/ett/terms').then((esModule) => esModule.ettTermsRoutes),
   },
   {
     path: '',
-    component: EoShellComponent,
+    component: EttShellComponent,
     children: [
       {
-        path: eoCertificatesRoutePath,
-        canActivate: [EoScopeGuard],
+        path: ettCertificatesRoutePath,
+        canActivate: [EttScopeGuard],
         loadChildren: () =>
-          import('@energinet-datahub/eo/certificates/shell').then(
-            (esModule) => esModule.eoCertificatesRoutes
+          import('@energinet-datahub/ett/certificates/shell').then(
+            (esModule) => esModule.ettCertificatesRoutes
           ),
       },
       {
-        path: eoDashboardRoutePath,
-        canActivate: [EoScopeGuard],
+        path: ettDashboardRoutePath,
+        canActivate: [EttScopeGuard],
         title: translations.dashboard.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/dashboard/shell').then(
-            (esModule) => esModule.eoDashboardRoutes
+          import('@energinet-datahub/ett/dashboard/shell').then(
+            (esModule) => esModule.ettDashboardRoutes
           ),
       },
       {
-        path: eoMeteringPointsRoutePath,
-        canActivate: [EoScopeGuard],
+        path: ettMeteringPointsRoutePath,
+        canActivate: [EttScopeGuard],
         title: translations.meteringPoints.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/metering-points/shell').then(
-            (esModule) => esModule.eoMeteringPointsRoutes
+          import('@energinet-datahub/ett/metering-points/shell').then(
+            (esModule) => esModule.ettMeteringPointsRoutes
           ),
       },
       {
-        path: eoActivityLogRoutePath,
-        canActivate: [EoScopeGuard],
+        path: ettActivityLogRoutePath,
+        canActivate: [EttScopeGuard],
         title: translations.activityLog.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/activity-log/shell').then(
-            (esModule) => esModule.eoActivityLogRoutes
+          import('@energinet-datahub/ett/activity-log/shell').then(
+            (esModule) => esModule.ettActivityLogRoutes
           ),
       },
       {
-        path: eoTransferRoutePath,
-        canActivate: [EoScopeGuard],
+        path: ettTransferRoutePath,
+        canActivate: [EttScopeGuard],
         title: translations.transfers.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
+          import('@energinet-datahub/ett/transfers').then((esModule) => esModule.ettTransfersRoutes),
       },
       {
-        path: eoClaimsRoutePath,
-        canActivate: [EoScopeGuard],
+        path: ettClaimsRoutePath,
+        canActivate: [EttScopeGuard],
         title: translations.claims.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
+          import('@energinet-datahub/ett/claims/shell').then((esModule) => esModule.ettClaimsRoutes),
       },
       {
-        path: eoPrivacyPolicyRoutePath,
+        path: ettPrivacyPolicyRoutePath,
         title: translations.privacyPolicy.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.eoPrivacyPolicyRoutes
+          import('@energinet-datahub/ett/privacy-policy/shell').then(
+            (esModule) => esModule.ettPrivacyPolicyRoutes
           ),
       },
       {
-        path: eoHelpRoutePath,
+        path: ettHelpRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.eoHelpRoutes),
+          import('@energinet-datahub/ett/help/shell').then((esModule) => esModule.ettHelpRoutes),
       },
     ],
   },
-  { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
+  { path: '**', redirectTo: 'dashboard' }, // Catch-all that can be used for 404 redirects in the future
 ];
 
-const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
+const LanguagePrefixGuard: CanActivateFn = (
+  _: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
   const transloco = inject(TranslocoService);
-  transloco.setActiveLang(RouterStateSnapshot.url.toString());
+  const router = inject(Router);
+
+  const url: string = state.url;
+  const hasLanguagePrefix = url.startsWith('/en') || url.startsWith('/da');
+
+  if (!hasLanguagePrefix) {
+    router.navigate([`/${transloco.getActiveLang()}${url}`]);
+    return false;
+  }
   return true;
 };
 
-export const eoShellRoutes: Routes = [
+export const ettShellRoutes: Routes = [
   {
     path: 'en',
     children: routes,
-    canActivate: [setDefaultLang],
   },
   {
     path: 'da',
     children: routes,
-    canActivate: [setDefaultLang],
   },
   // Redirect from the root to the default language
-  { path: '', redirectTo: getDefaultLanguage(), pathMatch: 'full' },
-  { path: '**', redirectTo: '/' },
+  { path: '', component: EttLoginComponent, canActivate: [LanguagePrefixGuard], pathMatch: 'full' },
+  { path: '**', component: EttLoginComponent, canActivate: [LanguagePrefixGuard] },
 ];
-
-function getDefaultLanguage(): string {
-  try {
-    return navigator.language.split('-')[0];
-  } catch (error) {
-    return 'en';
-  }
-}

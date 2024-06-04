@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as eoLocalApiEnvironment from './assets/configuration/ett-api-environment.local.json';
+import * as ettLocalApiEnvironment from './assets/configuration/ett-api-environment.local.json';
 import graphLoader from './assets/graph-loader.json';
 import sustainableChart from './assets/landing-page/sustainable-chart.json';
 
-export { eoLocalApiEnvironment };
+export { ettLocalApiEnvironment };
 export { graphLoader };
 export { sustainableChart };

@@ -69,17 +69,17 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EoTransfersTimepickerComponent),
+      useExisting: forwardRef(() => EttTransfersTimepickerComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: EoTransfersTimepickerComponent,
+      useExisting: EttTransfersTimepickerComponent,
     },
   ],
 })
-export class EoTransfersTimepickerComponent implements ControlValueAccessor, Validator, OnChanges {
+export class EttTransfersTimepickerComponent implements ControlValueAccessor, Validator, OnChanges {
   @Input() disabledHours: string[] = [];
   @Output() invalidOptionReset = new EventEmitter<void>();
 

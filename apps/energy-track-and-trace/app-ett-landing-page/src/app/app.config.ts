@@ -18,7 +18,7 @@ import { ApplicationConfig } from '@angular/core';
 import { TitleStrategy, provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configuration-localization';
+import { EttTranslocoConfig } from '@energinet-datahub/ett/globalization/configuration-localization';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideTransloco } from '@ngneat/transloco';
@@ -27,14 +27,14 @@ import {
   TranslocoTypedLoader,
 } from '@energinet-datahub/gf/globalization/data-access-localization';
 
-import { DA_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/da';
-import { EN_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/en';
+import { DA_TRANSLATIONS } from '@energinet-datahub/ett/globalization/assets-localization/i18n/da';
+import { EN_TRANSLATIONS } from '@energinet-datahub/ett/globalization/assets-localization/i18n/en';
 
 import { MetaStrategy } from './meta-strategy.service';
 
 export const translocoProviders = [
   provideTransloco({
-    config: eoTranslocoConfig,
+    config: ettTranslocoConfig,
     loader: TranslocoTypedLoader,
   }),
   {

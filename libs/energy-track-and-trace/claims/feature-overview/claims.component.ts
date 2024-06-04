@@ -27,18 +27,18 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoClaimsService, Claim } from '@energinet-datahub/eo/claims/data-access-api';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EnergyUnitPipe } from '@energinet-datahub/ett/shared/utilities';
+import { EttBetaMessageComponent } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
+import { EttClaimsService, Claim } from '@energinet-datahub/ett/claims/data-access-api';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoClaimsTableComponent } from './claims-table.component';
+import { EttClaimsTableComponent } from './claims-table.component';
 
 @Component({
   standalone: true,
   imports: [
-    EoBetaMessageComponent,
-    EoClaimsTableComponent,
+    EttBetaMessageComponent,
+    EttClaimsTableComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -93,10 +93,10 @@ import { EoClaimsTableComponent } from './claims-table.component';
     </watt-card>
   `,
 })
-export class EoClaimsComponent implements OnInit {
-  @ViewChild(EoClaimsTableComponent) claimsTable?: EoClaimsTableComponent;
+export class EttClaimsComponent implements OnInit {
+  @ViewChild(EttClaimsTableComponent) claimsTable?: EttClaimsTableComponent;
 
-  private claimsService: EoClaimsService = inject(EoClaimsService);
+  private claimsService: EttClaimsService = inject(EttClaimsService);
   protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
   protected energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
   protected translations = translations;

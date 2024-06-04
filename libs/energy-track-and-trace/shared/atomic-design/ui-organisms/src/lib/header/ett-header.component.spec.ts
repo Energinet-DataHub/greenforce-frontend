@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { EoHeaderComponent } from './ett-header.component';
+import { EttHeaderComponent } from './ett-header.component';
 
-describe(EoHeaderComponent, () => {
+describe(EttHeaderComponent, () => {
   const findEnergyOriginLogo = () => screen.findByRole('img', { name: 'Energy Track And Trace' });
 
   it('displays the Energy Track And Trace logo', async () => {
-    await render(EoHeaderComponent);
+    await render(EttHeaderComponent);
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
   it('Inserts content into ng-content', async () => {
     await render(`<ett-header><p>test</p></ett-header>`, {
-      imports: [EoHeaderComponent],
+      imports: [EttHeaderComponent],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
   });

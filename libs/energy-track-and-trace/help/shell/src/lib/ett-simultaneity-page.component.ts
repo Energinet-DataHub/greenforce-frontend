@@ -17,10 +17,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  EoInfoBoxComponent,
-  EoStackComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
+  EttInfoBoxComponent,
+  EttStackComponent,
+} from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
+import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -125,8 +125,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </ett-info-box>
     </div>
   `,
-  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
+  imports: [EttStackComponent, RouterModule, EttInfoBoxComponent],
 })
-export class EoSimultaneityPageComponent {
-  routes = eoRoutes;
+export class EttSimultaneityPageComponent {
+  routes = ettRoutes;
 }

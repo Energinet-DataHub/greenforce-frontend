@@ -44,8 +44,8 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EttMeteringPoint, AibTechCode } from '@energinet-datahub/ett/metering-points/domain';
+import { translations } from '@energinet-datahub/ett/translations';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -185,7 +185,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     }
   `,
 })
-export class EoMeteringPointsTableComponent implements OnInit {
+export class EttMeteringPointsTableComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
@@ -193,15 +193,15 @@ export class EoMeteringPointsTableComponent implements OnInit {
   protected translations = translations;
   protected canActivate = signal<boolean>(false);
   protected canDeactivate = signal<boolean>(false);
-  protected dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
-  protected columns!: WattTableColumnDef<EoMeteringPoint>;
+  protected dataSource: WattTableDataSource<EttMeteringPoint> = new WattTableDataSource(undefined);
+  protected columns!: WattTableColumnDef<EttMeteringPoint>;
   protected techCodes = AibTechCode;
 
-  @ViewChild('table') table!: WattTableComponent<EoMeteringPoint>;
+  @ViewChild('table') table!: WattTableComponent<EttMeteringPoint>;
 
-  @Input() set meteringPoints(data: EoMeteringPoint[] | null) {
+  @Input() set meteringPoints(data: EttMeteringPoint[] | null) {
     this.dataSource.data =
-      data?.map((meteringPoint: EoMeteringPoint, index) => {
+      data?.map((meteringPoint: EttMeteringPoint, index) => {
         return {
           id: index,
           ...meteringPoint,
@@ -215,8 +215,8 @@ export class EoMeteringPointsTableComponent implements OnInit {
   @Input() deactivatingContracts = false;
   @Input() hasError = false;
   @Input() showPendingRelationStatus = false;
-  @Output() activateContracts = new EventEmitter<EoMeteringPoint[]>();
-  @Output() deactivateContracts = new EventEmitter<EoMeteringPoint[]>();
+  @Output() activateContracts = new EventEmitter<EttMeteringPoint[]>();
+  @Output() deactivateContracts = new EventEmitter<EttMeteringPoint[]>();
 
   ngOnInit(): void {
     this.transloco
@@ -227,7 +227,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
       });
   }
 
-  onSelection(selection: EoMeteringPoint[]): void {
+  onSelection(selection: EttMeteringPoint[]): void {
     const toggableMeteringPoints = selection.filter((meteringPoint) =>
       this.isToggleable(meteringPoint)
     );
@@ -237,7 +237,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
     this.canDeactivate.set(toggableMeteringPoints.some((meteringPoint) => meteringPoint.contract));
   }
 
-  onActivateContracts(selection: EoMeteringPoint[]): void {
+  onActivateContracts(selection: EttMeteringPoint[]): void {
     if (this.creatingContracts) return;
     const toggableMeteringPoints = selection.filter(
       (meteringPoint) => this.isToggleable(meteringPoint) && !meteringPoint.contract
@@ -247,7 +247,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
     this.activateContracts.emit(toggableMeteringPoints);
   }
 
-  onDeactivateContracts(selection: EoMeteringPoint[]): void {
+  onDeactivateContracts(selection: EttMeteringPoint[]): void {
     if (this.deactivatingContracts) return;
     const toggableMeteringPoints = selection.filter(
       (meteringPoint) => this.isToggleable(meteringPoint) && meteringPoint.contract
@@ -257,7 +257,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
     this.deactivateContracts.emit(toggableMeteringPoints);
   }
 
-  private isToggleable(meteringPoint: EoMeteringPoint): boolean {
+  private isToggleable(meteringPoint: EttMeteringPoint): boolean {
     return (
       meteringPoint.type === 'Consumption' ||
       (meteringPoint.type === 'Production' &&

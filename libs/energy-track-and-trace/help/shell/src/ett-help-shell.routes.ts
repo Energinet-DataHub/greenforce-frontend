@@ -16,31 +16,31 @@
  */
 import { Routes } from '@angular/router';
 
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-import { translations } from '@energinet-datahub/eo/translations';
+import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoFaqPageComponent } from './lib/ett-faq-page.component';
-import { EoGeographyPageComponent } from './lib/ett-geography-page.component';
-import { EoHelpPageComponent } from './lib/ett-help-page.component';
-import { EoIntroductionPageComponent } from './lib/ett-introduction-page.component';
-import { EoSimultaneityPageComponent } from './lib/ett-simultaneity-page.component';
+import { EttFaqPageComponent } from './lib/ett-faq-page.component';
+import { EttGeographyPageComponent } from './lib/ett-geography-page.component';
+import { EttHelpPageComponent } from './lib/ett-help-page.component';
+import { EttIntroductionPageComponent } from './lib/ett-introduction-page.component';
+import { EttSimultaneityPageComponent } from './lib/ett-simultaneity-page.component';
 
-export const eoHelpRoutes: Routes = [
-  { path: '', component: EoHelpPageComponent, title: translations.help.title },
-  { path: eoRoutes.faq, component: EoFaqPageComponent, title: translations.faq.title },
+export const ettHelpRoutes: Routes = [
+  { path: '', component: EttHelpPageComponent, title: translations.help.title },
+  { path: ettRoutes.faq, component: EttFaqPageComponent, title: translations.faq.title },
   {
-    path: eoRoutes.introduction,
-    component: EoIntroductionPageComponent,
+    path: ettRoutes.introduction,
+    component: EttIntroductionPageComponent,
     title: 'Introduktion til EnergiOprindelse',
   },
   {
-    path: eoRoutes.simultaneity,
-    component: EoSimultaneityPageComponent,
+    path: ettRoutes.simultaneity,
+    component: EttSimultaneityPageComponent,
     title: 'Samtidighed',
   },
   {
-    path: eoRoutes.geography,
-    component: EoGeographyPageComponent,
+    path: ettRoutes.geography,
+    component: EttGeographyPageComponent,
     title: 'Geografi',
   },
   { path: '**', redirectTo: '' },

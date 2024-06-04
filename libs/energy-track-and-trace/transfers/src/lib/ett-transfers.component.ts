@@ -30,18 +30,18 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { translations } from '@energinet-datahub/ett/translations';
+import { EttPopupMessageComponent } from '@energinet-datahub/ett/shared/atomic-design/feature-molecules';
+import { EttMeteringPointsStore } from '@energinet-datahub/ett/metering-points/data-access-api';
+import { EttBetaMessageComponent } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
 
-import { EoTransfersTableComponent } from './ett-transfers-table.component';
+import { EttTransfersTableComponent } from './ett-transfers-table.component';
 import {
-  EoListedTransfer,
-  EoTransferAgreementProposal,
-  EoTransfersService,
+  EttListedTransfer,
+  EttTransferAgreementProposal,
+  EttTransfersService,
 } from './ett-transfers.service';
-import { EoTransfersRespondProposalComponent } from './ett-transfers-respond-proposal.component';
+import { EttTransfersRespondProposalComponent } from './ett-transfers-respond-proposal.component';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -49,12 +49,12 @@ import { AsyncPipe } from '@angular/common';
   selector: 'ett-transfers',
   imports: [
     WattCardComponent,
-    EoTransfersTableComponent,
-    EoPopupMessageComponent,
-    EoBetaMessageComponent,
+    EttTransfersTableComponent,
+    EttPopupMessageComponent,
+    EttBetaMessageComponent,
     WattIconComponent,
     VaterStackComponent,
-    EoTransfersRespondProposalComponent,
+    EttTransfersRespondProposalComponent,
     TranslocoPipe,
     AsyncPipe,
   ],
@@ -88,30 +88,30 @@ import { AsyncPipe } from '@angular/common';
     />
   `,
 })
-export class EoTransfersComponent implements OnInit {
+export class EttTransfersComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('respond-proposal') proposalId!: string;
 
-  @ViewChild(EoTransfersRespondProposalComponent, { static: true })
-  respondProposal!: EoTransfersRespondProposalComponent;
+  @ViewChild(EttTransfersRespondProposalComponent, { static: true })
+  respondProposal!: EttTransfersRespondProposalComponent;
 
   private transloco = inject(TranslocoService);
-  private transfersService = inject(EoTransfersService);
+  private transfersService = inject(EttTransfersService);
   private toastService = inject(WattToastService);
-  private meteringPointStore = inject(EoMeteringPointsStore);
+  private meteringPointStore = inject(EttMeteringPointsStore);
 
   protected hasProductionMeteringPoints = this.meteringPointStore.hasProductionMeteringPoints$;
   protected translations = translations;
   protected transferAgreements = signal<{
     loading: boolean;
     error: boolean;
-    data: EoListedTransfer[];
+    data: EttListedTransfer[];
   }>({
     loading: false,
     error: false,
     data: [],
   });
-  protected selectedTransfer = signal<EoListedTransfer | undefined>(undefined);
+  protected selectedTransfer = signal<EttListedTransfer | undefined>(undefined);
 
   ngOnInit(): void {
     this.getTransfers();
@@ -145,7 +145,7 @@ export class EoTransfersComponent implements OnInit {
     });
   }
 
-  protected onAcceptedProposal(proposal: EoTransferAgreementProposal) {
+  protected onAcceptedProposal(proposal: EttTransferAgreementProposal) {
     this.addTransferProposal(proposal);
 
     this.transfersService.createTransferAgreement(proposal.id).subscribe({
@@ -193,19 +193,19 @@ export class EoTransfersComponent implements OnInit {
   private updateSelectedTransferAgreement() {
     this.selectedTransfer.set(
       this.transferAgreements().data.find(
-        (transfer: EoListedTransfer) => transfer.id === this.selectedTransfer()?.id
+        (transfer: EttListedTransfer) => transfer.id === this.selectedTransfer()?.id
       )
     );
   }
 
-  protected addTransfer(transfer: EoListedTransfer) {
+  protected addTransfer(transfer: EttListedTransfer) {
     this.transferAgreements.set({
       ...this.transferAgreements(),
       data: [...this.transferAgreements().data, transfer],
     });
   }
 
-  private addTransferProposal(proposal: EoTransferAgreementProposal) {
+  private addTransferProposal(proposal: EttTransferAgreementProposal) {
     this.transferAgreements.set({
       ...this.transferAgreements(),
       data: [
@@ -234,7 +234,7 @@ export class EoTransfersComponent implements OnInit {
       data: [],
     });
     this.transfersService.getTransfers().subscribe({
-      next: (transferAgreements: EoListedTransfer[]) => {
+      next: (transferAgreements: EttListedTransfer[]) => {
         this.transferAgreements.set({
           loading: false,
           error: false,

@@ -21,20 +21,20 @@ import { Subject, debounceTime, fromEvent, map, merge, startWith, takeUntil, tim
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { EoAuthService } from '../auth/auth.service';
+import { EttAuthService } from '../auth/auth.service';
 
 import {
-  EoIdleTimerCountdownModalComponent,
-  EoIdleTimerLoggedOutModalComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+  EttIdleTimerCountdownModalComponent,
+  EttIdleTimerLoggedOutModalComponent,
+} from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IdleTimerService {
-  private authService = inject(EoAuthService);
+  private authService = inject(EttAuthService);
   private modalService = inject(WattModalService);
-  private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
+  private dialogRef: MatDialogRef<EttIdleTimerCountdownModalComponent> | undefined;
   private warningTimeout = 900000; // 15 minutes in milliseconds
   private logoutTimeout = 300000; // 5 minutes in milliseconds
   private activityEvents = [
@@ -102,7 +102,7 @@ export class IdleTimerService {
     );
 
     this.modalService.open({
-      component: EoIdleTimerCountdownModalComponent,
+      component: EttIdleTimerCountdownModalComponent,
       data: {
         countdown$,
       },
@@ -124,7 +124,7 @@ export class IdleTimerService {
 
   private showLogoutConfirmation() {
     this.modalService.open({
-      component: EoIdleTimerLoggedOutModalComponent,
+      component: EttIdleTimerLoggedOutModalComponent,
     });
   }
 }

@@ -16,9 +16,9 @@
  */
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 import { lastValueFrom } from 'rxjs';
-import { EoMeteringPointsService } from './ett-metering-points.service';
+import { EttMeteringPointsService } from './ett-metering-points.service';
 
 function setup() {
   TestBed.configureTestingModule({
@@ -28,8 +28,8 @@ function setup() {
   const server = TestBed.inject(HttpTestingController);
 
   return {
-    apiEnvironment: TestBed.inject(eoApiEnvironmentToken),
-    client: TestBed.inject(EoMeteringPointsService),
+    apiEnvironment: TestBed.inject(EttApiEnvironmentToken),
+    client: TestBed.inject(EttMeteringPointsService),
     server,
     teardown: () => {
       server.verify();
@@ -37,7 +37,7 @@ function setup() {
   };
 }
 
-describe('EoMeteringPointsService', () => {
+describe('EttMeteringPointsService', () => {
   describe('getMeteringPoints', () => {
     it('emits API response with metering points', async () => {
       const { apiEnvironment, client, server, teardown } = setup();

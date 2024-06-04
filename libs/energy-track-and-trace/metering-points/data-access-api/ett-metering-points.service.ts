@@ -16,7 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 
 interface MeteringPointsResponse {
   result: [];
@@ -29,7 +29,7 @@ interface StartClaimResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class EoMeteringPointsService {
+export class EttMeteringPointsService {
   #apiBase: string;
 
   getMeteringPoints() {
@@ -46,7 +46,7 @@ export class EoMeteringPointsService {
 
   constructor(
     private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+    @Inject(EttApiEnvironmentToken) apiEnvironment: EttApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }

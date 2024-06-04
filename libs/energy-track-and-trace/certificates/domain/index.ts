@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface EoCertificate {
+export interface EttCertificate {
   federatedStreamId: {
     registry: string;
     streamId: string;
@@ -33,7 +33,7 @@ export interface EoCertificate {
   amount?: string;
 }
 
-export interface EoCertificateContract {
+export interface EttCertificateContract {
   id: string;
   gsrn: string;
   startDate: number;

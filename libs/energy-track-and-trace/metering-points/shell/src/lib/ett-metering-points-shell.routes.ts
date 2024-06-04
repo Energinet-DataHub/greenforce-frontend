@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
-import { EoMeteringPointsShellComponent } from './ett-metering-points-shell.component';
+import { EttMeteringPointsShellComponent } from './ett-metering-points-shell.component';
 
-export const eoMeteringPointsRoutes: Routes = [
-  { path: '', component: EoMeteringPointsShellComponent },
+export const ettMeteringPointsRoutes: Routes = [
+  { path: '', component: EttMeteringPointsShellComponent },
 ];

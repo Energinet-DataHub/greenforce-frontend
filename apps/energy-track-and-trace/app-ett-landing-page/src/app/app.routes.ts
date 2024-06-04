@@ -32,7 +32,7 @@ export const appRoutes: Route[] = [
         path: '',
         pathMatch: 'full',
         loadChildren: () =>
-          import('@energinet-datahub/eo/landing-page/shell').then(
+          import('@energinet-datahub/ett/landing-page/shell').then(
             (esModule) => esModule.eoLandingPageRoutes
           ),
       },
@@ -46,7 +46,7 @@ export const appRoutes: Route[] = [
         path: '',
         pathMatch: 'full',
         loadChildren: () =>
-          import('@energinet-datahub/eo/landing-page/shell').then(
+          import('@energinet-datahub/ett/landing-page/shell').then(
             (esModule) => esModule.eoLandingPageRoutes
           ),
       },

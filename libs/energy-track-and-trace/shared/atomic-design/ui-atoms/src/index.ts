@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/ett-idle-timer/idle-timer-countdown.component';
-export * from './lib/ett-idle-timer/idle-timer-logged-out.component';
-export * from './lib/ett-info-box/ett-info-box.component';
-export * from './lib/ett-media/ett-media-align';
-export * from './lib/ett-media/ett-media.component';
-export * from './lib/ett-product-logo/ett-product-logo.directive';
-export * from './lib/ett-scroll-view/ett-scroll-view.component';
-export * from './lib/ett-stack/ett-stack.component';
-export * from './lib/ett-vimett-player/ett-vimett-player.component';
-export * from './lib/ett-beta-message/ett-beta-message.component';
+export * from './lib/idle-timer/idle-timer-countdown.component';
+export * from './lib/idle-timer/idle-timer-logged-out.component';
+export * from './lib/info-box/info-box.component';
+export * from './lib/media/media-align';
+export * from './lib/media/media.component';
+export * from './lib/product-logo/product-logo.directive';
+export * from './lib/scroll-view/scroll-view.component';
+export * from './lib/stack/stack.component';
+export * from './lib/vimeo-player/vimeo-player.component';
+export * from './lib/beta-message/beta-message.component';

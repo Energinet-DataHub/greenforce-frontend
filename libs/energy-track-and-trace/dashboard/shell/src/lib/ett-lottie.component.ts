@@ -22,7 +22,7 @@ import lottie, { AnimationItem } from 'lottie-web';
   standalone: true,
   template: '<div #lottieContainer [style.width]="width" [style.height]="height"></div>',
 })
-export class EoLottieComponent implements OnInit, OnDestroy {
+export class EttLottieComponent implements OnInit, OnDestroy {
   @ViewChild('lottieContainer', { static: true }) lottieContainer!: ElementRef;
   @Input() animationData!: unknown;
   @Input() width = '100%';

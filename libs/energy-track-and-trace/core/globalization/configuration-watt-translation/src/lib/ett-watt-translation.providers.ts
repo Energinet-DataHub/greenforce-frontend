@@ -23,7 +23,7 @@ import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 
 @Injectable()
-export class EoClipboardIntlService extends WattClipboardIntlService {
+export class EttClipboardIntlService extends WattClipboardIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -35,7 +35,7 @@ export class EoClipboardIntlService extends WattClipboardIntlService {
 }
 
 @Injectable()
-export class EoDataIntlService extends WattDataIntlService {
+export class EttDataIntlService extends WattDataIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -51,7 +51,7 @@ export class EoDataIntlService extends WattDataIntlService {
 }
 
 @Injectable()
-export class EoFieldIntlService extends WattFieldIntlService {
+export class EttFieldIntlService extends WattFieldIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -63,7 +63,7 @@ export class EoFieldIntlService extends WattFieldIntlService {
 }
 
 @Injectable()
-export class EoPaginatorIntlService extends WattPaginatorIntlService {
+export class EttPaginatorIntlService extends WattPaginatorIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
@@ -80,21 +80,21 @@ export class EoPaginatorIntlService extends WattPaginatorIntlService {
   }
 }
 
-export const eoWattTranslationsProviders = makeEnvironmentProviders([
+export const ettWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattClipboardIntlService,
-    useClass: EoClipboardIntlService,
+    useClass: EttClipboardIntlService,
   },
   {
     provide: WattDataIntlService,
-    useClass: EoDataIntlService,
+    useClass: EttDataIntlService,
   },
   {
     provide: WattPaginatorIntlService,
-    useClass: EoPaginatorIntlService,
+    useClass: EttPaginatorIntlService,
   },
   {
     provide: WattFieldIntlService,
-    useClass: EoFieldIntlService,
+    useClass: EttFieldIntlService,
   },
 ]);

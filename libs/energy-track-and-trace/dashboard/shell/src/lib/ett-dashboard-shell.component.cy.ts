@@ -21,8 +21,8 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 
-import { EoDashboardShellComponent } from './ett-dashboard-shell.component';
-import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
+import { EttDashboardShellComponent } from './ett-dashboard-shell.component';
+import { translocoProviders } from '@energinet-datahub/ett/globalization/configuration-localization';
 
 describe('EO - Dashboard', () => {
   const getProductionTab = () => cy.findByRole('tab', { name: /Production/i });
@@ -44,7 +44,7 @@ describe('EO - Dashboard', () => {
     | 'metering-points-error';
 
   function setup(meteringPointsScenario: meteringPointsConfigValue = 'all-metering-points') {
-    cy.mount(EoDashboardShellComponent, {
+    cy.mount(EttDashboardShellComponent, {
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideNoopAnimations(),

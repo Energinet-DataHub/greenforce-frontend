@@ -25,7 +25,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EttAuthStore } from '@energinet-datahub/ett/shared/services';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
@@ -111,8 +111,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     }
   `,
 })
-export class EoAccountMenuComponent {
-  private authStore = inject(EoAuthStore);
+export class EttAccountMenuComponent {
+  private authStore = inject(EttAuthStore);
 
   protected user = toSignal(this.authStore.getUserInfo$);
   protected isOpen = signal<boolean>(false);

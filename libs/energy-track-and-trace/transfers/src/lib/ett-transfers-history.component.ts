@@ -23,14 +23,14 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { EoListedTransfer } from './ett-transfers.service';
-import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
-import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
+import { EttListedTransfer } from './ett-transfers.service';
+import { EttActivityLogComponent } from '@energinet-datahub/ett/activity-log';
+import { ActivityLogEntryResponse } from '@energinet-datahub/ett/activity-log/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ett-transfers-history',
-  imports: [EoActivityLogComponent],
+  imports: [EttActivityLogComponent],
   styles: [
     `
       h3,
@@ -76,9 +76,9 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
     />
   `,
 })
-export class EoTransfersHistoryComponent implements OnChanges {
-  @Input() transfer?: EoListedTransfer;
-  @ViewChild(EoActivityLogComponent) log!: EoActivityLogComponent;
+export class EttTransfersHistoryComponent implements OnChanges {
+  @Input() transfer?: EttListedTransfer;
+  @ViewChild(EttActivityLogComponent) log!: EttActivityLogComponent;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['transfer']?.currentValue && this.log && this.log.refresh) {

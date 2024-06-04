@@ -18,8 +18,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
-import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { translations } from '@energinet-datahub/eo/translations';
+import { ettPrivacyPolicyRoutePath } from '@energinet-datahub/ett/shared/utilities';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -132,9 +132,9 @@ import { translations } from '@energinet-datahub/eo/translations';
     </div>
   `,
 })
-export class EoFooterComponent {
+export class EttFooterComponent {
   private lang = inject(TranslocoService).getActiveLang();
   protected translations = translations;
 
-  protected privacyPolicyRoutePath = `/${this.lang}/${eoPrivacyPolicyRoutePath}`;
+  protected privacyPolicyRoutePath = `/${this.lang}/${ettPrivacyPolicyRoutePath}`;
 }

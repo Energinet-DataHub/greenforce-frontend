@@ -38,7 +38,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_STEPPER, WattStep } from '@energinet-datahub/watt/stepper';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 import {
   compareValidator,
@@ -47,29 +47,29 @@ import {
   nextHourOrLaterValidator,
   overlappingTransferAgreementsValidator,
 } from '../validations';
-import { EoTransfersTimepickerComponent } from './ett-transfers-timepicker.component';
-import { EoTransfersPeriodComponent } from './ett-transfers-period.component';
-import { EoTransfersDateTimeComponent } from './ett-transfers-date-time.component';
-import { EoTransferErrorsComponent } from './ett-transfers-errors.component';
-import { EoTransferInvitationLinkComponent } from './ett-invitation-link';
+import { EttTransfersTimepickerComponent } from './ett-transfers-timepicker.component';
+import { EttTransfersPeriodComponent } from './ett-transfers-period.component';
+import { EttTransfersDateTimeComponent } from './ett-transfers-date-time.component';
+import { EttTransferErrorsComponent } from './ett-transfers-errors.component';
+import { EttTransferInvitationLinkComponent } from './ett-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { EoListedTransfer } from '../ett-transfers.service';
-import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { EttListedTransfer } from '../ett-transfers.service';
+import { EttExistingTransferAgreement } from '../existing-transfer-agreement';
 
-export interface EoTransfersFormInitialValues {
+export interface EttTransfersFormInitialValues {
   receiverTin: string;
   startDate: number;
   endDate: number | null;
 }
 
-export interface EoTransferFormPeriod {
+export interface EttTransferFormPeriod {
   startDate: FormControl<number | null>;
   endDate: FormControl<number | null>;
 }
 
-export interface EoTransfersForm {
+export interface EttTransfersForm {
   receiverTin: FormControl<string | null>;
-  period: FormGroup<EoTransferFormPeriod>;
+  period: FormGroup<EttTransferFormPeriod>;
 }
 
 type FormField = 'receiverTin' | 'startDate' | 'endDate';
@@ -83,16 +83,16 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     WattButtonComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
-    EoTransfersPeriodComponent,
-    EoTransfersTimepickerComponent,
+    EttTransfersPeriodComponent,
+    EttTransfersTimepickerComponent,
     WattRadioComponent,
     NgClass,
     WattDatePipe,
     CommonModule,
-    EoTransfersDateTimeComponent,
-    EoTransferErrorsComponent,
+    EttTransfersDateTimeComponent,
+    EttTransferErrorsComponent,
     WATT_STEPPER,
-    EoTransferInvitationLinkComponent,
+    EttTransferInvitationLinkComponent,
     VaterStackComponent,
     WattFieldHintComponent,
     TranslocoPipe,
@@ -313,32 +313,32 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     </ng-template>
   `,
 })
-export class EoTransfersFormComponent implements OnInit, OnChanges {
+export class EttTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;
   @Input() transferId?: string; // used in edit mode
   @Input() mode: 'create' | 'edit' = 'create';
   @Input() submitButtonText!: string;
   @Input() cancelButtonText!: string;
-  @Input() initialValues: EoTransfersFormInitialValues = {
+  @Input() initialValues: EttTransfersFormInitialValues = {
     receiverTin: '',
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
   };
   @Input() editableFields: FormField[] = ['receiverTin', 'startDate', 'endDate'];
 
-  @Input() transferAgreements: EoListedTransfer[] = [];
+  @Input() transferAgreements: EttListedTransfer[] = [];
   @Input() proposalId: string | null = null;
   @Input() generateProposalFailed = false;
 
   @Output() submitted = new EventEmitter();
   @Output() canceled = new EventEmitter();
 
-  @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
+  @ViewChild('invitaionLink') invitaionLink!: EttTransferInvitationLinkComponent;
 
   protected translations = translations;
-  protected form!: FormGroup<EoTransfersForm>;
+  protected form!: FormGroup<EttTransfersForm>;
   protected filteredReceiversTin = signal<string[]>([]);
-  protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
+  protected existingTransferAgreements = signal<EttExistingTransferAgreement[]>([]);
   protected selectedCompanyName = signal<string | undefined>(undefined);
 
   private transloco = inject(TranslocoService);
@@ -442,7 +442,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     );
   }
 
-  private getRecipientTins(transferAgreements: EoListedTransfer[]) {
+  private getRecipientTins(transferAgreements: EttListedTransfer[]) {
     const fallbackCompanyName = this.transloco.translate(
       this.translations.createTransferAgreementProposal.recipient.unknownRecipient
     );
@@ -462,7 +462,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   private initForm() {
     const { receiverTin, startDate, endDate } = this.initialValues;
 
-    this.form = new FormGroup<EoTransfersForm>({
+    this.form = new FormGroup<EttTransfersForm>({
       receiverTin: new FormControl(
         {
           value: receiverTin || '',

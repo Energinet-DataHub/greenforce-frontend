@@ -67,6 +67,6 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
   `,
   template: `<p role="alert" [innerHTML]="announcement"></p>`,
 })
-export class EoAnnouncementBarComponent {
+export class EttAnnouncementBarComponent {
   @Input() announcement!: string;
 }

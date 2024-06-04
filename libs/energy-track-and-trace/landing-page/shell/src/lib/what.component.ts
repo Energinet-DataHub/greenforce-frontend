@@ -30,7 +30,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { filter } from 'rxjs';
 
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 interface Section {
   title?: string;
@@ -298,7 +298,7 @@ interface Image {
     }
   `,
 })
-export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
+export class EttLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);

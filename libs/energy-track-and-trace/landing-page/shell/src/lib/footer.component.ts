@@ -18,16 +18,16 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EttProductLogoDirective } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
+import { EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { translations } from '@energinet-datahub/ett/translations';
 
 const selector = 'ett-landing-page-footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoProductLogoDirective, WattIconComponent, TranslocoPipe],
+  imports: [EttProductLogoDirective, WattIconComponent, TranslocoPipe],
   selector,
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -159,8 +159,8 @@ const selector = 'ett-landing-page-footer';
     </footer>
   `,
 })
-export class EoLandingPageFooterComponent {
-  protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
+export class EttLandingPageFooterComponent {
+  protected devPortalHref: string = inject(EttApiEnvironmentToken).developerPortal;
   protected openInNewIcon =
     '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
   protected translations = translations;

@@ -30,15 +30,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
-import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-import { EoDashboardChoosePeriodComponent } from './ett-dashboard-choose-period.component';
-import { EoDashboardConsumptionComponent } from './ett-dashboard-consumption.component';
-import { EoDashboardProductionTransferredComponent } from './ett-dashboard-production-transferred.component';
-import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
+import { ettDashboardPeriod } from '@energinet-datahub/ett/dashboard/domain';
+import { EttAggregateService } from '@energinet-datahub/ett/wallet/data-access-api';
+import { EttDashboardChoosePeriodComponent } from './ett-dashboard-choose-period.component';
+import { EttDashboardConsumptionComponent } from './ett-dashboard-consumption.component';
+import { EttDashboardProductionTransferredComponent } from './ett-dashboard-production-transferred.component';
+import { EttMeteringPointsStore } from '@energinet-datahub/ett/metering-points/data-access-api';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { TranslocoPipe } from '@ngneat/transloco';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -74,9 +74,9 @@ import { translations } from '@energinet-datahub/eo/translations';
     `,
   ],
   imports: [
-    EoDashboardConsumptionComponent,
-    EoDashboardProductionTransferredComponent,
-    EoDashboardChoosePeriodComponent,
+    EttDashboardConsumptionComponent,
+    EttDashboardProductionTransferredComponent,
+    EttDashboardChoosePeriodComponent,
     NgIf,
     AsyncPipe,
     WattSpinnerComponent,
@@ -143,12 +143,12 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
   `,
 })
-export class EoDashboardShellComponent implements OnInit {
-  private meteringPointStore = inject(EoMeteringPointsStore);
-  private aggregateService: EoAggregateService = inject(EoAggregateService);
+export class EttDashboardShellComponent implements OnInit {
+  private meteringPointStore = inject(EttMeteringPointsStore);
+  private aggregateService: EttAggregateService = inject(EttAggregateService);
   private destroyRef = inject(DestroyRef);
 
-  period = signal<eoDashboardPeriod>(null);
+  period = signal<ettDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
   productionMeteringPoints$ = this.meteringPointStore.productionMeteringPoints$;
   consumptionMeteringPoints$ = this.meteringPointStore.consumptionMeteringPoints$;
@@ -173,7 +173,7 @@ export class EoDashboardShellComponent implements OnInit {
       });
   }
 
-  protected onPeriodChanged(period: eoDashboardPeriod): void {
+  protected onPeriodChanged(period: ettDashboardPeriod): void {
     this.period.set(period);
   }
 }

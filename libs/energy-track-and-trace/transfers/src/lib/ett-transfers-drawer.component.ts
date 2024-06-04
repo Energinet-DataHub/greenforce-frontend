@@ -36,13 +36,13 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoListedTransfer } from './ett-transfers.service';
-import { EoTransfersEditModalComponent } from './ett-transfers-edit-modal.component';
-import { EoTransfersHistoryComponent } from './ett-transfers-history.component';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { EoTransferInvitationLinkComponent } from './form/ett-invitation-link';
+import { EttListedTransfer } from './ett-transfers.service';
+import { EttTransfersEditModalComponent } from './ett-transfers-edit-modal.component';
+import { EttTransfersHistoryComponent } from './ett-transfers-history.component';
+import { EttAuthStore } from '@energinet-datahub/ett/shared/services';
+import { EttTransferInvitationLinkComponent } from './form/ett-invitation-link';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,9 +57,9 @@ import { EoTransferInvitationLinkComponent } from './form/ett-invitation-link';
     WattTabsComponent,
     WattTabComponent,
     WattDatePipe,
-    EoTransfersEditModalComponent,
-    EoTransfersHistoryComponent,
-    EoTransferInvitationLinkComponent,
+    EttTransfersEditModalComponent,
+    EttTransfersHistoryComponent,
+    EttTransferInvitationLinkComponent,
     TranslocoPipe,
   ],
   standalone: true,
@@ -198,23 +198,23 @@ import { EoTransferInvitationLinkComponent } from './form/ett-invitation-link';
     />
   `,
 })
-export class EoTransfersDrawerComponent {
-  protected authStore = inject(EoAuthStore);
+export class EttTransfersDrawerComponent {
+  protected authStore = inject(EttAuthStore);
   protected translations = translations;
 
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
-  @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
-  @ViewChild(EoTransfersHistoryComponent) history!: EoTransfersHistoryComponent;
+  @ViewChild(EttTransfersEditModalComponent) transfersEditModal!: EttTransfersEditModalComponent;
+  @ViewChild(EttTransfersHistoryComponent) history!: EttTransfersHistoryComponent;
 
   isEditable = false;
 
-  @Input() transferAgreements: EoListedTransfer[] = [];
+  @Input() transferAgreements: EttListedTransfer[] = [];
   @Output() saveTransferAgreement = new EventEmitter();
 
-  private _transfer?: EoListedTransfer;
+  private _transfer?: EttListedTransfer;
 
   @Input()
-  set transfer(transfer: EoListedTransfer | undefined) {
+  set transfer(transfer: EttListedTransfer | undefined) {
     this._transfer = transfer;
 
     if (!this._transfer) return;

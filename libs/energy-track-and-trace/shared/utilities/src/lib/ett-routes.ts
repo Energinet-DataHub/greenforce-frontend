@@ -14,38 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const eoCertificatesRoutePath = 'certificates';
-export const eoDashboardRoutePath = 'dashboard';
-export const eoEmissionsRoutePath = 'emissions';
-export const eoMeteringPointsRoutePath = 'metering-points';
-export const eoOriginOfEnergyRoutePath = 'origin-of-energy';
-export const eoPrivacyPolicyRoutePath = 'privacy-policy';
-export const eoLandingPageRelativeUrl = '/';
-export const eoHelpRoutePath = 'help';
-export const eoFaqRoutePath = `faq`;
-export const eoIntroductionRoutePath = 'introduction';
-export const eoSimultaneityRoutePath = 'simultaneity';
-export const eoGeographyRoutePath = 'geography';
-export const eoTermsRoutePath = 'terms';
-export const eoTransferRoutePath = 'transfers';
-export const eoClaimsRoutePath = 'claims';
-export const eoActivityLogRoutePath = 'activity-log';
+export const ettCertificatesRoutePath = 'certificates';
+export const ettDashboardRoutePath = 'dashboard';
+export const ettEmissionsRoutePath = 'emissions';
+export const ettMeteringPointsRoutePath = 'metering-points';
+export const ettOriginOfEnergyRoutePath = 'origin-of-energy';
+export const ettPrivacyPolicyRoutePath = 'privacy-policy';
+export const ettLandingPageRelativeUrl = '/';
+export const ettHelpRoutePath = 'help';
+export const ettFaqRoutePath = `faq`;
+export const ettIntroductionRoutePath = 'introduction';
+export const ettSimultaneityRoutePath = 'simultaneity';
+export const ettGeographyRoutePath = 'geography';
+export const ettTermsRoutePath = 'terms';
+export const ettTransferRoutePath = 'transfers';
+export const ettClaimsRoutePath = 'claims';
+export const ettActivityLogRoutePath = 'activity-log';
 
-export const eoRoutes = {
-  certificates: eoCertificatesRoutePath,
-  dashboard: eoDashboardRoutePath,
-  emissions: eoEmissionsRoutePath,
-  meteringpoints: eoMeteringPointsRoutePath,
-  originOfEnergy: eoOriginOfEnergyRoutePath,
-  privacyPolicy: eoPrivacyPolicyRoutePath,
-  landingPage: eoLandingPageRelativeUrl,
-  help: eoHelpRoutePath,
-  faq: eoFaqRoutePath,
-  introduction: eoIntroductionRoutePath,
-  simultaneity: eoSimultaneityRoutePath,
-  geography: eoGeographyRoutePath,
-  terms: eoTermsRoutePath,
-  transfer: eoTransferRoutePath,
-  claims: eoClaimsRoutePath,
-  activityLog: eoActivityLogRoutePath,
+export const ettRoutes = {
+  certificates: ettCertificatesRoutePath,
+  dashboard: ettDashboardRoutePath,
+  emissions: ettEmissionsRoutePath,
+  meteringpoints: ettMeteringPointsRoutePath,
+  originOfEnergy: ettOriginOfEnergyRoutePath,
+  privacyPolicy: ettPrivacyPolicyRoutePath,
+  landingPage: ettLandingPageRelativeUrl,
+  help: ettHelpRoutePath,
+  faq: ettFaqRoutePath,
+  introduction: ettIntroductionRoutePath,
+  simultaneity: ettSimultaneityRoutePath,
+  geography: ettGeographyRoutePath,
+  terms: ettTermsRoutePath,
+  transfer: ettTransferRoutePath,
+  claims: ettClaimsRoutePath,
+  activityLog: ettActivityLogRoutePath,
 };

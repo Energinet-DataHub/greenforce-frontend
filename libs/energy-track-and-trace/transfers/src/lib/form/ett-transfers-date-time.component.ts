@@ -41,11 +41,11 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-import { EoTransfersTimepickerComponent } from './ett-transfers-timepicker.component';
+import { EttTransfersTimepickerComponent } from './ett-transfers-timepicker.component';
 
 import { isToday } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { EttExistingTransferAgreement } from '../existing-transfer-agreement';
 
 @Component({
   selector: 'ett-transfers-datetime',
@@ -53,7 +53,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    EoTransfersTimepickerComponent,
+    EttTransfersTimepickerComponent,
     WattDatepickerComponent,
   ],
   styles: [
@@ -151,25 +151,25 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EoTransfersDateTimeComponent),
+      useExisting: forwardRef(() => EttTransfersDateTimeComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: EoTransfersDateTimeComponent,
+      useExisting: EttTransfersDateTimeComponent,
     },
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class EoTransfersDateTimeComponent
+export class EttTransfersDateTimeComponent
   implements ControlValueAccessor, Validator, OnInit, OnChanges
 {
   @Input() min!: Date;
-  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
+  @Input() existingTransferAgreements: EttExistingTransferAgreement[] = [];
   @Input() label = '';
 
-  @ViewChild(EoTransfersTimepickerComponent) timepicker!: EoTransfersTimepickerComponent;
+  @ViewChild(EttTransfersTimepickerComponent) timepicker!: EttTransfersTimepickerComponent;
 
   private destroyRef = inject(DestroyRef);
   private statusChangesSubscription!: Subscription;

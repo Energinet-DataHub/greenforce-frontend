@@ -19,7 +19,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TitleStrategy } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Injectable()
 export class MetaStrategy extends TitleStrategy {

@@ -43,13 +43,13 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 import {
   ActivityLogEntryResponse,
-  EoActivityLogService,
+  EttActivityLogService,
   activityLogEntityType,
-} from '@energinet-datahub/eo/activity-log/data-access-api';
+} from '@energinet-datahub/ett/activity-log/data-access-api';
 import { WATT_CARD_VARIANT } from '@energinet-datahub/watt/card';
 
 interface ActivityLogForm {
@@ -116,7 +116,7 @@ type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
     }
   `,
 })
-export class EoActivityLogComponent implements OnInit {
+export class EttActivityLogComponent implements OnInit {
   @Input() variant: WATT_CARD_VARIANT = 'elevation';
   @Input() showFilters = true;
   @Input() eventTypes: activityLogEventType[] = ['TransferAgreement', 'MeteringPoint'];
@@ -141,7 +141,7 @@ export class EoActivityLogComponent implements OnInit {
   });
 
   private destroyRef = inject(DestroyRef);
-  private activityLogService = inject(EoActivityLogService);
+  private activityLogService = inject(EttActivityLogService);
   private datePipe: WattDatePipe = inject(WattDatePipe);
 
   ngOnInit(): void {

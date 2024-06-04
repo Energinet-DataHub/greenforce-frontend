@@ -27,15 +27,15 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EttAuthService } from '@energinet-datahub/ett/shared/services';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoLearnMoreComponent } from './learn-more.component';
+import { EttLearnMoreComponent } from './learn-more.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe],
+  imports: [WattIconComponent, EttLearnMoreComponent, TranslocoPipe],
   selector: 'ett-landing-page-hero',
   styles: `
     :host {
@@ -166,10 +166,10 @@ import { EoLearnMoreComponent } from './learn-more.component';
     </div>
   `,
 })
-export class EoLandingPageHeroComponent implements AfterViewInit {
+export class EttLandingPageHeroComponent implements AfterViewInit {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;
 
-  private authService = inject(EoAuthService);
+  private authService = inject(EttAuthService);
 
   protected translations = translations;
   protected isSticky = signal<boolean>(false);

@@ -37,9 +37,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoTransferAgreementProposal, EoTransfersService } from './ett-transfers.service';
+import { EttTransferAgreementProposal, EttTransfersService } from './ett-transfers.service';
 
 @Component({
   selector: 'ett-transfers-repsond-proposal',
@@ -149,21 +149,21 @@ import { EoTransferAgreementProposal, EoTransfersService } from './ett-transfers
     }
   `,
 })
-export class EoTransfersRespondProposalComponent implements OnChanges {
+export class EttTransfersRespondProposalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() proposalId!: string;
-  @Output() accepted = new EventEmitter<EoTransferAgreementProposal>();
+  @Output() accepted = new EventEmitter<EttTransferAgreementProposal>();
   @Output() declined = new EventEmitter<string>();
 
   private cd = inject(ChangeDetectorRef);
   private router = inject(Router);
-  private transfersService = inject(EoTransfersService);
+  private transfersService = inject(EttTransfersService);
 
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(false);
   protected hasError = signal<boolean>(false);
-  protected proposal = signal<EoTransferAgreementProposal | null>(null);
+  protected proposal = signal<EttTransferAgreementProposal | null>(null);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['proposalId'] && changes['proposalId'].currentValue) {
@@ -201,7 +201,7 @@ export class EoTransfersRespondProposalComponent implements OnChanges {
     this.modal.close(true);
     if (!this.proposal()) return;
 
-    this.accepted.emit(this.proposal() as EoTransferAgreementProposal);
+    this.accepted.emit(this.proposal() as EttTransferAgreementProposal);
   }
 
   onDecline() {

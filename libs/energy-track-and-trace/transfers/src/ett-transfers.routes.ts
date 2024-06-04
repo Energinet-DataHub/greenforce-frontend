@@ -16,11 +16,11 @@
  */
 
 import { Routes } from '@angular/router';
-import { EoTransfersComponent } from './lib/ett-transfers.component';
+import { EttTransfersComponent } from './lib/ett-transfers.component';
 
-export const eoTransfersRoutes: Routes = [
+export const ettTransfersRoutes: Routes = [
   {
     path: '',
-    component: EoTransfersComponent,
+    component: EttTransfersComponent,
   },
 ];

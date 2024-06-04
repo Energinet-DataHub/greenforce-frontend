@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/ett-cookie-banner/ett-cookie-banner.component';
-export * from './lib/ett-popup-message/ett-popup-message.component';
-export * from './lib/ett-privacy-policy/ett-privacy-policy.component';
+export * from './lib/cookie-banner/cookie-banner.component';
+export * from './lib/popup-message/popup-message.component';
+export * from './lib/privacy-policy/privacy-policy.component';

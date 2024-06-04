@@ -17,23 +17,23 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
-import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { environment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { loadEoApiEnvironment } from './configuration/load-ett-api-environment';
+import { loadEttApiEnvironment } from './configuration/load-ett-api-environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-loadEoApiEnvironment()
-  .then((eoApiEnvironment) =>
+loadEttApiEnvironment()
+  .then((EttApiEnvironment) =>
     bootstrapApplication(AppComponent, {
       ...appConfig,
       providers: [
         ...appConfig.providers,
-        { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
+        { provide: EttApiEnvironmentToken, useValue: EttApiEnvironment },
       ],
     })
   )

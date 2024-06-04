@@ -29,9 +29,9 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
+import { Claim } from '@energinet-datahub/ett/claims/data-access-api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -85,7 +85,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     <watt-paginator [for]="dataSource" />
   `,
 })
-export class EoClaimsTableComponent implements OnInit {
+export class EttClaimsTableComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);

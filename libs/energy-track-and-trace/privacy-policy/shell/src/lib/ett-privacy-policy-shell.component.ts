@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EttPrivacyPolicyComponent } from '@energinet-datahub/ett/shared/atomic-design/feature-molecules';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoPrivacyPolicyComponent],
+  imports: [EttPrivacyPolicyComponent],
   selector: 'ett-privacy-policy-shell',
   styles: [
     `
@@ -40,4 +40,4 @@ import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-de
     </div>
   `,
 })
-export class EoPrivacyPolicyShellComponent {}
+export class EttPrivacyPolicyShellComponent {}

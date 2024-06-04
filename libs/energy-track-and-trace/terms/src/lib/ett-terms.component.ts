@@ -25,13 +25,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EttPrivacyPolicyComponent } from '@energinet-datahub/ett/shared/atomic-design/feature-molecules';
+import { EttScrollViewComponent } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
 import {
-  EoFooterComponent,
-  EoHeaderComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
+  EttFooterComponent,
+  EttHeaderComponent,
+} from '@energinet-datahub/ett/shared/atomic-design/ui-organisms';
+import { EttAuthService, EttTermsService } from '@energinet-datahub/ett/shared/services';
 
 interface VersionResponse {
   version: number;
@@ -43,10 +43,10 @@ interface VersionResponse {
     FormsModule,
     WattButtonComponent,
     WattCheckboxComponent,
-    EoFooterComponent,
-    EoHeaderComponent,
-    EoPrivacyPolicyComponent,
-    EoScrollViewComponent,
+    EttFooterComponent,
+    EttHeaderComponent,
+    EttPrivacyPolicyComponent,
+    EttScrollViewComponent,
     WattSpinnerComponent,
     NgIf,
     AsyncPipe,
@@ -113,10 +113,10 @@ interface VersionResponse {
     <ett-footer />
   `,
 })
-export class EoTermsComponent {
+export class EttTermsComponent {
   private http = inject(HttpClient);
-  private termsService = inject(EoTermsService);
-  private authService = inject(EoAuthService);
+  private termsService = inject(EttTermsService);
+  private authService = inject(EttAuthService);
   private router = inject(Router);
   private policyVersion$ = this.http.get<VersionResponse>(
     '/assets/configuration/privacy-policy.json'

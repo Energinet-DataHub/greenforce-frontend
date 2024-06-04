@@ -24,14 +24,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoTransfersDateTimeComponent } from './ett-transfers-date-time.component';
-import { EoTransferFormPeriod } from './ett-transfers-form.component';
-import { EoTransferErrorsComponent } from './ett-transfers-errors.component';
-import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { EttTransfersDateTimeComponent } from './ett-transfers-date-time.component';
+import { EttTransferFormPeriod } from './ett-transfers-form.component';
+import { EttTransferErrorsComponent } from './ett-transfers-errors.component';
+import { EttExistingTransferAgreement } from '../existing-transfer-agreement';
 
-interface EoTransfersPeriodForm extends EoTransferFormPeriod {
+interface EttTransfersPeriodForm extends EttTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
 }
 
@@ -40,13 +40,13 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   standalone: true,
   imports: [
     CommonModule,
-    EoTransfersDateTimeComponent,
+    EttTransfersDateTimeComponent,
     NgClass,
     ReactiveFormsModule,
     WattDatePipe,
     WattRadioComponent,
     WattFieldErrorComponent,
-    EoTransferErrorsComponent,
+    EttTransferErrorsComponent,
     TranslocoPipe,
   ],
   encapsulation: ViewEncapsulation.None,
@@ -259,12 +259,12 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
     </ng-container>
   `,
 })
-export class EoTransfersPeriodComponent implements OnInit {
+export class EttTransfersPeriodComponent implements OnInit {
   @Input() formGroupName!: string;
-  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
+  @Input() existingTransferAgreements: EttExistingTransferAgreement[] = [];
 
   protected translations = translations;
-  protected form!: FormGroup<EoTransfersPeriodForm>;
+  protected form!: FormGroup<EttTransfersPeriodForm>;
   protected minStartDate: Date = new Date();
   protected minEndDate: Date = new Date();
 

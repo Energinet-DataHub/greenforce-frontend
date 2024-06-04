@@ -19,7 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterOutlet } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EttAuthService } from '@energinet-datahub/ett/shared/services';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -49,7 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   ],
 })
 export class EnergyOriginAppComponent {
-  constructor(private authService: EoAuthService) {
+  constructor(private authService: EttAuthService) {
     this.authService.checkForExistingToken();
   }
 }

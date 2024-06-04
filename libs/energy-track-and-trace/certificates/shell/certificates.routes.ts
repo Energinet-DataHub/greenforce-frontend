@@ -20,16 +20,16 @@ import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { EoCertificateDetailsComponent } from '@energinet-datahub/eo/certificates/feature-details';
-import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certificates/feature-overview';
-import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EttCertificateDetailsComponent } from '@energinet-datahub/ett/certificates/feature-details';
+import { EttCertificatesOverviewComponent } from '@energinet-datahub/ett/certificates/feature-overview';
+import { EttCertificatesService } from '@energinet-datahub/ett/certificates/data-access-api';
+import { EttCertificate } from '@energinet-datahub/ett/certificates/domain';
+import { translations } from '@energinet-datahub/ett/translations';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class CertificateDetailsTitleResolver {
-  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+  private certificatesService: EttCertificatesService = inject(EttCertificatesService);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private translations = translations;
@@ -40,7 +40,7 @@ export class CertificateDetailsTitleResolver {
       switchMap(() => {
         return this.certificatesService.getCertificates();
       }),
-      map((certs: EoCertificate[]) =>
+      map((certs: EttCertificate[]) =>
         certs.find((item) => item.federatedStreamId.streamId === route.params['id'])
       ),
       map((cert) => {
@@ -64,15 +64,15 @@ export class CertificateDetailsTitleResolver {
   }
 }
 
-export const eoCertificatesRoutes: Routes = [
+export const ettCertificatesRoutes: Routes = [
   {
     path: '',
     title: translations.certificates.title,
-    component: EoCertificatesOverviewComponent,
+    component: EttCertificatesOverviewComponent,
   },
   {
     path: ':id',
     title: CertificateDetailsTitleResolver,
-    component: EoCertificateDetailsComponent,
+    component: EttCertificateDetailsComponent,
   },
 ];

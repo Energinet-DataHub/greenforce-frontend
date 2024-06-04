@@ -22,9 +22,9 @@ import {
 } from '@energinet-datahub/gf/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 
-import { environment } from '@energinet-datahub/eo/shared/environments';
+import { environment } from '@energinet-datahub/ett/shared/environments';
 
-export const eoTranslocoConfig = translocoConfig({
+export const ettTranslocoConfig = translocoConfig({
   availableLangs: [DisplayLanguage.English, DisplayLanguage.Danish],
   defaultLang: DisplayLanguage.English,
   fallbackLang: [DisplayLanguage.English, DisplayLanguage.Danish],
@@ -38,14 +38,14 @@ export const eoTranslocoConfig = translocoConfig({
 
 export const translocoProviders = [
   provideTransloco({
-    config: eoTranslocoConfig,
+    config: ettTranslocoConfig,
     loader: TranslocoTypedLoader,
   }),
   {
     provide: TRANSLOCO_TYPED_TRANSLATION_PATH,
     useValue: {
-      da: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/da'),
-      en: () => import('@energinet-datahub/eo/globalization/assets-localization/i18n/en'),
+      da: () => import('@energinet-datahub/ett/globalization/assets-localization/i18n/da'),
+      en: () => import('@energinet-datahub/ett/globalization/assets-localization/i18n/en'),
     },
   },
 ];

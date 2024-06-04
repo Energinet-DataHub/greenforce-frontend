@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+import { EttTimeAggregate } from '@energinet-datahub/ett/shared/domain';
 
-export type eoDashboardPeriod = {
-  timeAggregate: EoTimeAggregate;
+export type ettDashboardPeriod = {
+  timeAggregate: EttTimeAggregate;
   start: number;
   end: number;
 } | null;

@@ -23,7 +23,7 @@ import { toDisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 @Injectable({
   providedIn: 'root',
 })
-export class EoLanguageService {
+export class EttLanguageService {
   private readonly transloco = inject(TranslocoService);
   private readonly localeService = inject(WattLocaleService);
 

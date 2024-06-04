@@ -23,7 +23,7 @@ import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/translo
 import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 
-import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
+import { EttAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
 
 const translocoConfig: TranslocoTestingOptions = {
   langs: { en: {} }, // provide your translations here
@@ -34,7 +34,7 @@ const translocoConfig: TranslocoTestingOptions = {
 })
 class TestDefaultRouteComponent {}
 
-describe(EoAuthorizationInterceptor, () => {
+describe(EttAuthorizationInterceptor, () => {
   function sendRequest(): Promise<unknown> {
     return lastValueFrom(http.get(testEndpoint));
   }

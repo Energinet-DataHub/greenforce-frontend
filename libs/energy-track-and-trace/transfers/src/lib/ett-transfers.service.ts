@@ -18,12 +18,12 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, inject } from '@angular/core';
 import { map, switchMap } from 'rxjs';
 
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 import { getUnixTime } from 'date-fns';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EttAuthStore } from '@energinet-datahub/ett/shared/services';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-export interface EoTransfer {
+export interface EttTransfer {
   startDate: number;
   senderName?: string;
   endDate: number | null;
@@ -32,28 +32,28 @@ export interface EoTransfer {
   transferAgreementStatus: 'Active' | 'Inactive' | 'Proposal' | 'ProposalExpired';
 }
 
-export interface EoListedTransfer extends EoTransfer {
+export interface EttListedTransfer extends EttTransfer {
   id: string;
   senderTin: string;
 }
 
-export interface EoListedTransferResponse {
-  result: EoListedTransfer[];
+export interface EttListedTransferResponse {
+  result: EttListedTransfer[];
 }
 
-export interface EoTransferAgreementsHistory {
-  transferAgreement: EoTransfer;
+export interface EttTransferAgreementsHistory {
+  transferAgreement: EttTransfer;
   createdAt: number;
   action: 'Created' | 'Updated' | 'Deleted';
   actorName: string;
 }
 
-export interface EoTransferAgreementsHistoryResponse {
+export interface EttTransferAgreementsHistoryResponse {
   totalCount: number;
-  items: EoTransferAgreementsHistory[];
+  items: EttTransferAgreementsHistory[];
 }
 
-export interface EoTransferAgreementProposal {
+export interface EttTransferAgreementProposal {
   id: string;
   senderCompanyName: string;
   receiverTin: string;
@@ -64,22 +64,22 @@ export interface EoTransferAgreementProposal {
 @Injectable({
   providedIn: 'root',
 })
-export class EoTransfersService {
+export class EttTransfersService {
   #apiBase: string;
-  #authStore = inject(EoAuthStore);
+  #authStore = inject(EttAuthStore);
 
   private user = toSignal(this.#authStore.getUserInfo$);
 
   constructor(
     private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+    @Inject(EttApiEnvironmentToken) apiEnvironment: EttApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
   getTransfers() {
     return this.http
-      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements/overview`)
+      .get<EttListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements/overview`)
       .pipe(
         map((x) => x.result),
         switchMap((transfers) => {
@@ -102,7 +102,7 @@ export class EoTransfersService {
       );
   }
 
-  private setSender(transfer: EoListedTransfer) {
+  private setSender(transfer: EttListedTransfer) {
     return {
       ...transfer,
       senderName: transfer.senderName === '' ? this.user()?.name : transfer.senderName,
@@ -130,9 +130,9 @@ export class EoTransfersService {
       );
   }
 
-  createAgreementProposal(transfer: EoTransfer) {
+  createAgreementProposal(transfer: EttTransfer) {
     return this.http
-      .post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer/transfer-agreement-proposals`, {
+      .post<EttTransferAgreementProposal>(`${this.#apiBase}/transfer/transfer-agreement-proposals`, {
         receiverTin: transfer.receiverTin === '' ? null : transfer.receiverTin,
         startDate: getUnixTime(transfer.startDate),
         endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
@@ -141,7 +141,7 @@ export class EoTransfersService {
   }
 
   createTransferAgreement(proposalId: string) {
-    return this.http.post<EoTransferAgreementProposal>(
+    return this.http.post<EttTransferAgreementProposal>(
       `${this.#apiBase}/transfer/transfer-agreements`,
       {
         transferAgreementProposalId: proposalId,
@@ -151,7 +151,7 @@ export class EoTransfersService {
 
   getAgreementProposal(proposalId: string) {
     return this.http
-      .get<EoTransferAgreementProposal>(
+      .get<EttTransferAgreementProposal>(
         `${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`
       )
       .pipe(
@@ -169,7 +169,7 @@ export class EoTransfersService {
 
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
-      .put<EoListedTransfer>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
+      .put<EttListedTransfer>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
         endDate: endDate ? getUnixTime(endDate) : null,
       })
       .pipe(

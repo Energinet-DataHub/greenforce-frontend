@@ -23,11 +23,11 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { translations } from '@energinet-datahub/ett/translations';
+import { EttMeteringPointsStore } from '@energinet-datahub/ett/metering-points/data-access-api';
+import { EttMeteringPoint } from '@energinet-datahub/ett/metering-points/domain';
 
-import { EoMeteringPointsTableComponent } from './ett-metering-point-table.component';
+import { EttMeteringPointsTableComponent } from './ett-metering-point-table.component';
 import { Observable, combineLatest, map } from 'rxjs';
 
 @Component({
@@ -36,7 +36,7 @@ import { Observable, combineLatest, map } from 'rxjs';
   imports: [
     AsyncPipe,
     NgIf,
-    EoMeteringPointsTableComponent,
+    EttMeteringPointsTableComponent,
     WATT_CARD,
     WattValidationMessageComponent,
     TranslocoPipe,
@@ -80,8 +80,8 @@ import { Observable, combineLatest, map } from 'rxjs';
     </watt-card>
   `,
 })
-export class EoMeteringPointsShellComponent implements OnInit {
-  private meteringPointStore = inject(EoMeteringPointsStore);
+export class EttMeteringPointsShellComponent implements OnInit {
+  private meteringPointStore = inject(EttMeteringPointsStore);
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
   private transloco = inject(TranslocoService);
@@ -115,11 +115,11 @@ export class EoMeteringPointsShellComponent implements OnInit {
     });
   }
 
-  activateContracts(meteringPoints: EoMeteringPoint[]) {
+  activateContracts(meteringPoints: EttMeteringPoint[]) {
     this.meteringPointStore.createCertificateContracts(meteringPoints);
   }
 
-  deactivateContracts(meteringPoints: EoMeteringPoint[]) {
+  deactivateContracts(meteringPoints: EttMeteringPoint[]) {
     this.meteringPointStore.deactivateCertificateContracts(meteringPoints);
   }
 }

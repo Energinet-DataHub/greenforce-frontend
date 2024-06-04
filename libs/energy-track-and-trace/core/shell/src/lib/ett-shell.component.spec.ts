@@ -19,17 +19,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 
-import { getTranslocoTestingModule } from '@energinet-datahub/eo/globalization/test-util-i18n';
+import { getTranslocoTestingModule } from '@energinet-datahub/ett/globalization/test-util-i18n';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { EoShellComponent } from './ett-shell.component';
+import { EttShellComponent } from './ett-shell.component';
 
-describe(EoShellComponent, () => {
+describe(EttShellComponent, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        EoShellComponent,
+        EttShellComponent,
         // Because of primary navigation relying on AuthHttp
         HttpClientTestingModule,
         MatDialogModule,
@@ -38,10 +38,10 @@ describe(EoShellComponent, () => {
       providers: [WattModalService]
     });
 
-    fixture = TestBed.createComponent(EoShellComponent);
+    fixture = TestBed.createComponent(EttShellComponent);
   });
 
-  let fixture: ComponentFixture<EoShellComponent>;
+  let fixture: ComponentFixture<EttShellComponent>;
 
   it('displays the Watt shell', () => {
     // Assert

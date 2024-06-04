@@ -26,8 +26,8 @@ import {
 } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
-import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
-import { translations } from '@energinet-datahub/eo/translations';
+import { SharedUtilities } from '@energinet-datahub/ett/shared/utilities';
+import { translations } from '@energinet-datahub/ett/translations';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -57,7 +57,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   encapsulation: ViewEncapsulation.None,
   template: ` <div [innerHTML]="content()"></div> `,
 })
-export class EoFaqPageComponent implements AfterViewInit {
+export class EttFaqPageComponent implements AfterViewInit {
   private utils = inject(SharedUtilities);
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);

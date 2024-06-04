@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { BehaviorSubject } from 'rxjs';
 
-export interface EoLoginToken {
+export interface EttLoginToken {
   atv?: number;
   exp?: number;
   name?: string;
@@ -30,12 +30,12 @@ export interface EoLoginToken {
   tin?: string;
 }
 
-type AuthState = EoLoginToken;
+type AuthState = EttLoginToken;
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoAuthStore extends ComponentStore<AuthState> {
+export class EttAuthStore extends ComponentStore<AuthState> {
   public token = new BehaviorSubject<string>('');
 
   constructor() {
@@ -50,6 +50,6 @@ export class EoAuthStore extends ComponentStore<AuthState> {
   isTokenExpired$ = this.select((state) => Date.now() / 1000 > (state.exp ?? 0));
 
   setTokenClaims = this.updater(
-    (state, claim: EoLoginToken): AuthState => ({ ...state, ...claim })
+    (state, claim: EttLoginToken): AuthState => ({ ...state, ...claim })
   );
 }

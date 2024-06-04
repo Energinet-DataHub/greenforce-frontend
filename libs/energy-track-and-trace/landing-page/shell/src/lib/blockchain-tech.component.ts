@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 const selector = 'ett-landing-page-blockchain-tech';
 
@@ -92,6 +92,6 @@ const selector = 'ett-landing-page-blockchain-tech';
     </section>
   `,
 })
-export class EoLandingPageBlockchainTechComponent {
+export class EttLandingPageBlockchainTechComponent {
   protected translations = translations;
 }

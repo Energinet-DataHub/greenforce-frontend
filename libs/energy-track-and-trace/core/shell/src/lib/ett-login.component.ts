@@ -16,7 +16,7 @@
  */
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EttAuthService, EttAuthStore } from '@energinet-datahub/ett/shared/services';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { TranslocoService } from '@ngneat/transloco';
 import { combineLatest, take } from 'rxjs';
@@ -37,9 +37,9 @@ import { combineLatest, take } from 'rxjs';
   ],
   template: `<div class="spinner"><watt-spinner /></div>`,
 })
-export class EoLoginComponent {
-  private service = inject(EoAuthService);
-  private store = inject(EoAuthStore);
+export class EttLoginComponent {
+  private service = inject(EttAuthService);
+  private store = inject(EttAuthStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private transloco = inject(TranslocoService);

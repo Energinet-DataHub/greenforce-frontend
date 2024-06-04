@@ -18,9 +18,9 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EttAuthService } from '@energinet-datahub/ett/shared/services';
+import { EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -99,10 +99,10 @@ import { translations } from '@energinet-datahub/eo/translations';
     </section>
   `,
 })
-export class EoLandingPageCTAComponent {
-  private authService = inject(EoAuthService);
+export class EttLandingPageCTAComponent {
+  private authService = inject(EttAuthService);
 
-  protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
+  protected devPortalHref: string = inject(EttApiEnvironmentToken).developerPortal;
   protected translations = translations;
 
   onLogin(): void {

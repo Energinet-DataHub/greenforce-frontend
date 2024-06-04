@@ -16,4 +16,4 @@
  */
 
 export * from './lib/ett-core-shell.routes';
-export { eoCoreShellProviders } from './lib/ett-core-shell.providers';
+export { ettCoreShellProviders } from './lib/ett-core-shell.providers';

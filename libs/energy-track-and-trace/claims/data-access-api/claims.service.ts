@@ -18,8 +18,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { EttTimeAggregate } from '@energinet-datahub/ett/shared/domain';
 import { eachDayOfInterval, fromUnixTime, isSameDay } from 'date-fns';
 
 export interface Claim {
@@ -60,8 +60,8 @@ interface AggregateClaimResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class EoClaimsService {
-  #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
+export class EttClaimsService {
+  #apiEnvironment: EttApiEnvironment = inject(EttApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
 
   #apiBase = `${this.#apiEnvironment.apiBase}/v1`.replace('/api', '/wallet-api');
@@ -72,7 +72,7 @@ export class EoClaimsService {
       .pipe(map((response) => response.result));
   }
 
-  getAggregatedClaims(timeAggregate: EoTimeAggregate, start: number, end: number) {
+  getAggregatedClaims(timeAggregate: EttTimeAggregate, start: number, end: number) {
     const dates = eachDayOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
       (date) => {
         return {

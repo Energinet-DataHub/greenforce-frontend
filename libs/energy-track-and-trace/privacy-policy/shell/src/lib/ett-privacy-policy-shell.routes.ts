@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { Routes } from '@angular/router';
-import { EoPrivacyPolicyShellComponent } from './ett-privacy-policy-shell.component';
+import { EttPrivacyPolicyShellComponent } from './ett-privacy-policy-shell.component';
 
-export const eoPrivacyPolicyRoutes: Routes = [
+export const ettPrivacyPolicyRoutes: Routes = [
   {
     path: '',
-    component: EoPrivacyPolicyShellComponent,
+    component: EttPrivacyPolicyShellComponent,
   },
 ];

@@ -16,11 +16,11 @@
  */
 import { render, screen } from '@testing-library/angular';
 
-import { getTranslocoTestingModule } from '@energinet-datahub/eo/globalization/test-util-i18n';
+import { getTranslocoTestingModule } from '@energinet-datahub/ett/globalization/test-util-i18n';
 
-import { EoFooterComponent } from './ett-footer.component';
+import { EttFooterComponent } from './ett-footer.component';
 
-describe(EoFooterComponent, () => {
+describe(EttFooterComponent, () => {
   const findEnerginetLogo = () => screen.findByRole('img', { name: 'Energinet' });
   const findPrivacyLink = () => screen.findByRole('link', { name: /privacypolicy/i });
   const findAccessibilityLink = () => screen.findByRole('link', { name: /accessibility/i });
@@ -28,7 +28,7 @@ describe(EoFooterComponent, () => {
   const findEmailLink = () => screen.findByRole('link', { name: /email/i });
 
   beforeEach(async () => {
-    await render(EoFooterComponent, {
+    await render(EttFooterComponent, {
       imports: [
         getTranslocoTestingModule()
       ]
@@ -54,10 +54,10 @@ describe(EoFooterComponent, () => {
   });
 });
 
-describe(`${EoFooterComponent.name} - Component API, Content projection`, () => {
+describe(`${EttFooterComponent.name} - Component API, Content projection`, () => {
   it('Inserts content into ng-content', async () => {
     await render(`<ett-footer><p>test</p></ett-footer>`, {
-      imports: [EoFooterComponent, getTranslocoTestingModule()],
+      imports: [EttFooterComponent, getTranslocoTestingModule()],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
   });

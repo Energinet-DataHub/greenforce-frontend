@@ -20,25 +20,25 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
+import { environment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { ettCoreShellProviders, ettShellRoutes } from '@energinet-datahub/ett/core/shell';
 
-import { loadEoApiEnvironment } from './configuration/load-ett-api-environment';
+import { loadEttApiEnvironment } from './configuration/load-ett-api-environment';
 import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
 
 if (environment.production) {
   enableProdMode();
 }
 
-loadEoApiEnvironment()
-  .then((eoApiEnvironment) =>
+loadEttApiEnvironment()
+  .then((EttApiEnvironment) =>
     bootstrapApplication(EnergyOriginAppComponent, {
       providers: [
-        { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
+        { provide: EttApiEnvironmentToken, useValue: EttApiEnvironment },
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
-        ...eoCoreShellProviders,
-        provideRouter(eoShellRoutes, withComponentInputBinding()),
+        ...ettCoreShellProviders,
+        provideRouter(ettShellRoutes, withComponentInputBinding()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
     })

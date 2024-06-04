@@ -40,16 +40,16 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import {
   EnergyUnitPipe,
   PercentageOfPipe,
-  eoRoutes,
+  ettRoutes,
   findNearestUnit,
   fromWh,
-} from '@energinet-datahub/eo/shared/utilities';
-import { EoAggregateService } from '@energinet-datahub/eo/wallet/data-access-api';
-import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
-import { graphLoader } from '@energinet-datahub/eo/shared/assets';
-import { translations } from '@energinet-datahub/eo/translations';
+} from '@energinet-datahub/ett/shared/utilities';
+import { EttAggregateService } from '@energinet-datahub/ett/wallet/data-access-api';
+import { ettDashboardPeriod } from '@energinet-datahub/ett/dashboard/domain';
+import { graphLoader } from '@energinet-datahub/ett/shared/assets';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoLottieComponent } from './ett-lottie.component';
+import { EttLottieComponent } from './ett-lottie.component';
 
 interface Totals {
   green: number;
@@ -71,7 +71,7 @@ interface Totals {
     VaterSpacerComponent,
     VaterStackComponent,
     WattIconComponent,
-    EoLottieComponent,
+    EttLottieComponent,
     TitleCasePipe,
     WattTooltipDirective,
     TranslocoPipe,
@@ -254,12 +254,12 @@ interface Totals {
     </div>
   </watt-card>`,
 })
-export class EoDashboardConsumptionComponent implements OnChanges {
-  @Input() period!: eoDashboardPeriod;
+export class EttDashboardConsumptionComponent implements OnChanges {
+  @Input() period!: ettDashboardPeriod;
 
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
-  private aggregateService: EoAggregateService = inject(EoAggregateService);
+  private aggregateService: EttAggregateService = inject(EttAggregateService);
 
   private labels = this.generateLabels();
 
@@ -270,7 +270,7 @@ export class EoDashboardConsumptionComponent implements OnChanges {
     consumption: 0,
   };
 
-  protected routes = eoRoutes;
+  protected routes = ettRoutes;
 
   protected legends: { [key: string]: string } = translations.consumerChart.legends;
   protected lottieAnimation = graphLoader;

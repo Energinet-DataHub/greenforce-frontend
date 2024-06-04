@@ -31,14 +31,14 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoListedTransfer, EoTransfersService } from './ett-transfers.service';
-import { EoTransfersFormComponent } from './form/ett-transfers-form.component';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EttListedTransfer, EttTransfersService } from './ett-transfers.service';
+import { EttTransfersFormComponent } from './form/ett-transfers-form.component';
+import { EttAuthStore } from '@energinet-datahub/ett/shared/services';
 
 // TODO: MOVE THIS TO DOMAIN
-export interface EoTransferAgreementsWithRecipient {
+export interface EttTransferAgreementsWithRecipient {
   startDate: number;
   endDate: number | null;
 }
@@ -48,7 +48,7 @@ export interface EoTransferAgreementsWithRecipient {
   encapsulation: ViewEncapsulation.None,
   selector: 'ett-transfers-create-modal',
   imports: [
-    EoTransfersFormComponent,
+    EttTransfersFormComponent,
     WATT_MODAL,
     WattSpinnerComponent,
     WattValidationMessageComponent,
@@ -83,14 +83,14 @@ export interface EoTransferAgreementsWithRecipient {
     }
   `,
 })
-export class EoTransfersCreateModalComponent {
-  @Input() transferAgreements: EoListedTransfer[] = [];
-  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+export class EttTransfersCreateModalComponent {
+  @Input() transferAgreements: EttListedTransfer[] = [];
+  @Output() proposalCreated = new EventEmitter<EttListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  private authStore = inject(EoAuthStore);
-  private service = inject(EoTransfersService);
+  private authStore = inject(EttAuthStore);
+  private service = inject(EttTransfersService);
   private cd = inject(ChangeDetectorRef);
 
   protected translations = translations;
@@ -134,7 +134,7 @@ export class EoTransfersCreateModalComponent {
       receiverTin,
       startDate,
       endDate,
-      transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
+      transferAgreementStatus: 'Proposal' as EttListedTransfer['transferAgreementStatus'],
     };
     this.service.createAgreementProposal(proposal).subscribe({
       next: (proposalId) => {

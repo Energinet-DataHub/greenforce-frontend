@@ -215,118 +215,118 @@
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/activity-log": [
+      "@energinet-datahub/ett/activity-log": [
         "libs/energy-track-and-trace/activity-log/feature-activity-log/index.ts"
       ],
-      "@energinet-datahub/eo/activity-log/data-access-api": [
+      "@energinet-datahub/ett/activity-log/data-access-api": [
         "libs/energy-track-and-trace/activity-log/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/activity-log/shell": [
+      "@energinet-datahub/ett/activity-log/shell": [
         "libs/energy-track-and-trace/activity-log/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/auth/routing-security": [
+      "@energinet-datahub/ett/auth/routing-security": [
         "libs/energy-track-and-trace/auth/routing-security/src/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/data-access-api": [
+      "@energinet-datahub/ett/certificates/data-access-api": [
         "libs/energy-track-and-trace/certificates/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/domain": [
+      "@energinet-datahub/ett/certificates/domain": [
         "libs/energy-track-and-trace/certificates/domain/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/feature-details": [
+      "@energinet-datahub/ett/certificates/feature-details": [
         "libs/energy-track-and-trace/certificates/feature-details/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/feature-overview": [
+      "@energinet-datahub/ett/certificates/feature-overview": [
         "libs/energy-track-and-trace/certificates/feature-overview/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/shell": [
+      "@energinet-datahub/ett/certificates/shell": [
         "libs/energy-track-and-trace/certificates/shell/index.ts"
       ],
-      "@energinet-datahub/eo/claims/data-access-api": [
+      "@energinet-datahub/ett/claims/data-access-api": [
         "libs/energy-track-and-trace/claims/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/claims/feature-overview": [
+      "@energinet-datahub/ett/claims/feature-overview": [
         "libs/energy-track-and-trace/claims/feature-overview/index.ts"
       ],
-      "@energinet-datahub/eo/claims/shell": ["libs/energy-track-and-trace/claims/shell/index.ts"],
-      "@energinet-datahub/eo/consumption-page/shell": [
+      "@energinet-datahub/ett/claims/shell": ["libs/energy-track-and-trace/claims/shell/index.ts"],
+      "@energinet-datahub/ett/consumption-page/shell": [
         "libs/energy-track-and-trace/consumption-page/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/core/shell": ["libs/energy-track-and-trace/core/shell/src/index.ts"],
-      "@energinet-datahub/eo/dashboard/domain": [
+      "@energinet-datahub/ett/core/shell": ["libs/energy-track-and-trace/core/shell/src/index.ts"],
+      "@energinet-datahub/ett/dashboard/domain": [
         "libs/energy-track-and-trace/dashboard/domain/index.ts"
       ],
-      "@energinet-datahub/eo/dashboard/shell": [
+      "@energinet-datahub/ett/dashboard/shell": [
         "libs/energy-track-and-trace/dashboard/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/globalization/assets-localization/i18n/da": [
+      "@energinet-datahub/ett/globalization/assets-localization/i18n/da": [
         "libs/energy-track-and-trace/core/globalization/assets-localization/i18n/da.ts"
       ],
-      "@energinet-datahub/eo/globalization/assets-localization/i18n/en": [
+      "@energinet-datahub/ett/globalization/assets-localization/i18n/en": [
         "libs/energy-track-and-trace/core/globalization/assets-localization/i18n/en.ts"
       ],
-      "@energinet-datahub/eo/globalization/configuration-localization": [
+      "@energinet-datahub/ett/globalization/configuration-localization": [
         "libs/energy-track-and-trace/core/globalization/configuration-localization/src/index.ts"
       ],
-      "@energinet-datahub/eo/globalization/configuration-watt-translation": [
+      "@energinet-datahub/ett/globalization/configuration-watt-translation": [
         "libs/energy-track-and-trace/core/globalization/configuration-watt-translation/src/index.ts"
       ],
-      "@energinet-datahub/eo/globalization/feature-language-switcher": [
+      "@energinet-datahub/ett/globalization/feature-language-switcher": [
         "libs/energy-track-and-trace/core/globalization/feature-language-switcher/index.ts"
       ],
-      "@energinet-datahub/eo/globalization/test-util-i18n": [
+      "@energinet-datahub/ett/globalization/test-util-i18n": [
         "libs/energy-track-and-trace/core/globalization/test-util-i18n/src/index.ts"
       ],
-      "@energinet-datahub/eo/help/shell": ["libs/energy-track-and-trace/help/shell/src/index.ts"],
-      "@energinet-datahub/eo/landing-page/shell": [
+      "@energinet-datahub/ett/help/shell": ["libs/energy-track-and-trace/help/shell/src/index.ts"],
+      "@energinet-datahub/ett/landing-page/shell": [
         "libs/energy-track-and-trace/landing-page/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/metering-points/data-access-api": [
+      "@energinet-datahub/ett/metering-points/data-access-api": [
         "libs/energy-track-and-trace/metering-points/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/metering-points/domain": [
+      "@energinet-datahub/ett/metering-points/domain": [
         "libs/energy-track-and-trace/metering-points/domain/index.ts"
       ],
-      "@energinet-datahub/eo/metering-points/shell": [
+      "@energinet-datahub/ett/metering-points/shell": [
         "libs/energy-track-and-trace/metering-points/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/privacy-policy/shell": [
+      "@energinet-datahub/ett/privacy-policy/shell": [
         "libs/energy-track-and-trace/privacy-policy/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/production/shell": [
+      "@energinet-datahub/ett/production/shell": [
         "libs/energy-track-and-trace/production/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/assets": [
+      "@energinet-datahub/ett/shared/assets": [
         "libs/energy-track-and-trace/shared/assets/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/atomic-design/feature-molecules": [
+      "@energinet-datahub/ett/shared/atomic-design/feature-molecules": [
         "libs/energy-track-and-trace/shared/atomic-design/feature-molecules/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/atomic-design/ui-atoms": [
+      "@energinet-datahub/ett/shared/atomic-design/ui-atoms": [
         "libs/energy-track-and-trace/shared/atomic-design/ui-atoms/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/atomic-design/ui-organisms": [
+      "@energinet-datahub/ett/shared/atomic-design/ui-organisms": [
         "libs/energy-track-and-trace/shared/atomic-design/ui-organisms/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/data-access-mocks": [
+      "@energinet-datahub/ett/shared/data-access-mocks": [
         "libs/energy-track-and-trace/shared/data-access-mocks/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/domain": ["libs/energy-track-and-trace/shared/domain/index.ts"],
-      "@energinet-datahub/eo/shared/environments": [
+      "@energinet-datahub/ett/shared/domain": ["libs/energy-track-and-trace/shared/domain/index.ts"],
+      "@energinet-datahub/ett/shared/environments": [
         "libs/energy-track-and-trace/shared/environments/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/services": [
+      "@energinet-datahub/ett/shared/services": [
         "libs/energy-track-and-trace/shared/services/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/utilities": [
+      "@energinet-datahub/ett/shared/utilities": [
         "libs/energy-track-and-trace/shared/utilities/src/index.ts"
       ],
-      "@energinet-datahub/eo/terms": ["libs/energy-track-and-trace/terms/src/index.ts"],
-      "@energinet-datahub/eo/transfers": ["libs/energy-track-and-trace/transfers/src/index.ts"],
-      "@energinet-datahub/eo/translations": [
+      "@energinet-datahub/ett/terms": ["libs/energy-track-and-trace/terms/src/index.ts"],
+      "@energinet-datahub/ett/transfers": ["libs/energy-track-and-trace/transfers/src/index.ts"],
+      "@energinet-datahub/ett/translations": [
         "libs/energy-track-and-trace/core/globalization/assets-localization/translations.ts"
       ],
-      "@energinet-datahub/eo/wallet/data-access-api": [
+      "@energinet-datahub/ett/wallet/data-access-api": [
         "libs/energy-track-and-trace/wallet/data-access-api/index.ts"
       ],
       "@energinet-datahub/gf/e2e-util-msw": [

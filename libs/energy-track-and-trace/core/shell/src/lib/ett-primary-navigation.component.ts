@@ -25,15 +25,15 @@ import {
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoAuthStore, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
+import { EttAuthStore, EttFeatureFlagDirective } from '@energinet-datahub/ett/shared/services';
+import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective, TranslocoPipe],
+  imports: [WattNavListComponent, WattNavListItemComponent, EttFeatureFlagDirective, TranslocoPipe],
   selector: 'ett-primary-navigation',
   styles: [
     `
@@ -102,10 +102,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </section>
   `,
 })
-export class EoPrimaryNavigationComponent implements OnInit {
-  private authStore = inject(EoAuthStore);
+export class EttPrimaryNavigationComponent implements OnInit {
+  private authStore = inject(EttAuthStore);
 
-  protected routes = eoRoutes;
+  protected routes = ettRoutes;
   protected userInfo = signal<{ name: string; cpn: string; tin: string } | null>(null);
   protected translations = translations;
 

@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { translocoProviders, eoTranslocoConfig } from './lib/transloco.providers';
+export { translocoProviders, ettTranslocoConfig } from './lib/transloco.providers';

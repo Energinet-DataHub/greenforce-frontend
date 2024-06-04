@@ -34,13 +34,13 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-import { translations } from '@energinet-datahub/eo/translations';
+import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
+import { translations } from '@energinet-datahub/ett/translations';
 
 function generateLink(id: string | null): string | null {
   const lang = window.location.pathname.split('/')[1];
   return id
-    ? `${window.location.origin}/${lang}/${eoRoutes.transfer}?respond-proposal=${id}`
+    ? `${window.location.origin}/${lang}/${ettRoutes.transfer}?respond-proposal=${id}`
     : null;
 }
 
@@ -124,7 +124,7 @@ function generateLink(id: string | null): string | null {
     </vater-stack>
   `,
 })
-export class EoTransferInvitationLinkComponent implements OnInit, OnChanges {
+export class EttTransferInvitationLinkComponent implements OnInit, OnChanges {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input({ alias: 'proposalId', transform: generateLink }) link!: string | null;
   @Input() hasError = false;

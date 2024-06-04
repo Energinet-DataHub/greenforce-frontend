@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const enum EoTimeAggregate {
+export const enum EttTimeAggregate {
   Actual = 'actual',
   Total = 'total',
   Year = 'year',

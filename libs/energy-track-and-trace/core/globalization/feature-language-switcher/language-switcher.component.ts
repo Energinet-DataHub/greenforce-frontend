@@ -38,7 +38,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   standalone: true,
@@ -98,7 +98,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
   `,
 })
-export class EoLanguageSwitcherComponent implements OnInit {
+export class EttLanguageSwitcherComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() changeUrl = false;
 

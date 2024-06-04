@@ -2,11 +2,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 
 @Injectable()
-export class EoApiVersioningInterceptor implements HttpInterceptor {
-  constructor(@Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment) {}
+export class EttApiVersioningInterceptor implements HttpInterceptor {
+  constructor(@Inject(EttApiEnvironmentToken) private apiEnvironment: EttApiEnvironment) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if(request.url.includes('assets') || request.url.includes('wallet-api')) return next.handle(request);
@@ -30,8 +30,8 @@ export class EoApiVersioningInterceptor implements HttpInterceptor {
   }
 }
 
-export const eoApiVersioningInterceptorProvider = {
+export const ettApiVersioningInterceptorProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
-  useClass: EoApiVersioningInterceptor,
+  useClass: EttApiVersioningInterceptor,
 };

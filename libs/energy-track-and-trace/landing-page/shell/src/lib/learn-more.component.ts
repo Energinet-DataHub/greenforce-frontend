@@ -33,8 +33,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { translations } from '@energinet-datahub/ett/translations';
+import { EttVimeoPlayerComponent } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
 
 @Component({
   standalone: true,
@@ -45,7 +45,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
     TranslocoPipe,
     WattDropdownComponent,
     ReactiveFormsModule,
-    EoVimeoPlayerComponent,
+    EttVimeoPlayerComponent,
   ],
   styles: `
     .ett-learn-more-modal {
@@ -77,7 +77,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-desi
     }
   `,
 })
-export class EoLearnMoreComponent implements OnInit {
+export class EttLearnMoreComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   @HostListener('click')

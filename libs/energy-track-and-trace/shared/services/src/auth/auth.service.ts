@@ -17,10 +17,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
-import { EoAuthStore, EoLoginToken } from './auth.store';
+import { EttAuthStore, EttLoginToken } from './auth.store';
 import { TranslocoService } from '@ngneat/transloco';
 
 export interface AuthLogoutResponse {
@@ -30,17 +30,17 @@ export interface AuthLogoutResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class EoAuthService {
+export class EttAuthService {
   subscription$: Subscription | undefined;
   #authApiBase: string;
 
   constructor(
     private http: HttpClient,
-    private store: EoAuthStore,
+    private store: EttAuthStore,
     private router: Router,
     private route: ActivatedRoute,
     private transloco: TranslocoService,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+    @Inject(EttApiEnvironmentToken) apiEnvironment: EttApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
   }
@@ -101,7 +101,7 @@ export class EoAuthService {
   private handleToken(token: string | null) {
     if (!token) return;
 
-    const decodedToken: EoLoginToken = jwtDecode(token);
+    const decodedToken: EttLoginToken = jwtDecode(token);
 
     sessionStorage.setItem('token', token);
     this.store.token.next(token);

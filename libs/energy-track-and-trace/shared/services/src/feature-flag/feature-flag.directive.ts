@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AfterViewInit, Directive, ElementRef, Input, inject } from '@angular/core';
-import { EoAuthStore } from '../auth/auth.store';
+import { EttAuthStore } from '../auth/auth.store';
 
 const knownFeatures = [
   'not-accepted-privacypolicy-terms',
@@ -37,9 +37,9 @@ export type allowedFeatureFlags = (typeof knownFeatures)[number];
   selector: '[onFeatureFlag]',
   standalone: true,
 })
-export class EoFeatureFlagDirective implements AfterViewInit {
+export class EttFeatureFlagDirective implements AfterViewInit {
   private elementRef = inject(ElementRef);
-  private authStore = inject(EoAuthStore);
+  private authStore = inject(EttAuthStore);
   /**
    * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
    */

@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { EoMeteringPointType } from './metering-point-type';
-export { EoTimeAggregate } from './time-aggregate';
+export { EttMeteringPointType } from './metering-point-type';
+export { EttTimeAggregate } from './time-aggregate';

@@ -16,11 +16,11 @@
  */
 import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
 
-import { EoLanguageService } from './ett-language.service';
+import { EttLanguageService } from './ett-language.service';
 
-export const eoLanguageServiceInitializer: FactoryProvider = {
+export const ettLanguageServiceInitializer: FactoryProvider = {
   multi: true,
   provide: APP_INITIALIZER,
-  useFactory: (eoLangaugeService: EoLanguageService) => () => eoLangaugeService.init(),
-  deps: [EoLanguageService],
+  useFactory: (eoLangaugeService: EttLanguageService) => () => eoLangaugeService.init(),
+  deps: [EttLanguageService],
 };

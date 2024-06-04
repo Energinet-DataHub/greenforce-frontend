@@ -37,15 +37,15 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { translations } from '@energinet-datahub/eo/translations';
-import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
+import { translations } from '@energinet-datahub/ett/translations';
+import { SharedUtilities } from '@energinet-datahub/ett/shared/utilities';
 
-import { EoListedTransfer } from './ett-transfers.service';
-import { EoTransfersCreateModalComponent } from './ett-transfers-create-modal.component';
-import { EoTransfersDrawerComponent } from './ett-transfers-drawer.component';
+import { EttListedTransfer } from './ett-transfers.service';
+import { EttTransfersCreateModalComponent } from './ett-transfers-create-modal.component';
+import { EttTransfersDrawerComponent } from './ett-transfers-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-interface EoTransferTableElement extends EoListedTransfer {
+interface EttTransferTableElement extends EttListedTransfer {
   period?: string;
 }
 
@@ -60,8 +60,8 @@ interface EoTransferTableElement extends EoListedTransfer {
     WattPaginatorComponent,
     WattDropdownComponent,
     ReactiveFormsModule,
-    EoTransfersDrawerComponent,
-    EoTransfersCreateModalComponent,
+    EttTransfersDrawerComponent,
+    EttTransfersCreateModalComponent,
     WattDatePipe,
     TranslocoPipe,
   ],
@@ -197,18 +197,18 @@ interface EoTransferTableElement extends EoListedTransfer {
     />
   `,
 })
-export class EoTransfersTableComponent implements OnInit, OnChanges {
-  @Input() transfers: EoListedTransfer[] = [];
+export class EttTransfersTableComponent implements OnInit, OnChanges {
+  @Input() transfers: EttListedTransfer[] = [];
   @Input() loading = false;
   @Input() enableCreateTransferAgreementProposal = false;
-  @Input() selectedTransfer?: EoListedTransfer;
-  @Output() transferSelected = new EventEmitter<EoListedTransfer>();
+  @Input() selectedTransfer?: EttListedTransfer;
+  @Output() transferSelected = new EventEmitter<EttListedTransfer>();
   @Output() saveTransferAgreement = new EventEmitter();
   @Output() removeProposal = new EventEmitter<string>();
-  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+  @Output() proposalCreated = new EventEmitter<EttListedTransfer>();
 
-  @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
-  @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
+  @ViewChild(EttTransfersDrawerComponent) transfersDrawer!: EttTransfersDrawerComponent;
+  @ViewChild(EttTransfersCreateModalComponent) transfersModal!: EttTransfersCreateModalComponent;
 
   protected translations = translations;
   protected utils = inject(SharedUtilities);
@@ -218,9 +218,9 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
   private destroyRef = inject(DestroyRef);
 
   filterForm = this.fb.group({ statusFilter: '' });
-  activeRow?: EoListedTransfer;
-  dataSource = new WattTableDataSource<EoTransferTableElement>();
-  columns!: WattTableColumnDef<EoTransferTableElement>;
+  activeRow?: EttListedTransfer;
+  dataSource = new WattTableDataSource<EttTransferTableElement>();
+  columns!: WattTableColumnDef<EttTransferTableElement>;
   hasLoaded = false;
 
   ngOnInit(): void {
@@ -307,7 +307,7 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
     );
   }
 
-  onRowClick(row: EoListedTransfer): void {
+  onRowClick(row: EttListedTransfer): void {
     this.transferSelected.emit(row);
     this.transfersDrawer.open();
   }

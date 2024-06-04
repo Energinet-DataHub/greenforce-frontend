@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -121,6 +121,6 @@ import { translations } from '@energinet-datahub/eo/translations';
     </blockquote>
   `,
 })
-export class EoLandingPageWhyComponent {
+export class EttLandingPageWhyComponent {
   protected translations = translations;
 }

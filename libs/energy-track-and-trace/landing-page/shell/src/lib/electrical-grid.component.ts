@@ -23,10 +23,10 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EttAuthService } from '@energinet-datahub/ett/shared/services';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 const selector = 'ett-landing-page-electrical-grid';
 
@@ -173,9 +173,9 @@ const selector = 'ett-landing-page-electrical-grid';
     </div>
   `,
 })
-export class EoLandingPageElectricalGridComponent implements AfterViewInit {
+export class EttLandingPageElectricalGridComponent implements AfterViewInit {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;
-  private authService = inject(EoAuthService);
+  private authService = inject(EttAuthService);
 
   protected translations = translations;
 

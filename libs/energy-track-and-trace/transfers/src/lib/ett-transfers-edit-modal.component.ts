@@ -32,12 +32,12 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
-import { EoListedTransfer, EoTransfersService } from './ett-transfers.service';
+import { EttListedTransfer, EttTransfersService } from './ett-transfers.service';
 import {
-  EoTransfersFormComponent,
-  EoTransfersFormInitialValues,
+  EttTransfersFormComponent,
+  EttTransfersFormInitialValues,
 } from './form/ett-transfers-form.component';
 
 @Component({
@@ -47,7 +47,7 @@ import {
     RxPush,
     WATT_MODAL,
     WattValidationMessageComponent,
-    EoTransfersFormComponent,
+    EttTransfersFormComponent,
     TranslocoPipe,
   ],
   standalone: true,
@@ -85,19 +85,19 @@ import {
     }
   `,
 })
-export class EoTransfersEditModalComponent implements OnChanges {
+export class EttTransfersEditModalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  @Input() transfer?: EoListedTransfer;
-  @Input() transferAgreements: EoListedTransfer[] = [];
+  @Input() transfer?: EttListedTransfer;
+  @Input() transferAgreements: EttListedTransfer[] = [];
 
   @Output() save = new EventEmitter();
 
   protected translations = translations;
   protected opened = false;
-  protected initialValues!: EoTransfersFormInitialValues;
+  protected initialValues!: EttTransfersFormInitialValues;
 
-  private transfersService = inject(EoTransfersService);
+  private transfersService = inject(EttTransfersService);
   private cd = inject(ChangeDetectorRef);
 
   protected editTransferAgreementState = signal<{ loading: boolean; error: boolean }>({

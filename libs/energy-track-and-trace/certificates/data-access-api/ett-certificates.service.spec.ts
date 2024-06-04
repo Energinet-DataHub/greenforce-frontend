@@ -16,26 +16,26 @@
  */
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 import {
-  EoCertificate,
-  EoCertificateContract,
-  EoCertificatesService,
+  EttCertificate,
+  EttCertificateContract,
+  EttCertificatesService,
 } from './ett-certificates.service';
 
-describe('EoCertificatesService', () => {
-  let apiEnv: EoApiEnvironment;
-  let service: EoCertificatesService;
+describe('EttCertificatesService', () => {
+  let apiEnv: EttApiEnvironment;
+  let service: EttCertificatesService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [EoCertificatesService],
+      providers: [EttCertificatesService],
     }).compileComponents();
 
-    apiEnv = TestBed.inject(eoApiEnvironmentToken);
-    service = TestBed.inject(EoCertificatesService);
+    apiEnv = TestBed.inject(EttApiEnvironmentToken);
+    service = TestBed.inject(EttCertificatesService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -45,7 +45,7 @@ describe('EoCertificatesService', () => {
 
   describe('getCertificates', () => {
     it('emits an object with an array of certificates ', waitForAsync(() => {
-      const mockObj: EoCertificate = {
+      const mockObj: EttCertificate = {
         id: '1234',
         gsrn: '2345',
         dateFrom: 0,
@@ -72,7 +72,7 @@ describe('EoCertificatesService', () => {
 
   describe('getContracts', () => {
     it('emits an object with an array of contracts', waitForAsync(() => {
-      const mockObj: EoCertificateContract = {
+      const mockObj: EttCertificateContract = {
         id: '1234',
         gsrn: '2345',
         startDate: 1234,
@@ -97,7 +97,7 @@ describe('EoCertificatesService', () => {
   describe('createContract', () => {
     it('emits the created contract', waitForAsync(() => {
       const gsrn = '2345';
-      const mockObj: EoCertificateContract = {
+      const mockObj: EttCertificateContract = {
         id: '1234',
         gsrn,
         startDate: Math.floor(new Date().getTime() / 1000),

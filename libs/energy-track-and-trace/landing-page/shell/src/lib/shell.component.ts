@@ -16,33 +16,33 @@
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { EoLandingPageHeaderComponent } from './header.component';
-import { EoLandingPageHeroComponent } from './hero.component';
-import { EoLandingPageWhyComponent } from './why.component';
-import { EoLandingPageHowComponent } from './how.component';
-import { EoLandingPageWhatComponent } from './what.component';
-import { EoLandingPageProveSustainabilityComponent } from './prove-sustainability.component';
-import { EoLandingPageElectricalGridComponent } from './electrical-grid.component';
-import { EoLandingPageBlockchainTechComponent } from './blockchain-tech.component';
-import { EoLandingPageGranularCertificatesComponent } from './granular-certificates.component';
-import { EoLandingPageFooterComponent } from './footer.component';
-import { EoLandingPageCTAComponent } from './cta.component';
+import { EttLandingPageHeaderComponent } from './header.component';
+import { EttLandingPageHeroComponent } from './hero.component';
+import { EttLandingPageWhyComponent } from './why.component';
+import { EttLandingPageHowComponent } from './how.component';
+import { EttLandingPageWhatComponent } from './what.component';
+import { EttLandingPageProveSustainabilityComponent } from './prove-sustainability.component';
+import { EttLandingPageElectricalGridComponent } from './electrical-grid.component';
+import { EttLandingPageBlockchainTechComponent } from './blockchain-tech.component';
+import { EttLandingPageGranularCertificatesComponent } from './granular-certificates.component';
+import { EttLandingPageFooterComponent } from './footer.component';
+import { EttLandingPageCTAComponent } from './cta.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    EoLandingPageHeaderComponent,
-    EoLandingPageHeroComponent,
-    EoLandingPageWhyComponent,
-    EoLandingPageHowComponent,
-    EoLandingPageWhatComponent,
-    EoLandingPageProveSustainabilityComponent,
-    EoLandingPageElectricalGridComponent,
-    EoLandingPageBlockchainTechComponent,
-    EoLandingPageGranularCertificatesComponent,
-    EoLandingPageFooterComponent,
-    EoLandingPageCTAComponent,
+    EttLandingPageHeaderComponent,
+    EttLandingPageHeroComponent,
+    EttLandingPageWhyComponent,
+    EttLandingPageHowComponent,
+    EttLandingPageWhatComponent,
+    EttLandingPageProveSustainabilityComponent,
+    EttLandingPageElectricalGridComponent,
+    EttLandingPageBlockchainTechComponent,
+    EttLandingPageGranularCertificatesComponent,
+    EttLandingPageFooterComponent,
+    EttLandingPageCTAComponent,
   ],
   selector: 'ett-landing-page-shell',
   template: `
@@ -104,4 +104,4 @@ import { EoLandingPageCTAComponent } from './cta.component';
     }
   `,
 })
-export class EoLandingPageShellComponent {}
+export class EttLandingPageShellComponent {}

@@ -27,8 +27,8 @@ import { Router, RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-import { translations } from '@energinet-datahub/eo/translations';
+import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,13 +56,13 @@ import { translations } from '@energinet-datahub/eo/translations';
     ></div>
   `,
 })
-export class EoHelpPageComponent implements AfterViewInit {
+export class EttHelpPageComponent implements AfterViewInit {
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
 
-  protected routes = eoRoutes;
+  protected routes = ettRoutes;
   protected translations = translations;
 
   ngAfterViewInit(): void {

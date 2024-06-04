@@ -18,34 +18,34 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
-import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { EttCertificate, EttCertificateContract } from '@energinet-datahub/ett/certificates/domain';
+import { EttMeteringPoint } from '@energinet-datahub/ett/metering-points/domain';
 
-interface EoCertificateResponse {
-  result: EoCertificate[];
+interface EttCertificateResponse {
+  result: EttCertificate[];
 }
 
-interface EoContractResponse {
-  result: EoCertificateContract[];
+interface EttContractResponse {
+  result: EttCertificateContract[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoCertificatesService {
+export class EttCertificatesService {
   #apiBase: string;
 
   constructor(
     private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+    @Inject(EttApiEnvironmentToken) apiEnvironment: EttApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
   getCertificates() {
     const walletApiBase = `${this.#apiBase}/v1`.replace('/api', '/wallet-api');
-    return this.http.get<EoCertificateResponse>(`${walletApiBase}/certificates`).pipe(
+    return this.http.get<EttCertificateResponse>(`${walletApiBase}/certificates`).pipe(
       map((response) => response.result),
       map((certificates) => {
         return certificates.map((certificate) => {
@@ -63,20 +63,20 @@ export class EoCertificatesService {
    * Array of all the user's contracts for issuing granular certificates
    */
   getContracts() {
-    return this.http.get<EoContractResponse>(`${this.#apiBase}/certificates/contracts`);
+    return this.http.get<EttContractResponse>(`${this.#apiBase}/certificates/contracts`);
   }
 
-  getContract(id: string): Observable<EoContractResponse> {
-    return this.http.get<EoContractResponse>(`/api/certificates/contracts/${id}`);
+  getContract(id: string): Observable<EttContractResponse> {
+    return this.http.get<EttContractResponse>(`/api/certificates/contracts/${id}`);
   }
 
   /**
    * @param gsrn ID of meteringpoint
    * Sends request to create a GC contract for a specific meteringpoint
    */
-  createContracts(meteringPoints: EoMeteringPoint[]) {
+  createContracts(meteringPoints: EttMeteringPoint[]) {
     return this.http
-      .post<{ result: EoCertificateContract[] }>(`${this.#apiBase}/certificates/contracts`, {
+      .post<{ result: EttCertificateContract[] }>(`${this.#apiBase}/certificates/contracts`, {
         contracts: meteringPoints.map((mp) => ({
           gsrn: mp.gsrn,
           startDate: Math.floor(new Date().getTime() / 1000),
@@ -85,7 +85,7 @@ export class EoCertificatesService {
       .pipe(map((response) => response.result));
   }
 
-  patchContracts(meteringPoints: EoMeteringPoint[]) {
+  patchContracts(meteringPoints: EttMeteringPoint[]) {
     return this.http.put(`${this.#apiBase}/certificates/contracts`, {
       contracts: meteringPoints.map((mp) => ({
         id: mp.contract?.id,

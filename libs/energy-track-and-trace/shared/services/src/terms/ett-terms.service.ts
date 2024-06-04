@@ -16,17 +16,17 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoTermsService {
+export class EttTermsService {
   #apiBase: string;
   private currentVersion = -1;
   constructor(
     private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+    @Inject(EttApiEnvironmentToken) apiEnvironment: EttApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }

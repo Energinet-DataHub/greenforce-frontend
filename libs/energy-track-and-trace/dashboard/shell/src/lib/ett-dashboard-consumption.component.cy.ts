@@ -17,10 +17,10 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
-import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
-import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
+import { EttTimeAggregate } from '@energinet-datahub/ett/shared/domain';
+import { translocoProviders } from '@energinet-datahub/ett/globalization/configuration-localization';
 
-import { EoDashboardConsumptionComponent } from './ett-dashboard-consumption.component';
+import { EttDashboardConsumptionComponent } from './ett-dashboard-consumption.component';
 
 describe('EO - Consumption Chart', () => {
   type configKey = 'aggregate-claims' | 'aggregate-certificates';
@@ -39,14 +39,14 @@ describe('EO - Consumption Chart', () => {
   }
 
   function initComponent() {
-    cy.mount(EoDashboardConsumptionComponent, {
+    cy.mount(EttDashboardConsumptionComponent, {
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideRouter([]),
         ...translocoProviders,
       ],
       componentProperties: {
-        period: { timeAggregate: EoTimeAggregate.Day, start: 1698303600, end: 1700222400 },
+        period: { timeAggregate: EttTimeAggregate.Day, start: 1698303600, end: 1700222400 },
       },
     });
   }

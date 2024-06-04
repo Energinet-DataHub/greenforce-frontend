@@ -50,7 +50,7 @@ import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core'
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
 })
-export class EoTransferErrorsComponent {
+export class EttTransferErrorsComponent {
   @Input() showError = false;
 
   @HostBinding('class.show-error')

@@ -24,19 +24,19 @@ import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
-import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
-import { EoPrimaryNavigationComponent } from './ett-primary-navigation.component';
-import { EoAccountMenuComponent } from './ett-account-menu';
+import { translations } from '@energinet-datahub/ett/translations';
+import { EttLanguageSwitcherComponent } from '@energinet-datahub/ett/globalization/feature-language-switcher';
+import { EttFooterComponent } from '@energinet-datahub/ett/shared/atomic-design/ui-organisms';
+import { EttAuthService, IdleTimerService } from '@energinet-datahub/ett/shared/services';
+import { EttPrimaryNavigationComponent } from './ett-primary-navigation.component';
+import { EttAccountMenuComponent } from './ett-account-menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    EoFooterComponent,
-    EoPrimaryNavigationComponent,
+    EttFooterComponent,
+    EttPrimaryNavigationComponent,
     NgIf,
     RouterModule,
     VaterSpacerComponent,
@@ -44,8 +44,8 @@ import { EoAccountMenuComponent } from './ett-account-menu';
     WattButtonComponent,
     WattShellComponent,
     TranslocoPipe,
-    EoLanguageSwitcherComponent,
-    EoAccountMenuComponent,
+    EttLanguageSwitcherComponent,
+    EttAccountMenuComponent,
   ],
   selector: 'ett-shell',
   styles: [
@@ -152,10 +152,10 @@ import { EoAccountMenuComponent } from './ett-account-menu';
     </watt-shell>
   `,
 })
-export class EoShellComponent implements OnDestroy {
+export class EttShellComponent implements OnDestroy {
   protected titleService = inject(Title);
   private idleTimerService = inject(IdleTimerService);
-  private authService = inject(EoAuthService);
+  private authService = inject(EttAuthService);
 
   protected translations = translations;
   protected cookiesSet: string | null = null;

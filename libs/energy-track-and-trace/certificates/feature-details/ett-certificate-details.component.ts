@@ -22,17 +22,17 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { translations } from '@energinet-datahub/eo/translations';
+import { EnergyUnitPipe, ettCertificatesRoutePath } from '@energinet-datahub/ett/shared/utilities';
+import { EttCertificate } from '@energinet-datahub/ett/certificates/domain';
+import { EttCertificatesService } from '@energinet-datahub/ett/certificates/data-access-api';
+import { EttStackComponent } from '@energinet-datahub/ett/shared/atomic-design/ui-atoms';
+import { translations } from '@energinet-datahub/ett/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     EnergyUnitPipe,
-    EoStackComponent,
+    EttStackComponent,
     NgIf,
     RouterModule,
     WATT_CARD,
@@ -112,7 +112,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           </div>
         </watt-card>
         <h4>
-          <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
+          <a class="link" routerLink="/${ettCertificatesRoutePath}">{{
             translations.certificateDetails.backToCertificatesLink | transloco
           }}</a>
         </h4>
@@ -137,26 +137,26 @@ import { translations } from '@energinet-datahub/eo/translations';
     </div>
   `,
 })
-export class EoCertificateDetailsComponent implements OnInit {
+export class EttCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+  private certificatesService: EttCertificatesService = inject(EttCertificatesService);
 
   protected translations = translations;
 
-  certificate = signal<EoCertificate | undefined>(undefined);
+  certificate = signal<EttCertificate | undefined>(undefined);
 
   ngOnInit(): void {
     this.certificatesService
       .getCertificates()
       .pipe(
-        map((certs: EoCertificate[]) =>
+        map((certs: EttCertificate[]) =>
           certs.find(
             (item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id')
           )
         ),
         tap((certFound) => {
-          if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
+          if (!certFound) this.router.navigate([`/${ettCertificatesRoutePath}`]);
         })
       )
       .subscribe((certificate) => {

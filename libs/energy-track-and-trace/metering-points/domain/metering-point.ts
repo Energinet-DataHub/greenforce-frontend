@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
+import { EttCertificateContract } from '@energinet-datahub/ett/certificates/domain';
 
 export type MeteringPointType = 'Consumption' | 'Production';
 
@@ -52,9 +52,9 @@ export enum AibTechCode {
   Other = 'T070000',
 }
 
-export interface EoMeteringPoint extends MeteringPoint {
+export interface EttMeteringPoint extends MeteringPoint {
   /** Granular certificate contract on metering point */
-  contract?: EoCertificateContract;
+  contract?: EttCertificateContract;
   /** Indicates whether a contract status is loading for the meteringpoint */
   loadingContract: boolean;
 }

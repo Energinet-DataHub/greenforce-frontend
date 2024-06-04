@@ -19,16 +19,16 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { map } from 'rxjs';
 
-import { EoAuthService, EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EttAuthService, EttAuthStore } from '@energinet-datahub/ett/shared/services';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoScopeGuard implements CanActivate {
+export class EttScopeGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authStore: EoAuthStore,
-    private authService: EoAuthService,
+    private authStore: EttAuthStore,
+    private authService: EttAuthService,
     private transloco: TranslocoService
   ) {}
 

@@ -33,8 +33,8 @@ import {
 import { da, enGB } from 'date-fns/locale';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
+import { EttApiEnvironment, EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { EttTimeAggregate } from '@energinet-datahub/ett/shared/domain';
 
 interface AggregatedResponse {
   result: [
@@ -49,8 +49,8 @@ interface AggregatedResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class EoAggregateService {
-  #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
+export class EttAggregateService {
+  #apiEnvironment: EttApiEnvironment = inject(EttApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
   #transloco = inject(TranslocoService);
 
@@ -60,7 +60,7 @@ export class EoAggregateService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #cache = new Map<string, ReplaySubject<any>>();
 
-  getAggregatedClaims(timeAggregate: EoTimeAggregate, start: number, end: number) {
+  getAggregatedClaims(timeAggregate: EttTimeAggregate, start: number, end: number) {
     const cacheKey = `claims-${timeAggregate}-${start}-${end}`;
 
     if (!this.#cache.has(cacheKey)) {
@@ -105,7 +105,7 @@ export class EoAggregateService {
     this.#cache.clear();
   }
 
-  getAggregatedTransfers(timeAggregate: EoTimeAggregate, start: number, end: number) {
+  getAggregatedTransfers(timeAggregate: EttTimeAggregate, start: number, end: number) {
     const intervals = this.getIntervals(timeAggregate, start, end) ?? [];
 
     return this.#http
@@ -127,7 +127,7 @@ export class EoAggregateService {
   }
 
   getAggregatedCertificates(
-    timeAggregate: EoTimeAggregate,
+    timeAggregate: EttTimeAggregate,
     start: number,
     end: number,
     type: 'consumption' | 'production' = 'consumption'
@@ -152,10 +152,10 @@ export class EoAggregateService {
       );
   }
 
-  getLabels(timeAggregate: EoTimeAggregate, start: number, end: number) {
+  getLabels(timeAggregate: EttTimeAggregate, start: number, end: number) {
     const locale = this.#transloco.getActiveLang() === 'da' ? da : enGB;
 
-    if (timeAggregate === EoTimeAggregate.QuarterHour) {
+    if (timeAggregate === EttTimeAggregate.QuarterHour) {
       return eachMinuteOfInterval(
         { start: fromUnixTime(start), end: fromUnixTime(end) },
         { step: 15 }
@@ -163,13 +163,13 @@ export class EoAggregateService {
         return format(timestamp, 'HH:mm', { locale });
       });
     }
-    if (timeAggregate === EoTimeAggregate.Hour) {
+    if (timeAggregate === EttTimeAggregate.Hour) {
       return eachHourOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
           return format(timestamp, 'HH:mm', { locale });
         }
       );
-    } else if (timeAggregate === EoTimeAggregate.Month) {
+    } else if (timeAggregate === EttTimeAggregate.Month) {
       return eachMonthOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
           return format(timestamp, 'MMM', { locale });
@@ -185,8 +185,8 @@ export class EoAggregateService {
     }
   }
 
-  private getIntervals(timeAggregate: EoTimeAggregate, start: number, end: number) {
-    if (timeAggregate === EoTimeAggregate.QuarterHour) {
+  private getIntervals(timeAggregate: EttTimeAggregate, start: number, end: number) {
+    if (timeAggregate === EttTimeAggregate.QuarterHour) {
       return eachMinuteOfInterval(
         { start: fromUnixTime(start), end: fromUnixTime(end) },
         { step: 15 }
@@ -197,7 +197,7 @@ export class EoAggregateService {
         };
       });
     }
-    if (timeAggregate === EoTimeAggregate.Hour) {
+    if (timeAggregate === EttTimeAggregate.Hour) {
       return eachHourOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
           return {
@@ -206,7 +206,7 @@ export class EoAggregateService {
           };
         }
       );
-    } else if (timeAggregate === EoTimeAggregate.Month) {
+    } else if (timeAggregate === EttTimeAggregate.Month) {
       return eachMonthOfInterval({ start: fromUnixTime(start), end: fromUnixTime(end) }).map(
         (timestamp) => {
           return {
@@ -229,18 +229,18 @@ export class EoAggregateService {
   }
 
   private matchInterval(
-    timeAggregate: EoTimeAggregate,
+    timeAggregate: EttTimeAggregate,
     timestamp: Date,
     interval: { timestamp: Date; quantity: number }
   ) {
-    if (timeAggregate === EoTimeAggregate.QuarterHour) {
+    if (timeAggregate === EttTimeAggregate.QuarterHour) {
       return (
         isSameHour(timestamp, interval.timestamp) &&
         Math.floor(timestamp.getMinutes() / 15) === Math.floor(interval.timestamp.getMinutes() / 15)
       );
-    } else if (timeAggregate === EoTimeAggregate.Hour) {
+    } else if (timeAggregate === EttTimeAggregate.Hour) {
       return isSameHour(timestamp, interval.timestamp);
-    } else if (timeAggregate === EoTimeAggregate.Month) {
+    } else if (timeAggregate === EttTimeAggregate.Month) {
       return isSameMonth(timestamp, interval.timestamp);
     } else {
       return isSameDay(timestamp, interval.timestamp);

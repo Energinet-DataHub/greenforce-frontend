@@ -19,17 +19,17 @@ import { EMPTY, forkJoin, Observable, of, switchMap, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
-import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
+import { EttCertificateContract } from '@energinet-datahub/ett/certificates/domain';
+import { EttCertificatesService } from '@energinet-datahub/ett/certificates/data-access-api';
+import { EttMeteringPoint, AibTechCode } from '@energinet-datahub/ett/metering-points/domain';
 
-import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
+import { MeteringPoint } from '@energinet-datahub/ett/metering-points/domain';
 
-import { EoMeteringPointsService } from './ett-metering-points.service';
+import { EttMeteringPointsService } from './ett-metering-points.service';
 
-interface EoMeteringPointsState {
+interface EttMeteringPointsState {
   loading: boolean;
-  meteringPoints: EoMeteringPoint[];
+  meteringPoints: EttMeteringPoint[];
   meteringPointError: HttpErrorResponse | null;
   contractError: HttpErrorResponse | null;
   relationStatus: 'Created' | 'Pending' | null;
@@ -40,10 +40,10 @@ interface EoMeteringPointsState {
 @Injectable({
   providedIn: 'root',
 })
-export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
+export class EttMeteringPointsStore extends ComponentStore<EttMeteringPointsState> {
   constructor(
-    private service: EoMeteringPointsService,
-    private certService: EoCertificatesService
+    private service: EttMeteringPointsService,
+    private certService: EttCertificatesService
   ) {
     super({
       loading: true,
@@ -62,7 +62,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   readonly deativatingContracts$ = this.select((state) => state.deativatingContracts);
 
   private readonly setLoading = this.updater(
-    (state, loading: boolean): EoMeteringPointsState => ({ ...state, loading })
+    (state, loading: boolean): EttMeteringPointsState => ({ ...state, loading })
   );
 
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
@@ -105,7 +105,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   private readonly setMeteringPoints = this.updater(
-    (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
+    (state, meteringPoints: EttMeteringPoint[]): EttMeteringPointsState => ({
       ...state,
       meteringPoints,
       meteringPointError: null,
@@ -113,7 +113,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   private readonly setContract = this.updater(
-    (state, contract: EoCertificateContract): EoMeteringPointsState => ({
+    (state, contract: EttCertificateContract): EttMeteringPointsState => ({
       ...state,
       meteringPoints: state.meteringPoints.map((mp) =>
         mp.gsrn === contract.gsrn ? { ...mp, contract } : mp
@@ -122,7 +122,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   private readonly removeContract = this.updater(
-    (state, id: string): EoMeteringPointsState => ({
+    (state, id: string): EttMeteringPointsState => ({
       ...state,
       meteringPoints: state.meteringPoints.map((mp) => {
         if (mp.contract?.id === id) {
@@ -136,7 +136,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   readonly meteringPointError$ = this.select((state) => state.meteringPointError);
   readonly contractError$ = this.select((state) => state.contractError);
 
-  private isActiveContract(contract: EoCertificateContract | undefined): boolean {
+  private isActiveContract(contract: EttCertificateContract | undefined): boolean {
     if (!contract) return false;
     const now = Math.floor(Date.now() / 1000);
 
@@ -168,7 +168,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     });
   }
 
-  createCertificateContracts(meteringPoints: EoMeteringPoint[]) {
+  createCertificateContracts(meteringPoints: EttMeteringPoint[]) {
     const hasConsumptionMeteringPoint = meteringPoints.some(
       (meteringPoint) => meteringPoint.type === 'Consumption'
     );
@@ -192,7 +192,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       });
   }
 
-  deactivateCertificateContracts(meteringPoints: EoMeteringPoint[]): void {
+  deactivateCertificateContracts(meteringPoints: EttMeteringPoint[]): void {
     const deactivateConsumptionContract$ = this.consumptionMeteringPointsWithContract$.pipe(
       take(1),
       switchMap((consumptionMeteringPointsWithContract) => {

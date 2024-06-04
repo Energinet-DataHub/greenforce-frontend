@@ -19,7 +19,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, forkJoin, map, of } from 'rxjs';
 import { getUnixTime } from 'date-fns';
 
-import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { EttApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
 
 export type activityLogEntityType =
   | 'TransferAgreement'
@@ -60,9 +60,9 @@ interface ActivityLogListEntryResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class EoActivityLogService {
+export class EttActivityLogService {
   private http = inject(HttpClient);
-  private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
+  private apiBase: string = inject(EttApiEnvironmentToken).apiBase;
 
   getLogs(options: {
     period: { start: number | null; end: number | null };
