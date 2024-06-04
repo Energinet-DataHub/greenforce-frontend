@@ -18,7 +18,7 @@ import { ApplicationConfig } from '@angular/core';
 import { TitleStrategy, provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { EttTranslocoConfig } from '@energinet-datahub/ett/globalization/configuration-localization';
+import { ettTranslocoConfig } from '@energinet-datahub/ett/globalization/configuration-localization';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideTransloco } from '@ngneat/transloco';
