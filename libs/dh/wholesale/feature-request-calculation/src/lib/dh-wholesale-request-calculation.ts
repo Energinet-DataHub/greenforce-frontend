@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormsModule,
@@ -53,13 +53,15 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { RxPush } from '@rx-angular/template/push';
+import { DhSelectedActorStore } from '@energinet-datahub/dh/shared/feature-authorization';
+import { MarketParticipantEicFunction } from '@energinet-datahub/dh/shared/domain';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
 const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
 type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
 
-type SelectedEicFunctionType = EicFunction | null | undefined;
+type SelectedEicFunctionType = MarketParticipantEicFunction | null | undefined;
 
 type FormType = {
   calculationType: FormControl<EdiB2CProcessType | null>;
@@ -113,6 +115,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
   private _selectedEicFunction: SelectedEicFunctionType;
+  private readonly _actorStore = inject(DhSelectedActorStore);
 
   maxDate = new Date();
   minDate = dayjs().startOf('month').subtract(38, 'months').toDate();
@@ -135,8 +138,8 @@ export class DhWholesaleRequestCalculationComponent {
   gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions: WattDropdownOptions = [];
 
-  meteringPointOptions: WattDropdownOptions = [];
-  calculationTypeOptions: WattDropdownOptions = [];
+  meteringPointOptions: WattDropdownOptions = this.getMeteringPointOptions();
+  calculationTypeOptions: WattDropdownOptions = this.getCalculationTypeOptions();
 
   selectedActorQuery = this._apollo.watchQuery({
     query: GetSelectedActorDocument,
@@ -153,6 +156,34 @@ export class DhWholesaleRequestCalculationComponent {
     query: GetGridAreasDocument,
   });
 
+  private getMeteringPointOptions(): WattDropdownOptions {
+    const selectedUser = toSignal(this._actorStore.selectedActor$);
+    console.log("getMeteringPointOptions user: " + selectedUser())
+    console.log("getMeteringPointOptions marketrole: " + selectedUser()?.marketrole)
+    const excludedMeteringpointTypes = this.getExcludedMeterpointTypes(
+      selectedUser()?.marketrole
+    );
+
+    return dhEnumToWattDropdownOptions(
+      ExtendMeteringPoint,
+      'asc',
+      excludedMeteringpointTypes
+    );
+  }
+
+  private getCalculationTypeOptions(): WattDropdownOptions {
+    const selectedUser = toSignal(this._actorStore.selectedActor$);
+    console.log("getCalculationTypeOptions user: " + selectedUser())
+    console.log("getCalculationTypeOptions marketrole: " + selectedUser()?.marketrole)
+    const excludeProcessTypes = this.getExcludedProcessTypes(selectedUser()?.marketrole);
+
+    return dhEnumToWattDropdownOptions(
+      EdiB2CProcessType,
+      'asc',
+      excludeProcessTypes
+    );
+  }
+
   constructor() {
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: (result) => {
@@ -164,33 +195,15 @@ export class DhWholesaleRequestCalculationComponent {
 
         this._selectedEicFunction = marketRole;
 
-        if (this._selectedEicFunction === EicFunction.BalanceResponsibleParty) {
+        if (this._selectedEicFunction === MarketParticipantEicFunction.BalanceResponsibleParty) {
           this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
         }
 
-        if (this._selectedEicFunction === EicFunction.EnergySupplier) {
+        if (this._selectedEicFunction === MarketParticipantEicFunction.EnergySupplier) {
           this.form.controls.energySupplierId.setValue(glnOrEicNumber);
         }
 
         this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
-
-        const excludedMeteringpointTypes = this.getExcludedMeterpointTypes(
-          this._selectedEicFunction
-        );
-
-        const excludeProcessTypes = this.getExcludedProcessTypes(this._selectedEicFunction);
-
-        this.meteringPointOptions = dhEnumToWattDropdownOptions(
-          ExtendMeteringPoint,
-          'asc',
-          excludedMeteringpointTypes
-        );
-
-        this.calculationTypeOptions = dhEnumToWattDropdownOptions(
-          EdiB2CProcessType,
-          'asc',
-          excludeProcessTypes
-        );
       },
     });
 
@@ -231,11 +244,11 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   showEnergySupplierDropdown(): boolean {
-    return false; //Not support yet this._selectedEicFunction === EicFunction.BalanceResponsibleParty;
+    return false; //Not support yet this._selectedEicFunction === MarketParticipantEicFunction.BalanceResponsibleParty;
   }
 
   showBalanceResponsibleDropdown(): boolean {
-    return this._selectedEicFunction === EicFunction.EnergySupplier;
+    return this._selectedEicFunction === MarketParticipantEicFunction.EnergySupplier;
   }
 
   requestCalculation(): void {
@@ -270,15 +283,15 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   private getExcludedMeterpointTypes(selectedEicFunction: SelectedEicFunctionType) {
-    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
+    return selectedEicFunction === MarketParticipantEicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === MarketParticipantEicFunction.EnergySupplier
       ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
       : [];
   }
 
   private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
-    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
+    return selectedEicFunction === MarketParticipantEicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === MarketParticipantEicFunction.EnergySupplier
       ? [
           EdiB2CProcessType.Firstcorrection,
           EdiB2CProcessType.Secondcorrection,
