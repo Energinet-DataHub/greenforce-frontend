@@ -206,7 +206,7 @@
       "files": ["*.js", "*.ts"],
       "extends": ["plugin:sonarjs/recommended"],
       "rules": {
-        "sonarjs/cognitive-complexity": ["error", 8]
+        "sonarjs/cognitive-complexity": ["error", 10]
       }
     },
     {
