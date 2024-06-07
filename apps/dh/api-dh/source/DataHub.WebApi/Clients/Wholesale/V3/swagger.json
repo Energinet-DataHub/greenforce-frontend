@@ -178,6 +178,70 @@
         }
       }
     },
+    "/v3/SettlementReport": {
+      "get": {
+        "tags": [
+          "SettlementReport"
+        ],
+        "summary": "Returns a subset of calculations that are valid for use with settlement reports.\r\nSettlement reports must access only a subset of data about calculations, as settlement reports are used by actors.",
+        "operationId": "GetApplicableCalculations",
+        "parameters": [
+          {
+            "name": "calculationType",
+            "in": "query",
+            "schema": {
+              "description": "Defines the wholesale calculation type",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/CalculationType"
+                }
+              ]
+            }
+          },
+          {
+            "name": "gridAreaCodes",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "periodStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SettlementReportApplicableCalculationDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/SettlementReport/Download": {
       "get": {
         "tags": [
@@ -404,6 +468,31 @@
           "SecondCorrectionSettlement",
           "ThirdCorrectionSettlement"
         ]
+      },
+      "SettlementReportApplicableCalculationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "calculationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "calculationTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
