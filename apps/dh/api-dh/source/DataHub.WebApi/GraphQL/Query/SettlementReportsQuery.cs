@@ -68,31 +68,24 @@ public partial class Query
         Interval calculationPeriod,
         [Service] IWholesaleClient_V3 client)
     {
-        var query = new CalculationQueryInput
-        {
-            CalculationTypes = [calculationType],
-            GridAreaCodes = gridAreaId,
-            Period = calculationPeriod,
-            ExecutionStates = [CalculationState.Completed],
-        };
-
         var gridAreaCalculations = new Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>();
-        var calculations = await client.QueryCalculationsAsync(query);
+        var calculations = await client.GetApplicableCalculationsAsync(
+            calculationType,
+            gridAreaId,
+            calculationPeriod.Start.ToDateTimeOffset(),
+            calculationPeriod.End.ToDateTimeOffset());
 
         foreach (var calculation in calculations)
         {
-            foreach (var gridArea in calculation.GridAreaCodes)
+            if (!gridAreaCalculations.TryGetValue(calculation.GridAreaCode, out var list))
             {
-                if (!gridAreaCalculations.TryGetValue(gridArea, out var list))
-                {
-                    gridAreaCalculations[gridArea] = list = [];
-                }
-
-                list.Add(new RequestSettlementReportGridAreaCalculation(
-                    calculation.CalculationId,
-                    calculation.ExecutionTimeStart!.Value,
-                    gridArea));
+                gridAreaCalculations[calculation.GridAreaCode] = list = [];
             }
+
+            list.Add(new RequestSettlementReportGridAreaCalculation(
+                calculation.CalculationId,
+                calculation.CalculationTime,
+                calculation.GridAreaCode));
         }
 
         return gridAreaCalculations;
