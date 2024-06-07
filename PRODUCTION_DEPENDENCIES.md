@@ -2,18 +2,18 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 18.0.1 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/material](https://github.com/angular/components) | 18.0.1 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/platform-server](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 18.0.1 | MIT |
-| [@angular/ssr](https://github.com/angular/angular-cli) | 18.0.2 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 18.0.2 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/material](https://github.com/angular/components) | 18.0.2 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 18.0.2 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 18.0.3 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
