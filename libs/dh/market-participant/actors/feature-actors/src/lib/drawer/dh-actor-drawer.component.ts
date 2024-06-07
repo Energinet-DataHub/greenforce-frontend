@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, inject, ViewChild, input, signal } from '@angular/core';
+import { Component, inject, ViewChild, input, signal, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { Apollo } from 'apollo-angular';
@@ -136,6 +136,32 @@ export class DhActorDrawerComponent {
     [Key: string]: string;
   }>();
 
+  showBalanceResponsibleRelationTab = computed(
+    () =>
+      this.actor()?.marketRole === EicFunction.EnergySupplier ||
+      this.actor()?.marketRole === EicFunction.BalanceResponsibleParty
+  );
+
+  marketRoleOrFallback = computed(() => {
+    if (this.actor()?.marketRole) {
+      return translate('marketParticipant.marketRoles.' + this.actor()?.marketRole);
+    }
+
+    return emDash;
+  });
+
+  isGridAccessProvider = computed(
+    () => this.actor()?.marketRole === EicFunction.GridAccessProvider
+  );
+
+  gridAreaOrFallback = computed(() => {
+    const stringList = this.actor()
+      ?.gridAreas?.map((gridArea) => gridArea.code)
+      .join(', ');
+
+    return stringList ?? emDash;
+  });
+
   public open(actorId: string): void {
     this.drawer?.open();
     this.loadActor(actorId);
@@ -143,32 +169,6 @@ export class DhActorDrawerComponent {
 
   onClose(): void {
     this.closed$.next();
-  }
-
-  get marketRoleOrFallback(): string {
-    if (this.actor()?.marketRole) {
-      return translate('marketParticipant.marketRoles.' + this.actor()?.marketRole);
-    }
-
-    return emDash;
-  }
-
-  get isGridAccessProvider(): boolean {
-    return this.actor()?.marketRole === EicFunction.GridAccessProvider;
-  }
-
-  get gridAreaOrFallback() {
-    const stringList = this.actor()
-      ?.gridAreas?.map((gridArea) => gridArea.code)
-      .join(', ');
-    return stringList ?? emDash;
-  }
-
-  public showBalanceResponsibleRelationTab(): boolean {
-    return (
-      this.actor()?.marketRole === EicFunction.EnergySupplier ||
-      this.actor()?.marketRole === EicFunction.BalanceResponsibleParty
-    );
   }
 
   private loadActor(id: string): void {
