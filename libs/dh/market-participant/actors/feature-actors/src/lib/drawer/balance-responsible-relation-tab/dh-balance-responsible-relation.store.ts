@@ -18,7 +18,7 @@ import { computed, inject } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { EMPTY, catchError, distinctUntilKeyChanged, pipe, switchMap, tap } from 'rxjs';
+import { EMPTY, catchError, distinctUntilKeyChanged, filter, pipe, switchMap, tap } from 'rxjs';
 import {
   patchState,
   signalStore,
@@ -96,6 +96,7 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
     },
     loadByFilters: rxMethod<Partial<DhBalanceResponsibleRelationFilters>>(
       pipe(
+        filter((filters) => filters.actorId !== null && filters.actorId !== undefined),
         distinctUntilKeyChanged('actorId'),
         switchMap((filters) => {
           return apollo
