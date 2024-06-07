@@ -67,16 +67,16 @@ limitations under the License.
                   [value]="actor()?.name"
                 />
 
-                @if (isGridAccessProvider) {
+                @if (isGridAccessProvider()) {
                   <watt-description-list-item
                     [label]="t('tabs.masterData.gridArea')"
-                    [value]="gridAreaOrFallback"
+                    [value]="gridAreaOrFallback()"
                   />
                 }
 
                 <watt-description-list-item
                   [label]="t('tabs.masterData.marketRole')"
-                  [value]="marketRoleOrFallback"
+                  [value]="marketRoleOrFallback()"
                 />
               </watt-description-list>
             </watt-card>
