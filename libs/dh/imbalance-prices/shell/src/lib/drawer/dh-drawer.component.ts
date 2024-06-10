@@ -45,6 +45,7 @@ import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-pri
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigger';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -117,7 +118,7 @@ export class DhImbalancePricesDrawerComponent {
       return { year: 0, month: 0 };
     }
 
-    const date = dayjs(imbalancePrice.name);
+    const date = dayjs(imbalancePrice.name).tz(danishTimeZoneIdentifier);
 
     return { year: date.get('year'), month: date.get('month') + 1 };
   });
