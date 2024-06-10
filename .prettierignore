@@ -39,3 +39,5 @@ README.md
 
 # Ignore Angular cache files
 .angular
+
+/.nx/workspace-data

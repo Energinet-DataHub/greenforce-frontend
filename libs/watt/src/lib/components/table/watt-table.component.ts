@@ -44,6 +44,7 @@ import { WattCheckboxComponent } from '../checkbox';
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattDatePipe } from '../../utils/date/watt-date.pipe';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
+import { nullOrUndefined } from '../../utils/nullOrUndefined';
 
 export interface WattTableColumn<T> {
   /**
@@ -336,6 +337,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if (nullOrUndefined(this.dataSource)) return;
+
     this.dataSource.sort = this._sort;
 
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
@@ -357,6 +360,10 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
 
+      this.onSelectableChanges(changes);
+
+      if (nullOrUndefined(displayedColumns) || nullOrUndefined(this.columns)) return;
+
       const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
         .map((key) => this.columns[key].size)
@@ -372,8 +379,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         sizing.join(' ')
       );
     }
-
-    this.onSelectableChanges(changes);
   }
 
   /** @ignore */
@@ -384,7 +389,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       // Without the flag, the selection will be set every time `selectable` Input is set to `true`.
       // This might lead to losing already selected items.
       this.isInitialSelectionSet = true;
-
       this._selectionModel.setSelection(...this.initialSelection);
     }
   }
@@ -421,6 +425,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumns() {
+    if (nullOrUndefined(this.columns)) return [];
     const columns = this.displayedColumns ?? Object.keys(this.columns);
     return this.selectable ? [this._checkboxColumn, ...columns] : columns;
   }

@@ -467,6 +467,7 @@ __azurite*
 __blobstorage*
 
 .nx/cache
+.nx/workspace-data
 
 # Verify mismatch file
 *.received.*

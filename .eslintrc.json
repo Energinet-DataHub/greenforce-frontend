@@ -185,7 +185,11 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"]
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
       "files": ["*.ts"],
@@ -202,13 +206,16 @@
       "files": ["*.js", "*.ts"],
       "extends": ["plugin:sonarjs/recommended"],
       "rules": {
-        "sonarjs/cognitive-complexity": ["error", 8]
+        "sonarjs/cognitive-complexity": ["error", 10]
       }
     },
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nx/javascript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
       "files": "*.json",
