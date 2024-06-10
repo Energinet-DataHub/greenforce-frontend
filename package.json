@@ -15,7 +15,7 @@
     "jest-preview": "jest-preview",
     "affected": "nx affected",
     "affected:apps": "nx print-affected --type=app --select=projects",
-    "affected:build": "nx affected:build --configuration=production --parallel",
+    "affected:build": "nx affected:build --configuration=production --parallel --skip-nx-cache",
     "affected:ci": "bun run affected:lint && bun run affected:test && bun run affected:build && bun run affected:e2e -- --configuration=ci",
     "affected:graph": "nx affected:graph",
     "affected:e2e": "nx affected:e2e",
