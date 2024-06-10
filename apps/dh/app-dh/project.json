@@ -167,6 +167,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
+      "dependsOn": ["^generate"],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
