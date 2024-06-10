@@ -30,10 +30,6 @@ export class AuthService {
   userManager: UserManager | null = null;
 
   constructor() {
-    console.log('B2C', this.b2cEnvironment.issuer)
-  }
-
-  init(thirdPartyClientId?: string | null): void {
     const settings = {
       /*
       * The authority is the URL of the OIDC provider.
@@ -59,13 +55,6 @@ export class AuthService {
       * The response_type is the type of the response. Possible values are 'code' and 'token'.
       */
       response_type: 'code',
-      /*
-      * The scope is the permissions that the application requests from the OIDC provider.
-      */
-      //scope: 'https://datahubeouenerginet.onmicrosoft.com/energy-origin/.default',
-      /**
-       * The state is a unique identifier for the user's session.
-       */
     };
     this.userManager = new UserManager(settings);
   }
@@ -74,8 +63,9 @@ export class AuthService {
     return this.userManager?.getUser() ?? Promise.resolve(null);
   }
 
-  login(): Promise<void> {
-    return this.userManager?.signinRedirect({ state: {clientId: 1234} }) ?? Promise.resolve();
+  login(thirdPartyClientId: string | null): Promise<void> {
+    console.log('Xxxx', thirdPartyClientId);
+    return this.userManager?.signinRedirect({ state: {thirdPartyClientId} }) ?? Promise.resolve();
   }
 
   renewToken(): Promise<User | null> {

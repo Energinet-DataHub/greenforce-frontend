@@ -17,7 +17,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withComponentInputBinding, withDebugTracing } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import {
@@ -44,7 +44,7 @@ Promise.all([loadEoApiEnvironment(), loadEoB2cEnvironment()])
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         ...eoCoreShellProviders,
-        provideRouter(eoShellRoutes, withComponentInputBinding(), withDebugTracing()),
+        provideRouter(eoShellRoutes, withComponentInputBinding()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
     })

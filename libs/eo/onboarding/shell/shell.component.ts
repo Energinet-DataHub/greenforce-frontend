@@ -31,10 +31,9 @@ export class EoOnboardingShellComponent implements OnInit {
   clientId: string | null = null;
 
   ngOnInit() {
-    this.auth.init(
+    this.auth.login(
       this.route.snapshot.queryParamMap.get('client-id')
-    );
-    this.auth.login().catch(err => {
+    ).catch(err => {
       console.error('Error logging in:', err);
     });
   }
