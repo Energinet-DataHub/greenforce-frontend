@@ -29,7 +29,7 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                 var auditIdentity = await ctx
                     .Service<IMarketParticipantClient_V1>()
                     .AuditIdentityAsync(parent.AuditIdentityId, ct)
-                    .ConfigureAwait(false);
+                    .ConfigureAwait(true);
 
                 return auditIdentity.DisplayName;
             });
