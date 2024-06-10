@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, inject } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { AuthService } from "./auth.service";
+import { AuthService } from './auth.service';
 
 @Component({
   standalone: true,
@@ -31,9 +31,7 @@ export class EoOnboardingShellComponent implements OnInit {
   clientId: string | null = null;
 
   ngOnInit() {
-    this.auth.login(
-      this.route.snapshot.queryParamMap.get('client-id')
-    ).catch(err => {
+    this.auth.login(this.route.snapshot.queryParamMap.get('client-id')).catch((err) => {
       console.error('Error logging in:', err);
     });
   }

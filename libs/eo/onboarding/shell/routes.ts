@@ -17,9 +17,9 @@
 import { Routes } from '@angular/router';
 
 import { EoOnboardingShellComponent } from './shell.component';
-import { EoSigninCallbackComponent} from './signin-callback.component';
+import { EoSigninCallbackComponent } from './signin-callback.component';
 
 export const eoOnbordingRoutes: Routes = [
   { path: '', component: EoOnboardingShellComponent },
-  { path: 'signin-callback', component: EoSigninCallbackComponent }
+  { path: 'signin-callback', component: EoSigninCallbackComponent },
 ];

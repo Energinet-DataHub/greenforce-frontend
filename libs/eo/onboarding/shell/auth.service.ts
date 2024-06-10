@@ -32,28 +32,28 @@ export class AuthService {
   constructor() {
     const settings = {
       /*
-      * The authority is the URL of the OIDC provider.
-      */
+       * The authority is the URL of the OIDC provider.
+       */
       authority: this.b2cEnvironment.issuer,
       /*
-      * The client_id is the application ID of the application registered in the OIDC provider.
-      */
+       * The client_id is the application ID of the application registered in the OIDC provider.
+       */
       client_id: this.b2cEnvironment.client_id,
       /*
-      * The redirect_uri is the URL of the application where the user is redirected after the sign-in process.
-      */
+       * The redirect_uri is the URL of the application where the user is redirected after the sign-in process.
+       */
       redirect_uri: `http://localhost:4200/${this.transloco.getActiveLang()}/callback`,
       /*
-      * The silent_redirect_uri is used to redirect the user back to the application after the token is renewed.
-      */
+       * The silent_redirect_uri is used to redirect the user back to the application after the token is renewed.
+       */
       silent_redirect_uri: `http://localhost:4200/silent-callback.html`,
       /*
-      * The post_logout_redirect_uri is the URL of the application where the user is redirected after the sign-out process.
-      */
+       * The post_logout_redirect_uri is the URL of the application where the user is redirected after the sign-out process.
+       */
       post_logout_redirect_uri: `http://localhost:4200/${this.transloco.getActiveLang()}`,
       /*
-      * The response_type is the type of the response. Possible values are 'code' and 'token'.
-      */
+       * The response_type is the type of the response. Possible values are 'code' and 'token'.
+       */
       response_type: 'code',
     };
     this.userManager = new UserManager(settings);
@@ -65,7 +65,7 @@ export class AuthService {
 
   login(thirdPartyClientId: string | null): Promise<void> {
     console.log('Xxxx', thirdPartyClientId);
-    return this.userManager?.signinRedirect({ state: {thirdPartyClientId} }) ?? Promise.resolve();
+    return this.userManager?.signinRedirect({ state: { thirdPartyClientId } }) ?? Promise.resolve();
   }
 
   renewToken(): Promise<User | null> {

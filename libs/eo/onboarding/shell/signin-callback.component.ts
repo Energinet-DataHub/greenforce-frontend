@@ -32,11 +32,14 @@ export class EoSigninCallbackComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
-    this.authService.userManager?.signinCallback().then(user => {
-      const state = user?.state;
-      console.log('user state:', state);
-    }).catch(err => {
-      console.error('Error processing signin callback:', err);
-    });
+    this.authService.userManager
+      ?.signinCallback()
+      .then((user) => {
+        const state = user?.state;
+        console.log('user state:', state);
+      })
+      .catch((err) => {
+        console.error('Error processing signin callback:', err);
+      });
   }
 }

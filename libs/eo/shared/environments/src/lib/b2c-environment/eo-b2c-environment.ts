@@ -26,7 +26,7 @@ export interface EoB2cEnvironment {
 }
 
 export interface EoB2cSettings {
-  readonly 'azure-b2c': EoB2cEnvironment
+  readonly 'azure-b2c': EoB2cEnvironment;
 }
 
 export const eoB2cEnvironmentToken = new InjectionToken<EoB2cEnvironment>('eoB2cEnvironmentToken', {
@@ -40,4 +40,3 @@ export const eoB2cEnvironmentToken = new InjectionToken<EoB2cEnvironment>('eoB2c
   },
   providedIn: 'platform',
 });
-
