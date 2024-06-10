@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
-import * as eoLocalB2cEnvironment from './assets/configuration/eo-azure-b2c-settings.json';
-import graphLoader from './assets/graph-loader.json';
-import sustainableChart from './assets/landing-page/sustainable-chart.json';
+import {
+  environment,
+  EoB2cEnvironment,
+  loadEoB2cEnvironment as _loadEoB2cEnvironment,
+} from '@energinet-datahub/eo/shared/environments';
 
-export { eoLocalApiEnvironment };
-export { eoLocalB2cEnvironment };
-export { graphLoader };
-export { sustainableChart };
+export function loadEoB2cEnvironment(): Promise<EoB2cEnvironment> {
+  const configurationFilename = environment.production
+    ? 'eo-azure-b2c-settings.json'
+    : 'eo-azure-b2c-settings.local.json';
+
+  return _loadEoB2cEnvironment(configurationFilename);
+}

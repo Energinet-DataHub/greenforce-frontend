@@ -290,6 +290,9 @@
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/onboarding/shell": [
+        "libs/eo/onboarding/shell/index.ts"
+      ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
       ],

@@ -20,6 +20,7 @@ import {
   Router,
   RouterStateSnapshot,
   Routes,
+  UrlSegment,
 } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
@@ -31,6 +32,7 @@ import {
   eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
   eoActivityLogRoutePath,
+  eoOnboardingRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
@@ -50,6 +52,17 @@ const routes: Routes = [
     title: 'Terms',
     loadChildren: () =>
       import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
+  },
+  {
+    path: 'callback',
+    redirectTo: 'onboarding/signin-callback',
+  },
+  {
+    path: eoOnboardingRoutePath,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/onboarding/shell').then(
+        (esModule) => esModule.eoOnbordingRoutes
+      ),
   },
   {
     path: '',
@@ -133,7 +146,9 @@ const LanguagePrefixGuard: CanActivateFn = (
   const hasLanguagePrefix = url.startsWith('/en') || url.startsWith('/da');
 
   if (!hasLanguagePrefix) {
-    router.navigate([`/${transloco.getActiveLang()}${url}`]);
+    const urlTree = router.parseUrl(url);
+    urlTree.root.children.primary.segments.unshift(new UrlSegment(transloco.getActiveLang(), {}));
+    router.navigateByUrl(urlTree);
     return false;
   }
   return true;

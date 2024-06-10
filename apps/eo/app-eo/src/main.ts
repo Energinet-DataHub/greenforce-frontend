@@ -17,28 +17,34 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withDebugTracing } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import {
+  environment,
+  eoApiEnvironmentToken,
+  eoB2cEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 import { eoCoreShellProviders, eoShellRoutes } from '@energinet-datahub/eo/core/shell';
 
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
+import { loadEoB2cEnvironment } from './configuration/load-eo-b2c-environment';
 import { EnergyOriginAppComponent } from './app/energy-origin-app.component';
 
 if (environment.production) {
   enableProdMode();
 }
 
-loadEoApiEnvironment()
-  .then((eoApiEnvironment) =>
+Promise.all([loadEoApiEnvironment(), loadEoB2cEnvironment()])
+  .then(([eoApiEnvironment, eoB2cEnvironment]) =>
     bootstrapApplication(EnergyOriginAppComponent, {
       providers: [
         { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
+        { provide: eoB2cEnvironmentToken, useValue: eoB2cEnvironment },
         provideAnimationsAsync(),
         provideHttpClient(withInterceptorsFromDi()),
         ...eoCoreShellProviders,
-        provideRouter(eoShellRoutes, withComponentInputBinding()),
+        provideRouter(eoShellRoutes, withComponentInputBinding(), withDebugTracing()),
         provideZoneChangeDetection({ eventCoalescing: true, runCoalescing: true }),
       ],
     })

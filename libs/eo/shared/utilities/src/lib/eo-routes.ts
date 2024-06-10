@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export const eoOnboardingRoutePath = 'onboarding';
 export const eoCertificatesRoutePath = 'certificates';
 export const eoDashboardRoutePath = 'dashboard';
 export const eoEmissionsRoutePath = 'emissions';
@@ -32,6 +33,7 @@ export const eoClaimsRoutePath = 'claims';
 export const eoActivityLogRoutePath = 'activity-log';
 
 export const eoRoutes = {
+  onboarding: eoOnboardingRoutePath,
   certificates: eoCertificatesRoutePath,
   dashboard: eoDashboardRoutePath,
   emissions: eoEmissionsRoutePath,

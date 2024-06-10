@@ -34,6 +34,12 @@
             "input": "libs/gf/msw/util-msw/src/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"
+          },
+          "apps/eo/app-eo/src/silent-callback.html",
+          {
+            "glob": "oidc-client-ts.js",
+            "input": "node_modules/oidc-client-ts/dist/browser",
+            "output": "/"
           }
         ],
         "allowedCommonJsDependencies": ["date-fns", "lottie-web", "dayjs"],
