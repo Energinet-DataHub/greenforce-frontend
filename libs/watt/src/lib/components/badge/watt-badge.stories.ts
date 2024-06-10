@@ -16,7 +16,8 @@
  */
 import { Meta, StoryFn } from '@storybook/angular';
 
-import { WattBadgeComponent } from './watt-badge.component';
+import { WattBadgeComponent, WattBadgeSize } from './watt-badge.component';
+import { InputSignal } from '@angular/core';
 
 const meta: Meta<WattBadgeComponent> = {
   title: 'Components/Badge',
@@ -39,7 +40,7 @@ const Template: StoryFn<WattBadgeComponent> = (args) => ({
 });
 
 export const Normal = Template.bind({});
-Normal.args = { size: 'normal' };
+Normal.args = { size: 'normal' as unknown as InputSignal<WattBadgeSize> };
 
 export const Large = Template.bind({});
-Large.args = { size: 'large' };
+Large.args = { size: 'large' as unknown as InputSignal<WattBadgeSize> };
