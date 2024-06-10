@@ -24,7 +24,7 @@
     "affected:lint:fix": "nx affected:lint --max-warnings=0 --fix --parallel",
     "affected:test": "nx affected:test --parallel",
     "analyze:app-dh": "source-map-explorer dist/apps/dh/app-dh/**/*.js",
-    "build": "nx run-many --target=build --configuration=production --parallel",
+    "build": "nx run-many --target=build --configuration=production --parallel --skip-nx-cache",
     "ci": "bun run lint && bun run test && bun run build && bun run e2e -- --configuration=ci",
     "designsystem:build": "nx run watt:build-storybook",
     "designsystem:start": "nx run watt:storybook",
