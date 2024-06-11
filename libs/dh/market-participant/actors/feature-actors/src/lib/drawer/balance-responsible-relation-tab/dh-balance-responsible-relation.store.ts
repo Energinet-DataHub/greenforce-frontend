@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 import { computed, inject } from '@angular/core';
-
 import { Apollo } from 'apollo-angular';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { EMPTY, catchError, distinctUntilKeyChanged, filter, pipe, switchMap, tap } from 'rxjs';
+import { EMPTY, catchError, filter, pipe, switchMap, tap } from 'rxjs';
 import {
   patchState,
   signalStore,
@@ -32,13 +31,14 @@ import {
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import {
   DhBalanceResponsibleRelation,
   DhBalanceResponsibleRelationFilters,
   DhBalanceResponsibleRelations,
 } from './dh-balance-responsible-relation';
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   dhGroupByMarketParticipant,
   dhGroupByType,
@@ -47,15 +47,15 @@ import {
 type BalanceResponsbleRelationsState = {
   relations: DhBalanceResponsibleRelations;
   loadingState: LoadingState | ErrorState;
+  actor: DhActorExtended | null;
   filters: DhBalanceResponsibleRelationFilters;
 };
 
 const initialSignalState: BalanceResponsbleRelationsState = {
   relations: [],
   loadingState: LoadingState.INIT,
+  actor: null,
   filters: {
-    actorId: null,
-    eicFunction: null,
     status: null,
     energySupplierWithNameId: null,
     gridAreaCode: null,
@@ -66,18 +66,18 @@ const initialSignalState: BalanceResponsbleRelationsState = {
 
 export const DhBalanceResponsibleRelationsStore = signalStore(
   withState(initialSignalState),
-  withComputed(({ loadingState, filters, relations }) => ({
+  withComputed(({ loadingState, filters, actor, relations }) => ({
     filteredRelations: computed(() =>
       relations().filter(
-        (relation) => applyFilter(filters(), relation) && applySearch(filters(), relation)
+        (relation) => applyFilter(filters(), relation) && applySearch(filters(), relation, actor())
       )
     ),
     isLoading: computed(() => loadingState() === LoadingState.LOADING),
     hasError: computed(() => loadingState() === ErrorState.GENERAL_ERROR),
   })),
-  withComputed(({ filteredRelations, filters }) => ({
+  withComputed(({ filteredRelations, actor }) => ({
     filteredAndGroupedRelations: computed(() => {
-      if (filters().eicFunction === EicFunction.EnergySupplier)
+      if (actor()?.marketRole === EicFunction.EnergySupplier)
         return dhGroupByMarketParticipant(
           dhGroupByType(filteredRelations()),
           'balanceResponsibleWithName'
@@ -91,18 +91,20 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
     isEmpty: computed(() => filteredRelations().length === 0),
   })),
   withMethods((store, apollo = inject(Apollo)) => ({
-    updateFilters: (filters: Partial<DhBalanceResponsibleRelationFilters>): void => {
-      patchState(store, (state) => ({ ...state, filters: { ...state.filters, ...filters } }));
+    updateActor: (actor: DhActorExtended): void => {
+      patchState(store, () => ({ actor }));
     },
-    loadByFilters: rxMethod<Partial<DhBalanceResponsibleRelationFilters>>(
+    updateFilters: (filters: Partial<DhBalanceResponsibleRelationFilters>): void => {
+      patchState(store, (state) => ({ filters: { ...state.filters, ...filters } }));
+    },
+    loadByActor: rxMethod<DhActorExtended | null>(
       pipe(
-        filter((filters) => filters.actorId !== null && filters.actorId !== undefined),
-        distinctUntilKeyChanged('actorId'),
-        switchMap((filters) => {
+        filter((actor): actor is DhActorExtended => actor?.id != null),
+        switchMap((actor) => {
           return apollo
             .watchQuery({
               query: GetBalanceResponsibleRelationDocument,
-              variables: { id: filters.actorId ?? '' },
+              variables: { id: actor.id },
             })
             .valueChanges.pipe(
               catchError(() => {
@@ -140,14 +142,15 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
       )
     ),
   })),
-  withHooks({ onInit: (store) => store.loadByFilters(store.filters) })
+  withHooks({ onInit: (store) => store.loadByActor(store.actor) })
 );
 
 const applySearch = (
   filters: DhBalanceResponsibleRelationFilters,
-  balanceResponsibilityAgreement: DhBalanceResponsibleRelation
+  balanceResponsibilityAgreement: DhBalanceResponsibleRelation,
+  actor: DhActorExtended | null
 ) => {
-  const { search, eicFunction } = filters;
+  const { search } = filters;
   const { gridArea, balanceResponsibleWithName, energySupplierWithName } =
     balanceResponsibilityAgreement;
 
@@ -160,7 +163,7 @@ const applySearch = (
   }
 
   if (
-    eicFunction === EicFunction.EnergySupplier &&
+    actor?.marketRole === EicFunction.EnergySupplier &&
     balanceResponsibleWithName?.actorName.value
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
@@ -169,7 +172,7 @@ const applySearch = (
   }
 
   return (
-    eicFunction === EicFunction.BalanceResponsibleParty &&
+    actor?.marketRole === EicFunction.BalanceResponsibleParty &&
     energySupplierWithName?.actorName.value
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())

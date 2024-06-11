@@ -26,14 +26,13 @@ import {
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-relation.store';
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   standalone: true,
@@ -76,20 +75,7 @@ export class DhBalanceResponsibleRelationTabComponent {
   actor = input.required<DhActorExtended>();
 
   constructor() {
-    effect(
-      () => {
-        this.store.updateFilters({
-          balanceResponsibleWithNameId: null,
-          energySupplierWithNameId: null,
-          gridAreaCode: null,
-          search: null,
-          status: null,
-          actorId: this.actor().id,
-          eicFunction: this.actor().marketRole ?? null,
-        });
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => this.store.updateActor(this.actor()), { allowSignalWrites: true });
   }
 
   download() {
