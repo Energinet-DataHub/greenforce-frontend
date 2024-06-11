@@ -18,7 +18,6 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
   BalanceResponsibilityAgreementStatus,
-  EicFunction,
   GetBalanceResponsibleRelationDocument,
   InputMaybe,
   MarketParticipantMeteringPointType,
@@ -49,8 +48,6 @@ export type DhBalanceResponsibleRelationsGrouped = {
 }[];
 
 export type DhBalanceResponsibleRelationFilters = {
-  actorId: InputMaybe<Scalars['UUID']['input']>;
-  eicFunction: InputMaybe<EicFunction>;
   status: InputMaybe<BalanceResponsibilityAgreementStatus>;
   energySupplierWithNameId: InputMaybe<string>;
   gridAreaCode: InputMaybe<Scalars['UUID']['input']>;
