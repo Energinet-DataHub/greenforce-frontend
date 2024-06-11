@@ -20,11 +20,12 @@ import {
   TemplateRef,
   ViewEncapsulation,
   contentChildren,
-  output,
   viewChild,
 } from '@angular/core';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
+import { Subject } from 'rxjs';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-breadcrumb',
@@ -36,7 +37,8 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 export class WattBreadcrumbComponent {
   templateRef = viewChild.required<TemplateRef<unknown>>('templateRef');
   // Used to determine if the breadcrumb is interactive or not
-  click = output<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
+  actionEmitter = new Subject<unknown>();
+  click = outputFromObservable(this.actionEmitter);
 }
 
 /**
@@ -54,9 +56,9 @@ export class WattBreadcrumbComponent {
       @for (breadcrumb of breadcrumbs(); track breadcrumb; let isLast = $last) {
         <span
           class="watt-breadcrumb"
-          (click)="breadcrumb.click.emit($event)"
-          [class.interactive]="breadcrumb.click"
-          [attr.role]="breadcrumb.click ? 'link' : null"
+          (click)="breadcrumb.actionEmitter.next($event)"
+          [class.interactive]="breadcrumb.actionEmitter.observed"
+          [attr.role]="breadcrumb.actionEmitter.observed ? 'link' : null"
         >
           <ng-container *ngTemplateOutlet="breadcrumb.templateRef()" />
           @if (!isLast) {
