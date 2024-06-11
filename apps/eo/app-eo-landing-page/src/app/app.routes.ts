@@ -60,7 +60,8 @@ export const appRoutes: Route[] = [
 
 function getDefaultLanguage(): string {
   try {
-    return navigator.language.split('-')[0];
+    const lang = navigator.language.split('-')[0];
+    return lang === 'da' ? 'da' : 'en';
   } catch (error) {
     return 'en';
   }
