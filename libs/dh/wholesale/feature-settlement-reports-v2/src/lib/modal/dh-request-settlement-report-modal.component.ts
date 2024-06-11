@@ -45,7 +45,7 @@ import {
 } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import {
@@ -275,8 +275,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             calculationType: calculationType as CalculationType,
             includeBasisData,
             period: {
-              start: new Date(period.start),
-              end: period.end ? new Date(period.end) : null,
+              start: dayjs(period.start).tz(danishTimeZoneIdentifier).toDate(),
+              end: period.end ? dayjs(period.end).tz(danishTimeZoneIdentifier).toDate() : null,
             },
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas),
