@@ -84,7 +84,7 @@ const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 type DhFormType = FormGroup<{
   calculationType: FormControl<string>;
   includeBasisData: FormControl<boolean>;
-  period: FormControl<WattRange<string> | null>;
+  period: FormControl<WattRange<Date> | null>;
   includeMonthlySum: FormControl<boolean>;
   energySupplier?: FormControl<string | null>;
   gridAreas: FormControl<string[] | null>;
@@ -150,7 +150,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       nonNullable: true,
     }),
     includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
-    period: new FormControl<WattRange<string> | null>(null, [
+    period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
     ]),
@@ -278,8 +278,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             calculationType: calculationType as CalculationType,
             includeBasisData,
             period: {
-              start: dayjs(period.start).tz(danishTimeZoneIdentifier).toDate(),
-              end: period.end ? dayjs(period.end).tz(danishTimeZoneIdentifier).toDate() : null,
+              start: period.start,
+              end: period.end ? period.end : null,
             },
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas),
@@ -412,8 +412,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           calculationType: calculationType as CalculationType,
           gridAreaIds: gridAreas,
           calculationPeriod: {
-            start: new Date(period.start),
-            end: period?.end ? new Date(period.end) : null,
+            start:period.start,
+            end: period?.end ? period.end : null,
           },
         },
       })
