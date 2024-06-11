@@ -57,7 +57,8 @@
     "take": "bun ./tools/github/create-branch-from-issue.ts",
     "branch": "bun ./tools/github/create-branch.ts",
     "pr": "bun ./tools/github/create-pr.ts",
-    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
+    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
+    "review": "gh pr checkout --"
   },
   "dependencies": {
     "@angular/animations": "17.3.7",
