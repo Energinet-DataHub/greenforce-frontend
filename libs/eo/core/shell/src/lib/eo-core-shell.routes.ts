@@ -21,6 +21,7 @@ import {
   RouterStateSnapshot,
   Routes,
   UrlSegment,
+  UrlSegmentGroup,
 } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
@@ -147,7 +148,14 @@ const LanguagePrefixGuard: CanActivateFn = (
 
   if (!hasLanguagePrefix) {
     const urlTree = router.parseUrl(url);
-    urlTree.root.children.primary.segments.unshift(new UrlSegment(transloco.getActiveLang(), {}));
+    const segments = urlTree.root.children.primary?.segments;
+
+    if (segments && segments.length > 0) {
+      segments.unshift(new UrlSegment(transloco.getActiveLang(), {}));
+    } else {
+      urlTree.root.children.primary = new UrlSegmentGroup([], {});
+      urlTree.root.children.primary.segments = [new UrlSegment(transloco.getActiveLang(), {})];
+    }
     router.navigateByUrl(urlTree);
     return false;
   }
