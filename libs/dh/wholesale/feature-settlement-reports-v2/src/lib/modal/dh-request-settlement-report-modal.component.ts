@@ -412,7 +412,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           calculationType: calculationType as CalculationType,
           gridAreaIds: gridAreas,
           calculationPeriod: {
-            start:period.start,
+            start: period.start,
             end: period?.end ? period.end : null,
           },
         },
