@@ -14,18 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  Component,
-  DestroyRef,
-  OnInit,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, input, output } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -164,12 +155,9 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   });
 
   constructor() {
-    effect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const fakeReadToTriggerEffect = this.actor();
-
-      this.filtersForm.reset();
-    });
+    toObservable(this.actor)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.filtersForm.reset());
   }
 
   ngOnInit(): void {
