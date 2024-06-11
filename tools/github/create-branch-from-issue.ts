@@ -47,7 +47,7 @@ const teams = [
   },
   {
     team: 'Mosaic',
-    repo: 'Energinet-DataHub/team-phoenix',
+    repo: 'Energinet-DataHub/team-mosaic',
   },
   {
     team: 'Bounty hunters',
