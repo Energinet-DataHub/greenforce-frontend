@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info' | 'neutral' | 'skeleton';
 
@@ -29,18 +29,14 @@ export type WattBadgeSize = 'normal' | 'large';
   selector: 'watt-badge',
   styleUrls: ['./watt-badge.component.scss'],
   template: '<ng-content />',
+  host: {
+    '[class]': 'badgeType()',
+    '[class.watt-badge-large]': 'isLarge()',
+  },
 })
 export class WattBadgeComponent {
-  @Input() type: WattBadgeType = 'info';
-  @Input() size: WattBadgeSize = 'normal';
-
-  @HostBinding('class')
-  get badgeType() {
-    return `watt-badge-${this.type}`;
-  }
-
-  @HostBinding('class.watt-badge-large')
-  get isLarge() {
-    return this.size === 'large';
-  }
+  type = input<WattBadgeType>('info');
+  size = input<WattBadgeSize>('normal');
+  badgeType = computed(() => `watt-badge-${this.type()}`);
+  isLarge = computed(() => this.size() === 'large');
 }
