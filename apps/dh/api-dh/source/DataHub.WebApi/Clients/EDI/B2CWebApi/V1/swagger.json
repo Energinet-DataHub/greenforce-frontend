@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "EDI B2C Web API",
-    "version": "1.0"
+    "title": "B2C web api for EDI",
+    "version": "v1"
   },
   "paths": {
     "/ArchivedMessageGetDocument": {
@@ -14,15 +14,6 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "api-version",
             "in": "query",
             "style": "form",
             "schema": {
@@ -50,31 +41,33 @@
           "ArchivedMessageSearch"
         ],
         "operationId": "ArchivedMessageSearch",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
               }
             }
           }
@@ -118,73 +111,33 @@
           "RequestAggregatedMeasureData"
         ],
         "operationId": "RequestAggregatedMeasureData",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/RequestWholesaleSettlement": {
-      "post": {
-        "tags": [
-          "RequestWholesaleSettlement"
-        ],
-        "operationId": "RequestWholesaleSettlement",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             }
           }
@@ -229,17 +182,6 @@
           }
         }
       },
-      "CalculationType": {
-        "type": "string",
-        "enum": [
-          "PreliminaryAggregation",
-          "BalanceFixing",
-          "WholesaleFixing",
-          "FirstCorrection",
-          "SecondCorrection",
-          "ThirdCorrection"
-        ]
-      },
       "MessageCreationPeriod": {
         "type": "object",
         "additionalProperties": false,
@@ -264,16 +206,35 @@
           "Exchange"
         ]
       },
+      "ProcessType": {
+        "type": "string",
+        "enum": [
+          "PreliminaryAggregation",
+          "BalanceFixing",
+          "WholesaleFixing",
+          "FirstCorrection",
+          "SecondCorrection",
+          "ThirdCorrection"
+        ]
+      },
       "RequestAggregatedMeasureDataMarketRequest": {
         "type": "object",
-        "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
         "additionalProperties": false,
         "properties": {
-          "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
+          "processType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProcessType"
+              }
+            ]
           },
           "meteringPointType": {
-            "$ref": "#/components/schemas/MeteringPointType"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
           },
           "startDate": {
             "type": "string"
@@ -295,64 +256,17 @@
           }
         }
       },
-      "RequestWholesaleSettlementChargeType": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "RequestWholesaleSettlementMarketRequest": {
-        "type": "object",
-        "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
-        "additionalProperties": false,
-        "properties": {
-          "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "gridArea": {
-            "type": "string",
-            "nullable": true
-          },
-          "energySupplierId": {
-            "type": "string",
-            "nullable": true
-          },
-          "resolution": {
-            "type": "string",
-            "nullable": true
-          },
-          "chargeOwner": {
-            "type": "string",
-            "nullable": true
-          },
-          "chargeTypes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RequestWholesaleSettlementChargeType"
-            }
-          }
-        }
-      },
       "SearchArchivedMessagesCriteria": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "createdDuringPeriod": {
-            "$ref": "#/components/schemas/MessageCreationPeriod"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageCreationPeriod"
+              }
+            ]
           },
           "messageId": {
             "type": "string",
@@ -379,9 +293,6 @@
             "items": {
               "type": "string"
             }
-          },
-          "includeRelatedMessages": {
-            "type": "boolean"
           }
         }
       }
@@ -390,7 +301,7 @@
       "Bearer": {
         "type": "http",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        "scheme": "Bearer"
+        "scheme": "bearer"
       }
     }
   },
