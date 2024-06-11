@@ -374,13 +374,6 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
           return value;
         }),
-        // distinctUntilChanged((prev, curr) => {
-        //   console.log('are equal', prev, curr, prev === curr);
-
-        //   return prev === curr;
-
-        //   // return JSON.stringify(prev) === JSON.stringify(curr);
-        // }),
         takeUntilDestroyed(this._destroyRef)
       )
       .subscribe((value: WattDropdownValue) => {
