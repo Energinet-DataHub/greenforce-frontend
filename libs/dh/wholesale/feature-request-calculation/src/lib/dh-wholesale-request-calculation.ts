@@ -239,8 +239,14 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   requestCalculation(): void {
-    const { gridarea, meteringPointType, period, energySupplierId, balanceResponsibleId, calculationType } =
-      this.form.getRawValue();
+    const {
+      gridarea,
+      meteringPointType,
+      period,
+      energySupplierId,
+      balanceResponsibleId,
+      calculationType,
+    } = this.form.getRawValue();
 
     if (!gridarea || !meteringPointType || !calculationType || !period.start || !period.end) return;
 
