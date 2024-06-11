@@ -17,13 +17,11 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  ContentChildren,
-  EventEmitter,
-  Output,
-  QueryList,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
+  contentChildren,
+  output,
+  viewChild,
 } from '@angular/core';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
@@ -36,10 +34,9 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   template: `<ng-template #templateRef><ng-content /></ng-template>`,
 })
 export class WattBreadcrumbComponent {
-  @ViewChild('templateRef', { static: true }) public templateRef!: TemplateRef<unknown>;
-
+  templateRef = viewChild.required<TemplateRef<unknown>>('templateRef');
   // Used to determine if the breadcrumb is interactive or not
-  @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
+  click = output<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
 }
 
 /**
@@ -54,14 +51,14 @@ export class WattBreadcrumbComponent {
   styleUrls: ['./watt-breadcrumbs.component.scss'],
   template: `
     <nav>
-      @for (breadcrumb of breadcrumbs; track breadcrumb; let isLast = $last) {
+      @for (breadcrumb of breadcrumbs(); track breadcrumb; let isLast = $last) {
         <span
           class="watt-breadcrumb"
           (click)="breadcrumb.click.emit($event)"
-          [class.interactive]="breadcrumb.click.observed"
-          [attr.role]="breadcrumb.click.observed ? 'link' : null"
+          [class.interactive]="breadcrumb.click"
+          [attr.role]="breadcrumb.click ? 'link' : null"
         >
-          <ng-container *ngTemplateOutlet="breadcrumb.templateRef" />
+          <ng-container *ngTemplateOutlet="breadcrumb.templateRef()" />
           @if (!isLast) {
             <watt-icon name="right" />
           }
@@ -74,8 +71,7 @@ export class WattBreadcrumbsComponent {
   /**
    * @ignore
    */
-  @ContentChildren(WattBreadcrumbComponent)
-  breadcrumbs!: QueryList<WattBreadcrumbComponent>;
+  breadcrumbs = contentChildren<WattBreadcrumbComponent>(WattBreadcrumbComponent);
 }
 
 export const WATT_BREADCRUMBS = [WattBreadcrumbsComponent, WattBreadcrumbComponent] as const;
