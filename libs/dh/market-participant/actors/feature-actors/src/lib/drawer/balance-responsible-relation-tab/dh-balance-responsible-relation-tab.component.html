@@ -25,10 +25,10 @@ limitations under the License.
 >
   <vater-stack direction="row" gap="s" class="watt-space-stack-m">
     <dh-balance-responsible-relation-filters
-      (filter)="store.updateFilters($event)"
-      [inital]="store.filters()"
-      [marketRole]="actor().marketRole!"
+      [actor]="actor()"
+      (filtersChanges)="store.updateFilters($event)"
     />
+
     <watt-button icon="download" variant="text" (click)="download()">{{
       "shared.download" | transloco
     }}</watt-button>
