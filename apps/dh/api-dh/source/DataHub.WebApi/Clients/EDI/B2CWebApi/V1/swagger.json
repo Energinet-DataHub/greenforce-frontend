@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "B2C web api for EDI",
-    "version": "v1"
+    "title": "EDI B2C Web API",
+    "version": "1.0"
   },
   "paths": {
     "/ArchivedMessageGetDocument": {
@@ -14,6 +14,15 @@
         "parameters": [
           {
             "name": "id",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
             "in": "query",
             "style": "form",
             "schema": {
@@ -41,6 +50,16 @@
           "ArchivedMessageSearch"
         ],
         "operationId": "ArchivedMessageSearch",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -111,10 +130,21 @@
           "RequestAggregatedMeasureData"
         ],
         "operationId": "RequestAggregatedMeasureData",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
@@ -124,6 +154,7 @@
             },
             "text/json": {
               "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
@@ -133,9 +164,67 @@
             },
             "application/*+json": {
               "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/RequestWholesaleSettlement": {
+      "post": {
+        "tags": [
+          "RequestWholesaleSettlement"
+        ],
+        "operationId": "RequestWholesaleSettlement",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
                   }
                 ]
               }
@@ -182,6 +271,17 @@
           }
         }
       },
+      "CalculationType": {
+        "type": "string",
+        "enum": [
+          "PreliminaryAggregation",
+          "BalanceFixing",
+          "WholesaleFixing",
+          "FirstCorrection",
+          "SecondCorrection",
+          "ThirdCorrection"
+        ]
+      },
       "MessageCreationPeriod": {
         "type": "object",
         "additionalProperties": false,
@@ -206,25 +306,15 @@
           "Exchange"
         ]
       },
-      "ProcessType": {
-        "type": "string",
-        "enum": [
-          "PreliminaryAggregation",
-          "BalanceFixing",
-          "WholesaleFixing",
-          "FirstCorrection",
-          "SecondCorrection",
-          "ThirdCorrection"
-        ]
-      },
       "RequestAggregatedMeasureDataMarketRequest": {
         "type": "object",
+        "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
         "additionalProperties": false,
         "properties": {
-          "processType": {
+          "calculationType": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ProcessType"
+                "$ref": "#/components/schemas/CalculationType"
               }
             ]
           },
@@ -253,6 +343,62 @@
           "balanceResponsibleId": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "RequestWholesaleSettlementChargeType": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RequestWholesaleSettlementMarketRequest": {
+        "type": "object",
+        "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+        "additionalProperties": false,
+        "properties": {
+          "calculationType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "gridArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "energySupplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "resolution": {
+            "type": "string",
+            "nullable": true
+          },
+          "chargeOwner": {
+            "type": "string",
+            "nullable": true
+          },
+          "chargeTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestWholesaleSettlementChargeType"
+            }
           }
         }
       },
@@ -293,6 +439,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "includeRelatedMessages": {
+            "type": "boolean"
           }
         }
       }
@@ -301,7 +450,7 @@
       "Bearer": {
         "type": "http",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        "scheme": "bearer"
+        "scheme": "Bearer"
       }
     }
   },

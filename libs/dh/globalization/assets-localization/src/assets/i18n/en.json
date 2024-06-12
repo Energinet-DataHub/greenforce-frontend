@@ -976,17 +976,18 @@
       "topBarTitle": "Request Calculation",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
+      "resolution": "Resolution",
       "period": "Period",
       "gridareas": "Grid areas",
       "request": "Request",
       "maxPeriodLength": "Period cannot be longer than 31 days",
       "calculationTypes": {
-        "preliminaryaggregation": "Aggregation",
-        "balancefixing": "Balance fixing",
-        "wholesalefixing": "Wholesale fixing",
-        "firstcorrection": "First correction",
-        "secondcorrection": "Second correction",
-        "thirdcorrection": "Third correction"
+        "BALANCE_FIXING": "Balance fixing",
+        "AGGREGATION": "Aggregation",
+        "WHOLESALE_FIXING": "Wholesale fixing",
+        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
       },
       "meteringPointTypes": {
         "All": "All",
@@ -995,6 +996,9 @@
         "PRODUCTION": "Production",
         "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
         "EXCHANGE": "Exchange"
+      },
+      "resolutionOptions": {
+        "P1M": "Monthly"
       }
     },
     "settlementReportsV2": {
