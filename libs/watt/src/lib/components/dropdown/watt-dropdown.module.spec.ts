@@ -303,8 +303,7 @@ describe(WattDropdownComponent, () => {
         expect(actualLabel).toBe(noOptionsFoundLabel);
       });
 
-      // Note: skipped due to a bug with the value emitted after filter + selection
-      it.skip('emits a value after filter + selection', async () => {
+      it('emits a value after filter + selection', async () => {
         const [firstDropdownOption, secondDropdownOption] = dropdownOptions;
 
         const { matSelect, fixture } = await setup({
@@ -324,15 +323,15 @@ describe(WattDropdownComponent, () => {
         const filterInput = getFilterInput();
         userEvent.type(filterInput, 'outlaws');
 
-        // The first option holds the filter input
+        // Skip the first option as it holds the filter input
         const [, secondOption] = await matSelect.getOptions();
         await secondOption.click();
 
-        // The assertion below shows that the `observer` has been called twice with the same values
+        // The assertion below shows that the `observer` is called twice with the same values
         // but in reality it's been called with two different values (the `observerJSON` shows that)
         // The first call is with the option selected after filtering
-        // The second call is with the final component value
-        // However, different behavior is shown below because the component's output is an array.
+        // The second call is with the final component value (filtered option + previously selected option)
+        // However, different behavior is observed because the component's output is an array.
         // In JavaScript, arrays are sent by reference, so when the component outputs its final value (the second time),
         // the first output is also affected because it's the same array
         expect(observer).toHaveBeenNthCalledWith(1, [
