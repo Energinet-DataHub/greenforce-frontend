@@ -243,12 +243,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           this.modalService.open({
             component: DhSelectCalculationModalComponent,
             data: {
-              rawData: settlementReportGridAreaCalculationsForPeriod.map((x) => ({
-                ...x,
-                value: [...x.value].sort(
-                  (a, b) => b.calculationDate.getTime() - a.calculationDate.getTime()
-                ),
-              })),
+              rawData: settlementReportGridAreaCalculationsForPeriod,
               formGroup: this.form.controls.calculationIdForGridAreaGroup,
             },
             onClosed: (isSuccess) => {
@@ -427,7 +422,22 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           },
         },
       })
-      .pipe(map((result) => result.data));
+      .pipe(
+        map((result) => {
+          const dataCopy = structuredClone(result.data);
+
+          return {
+            ...dataCopy,
+            settlementReportGridAreaCalculationsForPeriod:
+              dataCopy.settlementReportGridAreaCalculationsForPeriod.map((entry) => ({
+                ...entry,
+                value: [...entry.value].sort(
+                  (a, b) => b.calculationDate.getTime() - a.calculationDate.getTime()
+                ),
+              })),
+          };
+        })
+      );
   }
 
   private shouldShowMonthlySumCheckbox(): Observable<boolean> {
