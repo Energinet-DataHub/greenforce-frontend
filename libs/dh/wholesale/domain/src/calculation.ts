@@ -29,3 +29,10 @@ export type CalculationGridArea = ResultOf<
 
 export const executionStates = Object.values(CalculationState);
 export const calculationTypes = Object.values(CalculationType);
+
+export const wholesaleCalculationTypes = [
+  CalculationType.WholesaleFixing,
+  CalculationType.FirstCorrectionSettlement,
+  CalculationType.SecondCorrectionSettlement,
+  CalculationType.ThirdCorrectionSettlement,
+];
