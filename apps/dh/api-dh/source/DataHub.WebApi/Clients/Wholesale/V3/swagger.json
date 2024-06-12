@@ -16,17 +16,32 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CalculationRequestDto"
+                "description": "An immutable request to create a calculation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CalculationRequestDto"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CalculationRequestDto"
+                "description": "An immutable request to create a calculation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CalculationRequestDto"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CalculationRequestDto"
+                "description": "An immutable request to create a calculation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CalculationRequestDto"
+                  }
+                ]
               }
             }
           },
@@ -69,7 +84,11 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/CalculationState"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/CalculationState"
+                }
+              ]
             }
           },
           {
@@ -159,6 +178,70 @@
         }
       }
     },
+    "/v3/SettlementReport": {
+      "get": {
+        "tags": [
+          "SettlementReport"
+        ],
+        "summary": "Returns a subset of calculations that are valid for use with settlement reports.\r\nSettlement reports must access only a subset of data about calculations, as settlement reports are used by actors.",
+        "operationId": "GetApplicableCalculations",
+        "parameters": [
+          {
+            "name": "calculationType",
+            "in": "query",
+            "schema": {
+              "description": "Defines the wholesale calculation type",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/CalculationType"
+                }
+              ]
+            }
+          },
+          {
+            "name": "gridAreaCodes",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "periodStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SettlementReportApplicableCalculationDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/SettlementReport/Download": {
       "get": {
         "tags": [
@@ -185,7 +268,12 @@
             "required": true,
             "description": "Currently expects BalanceFixing only.",
             "schema": {
-              "$ref": "#/components/schemas/CalculationType"
+              "description": "Defines the wholesale calculation type",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/CalculationType"
+                }
+              ]
             }
           },
           {
@@ -282,7 +370,18 @@
             "nullable": true
           },
           "executionState": {
-            "$ref": "#/components/schemas/CalculationState"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationState"
+              }
+            ]
+          },
+          "orchestrationState": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationOrchestrationState"
+              }
+            ]
           },
           "areSettlementReportsCreated": {
             "type": "boolean"
@@ -294,7 +393,12 @@
             }
           },
           "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
+            "description": "Defines the wholesale calculation type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
           },
           "createdByUserId": {
             "type": "string",
@@ -302,13 +406,31 @@
           }
         }
       },
+      "CalculationOrchestrationState": {
+        "type": "string",
+        "enum": [
+          "Scheduled",
+          "Calculating",
+          "Calculated",
+          "CalculationFailed",
+          "ActorMessagesEnqueuing",
+          "ActorMessagesEnqueued",
+          "ActorMessagesEnqueuingFailed",
+          "Completed"
+        ]
+      },
       "CalculationRequestDto": {
         "type": "object",
         "description": "An immutable request to create a calculation.",
         "additionalProperties": false,
         "properties": {
           "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
+            "description": "Defines the wholesale calculation type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
           },
           "gridAreaCodes": {
             "type": "array",
@@ -346,13 +468,38 @@
           "SecondCorrectionSettlement",
           "ThirdCorrectionSettlement"
         ]
+      },
+      "SettlementReportApplicableCalculationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "calculationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "calculationTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        "scheme": "bearer"
+        "scheme": "Bearer"
       }
     }
   },

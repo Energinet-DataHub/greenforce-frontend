@@ -20,6 +20,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -37,7 +38,10 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 
 function generateLink(id: string | null): string | null {
-  return id ? `${window.location.origin}/${eoRoutes.transfer}?respond-proposal=${id}` : null;
+  const lang = window.location.pathname.split('/')[1];
+  return id
+    ? `${window.location.origin}/${lang}/${eoRoutes.transfer}?respond-proposal=${id}`
+    : null;
 }
 
 @Component({
@@ -78,9 +82,15 @@ function generateLink(id: string | null): string | null {
         [value]="link ?? ''"
         #key
       >
-        @if (!hasError) {
+        @if (!hasError && isNewlyCreated) {
           <watt-field-hint>{{
             translations.createTransferAgreementProposal.invitation.link.hint | transloco
+          }}</watt-field-hint>
+        }
+
+        @if (!isNewlyCreated) {
+          <watt-field-hint>{{
+            translations.createTransferAgreementProposal.invitation.link.hintProposal | transloco
           }}</watt-field-hint>
         }
 
@@ -114,17 +124,21 @@ function generateLink(id: string | null): string | null {
     </vater-stack>
   `,
 })
-export class EoTransferInvitationLinkComponent implements OnChanges {
+export class EoTransferInvitationLinkComponent implements OnInit, OnChanges {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input({ alias: 'proposalId', transform: generateLink }) link!: string | null;
   @Input() hasError = false;
-
+  @Input() isNewlyCreated = true;
   @Output() retry = new EventEmitter<void>();
 
   @ViewChild('copyButton', { read: ElementRef }) copyButton!: ElementRef<HTMLButtonElement>;
 
   protected translations = translations;
   protected control: FormControl<string | null> = new FormControl(null);
+
+  ngOnInit(): void {
+    this.control.disable();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['link']) {

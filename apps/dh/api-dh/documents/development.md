@@ -42,20 +42,30 @@ server and client, use the following command to automatically start the
 client and run the code generation whenever the source files change:
 
 ```sh
-yarn dh:dev
+bun dh:dev
 ```
 
 It is also possible to run the code generation manually (order is important):
 
 ```sh
-yarn nx run api-dh:generate-schema
-yarn nx run dh-shared-domain:generate
+bun nx run api-dh:generate
+bun nx run dh-shared-domain:generate
 ```
 
-The `api-dh:generate-schema` command will generate a `schema.graphql`
+The `api-dh:generate` command will generate a `schema.graphql`
 file in `libs/dh/shared/data-access-graphql`. This file is used by the
 `dh-shared-domain:generate` command as well as the VS Code GraphQL
 extension (to provide IntelliSense in `.graphql` files).
+
+#### Verify new generated GraphQL schema
+
+If there is any changes to the GraphQL schema, the new schema must be verified. To verify the generated `.graphql` schema, you need to:
+
+- Run the dotnet unit test `Energinet.DataHub.WebApi.Tests.Integration.GraphQL.SchemaTests.ChangeTest`
+- Update the `apps\dh\api-dh\source\DataHub.WebApi.Tests\Snapshots\SchemaTests.ChangeTest.verified.graphql` so it is equal to the generated schema
+    - The test automatically launches the `diff` viewer if ran in Visual Studio or Rider, which helps you merge the changes into the verified file
+
+See the [Testing] section for additional info.
 
 ### Creating a new query
 
@@ -101,7 +111,7 @@ stored snapshot exactly, this test will fail.
 To determine if any changes have occurred in the snapshots, execute the following command:
 
 ```sh
-yarn api:test
+bun api:test
 ```
 
 If the tests fail because of snapshot mismatches, you should see a diff in the console, and one or
@@ -110,7 +120,7 @@ more `.received.` files will appear inside the `Snapshots` folder, located at
 manually or use the following tool:
 
 ```sh
-yarn api:verify
+bun api:verify
 ```
 
 Take a close look at the changes. If they're intentional, accept the changes from the `.received.`
@@ -132,7 +142,7 @@ az login
 When that is done, it should be possible to run the telemetry tests using this command:
 
 ```sh
-yarn api:test:telemetry
+bun api:test:telemetry
 ```
 
 Keep in mind that these tests usually takes about 3-5 minutes, but may run for as long as 20 minutes.
@@ -146,6 +156,44 @@ of updating existing fields.
 
 ## REST
 
+### Generating subsystem clients
+
+The BFF API uses generated clients to communicate with other subsystems. These are generated from `swagger.json` files using NSwag.
+
+#### Current subsystem clients
+
+The current subsystem clients can be found at:
+
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\EDI
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\ESettExchange
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\ImbalancePrices
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\MarketParticipant
+- apps\dh\api-dh\source\DataHub.WebApi\Clients\Wholesale
+
+#### Update subsystem clients
+
+Update the subsystem clients using NSwag:
+
+- Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
+- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file
+    Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
+
+    ```json
+    {
+        ...
+        "documentGenerator": {
+            "fromDocument": {
+            "url": "https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json",
+            "output": "swagger.json",
+            "newLineBehavior": "Auto"
+            }
+        },
+        ...
+    }
+    ```
+
+- Build the `DataHub.WebApi` dotnet project
+
 ### Generating HttpClient and DTOs
 
 After the BFF is built, a Swagger definition file is generated. This file is
@@ -153,7 +201,7 @@ used to auto-generate any HttpClients and DTOs needed to communicate with the
 BFF. To do that run:
 
 ```sh
-yarn nx run api-dh:build-client
+bun nx run api-dh:build-client
 ```
 
 *Note: The files are automatically placed in
@@ -182,3 +230,4 @@ with the version (e.g. `\v1\`).
 [Swashbuckle]: https://github.com/domaindrivendev/Swashbuckle.AspNetCore
 [Swashbuckle-get-started]: https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 [GraphQL Code Generator]: https://the-guild.dev/graphql/codegen
+[Testing]: ./development.md#testing

@@ -48,7 +48,8 @@ over the Angular CLI._
 
 ## Prerequisites
 
-- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js® and Yarn.
+- [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®, Yarn and Bun.
+- [Bun](https://bun.sh): Alternative to Node.js® and Yarn that this repository use. Can also be installed with Volta.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
 - [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
@@ -89,7 +90,7 @@ certutil -addstore -f "Root" localhost.crt
 Use the following command to serve the DataHub application locally (with request mocking):
 
 ```sh
-yarn dh:mock
+bun dh:mock
 ```
 
 The application utilizes request mocking for some of the requests to the
@@ -100,7 +101,7 @@ required to serve the BFF locally as well. To do so, run the following command
 [Setup of BFF](apps/dh/api-dh/documents/development.md#setup-of-bff)).
 
 ```sh
-yarn api:dev
+bun api:dev
 ```
 
 _Note: It is recommended to use mocking as much as possible, see
@@ -119,15 +120,15 @@ libraries of type `assets` and `styles`**._
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
-yarn nx g workspace-tools:library-generator
+bun nx g workspace-tools:library-generator
 ```
 
 While rarely needed, it is also possible to generate an entirely new domain.
 Running the following command\* will create a new domain with
-`data-access-api`, `feature`, `routing` and `shell` libraries included:
+`data-access-api`, `feature`, and `shell` libraries included:
 
 ```sh
-yarn nx g workspace-tools:domain-generator
+bun nx g workspace-tools:domain-generator
 ```
 
 > Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).
@@ -153,7 +154,7 @@ in the same folder and set the remote address in the relevant property.
 Use the following command to serve the Energy Origin application locally (with request mocking):
 
 ```sh
-yarn eo:mock
+bun eo:mock
 ```
 
 ## Watt Design System
@@ -262,16 +263,15 @@ depend on:
 
 | Type                | Contains                                                                                                                               | Name                   | Allowed Dependencies                                                                                               |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **`feature`**       | Smart UI (with access to data sources) for specific business use cases or pages in an application.                                     | `feature‑<name>`       | `assets` `configuration` `feature` `ui` `data‑access` `domain` `routing` `util` `test‑util` `environments`         |
+| **`feature`**       | Smart UI (with access to data sources) for specific business use cases or pages in an application.                                     | `feature‑<name>`       | `assets` `configuration` `feature` `ui` `data‑access` `domain` `util` `test‑util` `environments`                   |
 | **`ui`**            | Presentational logic (presentational components, pipes, presentational services, directives).                                          | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles`                                                                 |
-| **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors. | `data‑access‑<name>`   | `data-access` `routing` `util` `test-util` `domain` `environments`                                                 |
-| **`routing`**       | Code related to routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).           | `routing`              | `data-access` `routing` `util` `test-util` `shell` `domain`                                                        |
+| **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, and HTTP interceptors.         | `data‑access‑<name>`   | `data-access` `util` `test-util` `domain` `environments`                                                           |
 | **`util`**          | Low-level utilities used by many libraries and applications (services, pure functions, contants).                                      | `util‑<name>`          | `util` `test-util` `environments`                                                                                  |
 | **`test‑util`**     | Stubs, jest matchers, testing modules and test library configuration.                                                                  | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |
 | **`e2e‑util`**      | Cypress commands and fixtures.                                                                                                         | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                      |
 | **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                        | `domain`               | `domain` `util` `test-util`                                                                                        |
-| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                    | `shell`                | `feature` `ui` `data-access` `routing` `util` `test-util` `e2e-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
-| **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                                  | `configuration‑<name>` | `data-access` `routing` `util` `test-util` `configuration` `environments` `domain`                                 |
+| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                    | `shell`                | `feature` `ui` `data-access` `util` `test-util` `e2e-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
+| **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                                  | `configuration‑<name>` | `data-access` `util` `test-util` `configuration` `environments` `domain`                                           |
 | **`environments`**  | Code related to loading different environment configurations.                                                                          | `environments`         | `util` `test-util` `environments` `assets`                                                                         |
 | **`assets`**        | Icons, images, fonts, JSON etc.                                                                                                        | `assets`               | `assets`                                                                                                           |
 | **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                                   | `styles`               | `assets` `styles`                                                                                                  |
@@ -296,7 +296,7 @@ documentation on how to work with them, see
 
 ## Scripts
 
-- `yarn dep-graph`: Generate a dependency graph for the applications in the monorepo.
+- `bun dep-graph`: Generate a dependency graph for the applications in the monorepo.
 
 ## Workflows (CI/CD)
 

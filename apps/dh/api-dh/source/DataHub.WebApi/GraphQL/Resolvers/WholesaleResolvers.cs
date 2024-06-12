@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -32,4 +33,9 @@ public class WholesaleResolvers
         var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
         return gridAreas.Where(g => g != null);
     }
+
+    public async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] RequestSettlementReportGridAreaCalculation result,
+        GridAreaByCodeBatchDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 }

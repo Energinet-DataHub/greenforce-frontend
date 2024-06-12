@@ -21,6 +21,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
+import { TranslocoService } from '@ngneat/transloco';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;
@@ -38,6 +39,7 @@ export class EoAuthService {
     private store: EoAuthStore,
     private router: Router,
     private route: ActivatedRoute,
+    private transloco: TranslocoService,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
@@ -65,13 +67,10 @@ export class EoAuthService {
       .pipe(tap((token) => this.handleToken(token)));
   }
 
-  startLogin() {
-    const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
-
-    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/login`;
+  startLogin(redirectionPath?: string) {
+    let href = `${this.#authApiBase}/login?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}/login`;
 
     if (redirectionPath) href += `?redirectionPath=${redirectionPath}`;
-
     window.location.href = href;
   }
 
@@ -80,33 +79,23 @@ export class EoAuthService {
 
     const isLocalhost = window.location.host.includes('localhost');
     const logoutUrl = isLocalhost
-      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
+      ? `${this.#authApiBase}/logout?overrideRedirectionUri=${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
       : `${this.#authApiBase}/logout`;
 
     this.http.get<{ redirectionUri: string }>(logoutUrl).subscribe({
-      next: (response) => {
-        sessionStorage.removeItem('token');
-        window.location.href = response.redirectionUri;
-      },
-      error: () => {
-        // TODO: Remove this when the backend for the "next" method has been deployed
-        sessionStorage.removeItem('token');
-        const logoutUrl = `${this.#authApiBase}/logout`;
-        window.location.href = isLocalhost
-          ? `${logoutUrl}?overrideRedirectionUri=${window.location.protocol}//${window.location.host}`
-          : logoutUrl;
+      next: () => {
+        this.clearToken();
+        window.location.assign(
+          `${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}`
+        );
       },
     });
   }
 
   private clearToken() {
-    this.store.isTokenExpired$.subscribe((state) => {
-      if (state === true) {
-        sessionStorage.removeItem('token');
-        this.store.token.next('');
-        this.store.setTokenClaims({});
-      }
-    });
+    sessionStorage.removeItem('token');
+    this.store.token.next('');
+    this.store.setTokenClaims({});
   }
 
   private handleToken(token: string | null) {

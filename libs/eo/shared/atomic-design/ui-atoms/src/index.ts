@@ -17,7 +17,6 @@
 export * from './lib/eo-idle-timer/idle-timer-countdown.component';
 export * from './lib/eo-idle-timer/idle-timer-logged-out.component';
 export * from './lib/eo-info-box/eo-info-box.component';
-export * from './lib/eo-inline-message/eo-inline-message.component';
 export * from './lib/eo-media/eo-media-align';
 export * from './lib/eo-media/eo-media.component';
 export * from './lib/eo-product-logo/eo-product-logo.directive';

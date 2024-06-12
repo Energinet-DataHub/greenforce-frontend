@@ -1,4 +1,4 @@
-query getSelectedActor {
+query GetSelectedActor {
   selectedActor {
     glnOrEicNumber
     marketRole

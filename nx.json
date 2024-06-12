@@ -51,9 +51,12 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["app-dh:generate"],
+      "dependsOn": ["^generate"],
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true
+    },
+    "generate": {
+      "dependsOn": ["^generate"]
     },
     "build-storybook": {
       "inputs": [
@@ -64,7 +67,7 @@
       ]
     },
     "component-test": {
-      "dependsOn": ["app-dh:generate"],
+      "dependsOn": ["^generate"],
       "inputs": ["default", "^production"],
       "cache": true
     },

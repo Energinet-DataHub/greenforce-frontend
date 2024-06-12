@@ -37,12 +37,16 @@ import {
   mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
-  SettlementReportStatusType,
+  mockGetSettlementReportCalculationsByGridAreasQuery,
+  mockRequestSettlementReportMutation,
+  CalculationOrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
+import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
-import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';
+import { mockSettlementReportCalculationsByGridAreas } from './data/get-settlement-report-calculations-by-grid-areas';
 
 export function wholesaleMocks(apiBase: string) {
   return [
@@ -59,6 +63,8 @@ export function wholesaleMocks(apiBase: string) {
     getSelectedActorQuery(),
     requestCalculationMutation(),
     getSettlementReports(),
+    getSettlementReportCalculationsByGridAreas(),
+    requestSettlementReportMutation(),
   ];
 }
 
@@ -120,6 +126,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.Aggregation,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueued,
   },
   {
     __typename: 'Calculation',
@@ -133,6 +140,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: '',
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuing,
   },
   {
     __typename: 'Calculation',
@@ -146,6 +154,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
   },
   {
     __typename: 'Calculation',
@@ -159,6 +168,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Calculated,
   },
   {
     __typename: 'Calculation',
@@ -172,6 +182,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Calculating,
   },
   {
     __typename: 'Calculation',
@@ -185,6 +196,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.CalculationFailed,
   },
   {
     __typename: 'Calculation',
@@ -198,6 +210,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Completed,
   },
   {
     __typename: 'Calculation',
@@ -211,6 +224,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Scheduled,
   },
   {
     __typename: 'Calculation',
@@ -224,6 +238,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueued,
   },
   {
     __typename: 'Calculation',
@@ -237,6 +252,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuing,
   },
   {
     __typename: 'Calculation',
@@ -250,6 +266,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
   },
   {
     __typename: 'Calculation',
@@ -263,6 +280,7 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
+    orchestrationState: CalculationOrchestrationState.Calculated,
   },
 ];
 
@@ -494,8 +512,8 @@ function requestCalculationMutation() {
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        createAggregatedMeasureDataRequest: {
-          __typename: 'CreateAggregatedMeasureDataRequestPayload',
+        requestCalculation: {
+          __typename: 'RequestCalculationPayload',
           success: true,
         },
       },
@@ -519,52 +537,32 @@ function getSettlementReports() {
       });
 
     return HttpResponse.json({
+      data: wholesaleSettlementReportsQueryMock,
+    });
+  });
+}
+
+function getSettlementReportCalculationsByGridAreas() {
+  return mockGetSettlementReportCalculationsByGridAreasQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: mockSettlementReportCalculationsByGridAreas,
+    });
+  });
+}
+
+function requestSettlementReportMutation() {
+  return mockRequestSettlementReportMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
       data: {
-        __typename: 'Query',
-        settlementReports: [
-          {
-            __typename: 'SettlementReport',
-            id: '1',
-            calculationType: CalculationType.BalanceFixing,
-            period: { start: periodStart, end: periodEnd },
-            numberOfGridAreasInReport: 1,
-            includesBaseData: true,
-            statusType: SettlementReportStatusType.Completed,
-            actor: {
-              __typename: 'Actor',
-              id: '1',
-              name: 'Sort Strøm',
-            },
-          },
-          {
-            __typename: 'SettlementReport',
-            id: '2',
-            calculationType: CalculationType.Aggregation,
-            period: { start: periodStart, end: periodEnd },
-            numberOfGridAreasInReport: 2,
-            includesBaseData: true,
-            statusType: SettlementReportStatusType.InProgress,
-            actor: {
-              __typename: 'Actor',
-              id: '2',
-              name: 'Hvid Strøm',
-            },
-          },
-          {
-            __typename: 'SettlementReport',
-            id: '3',
-            calculationType: CalculationType.WholesaleFixing,
-            period: { start: periodStart, end: periodEnd },
-            numberOfGridAreasInReport: 3,
-            includesBaseData: true,
-            statusType: SettlementReportStatusType.Error,
-            actor: {
-              __typename: 'Actor',
-              id: '3',
-              name: 'Blå Strøm',
-            },
-          },
-        ],
+        __typename: 'Mutation',
+        requestSettlementReport: {
+          __typename: 'RequestSettlementReportPayload',
+          boolean: true,
+        },
       },
     });
   });

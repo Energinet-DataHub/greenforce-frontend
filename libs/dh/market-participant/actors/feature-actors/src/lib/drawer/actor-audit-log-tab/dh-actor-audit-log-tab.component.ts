@@ -28,6 +28,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
 import { Subscription } from 'rxjs';
 import { dhActorAuditLogEntry } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -48,19 +49,10 @@ import { dhActorAuditLogEntry } from '@energinet-datahub/dh/market-participant/a
 export class DhActorAuditLogTabComponent {
   private readonly auditLogService = inject(DhActorAuditLogService);
 
-  private actorAuditLogSubscription: Subscription =
-    this.auditLogService.getActorAuditLogByIdQuery$.valueChanges.subscribe({
-      next: (result) => {
-        this.isLoadingAuditLog = result.loading;
-        this.auditLogFailedToLoad = !result.loading && (!!result.error || !!result.errors?.length);
+  private actorAuditLog$ =
+    this.auditLogService.getActorAuditLogByIdQuery$.valueChanges.pipe(takeUntilDestroyed());
 
-        this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
-      },
-      error: () => {
-        this.auditLogFailedToLoad = true;
-        this.isLoadingAuditLog = false;
-      },
-    });
+  private subscription: Subscription | null = null;
 
   actorId = input.required<string>();
   actorNumberNameLookup = input.required<{
@@ -90,7 +82,26 @@ export class DhActorAuditLogTabComponent {
   }
 
   private loadAuditLog(actorId: string): void {
-    this.auditLogService.getActorAuditLogByIdQuery$.setVariables({ actorId });
+    if (!actorId) return;
+
+    this.auditLogService.getActorAuditLogByIdQuery$.setVariables({
+      actorId,
+    });
+
+    if (this.subscription) return;
+
+    this.subscription = this.actorAuditLog$.subscribe({
+      next: (result) => {
+        this.isLoadingAuditLog = result.loading;
+        this.auditLogFailedToLoad = !result.loading && (!!result.error || !!result.errors?.length);
+
+        this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
+      },
+      error: () => {
+        this.auditLogFailedToLoad = true;
+        this.isLoadingAuditLog = false;
+      },
+    });
   }
 
   formatDelegationEntry(payload: dhActorAuditLogEntry) {

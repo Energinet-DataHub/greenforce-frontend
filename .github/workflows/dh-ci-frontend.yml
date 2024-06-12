@@ -22,10 +22,8 @@ env:
   APP_NAME: app-dh
   IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
   IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
-  NODE_OPTIONS: --max-old-space-size=6144
-  NODE_VERSION_FILE: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  YARN_VERSION: 4.0.2
+  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
+  BUN_VERSION: 1.1.13
 
 jobs:
   #
@@ -39,20 +37,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Production build
-        run: yarn nx build ${{ env.APP_NAME }}
+        run: bun run nx build ${{ env.APP_NAME }}
 
       - name: Optimize i18n assets
-        run: yarn i18n:optimize:${{ env.APP_NAME }}
+        run: bun run i18n:optimize:${{ env.APP_NAME }}
 
       - name: Setup Release
         shell: bash
@@ -70,12 +67,12 @@ jobs:
           directory: ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Create prerelease
-        uses: softprops/action-gh-release@4634c16e79c963813287e889244c50009e7f0981
+        uses: Energinet-Datahub/.github/.github/actions/github-create-release@v14
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ env.RELEASE_VERSION }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
           prerelease: true
-          name: ${{ env.RELEASE_VERSION }}
+          title: ${{ env.RELEASE_VERSION }}
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   #
@@ -100,17 +97,16 @@ jobs:
         if: ${{ env.IS_MAIN_BRANCH == 'true' }}
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.NODE_VERSION_FILE }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Generate API client
-        run: yarn nx run api-dh:build-client
+        run: bun run nx run api-dh:build-client
 
       - name: "PR: Commit generated files"
         if: ${{ env.IS_PULL_REQUEST == 'true' }}

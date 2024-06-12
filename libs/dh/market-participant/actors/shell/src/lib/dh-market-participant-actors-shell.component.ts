@@ -17,38 +17,26 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhMarketRolesOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-market-roles';
-import { DhActorsOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
-import { DhOrganizationsOverviewComponent } from '@energinet-datahub/dh/market-participant/actors/feature-organizations';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { MarketParticipantSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
-      <watt-tabs>
-        <watt-tab [label]="t('actors.tabLabel')">
-          <dh-actors-overview />
-        </watt-tab>
-
-        <watt-tab [label]="t('organizations.tabLabel')">
-          <dh-organizations-overview />
-        </watt-tab>
-
-        <watt-tab [label]="t('marketRoles.tabLabel')">
-          <dh-market-roles-overview />
-        </watt-tab>
-      </watt-tabs>
+      <watt-link-tabs>
+        <watt-link-tab label="{{ t('actors.tabLabel') }}" [link]="getLink('actors')" />
+        <watt-link-tab
+          label="{{ t('organizations.tabLabel') }}"
+          [link]="getLink('organizations')"
+        />
+        <watt-link-tab label="{{ t('marketRoles.tabLabel') }}" [link]="getLink('market-roles')" />
+      </watt-link-tabs>
     </ng-container>
   `,
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABS,
-    DhActorsOverviewComponent,
-    DhOrganizationsOverviewComponent,
-    DhMarketRolesOverviewComponent,
-  ],
+  imports: [TranslocoDirective, WATT_LINK_TABS],
 })
-export class DhMarketParticipantActorsShellComponent {}
+export class DhMarketParticipantActorsShellComponent {
+  getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
+}

@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  Routes,
+} from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
   eoCertificatesRoutePath,
@@ -29,15 +35,14 @@ import {
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
 import { translations } from '@energinet-datahub/eo/translations';
+import { inject } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 
-export const eoShellRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () =>
-      import('@energinet-datahub/eo/landing-page/shell').then(
-        (esModule) => esModule.eoLandingPageRoutes
-      ),
+    redirectTo: 'dashboard',
   },
   { path: 'login', component: EoLoginComponent },
   {
@@ -114,5 +119,36 @@ export const eoShellRoutes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
+  { path: '**', redirectTo: 'dashboard' }, // Catch-all that can be used for 404 redirects in the future
+];
+
+const LanguagePrefixGuard: CanActivateFn = (
+  _: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const transloco = inject(TranslocoService);
+  const router = inject(Router);
+
+  const url: string = state.url;
+  const hasLanguagePrefix = url.startsWith('/en') || url.startsWith('/da');
+
+  if (!hasLanguagePrefix) {
+    router.navigate([`/${transloco.getActiveLang()}${url}`]);
+    return false;
+  }
+  return true;
+};
+
+export const eoShellRoutes: Routes = [
+  {
+    path: 'en',
+    children: routes,
+  },
+  {
+    path: 'da',
+    children: routes,
+  },
+  // Redirect from the root to the default language
+  { path: '', component: EoLoginComponent, canActivate: [LanguagePrefixGuard], pathMatch: 'full' },
+  { path: '**', component: EoLoginComponent, canActivate: [LanguagePrefixGuard] },
 ];

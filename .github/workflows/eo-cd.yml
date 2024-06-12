@@ -19,13 +19,12 @@ concurrency:
 
 env:
   app-name: app-eo
+  landing-page-app-name: app-eo-landing-page
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}
-  NODE_OPTIONS: --max-old-space-size=6144
-  node-version-file: .nvmrc
-  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
-  yarn-version: 4.0.2
+  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
+  BUN_VERSION: 1.1.13
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
@@ -57,22 +56,24 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
+
+      - name: Prepare projects array
+        id: prepare
+        run: echo "projects=[\"${{ env.app-name }}\", \"${{ env.landing-page-app-name }}\"]" >> $GITHUB_OUTPUT
 
       - name: Is affected?
         id: affected
         uses: ./.github/actions/affected
         with:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ${{ env.app-name }}
-
+          projects: ${{ steps.prepare.outputs.projects }}
   app:
     name: Build app
     if: ${{ needs.affected.outputs.is-affected == 'true' }}
@@ -82,23 +83,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: ${{ env.node-version-file }}
-          cache: yarn
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Production build
-        run: yarn nx build ${{ env.app-name }}
+        run: bun run nx build ${{ env.app-name }}
 
       - name: Upload web app build artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/eo/${{ env.app-name }}/browser/
+          path: ./dist/apps/eo/
           if-no-files-found: error
 
   define_build:

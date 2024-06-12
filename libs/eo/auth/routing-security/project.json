@@ -16,5 +16,5 @@
       "executor": "@nx/eslint:lint"
     }
   },
-  "tags": ["product:eo", "domain:auth", "type:routing"]
+  "tags": ["product:eo", "domain:auth", "type:util"]
 }

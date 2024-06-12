@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-modal
-  *transloco="let t; read: 'wholesale.settlementReportsV2.requestReportModal'"
-  [title]="t('title')"
   #modal
+  [title]="t('title')"
+  *transloco="let t; read: 'wholesale.settlementReportsV2.requestReportModal'"
 >
   <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-stack align="stretch" direction="column" gap="l">
@@ -41,6 +41,7 @@ limitations under the License.
           [range]="true"
           [label]="t('period')"
           [min]="minDate"
+          [max]="maxDate"
           [formControl]="form.controls.period"
         >
           @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
@@ -66,34 +67,40 @@ limitations under the License.
         </div>
       }
 
-      <div class="items-group">
-        <watt-dropdown
-          [multiple]="true"
-          sortDirection="asc"
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        >
-          @if (miltipleGridAreasSelected$ | push) {
-            <watt-field-hint>
-              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-            </watt-field-hint>
-          }
-        </watt-dropdown>
+      @if (hasMoreThanOneGridAreaOption()) {
+        <div class="items-group">
+          <watt-dropdown
+            [multiple]="true"
+            sortDirection="asc"
+            [label]="t('gridArea')"
+            [formControl]="form.controls.gridAreas"
+            [options]="gridAreaOptions$ | push"
+          >
+            @if (miltipleGridAreasSelected$ | push) {
+              <watt-field-hint>
+                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+              </watt-field-hint>
+            }
+          </watt-dropdown>
 
-        @if (miltipleGridAreasSelected$ | push) {
-          <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
-            {{ t("combineResultsInOneFile") }}
-          </watt-checkbox>
-        }
-      </div>
+          @if (miltipleGridAreasSelected$ | push) {
+            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+              {{ t("combineResultsInOneFile") }}
+            </watt-checkbox>
+          }
+        </div>
+      }
     </vater-stack>
   </form>
 
   <watt-modal-actions>
     <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
 
-    <watt-button type="submit" formId="request-settlement-report-form">
+    <watt-button
+      type="submit"
+      formId="request-settlement-report-form"
+      [loading]="submitInProgress()"
+    >
       {{ t("confirm") }}
     </watt-button>
   </watt-modal-actions>

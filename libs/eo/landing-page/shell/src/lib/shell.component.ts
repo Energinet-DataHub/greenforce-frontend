@@ -48,6 +48,7 @@ import { EoLandingPageCTAComponent } from './cta.component';
   template: `
     <eo-landing-page-header />
     <eo-landing-page-hero />
+
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-why />
     } @placeholder {

@@ -68,7 +68,7 @@ export class DhSettlementReportsTableComponent {
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period' },
     numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
-    includesBaseData: { accessor: 'includesBaseData' },
+    includesBasisData: { accessor: 'includesBasisData' },
     status: { accessor: 'statusType' },
   };
 

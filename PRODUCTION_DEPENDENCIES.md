@@ -11,7 +11,9 @@
 | [@angular/material](https://github.com/angular/components) | 17.3.7 | MIT |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 17.3.7 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 17.3.7 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 17.3.7 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 17.3.6 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
@@ -19,8 +21,8 @@
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
 | [@maskito/phone](https://github.com/taiga-family/maskito) | 2.3.0 | Apache-2.0 |
-| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.0.1 | MIT |
-| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.0.7 | MIT |
+| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.2.0 | MIT |
+| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.2.1 | MIT |
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 17.2.0 | MIT |
@@ -34,6 +36,7 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.10 | MIT |
+| [express](https://github.com/expressjs/express) | 4.18.3 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
@@ -43,6 +46,7 @@
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.6 | MIT |
+| [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.1 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [zone.js](https://github.com/angular/angular) | 0.14.2 | MIT |

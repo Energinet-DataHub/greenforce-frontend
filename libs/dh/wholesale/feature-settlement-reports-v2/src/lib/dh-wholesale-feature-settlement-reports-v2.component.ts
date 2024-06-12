@@ -80,7 +80,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
             </watt-empty-state>
           </vater-stack>
         } @else {
-          <vater-flex gap="ml">
+          <vater-flex fill="vertical" gap="ml">
             <vater-stack direction="row" gap="s">
               <h3>{{ t('topBarTitle') }}</h3>
               <span class="watt-chip-label">{{ totalCount() }}</span>
@@ -100,7 +100,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
 export class DhWholesaleFeatureSettlementReportsV2Component {
   private readonly apollo = inject(Apollo);
 
-  private readonly settlementReports$ = this.apollo.query({
+  private readonly settlementReportsQuery = this.apollo.watchQuery({
     fetchPolicy: 'network-only',
     query: GetSettlementReportsDocument,
   });
@@ -115,13 +115,11 @@ export class DhWholesaleFeatureSettlementReportsV2Component {
   }
 
   private fetchData(): void {
-    this.isLoading.set(true);
-
-    this.settlementReports$.pipe(takeUntilDestroyed()).subscribe({
+    this.settlementReportsQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: ({ loading, data }) => {
         this.isLoading.set(loading);
 
-        this.settlementReports.set(data.settlementReports);
+        this.settlementReports.set(data?.settlementReports ?? []);
       },
       error: () => {
         this.isLoading.set(false);

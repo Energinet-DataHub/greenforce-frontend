@@ -64,12 +64,12 @@ import { EoAccountMenuComponent } from './eo-account-menu';
         height: var(--watt-space-xl);
         display: flex;
         align-items: center;
+        justify-content: center;
         padding: 0 var(--watt-space-m);
       }
 
       .logo {
-        height: calc(6.5 * var(--watt-space-xs));
-        width: calc(52 * var(--watt-space-xs));
+        width: 80%;
       }
 
       ::ng-deep watt-shell mat-sidenav.mat-drawer {
@@ -129,7 +129,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
           <vater-spacer />
 
           <eo-account-menu>
-            <eo-language-switcher>
+            <eo-language-switcher [changeUrl]="true">
               <watt-button variant="text" icon="language">
                 {{ translations.languageSwitcher.title | transloco }}</watt-button
               >
@@ -140,7 +140,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
             }}</watt-button>
           </eo-account-menu>
 
-          <watt-button variant="text" [routerLink]="['/help']" icon="help" />
+          <watt-button variant="text" [routerLink]="['help']" icon="help" />
         </vater-stack>
       </ng-container>
 

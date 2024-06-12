@@ -18,11 +18,11 @@
 import {
   ChangeDetectorRef,
   Directive,
-  Input,
-  OnInit,
   TemplateRef,
   ViewContainerRef,
+  effect,
   inject,
+  input,
 } from '@angular/core';
 import { concatAll, from, map, reduce, take } from 'rxjs';
 
@@ -34,27 +34,33 @@ import { PermissionService } from './permission.service';
   standalone: true,
   selector: '[dhPermissionRequired]',
 })
-export class DhPermissionRequiredDirective implements OnInit {
+export class DhPermissionRequiredDirective {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   private viewContainerRef = inject(ViewContainerRef);
   private permissionService = inject(PermissionService);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
-  @Input() dhPermissionRequired: Permission[] = [];
+  dhPermissionRequired = input<Permission[]>();
 
-  ngOnInit(): void {
-    from(this.dhPermissionRequired)
-      .pipe(
-        map((permission) => this.permissionService.hasPermission(permission)),
-        concatAll(),
-        reduce((hasPermission, next) => hasPermission || next),
-        take(1)
-      )
-      .subscribe((hasPermission) => {
-        if (hasPermission) {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-          this.changeDetectorRef.detectChanges();
-        }
-      });
+  constructor() {
+    effect(
+      () => {
+        this.viewContainerRef.clear();
+        from(this.dhPermissionRequired() ?? [])
+          .pipe(
+            map((permission) => this.permissionService.hasPermission(permission)),
+            concatAll(),
+            reduce((hasPermission, next) => hasPermission || next),
+            take(1)
+          )
+          .subscribe((hasPermission) => {
+            if (hasPermission) {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+              this.changeDetectorRef.detectChanges();
+            }
+          });
+      },
+      { allowSignalWrites: true }
+    );
   }
 }

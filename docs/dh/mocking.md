@@ -9,7 +9,7 @@
 
 Mocks are enabled by default but can be bypassed by running the `development` target. This will disable the mocks and call the BFF configured in `libs/dh/shared/assets/src/assets/configuration/dh-api-environment.local.json`.
 
-`yarn dh:dev`
+`bun dh:dev`
 
 ## Add new mocks
 

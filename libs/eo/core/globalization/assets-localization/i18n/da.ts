@@ -18,6 +18,15 @@
 import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
+    meta: {
+      title: 'Energy Track & Trace™',
+      description:
+        'Energy Track & Trace™ er din pålidelige kilde til sporing, og certificering, af grøn strøm. Vi beviser hvor din strøm kommer fra.',
+      keywords:
+        'grøn strøm, sporing, certificering, granulære certifikater, Energy Track & Trace, bæredygtig energi, vedvarende energi',
+      author: 'Energy Track & Trace™',
+      url: 'https://energytrackandtrace.dk',
+    },
     announcementBar: {
       message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
     },
@@ -74,7 +83,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     electricalGrid: {
       heading: 'Hvordan virker det?',
-      subheading: `Beviser, at energien har en<span class="highlight">reel</span> bæredygtig oprindelse`,
+      subheading: `Beviser, at energien har en <span class="highlight">reel</span> bæredygtig oprindelse`,
     },
     blockchainTech: {
       heading:
@@ -96,7 +105,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       heading: 'Energy Track & Trace™ sætter tal på dit grønne strømforbrug',
       content: `
       <p>
-      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf">Vores beregninger</a> viser med 95% sikkerhed om din strøm kommer fra grønne energikilder.
+      <a href="https://energytrackandtrace.com/wp-content/uploads/2023/11/2022-05-Paper-Architectural-concepts-and-insights.pdf" target="_blank">Vores beregninger</a> viser med 95% sikkerhed om din strøm kommer fra grønne energikilder.
       </p>
       <p>
       Via vores løsning kan du som virksomhed se, hvornår du er tilstrækkelig dækket med grøn strøm, og hvornår du ikke er. Det giver dig et overblik, du kan handle ud fra og en sikkerhed for, at du handler rigtigt.
@@ -134,10 +143,13 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privatlivspolitik</a>
+              <a href="/da/privacy-policy">Privatlivspolitik</a>
             </li>
             <li>
-              <a href="/terms">Vilkår og betingelser</a>
+              <a href="/da/terms">Vilkår og betingelser</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
             </li>
           </ul>
         `,
@@ -524,11 +536,15 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Overførselsaftaler',
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
+    removalOfTransferAgreementProposalFailed:
+      'Fjernelse af forslaget til overførselsaftalen mislykkedes.',
     tableTitle: 'Resultater',
     createNewTransferAgreement: 'Ny overførselsaftale',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Aktiv',
     inactiveTransferAgreement: 'Inaktiv',
+    pendingTransferAgreement: 'Afventer',
+    expiredTransferAgreementProposals: 'Udløbet',
     noData: {
       title: 'Ingen overførselsaftaler fundet',
       message: 'Du har ikke nogen overførselsaftaler.',
@@ -627,6 +643,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
       link: {
         hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
+        hintProposal:
+          'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
         error: 'Kunne ikke generere link. Prøv igen.',
         copy: 'Kopiér link',
         retry: 'Generer',
@@ -656,9 +674,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Hjælp',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
+      <li><a class="internal-link" href="/da/{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduktion til Energy Origin</a>
+        <a class="internal-link" href="/da/{{introductionLink}}">Introduktion til Energy Origin</a>
       </li>
       <li>
         <a

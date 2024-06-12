@@ -117,12 +117,10 @@ type Calculation {
   executionTimeStart: DateTime
   executionTimeEnd: DateTime
   executionState: CalculationState!
+  orchestrationState: CalculationOrchestrationState!
   areSettlementReportsCreated: Boolean!
+  "Defines the wholesale calculation type"
   calculationType: CalculationType!
-}
-
-type CreateAggregatedMeasureDataRequestPayload {
-  boolean: Boolean
 }
 
 type CreateCalculationPayload {
@@ -271,17 +269,17 @@ type MeteringGridAreaImbalanceSearchResult {
 }
 
 type Mutation {
-  updatePermission(input: UpdatePermissionDtoInput!): Permission!
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
-  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
-  createAggregatedMeasureDataRequest(input: CreateAggregatedMeasureDataRequestInput!): CreateAggregatedMeasureDataRequestPayload!
-  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
-  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
-  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
+  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+  updatePermission(input: UpdatePermissionDtoInput!): Permission!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
 }
 
 type Organization {
@@ -361,7 +359,7 @@ type Query {
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(gridAreaId: [String!]! calucaltionPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
@@ -376,10 +374,14 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+type RequestCalculationPayload {
+  boolean: Boolean
+}
+
 type RequestSettlementReportGridAreaCalculation {
+  gridAreaWithName: GridAreaDto
   calculationId: UUID!
   calculationDate: DateTime!
-  gridAreaCode: String!
 }
 
 type RequestSettlementReportPayload {
@@ -391,16 +393,15 @@ type ResendWaitingEsettExchangeMessagesPayload {
 }
 
 type SettlementReport {
-  id: UUID!
+  id: String!
   actor: Actor
   calculationType: CalculationType!
   period: DateRange!
   numberOfGridAreasInReport: Int!
-  includesBaseData: Boolean!
+  includesBasisData: Boolean!
   statusMessage: String!
   progress: Int!
   statusType: SettlementReportStatusType!
-  fileId: UUID!
 }
 
 type StopDelegationPayload {
@@ -522,16 +523,6 @@ input CreateActorMarketRoleInput {
   comment: String
 }
 
-input CreateAggregatedMeasureDataRequestInput {
-  processType: EdiB2CProcessType!
-  meteringPointType: MeteringPointType
-  startDate: String!
-  endDate: String
-  gridArea: String
-  energySupplierId: String
-  balanceResponsibleId: String
-}
-
 input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -565,6 +556,16 @@ input CreateProcessDelegationsInput {
   startsAt: DateTime!
 }
 
+input RequestCalculationInput {
+  calculationType: CalculationType!
+  period: DateRange!
+  gridArea: String!
+  meteringPointType: MeteringPointType
+  resolution: String
+  energySupplierId: String
+  balanceResponsibleId: String
+}
+
 input RequestSettlementReportGridAreaInput {
   calculationId: UUID!
   gridAreaCode: String!
@@ -576,8 +577,8 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
-  inculdeBasicData: Boolean!
-  supplierId: UUID
+  energySupplier: String
+  csvLanguage: String
 }
 
 input StopDelegationInput {
@@ -660,6 +661,17 @@ enum BalanceResponsibleSortProperty {
   RECEIVED_DATE
 }
 
+enum CalculationOrchestrationState {
+  SCHEDULED
+  CALCULATING
+  CALCULATED
+  CALCULATION_FAILED
+  ACTOR_MESSAGES_ENQUEUING
+  ACTOR_MESSAGES_ENQUEUED
+  ACTOR_MESSAGES_ENQUEUING_FAILED
+  COMPLETED
+}
+
 enum CalculationState {
   PENDING
   EXECUTING
@@ -716,15 +728,6 @@ enum ESettStageComponent {
   CONVERTER
   SENDER
   RECEIVER
-}
-
-enum EdiB2CProcessType {
-  preliminaryaggregation
-  balancefixing
-  wholesalefixing
-  firstcorrection
-  secondcorrection
-  thirdcorrection
 }
 
 enum EicFunction {

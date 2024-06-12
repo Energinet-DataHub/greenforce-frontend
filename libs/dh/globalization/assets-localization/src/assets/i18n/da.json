@@ -76,7 +76,8 @@
     },
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
-    "calculationType": "Beregningstype"
+    "calculationType": "Beregningstype",
+    "all": "Alle"
   },
   "clipboard": {
     "success": "Kopieret",
@@ -869,7 +870,7 @@
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
-        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{quarterlyResolutionTransitionDate}} for at fortsætte.",
+        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
@@ -970,24 +971,22 @@
       "energySupplier": "Elleverandør",
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl under anmodingen om beregning",
-      "startDateCannotBeAfterEndDate": "Startdato kan ikke være efter slutdato",
-      "startDateCannotBeOlderThan3Years": "Startdato kan ikke være ældre end 3 år",
-      "startAndEndDateCannotBeInTheFuture": "Startdato og slutdato kan ikke være i fremtiden",
       "success": "Din anmoding er startet",
       "topBarTitle": "Anmod om beregning",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
+      "resolution": "Opløsning",
       "period": "Periode",
       "gridAreas": "Netområder",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være en måned",
+      "maxPeriodLength": "Perioden må max være 31 dage",
       "calculationTypes": {
-        "preliminaryaggregation": "Aggregering",
-        "balancefixing": "Balancefiksering",
-        "wholesalefixing": "Engrosfiksering",
-        "firstcorrection": "Første korrektion",
-        "secondcorrection": "Anden korrektion",
-        "thirdcorrection": "Tredje korrektion"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering",
+        "WHOLESALE_FIXING": "Engrosfiksering",
+        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
       "meteringPointTypes": {
         "All": "Alle",
@@ -996,17 +995,20 @@
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
+      },
+      "resolutionOptions": {
+        "P1M": "Månedlig"
       }
     },
     "settlementReportsV2": {
-      "topBarTitle": "Afregningsrapporter",
+      "topBarTitle": "Afregningsrapporter (v2)",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "columns": {
         "calculationType": "Beregningstype",
-        "period": "Periode",
+        "period": "Beregningsperiode",
         "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
@@ -1030,7 +1032,7 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
-        "period": "Periode",
+        "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
@@ -1038,7 +1040,16 @@
         "combineResultsInOneFile": "Kombiner resultater i en fil",
         "cancel": "Fortryd",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
-        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned"
+        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
+        "requestSuccess": "Afregningsrapport bestilt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
+      },
+      "selectCalculationModal": {
+        "title": "Hvilken beregning ønsker du data for?",
+        "description": "Der er foretaget mere end en balancefiksering. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "latest": "nyeste",
+        "cancel": "Luk",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
     },
     "settlementReports": {
