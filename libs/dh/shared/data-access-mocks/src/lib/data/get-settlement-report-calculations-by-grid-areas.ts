@@ -26,7 +26,7 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
         value: [
           {
             __typename: 'RequestSettlementReportGridAreaCalculation',
-            calculationDate: new Date('2022-12-09T23:00:00Z'),
+            calculationDate: new Date('2022-12-01T23:00:00Z'),
             calculationId: '8ff516a1-95b0-4f07-9b58-3fb94791casd',
             gridAreaWithName: {
               __typename: 'GridAreaDto',
@@ -36,7 +36,7 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
           },
           {
             __typename: 'RequestSettlementReportGridAreaCalculation',
-            calculationDate: new Date('2022-12-01T23:00:00Z'),
+            calculationDate: new Date('2022-12-09T23:00:00Z'),
             calculationId: '911d0c33-3232-49e1-00aa-bcef313d1098',
             gridAreaWithName: {
               __typename: 'GridAreaDto',

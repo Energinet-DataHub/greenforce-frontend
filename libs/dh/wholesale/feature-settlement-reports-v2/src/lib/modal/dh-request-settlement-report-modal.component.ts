@@ -243,7 +243,12 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           this.modalService.open({
             component: DhSelectCalculationModalComponent,
             data: {
-              rawData: settlementReportGridAreaCalculationsForPeriod,
+              rawData: settlementReportGridAreaCalculationsForPeriod.map((x) => ({
+                ...x,
+                value: [...x.value].sort(
+                  (a, b) => b.calculationDate.getTime() - a.calculationDate.getTime()
+                ),
+              })),
               formGroup: this.form.controls.calculationIdForGridAreaGroup,
             },
             onClosed: (isSuccess) => {
