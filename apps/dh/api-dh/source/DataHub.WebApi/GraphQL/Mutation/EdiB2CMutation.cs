@@ -48,7 +48,7 @@ public partial class Mutation
                     new RequestAggregatedMeasureDataMarketRequest()
                     {
                         CalculationType = ediCalculationType,
-                        MeteringPointType = meteringPointType!.Value, // This should be nullable
+                        MeteringPointType = meteringPointType,
                         StartDate = period.Start.ToString(),
                         EndDate = period.End.ToString(),
                         GridArea = gridArea,
