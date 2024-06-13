@@ -36,7 +36,6 @@ public class WholesaleStatusTypeQueryTests
     }
     """;
 
-    // Tests
     [Theory]
     [InlineData(CalculationState.Pending)]
     [InlineData(CalculationState.Executing)]
