@@ -1,0 +1,67 @@
+@use "@energinet-datahub/watt/utils" as watt;
+
+.watt-progress-tracker-step-pending {
+  --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-600);
+  --watt-progress-tracker-step-bridge-color: var(--watt-color-neutral-grey-600);
+  --watt-progress-tracker-step-fill-color: transparent;
+}
+
+.watt-progress-tracker-step-executing {
+  --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-900);
+  --watt-progress-tracker-step-bridge-color: var(--watt-color-primary);
+  --watt-progress-tracker-step-fill-color: transparent;
+}
+
+.watt-progress-tracker-step-completed {
+  --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-900);
+  --watt-progress-tracker-step-bridge-color: var(--watt-color-primary);
+  --watt-progress-tracker-step-fill-color: var(--watt-color-primary);
+}
+
+.watt-progress-tracker-step-failed {
+  --watt-progress-tracker-step-text-color: var(--watt-color-state-danger);
+  --watt-progress-tracker-step-bridge-color: var(--watt-color-state-danger);
+  --watt-progress-tracker-step-fill-color: var(--watt-color-state-danger);
+}
+
+watt-progress-tracker-step {
+  display: contents;
+}
+
+watt-progress-tracker-step:not(:first-child)::before {
+  content: "";
+  display: block;
+  width: 100%;
+  min-width: var(--watt-space-m);
+  height: 1px;
+  margin: 0 var(--watt-space-s);
+  background-color: var(--watt-progress-tracker-step-bridge-color);
+}
+
+.watt-progress-tracker-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* Magic UX number */
+  height: 24px; /* Magic UX number */
+  min-width: 24px; /* Magic UX number */
+  min-height: 24px; /* Magic UX number */
+  border-radius: 50%;
+  border: 1px solid var(--watt-progress-tracker-step-bridge-color);
+  background-color: var(--watt-progress-tracker-step-fill-color);
+
+  & watt-icon {
+    color: var(--watt-color-neutral-white);
+  }
+}
+
+.watt-progress-tracker-step-executing .watt-progress-tracker-step-icon {
+  border: none;
+}
+
+.watt-progress-tracker-step-text {
+  @include watt.typography-watt-headline-5;
+  margin-left: var(--watt-space-s);
+  color: var(--watt-progress-tracker-step-text-color);
+  white-space: nowrap;
+}
