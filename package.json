@@ -61,6 +61,8 @@
     "review": "gh pr checkout --"
   },
   "dependencies": {
+    "@analogjs/platform": "^1.5.0",
+    "@analogjs/vite-plugin-angular": "^1.5.0",
     "@angular/animations": "17.3.7",
     "@angular/cdk": "17.3.7",
     "@angular/common": "17.3.7",
@@ -86,6 +88,7 @@
     "@ngrx/component-store": "17.2.0",
     "@ngrx/operators": "17.2.0",
     "@ngrx/signals": "^17.2.0",
+    "@nx/vite": "^19.2.3",
     "@popperjs/core": "2.11.8",
     "@rx-angular/cdk": "17.0.1",
     "@rx-angular/template": "17.1.0",
@@ -100,6 +103,7 @@
     "graphql-sse": "^2.5.3",
     "highlight.js": "^11.9.0",
     "include-media": "2.0.0",
+    "jsdom": "^24.1.0",
     "jwt-decode": "4.0.0",
     "libphonenumber-js": "1.10.60",
     "lottie-web": "5.12.2",
