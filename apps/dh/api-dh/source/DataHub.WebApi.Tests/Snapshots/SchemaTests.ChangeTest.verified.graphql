@@ -111,6 +111,7 @@ type Calculation {
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
   statusType: ProcessStatus!
+  progress: [CalculationProgress]
   runId: Long
   resolution: String
   unit: String
@@ -121,6 +122,11 @@ type Calculation {
   areSettlementReportsCreated: Boolean!
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
+}
+
+type CalculationProgress {
+  step: CalculationProgressStep!
+  status: CalculationProgressStatus!
 }
 
 type CreateCalculationPayload {
@@ -670,6 +676,19 @@ enum CalculationOrchestrationState {
   ACTOR_MESSAGES_ENQUEUED
   ACTOR_MESSAGES_ENQUEUING_FAILED
   COMPLETED
+}
+
+enum CalculationProgressStatus {
+  pending
+  executing
+  failed
+  completed
+}
+
+enum CalculationProgressStep {
+  SCHEDULE
+  CALCULATE
+  ACTOR_MESSAGE_ENQUEUE
 }
 
 enum CalculationState {

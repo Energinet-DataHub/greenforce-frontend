@@ -57,5 +57,57 @@ public class CalculationType : ObjectType<CalculationDto>
                 CalculationState.Executing => ProcessStatus.Info,
                 _ => ProcessStatus.Info,
             });
+
+        descriptor
+            .Field("progress")
+            .Resolve(context =>
+            {
+                var state = context.Parent<CalculationDto>().OrchestrationState;
+                return new List<CalculationProgress>
+                {
+                    new(CalculationProgressStep.Schedule, GetScheduleProgressStatus(state)),
+                    new(CalculationProgressStep.Calculate, GetCalculateProgressStatus(state)),
+                    new(CalculationProgressStep.ActorMessageEnqueue, GetActorMessageEnqueueProgressStatus(state)),
+                };
+            });
     }
+
+    private static CalculationProgressStatus GetScheduleProgressStatus(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => CalculationProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.CalculationFailed => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.Calculated => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => CalculationProgressStatus.Completed,
+        };
+
+    private static CalculationProgressStatus GetCalculateProgressStatus(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => CalculationProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => CalculationProgressStatus.Executing,
+            CalculationOrchestrationState.CalculationFailed => CalculationProgressStatus.Failed,
+            CalculationOrchestrationState.Calculated => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => CalculationProgressStatus.Completed,
+        };
+
+    private static CalculationProgressStatus GetActorMessageEnqueueProgressStatus(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => CalculationProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => CalculationProgressStatus.Pending,
+            CalculationOrchestrationState.CalculationFailed => CalculationProgressStatus.Pending,
+            CalculationOrchestrationState.Calculated => CalculationProgressStatus.Pending,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => CalculationProgressStatus.Executing,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStatus.Failed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => CalculationProgressStatus.Completed,
+        };
 }
