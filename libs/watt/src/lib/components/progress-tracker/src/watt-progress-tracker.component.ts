@@ -14,28 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, HostBinding, Input } from '@angular/core';
-/**
- * Usage:
- * `import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';`
- */
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { VaterStackComponent } from '../../vater/vater-stack.component';
+
 @Component({
-  selector: 'watt-spinner',
+  imports: [VaterStackComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
-  styleUrls: ['./watt-spinner.component.scss'],
-  template: `<svg class="spinner" viewBox="0 0 50 50">
-    <circle class="path" cx="25" cy="25" r="20" fill="none" [attr.stroke-width]="strokeWidth" />
-  </svg>`,
+  selector: 'watt-progress-tracker',
+  template: `<vater-stack direction="row"><ng-content /></vater-stack>`,
 })
-export class WattSpinnerComponent {
-  @HostBinding('attr.role') role = 'progressbar';
-
-  @HostBinding('style')
-  get style(): string {
-    return `--watt-spinner-diameter: ${this.diameter}px`;
-  }
-
-  @Input() diameter = 44;
-
-  @Input() strokeWidth = 5;
-}
+export class WattProgressTrackerComponent {}
