@@ -25,9 +25,9 @@ import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/do
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.roleStatus'">
     @if (status === 'Active') {
-      <watt-badge type="info">{{ t('active') }}</watt-badge>
+      <watt-badge type="info">{{ t('Active') }}</watt-badge>
     } @else if (status === 'Inactive') {
-      <watt-badge type="warning">{{ t('inactive') }}</watt-badge>
+      <watt-badge type="warning">{{ t('Inactive') }}</watt-badge>
     }
   </ng-container>`,
   imports: [TranslocoDirective, WattBadgeComponent],

@@ -14,14 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-stack
+<form
+  vater-stack
   direction="row"
   gap="m"
+  tabindex="-1"
+  [formGroup]="formGroup"
+  wattQueryParams
   *transloco="let t; read: 'admin.userManagement.tabs.roles.filter'"
 >
   <watt-dropdown
+    dhDropdownTranslator
+    translate="admin.userManagement.roleStatus"
     [placeholder]="t('status')"
-    [formControl]="statusControl"
+    [formControl]="formGroup.controls.status"
     [options]="statusOptions"
     [chipMode]="true"
   />
@@ -30,9 +36,9 @@ limitations under the License.
     dhDropdownTranslator
     translate="marketParticipant.marketRoles"
     [placeholder]="t('marketRole')"
-    [formControl]="marketRolesControl"
+    [formControl]="formGroup.controls.marketRoles"
     [options]="marketRolesOptions"
     [multiple]="true"
     [chipMode]="true"
   />
-</vater-stack>
+</form>

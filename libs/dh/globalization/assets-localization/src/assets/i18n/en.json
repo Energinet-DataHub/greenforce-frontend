@@ -1213,8 +1213,8 @@
         "InviteExpired": "Activation expired"
       },
       "roleStatus": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "Active": "Active",
+        "Inactive": "Inactive"
       },
       "tabs": {
         "masterData": {
