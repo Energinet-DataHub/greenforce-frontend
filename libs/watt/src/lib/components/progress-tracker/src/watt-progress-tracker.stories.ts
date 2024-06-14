@@ -82,10 +82,10 @@ export const Failed = (() => ({
 export const Completed = (() => ({
   template: `
     <watt-progress-tracker>
-      <watt-progress-tracker-step status="completed" label="Schedule completed">>
+      <watt-progress-tracker-step status="completed" label="Schedule completed">
         Scheduled
       </watt-progress-tracker-step>
-      <watt-progress-tracker-step status="completed" label="Calculation completed">>
+      <watt-progress-tracker-step status="completed" label="Calculation completed">
         Calculated
       </watt-progress-tracker-step>
       <watt-progress-tracker-step status="completed" label="Enqueuing completed" [current]="true">
