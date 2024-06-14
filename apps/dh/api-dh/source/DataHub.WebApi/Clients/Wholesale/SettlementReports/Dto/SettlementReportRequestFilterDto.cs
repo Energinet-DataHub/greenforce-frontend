@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
 public sealed record SettlementReportRequestFilterDto(
     IReadOnlyDictionary<string, CalculationId> GridAreas,
     DateTimeOffset PeriodStart,
     DateTimeOffset PeriodEnd,
+    CalculationType CalculationType,
     string? EnergySupplier,
     string? CsvFormatLocale);
