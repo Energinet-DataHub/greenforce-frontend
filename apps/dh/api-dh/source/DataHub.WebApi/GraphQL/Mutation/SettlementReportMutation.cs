@@ -30,12 +30,12 @@ public partial class Mutation
                 y => new CalculationId(y.CalculationId)),
             requestSettlementReportInput.Period.Start.ToDateTimeOffset(),
             requestSettlementReportInput.Period.End.ToDateTimeOffset(),
+            requestSettlementReportInput.CalculationType,
             requestSettlementReportInput.EnergySupplier,
             requestSettlementReportInput.CsvLanguage);
 
         await client.RequestAsync(
             new SettlementReportRequestDto(
-                requestSettlementReportInput.CalculationType,
                 !requestSettlementReportInput.CombineResultInASingleFile,
                 requestFilter),
             default);
