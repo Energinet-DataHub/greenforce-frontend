@@ -48,7 +48,7 @@ export const dhFeatureFlagsConfig = {
   },
   'settlement-reports-v2': {
     created: '30-04-2024',
-    disabledEnvironments: [],
+    disabledEnvironments: [DhAppEnvironment.preprod],
   },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
