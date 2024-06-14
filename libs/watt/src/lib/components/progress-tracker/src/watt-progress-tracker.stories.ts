@@ -88,7 +88,7 @@ export const Completed = (() => ({
       <watt-progress-tracker-step status="completed" label="Calculation completed">>
         Calculated
       </watt-progress-tracker-step>
-      <watt-progress-tracker-step status="completed" label="Enqueuing completed"> [current]="true">
+      <watt-progress-tracker-step status="completed" label="Enqueuing completed" [current]="true">
         Enqueued
       </watt-progress-tracker-step>
     </watt-progress-tracker>
