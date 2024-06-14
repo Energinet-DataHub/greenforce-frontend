@@ -16,4 +16,7 @@ using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
-public record CalculationProgress(CalculationProgressStep Step, CalculationProgressStatus Status);
+public record CalculationProgress(
+    CalculationProgressStep Step,
+    CalculationProgressStatus Status,
+    bool Current);
