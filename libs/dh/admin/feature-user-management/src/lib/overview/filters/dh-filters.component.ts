@@ -77,7 +77,7 @@ type Filters = FormControls<DhUsersFilters>;
       <watt-dropdown
         dhDropdownTranslator
         [formControl]="formGroup.controls.status"
-        translate="admin.userManagement.userStatus"
+        translateKey="admin.userManagement.userStatus"
         [placeholder]="t('status')"
         [options]="userStatusOptions"
         [multiple]="true"
