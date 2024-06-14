@@ -58,10 +58,10 @@ watt-progress-tracker-step:not(:first-child)::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px; /* Magic UX number */
-  height: 24px; /* Magic UX number */
-  min-width: 24px; /* Magic UX number */
-  min-height: 24px; /* Magic UX number */
+  width: var(--watt-space-ml);
+  height: var(--watt-space-ml);
+  min-width: var(--watt-space-ml);
+  min-height: var(--watt-space-ml);
   border-radius: 50%;
   border: 1px solid var(--watt-progress-tracker-step-bridge-color);
   background-color: var(--watt-progress-tracker-step-fill-color);
