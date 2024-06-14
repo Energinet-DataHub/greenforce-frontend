@@ -31,7 +31,7 @@ import { WattSpinnerComponent } from '../../spinner/watt-spinner.component';
   standalone: true,
   selector: 'watt-progress-tracker-step',
   host: {
-    '[role]': 'current() ? "status" : "presentation"',
+    '[attr.role]': 'current() ? "status" : "presentation"',
     '[attr.class]': 'class()',
     '[attr.aria-current]': 'ariaCurrent()',
     '[attr.aria-label]': 'label()',
