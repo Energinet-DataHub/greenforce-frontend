@@ -20,7 +20,7 @@ limitations under the License.
     <vater-flex fill="vertical" gap="m">
       <vater-stack align="flex-start" direction="column" gap="s">
         <watt-dropdown
-          translate="wholesale.requestCalculation.calculationTypes"
+          translateKey="wholesale.requestCalculation.calculationTypes"
           [label]="t('calculationType')"
           [formControl]="form.controls.calculationType"
           [options]="calculationTypeOptions"
@@ -50,7 +50,7 @@ limitations under the License.
 
         @if (isWholesaleRequest()) {
         <watt-dropdown
-          translate="wholesale.requestCalculation.resolutionOptions"
+          translateKey="wholesale.requestCalculation.resolutionOptions"
           [label]="t('resolution')"
           [formControl]="form.controls.resolution"
           [options]="resolutionOptions"
@@ -58,7 +58,7 @@ limitations under the License.
         />
         } @else {
         <watt-dropdown
-          translate="wholesale.requestCalculation.meteringPointTypes"
+          translateKey="wholesale.requestCalculation.meteringPointTypes"
           [label]="t('meteringPointType')"
           [formControl]="form.controls.meteringPointType"
           [options]="meteringPointOptions"

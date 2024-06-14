@@ -29,11 +29,11 @@ export class DhDropdownTranslatorDirective implements OnInit {
   private host = inject(WattDropdownComponent);
   private destroyRef = inject(DestroyRef);
 
-  translate = input.required<string>();
+  translateKey = input.required<string>();
 
   ngOnInit(): void {
     this.translocoService
-      .selectTranslateObject<object>(this.translate())
+      .selectTranslateObject<object>(this.translateKey())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {
