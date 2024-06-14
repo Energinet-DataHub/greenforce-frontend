@@ -35,21 +35,12 @@ limitations under the License.
     </vater-stack>
 
     <vater-stack direction="row" gap="m">
-      <dh-users-overview-status-filter
-        [initialValue]="initialStatusFilter$ | push"
-        (changed)="onStatusChanged($event)"
-      />
-
-      @if (canChooseMultipleActors$ | push) {
-        <dh-users-overview-actor-filter
-          [actorOptions]="actorOptions$ | push"
-          (changed)="onActorFilterChanged($event)"
-        />
-      }
-
-      <dh-users-overview-userrole-filter
+      <dh-users-overview-filters
+        [statusValue]="initialStatusFilter$ | push"
+        [actorOptions]="actorOptions$ | push"
         [userRoleOptions]="userRolesOptions$ | push"
-        (changed)="onUserRolesFilterChanged($event)"
+        [canChooseMultipleActors]="canChooseMultipleActors$ | push"
+        (filtersChanges)="updateFilters($event)"
       />
     </vater-stack>
 

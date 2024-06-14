@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { Observable, of, switchMap, take, tap } from 'rxjs';
 import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 
@@ -38,7 +38,7 @@ interface DhUserManagementState {
   readonly sortProperty: MarketParticipantUserOverviewSortProperty;
   readonly direction: MarketParticipantSortDirection;
   readonly searchText: string | undefined;
-  readonly statusFilter: MarketParticipantUserStatus[];
+  readonly statusFilter: MarketParticipantUserStatus[] | null;
   readonly actorIdFilter: string | undefined;
   readonly userRoleFilter: string[];
 }
@@ -80,7 +80,7 @@ export class DhAdminUserManagementDataAccessApiStore
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
 
-  readonly initialStatusFilter$ = this.select((state) => state.statusFilter);
+  readonly initialStatusFilter$ = this.select((state) => state.statusFilter).pipe(take(1));
 
   readonly users$ = this.select((state) => state.users);
   readonly totalUserCount$ = this.select((state) => state.totalUserCount);
@@ -196,8 +196,21 @@ export class DhAdminUserManagementDataAccessApiStore
     });
   }
 
-  updateStatusFilter(userStatus: MarketParticipantUserStatus[]) {
-    this.patchState({ statusFilter: userStatus, pageNumber: 1 });
+  updateFilters({
+    actorId,
+    status,
+    userRoleIds,
+  }: {
+    status: MarketParticipantUserStatus[] | null;
+    actorId: string | null;
+    userRoleIds: string[] | null;
+  }) {
+    this.patchState({
+      statusFilter: status,
+      actorIdFilter: actorId ?? undefined,
+      userRoleFilter: userRoleIds ?? [],
+      pageNumber: 1,
+    });
   }
 
   updateSort(
@@ -205,14 +218,6 @@ export class DhAdminUserManagementDataAccessApiStore
     direction: MarketParticipantSortDirection
   ) {
     this.patchState({ sortProperty, direction });
-  }
-
-  updateActorFilter(actorId: string | undefined) {
-    this.patchState({ actorIdFilter: actorId });
-  }
-
-  updateUserRoleFilter(userRole: string[]) {
-    this.patchState({ userRoleFilter: userRole });
   }
 
   readonly reloadUsers = () => {

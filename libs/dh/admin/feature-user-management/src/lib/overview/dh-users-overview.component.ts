@@ -31,7 +31,6 @@ import {
 import {
   MarketParticipantSortDirection,
   MarketParticipantUserOverviewSortProperty,
-  MarketParticipantUserStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -48,10 +47,9 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
 
 import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
-import { DhUsersOverviewStatusFilterComponent } from './dh-users-overview-status-filter.component';
-import { DhUsersOverviewActorFilterComponent } from './dh-users-overview-actor-filter.component';
-import { DhUsersOverviewUserRoleFilterComponent } from './dh-users-overview-userrole-filter.component';
 import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
+import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
+import { DhUsersFilters } from './dh-users-filters';
 
 export const debounceTimeValue = 250;
 
@@ -99,11 +97,9 @@ export const debounceTimeValue = 250;
     WattSearchComponent,
 
     DhUsersTabTableComponent,
-    DhUsersOverviewStatusFilterComponent,
-    DhUsersOverviewActorFilterComponent,
-    DhUsersOverviewUserRoleFilterComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
+    DhUsersOverviewFiltersComponent,
   ],
 })
 export class DhUsersOverviewComponent {
@@ -149,22 +145,14 @@ export class DhUsersOverviewComponent {
     });
   }
 
-  onStatusChanged(value: MarketParticipantUserStatus[]): void {
-    this.store.updateStatusFilter(value);
+  updateFilters(value: DhUsersFilters): void {
+    this.store.updateFilters(value);
   }
 
   sortChanged = (
     sortProperty: MarketParticipantUserOverviewSortProperty,
     direction: MarketParticipantSortDirection
   ) => this.store.updateSort(sortProperty, direction);
-
-  onActorFilterChanged(actorId: string | undefined): void {
-    this.store.updateActorFilter(actorId);
-  }
-
-  onUserRolesFilterChanged(userRoles: string[]): void {
-    this.store.updateUserRoleFilter(userRoles);
-  }
 
   reloadUsers(): void {
     this.store.reloadUsers();

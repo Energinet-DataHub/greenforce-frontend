@@ -57,7 +57,7 @@ describe(DhUsersOverviewComponent, () => {
         users$: of(mockUsers),
         isLoading$: of(false),
         updateSearchText: jest.fn(),
-        updateStatusFilter: jest.fn(),
+        updateFilters: jest.fn(),
       },
       'useValue'
     );
@@ -136,7 +136,7 @@ describe(DhUsersOverviewComponent, () => {
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
 
-  it('forwards status filter value to store', fakeAsync(async () => {
+  it('forwards filters to store', fakeAsync(async () => {
     const { store, matSelect, statusFilterBtn } = await setup();
 
     userEvent.click(statusFilterBtn);
@@ -152,7 +152,11 @@ describe(DhUsersOverviewComponent, () => {
 
     tick(debounceTimeValue);
 
-    const allOptions = Object.keys(MarketParticipantUserStatus);
-    expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
+    const actualValue = {
+      actorId: null,
+      status: Object.keys(MarketParticipantUserStatus),
+      userRoleIds: null,
+    };
+    expect(store.updateFilters).toHaveBeenCalledWith(actualValue);
   }));
 });
