@@ -35,6 +35,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 import { DhUsersFilters } from '../dh-users-filters';
 
@@ -52,6 +53,7 @@ type Filters = FormControls<DhUsersFilters>;
 
     VaterStackComponent,
     WattDropdownComponent,
+    WattQueryParamsDirective,
 
     DhDropdownTranslatorDirective,
   ],
@@ -69,6 +71,7 @@ type Filters = FormControls<DhUsersFilters>;
       gap="m"
       tabindex="-1"
       [formGroup]="formGroup"
+      wattQueryParams
       *transloco="let t; read: 'admin.userManagement.tabs.users.filter'"
     >
       <watt-dropdown
