@@ -88,8 +88,8 @@ import { RxPush } from '@rx-angular/template/push';
 
       <watt-text-field [formControl]="newActorForm().controls.name" [label]="t('name')" />
       <watt-dropdown
-        translate="marketParticipant.marketRoles"
         dhDropdownTranslator
+        translateKey="marketParticipant.marketRoles"
         [options]="marketRoleOptions"
         [showResetOption]="false"
         (ngModelChange)="onMarketRoleChange($event)"

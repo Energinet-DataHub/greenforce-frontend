@@ -30,7 +30,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
       <watt-dropdown
         dhDropdownTranslator
-        translate="admin.userManagement.userStatus"
+        translateKey="admin.userManagement.userStatus"
         [placeholder]="t('filter.status')"
         [formControl]="statusControl"
         [options]="userStatusOptions"
