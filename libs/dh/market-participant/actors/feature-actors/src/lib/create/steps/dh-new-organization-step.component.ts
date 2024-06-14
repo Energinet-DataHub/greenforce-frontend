@@ -83,7 +83,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     <div class="row">
       <vater-stack gap="m" align="flex-start" direction="row">
         <watt-dropdown
-          translate="marketParticipant.actor.create.counties"
+          translateKey="marketParticipant.actor.create.counties"
           dhDropdownTranslator
           [label]="t('country')"
           [showResetOption]="false"

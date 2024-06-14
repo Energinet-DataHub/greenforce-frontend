@@ -94,7 +94,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
       [options]="statusOptions"
       [formControl]="filtersForm.controls.status!"
       dhDropdownTranslator
-      translate="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
+      translateKey="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
     />
 
     @if (marketRole() === eicFunction.BalanceResponsibleParty) {
