@@ -86,7 +86,7 @@ export class DhAdminUserManagementDataAccessApiStore
     (state) => state.usersRequestState === ErrorState.GENERAL_ERROR
   );
 
-  readonly initialStatusFilter$ = this.select((state) => state.statusFilter).pipe(take(1));
+  readonly initialStatusValue$ = this.select((state) => state.statusFilter).pipe(take(1));
 
   readonly users$ = this.select((state) => state.users);
   readonly totalUserCount$ = this.select((state) => state.totalUserCount);

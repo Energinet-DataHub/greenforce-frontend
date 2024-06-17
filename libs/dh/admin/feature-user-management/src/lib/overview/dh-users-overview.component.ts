@@ -119,7 +119,7 @@ export class DhUsersOverviewComponent {
     this.store.isLoading$ || this.actorStore.isLoading$ || this.userRolesStore.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
-  readonly initialStatusFilter$ = this.store.initialStatusFilter$;
+  readonly initialStatusValue$ = this.store.initialStatusValue$;
   readonly actorOptions$: Observable<WattDropdownOptions> = this.actorStore.actors$;
   readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
   readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
