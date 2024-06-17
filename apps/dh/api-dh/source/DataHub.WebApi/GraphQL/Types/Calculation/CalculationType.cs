@@ -59,6 +59,7 @@ public class CalculationType : ObjectType<CalculationDto>
 
         descriptor
             .Field("progress")
+            .Type<NonNullType<ListType<NonNullType<ObjectType<CalculationProgress>>>>>()
             .Resolve(context =>
             {
                 var state = context.Parent<CalculationDto>().OrchestrationState;
@@ -104,7 +105,7 @@ public class CalculationType : ObjectType<CalculationDto>
                 CalculationOrchestrationState.ActorMessagesEnqueuing => new(step, CalculationProgressStatus.Executing, true),
                 CalculationOrchestrationState.ActorMessagesEnqueuingFailed => new(step, CalculationProgressStatus.Failed, true),
                 CalculationOrchestrationState.ActorMessagesEnqueued => new(step, CalculationProgressStatus.Completed, true),
-                CalculationOrchestrationState.Completed => new(step, CalculationProgressStatus.Completed, false),
+                CalculationOrchestrationState.Completed => new(step, CalculationProgressStatus.Completed, true),
             },
         };
 }
