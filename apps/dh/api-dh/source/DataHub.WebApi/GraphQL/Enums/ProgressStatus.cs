@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
-
-public record CalculationProgress(
-    CalculationProgressStep Step,
-    ProgressStatus Status,
-    bool Current);
+public enum ProgressStatus
+{
+    Pending,
+    Executing,
+    Failed,
+    Completed,
+}

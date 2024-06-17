@@ -126,7 +126,7 @@ type Calculation {
 
 type CalculationProgress {
   step: CalculationProgressStep!
-  status: CalculationProgressStatus!
+  status: ProgressStatus!
   current: Boolean!
 }
 
@@ -679,13 +679,6 @@ enum CalculationOrchestrationState {
   COMPLETED
 }
 
-enum CalculationProgressStatus {
-  pending
-  executing
-  failed
-  completed
-}
-
 enum CalculationProgressStep {
   SCHEDULE
   CALCULATE
@@ -857,6 +850,13 @@ enum ProcessStatus {
   success
   danger
   info
+}
+
+enum ProgressStatus {
+  pending
+  executing
+  failed
+  completed
 }
 
 enum SettlementReportStatusType {
