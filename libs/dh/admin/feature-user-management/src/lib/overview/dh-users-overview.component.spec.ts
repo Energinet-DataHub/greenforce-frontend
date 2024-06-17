@@ -27,7 +27,10 @@ import { of } from 'rxjs';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  DhAdminUserManagementDataAccessApiStore,
+  DhUserManagementFilters,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import {
   MarketParticipantUserOverviewItemDto,
   MarketParticipantUserStatus,
@@ -152,9 +155,9 @@ describe(DhUsersOverviewComponent, () => {
 
     tick(debounceTimeValue);
 
-    const actualValue = {
+    const actualValue: DhUserManagementFilters = {
       actorId: null,
-      status: Object.keys(MarketParticipantUserStatus),
+      status: Object.keys(MarketParticipantUserStatus) as MarketParticipantUserStatus[],
       userRoleIds: null,
     };
     expect(store.updateFilters).toHaveBeenCalledWith(actualValue);

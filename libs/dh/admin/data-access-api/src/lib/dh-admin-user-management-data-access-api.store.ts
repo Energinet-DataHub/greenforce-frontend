@@ -55,6 +55,12 @@ export type FetchUsersParams = Pick<
   | 'userRoleFilter'
 >;
 
+export type DhUserManagementFilters = {
+  status: DhUserManagementState['statusFilter'];
+  actorId: string | null;
+  userRoleIds: string[] | null;
+};
+
 const initialState: DhUserManagementState = {
   users: [],
   totalUserCount: 0,
@@ -196,15 +202,7 @@ export class DhAdminUserManagementDataAccessApiStore
     });
   }
 
-  updateFilters({
-    actorId,
-    status,
-    userRoleIds,
-  }: {
-    status: MarketParticipantUserStatus[] | null;
-    actorId: string | null;
-    userRoleIds: string[] | null;
-  }) {
+  updateFilters({ actorId, status, userRoleIds }: DhUserManagementFilters) {
     this.patchState({
       statusFilter: status,
       actorIdFilter: actorId ?? undefined,
