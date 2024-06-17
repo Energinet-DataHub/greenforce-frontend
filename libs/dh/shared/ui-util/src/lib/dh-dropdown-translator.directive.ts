@@ -45,11 +45,21 @@ export class DhDropdownTranslatorDirective implements OnInit {
   private setTranslation(keys: object): void {
     const translatedOptions = this.host.options.map((option) => ({
       ...option,
-      displayValue: keys[option.value as keyof typeof keys],
+      displayValue: this.translateDisplayValue(keys[option.value as keyof typeof keys]),
     }));
 
     this.host.options = this.host.sortDirection
       ? this.host.sortOptions(translatedOptions)
       : translatedOptions;
+  }
+
+  private translateDisplayValue(value: string): string {
+    if (value.startsWith('{{')) {
+      const key = value.replace(/{{|}}/g, '').trim();
+
+      return this.translocoService.translate(key);
+    }
+
+    return value;
   }
 }
