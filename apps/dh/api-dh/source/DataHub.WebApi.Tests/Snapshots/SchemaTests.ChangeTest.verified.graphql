@@ -111,7 +111,7 @@ type Calculation {
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
   statusType: ProcessStatus!
-  currentProgress: CalculationProgress
+  currentProgress: CalculationProgress!
   progress: [CalculationProgress!]!
   runId: Long
   resolution: String

@@ -59,6 +59,7 @@ public class CalculationType : ObjectType<CalculationDto>
 
         descriptor
             .Field("currentProgress")
+            .Type<NonNullType<ObjectType<CalculationProgress>>>()
             .Resolve(context =>
             {
                 var state = context.Parent<CalculationDto>().OrchestrationState;
