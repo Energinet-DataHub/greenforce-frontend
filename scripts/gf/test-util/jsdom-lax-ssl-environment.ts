@@ -45,6 +45,10 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
       },
       options
     );
+
+    // Force Jest/jsdom to use structuredClone
+    // See https://github.com/jsdom/jsdom/issues/3363#issuecomment-1467894943
+    this.global.structuredClone = structuredClone;
   }
 }
 

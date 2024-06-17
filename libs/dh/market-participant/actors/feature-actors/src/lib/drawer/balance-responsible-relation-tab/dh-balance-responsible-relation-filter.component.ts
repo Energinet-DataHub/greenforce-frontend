@@ -50,7 +50,7 @@ import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-re
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' | 'eicFunction'>>;
+type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 
 @Component({
   standalone: true,
