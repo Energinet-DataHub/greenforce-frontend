@@ -43,6 +43,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -62,6 +63,7 @@ type Filters = FormControls<CalculationQueryInput>;
     WattDateRangeChipComponent,
     WattDropdownComponent,
     WattFormChipDirective,
+    WattQueryParamsDirective,
 
     DhDropdownTranslatorDirective,
   ],
@@ -80,6 +82,7 @@ type Filters = FormControls<CalculationQueryInput>;
       gap="s"
       tabindex="-1"
       [formGroup]="_formGroup"
+      wattQueryParams
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
       <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
