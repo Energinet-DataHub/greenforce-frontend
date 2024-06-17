@@ -36,6 +36,7 @@ import {
   MarketParticipantUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 interface DhUserRolesManagementState {
   readonly roles: MarketParticipantUserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
