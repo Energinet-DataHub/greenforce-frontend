@@ -42,15 +42,15 @@ export class AuthService {
       /*
        * The redirect_uri is the URL of the application where the user is redirected after the sign-in process.
        */
-      redirect_uri: `http://localhost:4200/${this.transloco.getActiveLang()}/callback`,
+      redirect_uri: `${window.location.origin}/${this.transloco.getActiveLang()}/callback`,
       /*
        * The silent_redirect_uri is used to redirect the user back to the application after the token is renewed.
        */
-      silent_redirect_uri: `http://localhost:4200/silent-callback.html`,
+      silent_redirect_uri: `${window.location.origin}/silent-callback.html`,
       /*
        * The post_logout_redirect_uri is the URL of the application where the user is redirected after the sign-out process.
        */
-      post_logout_redirect_uri: `http://localhost:4200/${this.transloco.getActiveLang()}`,
+      post_logout_redirect_uri: `${window.location.origin}/${this.transloco.getActiveLang()}`,
       /*
        * The response_type is the type of the response. Possible values are 'code' and 'token'.
        */
