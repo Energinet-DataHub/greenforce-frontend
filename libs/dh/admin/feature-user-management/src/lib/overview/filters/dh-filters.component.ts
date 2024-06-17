@@ -36,12 +36,11 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
-
-import { DhUsersFilters } from '../dh-users-filters';
+import { DhUserManagementFilters } from '@energinet-datahub/dh/admin/data-access-api';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<DhUsersFilters>;
+type Filters = FormControls<DhUserManagementFilters>;
 
 @Component({
   standalone: true,
@@ -117,7 +116,7 @@ export class DhUsersOverviewFiltersComponent implements OnInit {
   actorOptions = input.required<WattDropdownOptions>();
   userRoleOptions = input.required<WattDropdownOptions>();
 
-  filtersChanges = output<DhUsersFilters>();
+  filtersChanges = output<DhUserManagementFilters>();
 
   ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
@@ -128,6 +127,6 @@ export class DhUsersOverviewFiltersComponent implements OnInit {
 
     this.formGroup.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.filtersChanges.emit(value as DhUsersFilters));
+      .subscribe((value) => this.filtersChanges.emit(value as DhUserManagementFilters));
   }
 }

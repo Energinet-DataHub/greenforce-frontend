@@ -27,6 +27,7 @@ import {
   DhAdminUserManagementDataAccessApiStore,
   DhAdminUserRolesManagementDataAccessApiStore,
   DhUserActorsDataAccessApiStore,
+  DhUserManagementFilters,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   MarketParticipantSortDirection,
@@ -49,7 +50,6 @@ import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-pro
 import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
 import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
 import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
-import { DhUsersFilters } from './dh-users-filters';
 
 export const debounceTimeValue = 250;
 
@@ -145,7 +145,7 @@ export class DhUsersOverviewComponent {
     });
   }
 
-  updateFilters(value: DhUsersFilters): void {
+  updateFilters(value: DhUserManagementFilters): void {
     this.store.updateFilters(value);
   }
 
