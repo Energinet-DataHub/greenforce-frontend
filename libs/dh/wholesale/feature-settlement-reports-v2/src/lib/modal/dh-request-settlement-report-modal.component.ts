@@ -422,7 +422,22 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           },
         },
       })
-      .pipe(map((result) => result.data));
+      .pipe(
+        map((result) => {
+          const dataCopy = structuredClone(result.data);
+
+          return {
+            ...dataCopy,
+            settlementReportGridAreaCalculationsForPeriod:
+              dataCopy.settlementReportGridAreaCalculationsForPeriod.map((entry) => ({
+                ...entry,
+                value: [...entry.value].sort(
+                  (a, b) => b.calculationDate.getTime() - a.calculationDate.getTime()
+                ),
+              })),
+          };
+        })
+      );
   }
 
   private shouldShowMonthlySumCheckbox(): Observable<boolean> {

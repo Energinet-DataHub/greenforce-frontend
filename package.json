@@ -7,8 +7,8 @@
   "engines": {
     "node": "20.11.0",
     "npm": "Please use Bun instead of npm to install dependencies.",
-    "yarn": "Please use Bun instead of npm to install dependencies.",
-    "bun": "1.1.8"
+    "yarn": "Please use Bun instead of yarn to install dependencies.",
+    "bun": "1.1.13"
   },
   "scripts": {
     "postinstall": "bun husky install",
@@ -57,7 +57,8 @@
     "take": "bun ./tools/github/create-branch-from-issue.ts",
     "branch": "bun ./tools/github/create-branch.ts",
     "pr": "bun ./tools/github/create-pr.ts",
-    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
+    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
+    "review": "gh pr checkout --"
   },
   "dependencies": {
     "@angular/animations": "17.3.7",
@@ -219,9 +220,9 @@
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
     "node": "20.11.0",
     "//bun-comment": "Keep this in sync with GitHub actions pipelines",
-    "bun": "1.1.8"
+    "bun": "1.1.13"
   },
-  "packageManager": "bun@1.1.8",
+  "packageManager": "bun@1.1.13",
   "msw": {
     "workerDirectory": "libs/gf/msw/util-msw/src/assets"
   }

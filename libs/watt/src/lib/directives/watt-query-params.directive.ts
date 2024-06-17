@@ -32,6 +32,7 @@ export class WattQueryParamsDirective implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   ngOnInit(): void {
     this.formGroup.valueChanges
       ?.pipe(takeUntilDestroyed(this.destoryRef))
@@ -44,11 +45,13 @@ export class WattQueryParamsDirective implements OnInit {
           }
         }
 
+        const hasSetProperties = Object.keys(formValuesClone).length > 0;
+
         this.router.navigate([], {
           replaceUrl: true,
           relativeTo: this.route,
-          queryParams: { [filtersKey]: qs.stringify(formValuesClone) },
-          queryParamsHandling: 'merge',
+          queryParams: hasSetProperties ? { [filtersKey]: qs.stringify(formValuesClone) } : null,
+          queryParamsHandling: hasSetProperties ? 'merge' : null,
         });
       });
 
