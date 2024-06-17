@@ -36,7 +36,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { catchError, first, of } from 'rxjs';
+import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
@@ -153,7 +153,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 export class EoGrantConsentModalComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private consentService: EoConsentService = inject(EoConsentService);
-  private toastService = inject(WattToastService);
+  private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
 
   @Input() thirdPartyClientId!: string;
