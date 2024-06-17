@@ -97,9 +97,11 @@ limitations under the License.
           <watt-dropdown
             [label]="t('create.calculationType.label')"
             formControlName="calculationType"
-            [options]="calculationTypes | push"
+            [options]="calculationTypesOptions"
             [showResetOption]="false"
             [multiple]="false"
+            dhDropdownTranslator
+            translateKey="wholesale.calculations.calculationTypes"
           >
             @if (formGroup.controls.calculationType.errors?.required) {
               <watt-field-error>
