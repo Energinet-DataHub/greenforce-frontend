@@ -675,7 +675,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Fuldmagter',
     noData: {
       title: '',
-      message: 'Der er ingen fuldmagter'
+      message: 'Der er ingen fuldmagter',
     },
     error: {
       title: 'Ups! Noget gik galt.',
@@ -689,19 +689,22 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   grantConsent: {
     title: '{{organizationName}} har anmodet om fuldmagt',
-    description: 'Giv {{organizationName}} fuldmagt til følgende funktioner på Energy Track And Trace',
+    description:
+      'Giv {{organizationName}} fuldmagt til følgende funktioner på Energy Track And Trace',
     permissions: {
       overview: {
         title: 'Overblik',
-        description: 'Se mængden af overført certificeret grøn strøm samt hvor stor andel af forbrugt strøm der er certificeret grøn strøm.'
+        description:
+          'Se mængden af overført certificeret grøn strøm samt hvor stor andel af forbrugt strøm der er certificeret grøn strøm.',
       },
       meteringPoints: {
         title: 'Målepunkter',
-        description: 'Administrer hvilke produktionselmålere der skal udstede certifikater for grøn strøm, og hvilke forbrugselmålere der skal kunne matches med certificeret grøn strøm.'
+        description:
+          'Administrer hvilke produktionselmålere der skal udstede certifikater for grøn strøm, og hvilke forbrugselmålere der skal kunne matches med certificeret grøn strøm.',
       },
       transferAgreements: {
         title: 'Overførselsaftaler',
-        description: 'Se og opret aftaler om overførsel af certificeret grøn strøm.'
+        description: 'Se og opret aftaler om overførsel af certificeret grøn strøm.',
       },
     },
     acceptTermsAndConditions: 'Accepter <a href="/terms" target="_blank">vilkår og betingelser</a>',

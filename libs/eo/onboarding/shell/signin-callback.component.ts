@@ -39,9 +39,7 @@ interface State {
       align-items: center;
     }
   `,
-  template: `
-    <watt-spinner />
-  `,
+  template: ` <watt-spinner /> `,
 })
 export class EoSigninCallbackComponent implements OnInit {
   private readonly router = inject(Router);
@@ -52,12 +50,14 @@ export class EoSigninCallbackComponent implements OnInit {
     this.authService.userManager
       ?.signinCallback()
       .then((user) => {
-        if(!user) return;
-        if(!user.id_token) return;
+        if (!user) return;
+        if (!user.id_token) return;
 
         this.oldAuthService.handleToken(user.id_token);
         const thirdPartyClientId = (user.state as State).thirdPartyClientId;
-        this.router.navigate(['/consent'], { queryParams: { 'third-party-client-id': thirdPartyClientId } });
+        this.router.navigate(['/consent'], {
+          queryParams: { 'third-party-client-id': thirdPartyClientId },
+        });
       })
       .catch((err) => {
         console.error('Error processing signin callback:', err);

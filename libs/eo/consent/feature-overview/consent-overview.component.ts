@@ -77,7 +77,10 @@ const selector = 'eo-consent-overview';
       </watt-data-table>
     }
 
-    <eo-grant-consent-modal (declined)="onDeclineConsent()" [thirdPartyClientId]="thirdPartyClientId" />
+    <eo-grant-consent-modal
+      (declined)="onDeclineConsent()"
+      [thirdPartyClientId]="thirdPartyClientId"
+    />
   `,
 })
 export class EoConsentOverviewComponent implements OnInit {
@@ -94,8 +97,7 @@ export class EoConsentOverviewComponent implements OnInit {
 
   protected translations = translations;
   // TODO: Backend is not ready yet, so we don't have any data to show or have it will be mocked
-  protected dataSource: WattTableDataSource<unknown> =
-    new WattTableDataSource(undefined);
+  protected dataSource: WattTableDataSource<unknown> = new WattTableDataSource(undefined);
   protected columns!: WattTableColumnDef<unknown>;
   protected state = signal<{ hasError: boolean; isLoading: boolean }>({
     hasError: false,

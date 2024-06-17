@@ -702,20 +702,23 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   grantConsent: {
     title: '{{organizationName}} has requested authorization',
-    description: 'Grant {{organizationName}} authorization for the following functionalities on Energy Track And Trace',
+    description:
+      'Grant {{organizationName}} authorization for the following functionalities on Energy Track And Trace',
     permissions: {
       overview: {
         title: 'Overview',
-        description: 'View the amount of transferred certified green electricity and the proportion of consumed electricity that is certified green.'
+        description:
+          'View the amount of transferred certified green electricity and the proportion of consumed electricity that is certified green.',
       },
       meteringPoints: {
         title: 'Metering Points',
-        description: 'Manage which production meters should issue certificates for green electricity, and which consumption meters should be matched with certified green electricity.'
+        description:
+          'Manage which production meters should issue certificates for green electricity, and which consumption meters should be matched with certified green electricity.',
       },
       transferAgreements: {
         title: 'Transfer Agreements',
-        description: 'View and create agreements for the transfer of certified green electricity.'
-      }
+        description: 'View and create agreements for the transfer of certified green electricity.',
+      },
     },
     acceptTermsAndConditions: 'Accept <a href="/terms" target="_blank">terms and conditions</a>',
     decline: 'Decline',
@@ -724,8 +727,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     declined: 'Authorization declined',
     error: {
       title: 'Unexpected error',
-      message: 'An unexpected error occurred. Please try again.'
-    }
+      message: 'An unexpected error occurred. Please try again.',
+    },
   },
   help: {
     title: 'Help',

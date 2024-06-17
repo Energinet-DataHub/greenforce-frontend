@@ -117,7 +117,9 @@ const routes: Routes = [
         //canActivate: [EoScopeGuard],
         title: translations.consent.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/consent/shell').then((esModule) => esModule.eoConsentRoutes),
+          import('@energinet-datahub/eo/consent/shell').then(
+            (esModule) => esModule.eoConsentRoutes
+          ),
       },
       {
         path: eoClaimsRoutePath,

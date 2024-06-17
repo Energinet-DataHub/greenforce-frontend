@@ -61,7 +61,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
 
-          if(this.#shouldRefreshToken(req.urlWithParams)) {
+          if (this.#shouldRefreshToken(req.urlWithParams)) {
             this.authService.refreshToken().pipe(take(1)).subscribe();
           }
 
@@ -76,7 +76,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
 
-          if(tokenRefreshTrigger && this.#shouldRefreshToken(req.urlWithParams)) {
+          if (tokenRefreshTrigger && this.#shouldRefreshToken(req.urlWithParams)) {
             this.authService.refreshToken();
           }
         },

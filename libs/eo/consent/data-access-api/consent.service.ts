@@ -33,10 +33,14 @@ export class EoConsentService {
   #apiBase = this.#apiEnvironment.apiBase;
 
   getClient(thirdPartyClientId: string) {
-    return this.#http.get<EoConsentClient>(`${this.#apiBase}/authorization/client/${thirdPartyClientId}`);
+    return this.#http.get<EoConsentClient>(
+      `${this.#apiBase}/authorization/client/${thirdPartyClientId}`
+    );
   }
 
   grant(thirdPartyClientId: string) {
-    return this.#http.post(`${this.#apiBase}/authorization/consent/grant`, {idpClientId: thirdPartyClientId});
+    return this.#http.post(`${this.#apiBase}/authorization/consent/grant`, {
+      idpClientId: thirdPartyClientId,
+    });
   }
 }

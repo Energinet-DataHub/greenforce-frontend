@@ -54,7 +54,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   ],
   standalone: true,
   styles: `
-    .eo-grant-consent-modal .watt-modal{
+    .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
       .watt-modal-content {
@@ -105,23 +105,45 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         [formGroup]="form"
       >
         <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
-        <h3>{{ translations.grantConsent.title | transloco: { organizationName: organizationName() } }}</h3>
-        <p>{{ translations.grantConsent.description | transloco: { organizationName: organizationName() } }}</p>
+        <h3>
+          {{
+            translations.grantConsent.title | transloco: { organizationName: organizationName() }
+          }}
+        </h3>
+        <p>
+          {{
+            translations.grantConsent.description
+              | transloco: { organizationName: organizationName() }
+          }}
+        </p>
 
         <ul>
-          @for(permission of permissions; track permission;) {
+          @for (permission of permissions; track permission) {
             <li>
-              <watt-checkbox [formControlName]="permission[0]">{{permission[1].title | transloco}}</watt-checkbox>
-              <p class="watt-text-s">{{permission[1].description | transloco}}</p>
+              <watt-checkbox [formControlName]="permission[0]">{{
+                permission[1].title | transloco
+              }}</watt-checkbox>
+              <p class="watt-text-s">{{ permission[1].description | transloco }}</p>
             </li>
           }
         </ul>
 
         <watt-modal-actions>
-          <watt-checkbox formControlName="termsAndConditions"><span [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"></span></watt-checkbox>
+          <watt-checkbox formControlName="termsAndConditions"
+            ><span
+              [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
+            ></span
+          ></watt-checkbox>
           <div>
-            <watt-button variant="secondary" (click)="decline()">{{ translations.grantConsent.decline | transloco }}</watt-button>
-            <watt-button variant="secondary" (click)="accept()" [disabled]="!form.value.termsAndConditions">{{ translations.grantConsent.accept | transloco }}</watt-button>
+            <watt-button variant="secondary" (click)="decline()">{{
+              translations.grantConsent.decline | transloco
+            }}</watt-button>
+            <watt-button
+              variant="secondary"
+              (click)="accept()"
+              [disabled]="!form.value.termsAndConditions"
+              >{{ translations.grantConsent.accept | transloco }}</watt-button
+            >
           </div>
         </watt-modal-actions>
       </watt-modal>
@@ -151,7 +173,7 @@ export class EoGrantConsentModalComponent implements OnInit {
 
   private setForm() {
     this.form = new FormGroup({
-      termsAndConditions: new FormControl(false)
+      termsAndConditions: new FormControl(false),
     });
 
     this.permissions.forEach((permission) => {
@@ -162,7 +184,7 @@ export class EoGrantConsentModalComponent implements OnInit {
 
   open() {
     // If the third party client id is not set, theres no reason to open the modal
-    if(!this.thirdPartyClientId) return;
+    if (!this.thirdPartyClientId) return;
 
     // TODO: Add loading state in the modal instead of waiting
     this.consentService.getClient(this.thirdPartyClientId).subscribe((x) => {
@@ -177,25 +199,25 @@ export class EoGrantConsentModalComponent implements OnInit {
   }
 
   accept() {
-    if(!this.form.value.termsAndConditions) return;
+    if (!this.form.value.termsAndConditions) return;
     this.consentService.grant(this.thirdPartyClientId).subscribe({
       next: (success) => {
-        if(!success) return;
+        if (!success) return;
 
         this.toastService.open({
           message: this.transloco.translate(this.translations.grantConsent.accepted),
-          type: 'success'
+          type: 'success',
         });
       },
       error: (error: HttpErrorResponse) => {
-        if(error.status === 403) return;
+        if (error.status === 403) return;
 
         this.toastService.open({
           message: this.transloco.translate(this.translations.grantConsent.error.title),
-          type: 'danger'
+          type: 'danger',
         });
-      }
-    })
+      },
+    });
   }
 
   decline() {

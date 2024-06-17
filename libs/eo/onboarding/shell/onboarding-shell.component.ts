@@ -33,9 +33,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       align-items: center;
     }
   `,
-  template: `
-    <watt-spinner />
-  `,
+  template: ` <watt-spinner /> `,
 })
 export class EoOnboardingShellComponent implements OnInit {
   private auth = inject(AuthService);
@@ -45,7 +43,7 @@ export class EoOnboardingShellComponent implements OnInit {
 
   ngOnInit() {
     const thirdPartyClientId = this.route.snapshot.queryParamMap.get('client-id');
-    if(!thirdPartyClientId) return;
+    if (!thirdPartyClientId) return;
 
     this.auth.login(thirdPartyClientId).catch((err) => {
       console.error('Error logging in:', err);
