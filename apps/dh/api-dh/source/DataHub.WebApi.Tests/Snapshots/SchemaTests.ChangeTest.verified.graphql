@@ -111,7 +111,7 @@ type Calculation {
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
   statusType: ProcessStatus!
-  progress: [CalculationProgress]
+  progress: [CalculationProgress!]!
   runId: Long
   resolution: String
   unit: String
@@ -127,6 +127,7 @@ type Calculation {
 type CalculationProgress {
   step: CalculationProgressStep!
   status: CalculationProgressStatus!
+  current: Boolean!
 }
 
 type CreateCalculationPayload {
