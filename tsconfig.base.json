@@ -249,6 +249,16 @@
         "libs/eo/claims/feature-overview/index.ts"
       ],
       "@energinet-datahub/eo/claims/shell": ["libs/eo/claims/shell/index.ts"],
+      "@energinet-datahub/eo/consent/data-access-api": [
+        "libs/eo/consent/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/feature-grant-consent": [
+        "libs/eo/consent/feature-grant-consent/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/feature-overview": [
+        "libs/eo/consent/feature-overview/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/shell": ["libs/eo/consent/shell/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],

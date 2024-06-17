@@ -15,20 +15,14 @@
  * limitations under the License.
  */
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from './auth.service';
-
-interface State {
-  thirdPartyClientId: string;
-}
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   standalone: true,
-  selector: 'eo-signin-callback',
+  selector: 'eo-onboarding-shell',
   imports: [WattSpinnerComponent],
   styles: `
     :host {
@@ -43,24 +37,18 @@ interface State {
     <watt-spinner />
   `,
 })
-export class EoSigninCallbackComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
-  private readonly oldAuthService = inject(EoAuthService);
+export class EoOnboardingShellComponent implements OnInit {
+  private auth = inject(AuthService);
+  private route = inject(ActivatedRoute);
+
+  clientId: string | null = null;
 
   ngOnInit() {
-    this.authService.userManager
-      ?.signinCallback()
-      .then((user) => {
-        if(!user) return;
-        if(!user.id_token) return;
+    const thirdPartyClientId = this.route.snapshot.queryParamMap.get('client-id');
+    if(!thirdPartyClientId) return;
 
-        this.oldAuthService.handleToken(user.id_token);
-        const thirdPartyClientId = (user.state as State).thirdPartyClientId;
-        this.router.navigate(['/consent'], { queryParams: { 'third-party-client-id': thirdPartyClientId } });
-      })
-      .catch((err) => {
-        console.error('Error processing signin callback:', err);
-      });
+    this.auth.login(thirdPartyClientId).catch((err) => {
+      console.error('Error logging in:', err);
+    });
   }
 }

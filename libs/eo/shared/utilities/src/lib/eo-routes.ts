@@ -29,6 +29,7 @@ export const eoSimultaneityRoutePath = 'simultaneity';
 export const eoGeographyRoutePath = 'geography';
 export const eoTermsRoutePath = 'terms';
 export const eoTransferRoutePath = 'transfers';
+export const eoConsentRoutePath = 'consent';
 export const eoClaimsRoutePath = 'claims';
 export const eoActivityLogRoutePath = 'activity-log';
 
@@ -48,6 +49,7 @@ export const eoRoutes = {
   geography: eoGeographyRoutePath,
   terms: eoTermsRoutePath,
   transfer: eoTransferRoutePath,
+  consent: eoConsentRoutePath,
   claims: eoClaimsRoutePath,
   activityLog: eoActivityLogRoutePath,
 };

@@ -25,19 +25,25 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, concatMap, filter, map, take, tap, throwError } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
+
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+// These URLS are using the new auth flow and should not trigger a token refresh
+const ignoreTokenRefreshUrls = ['/api/authorization/consent/grant'];
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
   TokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
 
   constructor(
-    private snackBar: MatSnackBar,
     private authService: EoAuthService,
-    private authStore: EoAuthStore
+    private authStore: EoAuthStore,
+    private toastService: WattToastService,
+    private transloco: TranslocoService
   ) {}
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -54,8 +60,12 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         catchError((error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
-          this.authService.refreshToken().pipe(take(1)).subscribe();
-          return throwError(() => new Error(`An error occurred`));
+
+          if(this.#shouldRefreshToken(req.urlWithParams)) {
+            this.authService.refreshToken().pipe(take(1)).subscribe();
+          }
+
+          return throwError(() => error);
         })
       );
     }
@@ -65,14 +75,25 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
-          tokenRefreshTrigger && this.authService.refreshToken();
+
+          if(tokenRefreshTrigger && this.#shouldRefreshToken(req.urlWithParams)) {
+            this.authService.refreshToken();
+          }
         },
       })
     );
   }
 
+  #shouldRefreshToken(url: string): boolean {
+    const path = new URL(url).pathname;
+    return !ignoreTokenRefreshUrls.includes(path);
+  }
+
   #displayPermissionError() {
-    return this.snackBar.open('You do not have permission to perform this action.').afterOpened();
+    this.toastService.open({
+      message: this.transloco.translate('You do not have permission to perform this action.'),
+      type: 'danger',
+    });
   }
 
   #is403ForbiddenResponse(error: unknown): boolean {

@@ -56,6 +56,7 @@ export class AuthService {
        */
       response_type: 'code',
     };
+
     this.userManager = new UserManager(settings);
   }
 
@@ -64,7 +65,6 @@ export class AuthService {
   }
 
   login(thirdPartyClientId: string | null): Promise<void> {
-    console.log('Xxxx', thirdPartyClientId);
     return this.userManager?.signinRedirect({ state: { thirdPartyClientId } }) ?? Promise.resolve();
   }
 

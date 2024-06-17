@@ -34,6 +34,7 @@ import {
   eoTransferRoutePath,
   eoActivityLogRoutePath,
   eoOnboardingRoutePath,
+  eoConsentRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
@@ -112,6 +113,13 @@ const routes: Routes = [
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
+        path: eoConsentRoutePath,
+        //canActivate: [EoScopeGuard],
+        title: translations.consent.title,
+        loadChildren: () =>
+          import('@energinet-datahub/eo/consent/shell').then((esModule) => esModule.eoConsentRoutes),
+      },
+      {
         path: eoClaimsRoutePath,
         canActivate: [EoScopeGuard],
         title: translations.claims.title,
@@ -162,14 +170,22 @@ const LanguagePrefixGuard: CanActivateFn = (
   return true;
 };
 
+const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
+  const transloco = inject(TranslocoService);
+  transloco.setActiveLang(RouterStateSnapshot.url.toString());
+  return true;
+};
+
 export const eoShellRoutes: Routes = [
   {
     path: 'en',
     children: routes,
+    canActivate: [setDefaultLang],
   },
   {
     path: 'da',
     children: routes,
+    canActivate: [setDefaultLang],
   },
   // Redirect from the root to the default language
   { path: '', component: EoLoginComponent, canActivate: [LanguagePrefixGuard], pathMatch: 'full' },

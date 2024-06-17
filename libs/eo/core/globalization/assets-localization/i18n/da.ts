@@ -170,6 +170,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     certificates: 'Certifikater',
     transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
+    consent: 'Fuldmagter',
   },
   footer: {
     poweredBy: 'Drevet af',
@@ -668,6 +669,49 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Ugyldigt forslag til overførselsaftale',
       message: `Forslaget til overførselsaftale, du netop klikkede på, er ikke gyldigt <br /> Hvis dette ikke var, hvad du forventede, kontakt venligst afsenderen af linket.`,
       declineButton: 'Ok',
+    },
+  },
+  consent: {
+    title: 'Fuldmagter',
+    noData: {
+      title: '',
+      message: 'Der er ingen fuldmagter'
+    },
+    error: {
+      title: 'Ups! Noget gik galt.',
+      message: 'Prøv venligst at genindlæse siden.',
+    },
+    tableTitle: 'Fuldmagter',
+    grantorTableHeader: 'Fuldmagtsgiver',
+    agentTableHeader: 'Fuldmagtshaver',
+    validFromTableHeader: 'Gyldig fra',
+    requestForConsent: 'Anmod om fuldmagt',
+  },
+  grantConsent: {
+    title: '{{organizationName}} har anmodet om fuldmagt',
+    description: 'Giv {{organizationName}} fuldmagt til følgende funktioner på Energy Track And Trace',
+    permissions: {
+      overview: {
+        title: 'Overblik',
+        description: 'Se mængden af overført certificeret grøn strøm samt hvor stor andel af forbrugt strøm der er certificeret grøn strøm.'
+      },
+      meteringPoints: {
+        title: 'Målepunkter',
+        description: 'Administrer hvilke produktionselmålere der skal udstede certifikater for grøn strøm, og hvilke forbrugselmålere der skal kunne matches med certificeret grøn strøm.'
+      },
+      transferAgreements: {
+        title: 'Overførselsaftaler',
+        description: 'Se og opret aftaler om overførsel af certificeret grøn strøm.'
+      },
+    },
+    acceptTermsAndConditions: 'Accepter <a href="/terms" target="_blank">vilkår og betingelser</a>',
+    decline: 'Afvis',
+    accept: 'Accepter',
+    accepted: 'Fuldmagt afgivet',
+    declined: 'Fuldmagt afvist',
+    error: {
+      title: 'Uventet fejl',
+      message: 'Der opstod en uventet fejl. Prøv igen.',
     },
   },
   help: {

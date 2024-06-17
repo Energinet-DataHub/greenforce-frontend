@@ -181,6 +181,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     certificates: 'Certificates',
     transfers: 'Transfers',
     activityLog: 'Activity Log',
+    consent: 'Consent',
   },
   footer: {
     poweredBy: 'Powered by',
@@ -682,6 +683,49 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       `,
       declineButton: 'Ok',
     },
+  },
+  consent: {
+    title: 'Consent',
+    noData: {
+      title: '',
+      message: 'You do not have any consents.',
+    },
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page..',
+    },
+    tableTitle: 'Consents',
+    grantorTableHeader: 'Grantor',
+    agentTableHeader: 'Agent',
+    validFromTableHeader: 'Valid from',
+    requestForConsent: 'Request for consent',
+  },
+  grantConsent: {
+    title: '{{organizationName}} has requested authorization',
+    description: 'Grant {{organizationName}} authorization for the following functionalities on Energy Track And Trace',
+    permissions: {
+      overview: {
+        title: 'Overview',
+        description: 'View the amount of transferred certified green electricity and the proportion of consumed electricity that is certified green.'
+      },
+      meteringPoints: {
+        title: 'Metering Points',
+        description: 'Manage which production meters should issue certificates for green electricity, and which consumption meters should be matched with certified green electricity.'
+      },
+      transferAgreements: {
+        title: 'Transfer Agreements',
+        description: 'View and create agreements for the transfer of certified green electricity.'
+      }
+    },
+    acceptTermsAndConditions: 'Accept <a href="/terms" target="_blank">terms and conditions</a>',
+    decline: 'Decline',
+    accept: 'Accept',
+    accepted: 'Authorization granted',
+    declined: 'Authorization declined',
+    error: {
+      title: 'Unexpected error',
+      message: 'An unexpected error occurred. Please try again.'
+    }
   },
   help: {
     title: 'Help',
