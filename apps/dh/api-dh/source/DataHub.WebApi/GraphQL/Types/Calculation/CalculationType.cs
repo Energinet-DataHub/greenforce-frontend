@@ -58,6 +58,26 @@ public class CalculationType : ObjectType<CalculationDto>
             });
 
         descriptor
+            .Field("currentProgress")
+            .Resolve(context =>
+            {
+                var state = context.Parent<CalculationDto>().OrchestrationState;
+                var currentStep = GetProgressStepFromOrchestrationState(state);
+                var status = currentStep switch
+                {
+                    CalculationProgressStep.Schedule => GetScheduleProgress(state),
+                    CalculationProgressStep.Calculate => GetCalculateProgress(state),
+                    CalculationProgressStep.ActorMessageEnqueue => GetActorMessageEnqueueProgress(state),
+                };
+
+                return new CalculationProgress()
+                {
+                    Step = currentStep,
+                    Status = status,
+                };
+            });
+
+        descriptor
             .Field("progress")
             .Type<NonNullType<ListType<NonNullType<ObjectType<CalculationProgress>>>>>()
             .Resolve(context =>
@@ -70,19 +90,16 @@ public class CalculationType : ObjectType<CalculationDto>
                     {
                         Step = CalculationProgressStep.Schedule,
                         Status = GetScheduleProgress(state),
-                        Current = currentStep == CalculationProgressStep.Schedule,
                     },
                     new()
                     {
                         Step = CalculationProgressStep.Calculate,
                         Status = GetCalculateProgress(state),
-                        Current = currentStep == CalculationProgressStep.Calculate,
                     },
                     new()
                     {
                         Step = CalculationProgressStep.ActorMessageEnqueue,
                         Status = GetActorMessageEnqueueProgress(state),
-                        Current = currentStep == CalculationProgressStep.ActorMessageEnqueue,
                     },
                 };
             });

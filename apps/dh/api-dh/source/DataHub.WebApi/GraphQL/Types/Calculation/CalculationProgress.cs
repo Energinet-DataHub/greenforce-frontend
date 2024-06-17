@@ -21,6 +21,4 @@ public class CalculationProgress
     public CalculationProgressStep Step { get; set; }
 
     public ProgressStatus Status { get; set; }
-
-    public bool Current { get; set; }
 }
