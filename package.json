@@ -100,7 +100,6 @@
     "graphql-sse": "^2.5.3",
     "highlight.js": "^11.9.0",
     "include-media": "2.0.0",
-    "install": "^0.13.0",
     "jwt-decode": "4.0.0",
     "libphonenumber-js": "1.10.60",
     "lottie-web": "5.12.2",
