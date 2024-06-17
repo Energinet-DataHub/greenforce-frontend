@@ -6,10 +6,10 @@
   "prefix": "watt",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/watt"],
       "options": {
-        "jestConfig": "libs/watt/jest.config.ts"
+        "config": "libs/watt/vite.config.ts"
       }
     },
     "lint": {

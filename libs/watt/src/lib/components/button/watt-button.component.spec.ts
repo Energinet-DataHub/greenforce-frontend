@@ -52,6 +52,8 @@ describe(WattButtonComponent, () => {
       imports: [WattButtonComponent],
     });
 
+    const test = screen.queryByTestId(testId);
+    console.log(test);
     const button = screen.queryByTestId(testId)?.querySelector('button');
 
     expect(button).toHaveTextContent('Default button');

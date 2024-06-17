@@ -62,7 +62,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes when rejected', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('No'));
@@ -71,7 +71,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes when accepted', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('Yes'));
@@ -80,7 +80,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes on ESC', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');
@@ -89,7 +89,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes on close button click', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
@@ -100,14 +100,14 @@ describe(WattModalComponent, () => {
   });
 
   it('disables close button', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
   });
 
   it('disables ESC', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');

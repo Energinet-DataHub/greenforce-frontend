@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 
-import 'jest-preset-angular/setup-jest';
+import '@analogjs/vite-plugin-angular/setup-vitest';
+import '@testing-library/jest-dom/vitest';
 
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+import { getTestBed } from '@angular/core/testing';
 
-addDomMatchers();
-setUpTestbed();
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());

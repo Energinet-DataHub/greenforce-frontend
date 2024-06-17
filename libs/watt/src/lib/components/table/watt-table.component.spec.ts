@@ -199,7 +199,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs event when sorting column', async () => {
-    const sortChange = jest.fn();
+    const sortChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position', sort: true },
@@ -218,7 +218,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs event when clicking on row', async () => {
-    const rowClick = jest.fn();
+    const rowClick = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -234,7 +234,7 @@ describe(WattTableComponent, () => {
   });
 
   it('selects the active row', async () => {
-    const rowClick = jest.fn();
+    const rowClick = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position', sort: true },
@@ -270,7 +270,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs entire dataset when selecting all rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -292,7 +292,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs empty array when unselecting all rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -315,7 +315,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs data when checking individual rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -339,7 +339,7 @@ describe(WattTableComponent, () => {
   });
 
   it('automatically checks the select all checkbox', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -361,7 +361,7 @@ describe(WattTableComponent, () => {
   });
 
   it('automatically unchecks the select all checkbox', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -384,7 +384,7 @@ describe(WattTableComponent, () => {
   });
 
   it('can set initially selected rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -412,7 +412,7 @@ describe(WattTableComponent, () => {
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -460,7 +460,7 @@ describe(WattTableComponent, () => {
   });
 
   it('shows toolbar when selecting rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
