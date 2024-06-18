@@ -296,8 +296,12 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
-    return selectedEicFunction === EicFunction.BalanceResponsibleParty
-      ? wholesaleCalculationTypes
-      : [];
+    if (selectedEicFunction === EicFunction.BalanceResponsibleParty)
+      return wholesaleCalculationTypes;
+
+    if (selectedEicFunction === EicFunction.SystemOperator)
+      return [CalculationType.Aggregation, CalculationType.BalanceFixing];
+
+    return [];
   }
 }

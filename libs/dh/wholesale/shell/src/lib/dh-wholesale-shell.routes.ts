@@ -25,7 +25,12 @@ import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 export const dhWholesaleShellRoutes: Route[] = [
   {
     path: getPath<WholesaleSubPaths>('request-calculation'),
-    canActivate: [PermissionGuard(['request-aggregated-measured-data:view'])],
+    canActivate: [
+      PermissionGuard([
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+      ]),
+    ],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
     data: {
       titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
