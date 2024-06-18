@@ -40,21 +40,27 @@ export default {
 
 const template = `
   <watt-timepicker label="Single time" [formControl]="exampleFormControlSingle">
-    <watt-field-error *ngIf="exampleFormControlSingle?.errors?.startTimeCannotBeLaterThan3Hours">
-      Time cannot be later than 3 hours ago
-    </watt-field-error>
+    @if (exampleFormControlSingle?.errors?.startTimeCannotBeLaterThan3Hours) {
+      <watt-field-error>
+        Time cannot be later than 3 hours ago
+      </watt-field-error>
+    }
   </watt-timepicker>
 
   <p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
-  <p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
+  @if (withValidations) {
+    <p>Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
+  }
 
   <br />
 
   <watt-timepicker label="Time range" sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true" />
 
   <p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
-  <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
- `;
+  @if (withValidations) {
+    <p>Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
+  }
+`;
 
 const initialValue = '00:00';
 

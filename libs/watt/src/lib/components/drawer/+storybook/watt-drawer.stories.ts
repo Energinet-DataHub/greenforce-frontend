@@ -73,12 +73,14 @@ const template = `
   </watt-drawer-actions>
 
   <!--
-    *ngIf ensures the content are not loaded before the drawer is open,
-    and make sure it's getting destroyed when drawer is closed
+    @if ensures the content is not loaded before the drawer is open,
+    and makes sure it's getting destroyed when drawer is closed
   -->
-  <watt-drawer-content *ngIf="drawer.isOpen">
-    <watt-storybook-drawer-content></watt-storybook-drawer-content>
-  </watt-drawer-content>
+  @if (drawer.isOpen) {
+    <watt-drawer-content>
+      <watt-storybook-drawer-content></watt-storybook-drawer-content>
+    </watt-drawer-content>
+  }
 </watt-drawer>
 
 <watt-button (click)="drawer.open()">Open drawer</watt-button><br /><br />
@@ -125,15 +127,19 @@ export const Multiple: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
     <watt-drawer #first (closed)="closed()">
-      <watt-drawer-content *ngIf="first.isOpen">
-        First drawer
-      </watt-drawer-content>
+      @if (first.isOpen) {
+        <watt-drawer-content>
+          First drawer
+        </watt-drawer-content>
+      }
     </watt-drawer>
 
     <watt-drawer #second (closed)="closed()">
-      <watt-drawer-content *ngIf="second.isOpen">
-        Second drawer
-      </watt-drawer-content>
+      @if (second.isOpen) {
+        <watt-drawer-content>
+          Second drawer
+        </watt-drawer-content>
+      }
     </watt-drawer>
 
     <watt-button (click)="first.open()">Open first</watt-button><br /><br />
