@@ -79,7 +79,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
   template: `<form
     vater-stack
     direction="row"
-    gap="m"
+    gap="s"
     tabindex="-1"
     fill="horizontal"
     *transloco="
