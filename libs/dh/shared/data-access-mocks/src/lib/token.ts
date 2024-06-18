@@ -20,7 +20,7 @@ import encBase64 from 'crypto-js/enc-base64';
 import encUtf8 from 'crypto-js/enc-utf8';
 
 import { permissions } from '@energinet-datahub/dh/shared/domain';
-import { actorQuerySelection } from './data/marketParticipantActorQuerySelectionActors';
+import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
 
 export function tokenMocks(apiBase: string) {
   return [postToken(apiBase)];
@@ -54,7 +54,11 @@ function postToken(apiBase: string) {
       {
         token: createJWT(
           { alg: 'HS256' },
-          { role: permissions, azp: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1', multitenancy: isFas },
+          {
+            role: permissions,
+            azp: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
+            multitenancy: isFas,
+          },
           ''
         ),
       },

@@ -1,4 +1,4 @@
-[
+export const marketParticipantUserRoleGetAll = [
   {
     "id": "ff029a48-b06f-4300-8ec0-84d121a4b83f",
     "name": "Balanceansvarlig",
