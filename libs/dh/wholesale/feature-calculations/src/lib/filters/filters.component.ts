@@ -21,22 +21,29 @@ import {
   Input,
   OnInit,
   Output,
-  inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { debounceTime, map } from 'rxjs';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { debounceTime } from 'rxjs';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { CalculationQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
-import { executionStates, calculationTypes } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  CalculationQueryInput,
+  CalculationState,
+  CalculationType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -56,6 +63,9 @@ type Filters = FormControls<CalculationQueryInput>;
     WattDateRangeChipComponent,
     WattDropdownComponent,
     WattFormChipDirective,
+    WattQueryParamsDirective,
+
+    DhDropdownTranslatorDirective,
   ],
   selector: 'dh-calculations-filters',
   styles: [
@@ -72,18 +82,23 @@ type Filters = FormControls<CalculationQueryInput>;
       gap="s"
       tabindex="-1"
       [formGroup]="_formGroup"
+      wattQueryParams
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
       <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
         t('period')
       }}</watt-date-range-chip>
+
       <watt-dropdown
         formControlName="calculationTypes"
         [chipMode]="true"
         [multiple]="true"
-        [options]="_calculationTypeOptions | push"
+        [options]="calculationTypesOptions"
         [placeholder]="t('calculationType')"
+        dhDropdownTranslator
+        translateKey="wholesale.calculations.calculationTypes"
       />
+
       <watt-dropdown
         formControlName="gridAreaCodes"
         [chipMode]="true"
@@ -92,17 +107,23 @@ type Filters = FormControls<CalculationQueryInput>;
         [options]="gridAreaOptions$ | push"
         [placeholder]="t('gridAreas')"
       />
+
       <watt-date-range-chip [formControl]="this._formGroup.controls.executionTime!">
         {{ t('executionTime') }}
       </watt-date-range-chip>
+
       <watt-dropdown
         formControlName="executionStates"
         [chipMode]="true"
         [multiple]="true"
-        [options]="_executionStateOptions | push"
+        [options]="executionStateOptions"
         [placeholder]="t('executionStates')"
+        dhDropdownTranslator
+        translateKey="wholesale.calculations.executionStates"
       />
+
       <vater-spacer />
+
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
   `,
@@ -111,27 +132,10 @@ export class DhCalculationsFiltersComponent implements OnInit {
   @Input() initial?: CalculationQueryInput;
   @Output() filter = new EventEmitter<CalculationQueryInput>();
 
-  private transloco = inject(TranslocoService);
-
   _formGroup!: FormGroup<Filters>;
 
-  _calculationTypeOptions = this.transloco
-    .selectTranslateObject('wholesale.calculations.calculationTypes')
-    .pipe(
-      map((translations) =>
-        calculationTypes.map((calculationType) => ({
-          displayValue: this.transloco.translate(
-            translations[calculationType].replace(/{{|}}/g, '')
-          ),
-          value: calculationType,
-        }))
-      )
-    );
-
-  _executionStateOptions = this.transloco
-    .selectTranslateObject('wholesale.calculations.executionStates')
-    .pipe(map((t) => executionStates.map((k) => ({ displayValue: t[k], value: k }))));
-
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
+  executionStateOptions = dhEnumToWattDropdownOptions(CalculationState);
   gridAreaOptions$ = getGridAreaOptions();
 
   ngOnInit() {

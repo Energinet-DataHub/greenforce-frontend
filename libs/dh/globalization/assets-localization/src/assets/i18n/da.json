@@ -975,17 +975,18 @@
       "topBarTitle": "Anmod om beregning",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
+      "resolution": "Opløsning",
       "period": "Periode",
       "gridAreas": "Netområder",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være 31 dage",
       "calculationTypes": {
-        "preliminaryaggregation": "Aggregering",
-        "balancefixing": "Balancefiksering",
-        "wholesalefixing": "Engrosfiksering",
-        "firstcorrection": "Første korrektion",
-        "secondcorrection": "Anden korrektion",
-        "thirdcorrection": "Tredje korrektion"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering",
+        "WHOLESALE_FIXING": "Engrosfiksering",
+        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
       "meteringPointTypes": {
         "All": "Alle",
@@ -994,6 +995,9 @@
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
+      },
+      "resolutionOptions": {
+        "P1M": "Månedlig"
       }
     },
     "settlementReportsV2": {
@@ -1208,8 +1212,8 @@
         "InviteExpired": "Aktivering udløbet"
       },
       "roleStatus": {
-        "active": "Aktiv",
-        "inactive": "Inaktiv"
+        "Active": "Aktiv",
+        "Inactive": "Inaktiv"
       },
       "tabs": {
         "masterData": {

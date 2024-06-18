@@ -34,7 +34,7 @@ on:
 
 env:
   # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.8
+  BUN_VERSION: 1.1.13
 
 jobs:
   changes:

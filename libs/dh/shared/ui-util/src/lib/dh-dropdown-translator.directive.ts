@@ -29,11 +29,11 @@ export class DhDropdownTranslatorDirective implements OnInit {
   private host = inject(WattDropdownComponent);
   private destroyRef = inject(DestroyRef);
 
-  translate = input.required<string>();
+  translateKey = input.required<string>();
 
   ngOnInit(): void {
     this.translocoService
-      .selectTranslateObject<object>(this.translate())
+      .selectTranslateObject<object>(this.translateKey())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (keys) => {
@@ -45,11 +45,21 @@ export class DhDropdownTranslatorDirective implements OnInit {
   private setTranslation(keys: object): void {
     const translatedOptions = this.host.options.map((option) => ({
       ...option,
-      displayValue: keys[option.value as keyof typeof keys],
+      displayValue: this.translateDisplayValue(keys[option.value as keyof typeof keys]),
     }));
 
     this.host.options = this.host.sortDirection
       ? this.host.sortOptions(translatedOptions)
       : translatedOptions;
+  }
+
+  private translateDisplayValue(value: string): string {
+    if (value.startsWith('{{')) {
+      const key = value.replace(/{{|}}/g, '').trim();
+
+      return this.translocoService.translate(key);
+    }
+
+    return value;
   }
 }

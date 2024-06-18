@@ -21,7 +21,7 @@ on:
 env:
   APP_NAME: designsystem
   # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.8
+  BUN_VERSION: 1.1.13
 
 jobs:
   #

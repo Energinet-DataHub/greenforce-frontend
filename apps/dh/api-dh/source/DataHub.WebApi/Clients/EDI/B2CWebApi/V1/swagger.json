@@ -64,17 +64,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
               }
             }
           }
@@ -132,17 +144,32 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
               }
             }
           }
@@ -174,17 +201,32 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
               }
             }
           }
@@ -270,10 +312,19 @@
         "additionalProperties": false,
         "properties": {
           "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
           },
           "meteringPointType": {
-            "$ref": "#/components/schemas/MeteringPointType"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
           },
           "startDate": {
             "type": "string"
@@ -315,7 +366,11 @@
         "additionalProperties": false,
         "properties": {
           "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
           },
           "startDate": {
             "type": "string"
@@ -352,7 +407,12 @@
         "additionalProperties": false,
         "properties": {
           "createdDuringPeriod": {
-            "$ref": "#/components/schemas/MessageCreationPeriod"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageCreationPeriod"
+              }
+            ]
           },
           "messageId": {
             "type": "string",

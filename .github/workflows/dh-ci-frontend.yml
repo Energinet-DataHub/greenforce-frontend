@@ -23,7 +23,7 @@ env:
   IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
   IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
   # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.8
+  BUN_VERSION: 1.1.13
 
 jobs:
   #

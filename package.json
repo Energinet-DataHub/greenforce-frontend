@@ -7,8 +7,8 @@
   "engines": {
     "node": "20.11.0",
     "npm": "Please use Bun instead of npm to install dependencies.",
-    "yarn": "Please use Bun instead of npm to install dependencies.",
-    "bun": "1.1.8"
+    "yarn": "Please use Bun instead of yarn to install dependencies.",
+    "bun": "1.1.13"
   },
   "scripts": {
     "postinstall": "bun husky install",
@@ -57,7 +57,8 @@
     "take": "bun ./tools/github/create-branch-from-issue.ts",
     "branch": "bun ./tools/github/create-branch.ts",
     "pr": "bun ./tools/github/create-pr.ts",
-    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)"
+    "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
+    "review": "gh pr checkout --"
   },
   "dependencies": {
     "@angular/animations": "18.0.2",
@@ -94,7 +95,7 @@
     "date-fns": "2.29.2",
     "date-fns-tz": "2.0.0",
     "dayjs": "1.11.10",
-    "express": "~4.18.2",
+    "express": "4.19.2",
     "graphql": "16.8.1",
     "graphql-sse": "^2.5.3",
     "highlight.js": "^11.9.0",
@@ -125,7 +126,7 @@
     "@babel/runtime": "7.22.6",
     "@badeball/cypress-cucumber-preprocessor": "20.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
-    "@compodoc/compodoc": "1.1.23",
+    "@compodoc/compodoc": "1.1.25",
     "@cypress/webpack-dev-server": "3.9.0",
     "@graphql-codegen/add": "5.0.2",
     "@graphql-codegen/cli": "5.0.2",
@@ -218,9 +219,9 @@
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
     "node": "20.11.0",
     "//bun-comment": "Keep this in sync with GitHub actions pipelines",
-    "bun": "1.1.8"
+    "bun": "1.1.13"
   },
-  "packageManager": "bun@1.1.8",
+  "packageManager": "bun@1.1.13",
   "msw": {
     "workerDirectory": "libs/gf/msw/util-msw/src/assets"
   }

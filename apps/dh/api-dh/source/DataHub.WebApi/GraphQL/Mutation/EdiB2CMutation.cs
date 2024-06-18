@@ -14,67 +14,70 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using NodaTime;
-using EdiB2CWebAppCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
-using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
 public partial class Mutation
 {
-    public async Task<bool> CreateAggregatedMeasureDataRequestAsync(
-        EdiB2CWebAppCalculationType calculationType,
+    public async Task<bool> RequestCalculationAsync(
+        Clients.Wholesale.v3.CalculationType calculationType,
+        Interval period,
+        string gridArea,
         MeteringPointType? meteringPointType,
-        string startDate,
-        string? endDate,
-        string? gridArea,
+        string? resolution,
         string? energySupplierId,
         string? balanceResponsibleId,
-        CancellationToken cancellationToken,
-        [Service] IEdiB2CWebAppClient_V1 client)
+        [Service] IEdiB2CWebAppClient_V1 client,
+        CancellationToken cancellationToken)
     {
-        await client.RequestAggregatedMeasureDataAsync(
-                "1.0",
-                new RequestAggregatedMeasureDataMarketRequest()
-                {
-                    CalculationType = calculationType,
-                    MeteringPointType = meteringPointType!.Value,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    GridArea = gridArea,
-                    EnergySupplierId = energySupplierId,
-                    BalanceResponsibleId = balanceResponsibleId,
-                },
-                cancellationToken)
-            .ConfigureAwait(false);
-        return true;
-    }
+        var ediCalculationType = calculationType switch {
+            Clients.Wholesale.v3.CalculationType.Aggregation => CalculationType.PreliminaryAggregation,
+            Clients.Wholesale.v3.CalculationType.BalanceFixing => CalculationType.BalanceFixing,
+            Clients.Wholesale.v3.CalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
+            Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrection,
+            Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrection,
+            Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrection,
+        };
 
-    public async Task<bool> CreateWholesaleSettlementRequestAsync(
-        EdiB2CWebAppCalculationType calculationType,
-        Interval period,
-        string? gridArea,
-        string? energySupplierId,
-        string? chargeOwner,
-        string? resolution,
-        RequestWholesaleSettlementChargeType[] chargeTypes,
-        CancellationToken cancellationToken,
-        [Service] IEdiB2CWebAppClient_V1 client)
-    {
-        await client.RequestWholesaleSettlementAsync(
-                "1.0",
-                new RequestWholesaleSettlementMarketRequest()
-                {
-                    CalculationType = calculationType,
-                    StartDate = period.Start.ToString(),
-                    EndDate = period.End.ToString(),
-                    GridArea = gridArea,
-                    EnergySupplierId = energySupplierId,
-                    ChargeOwner = chargeOwner,
-                    Resolution = resolution,
-                    ChargeTypes = chargeTypes,
-                },
-                cancellationToken)
-            .ConfigureAwait(false);
+        switch (ediCalculationType)
+        {
+            case CalculationType.PreliminaryAggregation:
+            case CalculationType.BalanceFixing:
+                await client.RequestAggregatedMeasureDataAsync(
+                    "1.0",
+                    new RequestAggregatedMeasureDataMarketRequest()
+                    {
+                        CalculationType = ediCalculationType,
+                        MeteringPointType = meteringPointType,
+                        StartDate = period.Start.ToString(),
+                        EndDate = period.End.ToString(),
+                        GridArea = gridArea,
+                        EnergySupplierId = energySupplierId,
+                        BalanceResponsibleId = balanceResponsibleId,
+                    },
+                    cancellationToken);
+                break;
+            case CalculationType.WholesaleFixing:
+            case CalculationType.FirstCorrection:
+            case CalculationType.SecondCorrection:
+            case CalculationType.ThirdCorrection:
+                await client.RequestWholesaleSettlementAsync(
+                    "1.0",
+                    new RequestWholesaleSettlementMarketRequest()
+                    {
+                        CalculationType = ediCalculationType,
+                        StartDate = period.Start.ToString(),
+                        EndDate = period.End.ToString(),
+                        GridArea = gridArea,
+                        EnergySupplierId = energySupplierId,
+                        ChargeOwner = null,
+                        Resolution = resolution,
+                        ChargeTypes = [],
+                    },
+                    cancellationToken);
+                break;
+        }
+
         return true;
     }
 }

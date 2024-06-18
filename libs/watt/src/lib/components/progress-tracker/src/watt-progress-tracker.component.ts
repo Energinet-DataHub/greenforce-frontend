@@ -14,10 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { VaterStackComponent } from '../../vater/vater-stack.component';
 
-import { GetUserRoleAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type UserRoleAuditLog = ResultOf<
-  typeof GetUserRoleAuditLogsDocument
->['userRoleAuditLogs'][0];
+@Component({
+  imports: [VaterStackComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  selector: 'watt-progress-tracker',
+  template: `<vater-stack direction="row"><ng-content /></vater-stack>`,
+})
+export class WattProgressTrackerComponent {}

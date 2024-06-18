@@ -44,7 +44,7 @@ import {
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { GetActorsForRequestCalculation } from './data/wholesale-get-actorsForRequestCalculation';
+import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
 import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';
 import { mockSettlementReportCalculationsByGridAreas } from './data/get-settlement-report-calculations-by-grid-areas';
 
@@ -380,7 +380,7 @@ function getActorsForRequestCalculationQuery() {
   return mockGetActorsForRequestCalculationQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actorsForEicFunction: GetActorsForRequestCalculation },
+      data: { __typename: 'Query', actorsForEicFunction: getActorsForRequestCalculation },
     });
   });
 }
@@ -512,8 +512,8 @@ function requestCalculationMutation() {
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        createAggregatedMeasureDataRequest: {
-          __typename: 'CreateAggregatedMeasureDataRequestPayload',
+        requestCalculation: {
+          __typename: 'RequestCalculationPayload',
           success: true,
         },
       },
