@@ -141,13 +141,13 @@ describe(DhAdminUserManagementDataAccessApiStore, () => {
     );
   }));
 
-  it(`when the status filter is updated,
+  it(`when the filters are updated,
   then the API is called`, fakeAsync(async () => {
     const { httpMock, store } = await setup();
 
     const newStatusFilters: MarketParticipantUserStatus[] = ['Active', 'Inactive'];
 
-    store.updateStatusFilter(newStatusFilters);
+    store.updateFilters({ status: newStatusFilters, actorId: null, userRoleIds: [] });
 
     tick();
 

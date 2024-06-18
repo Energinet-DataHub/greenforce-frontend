@@ -18,22 +18,23 @@ import { delay, http, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import { marketParticipantUserActors } from './data/marketParticipantUserActors';
+import { marketParticipantUserRoleView } from './data/market-participant-user-role-view';
+import { marketParticipantUserRolePermissions } from './data/market-participant-user-role-permissions';
 
-export function marketParticipantUserMocks(apiBase: string) {
-  return [getActors(apiBase), postInitiateMitIdSignup(apiBase)];
+export function marketParticipantUserRoleMocks(apiBase: string) {
+  return [GetUserRoleView(apiBase), Permissions(apiBase)];
 }
 
-function getActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUser/GetUserActors`, async () => {
+function GetUserRoleView(apiBase: string) {
+  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserActors, { status: 200 });
+    return HttpResponse.json(marketParticipantUserRoleView);
   });
 }
 
-function postInitiateMitIdSignup(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUser/InitiateMitIdSignup`, async () => {
+function Permissions(apiBase: string) {
+  return http.get(`${apiBase}/v1/MarketParticipantUserRole/Permissions`, async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    return HttpResponse.json(marketParticipantUserRolePermissions);
   });
 }
