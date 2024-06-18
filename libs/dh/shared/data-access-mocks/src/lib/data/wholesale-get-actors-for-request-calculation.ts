@@ -17,7 +17,7 @@
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorForRequestCalculation } from '@energinet-datahub/dh/wholesale/domain';
 
-export const GetActorsForRequestCalculation: ActorForRequestCalculation[] = [
+export const getActorsForRequestCalculation: ActorForRequestCalculation[] = [
   {
     marketRole: EicFunction.BalanceResponsibleParty,
     value: '8200000001553',
