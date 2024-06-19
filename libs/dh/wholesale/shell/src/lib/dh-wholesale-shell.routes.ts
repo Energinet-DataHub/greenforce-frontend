@@ -53,12 +53,4 @@ export const dhWholesaleShellRoutes: Route[] = [
       titleTranslationKey: 'wholesale.settlementReportsV2.topBarTitle',
     },
   },
-  {
-    path: getPath<WholesaleSubPaths>('settlement-reports'),
-    canActivate: [PermissionGuard(['settlement-reports:manage'])],
-    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports'),
-    data: {
-      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
-    },
-  },
 ];
