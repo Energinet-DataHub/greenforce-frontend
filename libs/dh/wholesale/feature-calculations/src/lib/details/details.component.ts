@@ -39,7 +39,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { CalculationById } from '@energinet-datahub/dh/wholesale/domain';
+import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
 
@@ -74,7 +74,7 @@ export class DhCalculationsDetailsComponent {
   @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
 
-  calculation?: CalculationById;
+  calculation?: Calculation;
   error = false;
   loading = false;
 
