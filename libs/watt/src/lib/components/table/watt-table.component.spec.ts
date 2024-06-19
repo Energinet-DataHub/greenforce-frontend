@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Sort } from '@angular/material/sort';
-import { debug } from 'jest-preview';
 import { render, screen, waitFor, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
