@@ -49,13 +49,16 @@ public class CalculationType : ObjectType<CalculationDto>
 
         descriptor
             .Field("statusType")
-            .Resolve(context => context.Parent<CalculationDto>().ExecutionState switch
+            .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
-                CalculationState.Pending => ProcessStatus.Warning,
-                CalculationState.Completed => ProcessStatus.Success,
-                CalculationState.Failed => ProcessStatus.Danger,
-                CalculationState.Executing => ProcessStatus.Info,
-                _ => ProcessStatus.Info,
+                CalculationOrchestrationState.Scheduled => ProcessStatus.Neutral,
+                CalculationOrchestrationState.Calculating => ProcessStatus.Info,
+                CalculationOrchestrationState.CalculationFailed => ProcessStatus.Danger,
+                CalculationOrchestrationState.Calculated => ProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuing => ProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessStatus.Danger,
+                CalculationOrchestrationState.ActorMessagesEnqueued => ProcessStatus.Info,
+                CalculationOrchestrationState.Completed => ProcessStatus.Success,
             });
 
         descriptor

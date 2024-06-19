@@ -20,4 +20,5 @@ public enum ProcessStatus
     Success,
     Danger,
     Info,
+    Neutral,
 }
