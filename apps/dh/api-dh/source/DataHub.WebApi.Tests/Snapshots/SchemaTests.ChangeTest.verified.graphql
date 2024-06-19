@@ -574,7 +574,7 @@ input RequestCalculationInput {
 }
 
 input RequestSettlementReportGridAreaInput {
-  calculationId: UUID!
+  calculationId: UUID
   gridAreaCode: String!
 }
 
@@ -584,6 +584,7 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
+  includeBasisData: Boolean!
   energySupplier: String
   csvLanguage: String
 }

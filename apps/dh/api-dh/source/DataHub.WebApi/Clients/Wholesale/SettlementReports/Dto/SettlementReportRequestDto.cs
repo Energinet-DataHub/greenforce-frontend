@@ -16,4 +16,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
 public sealed record SettlementReportRequestDto(
     bool SplitReportPerGridArea,
+    bool IncludeBasisData,
+    bool IncludeMonthlyAmount,
     SettlementReportRequestFilterDto Filter);
