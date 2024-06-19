@@ -52,6 +52,10 @@ public class CalculationType : ObjectType<CalculationDto>
             .Deprecated();
 
         descriptor
+            .Field(f => f.OrchestrationState)
+            .Name("state");
+
+        descriptor
             .Field("statusType")
             .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {

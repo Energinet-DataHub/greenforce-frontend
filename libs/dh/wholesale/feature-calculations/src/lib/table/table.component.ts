@@ -113,7 +113,7 @@ export class DhCalculationsTableComponent implements OnInit {
     periodTo: { accessor: (calculation) => calculation.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
     calculationType: { accessor: 'calculationType' },
-    status: { accessor: 'executionState' },
+    status: { accessor: 'state' },
   };
 
   getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);

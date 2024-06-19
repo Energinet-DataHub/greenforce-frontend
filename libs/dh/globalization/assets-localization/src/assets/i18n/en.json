@@ -920,11 +920,15 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
-      "executionStates": {
-        "PENDING": "Pending",
-        "EXECUTING": "Running",
-        "COMPLETED": "Finished",
-        "FAILED": "Failed"
+      "states": {
+        "SCHEDULED": "Scheduled",
+        "CALCULATING": "Calculating...",
+        "CALCULATION_FAILED": "Calculation failed",
+        "CALCULATED": "Calculated",
+        "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
+        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
+        "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
+        "COMPLETED": "Messages enqueued"
       },
       "executionTypes": {
         "ACTUAL": "Actual",
@@ -960,6 +964,26 @@
         "executionTime": "Execution time",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
+      },
+      "progress": {
+        "SCHEDULE": {
+          "pending": "Pending scheduling",
+          "executing": "Scheduling",
+          "failed": "Scheduling failed",
+          "completed": "Scheduled"
+        },
+        "CALCULATE": {
+          "pending": "Pending calculation",
+          "executing": "Calculating",
+          "failed": "Calculation failed",
+          "completed": "Calculated"
+        },
+        "ACTOR_MESSAGE_ENQUEUE": {
+          "pending": "Pending enqueuing messages",
+          "executing": "Enqueuing messages",
+          "failed": "Enqueuing messages failed",
+          "completed": "Messages enqueued"
+        }
       },
       "gridAreas": {
         "header": "{{total}} Grid Areas",

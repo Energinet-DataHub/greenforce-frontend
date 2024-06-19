@@ -34,11 +34,12 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+import { CalculationById } from '@energinet-datahub/dh/wholesale/domain';
 
 import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
 
@@ -48,6 +49,7 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
     TranslocoDirective,
 
     WATT_DRAWER,
+    WATT_PROGRESS_TRACKER,
     WattBadgeComponent,
     WattDatePipe,
     WattDescriptionListComponent,
@@ -72,7 +74,7 @@ export class DhCalculationsDetailsComponent {
   @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
 
-  calculation?: Calculation;
+  calculation?: CalculationById;
   error = false;
   loading = false;
 
