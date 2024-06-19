@@ -18,11 +18,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
-  Input,
   OnInit,
-  Output,
   inject,
+  input,
+  output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -89,10 +88,9 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
 export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  @Input() initial?: DhMeteringGridAreaImbalanceFilters;
-
-  @Output() filter = new EventEmitter<DhMeteringGridAreaImbalanceFilters>();
-  @Output() formReset = new EventEmitter<void>();
+  initial = input.required<DhMeteringGridAreaImbalanceFilters>();
+  filter = output<DhMeteringGridAreaImbalanceFilters>();
+  formReset = output<void>();
 
   gridAreaOptions$ = getGridAreaOptions();
   valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
@@ -104,10 +102,10 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
-      gridArea: dhMakeFormControl(this.initial?.gridArea),
-      valuesToInclude: dhMakeFormControl(this.initial?.valuesToInclude),
-      created: dhMakeFormControl(this.initial?.created),
-      calculationPeriod: dhMakeFormControl(this.initial?.calculationPeriod),
+      gridArea: dhMakeFormControl(this.initial().gridArea),
+      valuesToInclude: dhMakeFormControl(this.initial().valuesToInclude),
+      created: dhMakeFormControl(this.initial().created),
+      calculationPeriod: dhMakeFormControl(this.initial().calculationPeriod),
     });
 
     this.formGroup.valueChanges

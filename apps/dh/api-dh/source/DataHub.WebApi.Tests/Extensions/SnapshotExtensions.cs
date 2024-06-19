@@ -26,4 +26,7 @@ public static class SnapshotExtensions
 
     public static async Task MatchSnapshotAsync(this IExecutionResult value) =>
         await Verifier.Verify(target: value.ToJson(), extension: "json");
+
+    public static async Task MatchSnapshotAsync(this IExecutionResult value, string name) =>
+        await Verifier.Verify(target: value.ToJson(), extension: "json").UseMethodName(name);
 }

@@ -57,5 +57,107 @@ public class CalculationType : ObjectType<CalculationDto>
                 CalculationState.Executing => ProcessStatus.Info,
                 _ => ProcessStatus.Info,
             });
+
+        descriptor
+            .Field("currentStep")
+            .Resolve(context => GetProgressStep(context.Parent<CalculationDto>().OrchestrationState));
+
+        descriptor
+            .Field("progress")
+            .Type<NonNullType<ListType<NonNullType<ObjectType<CalculationProgress>>>>>()
+            .Resolve(context =>
+            {
+                var state = context.Parent<CalculationDto>().OrchestrationState;
+                return new List<CalculationProgress>
+                {
+                    new()
+                    {
+                        Step = CalculationProgressStep.Schedule,
+                        Status = GetScheduleProgressStatus(state),
+                    },
+                    new()
+                    {
+                        Step = CalculationProgressStep.Calculate,
+                        Status = GetCalculateProgressStatus(state),
+                    },
+                    new()
+                    {
+                        Step = CalculationProgressStep.ActorMessageEnqueue,
+                        Status = GetActorMessageEnqueueProgressStatus(state),
+                    },
+                };
+            });
     }
+
+    /// <summary>
+    /// Map one of the many orchestration states to a corresponding progress step.
+    /// </summary>
+    /// <param name="state">The orchestration state of the calculatio.n</param>
+    /// <returns>The progress step the orchestration state belongs to.</returns>
+    private static CalculationProgressStep GetProgressStep(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => CalculationProgressStep.Schedule,
+            CalculationOrchestrationState.Calculating => CalculationProgressStep.Calculate,
+            CalculationOrchestrationState.CalculationFailed => CalculationProgressStep.Calculate,
+            CalculationOrchestrationState.Calculated => CalculationProgressStep.Calculate,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => CalculationProgressStep.ActorMessageEnqueue,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStep.ActorMessageEnqueue,
+            CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStep.ActorMessageEnqueue,
+            CalculationOrchestrationState.Completed => CalculationProgressStep.ActorMessageEnqueue,
+        };
+
+    /// <summary>
+    /// Get the progress status of the schedule step based on the orchestration state.
+    /// </summary>
+    /// <param name="state">The orchestration state of the calculation.</param>
+    /// <returns>The progress status of the schedule step.</returns>
+    private static ProgressStatus GetScheduleProgressStatus(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => ProgressStatus.Completed,
+            CalculationOrchestrationState.CalculationFailed => ProgressStatus.Completed,
+            CalculationOrchestrationState.Calculated => ProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => ProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => ProgressStatus.Completed,
+        };
+
+    /// <summary>
+    /// Get the progress status of the calculate step based on the orchestration state.
+    /// </summary>
+    /// <param name="state">The orchestration state of the calculation.</param>
+    /// <returns>The progress status of the calculate step.</returns>
+    private static ProgressStatus GetCalculateProgressStatus(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => ProgressStatus.Executing,
+            CalculationOrchestrationState.CalculationFailed => ProgressStatus.Failed,
+            CalculationOrchestrationState.Calculated => ProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => ProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => ProgressStatus.Completed,
+        };
+
+    /// <summary>
+    /// Get the progress status of the actor message enqueue step based on the orchestration state.
+    /// </summary>
+    /// <param name="state">The orchestration state of the calculation.</param>
+    /// <returns>The progress status of the actor message enqueue step.</returns>
+    private static ProgressStatus GetActorMessageEnqueueProgressStatus(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => ProgressStatus.Pending,
+            CalculationOrchestrationState.CalculationFailed => ProgressStatus.Pending,
+            CalculationOrchestrationState.Calculated => ProgressStatus.Pending,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => ProgressStatus.Executing,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Failed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => ProgressStatus.Completed,
+        };
 }
