@@ -59,7 +59,7 @@ public partial class Query
                 settlementReportStatusType));
         }
 
-        return settlementReports.OrderByDescending(x => x.Period.Start);
+        return settlementReports;
     }
 
     public async Task<Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>> GetSettlementReportGridAreaCalculationsForPeriodAsync(
