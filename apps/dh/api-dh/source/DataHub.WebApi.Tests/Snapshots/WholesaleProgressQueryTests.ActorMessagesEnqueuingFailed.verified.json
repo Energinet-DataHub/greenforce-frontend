@@ -1,0 +1,21 @@
+﻿{
+  "data": {
+    "calculationById": {
+      "id": "14098365-3231-40e3-8c1b-5a73dbab31c0",
+      "progress": [
+        {
+          "step": "SCHEDULE",
+          "status": "completed"
+        },
+        {
+          "step": "CALCULATE",
+          "status": "completed"
+        },
+        {
+          "step": "ACTOR_MESSAGE_ENQUEUE",
+          "status": "failed"
+        }
+      ]
+    }
+  }
+}
