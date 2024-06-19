@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
 public sealed record SettlementReportRequestFilterDto(
-    IReadOnlyDictionary<string, CalculationId> GridAreas,
+    IReadOnlyDictionary<string, CalculationId?> GridAreas,
     DateTimeOffset PeriodStart,
     DateTimeOffset PeriodEnd,
     CalculationType CalculationType,
