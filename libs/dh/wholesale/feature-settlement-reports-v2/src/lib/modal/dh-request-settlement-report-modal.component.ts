@@ -290,7 +290,10 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
               end: period.end ? period.end : null,
             },
             includeMonthlySums: includeMonthlySum,
-            gridAreasWithCalculations: this.getGridAreasWithCalculations(gridAreas, calculationType == CalculationType.BalanceFixing),
+            gridAreasWithCalculations: this.getGridAreasWithCalculations(
+              gridAreas,
+              calculationType == CalculationType.BalanceFixing
+            ),
             combineResultInASingleFile: combineResultsInOneFile,
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
@@ -342,9 +345,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private getGridAreasWithCalculations(
     gridAreas: string[],
-    isBalanceFixing: boolean,
+    isBalanceFixing: boolean
   ): { gridAreaCode: string; calculationId: string | null }[] {
-
     if (isBalanceFixing) {
       return gridAreas.map((gridAreaCode) => ({
         gridAreaCode,
