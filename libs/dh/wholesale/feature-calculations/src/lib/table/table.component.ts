@@ -90,6 +90,8 @@ export class DhCalculationsTableComponent {
     },
   });
 
+  // Create a new query each time the filter changes rather than using `refetch`,
+  // since `refetch` does not properly unsubscribe to the previous query.
   query = computed(() =>
     this.apollo.watchQuery({
       fetchPolicy: 'network-only',
@@ -113,8 +115,6 @@ export class DhCalculationsTableComponent {
 
     OnCleanup(() => subscription.unsubscribe());
   });
-
-  refetch = effect(() => this.query().refetch({ input: this.filter() }));
 
   subscribe = effect((onCleanup) => {
     const unsubscribe = this.query().subscribeToMore({
