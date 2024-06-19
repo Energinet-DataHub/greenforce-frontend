@@ -28,12 +28,12 @@ public class CalculationType : ObjectType<CalculationDto>
             .Description("An immutable calculation.");
 
         descriptor
-            .Field(x => x.CalculationId)
+            .Field(f => f.CalculationId)
             .Name("id");
 
         descriptor
-            .Ignore(x => x.PeriodStart)
-            .Ignore(x => x.PeriodEnd)
+            .Ignore(f => f.PeriodStart)
+            .Ignore(f => f.PeriodEnd)
             .Field(f => new Interval(Instant.FromDateTimeOffset(f.PeriodStart), Instant.FromDateTimeOffset(f.PeriodEnd)))
             .Name("period");
 
@@ -46,6 +46,10 @@ public class CalculationType : ObjectType<CalculationDto>
            .Field(f => f.GridAreaCodes)
            .Name("gridAreas")
            .ResolveWith<WholesaleResolvers>(c => c.GetGridAreasAsync(default!, default!));
+
+        descriptor
+            .Field(f => f.ExecutionState)
+            .Deprecated();
 
         descriptor
             .Field("statusType")
