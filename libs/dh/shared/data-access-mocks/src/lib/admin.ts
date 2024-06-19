@@ -29,19 +29,19 @@ import {
   mockGetGridAreasQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { actorQuerySelection } from './data/marketParticipantActorQuerySelectionActors';
-import marketParticipantUserRoleGetAll from './data/marketParticipantUserRoleGetAll.json';
-import { marketParticipantUserGetUserAuditLogs } from './data/marketParticipantUserGetUserAuditLogs';
-import marketParticipantUserRoleGetUserRoleWithPermissions from './data/marketParticipantUserRoleGetUserRoleWithPermissions.json';
+import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
+import { marketParticipantUserRoleGetAll } from './data/market-participant-user-role-get-all';
+import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';
+import { marketParticipantUserRoleGetUserRoleWithPermissions } from './data/market-participant-user-role-get-user-role-with-permissions';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
 import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-logs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
-import { marketParticipantUserRoles } from './data/admin-get-marketParticipantUserRoles';
-import { marketParticipantOrganization } from './data/admin-get-actorOrganization';
-import { marketParticipantUserSearchUsers } from './data/marketParticipantUserSearchUsers';
+import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
+import { marketParticipantOrganization } from './data/admin-get-actor-organization';
+import { marketParticipantUserSearchUsers } from './data/market-participant-user-search-users';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
-import { marketParticipantOrganizationGetFilteredActors } from './data/marketParticipantOrganizationGetFilteredActors';
+import { marketParticipantOrganizationGetFilteredActors } from './data/market-participant-organization-get-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 
 export function adminMocks(apiBase: string) {

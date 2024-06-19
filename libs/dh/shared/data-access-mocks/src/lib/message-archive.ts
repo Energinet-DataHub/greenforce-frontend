@@ -18,8 +18,8 @@ import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw'
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import actors from './data/messageArchiveActors.json';
-import { messageArchiveSearchResponseLogs } from './data/messageArchiveSearchResponseLogs';
+import { actors } from './data/message-archive-actors';
+import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
 import { document, documentJson } from './data/message-archived-document';
 
 export function messageArchiveMocks(apiBase: string) {

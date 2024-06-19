@@ -14,21 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
-import {
-  GetCalculationsDocument,
-  CalculationType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type Calculation = ResultOf<typeof GetCalculationsDocument>['calculations'][0];
-
-export type CalculationGridArea = ResultOf<
-  typeof GetCalculationsDocument
->['calculations'][0]['gridAreas'][0];
-
-export const wholesaleCalculationTypes = [
-  CalculationType.WholesaleFixing,
-  CalculationType.FirstCorrectionSettlement,
-  CalculationType.SecondCorrectionSettlement,
-  CalculationType.ThirdCorrectionSettlement,
+export const marketParticipantUserRolePermissions = [
+  {
+    id: 1,
+    name: 'actors:manage',
+    description: 'Permission to manage actors',
+  },
+  {
+    id: 2,
+    name: 'organizations:view',
+    description: 'Permission to view organization',
+  },
+  {
+    id: 3,
+    name: 'user:manage',
+    description: 'Permission to manage users',
+  },
+  {
+    id: 4,
+    name: 'user-roles:manage',
+    description: 'Permission to manage user roles',
+  },
 ];

@@ -5,7 +5,9 @@
     "apps/dh/api-dh/source/DataHub.WebApi/Clients/",
     "apps/dh/api-dh/source/DataHub.WebApi/Generated/",
     "libs/dh/shared/assets/src/favicon/*",
-    "libs/gf/msw/util-msw/src/assets/*"
+    "libs/gf/msw/util-msw/src/assets/*",
+    "apps/eo/app-eo-landing-page/src/googleb7a7b2f54ab9468e.html",
+    "apps/eo/app-eo-landing-page/src/sitemap.xml"
   ],
   "**/*.cs": [
     "// Copyright 2020 Energinet DataHub A/S",

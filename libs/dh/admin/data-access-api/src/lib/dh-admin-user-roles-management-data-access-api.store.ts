@@ -201,11 +201,12 @@ export class DhAdminUserRolesManagementDataAccessApiStore
         // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
         map(([keys, roles]) =>
           roles.map((role: MarketParticipantUserRoleDto) => ({
-            displayValue: `${role.name} - ${keys[role.eicFunction]}`,
+            displayValue: `${role.name} (${keys[role.eicFunction]})`,
             value: role.id,
           }))
         )
       );
+
     this.getRoles();
   }
 }

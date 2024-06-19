@@ -208,6 +208,9 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       return;
     }
 
+    if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing)
+      return this.requestSettlementReport();
+
     this.getCalculationByGridAreas()
       ?.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
