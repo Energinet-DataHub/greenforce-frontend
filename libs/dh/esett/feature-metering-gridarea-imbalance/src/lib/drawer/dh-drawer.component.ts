@@ -15,36 +15,37 @@
  * limitations under the License.
  */
 
+import { Component, inject, Signal, viewChild, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
+import { outputToObservable, takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+
 import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
-import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
 import {
   DhMeteringGridAreaImbalance,
   MeteringGridAreaImbalancePerDayDto,
 } from '../dh-metering-gridarea-imbalance';
 import { DhDrawerImbalanceTableComponent } from './dh-drawer-imbalance-table.component';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
@@ -71,20 +72,20 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     `,
   ],
   imports: [
-    TranslocoDirective,
-    TranslocoPipe,
     RxPush,
+    TranslocoPipe,
+    TranslocoDirective,
 
-    WATT_DRAWER,
     WATT_TABS,
+    WATT_DRAWER,
     WATT_EXPANDABLE_CARD_COMPONENTS,
 
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
     WattSpinnerComponent,
     WattButtonComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
 
     VaterFlexComponent,
 
@@ -109,13 +110,12 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
 
   meteringGridAreaImbalance: DhMeteringGridAreaImbalance | null = null;
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
-
-  @Output() closed = new EventEmitter<void>();
+  drawer = viewChild.required(WattDrawerComponent);
+  closed = output<void>();
+  closed$ = outputToObservable(this.closed);
 
   public open(message: DhMeteringGridAreaImbalance): void {
-    this.drawer?.open();
+    this.drawer().open();
 
     this.meteringGridAreaImbalance = message;
     this.surplusDataSource.data = message.incomingImbalancePerDay;
@@ -137,7 +137,7 @@ export class DhMeteringGridAreaImbalanceDrawerComponent {
         const blob = new Blob([blobPart]);
         return new Response(blob).text();
       }),
-      takeUntil(this.closed)
+      takeUntil(this.closed$)
     );
   }
 
