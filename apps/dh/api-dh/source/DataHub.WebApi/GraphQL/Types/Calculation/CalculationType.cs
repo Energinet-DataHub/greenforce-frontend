@@ -49,34 +49,21 @@ public class CalculationType : ObjectType<CalculationDto>
 
         descriptor
             .Field("statusType")
-            .Resolve(context => context.Parent<CalculationDto>().ExecutionState switch
+            .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
-                CalculationState.Pending => ProcessStatus.Warning,
-                CalculationState.Completed => ProcessStatus.Success,
-                CalculationState.Failed => ProcessStatus.Danger,
-                CalculationState.Executing => ProcessStatus.Info,
+                CalculationOrchestrationState.Scheduled => ProcessStatus.Neutral,
+                CalculationOrchestrationState.Calculating => ProcessStatus.Info,
+                CalculationOrchestrationState.CalculationFailed => ProcessStatus.Danger,
+                CalculationOrchestrationState.Calculated => ProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuing => ProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessStatus.Danger,
+                CalculationOrchestrationState.ActorMessagesEnqueued => ProcessStatus.Info,
+                CalculationOrchestrationState.Completed => ProcessStatus.Success,
             });
 
         descriptor
-            .Field("currentProgress")
-            .Type<NonNullType<ObjectType<CalculationProgress>>>()
-            .Resolve(context =>
-            {
-                var state = context.Parent<CalculationDto>().OrchestrationState;
-                var currentStep = GetProgressStepFromOrchestrationState(state);
-                var status = currentStep switch
-                {
-                    CalculationProgressStep.Schedule => GetScheduleProgress(state),
-                    CalculationProgressStep.Calculate => GetCalculateProgress(state),
-                    CalculationProgressStep.ActorMessageEnqueue => GetActorMessageEnqueueProgress(state),
-                };
-
-                return new CalculationProgress()
-                {
-                    Step = currentStep,
-                    Status = status,
-                };
-            });
+            .Field("currentStep")
+            .Resolve(context => GetProgressStep(context.Parent<CalculationDto>().OrchestrationState));
 
         descriptor
             .Field("progress")
@@ -84,23 +71,22 @@ public class CalculationType : ObjectType<CalculationDto>
             .Resolve(context =>
             {
                 var state = context.Parent<CalculationDto>().OrchestrationState;
-                var currentStep = GetProgressStepFromOrchestrationState(state);
                 return new List<CalculationProgress>
                 {
                     new()
                     {
                         Step = CalculationProgressStep.Schedule,
-                        Status = GetScheduleProgress(state),
+                        Status = GetScheduleProgressStatus(state),
                     },
                     new()
                     {
                         Step = CalculationProgressStep.Calculate,
-                        Status = GetCalculateProgress(state),
+                        Status = GetCalculateProgressStatus(state),
                     },
                     new()
                     {
                         Step = CalculationProgressStep.ActorMessageEnqueue,
-                        Status = GetActorMessageEnqueueProgress(state),
+                        Status = GetActorMessageEnqueueProgressStatus(state),
                     },
                 };
             });
@@ -111,7 +97,7 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculatio.n</param>
     /// <returns>The progress step the orchestration state belongs to.</returns>
-    private static CalculationProgressStep GetProgressStepFromOrchestrationState(CalculationOrchestrationState state) =>
+    private static CalculationProgressStep GetProgressStep(CalculationOrchestrationState state) =>
         state switch
         {
             CalculationOrchestrationState.Scheduled => CalculationProgressStep.Schedule,
@@ -129,7 +115,7 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculation.</param>
     /// <returns>The progress status of the schedule step.</returns>
-    private static ProgressStatus GetScheduleProgress(CalculationOrchestrationState state) =>
+    private static ProgressStatus GetScheduleProgressStatus(CalculationOrchestrationState state) =>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
@@ -147,7 +133,7 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculation.</param>
     /// <returns>The progress status of the calculate step.</returns>
-    private static ProgressStatus GetCalculateProgress(CalculationOrchestrationState state) =>
+    private static ProgressStatus GetCalculateProgressStatus(CalculationOrchestrationState state) =>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
@@ -165,7 +151,7 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculation.</param>
     /// <returns>The progress status of the actor message enqueue step.</returns>
-    private static ProgressStatus GetActorMessageEnqueueProgress(CalculationOrchestrationState state) =>
+    private static ProgressStatus GetActorMessageEnqueueProgressStatus(CalculationOrchestrationState state) =>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
