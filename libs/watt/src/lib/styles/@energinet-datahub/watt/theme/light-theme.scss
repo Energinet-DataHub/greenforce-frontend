@@ -27,18 +27,18 @@ $palette: (
   ),
 );
 
-$watt-palette: mat.define-palette(
+$watt-palette: mat.m2-define-palette(
   $palette,
   "primary",
   "primary-light",
   "primary-dark"
 );
 
-$watt-typography: mat.define-typography-config(
+$watt-typography: mat.m2-define-typography-config(
   $font-family: "Open Sans, sans-serif",
 );
 
-$watt-theme: mat.define-light-theme(
+$watt-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $watt-palette,
