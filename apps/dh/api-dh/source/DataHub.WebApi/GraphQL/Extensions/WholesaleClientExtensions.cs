@@ -23,27 +23,26 @@ public static class WholesaleClientExtensions
         this IWholesaleClient_V3 client,
         CalculationQueryInput input)
     {
-        var executionStates = input.ExecutionStates ?? [];
+        var states = input.States ?? [];
         var calculationTypes = input.CalculationTypes ?? [];
         var minExecutionTime = input.ExecutionTime?.Start.ToDateTimeOffset();
         var maxExecutionTime = input.ExecutionTime?.End.ToDateTimeOffset();
         var periodStart = input.Period?.Start.ToDateTimeOffset();
         var periodEnd = input.Period?.End.ToDateTimeOffset();
 
-        // The API only allows for a single execution state to be specified
-        CalculationState? executionState = executionStates.Length == 1 ? executionStates[0] : null;
-
         var calculations = await client.SearchCalculationsAsync(
             input.GridAreaCodes,
-            executionState,
+            null,
             minExecutionTime,
             maxExecutionTime,
             periodStart,
             periodEnd);
 
-        return calculations
+        var c = calculations
             .OrderByDescending(x => x.ExecutionTimeStart)
-            .Where(x => executionStates.Length <= 1 || executionStates.Contains(x.ExecutionState))
+            .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType));
+
+        return c;
     }
 }

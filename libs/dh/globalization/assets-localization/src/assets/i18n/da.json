@@ -942,7 +942,7 @@
         "NO": "Nej"
       },
       "filters": {
-        "executionStates": "Status",
+        "states": "Status",
         "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
         "calculationType": "{{shared.calculationType}}",

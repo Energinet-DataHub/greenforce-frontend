@@ -943,7 +943,7 @@
         "NO": "No"
       },
       "filters": {
-        "executionStates": "Status",
+        "states": "Status",
         "executionTime": "Execution time",
         "gridAreas": "Grid areas",
         "calculationType": "{{shared.calculationType}}",

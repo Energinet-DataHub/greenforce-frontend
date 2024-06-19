@@ -1,5 +1,5 @@
-subscription OnCalculationProgress {
-  calculationProgress {
+subscription OnCalculationProgress($input: CalculationQueryInput!) {
+  calculationProgress(input: $input) {
     id
     state
     executionTimeEnd
