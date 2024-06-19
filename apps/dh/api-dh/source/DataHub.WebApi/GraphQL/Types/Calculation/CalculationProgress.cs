@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
-public sealed record SettlementReportRequestFilterDto(
-    IReadOnlyDictionary<string, CalculationId?> GridAreas,
-    DateTimeOffset PeriodStart,
-    DateTimeOffset PeriodEnd,
-    CalculationType CalculationType,
-    string? EnergySupplier,
-    string? CsvFormatLocale);
+public class CalculationProgress
+{
+    public CalculationProgressStep Step { get; set; }
+
+    public ProgressStatus Status { get; set; }
+}

@@ -22,5 +22,6 @@ public record RequestSettlementReportInput(
     RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,
     bool IncludeMonthlySums,
+    bool IncludeBasisData,
     string? EnergySupplier,
     string? CsvLanguage);
