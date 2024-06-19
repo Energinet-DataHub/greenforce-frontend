@@ -27,7 +27,7 @@ public partial class Mutation
         var requestFilter = new SettlementReportRequestFilterDto(
             requestSettlementReportInput.GridAreasWithCalculations.ToDictionary(
                 x => x.GridAreaCode,
-                y => new CalculationId(y.CalculationId)),
+                y => y.CalculationId.HasValue ? new CalculationId(y.CalculationId.Value) : null),
             requestSettlementReportInput.Period.Start.ToDateTimeOffset(),
             requestSettlementReportInput.Period.End.ToDateTimeOffset(),
             requestSettlementReportInput.CalculationType,
@@ -37,6 +37,8 @@ public partial class Mutation
         await client.RequestAsync(
             new SettlementReportRequestDto(
                 !requestSettlementReportInput.CombineResultInASingleFile,
+                requestSettlementReportInput.IncludeBasisData,
+                requestSettlementReportInput.IncludeMonthlySums,
                 requestFilter),
             default);
 
