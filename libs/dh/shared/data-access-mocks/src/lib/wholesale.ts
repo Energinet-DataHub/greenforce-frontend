@@ -40,6 +40,8 @@ import {
   mockGetSettlementReportCalculationsByGridAreasQuery,
   mockRequestSettlementReportMutation,
   CalculationOrchestrationState,
+  CalculationProgressStep,
+  ProgressStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -121,12 +123,30 @@ const mockedCalculations: Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: CalculationState.Pending,
-    statusType: ProcessStatus.Warning,
+    statusType: ProcessStatus.Neutral,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueued,
+    state: CalculationOrchestrationState.Scheduled,
+    currentStep: CalculationProgressStep.Schedule,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Pending,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Pending,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -140,7 +160,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: '',
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuing,
+    state: CalculationOrchestrationState.Calculating,
+    currentStep: CalculationProgressStep.Calculate,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Executing,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Pending,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -154,7 +192,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
+    state: CalculationOrchestrationState.Completed,
+    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Completed,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -168,7 +224,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.Calculated,
+    state: CalculationOrchestrationState.CalculationFailed,
+    currentStep: CalculationProgressStep.Calculate,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Failed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Pending,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -177,12 +251,30 @@ const mockedCalculations: Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: CalculationState.Pending,
-    statusType: ProcessStatus.Warning,
+    statusType: ProcessStatus.Neutral,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.Calculating,
+    state: CalculationOrchestrationState.Scheduled,
+    currentStep: CalculationProgressStep.Schedule,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Pending,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Pending,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -196,7 +288,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.CalculationFailed,
+    state: CalculationOrchestrationState.Calculating,
+    currentStep: CalculationProgressStep.Calculate,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Executing,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Pending,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -210,7 +320,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.Completed,
+    state: CalculationOrchestrationState.Completed,
+    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Completed,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -224,7 +352,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.Scheduled,
+    state: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
+    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Failed,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -233,12 +379,30 @@ const mockedCalculations: Calculation[] = [
     executionTimeStart,
     executionTimeEnd: null,
     executionState: CalculationState.Pending,
-    statusType: ProcessStatus.Warning,
+    statusType: ProcessStatus.Neutral,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueued,
+    state: CalculationOrchestrationState.Scheduled,
+    currentStep: CalculationProgressStep.Schedule,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Pending,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Pending,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -252,7 +416,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuing,
+    state: CalculationOrchestrationState.ActorMessagesEnqueuing,
+    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Executing,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -266,7 +448,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
+    state: CalculationOrchestrationState.ActorMessagesEnqueued,
+    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Completed,
+      },
+    ],
   },
   {
     __typename: 'Calculation',
@@ -280,7 +480,25 @@ const mockedCalculations: Calculation[] = [
     calculationType: CalculationType.BalanceFixing,
     createdByUserName: fakeUserEmail,
     areSettlementReportsCreated: false,
-    orchestrationState: CalculationOrchestrationState.Calculated,
+    state: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
+    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    progress: [
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Schedule,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.Calculate,
+        status: ProgressStatus.Completed,
+      },
+      {
+        __typename: 'CalculationProgress',
+        step: CalculationProgressStep.ActorMessageEnqueue,
+        status: ProgressStatus.Failed,
+      },
+    ],
   },
 ];
 
