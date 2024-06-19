@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import { Sort } from '@angular/material/sort';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { debug } from 'jest-preview';
+import { render, screen, waitFor, fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
@@ -355,7 +356,8 @@ describe(WattTableComponent, () => {
     });
 
     const [firstCheckbox, ...checkboxes] = screen.getAllByRole('checkbox');
-    checkboxes.forEach((checkbox) => userEvent.click(checkbox));
+
+    checkboxes.forEach(async (checkbox) => await waitFor(() => userEvent.click(checkbox)));
 
     await waitFor(() => expect(firstCheckbox).toBeChecked());
   });
@@ -377,8 +379,8 @@ describe(WattTableComponent, () => {
     });
 
     const [firstCheckbox, secondCheckbox] = screen.getAllByRole('checkbox');
-    userEvent.click(firstCheckbox);
-    userEvent.click(secondCheckbox);
+    fireEvent.click(firstCheckbox);
+    fireEvent.click(secondCheckbox);
 
     await waitFor(() => expect(firstCheckbox).not.toBeChecked());
   });
@@ -404,11 +406,11 @@ describe(WattTableComponent, () => {
     const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =
       screen.getAllByRole('checkbox');
 
-    expect(selectAllCheckbox).not.toBeChecked();
-    expect(firstCheckbox).toBeChecked();
-    expect(secondCheckbox).toBeChecked();
+    await waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
+    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    await waitFor(() => expect(secondCheckbox).toBeChecked());
 
-    otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
+    await waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
@@ -431,7 +433,7 @@ describe(WattTableComponent, () => {
 
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    expect(firstCheckbox).toBeChecked();
+    await waitFor(() => expect(firstCheckbox).toBeChecked());
     userEvent.click(firstCheckbox);
 
     result.change({ selectable: false });
@@ -476,6 +478,6 @@ describe(WattTableComponent, () => {
     const [firstCheckbox] = screen.getAllByRole('checkbox');
     userEvent.click(firstCheckbox);
 
-    expect(screen.queryByRole('toolbar')).toHaveTextContent('6');
+    await waitFor(() => expect(screen.queryByRole('toolbar')).toHaveTextContent('6'));
   });
 });
