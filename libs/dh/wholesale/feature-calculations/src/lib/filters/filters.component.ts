@@ -32,8 +32,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
+  CalculationOrchestrationState,
   CalculationQueryInput,
-  CalculationState,
   CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -113,13 +113,13 @@ type Filters = FormControls<CalculationQueryInput>;
       </watt-date-range-chip>
 
       <watt-dropdown
-        formControlName="executionStates"
+        formControlName="states"
         [chipMode]="true"
         [multiple]="true"
         [options]="executionStateOptions"
-        [placeholder]="t('executionStates')"
+        [placeholder]="t('states')"
         dhDropdownTranslator
-        translateKey="wholesale.calculations.executionStates"
+        translateKey="wholesale.calculations.states"
       />
 
       <vater-spacer />
@@ -135,7 +135,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
   _formGroup!: FormGroup<Filters>;
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
-  executionStateOptions = dhEnumToWattDropdownOptions(CalculationState);
+  executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState);
   gridAreaOptions$ = getGridAreaOptions();
 
   ngOnInit() {
@@ -144,7 +144,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
       period: dhMakeFormControl(this.initial?.period),
       gridAreaCodes: dhMakeFormControl(this.initial?.gridAreaCodes),
       calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
-      executionStates: dhMakeFormControl(this.initial?.executionStates),
+      states: dhMakeFormControl(this.initial?.states),
     });
 
     this._formGroup.valueChanges

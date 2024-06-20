@@ -72,7 +72,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     `,
   ],
 
-  template: ` <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
+  template: `<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
     <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>
       <watt-button variant="text" (click)="toggleShowCreateNewOrganization.emit()">{{
@@ -103,7 +103,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       </vater-stack>
 
       <div class="column">
-        @if (this.isCvrBusy$ | push) {
+        @if (this.isCvrBusy$() | push) {
           <watt-spinner [diameter]="22" />
         }
       </div>

@@ -57,7 +57,7 @@ export class DhUserActorsDataAccessApiStore extends ComponentStore<ActorsResultS
   actors$ = this.select((state) =>
     (state.actorResult ?? []).map((actor: MarketParticipantFilteredActorDto) => ({
       value: actor.actorId,
-      displayValue: `${actor.actorNumber.value} - ${actor.name.value} (${this.translateEicFunctions(
+      displayValue: `${actor.actorNumber.value} • ${actor.name.value} (${this.translateEicFunctions(
         actor.marketRoles
       )})`,
     }))

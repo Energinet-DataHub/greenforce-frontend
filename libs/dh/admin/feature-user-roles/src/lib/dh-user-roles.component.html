@@ -39,12 +39,12 @@ limitations under the License.
 
           @if (actor.name) {
             <watt-expandable-card-title
-              >{{ actor.actorNumber }} – {{ actor.organizationName }} – {{ actor.name }} -
+              >{{ actor.actorNumber }} • {{ actor.organizationName }} – {{ actor.name }} -
               {{ translateMarketRole(actor.userRoles[0].marketRole) }}
             </watt-expandable-card-title>
           } @else {
             <watt-expandable-card-title
-              >{{ actor.actorNumber }} – {{ actor.organizationName }} -
+              >{{ actor.actorNumber }} • {{ actor.organizationName }} -
               {{ translateMarketRole(actor.userRoles[0].marketRole) }}
             </watt-expandable-card-title>
           }
