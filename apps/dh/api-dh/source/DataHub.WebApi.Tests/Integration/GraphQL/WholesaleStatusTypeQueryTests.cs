@@ -37,26 +37,30 @@ public class WholesaleStatusTypeQueryTests
     """;
 
     [Theory]
-    [InlineData(CalculationState.Pending)]
-    [InlineData(CalculationState.Executing)]
-    [InlineData(CalculationState.Completed)]
-    [InlineData(CalculationState.Failed)]
-    public async Task GetCalculationStatusTypeAsync(CalculationState state) =>
-        await ExecuteTestAsync(state);
+    [InlineData(CalculationOrchestrationState.Scheduled)]
+    [InlineData(CalculationOrchestrationState.Calculating)]
+    [InlineData(CalculationOrchestrationState.CalculationFailed)]
+    [InlineData(CalculationOrchestrationState.Calculated)]
+    [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuing)]
+    [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuingFailed)]
+    [InlineData(CalculationOrchestrationState.ActorMessagesEnqueued)]
+    [InlineData(CalculationOrchestrationState.Completed)]
+    public async Task GetCalculationStatusTypeAsync(CalculationOrchestrationState orchestrationState) =>
+        await ExecuteTestAsync(orchestrationState);
 
-    private static async Task ExecuteTestAsync(CalculationState executionState)
+    private static async Task ExecuteTestAsync(CalculationOrchestrationState orchestrationState)
     {
         GraphQLTestService.WholesaleClientV3Mock
             .Setup(x => x.GetCalculationAsync(_batchId, default))
             .ReturnsAsync(new CalculationDto()
             {
                 CalculationId = _batchId,
-                ExecutionState = executionState,
+                OrchestrationState = orchestrationState,
             });
 
         var result = await GraphQLTestService
             .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
-        await result.MatchSnapshotAsync($"{executionState}");
+        await result.MatchSnapshotAsync($"{orchestrationState}");
     }
 }
