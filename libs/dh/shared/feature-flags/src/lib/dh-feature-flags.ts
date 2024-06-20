@@ -23,7 +23,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '21-05-2024';
+const latestBump = '20-06-2024';
 
 /**
  * Feature flag example:
@@ -35,7 +35,7 @@ const latestBump = '21-05-2024';
  */
 export const dhFeatureFlagsConfig = {
   'market-participant-delegation': {
-    created: '22-04-2024',
+    created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
   },
   'calculations-include-all-grid-areas': {
@@ -47,13 +47,13 @@ export const dhFeatureFlagsConfig = {
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
   'settlement-reports-v2': {
-    created: '30-04-2024',
+    created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod],
   },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
   'quarterly-resolution-transition-datetime-override': {
-    created: '06-05-2024',
+    created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
