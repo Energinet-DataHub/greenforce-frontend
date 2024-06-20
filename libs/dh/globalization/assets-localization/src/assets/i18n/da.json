@@ -1025,7 +1025,7 @@
       }
     },
     "settlementReportsV2": {
-      "topBarTitle": "Afregningsrapporter (v2)",
+      "topBarTitle": "Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
