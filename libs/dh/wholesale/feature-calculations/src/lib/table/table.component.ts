@@ -43,6 +43,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { Apollo } from 'apollo-angular';
+import { query } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   GetCalculationsDocument,
   CalculationQueryInput,
@@ -90,46 +91,64 @@ export class DhCalculationsTableComponent {
     },
   });
 
+  result = query(GetCalculationsDocument, {
+    fetchPolicy: 'network-only',
+    variables: { input: this.filter() },
+  });
+
+  refetch = effect(() => this.result.refetch({ input: this.filter() }));
+
+  updateDataSource = effect(() => {
+    this.dataSource.data = this.result.data()?.calculations ?? [];
+  });
+
+  what = this.result.subscribeToMore({
+    document: OnCalculationProgressDocument,
+    variables: { input: this.filter() },
+    updateQuery: (prev, options) =>
+      this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
+  });
+
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
   // when the BFF is deployed to API Management. This will be fixed in a later PR.
 
   // Create a new query each time the filter changes rather than using `refetch`,
   // since `refetch` does not properly unsubscribe to the previous query.
-  query = computed(() =>
-    this.apollo.watchQuery({
-      fetchPolicy: 'network-only',
-      query: GetCalculationsDocument,
-      variables: { input: this.filter() },
-    })
-  );
+  // query = computed(() =>
+  //   this.apollo.watchQuery({
+  //     fetchPolicy: 'network-only',
+  //     query: GetCalculationsDocument,
+  //     variables: { input: this.filter() },
+  //   })
+  // );
 
-  valueChanges = effect((OnCleanup) => {
-    const subscription = this.query().valueChanges.subscribe({
-      next: (result) => {
-        this.loading = result.loading;
-        this.error = !!result.errors;
-        if (result.data?.calculations) this.dataSource.data = result.data.calculations;
-      },
-      error: (error) => {
-        this.error = error;
-        this.loading = false;
-      },
-    });
+  // valueChanges = effect((OnCleanup) => {
+  //   const subscription = this.query().valueChanges.subscribe({
+  //     next: (result) => {
+  //       this.loading = result.loading;
+  //       this.error = !!result.errors;
+  //       if (result.data?.calculations) this.dataSource.data = result.data.calculations;
+  //     },
+  //     error: (error) => {
+  //       this.error = error;
+  //       this.loading = false;
+  //     },
+  //   });
 
-    OnCleanup(() => subscription.unsubscribe());
-  });
+  //   OnCleanup(() => subscription.unsubscribe());
+  // });
 
-  subscribe = effect((onCleanup) => {
-    const unsubscribe = this.query().subscribeToMore({
-      document: OnCalculationProgressDocument,
-      variables: { input: this.filter() },
-      updateQuery: (prev, options) =>
-        this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
-    });
+  // subscribe = effect((onCleanup) => {
+  //   const unsubscribe = this.query().subscribeToMore({
+  //     document: OnCalculationProgressDocument,
+  //     variables: { input: this.filter() },
+  //     updateQuery: (prev, options) =>
+  //       this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
+  //   });
 
-    onCleanup(() => unsubscribe());
-  });
+  //   onCleanup(() => unsubscribe());
+  // });
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
