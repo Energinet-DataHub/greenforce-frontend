@@ -31,7 +31,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '1',
@@ -52,7 +52,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '2',
@@ -73,7 +73,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '3',
@@ -94,7 +94,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 - DK2`,
+        displayName: `DK2 • DK2`,
         code: 'DK2',
         name: 'DK2',
         id: '4',
@@ -115,7 +115,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 - DK2`,
+        displayName: `DK2 • DK2`,
         code: 'DK2',
         name: 'DK2',
         id: '5',
@@ -136,7 +136,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 - DK2`,
+        displayName: `DK2 • DK2`,
         code: 'DK2',
         name: 'DK2',
         id: '6',
@@ -154,7 +154,7 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '1',
