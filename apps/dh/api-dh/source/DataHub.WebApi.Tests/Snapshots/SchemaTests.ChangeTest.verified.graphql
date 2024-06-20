@@ -499,7 +499,7 @@ input AddressDtoInput {
 
 input CalculationQueryInput {
   gridAreaCodes: [String!]
-  executionStates: [CalculationState!]
+  states: [CalculationOrchestrationState!]
   calculationTypes: [CalculationType!]
   executionTime: DateRange
   period: DateRange

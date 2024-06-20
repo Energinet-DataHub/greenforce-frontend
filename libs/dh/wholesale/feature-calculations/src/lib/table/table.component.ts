@@ -90,6 +90,10 @@ export class DhCalculationsTableComponent {
     },
   });
 
+  // TODO: Fix race condition when subscription returns faster than the query.
+  // This is not a problem currently since subscriptions don't return any data
+  // when the BFF is deployed to API Management. This will be fixed in a later PR.
+
   // Create a new query each time the filter changes rather than using `refetch`,
   // since `refetch` does not properly unsubscribe to the previous query.
   query = computed(() =>
