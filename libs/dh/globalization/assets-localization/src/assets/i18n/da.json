@@ -1070,7 +1070,7 @@
       },
       "selectCalculationModal": {
         "title": "Hvilken beregning ønsker du data for?",
-        "description": "Der er foretaget mere end en balancefiksering. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
         "latest": "nyeste",
         "cancel": "Luk",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"

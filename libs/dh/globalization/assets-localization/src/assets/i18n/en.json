@@ -1071,7 +1071,7 @@
       },
       "selectCalculationModal": {
         "title": "Which calculation do you want data for?",
-        "description": "More than one balance fixation has been carried out. Which calculation do you want to include in the settlement report?",
+        "description": "More than one calculation has been carried out. Which calculation do you want to include in the settlement report?",
         "latest": "latest",
         "cancel": "Close",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
