@@ -63,7 +63,7 @@ export class WattQueryParamsDirective implements OnInit {
         arrayLimit: 200,
       });
 
-      this.formGroup.control.patchValue(value, { emitEvent: false });
+      this.formGroup.control.patchValue(value);
     }
   }
 }
