@@ -39,7 +39,7 @@ public partial class Query
         {
             Period = period,
             CalculationTypes = [Clients.Wholesale.v3.CalculationType.BalanceFixing],
-            ExecutionStates = [CalculationState.Completed],
+            States = [CalculationOrchestrationState.Completed],
         };
 
         var calculations = await client.QueryCalculationsAsync(input);

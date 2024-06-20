@@ -110,6 +110,8 @@ type Calculation {
   period: DateRange!
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
+  executionState: CalculationState! @deprecated
+  state: CalculationOrchestrationState!
   statusType: ProcessStatus!
   currentStep: CalculationProgressStep!
   progress: [CalculationProgress!]!
@@ -118,8 +120,6 @@ type Calculation {
   unit: String
   executionTimeStart: DateTime
   executionTimeEnd: DateTime
-  executionState: CalculationState!
-  orchestrationState: CalculationOrchestrationState!
   areSettlementReportsCreated: Boolean!
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
@@ -499,7 +499,7 @@ input AddressDtoInput {
 
 input CalculationQueryInput {
   gridAreaCodes: [String!]
-  executionStates: [CalculationState!]
+  states: [CalculationOrchestrationState!]
   calculationTypes: [CalculationType!]
   executionTime: DateRange
   period: DateRange
@@ -851,6 +851,7 @@ enum ProcessStatus {
   success
   danger
   info
+  neutral
 }
 
 enum ProgressStatus {

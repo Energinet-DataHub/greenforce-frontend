@@ -28,12 +28,12 @@ public class CalculationType : ObjectType<CalculationDto>
             .Description("An immutable calculation.");
 
         descriptor
-            .Field(x => x.CalculationId)
+            .Field(f => f.CalculationId)
             .Name("id");
 
         descriptor
-            .Ignore(x => x.PeriodStart)
-            .Ignore(x => x.PeriodEnd)
+            .Ignore(f => f.PeriodStart)
+            .Ignore(f => f.PeriodEnd)
             .Field(f => new Interval(Instant.FromDateTimeOffset(f.PeriodStart), Instant.FromDateTimeOffset(f.PeriodEnd)))
             .Name("period");
 
@@ -48,14 +48,25 @@ public class CalculationType : ObjectType<CalculationDto>
            .ResolveWith<WholesaleResolvers>(c => c.GetGridAreasAsync(default!, default!));
 
         descriptor
+            .Field(f => f.ExecutionState)
+            .Deprecated();
+
+        descriptor
+            .Field(f => f.OrchestrationState)
+            .Name("state");
+
+        descriptor
             .Field("statusType")
-            .Resolve(context => context.Parent<CalculationDto>().ExecutionState switch
+            .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
-                CalculationState.Pending => ProcessStatus.Warning,
-                CalculationState.Completed => ProcessStatus.Success,
-                CalculationState.Failed => ProcessStatus.Danger,
-                CalculationState.Executing => ProcessStatus.Info,
-                _ => ProcessStatus.Info,
+                CalculationOrchestrationState.Scheduled => ProcessStatus.Neutral,
+                CalculationOrchestrationState.Calculating => ProcessStatus.Info,
+                CalculationOrchestrationState.CalculationFailed => ProcessStatus.Danger,
+                CalculationOrchestrationState.Calculated => ProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuing => ProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessStatus.Danger,
+                CalculationOrchestrationState.ActorMessagesEnqueued => ProcessStatus.Info,
+                CalculationOrchestrationState.Completed => ProcessStatus.Success,
             });
 
         descriptor
