@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.headline,
-.subheadline {
+.headline {
   margin: 0;
-}
-
-.subheadline {
-  float: right;
-  margin-left: var(--watt-space-s);
-}
-
-watt-description-list {
-  margin-left: var(--watt-space-ml);
 }
 
 dh-calculations-grid-areas {
   margin: 0 var(--watt-space-ml);
+}
+
+watt-progress-tracker {
+  margin: var(--watt-space-l) var(--watt-space-ml);
 }
 
 .center {

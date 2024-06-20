@@ -1,7 +1,7 @@
 query GetCalculations($input: CalculationQueryInput!) {
   calculations(input: $input) {
     id
-    executionState
+    state
     executionTimeEnd
     executionTimeStart
     period
@@ -11,6 +11,11 @@ query GetCalculations($input: CalculationQueryInput!) {
     gridAreas {
       code
       name
+    }
+    currentStep
+    progress {
+      step
+      status
     }
   }
 }
