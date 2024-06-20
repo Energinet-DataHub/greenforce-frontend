@@ -142,6 +142,20 @@ watt-dropdown {
     padding-left: 0;
   }
 
+  ngx-mat-select-search .mat-select-search-inner {
+    margin-left: 5px;
+  }
+
+  ngx-mat-select-search .mat-select-search-input {
+    padding: 0;
+    margin-left: 4px;
+  }
+
+  ngx-mat-select-search
+    .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
+    margin: 0;
+  }
+
   .mdc-list-item .mat-select-search-input,
   .mat-mdc-option.mdc-list-item,
   .mat-select-search-no-entries-found {
