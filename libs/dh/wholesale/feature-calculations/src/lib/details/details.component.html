@@ -18,9 +18,7 @@ limitations under the License.
   <watt-drawer-topbar *transloco="let transloco; read: 'wholesale.calculations'">
     @if (!error) {
       <watt-badge [type]="calculation?.statusType ?? 'skeleton'">{{
-        calculation?.executionState
-          ? transloco("executionStates." + calculation?.executionState)
-          : "unknown"
+        calculation?.state ? transloco("states." + calculation?.state) : "unknown"
       }}</watt-badge>
     }
   </watt-drawer-topbar>
@@ -30,8 +28,6 @@ limitations under the License.
         {{ transloco("details.headline", { id: id() }) }}
       </h3>
     </div>
-  </watt-drawer-heading>
-  <watt-drawer-content *transloco="let transloco; read: 'wholesale.calculations'">
     <watt-description-list>
       <watt-description-list-item
         [label]="transloco('details.period')"
@@ -42,6 +38,21 @@ limitations under the License.
         [value]="calculation?.executionTimeStart | wattDate: 'long' | dhEmDashFallback"
       />
     </watt-description-list>
+  </watt-drawer-heading>
+  <watt-drawer-content *transloco="let transloco; read: 'wholesale.calculations'">
+    @if (calculation) {
+      <watt-progress-tracker>
+        @for (progress of calculation.progress; track progress) {
+          <watt-progress-tracker-step
+            [label]="transloco('progress.' + progress.step + '.pending')"
+            [status]="progress.status"
+            [current]="calculation.currentStep === progress.step"
+          >
+            {{ transloco("progress." + progress.step + ".completed") }}
+          </watt-progress-tracker-step>
+        }
+      </watt-progress-tracker>
+    }
 
     @if (calculation) {
       @if (calculation.gridAreas) {

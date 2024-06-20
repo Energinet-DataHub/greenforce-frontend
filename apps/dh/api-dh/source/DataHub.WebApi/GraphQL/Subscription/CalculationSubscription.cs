@@ -23,18 +23,26 @@ namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 public class Subscription
 {
     public IObservable<CalculationDto> OnCalculationProgressAsync(
+        CalculationQueryInput input,
         [Service] ITopicEventReceiver eventReceiver,
         [Service] IWholesaleClient_V3 client,
         CancellationToken cancellationToken)
     {
+        var states = input.States ?? [];
         var calculationIdStream = eventReceiver
             .Observe<Guid>(nameof(Mutation.Mutation.CreateCalculationAsync), cancellationToken);
 
-        var input = new CalculationQueryInput
-            { ExecutionStates = [CalculationState.Pending, CalculationState.Executing] };
+        // Prevent starting a subscription for calculations that are not in progress
+        if (states.Length > 0 && !states.Any(IsInProgress))
+        {
+            return Observable.Empty<CalculationDto>();
+        }
+
+        // Filter the list of states to only include those that are in progress
+        var inProgressCalculations = input with { States = states.Where(IsInProgress).ToArray() };
 
         return Observable
-            .FromAsync(() => client.QueryCalculationsAsync(input))
+            .FromAsync(() => client.QueryCalculationsAsync(inProgressCalculations))
             .SelectMany(calculations => calculations)
             .Select(calculation => calculation.CalculationId)
             .Merge(calculationIdStream)
@@ -43,16 +51,24 @@ public class Subscription
                 .Select(_ => id)
                 .StartWith(id)
                 .SelectMany(client.GetCalculationAsync)
-                .DistinctUntilChanged(calculation => calculation.ExecutionState)
-                .TakeUntil((calculation) => calculation.ExecutionState switch
-                {
-                    CalculationState.Pending => false,
-                    CalculationState.Executing => false,
-                    _ => true,
-                }));
+                .DistinctUntilChanged(calculation => calculation.OrchestrationState)
+                .TakeUntil(calculation => !IsInProgress(calculation.OrchestrationState)));
     }
 
     [Subscribe(With = nameof(OnCalculationProgressAsync))]
     public CalculationDto CalculationProgress([EventMessage] CalculationDto calculation) =>
         calculation;
+
+    public bool IsInProgress(CalculationOrchestrationState state) =>
+        state switch
+        {
+            CalculationOrchestrationState.Scheduled => true,
+            CalculationOrchestrationState.Calculating => true,
+            CalculationOrchestrationState.CalculationFailed => false,
+            CalculationOrchestrationState.Calculated => true,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => true,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => false,
+            CalculationOrchestrationState.ActorMessagesEnqueued => false,
+            CalculationOrchestrationState.Completed => false,
+        };
 }
