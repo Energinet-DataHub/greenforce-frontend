@@ -56,8 +56,14 @@ export class WattQueryParamsDirective implements OnInit {
       });
 
     if (Object.keys(this.route.snapshot.queryParams).length > 0) {
-      const value = qs.parse(this.route.snapshot.queryParams[filtersKey] ?? '');
-      this.formGroup.control.patchValue(value);
+      const value = qs.parse(this.route.snapshot.queryParams[filtersKey] ?? '', {
+        // Needed because `qs` library has a default value of 20 elements
+        // after which arrays are parsed as objects
+        // See https://github.com/ljharb/qs?tab=readme-ov-file#parsing-arrays
+        arrayLimit: 200,
+      });
+
+      this.formGroup.control.patchValue(value, { emitEvent: false });
     }
   }
 }
