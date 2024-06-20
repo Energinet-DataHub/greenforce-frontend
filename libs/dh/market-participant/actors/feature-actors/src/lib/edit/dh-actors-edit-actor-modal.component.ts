@@ -116,15 +116,20 @@ export class DhActorsEditActorModalComponent {
       !this.actorForm.value.departmentPhone ||
       !this.actorForm.value.departmentEmail ||
       !this.actorForm.valid
-    )
+    ) {
       return;
+    }
+
+    const phoneParts = this.actorForm.value.departmentPhone.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
     this.dataAccessStore
       .update({
         actorId: this.actor.id,
         actorName: this.actorForm.value.name,
         departmentName: this.actorForm.value.departmentName,
-        departmentPhone: this.actorForm.value.departmentPhone,
+        departmentPhone: formattedPhoneNumber,
         departmentEmail: this.actorForm.value.departmentEmail,
       })
       .subscribe((queryResult) => {
