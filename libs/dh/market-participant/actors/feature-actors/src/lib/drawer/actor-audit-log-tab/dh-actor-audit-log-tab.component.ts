@@ -118,7 +118,7 @@ export class DhActorAuditLogTabComponent {
 
     return {
       auditedBy: payload.auditedBy,
-      actor: `${actorNumberName.number} - ${actorNumberName.name}`,
+      actor: `${actorNumberName.number} • ${actorNumberName.name}`,
       startsAt: wattFormatDate(payloadStartsAt),
       gridArea: this.gridAreaCodeLookup()[payloadGridArea],
       processType: translate(

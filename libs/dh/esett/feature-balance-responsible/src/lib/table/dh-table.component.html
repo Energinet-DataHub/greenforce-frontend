@@ -39,7 +39,7 @@ limitations under the License.
       "
     >
       @if (message.supplierWithName) {
-        {{ message.supplier }} - {{ message.supplierWithName.value }}
+        {{ message.supplier }} • {{ message.supplierWithName.value }}
       } @else {
         <watt-badge type="danger">{{ message.supplier }}</watt-badge>
       }
@@ -53,7 +53,7 @@ limitations under the License.
       "
     >
       @if (message.balanceResponsibleWithName) {
-        {{ message.balanceResponsible }} - {{ message.balanceResponsibleWithName.value }}
+        {{ message.balanceResponsible }} • {{ message.balanceResponsibleWithName.value }}
       } @else {
         <watt-badge type="danger">{{ message.balanceResponsible }}</watt-badge>
       }
@@ -61,7 +61,7 @@ limitations under the License.
 
     <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
       @if (message.gridAreaWithName) {
-        {{ message.gridAreaWithName.code }} - {{ message.gridAreaWithName.name }}
+        {{ message.gridAreaWithName.code }} • {{ message.gridAreaWithName.name }}
       } @else {
         <watt-badge type="danger">{{ message.gridArea }}</watt-badge>
       }
