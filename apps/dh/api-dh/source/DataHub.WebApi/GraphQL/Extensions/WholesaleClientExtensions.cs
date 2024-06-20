@@ -38,11 +38,9 @@ public static class WholesaleClientExtensions
             periodStart,
             periodEnd);
 
-        var c = calculations
+        return calculations
             .OrderByDescending(x => x.ExecutionTimeStart)
             .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType));
-
-        return c;
     }
 }
