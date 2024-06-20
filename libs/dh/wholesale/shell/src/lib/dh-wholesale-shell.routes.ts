@@ -45,7 +45,7 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
-    path: getPath<WholesaleSubPaths>('settlement-reports-v2'),
+    path: getPath<WholesaleSubPaths>('settlement-reports'),
     canMatch: [() => inject(DhFeatureFlagsService).isEnabled('settlement-reports-v2')],
     canActivate: [PermissionGuard(['settlement-reports:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports-v2'),
