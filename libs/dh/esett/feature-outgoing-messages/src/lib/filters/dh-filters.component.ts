@@ -101,13 +101,14 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhOutgoingMessagesFiltersComponent {
+export class DhOutgoingMessagesFiltersComponent implements OnInit {
   private destoryRef = inject(DestroyRef);
 
   initial = input.required<DhOutgoingMessagesFilters>();
 
   filter = output<DhOutgoingMessagesFilters>();
   formReset = output<void>();
+  formReset$ = outputToObservable(this.formReset);
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType, 'asc');
   messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType, 'asc');
@@ -115,32 +116,37 @@ export class DhOutgoingMessagesFiltersComponent {
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus, 'asc');
 
-  formGroup = computed(
-    () =>
-      new FormGroup<Filters>({
-        calculationTypes: dhMakeFormControl(this.initial().calculationTypes),
-        messageTypes: dhMakeFormControl(this.initial().messageTypes),
-        gridAreas: dhMakeFormControl(this.initial().gridAreas),
-        actorNumber: dhMakeFormControl(this.initial().actorNumber),
-        status: dhMakeFormControl(this.initial().status),
-        period: dhMakeFormControl(this.initial().period),
-        created: dhMakeFormControl(this.initial().created),
-        latestDispatch: dhMakeFormControl(this.initial().latestDispatch),
-      })
-  );
+  formGroup!: FormGroup<Filters>;
 
-  constructor() {
-    this.formReset.subscribe(() => {
-      console.log('test');
-      this.formGroup().reset(this.initial());
+  ngOnInit(): void {
+    const {
+      calculationTypes,
+      actorNumber,
+      created,
+      gridAreas,
+      latestDispatch,
+      messageTypes,
+      period,
+      status,
+    } = this.initial();
+
+    this.formGroup = new FormGroup<Filters>({
+      calculationTypes: dhMakeFormControl(calculationTypes),
+      messageTypes: dhMakeFormControl(messageTypes),
+      gridAreas: dhMakeFormControl(gridAreas),
+      actorNumber: dhMakeFormControl(actorNumber),
+      status: dhMakeFormControl(status),
+      period: dhMakeFormControl(period),
+      created: dhMakeFormControl(created),
+      latestDispatch: dhMakeFormControl(latestDispatch),
     });
-    effect(() => {
-      this.formGroup()
-        .valueChanges.pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
-        .subscribe((value) => {
-          console.log('emit');
-          this.filter.emit(value as DhOutgoingMessagesFilters);
-        });
-    });
+
+    this.formReset$
+      .pipe(takeUntilDestroyed(this.destoryRef))
+      .subscribe(() => this.formGroup.reset(this.initial()));
+
+    this.formGroup.valueChanges
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
+      .subscribe((value) => this.filter.emit(value as DhOutgoingMessagesFilters));
   }
 }

@@ -19,12 +19,12 @@ limitations under the License.
   direction="row"
   gap="s"
   tabindex="-1"
-  [formGroup]="formGroup()"
+  [formGroup]="formGroup"
   wattQueryParams
   *transloco="let t; read: 'eSett.outgoingMessages.filters'"
 >
   <watt-dropdown
-    [formControl]="formGroup().controls.calculationTypes!"
+    [formControl]="formGroup.controls.calculationTypes!"
     [chipMode]="true"
     [options]="calculationTypeOptions"
     [placeholder]="t('calculationType')"
@@ -33,7 +33,7 @@ limitations under the License.
   />
 
   <watt-dropdown
-    [formControl]="formGroup().controls.messageTypes!"
+    [formControl]="formGroup.controls.messageTypes!"
     [chipMode]="true"
     [options]="messageTypeOptions"
     [placeholder]="t('messageType')"
@@ -42,7 +42,7 @@ limitations under the License.
   />
 
   <watt-dropdown
-    [formControl]="formGroup().controls.gridAreas!"
+    [formControl]="formGroup.controls.gridAreas!"
     [chipMode]="true"
     sortDirection="asc"
     [options]="gridAreaOptions$ | push"
@@ -50,14 +50,14 @@ limitations under the License.
   />
 
   <watt-dropdown
-    [formControl]="formGroup().controls.actorNumber!"
+    [formControl]="formGroup.controls.actorNumber!"
     [chipMode]="true"
     [options]="energySupplierOptions$ | push"
     [placeholder]="t('energySupplier')"
   />
 
   <watt-dropdown
-    [formControl]="formGroup().controls.status!"
+    [formControl]="formGroup.controls.status!"
     [chipMode]="true"
     [options]="documentStatusOptions"
     [placeholder]="t('status')"
@@ -65,15 +65,15 @@ limitations under the License.
     translateKey="eSett.outgoingMessages.shared.documentStatus"
   />
 
-  <watt-date-range-chip [showActions]="true" [formControl]="formGroup().controls.period!">{{
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.period!">{{
     t("period")
   }}</watt-date-range-chip>
 
-  <watt-date-range-chip [showActions]="true" [formControl]="formGroup().controls.created!">{{
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.created!">{{
     t("created")
   }}</watt-date-range-chip>
 
-  <watt-date-range-chip [showActions]="true" [formControl]="formGroup().controls.latestDispatch!">{{
+  <watt-date-range-chip [showActions]="true" [formControl]="formGroup.controls.latestDispatch!">{{
     t("latestDispatch")
   }}</watt-date-range-chip>
 
