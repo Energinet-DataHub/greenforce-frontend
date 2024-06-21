@@ -15,18 +15,13 @@
  * limitations under the License.
  */
 import {
-  Input,
   OnInit,
-  Output,
   inject,
   Component,
   DestroyRef,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
   output,
-  computed,
-  effect,
 } from '@angular/core';
 
 import { outputToObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
