@@ -50,9 +50,7 @@ import {
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import actorData from './data/marketPaticipantActor.json';
-import actorContactsData from './data/marketPaticipantActorContacts.json';
-import userRoleData from './data/marketParticipantUserRoleTemplates.json';
+import { actorData } from './data/market-participant-actor';
 import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
@@ -69,8 +67,6 @@ import { balanceResponsibleAgreements } from './data/balance-responsible-agreeme
 export function marketParticipantMocks(apiBase: string) {
   return [
     getActor(apiBase),
-    getActorContact(apiBase),
-    getUserRoles(apiBase),
     getActors(),
     getActorById(),
     getActorEditableFields(),
@@ -107,20 +103,6 @@ function getActor(apiBase: string) {
     };
     await delay(mswConfig.delay);
     return HttpResponse.json(actorDataWithUpdatedId);
-  });
-}
-
-function getActorContact(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetContacts`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(actorContactsData);
-  });
-}
-
-function getUserRoles(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRoleTemplate/users`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(userRoleData);
   });
 }
 

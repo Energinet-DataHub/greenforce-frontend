@@ -919,11 +919,15 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
-      "executionStates": {
-        "PENDING": "Afventer",
-        "EXECUTING": "Kører",
-        "COMPLETED": "Afsluttet",
-        "FAILED": "Fejl"
+      "states": {
+        "SCHEDULED": "Planlagt",
+        "CALCULATING": "Beregner...",
+        "CALCULATION_FAILED": "Beregning fejlet",
+        "CALCULATED": "Beregnet",
+        "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
+        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
+        "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
+        "COMPLETED": "Beskeder dannet"
       },
       "executionTypes": {
         "ACTUAL": "Faktisk",
@@ -938,7 +942,7 @@
         "NO": "Nej"
       },
       "filters": {
-        "executionStates": "Status",
+        "states": "Status",
         "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
         "calculationType": "{{shared.calculationType}}",
@@ -959,6 +963,26 @@
         "executionTime": "Eksekveringstidspunkt",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
+      },
+      "progress": {
+        "SCHEDULE": {
+          "pending": "Afventer planlægning",
+          "executing": "Planlægger",
+          "failed": "Planlægning fejlet",
+          "completed": "Planlagt"
+        },
+        "CALCULATE": {
+          "pending": "Afventer beregning",
+          "executing": "Beregner",
+          "failed": "Beregning fejlet",
+          "completed": "Beregnet"
+        },
+        "ACTOR_MESSAGE_ENQUEUE": {
+          "pending": "Afventer beskeddannelse",
+          "executing": "Danner beskeder",
+          "failed": "Beskeddannelse fejlet",
+          "completed": "Beskeder dannet"
+        }
       },
       "gridAreas": {
         "header": "{{total}} Netområder",
@@ -1001,7 +1025,7 @@
       }
     },
     "settlementReportsV2": {
-      "topBarTitle": "Afregningsrapporter (v2)",
+      "topBarTitle": "Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -1046,7 +1070,7 @@
       },
       "selectCalculationModal": {
         "title": "Hvilken beregning ønsker du data for?",
-        "description": "Der er foretaget mere end en balancefiksering. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
         "latest": "nyeste",
         "cancel": "Luk",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"

@@ -19,7 +19,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { fireEvent, within } from '@storybook/testing-library';
 
-import { WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
+import { WattFieldHintComponent } from '../../field';
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
 
@@ -28,7 +28,7 @@ const meta: Meta<WattDropdownComponent> = {
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, ReactiveFormsModule, WattFieldErrorComponent, WattFieldHintComponent],
+      imports: [FormsModule, ReactiveFormsModule, WattFieldHintComponent],
     }),
     applicationConfig({
       providers: [provideAnimations()],
@@ -53,7 +53,6 @@ const template = `
     [placeholder]="placeholder"
     [noOptionsFoundLabel]="noOptionsFoundLabel"
     [options]="options">
-      <watt-field-error>This field is required</watt-field-error>
       <watt-field-hint>This is a hint</watt-field-hint>
     </watt-dropdown>
 `;

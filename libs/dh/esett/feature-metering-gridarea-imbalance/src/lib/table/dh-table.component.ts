@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, ViewChild, Output } from '@angular/core';
+import { Component, viewChild, input, output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -59,8 +59,7 @@ import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.
 export class DhMeteringGridAreaImbalanceTableComponent {
   activeRow: DhMeteringGridAreaImbalance | undefined = undefined;
 
-  @ViewChild(DhMeteringGridAreaImbalanceDrawerComponent)
-  drawer!: DhMeteringGridAreaImbalanceDrawerComponent;
+  drawer = viewChild.required(DhMeteringGridAreaImbalanceDrawerComponent);
 
   columns: WattTableColumnDef<DhMeteringGridAreaImbalance> = {
     documentDateTime: { accessor: 'documentDateTime' },
@@ -70,17 +69,18 @@ export class DhMeteringGridAreaImbalanceTableComponent {
     period: { accessor: null },
   };
 
-  @Input() isLoading!: boolean;
-  @Input() hasError!: boolean;
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
-  @Input() tableDataSource!: WattTableDataSource<DhMeteringGridAreaImbalance>;
-  @Input() sortMetadata!: Sort;
+  tableDataSource = input.required<WattTableDataSource<DhMeteringGridAreaImbalance>>();
 
-  @Output() sortChange = new EventEmitter<Sort>();
+  sortMetadata = input.required<Sort>();
+
+  sortChange = output<Sort>();
 
   onRowClick(activeRow: DhMeteringGridAreaImbalance): void {
     this.activeRow = activeRow;
-    this.drawer.open(activeRow);
+    this.drawer().open(activeRow);
   }
 
   onClose(): void {

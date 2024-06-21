@@ -86,7 +86,6 @@ export class DhImbalancePricesShellComponent {
   });
 
   tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
-  totalCount = 0;
 
   isLoading = false;
   hasError = false;
@@ -117,7 +116,6 @@ export class DhImbalancePricesShellComponent {
         this.isLoading = loading;
 
         this.tableDataSource.data = data.imbalancePricesOverview.pricePeriods;
-        this.totalCount = data.imbalancePricesOverview.pricePeriods.length;
       },
       error: () => {
         this.hasError = true;

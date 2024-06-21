@@ -79,7 +79,7 @@ type Form = FormGroup<{
     <form
       vater-stack
       direction="row"
-      gap="m"
+      gap="s"
       tabindex="-1"
       [formGroup]="formGroup"
       wattQueryParams

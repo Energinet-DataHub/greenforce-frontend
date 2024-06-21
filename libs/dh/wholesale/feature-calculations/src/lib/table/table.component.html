@@ -54,7 +54,7 @@ limitations under the License.
     <!-- Status -->
     <ng-container *wattTableCell="columns.status; let calculation">
       <watt-badge [type]="calculation.statusType">
-        {{ t("executionStates." + calculation.executionState) }}
+        {{ t("states." + calculation.state) }}
       </watt-badge>
     </ng-container>
   </watt-table>

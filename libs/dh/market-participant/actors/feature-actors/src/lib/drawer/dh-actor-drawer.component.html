@@ -30,7 +30,13 @@ limitations under the License.
     </watt-drawer-actions>
 
     <watt-drawer-heading>
-      <h2 class="actor-heading">{{ actor()?.glnOrEicNumber }} {{ actor()?.name }}</h2>
+      <h2 class="actor-heading">
+        @if (actor()?.glnOrEicNumber) {
+          {{ actor()?.glnOrEicNumber }} • {{ actor()?.name }}
+        } @else {
+          {{ actor()?.name }}
+        }
+      </h2>
 
       <div class="actor-metadata">
         <div class="actor-metadata__item">

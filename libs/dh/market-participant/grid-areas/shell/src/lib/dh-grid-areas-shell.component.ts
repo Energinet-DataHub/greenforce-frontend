@@ -49,7 +49,7 @@ export class DhGridAreasShellComponent {
         result.data?.gridAreaOverview?.map((x) => ({
           code: x.code,
           actor: x.actorNumber
-            ? `${x.actorName} - ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+            ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
             : '',
           organization: x.organizationName ?? '',
         })) ?? [];

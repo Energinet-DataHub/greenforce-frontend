@@ -16,7 +16,6 @@
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import {
-  CalculationState,
   GetCalculationsDocument,
   CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -26,9 +25,6 @@ export type Calculation = ResultOf<typeof GetCalculationsDocument>['calculations
 export type CalculationGridArea = ResultOf<
   typeof GetCalculationsDocument
 >['calculations'][0]['gridAreas'][0];
-
-export const executionStates = Object.values(CalculationState);
-export const calculationTypes = Object.values(CalculationType);
 
 export const wholesaleCalculationTypes = [
   CalculationType.WholesaleFixing,

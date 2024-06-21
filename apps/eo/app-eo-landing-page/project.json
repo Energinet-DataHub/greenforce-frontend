@@ -32,6 +32,21 @@
             "input": "libs/watt/src/assets",
             "glob": "**/*",
             "output": "assets/watt"
+          },
+          {
+            "glob": "googleb7a7b2f54ab9468e.html",
+            "input": "apps/eo/app-eo-landing-page/src",
+            "output": "."
+          },
+          {
+            "glob": "sitemap.xml",
+            "input": "apps/eo/app-eo-landing-page/src",
+            "output": "."
+          },
+          {
+            "glob": "robots.txt",
+            "input": "apps/eo/app-eo-landing-page/src",
+            "output": "."
           }
         ],
         "stylePreprocessorOptions": {

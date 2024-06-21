@@ -43,12 +43,16 @@ limitations under the License.
     *dhPermissionRequired="[
       'calculations:manage',
       'settlement-reports:manage',
-      'request-aggregated-measured-data:view'
+      'request-aggregated-measured-data:view',
+      'request-wholesale-settlement:view'
     ]"
   >
     <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
       <watt-nav-list-item
-        *dhPermissionRequired="['request-aggregated-measured-data:view']"
+        *dhPermissionRequired="[
+          'request-aggregated-measured-data:view',
+          'request-wholesale-settlement:view'
+        ]"
         [link]="getWholesaleLink('request-calculation')"
         >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
       >
@@ -58,17 +62,11 @@ limitations under the License.
         >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
       >
 
-      <watt-nav-list-item
-        *dhPermissionRequired="['settlement-reports:manage']"
-        [link]="getWholesaleLink('settlement-reports')"
-        >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
-      >
-
       <ng-container *dhFeatureFlag="'settlement-reports-v2'">
         <watt-nav-list-item
           *dhPermissionRequired="['settlement-reports:manage']"
-          [link]="getWholesaleLink('settlement-reports-v2')"
-          >{{ transloco("wholesale.settlementReports") }} (v2)</watt-nav-list-item
+          [link]="getWholesaleLink('settlement-reports')"
+          >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
         >
       </ng-container>
     </watt-nav-list>

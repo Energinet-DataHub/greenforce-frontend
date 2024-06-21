@@ -45,12 +45,14 @@ limitations under the License.
         [sortClear]="false"
       >
         <ng-container
-          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+          *wattTableCell="columns['timestamp']; header: t('table.columns.timestamp'); let element"
         >
           {{ element.timestamp | wattDate: "long" }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+        <ng-container
+          *wattTableCell="columns['entry']; header: t('table.columns.entry'); let element"
+        >
           @if (element.change !== "STATUS") {
             <span [innerHTML]="t('logs.roles.' + element.change, element)"></span>
           } @else if (element.change === "STATUS") {

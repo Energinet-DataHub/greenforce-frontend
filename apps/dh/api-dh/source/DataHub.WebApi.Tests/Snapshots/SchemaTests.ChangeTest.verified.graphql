@@ -110,17 +110,24 @@ type Calculation {
   period: DateRange!
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
+  executionState: CalculationState! @deprecated
+  state: CalculationOrchestrationState!
   statusType: ProcessStatus!
+  currentStep: CalculationProgressStep!
+  progress: [CalculationProgress!]!
   runId: Long
   resolution: String
   unit: String
   executionTimeStart: DateTime
   executionTimeEnd: DateTime
-  executionState: CalculationState!
-  orchestrationState: CalculationOrchestrationState!
   areSettlementReportsCreated: Boolean!
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
+}
+
+type CalculationProgress {
+  step: CalculationProgressStep!
+  status: ProgressStatus!
 }
 
 type CreateCalculationPayload {
@@ -492,7 +499,7 @@ input AddressDtoInput {
 
 input CalculationQueryInput {
   gridAreaCodes: [String!]
-  executionStates: [CalculationState!]
+  states: [CalculationOrchestrationState!]
   calculationTypes: [CalculationType!]
   executionTime: DateRange
   period: DateRange
@@ -567,7 +574,7 @@ input RequestCalculationInput {
 }
 
 input RequestSettlementReportGridAreaInput {
-  calculationId: UUID!
+  calculationId: UUID
   gridAreaCode: String!
 }
 
@@ -577,6 +584,7 @@ input RequestSettlementReportInput {
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
   includeMonthlySums: Boolean!
+  includeBasisData: Boolean!
   energySupplier: String
   csvLanguage: String
 }
@@ -670,6 +678,12 @@ enum CalculationOrchestrationState {
   ACTOR_MESSAGES_ENQUEUED
   ACTOR_MESSAGES_ENQUEUING_FAILED
   COMPLETED
+}
+
+enum CalculationProgressStep {
+  SCHEDULE
+  CALCULATE
+  ACTOR_MESSAGE_ENQUEUE
 }
 
 enum CalculationState {
@@ -837,6 +851,14 @@ enum ProcessStatus {
   success
   danger
   info
+  neutral
+}
+
+enum ProgressStatus {
+  pending
+  executing
+  failed
+  completed
 }
 
 enum SettlementReportStatusType {

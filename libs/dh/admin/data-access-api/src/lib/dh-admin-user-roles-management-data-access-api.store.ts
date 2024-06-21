@@ -36,6 +36,7 @@ import {
   MarketParticipantUserRoleDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 interface DhUserRolesManagementState {
   readonly roles: MarketParticipantUserRoleDto[];
   readonly requestState: LoadingState | ErrorState;
@@ -200,11 +201,12 @@ export class DhAdminUserRolesManagementDataAccessApiStore
         // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
         map(([keys, roles]) =>
           roles.map((role: MarketParticipantUserRoleDto) => ({
-            displayValue: `${role.name} - ${keys[role.eicFunction]}`,
+            displayValue: `${role.name} (${keys[role.eicFunction]})`,
             value: role.id,
           }))
         )
       );
+
     this.getRoles();
   }
 }

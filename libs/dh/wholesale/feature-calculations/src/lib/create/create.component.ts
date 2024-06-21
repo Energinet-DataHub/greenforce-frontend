@@ -49,16 +49,17 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
+  CalculationType,
   CreateCalculationDocument,
   GetGridAreasDocument,
   GetLatestBalanceFixingDocument,
   StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { filterValidGridAreas, GridArea } from '@energinet-datahub/dh/wholesale/domain';
 import {
-  filterValidGridAreas,
-  GridArea,
-  calculationTypes,
-} from '@energinet-datahub/dh/wholesale/domain';
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 interface FormValues {
   calculationType: FormControl<StartCalculationType>;
@@ -89,6 +90,8 @@ interface FormValues {
     WattFieldErrorComponent,
     WattFieldHintComponent,
     WattTextFieldComponent,
+
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
@@ -142,18 +145,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
   onDateRangeChange$ = this.formGroup.controls.dateRange.valueChanges.pipe(startWith(null));
 
-  calculationTypes: Observable<WattDropdownOption[]> = this._transloco
-    .selectTranslateObject('wholesale.calculations.calculationTypes')
-    .pipe(
-      map((translations) =>
-        calculationTypes.map((calculationType) => ({
-          displayValue: this._transloco.translate(
-            translations[calculationType].replace(/{{|}}/g, '')
-          ),
-          value: calculationType,
-        }))
-      )
-    );
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: Date | null;
