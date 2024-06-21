@@ -39,6 +39,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { EoConsentClient } from '../data-access-api/consent.service';
+import { WattSpinnerComponent } from '../../../watt/src/lib/components/spinner';
+import { NgClass } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,9 +49,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   selector: 'eo-grant-consent-modal',
   imports: [
     ReactiveFormsModule,
+    NgClass,
     WATT_MODAL,
     WattIconComponent,
     WattCheckboxComponent,
+    WattSpinnerComponent,
     TranslocoPipe,
     WattButtonComponent,
   ],
@@ -56,6 +61,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   styles: `
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
+      --watt-modal-min-height: 648px !important;
 
       .watt-modal-content {
         display: flex;
@@ -93,6 +99,17 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
           }
         }
       }
+
+      .loading-container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .visually-hidden {
+        opacity: 0;
+      }
     }
   `,
   template: `
@@ -104,47 +121,53 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         [panelClass]="['eo-grant-consent-modal']"
         [formGroup]="form"
       >
-        <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
-        <h3>
-          {{
-            translations.grantConsent.title | transloco: { organizationName: organizationName() }
-          }}
-        </h3>
-        <p>
-          {{
-            translations.grantConsent.description
-              | transloco: { organizationName: organizationName() }
-          }}
-        </p>
+        @if (!isLoading()) {
+          <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
+          <h3>
+            {{
+              translations.grantConsent.title | transloco: { organizationName: organizationName() }
+            }}
+          </h3>
+          <p>
+            {{
+              translations.grantConsent.description
+                | transloco: { organizationName: organizationName() }
+            }}
+          </p>
 
-        <ul>
-          @for (permission of permissions; track permission) {
-            <li>
-              <watt-checkbox [formControlName]="permission[0]">{{
-                permission[1].title | transloco
-              }}</watt-checkbox>
-              <p class="watt-text-s">{{ permission[1].description | transloco }}</p>
-            </li>
-          }
-        </ul>
-
-        <watt-modal-actions>
-          <watt-checkbox formControlName="termsAndConditions"
-            ><span
-              [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
-            ></span
-          ></watt-checkbox>
-          <div>
-            <watt-button variant="secondary" (click)="decline()">{{
-              translations.grantConsent.decline | transloco
-            }}</watt-button>
-            <watt-button
-              variant="secondary"
-              (click)="accept()"
-              [disabled]="!form.value.termsAndConditions"
-              >{{ translations.grantConsent.accept | transloco }}</watt-button
-            >
+          <ul>
+            @for (permission of permissions; track permission) {
+              <li>
+                <watt-checkbox [formControlName]="permission[0]">{{
+                  permission[1].title | transloco
+                }}</watt-checkbox>
+                <p class="watt-text-s">{{ permission[1].description | transloco }}</p>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="loading-container">
+            <watt-spinner />
           </div>
+        }
+
+        <watt-modal-actions [ngClass]="{'visually-hidden': isLoading()}" [attr.aria.hidden]="isLoading()">
+            <watt-checkbox formControlName="termsAndConditions"
+              ><span
+                [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
+              ></span
+            ></watt-checkbox>
+            <div>
+              <watt-button variant="secondary" (click)="decline()">{{
+                translations.grantConsent.decline | transloco
+              }}</watt-button>
+              <watt-button
+                variant="secondary"
+                (click)="accept()"
+                [disabled]="!form.value.termsAndConditions"
+                >{{ translations.grantConsent.accept | transloco }}</watt-button
+              >
+            </div>
         </watt-modal-actions>
       </watt-modal>
     }
@@ -163,6 +186,7 @@ export class EoGrantConsentModalComponent implements OnInit {
   protected translations = translations;
   protected permissions = Object.entries(translations.grantConsent.permissions);
   protected form!: FormGroup;
+  protected isLoading = signal<boolean>(false);
   protected organizationName = signal<string>('');
   protected redirectUrl = signal<string>('');
   protected opened = false;
@@ -186,15 +210,16 @@ export class EoGrantConsentModalComponent implements OnInit {
     // If the third party client id is not set, theres no reason to open the modal
     if (!this.thirdPartyClientId) return;
 
-    // TODO: Add loading state in the modal instead of waiting
-    this.consentService.getClient(this.thirdPartyClientId).subscribe((x) => {
-      this.organizationName.set(x.name);
-      this.redirectUrl.set(x.redirectUrl);
+    // This is a workaround for "lazy loading" the modal content
+    this.opened = true;
+    this.cd.detectChanges();
+    this.modal.open();
 
-      // This is a workaround for "lazy loading" the modal content
-      this.opened = true;
-      this.cd.detectChanges();
-      this.modal.open();
+    this.isLoading.set(true);
+    this.consentService.getClient(this.thirdPartyClientId).subscribe((client: EoConsentClient) => {
+      this.organizationName.set(client.name);
+      this.redirectUrl.set(client.redirectUrl);
+      this.isLoading.set(false);
     });
   }
 
