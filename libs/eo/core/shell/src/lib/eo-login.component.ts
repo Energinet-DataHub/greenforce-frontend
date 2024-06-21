@@ -50,6 +50,14 @@ export class EoLoginComponent {
       .pipe(take(1))
       .subscribe(([scope, isTokenExpired]) => {
         const redirectionPath = this.route.snapshot.queryParamMap.get('redirectionPath');
+        const errorCode = this.route.snapshot.queryParamMap.get('errorCode');
+
+        if (errorCode) {
+          this.router.navigate([this.transloco.getActiveLang()], {
+            queryParams: { errorCode },
+          });
+          return;
+        }
 
         if (scope.length == 0) {
           this.service.startLogin();
