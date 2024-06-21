@@ -1,7 +1,7 @@
-subscription OnCalculationProgress {
-  calculationProgress {
+subscription OnCalculationProgress($input: CalculationQueryInput!) {
+  calculationProgress(input: $input) {
     id
-    executionState
+    state
     executionTimeEnd
     executionTimeStart
     period
@@ -11,6 +11,11 @@ subscription OnCalculationProgress {
     gridAreas {
       code
       name
+    }
+    currentStep
+    progress {
+      step
+      status
     }
   }
 }

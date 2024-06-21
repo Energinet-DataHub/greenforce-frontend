@@ -20,10 +20,10 @@ import {
   Output,
   EventEmitter,
   inject,
-  OnInit,
   Input,
   signal,
   effect,
+  computed,
 } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -73,7 +73,7 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhCalculationsTableComponent implements OnInit {
+export class DhCalculationsTableComponent {
   private apollo = inject(Apollo);
 
   @Input() id?: string;
@@ -90,21 +90,46 @@ export class DhCalculationsTableComponent implements OnInit {
     },
   });
 
-  query = this.apollo.watchQuery({
-    fetchPolicy: 'network-only',
-    query: GetCalculationsDocument,
-    variables: { input: this.filter() },
+  // TODO: Fix race condition when subscription returns faster than the query.
+  // This is not a problem currently since subscriptions don't return any data
+  // when the BFF is deployed to API Management. This will be fixed in a later PR.
+
+  // Create a new query each time the filter changes rather than using `refetch`,
+  // since `refetch` does not properly unsubscribe to the previous query.
+  query = computed(() =>
+    this.apollo.watchQuery({
+      fetchPolicy: 'network-only',
+      query: GetCalculationsDocument,
+      variables: { input: this.filter() },
+    })
+  );
+
+  valueChanges = effect((OnCleanup) => {
+    const subscription = this.query().valueChanges.subscribe({
+      next: (result) => {
+        this.loading = result.loading;
+        this.error = !!result.errors;
+        if (result.data?.calculations) this.dataSource.data = result.data.calculations;
+      },
+      error: (error) => {
+        this.error = error;
+        this.loading = false;
+      },
+    });
+
+    OnCleanup(() => subscription.unsubscribe());
   });
 
-  // The subscription returned by `subscribeToMore` is automatically disposed
-  // when the dependent query is stopped, so no need to manually unsubscribe.
-  subscription = this.query.subscribeToMore({
-    document: OnCalculationProgressDocument,
-    updateQuery: (prev, options) =>
-      this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
-  });
+  subscribe = effect((onCleanup) => {
+    const unsubscribe = this.query().subscribeToMore({
+      document: OnCalculationProgressDocument,
+      variables: { input: this.filter() },
+      updateQuery: (prev, options) =>
+        this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
+    });
 
-  refetch = effect(() => this.query.refetch({ input: this.filter() }));
+    onCleanup(() => unsubscribe());
+  });
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
@@ -113,7 +138,7 @@ export class DhCalculationsTableComponent implements OnInit {
     periodTo: { accessor: (calculation) => calculation.period?.end },
     executionTime: { accessor: 'executionTimeStart' },
     calculationType: { accessor: 'calculationType' },
-    status: { accessor: 'executionState' },
+    status: { accessor: 'state' },
   };
 
   getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
@@ -127,35 +152,10 @@ export class DhCalculationsTableComponent implements OnInit {
       ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
       : prev.calculations;
 
-    // If it was an update, replace the cached calculations with the updated array
-    if (isExistingCalculation) return { ...prev, calculations };
-
-    // Reaching this point means that the calculation is new. Add it to the cache if
-    // the current filter is a live query (arbitrarily defined as a query with an end
-    // date in the future and with no other filters applied). This is the default state
-    // of the query when first entering the page. The reason for this is to avoid having
-    // the table rows change position when viewing the data with different filters.
-    const input = this.filter();
-    const isLiveQuery =
-      input.executionTime?.end && Object.values(input).filter(Boolean).length === 1
-        ? input.executionTime.end > new Date()
-        : false;
-
-    // Add the new calculation to the top of the list if it was a live query
-    return { ...prev, calculations: isLiveQuery ? [calculation, ...calculations] : calculations };
+    // If it was an update, replace the cached calculations with the updated
+    // array, otherwise add the new calculation to the top of the list.
+    return isExistingCalculation
+      ? { ...prev, calculations }
+      : { ...prev, calculations: [calculation, ...calculations] };
   };
-
-  ngOnInit() {
-    this.query.valueChanges.subscribe({
-      next: (result) => {
-        this.loading = result.loading;
-        this.error = !!result.errors;
-        if (result.data?.calculations) this.dataSource.data = result.data.calculations;
-      },
-      error: (error) => {
-        this.error = error;
-        this.loading = false;
-      },
-    });
-  }
 }

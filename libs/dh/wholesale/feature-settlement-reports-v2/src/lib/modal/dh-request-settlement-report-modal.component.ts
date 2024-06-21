@@ -208,9 +208,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       return;
     }
 
-    if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing)
-      return this.requestSettlementReport();
-
     this.getCalculationByGridAreas()
       ?.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -241,6 +238,9 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
           if (onlyOneCalculationPerSelectedGridArea) {
             return this.requestSettlementReport();
           }
+
+          if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing)
+            return this.requestSettlementReport();
 
           // If there are multiple calculations for any selected grid area
           this.modalService.open({
@@ -347,19 +347,16 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     gridAreas: string[],
     isBalanceFixing: boolean
   ): { gridAreaCode: string; calculationId: string | null }[] {
-    if (isBalanceFixing) {
-      return gridAreas.map((gridAreaCode) => ({
-        gridAreaCode,
-        calculationId: null,
-      }));
-    }
-
     return gridAreas
       .map((gridAreaCode) => ({
         gridAreaCode,
         calculationId: this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
       }))
-      .filter(({ calculationId }) => !!calculationId);
+      .filter(({ calculationId }) => !!calculationId)
+      .map(({ gridAreaCode, calculationId }) => ({
+        gridAreaCode,
+        calculationId: isBalanceFixing ? null : calculationId,
+      }));
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
