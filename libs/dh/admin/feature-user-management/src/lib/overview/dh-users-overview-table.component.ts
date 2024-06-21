@@ -25,30 +25,33 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  MarketParticipantSortDirection,
-  MarketParticipantUserOverviewItemDto,
-  MarketParticipantUserOverviewSortProperty,
-} from '@energinet-datahub/dh/shared/domain';
 import {
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
   WATT_TABLE,
 } from '@energinet-datahub/watt/table';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 import {
   DhTabDataGeneralErrorComponent,
   DhUserStatusComponent,
 } from '@energinet-datahub/dh/admin/shared';
 
+import {
+  MarketParticipantSortDirctionType,
+  UserOverviewSortProperty,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { UserOverview } from '@energinet-datahub/dh/admin/data-access-api';
+
+import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 @Component({
   selector: 'dh-users-overview-table',
   standalone: true,
@@ -79,7 +82,7 @@ import {
 export class DhUsersTabTableComponent implements AfterViewInit {
   private _destroyRef = inject(DestroyRef);
 
-  columns: WattTableColumnDef<MarketParticipantUserOverviewItemDto> = {
+  columns: WattTableColumnDef<UserOverview> = {
     firstName: { accessor: 'firstName' },
     lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
@@ -87,10 +90,13 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     status: { accessor: 'status' },
   };
 
-  dataSource = new WattTableDataSource<MarketParticipantUserOverviewItemDto>();
-  activeRow: MarketParticipantUserOverviewItemDto | undefined = undefined;
+  dataSource = new WattTableDataSource<UserOverview>();
+  activeRow: UserOverview | undefined = undefined;
 
-  @Input({ required: true }) set users(value: MarketParticipantUserOverviewItemDto[]) {
+  UserOverviewSortProperty = UserOverviewSortProperty;
+  MarketParticipantSortDirctionType = MarketParticipantSortDirctionType;
+
+  @Input({ required: true }) set users(value: UserOverview[]) {
     this.dataSource.data = value;
   }
 
@@ -98,8 +104,8 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   @Input({ required: true }) hasGeneralError = false;
 
   @Input({ required: true }) sortChanged!: (
-    prop: MarketParticipantUserOverviewSortProperty,
-    direction: MarketParticipantSortDirection
+    prop: UserOverviewSortProperty,
+    direction: MarketParticipantSortDirctionType
   ) => void;
 
   @Output() reload = new EventEmitter<void>();
@@ -108,19 +114,20 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   drawer!: DhUserDrawerComponent;
 
   @ViewChild(WattTableComponent)
-  usersTable!: WattTableComponent<MarketParticipantUserOverviewItemDto>;
+  usersTable!: WattTableComponent<UserOverview>;
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
-      const property = (x.active[0].toUpperCase() +
-        x.active.slice(1)) as MarketParticipantUserOverviewSortProperty;
-      const direction = (x.direction[0].toUpperCase() +
-        x.direction.slice(1)) as MarketParticipantSortDirection;
+      const property = (x.active.charAt(0).toUpperCase() +
+        x.active.slice(1)) as UserOverviewSortProperty;
+      const direction = (x.direction.charAt(0).toUpperCase() +
+        x.direction.slice(1)) as MarketParticipantSortDirctionType;
+
       this.sortChanged(property, direction);
     });
   }
 
-  onRowClick(row: MarketParticipantUserOverviewItemDto): void {
+  onRowClick(row: UserOverview): void {
     this.activeRow = row;
     this.drawer.open(row);
   }

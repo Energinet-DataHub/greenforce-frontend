@@ -14,34 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, take, tap } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+
+import { Apollo } from 'apollo-angular';
+import { Observable, map, of, switchMap, take, tap } from 'rxjs';
 import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
-import { tapResponse } from '@ngrx/operators';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
-  MarketParticipantUserOverviewHttp,
-  MarketParticipantSortDirection,
-  MarketParticipantUserOverviewItemDto,
-  MarketParticipantGetUserOverviewResponse,
-  MarketParticipantUserOverviewSortProperty,
-  MarketParticipantUserStatus,
-} from '@energinet-datahub/dh/shared/domain';
+  MarketParticipantSortDirctionType,
+  UserOverviewSearchDocument,
+  UserOverviewSortProperty,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-interface DhUserManagementState {
-  readonly users: MarketParticipantUserOverviewItemDto[];
-  readonly totalUserCount: number;
-  readonly usersRequestState: LoadingState | ErrorState;
-  readonly pageNumber: number;
-  readonly pageSize: number;
-  readonly sortProperty: MarketParticipantUserOverviewSortProperty;
-  readonly direction: MarketParticipantSortDirection;
-  readonly searchText: string | undefined;
-  readonly statusFilter: MarketParticipantUserStatus[] | null;
-  readonly actorIdFilter: string | undefined;
-  readonly userRoleFilter: string[];
-}
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+export type UserOverview = ResultOf<
+  typeof UserOverviewSearchDocument
+>['userOverviewSearch']['users'][0];
+
+type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
@@ -61,16 +54,36 @@ export type DhUserManagementFilters = {
   userRoleIds: string[] | null;
 };
 
+type UserResponseType = {
+  loading: boolean;
+  error: boolean;
+  data: UserOverviewResponse | null;
+};
+
+interface DhUserManagementState {
+  readonly users: UserOverview[];
+  readonly totalUserCount: number;
+  readonly usersRequestState: LoadingState | ErrorState;
+  readonly pageNumber: number;
+  readonly pageSize: number;
+  readonly sortProperty: UserOverviewSortProperty;
+  readonly direction: MarketParticipantSortDirctionType;
+  readonly searchText: string | undefined;
+  readonly statusFilter: UserStatus[] | null;
+  readonly actorIdFilter: string | undefined;
+  readonly userRoleFilter: string[];
+}
+
 const initialState: DhUserManagementState = {
   users: [],
   totalUserCount: 0,
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
-  sortProperty: 'Email',
-  direction: 'Asc',
+  sortProperty: UserOverviewSortProperty.Email,
+  direction: MarketParticipantSortDirctionType.Asc,
   searchText: undefined,
-  statusFilter: ['Active', 'Invited', 'InviteExpired'],
+  statusFilter: [UserStatus.Active, UserStatus.Invited, UserStatus.InviteExpired],
   actorIdFilter: undefined,
   userRoleFilter: [],
 };
@@ -80,6 +93,7 @@ export class DhAdminUserManagementDataAccessApiStore
   extends ComponentStore<DhUserManagementState>
   implements OnStoreInit
 {
+  readonly apollo = inject(Apollo);
   readonly isInit$ = this.select((state) => state.usersRequestState === LoadingState.INIT);
   readonly isLoading$ = this.select((state) => state.usersRequestState === LoadingState.LOADING);
   readonly hasGeneralError$ = this.select(
@@ -110,7 +124,7 @@ export class DhAdminUserManagementDataAccessApiStore
     { debounce: true }
   );
 
-  constructor(private httpClient: MarketParticipantUserOverviewHttp) {
+  constructor() {
     super(initialState);
   }
 
@@ -122,24 +136,22 @@ export class DhAdminUserManagementDataAccessApiStore
           users: [],
         });
       }),
-      switchMap((fetchUsersParams) =>
-        this.getUsers(fetchUsersParams).pipe(
-          tapResponse(
-            (response) => {
+      switchMap((fetchUsersParams) => {
+        return this.getUsers(fetchUsersParams).pipe(
+          tap((response) => {
+            if (response.loading) {
+              this.patchState({ usersRequestState: LoadingState.LOADING });
+            } else if (response.error) {
+              this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
+            } else {
               this.patchState({ usersRequestState: LoadingState.LOADED });
-
-              this.updateUsers(response);
-            },
-            () => {
-              this.updateUsers({ users: [], totalUserCount: 0 });
-
-              this.patchState({
-                usersRequestState: ErrorState.GENERAL_ERROR,
-              });
+              if (response.data?.users && response.data?.totalUserCount) {
+                this.updateUsers(response.data);
+              }
             }
-          )
-        )
-      )
+          })
+        );
+      })
     )
   );
 
@@ -157,10 +169,7 @@ export class DhAdminUserManagementDataAccessApiStore
   );
 
   private updateUsers = this.updater(
-    (
-      state: DhUserManagementState,
-      response: MarketParticipantGetUserOverviewResponse
-    ): DhUserManagementState => ({
+    (state: DhUserManagementState, response: UserOverviewResponse): DhUserManagementState => ({
       ...state,
       users: response.users,
       totalUserCount: response.totalUserCount,
@@ -176,23 +185,32 @@ export class DhAdminUserManagementDataAccessApiStore
     statusFilter,
     actorIdFilter,
     userRoleFilter,
-  }: FetchUsersParams) {
+  }: FetchUsersParams): Observable<UserResponseType> {
     if (!statusFilter || statusFilter.length == 0) {
-      return of({ users: [], totalUserCount: 0 });
+      return of({ data: null, loading: false, error: false });
     }
 
-    return this.httpClient.v1MarketParticipantUserOverviewSearchUsersPost(
-      pageNumber,
-      pageSize,
-      sortProperty,
-      direction,
-      {
-        actorId: actorIdFilter,
-        userRoleIds: userRoleFilter,
-        searchText: searchText,
-        userStatus: statusFilter,
-      }
-    );
+    return this.apollo
+      .query({
+        query: UserOverviewSearchDocument,
+        variables: {
+          pageNumber,
+          pageSize,
+          sortProperty,
+          sortDirection: direction,
+          actorId: actorIdFilter,
+          userRoleIds: userRoleFilter,
+          searchText,
+          userStatus: statusFilter,
+        },
+      })
+      .pipe(
+        map((response) => ({
+          loading: response.loading,
+          error: Boolean(response.error) || (response.errors?.length ?? 0) > 0,
+          data: response.data?.userOverviewSearch,
+        }))
+      );
   }
 
   updateSearchText(searchText: string) {
@@ -211,10 +229,7 @@ export class DhAdminUserManagementDataAccessApiStore
     });
   }
 
-  updateSort(
-    sortProperty: MarketParticipantUserOverviewSortProperty,
-    direction: MarketParticipantSortDirection
-  ) {
+  updateSort(sortProperty: UserOverviewSortProperty, direction: MarketParticipantSortDirctionType) {
     this.patchState({ sortProperty, direction });
   }
 

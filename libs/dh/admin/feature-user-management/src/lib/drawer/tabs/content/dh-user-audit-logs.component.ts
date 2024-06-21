@@ -25,12 +25,12 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { catchError, map, of, tap } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import { Apollo } from 'apollo-angular';
 import {
   GetUserAuditLogsDocument,
   UserAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { UserOverview } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-user-audit-logs',
@@ -91,7 +91,7 @@ export class DhUserAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  user = input.required<MarketParticipantUserOverviewItemDto>();
+  user = input.required<UserOverview>();
 
   ngOnChanges(): void {
     this.getUserAuditLogsQuery?.refetch({ id: this.user().id });

@@ -23,34 +23,35 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { FormsModule } from '@angular/forms';
+
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { FormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import {
-  DhAdminUserRolesStore,
-  UpdateUserRoles,
-} from '@energinet-datahub/dh/admin/data-access-api';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  MarketParticipantUserOverviewItemDto,
-  MarketParticipantUserRoleViewDto,
-} from '@energinet-datahub/dh/shared/domain';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+
+import {
+  DhAdminUserRolesStore,
+  UpdateUserRoles,
+  UserOverview,
+} from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-user-roles',
@@ -82,7 +83,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
-  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
+  @Input() user: UserOverview | null = null;
   @Input() selectMode = false;
   @Input() expanded = true;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();

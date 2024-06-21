@@ -54,7 +54,7 @@ export class DhDropdownTranslatorDirective implements OnInit {
   }
 
   private translateDisplayValue(value: string): string {
-    if (value.startsWith('{{')) {
+    if (value && value.startsWith('{{')) {
       const key = value.replace(/{{|}}/g, '').trim();
 
       return this.translocoService.translate(key);
