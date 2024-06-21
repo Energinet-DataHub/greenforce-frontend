@@ -39,8 +39,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { EoConsentClient } from '../data-access-api/consent.service';
-import { WattSpinnerComponent } from '../../../watt/src/lib/components/spinner';
+import { EoConsentClient } from '@energinet-datahub/eo/consent/data-access-api';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { NgClass } from '@angular/common';
 
 @Component({
