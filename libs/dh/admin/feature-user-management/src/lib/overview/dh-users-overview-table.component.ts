@@ -49,7 +49,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { UserOverview } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserOverviewItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 @Component({
@@ -82,7 +82,7 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 export class DhUsersTabTableComponent implements AfterViewInit {
   private _destroyRef = inject(DestroyRef);
 
-  columns: WattTableColumnDef<UserOverview> = {
+  columns: WattTableColumnDef<UserOverviewItem> = {
     firstName: { accessor: 'firstName' },
     lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
@@ -90,13 +90,13 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     status: { accessor: 'status' },
   };
 
-  dataSource = new WattTableDataSource<UserOverview>();
-  activeRow: UserOverview | undefined = undefined;
+  dataSource = new WattTableDataSource<UserOverviewItem>();
+  activeRow: UserOverviewItem | undefined = undefined;
 
   UserOverviewSortProperty = UserOverviewSortProperty;
   MarketParticipantSortDirctionType = MarketParticipantSortDirctionType;
 
-  @Input({ required: true }) set users(value: UserOverview[]) {
+  @Input({ required: true }) set users(value: UserOverviewItem[]) {
     this.dataSource.data = value;
   }
 
@@ -114,7 +114,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   drawer!: DhUserDrawerComponent;
 
   @ViewChild(WattTableComponent)
-  usersTable!: WattTableComponent<UserOverview>;
+  usersTable!: WattTableComponent<UserOverviewItem>;
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
@@ -127,7 +127,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     });
   }
 
-  onRowClick(row: UserOverview): void {
+  onRowClick(row: UserOverviewItem): void {
     this.activeRow = row;
     this.drawer.open(row);
   }

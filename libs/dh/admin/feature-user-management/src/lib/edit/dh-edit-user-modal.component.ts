@@ -36,7 +36,7 @@ import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-r
 import {
   UpdateUserRoles,
   DhAdminEditUserStore,
-  UserOverview,
+  UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -104,7 +104,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
   @Output() closed = new EventEmitter<void>();
-  @Input() user: UserOverview | null = null;
+  @Input() user: UserOverviewItem | null = null;
 
   isSaving$ = this.editUserStore.isSaving$;
 

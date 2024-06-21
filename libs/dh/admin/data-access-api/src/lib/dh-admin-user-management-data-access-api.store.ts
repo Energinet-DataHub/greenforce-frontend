@@ -30,7 +30,7 @@ import {
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type UserOverview = ResultOf<
+export type UserOverviewItem = ResultOf<
   typeof UserOverviewSearchDocument
 >['userOverviewSearch']['users'][0];
 
@@ -61,7 +61,7 @@ type UserResponseType = {
 };
 
 interface DhUserManagementState {
-  readonly users: UserOverview[];
+  readonly users: UserOverviewItem[];
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;

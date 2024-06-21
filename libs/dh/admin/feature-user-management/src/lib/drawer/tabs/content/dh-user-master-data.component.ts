@@ -23,7 +23,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { UserOverview } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserOverviewItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-user-master-data',
@@ -47,5 +47,5 @@ import { UserOverview } from '@energinet-datahub/dh/admin/data-access-api';
   ],
 })
 export class DhUserMasterDataComponent {
-  user = input.required<UserOverview>();
+  user = input.required<UserOverviewItem>();
 }

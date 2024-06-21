@@ -38,7 +38,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import {
   DhAdminInviteUserStore,
   DhAdminUserStatusStore,
-  UserOverview,
+  UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -82,7 +82,7 @@ export class DhUserDrawerComponent {
   @ViewChild('reActivateConfirmationModal')
   reActivateConfirmationModal!: WattModalComponent;
 
-  selectedUser: UserOverview | null = null;
+  selectedUser: UserOverviewItem | null = null;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -100,7 +100,7 @@ export class DhUserDrawerComponent {
     this.selectedUser = null;
   }
 
-  open(user: UserOverview): void {
+  open(user: UserOverviewItem): void {
     this.selectedUser = user;
     this.drawer.open();
   }

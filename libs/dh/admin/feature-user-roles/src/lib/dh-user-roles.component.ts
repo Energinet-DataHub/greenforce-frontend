@@ -50,7 +50,7 @@ import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/d
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
-  UserOverview,
+  UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
@@ -83,7 +83,7 @@ import {
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
-  @Input() user: UserOverview | null = null;
+  @Input() user: UserOverviewItem | null = null;
   @Input() selectMode = false;
   @Input() expanded = true;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();

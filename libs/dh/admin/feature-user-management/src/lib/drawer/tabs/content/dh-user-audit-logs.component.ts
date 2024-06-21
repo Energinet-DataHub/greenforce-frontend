@@ -30,7 +30,7 @@ import {
   GetUserAuditLogsDocument,
   UserAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { UserOverview } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserOverviewItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-user-audit-logs',
@@ -91,7 +91,7 @@ export class DhUserAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  user = input.required<UserOverview>();
+  user = input.required<UserOverviewItem>();
 
   ngOnChanges(): void {
     this.getUserAuditLogsQuery?.refetch({ id: this.user().id });
