@@ -151,23 +151,26 @@ import { NgClass } from '@angular/common';
           </div>
         }
 
-        <watt-modal-actions [ngClass]="{'visually-hidden': isLoading()}" [attr.aria.hidden]="isLoading()">
-            <watt-checkbox formControlName="termsAndConditions"
-              ><span
-                [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
-              ></span
-            ></watt-checkbox>
-            <div>
-              <watt-button variant="secondary" (click)="decline()">{{
-                translations.grantConsent.decline | transloco
-              }}</watt-button>
-              <watt-button
-                variant="secondary"
-                (click)="accept()"
-                [disabled]="!form.value.termsAndConditions"
-                >{{ translations.grantConsent.accept | transloco }}</watt-button
-              >
-            </div>
+        <watt-modal-actions
+          [ngClass]="{ 'visually-hidden': isLoading() }"
+          [attr.aria.hidden]="isLoading()"
+        >
+          <watt-checkbox formControlName="termsAndConditions"
+            ><span
+              [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
+            ></span
+          ></watt-checkbox>
+          <div>
+            <watt-button variant="secondary" (click)="decline()">{{
+              translations.grantConsent.decline | transloco
+            }}</watt-button>
+            <watt-button
+              variant="secondary"
+              (click)="accept()"
+              [disabled]="!form.value.termsAndConditions"
+              >{{ translations.grantConsent.accept | transloco }}</watt-button
+            >
+          </div>
         </watt-modal-actions>
       </watt-modal>
     }
