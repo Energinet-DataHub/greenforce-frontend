@@ -53,9 +53,9 @@ export class EoLoginComponent {
         const errorCode = this.route.snapshot.queryParamMap.get('errorCode');
 
         if (errorCode) {
-          this.router.navigate([this.transloco.getActiveLang()], {
-            queryParams: { errorCode },
-          });
+          window.location.assign(
+            `${window.location.protocol}//${window.location.host}/${this.transloco.getActiveLang()}?errorCode=${errorCode}`
+          );
           return;
         }
 
