@@ -40,6 +40,11 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
 import { Router } from '@angular/router';
+import { EoConsent, EoConsentService } from '../data-access-api/consent.service';
+import { fromUnixTime } from 'date-fns';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { switchMap } from 'rxjs';
 
 const selector = 'eo-consent-overview';
 
@@ -54,6 +59,7 @@ const selector = 'eo-consent-overview';
     TranslocoPipe,
     EoGrantConsentModalComponent,
   ],
+  providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
@@ -87,6 +93,8 @@ export class EoConsentOverviewComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('third-party-client-id') thirdPartyClientId!: string;
 
+  private authStore = inject(EoAuthStore);
+  private consentService = inject(EoConsentService);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -95,21 +103,26 @@ export class EoConsentOverviewComponent implements OnInit {
   @ViewChild(EoGrantConsentModalComponent, { static: true })
   grantConsentModal!: EoGrantConsentModalComponent;
 
+  protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
   protected translations = translations;
-  // TODO: Backend is not ready yet, so we don't have any data to show or have it will be mocked
-  protected dataSource: WattTableDataSource<unknown> = new WattTableDataSource(undefined);
-  protected columns!: WattTableColumnDef<unknown>;
+  protected dataSource: WattTableDataSource<EoConsent> = new WattTableDataSource(undefined);
+  protected columns!: WattTableColumnDef<EoConsent>;
   protected state = signal<{ hasError: boolean; isLoading: boolean }>({
     hasError: false,
     isLoading: false,
   });
 
   ngOnInit(): void {
+    this.loadConsents();
+
     this.transloco
       .selectTranslation()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.setColumns();
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(() => this.authStore.getUserInfo$)
+      )
+      .subscribe((userInfo) => {
+        this.setColumns(userInfo.org_name);
         this.cd.detectChanges();
 
         if (this.thirdPartyClientId) {
@@ -122,18 +135,37 @@ export class EoConsentOverviewComponent implements OnInit {
     this.router.navigate([], { queryParams: {} });
   }
 
-  private setColumns(): void {
+  loadConsents(): void {
+    this.state.set({ ...this.state(), isLoading: true });
+
+    this.consentService.getConsents().subscribe({
+      next: (consents: EoConsent[]) => {
+        this.dataSource = new WattTableDataSource(consents);
+        this.state.set({...this.state(), isLoading: false, hasError: false });
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.state.set({...this.state(), isLoading: false, hasError: true });
+        this.cd.detectChanges();
+      },
+    });
+  }
+
+  private setColumns(ownOrganizationName?: string): void {
     this.columns = {
       grantor: {
-        accessor: (x) => x,
+        accessor: () => ownOrganizationName,
         header: this.transloco.translate(this.translations.consent.grantorTableHeader),
       },
       agent: {
-        accessor: (x) => x,
+        accessor: (x) => x.clientName,
         header: this.transloco.translate(this.translations.consent.agentTableHeader),
       },
       validFrom: {
-        accessor: (x) => x,
+        accessor: (x) => this.wattDatePipe.transform(
+          fromUnixTime(x.consentDate),
+          'short'
+        ) ?? '',
         header: this.transloco.translate(this.translations.consent.validFromTableHeader),
       },
     };

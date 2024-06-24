@@ -18,10 +18,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { map } from 'rxjs';
 
 export interface EoConsentClient {
   name: string;
   redirectUrl: string;
+}
+
+export interface EoConsent {
+  clientName: string;
+  consentDate: number;
 }
 
 @Injectable({
@@ -36,6 +42,12 @@ export class EoConsentService {
     return this.#http.get<EoConsentClient>(
       `${this.#apiBase}/authorization/client/${thirdPartyClientId}`
     );
+  }
+
+  getConsents() {
+    return this.#http
+      .get<{ result: EoConsent[] }>(`${this.#apiBase}/authorization/consents`)
+      .pipe(map((res) => res.result));
   }
 
   grant(thirdPartyClientId: string) {
