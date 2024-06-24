@@ -28,7 +28,7 @@ jobs:
   # Markdown check and YAML validation
   #
   ci_base:
-    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v13
+    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@v14
     with:
       skip_license_check: true # Handled by another workflow
       skip_markdown_links_check: true # Handled by another workflow
