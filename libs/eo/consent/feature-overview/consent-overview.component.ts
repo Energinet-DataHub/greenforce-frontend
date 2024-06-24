@@ -141,11 +141,11 @@ export class EoConsentOverviewComponent implements OnInit {
     this.consentService.getConsents().subscribe({
       next: (consents: EoConsent[]) => {
         this.dataSource = new WattTableDataSource(consents);
-        this.state.set({...this.state(), isLoading: false, hasError: false });
+        this.state.set({ ...this.state(), isLoading: false, hasError: false });
         this.cd.detectChanges();
       },
       error: () => {
-        this.state.set({...this.state(), isLoading: false, hasError: true });
+        this.state.set({ ...this.state(), isLoading: false, hasError: true });
         this.cd.detectChanges();
       },
     });
@@ -162,10 +162,7 @@ export class EoConsentOverviewComponent implements OnInit {
         header: this.transloco.translate(this.translations.consent.agentTableHeader),
       },
       validFrom: {
-        accessor: (x) => this.wattDatePipe.transform(
-          fromUnixTime(x.consentDate),
-          'short'
-        ) ?? '',
+        accessor: (x) => this.wattDatePipe.transform(fromUnixTime(x.consentDate), 'short') ?? '',
         header: this.transloco.translate(this.translations.consent.validFromTableHeader),
       },
     };
