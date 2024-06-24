@@ -204,9 +204,11 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.submitInProgress()) {
       return;
     }
+
+    this.submitInProgress.set(true);
 
     this.getCalculationByGridAreas()
       ?.pipe(takeUntilDestroyed(this.destroyRef))
@@ -239,8 +241,9 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             return this.requestSettlementReport();
           }
 
-          if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing)
+          if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing) {
             return this.requestSettlementReport();
+          }
 
           // If there are multiple calculations for any selected grid area
           this.modalService.open({
@@ -252,6 +255,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             onClosed: (isSuccess) => {
               if (isSuccess) {
                 this.requestSettlementReport();
+              } else {
+                this.submitInProgress.set(false);
               }
             },
           });
@@ -310,8 +315,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ loading, data }) => {
-          this.submitInProgress.set(loading);
-
           if (loading) {
             return;
           }
