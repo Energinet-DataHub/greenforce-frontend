@@ -238,7 +238,7 @@ export class EoGrantConsentModalComponent implements OnInit {
         });
 
         // Redirect to the third party client
-        if(this.redirectUrl()) {
+        if (this.redirectUrl()) {
           window.location.assign(this.redirectUrl());
         }
       },
