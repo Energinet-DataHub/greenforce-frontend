@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
-import * as eoLocalB2cEnvironment from './assets/configuration/eo-azure-b2c-settings.json';
-import graphLoader from './assets/graph-loader.json';
-import sustainableChart from './assets/landing-page/sustainable-chart.json';
+import { EoB2cEnvironment, EoB2cSettings } from './eo-b2c-environment';
 
-export { eoLocalApiEnvironment };
-export { eoLocalB2cEnvironment };
-export { graphLoader };
-export { sustainableChart };
+export function loadEoB2cEnvironment(configurationFilename: string): Promise<EoB2cEnvironment> {
+  return fetch(`/assets/configuration/${configurationFilename}`).then(async (response) => {
+    return response.json().then((data: EoB2cSettings) => data['azure-b2c']);
+  });
+}

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export const eoOnboardingRoutePath = 'onboarding';
 export const eoCertificatesRoutePath = 'certificates';
 export const eoDashboardRoutePath = 'dashboard';
 export const eoEmissionsRoutePath = 'emissions';
@@ -28,10 +29,12 @@ export const eoSimultaneityRoutePath = 'simultaneity';
 export const eoGeographyRoutePath = 'geography';
 export const eoTermsRoutePath = 'terms';
 export const eoTransferRoutePath = 'transfers';
+export const eoConsentRoutePath = 'consent';
 export const eoClaimsRoutePath = 'claims';
 export const eoActivityLogRoutePath = 'activity-log';
 
 export const eoRoutes = {
+  onboarding: eoOnboardingRoutePath,
   certificates: eoCertificatesRoutePath,
   dashboard: eoDashboardRoutePath,
   emissions: eoEmissionsRoutePath,
@@ -46,6 +49,7 @@ export const eoRoutes = {
   geography: eoGeographyRoutePath,
   terms: eoTermsRoutePath,
   transfer: eoTransferRoutePath,
+  consent: eoConsentRoutePath,
   claims: eoClaimsRoutePath,
   activityLog: eoActivityLogRoutePath,
 };

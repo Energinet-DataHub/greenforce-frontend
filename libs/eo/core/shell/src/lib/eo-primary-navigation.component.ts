@@ -73,20 +73,23 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="{{ routes.dashboard }}" onFeatureFlag="dashboard">
+      <watt-nav-list-item link="{{ routes.dashboard }}">
         {{ translations.sidebar.dashboard | transloco }}
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.meteringpoints }}" onFeatureFlag="meters">
+      <watt-nav-list-item link="{{ routes.meteringpoints }}">
         {{ translations.sidebar.meteringPoints | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.claims }}">
         {{ translations.sidebar.claims | transloco }}
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.certificates }}" onFeatureFlag="certificates">
+      <watt-nav-list-item link="{{ routes.certificates }}">
         {{ translations.sidebar.certificates | transloco }}
       </watt-nav-list-item>
-      <watt-nav-list-item link="{{ routes.transfer }}" onFeatureFlag="certificates">
+      <watt-nav-list-item link="{{ routes.transfer }}">
         {{ translations.sidebar.transfers | transloco }}
+      </watt-nav-list-item>
+      <watt-nav-list-item link="{{ routes.consent }}">
+        {{ translations.sidebar.consent | transloco }}
       </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.activityLog }}">
         {{ translations.sidebar.activityLog | transloco }}

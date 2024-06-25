@@ -93,6 +93,7 @@ export const customIcons = {
   'custom-flag-no': 'flag-no',
   'custom-flag-fi': 'flag-fi',
   'custom-flag-pl': 'flag-pl',
+  'custom-assignment-add': 'assignment-add',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };

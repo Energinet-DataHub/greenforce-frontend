@@ -98,7 +98,7 @@ export class EoAuthService {
     this.store.setTokenClaims({});
   }
 
-  private handleToken(token: string | null) {
+  handleToken(token: string | null) {
     if (!token) return;
 
     const decodedToken: EoLoginToken = jwtDecode(token);
