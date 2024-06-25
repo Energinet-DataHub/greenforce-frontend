@@ -39,14 +39,12 @@ import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
 import { marketParticipantOrganization } from './data/admin-get-actor-organization';
-import { marketParticipantUserSearchUsers } from './data/market-participant-user-search-users';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/market-participant-organization-get-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 
 export function adminMocks(apiBase: string) {
   return [
-    getMarketParticipantUserSearchUsers(apiBase),
     getMarketParticipantActorQuerySelectionActors(apiBase),
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
@@ -83,13 +81,6 @@ function getMarketParticipantUserReActivate(apiBase: string) {
   return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
-  });
-}
-
-function getMarketParticipantUserSearchUsers(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUserOverview/SearchUsers`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserSearchUsers);
   });
 }
 
@@ -239,7 +230,12 @@ function getKnownEmailsQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        knownEmails: marketParticipantUserSearchUsers.users.map((x) => x.email),
+        knownEmails: [
+          'testuser1@test.dk',
+          'testuser2@test.dk',
+          'testuser3@test.dk',
+          'testuser4@test.dk',
+        ],
       },
     });
   });

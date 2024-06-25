@@ -21,68 +21,79 @@ import { render } from '@testing-library/angular';
 import { firstValueFrom, of } from 'rxjs';
 
 import {
-  MarketParticipantUserOverviewHttp,
-  MarketParticipantUserStatus,
-  MarketParticipantUserOverviewFilterDto,
-} from '@energinet-datahub/dh/shared/domain';
-
-import { DhAdminUserManagementDataAccessApiStore } from './dh-admin-user-management-data-access-api.store';
+  DhAdminUserManagementDataAccessApiStore,
+  initialState,
+} from './dh-admin-user-management-data-access-api.store';
+import { Apollo } from 'apollo-angular';
+import { ApolloTestingModule, ApolloTestingController } from 'apollo-angular/testing';
+import {
+  MarketParticipantSortDirctionType,
+  UserOverviewSearchDocument,
+  UserOverviewSearchQueryVariables,
+  UserOverviewSortProperty,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 describe(DhAdminUserManagementDataAccessApiStore, () => {
-  async function setup() {
-    const httpMock = {
-      v1MarketParticipantUserOverviewSearchUsersPost: jest.fn(() => of()),
-    } as unknown as MarketParticipantUserOverviewHttp;
+  let controller: ApolloTestingController;
 
+  afterEach(() => {
+    controller.verify();
+  });
+
+  async function setup() {
     @Component({
       template: '',
     })
     class TestComponent {}
 
     await render(TestComponent, {
-      providers: [
-        provideComponentStore(DhAdminUserManagementDataAccessApiStore),
-        {
-          provide: MarketParticipantUserOverviewHttp,
-          useValue: httpMock,
-        },
-      ],
+      imports: [ApolloTestingModule],
+      providers: [provideComponentStore(DhAdminUserManagementDataAccessApiStore)],
     });
 
+    controller = TestBed.inject(ApolloTestingController);
     const store = TestBed.inject(DhAdminUserManagementDataAccessApiStore);
 
     return {
       store,
-      httpMock,
+      controller,
     };
   }
 
   it('calls the API on initialization with default params', async () => {
-    const { httpMock } = await setup();
+    const { controller } = await setup();
 
-    const filterDto: MarketParticipantUserOverviewFilterDto = {
-      actorId: undefined,
-      userRoleIds: [],
-      searchText: undefined,
-      userStatus: ['Active', 'Invited', 'InviteExpired'],
+    const op = controller.expectOne(UserOverviewSearchDocument);
+
+    const {
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      actorIdFilter,
+      userRoleFilter,
+      statusFilter,
+      searchText,
+    } = initialState;
+
+    const filterDto = {
+      pageNumber,
+      pageSize,
+      sortProperty,
+      sortDirection: direction,
+      actorId: actorIdFilter,
+      userRoleIds: userRoleFilter,
+      searchText,
+      userStatus: statusFilter,
     };
 
-    const actualParams = {
-      pageNumber: 1,
-      pageSize: 50,
-      sortProperty: 'Email',
-      direction: 'Asc',
-      filterDto,
-    };
-
-    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenCalledWith(
-      ...Object.values(actualParams)
-    );
+    expect(op.operation.variables).toEqual(filterDto);
   });
 
   it(`when the page metadata is updated,
   then the API is called`, fakeAsync(async () => {
-    const { httpMock, store } = await setup();
+    const { controller, store } = await setup();
 
     const newPageMetadata = {
       pageIndex: 3,
@@ -93,99 +104,132 @@ describe(DhAdminUserManagementDataAccessApiStore, () => {
 
     tick();
 
-    const filterDto: MarketParticipantUserOverviewFilterDto = {
-      actorId: undefined,
-      userRoleIds: [],
-      searchText: undefined,
-      userStatus: ['Active', 'Invited', 'InviteExpired'],
-    };
+    const op = controller.match(UserOverviewSearchDocument);
 
-    const actualParams = {
+    const { sortProperty, direction, actorIdFilter, userRoleFilter, statusFilter, searchText } =
+      initialState;
+
+    const filterDto = {
       pageNumber: 4,
       pageSize: 25,
-      sortProperty: 'Email',
-      direction: 'Asc',
-      filterDto,
+      sortProperty,
+      sortDirection: direction,
+      actorId: actorIdFilter,
+      userRoleIds: userRoleFilter,
+      searchText,
+      userStatus: statusFilter,
     };
 
-    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
-      ...Object.values(actualParams)
-    );
+    const variablesFromSecondCall = op[1].operation.variables;
+
+    expect(variablesFromSecondCall).toEqual(filterDto);
   }));
 
   it(`when the search text is updated,
   then the API is called`, fakeAsync(async () => {
-    const { httpMock, store } = await setup();
+    const { controller, store } = await setup();
 
-    store.updateSearchText('john');
+    const searchText = 'john';
+
+    store.updateSearchText(searchText);
 
     tick();
 
-    const filterDto: MarketParticipantUserOverviewFilterDto = {
-      actorId: undefined,
-      userRoleIds: [],
-      searchText: 'john',
-      userStatus: ['Active', 'Invited', 'InviteExpired'],
+    const op = controller.match(UserOverviewSearchDocument);
+
+    const {
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      actorIdFilter,
+      userRoleFilter,
+      statusFilter,
+    } = initialState;
+
+    const filterDto = {
+      pageNumber,
+      pageSize,
+      sortProperty,
+      sortDirection: direction,
+      actorId: actorIdFilter,
+      userRoleIds: userRoleFilter,
+      searchText,
+      userStatus: statusFilter,
     };
 
-    const actualParams = {
-      pageNumber: 1,
-      pageSize: 50,
-      sortProperty: 'Email',
-      direction: 'Asc',
-      filterDto,
-    };
+    const variablesFromSecondCall = op[1].operation.variables;
 
-    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
-      ...Object.values(actualParams)
-    );
+    expect(variablesFromSecondCall).toEqual(filterDto);
   }));
 
   it(`when the filters are updated,
   then the API is called`, fakeAsync(async () => {
-    const { httpMock, store } = await setup();
+    const { controller, store } = await setup();
 
-    const newStatusFilters: MarketParticipantUserStatus[] = ['Active', 'Inactive'];
+    const newStatusFilters: UserStatus[] = [UserStatus.Active, UserStatus.Inactive];
 
     store.updateFilters({ status: newStatusFilters, actorId: null, userRoleIds: [] });
 
     tick();
 
-    const filterDto: MarketParticipantUserOverviewFilterDto = {
-      actorId: undefined,
-      userRoleIds: [],
-      searchText: undefined,
-      userStatus: ['Active', 'Inactive'],
+    const op = controller.match(UserOverviewSearchDocument);
+
+    const {
+      pageSize,
+      pageNumber,
+      sortProperty,
+      direction,
+      actorIdFilter,
+      userRoleFilter,
+      searchText,
+    } = initialState;
+
+    const filterDto = {
+      pageNumber,
+      pageSize,
+      sortProperty,
+      sortDirection: direction,
+      actorId: actorIdFilter,
+      userRoleIds: userRoleFilter,
+      searchText,
+      userStatus: newStatusFilters,
     };
 
-    const actualParams = {
-      pageNumber: 1,
-      pageSize: 50,
-      sortProperty: 'Email',
-      direction: 'Asc',
-      filterDto,
-    };
+    const variablesFromSecondCall = op[1].operation.variables;
 
-    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenLastCalledWith(
-      ...Object.values(actualParams)
-    );
+    expect(variablesFromSecondCall).toEqual(filterDto);
   }));
 
   it(`when the reloadUsers method is called,
   then the API is called`, fakeAsync(async () => {
-    const { httpMock, store } = await setup();
+    const { controller, store } = await setup();
+
+    const op = controller.match(UserOverviewSearchDocument);
+
+    op[0].flush({
+      data: {
+        dog: {
+          id: 0,
+          name: 'Mr Apollo',
+          breed: 'foo',
+        },
+      },
+    });
+
+    tick(1000);
 
     store.reloadUsers();
 
-    tick();
+    tick(1000);
+
+    console.log(op);
 
     // 1. Initial call
     // 2. When `reloadUsers` is called
     const numberOfTimesCalled = 2;
 
-    expect(httpMock.v1MarketParticipantUserOverviewSearchUsersPost).toHaveBeenCalledTimes(
-      numberOfTimesCalled
-    );
+    expect(op.length).toEqual(numberOfTimesCalled);
   }));
 
   describe('selectors', () => {

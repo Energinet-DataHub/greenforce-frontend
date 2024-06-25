@@ -74,7 +74,7 @@ interface DhUserManagementState {
   readonly userRoleFilter: string[];
 }
 
-const initialState: DhUserManagementState = {
+export const initialState: DhUserManagementState = {
   users: [],
   totalUserCount: 0,
   usersRequestState: LoadingState.INIT,
@@ -137,6 +137,7 @@ export class DhAdminUserManagementDataAccessApiStore
         });
       }),
       switchMap((fetchUsersParams) => {
+        console.log('fetchUsersParams', fetchUsersParams);
         return this.getUsers(fetchUsersParams).pipe(
           tap((response) => {
             if (response.loading) {
@@ -190,12 +191,14 @@ export class DhAdminUserManagementDataAccessApiStore
       return of({ data: null, loading: false, error: false });
     }
 
+    console.log('before query');
+
     return this.apollo
       .query({
         query: UserOverviewSearchDocument,
         variables: {
           pageNumber,
-          pageSize,
+          pageSize: pageSize,
           sortProperty,
           sortDirection: direction,
           actorId: actorIdFilter,
@@ -205,6 +208,7 @@ export class DhAdminUserManagementDataAccessApiStore
         },
       })
       .pipe(
+        tap((response) => console.log('after query', response)),
         map((response) => ({
           loading: response.loading,
           error: Boolean(response.error) || (response.errors?.length ?? 0) > 0,
@@ -234,10 +238,12 @@ export class DhAdminUserManagementDataAccessApiStore
   }
 
   readonly reloadUsers = () => {
+    console.log('reloadUsers');
     this.loadUsers(this.fetchUsersParams$);
   };
 
   ngrxOnStoreInit() {
+    console.log('ngrxOnStoreInit');
     this.loadUsers(this.fetchUsersParams$);
   }
 }
