@@ -116,6 +116,7 @@ export interface TranslationKeys {
     certificates: string;
     transfers: string;
     activityLog: string;
+    consent: string;
   };
   footer: {
     poweredBy: string;
@@ -543,6 +544,49 @@ export interface TranslationKeys {
       title: string;
       message: string;
       declineButton: string;
+    };
+  };
+  consent: {
+    title: string;
+    noData: {
+      title: string;
+      message: string;
+    };
+    error: {
+      title: string;
+      message: string;
+    };
+    tableTitle: string;
+    grantorTableHeader: string;
+    agentTableHeader: string;
+    validFromTableHeader: string;
+    requestForConsent: string;
+  };
+  grantConsent: {
+    title: string;
+    description: string;
+    permissions: {
+      overview: {
+        title: string;
+        description: string;
+      };
+      meteringPoints: {
+        title: string;
+        description: string;
+      };
+      transferAgreements: {
+        title: string;
+        description: string;
+      };
+    };
+    acceptTermsAndConditions: string;
+    decline: string;
+    accept: string;
+    accepted: string;
+    declined: string;
+    error: {
+      title: string;
+      message: string;
     };
   };
   help: {

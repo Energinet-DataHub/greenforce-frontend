@@ -1,0 +1,6 @@
+{
+  "azure-b2c": {
+    "issuer": "https://datahubeouenerginet.b2clogin.com/datahubeouenerginet.onmicrosoft.com/B2C_1A_OIDCMOCK/v2.0/",
+    "client_id": "71afd984-05df-4108-ac36-ff962a04a3bd"
+  }
+}

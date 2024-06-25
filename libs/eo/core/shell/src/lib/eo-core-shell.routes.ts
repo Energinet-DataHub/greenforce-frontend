@@ -20,6 +20,8 @@ import {
   Router,
   RouterStateSnapshot,
   Routes,
+  UrlSegment,
+  UrlSegmentGroup,
 } from '@angular/router';
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
 import {
@@ -31,6 +33,8 @@ import {
   eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
   eoActivityLogRoutePath,
+  eoOnboardingRoutePath,
+  eoConsentRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from './eo-login.component';
 import { EoShellComponent } from './eo-shell.component';
@@ -50,6 +54,17 @@ const routes: Routes = [
     title: 'Terms',
     loadChildren: () =>
       import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
+  },
+  {
+    path: 'callback',
+    redirectTo: 'onboarding/signin-callback',
+  },
+  {
+    path: eoOnboardingRoutePath,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/onboarding/shell').then(
+        (esModule) => esModule.eoOnbordingRoutes
+      ),
   },
   {
     path: '',
@@ -98,6 +113,15 @@ const routes: Routes = [
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
+        path: eoConsentRoutePath,
+        canActivate: [EoScopeGuard],
+        title: translations.consent.title,
+        loadChildren: () =>
+          import('@energinet-datahub/eo/consent/shell').then(
+            (esModule) => esModule.eoConsentRoutes
+          ),
+      },
+      {
         path: eoClaimsRoutePath,
         canActivate: [EoScopeGuard],
         title: translations.claims.title,
@@ -133,9 +157,24 @@ const LanguagePrefixGuard: CanActivateFn = (
   const hasLanguagePrefix = url.startsWith('/en') || url.startsWith('/da');
 
   if (!hasLanguagePrefix) {
-    router.navigate([`/${transloco.getActiveLang()}${url}`]);
+    const urlTree = router.parseUrl(url);
+    const segments = urlTree.root.children.primary?.segments;
+
+    if (segments && segments.length > 0) {
+      segments.unshift(new UrlSegment(transloco.getActiveLang(), {}));
+    } else {
+      urlTree.root.children.primary = new UrlSegmentGroup([], {});
+      urlTree.root.children.primary.segments = [new UrlSegment(transloco.getActiveLang(), {})];
+    }
+    router.navigateByUrl(urlTree);
     return false;
   }
+  return true;
+};
+
+const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
+  const transloco = inject(TranslocoService);
+  transloco.setActiveLang(RouterStateSnapshot.url.toString());
   return true;
 };
 
@@ -143,10 +182,12 @@ export const eoShellRoutes: Routes = [
   {
     path: 'en',
     children: routes,
+    canActivate: [setDefaultLang],
   },
   {
     path: 'da',
     children: routes,
+    canActivate: [setDefaultLang],
   },
   // Redirect from the root to the default language
   { path: '', component: EoLoginComponent, canActivate: [LanguagePrefixGuard], pathMatch: 'full' },

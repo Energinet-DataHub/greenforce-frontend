@@ -117,6 +117,7 @@ export const translations = {
     certificates: 'sidebar.certificates' as const,
     transfers: 'sidebar.transfers' as const,
     activityLog: 'sidebar.activityLog' as const,
+    consent: 'sidebar.consent' as const,
   } as const,
   footer: {
     poweredBy: 'footer.poweredBy' as const,
@@ -556,6 +557,49 @@ export const translations = {
       title: 'respondTransferAgreementProposal.error.title' as const,
       message: 'respondTransferAgreementProposal.error.message' as const,
       declineButton: 'respondTransferAgreementProposal.error.declineButton' as const,
+    } as const,
+  } as const,
+  consent: {
+    title: 'consent.title' as const,
+    noData: {
+      title: 'consent.noData.title' as const,
+      message: 'consent.noData.message' as const,
+    } as const,
+    error: {
+      title: 'consent.error.title' as const,
+      message: 'consent.error.message' as const,
+    } as const,
+    tableTitle: 'consent.tableTitle' as const,
+    grantorTableHeader: 'consent.grantorTableHeader' as const,
+    agentTableHeader: 'consent.agentTableHeader' as const,
+    validFromTableHeader: 'consent.validFromTableHeader' as const,
+    requestForConsent: 'consent.requestForConsent' as const,
+  } as const,
+  grantConsent: {
+    title: 'grantConsent.title' as const,
+    description: 'grantConsent.description' as const,
+    permissions: {
+      overview: {
+        title: 'grantConsent.permissions.overview.title' as const,
+        description: 'grantConsent.permissions.overview.description' as const,
+      } as const,
+      meteringPoints: {
+        title: 'grantConsent.permissions.meteringPoints.title' as const,
+        description: 'grantConsent.permissions.meteringPoints.description' as const,
+      } as const,
+      transferAgreements: {
+        title: 'grantConsent.permissions.transferAgreements.title' as const,
+        description: 'grantConsent.permissions.transferAgreements.description' as const,
+      } as const,
+    } as const,
+    acceptTermsAndConditions: 'grantConsent.acceptTermsAndConditions' as const,
+    decline: 'grantConsent.decline' as const,
+    accept: 'grantConsent.accept' as const,
+    accepted: 'grantConsent.accepted' as const,
+    declined: 'grantConsent.declined' as const,
+    error: {
+      title: 'grantConsent.error.title' as const,
+      message: 'grantConsent.error.message' as const,
     } as const,
   } as const,
   help: {

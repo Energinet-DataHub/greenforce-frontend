@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
-import * as eoLocalB2cEnvironment from './assets/configuration/eo-azure-b2c-settings.json';
-import graphLoader from './assets/graph-loader.json';
-import sustainableChart from './assets/landing-page/sustainable-chart.json';
+import { Routes } from '@angular/router';
 
-export { eoLocalApiEnvironment };
-export { eoLocalB2cEnvironment };
-export { graphLoader };
-export { sustainableChart };
+import { EoOnboardingShellComponent } from './onboarding-shell.component';
+import { EoSigninCallbackComponent } from './signin-callback.component';
+
+export const eoOnbordingRoutes: Routes = [
+  { path: '', component: EoOnboardingShellComponent },
+  { path: 'signin-callback', component: EoSigninCallbackComponent },
+];

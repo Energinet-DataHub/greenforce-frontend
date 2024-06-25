@@ -28,6 +28,7 @@ export interface EoLoginToken {
   cpn?: string;
   sub?: string;
   tin?: string;
+  org_name?: string;
 }
 
 type AuthState = EoLoginToken;

@@ -51,6 +51,7 @@ export class WattIconService {
     this.addSvgIcon('custom-flag-no', '/assets/watt/icons/flags/no.svg');
     this.addSvgIcon('custom-flag-fi', '/assets/watt/icons/flags/fi.svg');
     this.addSvgIcon('custom-flag-pl', '/assets/watt/icons/flags/pl.svg');
+    this.addSvgIcon('custom-assignment-add', '/assets/watt/icons/assignment-add.svg');
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {

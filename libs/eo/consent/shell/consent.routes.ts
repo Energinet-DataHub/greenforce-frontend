@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
-import * as eoLocalB2cEnvironment from './assets/configuration/eo-azure-b2c-settings.json';
-import graphLoader from './assets/graph-loader.json';
-import sustainableChart from './assets/landing-page/sustainable-chart.json';
+import { Routes } from '@angular/router';
+import { EoConsentOverviewComponent } from '@energinet-datahub/eo/consent/feature-overview';
 
-export { eoLocalApiEnvironment };
-export { eoLocalB2cEnvironment };
-export { graphLoader };
-export { sustainableChart };
+export const eoConsentRoutes: Routes = [{ path: '', component: EoConsentOverviewComponent }];
