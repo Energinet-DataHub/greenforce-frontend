@@ -208,7 +208,7 @@ export class DhAdminUserManagementDataAccessApiStore
         map((response) => ({
           loading: response.loading,
           error: Boolean(response.error) || (response.errors?.length ?? 0) > 0,
-          data: response.data?.userOverviewSearch,
+          data: response.data?.userOverviewSearch ?? [],
         }))
       );
   }
