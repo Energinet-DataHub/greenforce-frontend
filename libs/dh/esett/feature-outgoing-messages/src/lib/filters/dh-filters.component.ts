@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 import {
-  Input,
   OnInit,
-  Output,
   inject,
   Component,
   DestroyRef,
-  EventEmitter,
   ChangeDetectionStrategy,
+  input,
+  output,
 } from '@angular/core';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -100,10 +99,10 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
 export class DhOutgoingMessagesFiltersComponent implements OnInit {
   private destoryRef = inject(DestroyRef);
 
-  @Input() initial?: DhOutgoingMessagesFilters;
+  initial = input.required<DhOutgoingMessagesFilters>();
 
-  @Output() filter = new EventEmitter<DhOutgoingMessagesFilters>();
-  @Output() formReset = new EventEmitter<void>();
+  filter = output<DhOutgoingMessagesFilters>();
+  formReset = output<void>();
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType, 'asc');
   messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType, 'asc');
@@ -114,15 +113,26 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
   formGroup!: FormGroup<Filters>;
 
   ngOnInit(): void {
+    const {
+      calculationTypes,
+      actorNumber,
+      created,
+      gridAreas,
+      latestDispatch,
+      messageTypes,
+      period,
+      status,
+    } = this.initial();
+
     this.formGroup = new FormGroup<Filters>({
-      calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
-      messageTypes: dhMakeFormControl(this.initial?.messageTypes),
-      gridAreas: dhMakeFormControl(this.initial?.gridAreas),
-      actorNumber: dhMakeFormControl(this.initial?.actorNumber),
-      status: dhMakeFormControl(this.initial?.status),
-      period: dhMakeFormControl(this.initial?.period),
-      created: dhMakeFormControl(this.initial?.created),
-      latestDispatch: dhMakeFormControl(this.initial?.latestDispatch),
+      calculationTypes: dhMakeFormControl(calculationTypes),
+      messageTypes: dhMakeFormControl(messageTypes),
+      gridAreas: dhMakeFormControl(gridAreas),
+      actorNumber: dhMakeFormControl(actorNumber),
+      status: dhMakeFormControl(status),
+      period: dhMakeFormControl(period),
+      created: dhMakeFormControl(created),
+      latestDispatch: dhMakeFormControl(latestDispatch),
     });
 
     this.formGroup.valueChanges
