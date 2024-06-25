@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormGroupDirective } from '@angular/forms';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -31,29 +31,27 @@ import {
   DhAdminUserManagementDataAccessApiStore,
   DhUserManagementFilters,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  MarketParticipantUserOverviewItemDto,
-  MarketParticipantUserStatus,
-} from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersOverviewComponent, debounceTimeValue } from './dh-users-overview.component';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
+import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const users: MarketParticipantUserOverviewItemDto[] = [
+const users: UserOverviewItemDto[] = [
   {
+    __typename: 'UserOverviewItemDto',
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
     firstName: 'Test User First',
     lastName: 'Test User Last',
     phoneNumber: '11111111',
-    createdDate: '2022-01-01T23:00:00Z',
-    status: 'Active',
+    status: UserStatus.Active,
+    createdDate: new Date(),
   },
 ];
 
 describe(DhUsersOverviewComponent, () => {
-  async function setup(mockUsers: MarketParticipantUserOverviewItemDto[] = []) {
+  async function setup(mockUsers: UserOverviewItemDto[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
@@ -74,8 +72,8 @@ describe(DhUsersOverviewComponent, () => {
     );
 
     const { fixture } = await render(DhUsersOverviewComponent, {
-      imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
-      providers: [FormGroupDirective, MsalServiceMock],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot()],
+      providers: [FormGroupDirective, MsalServiceMock, provideHttpClient(withInterceptorsFromDi())],
       componentProviders: [storeMock, toastServiceMock],
     });
 
@@ -117,7 +115,7 @@ describe(DhUsersOverviewComponent, () => {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
     const status = screen.getByRole('gridcell', {
-      name: new RegExp(enTranslations.admin.userManagement.userStatus.Active, 'i'),
+      name: new RegExp(enTranslations.admin.userManagement.userStatus.ACTIVE, 'i'),
     });
 
     expect(firstName).toBeInTheDocument();
@@ -157,7 +155,7 @@ describe(DhUsersOverviewComponent, () => {
 
     const actualValue: DhUserManagementFilters = {
       actorId: null,
-      status: Object.keys(MarketParticipantUserStatus) as MarketParticipantUserStatus[],
+      status: Object.values(UserStatus) as UserStatus[],
       userRoleIds: null,
     };
     expect(store.updateFilters).toHaveBeenCalledWith(actualValue);
