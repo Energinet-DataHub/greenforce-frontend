@@ -236,6 +236,11 @@ export class EoGrantConsentModalComponent implements OnInit {
           message: this.transloco.translate(this.translations.grantConsent.accepted),
           type: 'success',
         });
+
+        // Redirect to the third party client
+        if(this.redirectUrl()) {
+          window.location.assign(this.redirectUrl());
+        }
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 403) return;
