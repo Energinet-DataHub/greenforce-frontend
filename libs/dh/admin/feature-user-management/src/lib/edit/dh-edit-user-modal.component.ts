@@ -225,8 +225,10 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   private updateModel(firstName: string, lastName: string, phoneNumber: string) {
     if (!this.user) return;
-    this.user.firstName = firstName;
-    this.user.lastName = lastName;
-    this.user.phoneNumber = phoneNumber;
+    try {
+      Object.assign(this.user, { firstName, lastName, phoneNumber });
+    } catch (error) {
+      // Suppress error
+    }
   }
 }
