@@ -29,6 +29,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import { tapResponse } from '@ngrx/operators';
+import { ApolloError, ApolloQueryResult } from '@apollo/client/core';
 
 export type UserOverviewItem = ResultOf<
   typeof UserOverviewSearchDocument
@@ -138,18 +140,22 @@ export class DhAdminUserManagementDataAccessApiStore
       }),
       switchMap((fetchUsersParams) => {
         return this.getUsers(fetchUsersParams).pipe(
-          tap((response) => {
-            if (response.loading) {
-              this.patchState({ usersRequestState: LoadingState.LOADING });
-            } else if (response.error) {
-              this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
-            } else {
-              this.patchState({ usersRequestState: LoadingState.LOADED });
-              if (response.data?.users && response.data?.totalUserCount) {
-                this.updateUsers(response.data);
+          tapResponse(
+            (response) => {
+              if (
+                response.data?.userOverviewSearch.users &&
+                response.data?.userOverviewSearch.totalUserCount
+              ) {
+                this.updateUsers(response.data.userOverviewSearch);
               }
+            },
+            () => {
+              this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
+            },
+            () => {
+              this.patchState({ usersRequestState: LoadingState.LOADED });
             }
-          })
+          )
         );
       })
     )
@@ -185,32 +191,20 @@ export class DhAdminUserManagementDataAccessApiStore
     statusFilter,
     actorIdFilter,
     userRoleFilter,
-  }: FetchUsersParams): Observable<UserResponseType> {
-    if (!statusFilter || statusFilter.length == 0) {
-      return of({ data: null, loading: false, error: false });
-    }
-
-    return this.apollo
-      .query({
-        query: UserOverviewSearchDocument,
-        variables: {
-          pageNumber,
-          pageSize: pageSize,
-          sortProperty,
-          sortDirection: direction,
-          actorId: actorIdFilter,
-          userRoleIds: userRoleFilter,
-          searchText,
-          userStatus: statusFilter,
-        },
-      })
-      .pipe(
-        map((response) => ({
-          loading: response.loading,
-          error: Boolean(response.error) || (response.errors?.length ?? 0) > 0,
-          data: response.data?.userOverviewSearch ?? [],
-        }))
-      );
+  }: FetchUsersParams) {
+    return this.apollo.query({
+      query: UserOverviewSearchDocument,
+      variables: {
+        pageNumber,
+        pageSize: pageSize,
+        sortProperty,
+        sortDirection: direction,
+        actorId: actorIdFilter,
+        userRoleIds: userRoleFilter,
+        searchText,
+        userStatus: statusFilter,
+      },
+    });
   }
 
   updateSearchText(searchText: string) {

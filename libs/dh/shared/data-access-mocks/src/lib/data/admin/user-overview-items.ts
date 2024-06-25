@@ -16,7 +16,7 @@
  */
 import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const overviewUsers = [
+export const overviewUsers: UserOverviewItemDto[] = [
   {
     __typename: 'UserOverviewItemDto',
     id: '1',
@@ -25,6 +25,7 @@ export const overviewUsers = [
     lastName: 'Test',
     status: UserStatus.Active,
     phoneNumber: '+45 12345678',
+    createdDate: new Date(),
   },
   {
     __typename: 'UserOverviewItemDto',
@@ -34,6 +35,7 @@ export const overviewUsers = [
     lastName: 'Test1',
     status: UserStatus.Inactive,
     phoneNumber: '+45 22345678',
+    createdDate: new Date(),
   },
   {
     __typename: 'UserOverviewItemDto',
@@ -43,6 +45,7 @@ export const overviewUsers = [
     lastName: 'Test2',
     status: UserStatus.InviteExpired,
     phoneNumber: '+45 32345678',
+    createdDate: new Date(),
   },
   {
     __typename: 'UserOverviewItemDto',
@@ -52,5 +55,16 @@ export const overviewUsers = [
     lastName: 'Test3',
     status: UserStatus.Invited,
     phoneNumber: '+45 34345678',
+    createdDate: new Date(),
   },
-] as UserOverviewItemDto[];
+  {
+    __typename: 'UserOverviewItemDto',
+    id: '5',
+    email: 'test1@test4.dk',
+    firstName: 'Test4',
+    lastName: 'Test4',
+    status: UserStatus.Invited,
+    phoneNumber: null,
+    createdDate: new Date(),
+  },
+];
