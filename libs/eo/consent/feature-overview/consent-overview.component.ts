@@ -40,7 +40,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
 import { Router } from '@angular/router';
-import { EoConsent, EoConsentService } from '../data-access-api/consent.service';
+import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { fromUnixTime } from 'date-fns';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
