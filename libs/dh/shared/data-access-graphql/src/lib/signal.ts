@@ -19,67 +19,137 @@ import {
   ApolloError,
   OperationVariables,
   SubscribeToMoreOptions as ApolloSubscribeToMoreOptions,
+  NetworkStatus,
 } from '@apollo/client/core';
-import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { Apollo, WatchQueryOptions } from 'apollo-angular';
-import { BehaviorSubject, map, switchMap } from 'rxjs';
+import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
+import {
+  BehaviorSubject,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-export interface QueryOptions<TVariables extends OperationVariables>
-  extends Omit<WatchQueryOptions<TVariables>, 'query'> {
-  variables?: TVariables;
-}
+// Since the `query` function is a wrapper around Apollo's `watchQuery`, the API is almost
+// exactly the same, with the exception the query field, which is now a separate argument.
+export type QueryOptions<TVariables extends OperationVariables> = Omit<
+  WatchQueryOptions<TVariables>,
+  'query'
+>;
 
+// The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
 export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionVariables>
   extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
 
+/** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
+  // Limited to TypedDocumentNode to ensure the query is statically typed
   query: TypedDocumentNode<TResult, TVariables>,
-  { variables, ...options }: QueryOptions<TVariables>
+  options: QueryOptions<TVariables>
 ) {
+  // Inject dependencies
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
 
-  const variables$ = new BehaviorSubject(variables);
+  // The `refetch` function on Apollo's `QueryRef` does not properly handle backpressure by
+  // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
+  // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
+  const variables$ = new BehaviorSubject(options.variables);
+  const ref$ = variables$.pipe(map((v) => client.watchQuery({ ...options, query, variables: v })));
 
-  // or result$ of { data, error, loading, subscribeToMore etc... }
-  const query$ = variables$.pipe(
-    map((variables) => client.watchQuery({ query, variables, ...options })),
-    switchMap((ref) => ref.valueChanges.pipe(map((result) => ({ result, ref }))))
+  // The inner observable will be recreated each time the `variables$` emits
+  const result$ = ref$.pipe(switchMap((ref) => ref.valueChanges));
+
+  // It is possible for subscriptions to return before the initial query has completed, resulting
+  // in a runtime error for the `updateQuery` method in `subscribeToMore`. To prevent this, the
+  // `refReplay$` observable is created to ensure the cache has data before attempting to merge.
+  const refReplay$ = ref$.pipe(
+    switchMap((ref) =>
+      ref.valueChanges.pipe(
+        map(({ data }) => (data ? ref : null)),
+        takeWhile((ref) => !ref, true), // Once data is available, emit the ref and complete
+        startWith(null) // Clear the ref immediately in case of refetch (to prevent stale ref)
+      )
+    ),
+    shareReplay(1), // Make sure the ref is available to late subscribers (in `subscribeToMore`)
+    exists() // Only emit the replayed ref if it is not null
   );
 
-  const subscription = query$.subscribe({
-    next({ result }) {
+  const data = signal<TResult | undefined>(undefined);
+  const error = signal<ApolloError | undefined>(undefined);
+  const loading = signal(true);
+  const networkStatus = signal<NetworkStatus>(NetworkStatus.loading);
+
+  // Update the signal values based on the result of the query
+  const subscription = result$.subscribe({
+    next(result) {
+      data.set(result.data);
+      error.set(result.error);
       loading.set(result.loading);
-      if (result.data) data.set(result.data);
-      if (result.error) error.set(result.error);
+      networkStatus.set(result.networkStatus);
     },
     error(err: ApolloError) {
-      loading.set(false);
       error.set(err);
+      loading.set(false);
+      networkStatus.set(NetworkStatus.error);
     },
   });
 
+  // Clean up when the component is destroyed
   destroyRef.onDestroy(() => {
     variables$.complete();
     subscription.unsubscribe();
   });
-
-  const data = signal<TResult | undefined>(undefined);
-  const loading = signal(true);
-  const error = signal<ApolloError | undefined>(undefined);
 
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
-    refetch: (variables: TVariables) => variables$.next(variables),
-    subscribeToMore<TSubscriptionData, TSubscriptionVariables>(
-      options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
-    ) {
-      // remember to fix race condition when subscription returns faster than the query
+    networkStatus: networkStatus as Signal<NetworkStatus>,
+    refetch: (variables?: Partial<TVariables>) =>
+      variables$.next({ ...variables$.value, ...variables } as TVariables),
+    subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
+      document: query,
+      context,
+      updateQuery,
+      variables,
+      onError,
+    }: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>) {
+      // Create an observable that immediately makes a GraphQL subscription, but then
+      // waits for the ref to be ready before attempting to merge the data into the cache.
+      const subscription = client
+        .subscribe({ query, variables, context })
+        .pipe(
+          map(({ data }) => data),
+          exists(), // The data should generally be available, but type system says otherwise
+          withLatestFrom(refReplay$) // Ensure the ref (and cache) is ready
+        )
+        .subscribe({
+          next([data, ref]) {
+            if (!updateQuery) return;
+            // The update query callback has a second argument named `variables` which contains the
+            // variables used by the original query. But the types for `updateQuery` seem to expect
+            // subscription variables, which is why that argument is unused. Might be incorrect.
+            ref.updateQuery((prev) => updateQuery(prev, { subscriptionData: { data }, variables }));
+          },
+          error(err: Error) {
+            if (!onError) return;
+            onError(err);
+          },
+        });
+
+      // Stop the subscription when the component is destroyed
+      destroyRef.onDestroy(() => subscription.unsubscribe());
+
+      // Allow the caller to terminate the subscription manually
+      return () => subscription.unsubscribe();
     },
   };
 }
