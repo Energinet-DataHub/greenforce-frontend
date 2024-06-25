@@ -24,7 +24,7 @@ import {
   output,
 } from '@angular/core';
 
-import { outputToObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -103,7 +103,6 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
 
   filter = output<DhOutgoingMessagesFilters>();
   formReset = output<void>();
-  formReset$ = outputToObservable(this.formReset);
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType, 'asc');
   messageTypeOptions = dhEnumToWattDropdownOptions(TimeSeriesType, 'asc');
@@ -135,10 +134,6 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
       created: dhMakeFormControl(created),
       latestDispatch: dhMakeFormControl(latestDispatch),
     });
-
-    this.formReset$
-      .pipe(takeUntilDestroyed(this.destoryRef))
-      .subscribe(() => this.formGroup.reset(this.initial()));
 
     this.formGroup.valueChanges
       .pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
