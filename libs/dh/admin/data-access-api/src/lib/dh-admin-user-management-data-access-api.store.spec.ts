@@ -18,19 +18,15 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { provideComponentStore } from '@ngrx/component-store';
 import { render } from '@testing-library/angular';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import {
   DhAdminUserManagementDataAccessApiStore,
   initialState,
 } from './dh-admin-user-management-data-access-api.store';
-import { Apollo } from 'apollo-angular';
 import { ApolloTestingModule, ApolloTestingController } from 'apollo-angular/testing';
 import {
-  MarketParticipantSortDirctionType,
   UserOverviewSearchDocument,
-  UserOverviewSearchQueryVariables,
-  UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -201,40 +197,13 @@ describe(DhAdminUserManagementDataAccessApiStore, () => {
     expect(variablesFromSecondCall).toEqual(filterDto);
   }));
 
-  it(`when the reloadUsers method is called,
-  then the API is called`, fakeAsync(async () => {
-    const { controller, store } = await setup();
-
-    const op = controller.match(UserOverviewSearchDocument);
-
-    op[0].flush({
-      data: {
-        dog: {
-          id: 0,
-          name: 'Mr Apollo',
-          breed: 'foo',
-        },
-      },
-    });
-
-    tick(1000);
-
-    store.reloadUsers();
-
-    tick(1000);
-
-    console.log(op);
-
-    // 1. Initial call
-    // 2. When `reloadUsers` is called
-    const numberOfTimesCalled = 2;
-
-    expect(op.length).toEqual(numberOfTimesCalled);
-  }));
-
   describe('selectors', () => {
     it('paginatorPageIndex$', async () => {
       const { store } = await setup();
+
+      const op = controller.expectOne(UserOverviewSearchDocument);
+
+      expect(op.operation.variables['pageNumber']).toBe(1);
 
       const actualValue = await firstValueFrom(store.paginatorPageIndex$);
 

@@ -27,6 +27,7 @@ import {
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
   mockGetGridAreasQuery,
+  mockUserOverviewSearchQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -42,6 +43,7 @@ import { marketParticipantOrganization } from './data/admin-get-actor-organizati
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/market-participant-organization-get-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
+import { overviewUsers } from './data/admin/user-overview-items';
 
 export function adminMocks(apiBase: string) {
   return [
@@ -65,6 +67,7 @@ export function adminMocks(apiBase: string) {
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
+    getUserOverviewQuery(),
     getMarketParticipantUserDeactivate(apiBase),
     getMarketParticipantUserReActivate(apiBase),
   ];
@@ -139,6 +142,25 @@ function getUserRoleAuditLogs() {
   return mockGetUserRoleAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({ data: getUserRoleAuditLogsMock });
+  });
+}
+
+function getUserOverviewQuery() {
+  return mockUserOverviewSearchQuery(async () => {
+    await delay(mswConfig.delay);
+
+    const users = overviewUsers;
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        userOverviewSearch: {
+          __typename: 'GetUserOverviewResponse',
+          totalUserCount: users.length,
+          users: users,
+        },
+      },
+    });
   });
 }
 
