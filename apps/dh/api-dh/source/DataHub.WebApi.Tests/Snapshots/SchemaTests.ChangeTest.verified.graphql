@@ -178,6 +178,11 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
+type GetUserOverviewResponse {
+  users: [UserOverviewItemDto!]!
+  totalUserCount: Int!
+}
+
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
@@ -375,6 +380,7 @@ type Query {
   knownEmails: [String!]!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
 }
 
 type ReadinessStatusDto {
@@ -441,6 +447,16 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
+}
+
+type UserOverviewItemDto {
+  id: UUID!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  createdDate: DateTime!
 }
 
 type UserRoleAuditedChangeAuditLogDto {
@@ -811,6 +827,11 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
+enum MarketParticipantSortDirctionType {
+  Asc
+  Desc
+}
+
 enum MeteringGridAreaImbalanceSortProperty {
   DOCUMENT_DATE_TIME
   GRID_AREA_CODE
@@ -906,6 +927,15 @@ enum UserAuditedChange {
   USER_ROLE_REMOVED_DUE_TO_DEACTIVATION
 }
 
+enum UserOverviewSortProperty {
+  FirstName
+  LastName
+  Email
+  PhoneNumber
+  CreatedDate
+  Status
+}
+
 enum UserRoleAuditedChange {
   NAME
   DESCRIPTION
@@ -917,6 +947,13 @@ enum UserRoleAuditedChange {
 enum UserRoleStatus {
   ACTIVE
   INACTIVE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  INVITED
+  INVITE_EXPIRED
 }
 
 "Represents a date range"

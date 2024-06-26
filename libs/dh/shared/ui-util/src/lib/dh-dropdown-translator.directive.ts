@@ -53,13 +53,13 @@ export class DhDropdownTranslatorDirective implements OnInit {
       : translatedOptions;
   }
 
-  private translateDisplayValue(value: string): string {
-    if (value.startsWith('{{')) {
+  private translateDisplayValue(value: string | undefined) {
+    if (value && value.startsWith('{{')) {
       const key = value.replace(/{{|}}/g, '').trim();
 
       return this.translocoService.translate(key);
     }
 
-    return value;
+    return value ?? this.translateKey();
   }
 }

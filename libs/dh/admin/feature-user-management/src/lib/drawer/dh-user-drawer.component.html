@@ -26,7 +26,7 @@ limitations under the License.
     </watt-drawer-heading>
 
     <watt-drawer-actions *dhPermissionRequired="['users:manage']">
-      @if (selectedUser?.status !== "Inactive") {
+      @if (selectedUser?.status !== UserStatus.Inactive) {
         <watt-button
           variant="secondary"
           (click)="requestDeactivateUser()"
@@ -35,7 +35,7 @@ limitations under the License.
         >
       }
 
-      @if (selectedUser?.status === "Inactive") {
+      @if (selectedUser?.status === UserStatus.Inactive) {
         <watt-button
           *dhPermissionRequired="['users:reactivate']"
           variant="secondary"
@@ -45,7 +45,10 @@ limitations under the License.
         >
       }
 
-      @if (selectedUser?.status === "Invited" || selectedUser?.status === "InviteExpired") {
+      @if (
+        selectedUser?.status === UserStatus.Invited ||
+        selectedUser?.status === UserStatus.InviteExpired
+      ) {
         <watt-button
           variant="secondary"
           (click)="reinvite()"

@@ -15,13 +15,30 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject } from '@angular/core';
-import { provideComponentStore } from '@ngrx/component-store';
+
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
+
+import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import {
   DhAdminUserManagementDataAccessApiStore,
@@ -29,23 +46,11 @@ import {
   DhUserActorsDataAccessApiStore,
   DhUserManagementFilters,
 } from '@energinet-datahub/dh/admin/data-access-api';
+
 import {
-  MarketParticipantSortDirection,
-  MarketParticipantUserOverviewSortProperty,
-} from '@energinet-datahub/dh/shared/domain';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
+  MarketParticipantSortDirctionType,
+  UserOverviewSortProperty,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
 import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
@@ -150,8 +155,8 @@ export class DhUsersOverviewComponent {
   }
 
   sortChanged = (
-    sortProperty: MarketParticipantUserOverviewSortProperty,
-    direction: MarketParticipantSortDirection
+    sortProperty: UserOverviewSortProperty,
+    direction: MarketParticipantSortDirctionType
   ) => this.store.updateSort(sortProperty, direction);
 
   reloadUsers(): void {
