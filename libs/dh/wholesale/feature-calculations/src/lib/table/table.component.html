@@ -18,7 +18,7 @@ limitations under the License.
   vater
   inset="ml"
   *transloco="let t; read: 'wholesale.calculations'"
-  [error]="result.error()"
+  [error]="error"
 >
   <h3>{{ t("headline") }}</h3>
   <watt-button variant="secondary" icon="plus" (click)="create.emit()">
@@ -33,7 +33,7 @@ limitations under the License.
     [columns]="columns"
     [resolveHeader]="translateHeader"
     [activeRow]="getActiveRow()"
-    [loading]="result.loading()"
+    [loading]="loading"
     sortBy="executionTimeStart"
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
