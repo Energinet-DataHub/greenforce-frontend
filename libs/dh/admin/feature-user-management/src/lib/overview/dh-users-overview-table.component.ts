@@ -93,9 +93,6 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   dataSource = new WattTableDataSource<UserOverviewItem>();
   activeRow: UserOverviewItem | undefined = undefined;
 
-  UserOverviewSortProperty = UserOverviewSortProperty;
-  MarketParticipantSortDirctionType = MarketParticipantSortDirctionType;
-
   @Input({ required: true }) set users(value: UserOverviewItem[]) {
     this.dataSource.data = value;
   }
