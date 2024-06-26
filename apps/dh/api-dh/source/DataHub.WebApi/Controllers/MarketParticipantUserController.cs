@@ -78,6 +78,7 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
 
     [HttpPut]
     [Route("UpdateUserIdentity")]
+    [Obsolete("Use graphql mutation instead")]
     public Task<ActionResult> UpdateUserIdentityAsync(Guid userId, UserIdentityUpdateDto userIdentityUpdateDto)
     {
         return HandleExceptionAsync(() => _client.UserUseridentityAsync(userId, userIdentityUpdateDto));
