@@ -52,7 +52,7 @@ export function mutation<TResult, TVariables>(
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
-    mutate(options: MutationOptions<TResult, TVariables>) {
+    mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
       const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
       return firstValueFrom(

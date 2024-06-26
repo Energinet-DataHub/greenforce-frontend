@@ -31,19 +31,21 @@ export function lazyQuery<TResult, TVariables extends OperationVariables>(
   document: TypedDocumentNode<TResult, TVariables>,
   options?: LazyQueryOptions<TResult, TVariables>
 ) {
-  const result = query(document, { ...options, skip: true });
+  // Rename the options to avoid shadowing
+  const parentOptions = options;
+  const queryResult = query(document, { ...options, skip: true });
   return {
-    ...result,
-    query: (options: Partial<LazyQueryOptions<TResult, TVariables>>) =>
-      result.setOptions(options).then((result) => {
-        if (result.error) {
-          options?.onError?.(result.error);
-        } else if (result.data) {
-          options?.onCompleted?.(result.data);
-        }
+    ...queryResult,
+    query: async (options?: Partial<LazyQueryOptions<TResult, TVariables>>) => {
+      const { onError, onCompleted, ...queryOptions } = { ...parentOptions, ...options };
+      const result = await queryResult.setOptions(queryOptions);
+      if (result.error) {
+        onError?.(result.error);
+      } else if (result.data) {
+        onCompleted?.(result.data);
+      }
 
-        // Only tap into the chain for side-effects
-        return result;
-      }),
+      return result;
+    },
   };
 }

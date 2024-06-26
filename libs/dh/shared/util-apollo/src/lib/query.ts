@@ -50,7 +50,7 @@ function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
 export interface QueryOptions<TVariables extends OperationVariables>
-  extends Omit<WatchQueryOptions<TVariables>, 'query'> {
+  extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading'> {
   skip?: boolean;
 }
 
@@ -105,8 +105,8 @@ export function query<TResult, TVariables extends OperationVariables>(
   // Signals holding the result values
   const data = signal<TResult | undefined>(undefined);
   const error = signal<ApolloError | undefined>(undefined);
-  const loading = signal(true);
-  const networkStatus = signal<NetworkStatus>(NetworkStatus.loading);
+  const loading = signal(!options?.skip);
+  const networkStatus = signal(options?.skip ? NetworkStatus.ready : NetworkStatus.loading);
 
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
