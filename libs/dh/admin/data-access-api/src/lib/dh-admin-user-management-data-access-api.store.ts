@@ -17,7 +17,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
-import { Observable, map, of, switchMap, take, tap } from 'rxjs';
+import { Observable, switchMap, take, tap } from 'rxjs';
 import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
@@ -30,7 +30,6 @@ import {
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
-import { ApolloError, ApolloQueryResult } from '@apollo/client/core';
 
 export type UserOverviewItem = ResultOf<
   typeof UserOverviewSearchDocument
@@ -54,12 +53,6 @@ export type DhUserManagementFilters = {
   status: DhUserManagementState['statusFilter'];
   actorId: string | null;
   userRoleIds: string[] | null;
-};
-
-type UserResponseType = {
-  loading: boolean;
-  error: boolean;
-  data: UserOverviewResponse | null;
 };
 
 interface DhUserManagementState {
