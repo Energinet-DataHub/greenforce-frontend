@@ -17,12 +17,13 @@
 import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+
+import { UserOverviewItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-user-master-data',
@@ -46,5 +47,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhUserMasterDataComponent {
-  user = input.required<MarketParticipantUserOverviewItemDto>();
+  user = input.required<UserOverviewItem>();
 }

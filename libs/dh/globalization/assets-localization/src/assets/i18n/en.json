@@ -1026,7 +1026,7 @@
       }
     },
     "settlementReportsV2": {
-      "topBarTitle": "Settlement Reports (v2)",
+      "topBarTitle": "Settlement Reports",
       "emptyMessage": "There are no settlement reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -1071,7 +1071,7 @@
       },
       "selectCalculationModal": {
         "title": "Which calculation do you want data for?",
-        "description": "More than one balance fixation has been carried out. Which calculation do you want to include in the settlement report?",
+        "description": "More than one calculation has been carried out. Which calculation do you want to include in the settlement report?",
         "latest": "latest",
         "cancel": "Close",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
@@ -1231,10 +1231,10 @@
       },
       "topBarTitle": "User Management",
       "userStatus": {
-        "Active": "Active",
-        "Inactive": "Deactivated",
-        "Invited": "Awaiting activation",
-        "InviteExpired": "Activation expired"
+        "ACTIVE": "Active",
+        "INACTIVE": "Deactivated",
+        "INVITED": "Awaiting activation",
+        "INVITE_EXPIRED": "Activation expired"
       },
       "roleStatus": {
         "Active": "Active",

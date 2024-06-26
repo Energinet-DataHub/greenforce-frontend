@@ -24,18 +24,20 @@ import {
   output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { MarketParticipantUserStatus } from '@energinet-datahub/dh/shared/domain';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+
+import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhUserManagementFilters } from '@energinet-datahub/dh/admin/data-access-api';
 
 // Map query variables type to object of form controls type
@@ -108,9 +110,9 @@ export class DhUsersOverviewFiltersComponent implements OnInit {
 
   formGroup!: FormGroup<Filters>;
 
-  userStatusOptions = dhEnumToWattDropdownOptions(MarketParticipantUserStatus);
+  userStatusOptions = dhEnumToWattDropdownOptions(UserStatus);
 
-  statusValue = input.required<MarketParticipantUserStatus[] | null>();
+  statusValue = input.required<UserStatus[] | null>();
   canChooseMultipleActors = input.required<boolean>();
 
   actorOptions = input.required<WattDropdownOptions>();

@@ -204,12 +204,11 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.submitInProgress()) {
       return;
     }
 
-    if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing)
-      return this.requestSettlementReport();
+    this.submitInProgress.set(true);
 
     this.getCalculationByGridAreas()
       ?.pipe(takeUntilDestroyed(this.destroyRef))
@@ -242,6 +241,10 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             return this.requestSettlementReport();
           }
 
+          if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing) {
+            return this.requestSettlementReport();
+          }
+
           // If there are multiple calculations for any selected grid area
           this.modalService.open({
             component: DhSelectCalculationModalComponent,
@@ -252,6 +255,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             onClosed: (isSuccess) => {
               if (isSuccess) {
                 this.requestSettlementReport();
+              } else {
+                this.submitInProgress.set(false);
               }
             },
           });
@@ -310,8 +315,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ loading, data }) => {
-          this.submitInProgress.set(loading);
-
           if (loading) {
             return;
           }
@@ -347,19 +350,16 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     gridAreas: string[],
     isBalanceFixing: boolean
   ): { gridAreaCode: string; calculationId: string | null }[] {
-    if (isBalanceFixing) {
-      return gridAreas.map((gridAreaCode) => ({
-        gridAreaCode,
-        calculationId: null,
-      }));
-    }
-
     return gridAreas
       .map((gridAreaCode) => ({
         gridAreaCode,
         calculationId: this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
       }))
-      .filter(({ calculationId }) => !!calculationId);
+      .filter(({ calculationId }) => !!calculationId)
+      .map(({ gridAreaCode, calculationId }) => ({
+        gridAreaCode,
+        calculationId: isBalanceFixing ? null : calculationId,
+      }));
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {

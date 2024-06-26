@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient, HttpErrorResponse, HttpStatusCode, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 
 import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 const translocoConfig: TranslocoTestingOptions = {
   langs: { en: {} }, // provide your translations here
@@ -43,7 +44,6 @@ describe(EoAuthorizationInterceptor, () => {
     TestBed.configureTestingModule({
       declarations: [TestDefaultRouteComponent],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([
           { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
           { path: defaultRoutePath, component: TestDefaultRouteComponent },
@@ -51,7 +51,11 @@ describe(EoAuthorizationInterceptor, () => {
         TranslocoTestingModule.forRoot(translocoConfig),
         MatSnackBarModule,
       ],
-      providers: [eoAuthorizationInterceptorProvider],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        eoAuthorizationInterceptorProvider
+      ],
     });
 
     http = TestBed.inject(HttpClient);
@@ -93,7 +97,7 @@ describe(EoAuthorizationInterceptor, () => {
     });
 
     it('Then an error message is displayed', async () => {
-      const snackBar = TestBed.inject(MatSnackBar);
+      const snackBar = TestBed.inject(WattToastService);
       jest.spyOn(snackBar, 'open');
 
       const whenResponse = sendRequest();

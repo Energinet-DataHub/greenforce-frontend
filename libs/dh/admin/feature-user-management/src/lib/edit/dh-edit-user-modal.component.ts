@@ -29,12 +29,15 @@ import {
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxPush } from '@rx-angular/template/push';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
+import {
+  UpdateUserRoles,
+  DhAdminEditUserStore,
+  UserOverviewItem,
+} from '@energinet-datahub/dh/admin/data-access-api';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -101,7 +104,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
   @Output() closed = new EventEmitter<void>();
-  @Input() user: MarketParticipantUserOverviewItemDto | null = null;
+  @Input() user: UserOverviewItem | null = null;
 
   isSaving$ = this.editUserStore.isSaving$;
 
@@ -222,8 +225,10 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
   private updateModel(firstName: string, lastName: string, phoneNumber: string) {
     if (!this.user) return;
-    this.user.firstName = firstName;
-    this.user.lastName = lastName;
-    this.user.phoneNumber = phoneNumber;
+    try {
+      Object.assign(this.user, { firstName, lastName, phoneNumber });
+    } catch (error) {
+      // Suppress error
+    }
   }
 }
