@@ -33,7 +33,6 @@ import {
   map,
   of,
   shareReplay,
-  skip,
   skipWhile,
   startWith,
   switchMap,
@@ -76,10 +75,10 @@ export function query<TResult, TVariables extends OperationVariables>(
   // The `refetch` function on Apollo's `QueryRef` does not properly handle backpressure by
   // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
-  const variables$ = new BehaviorSubject(options?.variables);
-  const ref$ = variables$.pipe(
-    skip(options?.skip ? 1 : 0), // Skip the initial query, requiring a refetch to start
-    map((v) => client.watchQuery({ ...options, query: document, variables: v }))
+  const options$ = new BehaviorSubject(options);
+  const ref$ = options$.pipe(
+    skipWhile((opts) => opts?.skip ?? false),
+    map((opts) => client.watchQuery({ ...opts, query: document }))
   );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
@@ -122,7 +121,7 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   // Clean up when the component is destroyed
   destroyRef.onDestroy(() => {
-    variables$.complete();
+    options$.complete();
     subscription.unsubscribe();
   });
 
@@ -132,10 +131,15 @@ export function query<TResult, TVariables extends OperationVariables>(
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
-    refetch: (variables?: Partial<TVariables>) => {
-      // Subscribe to the result$ before initiating the refetch
+    setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      variables$.next({ ...variables$.value, ...variables } as TVariables);
+      options$.next({ ...options$.value, skip: false, ...options });
+      return result;
+    },
+    refetch: (variables?: Partial<TVariables>) => {
+      const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
+      const mergedVariables = { ...options$.value?.variables, ...variables } as TVariables;
+      options$.next({ ...options$.value, skip: false, variables: mergedVariables });
       return result;
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
@@ -176,6 +180,36 @@ export function query<TResult, TVariables extends OperationVariables>(
   };
 }
 
+// Lazy queries cannot be skipped as they are triggered imperatively
+export interface LazyQueryOptions<TResult, TVariables extends OperationVariables>
+  extends Omit<QueryOptions<TVariables>, 'skip'> {
+  onCompleted?: (data: TResult) => void;
+  onError?: (error: ApolloError) => void;
+}
+
+/** Signal-based wrapper around Apollo's `query` function, made to align with `useLazyQuery`. */
+export function lazyQuery<TResult, TVariables extends OperationVariables>(
+  // Limited to TypedDocumentNode to ensure the query is statically typed
+  document: TypedDocumentNode<TResult, TVariables>,
+  options?: LazyQueryOptions<TResult, TVariables>
+) {
+  const result = query(document, { ...options, skip: true });
+  return {
+    ...result,
+    query: (options: Partial<LazyQueryOptions<TResult, TVariables>>) =>
+      result.setOptions(options).then((result) => {
+        if (result.error) {
+          options?.onError?.(result.error);
+        } else if (result.data) {
+          options?.onCompleted?.(result.data);
+        }
+
+        // Only tap into the chain for side-effects
+        return result;
+      }),
+  };
+}
+
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
 export interface MutationOptions<TResult, TVariables>
   extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
@@ -189,6 +223,9 @@ export function mutation<TResult, TVariables>(
   document: TypedDocumentNode<TResult, TVariables>,
   options?: MutationOptions<TResult, TVariables>
 ) {
+  // Rename the options to avoid shadowing
+  const parentOptions = options;
+
   // Inject dependencies
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
@@ -203,8 +240,8 @@ export function mutation<TResult, TVariables>(
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
-    mutate(innerOptions: MutationOptions<TResult, TVariables>) {
-      const mergedOptions = { ...options, ...innerOptions };
+    mutate(options: MutationOptions<TResult, TVariables>) {
+      const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
       return firstValueFrom(
         client.mutate({ ...mutationOptions, mutation: document }).pipe(
