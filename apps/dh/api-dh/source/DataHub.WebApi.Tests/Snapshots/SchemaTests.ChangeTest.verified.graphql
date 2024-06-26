@@ -370,10 +370,11 @@ type Query {
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
-  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userProfile: GetUserProfileResponse!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
+  userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
 }
 
 type ReadinessStatusDto {
