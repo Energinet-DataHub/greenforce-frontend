@@ -21,7 +21,6 @@ import {
   SubscribeToMoreOptions as ApolloSubscribeToMoreOptions,
   NetworkStatus,
   ApolloQueryResult,
-  FetchResult,
 } from '@apollo/client/core';
 import { Apollo, WatchQueryOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
@@ -34,10 +33,11 @@ import {
   map,
   of,
   shareReplay,
+  skip,
+  skipWhile,
   startWith,
   switchMap,
   take,
-  takeWhile,
   tap,
   withLatestFrom,
 } from 'rxjs';
@@ -50,12 +50,12 @@ function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>
   return of({ error, data: undefined as T, loading: false, networkStatus: NetworkStatus.error });
 }
 
-// Since the `query` function is a wrapper around Apollo's `watchQuery`, the API is almost
-// exactly the same, with the exception the query field, which is now a separate argument.
-export type QueryOptions<TVariables extends OperationVariables> = Omit<
-  WatchQueryOptions<TVariables>,
-  'query'
->;
+// Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
+// exactly the same. This just makes some changes to better align with the `useQuery` hook.
+export interface QueryOptions<TVariables extends OperationVariables>
+  extends Omit<WatchQueryOptions<TVariables>, 'query'> {
+  skip?: boolean;
+}
 
 // The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
 export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionVariables>
@@ -66,7 +66,7 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
-  query: TypedDocumentNode<TResult, TVariables>,
+  document: TypedDocumentNode<TResult, TVariables>,
   options?: QueryOptions<TVariables>
 ) {
   // Inject dependencies
@@ -77,10 +77,10 @@ export function query<TResult, TVariables extends OperationVariables>(
   // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
   const variables$ = new BehaviorSubject(options?.variables);
-  const ref$ = variables$.pipe(map((v) => client.watchQuery({ ...options, query, variables: v })));
-
-  // The inner observable will be recreated each time the `variables$` emits
-  const result$ = ref$.pipe(switchMap((ref) => ref.valueChanges));
+  const ref$ = variables$.pipe(
+    skip(options?.skip ? 1 : 0), // Skip the initial query, requiring a refetch to start
+    map((v) => client.watchQuery({ ...options, query: document, variables: v }))
+  );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
   // in a runtime error for the `updateQuery` method in `subscribeToMore`. To prevent this, the
@@ -88,14 +88,21 @@ export function query<TResult, TVariables extends OperationVariables>(
   const refReplay$ = ref$.pipe(
     switchMap((ref) =>
       ref.valueChanges.pipe(
-        map(({ data }) => (data ? ref : null)),
-        takeWhile((ref) => !ref, true), // Once data is available, emit the ref and complete
+        skipWhile((data) => !data), // Wait until data is available
+        map(() => ref), // Then emit the ref
+        take(1), // And complete the observable
         startWith(null) // Clear the ref immediately in case of refetch (to prevent stale ref)
       )
     ),
     shareReplay(1), // Make sure the ref is available to late subscribers (in `subscribeToMore`)
     exists(), // Only emit the replayed ref if it is not null
     takeUntilDestroyed(destroyRef) // Shared observables need to be completed manually
+  );
+
+  const result$ = ref$.pipe(
+    // The inner observable will be recreated each time the `variables$` emits
+    switchMap((ref) => ref.valueChanges),
+    catchError((error: ApolloError) => fromApolloError<TResult>(error))
   );
 
   // Signals holding the result values
@@ -105,15 +112,13 @@ export function query<TResult, TVariables extends OperationVariables>(
   const networkStatus = signal<NetworkStatus>(NetworkStatus.loading);
 
   // Update the signal values based on the result of the query
-  const subscription = result$
-    .pipe(catchError((error: ApolloError) => fromApolloError<TResult>(error)))
-    .subscribe((result) => {
-      // The `data` field is wrongly typed and can actually be empty
-      data.set(result.data ?? undefined);
-      error.set(result.error);
-      loading.set(result.loading);
-      networkStatus.set(result.networkStatus);
-    });
+  const subscription = result$.subscribe((result) => {
+    // The `data` field is wrongly typed and can actually be empty
+    data.set(result.data ?? undefined);
+    error.set(result.error);
+    loading.set(result.loading);
+    networkStatus.set(result.networkStatus);
+  });
 
   // Clean up when the component is destroyed
   destroyRef.onDestroy(() => {
@@ -127,8 +132,12 @@ export function query<TResult, TVariables extends OperationVariables>(
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
-    refetch: (variables?: Partial<TVariables>) =>
-      variables$.next({ ...variables$.value, ...variables } as TVariables),
+    refetch: (variables?: Partial<TVariables>) => {
+      // Subscribe to the result$ before initiating the refetch
+      const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
+      variables$.next({ ...variables$.value, ...variables } as TVariables);
+      return result;
+    },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
       document: query,
       context,
@@ -177,7 +186,7 @@ export interface MutationOptions<TResult, TVariables>
 /** Signal-based wrapper around Apollo's `mutate` function, made to align with `useMutation`. */
 export function mutation<TResult, TVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
-  mutation: TypedDocumentNode<TResult, TVariables>,
+  document: TypedDocumentNode<TResult, TVariables>,
   options?: MutationOptions<TResult, TVariables>
 ) {
   // Inject dependencies
@@ -198,7 +207,7 @@ export function mutation<TResult, TVariables>(
       const mergedOptions = { ...options, ...innerOptions };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
       return firstValueFrom(
-        client.mutate({ ...mutationOptions, mutation }).pipe(
+        client.mutate({ ...mutationOptions, mutation: document }).pipe(
           // The MutationResult type is different from QueryResult in several ways
           map(({ errors, ...result }) => ({
             ...result,
@@ -220,7 +229,7 @@ export function mutation<TResult, TVariables>(
             }
           }),
           take(1), // Complete the observable when result is available
-          takeUntilDestroyed(destroyRef) // ...or when the component is destroyed
+          takeUntilDestroyed(destroyRef) // Or when the component is destroyed
         )
       );
     },
