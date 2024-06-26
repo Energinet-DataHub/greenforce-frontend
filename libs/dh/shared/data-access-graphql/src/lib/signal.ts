@@ -167,6 +167,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   };
 }
 
+// Add the `onCompleted` and `onError` callbacks to align with `useMutation`
 export interface MutationOptions<TResult, TVariables>
   extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
   onCompleted?: (data: TResult, clientOptions?: MutationOptions<TResult, TVariables>) => void;
@@ -204,7 +205,6 @@ export function mutation<TResult, TVariables>(
             error: errors?.length ? new ApolloError({ graphQLErrors: errors }) : undefined,
           })),
           catchError((error: ApolloError) => of({ error, data: undefined, loading: false })),
-          // Update the signal values based on the result of the mutation
           tap((result) => {
             data.set(result.data ?? undefined);
             error.set(result.error);
@@ -212,7 +212,6 @@ export function mutation<TResult, TVariables>(
           }),
           // Since this observable returns a promise, it should only emit the final result
           filter((result) => !result.loading),
-          // Trigger the optional callbacks once the mutation has completed
           tap((result) => {
             if (result.error) {
               onError?.(result.error, mergedOptions);
