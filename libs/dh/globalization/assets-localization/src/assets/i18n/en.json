@@ -1231,10 +1231,10 @@
       },
       "topBarTitle": "User Management",
       "userStatus": {
-        "Active": "Active",
-        "Inactive": "Deactivated",
-        "Invited": "Awaiting activation",
-        "InviteExpired": "Activation expired"
+        "ACTIVE": "Active",
+        "INACTIVE": "Deactivated",
+        "INVITED": "Awaiting activation",
+        "INVITE_EXPIRED": "Activation expired"
       },
       "roleStatus": {
         "Active": "Active",

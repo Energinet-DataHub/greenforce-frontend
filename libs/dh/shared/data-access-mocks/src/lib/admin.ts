@@ -27,6 +27,7 @@ import {
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
   mockGetGridAreasQuery,
+  mockUserOverviewSearchQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -39,14 +40,13 @@ import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
 import { marketParticipantOrganization } from './data/admin-get-actor-organization';
-import { marketParticipantUserSearchUsers } from './data/market-participant-user-search-users';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
 import { marketParticipantOrganizationGetFilteredActors } from './data/market-participant-organization-get-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
+import { overviewUsers } from './data/admin/user-overview-items';
 
 export function adminMocks(apiBase: string) {
   return [
-    getMarketParticipantUserSearchUsers(apiBase),
     getMarketParticipantActorQuerySelectionActors(apiBase),
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
@@ -67,6 +67,7 @@ export function adminMocks(apiBase: string) {
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
+    getUserOverviewQuery(),
     getMarketParticipantUserDeactivate(apiBase),
     getMarketParticipantUserReActivate(apiBase),
   ];
@@ -83,13 +84,6 @@ function getMarketParticipantUserReActivate(apiBase: string) {
   return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
-  });
-}
-
-function getMarketParticipantUserSearchUsers(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUserOverview/SearchUsers`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserSearchUsers);
   });
 }
 
@@ -148,6 +142,25 @@ function getUserRoleAuditLogs() {
   return mockGetUserRoleAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({ data: getUserRoleAuditLogsMock });
+  });
+}
+
+function getUserOverviewQuery() {
+  return mockUserOverviewSearchQuery(async () => {
+    await delay(mswConfig.delay);
+
+    const users = overviewUsers;
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        userOverviewSearch: {
+          __typename: 'GetUserOverviewResponse',
+          totalUserCount: users.length,
+          users: users,
+        },
+      },
+    });
   });
 }
 
@@ -239,7 +252,12 @@ function getKnownEmailsQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        knownEmails: marketParticipantUserSearchUsers.users.map((x) => x.email),
+        knownEmails: [
+          'testuser1@test.dk',
+          'testuser2@test.dk',
+          'testuser3@test.dk',
+          'testuser4@test.dk',
+        ],
       },
     });
   });

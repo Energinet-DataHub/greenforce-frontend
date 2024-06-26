@@ -23,25 +23,28 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+
+import { RxPush } from '@rx-angular/template/push';
+import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import { MatMenuModule } from '@angular/material/menu';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
-import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
-import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   DhAdminInviteUserStore,
   DhAdminUserStatusStore,
+  UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { RxPush } from '@rx-angular/template/push';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
+import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
+import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,11 +82,13 @@ export class DhUserDrawerComponent {
   @ViewChild('reActivateConfirmationModal')
   reActivateConfirmationModal!: WattModalComponent;
 
-  selectedUser: MarketParticipantUserOverviewItemDto | null = null;
+  selectedUser: UserOverviewItem | null = null;
 
   @Output() closed = new EventEmitter<void>();
 
   isEditUserModalVisible = false;
+
+  UserStatus = UserStatus;
 
   isReinviting$ = this.inviteUserStore.isSaving$;
   isDeactivating$ = this.userStatusStore.isSaving$;
@@ -95,7 +100,7 @@ export class DhUserDrawerComponent {
     this.selectedUser = null;
   }
 
-  open(user: MarketParticipantUserOverviewItemDto): void {
+  open(user: UserOverviewItem): void {
     this.selectedUser = user;
     this.drawer.open();
   }
