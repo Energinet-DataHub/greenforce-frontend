@@ -27,7 +27,7 @@ const eSettSubPaths = {
 } as const;
 
 const adminSubPaths = {
-  user: 'user',
+  users: 'users',
   roles: 'roles',
   permissions: 'permissions',
 } as const;
