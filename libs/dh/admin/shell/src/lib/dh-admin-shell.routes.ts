@@ -33,10 +33,10 @@ export const dhAdminShellRoutes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: getPath<AdminSubPaths>('user'),
+        redirectTo: getPath<AdminSubPaths>('users'),
       },
       {
-        path: getPath<AdminSubPaths>('user'),
+        path: getPath<AdminSubPaths>('users'),
         loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-management'),
       },
       {
