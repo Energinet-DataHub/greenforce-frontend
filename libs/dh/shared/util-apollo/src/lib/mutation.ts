@@ -42,16 +42,27 @@ export function mutation<TResult, TVariables>(
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
 
+  const initialState = {
+    data: undefined,
+    error: undefined,
+    loading: false,
+  };
+
   // Signals holding the result values
-  const data = signal<TResult | undefined>(undefined);
-  const error = signal<ApolloError | undefined>(undefined);
-  const loading = signal(true);
+  const data = signal<TResult | undefined>(initialState.data);
+  const error = signal<ApolloError | undefined>(initialState.error);
+  const loading = signal(initialState.loading);
 
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
+    reset: () => {
+      data.set(initialState.data);
+      error.set(initialState.error);
+      loading.set(initialState.loading);
+    },
     mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
       const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
