@@ -25,7 +25,7 @@ import { AdminSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing'
   standalone: true,
   template: `
     <watt-link-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
-      <watt-link-tab [label]="t('users.tabLabel')" [link]="getLink('user')" />
+      <watt-link-tab [label]="t('users.tabLabel')" [link]="getLink('users')" />
       <watt-link-tab [label]="t('roles.tabLabel')" [link]="getLink('roles')" />
       <watt-link-tab [label]="t('permissions.tabLabel')" [link]="getLink('permissions')" />
     </watt-link-tabs>
