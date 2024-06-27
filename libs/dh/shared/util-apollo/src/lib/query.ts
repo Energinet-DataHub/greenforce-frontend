@@ -108,19 +108,11 @@ export function query<TResult, TVariables extends OperationVariables>(
     catchError((error: ApolloError) => fromApolloError<TResult>(error))
   );
 
-  // Centralize the initial state of the query result
-  const initialState = {
-    data: undefined,
-    error: undefined,
-    loading: !options?.skip,
-    networkStatus: options?.skip ? NetworkStatus.ready : NetworkStatus.loading,
-  };
-
   // Signals holding the result values
-  const data = signal<TResult | undefined>(initialState.data);
-  const error = signal<ApolloError | undefined>(initialState.error);
-  const loading = signal(initialState.loading);
-  const networkStatus = signal(initialState.networkStatus);
+  const data = signal<TResult | undefined>(undefined);
+  const error = signal<ApolloError | undefined>(undefined);
+  const loading = signal(!options?.skip);
+  const networkStatus = signal(options?.skip ? NetworkStatus.ready : NetworkStatus.loading);
 
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
@@ -145,10 +137,10 @@ export function query<TResult, TVariables extends OperationVariables>(
     networkStatus: networkStatus as Signal<NetworkStatus>,
     reset: () => {
       reset$.next();
-      data.set(initialState.data);
-      error.set(initialState.error);
-      loading.set(initialState.loading);
-      networkStatus.set(initialState.networkStatus);
+      data.set(undefined);
+      error.set(undefined);
+      loading.set(false);
+      networkStatus.set(NetworkStatus.ready);
     },
     setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));

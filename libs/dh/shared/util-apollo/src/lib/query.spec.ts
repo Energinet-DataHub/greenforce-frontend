@@ -121,7 +121,7 @@ describe('query', () => {
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
     })));
 
-  it('should respond with initial data after reset', fakeAsync(() =>
+  it('should clear result after reset', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
       const op = controller.expectOne(TEST_QUERY);
@@ -131,7 +131,7 @@ describe('query', () => {
       result.reset();
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
-      expect(result.loading()).toBe(true);
-      expect(result.networkStatus()).toBe(NetworkStatus.loading);
+      expect(result.loading()).toBe(false);
+      expect(result.networkStatus()).toBe(NetworkStatus.ready);
     })));
 });

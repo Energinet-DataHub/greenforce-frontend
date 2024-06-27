@@ -73,7 +73,7 @@ describe('mutation', () => {
       expect(onError).toHaveBeenCalled();
     })));
 
-  it('should respond with initial data after reset', fakeAsync(() =>
+  it('should clear result after reset', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = mutation(TEST_MUTATION);
       result.mutate();
