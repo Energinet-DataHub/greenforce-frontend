@@ -72,7 +72,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
 
-  // Make it possible to reset query and subscriptions to their initial state
+  // Make it possible to reset query and subscriptions to a pending state
   const reset$ = new Subject<void>();
 
   // The `refetch` function on Apollo's `QueryRef` does not properly handle backpressure by
