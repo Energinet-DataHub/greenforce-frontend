@@ -34,12 +34,6 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserRolesGetAsync(id);
 
-    public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
-        EicFunction eicFunction,
-        [Service] IMarketParticipantClient_V1 client) =>
-        (await client.UserRolesGetAsync())
-            .Where(u => u.EicFunction == eicFunction);
-
     public async Task<GetUserProfileResponse> GetUserProfileAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserUserprofileGetAsync();
