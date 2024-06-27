@@ -42,6 +42,7 @@ export function mutation<TResult, TVariables>(
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
 
+  // Centralize the initial state of the mutation result
   const initialState = {
     data: undefined,
     error: undefined,
