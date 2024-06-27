@@ -18,20 +18,15 @@ import { Injectable } from '@angular/core';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserHttp,
   MarketParticipantUserInvitationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse } from '@angular/common/http';
 
-export interface ErrorDescriptor {
-  code: string;
-  message: string;
-  target?: string;
-  details?: ErrorDescriptor[];
-}
+import { ApiErrorCollection, createApiErrorCollection } from './dh-api-error-utils';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -55,7 +50,7 @@ export class DhAdminInviteUserStore extends ComponentStore<State> {
       trigger$: Observable<{
         invitation: MarketParticipantUserInvitationDto;
         onSuccess: () => void;
-        onError: (error: ErrorDescriptor) => void;
+        onError: (error: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -72,11 +67,10 @@ export class DhAdminInviteUserStore extends ComponentStore<State> {
                   this.setSaving(SavingState.SAVED);
                   onSuccess();
                 },
-                (e: HttpErrorResponse) => {
+                (error: HttpErrorResponse) => {
                   this.setSaving(ErrorState.GENERAL_ERROR);
 
-                  const error = (e.error?.error as ErrorDescriptor) ?? undefined;
-                  if (error) onError(error);
+                  onError(createApiErrorCollection(error));
                 }
               )
             );

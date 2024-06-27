@@ -24,6 +24,7 @@ import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhAdminUserRolesStore, UpdateUserRoles } from './dh-admin-user-roles.store';
+import { ApiErrorCollection, createApiErrorCollection } from './dh-api-error-utils';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -52,7 +53,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
         phoneNumber: string;
         updateUserRoles?: UpdateUserRoles;
         onSuccessFn: () => void;
-        onErrorFn: (statusCode: HttpStatusCode) => void;
+        onErrorFn: (statusCode: HttpStatusCode, error: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -90,7 +91,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
                 },
                 (error: HttpErrorResponse) => {
                   this.setSaving(ErrorState.GENERAL_ERROR);
-                  onErrorFn(error.status);
+                  onErrorFn(error.status, createApiErrorCollection(error));
                 }
               )
             );
