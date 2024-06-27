@@ -185,6 +185,9 @@
       "@energinet-datahub/dh/shared/ui-validators": [
         "libs/dh/shared/ui-validators/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-apollo": [
+        "libs/dh/shared/util-apollo/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
