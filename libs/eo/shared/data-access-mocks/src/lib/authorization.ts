@@ -17,11 +17,7 @@
 import { http, HttpResponse } from 'msw';
 
 export function authorizationMocks(apiBase: string) {
-  return [
-    getConsent(apiBase),
-    getConsents(apiBase),
-    postGrantConsent(apiBase)
-  ];
+  return [getConsent(apiBase), getConsents(apiBase), postGrantConsent(apiBase)];
 }
 
 function getConsent(apiBase: string) {
