@@ -329,6 +329,7 @@ export class MarketParticipantUserRoleHttp {
      * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @deprecated
      */
     public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MarketParticipantUserRoleDto>>;
     public v1MarketParticipantUserRoleGetAssignableGet(actorId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MarketParticipantUserRoleDto>>>;
