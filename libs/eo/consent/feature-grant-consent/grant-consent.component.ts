@@ -239,15 +239,7 @@ export class EoGrantConsentModalComponent implements OnInit {
           type: 'success',
         });
 
-        // Redirect to the third party client
-        if (
-          this.redirectUrl &&
-          this.isRedirectAllowed(this.redirectUrl, this.allowedRedirectUrl())
-        ) {
-          window.location.assign(this.redirectUrl);
-        } else {
-          this.close(true);
-        }
+        this.redirectOrClose(true);
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 403) return;
@@ -261,11 +253,11 @@ export class EoGrantConsentModalComponent implements OnInit {
   }
 
   decline() {
-    this.close(false);
-
     this.toastService.open({
       message: this.transloco.translate(this.translations.grantConsent.declined),
     });
+
+    this.redirectOrClose(false);
   }
 
   close(result: boolean) {
@@ -276,6 +268,31 @@ export class EoGrantConsentModalComponent implements OnInit {
       this.opened = false;
       this.closed.emit();
     });
+  }
+
+  private redirectOrClose(result: boolean) {
+    if (this.redirectUrl && this.isRedirectAllowed(this.redirectUrl, this.allowedRedirectUrl())) {
+      window.location.assign(
+        this.addQueryParams(this.redirectUrl, { state: result ? 'granted' : 'declined' })
+      );
+    } else {
+      this.close(result);
+    }
+  }
+
+  private addQueryParams(url: string, params: Record<string, string>): string {
+    const urlObj = new URL(url);
+    const searchParams = new URLSearchParams(urlObj.search);
+
+    // Add the new query parameters to the existing ones
+    for (const key of Object.keys(params)) {
+      searchParams.set(key, params[key]);
+    }
+
+    // Set the updated search parameters back to the URL object
+    urlObj.search = searchParams.toString();
+
+    return urlObj.toString();
   }
 
   private isRedirectAllowed(redirectURL: string, allowedRedirect: string) {
