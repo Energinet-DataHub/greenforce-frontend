@@ -27,7 +27,6 @@ export * from './market-participant-permission-dto';
 export * from './market-participant-selection-actor-dto';
 export * from './market-participant-token-response';
 export * from './market-participant-update-permission-dto';
-export * from './market-participant-update-user-role-assignments-dto';
 export * from './market-participant-update-user-role-dto';
 export * from './market-participant-user-invitation-dto';
 export * from './market-participant-user-profile-update-dto';
