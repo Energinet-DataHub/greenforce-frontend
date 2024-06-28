@@ -1,0 +1,9 @@
+query GetUserRolesByActorId($actorId: UUID!) {
+  userRolesByActorId(actorId: $actorId) {
+    id
+    name
+    description
+    eicFunction
+    status
+  }
+}

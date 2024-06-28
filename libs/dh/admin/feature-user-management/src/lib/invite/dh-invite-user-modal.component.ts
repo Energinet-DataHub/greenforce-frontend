@@ -32,6 +32,9 @@ import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angula
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { distinctUntilChanged, map, of, take } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -41,21 +44,23 @@ import {
   DhAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
   DhAdminInviteUserStore,
-  ErrorDescriptor,
+  UserRoleItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
-import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
-import { Apollo } from 'apollo-angular';
 import {
   GetAssociatedActorsDocument,
   GetKnownEmailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import {
+  ApiErrorCollection,
+  readApiErrorResponse,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
+
+import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -245,7 +250,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     });
   }
 
-  onSelectedUserRoles(userRoles: MarketParticipantUserRoleDto[]) {
+  onSelectedUserRoles(userRoles: UserRoleItem[]) {
     this.userRoles.controls.selectedUserRoles.markAsTouched();
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
@@ -267,20 +272,15 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     this.closeModal(true);
   }
 
-  private onInviteError(e: ErrorDescriptor) {
-    this.toastService.open({
-      type: 'danger',
-      message: e.details
-        ? e.details
-            .map((x) =>
-              this.translocoService.translate(
-                `admin.userManagement.inviteUser.serverErrors.${x.code}`
-              )
-            )
-            .join('\n')
-        : this.translocoService.translate(`admin.userManagement.inviteUser.serverErrors.${e.code}`),
-      duration: 60_000,
-    });
+  private onInviteError(apiErrorCollection: ApiErrorCollection) {
+    const message =
+      apiErrorCollection.apiErrors.length > 0
+        ? readApiErrorResponse([apiErrorCollection])
+        : this.translocoService.translate(
+            'admin.userManagement.inviteUser.serverErrors.generalError'
+          );
+
+    this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }
 
   private isBaseInfoValid() {

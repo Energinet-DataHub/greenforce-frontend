@@ -23,6 +23,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
+import { ApiErrorCollection, createApiErrorCollection } from './dh-api-error-utils';
 import { Apollo } from 'apollo-angular';
 import {
   GetUserByIdDocument,
@@ -59,7 +60,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
         phoneNumber: string;
         updateUserRoles: UpdateActorUserRolesInput[];
         onSuccessFn: () => void;
-        onErrorFn: (statusCode: HttpStatusCode) => void;
+        onErrorFn: (statusCode: HttpStatusCode, error: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -108,10 +109,16 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
                       onSuccessFn();
                     } else if (response.data?.updateUserIdentity?.errors) {
                       this.setSaving(ErrorState.GENERAL_ERROR);
-                      onErrorFn(response.data?.updateUserIdentity.errors[0].statusCode);
+                      onErrorFn(
+                        response.data?.updateUserIdentity.errors[0].statusCode,
+                        response.data?.updateUserIdentity.errors[0]
+                      );
                     } else if (response.data?.updateUserRoleAssignment?.errors) {
                       this.setSaving(ErrorState.GENERAL_ERROR);
-                      onErrorFn(response.data?.updateUserRoleAssignment.errors[0].statusCode);
+                      onErrorFn(
+                        response.data?.updateUserRoleAssignment.errors[0].statusCode,
+                        response.data?.updateUserRoleAssignment.errors[0]
+                      );
                     }
                   },
                   () => {
