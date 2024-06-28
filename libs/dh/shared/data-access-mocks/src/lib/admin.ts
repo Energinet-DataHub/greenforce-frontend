@@ -28,6 +28,7 @@ import {
   mockGetUserAuditLogsQuery,
   mockGetGridAreasQuery,
   mockUserOverviewSearchQuery,
+  mockGetUserRolesByActorIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -63,7 +64,7 @@ export function adminMocks(apiBase: string) {
     putMarketParticipantUserUpdateUserIdentity(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
     putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
-    getMarketParticipantUserRoleGetAssignable(apiBase),
+    getUserRolesByActorIdQuery(),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
@@ -94,10 +95,10 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
   });
 }
 
-function getMarketParticipantUserRoleGetAssignable(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetAssignable`, async () => {
+function getUserRolesByActorIdQuery() {
+  return mockGetUserRolesByActorIdQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserRoles);
+    return HttpResponse.json({ data: marketParticipantUserRoles });
   });
 }
 
