@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { from, mergeMap, Observable, Subject, switchMap, tap } from 'rxjs';
+import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 
@@ -110,24 +110,4 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
   };
 
   private resetState = () => this.setState(initialState);
-
-  readonly assignRoles = (userId: string, updateUserRoles: UpdateUserRoles) => {
-    return from(updateUserRoles.actors).pipe(
-      mergeMap((actor) => {
-        return this.marketParticipantUserRoleAssignmentHttp.v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut(
-          actor.id,
-          userId,
-          actor.userRolesToUpdate
-        );
-      }),
-      tapResponse(
-        () => {
-          this.getUserRolesView(userId);
-        },
-        () => {
-          this.handleError();
-        }
-      )
-    );
-  };
 }

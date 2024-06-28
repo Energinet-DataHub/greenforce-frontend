@@ -15,22 +15,23 @@
  * limitations under the License.
  */
 import { Injectable, inject } from '@angular/core';
+
+import { Apollo } from 'apollo-angular';
+import { tapResponse } from '@ngrx/operators';
 import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
-import { tapResponse } from '@ngrx/operators';
 import { HttpStatusCode } from '@angular/common/http';
 
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
-import { ApiErrorCollection } from './dh-api-error-utils';
-import { Apollo } from 'apollo-angular';
 import {
   GetUserByIdDocument,
   UpdateActorUserRolesInput,
   UpdateUserAndRolesDocument,
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { ApiErrorCollection } from './dh-api-error-utils';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -42,7 +43,6 @@ const initialState: State = {
 
 @Injectable()
 export class DhAdminEditUserStore extends ComponentStore<State> {
-  private readonly userRolesStore = inject(DhAdminUserRolesStore);
   private readonly apollo = inject(Apollo);
 
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);

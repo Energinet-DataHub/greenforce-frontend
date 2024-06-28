@@ -64,9 +64,7 @@ export function adminMocks(apiBase: string) {
     getUserRolesByEicfunctionQuery(),
     putMarketParticipantPermissionsUpdate(apiBase),
     postMarketParticipantUserRoleCreate(apiBase),
-    putMarketParticipantUserUpdateUserIdentity(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
-    putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getUserRolesByActorIdQuery(),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
@@ -241,28 +239,11 @@ function postMarketParticipantUserRoleCreate(apiBase: string) {
   });
 }
 
-function putMarketParticipantUserUpdateUserIdentity(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/UpdateUserIdentity`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
-  });
-}
-
 function postMarketParticipantUserInviteUser(apiBase: string) {
   return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
   });
-}
-
-function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string) {
-  return http.put(
-    `${apiBase}/v1/MarketParticipantUserRoleAssignment/UpdateAssignments`,
-    async () => {
-      await delay(mswConfig.delay);
-      return new HttpResponse(null, { status: 200 });
-    }
-  );
 }
 
 function updateUserAndRoles() {
