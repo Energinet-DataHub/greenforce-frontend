@@ -23,7 +23,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
-import { ApiErrorCollection, createApiErrorCollection } from './dh-api-error-utils';
+import { ApiErrorCollection } from './dh-api-error-utils';
 import { Apollo } from 'apollo-angular';
 import {
   GetUserByIdDocument,
