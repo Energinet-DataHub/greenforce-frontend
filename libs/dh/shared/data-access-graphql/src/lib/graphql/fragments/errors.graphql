@@ -1,0 +1,9 @@
+fragment Errors on ApiError {
+  message
+  statusCode
+  apiErrors {
+    message
+    code
+    args
+  }
+}

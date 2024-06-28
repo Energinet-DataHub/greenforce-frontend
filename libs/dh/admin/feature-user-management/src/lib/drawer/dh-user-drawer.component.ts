@@ -17,11 +17,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EnvironmentInjector,
   EventEmitter,
   Output,
   ViewChild,
   ViewEncapsulation,
+  effect,
   inject,
+  runInInjectionContext,
+  signal,
 } from '@angular/core';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -33,6 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
@@ -41,7 +46,7 @@ import {
   UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
-import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetUserByIdDocument, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
@@ -72,6 +77,7 @@ export class DhUserDrawerComponent {
   private toastService = inject(WattToastService);
   private inviteUserStore = inject(DhAdminInviteUserStore);
   private userStatusStore = inject(DhAdminUserStatusStore);
+  private environmentInjector = inject(EnvironmentInjector);
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
@@ -88,6 +94,14 @@ export class DhUserDrawerComponent {
 
   isEditUserModalVisible = false;
 
+  userId = signal<string | null>(null);
+
+  userQuery = lazyQuery(GetUserByIdDocument);
+
+  refetch = effect(() => {
+    this.userQuery.refetch({ id: this.userId() ?? '' });
+  });
+
   UserStatus = UserStatus;
 
   isReinviting$ = this.inviteUserStore.isSaving$;
@@ -102,6 +116,7 @@ export class DhUserDrawerComponent {
 
   open(user: UserOverviewItem): void {
     this.selectedUser = user;
+    this.userId.set(user.id);
     this.drawer.open();
   }
 

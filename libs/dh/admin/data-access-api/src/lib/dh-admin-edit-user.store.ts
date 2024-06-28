@@ -23,7 +23,14 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { DhAdminUserRolesStore, UpdateUserRoles } from './dh-admin-user-roles.store';
+import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
+import { Apollo } from 'apollo-angular';
+import {
+  UpdateActorUserRolesInput,
+  UpdateUserAndRolesDocument,
+  UserOverviewItemDto,
+  UserOverviewSearchDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -36,6 +43,7 @@ const initialState: State = {
 @Injectable()
 export class DhAdminEditUserStore extends ComponentStore<State> {
   private readonly userRolesStore = inject(DhAdminUserRolesStore);
+  private readonly apollo = inject(Apollo);
 
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
@@ -50,7 +58,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
         firstName: string;
         lastName: string;
         phoneNumber: string;
-        updateUserRoles?: UpdateUserRoles;
+        updateUserRoles: UpdateActorUserRolesInput[];
         onSuccessFn: () => void;
         onErrorFn: (statusCode: HttpStatusCode) => void;
       }>
@@ -69,31 +77,50 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
             onSuccessFn,
             onErrorFn,
           }) => {
-            const requests: Observable<unknown>[] = [];
-
-            requests.push(
-              this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
-                userId,
-                { firstName, lastName, phoneNumber }
-              )
-            );
-
-            if (updateUserRoles) {
-              requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
-            }
-
-            return forkJoin(requests).pipe(
-              tapResponse(
-                () => {
-                  this.setSaving(SavingState.SAVED);
-                  onSuccessFn();
+            return this.apollo
+              .mutate({
+                mutation: UpdateUserAndRolesDocument,
+                refetchQueries: [UserOverviewSearchDocument],
+                variables: {
+                  updateUserInput: {
+                    userId,
+                    userIdentityUpdateDto: {
+                      firstName,
+                      lastName,
+                      phoneNumber,
+                    },
+                  },
+                  updateRolesInput: {
+                    userId,
+                    input: updateUserRoles,
+                  },
                 },
-                (error: HttpErrorResponse) => {
-                  this.setSaving(ErrorState.GENERAL_ERROR);
-                  onErrorFn(error.status);
-                }
-              )
-            );
+              })
+              .pipe(
+                tapResponse(
+                  (response) => {
+                    if (
+                      response.data?.updateUserIdentity?.success &&
+                      response.data?.updateUserIdentity.errors === null &&
+                      response.data?.updateUserRoleAssignment?.success &&
+                      response.data?.updateUserRoleAssignment.errors === null
+                    ) {
+                      console.log('User updated successfully');
+                      this.setSaving(SavingState.SAVED);
+                      onSuccessFn();
+                    } else if (response.data?.updateUserIdentity?.errors) {
+                      this.setSaving(ErrorState.GENERAL_ERROR);
+                      onErrorFn(response.data?.updateUserIdentity.errors[0].statusCode);
+                    } else if (response.data?.updateUserRoleAssignment?.errors) {
+                      this.setSaving(ErrorState.GENERAL_ERROR);
+                      onErrorFn(response.data?.updateUserRoleAssignment.errors[0].statusCode);
+                    }
+                  },
+                  () => {
+                    this.setSaving(ErrorState.GENERAL_ERROR);
+                  }
+                )
+              );
           }
         )
       )
