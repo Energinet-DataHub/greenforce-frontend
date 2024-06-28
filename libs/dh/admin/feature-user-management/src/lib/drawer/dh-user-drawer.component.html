@@ -15,14 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
-  <watt-drawer #drawer size="large" (closed)="onClose()">
+  <watt-drawer [loading]="isLoading()" #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
       @if (selectedUser()) {
         <dh-user-status [status]="selectedUser()?.status!" />
       }
     </watt-drawer-topbar>
     <watt-drawer-heading>
-      <h2>{{ selectedUser()?.firstName + " " + selectedUser()?.lastName }}</h2>
+      @if (selectedUser()) {
+        <h2>{{ selectedUser()?.firstName + " " + selectedUser()?.lastName }}</h2>
+      }
     </watt-drawer-heading>
 
     <watt-drawer-actions *dhPermissionRequired="['users:manage']">

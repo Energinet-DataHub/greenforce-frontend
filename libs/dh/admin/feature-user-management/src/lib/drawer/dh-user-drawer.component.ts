@@ -49,6 +49,7 @@ import { GetUserByIdDocument, UserStatus } from '@energinet-datahub/dh/shared/do
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,9 +62,10 @@ import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
     TranslocoDirective,
     MatMenuModule,
 
-    WATT_DRAWER,
-    WattButtonComponent,
     WATT_MODAL,
+    WATT_DRAWER,
+    WattSpinnerComponent,
+    WattButtonComponent,
 
     DhTabsComponent,
     DhUserStatusComponent,
@@ -96,6 +98,7 @@ export class DhUserDrawerComponent {
   selectedUserQuery = lazyQuery(GetUserByIdDocument);
 
   selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
+  isLoading = computed(() => this.selectedUserQuery.loading());
 
   refetch = effect(() => {
     const userId = this.userId();
