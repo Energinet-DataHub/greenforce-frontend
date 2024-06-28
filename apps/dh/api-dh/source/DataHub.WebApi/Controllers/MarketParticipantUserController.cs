@@ -76,14 +76,6 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         return HandleExceptionAsync(() => _client.UserActorsGetAsync(userId));
     }
 
-    [HttpPut]
-    [Route("UpdateUserIdentity")]
-    [Obsolete("Use graphql mutation instead")]
-    public Task<ActionResult> UpdateUserIdentityAsync(Guid userId, UserIdentityUpdateDto userIdentityUpdateDto)
-    {
-        return HandleExceptionAsync(() => _client.UserUseridentityAsync(userId, userIdentityUpdateDto));
-    }
-
     /// <summary>
     /// Initiates MitID signup
     /// </summary>
