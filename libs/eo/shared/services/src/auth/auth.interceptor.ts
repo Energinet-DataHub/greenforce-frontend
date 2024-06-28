@@ -53,7 +53,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
 
-    if (tokenRefreshTrigger) {
+    if (tokenRefreshTrigger && this.#shouldRefreshToken(req.urlWithParams)) {
       return nextHandler.handle(authorizedRequest).pipe(
         filter((event) => event instanceof HttpResponse),
         concatMap((httpEvent) => this.authService.refreshToken().pipe(map(() => httpEvent))),
@@ -61,9 +61,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
           if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
           if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
 
-          if (this.#shouldRefreshToken(req.urlWithParams)) {
-            this.authService.refreshToken().pipe(take(1)).subscribe();
-          }
+          this.authService.refreshToken().pipe(take(1)).subscribe();
 
           return throwError(() => error);
         })

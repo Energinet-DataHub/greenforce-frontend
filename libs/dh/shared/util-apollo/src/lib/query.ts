@@ -27,6 +27,7 @@ import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
   BehaviorSubject,
   Observable,
+  Subject,
   catchError,
   filter,
   firstValueFrom,
@@ -37,6 +38,7 @@ import {
   startWith,
   switchMap,
   take,
+  takeUntil,
   withLatestFrom,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -70,6 +72,9 @@ export function query<TResult, TVariables extends OperationVariables>(
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
 
+  // Make it possible to reset query and subscriptions to a pending state
+  const reset$ = new Subject<void>();
+
   // The `refetch` function on Apollo's `QueryRef` does not properly handle backpressure by
   // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
@@ -88,7 +93,8 @@ export function query<TResult, TVariables extends OperationVariables>(
         skipWhile((data) => !data), // Wait until data is available
         map(() => ref), // Then emit the ref
         take(1), // And complete the observable
-        startWith(null) // Clear the ref immediately in case of refetch (to prevent stale ref)
+        startWith(null), // Clear the ref immediately in case of refetch (to prevent stale ref)
+        takeUntil(reset$) // Stop subscription if the query is reset
       )
     ),
     shareReplay(1), // Make sure the ref is available to late subscribers (in `subscribeToMore`)
@@ -97,8 +103,8 @@ export function query<TResult, TVariables extends OperationVariables>(
   );
 
   const result$ = ref$.pipe(
-    // The inner observable will be recreated each time the `variables$` emits
-    switchMap((ref) => ref.valueChanges),
+    // The inner observable will be recreated each time the `options$` emits
+    switchMap((ref) => ref.valueChanges.pipe(takeUntil(reset$))),
     catchError((error: ApolloError) => fromApolloError<TResult>(error))
   );
 
@@ -129,6 +135,13 @@ export function query<TResult, TVariables extends OperationVariables>(
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
+    reset: () => {
+      reset$.next();
+      data.set(undefined);
+      error.set(undefined);
+      loading.set(false);
+      networkStatus.set(NetworkStatus.ready);
+    },
     setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
       options$.next({ ...options$.value, skip: false, ...options });
@@ -155,7 +168,8 @@ export function query<TResult, TVariables extends OperationVariables>(
           map(({ data }) => data),
           exists(), // The data should generally be available, but types says otherwise
           withLatestFrom(refReplay$), // Ensure the ref (and cache) is ready,
-          takeUntilDestroyed(destroyRef) // Stop the subscription when the component is destroyed
+          takeUntilDestroyed(destroyRef), // Stop the subscription when the component is destroyed
+          takeUntil(reset$) // Or when resetting the query
         )
         .subscribe({
           next([data, ref]) {
