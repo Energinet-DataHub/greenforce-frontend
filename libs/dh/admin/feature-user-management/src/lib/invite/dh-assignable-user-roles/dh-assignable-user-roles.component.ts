@@ -23,8 +23,10 @@ import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { takeUntil } from 'rxjs';
 
-import { DhAdminAssignableUserRolesStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  DhAdminAssignableUserRolesStore,
+  UserRoleItem,
+} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -55,12 +57,11 @@ export class DhAssignableUserRolesComponent implements OnInit {
 
   readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
   readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
-  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> =
-    new WattTableDataSource<MarketParticipantUserRoleDto>();
+  readonly dataSource = new WattTableDataSource<UserRoleItem>();
 
-  @Output() readonly selectedUserRoles = new EventEmitter<MarketParticipantUserRoleDto[]>();
+  @Output() readonly selectedUserRoles = new EventEmitter<UserRoleItem[]>();
 
-  columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
+  columns: WattTableColumnDef<UserRoleItem> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
@@ -71,7 +72,7 @@ export class DhAssignableUserRolesComponent implements OnInit {
       .subscribe((userRoles) => (this.dataSource.data = userRoles));
   }
 
-  selectionChanged(userRoles: MarketParticipantUserRoleDto[]) {
+  selectionChanged(userRoles: UserRoleItem[]) {
     this.selectedUserRoles.emit(userRoles);
   }
 }
