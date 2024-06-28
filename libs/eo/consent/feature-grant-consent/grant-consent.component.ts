@@ -284,8 +284,6 @@ export class EoGrantConsentModalComponent implements OnInit {
       // Compare hostnames
       return redirectUrlObj.hostname === allowedRedirectUrlObj.hostname;
     } catch (error) {
-      // Handle parsing error (e.g., invalid URL)
-      console.error("Invalid URL:", error);
       return false;
     }
   }
