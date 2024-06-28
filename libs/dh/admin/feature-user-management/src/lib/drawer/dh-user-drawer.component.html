@@ -17,16 +17,16 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
-      @if (selectedUser) {
-        <dh-user-status [status]="selectedUser.status" />
+      @if (selectedUser()) {
+        <dh-user-status [status]="selectedUser()?.status!" />
       }
     </watt-drawer-topbar>
     <watt-drawer-heading>
-      <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
+      <h2>{{ selectedUser()?.firstName + " " + selectedUser()?.lastName }}</h2>
     </watt-drawer-heading>
 
     <watt-drawer-actions *dhPermissionRequired="['users:manage']">
-      @if (selectedUser?.status !== UserStatus.Inactive) {
+      @if (selectedUser()?.status !== UserStatus.Inactive) {
         <watt-button
           variant="secondary"
           (click)="requestDeactivateUser()"
@@ -35,7 +35,7 @@ limitations under the License.
         >
       }
 
-      @if (selectedUser?.status === UserStatus.Inactive) {
+      @if (selectedUser()?.status === UserStatus.Inactive) {
         <watt-button
           *dhPermissionRequired="['users:reactivate']"
           variant="secondary"
@@ -46,8 +46,8 @@ limitations under the License.
       }
 
       @if (
-        selectedUser?.status === UserStatus.Invited ||
-        selectedUser?.status === UserStatus.InviteExpired
+        selectedUser()?.status === UserStatus.Invited ||
+        selectedUser()?.status === UserStatus.InviteExpired
       ) {
         <watt-button
           variant="secondary"
@@ -68,15 +68,15 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    @if (drawer.isOpen && selectedUser) {
+    @if (drawer.isOpen && selectedUser()) {
       <watt-drawer-content>
-        <dh-drawer-tabs [user]="selectedUser" />
+        <dh-drawer-tabs [user]="selectedUser()!" />
       </watt-drawer-content>
     }
   </watt-drawer>
 
   @if (isEditUserModalVisible) {
-    <dh-edit-user-modal [user]="selectedUser" (closed)="modalOnClose()" />
+    <dh-edit-user-modal [user]="selectedUser()!" (closed)="modalOnClose()" />
   }
 
   <watt-modal
@@ -89,9 +89,9 @@ limitations under the License.
     <p>
       {{
         t("deactivateConfirmation.body", {
-          first: selectedUser?.firstName,
-          last: selectedUser?.lastName,
-          email: selectedUser?.email
+          first: selectedUser()?.firstName,
+          last: selectedUser()?.lastName,
+          email: selectedUser()?.email
         })
       }}
     </p>
@@ -122,9 +122,9 @@ limitations under the License.
     <p>
       {{
         t("reactivateConfirmation.body", {
-          first: selectedUser?.firstName,
-          last: selectedUser?.lastName,
-          email: selectedUser?.email
+          first: selectedUser()?.firstName,
+          last: selectedUser()?.lastName,
+          email: selectedUser()?.email
         })
       }}
     </p>

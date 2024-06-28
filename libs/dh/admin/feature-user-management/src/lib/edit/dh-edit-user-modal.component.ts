@@ -32,12 +32,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
+import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
-import {
-  UpdateUserRoles,
-  DhAdminEditUserStore,
-  UserOverviewItem,
-} from '@energinet-datahub/dh/admin/data-access-api';
+
+import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -105,7 +103,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
   @Output() closed = new EventEmitter<void>();
-  @Input() user: UserOverviewItem | null = null;
+  @Input() user: DhUser | null = null;
 
   isSaving$ = this.editUserStore.isSaving$;
 

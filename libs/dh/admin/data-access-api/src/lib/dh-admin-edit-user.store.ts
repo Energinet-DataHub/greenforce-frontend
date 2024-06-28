@@ -15,20 +15,19 @@
  * limitations under the License.
  */
 import { Injectable, inject } from '@angular/core';
-import { Observable, exhaustMap, forkJoin, tap } from 'rxjs';
+import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpStatusCode } from '@angular/common/http';
 
-import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhAdminUserRolesStore } from './dh-admin-user-roles.store';
 import { Apollo } from 'apollo-angular';
 import {
+  GetUserByIdDocument,
   UpdateActorUserRolesInput,
   UpdateUserAndRolesDocument,
-  UserOverviewItemDto,
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -47,7 +46,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
 
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
-  constructor(private marketParticipantUserHttpClient: MarketParticipantUserHttp) {
+  constructor() {
     super(initialState);
   }
 
@@ -80,7 +79,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
             return this.apollo
               .mutate({
                 mutation: UpdateUserAndRolesDocument,
-                refetchQueries: [UserOverviewSearchDocument],
+                refetchQueries: [UserOverviewSearchDocument, GetUserByIdDocument],
                 variables: {
                   updateUserInput: {
                     userId,
@@ -105,7 +104,6 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
                       response.data?.updateUserRoleAssignment?.success &&
                       response.data?.updateUserRoleAssignment.errors === null
                     ) {
-                      console.log('User updated successfully');
                       this.setSaving(SavingState.SAVED);
                       onSuccessFn();
                     } else if (response.data?.updateUserIdentity?.errors) {
