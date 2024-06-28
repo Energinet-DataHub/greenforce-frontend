@@ -22,10 +22,9 @@ import { tapResponse } from '@ngrx/operators';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   MarketParticipantUserRoleHttp,
-  MarketParticipantUserRoleAssignmentHttp,
-  MarketParticipantUpdateUserRoleAssignmentsDto,
   MarketParticipantActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
+import { UpdateUserRoleAssignmentsDtoInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
 interface DhUserManagementState {
   readonly userRolesPrActor: MarketParticipantActorViewDto[];
@@ -40,7 +39,7 @@ const initialState: DhUserManagementState = {
 export type UpdateUserRolesWithActorId = {
   id: string;
   atLeastOneRoleIsAssigned: boolean;
-  userRolesToUpdate: MarketParticipantUpdateUserRoleAssignmentsDto;
+  userRolesToUpdate: UpdateUserRoleAssignmentsDtoInput;
 };
 
 export type UpdateUserRoles = {
@@ -55,10 +54,7 @@ export class DhAdminUserRolesStore extends ComponentStore<DhUserManagementState>
 
   userRolesPrActor$ = this.select((state) => state.userRolesPrActor);
 
-  constructor(
-    private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp,
-    private marketParticipantUserRoleAssignmentHttp: MarketParticipantUserRoleAssignmentHttp
-  ) {
+  constructor(private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
 
