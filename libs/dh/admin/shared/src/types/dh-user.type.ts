@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { GetUserByIdDocument } from '../../../../shared/domain/src/lib/generated/graphql';
 
 export type DhUser = ResultOf<typeof GetUserByIdDocument>['userById'];
