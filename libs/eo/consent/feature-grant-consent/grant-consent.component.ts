@@ -183,7 +183,9 @@ export class EoGrantConsentModalComponent implements OnInit {
   private transloco = inject(TranslocoService);
 
   @Input() thirdPartyClientId!: string;
-  @Output() declined = new EventEmitter<void>();
+  @Input() redirectUrl!: string;
+
+  @Output() closed = new EventEmitter<void>();
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   protected translations = translations;
@@ -191,7 +193,7 @@ export class EoGrantConsentModalComponent implements OnInit {
   protected form!: FormGroup;
   protected isLoading = signal<boolean>(false);
   protected organizationName = signal<string>('');
-  protected redirectUrl = signal<string>('');
+  protected allowedRedirectUrl = signal<string>('');
   public opened = false;
 
   ngOnInit(): void {
@@ -221,7 +223,7 @@ export class EoGrantConsentModalComponent implements OnInit {
     this.isLoading.set(true);
     this.consentService.getClient(this.thirdPartyClientId).subscribe((client: EoConsentClient) => {
       this.organizationName.set(client.name);
-      this.redirectUrl.set(client.redirectUrl);
+      this.allowedRedirectUrl.set(client.redirectUrl);
       this.isLoading.set(false);
     });
   }
@@ -238,8 +240,10 @@ export class EoGrantConsentModalComponent implements OnInit {
         });
 
         // Redirect to the third party client
-        if (this.redirectUrl()) {
-          window.location.assign(this.redirectUrl());
+        if (this.redirectUrl && this.isRedirectAllowed(this.redirectUrl, this.allowedRedirectUrl())) {
+          window.location.assign(this.redirectUrl);
+        } else {
+          this.close(true);
         }
       },
       error: (error: HttpErrorResponse) => {
@@ -254,16 +258,35 @@ export class EoGrantConsentModalComponent implements OnInit {
   }
 
   decline() {
-    this.modal.close(false);
-    this.declined.emit();
+    this.close(false);
 
     this.toastService.open({
       message: this.transloco.translate(this.translations.grantConsent.declined),
     });
+  }
+
+  close(result: boolean) {
+    this.modal.close(result);
 
     // We wait for setting opened, to the modal is actually closed to avoid any flickerness
     this.modal.closed.pipe(first()).subscribe(() => {
       this.opened = false;
+      this.closed.emit();
     });
+  }
+
+  private isRedirectAllowed(redirectURL: string, allowedRedirect: string) {
+    try {
+      // Parse both URLs
+      const redirectUrlObj = new URL(redirectURL);
+      const allowedRedirectUrlObj = new URL(allowedRedirect);
+
+      // Compare hostnames
+      return redirectUrlObj.hostname === allowedRedirectUrlObj.hostname;
+    } catch (error) {
+      // Handle parsing error (e.g., invalid URL)
+      console.error("Invalid URL:", error);
+      return false;
+    }
   }
 }

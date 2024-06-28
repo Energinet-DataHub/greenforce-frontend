@@ -24,6 +24,7 @@ import { AuthService } from './auth.service';
 
 interface State {
   thirdPartyClientId: string;
+  redirectUrl: string;
 }
 
 @Component({
@@ -55,8 +56,10 @@ export class EoSigninCallbackComponent implements OnInit {
 
         this.oldAuthService.handleToken(user.id_token);
         const thirdPartyClientId = (user.state as State).thirdPartyClientId;
+        const redirectUrl = (user.state as State).redirectUrl;
+
         this.router.navigate(['/consent'], {
-          queryParams: { 'third-party-client-id': thirdPartyClientId },
+          queryParams: { 'third-party-client-id': thirdPartyClientId, 'redirect-url': redirectUrl },
         });
       })
       .catch((err) => {

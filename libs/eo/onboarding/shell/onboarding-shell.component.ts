@@ -43,9 +43,11 @@ export class EoOnboardingShellComponent implements OnInit {
 
   ngOnInit() {
     const thirdPartyClientId = this.route.snapshot.queryParamMap.get('client-id');
-    if (!thirdPartyClientId) return;
+    const redirectUrl = this.route.snapshot.queryParamMap.get('redirect-url');
 
-    this.auth.login(thirdPartyClientId).catch((err) => {
+    if (!thirdPartyClientId || !redirectUrl) return;
+
+    this.auth.login(thirdPartyClientId, redirectUrl).catch((err) => {
       console.error('Error logging in:', err);
     });
   }
