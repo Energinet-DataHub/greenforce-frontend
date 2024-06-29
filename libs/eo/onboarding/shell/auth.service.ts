@@ -64,11 +64,8 @@ export class AuthService {
     return this.userManager?.getUser() ?? Promise.resolve(null);
   }
 
-  login(thirdPartyClientId: string, redirectUrl: string): Promise<void> {
-    return (
-      this.userManager?.signinRedirect({ state: { thirdPartyClientId, redirectUrl } }) ??
-      Promise.resolve()
-    );
+  login(thirdPartyClientId: string | null): Promise<void> {
+    return this.userManager?.signinRedirect({ state: { thirdPartyClientId } }) ?? Promise.resolve();
   }
 
   renewToken(): Promise<User | null> {

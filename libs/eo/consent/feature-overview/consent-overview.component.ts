@@ -84,18 +84,14 @@ const selector = 'eo-consent-overview';
     }
 
     <eo-grant-consent-modal
-      (closed)="onCloseGrantConsentDialog()"
+      (declined)="onDeclineConsent()"
       [thirdPartyClientId]="thirdPartyClientId"
-      [redirectUrl]="redirectUrl"
     />
   `,
 })
 export class EoConsentOverviewComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('third-party-client-id') thirdPartyClientId!: string;
-
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('redirect-url') redirectUrl!: string;
 
   private authStore = inject(EoAuthStore);
   private consentService = inject(EoConsentService);
@@ -135,7 +131,7 @@ export class EoConsentOverviewComponent implements OnInit {
       });
   }
 
-  onCloseGrantConsentDialog(): void {
+  onDeclineConsent(): void {
     this.router.navigate([], { queryParams: {} });
   }
 
