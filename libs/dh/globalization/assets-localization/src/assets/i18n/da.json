@@ -210,18 +210,7 @@
         "missing_required_value": "Feltet '{{ param }}' kræver en værdi, men denne er ikke blevet angivet.",
         "invalid_gln": "'{{ value.value }}' er et ugyldigt GLN/EIC",
         "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
-        "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'.",
-        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
-        "args": {
-          "param": {
-            "Invitation": {
-              "InvitationUserDetails": {
-                "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
-                "LastName": "{{ admin.userManagement.inviteUser.lastname }}"
-              }
-            }
-          }
-        }
+        "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'."
       },
       "validation": {
         "organization": {
@@ -1159,7 +1148,7 @@
           "description": "Beskrivelse"
         },
         "serverErrors": {
-          "generalError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen"
+          "invalidPhoneNumber": "Telefonnr. er ugyldigt"
         },
         "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },

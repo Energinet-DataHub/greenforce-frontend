@@ -210,18 +210,7 @@
         "missing_required_value": "Field '{{ param }}' requires a value, but a value was not provided.",
         "invalid_gln": "'{{ value.value }}' is an invalid GLN/EIC",
         "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
-        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'",
-        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
-        "args": {
-          "param": {
-            "Invitation": {
-              "InvitationUserDetails": {
-                "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
-                "LastName": "{{ admin.userManagement.inviteUser.lastname }}"
-              }
-            }
-          }
-        }
+        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'"
       },
       "validation": {
         "organization": {
@@ -1160,7 +1149,7 @@
           "description": "Description"
         },
         "serverErrors": {
-          "generalError": "Something went wrong. The user could not be invited. Please try again"
+          "invalidPhoneNumber": "Invalid phone no."
         },
         "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub, because the user is not part of your organisation"
       },

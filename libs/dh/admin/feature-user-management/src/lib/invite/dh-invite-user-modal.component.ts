@@ -44,6 +44,7 @@ import {
   DhAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
   DhAdminInviteUserStore,
+  ErrorDescriptor,
   UserRoleItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -55,10 +56,6 @@ import {
   GetKnownEmailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import {
-  ApiErrorCollection,
-  readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 
@@ -272,15 +269,20 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     this.closeModal(true);
   }
 
-  private onInviteError(apiErrorCollection: ApiErrorCollection) {
-    const message =
-      apiErrorCollection.apiErrors.length > 0
-        ? readApiErrorResponse([apiErrorCollection])
-        : this.translocoService.translate(
-            'admin.userManagement.inviteUser.serverErrors.generalError'
-          );
-
-    this.toastService.open({ type: 'danger', message, duration: 60_000 });
+  private onInviteError(e: ErrorDescriptor) {
+    this.toastService.open({
+      type: 'danger',
+      message: e.details
+        ? e.details
+            .map((x) =>
+              this.translocoService.translate(
+                `admin.userManagement.inviteUser.serverErrors.${x.code}`
+              )
+            )
+            .join('\n')
+        : this.translocoService.translate(`admin.userManagement.inviteUser.serverErrors.${e.code}`),
+      duration: 60_000,
+    });
   }
 
   private isBaseInfoValid() {
