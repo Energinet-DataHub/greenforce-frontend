@@ -192,7 +192,7 @@ export class EoGrantConsentModalComponent implements OnInit {
   protected isLoading = signal<boolean>(false);
   protected organizationName = signal<string>('');
   protected redirectUrl = signal<string>('');
-  public opened = false;
+  protected opened = false;
 
   ngOnInit(): void {
     this.setForm();

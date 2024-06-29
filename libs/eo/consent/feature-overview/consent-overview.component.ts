@@ -125,7 +125,7 @@ export class EoConsentOverviewComponent implements OnInit {
         this.setColumns(userInfo.org_name);
         this.cd.detectChanges();
 
-        if (this.thirdPartyClientId && !this.grantConsentModal.opened) {
+        if (this.thirdPartyClientId) {
           this.grantConsentModal.open();
         }
       });
