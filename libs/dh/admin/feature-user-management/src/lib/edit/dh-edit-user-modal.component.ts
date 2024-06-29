@@ -38,10 +38,6 @@ import {
   DhAdminEditUserStore,
   UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  ApiErrorCollection,
-  readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -201,21 +197,12 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       this.closeModal(true);
     };
 
-    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection) => {
+    const onErrorFn = (statusCode: HttpStatusCode) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
         this.toastService.open({
           type: 'danger',
           message: this.transloco.translate('admin.userManagement.editUser.saveError'),
         });
-      }
-
-      if (statusCode === HttpStatusCode.BadRequest) {
-        const message =
-          apiErrorCollection.apiErrors.length > 0
-            ? readApiErrorResponse([apiErrorCollection])
-            : this.transloco.translate('admin.userManagement.editUser.saveError');
-
-        this.toastService.open({ type: 'danger', message, duration: 60_000 });
       }
     };
 

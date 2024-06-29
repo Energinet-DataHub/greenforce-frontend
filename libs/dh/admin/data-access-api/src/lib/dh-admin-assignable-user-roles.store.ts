@@ -14,21 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
-import { Apollo } from 'apollo-angular';
-import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type UserRoleItem = ResultOf<typeof GetUserRolesByActorIdDocument>['userRolesByActorId'][0];
+import {
+  MarketParticipantUserRoleHttp,
+  MarketParticipantUserRoleDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface State {
   readonly requestState: LoadingState | ErrorState;
-  readonly assignableUserRoles: UserRoleItem[];
+  readonly assignableUserRoles: MarketParticipantUserRoleDto[];
 }
 
 const initialState: State = {
@@ -38,15 +37,13 @@ const initialState: State = {
 
 @Injectable()
 export class DhAdminAssignableUserRolesStore extends ComponentStore<State> {
-  private readonly apollo = inject(Apollo);
-
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = new Subject<void>();
 
   assignableUserRoles$ = this.select((state) => state.assignableUserRoles);
 
-  constructor() {
+  constructor(private marketParticipantUserRoleHttp: MarketParticipantUserRoleHttp) {
     super(initialState);
   }
 
@@ -56,25 +53,27 @@ export class DhAdminAssignableUserRolesStore extends ComponentStore<State> {
         this.resetState();
         this.setLoading(LoadingState.LOADING);
       }),
-      switchMap((actorId) =>
-        this.apollo.query({ query: GetUserRolesByActorIdDocument, variables: { actorId } }).pipe(
-          tapResponse(
-            (response) => {
-              this.setLoading(LoadingState.LOADED);
-              this.updateRoles(response.data.userRolesByActorId);
-            },
-            () => {
-              this.setLoading(ErrorState.GENERAL_ERROR);
-              this.handleError();
-            }
-          )
-        )
-      )
+      switchMap((actorId) => {
+        return this.marketParticipantUserRoleHttp
+          .v1MarketParticipantUserRoleGetAssignableGet(actorId)
+          .pipe(
+            tapResponse(
+              (userRoles) => {
+                this.setLoading(LoadingState.LOADED);
+                this.updateRoles(userRoles);
+              },
+              () => {
+                this.setLoading(ErrorState.GENERAL_ERROR);
+                this.handleError();
+              }
+            )
+          );
+      })
     )
   );
 
   private updateRoles = this.updater(
-    (state: State, assignableUserRoles: UserRoleItem[]): State => ({
+    (state: State, assignableUserRoles: MarketParticipantUserRoleDto[]): State => ({
       ...state,
       assignableUserRoles,
     })

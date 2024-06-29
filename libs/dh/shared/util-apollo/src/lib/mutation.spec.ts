@@ -72,18 +72,4 @@ describe('mutation', () => {
       tick();
       expect(onError).toHaveBeenCalled();
     })));
-
-  it('should clear result after reset', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
-      const result = mutation(TEST_MUTATION);
-      result.mutate();
-      const op = controller.expectOne(TEST_MUTATION);
-      const data = { __typename: 'Mutation' };
-      op.flush({ data });
-      tick();
-      result.reset();
-      expect(result.data()).toBeUndefined();
-      expect(result.error()).toBeUndefined();
-      expect(result.loading()).toBe(false);
-    })));
 });

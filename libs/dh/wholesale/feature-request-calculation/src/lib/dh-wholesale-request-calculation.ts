@@ -296,10 +296,7 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
-    if (
-      selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
-    )
+    if (selectedEicFunction === EicFunction.BalanceResponsibleParty)
       return wholesaleCalculationTypes;
 
     if (selectedEicFunction === EicFunction.SystemOperator)

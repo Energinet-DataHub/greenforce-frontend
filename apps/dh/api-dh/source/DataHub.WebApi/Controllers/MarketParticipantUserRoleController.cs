@@ -51,6 +51,14 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
     }
 
     [HttpGet]
+    [Route("GetAssignable")]
+    [Obsolete("Deprecated. Use 'graphql'")]
+    public Task<ActionResult<ICollection<UserRoleDto>>> GetAssignableAsync(Guid actorId)
+    {
+        return HandleExceptionAsync(() => _client.ActorsRolesAsync(actorId));
+    }
+
+    [HttpGet]
     [Route("GetUserRoleView")]
     public async Task<ActionResult<IEnumerable<ActorViewDto>>> GetUserRoleViewAsync(Guid userId)
     {
