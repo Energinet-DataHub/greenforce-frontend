@@ -32,9 +32,6 @@ import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angula
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { distinctUntilChanged, map, of, take } from 'rxjs';
-import { Apollo } from 'apollo-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -45,19 +42,20 @@ import {
   DhUserActorsDataAccessApiStore,
   DhAdminInviteUserStore,
   ErrorDescriptor,
-  UserRoleItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
+import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
+import { Apollo } from 'apollo-angular';
 import {
   GetAssociatedActorsDocument,
   GetKnownEmailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-
-import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -247,7 +245,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     });
   }
 
-  onSelectedUserRoles(userRoles: UserRoleItem[]) {
+  onSelectedUserRoles(userRoles: MarketParticipantUserRoleDto[]) {
     this.userRoles.controls.selectedUserRoles.markAsTouched();
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
