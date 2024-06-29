@@ -120,18 +120,4 @@ describe('query', () => {
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
     })));
-
-  it('should clear result after reset', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
-      const result = query(TEST_QUERY);
-      const op = controller.expectOne(TEST_QUERY);
-      const data = { __type: { name: 'Query' } };
-      op.flush({ data });
-      tick();
-      result.reset();
-      expect(result.data()).toBeUndefined();
-      expect(result.error()).toBeUndefined();
-      expect(result.loading()).toBe(false);
-      expect(result.networkStatus()).toBe(NetworkStatus.ready);
-    })));
 });

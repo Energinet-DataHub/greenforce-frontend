@@ -45,18 +45,13 @@ export function mutation<TResult, TVariables>(
   // Signals holding the result values
   const data = signal<TResult | undefined>(undefined);
   const error = signal<ApolloError | undefined>(undefined);
-  const loading = signal(false);
+  const loading = signal(true);
 
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
-    reset: () => {
-      data.set(undefined);
-      error.set(undefined);
-      loading.set(false);
-    },
     mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
       const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
