@@ -75,7 +75,7 @@ export class EoLoginComponent {
         }
 
         if (scope.includes('dashboard')) {
-          redirectionPath && redirectionPath !== '/'
+          redirectionPath && redirectionPath !== '/' && !redirectionPath.includes('login')
             ? this.router.navigateByUrl(redirectionPath)
             : this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
           return;

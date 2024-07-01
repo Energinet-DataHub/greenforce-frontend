@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient, HttpErrorResponse, HttpStatusCode, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpRequest, HttpStatusCode, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, throwError } from 'rxjs';
 
 import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -69,7 +69,7 @@ describe(EoAuthorizationInterceptor, () => {
   const defaultRoutePath = 'default';
   let http: HttpClient;
   let httpController: HttpTestingController;
-  const testEndpoint = '/api/test';
+  const testEndpoint = 'https://demo.energytrackandtrace.dk/api';
 
   describe('Given the user has insufficient permissions', () => {
     function respondWith403Forbidden(errorMessage: string): void {
