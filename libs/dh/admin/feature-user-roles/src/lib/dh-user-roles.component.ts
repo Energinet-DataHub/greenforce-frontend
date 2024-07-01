@@ -39,19 +39,19 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import {
-  FilterUserRolesPipe,
-  UserRolesIntoTablePipe,
-} from './dh-filter-user-roles-into-table.pipe';
-
+import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
 
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
-  UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
+
+import {
+  FilterUserRolesPipe,
+  UserRolesIntoTablePipe,
+} from './dh-filter-user-roles-into-table.pipe';
 
 @Component({
   selector: 'dh-user-roles',
@@ -83,7 +83,7 @@ import {
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
-  @Input() user: UserOverviewItem | null = null;
+  @Input() user: DhUser | null = null;
   @Input() selectMode = false;
   @Input() expanded = true;
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();

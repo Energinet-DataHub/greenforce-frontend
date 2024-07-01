@@ -19,7 +19,8 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
-import { UserOverviewItem } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUser } from '@energinet-datahub/dh/admin/shared';
+
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 
 import { DhUserMasterDataComponent } from './content/dh-user-master-data.component';
@@ -41,5 +42,5 @@ import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component
   ],
 })
 export class DhTabsComponent {
-  user = input.required<UserOverviewItem>();
+  user = input.required<DhUser>();
 }

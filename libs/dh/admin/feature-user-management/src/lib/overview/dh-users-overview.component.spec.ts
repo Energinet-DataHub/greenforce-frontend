@@ -14,30 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormGroupDirective } from '@angular/forms';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ApolloTestingModule } from 'apollo-angular/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
+import { of } from 'rxjs';
+import { MockProvider } from 'ng-mocks';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/angular';
-import { MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
 
-import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+
 import {
   DhAdminUserManagementDataAccessApiStore,
   DhUserManagementFilters,
+  UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersOverviewComponent, debounceTimeValue } from './dh-users-overview.component';
-import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
-import { UserOverviewItemDto, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-const users: UserOverviewItemDto[] = [
+const users: UserOverviewItem[] = [
   {
     __typename: 'UserOverviewItemDto',
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
@@ -46,12 +50,11 @@ const users: UserOverviewItemDto[] = [
     lastName: 'Test User Last',
     phoneNumber: '11111111',
     status: UserStatus.Active,
-    createdDate: new Date(),
   },
 ];
 
 describe(DhUsersOverviewComponent, () => {
-  async function setup(mockUsers: UserOverviewItemDto[] = []) {
+  async function setup(mockUsers: UserOverviewItem[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
@@ -72,7 +75,7 @@ describe(DhUsersOverviewComponent, () => {
     );
 
     const { fixture } = await render(DhUsersOverviewComponent, {
-      imports: [getTranslocoTestingModule(), DhApiModule.forRoot()],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), ApolloTestingModule],
       providers: [FormGroupDirective, MsalServiceMock, provideHttpClient(withInterceptorsFromDi())],
       componentProviders: [storeMock, toastServiceMock],
     });

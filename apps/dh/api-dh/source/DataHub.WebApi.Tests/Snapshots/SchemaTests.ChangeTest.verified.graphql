@@ -189,6 +189,17 @@ type GetUserProfileResponse {
   phoneNumber: String!
 }
 
+type GetUserResponse {
+  id: UUID!
+  name: String!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  createdDate: DateTime!
+}
+
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
@@ -292,6 +303,8 @@ type Mutation {
   updatePermission(input: UpdatePermissionDtoInput!): Permission!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
+  updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
+  updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
 }
 
 type Organization {
@@ -376,6 +389,7 @@ type Query {
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userProfile: GetUserProfileResponse!
+  userById(id: UUID!): GetUserResponse!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
@@ -433,9 +447,19 @@ type UpdateOrganizationPayload {
   errors: [UpdateOrganizationError!]
 }
 
+type UpdateUserIdentityPayload {
+  boolean: Boolean
+  errors: [UpdateUserIdentityError!]
+}
+
 type UpdateUserProfilePayload {
   boolean: Boolean
   errors: [UpdateUserProfileError!]
+}
+
+type UpdateUserRoleAssignmentPayload {
+  boolean: Boolean
+  errors: [UpdateUserRoleAssignmentError!]
 }
 
 type UserAuditedChangeAuditLogDto {
@@ -496,7 +520,11 @@ union UpdateActorError = ApiError
 
 union UpdateOrganizationError = ApiError
 
+union UpdateUserIdentityError = ApiError
+
 union UpdateUserProfileError = ApiError
+
+union UpdateUserRoleAssignmentError = ApiError
 
 input ActorNameDtoInput {
   value: String!
@@ -624,6 +652,11 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
+input UpdateActorUserRolesInput {
+  actorId: UUID!
+  assignments: UpdateUserRoleAssignmentsDtoInput!
+}
+
 input UpdateOrganizationInput {
   orgId: UUID!
   domain: String!
@@ -634,8 +667,29 @@ input UpdatePermissionDtoInput {
   description: String!
 }
 
+input UpdateUserIdentityInput {
+  userId: UUID!
+  userIdentityUpdateDto: UserIdentityUpdateDtoInput!
+}
+
 input UpdateUserProfileInput {
   userProfileUpdateDto: UserProfileUpdateDtoInput!
+}
+
+input UpdateUserRoleAssignmentInput {
+  userId: UUID!
+  input: [UpdateActorUserRolesInput!]!
+}
+
+input UpdateUserRoleAssignmentsDtoInput {
+  added: [UUID!]!
+  removed: [UUID!]!
+}
+
+input UserIdentityUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 input UserProfileUpdateDtoInput {
