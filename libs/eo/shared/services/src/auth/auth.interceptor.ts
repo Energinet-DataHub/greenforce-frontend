@@ -14,91 +14,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse,
   HttpStatusCode,
 } from '@angular/common/http';
-import { ClassProvider, Injectable } from '@angular/core';
-import { catchError, concatMap, filter, map, take, tap, throwError } from 'rxjs';
+import { ClassProvider, Injectable, inject } from '@angular/core';
+import { catchError, tap, throwError } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 import { EoAuthService } from './auth.service';
 import { EoAuthStore } from './auth.store';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-
-// These URLS are using the new auth flow and should not trigger a token refresh
-const ignoreTokenRefreshUrls = ['/api/authorization/consent/grant'];
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
-  TokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
+  private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
+  private authService: EoAuthService = inject(EoAuthService);
+  private authStore: EoAuthStore = inject(EoAuthStore);
+  private toastService: WattToastService = inject(WattToastService);
+  private transloco: TranslocoService = inject(TranslocoService);
 
-  constructor(
-    private authService: EoAuthService,
-    private authStore: EoAuthStore,
-    private toastService: WattToastService,
-    private transloco: TranslocoService
-  ) {}
+  private tokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
+  private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  intercept(req: HttpRequest<unknown>, nextHandler: HttpHandler) {
-    const tokenRefreshTrigger = this.TokenRefreshCalls.includes(req.method);
+  intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
+    // Only requests to the API should be handled by this interceptor
+    if (!req.url.includes(this.apiBase)) return handler.handle(req);
+
     const authorizedRequest = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+      headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
+    return handler.handle(authorizedRequest).pipe(
+      tap(() => {
+        if (this.shouldRefreshToken(req)) {
+          this.authService.refreshToken().subscribe();
+        }
+      }),
+      catchError((error) => {
+        if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
+        if (this.is401UnauthorizedResponse(error)) {
+          this.authService.logout();
+        }
 
-    if (tokenRefreshTrigger && this.#shouldRefreshToken(req.urlWithParams)) {
-      return nextHandler.handle(authorizedRequest).pipe(
-        filter((event) => event instanceof HttpResponse),
-        concatMap((httpEvent) => this.authService.refreshToken().pipe(map(() => httpEvent))),
-        catchError((error) => {
-          if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
-          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
-
-          this.authService.refreshToken().pipe(take(1)).subscribe();
-
-          return throwError(() => error);
-        })
-      );
-    }
-
-    return nextHandler.handle(authorizedRequest).pipe(
-      tap({
-        error: (error) => {
-          if (this.#is403ForbiddenResponse(error)) this.#displayPermissionError();
-          if (this.#is401UnauthorizedResponse(error)) this.authService.logout();
-
-          if (tokenRefreshTrigger && this.#shouldRefreshToken(req.urlWithParams)) {
-            this.authService.refreshToken();
-          }
-        },
+        return throwError(() => error);
       })
     );
   }
 
-  #shouldRefreshToken(url: string): boolean {
-    const path = new URL(url).pathname;
-    return !ignoreTokenRefreshUrls.includes(path);
+  private shouldRefreshToken(req: HttpRequest<unknown>): boolean {
+    const path = new URL(req.url, window.location.origin).pathname;
+    return (
+      this.tokenRefreshCalls.includes(req.method) && !this.ignoreTokenRefreshUrls.includes(path)
+    );
   }
 
-  #displayPermissionError() {
+  private displayPermissionError() {
     this.toastService.open({
       message: this.transloco.translate('You do not have permission to perform this action.'),
       type: 'danger',
     });
   }
 
-  #is403ForbiddenResponse(error: unknown): boolean {
+  private is403ForbiddenResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
   }
 
-  #is401UnauthorizedResponse(error: unknown): boolean {
+  private is401UnauthorizedResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
   }
 }
