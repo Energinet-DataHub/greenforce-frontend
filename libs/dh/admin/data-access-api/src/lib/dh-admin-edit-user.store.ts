@@ -22,6 +22,8 @@ import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { HttpStatusCode } from '@angular/common/http';
 
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import {
@@ -40,6 +42,10 @@ interface State {
 const initialState: State = {
   requestState: SavingState.INIT,
 };
+
+type MutationResponseType =
+  | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserIdentity']
+  | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserRoleAssignment'];
 
 @Injectable()
 export class DhAdminEditUserStore extends ComponentStore<State> {
@@ -99,27 +105,12 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
               .pipe(
                 tapResponse(
                   (response) => {
-                    if (
-                      response.data?.updateUserIdentity?.success &&
-                      response.data?.updateUserIdentity.errors === null &&
-                      response.data?.updateUserRoleAssignment?.success &&
-                      response.data?.updateUserRoleAssignment.errors === null
-                    ) {
-                      this.setSaving(SavingState.SAVED);
-                      onSuccessFn();
-                    } else if (response.data?.updateUserIdentity?.errors) {
-                      this.setSaving(ErrorState.GENERAL_ERROR);
-                      onErrorFn(
-                        response.data?.updateUserIdentity.errors[0].statusCode,
-                        response.data?.updateUserIdentity.errors[0]
-                      );
-                    } else if (response.data?.updateUserRoleAssignment?.errors) {
-                      this.setSaving(ErrorState.GENERAL_ERROR);
-                      onErrorFn(
-                        response.data?.updateUserRoleAssignment.errors[0].statusCode,
-                        response.data?.updateUserRoleAssignment.errors[0]
-                      );
-                    }
+                    this.handleResponse(response.data?.updateUserIdentity, onSuccessFn, onErrorFn);
+                    this.handleResponse(
+                      response.data?.updateUserRoleAssignment,
+                      onSuccessFn,
+                      onErrorFn
+                    );
                   },
                   () => {
                     this.setSaving(ErrorState.GENERAL_ERROR);
@@ -137,4 +128,18 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
       requestState: savingState,
     })
   );
+
+  private handleResponse<T extends MutationResponseType>(
+    res: T | null | undefined,
+    onSuccessFn: () => void,
+    onErrorFn: (statusCode: HttpStatusCode, error: ApiErrorCollection) => void
+  ): void {
+    if (res?.success && res?.errors === null) {
+      this.setSaving(SavingState.SAVED);
+      onSuccessFn();
+    } else if (res?.errors) {
+      this.setSaving(ErrorState.GENERAL_ERROR);
+      onErrorFn(res.errors[0].statusCode, res.errors[0]);
+    }
+  }
 }
