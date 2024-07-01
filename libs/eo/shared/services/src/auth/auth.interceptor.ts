@@ -41,7 +41,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
-    console.log('INTERCEPT - AUTH');
+    console.log('INTERCEPT - AUTH', req);
     if (this.#shouldRefreshToken(req)) {
       console.log('AUTH - refreshToken');
       this.authService.refreshToken().subscribe();
