@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, computed, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   Validators,
   FormControl,
@@ -47,11 +47,14 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { wholesaleCalculationTypes } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  aggregationCalculationTypes,
+  wholesaleCalculationTypes,
+} from '@energinet-datahub/dh/wholesale/domain';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-import { Range } from '@energinet-datahub/dh/shared/domain';
+import { Permission, Range } from '@energinet-datahub/dh/shared/domain';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -127,6 +130,15 @@ export class DhWholesaleRequestCalculationComponent {
   maxDate = new Date();
   minDate = dayjs().startOf('month').subtract(38, 'months').toDate();
 
+  requestAggregatedMeasuredDataView = this.hasPermission('request-aggregated-measured-data:view');
+  requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
+
+  excludeCalculationTypes = computed(() => {
+    const aggregation = this.requestAggregatedMeasuredDataView() ? [] : aggregationCalculationTypes;
+    const wholesale = this.requestWholesaleSettlementView() ? [] : wholesaleCalculationTypes;
+    return [...aggregation, ...wholesale];
+  });
+
   isLoading = false;
   isReady = false;
 
@@ -149,7 +161,9 @@ export class DhWholesaleRequestCalculationComponent {
 
   meteringPointOptions: WattDropdownOptions = [];
   resolutionOptions: WattDropdownOptions = [];
-  calculationTypeOptions: WattDropdownOptions = [];
+  calculationTypeOptions = computed(() =>
+    dhEnumToWattDropdownOptions(CalculationType, 'asc', this.excludeCalculationTypes())
+  );
 
   selectedActorQuery = this._apollo.watchQuery({
     query: GetSelectedActorDocument,
@@ -168,7 +182,7 @@ export class DhWholesaleRequestCalculationComponent {
 
   constructor() {
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
-      next: async (result) => {
+      next: (result) => {
         if (result.loading || result.error) return;
 
         this.isReady = true;
@@ -193,18 +207,10 @@ export class DhWholesaleRequestCalculationComponent {
           this._selectedEicFunction
         );
 
-        const excludeProcessTypes = await this.getExcludedProcessTypes();
-
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
           'asc',
           excludedMeteringpointTypes
-        );
-
-        this.calculationTypeOptions = dhEnumToWattDropdownOptions(
-          CalculationType,
-          null,
-          excludeProcessTypes
         );
 
         this.resolutionOptions = [
@@ -302,29 +308,7 @@ export class DhWholesaleRequestCalculationComponent {
       : [];
   }
 
-  private async getExcludedProcessTypes() {
-    const aggregated = 'aggregated-measured-data';
-    const wholesale = 'wholesale-settlement';
-
-    const permissions = (
-      await lastValueFrom(
-        this._permissionService.hasPermission('request-aggregated-measured-data:view').pipe(
-          map((hasPermission) => ({ [aggregated]: hasPermission })),
-          combineLatestWith(
-            this._permissionService
-              .hasPermission('request-wholesale-settlement:view')
-              .pipe(map((hasPermission) => ({ [wholesale]: hasPermission })))
-          )
-        )
-      )
-    ).reduce((acc, curr) => ({ ...acc, ...curr }), {}) as { [key: string]: boolean };
-
-    if (permissions[aggregated] && permissions[wholesale] === false)
-      return wholesaleCalculationTypes;
-
-    if (permissions[wholesale] && permissions[aggregated] === false)
-      return [CalculationType.Aggregation, CalculationType.BalanceFixing];
-
-    return [];
+  hasPermission(permission: Permission) {
+    return toSignal(this._permissionService.hasPermission(permission));
   }
 }
