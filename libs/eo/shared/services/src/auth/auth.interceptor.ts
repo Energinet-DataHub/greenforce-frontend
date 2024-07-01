@@ -23,7 +23,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable, inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EoAuthService } from './auth.service';
@@ -44,16 +44,17 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     // Only requests to the API should be handled by this interceptor
     if (!req.url.includes(this.apiBase)) return handler.handle(req);
 
-    if (this.shouldRefreshToken(req)) {
-      console.log('AUTH - refreshToken');
-      this.authService.refreshToken().subscribe();
-    }
-
     console.log('ADD AUTH HEADER');
     const authorizedRequest = req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
     return handler.handle(authorizedRequest).pipe(
+      tap(() => {
+        if (this.shouldRefreshToken(req)) {
+          console.log('AUTH - refreshToken');
+          this.authService.refreshToken().subscribe();
+        }
+      }),
       catchError((error) => {
         console.log('AUTH - catchError', error);
         if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
