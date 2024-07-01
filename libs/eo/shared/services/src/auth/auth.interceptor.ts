@@ -42,8 +42,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
     console.log('INTERCEPT - AUTH', req);
-    if(!req.url.includes('/api')) return handler.handle(req);
-
+    if (!req.url.includes('/api')) return handler.handle(req);
 
     if (this.#shouldRefreshToken(req)) {
       console.log('AUTH - refreshToken');
