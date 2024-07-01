@@ -19,6 +19,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhRoleMasterDataComponent } from './content/dh-role-master-data.component';
 import { DhRolePermissionsComponent } from './content/dh-role-permissions.component';
@@ -46,6 +47,8 @@ import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component
     DhRoleMasterDataComponent,
     DhRolePermissionsComponent,
     DhRoleAuditLogsComponent,
+
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhDrawerRoleTabsComponent {
