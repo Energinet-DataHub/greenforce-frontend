@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhRoleStatusComponent } from './dh-role-status.component';
-export { DhUserStatusComponent } from './dh-user-status.component';
-export { DhTabDataGeneralErrorComponent } from './dh-tab-data-general-error.component';
-export { DhPermissionsTableComponent } from './dh-permissions-table.component';
-export { DhUser } from './types/dh-user.type';
+import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+export type DhUser = ResultOf<typeof GetUserByIdDocument>['userById'];

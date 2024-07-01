@@ -38,6 +38,11 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserUserprofileGetAsync();
 
+    public async Task<GetUserResponse> GetUserByIdAsync(
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserAsync(id);
+
     public async Task<bool> EmailExistsAsync(
         string emailAddress,
         [Service] IMarketParticipantClient_V1 client) =>

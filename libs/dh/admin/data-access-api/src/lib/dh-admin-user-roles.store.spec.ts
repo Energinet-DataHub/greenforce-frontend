@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  MarketParticipantUserRoleAssignmentHttp,
   MarketParticipantUserRoleHttp,
   MarketParticipantActorViewDto,
 } from '@energinet-datahub/dh/shared/domain';
@@ -49,11 +48,7 @@ describe('DhAdminUserRolesStore', () => {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
     } as MarketParticipantUserRoleHttp;
 
-    const httpClient1 = {
-      v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut: () => observable.asObservable(),
-    } as MarketParticipantUserRoleAssignmentHttp;
-
-    const store = new DhAdminUserRolesStore(httpClient, httpClient1);
+    const store = new DhAdminUserRolesStore(httpClient);
 
     store.getUserRolesView('1');
     observable.next(userRolesPrActor);
@@ -71,11 +66,7 @@ describe('DhAdminUserRolesStore', () => {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
     } as MarketParticipantUserRoleHttp;
 
-    const httpClient1 = {
-      v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut: () => observable.asObservable(),
-    } as MarketParticipantUserRoleAssignmentHttp;
-
-    const store = new DhAdminUserRolesStore(httpClient, httpClient1);
+    const store = new DhAdminUserRolesStore(httpClient);
 
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 
@@ -94,11 +85,7 @@ describe('DhAdminUserRolesStore', () => {
       v1MarketParticipantUserRoleGetUserRoleViewGet: () => observable.asObservable(),
     } as MarketParticipantUserRoleHttp;
 
-    const httpClient1 = {
-      v1MarketParticipantUserRoleAssignmentUpdateAssignmentsPut: () => observable.asObservable(),
-    } as MarketParticipantUserRoleAssignmentHttp;
-
-    const store = new DhAdminUserRolesStore(httpClient, httpClient1);
+    const store = new DhAdminUserRolesStore(httpClient);
 
     const spyOnCall = jest.spyOn(store.hasGeneralError$, 'next');
 

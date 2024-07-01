@@ -21,7 +21,10 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
+  computed,
+  effect,
   inject,
+  signal,
 } from '@angular/core';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -33,6 +36,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
@@ -41,10 +45,11 @@ import {
   UserOverviewItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
-import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetUserByIdDocument, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,9 +62,10 @@ import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
     TranslocoDirective,
     MatMenuModule,
 
-    WATT_DRAWER,
-    WattButtonComponent,
     WATT_MODAL,
+    WATT_DRAWER,
+    WattSpinnerComponent,
+    WattButtonComponent,
 
     DhTabsComponent,
     DhUserStatusComponent,
@@ -82,11 +88,23 @@ export class DhUserDrawerComponent {
   @ViewChild('reActivateConfirmationModal')
   reActivateConfirmationModal!: WattModalComponent;
 
-  selectedUser: UserOverviewItem | null = null;
-
   @Output() closed = new EventEmitter<void>();
 
   isEditUserModalVisible = false;
+
+  userId = signal<string | null>(null);
+  userIdWithDefaultValue = computed(() => this.userId() ?? '');
+
+  selectedUserQuery = lazyQuery(GetUserByIdDocument);
+
+  selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
+  isLoading = computed(() => this.selectedUserQuery.loading());
+
+  refetch = effect(() => {
+    const userId = this.userId();
+    if (!userId) return;
+    this.selectedUserQuery.refetch({ id: userId });
+  });
 
   UserStatus = UserStatus;
 
@@ -97,11 +115,10 @@ export class DhUserDrawerComponent {
   onClose(): void {
     this.drawer.close();
     this.closed.emit();
-    this.selectedUser = null;
   }
 
   open(user: UserOverviewItem): void {
-    this.selectedUser = user;
+    this.userId.set(user.id);
     this.drawer.open();
   }
 
@@ -111,7 +128,7 @@ export class DhUserDrawerComponent {
 
   reinvite = () =>
     this.inviteUserStore.reinviteUser({
-      id: this.selectedUser?.id ?? '',
+      id: this.userIdWithDefaultValue(),
       onSuccess: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.reinviteSuccess'),
@@ -126,7 +143,7 @@ export class DhUserDrawerComponent {
 
   resetUser2Fa = () =>
     this.inviteUserStore.resetUser2Fa({
-      id: this.selectedUser?.id ?? '',
+      id: this.userIdWithDefaultValue(),
       onSuccess: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.reset2faSuccess'),
@@ -144,7 +161,7 @@ export class DhUserDrawerComponent {
   deactivate = (success: boolean) =>
     success &&
     this.userStatusStore.deactivateUser({
-      id: this.selectedUser?.id ?? '',
+      id: this.userIdWithDefaultValue(),
       onSuccess: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.deactivateSuccess'),
@@ -162,7 +179,7 @@ export class DhUserDrawerComponent {
   reActivate = (success: boolean) =>
     success &&
     this.userStatusStore.reActivateUser({
-      id: this.selectedUser?.id ?? '',
+      id: this.userIdWithDefaultValue(),
       onSuccess: () =>
         this.toastService.open({
           message: this.transloco.translate('admin.userManagement.drawer.reactivateSuccess'),
