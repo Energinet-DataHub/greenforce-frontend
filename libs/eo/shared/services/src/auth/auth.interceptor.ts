@@ -32,7 +32,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
-
   private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
   private authService: EoAuthService = inject(EoAuthService);
   private authStore: EoAuthStore = inject(EoAuthStore);
@@ -63,7 +62,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         }
 
         return throwError(() => error);
-      }),
+      })
     );
   }
 
