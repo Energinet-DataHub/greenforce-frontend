@@ -134,12 +134,13 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
     onSuccessFn: () => void,
     onErrorFn: (statusCode: HttpStatusCode, error: ApiErrorCollection) => void
   ): void {
-    if (res?.success && res?.errors === null) {
+    const error = res?.errors?.[0];
+    if (res?.success && error === undefined) {
       this.setSaving(SavingState.SAVED);
       onSuccessFn();
-    } else if (res?.errors) {
+    } else if (error) {
       this.setSaving(ErrorState.GENERAL_ERROR);
-      onErrorFn(res.errors[0].statusCode, res.errors[0]);
+      onErrorFn(error.statusCode, error);
     }
   }
 }
