@@ -41,7 +41,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
-    if(this.#shouldRefreshToken(req)) {
+    if (this.#shouldRefreshToken(req)) {
       this.authService.refreshToken().subscribe();
     }
 
@@ -50,7 +50,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     });
     return handler.handle(authorizedRequest).pipe(
       tap((event) => {
-        if(event.type !== HttpEventType.Response) return;
+        if (event.type !== HttpEventType.Response) return;
         if (this.#is403ForbiddenResponse(event)) this.#displayPermissionError();
         if (this.#is401UnauthorizedResponse(event)) this.authService.logout();
       })
@@ -59,7 +59,9 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   #shouldRefreshToken(req: HttpRequest<unknown>): boolean {
     const path = new URL(req.urlWithParams).pathname;
-    return this.tokenRefreshCalls.includes(req.method) && !this.ignoreTokenRefreshUrls.includes(path);
+    return (
+      this.tokenRefreshCalls.includes(req.method) && !this.ignoreTokenRefreshUrls.includes(path)
+    );
   }
 
   #displayPermissionError() {
