@@ -63,6 +63,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   #shouldRefreshToken(req: HttpRequest<unknown>): boolean {
     const path = new URL(req.urlWithParams).pathname;
+    console.log('AUTH - shouldRefreshToken', path, req);
     return (
       this.tokenRefreshCalls.includes(req.method) && !this.ignoreTokenRefreshUrls.includes(path)
     );
