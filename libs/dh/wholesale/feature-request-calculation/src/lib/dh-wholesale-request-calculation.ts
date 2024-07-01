@@ -17,15 +17,17 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  Validators,
   FormControl,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+
+import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { catchError, of } from 'rxjs';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { catchError, combineLatestWith, lastValueFrom, map, of } from 'rxjs';
 
 import {
   MeteringPointType,
@@ -37,24 +39,28 @@ import {
   GetGridAreasDocument,
   CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { dayjs } from '@energinet-datahub/watt/date';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { wholesaleCalculationTypes } from '@energinet-datahub/dh/wholesale/domain';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
+import { Range } from '@energinet-datahub/dh/shared/domain';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { wholesaleCalculationTypes } from '@energinet-datahub/dh/wholesale/domain';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { dayjs } from '@energinet-datahub/watt/date';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+
 import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { Range } from '@energinet-datahub/dh/shared/domain';
-import { RxPush } from '@rx-angular/template/push';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
@@ -115,6 +121,7 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
+  private _permissionService = inject(PermissionService);
   private _selectedEicFunction: SelectedEicFunctionType;
 
   maxDate = new Date();
@@ -161,7 +168,7 @@ export class DhWholesaleRequestCalculationComponent {
 
   constructor() {
     this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
-      next: (result) => {
+      next: async (result) => {
         if (result.loading || result.error) return;
 
         this.isReady = true;
@@ -186,7 +193,7 @@ export class DhWholesaleRequestCalculationComponent {
           this._selectedEicFunction
         );
 
-        const excludeProcessTypes = this.getExcludedProcessTypes(this._selectedEicFunction);
+        const excludeProcessTypes = await this.getExcludedProcessTypes();
 
         this.meteringPointOptions = dhEnumToWattDropdownOptions(
           ExtendMeteringPoint,
@@ -295,14 +302,27 @@ export class DhWholesaleRequestCalculationComponent {
       : [];
   }
 
-  private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
-    if (
-      selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
-    )
+  private async getExcludedProcessTypes() {
+    const aggregated = 'aggregated-measured-data';
+    const wholesale = 'wholesale-settlement';
+
+    const permissions = (
+      await lastValueFrom(
+        this._permissionService.hasPermission('request-aggregated-measured-data:view').pipe(
+          map((hasPermission) => ({ [aggregated]: hasPermission })),
+          combineLatestWith(
+            this._permissionService
+              .hasPermission('request-wholesale-settlement:view')
+              .pipe(map((hasPermission) => ({ [wholesale]: hasPermission })))
+          )
+        )
+      )
+    ).reduce((acc, curr) => ({ ...acc, ...curr }), {}) as { [key: string]: boolean };
+
+    if (permissions[aggregated] && permissions[wholesale] === false)
       return wholesaleCalculationTypes;
 
-    if (selectedEicFunction === EicFunction.SystemOperator)
+    if (permissions[wholesale] && permissions[aggregated] === false)
       return [CalculationType.Aggregation, CalculationType.BalanceFixing];
 
     return [];
