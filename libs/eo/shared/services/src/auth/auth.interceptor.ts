@@ -41,6 +41,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
+    console.log('INTERCEPT - AUTH');
     if (this.#shouldRefreshToken(req)) {
       this.authService.refreshToken().subscribe();
     }
@@ -52,7 +53,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       tap((event) => {
         if (event.type !== HttpEventType.Response) return;
         if (this.#is403ForbiddenResponse(event)) this.#displayPermissionError();
+        console.log('AUTH - 401');
         if (this.#is401UnauthorizedResponse(event)) this.authService.logout();
+
+        console.log('AUTH - nothing triggered');
       })
     );
   }
