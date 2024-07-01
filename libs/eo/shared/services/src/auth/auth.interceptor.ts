@@ -71,7 +71,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 
   #displayPermissionError() {
-    console.log('AUTH - displayPermissionError')
+    console.log('AUTH - displayPermissionError');
     this.toastService.open({
       message: this.transloco.translate('You do not have permission to perform this action.'),
       type: 'danger',
