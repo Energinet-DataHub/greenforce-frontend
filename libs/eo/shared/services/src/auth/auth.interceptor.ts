@@ -26,10 +26,12 @@ import { ClassProvider, Injectable, inject } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { EoAuthService } from './auth.service';
-import { EoAuthStore } from './auth.store';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+
+import { EoAuthService } from './auth.service';
+import { EoAuthStore } from './auth.store';
+
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
   private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
@@ -37,6 +39,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   private authStore: EoAuthStore = inject(EoAuthStore);
   private toastService: WattToastService = inject(WattToastService);
   private transloco: TranslocoService = inject(TranslocoService);
+
   private tokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
   private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
 
@@ -44,19 +47,16 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     // Only requests to the API should be handled by this interceptor
     if (!req.url.includes(this.apiBase)) return handler.handle(req);
 
-    console.log('ADD AUTH HEADER');
     const authorizedRequest = req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
     return handler.handle(authorizedRequest).pipe(
       tap(() => {
         if (this.shouldRefreshToken(req)) {
-          console.log('AUTH - refreshToken');
           this.authService.refreshToken().subscribe();
         }
       }),
       catchError((error) => {
-        console.log('AUTH - catchError', error);
         if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
         if (this.is401UnauthorizedResponse(error)) {
           this.authService.logout();
@@ -69,14 +69,12 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   private shouldRefreshToken(req: HttpRequest<unknown>): boolean {
     const path = new URL(req.urlWithParams).pathname;
-    console.log('AUTH - shouldRefreshToken', path, req);
     return (
       this.tokenRefreshCalls.includes(req.method) && !this.ignoreTokenRefreshUrls.includes(path)
     );
   }
 
   private displayPermissionError() {
-    console.log('AUTH - displayPermissionError');
     this.toastService.open({
       message: this.transloco.translate('You do not have permission to perform this action.'),
       type: 'danger',
@@ -84,12 +82,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 
   private is403ForbiddenResponse(error: unknown): boolean {
-    console.log('AUTH - is403ForbiddenResponse', error);
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
   }
 
   private is401UnauthorizedResponse(error: unknown): boolean {
-    console.log('AUTH - is401UnauthorizedResponse', error);
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
   }
 }
