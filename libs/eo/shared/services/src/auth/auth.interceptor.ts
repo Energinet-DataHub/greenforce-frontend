@@ -43,9 +43,11 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
     console.log('INTERCEPT - AUTH');
     if (this.#shouldRefreshToken(req)) {
+      console.log('AUTH - refreshToken');
       this.authService.refreshToken().subscribe();
     }
 
+    console.log('ADD AUTH HEADER');
     const authorizedRequest = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
@@ -53,7 +55,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       tap((event) => {
         if (event.type !== HttpEventType.Response) return;
         if (this.#is403ForbiddenResponse(event)) this.#displayPermissionError();
-        console.log('AUTH - 401');
         if (this.#is401UnauthorizedResponse(event)) this.authService.logout();
 
         console.log('AUTH - nothing triggered');
@@ -70,6 +71,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 
   #displayPermissionError() {
+    console.log('AUTH - displayPermissionError')
     this.toastService.open({
       message: this.transloco.translate('You do not have permission to perform this action.'),
       type: 'danger',
@@ -77,10 +79,12 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 
   #is403ForbiddenResponse(error: unknown): boolean {
+    console.log('AUTH - is403ForbiddenResponse', error);
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
   }
 
   #is401UnauthorizedResponse(error: unknown): boolean {
+    console.log('AUTH - is401UnauthorizedResponse', error);
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
   }
 }
