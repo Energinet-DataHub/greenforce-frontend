@@ -42,6 +42,9 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
     console.log('INTERCEPT - AUTH', req);
+    if(!req.url.includes('/api')) return handler.handle(req);
+
+
     if (this.#shouldRefreshToken(req)) {
       console.log('AUTH - refreshToken');
       //this.authService.refreshToken().subscribe();
@@ -49,7 +52,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
     console.log('ADD AUTH HEADER');
     const authorizedRequest = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+      headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
     return handler.handle(authorizedRequest).pipe(
       tap((event) => {
