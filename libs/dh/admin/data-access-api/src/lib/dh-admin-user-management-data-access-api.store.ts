@@ -132,7 +132,7 @@ export class DhAdminUserManagementDataAccessApiStore
         });
       }),
       switchMap((fetchUsersParams) => {
-        return this.getUsers(fetchUsersParams).pipe(
+        return this.getUsers(fetchUsersParams).valueChanges.pipe(
           tapResponse(
             (response) => {
               if (
@@ -185,7 +185,7 @@ export class DhAdminUserManagementDataAccessApiStore
     actorIdFilter,
     userRoleFilter,
   }: FetchUsersParams) {
-    return this.apollo.query({
+    return this.apollo.watchQuery({
       query: UserOverviewSearchDocument,
       variables: {
         pageNumber,

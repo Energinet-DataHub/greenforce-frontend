@@ -29,6 +29,9 @@ import {
   mockGetGridAreasQuery,
   mockUserOverviewSearchQuery,
   mockGetUserRolesByActorIdQuery,
+  mockGetUserByIdQuery,
+  GetUserResponse,
+  mockUpdateUserAndRolesMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -61,14 +64,14 @@ export function adminMocks(apiBase: string) {
     getUserRolesByEicfunctionQuery(),
     putMarketParticipantPermissionsUpdate(apiBase),
     postMarketParticipantUserRoleCreate(apiBase),
-    putMarketParticipantUserUpdateUserIdentity(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
-    putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase),
     getUserRolesByActorIdQuery(),
     getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
     getUserOverviewQuery(),
+    getUserByIdQuery(),
+    updateUserAndRoles(),
     getMarketParticipantUserDeactivate(apiBase),
     getMarketParticipantUserReActivate(apiBase),
   ];
@@ -146,6 +149,26 @@ function getUserRoleAuditLogs() {
   });
 }
 
+function getUserByIdQuery() {
+  return mockGetUserByIdQuery(async ({ variables }) => {
+    const userId = variables.id;
+    await delay(mswConfig.delay);
+
+    const user = overviewUsers.find((user) => user.id === userId) as GetUserResponse | undefined;
+
+    if (user) {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          userById: user,
+        },
+      });
+    }
+
+    return HttpResponse.json(null, { status: 404 });
+  });
+}
+
 function getUserOverviewQuery() {
   return mockUserOverviewSearchQuery(async () => {
     await delay(mswConfig.delay);
@@ -216,13 +239,6 @@ function postMarketParticipantUserRoleCreate(apiBase: string) {
   });
 }
 
-function putMarketParticipantUserUpdateUserIdentity(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/UpdateUserIdentity`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
-  });
-}
-
 function postMarketParticipantUserInviteUser(apiBase: string) {
   return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
     await delay(mswConfig.delay);
@@ -230,14 +246,25 @@ function postMarketParticipantUserInviteUser(apiBase: string) {
   });
 }
 
-function putMarketParticipantUserRoleAssignmentUpdateAssignments(apiBase: string) {
-  return http.put(
-    `${apiBase}/v1/MarketParticipantUserRoleAssignment/UpdateAssignments`,
-    async () => {
-      await delay(mswConfig.delay);
-      return new HttpResponse(null, { status: 200 });
-    }
-  );
+function updateUserAndRoles() {
+  return mockUpdateUserAndRolesMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        updateUserIdentity: {
+          success: true,
+          __typename: 'UpdateUserIdentityPayload',
+          errors: null,
+        },
+        updateUserRoleAssignment: {
+          success: true,
+          __typename: 'UpdateUserRoleAssignmentPayload',
+          errors: null,
+        },
+      },
+    });
+  });
 }
 
 function getUserRolesByEicfunctionQuery() {
