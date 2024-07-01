@@ -44,10 +44,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     console.log('INTERCEPT - AUTH', req);
     if (!req.url.includes('/api')) return handler.handle(req);
 
-    if (this.#shouldRefreshToken(req)) {
-      console.log('AUTH - refreshToken');
+    //if (this.#shouldRefreshToken(req)) {
+      //console.log('AUTH - refreshToken');
       //this.authService.refreshToken().subscribe();
-    }
+    //}
 
     console.log('ADD AUTH HEADER');
     const authorizedRequest = req.clone({
