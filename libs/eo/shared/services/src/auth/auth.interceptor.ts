@@ -45,7 +45,8 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
     // Only requests to the API should be handled by this interceptor
-    if (!req.url.includes(this.apiBase)) return handler.handle(req);
+    if (![this.apiBase, this.apiBase.replace('/api', '/wallet-api')].includes(req.url))
+      return handler.handle(req);
 
     const authorizedRequest = req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
