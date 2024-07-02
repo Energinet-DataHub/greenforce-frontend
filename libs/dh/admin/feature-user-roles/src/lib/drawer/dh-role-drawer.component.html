@@ -92,7 +92,7 @@ limitations under the License.
   </watt-modal>
 
   <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
-    @if (isEditUserRoleModalVisible && userRoleWithPermissions.status === "Active") {
+    @if (isEditUserRoleModalVisible && userRoleWithPermissions.status === "ACTIVE") {
       <dh-edit-user-role-modal (closed)="modalOnClose($event)" />
     }
   </ng-container>

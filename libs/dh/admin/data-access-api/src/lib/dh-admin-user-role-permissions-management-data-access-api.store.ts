@@ -14,19 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { filter, Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
+import { Apollo } from 'apollo-angular';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import {
-  MarketParticipantUserRoleHttp,
-  MarketParticipantUserRoleWithPermissionsDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantUserRoleHttp } from '@energinet-datahub/dh/shared/domain';
+import { GetUserRoleWithPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type DhUserRoleWithPermissions = ResultOf<
+  typeof GetUserRoleWithPermissionsDocument
+>['userRoleById'];
 
 interface DhUserRoleWithPermissionsManagementState {
-  readonly userRole: MarketParticipantUserRoleWithPermissionsDto | null;
+  readonly userRole: DhUserRoleWithPermissions | null;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -37,13 +41,15 @@ const initialState: DhUserRoleWithPermissionsManagementState = {
 
 @Injectable()
 export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends ComponentStore<DhUserRoleWithPermissionsManagementState> {
+  private readonly apollo = inject(Apollo);
+
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
-  userRole$ = this.select(
-    (state) => state.userRole as MarketParticipantUserRoleWithPermissionsDto
-  ).pipe(filter((userRole) => userRole != null));
+  userRole$ = this.select((state) => state.userRole).pipe(
+    filter((userRole): userRole is DhUserRoleWithPermissions => userRole != null)
+  );
 
   constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
     super(initialState);
@@ -56,12 +62,15 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
         this.setLoading(LoadingState.LOADING);
       }),
       switchMap((userRoleId) =>
-        this.httpClientUserRole
-          .v1MarketParticipantUserRoleGetUserRoleWithPermissionsGet(userRoleId)
+        this.apollo
+          .query({
+            query: GetUserRoleWithPermissionsDocument,
+            variables: { id: userRoleId },
+          })
           .pipe(
             tapResponse(
               (response) => {
-                this.updateUserRole(response);
+                this.updateUserRole(response.data.userRoleById);
                 this.setLoading(LoadingState.LOADED);
               },
               () => {
@@ -107,7 +116,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   private updateUserRole = this.updater(
     (
       state: DhUserRoleWithPermissionsManagementState,
-      response: MarketParticipantUserRoleWithPermissionsDto | null
+      response: DhUserRoleWithPermissions | null
     ): DhUserRoleWithPermissionsManagementState => ({
       ...state,
       userRole: response,

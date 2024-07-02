@@ -55,7 +55,6 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantActorQuerySelectionActors(apiBase),
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
-    getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
     getUserRoleWithPermissionsQuery(),
     putMarketParticipantUserRoleUpdate(apiBase),
     getMarketParticipantOrganizationGetFilteredActors(apiBase),
@@ -126,22 +125,6 @@ function getMarketParticipantUserGetUserAuditLogs() {
     await delay(mswConfig.delay);
     return HttpResponse.json({ data: marketParticipantUserGetUserAuditLogs });
   });
-}
-
-function getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleWithPermissions`,
-    async ({ request }) => {
-      const url = new URL(request.url);
-      const userRoleId = url.searchParams.get('userRoleId');
-
-      const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
-        (userRole) => userRole.id === userRoleId
-      );
-      await delay(mswConfig.delay);
-      return HttpResponse.json(userRole);
-    }
-  );
 }
 
 function getUserRoleWithPermissionsQuery() {

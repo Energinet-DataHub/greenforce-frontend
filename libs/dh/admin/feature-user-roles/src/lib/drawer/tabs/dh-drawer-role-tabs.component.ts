@@ -18,7 +18,7 @@ import { Component, Input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
+import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhRoleMasterDataComponent } from './content/dh-role-master-data.component';
@@ -52,5 +52,5 @@ import { DhRoleAuditLogsComponent } from './content/dh-role-audit-logs.component
   ],
 })
 export class DhDrawerRoleTabsComponent {
-  @Input({ required: true }) role!: MarketParticipantUserRoleWithPermissionsDto;
+  @Input({ required: true }) role!: DhUserRoleWithPermissions;
 }
