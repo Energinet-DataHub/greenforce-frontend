@@ -48,8 +48,6 @@ type MutationResponseType =
   | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserIdentity']
   | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserRoleAssignment'];
 
-type MutationErrorType = MutationResponseType['errors'];
-
 @Injectable()
 export class DhAdminEditUserStore extends ComponentStore<State> {
   private readonly apollo = inject(Apollo);
