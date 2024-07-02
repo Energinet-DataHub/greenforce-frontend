@@ -309,6 +309,6 @@ export class DhWholesaleRequestCalculationComponent {
   }
 
   hasPermission(permission: Permission) {
-    return toSignal(this._permissionService.hasPermission(permission));
+    return toSignal(this._permissionService.hasPermission(permission), { initialValue: false });
   }
 }
