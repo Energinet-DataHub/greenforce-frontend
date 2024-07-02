@@ -27,6 +27,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
 import {
+  ApiError,
   GetUserByIdDocument,
   UpdateActorUserRolesInput,
   UpdateUserAndRolesDocument,
@@ -46,6 +47,8 @@ const initialState: State = {
 type MutationResponseType =
   | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserIdentity']
   | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserRoleAssignment'];
+
+type MutationErrorType = MutationResponseType['errors'];
 
 @Injectable()
 export class DhAdminEditUserStore extends ComponentStore<State> {
@@ -105,12 +108,23 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
               .pipe(
                 tapResponse(
                   (response) => {
-                    this.handleResponse(response.data?.updateUserIdentity, onSuccessFn, onErrorFn);
-                    this.handleResponse(
-                      response.data?.updateUserRoleAssignment,
-                      onSuccessFn,
-                      onErrorFn
-                    );
+                    if (response.loading || response.data?.updateUserIdentity === undefined) return;
+
+                    const updateUserAndRoles = this.handleResponse([
+                      response.data.updateUserIdentity,
+                      response.data.updateUserRoleAssignment,
+                    ]);
+
+                    if (updateUserAndRoles.success) {
+                      this.setSaving(SavingState.SAVED);
+                      onSuccessFn();
+                    }
+
+                    if (updateUserAndRoles.errors.length > 0) {
+                      this.setSaving(ErrorState.GENERAL_ERROR);
+                      const firstError = updateUserAndRoles.errors[0];
+                      onErrorFn(firstError.statusCode, firstError);
+                    }
                   },
                   () => {
                     this.setSaving(ErrorState.GENERAL_ERROR);
@@ -129,18 +143,17 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
     })
   );
 
-  private handleResponse<T extends MutationResponseType>(
-    res: T | null | undefined,
-    onSuccessFn: () => void,
-    onErrorFn: (statusCode: HttpStatusCode, error: ApiErrorCollection) => void
-  ): void {
-    const error = res?.errors?.[0];
-    if (res?.success && error === undefined) {
-      this.setSaving(SavingState.SAVED);
-      onSuccessFn();
-    } else if (error) {
-      this.setSaving(ErrorState.GENERAL_ERROR);
-      onErrorFn(error.statusCode, error);
+  private handleResponse<T extends MutationResponseType>(res: T[]) {
+    if (res?.every((x) => x.success)) {
+      return { success: true, errors: [] };
     }
+
+    return {
+      success: false,
+      errors: res
+        .map((x) => x.errors)
+        .flat()
+        .filter((x): x is ApiError => !!x),
+    };
   }
 }
