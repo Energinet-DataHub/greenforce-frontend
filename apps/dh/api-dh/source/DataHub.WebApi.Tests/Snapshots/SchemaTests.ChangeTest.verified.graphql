@@ -179,7 +179,7 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetUserOverviewResponse {
-  users: [UserOverviewItemDto!]!
+  users: [User!]!
   totalUserCount: Int!
 }
 
@@ -187,17 +187,6 @@ type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
-}
-
-type GetUserResponse {
-  id: UUID!
-  name: String!
-  status: UserStatus!
-  firstName: String!
-  lastName: String!
-  email: String!
-  phoneNumber: String
-  createdDate: DateTime!
 }
 
 type GridAreaDto {
@@ -389,7 +378,7 @@ type Query {
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userProfile: GetUserProfileResponse!
-  userById(id: UUID!): GetUserResponse!
+  userById(id: UUID!): User!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
@@ -462,6 +451,17 @@ type UpdateUserRoleAssignmentPayload {
   errors: [UpdateUserRoleAssignmentError!]
 }
 
+type User {
+  id: UUID!
+  name: String!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  createdDate: DateTime!
+}
+
 type UserAuditedChangeAuditLogDto {
   auditedBy: String
   affectedActorName: String
@@ -471,16 +471,6 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
-}
-
-type UserOverviewItemDto {
-  id: UUID!
-  status: UserStatus!
-  firstName: String!
-  lastName: String!
-  email: String!
-  phoneNumber: String
-  createdDate: DateTime!
 }
 
 type UserRoleAuditedChangeAuditLogDto {

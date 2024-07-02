@@ -49,7 +49,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { UserOverviewItem } from '@energinet-datahub/dh/admin/data-access-api';
+import { User, Users } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 @Component({
@@ -82,7 +82,7 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 export class DhUsersTabTableComponent implements AfterViewInit {
   private _destroyRef = inject(DestroyRef);
 
-  columns: WattTableColumnDef<UserOverviewItem> = {
+  columns: WattTableColumnDef<User> = {
     firstName: { accessor: 'firstName' },
     lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
@@ -90,10 +90,10 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     status: { accessor: 'status' },
   };
 
-  dataSource = new WattTableDataSource<UserOverviewItem>();
-  activeRow: UserOverviewItem | undefined = undefined;
+  dataSource = new WattTableDataSource<User>();
+  activeRow: User | undefined = undefined;
 
-  @Input({ required: true }) set users(value: UserOverviewItem[]) {
+  @Input({ required: true }) set users(value: Users) {
     this.dataSource.data = value;
   }
 
@@ -111,7 +111,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   drawer!: DhUserDrawerComponent;
 
   @ViewChild(WattTableComponent)
-  usersTable!: WattTableComponent<UserOverviewItem>;
+  usersTable!: WattTableComponent<User>;
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
@@ -124,7 +124,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     });
   }
 
-  onRowClick(row: UserOverviewItem): void {
+  onRowClick(row: User): void {
     this.activeRow = row;
     this.drawer.open(row);
   }
