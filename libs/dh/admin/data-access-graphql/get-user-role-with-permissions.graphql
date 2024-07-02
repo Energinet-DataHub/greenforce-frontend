@@ -1,0 +1,14 @@
+query GetUserRoleWithPermissions($id: UUID!) {
+  userRoleById(id: $id) {
+    id
+    name
+    description
+    eicFunction
+    status
+    permissions {
+      id
+      name
+      description
+    }
+  }
+}

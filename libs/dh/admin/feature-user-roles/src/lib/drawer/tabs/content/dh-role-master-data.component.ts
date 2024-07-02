@@ -18,11 +18,11 @@ import { Component, Input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-role-master-data',
@@ -38,5 +38,5 @@ import {
   ],
 })
 export class DhRoleMasterDataComponent {
-  @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;
+  @Input() role: DhUserRoleWithPermissions | null = null;
 }

@@ -27,11 +27,11 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantUserRoleWithPermissionsDto } from '@energinet-datahub/dh/shared/domain';
 import {
   GetUserRoleAuditLogsDocument,
   UserRoleAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -93,7 +93,7 @@ export class DhRoleAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  @Input({ required: true }) role!: MarketParticipantUserRoleWithPermissionsDto;
+  @Input({ required: true }) role!: DhUserRoleWithPermissions;
 
   ngOnChanges(): void {
     this.getUserRoleAuditLogsQuery?.refetch({ id: this.role?.id });

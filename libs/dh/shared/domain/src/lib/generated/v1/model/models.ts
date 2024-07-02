@@ -33,7 +33,6 @@ export * from './market-participant-user-profile-update-dto';
 export * from './market-participant-user-role-dto';
 export * from './market-participant-user-role-status';
 export * from './market-participant-user-role-view-dto';
-export * from './market-participant-user-role-with-permissions-dto';
 export * from './search-result';
 export * from './stream';
 export * from './wholesale-calculation-type';

@@ -29,11 +29,6 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client)
         => await client.UserAuditAsync(id);
 
-    public async Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
-        Guid id,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserRolesGetAsync(id);
-
     public async Task<GetUserProfileResponse> GetUserProfileAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserUserprofileGetAsync();

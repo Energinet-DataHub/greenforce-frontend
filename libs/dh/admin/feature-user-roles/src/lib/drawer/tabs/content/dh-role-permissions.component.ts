@@ -18,11 +18,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import {
-  MarketParticipantPermissionDetailsDto,
-  MarketParticipantUserRoleWithPermissionsDto,
-} from '@energinet-datahub/dh/shared/domain';
-
+import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 @Component({
@@ -32,12 +28,12 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
   imports: [TranslocoDirective, WATT_TABLE, WATT_CARD],
 })
 export class DhRolePermissionsComponent implements OnChanges {
-  @Input() role: MarketParticipantUserRoleWithPermissionsDto | null = null;
+  @Input() role: DhUserRoleWithPermissions | null = null;
 
-  readonly dataSource: WattTableDataSource<MarketParticipantPermissionDetailsDto> =
+  readonly dataSource: WattTableDataSource<DhUserRoleWithPermissions['permissions'][0]> =
     new WattTableDataSource(undefined);
 
-  columns: WattTableColumnDef<MarketParticipantPermissionDetailsDto> = {
+  columns: WattTableColumnDef<DhUserRoleWithPermissions['permissions'][0]> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };

@@ -19,14 +19,15 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-role-status',
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.roleStatus'">
-    @if (status === 'Active') {
+    @if (status === 'Active' || status === 'ACTIVE') {
       <watt-badge type="info">{{ t('Active') }}</watt-badge>
-    } @else if (status === 'Inactive') {
+    } @else if (status === 'Inactive' || status === 'INACTIVE') {
       <watt-badge type="warning">{{ t('Inactive') }}</watt-badge>
     }
   </ng-container>`,
@@ -34,5 +35,5 @@ import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/do
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhRoleStatusComponent {
-  @Input() status!: MarketParticipantUserRoleStatus;
+  @Input() status!: MarketParticipantUserRoleStatus | UserRoleStatus;
 }
