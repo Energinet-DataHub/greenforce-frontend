@@ -32,3 +32,8 @@ export const wholesaleCalculationTypes = [
   CalculationType.SecondCorrectionSettlement,
   CalculationType.ThirdCorrectionSettlement,
 ];
+
+export const aggregationCalculationTypes = [
+  CalculationType.Aggregation,
+  CalculationType.BalanceFixing,
+];
