@@ -29,6 +29,7 @@ import {
   mockGetGridAreasQuery,
   mockUserOverviewSearchQuery,
   mockGetUserRolesByActorIdQuery,
+  mockGetUserRoleWithPermissionsQuery,
   mockGetUserByIdQuery,
   GetUserResponse,
   mockUpdateUserAndRolesMutation,
@@ -55,6 +56,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
     getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
+    getUserRoleWithPermissionsQuery(),
     putMarketParticipantUserRoleUpdate(apiBase),
     getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
@@ -140,6 +142,22 @@ function getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase: string)
       return HttpResponse.json(userRole);
     }
   );
+}
+
+function getUserRoleWithPermissionsQuery() {
+  return mockGetUserRoleWithPermissionsQuery(async ({ variables }) => {
+    const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
+      (userRole) => userRole.id === variables.id
+    );
+
+    if (userRole) {
+      await delay(mswConfig.delay);
+
+      return HttpResponse.json({ data: { __typename: 'Query', userRoleById: userRole } });
+    }
+
+    return HttpResponse.json(null, { status: 404 });
+  });
 }
 
 function getUserRoleAuditLogs() {
