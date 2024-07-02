@@ -42,11 +42,13 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   private tokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
   private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
+  private apiBaseUrls = [this.apiBase, this.apiBase.replace('/api', '/wallet-api')];
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
     // Only requests to the API should be handled by this interceptor
-    if (!req.url.includes(this.apiBase)) return handler.handle(req);
+    if (!this.isApiRequest(this.apiBaseUrls, req)) return handler.handle(req);
 
+    // Add Authorization header to the request
     const authorizedRequest = req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
     });
@@ -65,6 +67,12 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         return throwError(() => error);
       })
     );
+  }
+
+  private isApiRequest(apiBaseUrls: string[], req: HttpRequest<unknown>): boolean {
+    return !!apiBaseUrls.find((apiBaseUrl) => {
+      return req.url.startsWith(apiBaseUrl);
+    });
   }
 
   private shouldRefreshToken(req: HttpRequest<unknown>): boolean {
