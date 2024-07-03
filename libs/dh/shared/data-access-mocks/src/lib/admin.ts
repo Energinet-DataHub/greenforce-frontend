@@ -31,7 +31,7 @@ import {
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
   mockGetUserByIdQuery,
-  GetUserResponse,
+  User,
   mockUpdateUserAndRolesMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -155,7 +155,7 @@ function getUserByIdQuery() {
     const userId = variables.id;
     await delay(mswConfig.delay);
 
-    const user = overviewUsers.find((user) => user.id === userId) as GetUserResponse | undefined;
+    const user = overviewUsers.find((user) => user.id === userId) as User | undefined;
 
     if (user) {
       return HttpResponse.json({
