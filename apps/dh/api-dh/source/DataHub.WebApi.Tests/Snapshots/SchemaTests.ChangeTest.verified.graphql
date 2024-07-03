@@ -294,6 +294,7 @@ type Mutation {
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
 }
 
 type Organization {
@@ -451,6 +452,11 @@ type UpdateUserRoleAssignmentPayload {
   errors: [UpdateUserRoleAssignmentError!]
 }
 
+type UpdateUserRolePayload {
+  boolean: Boolean
+  errors: [UpdateUserRoleError!]
+}
+
 type User {
   id: UUID!
   name: String!
@@ -515,6 +521,8 @@ union UpdateUserIdentityError = ApiError
 union UpdateUserProfileError = ApiError
 
 union UpdateUserRoleAssignmentError = ApiError
+
+union UpdateUserRoleError = ApiError
 
 input ActorNameDtoInput {
   value: String!
@@ -674,6 +682,18 @@ input UpdateUserRoleAssignmentInput {
 input UpdateUserRoleAssignmentsDtoInput {
   added: [UUID!]!
   removed: [UUID!]!
+}
+
+input UpdateUserRoleDtoInput {
+  name: String!
+  description: String!
+  status: UserRoleStatus!
+  permissions: [Int!]!
+}
+
+input UpdateUserRoleInput {
+  userRoleId: UUID!
+  userRole: UpdateUserRoleDtoInput!
 }
 
 input UserIdentityUpdateDtoInput {
