@@ -29,6 +29,8 @@ export type DhUserRoleWithPermissions = ResultOf<
   typeof GetUserRoleWithPermissionsDocument
 >['userRoleById'];
 
+export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions'][0];
+
 interface DhUserRoleWithPermissionsManagementState {
   readonly userRole: DhUserRoleWithPermissions | null;
   readonly requestState: LoadingState | ErrorState;
