@@ -23,7 +23,7 @@ import {
 export const marketParticipantUserRoleGetUserRoleWithPermissions: GetUserRoleWithPermissionsQuery['userRoleById'][] =
   [
     {
-      __typename: 'UserRoleWithPermissionsDto',
+      __typename: 'UserRoleWithPermissions',
       id: 'ff029a48-b06f-4300-8ec0-84d121a4b83f',
       name: 'Balanceansvarlig',
       description: 'Manglede beskrivelse',
@@ -51,7 +51,7 @@ export const marketParticipantUserRoleGetUserRoleWithPermissions: GetUserRoleWit
       ],
     },
     {
-      __typename: 'UserRoleWithPermissionsDto',
+      __typename: 'UserRoleWithPermissions',
       id: '512b2941-e82e-4097-aa4b-ec322871a3e6',
       name: 'Supporter',
       description: 'Manglede beskrivelse',

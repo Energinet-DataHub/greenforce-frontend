@@ -1,6 +1,6 @@
 #import "../../shared/data-access-graphql/src/lib/graphql/fragments/errors.graphql"
 
-mutation updateUserAndRoles(
+mutation UpdateUserAndRoles(
   $updateUserInput: UpdateUserIdentityInput!
   $updateRolesInput: UpdateUserRoleAssignmentInput!
 ) {
