@@ -40,7 +40,7 @@ public static class DomainRegistrationExtensions
             .AddWholesaleOrchestrationsClient(
                 GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
             .AddSettlementReportsClient(
-                GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
+                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl))
             .AddESettClient(
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(
