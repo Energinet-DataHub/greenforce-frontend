@@ -31,6 +31,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -44,15 +45,16 @@ import {
   DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
+  DhUserRoleWithPermissions,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   MarketParticipantPermissionDetailsDto,
   MarketParticipantUpdateUserRoleDto,
-  MarketParticipantUserRoleWithPermissionsDto,
+  MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
+import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -183,7 +185,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
     this.userRoleEditForm.markAsDirty();
   }
 
-  save(userRole: MarketParticipantUserRoleWithPermissionsDto): void {
+  save(userRole: DhUserRoleWithPermissions): void {
     if (this.userRoleEditForm.invalid) {
       if (this.userRoleEditForm.controls.description.hasError('required')) {
         this.tabs()?.setSelectedIndex(0);
@@ -201,7 +203,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       name: formControls.name.value,
       description: formControls.description.value,
       permissions: formControls.permissionIds.value,
-      status: userRole.status,
+      status: this.mapGraphQLToRestUserRoleStatus(userRole.status),
     };
 
     const onSuccessFn = () => {
@@ -225,5 +227,16 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       onSuccessFn,
       onErrorFn,
     });
+  }
+
+  private mapGraphQLToRestUserRoleStatus(status: UserRoleStatus): MarketParticipantUserRoleStatus {
+    switch (status) {
+      case 'ACTIVE':
+        return MarketParticipantUserRoleStatus.Active;
+      case 'INACTIVE':
+        return MarketParticipantUserRoleStatus.Inactive;
+      default:
+        return MarketParticipantUserRoleStatus.Active;
+    }
   }
 }

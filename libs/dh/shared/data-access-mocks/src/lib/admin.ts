@@ -29,6 +29,7 @@ import {
   mockGetGridAreasQuery,
   mockUserOverviewSearchQuery,
   mockGetUserRolesByActorIdQuery,
+  mockGetUserRoleWithPermissionsQuery,
   mockGetUserByIdQuery,
   GetUserResponse,
   mockUpdateUserAndRolesMutation,
@@ -54,7 +55,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantActorQuerySelectionActors(apiBase),
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
-    getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase),
+    getUserRoleWithPermissionsQuery(),
     putMarketParticipantUserRoleUpdate(apiBase),
     getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
@@ -125,20 +126,20 @@ function getMarketParticipantUserGetUserAuditLogs() {
   });
 }
 
-function getMarketParticipantUserRoleGetUserRoleWithPermissions(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/MarketParticipantUserRole/GetUserRoleWithPermissions`,
-    async ({ request }) => {
-      const url = new URL(request.url);
-      const userRoleId = url.searchParams.get('userRoleId');
+function getUserRoleWithPermissionsQuery() {
+  return mockGetUserRoleWithPermissionsQuery(async ({ variables }) => {
+    const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
+      (userRole) => userRole.id === variables.id
+    );
 
-      const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
-        (userRole) => userRole.id === userRoleId
-      );
+    if (userRole) {
       await delay(mswConfig.delay);
-      return HttpResponse.json(userRole);
+
+      return HttpResponse.json({ data: { __typename: 'Query', userRoleById: userRole } });
     }
-  );
+
+    return HttpResponse.json(null, { status: 404 });
+  });
 }
 
 function getUserRoleAuditLogs() {

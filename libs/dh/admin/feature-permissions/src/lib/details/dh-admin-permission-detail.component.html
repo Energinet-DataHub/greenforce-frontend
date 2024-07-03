@@ -57,7 +57,7 @@ limitations under the License.
           <dh-admin-permission-market-roles [selectedPermission]="selectedPermission" />
         </watt-tab>
         <watt-tab
-          *[dhPermissionRequired]="'user-roles:manage'"
+          *dhPermissionRequired="['user-roles:manage']"
           [label]="t('tabs.history.tabLabel')"
         >
           <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
