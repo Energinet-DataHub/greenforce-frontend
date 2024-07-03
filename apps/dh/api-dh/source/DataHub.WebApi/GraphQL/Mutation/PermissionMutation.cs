@@ -21,11 +21,12 @@ public partial class Mutation
 {
     [Error(typeof(ApiException))]
     public Task<PermissionDto> UpdatePermissionAsync(
-    UpdatePermissionDto input,
+    int id,
+    string description,
     [Service] IMarketParticipantClient_V1 client)
     {
         return client
-            .PermissionPutAsync(input)
-            .Then(() => client.PermissionGetAsync(input.Id));
+            .PermissionPutAsync(new() { Id = id, Description = description })
+            .Then(() => client.PermissionGetAsync(id));
     }
 }

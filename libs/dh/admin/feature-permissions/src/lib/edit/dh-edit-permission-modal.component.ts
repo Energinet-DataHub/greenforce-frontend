@@ -19,16 +19,10 @@ import {
   Component,
   computed,
   effect,
-  EventEmitter,
   inject,
   input,
-  Input,
-  OnChanges,
   output,
-  Output,
-  SimpleChanges,
   viewChild,
-  ViewChild,
 } from '@angular/core';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -131,10 +125,8 @@ export class DhEditPermissionModalComponent implements AfterViewInit {
     this.updatePermission.mutate({
       variables: {
         input: {
-          input: {
-            id: this.permission().id,
-            description: this.userPermissionsForm.controls.description.value,
-          },
+          id: this.permission().id,
+          description: this.userPermissionsForm.controls.description.value,
         },
       },
     });
