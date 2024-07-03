@@ -95,6 +95,8 @@ interface FormValues {
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit {
+  CalculationType = StartCalculationType;
+
   private _toast = inject(WattToastService);
   private _transloco = inject(TranslocoService);
   private _router = inject(Router);

@@ -27,7 +27,8 @@ limitations under the License.
       novalidate
       [formGroup]="formGroup"
       (ngSubmit)="
-        latestPeriodEnd && formGroup.controls.calculationType.value === 'BALANCE_FIXING'
+        latestPeriodEnd &&
+        formGroup.controls.calculationType.value === CalculationType.BalanceFixing
           ? (showPeriodWarning = true)
           : modal.close(true)
       "
