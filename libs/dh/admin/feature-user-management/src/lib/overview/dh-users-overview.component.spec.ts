@@ -35,15 +35,15 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import {
   DhAdminUserManagementDataAccessApiStore,
   DhUserManagementFilters,
-  UserOverviewItem,
+  User,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersOverviewComponent, debounceTimeValue } from './dh-users-overview.component';
 
-const users: UserOverviewItem[] = [
+const users: User[] = [
   {
-    __typename: 'UserOverviewItemDto',
+    __typename: 'User',
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
     firstName: 'Test User First',
@@ -54,7 +54,7 @@ const users: UserOverviewItem[] = [
 ];
 
 describe(DhUsersOverviewComponent, () => {
-  async function setup(mockUsers: UserOverviewItem[] = []) {
+  async function setup(mockUsers: User[] = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
