@@ -49,6 +49,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import {
   aggregationCalculationTypes,
+  getMinDate,
   wholesaleCalculationTypes,
 } from '@energinet-datahub/dh/wholesale/domain';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
@@ -127,8 +128,8 @@ export class DhWholesaleRequestCalculationComponent {
   private _permissionService = inject(PermissionService);
   private _selectedEicFunction: SelectedEicFunctionType;
 
+  minDate = getMinDate();
   maxDate = new Date();
-  minDate = dayjs().startOf('month').subtract(38, 'months').toDate();
 
   requestAggregatedMeasuredDataView = this.hasPermission('request-aggregated-measured-data:view');
   requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
