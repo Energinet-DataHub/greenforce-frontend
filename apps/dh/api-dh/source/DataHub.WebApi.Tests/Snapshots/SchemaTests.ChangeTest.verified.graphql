@@ -376,7 +376,6 @@ type Query {
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userProfile: GetUserProfileResponse!
   userById(id: UUID!): User!
   emailExists(emailAddress: String!): Boolean!
@@ -384,6 +383,7 @@ type Query {
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
 }
 
 type ReadinessStatusDto {
