@@ -191,7 +191,9 @@ function getUserOverviewQuery() {
 }
 
 function updateUserRoleMutation() {
-  return mockUpdateUserRoleMutation(async () => {
+  return mockUpdateUserRoleMutation(async ({ variables }) => {
+    const maybeErrorState = variables.input.userRoleId === marketParticipantUserRoleGetAll[1].id;
+
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
@@ -199,8 +201,24 @@ function updateUserRoleMutation() {
         __typename: 'Mutation',
         updateUserRole: {
           __typename: 'UpdateUserRolePayload',
-          success: true,
-          errors: null,
+          success: !maybeErrorState,
+          errors: maybeErrorState
+            ? [
+                {
+                  message: 'mock error',
+                  statusCode: 400,
+                  apiErrors: [
+                    {
+                      __typename: 'ApiErrorDescriptor',
+                      message: 'error message',
+                      code: 'market_participant.validation.market_role.reserved',
+                      args: {},
+                    },
+                  ],
+                  __typename: 'ApiError',
+                },
+              ]
+            : null,
         },
       },
     });
