@@ -46,7 +46,8 @@ limitations under the License.
           }}"
         />
       } @else if (
-        latestPeriodEnd && formGroup.controls.calculationType.value === "BALANCE_FIXING"
+        latestPeriodEnd &&
+        formGroup.controls.calculationType.value === CalculationType.BalanceFixing
       ) {
         <watt-validation-message
           size="normal"
