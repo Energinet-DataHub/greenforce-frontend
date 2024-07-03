@@ -243,7 +243,7 @@ function postMarketParticipantUserInviteUser(apiBase: string) {
 
 function updatePermission() {
   return mockUpdatePermissionMutation(async ({ variables }) => {
-    const { id } = variables.input.input;
+    const { id } = variables.input;
     await delay(mswConfig.delay);
 
     if (id === 1)
