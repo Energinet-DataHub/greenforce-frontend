@@ -28,4 +28,9 @@ public partial class Query
             [Service] IMarketParticipantClient_V1 client) =>
             (await client.UserRolesGetAsync())
                 .Where(u => u.EicFunction == eicFunction);
+
+    public async Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserRolesGetAsync(id);
 }
