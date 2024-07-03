@@ -31,9 +31,9 @@ import {
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
 
-export type UserOverviewItem = ResultOf<
-  typeof UserOverviewSearchDocument
->['userOverviewSearch']['users'][0];
+export type Users = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'];
+
+export type User = Users[0];
 
 type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
 
@@ -56,7 +56,7 @@ export type DhUserManagementFilters = {
 };
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItem[];
+  readonly users: Users;
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
