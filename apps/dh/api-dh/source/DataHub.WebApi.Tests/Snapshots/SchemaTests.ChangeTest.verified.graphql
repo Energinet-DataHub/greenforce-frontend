@@ -300,7 +300,7 @@ type Mutation {
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
-  updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
@@ -394,7 +394,7 @@ type Query {
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
-  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
+  userRoleById(id: UUID!): UserRoleWithPermissions!
 }
 
 type ReadinessStatusDto {
@@ -445,6 +445,11 @@ type UpdateActorPayload {
 type UpdateOrganizationPayload {
   boolean: Boolean
   errors: [UpdateOrganizationError!]
+}
+
+type UpdatePermissionPayload {
+  permission: Permission
+  errors: [UpdatePermissionError!]
 }
 
 type UpdateUserIdentityPayload {
@@ -501,7 +506,8 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
-type UserRoleWithPermissionsDto {
+type UserRoleWithPermissions {
+  userRoles: [UserRoleDto!]!
   id: UUID!
   name: String!
   description: String!
@@ -519,6 +525,8 @@ union StopDelegationError = ApiError
 union UpdateActorError = ApiError
 
 union UpdateOrganizationError = ApiError
+
+union UpdatePermissionError = ApiError
 
 union UpdateUserIdentityError = ApiError
 
@@ -662,7 +670,7 @@ input UpdateOrganizationInput {
   domain: String!
 }
 
-input UpdatePermissionDtoInput {
+input UpdatePermissionInput {
   id: Int!
   description: String!
 }
