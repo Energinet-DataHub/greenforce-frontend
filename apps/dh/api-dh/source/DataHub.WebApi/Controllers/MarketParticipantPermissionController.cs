@@ -39,13 +39,12 @@ public class MarketParticipantPermissionsController : MarketParticipantControlle
         return HandleExceptionAsync(() => _client.PermissionGetAsync());
     }
 
-    [HttpPut]
-    [Route("Update")]
-    public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
-    {
-        return HandleExceptionAsync(() => _client.PermissionPutAsync(permissionDto));
-    }
-
+    // [HttpPut]
+    // [Route("Update")]
+    // public Task<ActionResult> UpdateAsync(UpdatePermissionDto permissionDto)
+    // {
+    //     return HandleExceptionAsync(() => _client.PermissionPutAsync(permissionDto));
+    // }
     [HttpGet]
     [Route("GetPermissionRelationsCSV")]
     [Produces(MediaTypeNames.Text.Plain)]

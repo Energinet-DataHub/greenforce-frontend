@@ -62,7 +62,6 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
-    putMarketParticipantPermissionsUpdate(apiBase),
     postMarketParticipantUserRoleCreate(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
@@ -222,13 +221,6 @@ function getAdminPermissionLogs() {
     const permissionAuditLogs = [adminPermissionAuditLogsMock[permId]];
     await delay(mswConfig.delay);
     return HttpResponse.json({ data: { __typename: 'Query', permissionAuditLogs } });
-  });
-}
-
-function putMarketParticipantPermissionsUpdate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
   });
 }
 
