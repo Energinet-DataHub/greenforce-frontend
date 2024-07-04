@@ -31,8 +31,9 @@ import {
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
   mockGetUserByIdQuery,
-  GetUserResponse,
+  User,
   mockUpdateUserAndRolesMutation,
+  mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -57,7 +58,7 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
-    putMarketParticipantUserRoleUpdate(apiBase),
+    updateUserRoleMutation(),
     getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
@@ -156,7 +157,7 @@ function getUserByIdQuery() {
     const userId = variables.id;
     await delay(mswConfig.delay);
 
-    const user = overviewUsers.find((user) => user.id === userId) as GetUserResponse | undefined;
+    const user = overviewUsers.find((user) => user.id === userId) as User | undefined;
 
     if (user) {
       return HttpResponse.json({
@@ -190,10 +191,38 @@ function getUserOverviewQuery() {
   });
 }
 
-function putMarketParticipantUserRoleUpdate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUserRole/Update`, async () => {
+function updateUserRoleMutation() {
+  return mockUpdateUserRoleMutation(async ({ variables }) => {
+    const maybeErrorState = variables.input.userRoleId === marketParticipantUserRoleGetAll[1].id;
+
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        updateUserRole: {
+          __typename: 'UpdateUserRolePayload',
+          success: !maybeErrorState,
+          errors: maybeErrorState
+            ? [
+                {
+                  message: 'mock error',
+                  statusCode: 400,
+                  apiErrors: [
+                    {
+                      __typename: 'ApiErrorDescriptor',
+                      message: 'error message',
+                      code: 'market_participant.validation.market_role.reserved',
+                      args: {},
+                    },
+                  ],
+                  __typename: 'ApiError',
+                },
+              ]
+            : null,
+        },
+      },
+    });
   });
 }
 

@@ -120,7 +120,7 @@ export class DhWholesaleSettlementsReportsTabsBalanceComponent
   resultTable!: WattTableComponent<settlementReportsTableColumns>;
 
   searchForm = this.fb.group({
-    period: [{ start: '', end: '' }, WattRangeValidators.required()],
+    period: [{ start: '', end: '' }, WattRangeValidators.required],
     actor: [''],
     gridAreas: [[] as string[]],
   });

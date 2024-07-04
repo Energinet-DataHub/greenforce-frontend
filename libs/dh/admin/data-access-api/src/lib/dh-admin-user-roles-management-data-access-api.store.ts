@@ -68,15 +68,19 @@ export class DhAdminUserRolesManagementDataAccessApiStore
 
   roles$ = this.select((state) => state.roles);
 
-  rolesFiltered$ = this.select(this.roles$, this.filterModel$, (roles, filter) =>
-    roles.filter(
-      (role) =>
-        (!filter.status || role.status == filter.status) &&
-        (!filter.eicFunctions ||
-          filter.eicFunctions.length == 0 ||
-          filter.eicFunctions.includes(role.eicFunction)) &&
-        (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()))
-    )
+  rolesFiltered$ = this.select(
+    this.roles$,
+    this.filterModel$,
+    (roles, filter) =>
+      roles.filter(
+        (role) =>
+          (!filter.status || role.status == filter.status) &&
+          (!filter.eicFunctions ||
+            filter.eicFunctions.length == 0 ||
+            filter.eicFunctions.includes(role.eicFunction)) &&
+          (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()))
+      ),
+    { debounce: true }
   );
 
   rolesOptions$: Observable<WattDropdownOptions> = of([]);

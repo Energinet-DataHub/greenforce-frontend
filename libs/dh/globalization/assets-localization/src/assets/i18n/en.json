@@ -537,6 +537,7 @@
         "departmentEmail": "E-mail",
         "departmentPhone": "Phone no.",
         "required": "Field is required",
+        "departmentNameMaxLength": "Name must be under {{ maxLength }} characters",
         "invalidEmail": "Invalid e-mail",
         "cancel": "Cancel",
         "save": "Save changes",

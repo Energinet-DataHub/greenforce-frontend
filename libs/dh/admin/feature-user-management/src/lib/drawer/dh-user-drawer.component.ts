@@ -42,7 +42,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import {
   DhAdminInviteUserStore,
   DhAdminUserStatusStore,
-  UserOverviewItem,
+  User,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { GetUserByIdDocument, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -117,7 +117,7 @@ export class DhUserDrawerComponent {
     this.closed.emit();
   }
 
-  open(user: UserOverviewItem): void {
+  open(user: User): void {
     this.userId.set(user.id);
     this.drawer.open();
   }

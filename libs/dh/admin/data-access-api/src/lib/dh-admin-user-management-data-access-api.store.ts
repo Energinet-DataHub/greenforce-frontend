@@ -31,9 +31,9 @@ import {
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
 
-export type UserOverviewItem = ResultOf<
-  typeof UserOverviewSearchDocument
->['userOverviewSearch']['users'][0];
+export type Users = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'];
+
+export type User = Users[0];
 
 type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
 
@@ -56,7 +56,7 @@ export type DhUserManagementFilters = {
 };
 
 interface DhUserManagementState {
-  readonly users: UserOverviewItem[];
+  readonly users: Users;
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
@@ -135,18 +135,14 @@ export class DhAdminUserManagementDataAccessApiStore
         return this.getUsers(fetchUsersParams).valueChanges.pipe(
           tapResponse(
             (response) => {
-              if (
-                response.data?.userOverviewSearch.users &&
-                response.data?.userOverviewSearch.totalUserCount
-              ) {
+              if (response.data?.userOverviewSearch.users) {
                 this.updateUsers(response.data.userOverviewSearch);
+
+                this.patchState({ usersRequestState: LoadingState.LOADED });
               }
             },
             () => {
               this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
-            },
-            () => {
-              this.patchState({ usersRequestState: LoadingState.LOADED });
             }
           )
         );

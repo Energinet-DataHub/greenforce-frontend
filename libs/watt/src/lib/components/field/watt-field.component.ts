@@ -32,6 +32,7 @@ import { WattTooltipDirective } from '../tooltip';
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
+import { WattRangeValidators } from '../picker/shared/validators/watt-range.validators';
 
 @Component({
   selector: 'watt-field',
@@ -93,7 +94,8 @@ export class WattFieldComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['control']) {
-      this._isRequired = this.control?.hasValidator(Validators.required) ?? false;
+      const validators = [Validators.required, WattRangeValidators.required];
+      this._isRequired = validators.some((validator) => this.control?.hasValidator(validator));
     }
   }
 }
