@@ -28,4 +28,15 @@ export const marketParticipantOrganizationGetFilteredActors: MarketParticipantFi
     marketRoles: ['DataHubAdministrator'],
     gridAreaCodes: [],
   },
+  {
+    actorId: '00000000-0000-0000-0000-000000000002',
+    actorNumber: {
+      value: '5790001330584',
+    },
+    name: {
+      value: 'Sort Strøm A/S',
+    },
+    marketRoles: ['EnergySupplier'],
+    gridAreaCodes: [],
+  },
 ];

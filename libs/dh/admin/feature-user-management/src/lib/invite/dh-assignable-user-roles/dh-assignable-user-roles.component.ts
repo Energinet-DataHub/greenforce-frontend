@@ -14,63 +14,68 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatDividerModule } from '@angular/material/divider';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, computed, effect, input, output } from '@angular/core';
+
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { takeUntil } from 'rxjs';
 
-import {
-  DhAdminAssignableUserRolesStore,
-  UserRoleItem,
-} from '@energinet-datahub/dh/admin/data-access-api';
+import { MatDividerModule } from '@angular/material/divider';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
+import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
+import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-assignable-user-roles',
   standalone: true,
   imports: [
-    NgTemplateOutlet,
-    FormsModule,
     RxLet,
     RxPush,
-    TranslocoDirective,
+    FormsModule,
     TranslocoPipe,
+    NgTemplateOutlet,
     MatDividerModule,
+    TranslocoDirective,
 
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
     WATT_CARD,
     WATT_TABLE,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
   ],
   styleUrls: ['./dh-assignable-user-roles.component.scss'],
   templateUrl: './dh-assignable-user-roles.component.html',
 })
-export class DhAssignableUserRolesComponent implements OnInit {
-  private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
+export class DhAssignableUserRolesComponent {
+  actorId = input.required<string>();
 
-  readonly assignableUserRoles$ = this.assignableUserRolesStore.assignableUserRoles$;
-  readonly hasGeneralError$ = this.assignableUserRolesStore.hasGeneralError$;
-  readonly dataSource = new WattTableDataSource<UserRoleItem>();
+  assignableUserRoles = lazyQuery(GetUserRolesByActorIdDocument);
 
-  @Output() readonly selectedUserRoles = new EventEmitter<UserRoleItem[]>();
+  readonly isLoading = computed(() => this.assignableUserRoles.loading());
+  readonly hasError = computed(() => this.assignableUserRoles.error());
+
+  readonly dataSource = computed(
+    () => new WattTableDataSource<UserRoleItem>(this.assignableUserRoles.data()?.userRolesByActorId)
+  );
+
+  readonly selectedUserRoles = output<UserRoleItem[]>();
+
+  constructor() {
+    effect(() => this.assignableUserRoles.query({ variables: { actorId: this.actorId() } }));
+  }
 
   columns: WattTableColumnDef<UserRoleItem> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
-
-  ngOnInit(): void {
-    this.assignableUserRolesStore.assignableUserRoles$
-      .pipe(takeUntil(this.assignableUserRolesStore.destroy$))
-      .subscribe((userRoles) => (this.dataSource.data = userRoles));
-  }
 
   selectionChanged(userRoles: UserRoleItem[]) {
     this.selectedUserRoles.emit(userRoles);
