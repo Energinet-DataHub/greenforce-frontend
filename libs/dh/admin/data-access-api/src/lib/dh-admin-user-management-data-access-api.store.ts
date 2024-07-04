@@ -135,18 +135,14 @@ export class DhAdminUserManagementDataAccessApiStore
         return this.getUsers(fetchUsersParams).valueChanges.pipe(
           tapResponse(
             (response) => {
-              if (
-                response.data?.userOverviewSearch.users &&
-                response.data?.userOverviewSearch.totalUserCount
-              ) {
+              if (response.data?.userOverviewSearch.users) {
                 this.updateUsers(response.data.userOverviewSearch);
+
+                this.patchState({ usersRequestState: LoadingState.LOADED });
               }
             },
             () => {
               this.patchState({ usersRequestState: ErrorState.GENERAL_ERROR });
-            },
-            () => {
-              this.patchState({ usersRequestState: LoadingState.LOADED });
             }
           )
         );
