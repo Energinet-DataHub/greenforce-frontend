@@ -16,6 +16,10 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+watt-dropdown:not(.watt-chip-mode) {
+  width: 100%;
+}
+
 watt-dropdown {
   --watt-input-color: var(--watt-typography-text-color);
   --watt-input-placeholder-color: var(--watt-on-light-high-emphasis);
