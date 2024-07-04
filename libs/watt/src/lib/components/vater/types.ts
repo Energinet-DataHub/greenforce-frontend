@@ -26,4 +26,4 @@ export type Justify =
 export type Align = 'stretch' | 'flex-start' | 'flex-end' | 'center' | 'baseline';
 
 // TODO: Get these values from design tokens
-export type Gap = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
+export type Spacing = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
