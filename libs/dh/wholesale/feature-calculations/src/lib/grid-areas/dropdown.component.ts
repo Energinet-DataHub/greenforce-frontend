@@ -37,6 +37,13 @@ import { TranslocoDirective } from '@ngneat/transloco';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
+  styles: [
+    `
+      :host {
+        display: contents;
+      }
+    `,
+  ],
   template: `
     <watt-dropdown
       style="width: 100%;"
