@@ -28,33 +28,35 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { distinctUntilChanged, map, of, take } from 'rxjs';
-import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { Apollo } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
+import { distinctUntilChanged, map, of, take } from 'rxjs';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+
 import {
-  DhAdminAssignableUserRolesStore,
   DhUserActorsDataAccessApiStore,
   DhAdminInviteUserStore,
   UserRoleItem,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import {
   GetAssociatedActorsDocument,
   GetKnownEmailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+
 import {
   ApiErrorCollection,
   readApiErrorResponse,
@@ -65,21 +67,21 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [DhAdminAssignableUserRolesStore, DhAdminInviteUserStore],
+  providers: [DhAdminInviteUserStore],
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
+    RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
-    RxPush,
 
     WATT_MODAL,
-    WattButtonComponent,
-    WattIconComponent,
-    WattDropdownComponent,
     WATT_STEPPER,
+    WattIconComponent,
+    WattButtonComponent,
+    WattDropdownComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattPhoneFieldComponent,
@@ -88,15 +90,14 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
   ],
 })
 export class DhInviteUserModalComponent implements AfterViewInit {
-  private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
-  private readonly assignableUserRolesStore = inject(DhAdminAssignableUserRolesStore);
-  private readonly inviteUserStore = inject(DhAdminInviteUserStore);
-  private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
-  private readonly toastService = inject(WattToastService);
-  private readonly translocoService = inject(TranslocoService);
   private readonly apollo = inject(Apollo);
-  private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly toastService = inject(WattToastService);
+  private readonly changeDectorRef = inject(ChangeDetectorRef);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly inviteUserStore = inject(DhAdminInviteUserStore);
+  private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
+  private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   private readonly userEmailExistsQuery = this.apollo.watchQuery({
     returnPartialData: false,
@@ -110,6 +111,8 @@ export class DhInviteUserModalComponent implements AfterViewInit {
   readonly actors$ = this.actorStore.actors$;
 
   isInvitingUser$ = this.inviteUserStore.isSaving$;
+
+  selectedActorId = signal<string | null>(null);
 
   domain: string | undefined = undefined;
   inOrganizationMailDomain = false;
@@ -188,8 +191,7 @@ export class DhInviteUserModalComponent implements AfterViewInit {
           this.actorStore.resetOrganizationState();
           return;
         }
-
-        this.assignableUserRolesStore.getAssignableUserRoles(actorId);
+        this.selectedActorId.set(actorId);
         this.actorStore.getActorOrganization(actorId);
         this.baseInfo.updateValueAndValidity();
         this.changeDectorRef.detectChanges();
