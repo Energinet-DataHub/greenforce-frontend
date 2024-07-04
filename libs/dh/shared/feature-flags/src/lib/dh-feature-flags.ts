@@ -50,6 +50,11 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod],
   },
+  // This should be removed when there is no longer a need to to test calculations with old data
+  'create-calculation-minimum-date': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.test_001],
+  },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
   'quarterly-resolution-transition-datetime-override': {

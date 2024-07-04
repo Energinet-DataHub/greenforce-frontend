@@ -144,7 +144,7 @@ export class DhCalculationsCreateComponent implements OnInit {
   latestPeriodEnd?: Date | null;
   showPeriodWarning = false;
 
-  minDate = getMinDate();
+  minDate = this.ffs.isEnabled('create-calculation-minimum-date') ? getMinDate() : undefined;
   maxDate = new Date();
 
   ngOnInit(): void {
