@@ -47,14 +47,10 @@ import {
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
   DhUserRoleWithPermissions,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  MarketParticipantPermissionDetailsDto,
-  MarketParticipantUpdateUserRoleDto,
-  MarketParticipantUserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
-import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { UpdateUserRoleDtoInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -199,11 +195,11 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
 
     const formControls = this.userRoleEditForm.controls;
 
-    const updatedUserRole: MarketParticipantUpdateUserRoleDto = {
+    const updatedUserRole: UpdateUserRoleDtoInput = {
       name: formControls.name.value,
       description: formControls.description.value,
       permissions: formControls.permissionIds.value,
-      status: this.mapGraphQLToRestUserRoleStatus(userRole.status),
+      status: userRole.status,
     };
 
     const onSuccessFn = () => {
@@ -227,16 +223,5 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       onSuccessFn,
       onErrorFn,
     });
-  }
-
-  private mapGraphQLToRestUserRoleStatus(status: UserRoleStatus): MarketParticipantUserRoleStatus {
-    switch (status) {
-      case 'ACTIVE':
-        return MarketParticipantUserRoleStatus.Active;
-      case 'INACTIVE':
-        return MarketParticipantUserRoleStatus.Inactive;
-      default:
-        return MarketParticipantUserRoleStatus.Active;
-    }
   }
 }

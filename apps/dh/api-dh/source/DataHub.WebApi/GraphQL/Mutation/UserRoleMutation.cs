@@ -29,4 +29,14 @@ public partial class Mutation
         await Task.WhenAll(tasks).ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> UpdateUserRoleAsync(
+            Guid userRoleId,
+            UpdateUserRoleDto userRole,
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserRolesPutAsync(userRoleId, userRole).ConfigureAwait(false);
+        return true;
+    }
 }
