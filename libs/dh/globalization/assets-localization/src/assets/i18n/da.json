@@ -886,12 +886,10 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "scheduling": "Kørsel",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
         },
-        "summation": "Månedlige summer",
         "period": {
           "label": "Periode",
           "required": "Dato-periode påkrævet",
@@ -944,14 +942,6 @@
       "executionTypes": {
         "ACTUAL": "Faktisk",
         "SIMULATION": "Simulering"
-      },
-      "scheduling": {
-        "NOW": "Kør nu",
-        "SCHEDULED": "Planlæg"
-      },
-      "summation": {
-        "YES": "Ja",
-        "NO": "Nej"
       },
       "filters": {
         "states": "Status",
