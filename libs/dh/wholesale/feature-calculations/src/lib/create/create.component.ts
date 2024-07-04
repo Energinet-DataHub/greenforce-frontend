@@ -133,7 +133,7 @@ export class DhCalculationsCreateComponent implements OnInit {
       { validators: Validators.required }
     ),
     dateRange: new FormControl(null, {
-      validators: [WattRangeValidators.required(), this.validateResolutionTransition()],
+      validators: [WattRangeValidators.required, this.validateResolutionTransition()],
       asyncValidators: () => this.validateBalanceFixing(),
     }),
   });
