@@ -25,7 +25,6 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -51,7 +50,6 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
     `,
   ],
   imports: [
-    RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
 
