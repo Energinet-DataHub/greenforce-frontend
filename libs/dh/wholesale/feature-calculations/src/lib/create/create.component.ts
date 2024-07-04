@@ -75,7 +75,6 @@ interface FormValues {
 @Component({
   selector: 'dh-calculations-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
     RxLet,
@@ -100,6 +99,7 @@ interface FormValues {
     VaterStackComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
+
     DhCalculationsGridAreasDropdownComponent,
     DhDropdownTranslatorDirective,
   ],
