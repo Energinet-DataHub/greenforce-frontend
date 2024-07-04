@@ -14,26 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { WattDateRange } from '../../../../utils/date';
 
 export class WattRangeValidators {
-  static required(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return (control.value as WattDateRange)?.start && (control.value as WattDateRange).end
-        ? null
-        : { rangeRequired: true };
-    };
-  }
-  static startRequired(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return (control.value as WattDateRange)?.start ? null : { startOfRangeRequired: true };
-    };
-  }
-  static endRequired(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      return (control.value as WattDateRange)?.end ? null : { endOfRangeRequired: true };
-    };
-  }
+  static required: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
+    control.value?.start && control.value?.end ? null : { rangeRequired: true };
+
+  static startRequired: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
+    control.value?.start ? null : { startOfRangeRequired: true };
+
+  static endRequired: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
+    control.value?.end ? null : { endOfRangeRequired: true };
 }

@@ -147,7 +147,7 @@ export class DhWholesaleRequestCalculationComponent {
     calculationType: this._fb.control(CalculationType.Aggregation, Validators.required),
     period: this._fb.control(null, [
       Validators.required,
-      WattRangeValidators.required(),
+      WattRangeValidators.required,
       max31DaysDateRangeValidator,
     ]),
     gridArea: this._fb.control(null, Validators.required),

@@ -104,7 +104,7 @@ export const WithValidations: StoryFn<WattTimepickerComponent> = (args) => ({
       Validators.required,
       startTimeCannotBeLaterThan3HoursValidator(),
     ]),
-    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
+    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required]),
     withValidations: true,
     ...args,
   },

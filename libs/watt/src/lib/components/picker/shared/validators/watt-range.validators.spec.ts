@@ -32,19 +32,19 @@ describe('Range validators', () => {
     // required
     [
       '[required] should not return error, providing full range',
-      WattRangeValidators.required(),
+      WattRangeValidators.required,
       fullRangeValue,
       null,
     ],
     [
       '[required] should return error, providing only start of range',
-      WattRangeValidators.required(),
+      WattRangeValidators.required,
       onlyWithStartValue,
       { rangeRequired: true },
     ],
     [
       '[required] should return error, providing only end of range',
-      WattRangeValidators.required(),
+      WattRangeValidators.required,
       onlyWithEndValue,
       { rangeRequired: true },
     ],
@@ -52,19 +52,19 @@ describe('Range validators', () => {
     // startRequired
     [
       '[startRequired] should not return error, providing full range',
-      WattRangeValidators.startRequired(),
+      WattRangeValidators.startRequired,
       fullRangeValue,
       null,
     ],
     [
       '[startRequired] should not return error, providing only start of range',
-      WattRangeValidators.startRequired(),
+      WattRangeValidators.startRequired,
       onlyWithStartValue,
       null,
     ],
     [
       '[startRequired] should return error, providing only end of range',
-      WattRangeValidators.startRequired(),
+      WattRangeValidators.startRequired,
       onlyWithEndValue,
       { startOfRangeRequired: true },
     ],
@@ -72,19 +72,19 @@ describe('Range validators', () => {
     // endRequired
     [
       '[endRequired] should not return error, providing full range',
-      WattRangeValidators.endRequired(),
+      WattRangeValidators.endRequired,
       fullRangeValue,
       null,
     ],
     [
       '[endRequired] should return error, providing only start of range',
-      WattRangeValidators.endRequired(),
+      WattRangeValidators.endRequired,
       onlyWithStartValue,
       { endOfRangeRequired: true },
     ],
     [
       '[endRequired] should not return error, providing only end of range',
-      WattRangeValidators.endRequired(),
+      WattRangeValidators.endRequired,
       onlyWithEndValue,
       null,
     ],
