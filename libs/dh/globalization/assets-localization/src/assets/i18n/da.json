@@ -537,6 +537,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Udfyld feltet",
         "invalidEmail": "Ugyldig e-mail",
+        "departmentNameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
