@@ -96,6 +96,10 @@ interface FormValues {
     WattFieldHintComponent,
     WattTextFieldComponent,
 
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    VaterSpacerComponent,
     DhCalculationsGridAreasDropdownComponent,
     DhDropdownTranslatorDirective,
   ],
