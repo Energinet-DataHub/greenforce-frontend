@@ -28,39 +28,36 @@ limitations under the License.
     </watt-card-title>
 
     <div class="user-roles-table-container">
-      <watt-table
-        [dataSource]="dataSource()"
-        [columns]="columns"
-        sortBy="eicFunction"
-        sortDirection="asc"
-        [selectable]="true"
-        (selectionChange)="selectionChanged($event)"
-      >
-        <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
-          {{ element.name }}
-        </ng-container>
-
-        <ng-container
-          *wattTableCell="columns['description']; header: t('columns.description'); let element"
+      @if (hasError()) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        />
+      } @else {
+        <watt-table
+          [dataSource]="dataSource()"
+          [loading]="isLoading()"
+          [columns]="columns"
+          sortBy="eicFunction"
+          sortDirection="asc"
+          [selectable]="true"
+          (selectionChange)="selectionChanged($event)"
         >
-          {{ element.description }}
-        </ng-container>
-      </watt-table>
+          <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+            {{ element.name }}
+          </ng-container>
+
+          <ng-container
+            *wattTableCell="columns['description']; header: t('columns.description'); let element"
+          >
+            {{ element.description }}
+          </ng-container>
+        </watt-table>
+      }
     </div>
   </watt-card>
 </ng-container>
-
-@if (isLoading()) {
-  <watt-spinner />
-}
-
-@if (hasError()) {
-  <watt-empty-state
-    icon="custom-power"
-    [title]="'shared.error.title' | transloco"
-    [message]="'shared.error.message' | transloco"
-  />
-}
 
 <ng-template #userRolesHeadline let-userRolesCount>
   <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">

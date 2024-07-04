@@ -100,8 +100,17 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
 }
 
 function getUserRolesByActorIdQuery() {
-  return mockGetUserRolesByActorIdQuery(async () => {
+  return mockGetUserRolesByActorIdQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
+    const [, second] = marketParticipantOrganizationGetFilteredActors;
+    if (second.actorId === variables.actorId) {
+      return HttpResponse.json({
+        data: null,
+        errors: [
+          { message: 'Actor not found', path: ['actorId'], extensions: { code: 'NOT_FOUND' } },
+        ],
+      });
+    }
     return HttpResponse.json({ data: marketParticipantUserRoles });
   });
 }
