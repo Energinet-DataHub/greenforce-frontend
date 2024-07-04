@@ -77,9 +77,11 @@ export class DhActorsEditActorModalComponent {
 
   @Input() actor: DhActorExtended | undefined;
 
+  departmentNameMaxLength = 250;
+
   actorForm = this.formBuilder.group({
     name: ['', Validators.required],
-    departmentName: ['', Validators.required],
+    departmentName: ['', [Validators.required, Validators.maxLength(this.departmentNameMaxLength)]],
     departmentEmail: ['', [Validators.required, Validators.email]],
     departmentPhone: ['', Validators.required],
   });

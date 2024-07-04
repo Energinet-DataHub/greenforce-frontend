@@ -41,7 +41,13 @@ limitations under the License.
         [required]="true"
         [label]="t('departmentName')"
         [formControl]="actorForm.controls.departmentName"
-      />
+      >
+        @if (actorForm.controls.departmentName.hasError("maxlength")) {
+          <watt-field-error>
+            {{ t("departmentNameMaxLength", { maxLength: departmentNameMaxLength }) }}
+          </watt-field-error>
+        }
+      </watt-text-field>
 
       <watt-text-field
         class="contact-field"
