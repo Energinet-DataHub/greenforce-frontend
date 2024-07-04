@@ -119,13 +119,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
         return Ok(userRoleId);
     }
 
-    [HttpPut]
-    [Route("Update")]
-    public Task<ActionResult> UpdateAsync(Guid userRoleId, UpdateUserRoleDto userRole)
-    {
-        return HandleExceptionAsync(() => _client.UserRolesPutAsync(userRoleId, userRole));
-    }
-
     [HttpGet]
     [Route("Permissions")]
     public Task<ActionResult<ICollection<PermissionDetailsDto>>> GetPermissionDetailsAsync(EicFunction eicFunction)
