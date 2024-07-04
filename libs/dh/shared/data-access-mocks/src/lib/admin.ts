@@ -34,6 +34,7 @@ import {
   User,
   mockUpdateUserAndRolesMutation,
   mockUpdateUserRoleMutation,
+  mockUpdatePermissionMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -64,7 +65,6 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
-    putMarketParticipantPermissionsUpdate(apiBase),
     postMarketParticipantUserRoleCreate(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
@@ -74,6 +74,7 @@ export function adminMocks(apiBase: string) {
     getUserOverviewQuery(),
     getUserByIdQuery(),
     updateUserAndRoles(),
+    updatePermission(),
     getMarketParticipantUserDeactivate(apiBase),
     getMarketParticipantUserReActivate(apiBase),
   ];
@@ -264,13 +265,6 @@ function getAdminPermissionLogs() {
   });
 }
 
-function putMarketParticipantPermissionsUpdate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantPermissions/Update`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
-  });
-}
-
 function postMarketParticipantUserRoleCreate(apiBase: string) {
   return http.post(`${apiBase}/v1/MarketParticipantUserRole/Create`, async () => {
     await delay(mswConfig.delay);
@@ -282,6 +276,39 @@ function postMarketParticipantUserInviteUser(apiBase: string) {
   return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function updatePermission() {
+  return mockUpdatePermissionMutation(async ({ variables }) => {
+    const { id } = variables.input;
+    await delay(mswConfig.delay);
+
+    if (id === 1)
+      return HttpResponse.json({
+        data: null,
+        errors: [
+          {
+            message: 'Permission not found',
+            path: ['updatePermission'],
+            extensions: { code: 'NOT_FOUND' },
+          },
+        ],
+      });
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        updatePermission: {
+          errors: null,
+          __typename: 'UpdatePermissionPayload',
+          permission: {
+            __typename: 'Permission',
+            id,
+          },
+        },
+      },
+    });
   });
 }
 

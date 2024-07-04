@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editPermission'">
-  <watt-modal [title]="permission.name" (closed)="closeModal($event)">
+  <watt-modal [title]="permission().name" (closed)="closeModal($event)">
     <form [formGroup]="userPermissionsForm" id="edit-permissions-form" (ngSubmit)="save()">
       <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData.tabLabel')">
@@ -42,7 +42,7 @@ limitations under the License.
       <watt-button variant="secondary" (click)="closeModal(false)">
         {{ t("cancel") }}
       </watt-button>
-      <watt-button type="submit" formId="edit-permissions-form" [loading]="isSaving$ | push">
+      <watt-button type="submit" formId="edit-permissions-form" [loading]="isSaving()">
         {{ t("save") }}
       </watt-button>
     </watt-modal-actions>

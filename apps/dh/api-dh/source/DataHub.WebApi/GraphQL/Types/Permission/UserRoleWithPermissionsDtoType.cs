@@ -13,20 +13,17 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
 
-public partial class Mutation
+public class UserRoleWithPermissionsDtoType : ObjectType<UserRoleWithPermissionsDto>
 {
-    [Error(typeof(ApiException))]
-    public Task<PermissionDto> UpdatePermissionAsync(
-    int id,
-    string description,
-    [Service] IMarketParticipantClient_V1 client)
+    protected override void Configure(IObjectTypeDescriptor<UserRoleWithPermissionsDto> descriptor)
     {
-        return client
-            .PermissionPutAsync(new() { Id = id, Description = description })
-            .Then(() => client.PermissionGetAsync(id));
+        descriptor.Name("UserRoleWithPermissions");
+        descriptor
+           .Field("userRoles")
+           .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
     }
 }
