@@ -41,7 +41,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 
-import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
+import { DhCalculationsGridAreasTableComponent } from '../grid-areas/table.component';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 @Component({
   standalone: true,
@@ -56,8 +57,10 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+    VaterFlexComponent,
+    VaterUtilityDirective,
 
-    DhCalculationsGridAreasComponent,
+    DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,
   ],
   selector: 'dh-calculations-details',

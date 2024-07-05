@@ -18,30 +18,38 @@ import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/c
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
   standalone: true,
-  imports: [
-    MatSortModule,
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattEmptyStateComponent,
-    WattPaginatorComponent,
-    WATT_CARD,
-  ],
-  selector: 'dh-calculations-grid-areas',
-  templateUrl: './grid-areas.component.html',
-  styleUrls: ['./grid-areas.component.scss'],
+  imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
+  selector: 'dh-calculations-grid-areas-table',
+  template: `
+    <watt-data-table
+      *transloco="let t; read: 'wholesale.calculations.details'"
+      variant="solid"
+      [enableSearch]="false"
+      [enablePaginator]="false"
+    >
+      <h4>{{ t('gridAreas') }}</h4>
+      <!-- Table -->
+      <watt-table
+        [dataSource]="_data"
+        [columns]="columns"
+        [suppressRowHoverHighlight]="true"
+        [hideColumnHeaders]="true"
+        sortBy="displayName"
+        sortDirection="asc"
+      />
+    </watt-data-table>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhCalculationsGridAreasComponent {
+export class DhCalculationsGridAreasTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   @Input()
@@ -53,10 +61,6 @@ export class DhCalculationsGridAreasComponent {
 
   _data: WattTableDataSource<CalculationGridArea> = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<CalculationGridArea> = {
-    gridAreaCode: { accessor: 'code' },
-    name: {
-      accessor: 'name',
-      cell: (row: CalculationGridArea) => row.name ?? '—',
-    },
+    displayName: { accessor: 'displayName' },
   };
 }

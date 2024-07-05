@@ -59,6 +59,7 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 interface FormValues {
   calculationType: FormControl<StartCalculationType>;
@@ -69,7 +70,6 @@ interface FormValues {
 @Component({
   selector: 'dh-calculations-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
     RxLet,
@@ -89,6 +89,9 @@ interface FormValues {
     WattFieldErrorComponent,
     WattFieldHintComponent,
     WattTextFieldComponent,
+
+    VaterFlexComponent,
+    VaterStackComponent,
 
     DhCalculationsGridAreasDropdownComponent,
     DhDropdownTranslatorDirective,

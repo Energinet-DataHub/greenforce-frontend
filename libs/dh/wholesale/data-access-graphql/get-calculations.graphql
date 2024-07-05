@@ -10,7 +10,7 @@ query GetCalculations($input: CalculationQueryInput!) {
     createdByUserName
     gridAreas {
       code
-      name
+      displayName
     }
     currentStep
     progress {
