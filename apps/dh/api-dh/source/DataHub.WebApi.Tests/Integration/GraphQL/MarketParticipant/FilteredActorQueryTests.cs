@@ -17,10 +17,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
@@ -29,8 +27,6 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.MarketParticipant;
 
 public class FilteredActorQueryTests
 {
-    private static readonly Guid _batchId = new("14098365-3231-40e3-8c1b-5a73dbab31c0");
-
     private static readonly string _filteredActors =
     $$"""
     {

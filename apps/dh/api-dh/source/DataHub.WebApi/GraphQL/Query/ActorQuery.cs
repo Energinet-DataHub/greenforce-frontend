@@ -109,14 +109,14 @@ public partial class Query
         [Service] IHttpContextAccessor httpContext,
         [Service] IMarketParticipantClient_V1 client)
     {
-        var actors = await client
-                        .ActorGetAsync()
-                        .ConfigureAwait(false);
-
         if (httpContext.HttpContext == null)
         {
             return Enumerable.Empty<ActorDto>();
         }
+
+        var actors = await client
+                        .ActorGetAsync()
+                        .ConfigureAwait(false);
 
         if (httpContext.HttpContext.User.IsFas())
         {
