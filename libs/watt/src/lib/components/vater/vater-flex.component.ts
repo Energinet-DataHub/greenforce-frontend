@@ -38,7 +38,7 @@ import { VaterUtilityDirective } from './vater-utility.directive';
 
       vater-flex > *,
       [vater-flex] > * {
-        flex: 1 1 auto;
+        flex: var(--grow) var(--shrink) var(--basis);
       }
     `,
   ],
@@ -48,6 +48,18 @@ export class VaterFlexComponent {
   @Input()
   @HostBinding('style.flex-direction')
   direction: Direction = 'column';
+
+  @Input()
+  @HostBinding('style.--grow')
+  grow = '1';
+
+  @Input()
+  @HostBinding('style.--shrink')
+  shrink = '1';
+
+  @Input()
+  @HostBinding('style.--basis')
+  basis = 'auto';
 
   @Input()
   gap?: Spacing;
@@ -62,7 +74,7 @@ export class VaterFlexComponent {
   @Input()
   offset?: Spacing;
 
-  @HostBinding('style.margin')
+  @HostBinding('style.padding')
   get _offset() {
     if (!this.offset) return undefined;
     switch (this.direction) {
