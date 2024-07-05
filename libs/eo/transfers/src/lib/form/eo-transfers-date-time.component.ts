@@ -64,9 +64,8 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
         align-items: flex-end;
       }
 
-      eo-transfers-datetime watt-field {
+      eo-transfers-datetime watt-datepicker {
         max-width: 160px;
-        margin: 0;
 
         input {
           width: 90px;
