@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-drawer #drawer (closed)="closed.emit()">
+<watt-drawer #drawer (closed)="closed.emit()" [loading]="loading">
   <watt-drawer-topbar *transloco="let transloco; read: 'wholesale.calculations'">
     @if (!error) {
       <watt-badge [type]="calculation?.statusType ?? 'skeleton'">{{
@@ -31,7 +31,7 @@ limitations under the License.
     <watt-description-list>
       <watt-description-list-item
         [label]="transloco('details.period')"
-        [value]="calculation?.period | wattDate: 'long' | dhEmDashFallback"
+        [value]="calculation?.period | wattDate: 'short' | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="transloco('details.executionTime')"
@@ -40,40 +40,34 @@ limitations under the License.
     </watt-description-list>
   </watt-drawer-heading>
   <watt-drawer-content *transloco="let transloco; read: 'wholesale.calculations'">
-    @if (calculation) {
-      <watt-progress-tracker>
-        @for (progress of calculation.progress; track progress) {
-          <watt-progress-tracker-step
-            [label]="transloco('progress.' + progress.step + '.pending')"
-            [status]="progress.status"
-            [current]="calculation.currentStep === progress.step"
-          >
-            {{ transloco("progress." + progress.step + ".completed") }}
-          </watt-progress-tracker-step>
-        }
-      </watt-progress-tracker>
-    }
-
-    @if (calculation) {
-      @if (calculation.gridAreas) {
-        <dh-calculations-grid-areas [data]="calculation.gridAreas" />
+    <vater-flex fill="vertical" gap="l" offset="l">
+      @if (calculation) {
+        <watt-progress-tracker>
+          @for (progress of calculation.progress; track progress) {
+            <watt-progress-tracker-step
+              [label]="transloco('progress.' + progress.step + '.pending')"
+              [status]="progress.status"
+              [current]="calculation.currentStep === progress.step"
+            >
+              {{ transloco("progress." + progress.step + ".completed") }}
+            </watt-progress-tracker-step>
+          }
+        </watt-progress-tracker>
       }
-    }
 
-    @if (loading && !calculation?.gridAreas) {
-      <div class="center">
-        <watt-spinner />
-      </div>
-    }
-
-    @if (error) {
-      <div class="center">
-        <watt-empty-state
-          icon="custom-power"
-          [title]="transloco('details.emptyTitle')"
-          [message]="transloco('details.emptyMessage')"
-        />
-      </div>
-    }
+      <vater-flex scrollable fill="vertical" grow="0">
+        @if (calculation && calculation.gridAreas) {
+          <dh-calculations-grid-areas-table [data]="calculation.gridAreas" />
+        } @else if (error) {
+          <watt-empty-state
+            vater
+            center
+            icon="custom-power"
+            [title]="transloco('details.emptyTitle')"
+            [message]="transloco('details.emptyMessage')"
+          />
+        }
+      </vater-flex>
+    </vater-flex>
   </watt-drawer-content>
 </watt-drawer>
