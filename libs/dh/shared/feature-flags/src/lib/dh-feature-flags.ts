@@ -48,7 +48,7 @@ export const dhFeatureFlagsConfig = {
   },
   'settlement-reports-v2': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod],
+    disabledEnvironments: [],
   },
   // This should be removed when there is no longer a need to to test calculations with old data
   'create-calculation-minimum-date': {
