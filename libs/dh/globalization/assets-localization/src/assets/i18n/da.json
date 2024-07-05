@@ -963,6 +963,7 @@
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
         "executionTime": "Eksekveringstidspunkt",
+        "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
       },
@@ -985,12 +986,6 @@
           "failed": "Beskeddannelse fejlet",
           "completed": "Beskeder dannet"
         }
-      },
-      "gridAreas": {
-        "header": "{{total}} Netområder",
-        "gridAreaCode": "ID",
-        "name": "navn",
-        "emptyTitle": "Ingen netområder fundet"
       }
     },
     "requestCalculation": {

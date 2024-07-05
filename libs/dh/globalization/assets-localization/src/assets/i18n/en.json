@@ -964,6 +964,7 @@
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
         "executionTime": "Execution time",
+        "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
       },
@@ -986,12 +987,6 @@
           "failed": "Enqueuing messages failed",
           "completed": "Messages enqueued"
         }
-      },
-      "gridAreas": {
-        "header": "{{total}} Grid Areas",
-        "gridAreaCode": "ID",
-        "name": "name",
-        "emptyTitle": "No grid areas found"
       }
     },
     "requestCalculation": {
