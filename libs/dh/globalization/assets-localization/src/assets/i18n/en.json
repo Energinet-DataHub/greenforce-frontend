@@ -887,12 +887,10 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "scheduling": "Execution",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
-        "summation": "Monthly summation",
         "period": {
           "label": "Period",
           "required": "Date range is required",
@@ -945,14 +943,6 @@
       "executionTypes": {
         "ACTUAL": "Actual",
         "SIMULATION": "Simulation"
-      },
-      "scheduling": {
-        "NOW": "Run now",
-        "SCHEDULED": "Schedule"
-      },
-      "summation": {
-        "YES": "Yes",
-        "NO": "No"
       },
       "filters": {
         "states": "Status",

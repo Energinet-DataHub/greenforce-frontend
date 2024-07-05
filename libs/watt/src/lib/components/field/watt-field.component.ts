@@ -43,7 +43,7 @@ import { WattRangeValidators } from '../picker/shared/validators/watt-range.vali
   styleUrls: ['./watt-field.component.scss'],
   template: `
     <label [attr.for]="id ? id : null">
-      @if (!chipMode) {
+      @if (!chipMode && label) {
         <span class="label" [ngClass]="{ required: _isRequired }">
           {{ label }}
           @if (tooltip) {

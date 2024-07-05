@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Gap, Justify } from './types';
+import { Direction, Spacing, Justify } from './types';
 import { VaterUtilityDirective } from './vater-utility.directive';
 
 @Component({
@@ -50,7 +50,7 @@ export class VaterFlexComponent {
   direction: Direction = 'column';
 
   @Input()
-  gap?: Gap;
+  gap?: Spacing;
 
   @Input()
   @HostBinding('style.justify-content')
@@ -58,6 +58,20 @@ export class VaterFlexComponent {
 
   @Input()
   scrollable?: string;
+
+  @Input()
+  offset?: Spacing;
+
+  @HostBinding('style.margin')
+  get _offset() {
+    if (!this.offset) return undefined;
+    switch (this.direction) {
+      case 'column':
+        return `var(--watt-space-${this.offset}) 0`;
+      case 'row':
+        return `0 var(--watt-space-${this.offset})`;
+    }
+  }
 
   @HostBinding('style.gap')
   get _gap() {
