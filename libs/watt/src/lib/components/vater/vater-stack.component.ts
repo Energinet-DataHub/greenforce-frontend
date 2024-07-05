@@ -58,7 +58,7 @@ export class VaterStackComponent {
   @Input()
   offset?: Spacing;
 
-  @HostBinding('style.margin')
+  @HostBinding('style.padding')
   get _offset() {
     if (!this.offset) return undefined;
     switch (this.direction) {
