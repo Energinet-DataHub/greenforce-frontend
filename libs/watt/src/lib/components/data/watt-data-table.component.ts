@@ -84,7 +84,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
             <ng-content select="h4" />
-            <span class="watt-chip-label">{{ count ?? this.table.dataSource.data.length }}</span>
+            <span class="watt-chip-label">{{ count ?? table.dataSource.data.length }}</span>
           </vater-stack>
           <vater-spacer />
           @if (enableSearch) {
@@ -95,7 +95,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <ng-content select="watt-data-filters" />
         <vater-flex scrollable fill="vertical">
           <ng-content select="watt-table" />
-          @if (!table.loading && this.table.dataSource.filteredData.length === 0) {
+          @if (!table.loading && table.dataSource.filteredData.length === 0) {
             <div class="watt-data-table--empty-state">
               <watt-empty-state
                 [icon]="error ? 'custom-power' : 'cancel'"
@@ -105,7 +105,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
             </div>
           }
         </vater-flex>
-        <watt-paginator [for]="this.table.dataSource" />
+        @if (enablePaginator) {
+          <watt-paginator [for]="table.dataSource" />
+        }
       </vater-flex>
     </watt-card>
   `,
@@ -113,6 +115,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
 export class WattDataTableComponent {
   @Input() error: unknown;
   @Input() enableSearch = true;
+  @Input() enablePaginator = true;
   @Input() count?: number;
   @Input() variant: WATT_CARD_VARIANT = 'elevation';
 
