@@ -10,10 +10,7 @@ query GetCalculationById($id: UUID!) {
     createdByUserName
     gridAreas {
       code
-      name
-      id
-      priceAreaCode
-      validFrom
+      displayName
     }
     currentStep
     progress {
