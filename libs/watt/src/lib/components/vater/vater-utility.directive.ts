@@ -33,8 +33,16 @@ export class VaterUtilityDirective {
   @Input({ transform: (value: Inset) => `vater-inset-${value}` })
   inset?: Inset;
 
+  @Input()
+  center?: string;
+
   @HostBinding('class')
   get _class() {
     return [this.fill, this.inset].filter(Boolean);
+  }
+
+  @HostBinding('class.vater-center')
+  get _center() {
+    return this.center === '';
   }
 }
