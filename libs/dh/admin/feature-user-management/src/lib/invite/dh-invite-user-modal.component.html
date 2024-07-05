@@ -36,12 +36,12 @@ limitations under the License.
       [loadingNextButton]="checkingForAssociatedActors()"
     >
       <form [formGroup]="userInfo" class="userInfoForm">
-        @if ((actors$ | push).length > 1) {
+        @if (actorOptions().length > 1) {
           <watt-dropdown
             class="actor"
             [label]="t('actor')"
             [formControl]="baseInfo.controls.actorId"
-            [options]="(actors$ | push) ?? []"
+            [options]="actorOptions()"
             name="actorId"
           />
         }

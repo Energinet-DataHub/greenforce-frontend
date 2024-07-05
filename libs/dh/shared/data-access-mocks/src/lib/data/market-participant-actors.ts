@@ -28,6 +28,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
+    displayName: 'Test Actor 1 • EnergySupplier',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -49,6 +50,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb4',
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 3',
+    displayName: 'Test Actor 3 • GridAccessProvider',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -70,6 +72,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 2',
+    displayName: 'Test Actor 2 • BalanceResponsibleParty',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -91,6 +94,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c18-08da5f28ddb1',
     glnOrEicNumber: '5790000555444',
     name: 'Test Actor 3',
+    displayName: 'Test Actor 3 • DanishEnergyAgency',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -112,6 +116,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
     glnOrEicNumber: '5790000555123',
     name: 'Test Actor 4',
+    displayName: 'Test Actor 4 • DanishEnergyAgency',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -133,6 +138,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
     glnOrEicNumber: '5790000555333',
     name: 'Test Actor 5',
+    displayName: 'Test Actor 5 • BalanceResponsibleParty',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -151,6 +157,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb2',
     glnOrEicNumber: '5790000555588',
     name: 'Test Actor 6',
+    displayName: 'Test Actor 6 • EnergySupplier',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
