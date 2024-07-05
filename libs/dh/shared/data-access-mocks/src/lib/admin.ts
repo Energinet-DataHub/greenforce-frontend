@@ -59,7 +59,6 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
     updateUserRoleMutation(),
-    getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
@@ -68,7 +67,6 @@ export function adminMocks(apiBase: string) {
     postMarketParticipantUserRoleCreate(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
-    getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
     getUserOverviewQuery(),
@@ -114,13 +112,6 @@ function getUserRolesByActorIdQuery() {
       });
     }
     return HttpResponse.json({ data: marketParticipantUserRoles });
-  });
-}
-
-function getActorOrganization(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActorOrganization`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantOrganization);
   });
 }
 
@@ -232,13 +223,6 @@ function updateUserRoleMutation() {
         },
       },
     });
-  });
-}
-
-function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantOrganizationGetFilteredActors);
   });
 }
 

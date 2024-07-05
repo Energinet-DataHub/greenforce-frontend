@@ -104,4 +104,26 @@ public partial class Query
             Actors = associatedActors.ActorIds,
         };
     }
+
+    public async Task<IEnumerable<ActorDto>> FilteredActorsAsync(
+        [Service] IHttpContextAccessor httpContext,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var actors = await client
+                        .ActorGetAsync()
+                        .ConfigureAwait(false);
+
+        if (httpContext.HttpContext == null)
+        {
+            return Enumerable.Empty<ActorDto>();
+        }
+
+        if (httpContext.HttpContext.User.IsFas())
+        {
+            return actors;
+        }
+
+        var actorId = httpContext.HttpContext.User.GetAssociatedActor();
+        return actors.Where(actor => actor.ActorId == actorId);
+    }
 }
