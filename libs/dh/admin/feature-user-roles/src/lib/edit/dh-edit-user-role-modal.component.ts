@@ -50,7 +50,10 @@ import {
 import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
-import { UpdateUserRoleDtoInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  PermissionDetailsDto,
+  UpdateUserRoleDtoInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -168,7 +171,9 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
     this.closed.emit({ saveSuccess });
   }
 
-  onSelectionChanged(selectedPermissions: MarketParticipantPermissionDetailsDto[]): void {
+  onSelectionChanged(
+    selectedPermissions: (MarketParticipantPermissionDetailsDto | PermissionDetailsDto)[]
+  ): void {
     if (this.skipFirstPermissionSelectionEvent) {
       this.skipFirstPermissionSelectionEvent = false;
 

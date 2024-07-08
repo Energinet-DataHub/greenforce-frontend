@@ -32,7 +32,10 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 
+import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
 import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
+
+type PermissionDetailsRestAndGraphQL = MarketParticipantPermissionDetailsDto | PermissionDetailsDto;
 
 @Component({
   selector: 'dh-permissions-table',
@@ -72,18 +75,17 @@ import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/sha
   imports: [TranslocoDirective, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
-  @Input() permissions: MarketParticipantPermissionDetailsDto[] = [];
-  @Input() initialSelection: MarketParticipantPermissionDetailsDto[] = [];
+  @Input() permissions: PermissionDetailsRestAndGraphQL[] = [];
+  @Input() initialSelection: PermissionDetailsRestAndGraphQL[] = [];
 
-  @Output() selectionChanged = new EventEmitter<MarketParticipantPermissionDetailsDto[]>();
+  @Output() selectionChanged = new EventEmitter<PermissionDetailsRestAndGraphQL[]>();
 
-  @ViewChild(WattTableComponent<MarketParticipantPermissionDetailsDto>)
-  permissionsTable!: WattTableComponent<MarketParticipantPermissionDetailsDto>;
+  @ViewChild(WattTableComponent<PermissionDetailsRestAndGraphQL>)
+  permissionsTable!: WattTableComponent<PermissionDetailsRestAndGraphQL>;
 
-  readonly dataSource: WattTableDataSource<MarketParticipantPermissionDetailsDto> =
-    new WattTableDataSource<MarketParticipantPermissionDetailsDto>();
+  readonly dataSource = new WattTableDataSource<PermissionDetailsRestAndGraphQL>();
 
-  columns: WattTableColumnDef<MarketParticipantPermissionDetailsDto> = {
+  columns: WattTableColumnDef<PermissionDetailsRestAndGraphQL> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
@@ -93,7 +95,7 @@ export class DhPermissionsTableComponent implements OnChanges {
     if (this.permissionsTable) this.permissionsTable.clearSelection();
   }
 
-  onSelectionChange(selections: MarketParticipantPermissionDetailsDto[]): void {
+  onSelectionChange(selections: PermissionDetailsRestAndGraphQL[]): void {
     this.selectionChanged.emit(selections);
   }
 }
