@@ -40,62 +40,6 @@ public class MarketParticipantController : MarketParticipantControllerBase
     }
 
     /// <summary>
-    /// Gets a list of actors ready for use in filters in frontend.
-    /// The list is made so that FAS members can choose from all the actors, while
-    /// non-FAS member can only pick their own actor.
-    /// </summary>
-    [HttpGet("GetFilteredActors")]
-    public Task<ActionResult<IEnumerable<FilteredActorDto>>> GetFilteredActorsAsync()
-    {
-        return HandleExceptionAsync(async () =>
-        {
-            var gridAreas = await _client.GridAreaGetAsync().ConfigureAwait(false);
-            var gridAreaLookup = gridAreas.ToDictionary(x => x.Id);
-
-            var actors = await _client
-                .ActorGetAsync()
-                .ConfigureAwait(false);
-
-            var accessibleActors = actors
-                .Select(x =>
-                    new FilteredActorDto(
-                        x.ActorId,
-                        x.ActorNumber,
-                        x.Name,
-                        x.MarketRoles
-                            .Select(marketRole => marketRole.EicFunction)
-                            .Distinct()
-                            .ToList(),
-                        x.MarketRoles
-                            .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                            .Distinct()
-                            .Select(gridAreaId => gridAreaLookup[gridAreaId].Code)
-                            .ToList()));
-
-            if (HttpContext.User.IsFas())
-            {
-                return accessibleActors;
-            }
-
-            var actorId = HttpContext.User.GetAssociatedActor();
-            return accessibleActors.Where(actor => actor.ActorId == actorId);
-        });
-    }
-
-    /// <summary>
-    /// Retrieves the organization for a single actor.
-    /// </summary>
-    [HttpGet("GetActorOrganization")]
-    public Task<ActionResult<OrganizationDto>> GetActorOrganizationAsync(Guid actorId)
-    {
-        return HandleExceptionAsync(async () =>
-        {
-            var actor = await _client.ActorGetAsync(actorId).ConfigureAwait(false);
-            return await _client.OrganizationGetAsync(actor.OrganizationId).ConfigureAwait(false);
-        });
-    }
-
-    /// <summary>
     /// Retrieves an actor.
     /// </summary>
     [HttpGet("GetActor")]
