@@ -22,8 +22,11 @@ limitations under the License.
 >
   @if (!showPeriodWarning) {
     <form
+      vater-flex
+      direction="column"
+      gap="ml"
+      offset="ml"
       id="create-calculation"
-      class="grid"
       novalidate
       [formGroup]="formGroup"
       (ngSubmit)="
@@ -57,75 +60,60 @@ limitations under the License.
         />
       }
 
-      <!-- Execution type -->
-      <div class="chips">
-        <label>{{ t("create.executionType") }}</label>
-        <watt-filter-chip choice name="executionType" value="ACTUAL" [selected]="true">
-          {{ t("executionTypes.ACTUAL") }}
-        </watt-filter-chip>
-        <watt-filter-chip choice name="executionType" value="SIMULATION" [disabled]="true">
-          {{ t("executionTypes.SIMULATION") }}
-        </watt-filter-chip>
-      </div>
+      <vater-flex direction="row" gap="l">
+        <!-- Process type -->
+        <watt-dropdown
+          [label]="t('create.calculationType.label')"
+          [formControl]="formGroup.controls.calculationType"
+          [options]="calculationTypesOptions"
+          [showResetOption]="false"
+          [multiple]="false"
+          dhDropdownTranslator
+          translateKey="wholesale.calculations.calculationTypes"
+        />
 
-      <!-- scheduling -->
-      <div class="chips">
-        <label>{{ t("create.scheduling") }}</label>
-        <watt-filter-chip choice name="schedule" value="NOW" [selected]="true">
-          {{ t("scheduling.NOW") }}
-        </watt-filter-chip>
-        <watt-filter-chip choice name="schedule" value="SCHEDULED" [disabled]="true">
-          {{ t("scheduling.SCHEDULED") }}
-        </watt-filter-chip>
-      </div>
+        <!-- Execution type -->
+        <vater-stack gap="s" fill="horizontal" align="flex-start">
+          <label>{{ t("create.executionType") }}</label>
+          <vater-stack direction="row" gap="s" align="center" style="height: 44px">
+            <watt-filter-chip choice name="executionType" value="ACTUAL" [selected]="true">
+              {{ t("executionTypes.ACTUAL") }}
+            </watt-filter-chip>
+            <watt-filter-chip choice name="executionType" value="SIMULATION" [disabled]="true">
+              {{ t("executionTypes.SIMULATION") }}
+            </watt-filter-chip>
+          </vater-stack>
+        </vater-stack>
+      </vater-flex>
 
-      <!-- Process type -->
-      <watt-dropdown
-        [label]="t('create.calculationType.label')"
-        [formControl]="formGroup.controls.calculationType"
-        [options]="calculationTypesOptions"
-        [showResetOption]="false"
-        [multiple]="false"
-        dhDropdownTranslator
-        translateKey="wholesale.calculations.calculationTypes"
-      />
+      <vater-flex direction="row" gap="l">
+        <!-- Date range -->
+        <watt-datepicker
+          [label]="t('create.period.label')"
+          [formControl]="formGroup.controls.dateRange"
+          [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
+          [range]="true"
+          [min]="minDate"
+          [max]="maxDate"
+        >
+          @if (
+            (formGroup.controls.dateRange.errors?.resolutionTransition ||
+              formGroup.controls.dateRange.errors?.invalidPeriod) &&
+            !formGroup.controls.dateRange.errors?.rangeRequired
+          ) {
+            <watt-field-error>
+              {{ t("create.period.invalid") }}
+            </watt-field-error>
+          }
+        </watt-datepicker>
 
-      <!-- Monthly summation -->
-      <div class="chips">
-        <label>{{ t("create.summation") }}</label>
-        <watt-filter-chip choice name="summation" value="yes" [disabled]="true">
-          {{ t("summation.YES") }}
-        </watt-filter-chip>
-        <watt-filter-chip choice name="summation" value="no" [disabled]="true">
-          {{ t("summation.NO") }}
-        </watt-filter-chip>
-      </div>
-
-      <!-- Date range -->
-      <watt-datepicker
-        [label]="t('create.period.label')"
-        [formControl]="formGroup.controls.dateRange"
-        [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
-        [range]="true"
-        [max]="maxDate"
-      >
-        @if (
-          (formGroup.controls.dateRange.errors?.resolutionTransition ||
-            formGroup.controls.dateRange.errors?.invalidPeriod) &&
-          !formGroup.controls.dateRange.errors?.rangeRequired
-        ) {
-          <watt-field-error>
-            {{ t("create.period.invalid") }}
-          </watt-field-error>
-        }
-      </watt-datepicker>
-
-      <!-- Grid areas -->
-      <dh-calculations-grid-areas-dropdown
-        [control]="formGroup.controls.gridAreas"
-        [period]="formGroup.controls.dateRange.value"
-        [disabled]="this.formGroup.controls.dateRange.invalid"
-      />
+        <!-- Grid areas -->
+        <dh-calculations-grid-areas-dropdown
+          [control]="formGroup.controls.gridAreas"
+          [period]="formGroup.controls.dateRange.value"
+          [disabled]="this.formGroup.controls.dateRange.invalid"
+        />
+      </vater-flex>
     </form>
   }
 
@@ -145,7 +133,7 @@ limitations under the License.
   }
 
   @if (showPeriodWarning) {
-    <ng-container *transloco="let t; read: 'wholesale.calculations.create.warning'">
+    <vater-flex offset="ml" *transloco="let t; read: 'wholesale.calculations.create.warning'">
       <watt-validation-message
         type="warning"
         icon="warning"
@@ -171,6 +159,6 @@ limitations under the License.
           {{ t("confirm") }}
         </watt-button>
       </watt-modal-actions>
-    </ng-container>
+    </vater-flex>
   }
 </watt-modal>
