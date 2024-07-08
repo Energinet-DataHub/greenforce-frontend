@@ -42,7 +42,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhAdminInviteUserStore, UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
@@ -85,7 +85,7 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
     DhAssignableUserRolesComponent,
   ],
 })
-export class DhInviteUserModalComponent {
+export class DhInviteUserModalComponent extends WattTypedModal {
   private readonly toastService = inject(WattToastService);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
@@ -176,6 +176,7 @@ export class DhInviteUserModalComponent {
   });
 
   constructor() {
+    super();
     effect(() => {
       const actors = this.actors.data()?.filteredActors;
       if (actors !== undefined && actors.length === 1) {

@@ -25,6 +25,7 @@ import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -112,6 +113,7 @@ export class DhUsersOverviewComponent {
   private store = inject(DhAdminUserManagementDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private profileModalService = inject(DhProfileModalService);
+  private modalService = inject(WattModalService);
 
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
@@ -133,10 +135,6 @@ export class DhUsersOverviewComponent {
 
   readonly initialStatusValue$ = this.store.initialStatusValue$;
   readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
-
-  readonly inviteUserModal = viewChild.required<DhInviteUserModalComponent>(
-    DhInviteUserModalComponent
-  );
 
   searchInput$ = new BehaviorSubject<string>('');
 
@@ -171,7 +169,10 @@ export class DhUsersOverviewComponent {
   }
 
   showInviteUserModal(): void {
-    this.inviteUserModal().openModal();
+    this.modalService.open({
+      component: DhInviteUserModalComponent,
+      disableClose: true,
+    });
   }
 
   private onSearchInput(): void {
