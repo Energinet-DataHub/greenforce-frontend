@@ -111,6 +111,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       Via vores løsning kan du som virksomhed se, hvornår du er tilstrækkelig dækket med grøn strøm, og hvornår du ikke er. Det giver dig et overblik, du kan handle ud fra og en sikkerhed for, at du handler rigtigt.
       </p>`,
     },
+    naming: {
+      heading: 'Energy Track and Trace™ – fælles europæisk navn for granulære certifikater',
+      content: `<p>Energioprindelse skiftede i foråret 2024 navn til Energy Track and Trace™.
+        Energy Track and Trace™ er navnet på samarbejdet på tværs af EU, som Energinet er aktivt deltager i.
+      </p>
+
+      <p>
+        Det sikrer entydighed og genkendelse på tværs af EU.
+        Tidligere har samarbejdet om granulære certifikater (GC'er) i Danmark heddet Energioprindelse, El Oprindelse og Energy Origin.
+        Teknologien bag hedder Project Origin.
+      </p>`,
+    },
     cta: {
       heading: `Er du klar til at spore din virkshomheds energi?`,
       section1: {

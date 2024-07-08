@@ -79,6 +79,10 @@ export interface TranslationKeys {
       heading: string;
       content: string;
     };
+    naming: {
+      heading: string;
+      content: string;
+    };
     cta: {
       heading: string;
       section1: {
