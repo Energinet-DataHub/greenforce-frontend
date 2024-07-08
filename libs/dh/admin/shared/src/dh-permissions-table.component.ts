@@ -33,9 +33,6 @@ import {
 } from '@energinet-datahub/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
-import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
-
-type PermissionDetailsRestAndGraphQL = MarketParticipantPermissionDetailsDto | PermissionDetailsDto;
 
 @Component({
   selector: 'dh-permissions-table',
@@ -75,17 +72,17 @@ type PermissionDetailsRestAndGraphQL = MarketParticipantPermissionDetailsDto | P
   imports: [TranslocoDirective, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
-  @Input() permissions: PermissionDetailsRestAndGraphQL[] = [];
-  @Input() initialSelection: PermissionDetailsRestAndGraphQL[] = [];
+  @Input() permissions: PermissionDetailsDto[] = [];
+  @Input() initialSelection: PermissionDetailsDto[] = [];
 
-  @Output() selectionChanged = new EventEmitter<PermissionDetailsRestAndGraphQL[]>();
+  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
 
-  @ViewChild(WattTableComponent<PermissionDetailsRestAndGraphQL>)
-  permissionsTable!: WattTableComponent<PermissionDetailsRestAndGraphQL>;
+  @ViewChild(WattTableComponent<PermissionDetailsDto>)
+  permissionsTable!: WattTableComponent<PermissionDetailsDto>;
 
-  readonly dataSource = new WattTableDataSource<PermissionDetailsRestAndGraphQL>();
+  readonly dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
-  columns: WattTableColumnDef<PermissionDetailsRestAndGraphQL> = {
+  columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
@@ -95,7 +92,7 @@ export class DhPermissionsTableComponent implements OnChanges {
     if (this.permissionsTable) this.permissionsTable.clearSelection();
   }
 
-  onSelectionChange(selections: PermissionDetailsRestAndGraphQL[]): void {
+  onSelectionChange(selections: PermissionDetailsDto[]): void {
     this.selectionChanged.emit(selections);
   }
 }
