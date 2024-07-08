@@ -120,13 +120,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
     }
 
     [HttpGet]
-    [Route("Permissions")]
-    public Task<ActionResult<ICollection<PermissionDetailsDto>>> GetPermissionDetailsAsync(EicFunction eicFunction)
-    {
-        return HandleExceptionAsync(() => _client.UserRolesPermissionsAsync(eicFunction));
-    }
-
-    [HttpGet]
     [Route("Deactivate")]
     public Task<ActionResult> DeactivateRoleAsync(Guid roleId)
     {
