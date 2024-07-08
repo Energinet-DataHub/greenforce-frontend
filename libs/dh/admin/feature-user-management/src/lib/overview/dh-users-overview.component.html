@@ -37,9 +37,9 @@ limitations under the License.
     <vater-stack direction="row" gap="m">
       <dh-users-overview-filters
         [statusValue]="initialStatusValue$ | push"
-        [actorOptions]="actorOptions$ | push"
+        [actorOptions]="actorOptions()"
         [userRoleOptions]="userRolesOptions$ | push"
-        [canChooseMultipleActors]="canChooseMultipleActors$ | push"
+        [canChooseMultipleActors]="canChooseMultipleActors()"
         (filtersChanges)="updateFilters($event)"
       />
     </vater-stack>

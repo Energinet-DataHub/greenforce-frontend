@@ -15,12 +15,14 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using HotChocolate;
 using HotChocolate.Execution;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
@@ -31,6 +33,8 @@ public static class GraphQLTestService
     static GraphQLTestService()
     {
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
+        MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
+        HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
             .AddGraphQLServer()
@@ -41,6 +45,8 @@ public static class GraphQLTestService
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(WholesaleClientV3Mock.Object)
+            .AddSingleton(MarketParticipantClientV1Mock.Object)
+            .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -51,6 +57,10 @@ public static class GraphQLTestService
     }
 
     public static Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; }
+
+    public static Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; }
+
+    public static Mock<IHttpContextAccessor> HttpContextAccessorMock { get; }
 
     public static IServiceProvider Services { get; }
 
