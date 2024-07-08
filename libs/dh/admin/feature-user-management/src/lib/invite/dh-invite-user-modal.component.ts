@@ -20,7 +20,6 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  DestroyRef,
   effect,
   inject,
   output,
@@ -31,7 +30,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
@@ -88,8 +86,6 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
   ],
 })
 export class DhInviteUserModalComponent {
-  private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly toastService = inject(WattToastService);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
