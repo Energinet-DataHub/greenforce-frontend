@@ -19,22 +19,24 @@ import { delay, http, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import { marketParticipantUserRoleView } from './data/market-participant-user-role-view';
-import { marketParticipantUserRolePermissions } from './data/market-participant-user-role-permissions';
+import { marketParticipantUserRolePermissionsQuery } from './data/market-participant-user-role-permissions';
+import { mockGetPermissionByEicFunctionQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function marketParticipantUserRoleMocks(apiBase: string) {
-  return [GetUserRoleView(apiBase), Permissions(apiBase)];
+  return [getUserRoleView(apiBase), getPermissionsByEicFunction()];
 }
 
-function GetUserRoleView(apiBase: string) {
+function getUserRoleView(apiBase: string) {
   return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json(marketParticipantUserRoleView);
   });
 }
 
-function Permissions(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/Permissions`, async () => {
+function getPermissionsByEicFunction() {
+  return mockGetPermissionByEicFunctionQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserRolePermissions);
+
+    return HttpResponse.json({ data: marketParticipantUserRolePermissionsQuery });
   });
 }
