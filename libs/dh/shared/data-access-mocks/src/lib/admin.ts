@@ -65,7 +65,6 @@ export function adminMocks(apiBase: string) {
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
     postMarketParticipantUserRoleCreate(apiBase),
-    postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
@@ -261,13 +260,6 @@ function postMarketParticipantUserRoleCreate(apiBase: string) {
   return http.post(`${apiBase}/v1/MarketParticipantUserRole/Create`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.text('', { status: 200 });
-  });
-}
-
-function postMarketParticipantUserInviteUser(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
   });
 }
 

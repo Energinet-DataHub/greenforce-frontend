@@ -29,30 +29,6 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         _client = client;
     }
 
-    [HttpPost]
-    [Route("InviteUser")]
-    public Task<ActionResult> InviteUserAsync(UserInvitationDto invite)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UsersInviteAsync(invite));
-    }
-
-    [HttpPost]
-    [Route("ReInviteUser")]
-    public Task<ActionResult> ReInviteUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UsersReinviteAsync(userId));
-    }
-
-    [HttpPost]
-    [Route("ResetUser2Fa")]
-    public Task<ActionResult> ResetTwoFactorAuthenticationAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UserReset2faAsync(userId));
-    }
-
     /// <summary>
     ///     Retrieves actors associated with the users external actor token.
     /// </summary>
