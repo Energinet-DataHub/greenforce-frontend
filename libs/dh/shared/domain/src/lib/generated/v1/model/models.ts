@@ -19,7 +19,6 @@ export * from './market-participant-get-actors-associated-with-external-user-id-
 export * from './market-participant-get-actors-associated-with-user-response';
 export * from './market-participant-get-user-profile-response';
 export * from './market-participant-invitation-user-details-dto';
-export * from './market-participant-permission-details-dto';
 export * from './market-participant-permission-dto';
 export * from './market-participant-selection-actor-dto';
 export * from './market-participant-token-response';
