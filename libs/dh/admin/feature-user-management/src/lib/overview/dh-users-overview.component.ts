@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, computed, inject, viewChild } from '@angular/core';
+import { Component, DestroyRef, computed, inject } from '@angular/core';
 
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
