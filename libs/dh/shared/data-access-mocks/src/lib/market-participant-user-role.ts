@@ -35,7 +35,7 @@ function getUserRoleView(apiBase: string) {
 
 function getPermissionsByEicFunction() {
   return mockGetPermissionByEicFunctionQuery(async () => {
-    await delay(5000);
+    await delay(mswConfig.delay);
 
     return HttpResponse.json({ data: marketParticipantUserRolePermissionsQuery });
   });
