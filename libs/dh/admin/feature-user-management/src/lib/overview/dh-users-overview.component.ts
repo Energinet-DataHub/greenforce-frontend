@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, computed, inject } from '@angular/core';
+import { Component, DestroyRef, computed, inject, viewChild } from '@angular/core';
 
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -134,8 +134,11 @@ export class DhUsersOverviewComponent {
   readonly initialStatusValue$ = this.store.initialStatusValue$;
   readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
 
+  readonly inviteUserModal = viewChild.required<DhInviteUserModalComponent>(
+    DhInviteUserModalComponent
+  );
+
   searchInput$ = new BehaviorSubject<string>('');
-  isInviteUserModalVisible = false;
 
   constructor() {
     this.userRolesStore.getRoles();
@@ -167,12 +170,8 @@ export class DhUsersOverviewComponent {
     this.store.reloadUsers();
   }
 
-  modalOnClose(): void {
-    this.isInviteUserModalVisible = false;
-  }
-
   showInviteUserModal(): void {
-    this.isInviteUserModalVisible = true;
+    this.inviteUserModal().openModal();
   }
 
   private onSearchInput(): void {
