@@ -67,8 +67,6 @@ const selector = 'eo-landing-page-naming';
         }
       }
 
-
-
       rect {
         fill: transparent;
       }

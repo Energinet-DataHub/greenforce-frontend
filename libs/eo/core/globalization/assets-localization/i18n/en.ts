@@ -129,11 +129,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       heading: 'Energy Track and Trace™ – common European name for granular certificates',
       content:
         `<p>In the spring of 2024, Energioprindelse changed its name to Energy Track and Trace™.
-        Energy Track and Trace™ is the name of the collaboration across the EU, in which Energinet is an active participant.</p>
+          Energy Track and Trace™ is the name of the collaboration across the EU, in which Energinet is an active participant.
+        </p>
 
-        <p> It ensures consistency and recognition across the EU. Previously,
-        the collaboration on granular certificates (GCs) in Denmark was called Energioprindelse, El Oprindelse, and Energy Origin.
-        The technology behind it is called Project Origin.</p>`,
+        <p>
+          It ensures consistency and recognition across the EU. Previously,
+          the collaboration on granular certificates (GCs) in Denmark was called Energioprindelse, El Oprindelse, and Energy Origin.
+          The technology behind it is called Project Origin.
+        </p>`,
     },
     cta: {
       heading: `Ready to track your company’s energy?`,
