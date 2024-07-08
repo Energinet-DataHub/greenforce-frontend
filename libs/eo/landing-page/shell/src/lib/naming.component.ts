@@ -71,7 +71,7 @@ const selector = 'eo-landing-page-naming';
         fill: transparent;
       }
 
-      .headline-3:has(+.text) {
+      .headline-3:has(+ .text) {
         margin-bottom: var(--watt-space-l);
       }
 
