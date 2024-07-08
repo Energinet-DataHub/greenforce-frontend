@@ -17,7 +17,7 @@ limitations under the License.
 <watt-modal
   #inviteUserModal
   size="large"
-  [loading]="(isInvitingUser$ | push) || isLoadingEmails"
+  [loading]="(isInvitingUser$ | push) || isLoadingEmails()"
   [title]="t('title')"
   (closed)="closeModal($event)"
   [disableEscAndBackdropClose]="true"
@@ -67,7 +67,7 @@ limitations under the License.
       [stepControl]="userInfo"
       [previousButtonLabel]="t('email')"
       [nextButtonLabel]="t('addUserRole')"
-      [enabled]="!emailExists && inOrganizationMailDomain"
+      [enabled]="!emailExists() && inOrganizationMailDomain()"
     >
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-text-field
