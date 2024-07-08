@@ -45,7 +45,6 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import {
   MarketParticipantCreateUserRoleDto,
-  MarketParticipantPermissionDetailsDto,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
@@ -142,7 +141,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
     this.createUserRoleModal.open();
   }
 
-  onSelectionChange(event: (MarketParticipantPermissionDetailsDto | PermissionDetailsDto)[]): void {
+  onSelectionChange(event: PermissionDetailsDto[]): void {
     const ids = event.map(({ id }) => id);
 
     this.selectedPermissions.setValue(ids);
