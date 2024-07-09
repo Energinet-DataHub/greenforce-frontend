@@ -149,20 +149,21 @@ export class EoTermsComponent {
     if (this.startedAcceptFlow) return;
     this.startedAcceptFlow = true;
 
-    this.termsService.acceptTerms().pipe(
-      switchMap(() => this.authService.refreshToken())
-    ).subscribe({
-      next: () => {
-        // After refreshing the token, navigate to login
-        // The EoLoginComponent will handle further navigation based on the updated token
-        this.router.navigate([this.transloco.getActiveLang(), 'login']);
-      },
-      error: () => {
-        this.router.navigate([this.transloco.getActiveLang()]);
-      },
-      complete: () => {
-        this.startedAcceptFlow = false;
-      }
-    });
+    this.termsService
+      .acceptTerms()
+      .pipe(switchMap(() => this.authService.refreshToken()))
+      .subscribe({
+        next: () => {
+          // After refreshing the token, navigate to login
+          // The EoLoginComponent will handle further navigation based on the updated token
+          this.router.navigate([this.transloco.getActiveLang(), 'login']);
+        },
+        error: () => {
+          this.router.navigate([this.transloco.getActiveLang()]);
+        },
+        complete: () => {
+          this.startedAcceptFlow = false;
+        },
+      });
   }
 }
