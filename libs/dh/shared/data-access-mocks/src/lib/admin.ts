@@ -260,7 +260,17 @@ function getAdminPermissionLogs() {
 function mockCreateUserRole() {
   return mockCreateUserRoleMutation(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.text('', { status: 200 });
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createUserRole: {
+          __typename: 'CreateUserRolePayload',
+          success: true,
+          errors: null,
+        },
+      },
+    });
   });
 }
 
