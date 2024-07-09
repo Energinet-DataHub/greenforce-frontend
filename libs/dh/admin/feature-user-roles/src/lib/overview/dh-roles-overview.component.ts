@@ -26,11 +26,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  MarketParticipantEicFunction,
-  MarketParticipantUserRoleDto,
-  MarketParticipantUserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
@@ -40,6 +35,11 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import {
+  UserRoleDto,
+  EicFunction,
+  UserRoleStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhRolesTabTableComponent } from './dh-roles-overview-table.component';
 import { DhRolesOverviewListFilterComponent } from './dh-roles-overview-list-filter.component';
@@ -107,11 +107,11 @@ export class DhUserRolesOverviewComponent {
     this.onSearchInput();
   }
 
-  updateFilterStatus(status: MarketParticipantUserRoleStatus | null) {
+  updateFilterStatus(status: UserRoleStatus | null) {
     this.store.setFilterStatus(status);
   }
 
-  updateFilterEicFunction(eicFunctions: MarketParticipantEicFunction[] | null) {
+  updateFilterEicFunction(eicFunctions: EicFunction[] | null) {
     this.store.setFilterEicFunction(eicFunctions);
   }
 
@@ -127,7 +127,7 @@ export class DhUserRolesOverviewComponent {
     }
   }
 
-  async download(roles: MarketParticipantUserRoleDto[]) {
+  async download(roles: UserRoleDto[]) {
     this.trans
       .selectTranslateObject('marketParticipant.marketRoles')
       .pipe(take(1))
