@@ -16,24 +16,22 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
-  EventEmitter,
+  computed,
+  effect,
   inject,
-  Output,
+  output,
   signal,
-  ViewChild,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { distinctUntilChanged, map, of, take } from 'rxjs';
+import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -41,20 +39,18 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhAdminInviteUserStore, UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 import {
-  DhUserActorsDataAccessApiStore,
-  DhAdminInviteUserStore,
-  UserRoleItem,
-} from '@energinet-datahub/dh/admin/data-access-api';
-
-import {
-  GetAssociatedActorsDocument,
   GetKnownEmailsDocument,
+  GetFilteredActorsDocument,
+  GetAssociatedActorsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -89,37 +85,55 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
     DhAssignableUserRolesComponent,
   ],
 })
-export class DhInviteUserModalComponent implements AfterViewInit {
-  private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
+export class DhInviteUserModalComponent extends WattTypedModal {
   private readonly toastService = inject(WattToastService);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
   private readonly inviteUserStore = inject(DhAdminInviteUserStore);
-  private readonly actorStore = inject(DhUserActorsDataAccessApiStore);
   private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-  private readonly userEmailExistsQuery = this.apollo.watchQuery({
-    returnPartialData: false,
-    useInitialLoading: false,
-    query: GetKnownEmailsDocument,
-  });
-
-  @ViewChild('inviteUserModal') inviteUserModal!: WattModalComponent;
-  @Output() closed = new EventEmitter<void>();
-
-  readonly actors$ = this.actorStore.actors$;
+  inviteUserModal = viewChild.required<WattModalComponent>('inviteUserModal');
+  closed = output<void>();
 
   isInvitingUser$ = this.inviteUserStore.isSaving$;
 
   selectedActorId = signal<string | null>(null);
 
-  domain: string | undefined = undefined;
-  inOrganizationMailDomain = false;
-  emailExists = false;
-  knownEmails: string[] = [];
-  isLoadingEmails = true;
-  checkingForAssociatedActors = signal(false);
+  actors = query(GetFilteredActorsDocument);
+
+  actorOptions = computed<WattDropdownOptions>(() =>
+    (this.actors.data()?.filteredActors ?? []).map((actor) => ({
+      displayValue: actor.displayName,
+      value: actor.id,
+    }))
+  );
+
+  domain = computed(
+    () =>
+      this.actors.data()?.filteredActors.find((x) => x.id === this.selectedActorId())?.organization
+        .domain
+  );
+
+  inOrganizationMailDomain = computed(() => {
+    const email = this.emailChanged();
+    const domain = this.domain();
+    return !!email && !!domain && email.toUpperCase().endsWith(domain.toUpperCase());
+  });
+
+  emailExists = computed(() => {
+    const email = this.emailChanged();
+    return !!email && this.knownEmails().includes(email.toUpperCase());
+  });
+
+  knownEmailsQuery = query(GetKnownEmailsDocument);
+
+  knownEmails = computed(
+    () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
+  );
+
+  isLoadingEmails = computed(() => this.knownEmailsQuery.loading());
+  checkingForAssociatedActors = computed(() => this.checkForAssociatedActors.loading());
+  checkForAssociatedActors = lazyQuery(GetAssociatedActorsDocument);
 
   baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
@@ -129,29 +143,17 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       [
         (control) => {
           if (control.value) {
-            this.checkingForAssociatedActors.set(true);
+            this.checkForAssociatedActors
+              .query({ variables: { email: control.value } })
+              .then((result) => {
+                const associatedActors = result.data?.associatedActors.actors ?? [];
 
-            return this.apollo
-              .query({
-                query: GetAssociatedActorsDocument,
-                variables: {
-                  email: control.value,
-                },
-              })
-              .pipe(
-                takeUntilDestroyed(this.destroyRef),
-                map((result) => {
-                  this.checkingForAssociatedActors.set(false);
+                const isAlreadyAssociatedToActor = associatedActors?.includes(
+                  this.baseInfo.controls.actorId.value ?? ''
+                );
 
-                  const associatedActors = result.data?.associatedActors.actors ?? [];
-
-                  const isAlreadyAssociatedToActor = associatedActors?.includes(
-                    this.baseInfo.controls.actorId.value ?? ''
-                  );
-
-                  return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
-                })
-              );
+                return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
+              });
           }
 
           return of(null);
@@ -159,6 +161,10 @@ export class DhInviteUserModalComponent implements AfterViewInit {
       ],
     ],
   });
+
+  emailChanged = toSignal(this.baseInfo.controls.email.valueChanges);
+
+  actorIdChanged = toSignal(this.baseInfo.controls.actorId.valueChanges);
 
   userInfo = this.nonNullableFormBuilder.group({
     firstname: ['', Validators.required],
@@ -169,56 +175,31 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     selectedUserRoles: [[] as string[], Validators.required],
   });
 
-  ngAfterViewInit(): void {
-    this.inviteUserModal.open();
+  constructor() {
+    super();
+    effect(() => {
+      const actors = this.actors.data()?.filteredActors;
+      if (actors !== undefined && actors.length === 1) {
+        const [firstActor] = actors;
+        this.baseInfo.controls.actorId.setValue(firstActor.id);
+      }
+    });
 
-    this.userEmailExistsQuery.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((x) => {
-        this.knownEmails = x.data?.knownEmails?.map((x) => x.toUpperCase()) ?? [];
-        this.isLoadingEmails = false;
-        this.changeDectorRef.detectChanges();
-      });
-
-    this.baseInfo.controls.actorId.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((actorId) => {
+    effect(
+      () => {
+        const actorId = this.actorIdChanged();
         actorId !== null
           ? this.baseInfo.controls.email.enable()
           : this.baseInfo.controls.email.disable();
 
-        if (actorId === null) {
-          this.actorStore.resetOrganizationState();
-          return;
-        }
+        if (!actorId) return;
+
         this.selectedActorId.set(actorId);
-        this.actorStore.getActorOrganization(actorId);
         this.baseInfo.updateValueAndValidity();
         this.changeDectorRef.detectChanges();
-      });
-
-    this.actorStore.organizationDomain$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((domain) => {
-        this.domain = domain;
-      });
-
-    this.baseInfo.controls.email.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
-      .subscribe((email) => {
-        this.inOrganizationMailDomain =
-          !!email && !!this.domain && email.toUpperCase().endsWith(this.domain.toUpperCase());
-
-        this.emailExists = !!email && this.knownEmails.includes(email.toUpperCase());
-
-        this.changeDectorRef.detectChanges();
-      });
-
-    this.actors$.pipe(take(1)).subscribe((actors) => {
-      if (actors.length === 1) {
-        this.baseInfo.controls.actorId.setValue(actors[0].value);
-      }
-    });
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   inviteUser() {
@@ -257,10 +238,13 @@ export class DhInviteUserModalComponent implements AfterViewInit {
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
 
+  openModal() {
+    this.inviteUserModal().open();
+  }
+
   closeModal(status: boolean) {
     this.closed.emit();
-    this.actorStore.resetOrganizationState();
-    this.inviteUserModal.close(status);
+    this.inviteUserModal().close(status);
   }
 
   private onInviteSuccess(email: string | null) {

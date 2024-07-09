@@ -66,12 +66,12 @@ limitations under the License.
               </watt-card-title>
 
               <dh-permissions-table
-                [permissions]="marketRolePermissions$ | push: { strategy: 'native' }"
+                [permissions]="permissions()"
                 [initialSelection]="initiallySelectedPermissions$ | push"
                 (selectionChanged)="onSelectionChanged($event)"
               />
 
-              @if (marketRolePermissionsIsLoading$ | push) {
+              @if (marketRolePermissionsIsLoading()) {
                 <div class="spinner-container">
                   <watt-spinner />
                 </div>

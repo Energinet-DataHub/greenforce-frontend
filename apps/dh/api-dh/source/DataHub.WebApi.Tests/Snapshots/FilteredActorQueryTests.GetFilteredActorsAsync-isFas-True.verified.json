@@ -1,0 +1,20 @@
+﻿{
+  "data": {
+    "filteredActors": [
+      {
+        "displayName": "DataHubAdministrator • Test",
+        "id": "ceaa4172-cce6-4276-bd88-23589ef500aa",
+        "organization": {
+          "domain": "test.com"
+        }
+      },
+      {
+        "displayName": "BillingAgent • Test1",
+        "id": "ceaa4172-cce6-4276-bd88-23589ef500bb",
+        "organization": {
+          "domain": "test.com"
+        }
+      }
+    ]
+  }
+}

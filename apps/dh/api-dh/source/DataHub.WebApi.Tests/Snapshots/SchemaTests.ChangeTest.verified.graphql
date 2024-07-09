@@ -11,6 +11,7 @@ type Actor {
   id: UUID!
   name: String!
   glnOrEicNumber: String!
+  displayName: String!
   marketRole: EicFunction
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
@@ -350,6 +351,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
+  filteredActors: [Actor!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -373,6 +375,7 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!

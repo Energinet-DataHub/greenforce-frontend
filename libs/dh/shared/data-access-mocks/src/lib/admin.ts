@@ -35,6 +35,7 @@ import {
   mockUpdateUserAndRolesMutation,
   mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
+  mockGetFilteredActorsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -46,9 +47,8 @@ import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-logs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
-import { marketParticipantOrganization } from './data/admin-get-actor-organization';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
-import { marketParticipantOrganizationGetFilteredActors } from './data/market-participant-organization-get-filtered-actors';
+import { filteredActors } from './data/market-participant-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 import { overviewUsers } from './data/admin/user-overview-items';
 
@@ -59,7 +59,6 @@ export function adminMocks(apiBase: string) {
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
     updateUserRoleMutation(),
-    getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
@@ -68,13 +67,13 @@ export function adminMocks(apiBase: string) {
     postMarketParticipantUserRoleCreate(apiBase),
     postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
-    getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
     getUserOverviewQuery(),
     getUserByIdQuery(),
     updateUserAndRoles(),
     updatePermission(),
+    getFilteredActors(),
     getMarketParticipantUserDeactivate(apiBase),
     getMarketParticipantUserReActivate(apiBase),
   ];
@@ -101,11 +100,18 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
   });
 }
 
+function getFilteredActors() {
+  return mockGetFilteredActorsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({ data: { __typename: 'Query', filteredActors } });
+  });
+}
+
 function getUserRolesByActorIdQuery() {
   return mockGetUserRolesByActorIdQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
-    const [, second] = marketParticipantOrganizationGetFilteredActors;
-    if (second.actorId === variables.actorId) {
+    const [, second] = filteredActors;
+    if (second.id === variables.actorId) {
       return HttpResponse.json({
         data: null,
         errors: [
@@ -114,13 +120,6 @@ function getUserRolesByActorIdQuery() {
       });
     }
     return HttpResponse.json({ data: marketParticipantUserRoles });
-  });
-}
-
-function getActorOrganization(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActorOrganization`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantOrganization);
   });
 }
 
@@ -232,13 +231,6 @@ function updateUserRoleMutation() {
         },
       },
     });
-  });
-}
-
-function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantOrganizationGetFilteredActors);
   });
 }
 

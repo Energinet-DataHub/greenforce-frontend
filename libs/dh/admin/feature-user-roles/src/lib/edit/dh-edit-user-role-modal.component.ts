@@ -24,6 +24,7 @@ import {
   ViewChild,
   DestroyRef,
   viewChild,
+  computed,
 } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -31,7 +32,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -42,15 +43,18 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
-  DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
   DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
   DhUserRoleWithPermissions,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
-import { UpdateUserRoleDtoInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetPermissionByEicFunctionDocument,
+  PermissionDetailsDto,
+  UpdateUserRoleDtoInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -69,7 +73,7 @@ import { UpdateUserRoleDtoInput } from '@energinet-datahub/dh/shared/domain/grap
       }
     `,
   ],
-  providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
+  providers: [DhAdminUserRoleEditDataAccessApiStore],
   imports: [
     RxPush,
     RxLet,
@@ -95,7 +99,6 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   private readonly userRoleWithPermissionsStore = inject(
     DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
   );
-  private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
@@ -106,7 +109,13 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
-  readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+  permissionsQuery = lazyQuery(GetPermissionByEicFunctionDocument);
+
+  permissions = computed<PermissionDetailsDto[]>(
+    () => this.permissionsQuery.data()?.permissionsByEicFunction ?? []
+  );
+
+  private readonly marketRolePermissions$ = toObservable(this.permissions);
   readonly initiallySelectedPermissions$ = combineLatest([
     this.marketRolePermissions$,
     this.userRole$,
@@ -122,7 +131,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
     })
   );
-  readonly marketRolePermissionsIsLoading$ = this.marketRolePermissionsStore.isLoading$;
+  readonly marketRolePermissionsIsLoading = this.permissionsQuery.loading;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
@@ -149,7 +158,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
         permissionIds,
       });
 
-      this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
+      this.permissionsQuery.refetch({ eicFunction: userRole.eicFunction });
     });
 
     this.hasValidationError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -168,7 +177,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
     this.closed.emit({ saveSuccess });
   }
 
-  onSelectionChanged(selectedPermissions: MarketParticipantPermissionDetailsDto[]): void {
+  onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {
     if (this.skipFirstPermissionSelectionEvent) {
       this.skipFirstPermissionSelectionEvent = false;
 
