@@ -7,5 +7,12 @@
     "claim-automation": "20240103",
     "measurements": "20240110",
     "authorization": "20230101"
-  }
+  },
+  "documentation": [
+    {
+      "id": "3rd-party-api-usage",
+      "title": "3rd party API usage",
+      "src": "https://raw.githubusercontent.com/Energinet-DataHub/energy-origin/2990-doc-for-3rd-party/doc/guide_3rd_party.md"
+    }
+  ]
 }

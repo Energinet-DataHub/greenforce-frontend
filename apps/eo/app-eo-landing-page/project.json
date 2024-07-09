@@ -52,8 +52,17 @@
         "stylePreprocessorOptions": {
           "includePaths": ["libs/watt/src/lib/styles"]
         },
-        "styles": ["apps/eo/app-eo-landing-page/src/styles.scss"],
-        "scripts": [],
+        "styles": [
+          "apps/eo/app-eo-landing-page/src/styles.scss",
+          "node_modules/prismjs/themes/prism-okaidia.css",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+        ],
+        "scripts": [
+          "node_modules/prismjs/prism.js",
+          "node_modules/prismjs/components/prism-csharp.min.js",
+          "node_modules/mermaid/dist/mermaid.min.js",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
+        ],
         "server": "apps/eo/app-eo-landing-page/src/main.server.ts",
         "prerender": true,
         "ssr": {
