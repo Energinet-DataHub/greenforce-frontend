@@ -59,7 +59,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   extends ComponentStore<DhUserRolesManagementState>
   implements OnStoreInit
 {
-  private readonly _transloco = inject(TranslocoService);
+  private readonly transloco = inject(TranslocoService);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
@@ -197,19 +197,17 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   };
 
   ngrxOnStoreInit(): void {
-    this.rolesOptions$ = this._transloco
-      .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(
-        combineLatestWith(this.select((state) => state.roles)),
-        filter(([, roles]) => roles.length > 0),
-        // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
-        map(([keys, roles]) =>
-          roles.map((role: MarketParticipantUserRoleDto) => ({
-            displayValue: `${role.name} (${keys[role.eicFunction]})`,
-            value: role.id,
-          }))
-        )
-      );
+    this.rolesOptions$ = this.transloco.selectTranslateObject('marketParticipant.marketRoles').pipe(
+      combineLatestWith(this.select((state) => state.roles)),
+      filter(([, roles]) => roles.length > 0),
+      // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
+      map(([keys, roles]) =>
+        roles.map((role: MarketParticipantUserRoleDto) => ({
+          displayValue: `${role.name} (${keys[role.eicFunction]})`,
+          value: role.id,
+        }))
+      )
+    );
 
     this.getRoles();
   }
