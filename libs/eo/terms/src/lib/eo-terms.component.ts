@@ -149,13 +149,19 @@ export class EoTermsComponent {
     if (this.startedAcceptFlow) return;
     this.startedAcceptFlow = true;
 
-    this.termsService.acceptTerms().subscribe({
-      next: () => {
-        this.router.navigate([this.transloco.getActiveLang(), 'login']);
-      },
-      error: () => {
-        this.router.navigate([this.transloco.getActiveLang()]);
-      },
-    });
+    this.termsService
+      .acceptTerms()
+      .pipe(switchMap(() => this.authService.refreshToken()))
+      .subscribe({
+        next: () => {
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
+        },
+        error: () => {
+          this.router.navigate([this.transloco.getActiveLang()]);
+        },
+        complete: () => {
+          this.startedAcceptFlow = false;
+        },
+      });
   }
 }
