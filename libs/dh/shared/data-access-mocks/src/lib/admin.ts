@@ -82,6 +82,7 @@ export function adminMocks(apiBase: string) {
     getFilteredActors(),
     getMarketParticipantUserDeactivate(apiBase),
     getMarketParticipantUserReActivate(apiBase),
+    getMarketParticipantUserDeactivateUserRole(apiBase),
   ];
 }
 
@@ -94,6 +95,13 @@ function getMarketParticipantUserDeactivate(apiBase: string) {
 
 function getMarketParticipantUserReActivate(apiBase: string) {
   return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function getMarketParticipantUserDeactivateUserRole(apiBase: string) {
+  return http.get(`${apiBase}/v1/MarketParticipantUserRole/Deactivate`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
   });
