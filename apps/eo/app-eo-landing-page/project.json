@@ -65,7 +65,7 @@
         ],
         "server": "apps/eo/app-eo-landing-page/src/main.server.ts",
         "prerender": {
-          "routesFile": "apps/eo/app-eo-landing-page/src/routes.txt"
+          "routesFile": "apps/eo/app-eo-landing-page/src/prerendered-routes.txt"
         },
         "ssr": {
           "entry": "apps/eo/app-eo-landing-page/server.ts"
