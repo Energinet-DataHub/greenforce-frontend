@@ -44,8 +44,8 @@ import {
   Reset2faDocument,
   GetUserByIdDocument,
   ReInviteUserDocument,
-  DeactivedUserDocument,
-  ReActivedUserDocument,
+  DeactivateUserDocument,
+  ReActivateUserDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
@@ -101,11 +101,11 @@ export class DhUserDrawerComponent {
 
   reInviteUserMutation = mutation(ReInviteUserDocument);
   reset2faMutation = mutation(Reset2faDocument);
-  deactivedUserMutation = mutation(DeactivedUserDocument);
-  reActivateUserMutation = mutation(ReActivedUserDocument);
+  deactivateUserMutation = mutation(DeactivateUserDocument);
+  reActivateUserMutation = mutation(ReActivateUserDocument);
 
   isReinviting = this.reInviteUserMutation.loading;
-  isDeactivating = this.deactivedUserMutation.loading;
+  isDeactivating = this.deactivateUserMutation.loading;
   isReActivating = this.reActivateUserMutation.loading;
 
   constructor() {
@@ -134,40 +134,50 @@ export class DhUserDrawerComponent {
   }
 
   reinvite = () =>
-    this.reInviteUserMutation
-      .mutate({
-        variables: { input: { userId: this.userIdWithDefaultValue() } },
-      })
-      .then(() => this.showToast('success', 'reinviteSuccess'))
-      .catch(() => this.showToast('danger', 'reinviteError'));
+    this.reInviteUserMutation.mutate({
+      variables: { input: { userId: this.userIdWithDefaultValue() } },
+      onCompleted: (data) =>
+        data.reInviteUser.errors
+          ? this.showToast('danger', 'reinviteError')
+          : this.showToast('success', 'reinviteSuccess'),
+      onError: () => this.showToast('danger', 'reinviteError'),
+    });
 
   resetUser2Fa = () =>
-    this.reset2faMutation
-      .mutate({ variables: { input: { userId: this.userIdWithDefaultValue() } } })
-      .then(() => this.showToast('success', 'reset2faSuccess'))
-      .catch(() => this.showToast('danger', 'reset2faError'));
+    this.reset2faMutation.mutate({
+      variables: { input: { userId: this.userIdWithDefaultValue() } },
+      onCompleted: (data) =>
+        data.resetTwoFactorAuthentication.errors
+          ? this.showToast('danger', 'reset2faError')
+          : this.showToast('success', 'reset2faSuccess'),
+      onError: () => this.showToast('danger', 'reset2faError'),
+    });
 
   requestDeactivateUser = () => this.deactivateConfirmationModal().open();
 
   deactivate = (success: boolean) =>
     success &&
-    this.deactivedUserMutation
-      .mutate({
-        variables: { input: { userId: this.userIdWithDefaultValue() } },
-      })
-      .then(() => this.showToast('success', 'deactivateSuccess'))
-      .catch(() => this.showToast('danger', 'deactivateError'));
+    this.deactivateUserMutation.mutate({
+      variables: { input: { userId: this.userIdWithDefaultValue() } },
+      onCompleted: (data) =>
+        data.deactivateUser.errors
+          ? this.showToast('danger', 'deactivateError')
+          : this.showToast('success', 'deactivateSuccess'),
+      onError: () => this.showToast('danger', 'deactivateError'),
+    });
 
   requestReActivateUser = () => this.reActivateConfirmationModal().open();
 
   reActivate = (success: boolean) =>
     success &&
-    this.reActivateUserMutation
-      .mutate({
-        variables: { input: { userId: this.userIdWithDefaultValue() } },
-      })
-      .then(() => this.showToast('success', 'reactivateSuccess'))
-      .catch(() => this.showToast('danger', 'reactivateError'));
+    this.reActivateUserMutation.mutate({
+      variables: { input: { userId: this.userIdWithDefaultValue() } },
+      onError: () => this.showToast('danger', 'reactivateError'),
+      onCompleted: (data) =>
+        data.reActivateUser.errors
+          ? this.showToast('danger', 'reactivateError')
+          : this.showToast('success', 'reactivateSuccess'),
+    });
 
   private showToast(type: WattToastType, label: string): void {
     this.toastService.open({

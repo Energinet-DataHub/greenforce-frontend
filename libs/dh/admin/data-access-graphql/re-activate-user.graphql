@@ -1,4 +1,4 @@
-mutation reActivedUser($input: ReActivateUserInput!) {
+mutation reActivateUser($input: ReActivateUserInput!) {
   reActivateUser(input: $input) {
     success: boolean
     errors {

@@ -1,4 +1,4 @@
-mutation deactivedUser($input: DeactivateUserInput!) {
+mutation deactivateUser($input: DeactivateUserInput!) {
   deactivateUser(input: $input) {
     success: boolean
     errors {

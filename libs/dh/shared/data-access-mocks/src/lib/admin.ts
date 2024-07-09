@@ -37,6 +37,9 @@ import {
   mockUpdatePermissionMutation,
   mockGetFilteredActorsQuery,
   mockCreateUserRoleMutation,
+  mockDeactivateUserMutation,
+  mockReActivateUserMutation,
+  mockReInviteUserMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -74,22 +77,82 @@ export function adminMocks(apiBase: string) {
     updateUserAndRoles(),
     updatePermission(),
     getFilteredActors(),
-    getMarketParticipantUserDeactivate(apiBase),
-    getMarketParticipantUserReActivate(apiBase),
+    deactivedUser(),
+    reActivedUser(),
+    reInviteUser(),
   ];
 }
 
-function getMarketParticipantUserDeactivate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/DeactivateUser`, async () => {
+function maybeError() {
+  const maybeErrorState = self.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0;
+  console.log({ maybeErrorState });
+  if (!maybeErrorState) return null;
+  return [
+    {
+      message: 'mock error',
+      statusCode: 400,
+      apiErrors: [
+        {
+          __typename: 'ApiErrorDescriptor' as const,
+          message: 'error message',
+          code: 'market_participant.validation.error',
+          args: {},
+        },
+      ],
+      __typename: 'ApiError' as const,
+    },
+  ];
+}
+
+function deactivedUser() {
+  return mockDeactivateUserMutation(async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        deactivateUser: {
+          __typename: 'DeactivateUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
-function getMarketParticipantUserReActivate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
+function reActivedUser() {
+  return mockReActivateUserMutation(async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    const errors = maybeError();
+    console.log({ errors });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        reActivateUser: {
+          __typename: 'ReActivateUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
+  });
+}
+
+function reInviteUser() {
+  return mockReInviteUserMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        reInviteUser: {
+          __typename: 'ReInviteUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
