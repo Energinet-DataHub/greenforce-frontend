@@ -136,13 +136,13 @@ export class DhUserRolesOverviewComponent {
           `"${translate(basePath + 'status')}"`,
         ];
 
-        const lines = roles.map((x) => [
-          `"${x.name}"`,
-          `"${rolesTranslations[x.eicFunction]}"`,
-          `"${x.status}"`,
+        const lines = roles.map((role) => [
+          `"${role.name}"`,
+          `"${rolesTranslations[role.eicFunction]}"`,
+          `"${translate('admin.userManagement.roleStatus.' + role.status)}"`,
         ]);
 
-        exportToCSV({ headers, lines });
+        exportToCSV({ headers, lines, fileName: 'user-roles' });
       });
   }
 
