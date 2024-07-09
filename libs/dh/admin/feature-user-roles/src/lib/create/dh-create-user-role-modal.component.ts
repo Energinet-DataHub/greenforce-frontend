@@ -42,17 +42,15 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import {
-  MarketParticipantCreateUserRoleDto,
-  MarketParticipantUserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
-import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhCreateUserRoleStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  CreateUserRoleDtoInput,
   EicFunction,
   GetPermissionByEicFunctionDocument,
   PermissionDetailsDto,
+  UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -63,7 +61,7 @@ interface UserRoleForm {
   eicFunction: FormControl<EicFunction>;
   name: FormControl<string>;
   description: FormControl<string>;
-  status: FormControl<MarketParticipantUserRoleStatus>;
+  status: FormControl<UserRoleStatus>;
 }
 
 @Component({
@@ -73,7 +71,7 @@ interface UserRoleForm {
   templateUrl: './dh-create-user-role-modal.component.html',
   styleUrls: ['./dh-create-user-role-modal.component.scss'],
   standalone: true,
-  providers: [provideComponentStore(DhAdminCreateUserRoleManagementDataAccessApiStore)],
+  providers: [provideComponentStore(DhCreateUserRoleStore)],
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -98,7 +96,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
 
-  private readonly createUserRoleStore = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
+  private readonly createUserRoleStore = inject(DhCreateUserRoleStore);
 
   createUserRoleModal = viewChild.required(WattModalComponent);
 
@@ -121,7 +119,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
       Validators.maxLength(250),
     ]),
     description: this.formBuilder.nonNullable.control('', Validators.required),
-    status: this.formBuilder.nonNullable.control(MarketParticipantUserRoleStatus.Active),
+    status: this.formBuilder.nonNullable.control(UserRoleStatus.Active),
   });
 
   selectedPermissions = new FormControl<number[]>([], {
@@ -162,7 +160,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const createUserRoleDto: MarketParticipantCreateUserRoleDto = {
+    const createUserRoleDto: CreateUserRoleDtoInput = {
       ...this.userRoleForm.getRawValue(),
       permissions: this.selectedPermissions.value,
     };

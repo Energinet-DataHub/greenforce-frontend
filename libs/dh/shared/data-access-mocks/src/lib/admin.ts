@@ -36,6 +36,7 @@ import {
   mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
   mockGetFilteredActorsQuery,
+  mockCreateUserRoleMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -64,7 +65,7 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
-    postMarketParticipantUserRoleCreate(apiBase),
+    mockCreateUserRole(),
     postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
     getKnownEmailsQuery(),
@@ -257,10 +258,20 @@ function getAdminPermissionLogs() {
   });
 }
 
-function postMarketParticipantUserRoleCreate(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUserRole/Create`, async () => {
+function mockCreateUserRole() {
+  return mockCreateUserRoleMutation(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.text('', { status: 200 });
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createUserRole: {
+          __typename: 'CreateUserRolePayload',
+          success: true,
+          errors: null,
+        },
+      },
+    });
   });
 }
 
