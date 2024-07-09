@@ -145,6 +145,11 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
+type CreateUserRolePayload {
+  boolean: Boolean
+  errors: [CreateUserRoleError!]
+}
+
 type DeactivateUserPayload {
   boolean: Boolean
   errors: [DeactivateUserError!]
@@ -311,6 +316,7 @@ type Mutation {
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
 }
 
 type Organization {
@@ -549,6 +555,8 @@ union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
 
+union CreateUserRoleError = ApiError
+
 union DeactivateUserError = ApiError
 
 union InviteUserError = ApiError
@@ -655,6 +663,18 @@ input CreateProcessDelegationsInput {
   gridAreas: [String!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
+}
+
+input CreateUserRoleDtoInput {
+  name: String!
+  description: String!
+  status: UserRoleStatus!
+  eicFunction: EicFunction!
+  permissions: [Int!]!
+}
+
+input CreateUserRoleInput {
+  userRole: CreateUserRoleDtoInput!
 }
 
 input DeactivateUserInput {

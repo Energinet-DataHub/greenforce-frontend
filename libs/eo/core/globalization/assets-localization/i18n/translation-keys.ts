@@ -109,6 +109,14 @@ export interface TranslationKeys {
       };
     };
   };
+  documentation: {
+    error: {
+      title: string;
+      message: string;
+    };
+    endpoints: string;
+    topbarTitle: string;
+  };
   sidebar: {
     dashboard: string;
     meteringPoints: string;

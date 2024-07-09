@@ -21,11 +21,10 @@ import {
   Component,
   computed,
   DestroyRef,
-  EventEmitter,
   inject,
   OnInit,
-  Output,
-  ViewChild,
+  output,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -37,30 +36,32 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import {
-  MarketParticipantCreateUserRoleDto,
-  MarketParticipantUserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
-import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhCreateUserRoleStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  CreateUserRoleDtoInput,
   EicFunction,
   GetPermissionByEicFunctionDocument,
   PermissionDetailsDto,
+  UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 interface UserRoleForm {
   eicFunction: FormControl<EicFunction>;
   name: FormControl<string>;
   description: FormControl<string>;
-  status: FormControl<MarketParticipantUserRoleStatus>;
+  status: FormControl<UserRoleStatus>;
 }
 
 @Component({
@@ -70,14 +71,14 @@ interface UserRoleForm {
   templateUrl: './dh-create-user-role-modal.component.html',
   styleUrls: ['./dh-create-user-role-modal.component.scss'],
   standalone: true,
-  providers: [provideComponentStore(DhAdminCreateUserRoleManagementDataAccessApiStore)],
+  providers: [provideComponentStore(DhCreateUserRoleStore)],
   imports: [
+    ReactiveFormsModule,
     TranslocoDirective,
 
     WATT_MODAL,
     WattButtonComponent,
     WattIconComponent,
-    ReactiveFormsModule,
     WattDropdownComponent,
     WattFieldErrorComponent,
     WattTextFieldComponent,
@@ -86,6 +87,7 @@ interface UserRoleForm {
     WattEmptyStateComponent,
 
     DhPermissionsTableComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
@@ -94,11 +96,11 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
 
-  private readonly createUserRoleStore = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
+  private readonly createUserRoleStore = inject(DhCreateUserRoleStore);
 
-  @ViewChild('createUserRoleModal') createUserRoleModal!: WattModalComponent;
+  createUserRoleModal = viewChild.required(WattModalComponent);
 
-  @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
+  closed = output<{ saveSuccess: boolean }>();
 
   initialEicFunction = EicFunction.BalanceResponsibleParty;
 
@@ -117,7 +119,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
       Validators.maxLength(250),
     ]),
     description: this.formBuilder.nonNullable.control('', Validators.required),
-    status: this.formBuilder.nonNullable.control(MarketParticipantUserRoleStatus.Active),
+    status: this.formBuilder.nonNullable.control(UserRoleStatus.Active),
   });
 
   selectedPermissions = new FormControl<number[]>([], {
@@ -125,11 +127,9 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
     nonNullable: true,
   });
 
-  eicFunctionOptions: WattDropdownOptions = [];
+  eicFunctionOptions = dhEnumToWattDropdownOptions(EicFunction);
 
   ngOnInit(): void {
-    this.buildEicFunctionOptions();
-
     this.userRoleForm.controls.eicFunction.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
@@ -138,7 +138,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.createUserRoleModal.open();
+    this.createUserRoleModal().open();
   }
 
   onSelectionChange(event: PermissionDetailsDto[]): void {
@@ -149,7 +149,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   }
 
   closeModal(saveSuccess: boolean) {
-    this.createUserRoleModal.close(saveSuccess);
+    this.createUserRoleModal().close(saveSuccess);
     this.closed.emit({ saveSuccess });
   }
 
@@ -160,7 +160,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const createUserRoleDto: MarketParticipantCreateUserRoleDto = {
+    const createUserRoleDto: CreateUserRoleDtoInput = {
       ...this.userRoleForm.getRawValue(),
       permissions: this.selectedPermissions.value,
     };
@@ -193,22 +193,4 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
 
     this.toastService.open({ message, type: 'danger' });
   };
-
-  private buildEicFunctionOptions() {
-    this.transloco
-      .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.eicFunctionOptions = Object.keys(EicFunction)
-            .map((entry) => {
-              return {
-                value: entry,
-                displayValue: keys[entry],
-              };
-            })
-            .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
-        },
-      });
-  }
 }

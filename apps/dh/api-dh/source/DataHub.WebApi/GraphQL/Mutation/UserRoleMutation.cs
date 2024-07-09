@@ -39,4 +39,22 @@ public partial class Mutation
         await client.UserRolesPutAsync(userRoleId, userRole).ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> CreateUserRoleAsync(
+        CreateUserRoleDto userRole,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var userRoleToCreate = new CreateUserRoleDto
+        {
+            Name = userRole.Name,
+            Description = userRole.Description,
+            EicFunction = userRole.EicFunction,
+            Permissions = userRole.Permissions,
+            Status = userRole.Status,
+        };
+
+        await client.UserRolesPostAsync(userRoleToCreate).ConfigureAwait(false);
+        return true;
+    }
 }

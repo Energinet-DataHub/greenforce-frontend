@@ -1,0 +1,2 @@
+/da/documentation/3rd-party-api-usage
+/en/documentation/3rd-party-api-usage

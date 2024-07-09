@@ -1,0 +1,14 @@
+mutation CreateUserRole($input: CreateUserRoleInput!) {
+  createUserRole(input: $input) {
+    success: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}

@@ -15,7 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-modal
-  #createUserRoleModal
   size="large"
   [title]="t('headline')"
   (closed)="closeModal($event)"
@@ -36,12 +35,15 @@ limitations under the License.
         <!-- Eic Function -->
         <watt-dropdown
           class="eic-function"
-          [label]="t('steps.masterData.selectEicFunctionStatus')"
+          [label]="t('steps.masterData.eicFunction')"
           [formControl]="userRoleForm.controls.eicFunction"
           [options]="eicFunctionOptions"
+          sortDirection="asc"
+          dhDropdownTranslator
+          translateKey="marketParticipant.marketRoles"
           name="eicFunction"
           [showResetOption]="false"
-          [placeholder]="t('steps.masterData.selectEicFunctionStatus')"
+          [placeholder]="t('steps.masterData.eicFunction')"
         />
 
         <!-- Name -->

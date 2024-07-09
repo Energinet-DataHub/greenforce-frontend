@@ -19,14 +19,15 @@ import { TitleStrategy, provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configuration-localization';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideTransloco } from '@ngneat/transloco';
+import { provideMarkdown } from 'ngx-markdown';
+
 import {
   TRANSLOCO_TYPED_TRANSLATION_PATH,
   TranslocoTypedLoader,
 } from '@energinet-datahub/gf/globalization/data-access-localization';
-
 import { DA_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/da';
 import { EN_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/en';
 
@@ -52,6 +53,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch()),
     provideRouter(appRoutes),
+    provideMarkdown({ loader: HttpClient }),
     ...translocoProviders,
     {
       provide: TitleStrategy,

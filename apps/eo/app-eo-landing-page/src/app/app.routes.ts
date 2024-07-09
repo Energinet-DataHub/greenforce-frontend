@@ -27,30 +27,18 @@ const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
 export const appRoutes: Route[] = [
   {
     path: 'en',
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () =>
-          import('@energinet-datahub/eo/landing-page/shell').then(
-            (esModule) => esModule.eoLandingPageRoutes
-          ),
-      },
-    ],
+    loadChildren: () =>
+      import('@energinet-datahub/eo/landing-page/shell').then(
+        (esModule) => esModule.eoLandingPageRoutes
+      ),
     canActivate: [setDefaultLang],
   },
   {
     path: 'da',
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        loadChildren: () =>
-          import('@energinet-datahub/eo/landing-page/shell').then(
-            (esModule) => esModule.eoLandingPageRoutes
-          ),
-      },
-    ],
+    loadChildren: () =>
+      import('@energinet-datahub/eo/landing-page/shell').then(
+        (esModule) => esModule.eoLandingPageRoutes
+      ),
     canActivate: [setDefaultLang],
   },
   // Redirect from the root to the default language
