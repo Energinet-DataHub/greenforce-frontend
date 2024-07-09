@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { CanActivateFn, Router, Routes } from '@angular/router';
-
-import { EoMarkdownComponent } from 'libs/eo/api-documentation/feature-markdown';
-
-import { EoApiDocumentationComponent } from './api-documentation.component';
 import { inject } from '@angular/core';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { TranslocoService } from '@ngneat/transloco';
+
+import { EoMarkdownComponent } from '@energinet-datahub/eo/api-documentation/markdown';
+
+import { EoApiDocumentationComponent } from './api-documentation.component';
 
 export const defaultDocGuard: CanActivateFn = () => {
   const router = inject(Router);
