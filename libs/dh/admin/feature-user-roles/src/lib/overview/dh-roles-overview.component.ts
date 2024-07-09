@@ -116,7 +116,7 @@ export class DhUserRolesOverviewComponent {
   }
 
   reloadRoles(): void {
-    this.store.getRoles();
+    this.store.reloadRoles();
   }
 
   modalOnClose(): void {
