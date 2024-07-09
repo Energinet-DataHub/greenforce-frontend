@@ -63,4 +63,22 @@ public partial class Mutation
         await client.UserReset2faAsync(userId).ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> DeactivateUserAsync(
+            Guid userId,
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserDeactivateAsync(userId).ConfigureAwait(false);
+        return true;
+    }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> ReActivateUserAsync(
+            Guid userId,
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserReactivateAsync(userId).ConfigureAwait(false);
+        return true;
+    }
 }

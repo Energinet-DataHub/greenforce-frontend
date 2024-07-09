@@ -1,0 +1,8 @@
+mutation deactivedUser($input: DeactivateUserInput!) {
+  deactivateUser(input: $input) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

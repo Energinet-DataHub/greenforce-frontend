@@ -44,13 +44,14 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhAdminInviteUserStore, UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 import {
   GetKnownEmailsDocument,
   GetFilteredActorsDocument,
   GetAssociatedActorsDocument,
+  InviteUserDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -63,7 +64,6 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [DhAdminInviteUserStore],
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
@@ -89,13 +89,14 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   private readonly toastService = inject(WattToastService);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
-  private readonly inviteUserStore = inject(DhAdminInviteUserStore);
   private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   inviteUserModal = viewChild.required<WattModalComponent>('inviteUserModal');
   closed = output<void>();
 
-  isInvitingUser$ = this.inviteUserStore.isSaving$;
+  inviteUserMutation = mutation(InviteUserDocument);
+
+  isInvitingUser = this.inviteUserMutation.loading;
 
   selectedActorId = signal<string | null>(null);
 
@@ -171,6 +172,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     lastname: ['', Validators.required],
     phoneNumber: ['', [Validators.required]],
   });
+
   userRoles = this.nonNullableFormBuilder.group({
     selectedUserRoles: [[] as string[], Validators.required],
   });
@@ -214,32 +216,33 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     const [prefix, ...rest] = phoneParts;
     const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
-    this.inviteUserStore.inviteUser({
-      invitation: {
-        invitationUserDetails:
-          firstname.value && lastname.value && phoneNumber.value
-            ? {
-                firstName: firstname.value,
-                lastName: lastname.value,
-                phoneNumber: formattedPhoneNumber,
-              }
-            : undefined,
-        email: email.value,
-        assignedActor: actorId.value,
-        assignedRoles: this.userRoles.controls.selectedUserRoles.value,
-      },
-      onSuccess: () => this.onInviteSuccess(email.value),
-      onError: (e) => this.onInviteError(e),
-    });
+    this.inviteUserMutation
+      .mutate({
+        variables: {
+          input: {
+            userInviteDto: {
+              invitationUserDetails:
+                firstname.value && lastname.value && phoneNumber.value
+                  ? {
+                      firstName: firstname.value,
+                      lastName: lastname.value,
+                      phoneNumber: formattedPhoneNumber,
+                    }
+                  : undefined,
+              email: email.value,
+              assignedActor: actorId.value,
+              assignedRoles: this.userRoles.controls.selectedUserRoles.value,
+            },
+          },
+        },
+      })
+      .then(() => this.onInviteSuccess(email.value))
+      .catch((e) => this.onInviteError(e));
   }
 
   onSelectedUserRoles(userRoles: UserRoleItem[]) {
     this.userRoles.controls.selectedUserRoles.markAsTouched();
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
-  }
-
-  openModal() {
-    this.inviteUserModal().open();
   }
 
   closeModal(status: boolean) {

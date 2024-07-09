@@ -18,3 +18,5 @@ import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type DhUser = ResultOf<typeof GetUserByIdDocument>['userById'];
+
+export type DhUsers = DhUser[];

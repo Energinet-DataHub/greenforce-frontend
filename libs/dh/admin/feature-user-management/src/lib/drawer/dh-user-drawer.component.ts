@@ -15,50 +15,49 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-  computed,
   effect,
   inject,
+  output,
   signal,
+  computed,
+  Component,
+  viewChild,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { RxPush } from '@rx-angular/template/push';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhUser, DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhAdminInviteUserStore,
-  DhAdminUserStatusStore,
-  User,
-} from '@energinet-datahub/dh/admin/data-access-api';
 
-import { GetUserByIdDocument, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  UserStatus,
+  Reset2faDocument,
+  GetUserByIdDocument,
+  ReInviteUserDocument,
+  DeactivedUserDocument,
+  ReActivedUserDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DhAdminInviteUserStore, DhAdminUserStatusStore],
   selector: 'dh-user-drawer',
   standalone: true,
   templateUrl: './dh-user-drawer.component.html',
   imports: [
-    RxPush,
     TranslocoDirective,
     MatMenuModule,
 
@@ -74,23 +73,21 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   ],
 })
 export class DhUserDrawerComponent {
+  private modalService = inject(WattModalService);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
-  private inviteUserStore = inject(DhAdminInviteUserStore);
-  private userStatusStore = inject(DhAdminUserStatusStore);
 
-  @ViewChild('drawer')
-  drawer!: WattDrawerComponent;
+  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
-  @ViewChild('deactivateConfirmationModal')
-  deactivateConfirmationModal!: WattModalComponent;
+  deactivateConfirmationModal = viewChild.required<WattModalComponent>(
+    'deactivateConfirmationModal'
+  );
 
-  @ViewChild('reActivateConfirmationModal')
-  reActivateConfirmationModal!: WattModalComponent;
+  reActivateConfirmationModal = viewChild.required<WattModalComponent>(
+    'reActivateConfirmationModal'
+  );
 
-  @Output() closed = new EventEmitter<void>();
-
-  isEditUserModalVisible = false;
+  closed = output<void>();
 
   userId = signal<string | null>(null);
   userIdWithDefaultValue = computed(() => this.userId() ?? '');
@@ -100,95 +97,82 @@ export class DhUserDrawerComponent {
   selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
   isLoading = computed(() => this.selectedUserQuery.loading());
 
-  refetch = effect(() => {
-    const userId = this.userId();
-    if (!userId) return;
-    this.selectedUserQuery.refetch({ id: userId });
-  });
-
   UserStatus = UserStatus;
 
-  isReinviting$ = this.inviteUserStore.isSaving$;
-  isDeactivating$ = this.userStatusStore.isSaving$;
-  isReActivating$ = this.userStatusStore.isSaving$;
+  reInviteUserMutation = mutation(ReInviteUserDocument);
+  reset2faMutation = mutation(Reset2faDocument);
+  deactivedUserMutation = mutation(DeactivedUserDocument);
+  reActivateUserMutation = mutation(ReActivedUserDocument);
+
+  isReinviting = this.reInviteUserMutation.loading;
+  isDeactivating = this.deactivedUserMutation.loading;
+  isReActivating = this.reActivateUserMutation.loading;
+
+  constructor() {
+    effect(() => {
+      const userId = this.userId();
+      if (!userId) return;
+      this.selectedUserQuery.refetch({ id: userId });
+    });
+  }
 
   onClose(): void {
-    this.drawer.close();
+    this.drawer().close();
     this.closed.emit();
   }
 
-  open(user: User): void {
+  open(user: DhUser): void {
     this.userId.set(user.id);
-    this.drawer.open();
+    this.drawer().open();
   }
 
-  modalOnClose(): void {
-    this.isEditUserModalVisible = false;
+  showEditUserModal(): void {
+    this.modalService.open({
+      component: DhEditUserModalComponent,
+      data: this.selectedUser(),
+    });
   }
 
   reinvite = () =>
-    this.inviteUserStore.reinviteUser({
-      id: this.userIdWithDefaultValue(),
-      onSuccess: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.reinviteSuccess'),
-          type: 'success',
-        }),
-      onError: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.reinviteError'),
-          type: 'danger',
-        }),
-    });
+    this.reInviteUserMutation
+      .mutate({
+        variables: { input: { userId: this.userIdWithDefaultValue() } },
+      })
+      .then(() => this.showToast('success', 'reinviteSuccess'))
+      .catch(() => this.showToast('danger', 'reinviteError'));
 
   resetUser2Fa = () =>
-    this.inviteUserStore.resetUser2Fa({
-      id: this.userIdWithDefaultValue(),
-      onSuccess: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.reset2faSuccess'),
-          type: 'success',
-        }),
-      onError: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.reset2faError'),
-          type: 'danger',
-        }),
-    });
+    this.reset2faMutation
+      .mutate({ variables: { input: { userId: this.userIdWithDefaultValue() } } })
+      .then(() => this.showToast('success', 'reset2faSuccess'))
+      .catch(() => this.showToast('danger', 'reset2faError'));
 
-  requestDeactivateUser = () => this.deactivateConfirmationModal.open();
+  requestDeactivateUser = () => this.deactivateConfirmationModal().open();
 
   deactivate = (success: boolean) =>
     success &&
-    this.userStatusStore.deactivateUser({
-      id: this.userIdWithDefaultValue(),
-      onSuccess: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.deactivateSuccess'),
-          type: 'success',
-        }),
-      onError: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.deactivateError'),
-          type: 'danger',
-        }),
-    });
+    this.deactivedUserMutation
+      .mutate({
+        variables: { input: { userId: this.userIdWithDefaultValue() } },
+      })
+      .then(() => this.showToast('success', 'deactivateSuccess'))
+      .catch(() => this.showToast('danger', 'deactivateError'));
 
-  requestReActivateUser = () => this.reActivateConfirmationModal.open();
+  requestReActivateUser = () => this.reActivateConfirmationModal().open();
 
   reActivate = (success: boolean) =>
     success &&
-    this.userStatusStore.reActivateUser({
-      id: this.userIdWithDefaultValue(),
-      onSuccess: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.reactivateSuccess'),
-          type: 'success',
-        }),
-      onError: () =>
-        this.toastService.open({
-          message: this.transloco.translate('admin.userManagement.drawer.reactivateError'),
-          type: 'danger',
-        }),
+    this.reActivateUserMutation
+      .mutate({
+        variables: { input: { userId: this.userIdWithDefaultValue() } },
+      })
+      .then(() => this.showToast('success', 'reactivateSuccess'))
+      .catch(() => this.showToast('danger', 'reactivateError'));
+
+  private showToast(type: WattToastType, label: string): void {
+    this.toastService.open({
+      type,
+      message: this.transloco.translate(`admin.userManagement.drawer.${label}`),
     });
+  }
 }

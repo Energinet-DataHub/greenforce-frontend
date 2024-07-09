@@ -4,5 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/admin/shared/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:admin", "type:feature"]
+  "tags": ["product:dh", "domain:admin", "type:domain"]
 }
