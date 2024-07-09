@@ -79,7 +79,7 @@ const selector = 'eo-api-documentation';
         <br />
 
         <watt-nav-list>
-          <watt-nav-list-item [link]="devPortalHref" target="_blank">
+          <watt-nav-list-item [link]="devPortalHref" (click)="gotoDevPortal($event)">
             <span class="icon-link">
               <watt-icon name="openInNew" />
               {{ translations.documentation.endpoints | transloco }}
@@ -105,4 +105,9 @@ export class EoApiDocumentationComponent {
   protected afterViewInit = signal<boolean>(false);
   protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
   protected links = this.docs.map((doc) => ({ title: doc.title, src: '/' + this.activeLang + '/documentation/' + doc.id }));
+
+  gotoDevPortal(event: Event) {
+    event.preventDefault();
+    window.location.assign(this.devPortalHref);
+  }
 }
