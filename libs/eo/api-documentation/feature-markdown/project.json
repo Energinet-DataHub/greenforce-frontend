@@ -2,7 +2,7 @@
   "name": "eo-markdown",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/api-documentation/ui-markdown",
+  "sourceRoot": "libs/eo/api-documentation/feature-markdown",
   "prefix": "eo",
   "targets": {
     "lint": {
