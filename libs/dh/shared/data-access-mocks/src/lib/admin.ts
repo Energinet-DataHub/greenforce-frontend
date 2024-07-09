@@ -37,10 +37,14 @@ import {
   mockUpdatePermissionMutation,
   mockGetFilteredActorsQuery,
   mockCreateUserRoleMutation,
+  mockGetUserRolesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
-import { marketParticipantUserRoleGetAll } from './data/market-participant-user-role-get-all';
+import {
+  marketParticipantUserRoleGetAll,
+  userRolesOverview,
+} from './data/market-participant-user-role-get-all';
 import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';
 import { marketParticipantUserRoleGetUserRoleWithPermissions } from './data/market-participant-user-role-get-user-role-with-permissions';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
@@ -57,6 +61,7 @@ export function adminMocks(apiBase: string) {
   return [
     getMarketParticipantActorQuerySelectionActors(apiBase),
     getMarketParticipantUserRoleGetAll(apiBase),
+    mockGetUserRoles(),
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
     updateUserRoleMutation(),
@@ -121,6 +126,14 @@ function getUserRolesByActorIdQuery() {
       });
     }
     return HttpResponse.json({ data: marketParticipantUserRoles });
+  });
+}
+
+function mockGetUserRoles() {
+  return mockGetUserRolesQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({ data: userRolesOverview });
   });
 }
 
