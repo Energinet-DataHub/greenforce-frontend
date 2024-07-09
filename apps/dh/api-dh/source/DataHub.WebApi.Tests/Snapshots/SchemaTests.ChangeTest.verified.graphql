@@ -145,6 +145,11 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
+type DeactivateUserPayload {
+  boolean: Boolean
+  errors: [DeactivateUserError!]
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   gridArea: GridAreaDto
@@ -238,6 +243,11 @@ type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
+type InviteUserPayload {
+  boolean: Boolean
+  errors: [InviteUserError!]
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
@@ -294,6 +304,11 @@ type Mutation {
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
+  inviteUser(input: InviteUserInput!): InviteUserPayload!
+  reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload!
+  resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
+  deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
+  reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
 }
@@ -390,6 +405,16 @@ type Query {
   userRoleById(id: UUID!): UserRoleWithPermissions!
 }
 
+type ReActivateUserPayload {
+  boolean: Boolean
+  errors: [ReActivateUserError!]
+}
+
+type ReInviteUserPayload {
+  boolean: Boolean
+  errors: [ReInviteUserError!]
+}
+
 type ReadinessStatusDto {
   component: ESettStageComponent!
   isReady: Boolean!
@@ -411,6 +436,11 @@ type RequestSettlementReportPayload {
 
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
+}
+
+type ResetTwoFactorAuthenticationPayload {
+  boolean: Boolean
+  errors: [ResetTwoFactorAuthenticationError!]
 }
 
 type SettlementReport {
@@ -519,6 +549,16 @@ union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
 
+union DeactivateUserError = ApiError
+
+union InviteUserError = ApiError
+
+union ReActivateUserError = ApiError
+
+union ReInviteUserError = ApiError
+
+union ResetTwoFactorAuthenticationError = ApiError
+
 union StopDelegationError = ApiError
 
 union UpdateActorError = ApiError
@@ -617,6 +657,28 @@ input CreateProcessDelegationsInput {
   startsAt: DateTime!
 }
 
+input DeactivateUserInput {
+  userId: UUID!
+}
+
+input InvitationUserDetailsDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
+input InviteUserInput {
+  userInviteDto: UserInvitationDtoInput!
+}
+
+input ReActivateUserInput {
+  userId: UUID!
+}
+
+input ReInviteUserInput {
+  userId: UUID!
+}
+
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
@@ -641,6 +703,10 @@ input RequestSettlementReportInput {
   includeBasisData: Boolean!
   energySupplier: String
   csvLanguage: String
+}
+
+input ResetTwoFactorAuthenticationInput {
+  userId: UUID!
 }
 
 input StopDelegationInput {
@@ -711,6 +777,13 @@ input UserIdentityUpdateDtoInput {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+input UserInvitationDtoInput {
+  email: String!
+  invitationUserDetails: InvitationUserDetailsDtoInput
+  assignedActor: UUID!
+  assignedRoles: [UUID!]!
 }
 
 input UserProfileUpdateDtoInput {

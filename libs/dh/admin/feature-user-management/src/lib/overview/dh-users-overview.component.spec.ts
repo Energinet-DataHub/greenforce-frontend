@@ -26,6 +26,7 @@ import { MockProvider } from 'ng-mocks';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/angular';
 
+import { DhUsers } from '@energinet-datahub/dh/admin/shared';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
@@ -35,13 +36,13 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import {
   DhAdminUserManagementDataAccessApiStore,
   DhUserManagementFilters,
-  User,
 } from '@energinet-datahub/dh/admin/data-access-api';
+
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersOverviewComponent, debounceTimeValue } from './dh-users-overview.component';
 
-const users: User[] = [
+const users: DhUsers = [
   {
     __typename: 'User',
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
@@ -50,11 +51,12 @@ const users: User[] = [
     lastName: 'Test User Last',
     phoneNumber: '11111111',
     status: UserStatus.Active,
+    createdDate: new Date(),
   },
 ];
 
 describe(DhUsersOverviewComponent, () => {
-  async function setup(mockUsers: User[] = []) {
+  async function setup(mockUsers: DhUsers = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
