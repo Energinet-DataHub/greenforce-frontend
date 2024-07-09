@@ -119,12 +119,8 @@ export class DhUserRolesOverviewComponent {
     this.store.getRoles();
   }
 
-  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
+  modalOnClose(): void {
     this.isCreateUserRoleModalVisible = false;
-
-    if (saveSuccess) {
-      this.reloadRoles();
-    }
   }
 
   async download(roles: UserRoleDto[]) {
