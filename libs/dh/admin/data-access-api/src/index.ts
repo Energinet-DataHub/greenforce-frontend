@@ -18,7 +18,7 @@ export * from './lib/dh-admin-user-management-data-access-api.store';
 export * from './lib/dh-admin-user-roles.store';
 export * from './lib/dh-admin-user-roles-management-data-access-api.store';
 export * from './lib/dh-admin-user-role-permissions-management-data-access-api.store';
-export * from './lib/dh-admin-create-user-role-management-data-access-api.store';
+export * from './lib/dh-create-user-role.store';
 export * from './lib/dh-admin-user-role-edit-data-access-api.store';
 export * from './lib/dh-admin-invite-user.store';
 export * from './lib/dh-admin-edit-user.store';

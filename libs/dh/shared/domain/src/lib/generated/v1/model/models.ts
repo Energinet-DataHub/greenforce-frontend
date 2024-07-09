@@ -13,7 +13,6 @@ export * from './market-participant-actor-market-role-dto';
 export * from './market-participant-actor-name-dto';
 export * from './market-participant-actor-number-dto';
 export * from './market-participant-actor-view-dto';
-export * from './market-participant-create-user-role-dto';
 export * from './market-participant-eic-function';
 export * from './market-participant-get-actors-associated-with-external-user-id-response';
 export * from './market-participant-get-actors-associated-with-user-response';
