@@ -52,10 +52,21 @@
         "stylePreprocessorOptions": {
           "includePaths": ["libs/watt/src/lib/styles"]
         },
-        "styles": ["apps/eo/app-eo-landing-page/src/styles.scss"],
-        "scripts": [],
+        "styles": [
+          "apps/eo/app-eo-landing-page/src/styles.scss",
+          "node_modules/prismjs/themes/prism-okaidia.css",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+        ],
+        "scripts": [
+          "node_modules/prismjs/prism.js",
+          "node_modules/prismjs/components/prism-csharp.min.js",
+          "node_modules/mermaid/dist/mermaid.min.js",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
+        ],
         "server": "apps/eo/app-eo-landing-page/src/main.server.ts",
-        "prerender": true,
+        "prerender": {
+          "routesFile": "apps/eo/app-eo-landing-page/src/prerendered-routes.txt"
+        },
         "ssr": {
           "entry": "apps/eo/app-eo-landing-page/server.ts"
         }
@@ -66,7 +77,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.1mb"
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
