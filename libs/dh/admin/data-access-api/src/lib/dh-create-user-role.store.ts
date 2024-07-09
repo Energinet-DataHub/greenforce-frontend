@@ -14,39 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
+import { Apollo } from 'apollo-angular';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
-  MarketParticipantUserRoleHttp,
-  MarketParticipantCreateUserRoleDto,
-} from '@energinet-datahub/dh/shared/domain';
+  CreateUserRoleDocument,
+  CreateUserRoleDtoInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-interface DhCreateUserRoleManagementState {
+interface DhCreateUserRoleState {
   readonly requestState: LoadingState | ErrorState;
 }
 
-const initialState: DhCreateUserRoleManagementState = {
+const initialState: DhCreateUserRoleState = {
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhAdminCreateUserRoleManagementDataAccessApiStore extends ComponentStore<DhCreateUserRoleManagementState> {
+export class DhCreateUserRoleStore extends ComponentStore<DhCreateUserRoleState> {
+  private readonly apollo = inject(Apollo);
+
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
-  constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
+  constructor() {
     super(initialState);
   }
 
   readonly createUserRole = this.effect(
     (
       trigger$: Observable<{
-        createUserRoleDto: MarketParticipantCreateUserRoleDto;
+        createUserRoleDto: CreateUserRoleDtoInput;
         onSuccessFn: () => void;
         onErrorFn: () => void;
       }>
@@ -55,34 +58,52 @@ export class DhAdminCreateUserRoleManagementDataAccessApiStore extends Component
         tap(() => {
           this.setLoading(LoadingState.INIT);
         }),
-        exhaustMap(({ createUserRoleDto, onSuccessFn, onErrorFn }) =>
-          this.saveUserRole(createUserRoleDto).pipe(
-            tapResponse(
-              () => {
-                this.setLoading(LoadingState.LOADED);
-
-                onSuccessFn();
+        exhaustMap(({ createUserRoleDto, onSuccessFn, onErrorFn }) => {
+          return this.apollo
+            .mutate({
+              mutation: CreateUserRoleDocument,
+              variables: {
+                input: {
+                  userRole: createUserRoleDto,
+                },
               },
-              () => {
-                this.setLoading(ErrorState.GENERAL_ERROR);
+            })
+            .pipe(
+              tapResponse(
+                ({ loading, data }) => {
+                  if (loading) {
+                    this.setLoading(LoadingState.LOADING);
+                    return;
+                  }
 
-                onErrorFn();
-              }
-            )
-          )
-        )
+                  if (data?.createUserRole.success) {
+                    this.setLoading(LoadingState.LOADED);
+
+                    onSuccessFn();
+                  }
+
+                  if (data?.createUserRole.errors?.length) {
+                    this.setLoading(ErrorState.GENERAL_ERROR);
+
+                    onErrorFn();
+                  }
+                },
+                () => {
+                  this.setLoading(ErrorState.GENERAL_ERROR);
+
+                  onErrorFn();
+                }
+              )
+            );
+        })
       );
     }
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState | ErrorState): DhCreateUserRoleManagementState => ({
+    (state, loadingState: LoadingState | ErrorState): DhCreateUserRoleState => ({
       ...state,
       requestState: loadingState,
     })
   );
-
-  private readonly saveUserRole = (newRole: MarketParticipantCreateUserRoleDto) => {
-    return this.httpClientUserRole.v1MarketParticipantUserRoleCreatePost(newRole);
-  };
 }

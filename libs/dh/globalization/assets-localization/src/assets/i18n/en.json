@@ -1334,7 +1334,6 @@
           "masterData": {
             "label": "Master data",
             "eicFunction": "Market role",
-            "selectEicFunctionStatus": "Select market role",
             "name": "Name",
             "nameMaxLengthErrorText": "Name must be under 250 characters",
             "description": "Description"

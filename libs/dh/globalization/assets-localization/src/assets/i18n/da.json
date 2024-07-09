@@ -1333,7 +1333,6 @@
           "masterData": {
             "label": "Stamdata",
             "eicFunction": "Markedsrolle",
-            "selectEicFunctionStatus": "Markedsrolle",
             "name": "Navn",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "description": "Beskrivelse"

@@ -107,26 +107,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
         return actorViews;
     }
 
-    [HttpPost]
-    [Route("Create")]
-    public async Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
-    {
-        var copy = new CreateUserRoleDto
-        {
-            Name = userRole.Name,
-            Description = userRole.Description,
-            EicFunction = userRole.EicFunction,
-            Permissions = userRole.Permissions,
-            Status = userRole.Status,
-        };
-
-        var userRoleId = await _client
-            .UserRolesPostAsync(copy)
-            .ConfigureAwait(false);
-
-        return Ok(userRoleId);
-    }
-
     [HttpGet]
     [Route("Deactivate")]
     public Task<ActionResult> DeactivateRoleAsync(Guid roleId)
