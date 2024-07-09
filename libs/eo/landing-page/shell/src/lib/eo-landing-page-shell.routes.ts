@@ -23,5 +23,9 @@ export const eoLandingPageRoutes: Routes = [
   /**
    * API documentation
    */
-  { path: 'documentation', loadChildren: () => import('@energinet-datahub/eo/api-documentation').then((m) => m.eoApiDocumentationRoutes) },
+  {
+    path: 'documentation',
+    loadChildren: () =>
+      import('@energinet-datahub/eo/api-documentation').then((m) => m.eoApiDocumentationRoutes),
+  },
 ];

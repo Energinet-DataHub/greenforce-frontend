@@ -165,11 +165,11 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   documentation: {
     error: {
-      title: "Oops! Something went wrong.",
-      message: "Please try reloading the page.",
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page.',
     },
-    endpoints: "Endpoints",
-    topbarTitle: "Documentation",
+    endpoints: 'Endpoints',
+    topbarTitle: 'Documentation',
   },
   sidebar: {
     dashboard: 'Overblik',
