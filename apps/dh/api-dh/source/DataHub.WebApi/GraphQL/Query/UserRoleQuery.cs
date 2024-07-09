@@ -32,4 +32,8 @@ public partial class Query
         Guid id,
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserRolesGetAsync(id);
+
+    public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserRolesGetAsync();
 }
