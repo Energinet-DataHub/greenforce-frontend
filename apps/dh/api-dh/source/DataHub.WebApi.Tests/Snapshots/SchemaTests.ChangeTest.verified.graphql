@@ -11,6 +11,7 @@ type Actor {
   id: UUID!
   name: String!
   glnOrEicNumber: String!
+  displayName: String!
   marketRole: EicFunction
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
@@ -179,7 +180,7 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetUserOverviewResponse {
-  users: [UserOverviewItemDto!]!
+  users: [User!]!
   totalUserCount: Int!
 }
 
@@ -289,9 +290,12 @@ type Mutation {
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
-  updatePermission(input: UpdatePermissionDtoInput!): Permission!
+  updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
+  updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
+  updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
 }
 
 type Organization {
@@ -347,6 +351,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
+  filteredActors: [Actor!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -370,17 +375,19 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  userRoleById(id: UUID!): UserRoleWithPermissionsDto!
   userProfile: GetUserProfileResponse!
+  userById(id: UUID!): User!
   emailExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  userRoleById(id: UUID!): UserRoleWithPermissions!
 }
 
 type ReadinessStatusDto {
@@ -433,9 +440,40 @@ type UpdateOrganizationPayload {
   errors: [UpdateOrganizationError!]
 }
 
+type UpdatePermissionPayload {
+  permission: Permission
+  errors: [UpdatePermissionError!]
+}
+
+type UpdateUserIdentityPayload {
+  boolean: Boolean
+  errors: [UpdateUserIdentityError!]
+}
+
 type UpdateUserProfilePayload {
   boolean: Boolean
   errors: [UpdateUserProfileError!]
+}
+
+type UpdateUserRoleAssignmentPayload {
+  boolean: Boolean
+  errors: [UpdateUserRoleAssignmentError!]
+}
+
+type UpdateUserRolePayload {
+  boolean: Boolean
+  errors: [UpdateUserRoleError!]
+}
+
+type User {
+  id: UUID!
+  name: String!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  createdDate: DateTime!
 }
 
 type UserAuditedChangeAuditLogDto {
@@ -447,16 +485,6 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
-}
-
-type UserOverviewItemDto {
-  id: UUID!
-  status: UserStatus!
-  firstName: String!
-  lastName: String!
-  email: String!
-  phoneNumber: String
-  createdDate: DateTime!
 }
 
 type UserRoleAuditedChangeAuditLogDto {
@@ -477,7 +505,8 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
-type UserRoleWithPermissionsDto {
+type UserRoleWithPermissions {
+  userRoles: [UserRoleDto!]!
   id: UUID!
   name: String!
   description: String!
@@ -496,7 +525,15 @@ union UpdateActorError = ApiError
 
 union UpdateOrganizationError = ApiError
 
+union UpdatePermissionError = ApiError
+
+union UpdateUserIdentityError = ApiError
+
 union UpdateUserProfileError = ApiError
+
+union UpdateUserRoleAssignmentError = ApiError
+
+union UpdateUserRoleError = ApiError
 
 input ActorNameDtoInput {
   value: String!
@@ -624,18 +661,56 @@ input UpdateActorInput {
   departmentPhone: String!
 }
 
+input UpdateActorUserRolesInput {
+  actorId: UUID!
+  assignments: UpdateUserRoleAssignmentsDtoInput!
+}
+
 input UpdateOrganizationInput {
   orgId: UUID!
   domain: String!
 }
 
-input UpdatePermissionDtoInput {
+input UpdatePermissionInput {
   id: Int!
   description: String!
 }
 
+input UpdateUserIdentityInput {
+  userId: UUID!
+  userIdentityUpdateDto: UserIdentityUpdateDtoInput!
+}
+
 input UpdateUserProfileInput {
   userProfileUpdateDto: UserProfileUpdateDtoInput!
+}
+
+input UpdateUserRoleAssignmentInput {
+  userId: UUID!
+  input: [UpdateActorUserRolesInput!]!
+}
+
+input UpdateUserRoleAssignmentsDtoInput {
+  added: [UUID!]!
+  removed: [UUID!]!
+}
+
+input UpdateUserRoleDtoInput {
+  name: String!
+  description: String!
+  status: UserRoleStatus!
+  permissions: [Int!]!
+}
+
+input UpdateUserRoleInput {
+  userRoleId: UUID!
+  userRole: UpdateUserRoleDtoInput!
+}
+
+input UserIdentityUpdateDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
 }
 
 input UserProfileUpdateDtoInput {

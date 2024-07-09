@@ -32,12 +32,14 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
+import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+
+import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
-  UpdateUserRoles,
-  DhAdminEditUserStore,
-  UserOverviewItem,
-} from '@energinet-datahub/dh/admin/data-access-api';
+  ApiErrorCollection,
+  readApiErrorResponse,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -46,6 +48,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -104,7 +107,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
   @Output() closed = new EventEmitter<void>();
-  @Input() user: UserOverviewItem | null = null;
+  @Input() user: DhUser | null = null;
 
   isSaving$ = this.editUserStore.isSaving$;
 
@@ -186,8 +189,6 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     updateUserRoles: UpdateUserRoles | undefined
   ) {
     const onSuccessFn = () => {
-      this.updateModel(firstName, lastName, phoneNumber);
-
       this.toastService.open({
         type: 'success',
         message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
@@ -197,12 +198,21 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       this.closeModal(true);
     };
 
-    const onErrorFn = (statusCode: HttpStatusCode) => {
+    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
         this.toastService.open({
           type: 'danger',
           message: this.transloco.translate('admin.userManagement.editUser.saveError'),
         });
+      }
+
+      if (statusCode === HttpStatusCode.BadRequest) {
+        const message =
+          apiErrorCollection.apiErrors.length > 0
+            ? readApiErrorResponse([apiErrorCollection])
+            : this.transloco.translate('admin.userManagement.editUser.saveError');
+
+        this.toastService.open({ type: 'danger', message, duration: 60_000 });
       }
     };
 
@@ -210,25 +220,25 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     const [prefix, ...rest] = phoneParts;
     const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
+    const updateActorUserRolesInput: UpdateActorUserRolesInput[] = updateUserRoles
+      ? updateUserRoles?.actors.map((actor) => {
+          return {
+            actorId: actor.id,
+            assignments: actor.userRolesToUpdate,
+          };
+        })
+      : [];
+
     if (this.user) {
       this.editUserStore.editUser({
         userId: this.user.id,
         firstName,
         lastName,
         phoneNumber: formattedPhoneNumber,
-        updateUserRoles,
+        updateUserRoles: updateActorUserRolesInput,
         onSuccessFn,
         onErrorFn,
       });
-    }
-  }
-
-  private updateModel(firstName: string, lastName: string, phoneNumber: string) {
-    if (!this.user) return;
-    try {
-      Object.assign(this.user, { firstName, lastName, phoneNumber });
-    } catch (error) {
-      // Suppress error
     }
   }
 }

@@ -526,6 +526,7 @@
         "departmentEmail": "E-mail",
         "departmentPhone": "Phone no.",
         "required": "Field is required",
+        "departmentNameMaxLength": "Name must be under {{ maxLength }} characters",
         "invalidEmail": "Invalid e-mail",
         "cancel": "Cancel",
         "save": "Save changes",
@@ -875,12 +876,10 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "scheduling": "Execution",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
-        "summation": "Monthly summation",
         "period": {
           "label": "Period",
           "required": "Date range is required",
@@ -934,14 +933,6 @@
         "ACTUAL": "Actual",
         "SIMULATION": "Simulation"
       },
-      "scheduling": {
-        "NOW": "Run now",
-        "SCHEDULED": "Schedule"
-      },
-      "summation": {
-        "YES": "Yes",
-        "NO": "No"
-      },
       "filters": {
         "states": "Status",
         "executionTime": "Execution time",
@@ -962,6 +953,7 @@
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
         "executionTime": "Execution time",
+        "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
       },
@@ -984,12 +976,6 @@
           "failed": "Enqueuing messages failed",
           "completed": "Messages enqueued"
         }
-      },
-      "gridAreas": {
-        "header": "{{total}} Grid Areas",
-        "gridAreaCode": "ID",
-        "name": "name",
-        "emptyTitle": "No grid areas found"
       }
     },
     "requestCalculation": {

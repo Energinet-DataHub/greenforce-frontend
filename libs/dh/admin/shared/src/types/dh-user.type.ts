@@ -14,18 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MarketParticipantFilteredActorDto } from '@energinet-datahub/dh/shared/domain';
+import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export const marketParticipantOrganizationGetFilteredActors: MarketParticipantFilteredActorDto[] = [
-  {
-    actorId: '00000000-0000-0000-0000-000000000001',
-    actorNumber: {
-      value: '5790001330583',
-    },
-    name: {
-      value: 'Energinet DataHub A/S',
-    },
-    marketRoles: ['DataHubAdministrator'],
-    gridAreaCodes: [],
-  },
-];
+export type DhUser = ResultOf<typeof GetUserByIdDocument>['userById'];

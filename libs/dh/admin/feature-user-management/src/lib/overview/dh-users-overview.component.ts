@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, computed, inject } from '@angular/core';
 
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -25,6 +25,7 @@ import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -43,11 +44,11 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import {
   DhAdminUserManagementDataAccessApiStore,
   DhAdminUserRolesManagementDataAccessApiStore,
-  DhUserActorsDataAccessApiStore,
   DhUserManagementFilters,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 import {
+  GetFilteredActorsDocument,
   MarketParticipantSortDirctionType,
   UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -55,6 +56,7 @@ import {
 import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
 import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
 import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export const debounceTimeValue = 250;
 
@@ -83,7 +85,6 @@ export const debounceTimeValue = 250;
   ],
   providers: [
     provideComponentStore(DhAdminUserManagementDataAccessApiStore),
-    provideComponentStore(DhUserActorsDataAccessApiStore),
     provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
   ],
   imports: [
@@ -110,9 +111,9 @@ export const debounceTimeValue = 250;
 export class DhUsersOverviewComponent {
   private destroyRef = inject(DestroyRef);
   private store = inject(DhAdminUserManagementDataAccessApiStore);
-  private actorStore = inject(DhUserActorsDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private profileModalService = inject(DhProfileModalService);
+  private modalService = inject(WattModalService);
 
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
@@ -120,20 +121,24 @@ export class DhUsersOverviewComponent {
   readonly pageIndex$ = this.store.paginatorPageIndex$;
   readonly pageSize$ = this.store.pageSize$;
 
+  readonly actors = query(GetFilteredActorsDocument);
+  readonly actorOptions = computed<WattDropdownOptions>(() =>
+    (this.actors.data()?.filteredActors ?? []).map((actor) => ({
+      displayValue: actor.displayName,
+      value: actor.id,
+    }))
+  );
+  readonly canChooseMultipleActors = computed(() => this.actorOptions().length > 1);
   readonly isLoading$ =
-    this.store.isLoading$ || this.actorStore.isLoading$ || this.userRolesStore.isLoading$;
+    this.store.isLoading$ || this.actors.loading() || this.userRolesStore.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusValue$ = this.store.initialStatusValue$;
-  readonly actorOptions$: Observable<WattDropdownOptions> = this.actorStore.actors$;
   readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
-  readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
 
   searchInput$ = new BehaviorSubject<string>('');
-  isInviteUserModalVisible = false;
 
   constructor() {
-    this.actorStore.getActors();
     this.userRolesStore.getRoles();
 
     this.onSearchInput();
@@ -163,12 +168,11 @@ export class DhUsersOverviewComponent {
     this.store.reloadUsers();
   }
 
-  modalOnClose(): void {
-    this.isInviteUserModalVisible = false;
-  }
-
   showInviteUserModal(): void {
-    this.isInviteUserModalVisible = true;
+    this.modalService.open({
+      component: DhInviteUserModalComponent,
+      disableClose: true,
+    });
   }
 
   private onSearchInput(): void {

@@ -17,29 +17,26 @@
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
+  computed,
+  effect,
   inject,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
+
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import {
-  PermissionDto,
-  MarketParticipantUpdatePermissionDto,
-} from '@energinet-datahub/dh/shared/domain';
-import { DhAdminEditPermissionStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { UpdatePermissionDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-edit-permission-modal',
@@ -52,23 +49,19 @@ import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-fie
       }
     `,
   ],
-  providers: [DhAdminEditPermissionStore],
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    RxPush,
 
     WATT_MODAL,
-    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
+    WattButtonComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
   ],
 })
-export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges {
-  private readonly store = inject(DhAdminEditPermissionStore);
-
+export class DhEditPermissionModalComponent implements AfterViewInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
@@ -79,29 +72,42 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
       Validators.maxLength(1000),
     ]),
   });
-  readonly isSaving$ = this.store.isSaving$;
 
-  @ViewChild(WattModalComponent)
-  private editPermissionModal!: WattModalComponent;
+  updatePermission = mutation(UpdatePermissionDocument);
 
-  @Input() permission!: PermissionDto;
+  isSaving = computed(() => this.updatePermission.loading());
 
-  @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
+  private editPermissionModal = viewChild.required(WattModalComponent);
 
-  ngAfterViewInit(): void {
-    this.editPermissionModal.open();
+  permission = input.required<PermissionDto>();
+
+  closed = output<{ saveSuccess: boolean }>();
+
+  constructor() {
+    effect(() => {
+      if (this.updatePermission.error()) {
+        const message = this.transloco.translate('admin.userManagement.editPermission.saveError');
+
+        this.toastService.open({ type: 'danger', message });
+      }
+
+      if (this.updatePermission.data() && this.updatePermission.loading() === false) {
+        const message = this.transloco.translate('admin.userManagement.editPermission.saveSuccess');
+
+        this.toastService.open({ type: 'success', message });
+        this.closeModal(true);
+      }
+
+      this.userPermissionsForm.controls.description.setValue(this.permission().description);
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['permission']) {
-      this.userPermissionsForm.controls.description.setValue(
-        changes['permission'].currentValue.description
-      );
-    }
+  ngAfterViewInit(): void {
+    this.editPermissionModal().open();
   }
 
   closeModal(saveSuccess: boolean): void {
-    this.editPermissionModal.close(saveSuccess);
+    this.editPermissionModal().close(saveSuccess);
     this.closed.emit({ saveSuccess });
   }
 
@@ -114,24 +120,13 @@ export class DhEditPermissionModalComponent implements AfterViewInit, OnChanges 
       return this.closeModal(false);
     }
 
-    const onSuccessFn = () => {
-      const message = this.transloco.translate('admin.userManagement.editPermission.saveSuccess');
-
-      this.toastService.open({ type: 'success', message });
-      this.closeModal(true);
-    };
-
-    const onErrorFn = () => {
-      const message = this.transloco.translate('admin.userManagement.editPermission.saveError');
-
-      this.toastService.open({ type: 'danger', message });
-    };
-
-    const updatedPermission: MarketParticipantUpdatePermissionDto = {
-      id: this.permission.id,
-      description: this.userPermissionsForm.controls.description.value,
-    };
-
-    this.store.updatePermission({ updatedPermission, onSuccessFn, onErrorFn });
+    this.updatePermission.mutate({
+      variables: {
+        input: {
+          id: this.permission().id,
+          description: this.userPermissionsForm.controls.description.value,
+        },
+      },
+    });
   }
 }

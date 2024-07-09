@@ -14,26 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
-
-watt-empty-state {
-  margin: var(--watt-space-l) 0;
-}
-
-watt-card-title {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: var(--watt-space-s);
-
-  h3 {
-    margin: 0;
-  }
-}
-
-watt-paginator {
-  display: block;
-  margin: 0 -24px -24px -24px;
-}
+export * from './routes';

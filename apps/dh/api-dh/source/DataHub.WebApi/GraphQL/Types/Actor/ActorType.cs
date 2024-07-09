@@ -33,6 +33,16 @@ public class ActorType : ObjectType<ActorDto>
             .Name("glnOrEicNumber");
 
         descriptor
+           .Field("displayName")
+           .Type<NonNullType<StringType>>()
+           .Resolve(context => context.Parent<ActorDto>() switch
+           {
+               null => string.Empty,
+               var actor when string.IsNullOrWhiteSpace(actor.MarketRoles.FirstOrDefault()?.EicFunction.ToString()) => actor.Name.Value,
+               var actor => $"{actor.MarketRoles.FirstOrDefault()?.EicFunction.ToString()} • {actor.Name.Value}",
+           });
+
+        descriptor
             .Field(f => f.MarketRoles)
             .Name("marketRole")
             .Resolve(context =>

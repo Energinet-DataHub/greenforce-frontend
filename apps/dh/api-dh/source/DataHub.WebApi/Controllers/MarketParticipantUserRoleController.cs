@@ -37,13 +37,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
     }
 
     [HttpGet]
-    [Route("GetUserRoleWithPermissions")]
-    public Task<ActionResult<UserRoleWithPermissionsDto>> GetUserRoleWithPermissionsAsync(Guid userRoleId)
-    {
-        return HandleExceptionAsync(() => _client.UserRolesGetAsync(userRoleId));
-    }
-
-    [HttpGet]
     [Route("GetAll")]
     public Task<ActionResult<ICollection<UserRoleDto>>> GetAllAsync()
     {
@@ -132,20 +125,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
             .ConfigureAwait(false);
 
         return Ok(userRoleId);
-    }
-
-    [HttpPut]
-    [Route("Update")]
-    public Task<ActionResult> UpdateAsync(Guid userRoleId, UpdateUserRoleDto userRole)
-    {
-        return HandleExceptionAsync(() => _client.UserRolesPutAsync(userRoleId, userRole));
-    }
-
-    [HttpGet]
-    [Route("Permissions")]
-    public Task<ActionResult<ICollection<PermissionDetailsDto>>> GetPermissionDetailsAsync(EicFunction eicFunction)
-    {
-        return HandleExceptionAsync(() => _client.UserRolesPermissionsAsync(eicFunction));
     }
 
     [HttpGet]

@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Types.User;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -29,14 +30,17 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client)
         => await client.UserAuditAsync(id);
 
-    public async Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
-        Guid id,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserRolesGetAsync(id);
-
     public async Task<GetUserProfileResponse> GetUserProfileAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserUserprofileGetAsync();
+
+    public async Task<User> GetUserByIdAsync(
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var user = await client.UserAsync(id);
+        return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.CreatedDate);
+    }
 
     public async Task<bool> EmailExistsAsync(
         string emailAddress,

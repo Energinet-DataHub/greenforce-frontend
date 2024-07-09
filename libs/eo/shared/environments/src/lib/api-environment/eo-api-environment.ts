@@ -10,6 +10,7 @@ export interface EoApiEnvironment {
   readonly apiVersions: {
     readonly [key: string]: string;
   };
+  readonly documentation: {id: string; title: string; src: string;}[]
 }
 
 export const eoApiEnvironmentToken = new InjectionToken<EoApiEnvironment>('eoApiEnvironmentToken', {

@@ -26,4 +26,14 @@ public partial class Mutation
         await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> UpdateUserIdentityAsync(
+            Guid userId,
+            UserIdentityUpdateDto userIdentityUpdateDto,
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserUseridentityAsync(userId, userIdentityUpdateDto).ConfigureAwait(false);
+        return true;
+    }
 }

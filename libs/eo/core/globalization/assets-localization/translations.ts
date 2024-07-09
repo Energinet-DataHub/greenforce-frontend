@@ -110,6 +110,14 @@ export const translations = {
       } as const,
     } as const,
   } as const,
+  documentation: {
+    error: {
+      title: 'documentation.error.title' as const,
+      message: 'documentation.error.message' as const,
+    } as const,
+    endpoints: 'documentation.endpoints' as const,
+    topbarTitle: 'documentation.topbarTitle' as const,
+  } as const,
   sidebar: {
     dashboard: 'sidebar.dashboard' as const,
     meteringPoints: 'sidebar.meteringPoints' as const,

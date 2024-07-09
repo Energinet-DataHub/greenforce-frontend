@@ -19,17 +19,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
-  EventEmitter,
   inject,
   OnInit,
-  Output,
-  ViewChild,
+  output,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -38,7 +36,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
@@ -46,18 +44,23 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import {
   MarketParticipantCreateUserRoleDto,
-  MarketParticipantEicFunction,
-  MarketParticipantPermissionDetailsDto,
   MarketParticipantUserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  DhAdminCreateUserRoleManagementDataAccessApiStore,
-  DhAdminMarketRolePermissionsStore,
-} from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminCreateUserRoleManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  EicFunction,
+  GetPermissionByEicFunctionDocument,
+  PermissionDetailsDto,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 interface UserRoleForm {
-  eicFunction: FormControl<MarketParticipantEicFunction>;
+  eicFunction: FormControl<EicFunction>;
   name: FormControl<string>;
   description: FormControl<string>;
   status: FormControl<MarketParticipantUserRoleStatus>;
@@ -70,19 +73,14 @@ interface UserRoleForm {
   templateUrl: './dh-create-user-role-modal.component.html',
   styleUrls: ['./dh-create-user-role-modal.component.scss'],
   standalone: true,
-  providers: [
-    provideComponentStore(DhAdminCreateUserRoleManagementDataAccessApiStore),
-    provideComponentStore(DhAdminMarketRolePermissionsStore),
-  ],
+  providers: [provideComponentStore(DhAdminCreateUserRoleManagementDataAccessApiStore)],
   imports: [
-    RxPush,
-    RxLet,
+    ReactiveFormsModule,
     TranslocoDirective,
 
     WATT_MODAL,
     WattButtonComponent,
     WattIconComponent,
-    ReactiveFormsModule,
     WattDropdownComponent,
     WattFieldErrorComponent,
     WattTextFieldComponent,
@@ -91,6 +89,7 @@ interface UserRoleForm {
     WattEmptyStateComponent,
 
     DhPermissionsTableComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
 export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
@@ -99,22 +98,24 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
 
-  private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
   private readonly createUserRoleStore = inject(DhAdminCreateUserRoleManagementDataAccessApiStore);
 
-  @ViewChild('createUserRoleModal') createUserRoleModal!: WattModalComponent;
+  createUserRoleModal = viewChild.required(WattModalComponent);
 
-  @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
+  closed = output<{ saveSuccess: boolean }>();
 
-  permissions$ = this.marketRolePermissionsStore.permissions$;
+  initialEicFunction = EicFunction.BalanceResponsibleParty;
+
+  permissionsQuery = query(GetPermissionByEicFunctionDocument, {
+    variables: { eicFunction: this.initialEicFunction },
+  });
+
+  permissions = computed(() => this.permissionsQuery.data()?.permissionsByEicFunction ?? []);
 
   isSubmitted = false;
 
   userRoleForm = this.formBuilder.nonNullable.group<UserRoleForm>({
-    eicFunction: this.formBuilder.nonNullable.control(
-      MarketParticipantEicFunction.BalanceResponsibleParty,
-      Validators.required
-    ),
+    eicFunction: this.formBuilder.nonNullable.control(this.initialEicFunction, Validators.required),
     name: this.formBuilder.nonNullable.control('', [
       Validators.required,
       Validators.maxLength(250),
@@ -128,25 +129,21 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
     nonNullable: true,
   });
 
-  eicFunctionOptions: WattDropdownOptions = [];
+  eicFunctionOptions = dhEnumToWattDropdownOptions(EicFunction);
 
   ngOnInit(): void {
-    this.buildEicFunctionOptions();
-
     this.userRoleForm.controls.eicFunction.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
-        this.marketRolePermissionsStore.getPermissions(value);
+        this.permissionsQuery.refetch({ eicFunction: value });
       });
-
-    this.marketRolePermissionsStore.getPermissions(this.userRoleForm.controls.eicFunction.value);
   }
 
   ngAfterViewInit(): void {
-    this.createUserRoleModal.open();
+    this.createUserRoleModal().open();
   }
 
-  onSelectionChange(event: MarketParticipantPermissionDetailsDto[]): void {
+  onSelectionChange(event: PermissionDetailsDto[]): void {
     const ids = event.map(({ id }) => id);
 
     this.selectedPermissions.setValue(ids);
@@ -154,7 +151,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
   }
 
   closeModal(saveSuccess: boolean) {
-    this.createUserRoleModal.close(saveSuccess);
+    this.createUserRoleModal().close(saveSuccess);
     this.closed.emit({ saveSuccess });
   }
 
@@ -198,22 +195,4 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
 
     this.toastService.open({ message, type: 'danger' });
   };
-
-  private buildEicFunctionOptions() {
-    this.transloco
-      .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.eicFunctionOptions = Object.keys(MarketParticipantEicFunction)
-            .map((entry) => {
-              return {
-                value: entry,
-                displayValue: keys[entry],
-              };
-            })
-            .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
-        },
-      });
-  }
 }

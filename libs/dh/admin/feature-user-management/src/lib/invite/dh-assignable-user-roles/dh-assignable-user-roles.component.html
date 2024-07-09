@@ -15,30 +15,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.inviteUser'">
-  <ng-container
-    *rxLet="
-      assignableUserRoles$;
-      let assignableUserRoles;
-      error: error;
-      suspense: suspense;
-      errorTrigger: hasGeneralError$
-    "
-  >
-    <watt-card variant="solid">
-      <watt-card-title>
-        <ng-container
-          *ngTemplateOutlet="
-            userRolesHeadline;
-            context: {
-              $implicit: assignableUserRoles.length
-            }
-          "
-        />
-      </watt-card-title>
+  <watt-card variant="solid">
+    <watt-card-title>
+      <ng-container
+        *ngTemplateOutlet="
+          userRolesHeadline;
+          context: {
+            $implicit: assignableUserRoles.data()?.userRolesByActorId?.length
+          }
+        "
+      />
+    </watt-card-title>
 
-      <div class="user-roles-table-container">
+    <div class="user-roles-table-container">
+      @if (hasError()) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        />
+      } @else {
         <watt-table
-          [dataSource]="dataSource"
+          [dataSource]="dataSource()"
+          [loading]="isLoading()"
           [columns]="columns"
           sortBy="eicFunction"
           sortDirection="asc"
@@ -55,31 +54,19 @@ limitations under the License.
             {{ element.description }}
           </ng-container>
         </watt-table>
-      </div>
-    </watt-card>
-  </ng-container>
-
-  <ng-template #suspense>
-    <watt-spinner />
-  </ng-template>
-
-  <ng-template #error>
-    <watt-empty-state
-      icon="custom-power"
-      [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco"
-    />
-  </ng-template>
-
-  <ng-template #userRolesHeadline let-userRolesCount>
-    <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
-      <h4>
-        @if (userRolesCount === 1) {
-          {{ t("singular", { userRolesCount }) }}
-        } @else {
-          {{ t("plural", { userRolesCount }) }}
-        }
-      </h4>
-    </ng-container>
-  </ng-template>
+      }
+    </div>
+  </watt-card>
 </ng-container>
+
+<ng-template #userRolesHeadline let-userRolesCount>
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
+    <h4>
+      @if (userRolesCount === 1) {
+        {{ t("singular", { userRolesCount }) }}
+      } @else {
+        {{ t("plural", { userRolesCount }) }}
+      }
+    </h4>
+  </ng-container>
+</ng-template>

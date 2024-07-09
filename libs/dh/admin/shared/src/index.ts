@@ -18,3 +18,4 @@ export { DhRoleStatusComponent } from './dh-role-status.component';
 export { DhUserStatusComponent } from './dh-user-status.component';
 export { DhTabDataGeneralErrorComponent } from './dh-tab-data-general-error.component';
 export { DhPermissionsTableComponent } from './dh-permissions-table.component';
+export { DhUser } from './types/dh-user.type';

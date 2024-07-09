@@ -27,7 +27,7 @@ Usage: `import { WattRangeValidators } from '@energinet-datahub/watt/validators'
 Require a complete range (start and end)
 
 ```ts
-new FormControl(null, [WattRangeValidators.required()]);
+new FormControl(null, [WattRangeValidators.required]);
 ```
 
 **On error:**
@@ -43,7 +43,7 @@ new FormControl(null, [WattRangeValidators.required()]);
 Only require the start of a range (start)
 
 ```ts
-new FormControl(null, [WattRangeValidators.startRequired()]);
+new FormControl(null, [WattRangeValidators.startRequired]);
 ```
 
 **On error:**
@@ -59,7 +59,7 @@ new FormControl(null, [WattRangeValidators.startRequired()]);
 Only require the end of a range (end)
 
 ```ts
-new FormControl(null, [WattRangeValidators.endRequired()]);
+new FormControl(null, [WattRangeValidators.endRequired]);
 ```
 
 **On error:**

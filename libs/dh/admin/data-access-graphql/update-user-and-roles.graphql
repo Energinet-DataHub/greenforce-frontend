@@ -1,0 +1,17 @@
+mutation updateUserAndRoles(
+  $updateUserInput: UpdateUserIdentityInput!
+  $updateRolesInput: UpdateUserRoleAssignmentInput!
+) {
+  updateUserIdentity(input: $updateUserInput) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+  updateUserRoleAssignment(input: $updateRolesInput) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

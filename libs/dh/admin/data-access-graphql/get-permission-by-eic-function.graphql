@@ -1,0 +1,8 @@
+query GetPermissionByEicFunction($eicFunction: EicFunction!) {
+  permissionsByEicFunction(eicFunction: $eicFunction) {
+    id
+    name
+    description
+    created
+  }
+}

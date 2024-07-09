@@ -32,7 +32,7 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 
-import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/shared/domain';
+import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-permissions-table',
@@ -72,18 +72,17 @@ import { MarketParticipantPermissionDetailsDto } from '@energinet-datahub/dh/sha
   imports: [TranslocoDirective, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
-  @Input() permissions: MarketParticipantPermissionDetailsDto[] = [];
-  @Input() initialSelection: MarketParticipantPermissionDetailsDto[] = [];
+  @Input() permissions: PermissionDetailsDto[] = [];
+  @Input() initialSelection: PermissionDetailsDto[] = [];
 
-  @Output() selectionChanged = new EventEmitter<MarketParticipantPermissionDetailsDto[]>();
+  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
 
-  @ViewChild(WattTableComponent<MarketParticipantPermissionDetailsDto>)
-  permissionsTable!: WattTableComponent<MarketParticipantPermissionDetailsDto>;
+  @ViewChild(WattTableComponent<PermissionDetailsDto>)
+  permissionsTable!: WattTableComponent<PermissionDetailsDto>;
 
-  readonly dataSource: WattTableDataSource<MarketParticipantPermissionDetailsDto> =
-    new WattTableDataSource<MarketParticipantPermissionDetailsDto>();
+  readonly dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
-  columns: WattTableColumnDef<MarketParticipantPermissionDetailsDto> = {
+  columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
@@ -93,7 +92,7 @@ export class DhPermissionsTableComponent implements OnChanges {
     if (this.permissionsTable) this.permissionsTable.clearSelection();
   }
 
-  onSelectionChange(selections: MarketParticipantPermissionDetailsDto[]): void {
+  onSelectionChange(selections: PermissionDetailsDto[]): void {
     this.selectionChanged.emit(selections);
   }
 }

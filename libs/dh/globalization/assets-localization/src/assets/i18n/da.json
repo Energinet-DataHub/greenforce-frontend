@@ -526,6 +526,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Udfyld feltet",
         "invalidEmail": "Ugyldig e-mail",
+        "departmentNameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -874,12 +875,10 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "scheduling": "Kørsel",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
         },
-        "summation": "Månedlige summer",
         "period": {
           "label": "Periode",
           "required": "Dato-periode påkrævet",
@@ -933,14 +932,6 @@
         "ACTUAL": "Faktisk",
         "SIMULATION": "Simulering"
       },
-      "scheduling": {
-        "NOW": "Kør nu",
-        "SCHEDULED": "Planlæg"
-      },
-      "summation": {
-        "YES": "Ja",
-        "NO": "Nej"
-      },
       "filters": {
         "states": "Status",
         "executionTime": "Eksekveringstid",
@@ -961,6 +952,7 @@
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
         "executionTime": "Eksekveringstidspunkt",
+        "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
       },
@@ -983,12 +975,6 @@
           "failed": "Beskeddannelse fejlet",
           "completed": "Beskeder dannet"
         }
-      },
-      "gridAreas": {
-        "header": "{{total}} Netområder",
-        "gridAreaCode": "ID",
-        "name": "navn",
-        "emptyTitle": "Ingen netområder fundet"
       }
     },
     "requestCalculation": {
