@@ -15,7 +15,6 @@
           {
             "name": "id",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -24,7 +23,6 @@
           {
             "name": "api-version",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -32,7 +30,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -54,7 +52,6 @@
           {
             "name": "api-version",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -93,7 +90,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -134,7 +131,6 @@
           {
             "name": "api-version",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -176,7 +172,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       }
@@ -191,7 +187,6 @@
           {
             "name": "api-version",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string"
             }
@@ -233,7 +228,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       }
@@ -306,6 +301,20 @@
           "Exchange"
         ]
       },
+      "PriceType": {
+        "type": "string",
+        "description": "The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\r\nthe resolution and charge type fields in the RequestWholesaleSettlement document",
+        "enum": [
+          "TariffSubscriptionAndFee",
+          "Tariff",
+          "Subscription",
+          "Fee",
+          "MonthlyTariff",
+          "MonthlySubscription",
+          "MonthlyFee",
+          "MonthlyTariffSubscriptionAndFee"
+        ]
+      },
       "RequestAggregatedMeasureDataMarketRequest": {
         "type": "object",
         "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
@@ -346,20 +355,6 @@
           }
         }
       },
-      "RequestWholesaleSettlementChargeType": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "RequestWholesaleSettlementMarketRequest": {
         "type": "object",
         "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
@@ -388,17 +383,16 @@
           },
           "resolution": {
             "type": "string",
+            "deprecated": true,
             "nullable": true
           },
-          "chargeOwner": {
-            "type": "string",
-            "nullable": true
-          },
-          "chargeTypes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RequestWholesaleSettlementChargeType"
-            }
+          "priceType": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceType"
+              }
+            ]
           }
         }
       },
