@@ -145,6 +145,11 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
+type CreateUserRolePayload {
+  boolean: Boolean
+  errors: [CreateUserRoleError!]
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   gridArea: GridAreaDto
@@ -296,6 +301,7 @@ type Mutation {
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
 }
 
 type Organization {
@@ -519,6 +525,8 @@ union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
 
+union CreateUserRoleError = ApiError
+
 union StopDelegationError = ApiError
 
 union UpdateActorError = ApiError
@@ -615,6 +623,18 @@ input CreateProcessDelegationsInput {
   gridAreas: [String!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
+}
+
+input CreateUserRoleDtoInput {
+  name: String!
+  description: String!
+  status: UserRoleStatus!
+  eicFunction: EicFunction!
+  permissions: [Int!]!
+}
+
+input CreateUserRoleInput {
+  userRole: CreateUserRoleDtoInput!
 }
 
 input RequestCalculationInput {
