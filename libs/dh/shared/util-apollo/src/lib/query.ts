@@ -150,7 +150,12 @@ export function query<TResult, TVariables extends OperationVariables>(
     refetch: (variables?: Partial<TVariables>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
       const mergedVariables = { ...options$.value?.variables, ...variables } as TVariables;
-      options$.next({ ...options$.value, skip: false, variables: mergedVariables });
+      options$.next({
+        ...options$.value,
+        skip: false,
+        variables: mergedVariables,
+        fetchPolicy: 'network-only',
+      });
       return result;
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
