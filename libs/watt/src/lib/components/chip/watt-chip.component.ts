@@ -26,8 +26,8 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   selector: 'watt-chip',
   styleUrls: ['./watt-chip.component.scss'],
   template: `
-    <label [class.selected]="selected" [class.disabled]="disabled">
-      @if (selected) {
+[class.selected]="selected()" [class.disabled]="disabled()">
+      @if (selected()) {
         <watt-icon class="selected-icon" name="checkmark" size="s" [attr.aria-hidden]="true" />
       }
       <ng-content />
@@ -35,6 +35,6 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   `,
 })
 export class WattChipComponent {
-selected = signal(false);
-  disabled = signal(false);
+selected = input(false);
+  disabled = input(false);
 }
