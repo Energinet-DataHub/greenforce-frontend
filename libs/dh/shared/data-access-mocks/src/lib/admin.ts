@@ -85,8 +85,9 @@ export function adminMocks(apiBase: string) {
 
 function maybeError() {
   const maybeErrorState = self.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0;
-  console.log({ maybeErrorState });
+
   if (!maybeErrorState) return null;
+
   return [
     {
       message: 'mock error',
@@ -108,6 +109,7 @@ function deactivedUser() {
   return mockDeactivateUserMutation(async () => {
     await delay(mswConfig.delay);
     const errors = maybeError();
+
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
@@ -125,7 +127,7 @@ function reActivedUser() {
   return mockReActivateUserMutation(async () => {
     await delay(mswConfig.delay);
     const errors = maybeError();
-    console.log({ errors });
+
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
