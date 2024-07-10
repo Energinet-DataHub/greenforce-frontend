@@ -104,8 +104,12 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   const result$ = ref$.pipe(
     // The inner observable will be recreated each time the `options$` emits
-    switchMap((ref) => ref.valueChanges.pipe(takeUntil(reset$))),
-    catchError((error: ApolloError) => fromApolloError<TResult>(error))
+    switchMap((ref) =>
+      ref.valueChanges.pipe(
+        takeUntil(reset$),
+        catchError((error: ApolloError) => fromApolloError<TResult>(error))
+      )
+    )
   );
 
   // Signals holding the result values
