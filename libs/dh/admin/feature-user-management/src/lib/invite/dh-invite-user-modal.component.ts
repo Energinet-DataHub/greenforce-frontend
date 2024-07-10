@@ -214,28 +214,31 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     const [prefix, ...rest] = phoneParts;
     const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
-    this.inviteUserMutation
-      .mutate({
-        variables: {
-          input: {
-            userInviteDto: {
-              invitationUserDetails:
-                firstname.value && lastname.value && phoneNumber.value
-                  ? {
-                      firstName: firstname.value,
-                      lastName: lastname.value,
-                      phoneNumber: formattedPhoneNumber,
-                    }
-                  : undefined,
-              email: email.value,
-              assignedActor: actorId.value,
-              assignedRoles: this.userRoles.controls.selectedUserRoles.value,
-            },
+    this.inviteUserMutation.mutate({
+      variables: {
+        input: {
+          userInviteDto: {
+            invitationUserDetails:
+              firstname.value && lastname.value && phoneNumber.value
+                ? {
+                    firstName: firstname.value,
+                    lastName: lastname.value,
+                    phoneNumber: formattedPhoneNumber,
+                  }
+                : undefined,
+            email: email.value,
+            assignedActor: actorId.value,
+            assignedRoles: this.userRoles.controls.selectedUserRoles.value,
           },
         },
-      })
-      .then(() => this.onInviteSuccess(email.value))
-      .catch((e) => this.onInviteError(e));
+      },
+      onCompleted: (res) => {
+        res.inviteUser.errors
+          ? this.onInviteError(res.inviteUser.errors)
+          : this.onInviteSuccess(email.value);
+      },
+      onError: () => this.onInviteError(),
+    });
   }
 
   onSelectedUserRoles(userRoles: UserRoleItem[]) {
@@ -259,13 +262,12 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     this.closeModal(true);
   }
 
-  private onInviteError(apiErrorCollection: ApiErrorCollection) {
-    const message =
-      apiErrorCollection.apiErrors.length > 0
-        ? readApiErrorResponse([apiErrorCollection])
-        : this.translocoService.translate(
-            'admin.userManagement.inviteUser.serverErrors.generalError'
-          );
+  private onInviteError(apiErrorCollection: ApiErrorCollection[] | undefined = undefined) {
+    const message = apiErrorCollection
+      ? readApiErrorResponse(apiErrorCollection)
+      : this.translocoService.translate(
+          'admin.userManagement.inviteUser.serverErrors.generalError'
+        );
 
     this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }

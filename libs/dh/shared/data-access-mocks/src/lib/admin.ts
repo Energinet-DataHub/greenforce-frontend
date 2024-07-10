@@ -40,6 +40,7 @@ import {
   mockDeactivateUserMutation,
   mockReActivateUserMutation,
   mockReInviteUserMutation,
+  mockReset2faMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -80,6 +81,7 @@ export function adminMocks(apiBase: string) {
     deactivedUser(),
     reActivedUser(),
     reInviteUser(),
+    reset2fa(),
   ];
 }
 
@@ -103,6 +105,23 @@ function maybeError() {
       __typename: 'ApiError' as const,
     },
   ];
+}
+
+function reset2fa() {
+  return mockReset2faMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        resetTwoFactorAuthentication: {
+          __typename: 'ResetTwoFactorAuthenticationPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
+  });
 }
 
 function deactivedUser() {

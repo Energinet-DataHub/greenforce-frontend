@@ -182,7 +182,7 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
       this.closeModal(true);
     };
 
-    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection) => {
+    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection[]) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
         this.toastService.open({
           type: 'danger',
@@ -192,8 +192,8 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
 
       if (statusCode === HttpStatusCode.BadRequest) {
         const message =
-          apiErrorCollection.apiErrors.length > 0
-            ? readApiErrorResponse([apiErrorCollection])
+          apiErrorCollection.length > 0
+            ? readApiErrorResponse(apiErrorCollection)
             : this.transloco.translate('admin.userManagement.editUser.saveError');
 
         this.toastService.open({ type: 'danger', message, duration: 60_000 });
