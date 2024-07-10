@@ -35,7 +35,6 @@ type UserRoleItem = ResultOf<typeof GetUserRolesDocument>['userRoles'][0];
 interface DhUserRolesManagementState {
   readonly roles: UserRoleItem[];
   readonly requestState: LoadingState | ErrorState;
-  validation?: { error: string };
   readonly filterModel: {
     status: UserRoleStatus | null;
     eicFunctions: EicFunction[] | null;
@@ -84,8 +83,6 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   );
 
   rolesOptions$: Observable<WattDropdownOptions> = of([]);
-
-  validation$ = this.select((state) => state.validation);
 
   constructor() {
     super(initialState);
