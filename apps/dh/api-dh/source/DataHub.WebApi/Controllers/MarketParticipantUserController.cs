@@ -67,16 +67,6 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
     }
 
     /// <summary>
-    ///     Retrieves actors associated with the userId specified, ensures only actors you are allowed to see are returned.
-    /// </summary>
-    [HttpGet]
-    [Route("GetUserActorsByUserId")]
-    public Task<ActionResult<GetActorsAssociatedWithUserResponse>> GetUserActorsByUserIdAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.UserActorsGetAsync(userId));
-    }
-
-    /// <summary>
     /// Initiates MitID signup
     /// </summary>
     [HttpPost]
