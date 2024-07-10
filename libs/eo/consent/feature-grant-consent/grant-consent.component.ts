@@ -40,10 +40,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import {
-  EoConsentClient,
-  EoConsentService,
-} from '@energinet-datahub/eo/consent/data-access-api';
+import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
