@@ -125,11 +125,8 @@ import { translations } from '@energinet-datahub/eo/translations';
         [formGroup]="form"
         [title]="consent.clientName"
       >
-
         @if (!isLoading()) {
-          <h4>
-            Fuldmagter
-          </h4>
+          <h4>Fuldmagter</h4>
 
           <ul>
             @for (permission of permissions; track permission) {
@@ -155,10 +152,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
           <div class="actions">
             <watt-button variant="secondary" (click)="close(false)">Fortryd</watt-button>
-            <watt-button
-              variant="secondary"
-              (click)="save()"
-              [disabled]="true"
+            <watt-button variant="secondary" (click)="save()" [disabled]="true"
               >Gem ændringer</watt-button
             >
           </div>

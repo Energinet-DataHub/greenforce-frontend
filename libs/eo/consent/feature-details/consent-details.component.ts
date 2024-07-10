@@ -28,7 +28,12 @@ import {
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { first } from 'rxjs';
 
-import { WattDrawerComponent, WattDrawerTopbarComponent, WattDrawerContentComponent, WattDrawerActionsComponent } from '@energinet-datahub/watt/drawer';
+import {
+  WattDrawerComponent,
+  WattDrawerTopbarComponent,
+  WattDrawerContentComponent,
+  WattDrawerActionsComponent,
+} from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
@@ -43,7 +48,16 @@ const selector = 'eo-consent-details-drawer';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
-  imports: [WattDrawerComponent, WattDrawerTopbarComponent, WattDrawerContentComponent, WattDrawerActionsComponent, WattButtonComponent, TranslocoPipe, WattDatePipe, EoEditConsentModalComponent],
+  imports: [
+    WattDrawerComponent,
+    WattDrawerTopbarComponent,
+    WattDrawerContentComponent,
+    WattDrawerActionsComponent,
+    WattButtonComponent,
+    TranslocoPipe,
+    WattDatePipe,
+    EoEditConsentModalComponent,
+  ],
   standalone: true,
   styles: `
     ${selector} {
@@ -102,21 +116,25 @@ const selector = 'eo-consent-details-drawer';
     }
   `,
   template: `
-  @if (opened) {
-    <watt-drawer #modal size="small" class="hest">
-      <watt-drawer-topbar>
-        @if(consent) {
-          <div>
-          <h2>{{ consent.clientName }}</h2>
-          <p class="valid-from"><strong>{{ translations.consent.validFromTableHeader | transloco }}</strong> {{consent.consentDate * 1000 | wattDate: 'short'}}</p>
-          </div>
+    @if (opened) {
+      <watt-drawer #modal size="small" class="hest">
+        <watt-drawer-topbar>
+          @if (consent) {
+            <div>
+              <h2>{{ consent.clientName }}</h2>
+              <p class="valid-from">
+                <strong>{{ translations.consent.validFromTableHeader | transloco }}</strong>
+                {{ consent.consentDate * 1000 | wattDate: 'short' }}
+              </p>
+            </div>
 
-          <watt-button variant="secondary" class="cta" (click)="editConsent()">Administrer fuldmagt</watt-button>
-        }
-      </watt-drawer-topbar>
+            <watt-button variant="secondary" class="cta" (click)="editConsent()"
+              >Administrer fuldmagt</watt-button
+            >
+          }
+        </watt-drawer-topbar>
 
-      <watt-drawer-content>
-
+        <watt-drawer-content>
           <h3>Fuldmagt til</h3>
 
           <ul class="permissions">
@@ -127,17 +145,13 @@ const selector = 'eo-consent-details-drawer';
               </li>
             }
           </ul>
+        </watt-drawer-content>
+      </watt-drawer>
 
-      </watt-drawer-content>
-    </watt-drawer>
-
-    @if(consent) {
-      <eo-edit-consent-modal
-        [consent]="consent"
-        (consentDeleted)="consentDeleted.emit($event)"
-      />
+      @if (consent) {
+        <eo-edit-consent-modal [consent]="consent" (consentDeleted)="consentDeleted.emit($event)" />
+      }
     }
-  }
   `,
 })
 export class EoConsentDetailsDrawerComponent {

@@ -40,7 +40,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { EoConsent, EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
+import {
+  EoConsent,
+  EoConsentClient,
+  EoConsentService,
+} from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -268,7 +272,7 @@ export class EoGrantConsentModalComponent implements OnInit {
         this.addQueryParams(this.redirectUrl, { state: result ? 'granted' : 'declined' })
       );
     } else {
-      if(result) {
+      if (result) {
         this.toastService.open({
           message: this.transloco.translate(this.translations.grantConsent.accepted),
           type: 'success',
