@@ -41,7 +41,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import {
-  EoConsent,
   EoConsentClient,
   EoConsentService,
 } from '@energinet-datahub/eo/consent/data-access-api';
