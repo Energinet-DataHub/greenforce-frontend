@@ -29,16 +29,6 @@ public class MarketParticipantPermissionsController : MarketParticipantControlle
         _client = client;
     }
 
-    /// <summary>
-    /// Retrieves All Permissions
-    /// </summary>
-    [HttpGet]
-    [Route("GetPermissions")]
-    public Task<ActionResult<ICollection<PermissionDto>>> GetPermissionsAsync()
-    {
-        return HandleExceptionAsync(() => _client.PermissionGetAsync());
-    }
-
     [HttpGet]
     [Route("GetPermissionRelationsCSV")]
     [Produces(MediaTypeNames.Text.Plain)]

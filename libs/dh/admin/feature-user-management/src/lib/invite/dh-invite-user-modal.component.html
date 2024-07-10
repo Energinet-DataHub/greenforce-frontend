@@ -17,7 +17,7 @@ limitations under the License.
 <watt-modal
   #inviteUserModal
   size="large"
-  [loading]="(isInvitingUser$ | push) || isLoadingEmails()"
+  [loading]="isInvitingUser() || isLoadingEmails()"
   [title]="t('title')"
   (closed)="closeModal($event)"
   [disableEscAndBackdropClose]="true"

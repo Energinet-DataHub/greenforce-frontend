@@ -40,6 +40,8 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 
 import {
   DhTabDataGeneralErrorComponent,
+  DhUser,
+  DhUsers,
   DhUserStatusComponent,
 } from '@energinet-datahub/dh/admin/shared';
 
@@ -49,7 +51,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { User, Users } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 @Component({
@@ -82,7 +83,7 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
 export class DhUsersTabTableComponent implements AfterViewInit {
   private _destroyRef = inject(DestroyRef);
 
-  columns: WattTableColumnDef<User> = {
+  columns: WattTableColumnDef<DhUser> = {
     firstName: { accessor: 'firstName' },
     lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
@@ -90,10 +91,10 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     status: { accessor: 'status' },
   };
 
-  dataSource = new WattTableDataSource<User>();
-  activeRow: User | undefined = undefined;
+  dataSource = new WattTableDataSource<DhUser>();
+  activeRow: DhUser | undefined = undefined;
 
-  @Input({ required: true }) set users(value: Users) {
+  @Input({ required: true }) set users(value: DhUsers) {
     this.dataSource.data = value;
   }
 
@@ -111,7 +112,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   drawer!: DhUserDrawerComponent;
 
   @ViewChild(WattTableComponent)
-  usersTable!: WattTableComponent<User>;
+  usersTable!: WattTableComponent<DhUser>;
 
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
@@ -124,7 +125,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     });
   }
 
-  onRowClick(row: User): void {
+  onRowClick(row: DhUser): void {
     this.activeRow = row;
     this.drawer.open(row);
   }
