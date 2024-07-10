@@ -35,6 +35,6 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   `,
 })
 export class WattChipComponent {
-  @Input() selected = false;
-  @Input() disabled = false;
+  selected = input(false);
+  disabled = input(false);
 }
