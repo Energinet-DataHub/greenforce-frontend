@@ -30,7 +30,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { RxPush } from '@rx-angular/template/push';
 import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
@@ -69,7 +68,6 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
-    RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
 
