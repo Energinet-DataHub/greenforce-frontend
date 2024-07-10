@@ -29,30 +29,6 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         _client = client;
     }
 
-    [HttpPost]
-    [Route("InviteUser")]
-    public Task<ActionResult> InviteUserAsync(UserInvitationDto invite)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UsersInviteAsync(invite));
-    }
-
-    [HttpPost]
-    [Route("ReInviteUser")]
-    public Task<ActionResult> ReInviteUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UsersReinviteAsync(userId));
-    }
-
-    [HttpPost]
-    [Route("ResetUser2Fa")]
-    public Task<ActionResult> ResetTwoFactorAuthenticationAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UserReset2faAsync(userId));
-    }
-
     /// <summary>
     ///     Retrieves actors associated with the users external actor token.
     /// </summary>
@@ -81,45 +57,5 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
     public Task ResetMitIdAsync()
     {
         return HandleExceptionAsync(() => _client.UserResetMitidAsync());
-    }
-
-    /// <summary>
-    /// Deactivates the specified user.
-    /// </summary>
-    [HttpPut]
-    [Route("DeactivateUser")]
-    public Task<ActionResult> DeactivateUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.UserDeactivateAsync(userId));
-    }
-
-    /// <summary>
-    /// Reactivates the specified user.
-    /// </summary>
-    [HttpPut]
-    [Route("ReActivateUser")]
-    public Task<ActionResult> ReActivateUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.UserReactivateAsync(userId));
-    }
-
-    /// <summary>
-    /// Returns current user profile.
-    /// </summary>
-    [HttpGet]
-    [Route("GetUserProfile")]
-    public Task<ActionResult<GetUserProfileResponse>> GetUserProfileAsync()
-    {
-        return HandleExceptionAsync(() => _client.UserUserprofileGetAsync());
-    }
-
-    /// <summary>
-    /// Updates current user profile.
-    /// </summary>
-    [HttpPut]
-    [Route("UpdateUserProfile")]
-    public Task<ActionResult> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto)
-    {
-        return HandleExceptionAsync(() => _client.UserUserprofilePutAsync(userProfileUpdateDto));
     }
 }

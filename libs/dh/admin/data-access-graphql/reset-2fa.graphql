@@ -1,0 +1,8 @@
+mutation reset2fa($input: ResetTwoFactorAuthenticationInput!) {
+  resetTwoFactorAuthentication(input: $input) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}
