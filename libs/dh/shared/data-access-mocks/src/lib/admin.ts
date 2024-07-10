@@ -37,6 +37,10 @@ import {
   mockUpdatePermissionMutation,
   mockGetFilteredActorsQuery,
   mockCreateUserRoleMutation,
+  mockDeactivateUserMutation,
+  mockReActivateUserMutation,
+  mockReInviteUserMutation,
+  mockReset2faMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -66,7 +70,6 @@ export function adminMocks(apiBase: string) {
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
     mockCreateUserRole(),
-    postMarketParticipantUserInviteUser(apiBase),
     getUserRolesByActorIdQuery(),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
@@ -75,22 +78,102 @@ export function adminMocks(apiBase: string) {
     updateUserAndRoles(),
     updatePermission(),
     getFilteredActors(),
-    getMarketParticipantUserDeactivate(apiBase),
-    getMarketParticipantUserReActivate(apiBase),
+    deactivedUser(),
+    reActivedUser(),
+    reInviteUser(),
+    reset2fa(),
   ];
 }
 
-function getMarketParticipantUserDeactivate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/DeactivateUser`, async () => {
+function maybeError() {
+  const maybeErrorState = self.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0;
+
+  if (!maybeErrorState) return null;
+
+  return [
+    {
+      message: 'mock error',
+      statusCode: 400,
+      apiErrors: [
+        {
+          __typename: 'ApiErrorDescriptor' as const,
+          message: 'error message',
+          code: 'market_participant.validation.error',
+          args: {},
+        },
+      ],
+      __typename: 'ApiError' as const,
+    },
+  ];
+}
+
+function reset2fa() {
+  return mockReset2faMutation(async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        resetTwoFactorAuthentication: {
+          __typename: 'ResetTwoFactorAuthenticationPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
-function getMarketParticipantUserReActivate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
+function deactivedUser() {
+  return mockDeactivateUserMutation(async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    const errors = maybeError();
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        deactivateUser: {
+          __typename: 'DeactivateUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
+  });
+}
+
+function reActivedUser() {
+  return mockReActivateUserMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        reActivateUser: {
+          __typename: 'ReActivateUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
+  });
+}
+
+function reInviteUser() {
+  return mockReInviteUserMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        reInviteUser: {
+          __typename: 'ReInviteUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
@@ -272,13 +355,6 @@ function mockCreateUserRole() {
         },
       },
     });
-  });
-}
-
-function postMarketParticipantUserInviteUser(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
   });
 }
 

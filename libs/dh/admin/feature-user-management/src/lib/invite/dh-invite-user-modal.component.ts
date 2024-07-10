@@ -30,7 +30,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { RxPush } from '@rx-angular/template/push';
 import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
@@ -44,13 +43,14 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhAdminInviteUserStore, UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 
 import {
   GetKnownEmailsDocument,
   GetFilteredActorsDocument,
   GetAssociatedActorsDocument,
+  InviteUserDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -63,13 +63,11 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [DhAdminInviteUserStore],
   selector: 'dh-invite-user-modal',
   templateUrl: './dh-invite-user-modal.component.html',
   styleUrls: ['./dh-invite-user-modal.component.scss'],
   standalone: true,
   imports: [
-    RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
 
@@ -89,13 +87,14 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   private readonly toastService = inject(WattToastService);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
-  private readonly inviteUserStore = inject(DhAdminInviteUserStore);
   private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   inviteUserModal = viewChild.required<WattModalComponent>('inviteUserModal');
   closed = output<void>();
 
-  isInvitingUser$ = this.inviteUserStore.isSaving$;
+  inviteUserMutation = mutation(InviteUserDocument);
+
+  isInvitingUser = this.inviteUserMutation.loading;
 
   selectedActorId = signal<string | null>(null);
 
@@ -171,6 +170,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     lastname: ['', Validators.required],
     phoneNumber: ['', [Validators.required]],
   });
+
   userRoles = this.nonNullableFormBuilder.group({
     selectedUserRoles: [[] as string[], Validators.required],
   });
@@ -214,32 +214,36 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     const [prefix, ...rest] = phoneParts;
     const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
-    this.inviteUserStore.inviteUser({
-      invitation: {
-        invitationUserDetails:
-          firstname.value && lastname.value && phoneNumber.value
-            ? {
-                firstName: firstname.value,
-                lastName: lastname.value,
-                phoneNumber: formattedPhoneNumber,
-              }
-            : undefined,
-        email: email.value,
-        assignedActor: actorId.value,
-        assignedRoles: this.userRoles.controls.selectedUserRoles.value,
+    this.inviteUserMutation.mutate({
+      variables: {
+        input: {
+          userInviteDto: {
+            invitationUserDetails:
+              firstname.value && lastname.value && phoneNumber.value
+                ? {
+                    firstName: firstname.value,
+                    lastName: lastname.value,
+                    phoneNumber: formattedPhoneNumber,
+                  }
+                : undefined,
+            email: email.value,
+            assignedActor: actorId.value,
+            assignedRoles: this.userRoles.controls.selectedUserRoles.value,
+          },
+        },
       },
-      onSuccess: () => this.onInviteSuccess(email.value),
-      onError: (e) => this.onInviteError(e),
+      onCompleted: (res) => {
+        res.inviteUser.errors
+          ? this.onInviteError(res.inviteUser.errors)
+          : this.onInviteSuccess(email.value);
+      },
+      onError: () => this.onInviteError(),
     });
   }
 
   onSelectedUserRoles(userRoles: UserRoleItem[]) {
     this.userRoles.controls.selectedUserRoles.markAsTouched();
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
-  }
-
-  openModal() {
-    this.inviteUserModal().open();
   }
 
   closeModal(status: boolean) {
@@ -258,13 +262,12 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     this.closeModal(true);
   }
 
-  private onInviteError(apiErrorCollection: ApiErrorCollection) {
-    const message =
-      apiErrorCollection.apiErrors.length > 0
-        ? readApiErrorResponse([apiErrorCollection])
-        : this.translocoService.translate(
-            'admin.userManagement.inviteUser.serverErrors.generalError'
-          );
+  private onInviteError(apiErrorCollection: ApiErrorCollection[] | undefined = undefined) {
+    const message = apiErrorCollection
+      ? readApiErrorResponse(apiErrorCollection)
+      : this.translocoService.translate(
+          'admin.userManagement.inviteUser.serverErrors.generalError'
+        );
 
     this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }
