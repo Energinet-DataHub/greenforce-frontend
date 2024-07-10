@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MarketParticipantGetActorsAssociatedWithUserResponse } from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantGetActorsAssociatedWithExternalUserIdResponse } from '@energinet-datahub/dh/shared/domain';
 
-export const marketParticipantUserActors: MarketParticipantGetActorsAssociatedWithUserResponse = {
-  administratedBy: 'test',
-  actorIds: ['3ec41d91-fc6d-4364-ade6-b85576a91d04', 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1'],
-};
+export const marketParticipantUserActors: MarketParticipantGetActorsAssociatedWithExternalUserIdResponse =
+  {
+    actorIds: ['3ec41d91-fc6d-4364-ade6-b85576a91d04', 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1'],
+  };

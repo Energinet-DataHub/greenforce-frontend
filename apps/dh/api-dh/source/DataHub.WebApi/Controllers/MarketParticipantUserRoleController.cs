@@ -30,13 +30,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
     }
 
     [HttpGet]
-    [Route("Get")]
-    public Task<ActionResult<ICollection<UserRoleDto>>> GetAsync(Guid actorId, Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.ActorsUsersRolesGetAsync(actorId, userId));
-    }
-
-    [HttpGet]
     [Route("GetAll")]
     public Task<ActionResult<ICollection<UserRoleDto>>> GetAllAsync()
     {
