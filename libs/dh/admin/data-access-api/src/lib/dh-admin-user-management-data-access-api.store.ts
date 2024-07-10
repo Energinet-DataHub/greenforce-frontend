@@ -27,13 +27,10 @@ import {
   UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhUsers } from '@energinet-datahub/dh/admin/shared';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
-
-export type Users = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'];
-
-export type User = Users[0];
 
 type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
 
@@ -56,7 +53,7 @@ export type DhUserManagementFilters = {
 };
 
 interface DhUserManagementState {
-  readonly users: Users;
+  readonly users: DhUsers;
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
@@ -166,7 +163,7 @@ export class DhAdminUserManagementDataAccessApiStore
   private updateUsers = this.updater(
     (state: DhUserManagementState, response: UserOverviewResponse): DhUserManagementState => ({
       ...state,
-      users: response.users,
+      users: response.users as DhUsers,
       totalUserCount: response.totalUserCount,
     })
   );
