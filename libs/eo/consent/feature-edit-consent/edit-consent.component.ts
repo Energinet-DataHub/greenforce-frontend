@@ -148,13 +148,17 @@ import { translations } from '@energinet-datahub/eo/translations';
           [ngClass]="{ 'visually-hidden': isLoading() }"
           [attr.aria.hidden]="isLoading()"
         >
-          <watt-button variant="text" (click)="deleteConsent()">{{ translations.editConsent.revoke | transloco }}</watt-button>
+          <watt-button variant="text" (click)="deleteConsent()">{{
+            translations.editConsent.revoke | transloco
+          }}</watt-button>
 
           <div class="actions">
-            <watt-button variant="secondary" (click)="close(false)">{{ translations.editConsent.cancel | transloco }}</watt-button>
-            <watt-button variant="secondary" (click)="save()" [disabled]="true"
-              >{{ translations.editConsent.saveChanges | transloco }}</watt-button
-            >
+            <watt-button variant="secondary" (click)="close(false)">{{
+              translations.editConsent.cancel | transloco
+            }}</watt-button>
+            <watt-button variant="secondary" (click)="save()" [disabled]="true">{{
+              translations.editConsent.saveChanges | transloco
+            }}</watt-button>
           </div>
         </watt-modal-actions>
       </watt-modal>

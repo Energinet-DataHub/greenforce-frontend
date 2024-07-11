@@ -128,9 +128,9 @@ const selector = 'eo-consent-details-drawer';
               </p>
             </div>
 
-            <watt-button variant="secondary" class="cta" (click)="editConsent()"
-              >{{ translations.consentDetails.editConsent | transloco }}</watt-button
-            >
+            <watt-button variant="secondary" class="cta" (click)="editConsent()">{{
+              translations.consentDetails.editConsent | transloco
+            }}</watt-button>
           }
         </watt-drawer-topbar>
 

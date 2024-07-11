@@ -582,7 +582,7 @@ export interface TranslationKeys {
     revoke: string;
     revokeSuccess: string;
     revokeError: string;
-  }
+  };
   grantConsent: {
     title: string;
     description: string;
