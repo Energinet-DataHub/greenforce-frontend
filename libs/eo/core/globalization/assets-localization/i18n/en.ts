@@ -708,6 +708,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     validFromTableHeader: 'Valid from',
     requestForConsent: 'Request for consent',
   },
+  consentDetails: {
+    validFrom: 'Valid from',
+    editConsent: 'Manage consent',
+    permissionsFor: 'Permissions for',
+  },
+  editConsent: {
+    permissions: 'Permissions',
+    cancel: 'Cancel',
+    saveChanges: 'Save changes',
+    revoke: 'Revoke consent',
+    revokeSuccess: 'Consent revoked',
+    revokeError: 'Could not revoke consent. Please try again.',
+  },
   grantConsent: {
     title: '{{organizationName}} has requested authorization',
     description:
