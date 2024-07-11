@@ -67,7 +67,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
         phoneNumber: string;
         updateUserRoles: UpdateActorUserRolesInput[];
         onSuccessFn: () => void;
-        onErrorFn: (statusCode: HttpStatusCode, error: ApiErrorCollection) => void;
+        onErrorFn: (statusCode: HttpStatusCode, errors: ApiErrorCollection[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -121,7 +121,7 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
                     if (updateUserAndRoles.errors.length > 0) {
                       this.setSaving(ErrorState.GENERAL_ERROR);
                       const firstError = updateUserAndRoles.errors[0];
-                      onErrorFn(firstError.statusCode, firstError);
+                      onErrorFn(firstError.statusCode, updateUserAndRoles.errors);
                     }
                   },
                   () => {

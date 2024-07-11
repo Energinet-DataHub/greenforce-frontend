@@ -14,6 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattToastComponent, WattToastType } from './watt-toast.component';
-export { WattToastService } from './watt-toast.service';
-export type { WattToastRef } from './watt-toast.component';
+export * from './consent-details.component';
