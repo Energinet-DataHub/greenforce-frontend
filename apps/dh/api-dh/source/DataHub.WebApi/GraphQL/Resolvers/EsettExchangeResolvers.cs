@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using OpenTelemetry.Trace;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -55,14 +56,23 @@ public class EsettExchangeResolvers
         ActorNameByMarketRoleDataLoader dataLoader) =>
         dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
 
-    private string? GetDocumentLink(
-        string action,
+    public string? GetDispatchDocument(
         [Parent] ExchangeEventTrackingResult result,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] LinkGenerator linkGenerator) =>
-        linkGenerator.GetUriByAction(
-            httpContextAccessor.HttpContext!,
-            action,
-            "EsettExchange",
-            new { documentId = result.DocumentId });
+            linkGenerator.GetUriByAction(
+                httpContextAccessor.HttpContext!,
+                "GetDispatchDocument",
+                "EsettExchange",
+                new { documentId = result.DocumentId });
+
+    public string? GetResponseDocument(
+       [Parent] ExchangeEventTrackingResult result,
+       [Service] IHttpContextAccessor httpContextAccessor,
+       [Service] LinkGenerator linkGenerator) =>
+           linkGenerator.GetUriByAction(
+               httpContextAccessor.HttpContext!,
+               "ResponseDocument",
+               "EsettExchange",
+               new { documentId = result.DocumentId });
 }
