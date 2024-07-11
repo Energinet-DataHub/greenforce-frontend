@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { By } from '@angular/platform-browser';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { render, RenderResult } from '@testing-library/angular';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
@@ -27,15 +27,17 @@ import { DhCoreShellComponent } from './dh-core-shell.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { MatDialogModule } from '@angular/material/dialog';
 import { importProvidersFrom } from '@angular/core';
+import { ApolloModule } from 'apollo-angular';
 
 describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [getTranslocoTestingModule(), HttpClientTestingModule],
+      imports: [getTranslocoTestingModule(), ApolloModule],
       providers: [
         MsalServiceMock,
         danishDatetimeProviders,
         WattModalService,
+        provideHttpClientTesting(),
         importProvidersFrom([MatDialogModule]),
       ],
     });

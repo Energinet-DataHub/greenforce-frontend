@@ -28,8 +28,8 @@ describe(DhActorStorage, () => {
     target.setUserAssociatedActors(actorIds);
 
     // act
-    target.setSelectedActor(actorIds[1]);
-    const actual = target.getSelectedActor();
+    target.setSelectedActorId(actorIds[1]);
+    const actual = target.getSelectedActorId();
 
     // assert
     expect(actual).toBe(actorIds[1]);
@@ -42,7 +42,7 @@ describe(DhActorStorage, () => {
     target.setUserAssociatedActors(actorIds);
 
     // act
-    const actual = target.getSelectedActor();
+    const actual = target.getSelectedActorId();
 
     // assert
     expect(actual).toBe(actorIds[0]);
