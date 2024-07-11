@@ -41,6 +41,7 @@ import {
   mockReActivateUserMutation,
   mockReInviteUserMutation,
   mockReset2faMutation,
+  mockGetSelectionActorsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -59,7 +60,7 @@ import { overviewUsers } from './data/admin/user-overview-items';
 
 export function adminMocks(apiBase: string) {
   return [
-    getMarketParticipantActorQuerySelectionActors(apiBase),
+    mockGetSelectionActors(),
     getMarketParticipantUserRoleGetAll(apiBase),
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
@@ -177,10 +178,10 @@ function reInviteUser() {
   });
 }
 
-function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`, async () => {
+function mockGetSelectionActors() {
+  return mockGetSelectionActorsQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(actorQuerySelection);
+    return HttpResponse.json({ data: actorQuerySelection });
   });
 }
 
