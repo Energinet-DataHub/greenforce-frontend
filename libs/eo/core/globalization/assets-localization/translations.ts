@@ -80,6 +80,10 @@ export const translations = {
       heading: 'landingPage.proveSustainability.heading' as const,
       content: 'landingPage.proveSustainability.content' as const,
     } as const,
+    naming: {
+      heading: 'landingPage.naming.heading' as const,
+      content: 'landingPage.naming.content' as const,
+    } as const,
     cta: {
       heading: 'landingPage.cta.heading' as const,
       section1: {

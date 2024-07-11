@@ -139,8 +139,6 @@ export class DhUsersOverviewComponent {
   searchInput$ = new BehaviorSubject<string>('');
 
   constructor() {
-    this.userRolesStore.getRoles();
-
     this.onSearchInput();
 
     this.profileModalService.onProfileUpdate$

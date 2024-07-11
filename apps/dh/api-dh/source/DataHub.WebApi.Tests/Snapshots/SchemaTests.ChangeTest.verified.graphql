@@ -410,6 +410,7 @@ type Query {
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
+  userRoles: [UserRoleDto!]!
 }
 
 type ReActivateUserPayload {

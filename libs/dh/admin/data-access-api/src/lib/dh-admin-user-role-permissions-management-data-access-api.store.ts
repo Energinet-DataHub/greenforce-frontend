@@ -68,6 +68,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
           .query({
             query: GetUserRoleWithPermissionsDocument,
             variables: { id: userRoleId },
+            fetchPolicy: 'network-only',
           })
           .pipe(
             tapResponse(

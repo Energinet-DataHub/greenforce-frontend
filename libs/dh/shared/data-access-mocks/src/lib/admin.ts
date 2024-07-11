@@ -37,6 +37,7 @@ import {
   mockUpdatePermissionMutation,
   mockGetFilteredActorsQuery,
   mockCreateUserRoleMutation,
+  mockGetUserRolesQuery,
   mockDeactivateUserMutation,
   mockReActivateUserMutation,
   mockReInviteUserMutation,
@@ -45,7 +46,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
-import { marketParticipantUserRoleGetAll } from './data/market-participant-user-role-get-all';
+import { userRolesOverview } from './data/market-participant-user-role-get-all';
 import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';
 import { marketParticipantUserRoleGetUserRoleWithPermissions } from './data/market-participant-user-role-get-user-role-with-permissions';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
@@ -61,7 +62,7 @@ import { overviewUsers } from './data/admin/user-overview-items';
 export function adminMocks(apiBase: string) {
   return [
     mockGetSelectionActors(),
-    getMarketParticipantUserRoleGetAll(apiBase),
+    mockGetUserRoles(),
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
     updateUserRoleMutation(),
@@ -208,10 +209,11 @@ function getUserRolesByActorIdQuery() {
   });
 }
 
-function getMarketParticipantUserRoleGetAll(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetAll`, async () => {
+function mockGetUserRoles() {
+  return mockGetUserRolesQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserRoleGetAll);
+
+    return HttpResponse.json({ data: userRolesOverview });
   });
 }
 
@@ -286,7 +288,7 @@ function getUserOverviewQuery() {
 
 function updateUserRoleMutation() {
   return mockUpdateUserRoleMutation(async ({ variables }) => {
-    const maybeErrorState = variables.input.userRoleId === marketParticipantUserRoleGetAll[1].id;
+    const maybeErrorState = variables.input.userRoleId === userRolesOverview.userRoles[1].id;
 
     await delay(mswConfig.delay);
 

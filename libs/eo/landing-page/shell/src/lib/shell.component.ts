@@ -27,6 +27,7 @@ import { EoLandingPageBlockchainTechComponent } from './blockchain-tech.componen
 import { EoLandingPageGranularCertificatesComponent } from './granular-certificates.component';
 import { EoLandingPageFooterComponent } from './footer.component';
 import { EoLandingPageCTAComponent } from './cta.component';
+import { EoLandingPageNamingComponent } from './naming.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +39,7 @@ import { EoLandingPageCTAComponent } from './cta.component';
     EoLandingPageHowComponent,
     EoLandingPageWhatComponent,
     EoLandingPageProveSustainabilityComponent,
+    EoLandingPageNamingComponent,
     EoLandingPageElectricalGridComponent,
     EoLandingPageBlockchainTechComponent,
     EoLandingPageGranularCertificatesComponent,
@@ -87,6 +89,12 @@ import { EoLandingPageCTAComponent } from './cta.component';
 
     @defer (on viewport; prefetch on idle) {
       <eo-landing-page-prove-sustainability />
+    } @placeholder {
+      <p>Loading...</p>
+    }
+
+    @defer (on viewport; prefetch on idle) {
+      <eo-landing-page-naming />
     } @placeholder {
       <p>Loading...</p>
     }

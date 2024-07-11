@@ -26,7 +26,7 @@ export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>(
 export class TranslocoTypedLoader implements TranslocoLoader {
   constructor(
     @Inject(TRANSLOCO_TYPED_TRANSLATION_PATH)
-    private path: Record<string, () => Promise<Translation> | Translation>
+    private path: Record<string, (() => Promise<Translation>) | Translation>
   ) {}
 
   getTranslation(lang: string): Observable<Translation> {

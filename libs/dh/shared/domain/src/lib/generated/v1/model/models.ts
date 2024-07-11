@@ -11,8 +11,6 @@ export * from './market-participant-actor-view-dto';
 export * from './market-participant-eic-function';
 export * from './market-participant-get-actors-associated-with-external-user-id-response';
 export * from './market-participant-token-response';
-export * from './market-participant-user-role-dto';
-export * from './market-participant-user-role-status';
 export * from './market-participant-user-role-view-dto';
 export * from './search-result';
 export * from './stream';
