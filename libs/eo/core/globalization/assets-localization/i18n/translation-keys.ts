@@ -570,6 +570,19 @@ export interface TranslationKeys {
     validFromTableHeader: string;
     requestForConsent: string;
   };
+  consentDetails: {
+    validFrom: string;
+    editConsent: string;
+    permissionsFor: string;
+  };
+  editConsent: {
+    permissions: string;
+    cancel: string;
+    saveChanges: string;
+    revoke: string;
+    revokeSuccess: string;
+    revokeError: string;
+  }
   grantConsent: {
     title: string;
     description: string;

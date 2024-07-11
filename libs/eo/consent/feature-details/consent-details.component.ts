@@ -123,19 +123,19 @@ const selector = 'eo-consent-details-drawer';
             <div>
               <h2>{{ consent.clientName }}</h2>
               <p class="valid-from">
-                <strong>{{ translations.consent.validFromTableHeader | transloco }}</strong>
+                <strong>{{ translations.consentDetails.validFrom | transloco }}</strong>
                 {{ consent.consentDate * 1000 | wattDate: 'short' }}
               </p>
             </div>
 
             <watt-button variant="secondary" class="cta" (click)="editConsent()"
-              >Administrer fuldmagt</watt-button
+              >{{ translations.consentDetails.editConsent | transloco }}</watt-button
             >
           }
         </watt-drawer-topbar>
 
         <watt-drawer-content>
-          <h3>Fuldmagt til</h3>
+          <h3>{{ translations.consentDetails.permissionsFor | transloco }}</h3>
 
           <ul class="permissions">
             @for (permission of permissions; track permission) {
