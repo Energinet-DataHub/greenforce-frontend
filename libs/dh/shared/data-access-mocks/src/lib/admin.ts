@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { delay, http, HttpResponse } from 'msw';
+import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
@@ -59,7 +59,7 @@ import { filteredActors } from './data/market-participant-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 import { overviewUsers } from './data/admin/user-overview-items';
 
-export function adminMocks(apiBase: string) {
+export function adminMocks() {
   return [
     mockGetSelectionActors(),
     mockGetUserRoles(),
