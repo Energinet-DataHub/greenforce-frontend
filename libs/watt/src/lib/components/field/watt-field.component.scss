@@ -33,25 +33,26 @@ watt-field watt-field-error,
   display: none;
 }
 
-watt-field.watt-field--invalid watt-field-hint {
-  display: none;
-}
+form.ng-submitted .ng-invalid,
+:not(form).ng-touched.ng-invalid {
+  & watt-field watt-field-hint {
+    display: none;
+  }
 
-watt-field.watt-field--invalid watt-field-error {
-  display: block;
-}
+  & watt-field watt-field-error {
+    display: block;
+  }
 
-form.ng-submitted watt-field.watt-field--invalid .watt-field-wrapper,
-watt-field.watt-field--invalid .watt-field-wrapper {
-  border-color: var(--watt-color-state-danger);
-}
+  & watt-field .watt-field-wrapper {
+    border-color: var(--watt-color-state-danger);
+  }
 
-form.ng-submitted watt-field.watt-field--invalid .label,
-watt-field.watt-field--invalid .label {
-  color: var(--watt-color-state-danger);
-
-  &.required::after {
+  & watt-field .label {
     color: var(--watt-color-state-danger);
+
+    &.required::after {
+      color: var(--watt-color-state-danger);
+    }
   }
 }
 
