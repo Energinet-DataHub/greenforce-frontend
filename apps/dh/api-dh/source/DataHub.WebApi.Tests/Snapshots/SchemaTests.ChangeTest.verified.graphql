@@ -707,6 +707,7 @@ input RequestCalculationInput {
   resolution: String
   energySupplierId: String
   balanceResponsibleId: String
+  priceType: PriceType
 }
 
 input RequestSettlementReportGridAreaInput {
@@ -1034,6 +1035,18 @@ enum PermissionAuditedChange {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+"The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\nthe resolution and charge type fields in the RequestWholesaleSettlement document"
+enum PriceType {
+  TARIFF_SUBSCRIPTION_AND_FEE
+  TARIFF
+  SUBSCRIPTION
+  FEE
+  MONTHLY_TARIFF
+  MONTHLY_SUBSCRIPTION
+  MONTHLY_FEE
+  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
 }
 
 enum ProcessStatus {
