@@ -22,9 +22,9 @@ import { exhaustMap, filter, Observable, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhAdminUserRolesManagementDataAccessApiStore } from './dh-admin-user-roles-management-data-access-api.store';
 import {
   ApiErrorDescriptor,
+  GetUserRolesDocument,
   UpdateUserRoleDocument,
   UpdateUserRoleDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,7 +40,6 @@ const initialState: DhEditUserRoleState = {
 @Injectable()
 export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEditUserRoleState> {
   private readonly apollo = inject(Apollo);
-  private readonly userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
 
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasValidationError$ = this.select(
@@ -71,6 +70,13 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
                   userRole: updatedUserRole,
                 },
               },
+              refetchQueries: (result) => {
+                if (result.data?.updateUserRole.success) {
+                  return [GetUserRolesDocument];
+                }
+
+                return [];
+              },
             })
             .pipe(
               tap(({ loading }) => {
@@ -87,11 +93,6 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
                   this.patchState({ requestState: LoadingState.LOADED });
 
                   if (data?.updateUserRole.success) {
-                    this.userRolesStore.updateRoleById({
-                      id: userRoleId,
-                      name: updatedUserRole.name,
-                    });
-
                     onSuccessFn();
                   }
 

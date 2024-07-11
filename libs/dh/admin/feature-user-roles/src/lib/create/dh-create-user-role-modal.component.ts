@@ -100,7 +100,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
 
   createUserRoleModal = viewChild.required(WattModalComponent);
 
-  closed = output<{ saveSuccess: boolean }>();
+  closed = output();
 
   initialEicFunction = EicFunction.BalanceResponsibleParty;
 
@@ -150,7 +150,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
 
   closeModal(saveSuccess: boolean) {
     this.createUserRoleModal().close(saveSuccess);
-    this.closed.emit({ saveSuccess });
+    this.closed.emit();
   }
 
   createUserRole(): void {

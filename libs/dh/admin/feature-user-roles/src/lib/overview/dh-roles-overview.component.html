@@ -15,11 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-  <watt-card vater inset="ml" *rxLet="roles$ as roles">
+  <watt-card vater inset="ml">
     <vater-flex fill="vertical" gap="m">
       <vater-stack direction="row" gap="s">
         <h3>{{ t("rolesHeadline") }}</h3>
-        <span class="watt-chip-label">{{ roles.length }}</span>
+        <span class="watt-chip-label">{{ roles().length }}</span>
 
         <vater-spacer />
 
@@ -49,19 +49,19 @@ limitations under the License.
 
       <dh-roles-overview-table
         #rolesTable
-        [roles]="roles"
-        [isLoading]="isLoading$ | push"
-        [hasGeneralError]="hasGeneralError$ | push"
+        [roles]="rolesFiltered()"
+        [isLoading]="isLoading()"
+        [hasGeneralError]="hasGeneralError()"
         [paginator]="paginator"
         (userRoleDeactivated)="reloadRoles()"
         (reload)="reloadRoles()"
       />
 
-      <watt-paginator #paginator [length]="roles.length" />
+      <watt-paginator #paginator [length]="roles().length" />
     </vater-flex>
   </watt-card>
 </ng-container>
 
 @if (isCreateUserRoleModalVisible) {
-  <dh-create-user-role-modal (closed)="modalOnClose($event)" />
+  <dh-create-user-role-modal (closed)="modalOnClose()" />
 }

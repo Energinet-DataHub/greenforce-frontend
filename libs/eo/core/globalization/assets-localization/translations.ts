@@ -583,6 +583,19 @@ export const translations = {
     validFromTableHeader: 'consent.validFromTableHeader' as const,
     requestForConsent: 'consent.requestForConsent' as const,
   } as const,
+  consentDetails: {
+    validFrom: 'consentDetails.validFrom' as const,
+    editConsent: 'consentDetails.editConsent' as const,
+    permissionsFor: 'consentDetails.permissionsFor' as const,
+  } as const,
+  editConsent: {
+    permissions: 'editConsent.permissions' as const,
+    cancel: 'editConsent.cancel' as const,
+    saveChanges: 'editConsent.saveChanges' as const,
+    revoke: 'editConsent.revoke' as const,
+    revokeSuccess: 'editConsent.revokeSuccess' as const,
+    revokeError: 'editConsent.revokeError' as const,
+  } as const,
   grantConsent: {
     title: 'grantConsent.title' as const,
     description: 'grantConsent.description' as const,
