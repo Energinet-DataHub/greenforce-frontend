@@ -30,7 +30,6 @@ import {
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -40,12 +39,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
+import { EoConsentService, EoConsent } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  selector: 'eo-grant-consent-modal',
+  selector: 'eo-edit-consent-modal',
   imports: [
     ReactiveFormsModule,
     NgClass,
@@ -58,9 +58,17 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   standalone: true,
   styles: `
-    .eo-grant-consent-modal .watt-modal {
+    .eo-edit-consent-modal .watt-modal {
       --watt-modal-width: 545px;
-      --watt-modal-min-height: 648px !important;
+
+      watt-button {
+        flex-shrink: 0;
+      }
+
+      .actions {
+        display: flex;
+        gap: var(--watt-space-s);
+      }
 
       .watt-modal-content {
         display: flex;
@@ -71,14 +79,12 @@ import { translations } from '@energinet-datahub/eo/translations';
       watt-modal-actions {
         justify-content: space-between;
         align-items: center;
+        gap: 0;
+        padding-left: 0;
 
         watt-button {
           margin-left: var(--watt-space-m);
         }
-      }
-
-      h3 {
-        text-align: center;
       }
 
       ul {
@@ -115,24 +121,12 @@ import { translations } from '@energinet-datahub/eo/translations';
     @if (opened) {
       <watt-modal
         #modal
-        [hideCloseButton]="true"
-        [disableClose]="true"
-        [panelClass]="['eo-grant-consent-modal']"
+        [panelClass]="['eo-edit-consent-modal']"
         [formGroup]="form"
+        [title]="consent.clientName"
       >
         @if (!isLoading()) {
-          <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
-          <h3>
-            {{
-              translations.grantConsent.title | transloco: { organizationName: organizationName() }
-            }}
-          </h3>
-          <p>
-            {{
-              translations.grantConsent.description
-                | transloco: { organizationName: organizationName() }
-            }}
-          </p>
+          <h4>Fuldmagter</h4>
 
           <ul>
             @for (permission of permissions; track permission) {
@@ -154,20 +148,12 @@ import { translations } from '@energinet-datahub/eo/translations';
           [ngClass]="{ 'visually-hidden': isLoading() }"
           [attr.aria.hidden]="isLoading()"
         >
-          <watt-checkbox formControlName="termsAndConditions"
-            ><span
-              [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
-            ></span
-          ></watt-checkbox>
-          <div>
-            <watt-button variant="secondary" (click)="decline()">{{
-              translations.grantConsent.decline | transloco
-            }}</watt-button>
-            <watt-button
-              variant="secondary"
-              (click)="accept()"
-              [disabled]="!form.value.termsAndConditions"
-              >{{ translations.grantConsent.accept | transloco }}</watt-button
+          <watt-button variant="text" (click)="deleteConsent()">Tilbagekald fuldmagt</watt-button>
+
+          <div class="actions">
+            <watt-button variant="secondary" (click)="close(false)">Fortryd</watt-button>
+            <watt-button variant="secondary" (click)="save()" [disabled]="true"
+              >Gem ændringer</watt-button
             >
           </div>
         </watt-modal-actions>
@@ -175,16 +161,17 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
   `,
 })
-export class EoGrantConsentModalComponent implements OnInit {
+export class EoEditConsentModalComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
 
-  @Input() thirdPartyClientId!: string;
+  @Input() consent!: EoConsent;
   @Input() redirectUrl!: string;
 
   @Output() closed = new EventEmitter<void>();
+  @Output() consentDeleted = new EventEmitter<EoConsent>();
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   protected translations = translations;
@@ -211,45 +198,40 @@ export class EoGrantConsentModalComponent implements OnInit {
   }
 
   open() {
-    // If the third party client id is not set, theres no reason to open the modal
-    if (!this.thirdPartyClientId) return;
+    // If no consent is provided, there's no need to open the modal
+    if (!this.consent) return;
 
     // This is a workaround for "lazy loading" the modal content
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
-
-    this.isLoading.set(true);
-    this.consentService.getClient(this.thirdPartyClientId).subscribe((client: EoConsentClient) => {
-      this.organizationName.set(client.name);
-      this.allowedRedirectUrl.set(client.redirectUrl);
-      this.isLoading.set(false);
-    });
   }
 
-  accept() {
-    if (!this.form.value.termsAndConditions) return;
-    this.consentService.grant(this.thirdPartyClientId).subscribe({
-      next: () => {
-        this.redirectOrClose(true);
-      },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 403) return;
+  save() {
+    alert('Save changes');
+  }
 
+  deleteConsent() {
+    this.close(true);
+
+    this.consentService.delete(this.consent.idpClientId).subscribe({
+      next: () => {
         this.toastService.open({
-          message: this.transloco.translate(this.translations.grantConsent.error.title),
+          message: this.transloco.translate('eo.consentDetails.toast.success'),
+          type: 'success',
+        });
+      },
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate('eo.consentDetails.toast.error'),
           type: 'danger',
         });
       },
     });
-  }
 
-  decline() {
-    this.toastService.open({
-      message: this.transloco.translate(this.translations.grantConsent.declined),
+    this.modal.closed.pipe(first()).subscribe(() => {
+      this.consentDeleted.emit(this.consent);
     });
-
-    this.redirectOrClose(false);
   }
 
   close(result: boolean) {
@@ -260,50 +242,5 @@ export class EoGrantConsentModalComponent implements OnInit {
       this.opened = false;
       this.closed.emit();
     });
-  }
-
-  private redirectOrClose(result: boolean) {
-    if (this.redirectUrl && this.isRedirectAllowed(this.redirectUrl, this.allowedRedirectUrl())) {
-      window.location.assign(
-        this.addQueryParams(this.redirectUrl, { state: result ? 'granted' : 'declined' })
-      );
-    } else {
-      if (result) {
-        this.toastService.open({
-          message: this.transloco.translate(this.translations.grantConsent.accepted),
-          type: 'success',
-        });
-      }
-
-      this.close(result);
-    }
-  }
-
-  private addQueryParams(url: string, params: Record<string, string>): string {
-    const urlObj = new URL(url);
-    const searchParams = new URLSearchParams(urlObj.search);
-
-    // Add the new query parameters to the existing ones
-    for (const key of Object.keys(params)) {
-      searchParams.set(key, params[key]);
-    }
-
-    // Set the updated search parameters back to the URL object
-    urlObj.search = searchParams.toString();
-
-    return urlObj.toString();
-  }
-
-  private isRedirectAllowed(redirectURL: string, allowedRedirect: string) {
-    try {
-      // Parse both URLs
-      const redirectUrlObj = new URL(redirectURL);
-      const allowedRedirectUrlObj = new URL(allowedRedirect);
-
-      // Compare hostnames
-      return redirectUrlObj.hostname === allowedRedirectUrlObj.hostname;
-    } catch (error) {
-      return false;
-    }
   }
 }

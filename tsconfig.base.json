@@ -261,6 +261,12 @@
       "@energinet-datahub/eo/consent/data-access-api": [
         "libs/eo/consent/data-access-api/index.ts"
       ],
+      "@energinet-datahub/eo/consent/feature-details": [
+        "libs/eo/consent/feature-details/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/feature-edit-consent": [
+        "libs/eo/consent/feature-edit-consent/index.ts"
+      ],
       "@energinet-datahub/eo/consent/feature-grant-consent": [
         "libs/eo/consent/feature-grant-consent/index.ts"
       ],

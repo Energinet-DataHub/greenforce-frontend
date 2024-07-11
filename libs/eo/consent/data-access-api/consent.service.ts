@@ -28,6 +28,7 @@ export interface EoConsentClient {
 export interface EoConsent {
   clientName: string;
   consentDate: number;
+  idpClientId: string;
 }
 
 @Injectable({
@@ -54,5 +55,9 @@ export class EoConsentService {
     return this.#http.post(`${this.#apiBase}/authorization/consent/grant`, {
       idpClientId: thirdPartyClientId,
     });
+  }
+
+  delete(thirdPartyClientId: string) {
+    return this.#http.delete(`${this.#apiBase}/authorization/consents/${thirdPartyClientId}`);
   }
 }
