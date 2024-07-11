@@ -15,7 +15,6 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
-using OpenTelemetry.Trace;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
