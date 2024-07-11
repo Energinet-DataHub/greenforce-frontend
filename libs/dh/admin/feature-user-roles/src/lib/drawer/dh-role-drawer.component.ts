@@ -34,7 +34,7 @@ import {
   DhTabDataGeneralErrorComponent,
 } from '@energinet-datahub/dh/admin/shared';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
-import { UserRoleDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -70,6 +70,8 @@ export class DhRoleDrawerComponent {
   private toastService = inject(WattToastService);
   private translocoService = inject(TranslocoService);
   basicUserRole: UserRoleDto | null = null;
+
+  UserRoleStatus = UserRoleStatus;
 
   userRoleWithPermissions$ = this.store.userRole$;
   isLoading$ = this.store.isLoading$;

@@ -24,9 +24,9 @@ import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
   selector: 'dh-role-status',
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.roleStatus'">
-    @if (status === 'ACTIVE') {
+    @if (status === UserRoleStatus.Active) {
       <watt-badge type="info">{{ t('ACTIVE') }}</watt-badge>
-    } @else if (status === 'INACTIVE') {
+    } @else if (status === UserRoleStatus.Inactive) {
       <watt-badge type="warning">{{ t('INACTIVE') }}</watt-badge>
     }
   </ng-container>`,
@@ -34,5 +34,7 @@ import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhRoleStatusComponent {
+  UserRoleStatus = UserRoleStatus;
+
   @Input() status!: UserRoleStatus;
 }
