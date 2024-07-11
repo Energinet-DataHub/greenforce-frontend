@@ -27,22 +27,22 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<string> ArchivedMessageGetDocumentAsync(System.Guid? id = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ArchivedMessageResult>> ArchivedMessageSearchAsync(string api_version = null, SearchArchivedMessagesCriteria body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RequestAggregatedMeasureDataAsync(string api_version = null, RequestAggregatedMeasureDataMarketRequest body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RequestWholesaleSettlementAsync(string api_version = null, RequestWholesaleSettlementMarketRequest body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -92,7 +92,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<string> ArchivedMessageGetDocumentAsync(System.Guid? id = null, string api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -171,7 +171,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ArchivedMessageResult>> ArchivedMessageSearchAsync(string api_version = null, SearchArchivedMessagesCriteria body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -252,7 +252,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RequestAggregatedMeasureDataAsync(string api_version = null, RequestAggregatedMeasureDataMarketRequest body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -327,7 +327,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RequestWholesaleSettlementAsync(string api_version = null, RequestWholesaleSettlementMarketRequest body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -596,6 +596,40 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     }
 
     /// <summary>
+    /// The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of
+    /// <br/>the resolution and charge type fields in the RequestWholesaleSettlement document
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum PriceType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"TariffSubscriptionAndFee")]
+        TariffSubscriptionAndFee = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Tariff")]
+        Tariff = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Subscription")]
+        Subscription = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Fee")]
+        Fee = 3,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MonthlyTariff")]
+        MonthlyTariff = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MonthlySubscription")]
+        MonthlySubscription = 5,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MonthlyFee")]
+        MonthlyFee = 6,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"MonthlyTariffSubscriptionAndFee")]
+        MonthlyTariffSubscriptionAndFee = 7,
+
+    }
+
+    /// <summary>
     /// Responsible for carrying the market message data from the incoming message before any data validation.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -626,17 +660,6 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
 
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class RequestWholesaleSettlementChargeType
-    {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Id { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Type { get; set; }
-
-    }
-
     /// <summary>
     /// Responsible for carrying the market message data from the incoming message before any data validation.
     /// </summary>
@@ -660,13 +683,12 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         public string EnergySupplierId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.Obsolete]
         public string Resolution { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("chargeOwner", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ChargeOwner { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("chargeTypes", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<RequestWholesaleSettlementChargeType> ChargeTypes { get; set; }
+        [Newtonsoft.Json.JsonProperty("priceType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public PriceType? PriceType { get; set; }
 
     }
 
