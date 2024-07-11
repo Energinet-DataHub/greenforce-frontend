@@ -126,4 +126,8 @@ public partial class Query
         var actorId = httpContext.HttpContext.User.GetAssociatedActor();
         return actors.Where(actor => actor.ActorId == actorId);
     }
+
+    public async Task<IEnumerable<SelectionActorDto>> GetSelectionActorsAsync(
+        [Service] IMarketParticipantClient_V1 client) =>
+            await client.QuerySelectionActorsAsync();
 }

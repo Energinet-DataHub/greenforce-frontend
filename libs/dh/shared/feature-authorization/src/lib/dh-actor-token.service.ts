@@ -73,7 +73,7 @@ export class DhActorTokenService {
     return this.marketParticipantUserHttp.v1MarketParticipantUserGetUserActorsGet().pipe(
       tap(({ actorIds }) => this.actorStorage.setUserAssociatedActors(actorIds)),
       switchMap(() =>
-        this.tokenHttp.v1TokenPost(this.actorStorage.getSelectedActor()).pipe(
+        this.tokenHttp.v1TokenPost(this.actorStorage.getSelectedActorId()).pipe(
           map(({ token }) => token),
           tap(() => {
             const account = this.msalService.instance.getActiveAccount();
