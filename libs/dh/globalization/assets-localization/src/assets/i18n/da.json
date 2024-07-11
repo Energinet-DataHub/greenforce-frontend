@@ -1233,8 +1233,8 @@
         "INVITE_EXPIRED": "Aktivering udløbet"
       },
       "roleStatus": {
-        "Active": "Aktiv",
-        "Inactive": "Inaktiv"
+        "ACTIVE": "Aktiv",
+        "INACTIVE": "Inaktiv"
       },
       "tabs": {
         "masterData": {

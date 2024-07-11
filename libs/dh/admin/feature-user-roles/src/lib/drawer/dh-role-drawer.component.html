@@ -32,7 +32,7 @@ limitations under the License.
       </watt-drawer-heading>
     }
 
-    @if (basicUserRole?.status !== "Inactive") {
+    @if (basicUserRole?.status !== UserRoleStatus.Inactive) {
       <watt-drawer-actions>
         <watt-button
           *dhPermissionRequired="['user-roles:manage']"
