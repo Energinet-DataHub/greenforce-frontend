@@ -29,6 +29,9 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { switchMap } from 'rxjs';
+import { Router } from '@angular/router';
+import { fromUnixTime } from 'date-fns';
 
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import {
@@ -37,14 +40,13 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
-import { Router } from '@angular/router';
-import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
-import { fromUnixTime } from 'date-fns';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import { translations } from '@energinet-datahub/eo/translations';
+import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { switchMap } from 'rxjs';
+import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
+import { EoConsentDetailsDrawerComponent } from '@energinet-datahub/eo/consent/feature-details';
 
 const selector = 'eo-consent-overview';
 
@@ -58,6 +60,7 @@ const selector = 'eo-consent-overview';
     WattTableComponent,
     TranslocoPipe,
     EoGrantConsentModalComponent,
+    EoConsentDetailsDrawerComponent,
   ],
   providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
@@ -79,6 +82,7 @@ const selector = 'eo-consent-overview';
           sortBy="timestamp"
           sortDirection="desc"
           [loading]="state().isLoading"
+          (rowClick)="selectConsent($event)"
         />
       </watt-data-table>
     }
@@ -88,6 +92,13 @@ const selector = 'eo-consent-overview';
       [thirdPartyClientId]="thirdPartyClientId"
       [redirectUrl]="redirectUrl"
     />
+
+    @if (selectedConsent) {
+      <eo-consent-details-drawer
+        [consent]="selectedConsent"
+        (consentDeleted)="removeConsent($event)"
+      />
+    }
   `,
 })
 export class EoConsentOverviewComponent implements OnInit {
@@ -97,8 +108,8 @@ export class EoConsentOverviewComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('redirect-url') redirectUrl!: string;
 
-  private authStore = inject(EoAuthStore);
-  private consentService = inject(EoConsentService);
+  private authStore: EoAuthStore = inject(EoAuthStore);
+  private consentService: EoConsentService = inject(EoConsentService);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -106,6 +117,9 @@ export class EoConsentOverviewComponent implements OnInit {
 
   @ViewChild(EoGrantConsentModalComponent, { static: true })
   grantConsentModal!: EoGrantConsentModalComponent;
+
+  @ViewChild(EoConsentDetailsDrawerComponent)
+  consentDetailsModal!: EoConsentDetailsDrawerComponent;
 
   protected wattDatePipe: WattDatePipe = inject(WattDatePipe);
   protected translations = translations;
@@ -115,6 +129,20 @@ export class EoConsentOverviewComponent implements OnInit {
     hasError: false,
     isLoading: false,
   });
+  protected selectedConsent: EoConsent | null = null;
+
+  selectConsent(consent: EoConsent): void {
+    this.selectedConsent = consent;
+    this.cd.detectChanges();
+    this.consentDetailsModal.open();
+  }
+
+  removeConsent(consent: EoConsent): void {
+    this.selectedConsent = null;
+    this.dataSource = new WattTableDataSource(
+      this.dataSource.data.filter((x) => x.idpClientId !== consent.idpClientId)
+    );
+  }
 
   ngOnInit(): void {
     this.loadConsents();
@@ -137,6 +165,7 @@ export class EoConsentOverviewComponent implements OnInit {
 
   onCloseGrantConsentDialog(): void {
     this.router.navigate([], { queryParams: {} });
+    this.loadConsents();
   }
 
   loadConsents(): void {

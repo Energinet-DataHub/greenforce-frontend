@@ -107,6 +107,27 @@ describe('query', () => {
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
     })));
 
+  it('should start a new query on refetch after it has errored', fakeAsync(() =>
+    TestBed.runInInjectionContext(() => {
+      const result = query(TEST_QUERY);
+      const op = controller.expectOne(TEST_QUERY);
+      op.flush({ errors: [new GraphQLError('TestError')] });
+      tick();
+
+      expect(result.error()).toBeInstanceOf(ApolloError);
+      expect(result.loading()).toBe(false);
+
+      result.refetch();
+
+      const newOp = controller.expectOne(TEST_QUERY);
+      const data = { __type: { name: 'Success' } };
+      newOp.flush({ data });
+      tick();
+
+      expect(result.data()).toEqual(data);
+      expect(result.loading()).toBe(false);
+    })));
+
   it('should start a new query on setOptions', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY, { skip: true });

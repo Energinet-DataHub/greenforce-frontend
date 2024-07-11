@@ -186,6 +186,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
     },
   },
+  documentation: {
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page.',
+    },
+    endpoints: 'Endpoints',
+    topbarTitle: 'Documentation',
+  },
   sidebar: {
     dashboard: 'Dashboard',
     meteringPoints: 'Metering Points',
@@ -711,6 +719,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     agentTableHeader: 'Agent',
     validFromTableHeader: 'Valid from',
     requestForConsent: 'Request for consent',
+  },
+  consentDetails: {
+    validFrom: 'Valid from',
+    editConsent: 'Manage consent',
+    permissionsFor: 'Permissions for',
+  },
+  editConsent: {
+    permissions: 'Permissions',
+    cancel: 'Cancel',
+    saveChanges: 'Save changes',
+    revoke: 'Revoke consent',
+    revokeSuccess: 'Consent revoked',
+    revokeError: 'Could not revoke consent. Please try again.',
   },
   grantConsent: {
     title: '{{organizationName}} has requested authorization',

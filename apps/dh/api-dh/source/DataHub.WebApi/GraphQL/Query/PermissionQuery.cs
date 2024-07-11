@@ -36,4 +36,9 @@ public partial class Query
         int id,
         [Service] IMarketParticipantClient_V1 client) =>
         await client.PermissionAuditAsync(id);
+
+    public async Task<IEnumerable<PermissionDetailsDto>> GetPermissionsByEicFunctionAsync(
+        EicFunction eicFunction,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserRolesPermissionsAsync(eicFunction);
 }

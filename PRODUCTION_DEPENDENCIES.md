@@ -2,18 +2,18 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 18.0.2 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/material](https://github.com/angular/components) | 18.0.2 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/platform-server](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 18.0.2 | MIT |
-| [@angular/ssr](https://github.com/angular/angular-cli) | 18.0.3 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 18.1.0 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/material](https://github.com/angular/components) | 18.1.0 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 18.1.0 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
@@ -44,9 +44,13 @@
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.60 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
+| [marked](https://github.com/markedjs/marked) | 12.0.2 | MIT |
+| [mermaid](https://github.com/mermaid-js/mermaid) | 10.9.1 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
+| [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 18.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.6 | MIT |
 | [oidc-client-ts](https://github.com/authts/oidc-client-ts) | 3.0.1 | Apache-2.0 |
+| [prismjs](https://github.com/PrismJS/prism) | 1.29.0 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.1 | Apache-2.0 |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |

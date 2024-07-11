@@ -35,10 +35,17 @@ import {
   mockUpdateUserAndRolesMutation,
   mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
+  mockGetFilteredActorsQuery,
+  mockCreateUserRoleMutation,
+  mockGetUserRolesQuery,
+  mockDeactivateUserMutation,
+  mockReActivateUserMutation,
+  mockReInviteUserMutation,
+  mockReset2faMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
-import { marketParticipantUserRoleGetAll } from './data/market-participant-user-role-get-all';
+import { userRolesOverview } from './data/market-participant-user-role-get-all';
 import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';
 import { marketParticipantUserRoleGetUserRoleWithPermissions } from './data/market-participant-user-role-get-user-role-with-permissions';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
@@ -46,51 +53,128 @@ import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-logs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
-import { marketParticipantOrganization } from './data/admin-get-actor-organization';
 import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
-import { marketParticipantOrganizationGetFilteredActors } from './data/market-participant-organization-get-filtered-actors';
+import { filteredActors } from './data/market-participant-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 import { overviewUsers } from './data/admin/user-overview-items';
 
 export function adminMocks(apiBase: string) {
   return [
     getMarketParticipantActorQuerySelectionActors(apiBase),
-    getMarketParticipantUserRoleGetAll(apiBase),
+    mockGetUserRoles(),
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
     updateUserRoleMutation(),
-    getMarketParticipantOrganizationGetFilteredActors(apiBase),
     getAdminPermissions(),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     getUserRoleAuditLogs(),
     getUserRolesByEicfunctionQuery(),
-    postMarketParticipantUserRoleCreate(apiBase),
-    postMarketParticipantUserInviteUser(apiBase),
+    mockCreateUserRole(),
     getUserRolesByActorIdQuery(),
-    getActorOrganization(apiBase),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
     getUserOverviewQuery(),
     getUserByIdQuery(),
     updateUserAndRoles(),
     updatePermission(),
-    getMarketParticipantUserDeactivate(apiBase),
-    getMarketParticipantUserReActivate(apiBase),
+    getFilteredActors(),
+    deactivedUser(),
+    reActivedUser(),
+    reInviteUser(),
+    reset2fa(),
   ];
 }
 
-function getMarketParticipantUserDeactivate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/DeactivateUser`, async () => {
+function maybeError() {
+  const maybeErrorState = self.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0;
+
+  if (!maybeErrorState) return null;
+
+  return [
+    {
+      message: 'mock error',
+      statusCode: 400,
+      apiErrors: [
+        {
+          __typename: 'ApiErrorDescriptor' as const,
+          message: 'error message',
+          code: 'market_participant.validation.error',
+          args: {},
+        },
+      ],
+      __typename: 'ApiError' as const,
+    },
+  ];
+}
+
+function reset2fa() {
+  return mockReset2faMutation(async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        resetTwoFactorAuthentication: {
+          __typename: 'ResetTwoFactorAuthenticationPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
-function getMarketParticipantUserReActivate(apiBase: string) {
-  return http.put(`${apiBase}/v1/MarketParticipantUser/ReActivateUser`, async () => {
+function deactivedUser() {
+  return mockDeactivateUserMutation(async () => {
     await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    const errors = maybeError();
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        deactivateUser: {
+          __typename: 'DeactivateUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
+  });
+}
+
+function reActivedUser() {
+  return mockReActivateUserMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        reActivateUser: {
+          __typename: 'ReActivateUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
+  });
+}
+
+function reInviteUser() {
+  return mockReInviteUserMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        reInviteUser: {
+          __typename: 'ReInviteUserPayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
@@ -101,11 +185,18 @@ function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
   });
 }
 
+function getFilteredActors() {
+  return mockGetFilteredActorsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({ data: { __typename: 'Query', filteredActors } });
+  });
+}
+
 function getUserRolesByActorIdQuery() {
   return mockGetUserRolesByActorIdQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
-    const [, second] = marketParticipantOrganizationGetFilteredActors;
-    if (second.actorId === variables.actorId) {
+    const [, second] = filteredActors;
+    if (second.id === variables.actorId) {
       return HttpResponse.json({
         data: null,
         errors: [
@@ -117,17 +208,11 @@ function getUserRolesByActorIdQuery() {
   });
 }
 
-function getActorOrganization(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActorOrganization`, async () => {
+function mockGetUserRoles() {
+  return mockGetUserRolesQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantOrganization);
-  });
-}
 
-function getMarketParticipantUserRoleGetAll(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetAll`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserRoleGetAll);
+    return HttpResponse.json({ data: userRolesOverview });
   });
 }
 
@@ -202,7 +287,7 @@ function getUserOverviewQuery() {
 
 function updateUserRoleMutation() {
   return mockUpdateUserRoleMutation(async ({ variables }) => {
-    const maybeErrorState = variables.input.userRoleId === marketParticipantUserRoleGetAll[1].id;
+    const maybeErrorState = variables.input.userRoleId === userRolesOverview.userRoles[1].id;
 
     await delay(mswConfig.delay);
 
@@ -235,13 +320,6 @@ function updateUserRoleMutation() {
   });
 }
 
-function getMarketParticipantOrganizationGetFilteredActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetFilteredActors`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantOrganizationGetFilteredActors);
-  });
-}
-
 function getAdminPermissions() {
   return mockGetPermissionsQuery(async () => {
     await delay(mswConfig.delay);
@@ -265,17 +343,20 @@ function getAdminPermissionLogs() {
   });
 }
 
-function postMarketParticipantUserRoleCreate(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUserRole/Create`, async () => {
+function mockCreateUserRole() {
+  return mockCreateUserRoleMutation(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.text('', { status: 200 });
-  });
-}
 
-function postMarketParticipantUserInviteUser(apiBase: string) {
-  return http.post(`${apiBase}/v1/MarketParticipantUser/InviteUser`, async () => {
-    await delay(mswConfig.delay);
-    return new HttpResponse(null, { status: 200 });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createUserRole: {
+          __typename: 'CreateUserRolePayload',
+          success: true,
+          errors: null,
+        },
+      },
+    });
   });
 }
 

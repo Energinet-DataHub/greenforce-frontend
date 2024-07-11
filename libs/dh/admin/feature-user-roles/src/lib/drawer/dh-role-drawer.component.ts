@@ -28,13 +28,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 
 import {
   DhRoleStatusComponent,
   DhTabDataGeneralErrorComponent,
 } from '@energinet-datahub/dh/admin/shared';
 import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -69,7 +69,9 @@ export class DhRoleDrawerComponent {
   private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
   private toastService = inject(WattToastService);
   private translocoService = inject(TranslocoService);
-  basicUserRole: MarketParticipantUserRoleDto | null = null;
+  basicUserRole: UserRoleDto | null = null;
+
+  UserRoleStatus = UserRoleStatus;
 
   userRoleWithPermissions$ = this.store.userRole$;
   isLoading$ = this.store.isLoading$;
@@ -97,7 +99,7 @@ export class DhRoleDrawerComponent {
     this.basicUserRole = null;
   }
 
-  open(role: MarketParticipantUserRoleDto): void {
+  open(role: UserRoleDto): void {
     this.basicUserRole = role;
     this.drawer.open();
     this.loadUserRoleWithPermissions();

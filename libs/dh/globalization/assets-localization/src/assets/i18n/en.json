@@ -1234,8 +1234,8 @@
         "INVITE_EXPIRED": "Activation expired"
       },
       "roleStatus": {
-        "Active": "Active",
-        "Inactive": "Inactive"
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
       },
       "tabs": {
         "masterData": {
@@ -1345,7 +1345,6 @@
           "masterData": {
             "label": "Master data",
             "eicFunction": "Market role",
-            "selectEicFunctionStatus": "Select market role",
             "name": "Name",
             "nameMaxLengthErrorText": "Name must be under 250 characters",
             "description": "Description"

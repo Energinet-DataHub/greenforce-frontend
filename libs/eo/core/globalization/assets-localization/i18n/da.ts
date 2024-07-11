@@ -175,6 +175,14 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
     },
   },
+  documentation: {
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page.',
+    },
+    endpoints: 'Endpoints',
+    topbarTitle: 'Documentation',
+  },
   sidebar: {
     dashboard: 'Overblik',
     meteringPoints: 'Målepunkter',
@@ -698,6 +706,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     agentTableHeader: 'Fuldmagtshaver',
     validFromTableHeader: 'Gyldig fra',
     requestForConsent: 'Anmod om fuldmagt',
+  },
+  consentDetails: {
+    validFrom: 'Gyldig fra',
+    editConsent: 'Administrer fuldmagt',
+    permissionsFor: 'Fuldmagt til',
+  },
+  editConsent: {
+    permissions: 'Fuldmagter',
+    cancel: 'Fortryd',
+    saveChanges: 'Gem ændringer',
+    revoke: 'Tilbagekald fuldmagt',
+    revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
+    revokeError: 'Der opstod en fejl under tilbagekaldelsen af fuldmagten. Prøv igen.',
   },
   grantConsent: {
     title: '{{organizationName}} har anmodet om fuldmagt',

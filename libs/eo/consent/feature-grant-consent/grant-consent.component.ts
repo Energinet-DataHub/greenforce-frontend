@@ -28,21 +28,20 @@ import {
   signal,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { translations } from '@energinet-datahub/eo/translations';
-import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { EoConsentClient } from '@energinet-datahub/eo/consent/data-access-api';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { NgClass } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
+import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
+import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -231,14 +230,7 @@ export class EoGrantConsentModalComponent implements OnInit {
   accept() {
     if (!this.form.value.termsAndConditions) return;
     this.consentService.grant(this.thirdPartyClientId).subscribe({
-      next: (success) => {
-        if (!success) return;
-
-        this.toastService.open({
-          message: this.transloco.translate(this.translations.grantConsent.accepted),
-          type: 'success',
-        });
-
+      next: () => {
         this.redirectOrClose(true);
       },
       error: (error: HttpErrorResponse) => {
@@ -276,6 +268,13 @@ export class EoGrantConsentModalComponent implements OnInit {
         this.addQueryParams(this.redirectUrl, { state: result ? 'granted' : 'declined' })
       );
     } else {
+      if (result) {
+        this.toastService.open({
+          message: this.transloco.translate(this.translations.grantConsent.accepted),
+          type: 'success',
+        });
+      }
+
       this.close(result);
     }
   }

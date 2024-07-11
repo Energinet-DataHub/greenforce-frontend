@@ -113,6 +113,14 @@ export interface TranslationKeys {
       };
     };
   };
+  documentation: {
+    error: {
+      title: string;
+      message: string;
+    };
+    endpoints: string;
+    topbarTitle: string;
+  };
   sidebar: {
     dashboard: string;
     meteringPoints: string;
@@ -565,6 +573,19 @@ export interface TranslationKeys {
     agentTableHeader: string;
     validFromTableHeader: string;
     requestForConsent: string;
+  };
+  consentDetails: {
+    validFrom: string;
+    editConsent: string;
+    permissionsFor: string;
+  };
+  editConsent: {
+    permissions: string;
+    cancel: string;
+    saveChanges: string;
+    revoke: string;
+    revokeSuccess: string;
+    revokeError: string;
   };
   grantConsent: {
     title: string;

@@ -1,0 +1,8 @@
+mutation inviteUser($input: InviteUserInput!) {
+  inviteUser(input: $input) {
+    sucess: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

@@ -227,6 +227,12 @@
       "@energinet-datahub/eo/activity-log/shell": [
         "libs/eo/activity-log/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/api-documentation": [
+        "libs/eo/api-documentation/shell/index.ts"
+      ],
+      "@energinet-datahub/eo/api-documentation/markdown": [
+        "libs/eo/api-documentation/feature-markdown/index.ts"
+      ],
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],
@@ -254,6 +260,12 @@
       "@energinet-datahub/eo/claims/shell": ["libs/eo/claims/shell/index.ts"],
       "@energinet-datahub/eo/consent/data-access-api": [
         "libs/eo/consent/data-access-api/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/feature-details": [
+        "libs/eo/consent/feature-details/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/feature-edit-consent": [
+        "libs/eo/consent/feature-edit-consent/index.ts"
       ],
       "@energinet-datahub/eo/consent/feature-grant-consent": [
         "libs/eo/consent/feature-grant-consent/index.ts"

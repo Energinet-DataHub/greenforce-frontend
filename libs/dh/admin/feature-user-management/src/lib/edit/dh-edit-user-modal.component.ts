@@ -14,19 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-
 import { HttpStatusCode } from '@angular/common/http';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -34,6 +23,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
@@ -46,9 +36,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
 @Component({
   selector: 'dh-edit-user-modal',
@@ -87,7 +76,7 @@ import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/g
   ],
   providers: [DhAdminEditUserStore],
 })
-export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
+export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
   private readonly editUserStore = inject(DhAdminEditUserStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly transloco = inject(TranslocoService);
@@ -106,10 +95,18 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   @ViewChild('editUserModal') editUserModal!: WattModalComponent;
   @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
 
-  @Output() closed = new EventEmitter<void>();
-  @Input() user: DhUser | null = null;
-
   isSaving$ = this.editUserStore.isSaving$;
+
+  constructor() {
+    super();
+
+    const { firstName, lastName, phoneNumber } = this.modalData;
+    this.userInfoForm.patchValue({
+      firstName,
+      lastName,
+      phoneNumber: phoneNumber ?? '',
+    });
+  }
 
   get firstNameControl() {
     return this.userInfoForm.controls.firstName;
@@ -123,23 +120,9 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
     return this.userInfoForm.controls.phoneNumber;
   }
 
-  ngAfterViewInit(): void {
-    this.editUserModal.open();
-  }
-
-  ngOnChanges(change: SimpleChanges): void {
-    if (change.user) {
-      this.userInfoForm.patchValue({
-        firstName: this.user?.firstName ?? '',
-        lastName: this.user?.lastName ?? '',
-        phoneNumber: this.user?.phoneNumber ?? '',
-      });
-    }
-  }
-
   save() {
     if (
-      this.user === null ||
+      this.modalData === null ||
       this.userInfoForm.invalid ||
       this._updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
     ) {
@@ -150,10 +133,12 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       return this.closeModal(false);
     }
 
+    const { firstName, lastName, phoneNumber } = this.modalData;
+
     if (
-      this.firstNameControl.value === this.user.firstName &&
-      this.lastNameControl.value === this.user.lastName &&
-      this.phoneNumberControl.value === this.user.phoneNumber &&
+      this.firstNameControl.value === firstName &&
+      this.lastNameControl.value === lastName &&
+      this.phoneNumberControl.value === phoneNumber &&
       this._updateUserRoles === null
     ) {
       return this.closeModal(false);
@@ -170,7 +155,6 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
   closeModal(status: boolean): void {
     this.userRoles.resetUpdateUserRoles();
     this.editUserModal.close(status);
-    this.closed.emit();
   }
 
   close(): void {
@@ -198,7 +182,7 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
       this.closeModal(true);
     };
 
-    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection) => {
+    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection[]) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
         this.toastService.open({
           type: 'danger',
@@ -208,8 +192,8 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
 
       if (statusCode === HttpStatusCode.BadRequest) {
         const message =
-          apiErrorCollection.apiErrors.length > 0
-            ? readApiErrorResponse([apiErrorCollection])
+          apiErrorCollection.length > 0
+            ? readApiErrorResponse(apiErrorCollection)
             : this.transloco.translate('admin.userManagement.editUser.saveError');
 
         this.toastService.open({ type: 'danger', message, duration: 60_000 });
@@ -229,9 +213,9 @@ export class DhEditUserModalComponent implements AfterViewInit, OnChanges {
         })
       : [];
 
-    if (this.user) {
+    if (this.modalData) {
       this.editUserStore.editUser({
-        userId: this.user.id,
+        userId: this.modalData.id,
         firstName,
         lastName,
         phoneNumber: formattedPhoneNumber,

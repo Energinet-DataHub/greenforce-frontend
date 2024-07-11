@@ -11,6 +11,7 @@ type Actor {
   id: UUID!
   name: String!
   glnOrEicNumber: String!
+  displayName: String!
   marketRole: EicFunction
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
@@ -144,6 +145,16 @@ type CreateMarketParticipantPayload {
   errors: [CreateMarketParticipantError!]
 }
 
+type CreateUserRolePayload {
+  boolean: Boolean
+  errors: [CreateUserRoleError!]
+}
+
+type DeactivateUserPayload {
+  boolean: Boolean
+  errors: [DeactivateUserError!]
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   gridArea: GridAreaDto
@@ -237,6 +248,11 @@ type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
+type InviteUserPayload {
+  boolean: Boolean
+  errors: [InviteUserError!]
+}
+
 type KeyValuePairOfStringAndIEnumerableOfString {
   key: String!
   value: [String!]!
@@ -293,8 +309,14 @@ type Mutation {
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
+  inviteUser(input: InviteUserInput!): InviteUserPayload!
+  reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload!
+  resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
+  deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
+  reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
 }
 
 type Organization {
@@ -350,6 +372,7 @@ type Query {
   actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
+  filteredActors: [Actor!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -373,6 +396,7 @@ type Query {
   permissionById(id: Int!): Permission!
   permissions(searchTerm: String!): [Permission!]!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
@@ -385,6 +409,17 @@ type Query {
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
+  userRoles: [UserRoleDto!]!
+}
+
+type ReActivateUserPayload {
+  boolean: Boolean
+  errors: [ReActivateUserError!]
+}
+
+type ReInviteUserPayload {
+  boolean: Boolean
+  errors: [ReInviteUserError!]
 }
 
 type ReadinessStatusDto {
@@ -408,6 +443,11 @@ type RequestSettlementReportPayload {
 
 type ResendWaitingEsettExchangeMessagesPayload {
   boolean: Boolean
+}
+
+type ResetTwoFactorAuthenticationPayload {
+  boolean: Boolean
+  errors: [ResetTwoFactorAuthenticationError!]
 }
 
 type SettlementReport {
@@ -516,6 +556,18 @@ union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
 
+union CreateUserRoleError = ApiError
+
+union DeactivateUserError = ApiError
+
+union InviteUserError = ApiError
+
+union ReActivateUserError = ApiError
+
+union ReInviteUserError = ApiError
+
+union ResetTwoFactorAuthenticationError = ApiError
+
 union StopDelegationError = ApiError
 
 union UpdateActorError = ApiError
@@ -614,6 +666,40 @@ input CreateProcessDelegationsInput {
   startsAt: DateTime!
 }
 
+input CreateUserRoleDtoInput {
+  name: String!
+  description: String!
+  status: UserRoleStatus!
+  eicFunction: EicFunction!
+  permissions: [Int!]!
+}
+
+input CreateUserRoleInput {
+  userRole: CreateUserRoleDtoInput!
+}
+
+input DeactivateUserInput {
+  userId: UUID!
+}
+
+input InvitationUserDetailsDtoInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
+input InviteUserInput {
+  userInviteDto: UserInvitationDtoInput!
+}
+
+input ReActivateUserInput {
+  userId: UUID!
+}
+
+input ReInviteUserInput {
+  userId: UUID!
+}
+
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
@@ -622,6 +708,7 @@ input RequestCalculationInput {
   resolution: String
   energySupplierId: String
   balanceResponsibleId: String
+  priceType: PriceType
 }
 
 input RequestSettlementReportGridAreaInput {
@@ -638,6 +725,10 @@ input RequestSettlementReportInput {
   includeBasisData: Boolean!
   energySupplier: String
   csvLanguage: String
+}
+
+input ResetTwoFactorAuthenticationInput {
+  userId: UUID!
 }
 
 input StopDelegationInput {
@@ -708,6 +799,13 @@ input UserIdentityUpdateDtoInput {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+input UserInvitationDtoInput {
+  email: String!
+  invitationUserDetails: InvitationUserDetailsDtoInput
+  assignedActor: UUID!
+  assignedRoles: [UUID!]!
 }
 
 input UserProfileUpdateDtoInput {
@@ -938,6 +1036,18 @@ enum PermissionAuditedChange {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+"The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\nthe resolution and charge type fields in the RequestWholesaleSettlement document"
+enum PriceType {
+  TARIFF_SUBSCRIPTION_AND_FEE
+  TARIFF
+  SUBSCRIPTION
+  FEE
+  MONTHLY_TARIFF
+  MONTHLY_SUBSCRIPTION
+  MONTHLY_FEE
+  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
 }
 
 enum ProcessStatus {

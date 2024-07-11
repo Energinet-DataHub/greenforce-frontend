@@ -1233,8 +1233,8 @@
         "INVITE_EXPIRED": "Aktivering udløbet"
       },
       "roleStatus": {
-        "Active": "Aktiv",
-        "Inactive": "Inaktiv"
+        "ACTIVE": "Aktiv",
+        "INACTIVE": "Inaktiv"
       },
       "tabs": {
         "masterData": {
@@ -1344,7 +1344,6 @@
           "masterData": {
             "label": "Stamdata",
             "eicFunction": "Markedsrolle",
-            "selectEicFunctionStatus": "Markedsrolle",
             "name": "Navn",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "description": "Beskrivelse"

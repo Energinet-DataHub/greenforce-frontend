@@ -114,6 +114,14 @@ export const translations = {
       } as const,
     } as const,
   } as const,
+  documentation: {
+    error: {
+      title: 'documentation.error.title' as const,
+      message: 'documentation.error.message' as const,
+    } as const,
+    endpoints: 'documentation.endpoints' as const,
+    topbarTitle: 'documentation.topbarTitle' as const,
+  } as const,
   sidebar: {
     dashboard: 'sidebar.dashboard' as const,
     meteringPoints: 'sidebar.meteringPoints' as const,
@@ -578,6 +586,19 @@ export const translations = {
     agentTableHeader: 'consent.agentTableHeader' as const,
     validFromTableHeader: 'consent.validFromTableHeader' as const,
     requestForConsent: 'consent.requestForConsent' as const,
+  } as const,
+  consentDetails: {
+    validFrom: 'consentDetails.validFrom' as const,
+    editConsent: 'consentDetails.editConsent' as const,
+    permissionsFor: 'consentDetails.permissionsFor' as const,
+  } as const,
+  editConsent: {
+    permissions: 'editConsent.permissions' as const,
+    cancel: 'editConsent.cancel' as const,
+    saveChanges: 'editConsent.saveChanges' as const,
+    revoke: 'editConsent.revoke' as const,
+    revokeSuccess: 'editConsent.revokeSuccess' as const,
+    revokeError: 'editConsent.revokeError' as const,
   } as const,
   grantConsent: {
     title: 'grantConsent.title' as const,
