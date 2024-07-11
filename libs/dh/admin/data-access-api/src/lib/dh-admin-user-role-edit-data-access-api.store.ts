@@ -25,6 +25,7 @@ import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-acce
 import { DhAdminUserRolesManagementDataAccessApiStore } from './dh-admin-user-roles-management-data-access-api.store';
 import {
   ApiErrorDescriptor,
+  GetUserRolesDocument,
   UpdateUserRoleDocument,
   UpdateUserRoleDtoInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -71,6 +72,13 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
                   userRole: updatedUserRole,
                 },
               },
+              refetchQueries: (result) => {
+                if (result.data?.updateUserRole.success) {
+                  return [GetUserRolesDocument];
+                }
+
+                return [];
+              },
             })
             .pipe(
               tap(({ loading }) => {
@@ -87,11 +95,6 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
                   this.patchState({ requestState: LoadingState.LOADED });
 
                   if (data?.updateUserRole.success) {
-                    this.userRolesStore.updateRoleById({
-                      id: userRoleId,
-                      name: updatedUserRole.name,
-                    });
-
                     onSuccessFn();
                   }
 
