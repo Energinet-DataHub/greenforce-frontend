@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.editUser'">
   <watt-modal
     size="large"
-    [title]="user?.firstName + ' ' + user?.lastName"
+    [title]="modalData.firstName + ' ' + modalData.lastName"
     #editUserModal
     (closed)="closeModal($event)"
   >
@@ -48,7 +48,7 @@ limitations under the License.
         <watt-tab [label]="t('tab.roles')">
           <dh-user-roles
             #userRoles
-            [user]="user"
+            [user]="modalData"
             [selectMode]="true"
             (updateUserRoles)="onSelectedUserRolesChanged($event)"
           />

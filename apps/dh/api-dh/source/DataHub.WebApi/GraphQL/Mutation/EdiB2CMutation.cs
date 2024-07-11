@@ -27,6 +27,7 @@ public partial class Mutation
         string? resolution,
         string? energySupplierId,
         string? balanceResponsibleId,
+        PriceType? priceType,
         [Service] IEdiB2CWebAppClient_V1 client,
         CancellationToken cancellationToken)
     {
@@ -70,9 +71,12 @@ public partial class Mutation
                         EndDate = period.End.ToString(),
                         GridArea = gridArea,
                         EnergySupplierId = energySupplierId,
-                        ChargeOwner = null,
+                        PriceType = priceType,
+
+                        // TODO: Remove resolution when frontend supports the new pricetype instead
+                        #pragma warning disable CS0612 // Type or member is obsolete
                         Resolution = resolution,
-                        ChargeTypes = [],
+                        #pragma warning restore CS0612 // Type or member is obsolete
                     },
                     cancellationToken);
                 break;

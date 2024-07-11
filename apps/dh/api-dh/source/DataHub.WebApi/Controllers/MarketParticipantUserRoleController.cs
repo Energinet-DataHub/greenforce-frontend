@@ -30,13 +30,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
     }
 
     [HttpGet]
-    [Route("Get")]
-    public Task<ActionResult<ICollection<UserRoleDto>>> GetAsync(Guid actorId, Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.ActorsUsersRolesGetAsync(actorId, userId));
-    }
-
-    [HttpGet]
     [Route("GetAll")]
     public Task<ActionResult<ICollection<UserRoleDto>>> GetAllAsync()
     {
@@ -97,26 +90,6 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
         }
 
         return actorViews;
-    }
-
-    [HttpPost]
-    [Route("Create")]
-    public async Task<ActionResult<Guid>> CreateAsync(CreateUserRoleDto userRole)
-    {
-        var copy = new CreateUserRoleDto
-        {
-            Name = userRole.Name,
-            Description = userRole.Description,
-            EicFunction = userRole.EicFunction,
-            Permissions = userRole.Permissions,
-            Status = userRole.Status,
-        };
-
-        var userRoleId = await _client
-            .UserRolesPostAsync(copy)
-            .ConfigureAwait(false);
-
-        return Ok(userRoleId);
     }
 
     [HttpGet]
