@@ -18,12 +18,14 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, exhaustMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
-import { Apollo } from 'apollo-angular';
+import { Apollo, MutationResult } from 'apollo-angular';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   CreateUserRoleDocument,
   CreateUserRoleDtoInput,
+  CreateUserRoleMutation,
+  GetUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 interface DhCreateUserRoleState {
@@ -67,6 +69,13 @@ export class DhCreateUserRoleStore extends ComponentStore<DhCreateUserRoleState>
                   userRole: createUserRoleDto,
                 },
               },
+              refetchQueries: (result) => {
+                if (this.isUpdateSuccessful(result.data)) {
+                  return [GetUserRolesDocument];
+                }
+
+                return [];
+              },
             })
             .pipe(
               tapResponse(
@@ -106,4 +115,10 @@ export class DhCreateUserRoleStore extends ComponentStore<DhCreateUserRoleState>
       requestState: loadingState,
     })
   );
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<CreateUserRoleMutation>['data']
+  ): boolean {
+    return !mutationResult?.createUserRole.errors?.length;
+  }
 }

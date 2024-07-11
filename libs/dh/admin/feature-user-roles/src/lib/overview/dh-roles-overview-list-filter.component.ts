@@ -19,10 +19,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import {
-  MarketParticipantEicFunction,
-  MarketParticipantUserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import {
   DhDropdownTranslatorDirective,
@@ -31,10 +27,11 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export interface DhUserRolesFilters {
-  status: MarketParticipantUserRoleStatus | null;
-  marketRoles: MarketParticipantEicFunction[] | null;
+  status: UserRoleStatus | null;
+  marketRoles: EicFunction[] | null;
 }
 
 // Map query variables type to object of form controls type
@@ -67,19 +64,15 @@ export class DhRolesOverviewListFilterComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   formGroup = new FormGroup<Filters>({
-    status: dhMakeFormControl(MarketParticipantUserRoleStatus.Active),
+    status: dhMakeFormControl(UserRoleStatus.Active),
     marketRoles: dhMakeFormControl([]),
   });
 
-  statusOptions: WattDropdownOption[] = dhEnumToWattDropdownOptions(
-    MarketParticipantUserRoleStatus
-  );
-  marketRolesOptions: WattDropdownOption[] = dhEnumToWattDropdownOptions(
-    MarketParticipantEicFunction
-  );
+  statusOptions: WattDropdownOption[] = dhEnumToWattDropdownOptions(UserRoleStatus);
+  marketRolesOptions: WattDropdownOption[] = dhEnumToWattDropdownOptions(EicFunction);
 
-  statusChanged = output<MarketParticipantUserRoleStatus | null>();
-  eicFunctionChanged = output<MarketParticipantEicFunction[] | null>();
+  statusChanged = output<UserRoleStatus | null>();
+  eicFunctionChanged = output<EicFunction[] | null>();
 
   ngOnInit(): void {
     this.formGroup.controls.status.valueChanges
