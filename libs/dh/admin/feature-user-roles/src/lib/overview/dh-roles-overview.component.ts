@@ -14,18 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, inject, DestroyRef } from '@angular/core';
-import { provideComponentStore } from '@ngrx/component-store';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  DestroyRef,
+  computed,
+  signal,
+} from '@angular/core';
 import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
 import { take, BehaviorSubject, debounceTime } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhAdminUserRolesManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
@@ -39,11 +42,19 @@ import {
   UserRoleDto,
   EicFunction,
   UserRoleStatus,
+  GetUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhRolesTabTableComponent } from './dh-roles-overview-table.component';
 import { DhRolesOverviewListFilterComponent } from './dh-roles-overview-list-filter.component';
 import { DhCreateUserRoleModalComponent } from '../create/dh-create-user-role-modal.component';
+
+type Filters = {
+  status: UserRoleStatus | null;
+  eicFunctions: EicFunction[] | null;
+  searchTerm: string | null;
+};
 
 @Component({
   selector: 'dh-roles-overview',
@@ -69,12 +80,9 @@ import { DhCreateUserRoleModalComponent } from '../create/dh-create-user-role-mo
       }
     `,
   ],
-  providers: [provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore)],
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    RxLet,
 
     VaterStackComponent,
     VaterFlexComponent,
@@ -93,30 +101,39 @@ import { DhCreateUserRoleModalComponent } from '../create/dh-create-user-role-mo
 })
 export class DhUserRolesOverviewComponent {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly store = inject(DhAdminUserRolesManagementDataAccessApiStore);
-  private readonly trans = inject(TranslocoService);
+  private readonly transloco = inject(TranslocoService);
 
-  roles$ = this.store.rolesFiltered$;
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
+  private rolesGraphQL = query(GetUserRolesDocument);
 
   searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
+
+  filters = signal<Filters>({
+    status: UserRoleStatus.Active,
+    eicFunctions: null,
+    searchTerm: null,
+  });
+
+  roles = computed(() => this.rolesGraphQL.data()?.userRoles ?? []);
+  rolesFiltered = computed(() => this.filterRoles(this.roles(), this.filters()));
+
+  isLoading = this.rolesGraphQL.loading;
+  hasGeneralError = computed(() => Boolean(this.rolesGraphQL.error()));
 
   constructor() {
     this.onSearchInput();
   }
 
   updateFilterStatus(status: UserRoleStatus | null) {
-    this.store.setFilterStatus(status);
+    this.filters.update((state) => ({ ...state, status }));
   }
 
   updateFilterEicFunction(eicFunctions: EicFunction[] | null) {
-    this.store.setFilterEicFunction(eicFunctions);
+    this.filters.update((state) => ({ ...state, eicFunctions }));
   }
 
   reloadRoles(): void {
-    this.store.reloadRoles();
+    this.rolesGraphQL.refetch();
   }
 
   modalOnClose(): void {
@@ -124,7 +141,7 @@ export class DhUserRolesOverviewComponent {
   }
 
   async download(roles: UserRoleDto[]) {
-    this.trans
+    this.transloco
       .selectTranslateObject('marketParticipant.marketRoles')
       .pipe(take(1))
       .subscribe((rolesTranslations) => {
@@ -149,6 +166,19 @@ export class DhUserRolesOverviewComponent {
   private onSearchInput(): void {
     this.searchInput$
       .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.store.setSearchTerm(value));
+      .subscribe((value) => {
+        this.filters.update((state) => ({ ...state, searchTerm: value }));
+      });
+  }
+
+  private filterRoles(roles: UserRoleDto[], filter: Filters): UserRoleDto[] {
+    return roles.filter(
+      (role) =>
+        (!filter.status || role.status == filter.status) &&
+        (!filter.eicFunctions ||
+          filter.eicFunctions.length == 0 ||
+          filter.eicFunctions.includes(role.eicFunction)) &&
+        (!filter.searchTerm || role.name.toUpperCase().includes(filter.searchTerm.toUpperCase()))
+    );
   }
 }
