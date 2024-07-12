@@ -100,7 +100,7 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "Anmod om beregning"
+        "requestCalculation": "Anmod om beregningsdata"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -993,7 +993,7 @@
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl under anmodingen om beregning",
       "success": "Din anmoding er startet",
-      "topBarTitle": "Anmod om beregning",
+      "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "resolution": "Opløsning",
