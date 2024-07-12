@@ -152,9 +152,7 @@ export const WithRequired: StoryFn<WattTextFieldComponent> = () => ({
     label: 'required',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl">
-              <watt-field-error>This field is required</watt-field-error>
-            </watt-text-field>`,
+  template: `<watt-text-field [required]="true" [label]="label" [type]="type" [placeholder]="placeholder" [formControl]="exampleFormControl" />`,
 });
 
 export const WithPrefix: StoryFn<WattTextFieldComponent> = () => ({

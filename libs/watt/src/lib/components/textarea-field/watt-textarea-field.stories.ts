@@ -122,9 +122,7 @@ export const WithRequired: StoryFn<WattTextAreaFieldComponent> = () => ({
     label: 'required',
     exampleFormControl: new FormControl(null),
   },
-  template: `<watt-textarea-field [required]="true" [label]="label" [placeholder]="placeholder" [formControl]="exampleFormControl">
-              <watt-field-error>This field is required</watt-field-error>
-            </watt-textarea-field>`,
+  template: `<watt-textarea-field [required]="true" [label]="label" [placeholder]="placeholder" [formControl]="exampleFormControl" />`,
 });
 
 export const WithHint: StoryFn<WattTextAreaFieldComponent> = () => ({
