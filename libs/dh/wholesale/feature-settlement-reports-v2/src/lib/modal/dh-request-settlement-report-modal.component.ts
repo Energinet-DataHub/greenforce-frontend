@@ -70,7 +70,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import {
-  DhSelectedActorStore,
+  DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -136,8 +136,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private readonly permissionService = inject(PermissionService);
   private readonly toastService = inject(WattToastService);
-  private readonly actorStore = inject(DhSelectedActorStore);
   private readonly modalService = inject(WattModalService);
+  private readonly actorStorage = inject(DhActorStorage);
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -336,13 +336,11 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private getCalculationTypeOptions(): WattDropdownOptions {
-    const selectedUser = toSignal(this.actorStore.selectedActor$);
+    const selectedUser = this.actorStorage.getSelectedActor();
 
     return dhEnumToWattDropdownOptions(CalculationType, null, [
       CalculationType.Aggregation,
-      selectedUser()?.marketrole === EicFunction.SystemOperator
-        ? CalculationType.BalanceFixing
-        : '',
+      selectedUser?.marketRole === EicFunction.SystemOperator ? CalculationType.BalanceFixing : '',
     ]);
   }
 
@@ -376,41 +374,35 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private showAllGridAres(): Observable<boolean> {
     const isFas$ = this.permissionService.isFas();
-    const canSeeAllGridAreas$ = this.actorStore.selectedActor$.pipe(
-      map((actor) =>
-        [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
-          actor?.marketrole as EicFunction
-        )
-      )
+    const canSeeAllGridAreas = [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
+      this.actorStorage.getSelectedActor().marketRole
     );
 
-    return combineLatest([isFas$, canSeeAllGridAreas$]).pipe(
-      map(([isFas, canSeeAllGridAreas]) => isFas || canSeeAllGridAreas)
-    );
+    return isFas$.pipe(map((isFas) => isFas || canSeeAllGridAreas));
   }
 
   private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
-    return this.actorStore.selectedActor$.pipe(
-      switchMap((actor) =>
-        this.apollo.query({
-          query: GetActorByIdDocument,
-          variables: {
-            id: actor?.id,
-          },
-        })
-      ),
-      map((result) =>
-        result.data.actorById.gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.displayName,
-        }))
-      ),
-      tap((gridAreaOptions) => {
-        if (gridAreaOptions.length === 1) {
-          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
-        }
+    const actorId = this.actorStorage.getSelectedActorId();
+    return this.apollo
+      .query({
+        query: GetActorByIdDocument,
+        variables: {
+          id: actorId,
+        },
       })
-    );
+      .pipe(
+        map((result) =>
+          result.data.actorById.gridAreas.map((gridArea) => ({
+            value: gridArea.code,
+            displayValue: gridArea.displayName,
+          }))
+        ),
+        tap((gridAreaOptions) => {
+          if (gridAreaOptions.length === 1) {
+            this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+          }
+        })
+      );
   }
 
   private hasMoreThanOneGridAreaOption$(): Observable<boolean> {

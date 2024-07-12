@@ -1,0 +1,9 @@
+query GetSelectionActors {
+  selectionActors {
+    id
+    gln
+    actorName
+    organizationName
+    marketRole
+  }
+}

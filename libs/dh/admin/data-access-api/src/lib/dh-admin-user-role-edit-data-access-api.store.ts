@@ -24,6 +24,7 @@ import { Apollo } from 'apollo-angular';
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   ApiErrorDescriptor,
+  GetUserRoleAuditLogsDocument,
   GetUserRolesDocument,
   UpdateUserRoleDocument,
   UpdateUserRoleDtoInput,
@@ -72,7 +73,7 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
               },
               refetchQueries: (result) => {
                 if (result.data?.updateUserRole.success) {
-                  return [GetUserRolesDocument];
+                  return [GetUserRolesDocument, GetUserRoleAuditLogsDocument];
                 }
 
                 return [];

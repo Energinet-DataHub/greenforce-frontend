@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { delay, http, HttpResponse } from 'msw';
+import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
@@ -42,6 +42,7 @@ import {
   mockReActivateUserMutation,
   mockReInviteUserMutation,
   mockReset2faMutation,
+  mockGetSelectionActorsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -58,9 +59,9 @@ import { filteredActors } from './data/market-participant-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 import { overviewUsers } from './data/admin/user-overview-items';
 
-export function adminMocks(apiBase: string) {
+export function adminMocks() {
   return [
-    getMarketParticipantActorQuerySelectionActors(apiBase),
+    mockGetSelectionActors(),
     mockGetUserRoles(),
     getMarketParticipantUserGetUserAuditLogs(),
     getUserRoleWithPermissionsQuery(),
@@ -178,10 +179,10 @@ function reInviteUser() {
   });
 }
 
-function getMarketParticipantActorQuerySelectionActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantActorQuery/GetSelectionActors`, async () => {
+function mockGetSelectionActors() {
+  return mockGetSelectionActorsQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(actorQuerySelection);
+    return HttpResponse.json({ data: actorQuerySelection });
   });
 }
 

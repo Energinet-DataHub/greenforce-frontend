@@ -16,6 +16,7 @@
  */
 
 import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { SelectionActor } from './dh-selected-actor.component';
 
 export const localStorageToken = new InjectionToken('localStorageToken', {
   factory: (): Storage => localStorage,
@@ -34,15 +35,16 @@ export class DhActorStorage {
     @Inject(sessionStorageToken) private _sessionStorage: Storage
   ) {}
 
+  private readonly selectedActorIdKey = 'actorStorage.selectedActorId';
   private readonly selectedActorKey = 'actorStorage.selectedActor';
 
   private actorIds: string[] = [];
 
   setUserAssociatedActors = (actorIds: string[]) => (this.actorIds = actorIds);
 
-  getSelectedActor = () => {
-    const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
-    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
+  getSelectedActorId = () => {
+    const selectedActorInLS = this._localStorage.getItem(this.selectedActorIdKey);
+    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorIdKey);
 
     if (selectedActorInSS && this.actorIds.includes(selectedActorInSS)) {
       return selectedActorInSS;
@@ -56,13 +58,34 @@ export class DhActorStorage {
       actorToSelect = selectedActorInLS;
     }
 
-    this.setSelectedActor(actorToSelect);
+    this.setSelectedActorId(actorToSelect);
 
     return actorToSelect;
   };
 
-  setSelectedActor = (actorId: string) => {
-    this._sessionStorage.setItem(this.selectedActorKey, actorId);
-    this._localStorage.setItem(this.selectedActorKey, actorId);
+  setSelectedActorId = (actorId: string) => {
+    this._sessionStorage.setItem(this.selectedActorIdKey, actorId);
+    this._localStorage.setItem(this.selectedActorIdKey, actorId);
+  };
+
+  setSelectedActor = (actor: SelectionActor) => {
+    this._sessionStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
+    this._localStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
+    this.setSelectedActorId(actor.id);
+  };
+
+  getSelectedActor = () => {
+    const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
+    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
+
+    if (selectedActorInSS) {
+      return JSON.parse(selectedActorInSS);
+    }
+
+    if (selectedActorInLS) {
+      return JSON.parse(selectedActorInLS);
+    }
+
+    return null;
   };
 }

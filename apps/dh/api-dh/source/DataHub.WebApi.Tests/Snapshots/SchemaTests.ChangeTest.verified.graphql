@@ -157,6 +157,8 @@ type DeactivateUserPayload {
 
 type EsettOutgoingMessage {
   period: DateRange!
+  dispatchDocumentUrl: String
+  responseDocumentUrl: String!
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
@@ -373,6 +375,7 @@ type Query {
   delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
   associatedActors(email: String!): AssociatedActors!
   filteredActors: [Actor!]!
+  selectionActors: [SelectionActorDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
   latestBalanceFixing(period: DateRange!): Calculation
@@ -448,6 +451,14 @@ type ResendWaitingEsettExchangeMessagesPayload {
 type ResetTwoFactorAuthenticationPayload {
   boolean: Boolean
   errors: [ResetTwoFactorAuthenticationError!]
+}
+
+type SelectionActorDto {
+  id: UUID!
+  gln: String!
+  actorName: String!
+  organizationName: String!
+  marketRole: EicFunction!
 }
 
 type SettlementReport {

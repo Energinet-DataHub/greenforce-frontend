@@ -48,7 +48,7 @@ function postToken(apiBase: string) {
   return http.post(`${apiBase}/v1/Token`, ({ request }) => {
     const actorId = new URL(request.url).searchParams.get('actorId');
 
-    const isFas = actorQuerySelection[0].id === actorId;
+    const isFas = actorQuerySelection.selectionActors[0].id === actorId;
 
     return HttpResponse.json(
       {
