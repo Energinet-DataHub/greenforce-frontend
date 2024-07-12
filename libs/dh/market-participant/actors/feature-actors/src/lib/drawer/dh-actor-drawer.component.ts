@@ -14,26 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, inject, ViewChild, input, signal, computed } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, input, signal, computed, viewChild, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-
-import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import {
   DhPermissionRequiredDirective,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -82,49 +78,44 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
   ],
   viewProviders: [DhActorAuditLogService],
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    WATT_DRAWER,
+    TranslocoDirective,
+
     WATT_TABS,
     WATT_CARD,
+    WATT_DRAWER,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+
     VaterStackComponent,
-    DhFeatureFlagDirective,
+
     DhEmDashFallbackPipe,
-    DhPermissionRequiredDirective,
-    DhActorsEditActorModalComponent,
-    DhActorStatusBadgeComponent,
+    DhFeatureFlagDirective,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
     DhCanDelegateForDirective,
-    DhBalanceResponsibleRelationTabComponent,
     DhActorAuditLogTabComponent,
+    DhActorStatusBadgeComponent,
+    DhPermissionRequiredDirective,
+    DhActorsEditActorModalComponent,
+    DhBalanceResponsibleRelationTabComponent,
   ],
 })
 export class DhActorDrawerComponent {
-  private readonly apollo = inject(Apollo);
   private readonly permissionService = inject(PermissionService);
-  private readonly closed$ = new Subject<void>();
+  private readonly destoryRef = inject(DestroyRef);
 
-  private subscription?: Subscription;
+  actorQuery = lazyQuery(GetActorByIdDocument);
 
-  private getActorByIdQuery$ = this.apollo.watchQuery({
-    errorPolicy: 'all',
-    returnPartialData: true,
-    query: GetActorByIdDocument,
-  });
+  actor = computed(() => this.actorQuery.data()?.actorById);
 
-  actor = signal<DhActorExtended | undefined>(undefined);
-  hasActorAccess = false;
+  hasActorAccess = signal(false);
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
+  isLoading = this.actorQuery.loading;
 
-  closed = outputFromObservable(this.closed$);
+  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   actorNumberNameLookup = input.required<{
     [Key: string]: {
@@ -132,6 +123,7 @@ export class DhActorDrawerComponent {
       name: string;
     };
   }>();
+
   gridAreaCodeLookup = input.required<{
     [Key: string]: string;
   }>();
@@ -163,32 +155,13 @@ export class DhActorDrawerComponent {
   });
 
   public open(actorId: string): void {
-    this.drawer?.open();
-    this.loadActor(actorId);
-  }
-
-  onClose(): void {
-    this.closed$.next();
-  }
-
-  private loadActor(id: string): void {
-    this.subscription?.unsubscribe();
-
-    this.getActorByIdQuery$.setVariables({ id });
-
-    this.subscription = this.getActorByIdQuery$.valueChanges
-      .pipe(takeUntil(this.closed$))
-      .subscribe({
-        next: (result) => {
-          if (result.data && result.loading === false) {
-            this.actor.set(result.data?.actorById);
-          }
-        },
-      });
+    this.drawer().open();
 
     this.permissionService
-      .hasActorAccess(id)
-      .pipe(takeUntil(this.closed$))
-      .subscribe((hasAccess) => (this.hasActorAccess = hasAccess));
+      .hasActorAccess(actorId)
+      .pipe(takeUntilDestroyed(this.destoryRef))
+      .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
+
+    this.actorQuery.query({ variables: { id: actorId } });
   }
 }
