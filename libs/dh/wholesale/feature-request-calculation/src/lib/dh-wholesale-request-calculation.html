@@ -46,14 +46,16 @@ limitations under the License.
           [formControl]="form.controls.gridArea"
           sortDirection="asc"
           [options]="gridAreaOptions$ | push"
+          [showResetOption]="!gridAreaIsRequired()"
         />
 
         @if (isWholesaleRequest()) {
         <watt-dropdown
-          translateKey="wholesale.requestCalculation.resolutionOptions"
-          [label]="t('resolution')"
-          [formControl]="form.controls.resolution"
-          [options]="resolutionOptions"
+          translateKey="wholesale.requestCalculation.priceTypeOptions"
+          [label]="t('priceType')"
+          [formControl]="form.controls.priceType"
+          [options]="priceTypeOptions()"
+          [showResetOption]="false"
           dhDropdownTranslator
         />
         } @else {

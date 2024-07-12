@@ -997,7 +997,7 @@
       "topBarTitle": "Request Calculation Data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
-      "resolution": "Resolution",
+      "priceType": "Price type",
       "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
@@ -1018,8 +1018,15 @@
         "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
         "EXCHANGE": "Exchange"
       },
-      "resolutionOptions": {
-        "P1M": "Monthly"
+      "priceTypeOptions": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "MONTHLY_TARIFF": "Tariff monthly sum",
+        "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
+        "MONTHLY_FEE": "Fee monthly sum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       }
     },
     "settlementReportsV2": {

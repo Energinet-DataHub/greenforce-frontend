@@ -996,7 +996,7 @@
       "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
-      "resolution": "Opløsning",
+      "priceType": "Pristype",
       "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
@@ -1017,8 +1017,15 @@
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
       },
-      "resolutionOptions": {
-        "P1M": "Månedlig"
+      "priceTypeOptions": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr",
+        "MONTHLY_TARIFF": "Tarif månedssum",
+        "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
+        "MONTHLY_FEE": "Gebyr månedssum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       }
     },
     "settlementReportsV2": {
