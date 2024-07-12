@@ -16,7 +16,6 @@
  */
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
