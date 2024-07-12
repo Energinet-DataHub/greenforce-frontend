@@ -21,6 +21,7 @@ public record RequestSettlementReportInput(
     Interval Period,
     RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,
+    bool PreventLargeTextFiles,
     bool IncludeMonthlySums,
     bool IncludeBasisData,
     string? EnergySupplier,

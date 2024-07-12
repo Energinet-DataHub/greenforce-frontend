@@ -1053,6 +1053,7 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
+        "preventLargeTextFiles": "Opdel store filer",
         "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
         "energySupplier": "Elleverandør",
