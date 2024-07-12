@@ -90,4 +90,9 @@ public class MarketParticipantResolvers
         [Parent] BalanceResponsibilityRelationDto result,
         ActorNameByIdBatchDataLoader dataLoader) =>
         dataLoader.LoadAsync(result.EnergySupplierId);
+
+    public async Task<ActorCredentialsDto?> GetActorCredentialsAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.ActorCredentialsGetAsync(actor.ActorId);
 }

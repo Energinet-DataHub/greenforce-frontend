@@ -23,11 +23,19 @@ import {
   MarketParticipantActorCredentialsDto,
   MarketParticipantActorHttp,
 } from '@energinet-datahub/dh/shared/domain';
+
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GetActorCredentialsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById'];
 
 interface DhB2BAccessState {
-  credentials: MarketParticipantActorCredentialsDto | null;
+  credentials: ActorCredentials | null | undefined;
   clientSecret: string | undefined;
   loadingCredentials: boolean;
   generateSecretInProgress: boolean;
@@ -48,13 +56,17 @@ const initialState: DhB2BAccessState = {
 export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
+  readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument);
+
   readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
 
-  readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
+  readonly certificateMetadata$ = this.select(
+    (state) => state.credentials?.credentials?.certificateCredentials
+  );
   readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
 
   readonly clientSecretMetadata$ = this.select(
-    (state) => state.credentials?.clientSecretCredentials
+    (state) => state.credentials?.credentials?.clientSecretCredentials
   );
   readonly doesClientSecretMetadataExist$ = this.select(
     this.clientSecretMetadata$,
@@ -73,13 +85,15 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
     actorId$.pipe(
       tap(() => this.patchState({ credentials: null, loadingCredentials: true })),
       switchMap((actorId) =>
-        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet(actorId).pipe(
-          tapResponse(
-            (response) => this.patchState({ credentials: response }),
-            () => this.patchState({ credentials: null })
-          ),
-          finalize(() => this.patchState({ loadingCredentials: false }))
-        )
+        this.actorCredentialQuery.query({
+          variables: { actorId },
+          onCompleted: (data) => {
+            this.patchState({ loadingCredentials: false, credentials: data.actorById });
+          },
+          onError: () => {
+            this.patchState({ loadingCredentials: false, credentials: null });
+          },
+        })
       )
     )
   );

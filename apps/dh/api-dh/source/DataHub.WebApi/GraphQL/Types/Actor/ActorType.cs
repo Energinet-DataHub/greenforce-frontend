@@ -70,5 +70,9 @@ public class ActorType : ObjectType<ActorDto>
         descriptor
             .Field("balanceResponsibleAgreements")
             .ResolveWith<MarketParticipantResolvers>(c => c.GetBalanceResponsibleAgreementsAsync(default!, default!));
+
+        descriptor
+            .Field("credentials")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorCredentialsAsync(default!, default!));
     }
 }
