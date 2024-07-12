@@ -105,7 +105,7 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
 })
 export class DhActorDrawerComponent {
   private readonly permissionService = inject(PermissionService);
-  private readonly destoryRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   actorQuery = lazyQuery(GetActorByIdDocument);
 
@@ -159,7 +159,7 @@ export class DhActorDrawerComponent {
 
     this.permissionService
       .hasActorAccess(actorId)
-      .pipe(takeUntilDestroyed(this.destoryRef))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
 
     this.actorQuery.query({ variables: { id: actorId } });
