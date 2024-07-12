@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { filter, startWith, switchMap, tap } from 'rxjs/operators';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattTooltipDirective } from '../tooltip';
 import { WattFieldIntlService } from './watt-field-intl.service';
@@ -95,7 +95,8 @@ export class WattFieldComponent {
           tap(() => this.isRequired.set(this.isRequiredControl(control))),
           tap(() => this.errors.set(control.errors))
         )
-      )
+      ),
+      takeUntilDestroyed()
     );
 
     // Subscribe for side effects
