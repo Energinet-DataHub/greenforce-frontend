@@ -3,7 +3,7 @@ mutation requestCalculation(
   $period: DateRange!
   $gridArea: String!
   $meteringPointType: MeteringPointType
-  $resolution: String
+  $priceType: PriceType
   $balanceResponsibleId: String
   $energySupplierId: String
 ) {
@@ -13,7 +13,7 @@ mutation requestCalculation(
       period: $period
       gridArea: $gridArea
       meteringPointType: $meteringPointType
-      resolution: $resolution
+      priceType: $priceType
       balanceResponsibleId: $balanceResponsibleId
       energySupplierId: $energySupplierId
     }
