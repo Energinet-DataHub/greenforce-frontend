@@ -84,7 +84,7 @@ const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 type DhFormType = FormGroup<{
   calculationType: FormControl<string>;
   includeBasisData: FormControl<boolean>;
-  preventLargeTextFiles: FormControl<boolean>;
+  allowLargeTextFiles: FormControl<boolean>;
   period: FormControl<WattRange<Date> | null>;
   includeMonthlySum: FormControl<boolean>;
   energySupplier?: FormControl<string | null>;
@@ -156,7 +156,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       nonNullable: true,
     }),
     includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
-    preventLargeTextFiles: new FormControl<boolean>(true, { nonNullable: true }),
+    allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
@@ -279,7 +279,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       gridAreas,
       energySupplier,
       combineResultsInOneFile,
-      preventLargeTextFiles,
+      allowLargeTextFiles,
     } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
@@ -303,7 +303,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
               calculationType == CalculationType.BalanceFixing
             ),
             combineResultInASingleFile: combineResultsInOneFile,
-            preventLargeTextFiles,
+            preventLargeTextFiles: !allowLargeTextFiles,
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
           },
