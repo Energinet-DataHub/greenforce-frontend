@@ -213,11 +213,9 @@ export class DhWholesaleRequestCalculationComponent {
             map((value) => wholesaleCalculationTypes.includes(value)),
             tap((isWholesale) => {
               if (isWholesale && marketRole !== EicFunction.GridAccessProvider) {
-                console.log(isWholesale);
                 this.gridAreaIsRequired.set(false);
                 this.form.controls.gridArea.removeValidators(Validators.required);
               } else {
-                console.log(isWholesale);
                 this.gridAreaIsRequired.set(true);
                 this.form.controls.gridArea.setValidators(Validators.required);
               }
