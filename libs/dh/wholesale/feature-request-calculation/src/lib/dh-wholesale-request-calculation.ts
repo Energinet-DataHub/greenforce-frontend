@@ -27,7 +27,7 @@ import {
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { EMPTY, catchError, filter, map, of, startWith, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, startWith, switchMap, tap } from 'rxjs';
 
 import {
   MeteringPointType,
