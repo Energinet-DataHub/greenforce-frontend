@@ -999,7 +999,7 @@
       "meteringPointType": "Type of metering point",
       "resolution": "Resolution",
       "period": "Period",
-      "gridareas": "Grid areas",
+      "gridarea": "Grid area",
       "request": "Request",
       "maxPeriodLength": "Period cannot be longer than 31 days",
       "calculationTypes": {

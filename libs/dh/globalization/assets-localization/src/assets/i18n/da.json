@@ -998,7 +998,7 @@
       "meteringPointType": "Målepunktstype",
       "resolution": "Opløsning",
       "period": "Periode",
-      "gridAreas": "Netområder",
+      "gridArea": "Netområde",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være 31 dage",
       "calculationTypes": {
