@@ -716,7 +716,6 @@ input RequestCalculationInput {
   period: DateRange!
   gridArea: String!
   meteringPointType: MeteringPointType
-  resolution: String
   energySupplierId: String
   balanceResponsibleId: String
   priceType: PriceType
