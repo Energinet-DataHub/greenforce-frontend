@@ -14,28 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
-import { RxLet } from '@rx-angular/template/let';
-import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
+import { Component, computed, inject } from '@angular/core';
+
 import { TranslocoPipe } from '@ngneat/transloco';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
+
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhSelectedActorStore, Actor } from './dh-selected-actor.store';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetSelectionActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { windowLocationToken } from './window-location';
+import { DhActorStorage } from './dh-actor-storage';
+
+export type SelectionActor = ResultOf<typeof GetSelectionActorsDocument>['selectionActors'][0];
 
 @Component({
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
   standalone: true,
-  imports: [RxLet, WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
+  imports: [WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
 })
 export class DhSelectedActorComponent {
-  private store = inject(DhSelectedActorStore);
+  private location = inject(windowLocationToken);
+  private actorStorage = inject(DhActorStorage);
 
-  actorGroups$ = this.store.actorGroups$;
-  selectedActor$ = this.store.selectedActor$;
-  isLoading$ = this.store.isLoading$;
+  selectedActors = query(GetSelectionActorsDocument);
+
+  actorGroups = computed(() => {
+    const selectedActors = this.selectedActors.data()?.selectionActors;
+    if (!selectedActors) return [];
+
+    const sortedSelectedActors = selectedActors.toSorted((a, b) => {
+      const nameCompare = a.organizationName.localeCompare(b.organizationName);
+      return nameCompare !== 0 ? nameCompare : a.gln.localeCompare(b.gln);
+    });
+
+    const groupedActors = Object.groupBy(sortedSelectedActors, (actor) => actor.organizationName);
+
+    return Object.entries(groupedActors).map(([key, value]) => ({
+      organizationName: key,
+      actors: value,
+    }));
+  });
+  selectedActor = computed(() =>
+    this.selectedActors
+      .data()
+      ?.selectionActors.find((actor) => actor.id === this.actorStorage.getSelectedActorId())
+  );
+  isLoading = this.selectedActors.loading;
   isOpen = false;
   positionPairs: ConnectionPositionPair[] = [
     {
@@ -48,9 +78,10 @@ export class DhSelectedActorComponent {
     },
   ];
 
-  constructor() {
-    this.store.init();
-  }
+  selectActor = (actor: SelectionActor) => {
+    this.actorStorage.setSelectedActor(actor);
+    this.location.reload();
+  };
 
-  selectActor = (actor: Actor) => this.store.setSelectedActor(actor.id);
+  isActorSelected = (actor: SelectionActor) => actor.id === this.actorStorage.getSelectedActorId();
 }
