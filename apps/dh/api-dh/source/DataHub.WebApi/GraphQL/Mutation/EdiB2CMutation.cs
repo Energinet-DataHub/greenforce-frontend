@@ -24,7 +24,6 @@ public partial class Mutation
         Interval period,
         string gridArea,
         MeteringPointType? meteringPointType,
-        string? resolution,
         string? energySupplierId,
         string? balanceResponsibleId,
         PriceType? priceType,
@@ -72,11 +71,6 @@ public partial class Mutation
                         GridArea = gridArea,
                         EnergySupplierId = energySupplierId,
                         PriceType = priceType,
-
-                        // TODO: Remove resolution when frontend supports the new pricetype instead
-                        #pragma warning disable CS0612 // Type or member is obsolete
-                        Resolution = resolution,
-                        #pragma warning restore CS0612 // Type or member is obsolete
                     },
                     cancellationToken);
                 break;
