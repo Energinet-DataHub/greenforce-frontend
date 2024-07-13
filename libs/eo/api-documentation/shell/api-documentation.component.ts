@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -97,6 +97,7 @@ const selector = 'eo-api-documentation';
   `,
 })
 export class EoApiDocumentationComponent {
+  private router = inject(Router);
   private transloco = inject(TranslocoService);
   private activeLang = this.transloco.getActiveLang();
   private docs = inject(eoApiEnvironmentToken).documentation;
@@ -108,6 +109,6 @@ export class EoApiDocumentationComponent {
 
   gotoDevPortal(event: Event) {
     event.preventDefault();
-    window.location.assign(this.devPortalHref);
+    this.router.navigateByUrl(this.devPortalHref);
   }
 }
