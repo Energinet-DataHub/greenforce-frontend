@@ -32,11 +32,9 @@ limitations under the License.
         "shared.download" | transloco
       }}</watt-button>
       <ng-container *dhPermissionRequired="['actors:manage']">
-        <watt-button
-          variant="secondary"
-          (click)="openCreateNewActorModal()"
-          >{{ t("create") }}</watt-button
-        >
+        <watt-button variant="secondary" (click)="openCreateNewActorModal()">{{
+          t("create")
+        }}</watt-button>
       </ng-container>
     </vater-stack>
 
