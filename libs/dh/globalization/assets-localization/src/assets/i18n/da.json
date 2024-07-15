@@ -347,7 +347,7 @@
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
-            "Inactive": "Inaktiv",
+            "Inactive": "Deaktiveret",
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
@@ -496,7 +496,7 @@
             "status": {
               "New": "Ny",
               "Active": "Aktiv",
-              "Inactive": "Inaktiv",
+              "Inactive": "Deaktiveret",
               "Passive": "Passiv",
               "Deleted": "Slettet"
             },
@@ -1219,7 +1219,7 @@
               "logs": {
                 "status": {
                   "Active": "Aktiv",
-                  "Inactive": "Inaktiv"
+                  "Inactive": "Deaktiveret"
                 },
                 "roles": {
                   "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>",
@@ -1242,7 +1242,7 @@
       },
       "roleStatus": {
         "ACTIVE": "Aktiv",
-        "INACTIVE": "Inaktiv"
+        "INACTIVE": "Deaktiveret"
       },
       "tabs": {
         "masterData": {
