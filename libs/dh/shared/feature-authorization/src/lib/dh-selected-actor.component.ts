@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 
 import { TranslocoPipe } from '@ngneat/transloco';
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -77,6 +77,17 @@ export class DhSelectedActorComponent {
       overlayY: 'bottom',
     },
   ];
+
+  constructor() {
+    effect(() => {
+      // If no selected actor is set in the storage, set the selected actor.
+      const haveActor = this.actorStorage.getSelectedActor();
+      const actor = this.selectedActor();
+      if (actor && !haveActor) {
+        this.selectActor(actor);
+      }
+    });
+  }
 
   selectActor = (actor: SelectionActor) => {
     this.actorStorage.setSelectedActor(actor);
