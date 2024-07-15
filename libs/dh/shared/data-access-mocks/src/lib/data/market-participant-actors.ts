@@ -151,6 +151,10 @@ export const marketParticipantActors: Actor[] = [
     marketRole: EicFunction.BalanceResponsibleParty,
     status: null as unknown as ActorStatus,
     organization: null as unknown as Organization,
+    publicMail: {
+      __typename: 'ActorPublicMail',
+      mail: 'hello@efad0fee-9d7c-49c6-7c20-08da5f28ddb1.com',
+    },
   },
   {
     __typename: 'Actor',

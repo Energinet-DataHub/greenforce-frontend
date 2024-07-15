@@ -679,6 +679,54 @@
         }
       }
     },
+    "/actor/contacts/public": {
+      "get": {
+        "tags": [
+          "ActorContact"
+        ],
+        "operationId": "public",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorContactDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorContactDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorContactDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/{actorId}/contact": {
       "get": {
         "tags": [
@@ -3022,6 +3070,62 @@
         }
       }
     },
+    "/user-roles/assignedtopermission": {
+      "get": {
+        "tags": [
+          "UserRole"
+        ],
+        "operationId": "assignedtopermission",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user-roles/{userRoleId}/audit": {
       "get": {
         "tags": [
@@ -3130,62 +3234,6 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/PermissionDetailsDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user-roles/assignedtopermission": {
-      "get": {
-        "tags": [
-          "UserRole"
-        ],
-        "operationId": "assignedtopermission",
-        "parameters": [
-          {
-            "name": "permissionId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleDto"
                   }
                 }
               }
@@ -3515,6 +3563,10 @@
         "additionalProperties": false,
         "properties": {
           "contactId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actorId": {
             "type": "string",
             "format": "uuid"
           },

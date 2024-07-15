@@ -34,7 +34,6 @@ limitations under the License.
       <ng-container *dhPermissionRequired="['actors:manage']">
         <watt-button
           variant="secondary"
-          *dhPermissionRequired="['actor-master-data:manage']"
           (click)="openCreateNewActorModal()"
           >{{ t("create") }}</watt-button
         >
