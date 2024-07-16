@@ -18,6 +18,7 @@ type Actor {
   contact: ActorContactDto
   organization: Organization!
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
+  publicMail: ActorPublicMail
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -31,6 +32,7 @@ type ActorAuditedChangeAuditLogDto {
 
 type ActorContactDto {
   contactId: UUID!
+  actorId: UUID!
   category: ContactCategory!
   name: String!
   email: String!
@@ -44,6 +46,10 @@ type ActorNameDto {
 type ActorNameWithId {
   id: UUID!
   actorName: ActorNameDto!
+}
+
+type ActorPublicMail {
+  mail: String!
 }
 
 type AddressDto {

@@ -359,7 +359,8 @@
         "glnOrEic": "GLN/EIC",
         "name": "Name",
         "marketRole": "Market role",
-        "status": "Status"
+        "status": "Status",
+        "mail": "E-mail"
       },
       "create": "New market participant",
       "actors": "Market Participants",
@@ -367,7 +368,8 @@
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
+        "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
       },
       "status": {
         "Active": "Active",
