@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
-using Microsoft.AspNetCore.Mvc.Routing;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
@@ -35,13 +34,6 @@ public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
             });
 
         descriptor.Field(f => f.PeriodTo).Ignore();
-
-        descriptor.Field("dispatchDocumentUrl")
-            .ResolveWith<EsettExchangeResolvers>(c => c.GetDispatchDocument(default!, default!, default!));
-
-        descriptor.Field("responseDocumentUrl")
-            .Type<NonNullType<StringType>>()
-            .ResolveWith<EsettExchangeResolvers>(c => c.GetResponseDocument(default!, default!, default!));
 
         descriptor
            .Field(f => f.GridAreaCode)
