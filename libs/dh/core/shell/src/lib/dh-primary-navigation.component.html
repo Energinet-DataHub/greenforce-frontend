@@ -34,9 +34,11 @@ limitations under the License.
       >{{ transloco("eSett") }}</watt-nav-list-item
     >
 
-    <watt-nav-list-item [link]="getLink('imbalance-prices')">{{
-      transloco("imbalancePrices")
-    }}</watt-nav-list-item>
+    <watt-nav-list-item
+      *dhPermissionRequired="['imbalance-prices:manage']"
+      [link]="getLink('imbalance-prices')"
+      >{{ transloco("imbalancePrices") }}</watt-nav-list-item
+    >
   </watt-nav-list>
 
   <ng-container
