@@ -3,6 +3,7 @@ export * from './actor-name-dto';
 export * from './actor-number-dto';
 export * from './archived-message';
 export * from './archived-message-search-criteria';
+export * from './balance-responsible-sort-property';
 export * from './market-participant-actor-certificate-credentials-dto';
 export * from './market-participant-actor-client-secret-credentials-dto';
 export * from './market-participant-actor-client-secret-dto';
@@ -13,5 +14,6 @@ export * from './market-participant-get-actors-associated-with-external-user-id-
 export * from './market-participant-token-response';
 export * from './market-participant-user-role-view-dto';
 export * from './search-result';
+export * from './sort-direction';
 export * from './stream';
 export * from './wholesale-calculation-type';
