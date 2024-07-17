@@ -201,7 +201,7 @@ export class DhActorsOverviewComponent implements OnInit {
 
     const lines = dataSorted.map((actor) => [
       `"${actor.id}"`,
-      `"${actor.glnOrEicNumber}"`,
+      `"""${actor.glnOrEicNumber}"""`,
       `"${actor.name}"`,
       `"${
         actor.marketRole == null
