@@ -107,7 +107,7 @@ public sealed class EsettExchangeController : ControllerBase
     }
 
     [HttpGet("DownloadBalanceResponsiblesAsync")]
-    [Produces("application/octet-stream")]
+    [Produces("application/octet-stream", Type = typeof(Stream))]
     public async Task DownloadBalanceResponsiblesAsync([FromQuery] string locale, [FromQuery] BalanceResponsibleSortProperty sortProperty, [FromQuery] SortDirection sortDirection)
     {
         Response.ContentType = "application/octet-stream";
