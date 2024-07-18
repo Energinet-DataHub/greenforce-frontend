@@ -68,73 +68,75 @@ import { translations } from '@energinet-datahub/eo/translations';
     `,
   ],
   template: `
-    <div class="certificate" *ngIf="certificate(); let cert">
-      <eo-stack size="M">
-        <watt-card>
-          <watt-card-title
-            ><h4>
-              <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
-            </h4></watt-card-title
-          >
-          <eo-stack size="M">
-            <div class="grid-table">
-              <b>{{ translations.certificateDetails.energyLabel | transloco }}</b>
-              <div>{{ cert?.quantity | energyUnit }}</div>
-              <b>{{ translations.certificateDetails.startTimeLabel | transloco }}</b>
-              <div>{{ cert?.start | wattDate: 'longAbbr' }}</div>
-              <b>{{ translations.certificateDetails.endTimeLabel | transloco }}</b>
-              <div>{{ cert?.end | wattDate: 'longAbbr' }}</div>
-              <b>{{ translations.certificateDetails.gsrnLabel | transloco }}</b>
-              <div>{{ cert?.attributes?.assetId }}</div>
-              <b>{{ translations.certificateDetails.certificateIdLabel | transloco }}</b>
-              <div>{{ cert?.federatedStreamId?.streamId }}</div>
-            </div>
-          </eo-stack>
-        </watt-card>
-        <watt-card>
-          <div class="space-between">
+    @if(certificate(); as cert) {
+      <div class="certificate">
+        <eo-stack size="M">
+          <watt-card>
+            <watt-card-title
+              ><h4>
+                <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
+              </h4></watt-card-title
+            >
             <eo-stack size="M">
-              <h4>
-                <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
-              </h4>
               <div class="grid-table">
-                <b>{{ translations.certificateDetails.technologyCodeLabel | transloco }}</b>
-                <div>{{ cert?.attributes?.techCode }}</div>
-                <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
-                <div>{{ cert?.attributes?.fuelCode }}</div>
+                <b>{{ translations.certificateDetails.energyLabel | transloco }}</b>
+                <div>{{ cert?.quantity | energyUnit }}</div>
+                <b>{{ translations.certificateDetails.startTimeLabel | transloco }}</b>
+                <div>{{ cert?.start | wattDate: 'longAbbr' }}</div>
+                <b>{{ translations.certificateDetails.endTimeLabel | transloco }}</b>
+                <div>{{ cert?.end | wattDate: 'longAbbr' }}</div>
+                <b>{{ translations.certificateDetails.gsrnLabel | transloco }}</b>
+                <div>{{ cert?.attributes?.assetId }}</div>
+                <b>{{ translations.certificateDetails.certificateIdLabel | transloco }}</b>
+                <div>{{ cert?.federatedStreamId?.streamId }}</div>
               </div>
             </eo-stack>
-            <img
-              alt="Windmill"
-              src="/assets/images/certificates/windmill.png"
-              style="height: 79px;"
-            />
-          </div>
-        </watt-card>
-        <h4>
-          <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
-            translations.certificateDetails.backToCertificatesLink | transloco
-          }}</a>
-        </h4>
-      </eo-stack>
-      <eo-stack size="M">
-        <watt-card>
-          <eo-stack size="M">
-            <h4>
-              <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
-            </h4>
-            <p>
-              <b>{{ cert?.gridArea }}</b>
-            </p>
-            <img
-              alt="Grid Area DK1"
-              src="/assets/images/certificates/dk1grid.png"
-              style="height: 204px; display: block"
-            />
-          </eo-stack>
-        </watt-card>
-      </eo-stack>
-    </div>
+          </watt-card>
+          <watt-card>
+            <div class="space-between">
+              <eo-stack size="M">
+                <h4>
+                  <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
+                </h4>
+                <div class="grid-table">
+                  <b>{{ translations.certificateDetails.technologyCodeLabel | transloco }}</b>
+                  <div>{{ cert?.attributes?.techCode }}</div>
+                  <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
+                  <div>{{ cert?.attributes?.fuelCode }}</div>
+                </div>
+              </eo-stack>
+              <img
+                alt="Windmill"
+                src="/assets/images/certificates/windmill.png"
+                style="height: 79px;"
+              />
+            </div>
+          </watt-card>
+          <h4>
+            <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
+              translations.certificateDetails.backToCertificatesLink | transloco
+            }}</a>
+          </h4>
+        </eo-stack>
+        <eo-stack size="M">
+          <watt-card>
+            <eo-stack size="M">
+              <h4>
+                <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
+              </h4>
+              <p>
+                <b>{{ cert?.gridArea }}</b>
+              </p>
+              <img
+                alt="Grid Area DK1"
+                src="/assets/images/certificates/dk1grid.png"
+                style="height: 204px; display: block"
+              />
+            </eo-stack>
+          </watt-card>
+        </eo-stack>
+      </div>
+    }
   `,
 })
 export class EoCertificateDetailsComponent implements OnInit {
@@ -144,23 +146,19 @@ export class EoCertificateDetailsComponent implements OnInit {
 
   protected translations = translations;
 
-  certificate = signal<EoCertificate | undefined>(undefined);
+  certificate = signal<EoCertificate | null>(null);
 
   ngOnInit(): void {
-    this.certificatesService
-      .getCertificates()
-      .pipe(
-        map((certs: EoCertificate[]) =>
-          certs.find(
-            (item) => item.federatedStreamId.streamId === this.route.snapshot.paramMap.get('id')
-          )
-        ),
-        tap((certFound) => {
-          if (!certFound) this.router.navigate([`/${eoCertificatesRoutePath}`]);
-        })
-      )
-      .subscribe((certificate) => {
-        this.certificate.set(certificate);
-      });
+    const registry = this.route.snapshot.paramMap.get('registry');
+    const streamId = this.route.snapshot.paramMap.get('streamId');
+
+    if(!registry || !streamId) {
+      this.router.navigate([`/${eoCertificatesRoutePath}`]);
+      return;
+    }
+
+    this.certificatesService.getCertificate(registry, streamId).subscribe((certificate) => {
+      this.certificate.set(certificate);
+    });
   }
 }

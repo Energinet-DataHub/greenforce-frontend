@@ -20,26 +20,30 @@ import {
   Component,
   DestroyRef,
   OnInit,
+  ViewChild,
   inject,
   signal,
 } from '@angular/core';
 import { map } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { Sort, SortDirection } from '@angular/material/sort';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
+import {
+  EoCertificatesService,
+  sortCertificatesBy,
+} from '@energinet-datahub/eo/certificates/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,8 +53,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     WattEmptyStateComponent,
     RouterModule,
     VaterStackComponent,
-    VaterSpacerComponent,
-    WattSearchComponent,
     WATT_CARD,
     TranslocoPipe,
   ],
@@ -94,13 +96,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
             {{ translations.certificates.tableHeader | transloco }}
           </h3>
           <div class="badge">
-            <small>{{ this.dataSource.filteredData.length }}</small>
+            <small>{{ totalCount() }}</small>
           </div>
-          <vater-spacer />
-          <watt-search
-            [label]="translations.certificates.searchLabel | transloco"
-            (search)="search = $event"
-          />
         </vater-stack>
       </watt-card-title>
 
@@ -110,13 +107,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           [loading]="loading()"
           [columns]="columns"
           [dataSource]="dataSource"
-          sortBy="time"
-          sortDirection="desc"
+          [sortBy]="defaultSortBy"
+          [sortDirection]="defaultSortDirection"
+          (sortChange)="sortData($event)"
         >
           <ng-container *wattTableCell="columns.action; let element">
             <a
               class="link"
-              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.streamId }}"
+              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
+                element.federatedStreamId.streamId
+              }}"
             >
               {{ translations.certificates.certificateDetailsLink | transloco }}
             </a>
@@ -140,7 +140,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         />
       }
 
-      <watt-paginator [for]="dataSource" />
+      <watt-paginator
+        [length]="totalCount()"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex()"
+        [for]="dataSource"
+        (changed)="pageChanged($event)"
+      />
     </watt-card>
   `,
 })
@@ -152,6 +158,8 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
 
+  @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent<EoCertificate>;
+
   protected translations = translations;
   protected columns!: WattTableColumnDef<EoCertificate>;
 
@@ -159,13 +167,41 @@ export class EoCertificatesOverviewComponent implements OnInit {
     this.dataSource.filter = value;
   }
   protected dataSource: WattTableDataSource<EoCertificate> = new WattTableDataSource(undefined);
+  protected totalCount = signal<number>(0);
+  protected pageIndex = signal<number>(0);
+  protected pageSize = 50;
+
+  protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
+  protected defaultSortDirection: SortDirection = 'desc';
+  protected sortBy = this.defaultSortBy;
+  protected sortDirection: SortDirection = this.defaultSortDirection;
+
   protected loading = signal<boolean>(false);
   protected hasError = signal<boolean>(false);
 
   ngOnInit() {
     this.setColumns();
-    this.loadData();
-    this.sortData();
+    this.loadData(
+      this.pageIndex() + 1,
+      this.pageSize,
+      this.getSortBy(this.defaultSortBy),
+      this.sortDirection
+    );
+  }
+
+  pageChanged(event: {
+    previousPageIndex?: number;
+    pageIndex: number;
+    pageSize: number;
+    length: number;
+  }) {
+    this.pageIndex.set(event.pageIndex);
+    this.loadData(
+      event.pageIndex + 1,
+      event.pageSize,
+      this.getSortBy(this.sortBy),
+      this.sortDirection
+    );
   }
 
   private setColumns(): void {
@@ -198,33 +234,55 @@ export class EoCertificatesOverviewComponent implements OnInit {
           },
           action: { accessor: (x) => x.attributes.assetId, header: '' },
         };
+
+        this.dataSource.sortData = (data: EoCertificate[]) => {
+          return data;
+        }
+
         this.cd.detectChanges();
       });
   }
 
-  private loadData() {
+  private loadData(
+    page: number,
+    pageSize: number,
+    sortBy: sortCertificatesBy,
+    sortDirection: SortDirection
+  ) {
     this.loading.set(true);
     this.certificatesService
-      .getCertificates()
+      .getCertificates(page, pageSize, sortBy, sortDirection)
       .pipe(
-        map((certificates: EoCertificate[]) => {
-          return certificates.map((certificate) => {
-            const start = this.datePipe.transform(certificate.start, 'longAbbr');
-            const end = this.datePipe.transform(certificate.end, 'time');
+        map((certificates) => {
+          return {
+            ...certificates,
+            result: certificates.result.map((certificate) => {
+              const start = this.datePipe.transform(certificate.start, 'longAbbr');
+              const end = this.datePipe.transform(certificate.end, 'time');
 
-            return {
-              ...certificate,
-              time: `${start}-${end}`,
-              amount: this.energyUnitPipe.transform(certificate.quantity) as string,
-            };
-          });
+              return {
+                ...certificate,
+                time: `${start}-${end}`,
+                amount: this.energyUnitPipe.transform(certificate.quantity) as string,
+              };
+            }),
+          };
         })
       )
       .subscribe({
         next: (certificates) => {
-          this.dataSource.data = certificates;
+          this.dataSource.data = this.insertOrOverwrite(
+            this.dataSource.data,
+            this.pageIndex() * this.pageSize,
+            certificates.result
+          );
+          this.totalCount.set(certificates.metadata.total);
           this.loading.set(false);
           this.hasError.set(false);
+
+          setTimeout(() => {
+            this.paginator.instance.length = certificates.metadata.total;
+          });
         },
         error: () => {
           this.hasError.set(true);
@@ -234,32 +292,39 @@ export class EoCertificatesOverviewComponent implements OnInit {
       });
   }
 
-  private sortData() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.dataSource.sortData = (data: any[], sort: any) => {
-      const isAsc = sort.direction === 'asc';
-
-      if (!sort.active || sort.direction === '') {
-        return data;
-      } else if (sort.active === 'time') {
-        return data.sort((a, b) => {
-          return this.compare(a.start, b.start, isAsc);
-        });
-      } else {
-        return data.sort((a, b) => {
-          return this.compare(a[sort.active], b[sort.active], isAsc);
-        });
-      }
-    };
+  private getSortBy(sortBy: string): sortCertificatesBy {
+    switch (sortBy) {
+      case 'time':
+        return 'end' as sortCertificatesBy;
+      case 'amount':
+        return 'quantity' as sortCertificatesBy;
+      case 'certificateType':
+        return 'type' as sortCertificatesBy;
+      default:
+        return 'end' as sortCertificatesBy;
+    }
   }
 
-  private compare(a: number, b: number, isAsc: boolean): number {
-    if (a < b) {
-      return isAsc ? -1 : 1;
-    } else if (a > b) {
-      return isAsc ? 1 : -1;
+  private insertOrOverwrite<T>(array: T[], index: number, items: T[]): T[] {
+    // Remove elements starting from the index and insert new items
+    array.splice(index, items.length, ...items);
+    return array;
+  }
+
+  sortData(sort: Sort) {
+    if (!sort.active || sort.direction === '') {
+      this.sortBy = this.defaultSortBy;
+      this.sortDirection = this.defaultSortDirection;
     } else {
-      return 0;
+      this.sortBy = sort.active as never;
+      this.sortDirection = sort.direction;
     }
+
+    this.loadData(
+      this.pageIndex() + 1,
+      this.pageSize,
+      this.getSortBy(this.sortBy),
+      this.sortDirection
+    );
   }
 }
