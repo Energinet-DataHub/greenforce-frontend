@@ -107,10 +107,10 @@ public sealed class EsettExchangeController : ControllerBase
     }
 
     [HttpGet("DownloadBalanceResponsiblesAsync")]
-    [Produces("text/csv")]
+    [Produces("application/octet-stream")]
     public async Task DownloadBalanceResponsiblesAsync([FromQuery] string locale, [FromQuery] BalanceResponsibleSortProperty sortProperty, [FromQuery] SortDirection sortDirection)
     {
-        Response.ContentType = "text/csv";
+        Response.ContentType = "application/octet-stream";
 
         var fileResponse = await _client
             .DownloadGETAsync(locale, sortProperty, sortDirection)
