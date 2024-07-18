@@ -54,12 +54,7 @@ export class EoCertificatesService {
     this.apiBase = `${apiEnvironment.apiBase}`;
   }
 
-  getCertificates(
-    pageNumber = 1,
-    pageSize = 10,
-    sortBy: sortCertificatesBy,
-    sort: SortDirection
-  ) {
+  getCertificates(pageNumber = 1, pageSize = 10, sortBy: sortCertificatesBy, sort: SortDirection) {
     const walletApiBase = `${this.apiBase}/v1`.replace('/api', '/wallet-api');
     return this.http
       .get<EoCertificateResponse>(

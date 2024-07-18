@@ -68,7 +68,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     `,
   ],
   template: `
-    @if(certificate(); as cert) {
+    @if (certificate(); as cert) {
       <div class="certificate">
         <eo-stack size="M">
           <watt-card>
@@ -152,7 +152,7 @@ export class EoCertificateDetailsComponent implements OnInit {
     const registry = this.route.snapshot.paramMap.get('registry');
     const streamId = this.route.snapshot.paramMap.get('streamId');
 
-    if(!registry || !streamId) {
+    if (!registry || !streamId) {
       this.router.navigate([`/${eoCertificatesRoutePath}`]);
       return;
     }

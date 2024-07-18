@@ -237,7 +237,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
         this.dataSource.sortData = (data: EoCertificate[]) => {
           return data;
-        }
+        };
 
         this.cd.detectChanges();
       });

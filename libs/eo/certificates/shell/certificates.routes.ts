@@ -37,7 +37,10 @@ export class CertificateDetailsTitleResolver {
     return this.transloco.selectTranslation().pipe(
       takeUntilDestroyed(this.destroyRef),
       switchMap(() => {
-        return this.certificatesService.getCertificate(route.params['registry'], route.params['streamId']);
+        return this.certificatesService.getCertificate(
+          route.params['registry'],
+          route.params['streamId']
+        );
       }),
       catchError(() => {
         return of(null);
