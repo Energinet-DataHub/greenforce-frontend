@@ -16,7 +16,7 @@
  */
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { switchMap, catchError, of, take } from 'rxjs';
+import { switchMap, catchError, of, take, map } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
@@ -27,8 +27,9 @@ import { RxLet } from '@rx-angular/template/let';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
-  DownloadBalanceResponsiblesDocument,
+  BalanceResponsibleSortProperty,
   GetBalanceResponsibleMessagesDocument,
+  SortDirection,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
@@ -38,12 +39,13 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
 import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
+import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   standalone: true,
@@ -87,10 +89,11 @@ import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
   providers: [DhBalanceResponsibleStore],
 })
 export class DhBalanceResponsibleComponent implements OnInit {
-  private apollo = inject(Apollo);
-  private destroyRef = inject(DestroyRef);
-  private store = inject(DhBalanceResponsibleStore);
-  private toastService = inject(WattToastService);
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly store = inject(DhBalanceResponsibleStore);
+  private readonly toastService = inject(WattToastService);
+  private readonly esettHttp = inject(EsettExchangeHttp);
 
   pageMetaData$ = this.store.pageMetaData$;
   sortMetaData$ = this.store.sortMetaData$;
@@ -158,35 +161,41 @@ export class DhBalanceResponsibleComponent implements OnInit {
     this.store.queryVariables$
       .pipe(
         take(1),
-        switchMap(({ sortMetaData }) =>
-          this.apollo.query({
-            returnPartialData: false,
-            fetchPolicy: 'no-cache',
-            query: DownloadBalanceResponsiblesDocument,
-            variables: {
-              locale: translate('selectedLanguageIso'),
-              sortProperty: sortMetaData.sortProperty,
-              sortDirection: sortMetaData.sortDirection,
-            },
-          })
+        map(({ sortMetaData }) =>
+          this.esettHttp
+            .v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(
+              translate('selectedLanguageIso'),
+              ((sortProperty: BalanceResponsibleSortProperty) => {
+                switch (sortProperty) {
+                  case BalanceResponsibleSortProperty.ValidFrom:
+                    return 'ValidFrom';
+                  case BalanceResponsibleSortProperty.ValidTo:
+                    return 'ValidTo';
+                  case BalanceResponsibleSortProperty.ReceivedDate:
+                    return 'ReceivedDate';
+                }
+              })(sortMetaData.sortProperty),
+              sortMetaData.sortDirection === SortDirection.Ascending ? 'Ascending' : 'Descending'
+            )
+            .pipe(
+              switchMap(
+                streamToFile({ name: 'eSett-balance-responsible-messages', type: 'text/csv' })
+              )
+            )
+            .subscribe({
+              complete: () => {
+                this.isDownloading = false;
+              },
+              error: () => {
+                this.isDownloading = false;
+                this.toastService.open({
+                  message: translate('shared.error.message'),
+                  type: 'danger',
+                });
+              },
+            })
         )
       )
-      .subscribe({
-        next: (result) => {
-          this.isDownloading = result.loading;
-
-          exportToCSVRaw({
-            content: result?.data?.downloadBalanceResponsibles ?? '',
-            fileName: 'eSett-balance-responsible-messages',
-          });
-        },
-        error: () => {
-          this.isDownloading = false;
-          this.toastService.open({
-            message: translate('shared.error.message'),
-            type: 'danger',
-          });
-        },
-      });
+      .subscribe();
   }
 }

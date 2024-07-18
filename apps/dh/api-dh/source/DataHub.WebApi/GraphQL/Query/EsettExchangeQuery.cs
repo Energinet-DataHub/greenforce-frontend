@@ -189,15 +189,4 @@ public partial class Query
             pageSize,
             sortProperty,
             sortDirection);
-
-    public async Task<string> DownloadBalanceResponsiblesAsync(
-        string locale,
-        BalanceResponsibleSortProperty sortProperty,
-        SortDirection sortDirection,
-        [Service] IESettExchangeClient_V1 client)
-    {
-        var file = await client.DownloadGETAsync(locale, sortProperty, sortDirection);
-        using var streamReader = new StreamReader(file.Stream);
-        return await streamReader.ReadToEndAsync();
-    }
 }
