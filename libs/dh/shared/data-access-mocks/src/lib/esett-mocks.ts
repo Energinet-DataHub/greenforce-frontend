@@ -243,7 +243,7 @@ function downloadMeteringGridAreaImbalanceQuery() {
 }
 
 function downloadBalanceResponsiblesQuery(apiBase: string) {
-  return http.get(`${apiBase}/v1/EsettExchange/DownloadBalanceResponsiblesAsync`, async () => {
+  return http.get(`${apiBase}/v1/EsettExchange/DownloadBalanceResponsibles`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json(
       {

@@ -163,7 +163,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
         take(1),
         map(({ sortMetaData }) =>
           this.esettHttp
-            .v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(
+            .v1EsettExchangeDownloadBalanceResponsiblesGet(
               translate('selectedLanguageIso'),
               ((sortProperty: BalanceResponsibleSortProperty) => {
                 switch (sortProperty) {
