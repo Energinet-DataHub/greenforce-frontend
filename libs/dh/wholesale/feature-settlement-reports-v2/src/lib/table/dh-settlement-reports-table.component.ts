@@ -100,7 +100,6 @@ export class DhSettlementReportsTableComponent {
       message: translate('shared.downloadStart'),
     });
 
-    // lawl
     this.reportEndpoint
       .v1WholesaleSettlementReportDownloadReportGet(reportId)
       .pipe(switchMap(streamToFile(fileOptions)))

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Globalization;
+using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ public sealed class EsettExchangeController : ControllerBase
     }
 
     [HttpGet("DispatchDocument")]
-    [Produces("application/octet-stream")]
+    [Produces(MediaTypeNames.Application.Octet)]
     public async Task<ActionResult<Stream>> GetDispatchDocumentAsync(string documentId)
     {
         try
@@ -44,7 +45,7 @@ public sealed class EsettExchangeController : ControllerBase
                 .DispatchDocumentAsync(documentId)
                 .ConfigureAwait(false);
 
-            return File(fileResponse.Stream, "application/octet-stream");
+            return File(fileResponse.Stream, MediaTypeNames.Application.Octet);
         }
         catch (ApiException e) when (e.StatusCode == 404)
         {
@@ -53,7 +54,7 @@ public sealed class EsettExchangeController : ControllerBase
     }
 
     [HttpGet("ResponseDocument")]
-    [Produces("application/octet-stream")]
+    [Produces(MediaTypeNames.Application.Octet)]
     public async Task<ActionResult<Stream>> ResponseDocumentAsync(string documentId)
     {
         try
@@ -62,7 +63,7 @@ public sealed class EsettExchangeController : ControllerBase
                 .ResponseDocumentAsync(documentId)
                 .ConfigureAwait(false);
 
-            return File(fileResponse.Stream, "application/octet-stream");
+            return File(fileResponse.Stream, MediaTypeNames.Application.Octet);
         }
         catch (ApiException e) when (e.StatusCode == 404)
         {
@@ -71,7 +72,7 @@ public sealed class EsettExchangeController : ControllerBase
     }
 
     [HttpGet("StorageDocument")]
-    [Produces("application/octet-stream")]
+    [Produces(MediaTypeNames.Application.Octet)]
     public async Task<ActionResult<Stream>> StorageDocumentAsync(string documentId)
     {
         try
@@ -80,7 +81,7 @@ public sealed class EsettExchangeController : ControllerBase
                 .StorageDocumentAsync(documentId)
                 .ConfigureAwait(false);
 
-            return File(fileResponse.Stream, "application/octet-stream");
+            return File(fileResponse.Stream, MediaTypeNames.Application.Octet);
         }
         catch (ApiException e) when (e.StatusCode == 404)
         {
@@ -89,7 +90,7 @@ public sealed class EsettExchangeController : ControllerBase
     }
 
     [HttpGet("MgaImbalanceDocument")]
-    [Produces("application/octet-stream")]
+    [Produces(MediaTypeNames.Application.Octet)]
     public async Task<ActionResult<Stream>> GetMgaImbalanceDocumentAsync(string imbalanceId)
     {
         try
@@ -98,7 +99,7 @@ public sealed class EsettExchangeController : ControllerBase
                 .DocumentAsync(imbalanceId)
                 .ConfigureAwait(false);
 
-            return File(fileResponse.Stream, "application/octet-stream");
+            return File(fileResponse.Stream, MediaTypeNames.Application.Octet);
         }
         catch (ApiException e) when (e.StatusCode == 404)
         {
@@ -106,11 +107,11 @@ public sealed class EsettExchangeController : ControllerBase
         }
     }
 
-    [HttpGet("DownloadBalanceResponsiblesAsync")]
-    [Produces("application/octet-stream", Type = typeof(Stream))]
+    [HttpGet("DownloadBalanceResponsibles")]
+    [Produces(MediaTypeNames.Application.Octet, Type = typeof(Stream))]
     public async Task DownloadBalanceResponsiblesAsync([FromQuery] string locale, [FromQuery] BalanceResponsibleSortProperty sortProperty, [FromQuery] SortDirection sortDirection)
     {
-        Response.ContentType = "application/octet-stream";
+        Response.ContentType = MediaTypeNames.Application.Octet;
 
         var fileResponse = await _client
             .DownloadGETAsync(locale, sortProperty, sortDirection)
@@ -131,8 +132,6 @@ public sealed class EsettExchangeController : ControllerBase
 
         headerLine += $"{separator}\"SUPPLIER_NAME\"{separator}\"BALANCE_RESPONSIBLE_NAME\"\n";
 
-        await using var writer = new StreamWriter(Response.Body);
-
         await Response.WriteAsync(headerLine).ConfigureAwait(false);
 
         while (true)
@@ -145,10 +144,10 @@ public sealed class EsettExchangeController : ControllerBase
             }
 
             var supplierIndex = line.IndexOf(separator, StringComparison.Ordinal) + 1;
-            var responsiIndex = line.IndexOf(separator, supplierIndex, StringComparison.Ordinal) + 1;
-            var endIndex = line.IndexOf(separator, responsiIndex, StringComparison.Ordinal) + 1;
-            var supplier = line.Substring(supplierIndex, responsiIndex - supplierIndex - 1).Trim('"');
-            var responsible = line.Substring(responsiIndex, endIndex - responsiIndex - 1).Trim('"');
+            var responsibleIndex = line.IndexOf(separator, supplierIndex, StringComparison.Ordinal) + 1;
+            var endIndex = line.IndexOf(separator, responsibleIndex, StringComparison.Ordinal) + 1;
+            var supplier = line.Substring(supplierIndex, responsibleIndex - supplierIndex - 1).Trim('"');
+            var responsible = line.Substring(responsibleIndex, endIndex - responsibleIndex - 1).Trim('"');
             var supplierName = energySuppliers.TryGetValue(supplier, out var s) ? s : string.Empty;
             var responsibleName = balanceResponsibles.TryGetValue(responsible, out var r) ? r : string.Empty;
 
