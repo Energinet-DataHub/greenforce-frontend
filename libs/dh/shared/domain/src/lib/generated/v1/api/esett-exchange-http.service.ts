@@ -176,10 +176,10 @@ export class EsettExchangeHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
+    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
+    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
+    public v1EsettExchangeDownloadBalanceResponsiblesAsyncGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (locale !== undefined && locale !== null) {
@@ -208,6 +208,7 @@ export class EsettExchangeHttp {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/octet-stream'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -238,7 +239,7 @@ export class EsettExchangeHttp {
         }
 
         let localVarPath = `/v1/EsettExchange/DownloadBalanceResponsiblesAsync`;
-        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
