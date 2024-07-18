@@ -19,6 +19,10 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { BalanceResponsibleSortProperty } from '../model/balance-responsible-sort-property';
+// @ts-ignore
+import { SortDirection } from '../model/sort-direction';
+// @ts-ignore
 import { Stream } from '../model/stream';
 
 // @ts-ignore
@@ -151,6 +155,90 @@ export class EsettExchangeHttp {
         }
 
         let localVarPath = `/v1/EsettExchange/DispatchDocument`;
+        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param locale 
+     * @param sortProperty 
+     * @param sortDirection 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public v1EsettExchangeDownloadBalanceResponsiblesGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
+    public v1EsettExchangeDownloadBalanceResponsiblesGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
+    public v1EsettExchangeDownloadBalanceResponsiblesGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
+    public v1EsettExchangeDownloadBalanceResponsiblesGet(locale?: string, sortProperty?: BalanceResponsibleSortProperty, sortDirection?: SortDirection, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (locale !== undefined && locale !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>locale, 'locale');
+        }
+        if (sortProperty !== undefined && sortProperty !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sortProperty, 'sortProperty');
+        }
+        if (sortDirection !== undefined && sortDirection !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sortDirection, 'sortDirection');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Bearer) required
+        localVarCredential = this.configuration.lookupCredential('Bearer');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/octet-stream'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/v1/EsettExchange/DownloadBalanceResponsibles`;
         return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
