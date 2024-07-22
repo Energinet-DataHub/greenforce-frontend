@@ -17,7 +17,6 @@
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { map, tap } from 'rxjs';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
