@@ -217,7 +217,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
           meteringPoint: {
             accessor: (x) => x.attributes.assetId,
             header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
-            sort: false
+            sort: false,
           },
           amount: {
             accessor: (x) => x.amount,
