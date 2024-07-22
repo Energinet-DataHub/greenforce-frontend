@@ -17,13 +17,12 @@
 
 import { DestroyRef, Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EoCertificateDetailsComponent } from '@energinet-datahub/eo/certificates/feature-details';
 import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certificates/feature-overview';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { translations } from '@energinet-datahub/eo/translations';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -38,11 +37,14 @@ export class CertificateDetailsTitleResolver {
     return this.transloco.selectTranslation().pipe(
       takeUntilDestroyed(this.destroyRef),
       switchMap(() => {
-        return this.certificatesService.getCertificates();
+        return this.certificatesService.getCertificate(
+          route.params['registry'],
+          route.params['streamId']
+        );
       }),
-      map((certs: EoCertificate[]) =>
-        certs.find((item) => item.federatedStreamId.streamId === route.params['id'])
-      ),
+      catchError(() => {
+        return of(null);
+      }),
       map((cert) => {
         return this.transloco.translate(this.translations.certificateDetails.title, {
           certificateType:
@@ -71,7 +73,7 @@ export const eoCertificatesRoutes: Routes = [
     component: EoCertificatesOverviewComponent,
   },
   {
-    path: ':id',
+    path: ':registry/:streamId',
     title: CertificateDetailsTitleResolver,
     component: EoCertificateDetailsComponent,
   },

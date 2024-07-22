@@ -3,6 +3,7 @@
   "developerPortal": "/developer/",
   "apiVersions": {
     "certificates": "20240423",
+    "wallet-api": "20240515",
     "transfer": "20240103",
     "claim-automation": "20240103",
     "measurements": "20240110",
