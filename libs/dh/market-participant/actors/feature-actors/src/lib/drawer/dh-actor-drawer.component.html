@@ -21,12 +21,14 @@ limitations under the License.
     </watt-drawer-topbar>
 
     <watt-drawer-actions>
-      <watt-button
-        *dhPermissionRequired="['actor-master-data:manage']"
-        variant="secondary"
-        (click)="editActorModal.open()"
-        >{{ t("edit") }}</watt-button
-      >
+      @if (hasActorAccess()) {
+        <watt-button
+          *dhPermissionRequired="['actor-master-data:manage']"
+          variant="secondary"
+          (click)="editActorModal.open()"
+          >{{ t("edit") }}</watt-button
+        >
+      }
     </watt-drawer-actions>
 
     <watt-drawer-heading>
