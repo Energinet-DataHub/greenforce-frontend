@@ -93,7 +93,7 @@ To create a new query using Hot Chocolate, follow this example:
                 new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald" },
                 new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee" }
             }
-        
+
         // ...
     }
     ```
@@ -190,7 +190,6 @@ Update the subsystem clients using NSwag:
         ...
     }
     ```
-
 
 - Build the `DataHub.WebApi` dotnet project
 
