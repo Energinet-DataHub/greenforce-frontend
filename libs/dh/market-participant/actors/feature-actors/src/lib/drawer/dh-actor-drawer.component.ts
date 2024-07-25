@@ -157,13 +157,13 @@ export class DhActorDrawerComponent {
   public open(actorId: string): void {
     this.drawer().open();
 
-    console.log("open called for actor ", actorId)
+    console.log('open called for actor ', actorId);
 
     this.permissionService
       .hasActorAccess(actorId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((hasAccess) => {
-        console.log("access set to ", hasAccess, " for actor ", actorId)
+        console.log('access set to ', hasAccess, ' for actor ', actorId);
         return this.hasActorAccess.set(hasAccess);
       });
 
