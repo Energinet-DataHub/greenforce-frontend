@@ -175,8 +175,7 @@ The current subsystem clients can be found at:
 Update the subsystem clients using NSwag:
 
 - Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
-- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file
-    Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
+- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file. **You might have to connect using VPN.** Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
 
     ```json
     {
@@ -191,6 +190,7 @@ Update the subsystem clients using NSwag:
         ...
     }
     ```
+
 
 - Build the `DataHub.WebApi` dotnet project
 
