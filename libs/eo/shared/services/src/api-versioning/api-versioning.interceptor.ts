@@ -25,7 +25,7 @@ export class EoApiVersioningInterceptor implements HttpInterceptor {
     if(isVersioned) {
       const modifiedRequest = request.clone({
         setHeaders: {
-          'EO_API_VERSION': apiVersions[isVersioned],
+          'X-API-Version': apiVersions[isVersioned],
         }
       });
       return next.handle(modifiedRequest);
