@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  HTTP_INTERCEPTORS,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { ClassProvider, Injectable, inject } from '@angular/core';
 
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -38,13 +33,13 @@ export class EoOrganizationIdInterceptor implements HttpInterceptor {
     if (!this.isApiRequest(this.apiBaseUrls, req)) return handler.handle(req);
 
     const org_ids = this.authService.user()?.org_ids;
-    if(!org_ids) return handler.handle(req);
+    if (!org_ids) return handler.handle(req);
 
     const modifiedReq = req.clone({
       setParams: {
         orgId: org_ids,
         organizationId: org_ids,
-      }
+      },
     });
     return handler.handle(modifiedReq);
   }

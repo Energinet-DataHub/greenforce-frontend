@@ -78,23 +78,27 @@ export class EoAuthService {
   }
 
   private setUser(user: User | null): void {
-    user ? this.user.set({
-      id_token: user?.id_token ?? '',
-      name: user?.profile?.name ?? '',
-      org_cvr: user?.profile?.org_cvr as string ?? '',
-      org_ids: user?.profile?.org_ids as string ?? '',
-      org_name: user?.profile?.org_name as string ?? '',
-      scope: user?.scopes,
-    }) : this.user.set(null);
+    user
+      ? this.user.set({
+          id_token: user?.id_token ?? '',
+          name: user?.profile?.name ?? '',
+          org_cvr: (user?.profile?.org_cvr as string) ?? '',
+          org_ids: (user?.profile?.org_ids as string) ?? '',
+          org_name: (user?.profile?.org_name as string) ?? '',
+          scope: user?.scopes,
+        })
+      : this.user.set(null);
   }
 
   signinCallback(): Promise<User | null> {
-    return this.userManager ? this.userManager?.signinCallback().then((user) => {
-      if(user) {
-        this.setUser(user);
-      }
-      return Promise.resolve(user ?? null);
-    }) : Promise.resolve(null);
+    return this.userManager
+      ? this.userManager?.signinCallback().then((user) => {
+          if (user) {
+            this.setUser(user);
+          }
+          return Promise.resolve(user ?? null);
+        })
+      : Promise.resolve(null);
   }
 
   renewToken(): Promise<User | null> {
@@ -111,7 +115,7 @@ export class EoAuthService {
 
   checkForExistingToken() {
     return this.userManager?.getUser().then((user) => {
-      if(!user) return;
+      if (!user) return;
       this.setUser(user);
     });
   }

@@ -149,9 +149,7 @@ export class EoConsentOverviewComponent implements OnInit {
 
     this.transloco
       .selectTranslation()
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.setColumns(this.authService.user()?.org_name);
         this.cd.detectChanges();

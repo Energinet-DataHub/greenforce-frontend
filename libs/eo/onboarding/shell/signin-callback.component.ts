@@ -47,7 +47,8 @@ export class EoSigninCallbackComponent implements OnInit {
   private readonly transloco = inject(TranslocoService);
 
   ngOnInit() {
-    this.authService.signinCallback()
+    this.authService
+      .signinCallback()
       .then((user) => {
         if (!user) return;
         if (!user.id_token) return;
@@ -58,17 +59,23 @@ export class EoSigninCallbackComponent implements OnInit {
         // If the user has not accepted the privacy policy and terms, redirect to the terms page
         if (user.scopes.includes('not-accepted-privacypolicy-terms')) {
           this.router.navigate([this.transloco.getActiveLang(), 'terms'], {
-            queryParams: { 'third-party-client-id': thirdPartyClientId, 'redirect-url': redirectUrl },
+            queryParams: {
+              'third-party-client-id': thirdPartyClientId,
+              'redirect-url': redirectUrl,
+            },
           });
           return;
         }
 
         // Redirect to the on-boarding flow, redirect URL or fallback to the dashboard
-        if(thirdPartyClientId) {
+        if (thirdPartyClientId) {
           this.router.navigate(['/consent'], {
-            queryParams: { 'third-party-client-id': thirdPartyClientId, 'redirect-url': redirectUrl },
+            queryParams: {
+              'third-party-client-id': thirdPartyClientId,
+              'redirect-url': redirectUrl,
+            },
           });
-        } else if(redirectUrl) {
+        } else if (redirectUrl) {
           this.router.navigateByUrl(redirectUrl);
         } else {
           this.router.navigate([this.transloco.getActiveLang(), 'dashboard'], {

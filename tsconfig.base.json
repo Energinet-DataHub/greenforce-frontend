@@ -280,8 +280,10 @@
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/core/api-versioning": [
+        "libs/eo/core/util-api-versioning/index.ts"
+      ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
-      "@energinet-datahub/eo/core/api-versioning": ["libs/eo/core/util-api-versioning/index.ts"],
       "@energinet-datahub/eo/dashboard/domain": [
         "libs/eo/dashboard/domain/index.ts"
       ],
