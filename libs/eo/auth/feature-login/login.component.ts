@@ -14,39 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
+import { Component, inject, OnInit } from '@angular/core';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   standalone: true,
-  selector: 'eo-onboarding-shell',
+  selector: 'eo-login',
   imports: [WattSpinnerComponent],
-  styles: `
-    :host {
-      height: 100vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  `,
-  template: ` <watt-spinner /> `,
+  styles: [
+    `
+      .spinner {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+    `,
+  ],
+  template: `<div class="spinner"><watt-spinner /></div>`,
 })
-export class EoOnboardingShellComponent implements OnInit {
-  private auth = inject(EoAuthService);
-  private route = inject(ActivatedRoute);
+export class EoLoginComponent implements OnInit {
+  private readonly authService: EoAuthService = inject(EoAuthService);
 
-  clientId: string | null = null;
-
-  ngOnInit() {
-    const thirdPartyClientId = this.route.snapshot.queryParamMap.get('client-id');
-    const redirectUrl = this.route.snapshot.queryParamMap.get('redirect-url');
-
-    if (!thirdPartyClientId || !redirectUrl) return;
-
-    this.auth.login(thirdPartyClientId, redirectUrl);
+  ngOnInit(): void {
+    this.authService.login();
   }
 }

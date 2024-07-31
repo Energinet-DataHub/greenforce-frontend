@@ -16,11 +16,10 @@
  */
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-
-import { AuthService } from './auth.service';
 
 interface State {
   thirdPartyClientId: string;
@@ -44,26 +43,41 @@ interface State {
 })
 export class EoSigninCallbackComponent implements OnInit {
   private readonly router = inject(Router);
-  private readonly authService = inject(AuthService);
-  private readonly oldAuthService = inject(EoAuthService);
+  private readonly authService: EoAuthService = inject(EoAuthService);
+  private readonly transloco = inject(TranslocoService);
 
   ngOnInit() {
-    this.authService.userManager
-      ?.signinCallback()
+    this.authService.signinCallback()
       .then((user) => {
         if (!user) return;
         if (!user.id_token) return;
 
-        this.oldAuthService.handleToken(user.id_token);
-        const thirdPartyClientId = (user.state as State).thirdPartyClientId;
-        const redirectUrl = (user.state as State).redirectUrl;
+        const thirdPartyClientId = (user.state as State)?.thirdPartyClientId;
+        const redirectUrl = (user.state as State)?.redirectUrl;
 
-        this.router.navigate(['/consent'], {
-          queryParams: { 'third-party-client-id': thirdPartyClientId, 'redirect-url': redirectUrl },
-        });
+        // If the user has not accepted the privacy policy and terms, redirect to the terms page
+        if (user.scopes.includes('not-accepted-privacypolicy-terms')) {
+          this.router.navigate([this.transloco.getActiveLang(), 'terms'], {
+            queryParams: { 'third-party-client-id': thirdPartyClientId, 'redirect-url': redirectUrl },
+          });
+          return;
+        }
+
+        // Redirect to the on-boarding flow, redirect URL or fallback to the dashboard
+        if(thirdPartyClientId) {
+          this.router.navigate(['/consent'], {
+            queryParams: { 'third-party-client-id': thirdPartyClientId, 'redirect-url': redirectUrl },
+          });
+        } else if(redirectUrl) {
+          this.router.navigateByUrl(redirectUrl);
+        } else {
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard'], {
+            queryParamsHandling: 'preserve',
+          });
+        }
       })
-      .catch((err) => {
-        console.error('Error processing signin callback:', err);
+      .catch(() => {
+        this.authService.login();
       });
   }
 }

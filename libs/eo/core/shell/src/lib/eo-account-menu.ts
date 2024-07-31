@@ -22,10 +22,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
@@ -112,8 +111,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   `,
 })
 export class EoAccountMenuComponent {
-  private authStore = inject(EoAuthStore);
-
-  protected user = toSignal(this.authStore.getUserInfo$);
+  protected user = inject(EoAuthService).user;
   protected isOpen = signal<boolean>(false);
 }

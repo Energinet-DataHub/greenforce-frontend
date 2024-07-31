@@ -23,7 +23,7 @@ import {
   UrlSegment,
   UrlSegmentGroup,
 } from '@angular/router';
-import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
+import { EoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
@@ -36,7 +36,7 @@ import {
   eoOnboardingRoutePath,
   eoConsentRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { EoLoginComponent } from './eo-login.component';
+import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { EoShellComponent } from './eo-shell.component';
 import { translations } from '@energinet-datahub/eo/translations';
 import { inject } from '@angular/core';

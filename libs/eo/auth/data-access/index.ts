@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+export * from './auth.interceptor';
+export * from './auth.service';
+export * from './eo-authentication.guard';
+export * from './idle-timer.service';
+export * from './organization-id.interceptor';
+export * from './terms.service';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setUpTestbed();

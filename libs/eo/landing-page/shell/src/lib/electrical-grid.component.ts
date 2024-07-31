@@ -23,7 +23,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { translations } from '@energinet-datahub/eo/translations';

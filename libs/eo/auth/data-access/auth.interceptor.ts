@@ -30,13 +30,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 import { EoAuthService } from './auth.service';
-import { EoAuthStore } from './auth.store';
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
   private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
   private authService: EoAuthService = inject(EoAuthService);
-  private authStore: EoAuthStore = inject(EoAuthStore);
   private toastService: WattToastService = inject(WattToastService);
   private transloco: TranslocoService = inject(TranslocoService);
 
@@ -50,12 +48,12 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
     // Add Authorization header to the request
     const authorizedRequest = req.clone({
-      headers: req.headers.append('Authorization', `Bearer ${this.authStore.token.getValue()}`),
+      headers: req.headers.append('Authorization', `Bearer ${this.authService.user()?.id_token}`),
     });
     return handler.handle(authorizedRequest).pipe(
       tap(() => {
         if (this.shouldRefreshToken(req)) {
-          this.authService.refreshToken().subscribe();
+          this.authService.refreshToken();
         }
       }),
       catchError((error) => {

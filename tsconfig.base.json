@@ -233,8 +233,11 @@
       "@energinet-datahub/eo/api-documentation/markdown": [
         "libs/eo/api-documentation/feature-markdown/index.ts"
       ],
-      "@energinet-datahub/eo/auth/routing-security": [
-        "libs/eo/auth/routing-security/src/index.ts"
+      "@energinet-datahub/eo/auth/data-access": [
+        "libs/eo/auth/data-access/index.ts"
+      ],
+      "@energinet-datahub/eo/auth/feature-login": [
+        "libs/eo/auth/feature-login/index.ts"
       ],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"
@@ -278,6 +281,7 @@
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
+      "@energinet-datahub/eo/core/api-versioning": ["libs/eo/core/util-api-versioning/index.ts"],
       "@energinet-datahub/eo/dashboard/domain": [
         "libs/eo/dashboard/domain/index.ts"
       ],
@@ -342,9 +346,6 @@
       "@energinet-datahub/eo/shared/domain": ["libs/eo/shared/domain/index.ts"],
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/services": [
-        "libs/eo/shared/services/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/utilities": [
         "libs/eo/shared/utilities/src/index.ts"

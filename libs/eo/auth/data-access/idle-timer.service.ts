@@ -21,7 +21,7 @@ import { Subject, debounceTime, fromEvent, map, merge, startWith, takeUntil, tim
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { EoAuthService } from '../auth/auth.service';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
 import {
   EoIdleTimerCountdownModalComponent,

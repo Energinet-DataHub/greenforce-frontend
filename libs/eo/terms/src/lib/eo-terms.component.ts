@@ -31,7 +31,7 @@ import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/auth/data-access';
 import { TranslocoService } from '@ngneat/transloco';
 
 interface VersionResponse {
