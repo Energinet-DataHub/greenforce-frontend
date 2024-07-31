@@ -29,7 +29,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { fromUnixTime } from 'date-fns';
 
