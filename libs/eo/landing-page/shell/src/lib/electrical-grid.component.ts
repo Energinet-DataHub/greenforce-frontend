@@ -187,7 +187,7 @@ export class EoLandingPageElectricalGridComponent implements AfterViewInit {
   }
 
   onLogin(): void {
-    this.authService.startLogin();
+    this.authService.login();
   }
 
   onLearnMore(): void {

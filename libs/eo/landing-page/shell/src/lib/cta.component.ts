@@ -106,6 +106,6 @@ export class EoLandingPageCTAComponent {
   protected translations = translations;
 
   onLogin(): void {
-    this.authService.startLogin();
+    this.authService.login();
   }
 }

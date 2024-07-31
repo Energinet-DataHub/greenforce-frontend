@@ -144,7 +144,7 @@ export class EoLandingPageHeaderComponent {
   }
 
   login() {
-    this.authService.startLogin();
+    this.authService.login();
   }
 
   init(): void {

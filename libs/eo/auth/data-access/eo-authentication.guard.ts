@@ -32,7 +32,7 @@ export class EoScopeGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     // Skip authentication for specific routes
-    if (route.data && route.data.skipGuard) {
+    if (route.data && route.data['skipGuard']) {
       return true;
     }
 

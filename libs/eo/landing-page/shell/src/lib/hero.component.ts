@@ -182,6 +182,6 @@ export class EoLandingPageHeroComponent implements AfterViewInit {
   }
 
   onLogin(): void {
-    this.authService.startLogin();
+    this.authService.login();
   }
 }

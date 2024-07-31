@@ -82,9 +82,9 @@ export class EoAuthService {
       ? this.user.set({
           id_token: user?.id_token ?? '',
           name: user?.profile?.name ?? '',
-          org_cvr: (user?.profile?.org_cvr as string) ?? '',
-          org_ids: (user?.profile?.org_ids as string) ?? '',
-          org_name: (user?.profile?.org_name as string) ?? '',
+          org_cvr: (user?.profile?.['org_cvr'] as string) ?? '',
+          org_ids: (user?.profile?.['org_ids'] as string) ?? '',
+          org_name: (user?.profile?.['org_name'] as string) ?? '',
           scope: user?.scopes,
         })
       : this.user.set(null);
