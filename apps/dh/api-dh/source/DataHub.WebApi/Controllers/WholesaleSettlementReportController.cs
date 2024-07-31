@@ -24,40 +24,12 @@ namespace Energinet.DataHub.WebApi.Controllers;
 [Route("v1/[controller]")]
 public sealed class WholesaleSettlementReportController : ControllerBase
 {
-    private readonly IWholesaleClient_V3 _client;
     private readonly ISettlementReportsClient _settlementReportsClient;
 
     public WholesaleSettlementReportController(
-        IWholesaleClient_V3 client,
         ISettlementReportsClient settlementReportsClient)
     {
-        _client = client;
         _settlementReportsClient = settlementReportsClient;
-    }
-
-    [HttpGet("Download")]
-    [Produces("application/zip")]
-    public async Task<ActionResult<Stream>> DownloadAsync(
-        [FromQuery] string[] gridAreaCodes,
-        [FromQuery] CalculationType calculationType,
-        [FromQuery] DateTimeOffset periodStart,
-        [FromQuery] DateTimeOffset periodEnd,
-        [FromQuery] string? energySupplier,
-        [FromQuery] string? csvLanguage)
-    {
-        var fileResponse = await _client
-            .DownloadAsync(gridAreaCodes, calculationType, periodStart, periodEnd, energySupplier, csvLanguage)
-            .ConfigureAwait(false);
-
-        var fileName = "SettlementReport.zip";
-
-        if (fileResponse.Headers.TryGetValue("Content-Disposition", out var values))
-        {
-            var contentDisposition = new ContentDisposition(values.First());
-            fileName = contentDisposition.FileName ?? fileName;
-        }
-
-        return File(fileResponse.Stream, MediaTypeNames.Application.Zip, fileName);
     }
 
     [HttpGet("DownloadReport")]

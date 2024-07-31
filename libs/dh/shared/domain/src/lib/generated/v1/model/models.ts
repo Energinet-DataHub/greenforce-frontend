@@ -16,4 +16,3 @@ export * from './market-participant-user-role-view-dto';
 export * from './search-result';
 export * from './sort-direction';
 export * from './stream';
-export * from './wholesale-calculation-type';

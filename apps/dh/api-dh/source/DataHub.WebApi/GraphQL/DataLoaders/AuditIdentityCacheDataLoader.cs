@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, GetAuditIdentityResponse>
+public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, AuditIdentityDto>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
@@ -26,7 +26,7 @@ public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, GetAuditIdenti
         : base(options) =>
         _client = client;
 
-    protected override Task<GetAuditIdentityResponse> LoadSingleAsync(
+    protected override Task<AuditIdentityDto> LoadSingleAsync(
         Guid key,
-        CancellationToken cancellationToken) => _client.AuditIdentityAsync(key, cancellationToken);
+        CancellationToken cancellationToken) => _client.AuditIdentityGetAsync(key, cancellationToken);
 }

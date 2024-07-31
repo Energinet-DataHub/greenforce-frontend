@@ -28,7 +28,7 @@ public sealed class PermissionAuditedChangeAuditLogDtoType : ObjectType<Permissi
                 var parent = ctx.Parent<PermissionAuditedChangeAuditLogDto>();
                 var auditIdentity = await ctx
                     .Service<IMarketParticipantClient_V1>()
-                    .AuditIdentityAsync(parent.AuditIdentityId, ct)
+                    .AuditIdentityGetAsync(parent.AuditIdentityId, ct)
                     .ConfigureAwait(false);
 
                 return auditIdentity.DisplayName;
