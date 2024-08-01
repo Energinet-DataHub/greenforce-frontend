@@ -17,7 +17,11 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
-import { environment, eoApiEnvironmentToken, eoB2cEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import {
+  environment,
+  eoApiEnvironmentToken,
+  eoB2cEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
