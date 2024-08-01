@@ -36,17 +36,11 @@ export class EoScopeGuard implements CanActivate {
       return true;
     }
 
-    const scope = this.authService.user()?.scope || [];
-
-    if (scope.length === 0 || !this.authService.user()?.id_token) {
-      this.authService.login(window.location.pathname + window.location.search);
-      return false;
-    }
-
-    if (scope.includes('not-accepted-privacypolicy-terms')) {
+    if (!this.authService.user()?.tos_accepted) {
       this.router.navigate([this.transloco.getActiveLang(), 'terms']);
+      return false;
+    } else {
+      return true;
     }
-
-    return !scope.includes('not-accepted-privacypolicy-terms');
   }
 }

@@ -27,6 +27,7 @@ export interface EoUser {
   org_cvr: string;
   org_ids: string;
   scope?: string[];
+  tos_accepted: boolean;
 }
 
 @Injectable({
@@ -86,6 +87,7 @@ export class EoAuthService {
           org_ids: (user?.profile?.['org_ids'] as string) ?? '',
           org_name: (user?.profile?.['org_name'] as string) ?? '',
           scope: user?.scopes,
+          tos_accepted: !!user?.profile?.['tos_accepted'],
         })
       : this.user.set(null);
   }
@@ -93,6 +95,7 @@ export class EoAuthService {
   signinCallback(): Promise<User | null> {
     return this.userManager
       ? this.userManager?.signinCallback().then((user) => {
+          console.log('user', user);
           if (user) {
             this.setUser(user);
           }
