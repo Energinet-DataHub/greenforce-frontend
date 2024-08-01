@@ -2,11 +2,11 @@
   "apiBase": "/api",
   "developerPortal": "/developer/",
   "apiVersions": {
-    "certificates": "20240423",
+    "certificates": "20240515",
     "wallet-api": "20240515",
-    "transfer": "20240103",
-    "claim-automation": "20240103",
-    "measurements": "20240110",
+    "transfer": "20240515",
+    "claim-automation": "20240515",
+    "measurements": "20240515",
     "authorization": "20230101"
   },
   "/* NOTE: Remember to add the URLs to the prerendered routes: /apps/eo/app-eo-landing-page/src/prerendered-routes.txt */": "ex. /en/documentation/<DOC-ID>",
