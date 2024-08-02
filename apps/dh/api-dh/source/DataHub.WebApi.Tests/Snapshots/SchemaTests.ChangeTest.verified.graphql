@@ -130,6 +130,7 @@ type Calculation {
   areSettlementReportsCreated: Boolean!
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
+  completedTime: DateTime
 }
 
 type CalculationProgress {

@@ -262,6 +262,11 @@
           "createdByUserId": {
             "type": "string",
             "format": "uuid"
+          },
+          "completedTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },

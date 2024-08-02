@@ -454,7 +454,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -466,7 +466,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -547,6 +547,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 
         [Newtonsoft.Json.JsonProperty("createdByUserId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid CreatedByUserId { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("completedTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? CompletedTime { get; set; }
 
     }
 
@@ -694,4 +697,3 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
 #pragma warning restore 3016
 #pragma warning restore 8603
 #pragma warning restore 8604
-#pragma warning restore 8625
