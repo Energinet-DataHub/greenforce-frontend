@@ -20,19 +20,22 @@ using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
 
-public class WholesaleStatusTypeQueryTests
+public class CalculationProgressQueryTests
 {
-    private static readonly Guid _batchId = new("9cce3e8f-b56d-49f8-a6af-42cc6dc3246f");
+    private static readonly Guid _batchId = new("14098365-3231-40e3-8c1b-5a73dbab31c0");
 
     private static readonly string _calculationByIdQuery =
     $$"""
     {
-        calculationById(id: "{{_batchId}}") {
-            id
-            statusType
+      calculationById(id: "{{_batchId}}") {
+        id
+        progress {
+          step
+          status
         }
+      }
     }
     """;
 
@@ -45,8 +48,8 @@ public class WholesaleStatusTypeQueryTests
     [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuingFailed)]
     [InlineData(CalculationOrchestrationState.ActorMessagesEnqueued)]
     [InlineData(CalculationOrchestrationState.Completed)]
-    public async Task GetCalculationStatusTypeAsync(CalculationOrchestrationState orchestrationState) =>
-        await ExecuteTestAsync(orchestrationState);
+    public async Task GetCalculationProgressAsync(CalculationOrchestrationState state) =>
+        await ExecuteTestAsync(state);
 
     private static async Task ExecuteTestAsync(CalculationOrchestrationState orchestrationState)
     {
