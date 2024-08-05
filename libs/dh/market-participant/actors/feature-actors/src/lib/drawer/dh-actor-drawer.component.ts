@@ -15,7 +15,16 @@
  * limitations under the License.
  */
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, inject, input, signal, computed, viewChild, DestroyRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  signal,
+  computed,
+  viewChild,
+  DestroyRef,
+  output,
+} from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
@@ -112,6 +121,7 @@ export class DhActorDrawerComponent {
   actor = computed(() => this.actorQuery.data()?.actorById);
 
   hasActorAccess = signal(false);
+  closed = output();
 
   isLoading = this.actorQuery.loading;
 
