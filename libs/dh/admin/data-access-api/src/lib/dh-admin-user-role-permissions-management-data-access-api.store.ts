@@ -23,7 +23,10 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import { MarketParticipantUserRoleHttp } from '@energinet-datahub/dh/shared/domain';
-import { GetUserRoleWithPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DeactivateUserRoleDocument,
+  GetUserRoleWithPermissionsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhUserRoleWithPermissions = ResultOf<
   typeof GetUserRoleWithPermissionsDocument
@@ -34,11 +37,13 @@ export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions
 interface DhUserRoleWithPermissionsManagementState {
   readonly userRole: DhUserRoleWithPermissions | null;
   readonly requestState: LoadingState | ErrorState;
+  readonly deactivateUserRoleRequestState: LoadingState | ErrorState;
 }
 
 const initialState: DhUserRoleWithPermissionsManagementState = {
   userRole: null,
   requestState: LoadingState.INIT,
+  deactivateUserRoleRequestState: LoadingState.INIT,
 };
 
 @Injectable()
@@ -48,6 +53,10 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
+
+  deactivateUserRoleIsLoading$ = this.select(
+    (state) => state.deactivateUserRoleRequestState === LoadingState.LOADING
+  );
 
   userRole$ = this.select((state) => state.userRole).pipe(
     filter((userRole): userRole is DhUserRoleWithPermissions => userRole != null)
@@ -95,23 +104,32 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
       }>
     ) =>
       trigger$.pipe(
-        tap(() => {
-          this.patchState({ requestState: LoadingState.LOADING });
-        }),
         switchMap(({ userRoleId, onSuccessFn }) =>
-          this.httpClientUserRole.v1MarketParticipantUserRoleDeactivateGet(userRoleId).pipe(
-            tapResponse(
-              () => {
-                this.patchState({ requestState: LoadingState.LOADED });
-                onSuccessFn();
+          this.apollo
+            .mutate({
+              mutation: DeactivateUserRoleDocument,
+              variables: {
+                input: {
+                  roleId: userRoleId,
+                },
               },
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                this.updateUserRole(null);
-                this.handleError();
-              }
+            })
+            .pipe(
+              tapResponse(
+                (response) => {
+                  if (response.loading) {
+                    this.patchState({ deactivateUserRoleRequestState: LoadingState.LOADING });
+                    return;
+                  }
+
+                  this.patchState({ deactivateUserRoleRequestState: LoadingState.LOADED });
+                  onSuccessFn();
+                },
+                () => {
+                  this.patchState({ deactivateUserRoleRequestState: ErrorState.GENERAL_ERROR });
+                }
+              )
             )
-          )
         )
       )
   );

@@ -119,6 +119,7 @@ export class DhRoleDrawerComponent {
         message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
         type: 'info',
       });
+
       this.store.disableUserRole({
         userRoleId: this.basicUserRole.id,
         onSuccessFn: () => {
@@ -128,6 +129,7 @@ export class DhRoleDrawerComponent {
             ),
             type: 'success',
           });
+
           this.onDeActivated();
         },
       });

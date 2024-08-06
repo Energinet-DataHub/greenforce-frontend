@@ -43,6 +43,7 @@ import {
   mockReInviteUserMutation,
   mockReset2faMutation,
   mockGetSelectionActorsQuery,
+  mockDeactivateUserRoleMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -85,6 +86,7 @@ export function adminMocks() {
     getUserRolesByEicfunction(),
     createUserRole(),
     getUserRolesByActorId(),
+    deactivateUserRole(),
   ];
 }
 
@@ -420,6 +422,24 @@ function getUserRolesByEicfunction() {
   return mockGetUserRolesByEicfunctionQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({ data: getUserRolesByEicfunctionQuery });
+  });
+}
+
+function deactivateUserRole() {
+  return mockDeactivateUserRoleMutation(async () => {
+    await delay(mswConfig.delay);
+    const errors = maybeError();
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        deactivateUserRole: {
+          __typename: 'DeactivateUserRolePayload',
+          success: errors === null,
+          errors,
+        },
+      },
+    });
   });
 }
 
