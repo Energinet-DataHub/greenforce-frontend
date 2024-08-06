@@ -70,7 +70,6 @@ export class DhSettlementReportsTableComponent {
     numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
     includesBasisData: { accessor: 'includesBasisData' },
     status: { accessor: 'statusType' },
-    progress: { accessor: 'progress' },
   };
 
   displayedColumns = Object.keys(this.columns);
