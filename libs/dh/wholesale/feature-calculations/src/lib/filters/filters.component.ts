@@ -134,8 +134,10 @@ export class DhCalculationsFiltersComponent implements OnInit {
   _formGroup!: FormGroup<Filters>;
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
-  executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState);
   gridAreaOptions$ = getGridAreaOptions();
+  executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState, null, [
+    CalculationOrchestrationState.ActorMessagesEnqueued,
+  ]);
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({
