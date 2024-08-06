@@ -17,19 +17,24 @@
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MutationResult } from 'apollo-angular';
 
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  GetActorByIdDocument,
   GetActorEditableFieldsDocument,
+  GetActorsDocument,
+  GetAuditLogByActorIdDocument,
   UpdateActorDocument,
+  UpdateActorMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -94,19 +99,22 @@ export class DhActorsEditActorModalComponent {
   );
 
   constructor() {
-    effect(() => {
-      const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
-      if (!actorEditableFields) return;
+    effect(
+      () => {
+        const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
+        if (!actorEditableFields) return;
 
-      const { name, contact } = actorEditableFields;
+        const { name, contact } = actorEditableFields;
 
-      this.actorForm.patchValue({
-        name,
-        departmentName: contact?.name,
-        departmentPhone: contact?.phone,
-        departmentEmail: contact?.email,
-      });
-    });
+        this.actorForm.patchValue({
+          name,
+          departmentName: contact?.name,
+          departmentPhone: contact?.phone,
+          departmentEmail: contact?.email,
+        });
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   open() {
@@ -140,6 +148,13 @@ export class DhActorsEditActorModalComponent {
           departmentEmail,
         },
       },
+      refetchQueries: (result) => {
+        if (this.isUpdateSuccessful(result.data)) {
+          return [GetActorsDocument, GetActorByIdDocument, GetAuditLogByActorIdDocument];
+        }
+
+        return [];
+      },
       onCompleted: (data) => {
         if (data.updateActor.errors) {
           this.showToast('danger', 'error');
@@ -165,5 +180,9 @@ export class DhActorsEditActorModalComponent {
         `marketParticipant.actorsOverview.edit.updateRequest.${label}`
       ),
     });
+  }
+
+  private isUpdateSuccessful(mutationResult: MutationResult<UpdateActorMutation>['data']): boolean {
+    return !mutationResult?.updateActor.errors?.length;
   }
 }

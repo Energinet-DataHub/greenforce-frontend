@@ -2,8 +2,8 @@ query GetCalculations($input: CalculationQueryInput!) {
   calculations(input: $input) {
     id
     state
-    executionTimeEnd
     executionTimeStart
+    executionTimeEnd
     period
     statusType
     calculationType

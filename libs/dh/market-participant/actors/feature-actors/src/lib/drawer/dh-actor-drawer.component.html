@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
-  <watt-drawer [loading]="isLoading()" #drawer>
+  <watt-drawer [loading]="isLoading()" #drawer (closed)="closed.emit()">
     <watt-drawer-topbar>
       <dh-actor-status-badge [status]="actor()?.status" />
     </watt-drawer-topbar>

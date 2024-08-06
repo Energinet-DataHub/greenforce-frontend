@@ -53,7 +53,7 @@ services.AddJwtBearerAuthentication(mitIdExternalOpenIdUrl, externalOpenIdUrl, i
 
 services
     .AddAuthorizationBuilder()
-    .AddPolicy("fas", policy => policy.RequireClaim("membership", "fas"));
+    .AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true"));
 
 if (environment.IsDevelopment())
 {

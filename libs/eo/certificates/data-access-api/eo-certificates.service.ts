@@ -108,7 +108,11 @@ export class EoCertificatesService {
   }
 
   private cacheCertificate(cacheKey: string, certificate: EoCertificate): void {
-    this.certificateCache[cacheKey] = certificate;
+    this.certificateCache[cacheKey] = {
+      ...certificate,
+      start: certificate.start * 1000,
+      end: certificate.end * 1000,
+    };
   }
 
   private getCachedNotFound(cacheKey: string): boolean {
