@@ -27,7 +27,9 @@ import { TranslocoDirective } from '@ngneat/transloco';
   template: `<ng-container *transloco="let t; read: 'wholesale.settlementReportsV2.reportStatus'">
     @switch (status()) {
       @case ('IN_PROGRESS') {
-        <watt-badge type="info">{{ t(status(), { progress: progress() | number: "1.2-2" }) }}</watt-badge>
+        <watt-badge type="info">{{
+          t(status(), { progress: progress() | number: '1.2-2' })
+        }}</watt-badge>
       }
       @case ('ERROR') {
         <watt-badge type="warning">{{ t(status()) }}</watt-badge>
