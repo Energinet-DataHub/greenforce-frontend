@@ -63,7 +63,8 @@ public class EsettExchangeResolvers
                 httpContextAccessor.HttpContext!,
                 "GetDispatchDocument",
                 "EsettExchange",
-                new { documentId = result.DocumentId });
+                new { documentId = result.DocumentId },
+                pathBase: "/bff");
 
     public string? GetResponseDocument(
        [Parent] ExchangeEventTrackingResult result,
@@ -73,5 +74,6 @@ public class EsettExchangeResolvers
                httpContextAccessor.HttpContext!,
                "ResponseDocument",
                "EsettExchange",
-               new { documentId = result.DocumentId });
+               new { documentId = result.DocumentId },
+               pathBase: "/bff");
 }
