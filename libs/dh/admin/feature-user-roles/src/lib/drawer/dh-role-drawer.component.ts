@@ -77,6 +77,8 @@ export class DhRoleDrawerComponent {
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
+  deactivateUserRoleIsLoading$ = this.store.deactivateUserRoleIsLoading$;
+
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
 
