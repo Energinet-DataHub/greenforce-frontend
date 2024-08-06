@@ -1046,7 +1046,7 @@
         "actorName": "Market participant"
       },
       "reportStatus": {
-        "IN_PROGRESS": "In progress",
+        "IN_PROGRESS": "In progress ({{ progress }}%)",
         "ERROR": "Error",
         "COMPLETED": "Completed",
         "download": "Download"

@@ -1045,7 +1045,7 @@
         "actorName": "Aktørnavn"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang",
+        "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
         "download": "Download"
