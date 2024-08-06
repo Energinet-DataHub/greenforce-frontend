@@ -22,7 +22,6 @@ import { Apollo } from 'apollo-angular';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { MarketParticipantUserRoleHttp } from '@energinet-datahub/dh/shared/domain';
 import {
   DeactivateUserRoleDocument,
   GetUserRoleWithPermissionsDocument,
@@ -62,7 +61,7 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
     filter((userRole): userRole is DhUserRoleWithPermissions => userRole != null)
   );
 
-  constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
+  constructor() {
     super(initialState);
   }
 
