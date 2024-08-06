@@ -84,7 +84,8 @@ export class EoAuthService {
 
   acceptTos(): Promise<void> {
     const user = this.user();
-    if (!user || user?.tos_accepted) return Promise.reject('User not found or already accepted TOS');
+    if (!user || user?.tos_accepted)
+      return Promise.reject('User not found or already accepted TOS');
 
     return new Promise<void>((resolve, reject) => {
       this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {}).subscribe(

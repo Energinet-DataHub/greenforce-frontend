@@ -17,6 +17,4 @@
 import { Routes } from '@angular/router';
 import { EoTermsComponent } from './eo-terms.component';
 
-export const eoTermsRoutes: Routes = [
-  { path: '', component: EoTermsComponent, title: '' }
-];
+export const eoTermsRoutes: Routes = [{ path: '', component: EoTermsComponent, title: '' }];

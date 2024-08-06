@@ -146,7 +146,7 @@ export class EoTermsComponent {
     this.authService.acceptTos().then(() => {
       const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
 
-      if(redirectUrl) {
+      if (redirectUrl) {
         this.router.navigateByUrl(redirectUrl);
       } else {
         this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
