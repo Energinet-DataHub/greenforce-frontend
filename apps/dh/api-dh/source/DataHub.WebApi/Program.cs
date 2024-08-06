@@ -106,6 +106,7 @@ app.Use(async (context, next) =>
     app.Logger.LogError("X-Forwarded-For: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-For"));
     app.Logger.LogError("X-Forwarded-Proto: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Proto"));
     app.Logger.LogError("X-Forwarded-Host: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Host"));
+    context.Request.Host = new HostString(context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Host").FirstOrDefault() ?? context.Request.Host.Host);
     app.Logger.LogError("Host: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("Host"));
     await next(context);
 });
