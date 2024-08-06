@@ -9,6 +9,7 @@ query getSettlementReports {
     period
     numberOfGridAreasInReport
     includesBasisData
+    progress
     statusType
   }
 }
