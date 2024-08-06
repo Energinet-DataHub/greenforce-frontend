@@ -87,7 +87,7 @@ public class FilteredActorsQueryTests
             User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
             {
                 new("azp", actorId.ToString()),
-                new("membership", isFas ? "fas" : "non-fas"),
+                new("multitenancy", isFas ? "true" : "false"),
             })),
         };
 
