@@ -31,7 +31,7 @@ public class WholesaleResolvers
         GridAreaByCodeBatchDataLoader dataLoader)
     {
         var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(async c => await dataLoader.LoadAsync(c)));
-        return gridAreas.Where(g => g != null);
+        return gridAreas.Where(g => g != null).OrderBy(g => g.Code);
     }
 
     public async Task<GridAreaDto?> GetGridAreaAsync(

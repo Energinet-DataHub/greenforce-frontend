@@ -23,20 +23,20 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.MarketParticipant;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Actor;
 
-public class FilteredActorQueryTests
+public class FilteredActorsQueryTests
 {
     private static readonly string _filteredActors =
     $$"""
     {
-        filteredActors {
-            displayName
-            id
-            organization {
-                domain
-            }
+      filteredActors {
+        displayName
+        id
+        organization {
+          domain
         }
+      }
     }
     """;
 
@@ -50,25 +50,25 @@ public class FilteredActorQueryTests
 
         var actors = new List<ActorDto>
             {
-                new ActorDto()
+                new()
                 {
                     ActorId = actorId,
                     ActorNumber = new ActorNumberDto() { Value = "1234567890" },
-                    MarketRoles = new List<ActorMarketRoleDto>()
-                    {
+                    MarketRoles =
+                    [
                         new ActorMarketRoleDto() { EicFunction = EicFunction.DataHubAdministrator },
-                    },
+                    ],
                     Name = new ActorNameDto() { Value = "Test" },
                     OrganizationId = organizationId,
                 },
-                new ActorDto()
+                new()
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
                     ActorNumber = new ActorNumberDto() { Value = "1234567890" },
-                    MarketRoles = new List<ActorMarketRoleDto>()
-                    {
+                    MarketRoles =
+                    [
                         new ActorMarketRoleDto() { EicFunction = EicFunction.BillingAgent },
-                    },
+                    ],
                     Name = new ActorNameDto() { Value = "Test1" },
                     OrganizationId = organizationId,
                 },
@@ -82,13 +82,14 @@ public class FilteredActorQueryTests
             .Setup(x => x.OrganizationGetAsync(organizationId, default))
             .ReturnsAsync(new OrganizationDto() { OrganizationId = organizationId, Domain = "test.com" });
 
-        var context = new DefaultHttpContext();
-
-        context.User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+        var context = new DefaultHttpContext
         {
-            new("azp", actorId.ToString()),
-            new("membership", isFas ? "fas" : "non-fas"),
-        }));
+            User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+            {
+                new("azp", actorId.ToString()),
+                new("membership", isFas ? "fas" : "non-fas"),
+            })),
+        };
 
         GraphQLTestService.HttpContextAccessorMock
             .Setup(x => x.HttpContext)

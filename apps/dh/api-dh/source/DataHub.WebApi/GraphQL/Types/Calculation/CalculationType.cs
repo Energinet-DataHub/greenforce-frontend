@@ -24,6 +24,7 @@ public class CalculationType : ObjectType<CalculationDto>
     protected override void Configure(IObjectTypeDescriptor<CalculationDto> descriptor)
     {
         descriptor
+            .BindFieldsExplicitly()
             .Name("Calculation")
             .Description("An immutable calculation.");
 
@@ -32,10 +33,20 @@ public class CalculationType : ObjectType<CalculationDto>
             .Name("id");
 
         descriptor
+            .Field(f => f.CalculationType);
+
+        descriptor
             .Ignore(f => f.PeriodStart)
             .Ignore(f => f.PeriodEnd)
             .Field(f => new Interval(Instant.FromDateTimeOffset(f.PeriodStart), Instant.FromDateTimeOffset(f.PeriodEnd)))
             .Name("period");
+
+        descriptor
+            .Field(f => f.ExecutionTimeStart);
+
+        descriptor
+            .Field(f => f.CompletedTime)
+            .Name("executionTimeEnd");
 
         descriptor
             .Field(f => f.CreatedByUserId)
@@ -46,10 +57,6 @@ public class CalculationType : ObjectType<CalculationDto>
            .Field(f => f.GridAreaCodes)
            .Name("gridAreas")
            .ResolveWith<WholesaleResolvers>(c => c.GetGridAreasAsync(default!, default!));
-
-        descriptor
-            .Field(f => f.ExecutionState)
-            .Deprecated();
 
         descriptor
             .Field(f => f.OrchestrationState)

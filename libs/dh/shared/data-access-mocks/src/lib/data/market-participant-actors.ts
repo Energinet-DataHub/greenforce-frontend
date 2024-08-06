@@ -44,6 +44,7 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 1',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
@@ -66,6 +67,7 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 3',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
@@ -88,6 +90,7 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 2',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
@@ -110,6 +113,7 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 2',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
@@ -132,6 +136,7 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 3',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
@@ -177,5 +182,6 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 1',
     } as Organization,
+    publicMail: null,
   },
 ];

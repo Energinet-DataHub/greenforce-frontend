@@ -39,12 +39,16 @@ public class MarketParticipantResolvers
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] ActorDto actor,
-        GridAreaByIdBatchDataLoader dataLoader) =>
-            await Task.WhenAll(
-                actor.MarketRoles
-                    .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                    .Distinct()
-                    .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
+        GridAreaByIdBatchDataLoader dataLoader)
+    {
+        var gridAreas = await Task.WhenAll(
+            actor.MarketRoles
+                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
+                .Distinct()
+                .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
+
+        return gridAreas.OrderBy(g => g.Code);
+    }
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] ProcessDelegation result,
