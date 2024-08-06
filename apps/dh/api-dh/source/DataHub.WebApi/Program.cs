@@ -18,6 +18,7 @@ using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
@@ -38,6 +39,11 @@ if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
 services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+builder.Services.AddHttpLogging(options =>
+{
+    options.LoggingFields = HttpLoggingFields.RequestPropertiesAndHeaders;
+});
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -90,6 +96,17 @@ services.SetupHealthEndpoints(apiClientSettings);
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+
+app.UseHttpLogging();
+
+app.Use(async (context, next) =>
+{
+    // Connection: RemoteIp
+    app.Logger.LogError("Request RemoteIp: {RemoteIpAddress}", context.Connection.RemoteIpAddress);
+    app.Logger.LogError("X-Forwarded-For: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-For"));
+    app.Logger.LogError("X-Forwarded-Proto: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Proto"));
+    await next(context);
+});
 
 if (environment.IsDevelopment())
 {
