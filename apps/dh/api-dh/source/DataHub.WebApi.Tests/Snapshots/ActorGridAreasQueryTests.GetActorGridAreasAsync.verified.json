@@ -1,0 +1,23 @@
+﻿{
+  "data": {
+    "actorById": {
+      "gridAreas": [
+        {
+          "code": "001",
+          "name": "Grid Area 1",
+          "displayName": "001 • Grid Area 1"
+        },
+        {
+          "code": "002",
+          "name": "Grid Area 2",
+          "displayName": "002 • Grid Area 2"
+        },
+        {
+          "code": "003",
+          "name": "Grid Area 3",
+          "displayName": "003 • Grid Area 3"
+        }
+      ]
+    }
+  }
+}

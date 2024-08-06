@@ -13,60 +13,23 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class GridAreaByCodeBatchDataLoader : BatchDataLoader<string, GridAreaDto>
+public class GridAreaByCodeBatchDataLoader(
+    IMarketParticipantClient_V1 client,
+    IBatchScheduler batchScheduler,
+    DataLoaderOptions? options = null)
+    : BatchDataLoader<string, GridAreaDto>(batchScheduler, options)
 {
-    private readonly IMarketParticipantClient_V1 _client;
-
-    public GridAreaByCodeBatchDataLoader(
-        IMarketParticipantClient_V1 client,
-        IBatchScheduler batchScheduler,
-        DataLoaderOptions? options = null)
-        : base(batchScheduler, options) =>
-        _client = client;
-
     protected override async Task<IReadOnlyDictionary<string, GridAreaDto>> LoadBatchAsync(
         IReadOnlyList<string> keys,
         CancellationToken cancellationToken)
     {
-        var actors = await _client
-            .ActorGetAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        var gridAreas = await _client
-            .GridAreaGetAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        var result = new Dictionary<string, GridAreaDto>();
-
-        foreach (var gridArea in gridAreas)
-        {
-            var owner = actors.FirstOrDefault(actor =>
-                actor.Status == "Active" &&
-                actor.MarketRoles.Any(mr =>
-                    mr.EicFunction == EicFunction.GridAccessProvider &&
-                    mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
-
-            if (owner != null)
-            {
-                result.Add(gridArea.Code, new GridAreaDto
-                {
-                    Id = gridArea.Id,
-                    Code = gridArea.Code,
-                    Name = owner.Name.Value,
-                    PriceAreaCode = gridArea.PriceAreaCode,
-                    ValidFrom = gridArea.ValidFrom,
-                    ValidTo = gridArea.ValidTo,
-                });
-            }
-            else
-            {
-                result.Add(gridArea.Code, gridArea);
-            }
-        }
-
-        return result;
+        var gridAreas = await client.GetGridAreasAsync(cancellationToken);
+        return gridAreas
+            .Select(g => new KeyValuePair<string, GridAreaDto>(g.Code, g))
+            .ToDictionary();
     }
 }
