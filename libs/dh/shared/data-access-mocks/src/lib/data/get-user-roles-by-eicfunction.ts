@@ -17,7 +17,7 @@
 
 import { GetUserRolesByEicfunctionQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const getUserRolesByEicfunction: GetUserRolesByEicfunctionQuery = {
+export const getUserRolesByEicfunctionQuery: GetUserRolesByEicfunctionQuery = {
   __typename: 'Query',
   userRolesByEicFunction: [
     {

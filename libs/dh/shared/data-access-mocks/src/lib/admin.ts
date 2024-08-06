@@ -54,7 +54,7 @@ import { adminPermissionsMock } from './data/admin-get-permissions';
 import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-logs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
-import { getUserRolesByEicfunction } from './data/get-user-roles-by-eicfunction';
+import { getUserRolesByEicfunctionQuery } from './data/get-user-roles-by-eicfunction';
 import { filteredActors } from './data/market-participant-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
 import { overviewUsers } from './data/admin/user-overview-items';
@@ -62,17 +62,10 @@ import { overviewUsers } from './data/admin/user-overview-items';
 export function adminMocks() {
   return [
     mockGetSelectionActors(),
-    mockGetUserRoles(),
     getMarketParticipantUserGetUserAuditLogs(),
-    getUserRoleWithPermissionsQuery(),
-    updateUserRoleMutation(),
     getAdminPermissions(),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
-    getUserRoleAuditLogs(),
-    getUserRolesByEicfunctionQuery(),
-    mockCreateUserRole(),
-    getUserRolesByActorIdQuery(),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
     getUserOverviewQuery(),
@@ -84,6 +77,14 @@ export function adminMocks() {
     reActivedUser(),
     reInviteUser(),
     reset2fa(),
+
+    getUserRoles(),
+    getUserRoleWithPermissions(),
+    updateUserRole(),
+    getUserRoleAuditLogs(),
+    getUserRolesByEicfunction(),
+    createUserRole(),
+    getUserRolesByActorId(),
   ];
 }
 
@@ -193,7 +194,7 @@ function getFilteredActors() {
   });
 }
 
-function getUserRolesByActorIdQuery() {
+function getUserRolesByActorId() {
   return mockGetUserRolesByActorIdQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
     const [, second] = filteredActors;
@@ -209,7 +210,7 @@ function getUserRolesByActorIdQuery() {
   });
 }
 
-function mockGetUserRoles() {
+function getUserRoles() {
   return mockGetUserRolesQuery(async () => {
     await delay(mswConfig.delay);
 
@@ -224,7 +225,7 @@ function getMarketParticipantUserGetUserAuditLogs() {
   });
 }
 
-function getUserRoleWithPermissionsQuery() {
+function getUserRoleWithPermissions() {
   return mockGetUserRoleWithPermissionsQuery(async ({ variables }) => {
     const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
       (userRole) => userRole.id === variables.id
@@ -286,7 +287,7 @@ function getUserOverviewQuery() {
   });
 }
 
-function updateUserRoleMutation() {
+function updateUserRole() {
   return mockUpdateUserRoleMutation(async ({ variables }) => {
     const maybeErrorState = variables.input.userRoleId === userRolesOverview.userRoles[1].id;
 
@@ -344,7 +345,7 @@ function getAdminPermissionLogs() {
   });
 }
 
-function mockCreateUserRole() {
+function createUserRole() {
   return mockCreateUserRoleMutation(async () => {
     await delay(mswConfig.delay);
 
@@ -415,10 +416,10 @@ function updateUserAndRoles() {
   });
 }
 
-function getUserRolesByEicfunctionQuery() {
+function getUserRolesByEicfunction() {
   return mockGetUserRolesByEicfunctionQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: getUserRolesByEicfunction });
+    return HttpResponse.json({ data: getUserRolesByEicfunctionQuery });
   });
 }
 
