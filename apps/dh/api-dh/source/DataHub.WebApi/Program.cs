@@ -43,6 +43,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+
+    options.KnownNetworks.Add(IPNetwork.Parse("10.143.5.128/28"));
 });
 
 services.AddHealthChecks();
