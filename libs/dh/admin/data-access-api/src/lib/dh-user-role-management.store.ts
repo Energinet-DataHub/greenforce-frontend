@@ -33,20 +33,20 @@ export type DhUserRoleWithPermissions = ResultOf<
 
 export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions'][0];
 
-interface DhUserRoleWithPermissionsManagementState {
+interface DhUserRoleManagementState {
   readonly userRole: DhUserRoleWithPermissions | null;
   readonly requestState: LoadingState | ErrorState;
   readonly deactivateUserRoleRequestState: LoadingState | ErrorState;
 }
 
-const initialState: DhUserRoleWithPermissionsManagementState = {
+const initialState: DhUserRoleManagementState = {
   userRole: null,
   requestState: LoadingState.INIT,
   deactivateUserRoleRequestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends ComponentStore<DhUserRoleWithPermissionsManagementState> {
+export class DhUserRoleManagementStore extends ComponentStore<DhUserRoleManagementState> {
   private readonly apollo = inject(Apollo);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
@@ -135,16 +135,16 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
 
   private updateUserRole = this.updater(
     (
-      state: DhUserRoleWithPermissionsManagementState,
+      state: DhUserRoleManagementState,
       response: DhUserRoleWithPermissions | null
-    ): DhUserRoleWithPermissionsManagementState => ({
+    ): DhUserRoleManagementState => ({
       ...state,
       userRole: response,
     })
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState): DhUserRoleWithPermissionsManagementState => ({
+    (state, loadingState: LoadingState): DhUserRoleManagementState => ({
       ...state,
       requestState: loadingState,
     })

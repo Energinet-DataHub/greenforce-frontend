@@ -33,7 +33,7 @@ import {
   DhRoleStatusComponent,
   DhTabDataGeneralErrorComponent,
 } from '@energinet-datahub/dh/admin/shared';
-import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUserRoleManagementStore } from '@energinet-datahub/dh/admin/data-access-api';
 import { UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -46,7 +46,7 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
   standalone: true,
   templateUrl: './dh-role-drawer.component.html',
   styleUrls: [`./dh-role-drawer.component.scss`],
-  providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
+  providers: [provideComponentStore(DhUserRoleManagementStore)],
   imports: [
     RxLet,
     RxPush,
@@ -66,7 +66,7 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
   ],
 })
 export class DhRoleDrawerComponent {
-  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
+  private readonly store = inject(DhUserRoleManagementStore);
   private toastService = inject(WattToastService);
   private translocoService = inject(TranslocoService);
   basicUserRole: UserRoleDto | null = null;
