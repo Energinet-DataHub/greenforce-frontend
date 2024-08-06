@@ -19,6 +19,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { User, UserManager } from 'oidc-client-ts';
 
 import { eoB2cEnvironmentToken, EoB2cEnvironment } from '@energinet-datahub/eo/shared/environments';
+import { HttpClient } from '@angular/common/http';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '../../shared/environments/src';
 
 export interface EoUser {
   id_token: string;
@@ -26,7 +28,7 @@ export interface EoUser {
   org_name: string;
   org_cvr: string;
   org_ids: string;
-  scope?: string[];
+  scope: string[];
   tos_accepted: boolean;
 }
 
@@ -35,7 +37,9 @@ export interface EoUser {
 })
 export class EoAuthService {
   private transloco = inject(TranslocoService);
+  private http: HttpClient = inject(HttpClient);
   private b2cEnvironment: EoB2cEnvironment = inject(eoB2cEnvironmentToken);
+  private apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   private userManager: UserManager | null = null;
 
   user = signal<EoUser | null>(null);
@@ -78,6 +82,27 @@ export class EoAuthService {
     );
   }
 
+  acceptTos(): Promise<void> {
+    const user = this.user();
+    if (!user || user?.tos_accepted) return Promise.reject('User not found or already accepted TOS');
+
+    return new Promise<void>((resolve, reject) => {
+      this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {}).subscribe(
+        () => {
+          this.user.set({
+            ...user,
+            tos_accepted: true,
+          });
+          resolve();
+        },
+        (error) => {
+          this.login();
+          reject(error);
+        }
+      );
+    });
+  }
+
   private setUser(user: User | null): void {
     user
       ? this.user.set({
@@ -87,7 +112,7 @@ export class EoAuthService {
           org_ids: (user?.profile?.['org_ids'] as string) ?? '',
           org_name: (user?.profile?.['org_name'] as string) ?? '',
           scope: user?.scopes,
-          tos_accepted: !!user?.profile?.['tos_accepted'],
+          tos_accepted: this.user()?.tos_accepted ? true : !!user?.profile?.['tos_accepted'],
         })
       : this.user.set(null);
   }
@@ -95,7 +120,6 @@ export class EoAuthService {
   signinCallback(): Promise<User | null> {
     return this.userManager
       ? this.userManager?.signinCallback().then((user) => {
-          console.log('user', user);
           if (user) {
             this.setUser(user);
           }

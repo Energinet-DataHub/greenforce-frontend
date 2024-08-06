@@ -56,17 +56,6 @@ export class EoSigninCallbackComponent implements OnInit {
         const thirdPartyClientId = (user.state as State)?.thirdPartyClientId;
         const redirectUrl = (user.state as State)?.redirectUrl;
 
-        // If the user has not accepted the privacy policy and terms, redirect to the terms page
-        if (user.scopes.includes('not-accepted-privacypolicy-terms')) {
-          this.router.navigate([this.transloco.getActiveLang(), 'terms'], {
-            queryParams: {
-              'third-party-client-id': thirdPartyClientId,
-              'redirect-url': redirectUrl,
-            },
-          });
-          return;
-        }
-
         // Redirect to the on-boarding flow, redirect URL or fallback to the dashboard
         if (thirdPartyClientId) {
           this.router.navigate(['/consent'], {

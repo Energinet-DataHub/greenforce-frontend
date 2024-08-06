@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { catchError, of, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map, of } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
@@ -31,12 +31,11 @@ import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, EoTermsService } from '@energinet-datahub/eo/auth/data-access';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { TranslocoService } from '@ngneat/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DomSanitizer } from '@angular/platform-browser';
 
-interface VersionResponse {
-  version: number;
-}
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
@@ -49,7 +48,6 @@ interface VersionResponse {
     EoPrivacyPolicyComponent,
     EoScrollViewComponent,
     WattSpinnerComponent,
-    NgIf,
     AsyncPipe,
   ],
   selector: 'eo-auth-terms',
@@ -80,33 +78,34 @@ interface VersionResponse {
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
+            <!-- TODO: INLINE THIS COMPONENT -->
             <eo-privacy-policy
               class="watt-space-stack-l"
-              [policy]="privacyPolicy$ | async"
-              [hasError]="loadingPrivacyPolicyFailed"
+              [policy]="terms()"
+              [hasError]="loadingTermsFailed"
             />
           </eo-scroll-view>
-          <div class="watt-space-stack-m">
-            <watt-checkbox
-              [(ngModel)]="hasAcceptedPrivacyPolicy"
-              [disabled]="loadingPrivacyPolicyFailed"
+
+          @if (isLoggedIn) {
+            <div class="watt-space-stack-m">
+              <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
+                I have seen the Privacy Policy
+              </watt-checkbox>
+            </div>
+
+            <watt-button class="watt-space-inline-m" variant="secondary" (click)="onCancel()">
+              Back
+            </watt-button>
+
+            <watt-button
+              variant="primary"
+              (click)="onAccept()"
+              [disabled]="!hasAcceptedTerms"
+              [loading]="startedAcceptFlow"
             >
-              I have seen the Privacy Policy
-            </watt-checkbox>
-          </div>
-
-          <watt-button class="watt-space-inline-m" variant="secondary" (click)="onCancel()">
-            Back
-          </watt-button>
-
-          <watt-button
-            variant="primary"
-            (click)="onAccept()"
-            [disabled]="!hasAcceptedPrivacyPolicy"
-            [loading]="startedAcceptFlow"
-          >
-            Accept terms
-          </watt-button>
+              Accept terms
+            </watt-button>
+          }
         </div>
       </div>
     </div>
@@ -116,29 +115,24 @@ interface VersionResponse {
 })
 export class EoTermsComponent {
   private http = inject(HttpClient);
+  private sanitizer: DomSanitizer = inject(DomSanitizer);
   private transloco = inject(TranslocoService);
-  private termsService = inject(EoTermsService);
   private authService = inject(EoAuthService);
   private router = inject(Router);
-  private policyVersion$ = this.http.get<VersionResponse>(
-    '/assets/configuration/privacy-policy.json'
+  private activatedRoute = inject(ActivatedRoute);
+
+  isLoggedIn = !!this.authService.user();
+  loadingTermsFailed = false;
+  terms = toSignal(
+    this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' }).pipe(
+      map((html) => this.sanitizer.bypassSecurityTrustHtml(html)),
+      catchError(() => {
+        this.loadingTermsFailed = true;
+        return of(null);
+      })
+    )
   );
-
-  loadingPrivacyPolicyFailed = false;
-  privacyPolicy$ = this.policyVersion$.pipe(
-    switchMap((response) => {
-      this.termsService.setVersion(response.version);
-      return this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' });
-    }),
-    catchError(() => {
-      this.termsService.setVersion(-1);
-      this.loadingPrivacyPolicyFailed = true;
-
-      return of(null);
-    })
-  );
-
-  hasAcceptedPrivacyPolicy = false;
+  hasAcceptedTerms = false;
   startedAcceptFlow = false;
 
   onCancel() {
@@ -149,19 +143,14 @@ export class EoTermsComponent {
     if (this.startedAcceptFlow) return;
     this.startedAcceptFlow = true;
 
-    this.termsService
-      .acceptTerms()
-      .pipe(switchMap(() => this.authService.refreshToken()))
-      .subscribe({
-        next: () => {
-          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
-        },
-        error: () => {
-          this.router.navigate([this.transloco.getActiveLang()]);
-        },
-        complete: () => {
-          this.startedAcceptFlow = false;
-        },
-      });
+    this.authService.acceptTos().then(() => {
+      const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
+
+      if(redirectUrl) {
+        this.router.navigateByUrl(redirectUrl);
+      } else {
+        this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
+      }
+    });
   }
 }

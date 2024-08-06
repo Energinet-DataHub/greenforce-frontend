@@ -20,6 +20,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,6 +99,6 @@ import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-desig
   `,
 })
 export class EoPrivacyPolicyComponent {
-  @Input() policy!: string | null;
+  @Input() policy?: SafeHtml | null;
   @Input() hasError = false;
 }

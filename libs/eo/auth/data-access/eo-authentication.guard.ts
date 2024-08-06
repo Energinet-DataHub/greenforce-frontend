@@ -36,8 +36,21 @@ export class EoScopeGuard implements CanActivate {
       return true;
     }
 
+    // Save the current route to redirect to after login
+    const queryParams = new URLSearchParams(route.queryParams).toString();
+    const redirectUrl = queryParams ? route.url.join('/') + '?' + queryParams : location.pathname;
+
+    // Redirect to login if user is not authenticated
+    if (!this.authService.user()) {
+      this.authService.login(redirectUrl);
+      return false;
+    }
+
+    // Redirect to terms if user has not accepted them
     if (!this.authService.user()?.tos_accepted) {
-      this.router.navigate([this.transloco.getActiveLang(), 'terms']);
+      this.router.navigate([this.transloco.getActiveLang(), 'terms'], {
+        queryParams: { redirectUrl },
+      });
       return false;
     } else {
       return true;
