@@ -23,6 +23,6 @@ public sealed record RequestedSettlementReportDto(
     DateTimeOffset PeriodEnd,
     SettlementReportStatus Status,
     int GridAreaCount,
-    int Progress,
+    double Progress,
     Guid RequestedByActorId,
     bool ContainsBasisData);

@@ -473,7 +473,7 @@ type SettlementReport {
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   statusMessage: String!
-  progress: Int!
+  progress: Float!
   statusType: SettlementReportStatusType!
 }
 
