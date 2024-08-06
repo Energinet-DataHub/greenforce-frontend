@@ -48,9 +48,9 @@ builder.Services.AddHttpLogging(options =>
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
-        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
 
-    options.KnownNetworks.Add(IPNetwork.Parse("10.143.5.128/28"));
+    options.KnownNetworks.Add(IPNetwork.Parse("10.143.6.128/25"));
 });
 
 services.AddHealthChecks();
@@ -105,6 +105,7 @@ app.Use(async (context, next) =>
     app.Logger.LogError("Request RemoteIp: {RemoteIpAddress}", context.Connection.RemoteIpAddress);
     app.Logger.LogError("X-Forwarded-For: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-For"));
     app.Logger.LogError("X-Forwarded-Proto: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Proto"));
+    app.Logger.LogError("X-Forwarded-Host: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Host"));
     await next(context);
 });
 
