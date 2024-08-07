@@ -57,4 +57,13 @@ public partial class Mutation
         await client.UserRolesPostAsync(userRoleToCreate).ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> DeactivateUserRoleAsync(
+            Guid roleId,
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserRolesDeactivateAsync(roleId).ConfigureAwait(false);
+        return true;
+    }
 }
