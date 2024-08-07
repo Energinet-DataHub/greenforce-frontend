@@ -83,9 +83,15 @@ import {
 })
 export class DhUserRolesComponent implements OnChanges {
   private readonly store = inject(DhAdminUserRolesStore);
+
+  private _updateUserRoles: UpdateUserRoles = {
+    actors: [],
+  };
+
   @Input() user: DhUser | null = null;
   @Input() selectMode = false;
   @Input() expanded = true;
+
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
 
   isLoading$ = this.store.isLoading$;
@@ -95,10 +101,6 @@ export class DhUserRolesComponent implements OnChanges {
   columns: WattTableColumnDef<MarketParticipantUserRoleViewDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
-  };
-
-  private _updateUserRoles: UpdateUserRoles = {
-    actors: [],
   };
 
   resetUpdateUserRoles(): void {
