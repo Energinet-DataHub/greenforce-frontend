@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-import { HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
+
+import { tapResponse } from '@ngrx/operators';
+import { MsalService } from '@azure/msal-angular';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 
 import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { DhActorStorage } from './dh-actor-storage';
-import { MsalService } from '@azure/msal-angular';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
@@ -74,17 +76,20 @@ export class DhActorTokenService {
       tap(({ actorIds }) => this.actorStorage.setUserAssociatedActors(actorIds)),
       switchMap(() =>
         this.tokenHttp.v1TokenPost(this.actorStorage.getSelectedActorId()).pipe(
-          map(({ token }) => token),
-          tap(() => {
-            const account = this.msalService.instance.getActiveAccount();
-            if (account?.idTokenClaims) {
-              const givenName = account?.idTokenClaims['given_name'];
-              if (!givenName) {
-                localStorage.setItem('mitIdRelogin', 'true');
-                this.msalService.instance.logout();
+          tapResponse(
+            () => {
+              const account = this.msalService.instance.getActiveAccount();
+              if (account?.idTokenClaims) {
+                const givenName = account?.idTokenClaims['given_name'];
+                if (!givenName) {
+                  localStorage.setItem('mitIdRelogin', 'true');
+                  this.msalService.instance.logout();
+                }
               }
-            }
-          })
+            },
+            () => this.msalService.instance.logout()
+          ),
+          map(({ token }) => token)
         )
       )
     );
