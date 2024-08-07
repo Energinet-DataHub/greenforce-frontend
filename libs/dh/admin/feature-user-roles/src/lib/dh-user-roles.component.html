@@ -17,15 +17,15 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
   <ng-container
     *rxLet="
-      userRolesPrActor$;
-      let userRolesPrActor;
+      userRolesPerActor$;
+      let userRolesPerActor;
       error: error;
       suspense: suspense;
       errorTrigger: hasGeneralError$
     "
   >
     <mat-accordion multi class="container">
-      @for (actor of userRolesPrActor; track actor) {
+      @for (actor of userRolesPerActor; track actor) {
         <watt-expandable-card
           variant="solid"
           [expanded]="expanded"

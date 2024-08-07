@@ -41,8 +41,7 @@ import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expanda
 
 import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
-
+import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhAdminUserRolesStore,
   UpdateUserRoles,
@@ -96,9 +95,9 @@ export class DhUserRolesComponent implements OnChanges {
 
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
-  userRolesPrActor$ = this.store.userRolesPrActor$;
+  userRolesPerActor$ = this.store.userRolesPerActor$;
 
-  columns: WattTableColumnDef<MarketParticipantUserRoleViewDto> = {
+  columns: WattTableColumnDef<UserRoleViewDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
@@ -122,8 +121,8 @@ export class DhUserRolesComponent implements OnChanges {
 
   selectionChanged(
     actorId: string,
-    userRoles: MarketParticipantUserRoleViewDto[],
-    allAssignable: MarketParticipantUserRoleViewDto[]
+    userRoles: UserRoleViewDto[],
+    allAssignable: UserRoleViewDto[]
   ) {
     const actor = this.getOrAddActor(actorId);
 
