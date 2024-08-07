@@ -163,6 +163,8 @@ type DeactivateUserRolePayload {
 
 type EsettOutgoingMessage {
   period: DateRange!
+  dispatchDocumentUrl: String
+  responseDocumentUrl: String!
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!

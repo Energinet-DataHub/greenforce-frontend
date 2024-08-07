@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
@@ -86,6 +87,7 @@ export class DhOutgoingMessageDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly esettHttp = inject(EsettExchangeHttp);
   private readonly toastService = inject(WattToastService);
+  private readonly httpClient = inject(HttpClient);
 
   private subscription?: Subscription;
 
@@ -144,9 +146,7 @@ export class DhOutgoingMessageDrawerComponent {
             this.outgoingMessage.documentId &&
             this.outgoingMessage.documentStatus !== DocumentStatus.Received
           ) {
-            this.loadDispatchDocument(this.outgoingMessage.documentId).subscribe((res) =>
-              this.dispatchDocument.set(res)
-            );
+            this.loadDocument(this.outgoingMessage.dispatchDocumentUrl, this.dispatchDocument.set);
           }
 
           if (
@@ -155,22 +155,15 @@ export class DhOutgoingMessageDrawerComponent {
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
               this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
           ) {
-            this.loadResponseDocument(this.outgoingMessage.documentId).subscribe((res) =>
-              this.responseDocument.set(res)
-            );
+            this.loadDocument(this.outgoingMessage.responseDocumentUrl, this.responseDocument.set);
           }
         },
       });
   }
 
-  private loadResponseDocument(documentId: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentId).pipe(
-      switchMap((res) => {
-        const blob = res as unknown as Blob;
-        return new Response(blob).text();
-      }),
-      takeUntil(this.closed)
-    );
+  private loadDocument(url: string | null | undefined, setDocument: (doc: string) => void) {
+    if (!url) return;
+    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
   }
 
   private loadDispatchDocument(documentId: string): Observable<string> {
