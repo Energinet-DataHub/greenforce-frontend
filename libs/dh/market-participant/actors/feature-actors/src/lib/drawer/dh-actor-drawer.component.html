@@ -15,19 +15,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
-  <watt-drawer #drawer (closed)="onClose()">
+  <watt-drawer [loading]="isLoading()" #drawer (closed)="closed.emit()">
     <watt-drawer-topbar>
       <dh-actor-status-badge [status]="actor()?.status" />
     </watt-drawer-topbar>
 
-    <watt-drawer-actions>
-      <watt-button
-        *dhPermissionRequired="['actor-master-data:manage']"
-        variant="secondary"
-        (click)="editActorModal.open()"
-        >{{ t("edit") }}</watt-button
-      >
-    </watt-drawer-actions>
+    @if (hasActorAccess()) {
+      <watt-drawer-actions>
+        <watt-button
+          *dhPermissionRequired="['actor-master-data:manage']"
+          variant="secondary"
+          (click)="editActorModal.open()"
+          >{{ t("edit") }}</watt-button
+        >
+      </watt-drawer-actions>
+    }
 
     <watt-drawer-heading>
       <h2 class="actor-heading">
@@ -88,7 +90,7 @@ limitations under the License.
             </watt-card>
           </watt-tab>
 
-          @if (hasActorAccess && actor()) {
+          @if (hasActorAccess() && actor()) {
             <watt-tab
               [label]="t('tabs.b2bAccess.tabLabel')"
               *dhPermissionRequired="['actor-credentials:manage']"

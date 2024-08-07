@@ -679,6 +679,54 @@
         }
       }
     },
+    "/actor/contacts/public": {
+      "get": {
+        "tags": [
+          "ActorContact"
+        ],
+        "operationId": "public",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorContactDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorContactDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActorContactDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/{actorId}/contact": {
       "get": {
         "tags": [
@@ -934,17 +982,96 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAuditIdentityResponse"
+                  "$ref": "#/components/schemas/AuditIdentityDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAuditIdentityResponse"
+                  "$ref": "#/components/schemas/AuditIdentityDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAuditIdentityResponse"
+                  "$ref": "#/components/schemas/AuditIdentityDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/audit-identity": {
+      "post": {
+        "tags": [
+          "AuditIdentity"
+        ],
+        "operationId": "audit-identityAll",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditIdentityDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditIdentityDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditIdentityDto"
+                  }
                 }
               }
             }
@@ -3022,6 +3149,62 @@
         }
       }
     },
+    "/user-roles/assignedtopermission": {
+      "get": {
+        "tags": [
+          "UserRole"
+        ],
+        "operationId": "assignedtopermission",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user-roles/{userRoleId}/audit": {
       "get": {
         "tags": [
@@ -3130,62 +3313,6 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/PermissionDetailsDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user-roles/assignedtopermission": {
-      "get": {
-        "tags": [
-          "UserRole"
-        ],
-        "operationId": "assignedtopermission",
-        "parameters": [
-          {
-            "name": "permissionId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleDto"
                   }
                 }
               }
@@ -3518,6 +3645,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "actorId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "category": {
             "allOf": [
               {
@@ -3674,6 +3805,19 @@
             "nullable": true
           },
           "country": {
+            "type": "string"
+          }
+        }
+      },
+      "AuditIdentityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "auditIdentityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "displayName": {
             "type": "string"
           }
         }
@@ -4020,15 +4164,6 @@
               "type": "string",
               "format": "uuid"
             }
-          }
-        }
-      },
-      "GetAuditIdentityResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "displayName": {
-            "type": "string"
           }
         }
       },

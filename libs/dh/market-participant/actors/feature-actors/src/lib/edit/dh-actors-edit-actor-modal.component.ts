@@ -14,27 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { tap } from 'rxjs';
-import { RxLet } from '@rx-angular/template/let';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MutationResult } from 'apollo-angular';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { DhMarketParticipantActorsEditActorDataAccessApiStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetActorByIdDocument,
+  GetActorEditableFieldsDocument,
+  GetActorsDocument,
+  GetAuditLogByActorIdDocument,
+  UpdateActorDocument,
+  UpdateActorMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   standalone: true,
   selector: 'dh-actors-edit-actor-modal',
   templateUrl: './dh-actors-edit-actor-modal.component.html',
-  providers: [DhMarketParticipantActorsEditActorDataAccessApiStore],
   styles: [
     `
       .actor-field {
@@ -55,7 +61,6 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
     `,
   ],
   imports: [
-    RxLet,
     ReactiveFormsModule,
     TranslocoDirective,
 
@@ -67,15 +72,18 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
   ],
 })
 export class DhActorsEditActorModalComponent {
-  private readonly dataAccessStore = inject(DhMarketParticipantActorsEditActorDataAccessApiStore);
   private readonly formBuilder = inject(FormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
 
-  @ViewChild(WattModalComponent)
-  innerModal: WattModalComponent | undefined;
+  innerModal = viewChild.required<WattModalComponent>(WattModalComponent);
 
-  @Input() actor: DhActorExtended | undefined;
+  actor = input<DhActorExtended>();
+
+  actorName = computed(() => this.actor()?.name ?? '');
+
+  actorEditableFieldsQuery = lazyQuery(GetActorEditableFieldsDocument);
+  updateActorMutation = mutation(UpdateActorDocument);
 
   departmentNameMaxLength = 250;
 
@@ -86,71 +94,95 @@ export class DhActorsEditActorModalComponent {
     departmentPhone: ['', Validators.required],
   });
 
-  isLoading = true;
-
-  formInitialValues$ = this.dataAccessStore.actorEditableFields$.pipe(
-    tap((queryResult) => {
-      this.isLoading = queryResult.loading;
-
-      if (!queryResult.data || queryResult.loading) return;
-
-      this.actorForm.markAsUntouched();
-      this.actorForm.patchValue({
-        name: queryResult.data.actorById.name,
-        departmentName: queryResult.data.actorById.contact?.name,
-        departmentPhone: queryResult.data.actorById.contact?.phone,
-        departmentEmail: queryResult.data.actorById.contact?.email,
-      });
-    })
+  isLoading = computed(
+    () => this.actorEditableFieldsQuery.loading() || this.updateActorMutation.loading()
   );
 
+  constructor() {
+    effect(
+      () => {
+        const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
+        if (!actorEditableFields) return;
+
+        const { name, contact } = actorEditableFields;
+
+        this.actorForm.patchValue({
+          name,
+          departmentName: contact?.name,
+          departmentPhone: contact?.phone,
+          departmentEmail: contact?.email,
+        });
+      },
+      { allowSignalWrites: true }
+    );
+  }
+
   open() {
-    if (!this.actor) return;
-    this.dataAccessStore.load(this.actor.id);
-    this.innerModal?.open();
+    const actorId = this.actor()?.id;
+    if (actorId) {
+      this.actorEditableFieldsQuery.query({ variables: { actorId } });
+      this.innerModal().open();
+    }
   }
 
   save() {
+    const actorId = this.actor()?.id;
+    const { departmentEmail, departmentName, departmentPhone, name } = this.actorForm.getRawValue();
     if (
-      !this.actor ||
-      !this.actorForm.value.name ||
-      !this.actorForm.value.departmentName ||
-      !this.actorForm.value.departmentPhone ||
-      !this.actorForm.value.departmentEmail ||
+      !actorId ||
+      !name ||
+      !departmentName ||
+      !departmentPhone ||
+      !departmentEmail ||
       !this.actorForm.valid
     )
       return;
 
-    this.dataAccessStore
-      .update({
-        actorId: this.actor.id,
-        actorName: this.actorForm.value.name,
-        departmentName: this.actorForm.value.departmentName,
-        departmentPhone: this.actorForm.value.departmentPhone,
-        departmentEmail: this.actorForm.value.departmentEmail,
-      })
-      .subscribe((queryResult) => {
-        this.isLoading = queryResult.loading;
-
-        if (queryResult.loading) return;
-
-        if (queryResult.data && !queryResult.data.updateActor.errors && !queryResult.errors) {
-          const message = this.transloco.translate(
-            'marketParticipant.actorsOverview.edit.updateRequest.success'
-          );
-          this.toastService.open({ message, type: 'success' });
-        } else {
-          const message = this.transloco.translate(
-            'marketParticipant.actorsOverview.edit.updateRequest.error'
-          );
-          this.toastService.open({ message, type: 'danger' });
+    this.updateActorMutation.mutate({
+      variables: {
+        input: {
+          actorId,
+          actorName: name,
+          departmentName,
+          departmentPhone,
+          departmentEmail,
+        },
+      },
+      refetchQueries: (result) => {
+        if (this.isUpdateSuccessful(result.data)) {
+          return [GetActorsDocument, GetActorByIdDocument, GetAuditLogByActorIdDocument];
         }
 
-        this.innerModal?.close(true);
-      });
+        return [];
+      },
+      onCompleted: (data) => {
+        if (data.updateActor.errors) {
+          this.showToast('danger', 'error');
+        } else {
+          this.showToast('success', 'success');
+        }
+        this.innerModal().close(true);
+      },
+      onError: () => {
+        this.showToast('danger', 'error');
+      },
+    });
   }
 
   close() {
-    this.innerModal?.close(false);
+    this.innerModal().close(false);
+  }
+
+  private showToast(type: WattToastType, label: string): void {
+    this.toastService.open({
+      type,
+      message: this.transloco.translate(
+        `marketParticipant.actorsOverview.edit.updateRequest.${label}`
+      ),
+    });
+  }
+
+  private isUpdateSuccessful(mutationResult: MutationResult<UpdateActorMutation>['data']): boolean {
+    return !mutationResult?.updateActor.errors?.length;
   }
 }

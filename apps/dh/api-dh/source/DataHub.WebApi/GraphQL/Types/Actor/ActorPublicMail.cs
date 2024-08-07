@@ -12,20 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Security.Claims;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-namespace Energinet.DataHub.WebApi.Extensions;
-
-public static class HttpContextUserExtensions
-{
-    public static bool IsFas(this ClaimsPrincipal user)
-    {
-        return user.Claims.Any(c => c is { Type: "multitenancy", Value: "true" });
-    }
-
-    public static Guid GetAssociatedActor(this ClaimsPrincipal user)
-    {
-        var azp = user.Claims.First(c => c is { Type: "azp" });
-        return Guid.Parse(azp.Value);
-    }
-}
+public sealed record ActorPublicMail(string Mail);

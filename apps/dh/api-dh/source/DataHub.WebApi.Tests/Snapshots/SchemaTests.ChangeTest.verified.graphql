@@ -18,6 +18,7 @@ type Actor {
   contact: ActorContactDto
   organization: Organization!
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
+  publicMail: ActorPublicMail
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -31,6 +32,7 @@ type ActorAuditedChangeAuditLogDto {
 
 type ActorContactDto {
   contactId: UUID!
+  actorId: UUID!
   category: ContactCategory!
   name: String!
   email: String!
@@ -44,6 +46,10 @@ type ActorNameDto {
 type ActorNameWithId {
   id: UUID!
   actorName: ActorNameDto!
+}
+
+type ActorPublicMail {
+  mail: String!
 }
 
 type AddressDto {
@@ -108,22 +114,17 @@ type CVROrganizationResult {
 "An immutable calculation."
 type Calculation {
   id: UUID!
+  "Defines the wholesale calculation type"
+  calculationType: CalculationType!
   period: DateRange!
+  executionTimeStart: DateTime
+  executionTimeEnd: DateTime
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
-  executionState: CalculationState! @deprecated
   state: CalculationOrchestrationState!
   statusType: ProcessStatus!
   currentStep: CalculationProgressStep!
   progress: [CalculationProgress!]!
-  runId: Long
-  resolution: String
-  unit: String
-  executionTimeStart: DateTime
-  executionTimeEnd: DateTime
-  areSettlementReportsCreated: Boolean!
-  "Defines the wholesale calculation type"
-  calculationType: CalculationType!
 }
 
 type CalculationProgress {
@@ -153,6 +154,11 @@ type CreateUserRolePayload {
 type DeactivateUserPayload {
   boolean: Boolean
   errors: [DeactivateUserError!]
+}
+
+type DeactivateUserRolePayload {
+  boolean: Boolean
+  errors: [DeactivateUserRoleError!]
 }
 
 type EsettOutgoingMessage {
@@ -319,6 +325,7 @@ type Mutation {
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
+  deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
 }
 
 type Organization {
@@ -387,7 +394,6 @@ type Query {
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
-  downloadBalanceResponsibles(locale: String! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): String!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   gridAreas: [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
@@ -469,7 +475,7 @@ type SettlementReport {
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   statusMessage: String!
-  progress: Int!
+  progress: Float!
   statusType: SettlementReportStatusType!
 }
 
@@ -570,6 +576,8 @@ union CreateMarketParticipantError = ApiError
 union CreateUserRoleError = ApiError
 
 union DeactivateUserError = ApiError
+
+union DeactivateUserRoleError = ApiError
 
 union InviteUserError = ApiError
 
@@ -693,6 +701,10 @@ input DeactivateUserInput {
   userId: UUID!
 }
 
+input DeactivateUserRoleInput {
+  roleId: UUID!
+}
+
 input InvitationUserDetailsDtoInput {
   firstName: String!
   lastName: String!
@@ -714,7 +726,7 @@ input ReInviteUserInput {
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
-  gridArea: String!
+  gridArea: String
   meteringPointType: MeteringPointType
   energySupplierId: String
   balanceResponsibleId: String
@@ -731,6 +743,7 @@ input RequestSettlementReportInput {
   period: DateRange!
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
+  preventLargeTextFiles: Boolean!
   includeMonthlySums: Boolean!
   includeBasisData: Boolean!
   energySupplier: String
@@ -881,13 +894,6 @@ enum CalculationProgressStep {
   SCHEDULE
   CALCULATE
   ACTOR_MESSAGE_ENQUEUE
-}
-
-enum CalculationState {
-  PENDING
-  EXECUTING
-  COMPLETED
-  FAILED
 }
 
 "Defines the wholesale calculation type"
@@ -1155,8 +1161,5 @@ scalar DateRange
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
 
 scalar JSON
-
-"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
-scalar Long
 
 scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")

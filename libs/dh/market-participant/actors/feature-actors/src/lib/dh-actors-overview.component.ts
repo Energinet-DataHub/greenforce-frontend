@@ -196,11 +196,12 @@ export class DhActorsOverviewComponent implements OnInit {
       `"${translate(actorsOverviewPath + '.columns.name')}"`,
       `"${translate(actorsOverviewPath + '.columns.marketRole')}"`,
       `"${translate(actorsOverviewPath + '.columns.status')}"`,
+      `"${translate(actorsOverviewPath + '.columns.mail')}"`,
     ];
 
     const lines = dataSorted.map((actor) => [
       `"${actor.id}"`,
-      `"${actor.glnOrEicNumber}"`,
+      `"""${actor.glnOrEicNumber}"""`,
       `"${actor.name}"`,
       `"${
         actor.marketRole == null
@@ -208,6 +209,7 @@ export class DhActorsOverviewComponent implements OnInit {
           : translate('marketParticipant.marketRoles.' + actor.marketRole)
       }"`,
       `"${actor.status == null ? '' : translate(actorsOverviewPath + '.status.' + actor.status)}"`,
+      `"${actor.publicMail?.mail ?? ''}"`,
     ]);
 
     exportToCSV({ headers, lines, fileName: 'actors' });

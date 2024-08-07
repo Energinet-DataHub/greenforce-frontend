@@ -36,7 +36,7 @@ export class DhActorStorage {
   ) {}
 
   private readonly selectedActorIdKey = 'actorStorage.selectedActorId';
-  private readonly selectedActorKey = 'actorStorage.selectedActor';
+  private readonly selectedActorKey = 'actorStorage.selectedActorObjectKey';
 
   private actorIds: string[] = [];
 

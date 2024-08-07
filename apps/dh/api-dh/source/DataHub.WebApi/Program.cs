@@ -18,6 +18,7 @@ using Energinet.DataHub.Core.App.WebApp.Authentication;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
@@ -38,6 +39,16 @@ services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedPrefix;
+
+    // The api is not public so we will allow any proxy
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 services.AddHealthChecks();
 
 services.AddHttpContextAccessor();
@@ -53,7 +64,7 @@ services.AddJwtBearerAuthentication(mitIdExternalOpenIdUrl, externalOpenIdUrl, i
 
 services
     .AddAuthorizationBuilder()
-    .AddPolicy("fas", policy => policy.RequireClaim("membership", "fas"));
+    .AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true"));
 
 if (environment.IsDevelopment())
 {
@@ -79,6 +90,8 @@ services
 services.SetupHealthEndpoints(apiClientSettings);
 
 var app = builder.Build();
+
+app.UseForwardedHeaders();
 
 if (environment.IsDevelopment())
 {

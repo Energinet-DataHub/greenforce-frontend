@@ -93,7 +93,7 @@ To create a new query using Hot Chocolate, follow this example:
                 new Book { Id = 1, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald" },
                 new Book { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee" }
             }
-        
+
         // ...
     }
     ```
@@ -175,8 +175,7 @@ The current subsystem clients can be found at:
 Update the subsystem clients using NSwag:
 
 - Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
-- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file
-    Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
+- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file. **You might have to connect using VPN.** Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
 
     ```json
     {

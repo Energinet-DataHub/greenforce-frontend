@@ -28,7 +28,7 @@ public sealed class UserRoleAuditedChangeAuditLogDtoType : ObjectType<UserRoleAu
                 var parent = ctx.Parent<UserRoleAuditedChangeAuditLogDto>();
                 var auditIdentity = await ctx
                     .Service<IMarketParticipantClient_V1>()
-                    .AuditIdentityAsync(parent.AuditIdentityId, ct)
+                    .AuditIdentityGetAsync(parent.AuditIdentityId, ct)
                     .ConfigureAwait(false);
 
                 return auditIdentity.DisplayName;

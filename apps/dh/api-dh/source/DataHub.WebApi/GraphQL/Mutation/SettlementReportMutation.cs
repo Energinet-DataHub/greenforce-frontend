@@ -37,6 +37,7 @@ public partial class Mutation
         await client.RequestAsync(
             new SettlementReportRequestDto(
                 !requestSettlementReportInput.CombineResultInASingleFile,
+                requestSettlementReportInput.PreventLargeTextFiles,
                 requestSettlementReportInput.IncludeBasisData,
                 requestSettlementReportInput.IncludeMonthlySums,
                 requestFilter),

@@ -36,12 +36,6 @@ jobs:
       dh3serviceaccount_privatekey: ${{ secrets.dh3serviceaccount_privatekey }}
 
   #
-  # CodeQL Check
-  #
-  ci_codeql:
-    uses: ./.github/workflows/codeql.yml
-
-  #
   # Detect changes to start relevant workflows
   #
   changes:
@@ -92,7 +86,6 @@ jobs:
     needs:
       [
         ci_base,
-        ci_codeql,
         dh_ci_frontend,
         dh_ci_dotnet,
         watt_ci,

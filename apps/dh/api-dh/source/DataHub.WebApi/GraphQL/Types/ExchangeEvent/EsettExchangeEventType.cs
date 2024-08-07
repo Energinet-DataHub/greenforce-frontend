@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
-using Microsoft.AspNetCore.Mvc.Routing;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;

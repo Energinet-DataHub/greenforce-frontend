@@ -347,7 +347,7 @@
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
-            "Inactive": "Inaktiv",
+            "Inactive": "Deaktiveret",
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
@@ -359,7 +359,8 @@
         "glnOrEic": "GLN/EIC",
         "name": "Navn",
         "marketRole": "Markedsrolle",
-        "status": "Status"
+        "status": "Status",
+        "mail": "E-mail"
       },
       "create": "Ny aktør",
       "actors": "Aktører",
@@ -367,7 +368,8 @@
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
+        "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
       },
       "status": {
         "Active": "Aktiv",
@@ -496,7 +498,7 @@
             "status": {
               "New": "Ny",
               "Active": "Aktiv",
-              "Inactive": "Inaktiv",
+              "Inactive": "Deaktiveret",
               "Passive": "Passiv",
               "Deleted": "Slettet"
             },
@@ -1043,7 +1045,7 @@
         "actorName": "Aktørnavn"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang",
+        "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
         "download": "Download"
@@ -1060,6 +1062,7 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
+        "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
         "energySupplier": "Elleverandør",
@@ -1218,7 +1221,7 @@
               "logs": {
                 "status": {
                   "Active": "Aktiv",
-                  "Inactive": "Inaktiv"
+                  "Inactive": "Deaktiveret"
                 },
                 "roles": {
                   "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>",
@@ -1241,7 +1244,7 @@
       },
       "roleStatus": {
         "ACTIVE": "Aktiv",
-        "INACTIVE": "Inaktiv"
+        "INACTIVE": "Deaktiveret"
       },
       "tabs": {
         "masterData": {

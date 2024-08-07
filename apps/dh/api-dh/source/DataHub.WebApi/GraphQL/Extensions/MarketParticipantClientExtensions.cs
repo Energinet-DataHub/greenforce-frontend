@@ -31,4 +31,34 @@ public static class MarketParticipantClientExtensions
                 UserRoleIds = [],
             });
     }
+
+    internal static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+        this IMarketParticipantClient_V1 client,
+        CancellationToken cancellationToken = default)
+    {
+        var actors = await client.ActorGetAsync(cancellationToken);
+        var gridAreas = await client.GridAreaGetAsync(cancellationToken);
+        return gridAreas
+            .OrderBy(g => g.Code)
+            .Select(gridArea =>
+            {
+                var owner = actors.FirstOrDefault(actor =>
+                    actor.Status == "Active" &&
+                    actor.MarketRoles.Any(mr =>
+                        mr.EicFunction == EicFunction.GridAccessProvider &&
+                        mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
+
+                return owner == null
+                    ? gridArea
+                    : new GridAreaDto
+                    {
+                        Id = gridArea.Id,
+                        Code = gridArea.Code,
+                        Name = owner.Name.Value,
+                        PriceAreaCode = gridArea.PriceAreaCode,
+                        ValidFrom = gridArea.ValidFrom,
+                        ValidTo = gridArea.ValidTo,
+                    };
+            });
+    }
 }
