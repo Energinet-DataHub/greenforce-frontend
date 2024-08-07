@@ -279,7 +279,7 @@ export class DhWholesaleRequestCalculationComponent {
       balanceResponsibleId,
     } = this.form.getRawValue();
 
-    if (!gridArea || !meteringPointType || !calculationType || !period) return;
+    if (!calculationType || !period) return;
 
     this._apollo
       .mutate({

@@ -714,7 +714,7 @@ input ReInviteUserInput {
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
-  gridArea: String!
+  gridArea: String
   meteringPointType: MeteringPointType
   energySupplierId: String
   balanceResponsibleId: String
