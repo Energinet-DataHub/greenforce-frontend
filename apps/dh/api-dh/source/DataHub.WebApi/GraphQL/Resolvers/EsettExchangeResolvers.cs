@@ -60,14 +60,11 @@ public class EsettExchangeResolvers
     public string? GetDispatchDocument(
         [Parent] ExchangeEventTrackingResult result,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] LinkGenerator linkGenerator)
-    {
-        return linkGenerator.GetUriByAction(
+        [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
             httpContextAccessor.HttpContext!,
             "GetDispatchDocument",
             _controllerName,
             new { documentId = result.DocumentId });
-    }
 
     public string? GetResponseDocument(
        [Parent] ExchangeEventTrackingResult result,
