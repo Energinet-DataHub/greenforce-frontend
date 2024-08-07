@@ -26,5 +26,5 @@ public sealed record SettlementReport(
     int NumberOfGridAreasInReport,
     bool IncludesBasisData,
     string StatusMessage,
-    int Progress,
+    double Progress,
     SettlementReportStatusType StatusType);
