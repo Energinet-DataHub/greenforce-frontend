@@ -48,7 +48,7 @@ builder.Services.AddHttpLogging(options =>
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
-        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedPrefix;
 
     options.KnownNetworks.Add(IPNetwork.Parse("10.143.6.128/25"));
 });
@@ -106,8 +106,8 @@ app.Use(async (context, next) =>
     app.Logger.LogError("X-Forwarded-For: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-For"));
     app.Logger.LogError("X-Forwarded-Proto: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Proto"));
     app.Logger.LogError("X-Forwarded-Host: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Host"));
+    app.Logger.LogError("X-Forwarded-Prefix: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Prefix"));
     context.Request.Host = new HostString(context.Request.Headers.GetCommaSeparatedValues("X-Forwarded-Host").FirstOrDefault() ?? context.Request.Host.Host);
-    app.Logger.LogError("Host: {HeaderValue}", context.Request.Headers.GetCommaSeparatedValues("Host"));
     await next(context);
 });
 

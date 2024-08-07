@@ -20,6 +20,9 @@ namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class EsettExchangeResolvers
 {
+    private readonly string _pathBase = "/bff";
+    private readonly string _controllerName = "EsettExchange";
+
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] BalanceResponsibleResult result,
         GridAreaByCodeBatchDataLoader dataLoader) =>
@@ -62,9 +65,9 @@ public class EsettExchangeResolvers
             linkGenerator.GetUriByAction(
                 httpContextAccessor.HttpContext!,
                 "GetDispatchDocument",
-                "EsettExchange",
+                _controllerName,
                 new { documentId = result.DocumentId },
-                pathBase: "/bff");
+                pathBase: _pathBase);
 
     public string? GetResponseDocument(
        [Parent] ExchangeEventTrackingResult result,
@@ -73,7 +76,7 @@ public class EsettExchangeResolvers
            linkGenerator.GetUriByAction(
                httpContextAccessor.HttpContext!,
                "ResponseDocument",
-               "EsettExchange",
+               _controllerName,
                new { documentId = result.DocumentId },
-               pathBase: "/bff");
+               pathBase: _pathBase);
 }
