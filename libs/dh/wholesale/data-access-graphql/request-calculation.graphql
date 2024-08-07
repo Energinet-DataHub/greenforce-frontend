@@ -1,7 +1,7 @@
 mutation requestCalculation(
   $calculationType: CalculationType!
   $period: DateRange!
-  $gridArea: String!
+  $gridArea: String
   $meteringPointType: MeteringPointType
   $priceType: PriceType
   $balanceResponsibleId: String

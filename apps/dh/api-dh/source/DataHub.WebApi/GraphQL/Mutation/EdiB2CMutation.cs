@@ -22,7 +22,7 @@ public partial class Mutation
     public async Task<bool> RequestCalculationAsync(
         Clients.Wholesale.v3.CalculationType calculationType,
         Interval period,
-        string gridArea,
+        string? gridArea,
         MeteringPointType? meteringPointType,
         string? energySupplierId,
         string? balanceResponsibleId,
