@@ -35,6 +35,13 @@ public class EsettExchangeEventType : ObjectType<ExchangeEventTrackingResult>
 
         descriptor.Field(f => f.PeriodTo).Ignore();
 
+        descriptor.Field("dispatchDocumentUrl")
+            .ResolveWith<EsettExchangeResolvers>(c => c.GetDispatchDocument(default!, default!, default!));
+
+        descriptor.Field("responseDocumentUrl")
+            .Type<NonNullType<StringType>>()
+            .ResolveWith<EsettExchangeResolvers>(c => c.GetResponseDocument(default!, default!, default!));
+
         descriptor
            .Field(f => f.GridAreaCode)
            .Name("gridArea")
