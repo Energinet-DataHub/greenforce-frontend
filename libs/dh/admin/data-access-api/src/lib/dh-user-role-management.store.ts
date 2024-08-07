@@ -22,8 +22,10 @@ import { Apollo } from 'apollo-angular';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
-import { MarketParticipantUserRoleHttp } from '@energinet-datahub/dh/shared/domain';
-import { GetUserRoleWithPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DeactivateUserRoleDocument,
+  GetUserRoleWithPermissionsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhUserRoleWithPermissions = ResultOf<
   typeof GetUserRoleWithPermissionsDocument
@@ -31,29 +33,35 @@ export type DhUserRoleWithPermissions = ResultOf<
 
 export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions'][0];
 
-interface DhUserRoleWithPermissionsManagementState {
+interface DhUserRoleManagementState {
   readonly userRole: DhUserRoleWithPermissions | null;
   readonly requestState: LoadingState | ErrorState;
+  readonly deactivateUserRoleRequestState: LoadingState | ErrorState;
 }
 
-const initialState: DhUserRoleWithPermissionsManagementState = {
+const initialState: DhUserRoleManagementState = {
   userRole: null,
   requestState: LoadingState.INIT,
+  deactivateUserRoleRequestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends ComponentStore<DhUserRoleWithPermissionsManagementState> {
+export class DhUserRoleManagementStore extends ComponentStore<DhUserRoleManagementState> {
   private readonly apollo = inject(Apollo);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
+  deactivateUserRoleIsLoading$ = this.select(
+    (state) => state.deactivateUserRoleRequestState === LoadingState.LOADING
+  );
+
   userRole$ = this.select((state) => state.userRole).pipe(
     filter((userRole): userRole is DhUserRoleWithPermissions => userRole != null)
   );
 
-  constructor(private httpClientUserRole: MarketParticipantUserRoleHttp) {
+  constructor() {
     super(initialState);
   }
 
@@ -95,39 +103,48 @@ export class DhAdminUserRoleWithPermissionsManagementDataAccessApiStore extends 
       }>
     ) =>
       trigger$.pipe(
-        tap(() => {
-          this.patchState({ requestState: LoadingState.LOADING });
-        }),
         switchMap(({ userRoleId, onSuccessFn }) =>
-          this.httpClientUserRole.v1MarketParticipantUserRoleDeactivateGet(userRoleId).pipe(
-            tapResponse(
-              () => {
-                this.patchState({ requestState: LoadingState.LOADED });
-                onSuccessFn();
+          this.apollo
+            .mutate({
+              mutation: DeactivateUserRoleDocument,
+              variables: {
+                input: {
+                  roleId: userRoleId,
+                },
               },
-              () => {
-                this.setLoading(LoadingState.LOADED);
-                this.updateUserRole(null);
-                this.handleError();
-              }
+            })
+            .pipe(
+              tapResponse(
+                (response) => {
+                  if (response.loading) {
+                    this.patchState({ deactivateUserRoleRequestState: LoadingState.LOADING });
+                    return;
+                  }
+
+                  this.patchState({ deactivateUserRoleRequestState: LoadingState.LOADED });
+                  onSuccessFn();
+                },
+                () => {
+                  this.patchState({ deactivateUserRoleRequestState: ErrorState.GENERAL_ERROR });
+                }
+              )
             )
-          )
         )
       )
   );
 
   private updateUserRole = this.updater(
     (
-      state: DhUserRoleWithPermissionsManagementState,
+      state: DhUserRoleManagementState,
       response: DhUserRoleWithPermissions | null
-    ): DhUserRoleWithPermissionsManagementState => ({
+    ): DhUserRoleManagementState => ({
       ...state,
       userRole: response,
     })
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState): DhUserRoleWithPermissionsManagementState => ({
+    (state, loadingState: LoadingState): DhUserRoleManagementState => ({
       ...state,
       requestState: loadingState,
     })

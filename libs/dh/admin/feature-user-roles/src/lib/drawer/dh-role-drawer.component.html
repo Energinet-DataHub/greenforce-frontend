@@ -38,6 +38,7 @@ limitations under the License.
           *dhPermissionRequired="['user-roles:manage']"
           variant="secondary"
           (click)="disableUserRole()"
+          [loading]="deactivateUserRoleIsLoading$ | push"
           >{{ t("disable") }}</watt-button
         >
 
