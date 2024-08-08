@@ -44,7 +44,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   DhAdminUserRoleEditDataAccessApiStore,
-  DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
+  DhUserRoleManagementStore,
   DhUserRoleWithPermissions,
 } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
@@ -96,9 +96,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   private readonly userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly userRoleWithPermissionsStore = inject(
-    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
-  );
+  private readonly userRoleWithPermissionsStore = inject(DhUserRoleManagementStore);
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);

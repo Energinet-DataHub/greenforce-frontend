@@ -84,11 +84,4 @@ public class MarketParticipantUserRoleController : MarketParticipantControllerBa
 
         return actorViews;
     }
-
-    [HttpGet]
-    [Route("Deactivate")]
-    public Task<ActionResult> DeactivateRoleAsync(Guid roleId)
-    {
-        return HandleExceptionAsync(() => _client.UserRolesDeactivateAsync(roleId));
-    }
 }

@@ -10,5 +10,7 @@ query GetOutgoingMessageById($documentId: String!) {
       displayName
     }
     timeSeriesType
+    responseDocumentUrl
+    dispatchDocumentUrl
   }
 }

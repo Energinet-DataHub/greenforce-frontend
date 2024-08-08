@@ -1,0 +1,8 @@
+mutation deactivateUserRole($input: DeactivateUserRoleInput!) {
+  deactivateUserRole(input: $input) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

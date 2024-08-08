@@ -156,8 +156,15 @@ type DeactivateUserPayload {
   errors: [DeactivateUserError!]
 }
 
+type DeactivateUserRolePayload {
+  boolean: Boolean
+  errors: [DeactivateUserRoleError!]
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
+  dispatchDocumentUrl: String
+  responseDocumentUrl: String!
   gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
@@ -318,6 +325,7 @@ type Mutation {
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
+  deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
 }
 
 type Organization {
@@ -569,6 +577,8 @@ union CreateUserRoleError = ApiError
 
 union DeactivateUserError = ApiError
 
+union DeactivateUserRoleError = ApiError
+
 union InviteUserError = ApiError
 
 union ReActivateUserError = ApiError
@@ -691,6 +701,10 @@ input DeactivateUserInput {
   userId: UUID!
 }
 
+input DeactivateUserRoleInput {
+  roleId: UUID!
+}
+
 input InvitationUserDetailsDtoInput {
   firstName: String!
   lastName: String!
@@ -712,7 +726,7 @@ input ReInviteUserInput {
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
-  gridArea: String!
+  gridArea: String
   meteringPointType: MeteringPointType
   energySupplierId: String
   balanceResponsibleId: String
