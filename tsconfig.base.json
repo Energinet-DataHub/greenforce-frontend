@@ -239,6 +239,7 @@
       "@energinet-datahub/eo/auth/feature-login": [
         "libs/eo/auth/feature-login/index.ts"
       ],
+      "@energinet-datahub/eo/auth/feature-terms": ["libs/eo/auth/feature-terms/index.ts"],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"
       ],
@@ -352,7 +353,6 @@
       "@energinet-datahub/eo/shared/utilities": [
         "libs/eo/shared/utilities/src/index.ts"
       ],
-      "@energinet-datahub/eo/terms": ["libs/eo/terms/src/index.ts"],
       "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
       "@energinet-datahub/eo/translations": [
         "libs/eo/core/globalization/assets-localization/translations.ts"
