@@ -16,7 +16,7 @@
  */
 export * from './auth.interceptor';
 export * from './auth.service';
-export * from './eo-authentication.guard';
+export * from './auth.guard';
 export * from './idle-timer.service';
 export * from './organization-id.interceptor';
 export * from './terms.service';
