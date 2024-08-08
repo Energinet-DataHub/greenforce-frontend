@@ -25,6 +25,9 @@ const shared = new SharedPO();
 Given('I am logged in as Charlotte CSR', () => {
   login.visit();
   login.clickCharlotteLogin();
+  login.termsIsVisible();
+  login.checkAcceptingTerms();
+  login.acceptTerms();
 });
 
 When('I go to the transfers page', () => {
