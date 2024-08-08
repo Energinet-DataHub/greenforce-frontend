@@ -14,15 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -70,16 +62,16 @@ import {
     UserRolesIntoTablePipe,
   ],
 })
-export class DhUserRolesComponent implements OnChanges {
+export class DhUserRolesComponent {
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
 
-  @Input() user: DhUser | null = null;
-  @Input() selectMode = false;
-  @Input() expanded = true;
+  user = input<DhUser | null>(null);
+  selectMode = input(false);
+  expanded = input(true);
 
-  @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
+  updateUserRoles = output<UpdateUserRoles>();
 
   userRoleViewQuery = lazyQuery(GetUserRoleViewDocument);
 
@@ -92,16 +84,18 @@ export class DhUserRolesComponent implements OnChanges {
     description: { accessor: 'description', sort: false },
   };
 
+  constructor() {
+    effect(() => {
+      if (this.user()?.id) {
+        this.userRoleViewQuery.refetch({ userId: this.user()?.id });
+      }
+    });
+  }
+
   resetUpdateUserRoles(): void {
     this._updateUserRoles = {
       actors: [],
     };
-  }
-
-  ngOnChanges(): void {
-    if (this.user?.id) {
-      this.userRoleViewQuery.refetch({ userId: this.user.id });
-    }
   }
 
   checkIfAtLeastOneRoleIsAssigned(actorId: string): boolean {

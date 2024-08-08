@@ -30,7 +30,7 @@ limitations under the License.
       @for (actor of userRolesPerActor(); track actor) {
         <watt-expandable-card
           variant="solid"
-          [expanded]="expanded"
+          [expanded]="expanded()"
           *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
         >
           @if (!selectMode) {
@@ -51,19 +51,19 @@ limitations under the License.
             </watt-expandable-card-title>
           }
 
-          @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode) {
+          @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode()) {
             <watt-field-error>
               {{ t("atleastOneRole") }}
             </watt-field-error>
           }
 
           <watt-table
-            [dataSource]="actor.userRoles | filterUserRoles: selectMode | userRolesIntoTable"
+            [dataSource]="actor.userRoles | filterUserRoles: selectMode() | userRolesIntoTable"
             [initialSelection]="actor.userRoles | filterUserRoles: false"
             [columns]="columns"
             sortBy="marketRole"
             sortDirection="asc"
-            [selectable]="selectMode"
+            [selectable]="selectMode()"
             (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
           >
             <ng-container
