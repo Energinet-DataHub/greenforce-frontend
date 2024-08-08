@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhRoleStatusComponent } from './dh-role-status.component';
-export { DhUserStatusComponent } from './dh-user-status.component';
-export { DhTabDataGeneralErrorComponent } from './dh-tab-data-general-error.component';
-export { DhPermissionsTableComponent } from './dh-permissions-table.component';
-export * from './types/dh-user.type';
-export * from './types/dh-update-user-role.type';
+import { UpdateUserRoleAssignmentsDtoInput } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type UpdateUserRolesWithActorId = {
+  id: string;
+  atLeastOneRoleIsAssigned: boolean;
+  userRolesToUpdate: UpdateUserRoleAssignmentsDtoInput;
+};
+
+export type UpdateUserRoles = {
+  actors: UpdateUserRolesWithActorId[];
+};
