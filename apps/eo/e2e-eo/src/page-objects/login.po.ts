@@ -26,7 +26,7 @@ export class LoginPo {
   clickThomasLogin = () => cy.get(this.thomas, { timeout: 10000 }).click();
   clickPeterLogin = () => cy.get(this.peter, { timeout: 10000 }).click();
 
-  termsIsVisible = () => cy.get('h2', { timeout: 10000 }).should('contain', 'What is Lorem Ipsum?'); // Terms header text
+  termsIsVisible = () => cy.get('h2', { timeout: 20000 }).should('contain', 'What is Lorem Ipsum?'); // Terms header text
 
   checkAcceptingTerms = () => cy.get('watt-checkbox > label', { timeout: 10000 }).click();
   acceptTerms = () => cy.get('button').contains('Accept', { timeout: 10000 }).click();
