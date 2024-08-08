@@ -204,7 +204,7 @@ export interface TranslationKeys {
     fetchingTermsError: {
       title: string;
       message: string;
-    }
+    };
   };
   dashboard: {
     title: string;

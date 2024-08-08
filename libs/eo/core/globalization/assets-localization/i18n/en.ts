@@ -266,7 +266,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     fetchingTermsError: {
       title: '{{shared.error.title}}',
       message: '{{shared.error.message}}',
-    }
+    },
   },
   languageSwitcher: {
     title: 'Language',

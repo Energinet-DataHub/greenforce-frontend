@@ -128,7 +128,7 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
-            @if(!terms() && !loadingTermsFailed) {
+            @if (!terms() && !loadingTermsFailed) {
               <div style="display: flex; justify-content: center;"><watt-spinner /></div>
             } @else if (loadingTermsFailed) {
               <watt-empty-state

@@ -267,7 +267,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     fetchingTermsError: {
       title: '{{shared.error.title}}',
       message: '{{shared.error.message}}',
-    }
+    },
   },
   dashboard: {
     title: 'Overblik',
