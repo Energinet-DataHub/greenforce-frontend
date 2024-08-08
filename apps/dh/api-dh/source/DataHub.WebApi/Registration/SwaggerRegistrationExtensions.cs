@@ -14,6 +14,7 @@
 
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Energinet.DataHub.WebApi.Registration;
 
@@ -28,6 +29,8 @@ public static class SwaggerExtensions
                 Version = "1.0.0",
                 Description = "Backend-for-frontend for DataHub",
             });
+
+            config.DocumentFilter<GraphQLEndpointFactoryFilter>();
 
             config.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
             config.SupportNonNullableReferenceTypes();
@@ -85,5 +88,83 @@ public static class SwaggerExtensions
 
         var customSchema = $"{domain}{fullNameSplit.Last()}";
         return customSchema;
+    }
+
+    /// <summary>
+    /// This document filter adds a custom operation for the GraphQL endpoint.
+    /// This is necessary because the GraphQL endpoint is not a standard REST endpoint - and will therefore not be automatically added by Swashbuckle.
+    /// </summary>
+    private class GraphQLEndpointFactoryFilter : IDocumentFilter
+    {
+        public void Apply(OpenApiDocument openApiDocument, DocumentFilterContext context)
+        {
+            var request = new OpenApiRequestBody()
+            {
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    {
+                        "application/json", new OpenApiMediaType
+                        {
+                            Schema = new OpenApiSchema
+                            {
+                                Type = "object",
+                                Properties = new Dictionary<string, OpenApiSchema>
+                                {
+                                    { "query", new OpenApiSchema { Type = "string" } },
+                                },
+                            },
+                        }
+                    },
+                },
+            };
+
+            var response = new OpenApiResponse
+            {
+                Description = "Success",
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    {
+                        "application/json", new OpenApiMediaType
+                            {
+                                Schema = new OpenApiSchema
+                                {
+                                    Type = "object",
+                                    AdditionalPropertiesAllowed = true,
+                                    Properties = new Dictionary<string, OpenApiSchema>
+                                    {
+                                        { "data", new OpenApiSchema() { Type = "object" } },
+                                    },
+                                },
+                            }
+                    },
+                },
+            };
+
+            // define operation
+            var operation = new OpenApiOperation
+            {
+                Summary = "GraphQL",
+                Tags = new List<OpenApiTag>()
+                {
+                    new OpenApiTag { Name = "GraphQL" },
+                },
+                RequestBody = request,
+                Responses = new()
+                {
+                    { "200", response },
+                },
+            };
+
+            // create path item
+            var pathItem = new OpenApiPathItem()
+            {
+                Operations = new Dictionary<OperationType, OpenApiOperation>()
+                {
+                    { OperationType.Post, operation },
+                },
+            };
+
+            openApiDocument.Paths.Add("/graphql", pathItem);
+        }
     }
 }
