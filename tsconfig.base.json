@@ -239,7 +239,9 @@
       "@energinet-datahub/eo/auth/feature-login": [
         "libs/eo/auth/feature-login/index.ts"
       ],
-      "@energinet-datahub/eo/auth/feature-terms": ["libs/eo/auth/feature-terms/index.ts"],
+      "@energinet-datahub/eo/auth/feature-terms": [
+        "libs/eo/auth/feature-terms/index.ts"
+      ],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"
       ],
