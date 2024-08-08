@@ -258,6 +258,16 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       error: 'Failed to copy',
     },
   },
+  terms: {
+    title: 'Terms of use',
+    acceptingTerms: 'I have seen the terms of use',
+    reject: 'Reject',
+    accept: 'Accept',
+    fetchingTermsError: {
+      title: '{{shared.error.title}}',
+      message: '{{shared.error.message}}',
+    }
+  },
   languageSwitcher: {
     title: 'Language',
     closeLabel: 'Close language selection',

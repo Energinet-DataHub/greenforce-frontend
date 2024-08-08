@@ -23,6 +23,9 @@ import {
   UrlSegment,
   UrlSegmentGroup,
 } from '@angular/router';
+import { inject } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+
 import { EoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
   eoCertificatesRoutePath,
@@ -35,12 +38,12 @@ import {
   eoActivityLogRoutePath,
   eoOnboardingRoutePath,
   eoConsentRoutePath,
+  eoTermsRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
-import { EoShellComponent } from './eo-shell.component';
 import { translations } from '@energinet-datahub/eo/translations';
-import { inject } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+
+import { EoShellComponent } from './eo-shell.component';
 
 const routes: Routes = [
   {
@@ -50,10 +53,18 @@ const routes: Routes = [
   },
   { path: 'login', component: EoLoginComponent },
   {
-    path: 'terms',
-    title: 'Terms',
+    path: eoTermsRoutePath,
+    title: translations.terms.title,
     loadChildren: () =>
       import('@energinet-datahub/eo/auth/feature-terms').then((esModule) => esModule.eoTermsRoutes),
+  },
+  {
+    path: eoPrivacyPolicyRoutePath,
+    title: translations.privacyPolicy.title,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/privacy-policy/shell').then(
+        (esModule) => esModule.eoPrivacyPolicyRoutes
+      ),
   },
   {
     path: 'callback',
@@ -127,14 +138,6 @@ const routes: Routes = [
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
-      },
-      {
-        path: eoPrivacyPolicyRoutePath,
-        title: translations.privacyPolicy.title,
-        loadChildren: () =>
-          import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.eoPrivacyPolicyRoutes
-          ),
       },
       {
         path: eoHelpRoutePath,

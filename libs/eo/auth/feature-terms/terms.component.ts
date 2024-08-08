@@ -14,27 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EoPrivacyPolicyComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { translations } from '@energinet-datahub/eo/translations';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,16 +43,66 @@ import { DomSanitizer } from '@angular/platform-browser';
     FormsModule,
     WattButtonComponent,
     WattCheckboxComponent,
+    WattEmptyStateComponent,
     EoFooterComponent,
     EoHeaderComponent,
-    EoPrivacyPolicyComponent,
     EoScrollViewComponent,
     WattSpinnerComponent,
-    AsyncPipe,
+    TranslocoPipe,
   ],
   selector: 'eo-auth-terms',
   styles: [
     `
+      .terms::ng-deep {
+        h2 {
+          margin-bottom: 16px;
+        }
+
+        h3 {
+          margin-top: 16px;
+        }
+
+        p {
+          margin-bottom: 16px;
+        }
+
+        ol {
+          margin: 8px 0;
+          padding-left: 32px;
+
+          strong {
+            color: var(--watt-typography-headline-color);
+          }
+        }
+
+        ul {
+          margin: 8px 0;
+          padding-left: 16px;
+        }
+
+        li {
+          --circle-size: 8px;
+        }
+
+        table {
+          font-size: 14px;
+          margin: 32px 0;
+          border: 1px solid black;
+
+          th {
+            background-color: var(--watt-color-primary-light);
+            color: var(--watt-typography-label-color);
+            text-align: left;
+          }
+
+          td {
+            vertical-align: top;
+            border: 1px solid rgba(0, 0, 0, 0.12); //Magic UX color for now
+            padding: 4px;
+          }
+        }
+      }
+
       eo-header,
       eo-footer {
         flex-grow: 0;
@@ -78,32 +128,32 @@ import { DomSanitizer } from '@angular/platform-browser';
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
           <eo-scroll-view class="watt-space-stack-l">
-            <!-- TODO: INLINE THIS COMPONENT -->
-            <eo-privacy-policy
-              class="watt-space-stack-l"
-              [policy]="terms()"
-              [hasError]="loadingTermsFailed"
-            />
+            @if(!terms() && !loadingTermsFailed) {
+              <div style="display: flex; justify-content: center;"><watt-spinner /></div>
+            } @else if (loadingTermsFailed) {
+              <watt-empty-state
+                icon="danger"
+                [title]="translations.terms.fetchingTermsError.title | transloco"
+                [message]="translations.terms.fetchingTermsError.message | transloco"
+              />
+            } @else {
+              <div [innerHTML]="terms()" class="terms"></div>
+            }
           </eo-scroll-view>
 
           @if (isLoggedIn) {
             <div class="watt-space-stack-m">
               <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
-                I have seen the Privacy Policy
+                {{ translations.terms.acceptingTerms | transloco }}
               </watt-checkbox>
             </div>
 
-            <watt-button class="watt-space-inline-m" variant="secondary" (click)="onCancel()">
-              Back
+            <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
+              {{ translations.terms.reject | transloco }}
             </watt-button>
 
-            <watt-button
-              variant="primary"
-              (click)="onAccept()"
-              [disabled]="!hasAcceptedTerms"
-              [loading]="startedAcceptFlow"
-            >
-              Accept terms
+            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow">
+              {{ translations.terms.accept | transloco }}
             </watt-button>
           }
         </div>
@@ -121,6 +171,7 @@ export class EoTermsComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
+  translations = translations;
   isLoggedIn = !!this.authService.user();
   loadingTermsFailed = false;
   terms = toSignal(
@@ -135,12 +186,12 @@ export class EoTermsComponent {
   hasAcceptedTerms = false;
   startedAcceptFlow = false;
 
-  onCancel() {
+  onReject() {
     this.authService.logout();
   }
 
   onAccept() {
-    if (this.startedAcceptFlow) return;
+    if (this.startedAcceptFlow || !this.hasAcceptedTerms) return;
     this.startedAcceptFlow = true;
 
     this.authService.acceptTos().then(() => {
