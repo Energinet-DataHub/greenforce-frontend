@@ -17,21 +17,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
@@ -39,13 +35,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import {
-  DhAdminUserRolesStore,
-  UpdateUserRoles,
-} from '@energinet-datahub/dh/admin/data-access-api';
+  GetUserRoleViewDocument,
+  UserRoleViewDto,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   FilterUserRolesPipe,
@@ -59,30 +54,23 @@ import {
   templateUrl: './dh-user-roles.component.html',
   styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
-    RxLet,
-    RxPush,
     TranslocoDirective,
     TranslocoPipe,
-    MatDividerModule,
     MatExpansionModule,
     FormsModule,
 
     WattSpinnerComponent,
-    WattCardComponent,
     WATT_TABLE,
     WattEmptyStateComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WattBadgeComponent,
     WattFieldErrorComponent,
 
-    DhEmDashFallbackPipe,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
   ],
 })
 export class DhUserRolesComponent implements OnChanges {
-  private readonly store = inject(DhAdminUserRolesStore);
-
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
@@ -93,9 +81,11 @@ export class DhUserRolesComponent implements OnChanges {
 
   @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
-  userRolesPerActor$ = this.store.userRolesPerActor$;
+  userRoleViewQuery = lazyQuery(GetUserRoleViewDocument);
+
+  isLoading = this.userRoleViewQuery.loading;
+  hasGeneralError = this.userRoleViewQuery.error;
+  userRolesPerActor = computed(() => this.userRoleViewQuery.data()?.userRoleView ?? []);
 
   columns: WattTableColumnDef<UserRoleViewDto> = {
     name: { accessor: 'name' },
@@ -110,7 +100,7 @@ export class DhUserRolesComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (this.user?.id) {
-      this.store.getUserRolesView(this.user.id);
+      this.userRoleViewQuery.refetch({ userId: this.user.id });
     }
   }
 

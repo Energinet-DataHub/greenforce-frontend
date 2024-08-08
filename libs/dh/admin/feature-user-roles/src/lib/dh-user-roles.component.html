@@ -15,17 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-  <ng-container
-    *rxLet="
-      userRolesPerActor$;
-      let userRolesPerActor;
-      error: error;
-      suspense: suspense;
-      errorTrigger: hasGeneralError$
-    "
-  >
+  @if (hasGeneralError()) {
+    <watt-empty-state
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    />
+  } @else if (isLoading()) {
+    <div class="loading-container">
+      <watt-spinner />
+    </div>
+  } @else {
     <mat-accordion multi class="container">
-      @for (actor of userRolesPerActor; track actor) {
+      @for (actor of userRolesPerActor(); track actor) {
         <watt-expandable-card
           variant="solid"
           [expanded]="expanded"
@@ -82,28 +84,5 @@ limitations under the License.
         </watt-expandable-card>
       }
     </mat-accordion>
-  </ng-container>
-
-  <ng-template #suspense>
-    <watt-spinner />
-  </ng-template>
-  <ng-template #error>
-    <watt-empty-state
-      icon="custom-power"
-      [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco"
-    />
-  </ng-template>
+  }
 </ng-container>
-
-<ng-template #userRolesHeadline let-userRolesCount>
-  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles.userRolesHeadline'">
-    <h4>
-      @if (userRolesCount === 1) {
-        {{ t("singular", { userRolesCount }) }}
-      } @else {
-        {{ t("plural", { userRolesCount }) }}
-      }
-    </h4>
-  </ng-container>
-</ng-template>
