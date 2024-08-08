@@ -46,6 +46,7 @@ import {
   StopDelegationsMutation,
   mockGetActorsForEicFunctionQuery,
   mockGetBalanceResponsibleRelationQuery,
+  mockGetActorCredentialsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -75,6 +76,7 @@ export function marketParticipantMocks(apiBase: string) {
     updateActor(),
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
+    getActorCredentials(),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     marketParticipantActorRequestClientSecretCredentials(apiBase),
@@ -382,6 +384,30 @@ function getAuditLogByActorId() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getActorAuditLogsMock,
+    });
+  });
+}
+
+function getActorCredentials() {
+  return mockGetActorCredentialsQuery(async ({ variables: { actorId } }) => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actorById: {
+          __typename: 'Actor',
+          id: actorId,
+          credentials: {
+            __typename: 'ActorCredentialsDto',
+            certificateCredentials: null,
+            clientSecretCredentials: {
+              __typename: 'ActorClientSecretCredentialsDto',
+              clientSecretIdentifier: 'random-secret-XEi33WhFi8qwnCzrnlf',
+              expirationDate: new Date('2022-09-01'),
+            },
+          },
+        },
+      },
     });
   });
 }
