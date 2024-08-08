@@ -29,7 +29,7 @@ export class LoginPo {
   termsIsVisible = () => cy.get('h2', { timeout: 10000 }).should('contain', 'What is Lorem Ipsum?'); // Terms header text
 
   checkAcceptingTerms = () => cy.get('watt-checkbox > label', { timeout: 10000 }).click();
-  acceptTerms = () => cy.get('button').contains('Accept terms', { timeout: 10000 }).click();
+  acceptTerms = () => cy.get('button').contains('Accept', { timeout: 10000 }).click();
 
   visit = () => cy.visit('/en/login');
 }
