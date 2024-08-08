@@ -19,10 +19,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 import { Observable, switchMap, exhaustMap, tap, finalize, withLatestFrom, of } from 'rxjs';
 
-import {
-  MarketParticipantActorCredentialsDto,
-  MarketParticipantActorHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
