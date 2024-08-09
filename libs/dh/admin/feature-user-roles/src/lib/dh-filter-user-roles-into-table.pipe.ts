@@ -15,25 +15,22 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Pipe({ name: 'filterUserRoles', standalone: true })
 export class FilterUserRolesPipe implements PipeTransform {
-  transform(
-    userRoles: MarketParticipantUserRoleViewDto[] | null | undefined,
-    includeAllUserRoles = false
-  ) {
+  transform(userRoles: UserRoleViewDto[] | null | undefined, includeAllUserRoles = false) {
     return (userRoles || []).filter((userRole) => userRole.userActorId || includeAllUserRoles);
   }
 }
 
 @Pipe({ name: 'userRolesIntoTable', standalone: true })
 export class UserRolesIntoTablePipe implements PipeTransform {
-  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleViewDto> =
-    new WattTableDataSource<MarketParticipantUserRoleViewDto>();
+  readonly dataSource = new WattTableDataSource<UserRoleViewDto>();
 
-  transform(userRoles: MarketParticipantUserRoleViewDto[] | null | undefined) {
+  transform(userRoles: UserRoleViewDto[] | null | undefined) {
     this.dataSource.data = userRoles || [];
     return this.dataSource;
   }

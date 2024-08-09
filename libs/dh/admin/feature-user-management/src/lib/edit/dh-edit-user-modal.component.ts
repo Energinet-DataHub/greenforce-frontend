@@ -21,11 +21,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
+import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { UpdateUserRoles, DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   ApiErrorCollection,
   readApiErrorResponse,

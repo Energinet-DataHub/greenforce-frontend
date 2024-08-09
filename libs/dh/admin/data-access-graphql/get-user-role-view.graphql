@@ -1,0 +1,15 @@
+query GetUserRoleView($userId: UUID!) {
+  userRoleView(userId: $userId) {
+    id
+    organizationName
+    actorNumber
+    name
+    userRoles {
+      id
+      marketRole
+      name
+      description
+      userActorId
+    }
+  }
+}
