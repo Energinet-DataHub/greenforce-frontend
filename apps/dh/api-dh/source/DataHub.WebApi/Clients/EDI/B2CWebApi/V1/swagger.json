@@ -121,6 +121,124 @@
         }
       }
     },
+    "/Orchestrations": {
+      "get": {
+        "tags": [
+          "Orchestrations"
+        ],
+        "summary": "Get orchestrations",
+        "operationId": "Orchestrations",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Optional parameter to only get orchestrations after this value",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrchestrationStatusQueryResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Orchestrations/{id}": {
+      "get": {
+        "tags": [
+          "Orchestrations"
+        ],
+        "summary": "Get status of orchestration with a given instance id",
+        "operationId": "Orchestrations2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The instance id of the orchestration to get status for",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DurableOrchestrationStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Orchestrations/{id}/terminate": {
+      "post": {
+        "tags": [
+          "Orchestrations"
+        ],
+        "summary": "Terminate a running orchestration",
+        "operationId": "terminate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The instance id of the orchestration to terminate",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "description": "The reasons for the termination",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/RequestAggregatedMeasureData": {
       "post": {
         "tags": [
@@ -277,6 +395,72 @@
           "ThirdCorrection"
         ]
       },
+      "DurableOrchestrationStatus": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "instanceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdatedTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "input": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JToken"
+              }
+            ]
+          },
+          "output": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JToken"
+              }
+            ]
+          },
+          "runtimeStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrchestrationRuntimeStatus"
+              }
+            ]
+          },
+          "customStatus": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JToken"
+              }
+            ]
+          },
+          "history": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/JToken"
+            }
+          }
+        }
+      },
+      "JToken": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/JToken"
+        }
+      },
       "MessageCreationPeriod": {
         "type": "object",
         "additionalProperties": false,
@@ -300,6 +484,37 @@
           "NonProfiledConsumption",
           "Exchange"
         ]
+      },
+      "OrchestrationRuntimeStatus": {
+        "type": "string",
+        "enum": [
+          "Running",
+          "Completed",
+          "ContinuedAsNew",
+          "Failed",
+          "Canceled",
+          "Terminated",
+          "Pending",
+          "Suspended",
+          "Unknown"
+        ]
+      },
+      "OrchestrationStatusQueryResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "durableOrchestrationState": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DurableOrchestrationStatus"
+            }
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "PriceType": {
         "type": "string",
