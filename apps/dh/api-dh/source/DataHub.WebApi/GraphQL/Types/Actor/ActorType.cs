@@ -72,6 +72,10 @@ public class ActorType : ObjectType<ActorDto>
             .ResolveWith<MarketParticipantResolvers>(c => c.GetBalanceResponsibleAgreementsAsync(default!, default!));
 
         descriptor
+            .Field("credentials")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorCredentialsAsync(default!, default!));
+
+        descriptor
             .Field("publicMail")
             .ResolveWith<MarketParticipantResolvers>(c => c.GetActorPublicMailAsync(default!, default!));
     }

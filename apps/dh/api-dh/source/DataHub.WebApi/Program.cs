@@ -112,6 +112,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 var controllerBuilder = app.MapControllers();
+// If the endpoint name is changed, remember to change the APIM policy as well (dh3-infrastructure)
 var graphQLBuilder = app.MapGraphQL(path: "/graphql");
 
 if (!environment.IsDevelopment())
