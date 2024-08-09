@@ -43,7 +43,7 @@ limitations under the License.
 
   <ng-container
     *dhPermissionRequired="[
-      'calculations:manage',
+      'calculations:view',
       'settlement-reports:manage',
       'request-aggregated-measured-data:view',
       'request-wholesale-settlement:view'
@@ -59,7 +59,7 @@ limitations under the License.
         >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
       >
       <watt-nav-list-item
-        *dhPermissionRequired="['calculations:manage']"
+        *dhPermissionRequired="['calculations:view']"
         [link]="getWholesaleLink('calculations')"
         >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
       >
