@@ -81,4 +81,12 @@ public partial class Mutation
         await client.UserReactivateAsync(userId).ConfigureAwait(false);
         return true;
     }
+
+    [Error(typeof(ApiException))]
+    public async Task<bool> InitiateMitIdSignupAsync(
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        await client.UserInitiateMitidSignupAsync();
+        return true;
+    }
 }

@@ -1,0 +1,8 @@
+mutation InitiateMitIdSignup {
+  initiateMitIdSignup {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

@@ -42,16 +42,6 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         return HandleExceptionAsync(() => _client.UserActorsGetAsync(externalToken));
     }
 
-    /// <summary>
-    /// Initiates MitID signup
-    /// </summary>
-    [HttpPost]
-    [Route("InitiateMitIdSignup")]
-    public Task InitiateMitIdSignupAsync()
-    {
-        return HandleExceptionAsync(() => _client.UserInitiateMitidSignupAsync());
-    }
-
     [HttpPost]
     [Route("ResetMitId")]
     public Task ResetMitIdAsync()
