@@ -29,7 +29,7 @@ import { GetActorCredentialsDocument } from '@energinet-datahub/dh/shared/domain
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById'];
+type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById']['credentials'];
 
 interface DhB2BAccessState {
   credentials: ActorCredentials | null | undefined;
@@ -57,13 +57,11 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
 
   readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
 
-  readonly certificateMetadata$ = this.select(
-    (state) => state.credentials?.credentials?.certificateCredentials
-  );
+  readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
   readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
 
   readonly clientSecretMetadata$ = this.select(
-    (state) => state.credentials?.credentials?.clientSecretCredentials
+    (state) => state.credentials?.clientSecretCredentials
   );
   readonly doesClientSecretMetadataExist$ = this.select(
     this.clientSecretMetadata$,
@@ -85,7 +83,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
         this.actorCredentialQuery.query({
           variables: { actorId },
           onCompleted: (data) => {
-            this.patchState({ loadingCredentials: false, credentials: data.actorById });
+            this.patchState({ loadingCredentials: false, credentials: data.actorById.credentials });
           },
           onError: () => {
             this.patchState({ loadingCredentials: false, credentials: null });
