@@ -29,7 +29,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { fromUnixTime } from 'date-fns';
 
@@ -44,7 +43,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
 import { EoConsentDetailsDrawerComponent } from '@energinet-datahub/eo/consent/feature-details';
 
@@ -108,7 +107,7 @@ export class EoConsentOverviewComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('redirect-url') redirectUrl!: string;
 
-  private authStore: EoAuthStore = inject(EoAuthStore);
+  private authService: EoAuthService = inject(EoAuthService);
   private consentService: EoConsentService = inject(EoConsentService);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
@@ -149,12 +148,9 @@ export class EoConsentOverviewComponent implements OnInit {
 
     this.transloco
       .selectTranslation()
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        switchMap(() => this.authStore.getUserInfo$)
-      )
-      .subscribe((userInfo) => {
-        this.setColumns(userInfo.org_name);
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setColumns(this.authService.user()?.org_name);
         this.cd.detectChanges();
 
         if (this.thirdPartyClientId && !this.grantConsentModal.opened) {

@@ -39,7 +39,7 @@ function delteStopClaimProcess(apiBase: string) {
 }
 
 function getClaims(apiBase: string) {
-  return http.get(`${apiBase}/v1/claims`.replace('/api', '/wallet-api'), () => {
+  return http.get(`${apiBase}/claims`.replace('/api', '/wallet-api'), () => {
     const data = {
       result: [
         {

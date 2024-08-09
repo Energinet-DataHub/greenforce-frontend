@@ -25,7 +25,6 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -35,7 +34,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
 // TODO: MOVE THIS TO DOMAIN
 export interface EoTransferAgreementsWithRecipient {
@@ -72,7 +71,7 @@ export interface EoTransferAgreementsWithRecipient {
         }
 
         <eo-transfers-form
-          [senderTin]="this.user()?.tin"
+          [senderTin]="authService.user()?.org_cvr"
           [transferAgreements]="transferAgreements"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
@@ -89,7 +88,7 @@ export class EoTransfersCreateModalComponent {
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  private authStore = inject(EoAuthStore);
+  protected authService = inject(EoAuthService);
   private service = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
 
@@ -101,7 +100,6 @@ export class EoTransfersCreateModalComponent {
   protected isFormValid = false;
   protected opened = false;
   protected proposalId: null | string = null;
-  protected user = toSignal(this.authStore.getUserInfo$);
 
   open() {
     /**
@@ -144,8 +142,8 @@ export class EoTransfersCreateModalComponent {
         this.proposalCreated.emit({
           ...proposal,
           id: proposalId,
-          senderTin: this.user()?.tin as string,
-          senderName: this.user()?.name as string,
+          senderTin: this.authService.user()?.org_cvr as string,
+          senderName: this.authService.user()?.name as string,
         });
         this.cd.detectChanges();
       },

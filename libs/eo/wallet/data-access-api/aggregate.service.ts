@@ -54,7 +54,7 @@ export class EoAggregateService {
   #http: HttpClient = inject(HttpClient);
   #transloco = inject(TranslocoService);
 
-  #apiBase = `${this.#apiEnvironment.apiBase}/v1`.replace('/api', '/wallet-api');
+  #apiBase = this.#apiEnvironment.apiBase.replace('/api', '/wallet-api');
   #timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

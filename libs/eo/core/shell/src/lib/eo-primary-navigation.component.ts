@@ -14,26 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnInit,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoAuthStore, EoFeatureFlagDirective } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagDirective, TranslocoPipe],
+  imports: [WattNavListComponent, WattNavListItemComponent, TranslocoPipe],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -97,16 +90,16 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
     </watt-nav-list>
 
     <section class="userinfo">
-      <p class="watt-label company-name">{{ userInfo()?.cpn }}</p>
+      <p class="watt-label company-name">{{ user()?.org_name }}</p>
       <p class="watt-label">
-        {{ translations.userInformation.tin | transloco: { tin: userInfo()?.tin } }}
+        {{ translations.userInformation.tin | transloco: { tin: user()?.org_cvr } }}
       </p>
-      <p class="watt-label">{{ userInfo()?.name }}</p>
+      <p class="watt-label">{{ user()?.name }}</p>
     </section>
   `,
 })
-export class EoPrimaryNavigationComponent implements OnInit {
-  private authStore = inject(EoAuthStore);
+export class EoPrimaryNavigationComponent {
+  protected user = inject(EoAuthService).user;
 
   protected routes = eoRoutes;
   protected userInfo = signal<{ name: string; cpn: string; tin: string } | null>(null);
@@ -115,15 +108,5 @@ export class EoPrimaryNavigationComponent implements OnInit {
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
-  }
-
-  ngOnInit(): void {
-    this.authStore.getUserInfo$.subscribe((userInfo) => {
-      this.userInfo.set({
-        name: userInfo.name ?? '',
-        cpn: userInfo.cpn ?? '',
-        tin: userInfo.tin ?? '',
-      });
-    });
   }
 }

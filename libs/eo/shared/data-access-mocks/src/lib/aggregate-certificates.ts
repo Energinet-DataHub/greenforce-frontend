@@ -26,7 +26,7 @@ export function aggregateCertificatesMocks(apiBase: string) {
 
 function getAggregateCertificates(apiBase: string) {
   return http.get(
-    `${apiBase}/v1/aggregate-certificates`.replace('/api', '/wallet-api'),
+    `${apiBase}/aggregate-certificates`.replace('/api', '/wallet-api'),
     async ({ request }) => {
       const state = localStorage.getItem('aggregate-certificates');
       const url = new URL(request.url);

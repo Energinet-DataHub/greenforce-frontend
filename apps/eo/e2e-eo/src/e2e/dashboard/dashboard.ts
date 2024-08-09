@@ -23,6 +23,9 @@ const login = new LoginPo();
 Given('I am logged in as Charlotte CSR', () => {
   login.visit();
   login.clickCharlotteLogin();
+  login.termsIsVisible();
+  login.checkAcceptingTerms();
+  login.acceptTerms();
 });
 
 When('I am on the dashboard page', () => {

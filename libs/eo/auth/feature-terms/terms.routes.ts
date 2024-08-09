@@ -14,5 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-cookie-banner/eo-cookie-banner.component';
-export * from './lib/eo-popup-message/eo-popup-message.component';
+import { Routes } from '@angular/router';
+import { EoTermsComponent } from './terms.component';
+
+export const eoTermsRoutes: Routes = [{ path: '', component: EoTermsComponent }];
