@@ -19,15 +19,20 @@ import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 import { Observable, switchMap, exhaustMap, tap, finalize, withLatestFrom, of } from 'rxjs';
 
-import {
-  MarketParticipantActorCredentialsDto,
-  MarketParticipantActorHttp,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorHttp } from '@energinet-datahub/dh/shared/domain';
+
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GetActorCredentialsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById']['credentials'];
 
 interface DhB2BAccessState {
-  credentials: MarketParticipantActorCredentialsDto | null;
+  credentials: ActorCredentials | null | undefined;
   clientSecret: string | undefined;
   loadingCredentials: boolean;
   generateSecretInProgress: boolean;
@@ -47,6 +52,8 @@ const initialState: DhB2BAccessState = {
 @Injectable()
 export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
+
+  readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument);
 
   readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
 
@@ -73,13 +80,15 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
     actorId$.pipe(
       tap(() => this.patchState({ credentials: null, loadingCredentials: true })),
       switchMap((actorId) =>
-        this.httpClient.v1MarketParticipantActorGetActorCredentialsGet(actorId).pipe(
-          tapResponse(
-            (response) => this.patchState({ credentials: response }),
-            () => this.patchState({ credentials: null })
-          ),
-          finalize(() => this.patchState({ loadingCredentials: false }))
-        )
+        this.actorCredentialQuery.query({
+          variables: { actorId },
+          onCompleted: (data) => {
+            this.patchState({ loadingCredentials: false, credentials: data.actorById.credentials });
+          },
+          onError: () => {
+            this.patchState({ loadingCredentials: false, credentials: null });
+          },
+        })
       )
     )
   );

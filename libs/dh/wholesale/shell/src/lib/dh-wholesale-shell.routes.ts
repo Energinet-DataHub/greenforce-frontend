@@ -38,7 +38,7 @@ export const dhWholesaleShellRoutes: Route[] = [
   },
   {
     path: getPath<WholesaleSubPaths>('calculations'),
-    canActivate: [PermissionGuard(['calculations:manage'])],
+    canActivate: [PermissionGuard(['calculations:view'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
       titleTranslationKey: 'wholesale.calculations.topBarTitle',

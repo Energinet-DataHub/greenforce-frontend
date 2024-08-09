@@ -95,6 +95,11 @@ public class MarketParticipantResolvers
         ActorNameByIdBatchDataLoader dataLoader) =>
         dataLoader.LoadAsync(result.EnergySupplierId);
 
+    public async Task<ActorCredentialsDto?> GetActorCredentialsAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.ActorCredentialsGetAsync(actor.ActorId);
+
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
         ActorPublicMailByActorId dataLoader) =>

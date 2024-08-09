@@ -32,6 +32,7 @@ export const permissions = [
   'users:reactivate',
   'balance-responsibility:view',
   'request-wholesale-settlement:view',
+  'calculations:view',
 ] as const;
 
 export type Permission = (typeof permissions)[number];
