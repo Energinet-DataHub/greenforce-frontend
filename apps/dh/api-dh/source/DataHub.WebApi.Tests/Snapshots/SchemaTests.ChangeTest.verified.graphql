@@ -18,6 +18,7 @@ type Actor {
   contact: ActorContactDto
   organization: Organization!
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
+  credentials: ActorCredentialsDto
   publicMail: ActorPublicMail
 }
 
@@ -30,6 +31,16 @@ type ActorAuditedChangeAuditLogDto {
   previousValue: String
 }
 
+type ActorCertificateCredentialsDto {
+  thumbprint: String!
+  expirationDate: DateTime!
+}
+
+type ActorClientSecretCredentialsDto {
+  clientSecretIdentifier: UUID!
+  expirationDate: DateTime!
+}
+
 type ActorContactDto {
   contactId: UUID!
   actorId: UUID!
@@ -37,6 +48,11 @@ type ActorContactDto {
   name: String!
   email: String!
   phone: String
+}
+
+type ActorCredentialsDto {
+  certificateCredentials: ActorCertificateCredentialsDto
+  clientSecretCredentials: ActorClientSecretCredentialsDto
 }
 
 type ActorNameDto {

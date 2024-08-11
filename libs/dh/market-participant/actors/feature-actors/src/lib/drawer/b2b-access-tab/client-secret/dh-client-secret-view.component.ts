@@ -110,7 +110,7 @@ export class DhClientSecretViewComponent {
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.clientSecretMetadata()?.expirationDate,
+          value: this.clientSecretMetadata()?.expirationDate.toDateString(),
           valueIsDate: true,
         },
       ];
