@@ -49,6 +49,10 @@ public class ActorType : ObjectType<ActorDto>
                 context.Parent<ActorDto>().MarketRoles.FirstOrDefault()?.EicFunction);
 
         descriptor
+            .Field("userRoles")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsRolesAsync(default!, default!, default!));
+
+        descriptor
             .Field(f => f.Status)
             .Name("status")
             .Resolve(context =>
