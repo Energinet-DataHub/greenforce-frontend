@@ -114,9 +114,7 @@ public partial class Query
             return Enumerable.Empty<ActorDto>();
         }
 
-        var actors = await client
-                        .ActorGetAsync()
-                        .ConfigureAwait(false);
+        var actors = await client.ActorGetAsync();
 
         if (httpContext.HttpContext.User.IsFas())
         {

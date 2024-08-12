@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnChanges, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
@@ -81,7 +81,7 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     DhClientSecretViewComponent,
   ],
 })
-export class DhB2bAccessTabComponent implements OnChanges {
+export class DhB2bAccessTabComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
 
   doCredentialsExist = toSignal(this.store.doCredentialsExist$);
@@ -92,9 +92,13 @@ export class DhB2bAccessTabComponent implements OnChanges {
 
   actorId = input.required<string>();
 
-  ngOnChanges(): void {
-    this.store.resetClientSecret();
-
-    this.store.getCredentials(this.actorId());
+  constructor() {
+    effect(
+      () => {
+        this.store.resetClientSecret();
+        this.store.getCredentials(this.actorId());
+      },
+      { allowSignalWrites: true }
+    );
   }
 }

@@ -101,7 +101,7 @@ export class DhCertificateViewComponent {
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.certificateMetadata()?.expirationDate,
+          value: this.certificateMetadata()?.expirationDate.toDateString(),
           valueIsDate: true,
         },
       ];

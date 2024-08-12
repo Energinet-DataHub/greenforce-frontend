@@ -46,6 +46,7 @@ import {
   StopDelegationsMutation,
   mockGetActorsForEicFunctionQuery,
   mockGetBalanceResponsibleRelationQuery,
+  mockGetActorCredentialsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -55,10 +56,7 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
-import {
-  MarketParticipantActorClientSecretDto,
-  MarketParticipantActorCredentialsDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { MarketParticipantActorClientSecretDto } from '@energinet-datahub/dh/shared/domain';
 
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
 import { actors } from './data/get-actors-by-organizationId';
@@ -78,7 +76,7 @@ export function marketParticipantMocks(apiBase: string) {
     updateActor(),
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
-    getMarketParticipantActorActorCredentials(apiBase),
+    getActorCredentials(),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     marketParticipantActorRequestClientSecretCredentials(apiBase),
@@ -390,18 +388,27 @@ function getAuditLogByActorId() {
   });
 }
 
-function getMarketParticipantActorActorCredentials(apiBase: string) {
-  const response: MarketParticipantActorCredentialsDto = {
-    certificateCredentials: undefined,
-    clientSecretCredentials: {
-      clientSecretIdentifier: 'client-secret-identifier-value',
-      expirationDate: '2020-09-30T12:00:00',
-    },
-  };
-
-  return http.get(`${apiBase}/v1/MarketParticipantActor/GetActorCredentials`, async () => {
+function getActorCredentials() {
+  return mockGetActorCredentialsQuery(async ({ variables: { actorId } }) => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(response);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actorById: {
+          __typename: 'Actor',
+          id: actorId,
+          credentials: {
+            __typename: 'ActorCredentialsDto',
+            certificateCredentials: null,
+            clientSecretCredentials: {
+              __typename: 'ActorClientSecretCredentialsDto',
+              clientSecretIdentifier: 'random-secret-XEi33WhFi8qwnCzrnlf',
+              expirationDate: new Date('2022-09-01'),
+            },
+          },
+        },
+      },
+    });
   });
 }
 
