@@ -27,10 +27,6 @@ public class ActorType : ObjectType<ActorDto>
         descriptor.Field(f => f.ActorId).Name("id");
         descriptor.Field(f => f.Name.Value).Name("name");
 
-        descriptor.Field("Test")
-            .Type<NonNullType<StringType>>()
-            .Resolve("Test");
-
         descriptor
             .Ignore(f => f.ActorNumber)
             .Field(f => f.ActorNumber.Value)
