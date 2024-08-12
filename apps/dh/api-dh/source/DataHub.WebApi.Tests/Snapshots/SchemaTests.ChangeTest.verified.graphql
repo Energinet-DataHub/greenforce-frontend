@@ -13,6 +13,7 @@ type Actor {
   glnOrEicNumber: String!
   displayName: String!
   marketRole: EicFunction
+  userRoles: [ActorUserRole!]!
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
@@ -66,6 +67,15 @@ type ActorNameWithId {
 
 type ActorPublicMail {
   mail: String!
+}
+
+type ActorUserRole {
+  id: UUID!
+  name: String!
+  status: UserRoleStatus!
+  description: String!
+  eicFunction: EicFunction!
+  assigned: Boolean!
 }
 
 type ActorViewDto {
@@ -545,6 +555,7 @@ type UpdateUserRolePayload {
 }
 
 type User {
+  actors: [Actor!]
   id: UUID!
   name: String!
   status: UserStatus!
