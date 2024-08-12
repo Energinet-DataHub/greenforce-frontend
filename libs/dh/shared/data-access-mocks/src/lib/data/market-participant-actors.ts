@@ -46,7 +46,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 1',
     } as Organization,
     publicMail: null,
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -71,7 +70,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 3',
     } as Organization,
     publicMail: null,
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -96,7 +94,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 2',
     } as Organization,
     publicMail: null,
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -121,7 +118,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 2',
     } as Organization,
     publicMail: null,
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -146,7 +142,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 3',
     } as Organization,
     publicMail: null,
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -171,7 +166,6 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'ActorPublicMail',
       mail: 'hello@efad0fee-9d7c-49c6-7c20-08da5f28ddb1.com',
     },
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -196,6 +190,5 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 1',
     } as Organization,
     publicMail: null,
-    userRoles: [],
   },
 ];

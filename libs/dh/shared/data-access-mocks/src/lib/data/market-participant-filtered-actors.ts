@@ -38,7 +38,6 @@ export const filteredActors: Actor[] = [
         country: 'DK',
       },
     },
-    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -61,6 +60,5 @@ export const filteredActors: Actor[] = [
         country: 'DK',
       },
     },
-    userRoles: [],
   },
 ];
