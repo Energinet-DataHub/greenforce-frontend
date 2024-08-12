@@ -29,6 +29,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
     displayName: 'Test Actor 1 • EnergySupplier',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -52,6 +53,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 3',
     displayName: 'Test Actor 3 • GridAccessProvider',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -75,6 +77,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 2',
     displayName: 'Test Actor 2 • BalanceResponsibleParty',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -98,6 +101,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555444',
     name: 'Test Actor 3',
     displayName: 'Test Actor 3 • DanishEnergyAgency',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -119,6 +123,7 @@ export const marketParticipantActors: Actor[] = [
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
     glnOrEicNumber: '5790000555123',
+    userRoles: [],
     name: 'Test Actor 4',
     displayName: 'Test Actor 4 • DanishEnergyAgency',
     gridAreas: [
@@ -144,6 +149,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555333',
     name: 'Test Actor 5',
     displayName: 'Test Actor 5 • BalanceResponsibleParty',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -167,6 +173,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555588',
     name: 'Test Actor 6',
     displayName: 'Test Actor 6 • EnergySupplier',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
