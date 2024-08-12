@@ -37,6 +37,7 @@ export const actors = (organizationId: string): Actor[] => [
       organizationId,
       name: '',
     } as Organization,
+    userRoles: [],
   },
   {
     __typename: 'Actor',
@@ -53,5 +54,6 @@ export const actors = (organizationId: string): Actor[] => [
       organizationId,
       name: '',
     } as Organization,
+    userRoles: [],
   },
 ];
