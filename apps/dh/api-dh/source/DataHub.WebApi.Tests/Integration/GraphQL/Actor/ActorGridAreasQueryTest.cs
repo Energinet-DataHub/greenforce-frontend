@@ -63,7 +63,7 @@ public class ActorGridAreasQueryTests
                             .Select(g => new ActorGridAreaDto { Id = g.Id })
                             .ToList(),
                     },
-                 ],
+                ],
             });
 
         GraphQLTestService.MarketParticipantClientV1Mock
