@@ -10,7 +10,7 @@ interface Error {
 type Actor {
   id: UUID!
   name: String!
-  Test: String
+  Test: String!
   glnOrEicNumber: String!
   displayName: String!
   marketRole: EicFunction
