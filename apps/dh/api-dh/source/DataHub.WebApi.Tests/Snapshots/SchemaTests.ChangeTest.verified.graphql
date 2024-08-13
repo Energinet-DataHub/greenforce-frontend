@@ -129,6 +129,7 @@ type BalanceResponsiblePageResult {
 
 type BalanceResponsibleType {
   validPeriod: DateRange!
+  storageDocumentUrl: String
   gridAreaWithName: GridAreaDto
   supplierWithName: ActorNameDto
   balanceResponsibleWithName: ActorNameDto
