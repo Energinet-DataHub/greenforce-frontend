@@ -36,7 +36,10 @@ import {
   UpdateActorDocument,
   UpdateActorMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhNameMaxLength, dhNameMaxLengthValidatorFn } from '../dh-name-max-length.validator';
+import {
+  dhMarketParticipantNameMaxLength,
+  dhMarketParticipantNameMaxLengthValidatorFn,
+} from '../dh-market-participant-name-max-length.validator';
 
 @Component({
   standalone: true,
@@ -86,11 +89,11 @@ export class DhActorsEditActorModalComponent {
   actorEditableFieldsQuery = lazyQuery(GetActorEditableFieldsDocument);
   updateActorMutation = mutation(UpdateActorDocument);
 
-  nameMaxLength = dhNameMaxLength;
+  nameMaxLength = dhMarketParticipantNameMaxLength;
   departmentNameMaxLength = 250;
 
   actorForm = this.formBuilder.group({
-    name: ['', [Validators.required, dhNameMaxLengthValidatorFn]],
+    name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     departmentName: ['', [Validators.required, Validators.maxLength(this.departmentNameMaxLength)]],
     departmentEmail: ['', [Validators.required, Validators.email]],
     departmentPhone: ['', Validators.required],

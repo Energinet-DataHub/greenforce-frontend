@@ -33,7 +33,7 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { ActorForm } from '../dh-actor-form.model';
-import { dhNameMaxLength } from '../../dh-name-max-length.validator';
+import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-name-max-length.validator';
 
 @Component({
   standalone: true,
@@ -145,7 +145,7 @@ export class DhNewActorStepComponent {
 
   showGridAreaOptions = signal(false);
 
-  nameMaxLength = dhNameMaxLength;
+  nameMaxLength = dhMarketParticipantNameMaxLength;
 
   onMarketRoleChange(eicfunction: EicFunction): void {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);

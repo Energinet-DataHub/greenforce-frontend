@@ -16,6 +16,8 @@
  */
 import { Validators } from '@angular/forms';
 
-export const dhNameMaxLength = 150;
+export const dhMarketParticipantNameMaxLength = 150;
 
-export const dhNameMaxLengthValidatorFn = Validators.maxLength(dhNameMaxLength);
+export const dhMarketParticipantNameMaxLengthValidatorFn = Validators.maxLength(
+  dhMarketParticipantNameMaxLength
+);
