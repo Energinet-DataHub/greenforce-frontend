@@ -15,19 +15,8 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  ViewChild,
-  Output,
-  EventEmitter,
-  inject,
-  signal,
-  viewChild,
-  output,
-} from '@angular/core';
+import { Component, inject, signal, viewChild, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import {
@@ -61,7 +50,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
   imports: [
     TranslocoDirective,
-    RxPush,
 
     WATT_DRAWER,
     WattDescriptionListComponent,
