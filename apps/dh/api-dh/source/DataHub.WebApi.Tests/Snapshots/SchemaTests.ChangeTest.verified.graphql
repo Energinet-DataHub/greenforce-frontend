@@ -290,6 +290,11 @@ type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
+type InitiateMitIdSignupPayload {
+  boolean: Boolean
+  errors: [InitiateMitIdSignupError!]
+}
+
 type InviteUserPayload {
   boolean: Boolean
   errors: [InviteUserError!]
@@ -356,6 +361,7 @@ type Mutation {
   resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
+  initiateMitIdSignup: InitiateMitIdSignupPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -622,6 +628,8 @@ union CreateUserRoleError = ApiError
 union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
+
+union InitiateMitIdSignupError = ApiError
 
 union InviteUserError = ApiError
 
