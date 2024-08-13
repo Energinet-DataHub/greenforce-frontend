@@ -24,7 +24,10 @@ export const errorHandler = (logger: DhApplicationInsights) =>
   onError(({ graphQLErrors }) => {
     if (graphQLErrors) {
       graphQLErrors.map(({ message, extensions }) => {
-        logger.trackException(new Error((extensions['details'] as string) || message), 3);
+        logger.trackException(
+          new Error(extensions ? (extensions['details'] as string) || message : message),
+          3
+        );
       });
     }
   });
