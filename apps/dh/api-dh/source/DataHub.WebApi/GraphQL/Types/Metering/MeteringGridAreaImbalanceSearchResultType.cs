@@ -38,6 +38,10 @@ public class MeteringGridAreaImbalanceSearchResultType : ObjectType<MeteringGrid
         descriptor.Field(f => f.PeriodEnd).Ignore();
 
         descriptor
+            .Field("mgaImbalanceDocumentUrl")
+            .ResolveWith<EsettExchangeResolvers>(c => c.GetMgaImbalanceDocument(default!, default!, default!));
+
+        descriptor
            .Field("gridArea")
            .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(MeteringGridAreaImbalanceSearchResult)!, default!));
     }
