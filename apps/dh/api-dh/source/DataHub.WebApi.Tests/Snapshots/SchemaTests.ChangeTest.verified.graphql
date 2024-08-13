@@ -336,6 +336,7 @@ type MeteringGridAreaImbalanceSearchResponse {
 
 type MeteringGridAreaImbalanceSearchResult {
   period: DateRange!
+  mgaImbalanceDocumentUrl: String
   gridArea: GridAreaDto
   id: String!
   documentDateTime: DateTime!

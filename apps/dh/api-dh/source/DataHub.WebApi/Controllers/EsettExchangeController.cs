@@ -91,12 +91,12 @@ public sealed class EsettExchangeController : ControllerBase
 
     [HttpGet("MgaImbalanceDocument")]
     [Produces(MediaTypeNames.Application.Octet)]
-    public async Task<ActionResult<Stream>> GetMgaImbalanceDocumentAsync(string imbalanceId)
+    public async Task<ActionResult<Stream>> GetMgaImbalanceDocumentAsync(string documentId)
     {
         try
         {
             var fileResponse = await _client
-                .DocumentAsync(imbalanceId)
+                .DocumentAsync(documentId)
                 .ConfigureAwait(false);
 
             return File(fileResponse.Stream, MediaTypeNames.Application.Octet);

@@ -85,4 +85,14 @@ public class EsettExchangeResolvers
                "StorageDocument",
                _controllerName,
                new { documentId = result.Id });
+
+    public string? GetMgaImbalanceDocument(
+       [Parent] MeteringGridAreaImbalanceSearchResult result,
+       [Service] IHttpContextAccessor httpContextAccessor,
+       [Service] LinkGenerator linkGenerator) =>
+           linkGenerator.GetUriByAction(
+               httpContextAccessor.HttpContext!,
+               "GetMgaImbalanceDocument",
+               _controllerName,
+               new { documentId = result.Id });
 }
