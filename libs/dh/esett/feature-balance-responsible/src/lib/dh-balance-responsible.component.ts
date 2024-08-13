@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { switchMap, catchError, of, take, map } from 'rxjs';
+import { switchMap, catchError, of } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
@@ -26,11 +27,7 @@ import { RxLet } from '@rx-angular/template/let';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import {
-  BalanceResponsibleSortProperty,
-  GetBalanceResponsibleMessagesDocument,
-  SortDirection,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
@@ -45,7 +42,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
 import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
-import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   standalone: true,
@@ -93,7 +89,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly store = inject(DhBalanceResponsibleStore);
   private readonly toastService = inject(WattToastService);
-  private readonly esettHttp = inject(EsettExchangeHttp);
+  private readonly httpClient = inject(HttpClient);
 
   pageMetaData$ = this.store.pageMetaData$;
   sortMetaData$ = this.store.sortMetaData$;
@@ -102,6 +98,8 @@ export class DhBalanceResponsibleComponent implements OnInit {
     disableClientSideSort: true,
   });
   totalCount = 0;
+
+  url = '';
 
   isLoading = false;
   isDownloading = false;
@@ -120,6 +118,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
             pageSize: pageMetaData.pageSize,
             sortProperty: sortMetaData.sortProperty,
             sortDirection: sortMetaData.sortDirection,
+            locale: translate('selectedLanguageIso'),
           },
         })
         .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
@@ -133,6 +132,7 @@ export class DhBalanceResponsibleComponent implements OnInit {
 
         this.tableDataSource.data = result.data?.balanceResponsible.page ?? [];
         this.totalCount = result.data?.balanceResponsible.totalCount ?? 0;
+        this.url = result.data?.balanceResponsible.balanceResponsiblesUrl ?? '';
 
         this.hasError = !!result.errors;
       },
@@ -155,47 +155,30 @@ export class DhBalanceResponsibleComponent implements OnInit {
     this.store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
   }
 
-  download() {
-    this.isDownloading = true;
+  download(url: string) {
+    if (!url) return;
 
-    this.store.queryVariables$
-      .pipe(
-        take(1),
-        map(({ sortMetaData }) =>
-          this.esettHttp
-            .v1EsettExchangeDownloadBalanceResponsiblesGet(
-              translate('selectedLanguageIso'),
-              ((sortProperty: BalanceResponsibleSortProperty) => {
-                switch (sortProperty) {
-                  case BalanceResponsibleSortProperty.ValidFrom:
-                    return 'ValidFrom';
-                  case BalanceResponsibleSortProperty.ValidTo:
-                    return 'ValidTo';
-                  case BalanceResponsibleSortProperty.ReceivedDate:
-                    return 'ReceivedDate';
-                }
-              })(sortMetaData.sortProperty),
-              sortMetaData.sortDirection === SortDirection.Ascending ? 'Ascending' : 'Descending'
-            )
-            .pipe(
-              switchMap(
-                streamToFile({ name: 'eSett-balance-responsible-messages', type: 'text/csv' })
-              )
-            )
-            .subscribe({
-              complete: () => {
-                this.isDownloading = false;
-              },
-              error: () => {
-                this.isDownloading = false;
-                this.toastService.open({
-                  message: translate('shared.error.message'),
-                  type: 'danger',
-                });
-              },
-            })
-        )
-      )
-      .subscribe();
+    this.toastService.open({
+      type: 'loading',
+      message: translate('shared.downloadStart'),
+    });
+
+    const fileOptions = {
+      name: 'eSett-balance-responsible-messages',
+      type: 'text/csv',
+    };
+
+    this.httpClient
+      .get(url, { responseType: 'text' })
+      .pipe(switchMap(streamToFile(fileOptions)))
+      .subscribe({
+        complete: () => this.toastService.dismiss(),
+        error: () => {
+          this.toastService.open({
+            type: 'danger',
+            message: translate('shared.downloadFailed'),
+          });
+        },
+      });
   }
 }
