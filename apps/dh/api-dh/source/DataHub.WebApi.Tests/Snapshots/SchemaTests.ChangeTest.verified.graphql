@@ -78,6 +78,14 @@ type ActorUserRole {
   assigned: Boolean!
 }
 
+type ActorViewDto {
+  id: UUID!
+  organizationName: String!
+  actorNumber: String!
+  name: String!
+  userRoles: [UserRoleViewDto!]!
+}
+
 type AddressDto {
   streetName: String
   number: String
@@ -445,6 +453,7 @@ type Query {
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
   userRoles: [UserRoleDto!]!
+  userRoleView(userId: UUID!): [ActorViewDto!]!
 }
 
 type ReActivateUserPayload {
@@ -584,6 +593,14 @@ type UserRoleDto {
   description: String!
   eicFunction: EicFunction!
   status: UserRoleStatus!
+}
+
+type UserRoleViewDto {
+  id: UUID!
+  marketRole: EicFunction!
+  name: String!
+  description: String!
+  userActorId: UUID
 }
 
 type UserRoleWithPermissions {

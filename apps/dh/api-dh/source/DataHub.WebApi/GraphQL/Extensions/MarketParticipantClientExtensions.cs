@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -38,6 +37,7 @@ public static class MarketParticipantClientExtensions
     {
         var actors = await client.ActorGetAsync(cancellationToken);
         var gridAreas = await client.GridAreaGetAsync(cancellationToken);
+
         return gridAreas
             .OrderBy(g => g.Code)
             .Select(gridArea =>
