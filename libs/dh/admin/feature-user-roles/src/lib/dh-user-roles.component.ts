@@ -14,24 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnChanges,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
@@ -39,14 +27,12 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { MarketParticipantUserRoleViewDto } from '@energinet-datahub/dh/shared/domain';
-
+import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import {
-  DhAdminUserRolesStore,
-  UpdateUserRoles,
-} from '@energinet-datahub/dh/admin/data-access-api';
+  GetUserRoleViewDocument,
+  UserRoleViewDto,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   FilterUserRolesPipe,
@@ -60,57 +46,56 @@ import {
   templateUrl: './dh-user-roles.component.html',
   styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
-    RxLet,
-    RxPush,
     TranslocoDirective,
     TranslocoPipe,
-    MatDividerModule,
     MatExpansionModule,
     FormsModule,
 
     WattSpinnerComponent,
-    WattCardComponent,
     WATT_TABLE,
     WattEmptyStateComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WattBadgeComponent,
     WattFieldErrorComponent,
 
-    DhEmDashFallbackPipe,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
   ],
 })
-export class DhUserRolesComponent implements OnChanges {
-  private readonly store = inject(DhAdminUserRolesStore);
-  @Input() user: DhUser | null = null;
-  @Input() selectMode = false;
-  @Input() expanded = true;
-  @Output() updateUserRoles = new EventEmitter<UpdateUserRoles>();
+export class DhUserRolesComponent {
+  private _updateUserRoles: UpdateUserRoles = {
+    actors: [],
+  };
 
-  isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
-  userRolesPrActor$ = this.store.userRolesPrActor$;
+  user = input<DhUser | null>(null);
+  selectMode = input(false);
+  expanded = input(true);
 
-  columns: WattTableColumnDef<MarketParticipantUserRoleViewDto> = {
+  updateUserRoles = output<UpdateUserRoles>();
+
+  userRoleViewQuery = lazyQuery(GetUserRoleViewDocument);
+
+  isLoading = this.userRoleViewQuery.loading;
+  hasGeneralError = this.userRoleViewQuery.error;
+  userRolesPerActor = computed(() => this.userRoleViewQuery.data()?.userRoleView ?? []);
+
+  columns: WattTableColumnDef<UserRoleViewDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
 
-  private _updateUserRoles: UpdateUserRoles = {
-    actors: [],
-  };
+  constructor() {
+    effect(() => {
+      if (this.user()?.id) {
+        this.userRoleViewQuery.refetch({ userId: this.user()?.id });
+      }
+    });
+  }
 
   resetUpdateUserRoles(): void {
     this._updateUserRoles = {
       actors: [],
     };
-  }
-
-  ngOnChanges(): void {
-    if (this.user?.id) {
-      this.store.getUserRolesView(this.user.id);
-    }
   }
 
   checkIfAtLeastOneRoleIsAssigned(actorId: string): boolean {
@@ -120,8 +105,8 @@ export class DhUserRolesComponent implements OnChanges {
 
   selectionChanged(
     actorId: string,
-    userRoles: MarketParticipantUserRoleViewDto[],
-    allAssignable: MarketParticipantUserRoleViewDto[]
+    userRoles: UserRoleViewDto[],
+    allAssignable: UserRoleViewDto[]
   ) {
     const actor = this.getOrAddActor(actorId);
 

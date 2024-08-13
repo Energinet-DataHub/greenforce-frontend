@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +28,7 @@ public class ActorGridAreasQueryTests
 {
     private static readonly Guid _actorId = new("2718fe76-f250-47b6-97c2-a37333403991");
 
-    private static readonly string _calculationByIdQuery =
+    private static readonly string _actorByIdQuery =
     $$"""
     {
       actorById(id: "{{_actorId}}") {
@@ -75,7 +74,7 @@ public class ActorGridAreasQueryTests
             .ReturnsAsync([]);
 
         var result = await GraphQLTestService
-            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+            .ExecuteRequestAsync(b => b.SetQuery(_actorByIdQuery));
 
         await result.MatchSnapshotAsync();
     }
