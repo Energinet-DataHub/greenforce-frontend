@@ -78,6 +78,14 @@ type ActorUserRole {
   assigned: Boolean!
 }
 
+type ActorViewDto {
+  id: UUID!
+  organizationName: String!
+  actorNumber: String!
+  name: String!
+  userRoles: [UserRoleViewDto!]!
+}
+
 type AddressDto {
   streetName: String
   number: String
@@ -282,6 +290,11 @@ type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
+type InitiateMitIdSignupPayload {
+  boolean: Boolean
+  errors: [InitiateMitIdSignupError!]
+}
+
 type InviteUserPayload {
   boolean: Boolean
   errors: [InviteUserError!]
@@ -348,6 +361,7 @@ type Mutation {
   resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
+  initiateMitIdSignup: InitiateMitIdSignupPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
@@ -445,6 +459,7 @@ type Query {
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
   userRoles: [UserRoleDto!]!
+  userRoleView(userId: UUID!): [ActorViewDto!]!
 }
 
 type ReActivateUserPayload {
@@ -586,6 +601,14 @@ type UserRoleDto {
   status: UserRoleStatus!
 }
 
+type UserRoleViewDto {
+  id: UUID!
+  marketRole: EicFunction!
+  name: String!
+  description: String!
+  userActorId: UUID
+}
+
 type UserRoleWithPermissions {
   userRoles: [UserRoleDto!]!
   id: UUID!
@@ -605,6 +628,8 @@ union CreateUserRoleError = ApiError
 union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
+
+union InitiateMitIdSignupError = ApiError
 
 union InviteUserError = ApiError
 

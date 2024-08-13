@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { delay, http, HttpResponse } from 'msw';
+import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import {
+  mockGetPermissionByEicFunctionQuery,
+  mockGetUserRoleViewQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { marketParticipantUserRoleView } from './data/market-participant-user-role-view';
+import { marketParticipantUserRoleViewQuery } from './data/market-participant-user-role-view';
 import { marketParticipantUserRolePermissionsQuery } from './data/market-participant-user-role-permissions';
-import { mockGetPermissionByEicFunctionQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export function marketParticipantUserRoleMocks(apiBase: string) {
-  return [getUserRoleView(apiBase), getPermissionsByEicFunction()];
+export function marketParticipantUserRoleMocks() {
+  return [getUserRoleView(), getPermissionsByEicFunction()];
 }
 
-function getUserRoleView(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipantUserRole/GetUserRoleView`, async () => {
+function getUserRoleView() {
+  return mockGetUserRoleViewQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json(marketParticipantUserRoleView);
+
+    return HttpResponse.json({ data: marketParticipantUserRoleViewQuery });
   });
 }
 
