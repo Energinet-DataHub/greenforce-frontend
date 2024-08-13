@@ -60,6 +60,7 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { ActorForm } from './dh-actor-form.model';
+import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
   standalone: true,
@@ -104,7 +105,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
 
   newActorForm: ActorForm = this._fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
-    name: ['', Validators.required],
+    name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
     contact: this._fb.group({
