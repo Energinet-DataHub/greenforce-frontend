@@ -15,7 +15,14 @@
  * limitations under the License.
  */
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -62,8 +69,7 @@ import { EoMeteringPointsHelperModalComponent } from './eo-metering-point-helper
       }
     `,
   ],
-  template: `
-    <watt-card>
+  template: ` <watt-card>
       <watt-card-title>
         <h3 class="watt-on-light--high-emphasis title">
           {{ translations.meteringPoints.tableTitle | transloco }}
@@ -89,7 +95,7 @@ export class EoMeteringPointsShellComponent implements OnInit {
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
   private transloco = inject(TranslocoService);
-  @ViewChild('helper') helper !: EoMeteringPointsHelperModalComponent;
+  @ViewChild('helper') helper!: EoMeteringPointsHelperModalComponent;
 
   protected isLoading$ = this.meteringPointStore.loading$;
   protected creatingContracts$ = this.meteringPointStore.creatingContracts$;
