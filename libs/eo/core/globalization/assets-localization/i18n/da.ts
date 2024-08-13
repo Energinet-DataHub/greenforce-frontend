@@ -336,26 +336,23 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   meteringPoints: {
     title: 'Målepunkter',
-    infoBoxTitle: 'Du har muligheden for at slå dine målepunkter TIL og FRA.',
+    infoBoxTitle: 'Tilgængelige målepunkter - hjælp',
     infoBoxContent: `
-      <p>For produktionsmålepunkter:</p>
-
+      <h3>Produktion:</h3>
       <ul>
-        <li>At slå den 'TIL' betyder, at målepunktet aktivt udsteder certifikater for strøm.</li>
-        <li>At skifte den 'FRA' vil stoppe målepunktet fra at udstede certifikater.</li>
+        <li>Et målepunkt (elmåler) der producerer grøn strøm fra sol eller vindkraft.</li>
       </ul>
 
-      <br />
-      <p>For forbrugsmålepunkter:</p>
-
+      <h3>Forbrug:</h3>
       <ul>
-        <li>
-          'TIL' indikerer, at forbrugsmålepunktet aktivt udsteder forbrugscertifikater.
-        </li>
-        <li>
-          'FRA' indikerer, at forbrugsmålepunktet vil skaffe sin elektricitet fra
-          et andet sted.
-        </li>
+        <li>Et målepunkt (elmåler) der skal anvende strøm fra sol eller vindkraft.</li>
+      </ul>
+
+      <h3>Aktiver/Deaktiver:</h3>
+      <ul>
+        <li>Når du AKTIVERER et målepunkt, udstedes der Granulære Certifikater.</li>
+        <li>Når du DEAKTIVERER et målepunkt, stopper udstedelsen af Granulære Certifikater.</li>
+        <li>Begge dele sker øjeblikkeligt, men der er forsinkelse på visningen.</li>
       </ul>
       `,
     pendingRelationStatus: {
