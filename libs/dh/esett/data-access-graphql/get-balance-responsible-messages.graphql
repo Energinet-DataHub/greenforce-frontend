@@ -20,6 +20,7 @@ query getBalanceResponsibleMessages(
       balanceResponsibleWithName {
         value
       }
+      storageDocumentUrl
       balanceResponsible
       meteringPointType
       validPeriod

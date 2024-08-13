@@ -75,4 +75,14 @@ public class EsettExchangeResolvers
                "ResponseDocument",
                _controllerName,
                new { documentId = result.DocumentId });
+
+    public string? GetStorageDocument(
+       [Parent] BalanceResponsibleResult result,
+       [Service] IHttpContextAccessor httpContextAccessor,
+       [Service] LinkGenerator linkGenerator) =>
+           linkGenerator.GetUriByAction(
+               httpContextAccessor.HttpContext!,
+               "StorageDocument",
+               _controllerName,
+               new { documentId = result.Id });
 }
