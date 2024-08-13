@@ -77,7 +77,7 @@ public class EsettExchangeResolvers
                new { documentId = result.DocumentId });
 
     public string? GetStorageDocument(
-       [Parent] MeteringGridAreaImbalanceSearchResult result,
+       [Parent] BalanceResponsibleResult result,
        [Service] IHttpContextAccessor httpContextAccessor,
        [Service] LinkGenerator linkGenerator) =>
            linkGenerator.GetUriByAction(
