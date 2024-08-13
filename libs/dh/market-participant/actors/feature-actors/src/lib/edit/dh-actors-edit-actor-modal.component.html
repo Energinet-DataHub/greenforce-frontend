@@ -26,7 +26,13 @@ limitations under the License.
       [required]="true"
       [label]="t('name')"
       [formControl]="actorForm.controls.name"
-    />
+    >
+      @if (actorForm.controls.name.hasError("maxlength")) {
+        <watt-field-error>
+          {{ t("nameMaxLength", { maxLength: nameMaxLength }) }}
+        </watt-field-error>
+      }
+    </watt-text-field>
 
     <h4>{{ t("contactHeader") }}</h4>
 

@@ -18,6 +18,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RxPush } from '@rx-angular/template/push';
 
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -29,10 +30,10 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { ActorForm } from '../dh-actor-form.model';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { RxPush } from '@rx-angular/template/push';
+import { dhNameMaxLength } from '../../dh-name-max-length.validator';
 
 @Component({
   standalone: true,
@@ -86,7 +87,14 @@ import { RxPush } from '@rx-angular/template/push';
         }
       </watt-text-field>
 
-      <watt-text-field [formControl]="newActorForm().controls.name" [label]="t('name')" />
+      <watt-text-field [formControl]="newActorForm().controls.name" [label]="t('name')">
+        @if (newActorForm().controls.name.hasError('maxlength')) {
+          <watt-field-error>
+            {{ t('nameMaxLength', { maxLength: nameMaxLength }) }}
+          </watt-field-error>
+        }
+      </watt-text-field>
+
       <watt-dropdown
         dhDropdownTranslator
         translateKey="marketParticipant.marketRoles"
@@ -136,6 +144,8 @@ export class DhNewActorStepComponent {
   gridAreaOptions = getGridAreaOptions();
 
   showGridAreaOptions = signal(false);
+
+  nameMaxLength = dhNameMaxLength;
 
   onMarketRoleChange(eicfunction: EicFunction): void {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);
