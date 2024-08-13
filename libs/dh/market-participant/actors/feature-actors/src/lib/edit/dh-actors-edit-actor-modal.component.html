@@ -17,7 +17,7 @@ limitations under the License.
 <watt-modal
   [loading]="isLoading()"
   [title]="actorName()"
-  [size]="'small'"
+  size="large"
   *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
 >
   <form id="updateActorForm" [formGroup]="actorForm" (ngSubmit)="save()">
