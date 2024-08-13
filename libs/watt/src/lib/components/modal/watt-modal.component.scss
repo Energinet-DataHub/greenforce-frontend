@@ -35,7 +35,7 @@
   padding: 0;
   align-items: center;
   grid-template-columns: 1fr auto;
-  grid-template-rows: 60px 1fr auto;
+  grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "title close"
     "content content"
@@ -79,14 +79,14 @@
 
   .watt-modal-close {
     grid-area: close;
-    justify-self: end;
+    align-self: start;
     margin: var(--watt-space-s);
     color: var(--watt-color-primary);
   }
 
   .watt-modal-title {
     grid-area: title;
-    margin: 0 var(--watt-space-ml);
+    margin: var(--watt-space-s) var(--watt-space-ml);
     color: var(--watt-typography-text-color);
   }
 
