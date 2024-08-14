@@ -171,7 +171,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected dataSource: WattTableDataSource<EoCertificate> = new WattTableDataSource(undefined);
   protected totalCount = signal<number>(0);
   protected pageIndex = signal<number>(0);
-  protected pageSize = 50;
+  protected pageSize = 10;
 
   protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
   protected defaultSortDirection: SortDirection = 'desc';
