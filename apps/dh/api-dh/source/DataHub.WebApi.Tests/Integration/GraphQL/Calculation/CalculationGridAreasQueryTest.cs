@@ -44,7 +44,8 @@ public class CalculationGridAreasQueryTests
     [Fact]
     public async Task GetCalculationGridAreasAsync()
     {
-        GraphQLTestService.WholesaleClientV3Mock
+        var server = new GraphQLTestService();
+        server.WholesaleClientV3Mock
             .Setup(x => x.GetCalculationAsync(_batchId, default))
             .ReturnsAsync(new CalculationDto()
             {
@@ -52,7 +53,7 @@ public class CalculationGridAreasQueryTests
                 GridAreaCodes = ["003", "001", "002"],
             });
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([
                 new GridAreaDto() { Id = Guid.NewGuid(), Code = "002", Name = "Grid Area 2" },
@@ -60,12 +61,11 @@ public class CalculationGridAreasQueryTests
                 new GridAreaDto() { Id = Guid.NewGuid(), Code = "003", Name = "Grid Area 3" },
             ]);
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
-        var result = await GraphQLTestService
-            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync();
     }

@@ -53,7 +53,9 @@ public class CalculationProgressQueryTests
 
     private static async Task ExecuteTestAsync(CalculationOrchestrationState orchestrationState)
     {
-        GraphQLTestService.WholesaleClientV3Mock
+        var server = new GraphQLTestService();
+
+        server.WholesaleClientV3Mock
             .Setup(x => x.GetCalculationAsync(_batchId, default))
             .ReturnsAsync(new CalculationDto()
             {
@@ -61,8 +63,7 @@ public class CalculationProgressQueryTests
                 OrchestrationState = orchestrationState,
             });
 
-        var result = await GraphQLTestService
-            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync($"{orchestrationState}");
     }
