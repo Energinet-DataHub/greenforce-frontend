@@ -32,5 +32,22 @@ public class ImbalancePriceDaily : ObjectType<ImbalancePricesDailyDto>
                 ImbalancePricePeriodStatus.Complete => ImbalancePriceStatus.Complete,
                 _ => throw new ArgumentOutOfRangeException(nameof(ImbalancePricesDailyDto.Status)),
             });
+
+        descriptor
+            .Field("imbalancePricesDownloadImbalanceUrl")
+            .Type<NonNullType<StringType>>()
+            .Resolve(
+                context =>
+            {
+                var httpContext = context.Service<IHttpContextAccessor>().HttpContext;
+                var linkGenerator = context.Service<LinkGenerator>();
+                var month = context.Variables.GetVariable<int>("month");
+                var year = context.Variables.GetVariable<int>("year");
+                return linkGenerator.GetUriByAction(
+                    httpContext!,
+                    "DownloadImbalancePrices",
+                    "ImbalancePrices",
+                    new { month, year });
+            });
     }
 }

@@ -45,8 +45,6 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - apps/dh/api-dh/**
   workflow_dispatch: {}
 
 jobs:

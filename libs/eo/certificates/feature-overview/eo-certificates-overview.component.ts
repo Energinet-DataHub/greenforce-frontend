@@ -38,7 +38,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { EoCertificate, EoCertificateType } from '@energinet-datahub/eo/certificates/domain';
 import {
   EoCertificatesService,
   sortCertificatesBy,
@@ -112,14 +112,16 @@ import { translations } from '@energinet-datahub/eo/translations';
           (sortChange)="sortData($event)"
         >
           <ng-container *wattTableCell="columns.action; let element">
-            <a
-              class="link"
-              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
-                element.federatedStreamId.streamId
-              }}"
-            >
-              {{ translations.certificates.certificateDetailsLink | transloco }}
-            </a>
+            @if (element.federatedStreamId.registry && element.federatedStreamId.streamId) {
+              <a
+                class="link"
+                routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
+                  element.federatedStreamId.streamId
+                }}"
+              >
+                {{ translations.certificates.certificateDetailsLink | transloco }}
+              </a>
+            }
           </ng-container>
         </watt-table>
       }
@@ -225,10 +227,12 @@ export class EoCertificatesOverviewComponent implements OnInit {
           },
           certificateType: {
             accessor: (x) => {
-              if (x.certificateType.toLowerCase() === 'production') {
+              if (x.certificateType.toLowerCase() === EoCertificateType.Production) {
                 return this.transloco.translate(this.translations.certificates.productionType);
-              } else {
+              } else if (x.certificateType.toLowerCase() === EoCertificateType.Consumption) {
                 return this.transloco.translate(this.translations.certificates.consumptionType);
+              } else {
+                return x.certificateType;
               }
             },
             header: this.transloco.translate(this.translations.certificates.typeTableHeader),
@@ -251,6 +255,12 @@ export class EoCertificatesOverviewComponent implements OnInit {
     sortDirection: SortDirection
   ) {
     this.loading.set(true);
+    this.dataSource.data = [];
+    // This makes sure the paginator is keeping track of the total count
+    setTimeout(() => {
+      this.paginator.instance.length = this.totalCount();
+    });
+
     this.certificatesService
       .getCertificates(page, pageSize, sortBy, sortDirection)
       .pipe(
@@ -272,18 +282,15 @@ export class EoCertificatesOverviewComponent implements OnInit {
       )
       .subscribe({
         next: (certificates) => {
+          this.totalCount.set(certificates.metadata.total);
+
           this.dataSource.data = this.insertOrOverwrite(
-            this.dataSource.data,
+            new Array(this.totalCount()).fill(null),
             this.pageIndex() * this.pageSize,
             certificates.result
           );
-          this.totalCount.set(certificates.metadata.total);
           this.loading.set(false);
           this.hasError.set(false);
-
-          setTimeout(() => {
-            this.paginator.instance.length = certificates.metadata.total;
-          });
         },
         error: () => {
           this.hasError.set(true);

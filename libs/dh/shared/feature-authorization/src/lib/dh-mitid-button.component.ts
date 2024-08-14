@@ -22,6 +22,8 @@ import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-mitid-button',
@@ -85,6 +87,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 export class DhMitIDButtonComponent {
   private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
   private config = inject(dhB2CEnvironmentToken);
+  private initiateMitIdSignupMutation = mutation(InitiateMitIdSignupDocument);
 
   isLoading = signal(false);
   hasReset = computed(() => this.mode() === 'signup');
@@ -97,9 +100,9 @@ export class DhMitIDButtonComponent {
     if (this.mode() === 'login') {
       this.redirectToMitID();
     } else {
-      this.marketParticipantUserHttp
-        .v1MarketParticipantUserInitiateMitIdSignupPost()
-        .subscribe(() => this.redirectToMitID());
+      this.initiateMitIdSignupMutation.mutate({
+        onCompleted: () => this.redirectToMitID(),
+      });
     }
   }
 
