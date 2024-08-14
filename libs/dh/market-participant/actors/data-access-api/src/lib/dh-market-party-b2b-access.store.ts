@@ -17,15 +17,28 @@
 import { Injectable, inject } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
-import { Observable, switchMap, exhaustMap, tap, finalize, withLatestFrom, of } from 'rxjs';
+import {
+  Observable,
+  switchMap,
+  exhaustMap,
+  tap,
+  finalize,
+  withLatestFrom,
+  of,
+  EMPTY,
+  map,
+} from 'rxjs';
 
 import { MarketParticipantActorHttp } from '@energinet-datahub/dh/shared/domain';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { GetActorCredentialsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetActorCredentialsDocument,
+  RequestClientSecretCredentialsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
@@ -52,12 +65,20 @@ const initialState: DhB2BAccessState = {
 @Injectable()
 export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
+  private readonly client = inject(HttpClient);
+
+  private readonly requestClientSecretCredentials = mutation(
+    RequestClientSecretCredentialsDocument
+  );
 
   readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument, {
     fetchPolicy: 'network-only',
   });
 
-  readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
+  readonly doCredentialsExist$ = this.select(
+    (state) =>
+      !!state.credentials?.certificateCredentials || !!state.credentials?.clientSecretCredentials
+  );
 
   readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
   readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
@@ -76,6 +97,14 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   readonly generateSecretInProgress$ = this.select((state) => state.generateSecretInProgress);
   readonly showSpinner$ = this.select(
     (state) => state.loadingCredentials || state.removeInProgress
+  );
+
+  private assignCertificateCredentialsUrl$ = this.select(
+    (state) => state.credentials?.assignCertificateCredentialsUrl
+  );
+
+  private removeCertificateCredentialsUrl$ = this.select(
+    (state) => state.credentials?.removeActorCredentialsUrl
   );
 
   readonly getCredentials = this.effect((actorId$: Observable<string>) =>
@@ -98,7 +127,6 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   readonly uploadCertificate = this.effect(
     (
       trigger$: Observable<{
-        actorId: string;
         file: File;
         onSuccess: () => void;
         onError: (apiErrorCollection: ApiErrorCollection) => void;
@@ -106,48 +134,54 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
     ) =>
       trigger$.pipe(
         tap(() => this.patchState({ uploadInProgress: true })),
-        exhaustMap(({ actorId, file, onSuccess, onError }) =>
-          this.httpClient
-            .v1MarketParticipantActorAssignCertificateCredentialsPost(actorId, file)
-            .pipe(
-              tapResponse(
-                () => onSuccess(),
-                (errorResponse: HttpErrorResponse) =>
-                  onError(this.createApiErrorCollection(errorResponse))
-              ),
-              finalize(() => this.patchState({ uploadInProgress: false }))
-            )
-        )
-      )
-  );
+        withLatestFrom(this.assignCertificateCredentialsUrl$),
+        exhaustMap(([{ file, onSuccess, onError }, url]) => {
+          if (!url) return EMPTY;
+          const formData: FormData = new FormData();
+          formData.append('certificate', file);
 
-  readonly replaceCertificate = this.effect(
-    (
-      trigger$: Observable<{
-        actorId: string;
-        file: File;
-        onSuccess: () => void;
-        onError: (apiErrorCollection: ApiErrorCollection) => void;
-      }>
-    ) =>
-      trigger$.pipe(
-        tap(() => this.patchState({ uploadInProgress: true })),
-        exhaustMap(({ actorId, file, onSuccess, onError }) =>
-          this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
-            switchMap(() =>
-              this.httpClient.v1MarketParticipantActorAssignCertificateCredentialsPost(
-                actorId,
-                file
-              )
-            ),
+          return this.client.post(url, formData).pipe(
             tapResponse(
               () => onSuccess(),
               (errorResponse: HttpErrorResponse) =>
                 onError(this.createApiErrorCollection(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
-          )
-        )
+          );
+        })
+      )
+  );
+
+  readonly replaceCertificate = this.effect(
+    (
+      trigger$: Observable<{
+        file: File;
+        onSuccess: () => void;
+        onError: (apiErrorCollection: ApiErrorCollection) => void;
+      }>
+    ) =>
+      trigger$.pipe(
+        tap(() => this.patchState({ uploadInProgress: true })),
+        withLatestFrom(
+          this.assignCertificateCredentialsUrl$,
+          this.removeCertificateCredentialsUrl$
+        ),
+        exhaustMap(([{ file, onSuccess, onError }, uploadUrl, deleteUrl]) => {
+          if (!uploadUrl || !deleteUrl) return EMPTY;
+
+          const formData: FormData = new FormData();
+          formData.append('certificate', file);
+
+          return this.client.delete(deleteUrl).pipe(
+            switchMap(() => this.client.post(uploadUrl, formData)),
+            tapResponse(
+              () => onSuccess(),
+              (errorResponse: HttpErrorResponse) =>
+                onError(this.createApiErrorCollection(errorResponse))
+            ),
+            finalize(() => this.patchState({ uploadInProgress: false }))
+          );
+        })
       )
   );
 
@@ -160,28 +194,41 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
       }>
     ) =>
       trigger$.pipe(
-        withLatestFrom(this.doesClientSecretMetadataExist$, this.doesCertificateExist$),
+        withLatestFrom(
+          this.doesClientSecretMetadataExist$,
+          this.doesCertificateExist$,
+          this.removeCertificateCredentialsUrl$
+        ),
         tap(() => this.patchState({ generateSecretInProgress: true })),
         exhaustMap(
           ([
             { actorId, onSuccess, onError },
             doesClientSecretMetadataExist,
             doesCertificateExist,
+            deleteUrl,
           ]) => {
             let kickOff$ = of('noop');
 
+            if (!deleteUrl) return kickOff$;
+
             if (doesClientSecretMetadataExist || doesCertificateExist) {
-              kickOff$ =
-                this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId);
+              kickOff$ = this.client.delete(deleteUrl).pipe(map(() => 'noop'));
             }
 
             return kickOff$.pipe(
               switchMap(() =>
-                this.httpClient.v1MarketParticipantActorRequestClientSecretCredentialsPost(actorId)
+                this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
               ),
               tapResponse(
                 (clientSecret) => {
-                  this.patchState({ clientSecret: clientSecret.secretText });
+                  if (clientSecret.loading) return;
+                  if (clientSecret.error) onError();
+
+                  this.patchState({
+                    clientSecret:
+                      clientSecret.data?.requestClientSecretCredentials.actorClientSecretDto
+                        ?.secretText,
+                  });
 
                   onSuccess();
                 },

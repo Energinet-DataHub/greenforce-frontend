@@ -76,7 +76,7 @@ export function marketParticipantMocks(apiBase: string) {
     updateActor(),
     getAuditLogByOrganizationId(),
     getAuditLogByActorId(),
-    getActorCredentials(),
+    getActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     marketParticipantActorRequestClientSecretCredentials(apiBase),
@@ -388,7 +388,7 @@ function getAuditLogByActorId() {
   });
 }
 
-function getActorCredentials() {
+function getActorCredentials(apiBase: string) {
   return mockGetActorCredentialsQuery(async ({ variables: { actorId } }) => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
@@ -400,6 +400,8 @@ function getActorCredentials() {
           credentials: {
             __typename: 'ActorCredentialsDto',
             certificateCredentials: null,
+            assignCertificateCredentialsUrl: `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
+            removeActorCredentialsUrl: `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
             clientSecretCredentials: {
               __typename: 'ActorClientSecretCredentialsDto',
               clientSecretIdentifier: 'random-secret-XEi33WhFi8qwnCzrnlf',

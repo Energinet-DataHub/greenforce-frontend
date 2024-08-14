@@ -105,8 +105,17 @@ public class MarketParticipantResolvers
 
     public async Task<ActorCredentialsDto?> GetActorCredentialsAsync(
         [Parent] ActorDto actor,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.ActorCredentialsGetAsync(actor.ActorId);
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        try
+        {
+            return await client.ActorCredentialsGetAsync(actor.ActorId);
+        }
+        catch
+        {
+            return new ActorCredentialsDto();
+        }
+    }
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
