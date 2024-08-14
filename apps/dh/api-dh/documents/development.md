@@ -221,7 +221,7 @@ with the version (e.g. `\v1\`).
 
 [`DataHub.WebApi`]: ../source/DataHub.WebApi/
 [Startup.cs]: ../source/DataHub.WebApi/Startup.cs
-[sample file]: ../source/DataHub.WebApi/appsettings.Development.json.sample
+[sample file]: ../source/DataHub.WebApi/appsettings.json.sample
 [localhost:5001/graphql]: https://localhost:5001/graphql
 [dh3-dev-secrets]: https://github.com/Energinet-DataHub/dh3-dev-secrets
 [dev environment]: https://jolly-sand-03f839703.azurestaticapps.net
