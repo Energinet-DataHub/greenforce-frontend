@@ -53,7 +53,9 @@ const initialState: DhB2BAccessState = {
 export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
   private readonly httpClient = inject(MarketParticipantActorHttp);
 
-  readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument);
+  readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument, {
+    fetchPolicy: 'network-only',
+  });
 
   readonly doCredentialsExist$ = this.select((state) => !!state.credentials);
 
