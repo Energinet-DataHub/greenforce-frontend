@@ -254,19 +254,19 @@ export class EsettExchangeHttp {
     }
 
     /**
-     * @param imbalanceId 
+     * @param documentId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1EsettExchangeMgaImbalanceDocumentGet(imbalanceId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
-    public v1EsettExchangeMgaImbalanceDocumentGet(imbalanceId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
-    public v1EsettExchangeMgaImbalanceDocumentGet(imbalanceId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
-    public v1EsettExchangeMgaImbalanceDocumentGet(imbalanceId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public v1EsettExchangeMgaImbalanceDocumentGet(documentId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
+    public v1EsettExchangeMgaImbalanceDocumentGet(documentId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
+    public v1EsettExchangeMgaImbalanceDocumentGet(documentId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
+    public v1EsettExchangeMgaImbalanceDocumentGet(documentId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/octet-stream', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (imbalanceId !== undefined && imbalanceId !== null) {
+        if (documentId !== undefined && documentId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>imbalanceId, 'imbalanceId');
+            <any>documentId, 'documentId');
         }
 
         let localVarHeaders = this.defaultHeaders;

@@ -33,6 +33,7 @@ export const permissions = [
   'balance-responsibility:view',
   'request-wholesale-settlement:view',
   'calculations:view',
+  'imbalance-prices:view',
 ] as const;
 
 export type Permission = (typeof permissions)[number];

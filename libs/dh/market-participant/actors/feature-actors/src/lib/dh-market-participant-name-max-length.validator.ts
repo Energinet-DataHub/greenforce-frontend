@@ -14,27 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Validators } from '@angular/forms';
 
-.container {
-  display: block;
-}
+export const dhMarketParticipantNameMaxLength = 150;
 
-watt-table {
-  box-sizing: border-box;
-  padding: var(--watt-space-m) 0;
-}
-
-watt-field-error {
-  display: block;
-  padding-top: var(--watt-space-m);
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-.loading-container {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-m);
-}
+export const dhMarketParticipantNameMaxLengthValidatorFn = Validators.maxLength(
+  dhMarketParticipantNameMaxLength
+);
