@@ -38,7 +38,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { EoCertificate, EoCertificateType } from '@energinet-datahub/eo/certificates/domain';
 import {
   EoCertificatesService,
   sortCertificatesBy,
@@ -227,9 +227,9 @@ export class EoCertificatesOverviewComponent implements OnInit {
           },
           certificateType: {
             accessor: (x) => {
-              if (x.certificateType.toLowerCase() === 'production') {
+              if (x.certificateType.toLowerCase() === EoCertificateType.Production) {
                 return this.transloco.translate(this.translations.certificates.productionType);
-              } else if (x.certificateType.toLowerCase() === 'consumption') {
+              } else if (x.certificateType.toLowerCase() === EoCertificateType.Consumption) {
                 return this.transloco.translate(this.translations.certificates.consumptionType);
               } else {
                 return x.certificateType;
