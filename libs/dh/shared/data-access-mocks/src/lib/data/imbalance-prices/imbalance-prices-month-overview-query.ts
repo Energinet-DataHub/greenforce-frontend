@@ -43,12 +43,13 @@ const imbalancePrices: ImbalancePrice[] = [
   },
 ];
 
-export const imbalancePricesForMonth: ImbalancePriceDaily[] = [
+export const imbalancePricesForMonth = (apiBase: string): ImbalancePriceDaily[] => [
   {
     __typename: 'ImbalancePriceDaily',
     timeStamp: new Date('2024-01-01'),
     status: ImbalancePriceStatus.Complete,
     importedAt: new Date('2024-02-01'),
+    imbalancePricesDownloadImbalanceUrl: `${apiBase}/v1/ImbalancePrices/DownloadImbalanceCSV`,
     imbalancePrices,
   },
   {
@@ -56,6 +57,7 @@ export const imbalancePricesForMonth: ImbalancePriceDaily[] = [
     timeStamp: new Date('2024-01-02'),
     status: ImbalancePriceStatus.InComplete,
     importedAt: null,
+    imbalancePricesDownloadImbalanceUrl: `${apiBase}/v1/ImbalancePrices/DownloadImbalanceCSV`,
     imbalancePrices,
   },
   {
@@ -63,11 +65,14 @@ export const imbalancePricesForMonth: ImbalancePriceDaily[] = [
     timeStamp: new Date('2024-01-03'),
     status: ImbalancePriceStatus.NoData,
     importedAt: null,
+    imbalancePricesDownloadImbalanceUrl: `${apiBase}/v1/ImbalancePrices/DownloadImbalanceCSV`,
     imbalancePrices,
   },
 ];
 
-export const imbalancePricesMonthOverviewQueryMock: GetImbalancePricesMonthOverviewQuery = {
+export const imbalancePricesMonthOverviewQueryMock = (
+  apiBase: string
+): GetImbalancePricesMonthOverviewQuery => ({
   __typename: 'Query',
-  imbalancePricesForMonth,
-};
+  imbalancePricesForMonth: imbalancePricesForMonth(apiBase),
+});

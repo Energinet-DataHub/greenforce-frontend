@@ -30,7 +30,7 @@ export function imbalancePricesMocks(apiBase: string) {
     getImbalancePricesOverviewQuery(),
     imbalancePricesUploadImbalanceCSV(apiBase),
     imbalancePricesDownloadImbalanceCSV(apiBase),
-    getImbalancePricesMonthOverviewQuery(),
+    getImbalancePricesMonthOverviewQuery(apiBase),
   ];
 }
 
@@ -43,12 +43,12 @@ function getImbalancePricesOverviewQuery() {
   });
 }
 
-function getImbalancePricesMonthOverviewQuery() {
+function getImbalancePricesMonthOverviewQuery(apiBase: string) {
   return mockGetImbalancePricesMonthOverviewQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
-      data: imbalancePricesMonthOverviewQueryMock,
+      data: imbalancePricesMonthOverviewQueryMock(apiBase),
     });
   });
 }
