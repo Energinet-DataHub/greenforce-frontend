@@ -47,7 +47,7 @@ export function eSettMocks(apiBase: string) {
     getOutgoingMessageByIdQuery(),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
-    getBalanceResponsibleMessagesQuery(),
+    getBalanceResponsibleMessagesQuery(apiBase),
     getMeteringGridAreaImbalanceQuery(),
     getStorageDocumentLink(apiBase),
     getMgaImbalanceDocument(apiBase),
@@ -139,17 +139,19 @@ function getOutgoingMessagesQuery() {
   });
 }
 
-function getBalanceResponsibleMessagesQuery() {
+function getBalanceResponsibleMessagesQuery(apiBase: string) {
   return mockGetBalanceResponsibleMessagesQuery(async () => {
     await delay(mswConfig.delay);
+    const messages = eSettBalanceResponsibleMessages(apiBase);
     return HttpResponse.json(
       {
         data: {
           __typename: 'Query',
           balanceResponsible: {
             __typename: 'BalanceResponsiblePageResult',
-            totalCount: eSettBalanceResponsibleMessages.length,
-            page: eSettBalanceResponsibleMessages,
+            balanceResponsiblesUrl: `${apiBase}/v1/EsettExchange/DownloadBalanceResponsibles`,
+            totalCount: messages.length,
+            page: messages,
           },
         },
       },

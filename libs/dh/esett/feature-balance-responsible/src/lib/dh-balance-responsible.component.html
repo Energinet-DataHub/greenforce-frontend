@@ -22,9 +22,13 @@ limitations under the License.
 
       <vater-spacer />
 
-      <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download()">{{
-        "shared.download" | transloco
-      }}</watt-button>
+      <watt-button
+        icon="download"
+        variant="text"
+        [loading]="isDownloading"
+        (click)="download(url)"
+        >{{ "shared.download" | transloco }}</watt-button
+      >
     </vater-stack>
 
     <dh-balance-responsible-table

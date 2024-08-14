@@ -31,64 +31,68 @@ const validPeriodWithNull = {
   end: null,
 };
 
-export const eSettBalanceResponsibleMessages: BalanceResponsibleType[] = [
-  {
-    __typename: 'BalanceResponsibleType',
-    id: '1',
-    receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
-    supplier: '123',
-    balanceResponsible: '321',
-    gridArea: '344',
-    gridAreaWithName: {
-      __typename: 'GridAreaDto',
-      code: '344',
-      name: 'N1 A/S',
-    } as GridAreaDto,
-    meteringPointType: TimeSeriesType.Production,
-    validPeriod,
-    balanceResponsibleWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Balance Ansvarlig',
+export const eSettBalanceResponsibleMessages = (apibase: string): BalanceResponsibleType[] =>
+  [
+    {
+      __typename: 'BalanceResponsibleType',
+      id: '1',
+      receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
+      supplier: '123',
+      balanceResponsible: '321',
+      gridArea: '344',
+      gridAreaWithName: {
+        __typename: 'GridAreaDto',
+        code: '344',
+        name: 'N1 A/S',
+      } as GridAreaDto,
+      meteringPointType: TimeSeriesType.Production,
+      validPeriod,
+      balanceResponsibleWithName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Balance Ansvarlig',
+      },
+      supplierWithName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Supplier',
+      },
+      storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
     },
-    supplierWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Supplier',
+    {
+      __typename: 'BalanceResponsibleType',
+      id: '2',
+      receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
+      supplier: '111',
+      balanceResponsible: '222',
+      gridArea: '999',
+      gridAreaWithName: {
+        __typename: 'GridAreaDto',
+        code: '999',
+        name: 'N2 A/S',
+      } as GridAreaDto,
+      meteringPointType: TimeSeriesType.Production,
+      validPeriod: validPeriodWithNull,
+      balanceResponsibleWithName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Balance Ansvarlig 2',
+      },
+      supplierWithName: {
+        __typename: 'ActorNameDto',
+        value: 'Test Supplier 2',
+      },
+      storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
     },
-  },
-  {
-    __typename: 'BalanceResponsibleType',
-    id: '2',
-    receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
-    supplier: '111',
-    balanceResponsible: '222',
-    gridArea: '999',
-    gridAreaWithName: {
-      __typename: 'GridAreaDto',
-      code: '999',
-      name: 'N2 A/S',
-    } as GridAreaDto,
-    meteringPointType: TimeSeriesType.Production,
-    validPeriod: validPeriodWithNull,
-    balanceResponsibleWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Balance Ansvarlig 2',
+    {
+      __typename: 'BalanceResponsibleType',
+      id: '3',
+      receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
+      supplier: '888',
+      balanceResponsible: '999',
+      gridArea: '000',
+      gridAreaWithName: null,
+      meteringPointType: TimeSeriesType.Production,
+      validPeriod: validPeriodWithNull,
+      balanceResponsibleWithName: null,
+      supplierWithName: null,
+      storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
     },
-    supplierWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Supplier 2',
-    },
-  },
-  {
-    __typename: 'BalanceResponsibleType',
-    id: '3',
-    receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
-    supplier: '888',
-    balanceResponsible: '999',
-    gridArea: '000',
-    gridAreaWithName: null,
-    meteringPointType: TimeSeriesType.Production,
-    validPeriod: validPeriodWithNull,
-    balanceResponsibleWithName: null,
-    supplierWithName: null,
-  },
-];
+  ] as BalanceResponsibleType[];
