@@ -277,6 +277,7 @@ type ImbalancePrice {
 "Imbalance price for a given date"
 type ImbalancePriceDaily {
   status: ImbalancePriceStatus!
+  imbalancePricesDownloadImbalanceUrl: String!
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
   importedAt: DateTime
