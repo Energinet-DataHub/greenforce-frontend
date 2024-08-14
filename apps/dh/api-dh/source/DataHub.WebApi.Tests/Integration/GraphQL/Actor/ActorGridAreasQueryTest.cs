@@ -27,6 +27,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Actor;
 
 public class ActorGridAreasQueryTests
 {
+    private static readonly List<GridAreaDto> _gridAreas =
+    [
+        new() { Id = new("baee5905-2950-461c-8875-17062d095bcf"), Code = "002", Name = "Grid Area 2" },
+        new() { Id = new("bb0c208e-f505-4be1-9742-05633bf673a5"), Code = "001", Name = "Grid Area 1" },
+        new() { Id = new("44cbddcd-6c63-4ad3-915f-48226de07072"), Code = "003", Name = "Grid Area 3" },
+    ];
+
     private static readonly Guid _actorId = new("2718fe76-f250-47b6-97c2-a37333403991");
 
     private static readonly string _calculationByIdQuery =
@@ -45,37 +52,31 @@ public class ActorGridAreasQueryTests
     [Fact]
     public async Task GetActorGridAreasAsync()
     {
-        var gridAreas = new List<GridAreaDto>
-        {
-            new() { Id = Guid.NewGuid(), Code = "002", Name = "Grid Area 2" },
-            new() { Id = Guid.NewGuid(), Code = "001", Name = "Grid Area 1" },
-            new() { Id = Guid.NewGuid(), Code = "003", Name = "Grid Area 3" },
-        };
+        var server = new GraphQLTestService();
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<string?>()))
             .ReturnsAsync(new ActorDto
             {
                 MarketRoles = [
                     new ActorMarketRoleDto
                     {
-                        GridAreas = gridAreas
+                        GridAreas = _gridAreas
                             .Select(g => new ActorGridAreaDto { Id = g.Id })
                             .ToList(),
                     },
                  ],
             });
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
-            .ReturnsAsync(gridAreas);
+            .ReturnsAsync(_gridAreas);
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
-        var result = await GraphQLTestService
-            .ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync();
     }

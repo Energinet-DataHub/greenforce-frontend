@@ -24,7 +24,8 @@ public class SchemaTests
     [Fact]
     public async Task ChangeTest()
     {
-        var schema = await GraphQLTestService.Executor.GetSchemaAsync(default);
+        var server = new GraphQLTestService();
+        var schema = await server.Executor.GetSchemaAsync(default);
         await schema.MatchSnapshotAsync();
     }
 }

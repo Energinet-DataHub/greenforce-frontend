@@ -28,9 +28,9 @@ using Moq;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
 
-public static class GraphQLTestService
+public class GraphQLTestService
 {
-    static GraphQLTestService()
+    public GraphQLTestService()
     {
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
@@ -38,6 +38,7 @@ public static class GraphQLTestService
 
         Services = new ServiceCollection()
             .AddGraphQLServer()
+            .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
@@ -56,17 +57,17 @@ public static class GraphQLTestService
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
     }
 
-    public static Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; }
+    public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 
-    public static Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; }
+    public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
 
-    public static Mock<IHttpContextAccessor> HttpContextAccessorMock { get; }
+    public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 
-    public static IServiceProvider Services { get; }
+    public IServiceProvider Services { get; set; }
 
-    public static RequestExecutorProxy Executor { get; }
+    public RequestExecutorProxy Executor { get; set; }
 
-    public static async Task<IExecutionResult> ExecuteRequestAsync(
+    public async Task<IExecutionResult> ExecuteRequestAsync(
         Action<IQueryRequestBuilder> configureRequest,
         CancellationToken cancellationToken = default)
     {
