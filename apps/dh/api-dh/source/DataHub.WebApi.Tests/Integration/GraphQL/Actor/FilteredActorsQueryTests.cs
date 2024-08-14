@@ -45,6 +45,7 @@ public class FilteredActorsQueryTests
     [InlineData(false)]
     public async Task GetFilteredActorsAsync(bool isFas)
     {
+        var server = new GraphQLTestService();
         var actorId = Guid.Parse("ceaa4172-cce6-4276-bd88-23589ef500aa");
         var organizationId = Guid.NewGuid();
 
@@ -74,11 +75,11 @@ public class FilteredActorsQueryTests
                 },
             };
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorGetAsync(default))
             .ReturnsAsync(actors);
 
-        GraphQLTestService.MarketParticipantClientV1Mock
+        server.MarketParticipantClientV1Mock
             .Setup(x => x.OrganizationGetAsync(organizationId, default))
             .ReturnsAsync(new OrganizationDto() { OrganizationId = organizationId, Domain = "test.com" });
 
@@ -91,12 +92,11 @@ public class FilteredActorsQueryTests
             })),
         };
 
-        GraphQLTestService.HttpContextAccessorMock
+        server.HttpContextAccessorMock
             .Setup(x => x.HttpContext)
             .Returns(context);
 
-        var result = await GraphQLTestService
-            .ExecuteRequestAsync(b => b.SetQuery(_filteredActors));
+        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_filteredActors));
 
         await result.MatchSnapshotAsync($"GetFilteredActorsAsync-isFas-{isFas}");
     }
