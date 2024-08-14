@@ -27,9 +27,7 @@ import {
   ProcessStatus,
   CalculationType,
   mockCreateCalculationMutation,
-  mockGetActorFilterQuery,
   mockGetActorsForRequestCalculationQuery,
-  mockGetActorsForSettlementReportQuery,
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetGridAreasQuery,
@@ -42,7 +40,6 @@ import {
   CalculationProgressStep,
   ProgressStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { ActorFilter } from '@energinet-datahub/dh/wholesale/domain';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
@@ -56,10 +53,8 @@ export function wholesaleMocks(apiBase: string) {
     getCalculations(),
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
-    getFilteredActors(),
     getGridAreasQuery(),
     getLatestBalanceFixing(),
-    getActorsForSettlementReportQuery(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
@@ -476,98 +471,6 @@ const mockedCalculations: Calculation[] = [
     ],
   },
 ];
-
-const mockedFilteredActors: ActorFilter = [
-  {
-    __typename: 'Actor',
-    value: '10',
-    displayValue: 'EnergySupplier (805)',
-    gridAreas: [{ __typename: 'GridAreaDto', code: '805' }],
-  },
-  {
-    __typename: 'Actor',
-    value: '20',
-    displayValue: 'GridAccessProvider (806)',
-    gridAreas: [{ __typename: 'GridAreaDto', code: '806' }],
-  },
-  {
-    __typename: 'Actor',
-    value: '30',
-    displayValue: 'EnergySupplier (805, 806)',
-    gridAreas: [
-      { __typename: 'GridAreaDto', code: '805' },
-      { __typename: 'GridAreaDto', code: '806' },
-    ],
-  },
-  {
-    __typename: 'Actor',
-    value: '40',
-    displayValue: 'GridAccessProvider (805, 806)',
-    gridAreas: [
-      { __typename: 'GridAreaDto', code: '805' },
-      { __typename: 'GridAreaDto', code: '806' },
-    ],
-  },
-  // No grid areas found
-  {
-    __typename: 'Actor',
-    value: '50',
-    displayValue: 'GridAccessProvider (807, 808)',
-    gridAreas: [
-      { __typename: 'GridAreaDto', code: '807' },
-      { __typename: 'GridAreaDto', code: '808' },
-    ],
-  },
-];
-
-const mockedActorsForSettlementReport: ActorFilter = [
-  {
-    __typename: 'Actor',
-    value: '10',
-    displayValue: 'Energy Go - EnergySupplier (805)',
-    gridAreas: [{ __typename: 'GridAreaDto', code: '805' }],
-  },
-  {
-    __typename: 'Actor',
-    value: '20',
-    displayValue: 'Nordlys - GridAccessProvider (806)',
-    gridAreas: [{ __typename: 'GridAreaDto', code: '806' }],
-  },
-  {
-    __typename: 'Actor',
-    value: '30',
-    displayValue: 'Mod Strøm - EnergySupplier (807, 808)',
-    gridAreas: [
-      { __typename: 'GridAreaDto', code: '805' },
-      { __typename: 'GridAreaDto', code: '806' },
-    ],
-  },
-  {
-    __typename: 'Actor',
-    value: '40',
-    displayValue: 'Stor Strøm - GridAccessProvider (807, 808)',
-    gridAreas: [
-      { __typename: 'GridAreaDto', code: '807' },
-      { __typename: 'GridAreaDto', code: '808' },
-    ],
-  },
-];
-
-function getFilteredActors() {
-  return mockGetActorFilterQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({ data: { __typename: 'Query', actors: mockedFilteredActors } });
-  });
-}
-
-function getActorsForSettlementReportQuery() {
-  return mockGetActorsForSettlementReportQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: { __typename: 'Query', actorsForEicFunction: mockedActorsForSettlementReport },
-    });
-  });
-}
 
 function getActorsForRequestCalculationQuery() {
   return mockGetActorsForRequestCalculationQuery(async () => {
