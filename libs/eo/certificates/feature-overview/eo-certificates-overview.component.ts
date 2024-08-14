@@ -112,14 +112,16 @@ import { translations } from '@energinet-datahub/eo/translations';
           (sortChange)="sortData($event)"
         >
           <ng-container *wattTableCell="columns.action; let element">
-            <a
-              class="link"
-              routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
-                element.federatedStreamId.streamId
-              }}"
-            >
-              {{ translations.certificates.certificateDetailsLink | transloco }}
-            </a>
+            @if(element.federatedStreamId.registry && element.federatedStreamId.streamId) {
+              <a
+                class="link"
+                routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
+                  element.federatedStreamId.streamId
+                }}"
+              >
+                {{ translations.certificates.certificateDetailsLink | transloco }}
+              </a>
+            }
           </ng-container>
         </watt-table>
       }
@@ -227,8 +229,10 @@ export class EoCertificatesOverviewComponent implements OnInit {
             accessor: (x) => {
               if (x.certificateType.toLowerCase() === 'production') {
                 return this.transloco.translate(this.translations.certificates.productionType);
-              } else {
+              } else if(x.certificateType.toLowerCase() === 'consumption') {
                 return this.transloco.translate(this.translations.certificates.consumptionType);
+              } else {
+                return x.certificateType;
               }
             },
             header: this.transloco.translate(this.translations.certificates.typeTableHeader),
@@ -272,12 +276,31 @@ export class EoCertificatesOverviewComponent implements OnInit {
       )
       .subscribe({
         next: (certificates) => {
+          this.totalCount.set(certificates.metadata.total);
+
+          if(this.dataSource.data.length !== this.totalCount()) {
+            this.dataSource.data = new Array(this.totalCount()).fill({
+              time: undefined,
+              attributes: {
+                assetId: '',
+                fuelCode: '',
+                techCode: ''
+              },
+              amount: undefined,
+              certificateType: '',
+              federatedStreamId: { registry: null, streamId: null },
+              quantity: 0,
+              start: 0,
+              end: 0,
+              gridArea: ''
+            });
+          }
+
           this.dataSource.data = this.insertOrOverwrite(
             this.dataSource.data,
             this.pageIndex() * this.pageSize,
             certificates.result
           );
-          this.totalCount.set(certificates.metadata.total);
           this.loading.set(false);
           this.hasError.set(false);
 
