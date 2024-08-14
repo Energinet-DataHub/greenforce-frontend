@@ -346,28 +346,24 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   meteringPoints: {
     title: 'Metering Points',
-    infoBoxTitle: 'You have the option to switch your metering points ON and OFF.',
+    infoBoxTitle: 'Help for Metering Points',
     infoBoxContent: `
-    <p>For Production metering points:</p>
+      <h3>Production:</h3>
+      <ul>
+        <li>A metering point (electricity meter) that produces green electricity from solar or wind power.</li>
+      </ul>
 
-    <ul>
-      <li>Turning it 'ON' means the metering point is actively issuing certificates of power.</li>
-      <li>Switching it 'OFF' will stop the metering point from issuing certificates.</li>
-    </ul>
+      <h3>Consumption:</h3>
+      <ul>
+        <li>A metering point (electricity meter) that uses electricity from solar or wind power.</li>
+      </ul>
 
-    <br />
-    <p>For Consumption metering points:</p>
-
-    <ul>
-      <li>
-        'ON' indicates that the Consumption metering point actively issues consumption
-        certificates.
-      </li>
-      <li>
-        'OFF' indicates that the Consumption metering point will source its electricity from
-        elsewhere.
-      </li>
-    </ul>
+      <h3>Activate/Deactivate:</h3>
+      <ul>
+        <li>When you ACTIVATE a metering point, Granular Certificates are issued.</li>
+        <li>When you DEACTIVATE a metering point, the issuance of Granular Certificates stops.</li>
+        <li>Both actions occur instantly, but there is a delay in the display.</li>
+      </ul>
     `,
     pendingRelationStatus: {
       title: 'Awaiting response from DataHub',

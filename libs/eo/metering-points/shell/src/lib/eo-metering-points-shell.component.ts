@@ -14,32 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { Observable, combineLatest, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
 import { EoMeteringPointsTableComponent } from './eo-metering-point-table.component';
-import { Observable, combineLatest, map } from 'rxjs';
+import { EoMeteringPointsHelperModalComponent } from './eo-metering-point-helper-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     AsyncPipe,
-    NgIf,
     EoMeteringPointsTableComponent,
     WATT_CARD,
-    WattValidationMessageComponent,
     TranslocoPipe,
+    WattIconComponent,
+    EoMeteringPointsHelperModalComponent,
   ],
   selector: 'eo-metering-points-shell',
   styles: [
@@ -48,23 +56,24 @@ import { Observable, combineLatest, map } from 'rxjs';
         display: flex;
         flex-direction: column;
         gap: var(--watt-space-l);
+
+        .title {
+          display: flex;
+          align-items: center;
+          gap: var(--watt-space-xs);
+
+          watt-icon {
+            cursor: pointer;
+          }
+        }
       }
     `,
   ],
-  template: `
-    <watt-validation-message
-      label="{{ translations.meteringPoints.infoBoxTitle | transloco }}"
-      size="normal"
-      icon="info"
-      [autoScrollIntoView]="false"
-    >
-      <span [innerHTML]="translations.meteringPoints.infoBoxContent | transloco"></span>
-    </watt-validation-message>
-
-    <watt-card>
+  template: ` <watt-card>
       <watt-card-title>
-        <h3 class="watt-on-light--high-emphasis">
+        <h3 class="watt-on-light--high-emphasis title">
           {{ translations.meteringPoints.tableTitle | transloco }}
+          <watt-icon name="info" (click)="helper.open()" />
         </h3>
       </watt-card-title>
       <eo-metering-points-table
@@ -78,13 +87,15 @@ import { Observable, combineLatest, map } from 'rxjs';
         (deactivateContracts)="deactivateContracts($event)"
       />
     </watt-card>
-  `,
+
+    <eo-metering-points-helper-modal #helper />`,
 })
 export class EoMeteringPointsShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private toastService = inject(WattToastService);
   private destroyRef = inject(DestroyRef);
   private transloco = inject(TranslocoService);
+  @ViewChild('helper') helper!: EoMeteringPointsHelperModalComponent;
 
   protected isLoading$ = this.meteringPointStore.loading$;
   protected creatingContracts$ = this.meteringPointStore.creatingContracts$;
