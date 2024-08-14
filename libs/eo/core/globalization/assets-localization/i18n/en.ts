@@ -355,14 +355,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
 
       <h3>Consumption:</h3>
       <ul>
-        <li>A metering point (electricity meter) that will use electricity from solar or wind power.</li>
+        <li>A metering point (electricity meter) that uses electricity from solar or wind power.</li>
       </ul>
 
       <h3>Activate/Deactivate:</h3>
       <ul>
         <li>When you ACTIVATE a metering point, Granular Certificates are issued.</li>
         <li>When you DEACTIVATE a metering point, the issuance of Granular Certificates stops.</li>
-        <li>Both happen instantly, but there is a delay in the display.</li>
+        <li>Both actions occur instantly, but there is a delay in the display.</li>
       </ul>
     `,
     pendingRelationStatus: {

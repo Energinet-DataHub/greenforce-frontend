@@ -340,12 +340,12 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     infoBoxContent: `
       <h3>Produktion:</h3>
       <ul>
-        <li>Et målepunkt (elmåler) der producerer grøn strøm fra sol eller vindkraft.</li>
+        <li>Et målepunkt (elmåler), der producerer grøn strøm fra sol eller vindkraft.</li>
       </ul>
 
       <h3>Forbrug:</h3>
       <ul>
-        <li>Et målepunkt (elmåler) der skal anvende strøm fra sol eller vindkraft.</li>
+        <li>Et målepunkt (elmåler), der skal anvende strøm fra sol eller vindkraft.</li>
       </ul>
 
       <h3>Aktiver/Deaktiver:</h3>
