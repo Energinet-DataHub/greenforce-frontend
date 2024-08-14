@@ -123,6 +123,7 @@ type BalanceResponsibilityAgreement {
 }
 
 type BalanceResponsiblePageResult {
+  balanceResponsiblesUrl(locale: String!): String
   page: [BalanceResponsibleType!]!
   totalCount: Int!
 }
