@@ -171,7 +171,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected dataSource: WattTableDataSource<EoCertificate> = new WattTableDataSource(undefined);
   protected totalCount = signal<number>(0);
   protected pageIndex = signal<number>(0);
-  protected pageSize = 10;
+  protected pageSize = 50;
 
   protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
   protected defaultSortDirection: SortDirection = 'desc';
@@ -255,6 +255,12 @@ export class EoCertificatesOverviewComponent implements OnInit {
     sortDirection: SortDirection
   ) {
     this.loading.set(true);
+    this.dataSource.data = [];
+    // This makes sure the paginator is keeping track of the total count
+    setTimeout(() => {
+      this.paginator.instance.length = this.totalCount();
+    });
+
     this.certificatesService
       .getCertificates(page, pageSize, sortBy, sortDirection)
       .pipe(
@@ -278,35 +284,13 @@ export class EoCertificatesOverviewComponent implements OnInit {
         next: (certificates) => {
           this.totalCount.set(certificates.metadata.total);
 
-          if (this.dataSource.data.length !== this.totalCount()) {
-            this.dataSource.data = new Array(this.totalCount()).fill({
-              time: undefined,
-              attributes: {
-                assetId: '',
-                fuelCode: '',
-                techCode: '',
-              },
-              amount: undefined,
-              certificateType: '',
-              federatedStreamId: { registry: null, streamId: null },
-              quantity: 0,
-              start: 0,
-              end: 0,
-              gridArea: '',
-            });
-          }
-
           this.dataSource.data = this.insertOrOverwrite(
-            this.dataSource.data,
+            new Array(this.totalCount()).fill(null),
             this.pageIndex() * this.pageSize,
             certificates.result
           );
           this.loading.set(false);
           this.hasError.set(false);
-
-          setTimeout(() => {
-            this.paginator.instance.length = certificates.metadata.total;
-          });
         },
         error: () => {
           this.hasError.set(true);
