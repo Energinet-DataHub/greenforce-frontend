@@ -112,7 +112,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           (sortChange)="sortData($event)"
         >
           <ng-container *wattTableCell="columns.action; let element">
-            @if(element.federatedStreamId.registry && element.federatedStreamId.streamId) {
+            @if (element.federatedStreamId.registry && element.federatedStreamId.streamId) {
               <a
                 class="link"
                 routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
@@ -229,7 +229,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
             accessor: (x) => {
               if (x.certificateType.toLowerCase() === 'production') {
                 return this.transloco.translate(this.translations.certificates.productionType);
-              } else if(x.certificateType.toLowerCase() === 'consumption') {
+              } else if (x.certificateType.toLowerCase() === 'consumption') {
                 return this.transloco.translate(this.translations.certificates.consumptionType);
               } else {
                 return x.certificateType;
@@ -278,13 +278,13 @@ export class EoCertificatesOverviewComponent implements OnInit {
         next: (certificates) => {
           this.totalCount.set(certificates.metadata.total);
 
-          if(this.dataSource.data.length !== this.totalCount()) {
+          if (this.dataSource.data.length !== this.totalCount()) {
             this.dataSource.data = new Array(this.totalCount()).fill({
               time: undefined,
               attributes: {
                 assetId: '',
                 fuelCode: '',
-                techCode: ''
+                techCode: '',
               },
               amount: undefined,
               certificateType: '',
@@ -292,7 +292,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
               quantity: 0,
               start: 0,
               end: 0,
-              gridArea: ''
+              gridArea: '',
             });
           }
 
