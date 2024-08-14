@@ -346,7 +346,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   meteringPoints: {
     title: 'Metering Points',
-    infoBoxTitle: 'Available metering points - help',
+    infoBoxTitle: 'Help for Metering Points',
     infoBoxContent: `
       <h3>Production:</h3>
       <ul>

@@ -336,7 +336,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   meteringPoints: {
     title: 'Målepunkter',
-    infoBoxTitle: 'Tilgængelige målepunkter - hjælp',
+    infoBoxTitle: 'Hjælp til Målepunkter',
     infoBoxContent: `
       <h3>Produktion:</h3>
       <ul>
