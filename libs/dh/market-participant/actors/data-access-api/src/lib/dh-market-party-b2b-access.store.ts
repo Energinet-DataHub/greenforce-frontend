@@ -29,8 +29,6 @@ import {
   map,
 } from 'rxjs';
 
-import { MarketParticipantActorHttp } from '@energinet-datahub/dh/shared/domain';
-
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -64,7 +62,6 @@ const initialState: DhB2BAccessState = {
 
 @Injectable()
 export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
-  private readonly httpClient = inject(MarketParticipantActorHttp);
   private readonly client = inject(HttpClient);
 
   private readonly requestClientSecretCredentials = mutation(
@@ -251,15 +248,17 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   readonly removeActorCredentials = this.effect(
     (
       trigger$: Observable<{
-        actorId: string;
         onSuccess: () => void;
         onError: () => void;
       }>
     ) =>
       trigger$.pipe(
+        withLatestFrom(this.removeCertificateCredentialsUrl$),
         tap(() => this.patchState({ removeInProgress: true })),
-        exhaustMap(({ actorId, onSuccess, onError }) =>
-          this.httpClient.v1MarketParticipantActorRemoveActorCredentialsDelete(actorId).pipe(
+        exhaustMap(([{ onSuccess, onError }, removeUrl]) => {
+          if (!removeUrl) return EMPTY;
+
+          return this.client.delete(removeUrl).pipe(
             tapResponse(
               () => {
                 this.patchState({ credentials: null, clientSecret: undefined });
@@ -269,8 +268,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
               () => onError()
             ),
             finalize(() => this.patchState({ removeInProgress: false }))
-          )
-        )
+          );
+        })
       )
   );
 
