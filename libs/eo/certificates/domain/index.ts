@@ -23,7 +23,7 @@ export interface EoCertificate {
   start: number;
   end: number;
   gridArea: string;
-  certificateType: 'production' | 'consumption';
+  certificateType: EoCertificateType;
   attributes: {
     assetId: string;
     fuelCode: string;
@@ -31,6 +31,11 @@ export interface EoCertificate {
   };
   time?: string;
   amount?: string;
+}
+
+export enum EoCertificateType {
+  Production = 'production',
+  Consumption = 'consumption',
 }
 
 export interface EoCertificateContract {
