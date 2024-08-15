@@ -56,6 +56,10 @@ form.ng-submitted .ng-invalid,
   }
 }
 
+.watt-field-wrapper input[matinput] {
+  width: 100%;
+}
+
 watt-field {
   --watt-text-color: var(--watt-on-light-high-emphasis);
   --watt-disabled-text-label-color: var(--watt-on-light-low-emphasis);
@@ -71,16 +75,23 @@ watt-field {
     min-height: 100px;
   }
 
+  &:not(.watt-field--chip).watt-field--untitled {
+    min-height: 72px;
+  }
+
   &.watt-field--chip .watt-field-wrapper {
     border: none;
     padding-left: 0;
+  }
+
+  &:not(.watt-field--chip) label {
+    padding-bottom: var(--watt-space-s);
   }
 
   .label {
     min-height: 27px;
     display: flex;
     align-items: center;
-    padding-bottom: var(--watt-space-s);
 
     watt-icon {
       margin-left: var(--watt-space-s);
@@ -125,6 +136,10 @@ watt-field {
     watt-field-hint,
     watt-field-error {
       @include watt.typography-watt-text-s;
+    }
+
+    :not(.watt-field--chip) watt-field-hint,
+    :not(.watt-field--chip) watt-field-error {
       padding-left: var(--watt-space-s);
     }
   }
