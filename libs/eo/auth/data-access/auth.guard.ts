@@ -37,8 +37,9 @@ export class EoScopeGuard implements CanActivate {
     }
 
     // Save the current route to redirect to after login
+    const path = route.url.join('/');
     const queryParams = new URLSearchParams(route.queryParams).toString();
-    const redirectUrl = queryParams ? route.url.join('/') + '?' + queryParams : location.pathname;
+    const redirectUrl = queryParams ? `${path}?${queryParams}` : path;
 
     // Redirect to login if user is not authenticated
     if (!this.authService.user()) {
