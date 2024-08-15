@@ -1085,51 +1085,6 @@
         "cancel": "Close",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
-    },
-    "settlementReports": {
-      "topBarTitle": "Settlement Reports",
-      "downloadNoBasisData": "Download (no basis data)",
-      "selectedRows": {
-        "singular": "{{ selectedCount }} selected row",
-        "plural": "{{ selectedCount }} selected rows"
-      },
-      "SelectPeriod": "To download select a period first",
-      "gridAreasLoadFailed": "Could not load grid areas",
-      "noEntries": "No results",
-      "results": "Search results",
-      "tabs": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
-      },
-      "table": {
-        "title": "Processes",
-        "calculationType": "{{shared.calculationType}}",
-        "gridAreaName": "Grid area",
-        "gridAreaCode": "Grid Area Code",
-        "periodStart": "Period from",
-        "periodEnd": "Period to",
-        "executionTime": "Execution time",
-        "emptyTitle": "No processes found",
-        "emptyHelperText": "Try changing the search criteria",
-        "download": "—"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
-      },
-      "filters": {
-        "calculationType": "{{shared.calculationType}}",
-        "gridArea": "Grid area",
-        "period": "Period",
-        "executionTime": "Execution time",
-        "executionTimeRequired": "Execution time is required",
-        "actor": "Actor",
-        "loadingActors": "Loading energy suppliers...",
-        "loadingGridAreas": "Loading grid areas...",
-        "actorPlaceholder": "Energy supplier",
-        "calculationTypePlaceholder": "Select {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Grid area"
-      }
     }
   },
   "admin": {
