@@ -98,14 +98,12 @@ export class DhCertificateUploaderComponent {
   private startUpload(actorId: string, file: File): void {
     if (this.doesCertificateExist() || this.doesClientSecretMetadataExist()) {
       this.store.replaceCertificate({
-        actorId,
         file,
         onSuccess: this.onUploadSuccessFn,
         onError: this.onUploadErrorFn,
       });
     } else {
       this.store.uploadCertificate({
-        actorId,
         file,
         onSuccess: this.onUploadSuccessFn,
         onError: this.onUploadErrorFn,

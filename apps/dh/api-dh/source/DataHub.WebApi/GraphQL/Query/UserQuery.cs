@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Attribute;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.User;
 
@@ -34,6 +35,7 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserUserprofileGetAsync();
 
+    [PreserveParentAs("user")]
     public async Task<User> GetUserByIdAsync(
         Guid id,
         [Service] IMarketParticipantClient_V1 client)

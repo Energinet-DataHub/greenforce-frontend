@@ -14,20 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { Validators } from '@angular/forms';
 
-import {
-  setUpAngularTestingLibrary,
-  setUpNgMocks,
-  setUpTestbed,
-} from '@energinet-datahub/gf/test-util-staging';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
-import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
-import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+export const dhMarketParticipantNameMaxLength = 150;
 
-setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
-setUpNgMocks();
+export const dhMarketParticipantNameMaxLengthValidatorFn = Validators.maxLength(
+  dhMarketParticipantNameMaxLength
+);

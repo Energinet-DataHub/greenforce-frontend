@@ -10,22 +10,16 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.
+// limitations under the License.;
 
-using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Tests.Extensions;
-using Energinet.DataHub.WebApi.Tests.TestServices;
-using Xunit;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-public class SchemaTests
-{
-    [Fact]
-    public async Task ChangeTest()
-    {
-        var server = new GraphQLTestService();
-        var schema = await server.Executor.GetSchemaAsync(default);
-        await schema.MatchSnapshotAsync();
-    }
-}
+public sealed record ActorUserRole(
+    Guid Id,
+    string Name,
+    UserRoleStatus Status,
+    string Description,
+    EicFunction EicFunction,
+    bool Assigned);

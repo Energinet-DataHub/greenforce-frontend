@@ -12,20 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Tests.Extensions;
-using Energinet.DataHub.WebApi.Tests.TestServices;
-using Xunit;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
 
-public class SchemaTests
+public class UserType : ObjectType<User>
 {
-    [Fact]
-    public async Task ChangeTest()
+    protected override void Configure(IObjectTypeDescriptor<User> descriptor)
     {
-        var server = new GraphQLTestService();
-        var schema = await server.Executor.GetSchemaAsync(default);
-        await schema.MatchSnapshotAsync();
+        descriptor
+            .Field("actors")
+            .ResolveWith<MarketParticipantResolvers>(x => x.GetActorByUserIdAsync(default!, default!));
     }
 }

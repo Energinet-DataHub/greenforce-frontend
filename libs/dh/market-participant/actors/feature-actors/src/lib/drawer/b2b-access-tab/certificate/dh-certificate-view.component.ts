@@ -116,7 +116,6 @@ export class DhCertificateViewComponent {
       onClosed: (result) => {
         if (result) {
           this.store.removeActorCredentials({
-            actorId: this.actorId(),
             onSuccess: this.onRemoveSuccessFn,
             onError: this.onRemoveErrorFn,
           });

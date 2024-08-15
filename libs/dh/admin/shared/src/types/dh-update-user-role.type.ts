@@ -14,8 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { UpdateUserRoleAssignmentsDtoInput } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { GetActorFilterDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+export type UpdateUserRolesWithActorId = {
+  id: string;
+  atLeastOneRoleIsAssigned: boolean;
+  userRolesToUpdate: UpdateUserRoleAssignmentsDtoInput;
+};
 
-export type ActorFilter = ResultOf<typeof GetActorFilterDocument>['actors'];
+export type UpdateUserRoles = {
+  actors: UpdateUserRolesWithActorId[];
+};

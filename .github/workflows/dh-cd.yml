@@ -34,7 +34,7 @@ jobs:
 
   dotnet_promote_prerelease:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' || needs.changes.outputs.dh_frontend == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v14
     with:
       release_name_prefix: ui_dotnet
@@ -86,7 +86,7 @@ jobs:
           repository: ${{ vars.environment_repository_path }}
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
-          client-payload: '{"domain_pr": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet_deploy": "${{ needs.changes.outputs.dh_dotnet }}", "frontend_deploy": "${{ needs.changes.outputs.dh_frontend }}"}'
+          client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "${{ needs.changes.outputs.dh_dotnet }}", "frontend": "${{ needs.changes.outputs.dh_frontend }}"}'
 
   #
   # Send notification to teams channel if deployment dispatch failed

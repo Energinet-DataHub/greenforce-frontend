@@ -36,6 +36,10 @@ public class BalanceResponsibleType : ObjectType<BalanceResponsibleResult>
         descriptor.Field(f => f.ValidToDate).Ignore();
 
         descriptor
+            .Field("storageDocumentUrl")
+            .ResolveWith<EsettExchangeResolvers>(c => c.GetStorageDocument(default!, default!, default!));
+
+        descriptor
            .Field("gridAreaWithName")
            .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(BalanceResponsibleResult)!, default!));
 

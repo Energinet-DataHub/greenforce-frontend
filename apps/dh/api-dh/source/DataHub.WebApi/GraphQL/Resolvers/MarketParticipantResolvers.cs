@@ -16,6 +16,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
+using Energinet.DataHub.WebApi.GraphQL.Types.User;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -80,6 +81,13 @@ public class MarketParticipantResolvers
         ActorByOrganizationBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
 
+    public async Task<IEnumerable<ActorDto>?> GetActorByUserIdAsync(
+        [Parent] User user,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await Task.WhenAll((
+            await client.UserActorsGetAsync(user.Id)).ActorIds
+            .Select(async id => await client.ActorGetAsync(id)));
+
     public async Task<ICollection<BalanceResponsibilityRelationDto>?> GetBalanceResponsibleAgreementsAsync(
         [Parent] ActorDto actor,
         [Service] IMarketParticipantClient_V1 client) =>
@@ -97,11 +105,55 @@ public class MarketParticipantResolvers
 
     public async Task<ActorCredentialsDto?> GetActorCredentialsAsync(
         [Parent] ActorDto actor,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.ActorCredentialsGetAsync(actor.ActorId);
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        try
+        {
+            return await client.ActorCredentialsGetAsync(actor.ActorId);
+        }
+        catch
+        {
+            return new ActorCredentialsDto();
+        }
+    }
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
         ActorPublicMailByActorId dataLoader) =>
         await dataLoader.LoadAsync(actor.ActorId);
+
+    public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
+        [Parent] ActorDto actor,
+        [ScopedState] User? user,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var roles = await client.ActorsRolesAsync(actor.ActorId);
+
+        if (user is null)
+        {
+            return roles.Select(r => new ActorUserRole(
+                r.Id,
+                r.Name,
+                r.Status,
+                r.Description,
+                r.EicFunction,
+                false));
+        }
+
+        var assignedRoles = await client
+                    .ActorsUsersRolesGetAsync(actor.ActorId, user.Id)
+                    .ConfigureAwait(false);
+
+        var assignmentLookup = assignedRoles
+            .Select(ar => ar.Id)
+            .ToHashSet();
+
+        return roles.Select(r => new ActorUserRole(
+            r.Id,
+            r.Name,
+            r.Status,
+            r.Description,
+            r.EicFunction,
+            assignmentLookup.Contains(r.Id)));
+    }
 }

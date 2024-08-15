@@ -325,6 +325,7 @@
         },
         "glnOrEicNumber": "GLN/EIC",
         "name": "Aktørnavn",
+        "nameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "contact": "Kontakt",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "departmentOrName": "Afdeling/Navn",
@@ -539,6 +540,7 @@
         "departmentPhone": "Telefonnr.",
         "required": "Udfyld feltet",
         "invalidEmail": "Ugyldig e-mail",
+        "nameMaxLength": "{{ marketParticipant.actor.create.nameMaxLength }}",
         "departmentNameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
@@ -1081,51 +1083,6 @@
         "latest": "nyeste",
         "cancel": "Luk",
         "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
-      }
-    },
-    "settlementReports": {
-      "topBarTitle": "Afregningsrapporter",
-      "downloadNoBasisData": "Download (uden basisdata)",
-      "selectedRows": {
-        "singular": "{{ selectedCount }} valgt række",
-        "plural": "{{ selectedCount }} valgte rækker"
-      },
-      "SelectPeriod": "For at downloade skal du vælge en periode først",
-      "gridAreasLoadFailed": "kunne ikke hente netområder",
-      "noEntries": "Ingen resultater",
-      "results": "Balancefiksering",
-      "tabs": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
-      },
-      "table": {
-        "title": "Processer",
-        "calculationType": "{{shared.calculationType}}",
-        "gridAreaName": "Netvirksomhed",
-        "gridAreaCode": "Netområde",
-        "periodStart": "Periode fra",
-        "periodEnd": "Periode til",
-        "executionTime": "Kørsel tid",
-        "emptyTitle": "Ingen processer fundet",
-        "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
-        "download": "—"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
-      },
-      "filters": {
-        "calculationType": "{{shared.calculationType}}",
-        "gridArea": "Netområde",
-        "period": "Periode",
-        "executionTime": "Kørsel tid",
-        "executionTimeRequired": "Eksekveringstid påkrævet",
-        "actor": "Aktør",
-        "loadingActors": "Henter elleverandører...",
-        "loadingGridAreas": "Henter netområder...",
-        "actorPlaceholder": "Elleverandør",
-        "calculationTypePlaceholder": "Vælg {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Netområde"
       }
     }
   },
