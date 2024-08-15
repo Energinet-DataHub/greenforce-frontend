@@ -36,6 +36,9 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattButtonComponent } from '../../../watt/src/lib/components/button';
+import { VaterSpacerComponent } from '../../../watt/src/lib/components/vater';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate, EoCertificateType } from '@energinet-datahub/eo/certificates/domain';
@@ -53,8 +56,10 @@ import { translations } from '@energinet-datahub/eo/translations';
     WattEmptyStateComponent,
     RouterModule,
     VaterStackComponent,
+    VaterSpacerComponent,
     WATT_CARD,
     TranslocoPipe,
+    WattButtonComponent,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
   standalone: true,
@@ -98,6 +103,10 @@ import { translations } from '@energinet-datahub/eo/translations';
           <div class="badge">
             <small>{{ totalCount() }}</small>
           </div>
+          <vater-spacer />
+          <watt-button icon="download" (click)="exportCertificates()">{{
+            translations.certificates.exportCertificates | transloco
+          }}</watt-button>
         </vater-stack>
       </watt-card-title>
 
@@ -153,6 +162,7 @@ import { translations } from '@energinet-datahub/eo/translations';
   `,
 })
 export class EoCertificatesOverviewComponent implements OnInit {
+  private toastService: WattToastService = inject(WattToastService);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
   private datePipe: WattDatePipe = inject(WattDatePipe);
   private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
@@ -189,6 +199,24 @@ export class EoCertificatesOverviewComponent implements OnInit {
       this.getSortBy(this.defaultSortBy),
       this.sortDirection
     );
+  }
+
+  exportCertificates() {
+    this.certificatesService.exportCertificates().subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'certificates.xlsx';
+        a.click();
+      },
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate(this.translations.certificates.exportFailed),
+          type: 'danger',
+        });
+      },
+    });
   }
 
   pageChanged(event: {
