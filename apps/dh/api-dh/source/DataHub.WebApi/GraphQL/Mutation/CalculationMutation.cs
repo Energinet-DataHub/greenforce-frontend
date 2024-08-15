@@ -48,4 +48,9 @@ public partial class Mutation
 
         return calculationId;
     }
+
+    public async Task<bool> CancelScheduledCalculationAsync(Guid guid)
+    {
+        return await Task.FromResult(true);
+    }
 }
