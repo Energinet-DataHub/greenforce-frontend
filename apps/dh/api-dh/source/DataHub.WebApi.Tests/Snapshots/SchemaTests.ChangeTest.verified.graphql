@@ -42,6 +42,10 @@ type ActorClientSecretCredentialsDto {
   expirationDate: DateTime!
 }
 
+type ActorClientSecretDto {
+  secretText: String!
+}
+
 type ActorContactDto {
   contactId: UUID!
   actorId: UUID!
@@ -52,6 +56,8 @@ type ActorContactDto {
 }
 
 type ActorCredentialsDto {
+  assignCertificateCredentialsUrl(actorId: UUID!): String!
+  removeActorCredentialsUrl(actorId: UUID!): String!
   certificateCredentials: ActorCertificateCredentialsDto
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
@@ -352,6 +358,7 @@ type Mutation {
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
@@ -483,6 +490,10 @@ type ReadinessStatusDto {
 
 type RequestCalculationPayload {
   boolean: Boolean
+}
+
+type RequestClientSecretCredentialsPayload {
+  actorClientSecretDto: ActorClientSecretDto
 }
 
 type RequestSettlementReportGridAreaCalculation {
@@ -787,6 +798,10 @@ input RequestCalculationInput {
   energySupplierId: String
   balanceResponsibleId: String
   priceType: PriceType
+}
+
+input RequestClientSecretCredentialsInput {
+  actorId: UUID!
 }
 
 input RequestSettlementReportGridAreaInput {
