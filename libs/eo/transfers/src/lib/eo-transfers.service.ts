@@ -106,7 +106,7 @@ export class EoTransfersService {
       ...transfer,
       senderName: transfer.senderName === '' ? this.#authService.user()?.name : transfer.senderName,
       senderTin:
-        transfer.senderTin === '' ? this.#authService.user()?.org_cvr ?? '' : transfer.senderTin,
+        transfer.senderTin === '' ? (this.#authService.user()?.org_cvr ?? '') : transfer.senderTin,
     };
   }
 
