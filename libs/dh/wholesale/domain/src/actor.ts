@@ -16,14 +16,7 @@
  */
 import { ResultOf } from 'apollo-angular';
 
-import {
-  GetActorsForRequestCalculationDocument,
-  GetActorsForSettlementReportDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type Actor = ResultOf<
-  typeof GetActorsForSettlementReportDocument
->['actorsForEicFunction'][0];
+import { GetActorsForRequestCalculationDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type ActorForRequestCalculation = ResultOf<
   typeof GetActorsForRequestCalculationDocument
