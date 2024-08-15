@@ -723,6 +723,7 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   calculationType: StartCalculationType!
+  scheduledAt: DateTime
 }
 
 input CreateDelegationsForActorInput {

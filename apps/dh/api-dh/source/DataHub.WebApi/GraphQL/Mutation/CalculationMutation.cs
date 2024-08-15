@@ -22,12 +22,13 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 public partial class Mutation
 {
     public async Task<Guid> CreateCalculationAsync(
-    Interval period,
-    string[] gridAreaCodes,
-    StartCalculationType calculationType,
-    [Service] IWholesaleOrchestrationsClient client,
-    [Service] ITopicEventSender sender,
-    CancellationToken cancellationToken)
+        Interval period,
+        string[] gridAreaCodes,
+        StartCalculationType calculationType,
+        DateTimeOffset? scheduledAt,
+        [Service] IWholesaleOrchestrationsClient client,
+        [Service] ITopicEventSender sender,
+        CancellationToken cancellationToken)
     {
         if (!period.HasEnd || !period.HasStart)
         {
