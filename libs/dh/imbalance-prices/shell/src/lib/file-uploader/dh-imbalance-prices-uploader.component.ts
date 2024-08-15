@@ -14,7 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+  inject,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -71,10 +81,11 @@ export class DhImbalancePricesUploaderComponent {
 
   uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
 
-  @ViewChild('uploadInput')
-  uploadInput!: ElementRef<HTMLInputElement>;
+  uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
 
-  @Output() uploadSuccess = new EventEmitter<void>();
+  uploadUrl = input.required<string>();
+
+  uploadSuccess = output<void>();
 
   onFileSelected(files: FileList | null): void {
     if (files == null) {
@@ -84,7 +95,7 @@ export class DhImbalancePricesUploaderComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      return this.startUpload(file);
+      return this.startUpload(file, this.uploadUrl());
     }
   }
 
@@ -92,9 +103,10 @@ export class DhImbalancePricesUploaderComponent {
     return csvMimeTypes.includes(file.type);
   }
 
-  private startUpload(file: File): void {
+  private startUpload(file: File, uploadUrl: string): void {
     this.store.uploadCSV({
       file,
+      uploadUrl,
       onSuccess: this.onUploadSuccessFn,
       onError: this.onUploadErrorFn,
     });
@@ -121,6 +133,6 @@ export class DhImbalancePricesUploaderComponent {
   };
 
   private resetUploadInput(): void {
-    this.uploadInput.nativeElement.value = '';
+    this.uploadInput().nativeElement.value = '';
   }
 }

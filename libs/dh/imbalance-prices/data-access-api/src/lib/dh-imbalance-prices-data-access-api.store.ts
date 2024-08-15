@@ -18,9 +18,8 @@ import { Injectable, inject } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 import { Observable, exhaustMap, finalize, tap } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 interface ImbalancePricesState {
@@ -33,7 +32,7 @@ const initialState: ImbalancePricesState = {
 
 @Injectable()
 export class DhImbalancePricesDataAccessApiStore extends ComponentStore<ImbalancePricesState> {
-  private readonly httpClient = inject(ImbalancePricesHttp);
+  private readonly httpClient = inject(HttpClient);
 
   readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
 
@@ -41,22 +40,26 @@ export class DhImbalancePricesDataAccessApiStore extends ComponentStore<Imbalanc
     (
       trigger$: Observable<{
         file: File;
+        uploadUrl: string;
         onSuccess: () => void;
         onError: (apiErrorCollection: ApiErrorCollection) => void;
       }>
     ) =>
       trigger$.pipe(
         tap(() => this.patchState({ uploadInProgress: true })),
-        exhaustMap(({ file, onSuccess, onError }) =>
-          this.httpClient.v1ImbalancePricesUploadImbalanceCSVPost(file).pipe(
+        exhaustMap(({ file, uploadUrl, onSuccess, onError }) => {
+          const formData = new FormData();
+          formData.append('csvFile', file);
+
+          return this.httpClient.post(uploadUrl, formData).pipe(
             tapResponse(
               () => onSuccess(),
               (errorResponse: HttpErrorResponse) =>
                 onError(this.createApiErrorCollection(errorResponse))
             ),
             finalize(() => this.patchState({ uploadInProgress: false }))
-          )
-        )
+          );
+        })
       )
   );
 

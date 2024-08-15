@@ -23,13 +23,14 @@ limitations under the License.
 
       <dh-imbalance-prices-uploader
         *dhPermissionRequired="['imbalance-prices:manage']"
+        [uploadUrl]="uploadUrl()!"
         (uploadSuccess)="onUploadSuccess()"
       />
     </vater-stack>
 
     <dh-table-month-view
       [tableDataSource]="tableDataSource"
-      [isLoading]="isLoading"
+      [isLoading]="isLoading()"
       [hasError]="hasError"
     />
 
