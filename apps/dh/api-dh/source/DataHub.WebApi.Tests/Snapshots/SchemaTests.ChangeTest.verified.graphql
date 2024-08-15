@@ -296,6 +296,7 @@ type ImbalancePricePeriod {
 }
 
 type ImbalancePricesOverview {
+  uploadImbalancePricesUrl: String!
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
