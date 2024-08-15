@@ -34,7 +34,7 @@ jobs:
 
   dotnet_promote_prerelease:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' || needs.changes.outputs.dh_frontend == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v14
     with:
       release_name_prefix: ui_dotnet
