@@ -68,7 +68,7 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
   `,
   host: {
     '[class.watt-field--chip]': 'chipMode()',
-    '[class.watt-field--untitled]': 'untitled()',
+    '[class.watt-field--unlabelled]': 'unlabelled()',
   },
 })
 export class WattFieldComponent {
@@ -80,7 +80,7 @@ export class WattFieldComponent {
   chipMode = input(false);
   tooltip = input<string>();
 
-  untitled = computed(() => !this.label());
+  unlabelled = computed(() => !this.label());
 
   errors = signal<ValidationErrors | null>(null);
   isRequired = signal(false);
