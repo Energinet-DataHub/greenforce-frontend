@@ -18,4 +18,6 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { GetPermissionsDocument } from './generated/graphql';
 
-export type PermissionDto = ResultOf<typeof GetPermissionsDocument>['permissions'][0];
+export type PermissionDto = ResultOf<
+  typeof GetPermissionsDocument
+>['permissions']['permissions'][0];
