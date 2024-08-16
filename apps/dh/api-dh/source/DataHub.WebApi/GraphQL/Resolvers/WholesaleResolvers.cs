@@ -38,4 +38,13 @@ public class WholesaleResolvers
         [Parent] RequestSettlementReportGridAreaCalculation result,
         GridAreaByCodeBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+
+    public string? GetSettlementReportDownloadUrl(
+        [Parent] SettlementReport result,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "DownloadReport",
+            "WholesaleSettlementReport",
+            new { settlementReportId = result.Id });
 }
