@@ -884,6 +884,7 @@
       "errorMessage": "{{shared.error.message}}",
       "search": "Search",
       "new": "New calculation",
+      "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
       "create": {
         "title": "New calculation",
         "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
@@ -891,6 +892,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
+        "executionTypeHint": "External calculation sends the result to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
@@ -904,6 +906,12 @@
           "label": "Grid areas",
           "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
+        },
+        "scheduledAt": {
+          "label": "Calculation time",
+          "now": "Run now",
+          "schedule": "Schedule calculation",
+          "past": "Time has passed"
         },
         "confirm": "Create",
         "cancel": "Cancel",
@@ -932,7 +940,8 @@
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
         "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
+        "UNKNOWN": "Calculation"
       },
       "states": {
         "SCHEDULED": "Scheduled",
@@ -945,8 +954,8 @@
         "COMPLETED": "Messages enqueued"
       },
       "executionTypes": {
-        "ACTUAL": "Actual",
-        "SIMULATION": "Simulation"
+        "EXTERNAL": "External",
+        "INTERNAL": "Internal"
       },
       "filters": {
         "states": "Status",
@@ -970,7 +979,18 @@
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
-        "emptyMessage": "{{shared.error.message}}"
+        "emptyMessage": "{{shared.error.message}}",
+        "copyId": "Copy ID",
+        "cancelModal": {
+          "title": "Cancel scheduled calculation?",
+          "close": "Close",
+          "confirm": "Cancel calculation"
+        },
+        "toast": {
+          "loading": "Cancelling calculation...",
+          "success": "The calculation has been cancelled",
+          "error": "{{shared.error.title}}"
+        }
       },
       "progress": {
         "SCHEDULE": {
