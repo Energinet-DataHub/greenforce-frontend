@@ -27,7 +27,6 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
-import { WholesaleSettlementReportHttp } from '@energinet-datahub/dh/shared/domain';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
