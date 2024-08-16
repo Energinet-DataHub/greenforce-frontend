@@ -14,16 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, forwardRef, inject, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, ViewEncapsulation } from '@angular/core';
 import { WattTimepickerComponent } from '../timepicker';
 import { WattDatepickerComponent } from '../datepicker';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import {
-  ControlValueAccessor,
-  FormBuilder,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import dayjs from 'dayjs';
 
@@ -37,28 +32,72 @@ import dayjs from 'dayjs';
     WattTimepickerComponent,
     VaterFlexComponent,
   ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattDatetimepickerComponent),
-      multi: true,
-    },
-  ],
   template: `
     <vater-flex direction="row" gap="s">
-      <watt-datepicker [formControl]="form.controls.scheduledAtDate" style="width: 200%" />
-      <watt-timepicker [formControl]="form.controls.scheduledAtTime" />
+      <watt-datepicker
+        [label]="label()"
+        [min]="min()"
+        [max]="max()"
+        [formControl]="form.controls.scheduledAtDate"
+        style="width: 200%"
+      >
+        <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+        <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
+        <ng-content />
+      </watt-datepicker>
+      <watt-timepicker [formControl]="form.controls.scheduledAtTime" style="align-self: flex-end" />
     </vater-flex>
   `,
 })
-export class WattDatetimepickerComponent implements ControlValueAccessor {
+export class WattDatetimepickerComponent implements OnInit, ControlValueAccessor {
   formBuilder = inject(FormBuilder);
   destroyRef = inject(DestroyRef);
+  ngControl = inject(NgControl, { self: true });
+
+  label = input('');
+  min = input<Date>();
+  max = input<Date>();
 
   form = this.formBuilder.group({
     scheduledAtDate: [null as Date | null],
     scheduledAtTime: [null as string | null],
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange: (value: Date | null) => void = () => {};
+
+  constructor() {
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
+  ngOnInit() {
+    this.ngControl.statusChanges?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.form.controls.scheduledAtDate.setErrors(this.ngControl.errors);
+      this.form.controls.scheduledAtTime.setErrors(this.ngControl.errors && { invalid: true });
+      this.form.controls.scheduledAtDate.markAsTouched();
+      this.form.controls.scheduledAtTime.markAsTouched();
+    });
+
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+      if (value.scheduledAtDate && value.scheduledAtTime) {
+        const time = dayjs(value.scheduledAtTime, 'HH:mm');
+        const date = dayjs(value.scheduledAtDate)
+          .hour(time.hour())
+          .minute(time.minute())
+          .second(0)
+          .millisecond(0);
+
+        this.onChange(date.toDate());
+      } else if (
+        this.form.controls.scheduledAtDate.touched &&
+        this.form.controls.scheduledAtTime.touched
+      ) {
+        this.onChange(null);
+      }
+    });
+  }
 
   writeValue(value: Date | null) {
     this.form.setValue(
@@ -71,20 +110,7 @@ export class WattDatetimepickerComponent implements ControlValueAccessor {
   }
 
   registerOnChange(onChange: (value: Date | null) => void) {
-    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-      if (value.scheduledAtDate && value.scheduledAtTime) {
-        const time = dayjs(value.scheduledAtTime, 'HH:mm');
-        const date = dayjs(value.scheduledAtDate)
-          .hour(time.hour())
-          .minute(time.minute())
-          .second(0)
-          .millisecond(0);
-
-        onChange(date.toDate());
-      } else {
-        onChange(null);
-      }
-    });
+    this.onChange = onChange;
   }
 
   registerOnTouched() {
