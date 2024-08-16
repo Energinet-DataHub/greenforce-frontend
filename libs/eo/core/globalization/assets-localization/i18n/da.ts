@@ -424,7 +424,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     consumptionType: 'forbrug',
     certificateDetailsLink: 'Se certifikat',
     exportCertificates: 'Eksporter',
-    exportFailed: 'Eksport af certifikater fejlede, prøv venligst igen.'
+    exportFailed: 'Eksport af certifikater fejlede, prøv venligst igen.',
   },
   certificateDetails: {
     title: 'Certifikatdetaljer - {{certificateType}}',

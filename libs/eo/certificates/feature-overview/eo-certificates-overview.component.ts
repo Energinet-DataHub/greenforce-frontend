@@ -104,9 +104,12 @@ import { translations } from '@energinet-datahub/eo/translations';
             <small>{{ totalCount() }}</small>
           </div>
           <vater-spacer />
-          <watt-button icon="download" [loading]="exportingCertificates()" (click)="exportCertificates()">{{
-            translations.certificates.exportCertificates | transloco
-          }}</watt-button>
+          <watt-button
+            icon="download"
+            [loading]="exportingCertificates()"
+            (click)="exportCertificates()"
+            >{{ translations.certificates.exportCertificates | transloco }}</watt-button
+          >
         </vater-stack>
       </watt-card-title>
 
