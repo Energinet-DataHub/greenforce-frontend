@@ -113,7 +113,6 @@ watt-field {
       @include watt.typography-watt-text-s;
       display: flex;
       position: relative;
-      min-height: 46px;
       width: 100%;
       padding-left: var(--watt-space-s);
       border-radius: var(--watt-input-border-radius);
@@ -138,5 +137,13 @@ watt-field {
     :not(.watt-field--chip) watt-field-error {
       padding-left: var(--watt-space-s);
     }
+  }
+
+  &.watt-field--chip .watt-field-wrapper {
+    margin-bottom: var(--watt-space-xs);
+  }
+
+  &:not(.watt-field--chip) .watt-field-wrapper {
+    min-height: 46px;
   }
 }
