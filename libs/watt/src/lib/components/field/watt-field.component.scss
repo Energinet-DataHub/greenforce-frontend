@@ -76,16 +76,12 @@ watt-field {
   }
 
   &:not(.watt-field--chip).watt-field--unlabelled {
-    min-height: 72px;
+    min-height: 73px;
   }
 
   &.watt-field--chip .watt-field-wrapper {
     border: none;
     padding-left: 0;
-  }
-
-  &:not(.watt-field--chip) label {
-    padding-bottom: var(--watt-space-s);
   }
 
   .label {
