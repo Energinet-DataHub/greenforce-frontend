@@ -14,47 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router, ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EoAuthService } from './auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class EoScopeGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authService: EoAuthService,
-    private transloco: TranslocoService
-  ) {}
+export const eoScopeGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  const router = inject(Router);
+  const authService = inject(EoAuthService);
+  const transloco = inject(TranslocoService);
 
-  canActivate(route: ActivatedRouteSnapshot) {
-    // Skip authentication for specific routes
-    if (route.data && route.data['skipGuard']) {
-      return true;
-    }
-
-    // Save the current route to redirect to after login
-    const path = route.url.join('/');
-    const queryParams = new URLSearchParams(route.queryParams).toString();
-    const redirectUrl = queryParams ? `${path}?${queryParams}` : path;
-
-    // Redirect to login if user is not authenticated
-    if (!this.authService.user()) {
-      this.authService.login(redirectUrl);
-      return false;
-    }
-
-    // Redirect to terms if user has not accepted them
-    if (!this.authService.user()?.tos_accepted) {
-      this.router.navigate([this.transloco.getActiveLang(), 'terms'], {
-        queryParams: { redirectUrl },
-      });
-      return false;
-    } else {
-      return true;
-    }
+  // Skip authentication for specific routes
+  if (route.data && route.data['skipGuard']) {
+    return true;
   }
-}
+
+  // Save the current route to redirect to after login
+  const path = route.url.join('/');
+  const queryParams = new URLSearchParams(route.queryParams).toString();
+  const redirectUrl = queryParams ? `${path}?${queryParams}` : path;
+
+  // Redirect to login if user is not authenticated
+  if (!authService.user()) {
+    authService.login(redirectUrl);
+    return false;
+  }
+
+  // Redirect to terms if user has not accepted them
+  if (!authService.user()?.tos_accepted) {
+    router.navigate([transloco.getActiveLang(), 'terms'], {
+      queryParams: { redirectUrl },
+    });
+    return false;
+  } else {
+    return true;
+  }
+};

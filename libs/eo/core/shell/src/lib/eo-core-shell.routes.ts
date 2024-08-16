@@ -26,7 +26,7 @@ import {
 import { inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { EoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
+import { eoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
@@ -83,7 +83,7 @@ const routes: Routes = [
     children: [
       {
         path: eoCertificatesRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates/shell').then(
             (esModule) => esModule.eoCertificatesRoutes
@@ -91,7 +91,7 @@ const routes: Routes = [
       },
       {
         path: eoDashboardRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.dashboard.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
@@ -100,7 +100,7 @@ const routes: Routes = [
       },
       {
         path: eoMeteringPointsRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.meteringPoints.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
@@ -109,7 +109,7 @@ const routes: Routes = [
       },
       {
         path: eoActivityLogRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.activityLog.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/activity-log/shell').then(
@@ -118,14 +118,14 @@ const routes: Routes = [
       },
       {
         path: eoTransferRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.transfers.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoConsentRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.consent.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/consent/shell').then(
@@ -134,7 +134,7 @@ const routes: Routes = [
       },
       {
         path: eoClaimsRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
