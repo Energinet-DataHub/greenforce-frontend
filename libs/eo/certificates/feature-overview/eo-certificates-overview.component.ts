@@ -104,7 +104,7 @@ import { translations } from '@energinet-datahub/eo/translations';
             <small>{{ totalCount() }}</small>
           </div>
           <vater-spacer />
-          <watt-button icon="download" (click)="exportCertificates()">{{
+          <watt-button icon="download" [loading]="exportingCertificates()" (click)="exportCertificates()">{{
             translations.certificates.exportCertificates | transloco
           }}</watt-button>
         </vater-stack>
@@ -182,6 +182,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected totalCount = signal<number>(0);
   protected pageIndex = signal<number>(0);
   protected pageSize = 50;
+  protected exportingCertificates = signal<boolean>(false);
 
   protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
   protected defaultSortDirection: SortDirection = 'desc';
@@ -202,6 +203,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   }
 
   exportCertificates() {
+    this.exportingCertificates.set(true);
     this.certificatesService.exportCertificates().subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -209,12 +211,14 @@ export class EoCertificatesOverviewComponent implements OnInit {
         a.href = url;
         a.download = 'certificates.xlsx';
         a.click();
+        this.exportingCertificates.set(false);
       },
       error: () => {
         this.toastService.open({
           message: this.transloco.translate(this.translations.certificates.exportFailed),
           type: 'danger',
         });
+        this.exportingCertificates.set(false);
       },
     });
   }
