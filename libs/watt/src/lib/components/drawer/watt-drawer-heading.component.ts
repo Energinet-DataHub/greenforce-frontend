@@ -33,7 +33,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
       watt-drawer-heading h5,
       watt-drawer-heading h6 {
         margin: 0;
-        line-height: 48px !important; // align with actions
+        line-height: 48px !important; /* align with actions */
       }
     `,
   ],
