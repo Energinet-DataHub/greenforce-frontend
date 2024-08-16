@@ -36,8 +36,8 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattButtonComponent } from '../../../watt/src/lib/components/button';
-import { VaterSpacerComponent } from '../../../watt/src/lib/components/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterSpacerComponent } from '@energinet-datahub/watt/vater';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
