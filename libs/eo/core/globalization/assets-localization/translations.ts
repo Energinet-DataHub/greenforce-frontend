@@ -350,6 +350,8 @@ export const translations = {
     productionType: 'certificates.productionType' as const,
     consumptionType: 'certificates.consumptionType' as const,
     certificateDetailsLink: 'certificates.certificateDetailsLink' as const,
+    exportCertificates: 'certificates.exportCertificates' as const,
+    exportFailed: 'certificates.exportFailed' as const,
   } as const,
   certificateDetails: {
     title: 'certificateDetails.title' as const,

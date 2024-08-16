@@ -52,7 +52,7 @@ jobs:
 
   dh_ci_dotnet:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' || needs.changes.outputs.dh_frontend == 'true' }}
     uses: ./.github/workflows/dh-ci-dotnet.yml
     secrets: inherit
 

@@ -433,6 +433,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     productionType: 'produktion',
     consumptionType: 'forbrug',
     certificateDetailsLink: 'Se certifikat',
+    exportCertificates: 'Eksporter',
+    exportFailed: 'Eksport af certifikater fejlede, prøv venligst igen.',
   },
   certificateDetails: {
     title: 'Certifikatdetaljer - {{certificateType}}',

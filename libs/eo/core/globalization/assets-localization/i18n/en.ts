@@ -442,6 +442,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     productionType: 'production',
     consumptionType: 'consumption',
     certificateDetailsLink: 'View certificate',
+    exportCertificates: 'Export',
+    exportFailed: 'Exporting certificates failed, please try again.',
   },
   certificateDetails: {
     title: 'Certificate Details - {{certificateType}}',

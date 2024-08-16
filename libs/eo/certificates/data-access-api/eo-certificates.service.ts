@@ -54,6 +54,12 @@ export class EoCertificatesService {
     this.apiBase = `${apiEnvironment.apiBase}`;
   }
 
+  exportCertificates() {
+    return this.http.get(`${this.apiBase}/certificates/spreadsheet`, {
+      responseType: 'blob',
+    });
+  }
+
   getCertificates(pageNumber = 1, pageSize = 10, sortBy: sortCertificatesBy, sort: SortDirection) {
     const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
     return this.http

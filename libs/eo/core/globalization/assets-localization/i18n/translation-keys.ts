@@ -349,6 +349,8 @@ export interface TranslationKeys {
     productionType: string;
     consumptionType: string;
     certificateDetailsLink: string;
+    exportCertificates: string;
+    exportFailed: string;
   };
   certificateDetails: {
     title: string;

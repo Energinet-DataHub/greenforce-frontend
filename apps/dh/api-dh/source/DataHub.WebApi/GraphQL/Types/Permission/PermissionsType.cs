@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
 
-public class PermissionType : ObjectType<PermissionDto>
+public class PermissionsType : ObjectType<PermissionsDto>
 {
-    protected override void Configure(IObjectTypeDescriptor<PermissionDto> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<PermissionsDto> descriptor)
     {
-        descriptor.Name("Permission");
-
+        descriptor.Name("Permissions");
         descriptor
-           .Field("userRoles")
-           .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
+            .Field("getPermissionRelationsUrl")
+            .Type<NonNullType<StringType>>()
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetPermissionRelationsUrl(default!, default!));
     }
 }

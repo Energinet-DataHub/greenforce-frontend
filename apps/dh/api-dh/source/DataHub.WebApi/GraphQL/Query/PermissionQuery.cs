@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Types.Permission;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -23,14 +24,14 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.PermissionGetAsync(id);
 
-    public async Task<IEnumerable<PermissionDto>> GetPermissionsAsync(
+    public async Task<PermissionsDto> GetPermissionsAsync(
         string searchTerm,
         [Service] IMarketParticipantClient_V1 client) =>
-        (await client.PermissionGetAsync())
+        new((await client.PermissionGetAsync())
             .Where(p =>
                 searchTerm is null ||
                 p.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
-                p.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase));
+                p.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
 
     public async Task<IEnumerable<PermissionAuditedChangeAuditLogDto>> GetPermissionAuditLogsAsync(
         int id,

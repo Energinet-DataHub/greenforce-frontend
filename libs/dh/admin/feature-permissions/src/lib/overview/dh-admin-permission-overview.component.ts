@@ -14,38 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
-import { ApolloError } from '@apollo/client';
-import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
+import { Component, DestroyRef, OnInit, ViewChild, inject, signal } from '@angular/core';
 
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  MarketParticipantPermissionsHttp,
-  PermissionDto,
-} from '@energinet-datahub/dh/shared/domain';
-import {
-  DhEmDashFallbackPipe,
-  exportToCSV,
-  streamToFile,
-} from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { switchMap } from 'rxjs';
+import { ApolloError } from '@apollo/client';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 
-import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
-import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
-import { switchMap } from 'rxjs';
+import {
+  DhEmDashFallbackPipe,
+  exportToCSV,
+  streamToFile,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+
+import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
+import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
 
 @Component({
   selector: 'dh-admin-permission-overview',
@@ -85,7 +87,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared'
 export class DhAdminPermissionOverviewComponent implements OnInit {
   private _destroyRef = inject(DestroyRef);
   private readonly toastService = inject(WattToastService);
-  private readonly httpClient = inject(MarketParticipantPermissionsHttp);
+  private readonly httpClient = inject(HttpClient);
 
   query = getPermissionsWatchQuery();
   loading = false;
@@ -99,6 +101,8 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
   dataSource = new WattTableDataSource<PermissionDto>([]);
   activeRow: PermissionDto | undefined = undefined;
 
+  url = signal<string>('');
+
   @ViewChild(DhAdminPermissionDetailComponent)
   permissionDetail!: DhAdminPermissionDetailComponent;
 
@@ -107,7 +111,8 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
       next: (result) => {
         this.loading = result.loading;
         this.error = result.error;
-        this.dataSource.data = result.data?.permissions ?? [];
+        this.dataSource.data = result.data?.permissions.permissions ?? [];
+        this.url.set(result.data.permissions.getPermissionRelationsUrl);
       },
       error: (error) => {
         this.loading = false;
@@ -152,7 +157,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
     }
   }
 
-  downloadRelationCSV() {
+  downloadRelationCSV(url: string) {
     this.toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
@@ -164,7 +169,7 @@ export class DhAdminPermissionOverviewComponent implements OnInit {
     };
 
     this.httpClient
-      .v1MarketParticipantPermissionsGetPermissionRelationsCSVGet()
+      .get(url, { responseType: 'text' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),

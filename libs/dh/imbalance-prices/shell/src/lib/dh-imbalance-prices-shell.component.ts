@@ -14,28 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, computed, effect } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import {
-  GetImbalancePricesMonthOverviewQuery,
-  GetImbalancePricesOverviewDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhTableMonthViewComponent } from './table-month-view/dh-table-month-view.component';
 import { DhImbalancePrice } from './dh-imbalance-prices';
+import { DhTableMonthViewComponent } from './table-month-view/dh-table-month-view.component';
 import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance-prices-uploader.component';
 
 @Component({
@@ -67,60 +65,35 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
-    VaterUtilityDirective,
     VaterSpacerComponent,
+    VaterUtilityDirective,
     WattPaginatorComponent,
 
     DhTableMonthViewComponent,
-    DhImbalancePricesUploaderComponent,
     DhPermissionRequiredDirective,
+    DhImbalancePricesUploaderComponent,
   ],
 })
 export class DhImbalancePricesShellComponent {
-  private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
-
-  private readonly getImbalancePricesOverview$ = this.apollo.query({
-    fetchPolicy: 'network-only',
-    query: GetImbalancePricesOverviewDocument,
-  });
+  private readonly getImbalancePricesOverview = query(GetImbalancePricesOverviewDocument);
 
   tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
 
-  isLoading = false;
-  hasError = false;
+  isLoading = this.getImbalancePricesOverview.loading;
+  hasError = this.getImbalancePricesOverview.error() !== undefined;
+  uploadUrl = computed(
+    () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.uploadImbalancePricesUrl
+  );
 
   constructor() {
-    this.fetchData();
+    effect(() => {
+      this.tableDataSource.data =
+        this.getImbalancePricesOverview.data()?.imbalancePricesOverview.pricePeriods ?? [];
+    });
   }
 
   onUploadSuccess(): void {
     this.tableDataSource.data = [];
-    this.fetchData();
-
-    this.apollo.client.refetchQueries({
-      updateCache: (cache) => {
-        const imbalancePricesForMonthKey: keyof GetImbalancePricesMonthOverviewQuery =
-          'imbalancePricesForMonth';
-
-        cache.evict({ fieldName: imbalancePricesForMonthKey });
-      },
-    });
-  }
-
-  private fetchData(): void {
-    this.isLoading = true;
-
-    this.getImbalancePricesOverview$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: ({ loading, data }) => {
-        this.isLoading = loading;
-
-        this.tableDataSource.data = data.imbalancePricesOverview.pricePeriods;
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      },
-    });
+    this.getImbalancePricesOverview.refetch();
   }
 }
