@@ -64,7 +64,11 @@ export class WattDatetimepickerComponent implements OnInit, ControlValueAccessor
   });
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: (value: Date | null) => void = () => {};
+  _onChange: (value: Date | null) => void = () => {};
+
+  get onChange() {
+    return this._onChange;
+  }
 
   constructor() {
     if (this.ngControl != null) {
@@ -110,7 +114,7 @@ export class WattDatetimepickerComponent implements OnInit, ControlValueAccessor
   }
 
   registerOnChange(onChange: (value: Date | null) => void) {
-    this.onChange = onChange;
+    this._onChange = onChange;
   }
 
   registerOnTouched() {
