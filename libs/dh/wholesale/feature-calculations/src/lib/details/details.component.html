@@ -14,42 +14,77 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-drawer #drawer (closed)="closed.emit()" [loading]="loading">
-  <watt-drawer-topbar *transloco="let transloco; read: 'wholesale.calculations'">
+@let guid = id();
+
+<watt-modal
+  *transloco="let t; read: 'wholesale.calculations.details'"
+  #modal
+  size="small"
+  [title]="t('cancelModal.title')"
+  [closeLabel]="t('cancelModal.closeLabel')"
+  (closed)="cancelModalClosed($event)"
+>
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="modal.close(false)">
+      {{ t("cancelModal.close") }}
+    </watt-button>
+    <watt-button variant="secondary" (click)="modal.close(true)">
+      {{ t("cancelModal.confirm") }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>
+
+<watt-drawer
+  #drawer
+  (closed)="closed.emit()"
+  [loading]="loading"
+  *transloco="let t; read: 'wholesale.calculations'"
+>
+  <watt-drawer-topbar>
     @if (!error) {
       <watt-badge [type]="calculation?.statusType ?? 'skeleton'">{{
-        calculation?.state ? transloco("states." + calculation?.state) : "unknown"
+        calculation?.state ? t("states." + calculation?.state) : "unknown"
       }}</watt-badge>
     }
   </watt-drawer-topbar>
-  <watt-drawer-heading *transloco="let transloco; read: 'wholesale.calculations'">
+  @if (guid && calculation?.state === CalculationOrchestrationState.Scheduled) {
+    <watt-drawer-actions>
+      <watt-button variant="secondary" (click)="modal().open()">Annuller beregning</watt-button>
+    </watt-drawer-actions>
+  }
+  <watt-drawer-heading>
     <div class="headline-container">
-      <h3 class="headline watt-headline-1">
-        {{ transloco("details.headline", { id: id() }) }}
+      <h3
+        [wattCopyToClipboard]="id()"
+        [wattTooltip]="t('details.copyId')"
+        wattTooltipPosition="right"
+        class="headline watt-headline-2"
+      >
+        {{ t("calculationTypes." + (calculation?.calculationType ?? "UNKNOWN")) }}
       </h3>
     </div>
     <watt-description-list>
       <watt-description-list-item
-        [label]="transloco('details.period')"
+        [label]="t('details.period')"
         [value]="calculation?.period | wattDate: 'short' | dhEmDashFallback"
       />
       <watt-description-list-item
-        [label]="transloco('details.executionTime')"
+        [label]="t('details.executionTime')"
         [value]="calculation?.executionTimeStart | wattDate: 'long' | dhEmDashFallback"
       />
     </watt-description-list>
   </watt-drawer-heading>
-  <watt-drawer-content *transloco="let transloco; read: 'wholesale.calculations'">
+  <watt-drawer-content>
     <vater-flex fill="vertical" gap="l" offset="l">
       @if (calculation) {
         <watt-progress-tracker>
           @for (progress of calculation.progress; track progress) {
             <watt-progress-tracker-step
-              [label]="transloco('progress.' + progress.step + '.pending')"
+              [label]="t('progress.' + progress.step + '.pending')"
               [status]="progress.status"
               [current]="calculation.currentStep === progress.step"
             >
-              {{ transloco("progress." + progress.step + ".completed") }}
+              {{ t("progress." + progress.step + ".completed") }}
             </watt-progress-tracker-step>
           }
         </watt-progress-tracker>
@@ -63,8 +98,8 @@ limitations under the License.
             vater
             center
             icon="custom-power"
-            [title]="transloco('details.emptyTitle')"
-            [message]="transloco('details.emptyMessage')"
+            [title]="t('details.emptyTitle')"
+            [message]="t('details.emptyMessage')"
           />
         }
       </vater-flex>
