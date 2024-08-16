@@ -15,16 +15,21 @@
  * limitations under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpHandler,
+  HttpRequest,
+  HttpResponse,
+} from '@angular/common/http';
 
 import { tapResponse } from '@ngrx/operators';
 import { MsalService } from '@azure/msal-angular';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 
-import { MarketParticipantUserHttp, TokenHttp } from '@energinet-datahub/dh/shared/domain';
-
 import { DhActorStorage } from './dh-actor-storage';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
@@ -32,15 +37,12 @@ type CachedEntry = { token: string; value: Observable<string> } | undefined;
   providedIn: 'root',
 })
 export class DhActorTokenService {
-  private _internalActors: CachedEntry;
-  private _internalToken: CachedEntry;
-
-  constructor(
-    private marketParticipantUserHttp: MarketParticipantUserHttp,
-    private tokenHttp: TokenHttp,
-    private actorStorage: DhActorStorage,
-    private msalService: MsalService
-  ) {}
+  private internalActors: CachedEntry;
+  private internalToken: CachedEntry;
+  private actorStorage = inject(DhActorStorage);
+  private msalService = inject(MsalService);
+  private apiToken = inject(dhApiEnvironmentToken);
+  private httpClient = inject(HttpClient);
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
     return this.isUserActorsRequest(request) || this.isTokenRequest(request);
@@ -54,8 +56,8 @@ export class DhActorTokenService {
       return this.updateCache(
         request,
         nextHandler,
-        () => this._internalActors,
-        (value) => (this._internalActors = value)
+        () => this.internalActors,
+        (value) => (this.internalActors = value)
       );
     }
 
@@ -63,8 +65,8 @@ export class DhActorTokenService {
       return this.updateCache(
         request,
         nextHandler,
-        () => this._internalToken,
-        (value) => (this._internalToken = value)
+        () => this.internalToken,
+        (value) => (this.internalToken = value)
       );
     }
 
@@ -72,27 +74,36 @@ export class DhActorTokenService {
   }
 
   public acquireToken = (): Observable<string> => {
-    return this.marketParticipantUserHttp.v1MarketParticipantUserGetUserActorsGet().pipe(
-      tap(({ actorIds }) => this.actorStorage.setUserAssociatedActors(actorIds)),
-      switchMap(() =>
-        this.tokenHttp.v1TokenPost(this.actorStorage.getSelectedActorId()).pipe(
-          tapResponse(
-            () => {
-              const account = this.msalService.instance.getActiveAccount();
-              if (account?.idTokenClaims) {
-                const givenName = account?.idTokenClaims['given_name'];
-                if (!givenName) {
-                  localStorage.setItem('mitIdRelogin', 'true');
-                  this.msalService.instance.logout();
-                }
-              }
-            },
-            () => this.msalService.instance.logout()
-          ),
-          map(({ token }) => token)
+    return this.httpClient
+      .get<{ actorIds: [] }>(`${this.apiToken.apiBase}${this.apiToken.getUserActorsUrl}`)
+      .pipe(
+        tap(({ actorIds }) => this.actorStorage.setUserAssociatedActors(actorIds)),
+        switchMap(() =>
+          this.httpClient
+            .post<{
+              token: string;
+            }>(
+              `${this.apiToken.apiBase}${this.apiToken.getTokenUrl}?actorId=${this.actorStorage.getSelectedActorId()}`,
+              null
+            )
+            .pipe(
+              tapResponse(
+                () => {
+                  const account = this.msalService.instance.getActiveAccount();
+                  if (account?.idTokenClaims) {
+                    const givenName = account?.idTokenClaims['given_name'];
+                    if (!givenName) {
+                      localStorage.setItem('mitIdRelogin', 'true');
+                      this.msalService.instance.logout();
+                    }
+                  }
+                },
+                () => this.msalService.instance.logout()
+              ),
+              map(({ token }) => token)
+            )
         )
-      )
-    );
+      );
   };
 
   private updateCache(
@@ -138,6 +149,6 @@ export class DhActorTokenService {
   }
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/v1/Token');
+    return request.url.includes('/v1/Token');
   }
 }
