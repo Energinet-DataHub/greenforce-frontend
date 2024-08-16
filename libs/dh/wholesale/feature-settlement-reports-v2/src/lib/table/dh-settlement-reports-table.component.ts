@@ -32,6 +32,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -60,7 +61,7 @@ import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-stat
 })
 export class DhSettlementReportsTableComponent {
   private permissionService = inject(PermissionService);
-  private reportEndpoint = inject(WholesaleSettlementReportHttp);
+  private httpClient = inject(HttpClient);
   private toastService = inject(WattToastService);
 
   columns: WattTableColumnDef<DhSettlementReport> = {
@@ -92,16 +93,24 @@ export class DhSettlementReportsTableComponent {
     });
   }
 
-  downloadReport(reportId: string) {
+  downloadReport(settlementReportDownloadUrl: string | undefined) {
     const fileOptions = { name: 'SettlementReport.zip', type: 'application/zip' };
+
+    if (!settlementReportDownloadUrl) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('shared.downloadFailed'),
+      });
+      return;
+    }
 
     this.toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
     });
 
-    this.reportEndpoint
-      .v1WholesaleSettlementReportDownloadReportGet(reportId)
+    this.httpClient
+      .get(settlementReportDownloadUrl, { responseType: 'text' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
