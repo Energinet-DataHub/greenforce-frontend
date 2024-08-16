@@ -48,7 +48,10 @@ import {
   CalculationQueryInput,
   OnCalculationProgressDocument,
   GetCalculationsQuery,
+  CalculationOrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -66,6 +69,8 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattEmptyStateComponent,
+    WattIconComponent,
+    WattTooltipDirective,
     DhCalculationsFiltersComponent,
     DhEmDashFallbackPipe,
   ],
@@ -75,6 +80,8 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
 })
 export class DhCalculationsTableComponent {
   private apollo = inject(Apollo);
+
+  CalculationOrchestrationState = CalculationOrchestrationState;
 
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
@@ -136,9 +143,9 @@ export class DhCalculationsTableComponent {
     startedBy: { accessor: 'createdByUserName' },
     periodFrom: { accessor: (calculation) => calculation.period?.start },
     periodTo: { accessor: (calculation) => calculation.period?.end },
-    executionTime: { accessor: 'executionTimeStart' },
+    executionTime: { accessor: 'executionTimeStart', size: 'max-content' },
     calculationType: { accessor: 'calculationType' },
-    status: { accessor: 'state' },
+    status: { accessor: 'state', size: 'max-content' },
   };
 
   getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
