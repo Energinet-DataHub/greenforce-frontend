@@ -530,6 +530,7 @@ type SelectionActorDto {
 }
 
 type SettlementReport {
+  settlementReportDownloadUrl: String
   id: String!
   actor: Actor
   calculationType: CalculationType!
