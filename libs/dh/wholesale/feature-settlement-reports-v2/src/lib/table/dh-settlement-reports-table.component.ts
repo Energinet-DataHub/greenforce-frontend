@@ -110,7 +110,7 @@ export class DhSettlementReportsTableComponent {
     });
 
     this.httpClient
-      .get(settlementReportDownloadUrl, { responseType: 'text' })
+      .get(settlementReportDownloadUrl)
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
