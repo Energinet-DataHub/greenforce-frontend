@@ -156,4 +156,12 @@ public class MarketParticipantResolvers
             r.EicFunction,
             assignmentLookup.Contains(r.Id)));
     }
+
+    public string? GetPermissionRelationsUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "GetPermissionRelations",
+            "MarketParticipantPermissions");
 }

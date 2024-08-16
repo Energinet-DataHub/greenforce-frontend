@@ -48,10 +48,12 @@ const pricePeriods: ImbalancePricePeriod[] = [
   },
 ];
 
-export const imbalancePricesOverviewQueryMock: GetImbalancePricesOverviewQuery = {
-  __typename: 'Query',
-  imbalancePricesOverview: {
-    __typename: 'ImbalancePricesOverview',
-    pricePeriods,
-  },
-};
+export const imbalancePricesOverviewQueryMock = (apiBase: string) =>
+  ({
+    __typename: 'Query',
+    imbalancePricesOverview: {
+      __typename: 'ImbalancePricesOverview',
+      uploadImbalancePricesUrl: `${apiBase}/v1/ImbalancePrices/DownloadImbalanceCSV`,
+      pricePeriods,
+    },
+  }) as GetImbalancePricesOverviewQuery;
