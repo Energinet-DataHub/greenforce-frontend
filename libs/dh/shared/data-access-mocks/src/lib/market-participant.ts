@@ -56,7 +56,6 @@ import { marketParticipantActors } from './data/market-participant-actors';
 import { getOrganizationsQueryMock } from './data/market-participant-organizations';
 import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
-import { MarketParticipantActorClientSecretDto } from '@energinet-datahub/dh/shared/domain';
 
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
 import { actors } from './data/get-actors-by-organizationId';
@@ -79,7 +78,6 @@ export function marketParticipantMocks(apiBase: string) {
     getActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
-    marketParticipantActorRequestClientSecretCredentials(apiBase),
     getGridAreaOverview(),
     createMarketParticipant(),
     getAssociatedActors(),
@@ -429,22 +427,6 @@ function marketParticipantActorRemoveActorCredentials(apiBase: string) {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
   });
-}
-
-function marketParticipantActorRequestClientSecretCredentials(apiBase: string) {
-  return http.post(
-    `${apiBase}/v1/MarketParticipantActor/RequestClientSecretCredentials`,
-    async () => {
-      const clientSecret = 'random-secret-XEi33WhFi8qwnCzrnlf';
-
-      const response: MarketParticipantActorClientSecretDto = {
-        secretText: clientSecret,
-      };
-      await delay(mswConfig.delay);
-
-      return HttpResponse.json(response);
-    }
-  );
 }
 
 function getGridAreaOverview() {

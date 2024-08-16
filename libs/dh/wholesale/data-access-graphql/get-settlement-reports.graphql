@@ -11,5 +11,6 @@ query getSettlementReports {
     includesBasisData
     progress
     statusType
+    settlementReportDownloadUrl
   }
 }
