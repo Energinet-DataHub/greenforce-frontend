@@ -300,6 +300,7 @@ type ImbalancePricePeriod {
 }
 
 type ImbalancePricesOverview {
+  uploadImbalancePricesUrl: String!
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
@@ -428,6 +429,11 @@ type PermissionDetailsDto {
   created: DateTime!
 }
 
+type Permissions {
+  getPermissionRelationsUrl: String!
+  permissions: [Permission!]!
+}
+
 type Query {
   actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
   selectedActor: Actor!
@@ -459,7 +465,7 @@ type Query {
   organizations: [Organization!]!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   permissionById(id: Int!): Permission!
-  permissions(searchTerm: String!): [Permission!]!
+  permissions(searchTerm: String!): Permissions!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
@@ -529,6 +535,7 @@ type SelectionActorDto {
 }
 
 type SettlementReport {
+  settlementReportDownloadUrl: String
   id: String!
   actor: Actor
   calculationType: CalculationType!

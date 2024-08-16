@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
-public class PermissionType : ObjectType<PermissionDto>
+public class SettlementReportType : ObjectType<SettlementReport>
 {
-    protected override void Configure(IObjectTypeDescriptor<PermissionDto> descriptor)
+    protected override void Configure(
+        IObjectTypeDescriptor<SettlementReport> descriptor)
     {
-        descriptor.Name("Permission");
+        descriptor.Name("SettlementReport");
 
         descriptor
-           .Field("userRoles")
-           .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
+           .Field("settlementReportDownloadUrl")
+           .ResolveWith<WholesaleResolvers>(c => c.GetSettlementReportDownloadUrl(default!, default!, default!));
     }
 }

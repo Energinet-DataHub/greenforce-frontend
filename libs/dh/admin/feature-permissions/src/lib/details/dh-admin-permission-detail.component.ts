@@ -98,7 +98,7 @@ export class DhAdminPermissionDetailComponent {
     this.subscription = this.getPermissionsQuery.valueChanges
       .pipe(
         map((result) =>
-          result.data.permissions.find((permission) => permission.id === permissionId)
+          result.data.permissions.permissions.find((permission) => permission.id === permissionId)
         )
       )
       .subscribe({

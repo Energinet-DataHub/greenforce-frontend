@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-import { GetPermissionsDocument } from './generated/graphql';
-
-export type PermissionDto = ResultOf<
-  typeof GetPermissionsDocument
->['permissions']['permissions'][0];
+export { WattDatetimepickerComponent } from './watt-datetimepicker.component';

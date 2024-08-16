@@ -18,8 +18,8 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type DhSettlementReport = ResultOf<
-  typeof GetSettlementReportsDocument
->['settlementReports'][0];
+export type DhSettlementReport = DhSettlementReports[0];
 
-export type DhSettlementReports = DhSettlementReport[];
+export type DhSettlementReports = ResultOf<
+  typeof GetSettlementReportsDocument
+>['settlementReports'];

@@ -58,7 +58,7 @@ limitations under the License.
       <dh-settlement-reports-status
         [status]="entry.statusType"
         [progress]="entry.progress"
-        (download)="downloadReport(entry.id)"
+        (download)="downloadReport(entry.settlementReportDownloadUrl)"
       />
     </ng-container>
   </watt-table>

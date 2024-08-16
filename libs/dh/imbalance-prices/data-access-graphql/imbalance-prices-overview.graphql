@@ -1,5 +1,6 @@
 query GetImbalancePricesOverview {
   imbalancePricesOverview {
+    uploadImbalancePricesUrl
     pricePeriods {
       name
       priceAreaCode
