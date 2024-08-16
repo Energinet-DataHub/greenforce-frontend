@@ -51,6 +51,7 @@ import {
   GetFilteredActorsDocument,
   GetAssociatedActorsDocument,
   InviteUserDocument,
+  UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -92,7 +93,9 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   inviteUserModal = viewChild.required<WattModalComponent>('inviteUserModal');
   closed = output<void>();
 
-  inviteUserMutation = mutation(InviteUserDocument);
+  inviteUserMutation = mutation(InviteUserDocument, {
+    refetchQueries: [UserOverviewSearchDocument],
+  });
 
   isInvitingUser = this.inviteUserMutation.loading;
 
