@@ -92,7 +92,7 @@ export class DhSettlementReportsTableComponent {
     });
   }
 
-  downloadReport(settlementReportDownloadUrl: string | undefined) {
+  downloadReport(settlementReportDownloadUrl: string | undefined | null) {
     const fileOptions = { name: 'SettlementReport.zip', type: 'application/zip' };
 
     if (!settlementReportDownloadUrl) {
@@ -109,7 +109,7 @@ export class DhSettlementReportsTableComponent {
     });
 
     this.httpClient
-      .get(settlementReportDownloadUrl)
+      .get(settlementReportDownloadUrl, { responseType: 'blob' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
