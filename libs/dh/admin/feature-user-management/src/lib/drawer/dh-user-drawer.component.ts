@@ -46,6 +46,7 @@ import {
   ReInviteUserDocument,
   DeactivateUserDocument,
   ReActivateUserDocument,
+  UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
@@ -99,10 +100,16 @@ export class DhUserDrawerComponent {
 
   UserStatus = UserStatus;
 
-  reInviteUserMutation = mutation(ReInviteUserDocument);
-  reset2faMutation = mutation(Reset2faDocument);
-  deactivateUserMutation = mutation(DeactivateUserDocument);
-  reActivateUserMutation = mutation(ReActivateUserDocument);
+  reInviteUserMutation = mutation(ReInviteUserDocument, {
+    refetchQueries: [UserOverviewSearchDocument],
+  });
+  reset2faMutation = mutation(Reset2faDocument, { refetchQueries: [UserOverviewSearchDocument] });
+  deactivateUserMutation = mutation(DeactivateUserDocument, {
+    refetchQueries: [UserOverviewSearchDocument],
+  });
+  reActivateUserMutation = mutation(ReActivateUserDocument, {
+    refetchQueries: [UserOverviewSearchDocument],
+  });
 
   isReinviting = this.reInviteUserMutation.loading;
   isDeactivating = this.deactivateUserMutation.loading;
