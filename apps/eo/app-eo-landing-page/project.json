@@ -50,7 +50,10 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": [
+            "libs/eo/shared/styles/src/lib",
+            "libs/watt/src/lib/core/styles"
+          ]
         },
         "styles": [
           "apps/eo/app-eo-landing-page/src/styles.scss",
