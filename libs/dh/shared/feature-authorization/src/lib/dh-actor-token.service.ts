@@ -145,10 +145,10 @@ export class DhActorTokenService {
   }
 
   private isUserActorsRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.endsWith('/v1/MarketParticipantUser/GetUserActors');
+    return request.url.endsWith(this.apiToken.getUserActorsUrl);
   }
 
   private isTokenRequest(request: HttpRequest<unknown>): boolean {
-    return request.url.includes('/v1/Token');
+    return request.url.includes(this.apiToken.getTokenUrl);
   }
 }
