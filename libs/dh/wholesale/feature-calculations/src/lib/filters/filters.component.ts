@@ -29,7 +29,7 @@ import { debounceTime } from 'rxjs';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/picker/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
   CalculationOrchestrationState,

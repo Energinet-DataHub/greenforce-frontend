@@ -19,8 +19,8 @@ import { ControlValueAccessor, FormBuilder, NgControl, ReactiveFormsModule } fro
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import dayjs from 'dayjs';
 
-import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattTimepickerComponent } from '@energinet-datahub/watt/picker/timepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/picker/datepicker';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({

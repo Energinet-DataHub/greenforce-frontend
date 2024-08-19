@@ -66,7 +66,7 @@ function minutesToTime(value: number): string {
 }
 /**
  * Usage:
- * `import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';`
+ * `import { WattTimepickerComponent } from '@energinet-datahub/watt/picker/timepicker';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.

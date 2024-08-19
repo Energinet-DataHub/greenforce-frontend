@@ -36,7 +36,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/picker/datepicker';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 

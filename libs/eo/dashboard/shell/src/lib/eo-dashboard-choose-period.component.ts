@@ -24,7 +24,7 @@ import { DateRange } from '@angular/material/datepicker';
 import {
   WattDateChipComponent,
   WattDateRangeChipComponent,
-} from '@energinet-datahub/watt/datepicker';
+} from '@energinet-datahub/watt/picker/datepicker';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';

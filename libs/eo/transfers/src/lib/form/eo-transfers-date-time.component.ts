@@ -37,7 +37,7 @@ import {
   Validator,
   Validators,
 } from '@angular/forms';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/picker/datepicker';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 

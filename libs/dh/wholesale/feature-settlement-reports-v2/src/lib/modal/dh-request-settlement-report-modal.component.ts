@@ -48,7 +48,7 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import {
   WattDatepickerComponent,
   danishTimeZoneIdentifier,
-} from '@energinet-datahub/watt/datepicker';
+} from '@energinet-datahub/watt/picker/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import {

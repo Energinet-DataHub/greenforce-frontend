@@ -40,7 +40,7 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/picker/datepicker';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { translations } from '@energinet-datahub/eo/translations';

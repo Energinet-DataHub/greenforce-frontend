@@ -33,7 +33,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/picker/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
