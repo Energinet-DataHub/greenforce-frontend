@@ -37,14 +37,14 @@ on:
     branches:
       - main
     paths:
-      - 'libs/watt/**'
-      - 'package.json'
+      - libs/watt/**
+      - package.json
   pull_request:
     branches:
       - main
     paths:
-      - 'libs/watt/**'
-      - 'package.json'
+      - libs/watt/**
+      - package.json
   workflow_dispatch: {}
 
 jobs:
