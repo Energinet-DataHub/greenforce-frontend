@@ -137,7 +137,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
     description: this.formBuilder.nonNullable.control('', [Validators.required]),
-    permissionIds: this.formBuilder.nonNullable.control<number[]>([], [Validators.required]),
+    permissionIds: this.formBuilder.nonNullable.control<number[]>([], []),
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
