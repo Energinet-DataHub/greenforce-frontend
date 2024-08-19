@@ -437,6 +437,9 @@
       "@energinet-datahub/watt/phone-field": [
         "libs/watt/src/lib/phone-field/index.ts"
       ],
+      "@energinet-datahub/watt/query-params": [
+        "libs/watt/src/lib/query-params/index.ts"
+      ],
       "@energinet-datahub/watt/picker/shared": [
         "libs/watt/src/lib/picker/shared/index.ts"
       ],

@@ -38,7 +38,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { ActorsFilters } from '../actors-filters';
 

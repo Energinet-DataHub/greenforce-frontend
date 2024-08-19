@@ -26,7 +26,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export interface DhUserRolesFilters {

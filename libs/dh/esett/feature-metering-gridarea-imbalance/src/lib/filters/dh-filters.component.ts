@@ -41,7 +41,7 @@ import {
 import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
 
