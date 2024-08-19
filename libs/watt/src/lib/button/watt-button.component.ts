@@ -48,7 +48,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       <div
         [ngClass]="{
           'content-wrapper--loading': loading,
-          'content-wrapper': !loading
+          'content-wrapper': !loading,
         }"
       >
         @if (hasIcon()) {

@@ -156,7 +156,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                         endDate:
                           (error.endDate | wattDate: 'long') ||
                             translations.createTransferAgreementProposal.timeframe.endDate
-                              .noEndDateLabel | transloco
+                              .noEndDateLabel | transloco,
                       }
               }}
             }
@@ -229,7 +229,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                             endDate:
                               (error.endDate | wattDate: 'long') ||
                                 translations.createTransferAgreementProposal.timeframe.endDate
-                                  .noEndDateLabel | transloco
+                                  .noEndDateLabel | transloco,
                           }
                   }}
                 }
@@ -247,7 +247,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                             endDate:
                               (error.endDate | wattDate: 'long') ||
                                 translations.createTransferAgreementProposal.timeframe.endDate
-                                  .noEndDateLabel | transloco
+                                  .noEndDateLabel | transloco,
                           }
                   }}
                 }

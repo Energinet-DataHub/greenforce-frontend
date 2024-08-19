@@ -119,12 +119,12 @@ interface EoTransferTableElement extends EoListedTransfer {
           [options]="[
             {
               value: 'true',
-              displayValue: translations.transfers.activeTransferAgreement | transloco
+              displayValue: translations.transfers.activeTransferAgreement | transloco,
             },
             {
               value: 'false',
-              displayValue: translations.transfers.inactiveTransferAgreement | transloco
-            }
+              displayValue: translations.transfers.inactiveTransferAgreement | transloco,
+            },
           ]"
         />
       </form>
