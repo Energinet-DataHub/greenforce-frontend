@@ -54,7 +54,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     dh-delegation-stop-modal {
       display: block;
 
-      vater-stack[align="flex-start"] {
+      vater-stack[align='flex-start'] {
         margin-top: var(--watt-space-m);
       }
 
