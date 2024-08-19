@@ -477,11 +477,11 @@
       "@energinet-datahub/watt/utils/styles": [
         "libs/watt/src/lib/utils/styles/index.ts"
       ],
-      "@energinet-datahub/watt/validation-message": [
-        "libs/watt/src/lib/validation-message/index.ts"
-      ],
       "@energinet-datahub/watt/utils/validators": [
         "libs/watt/src/lib/utils/validators/index.ts"
+      ],
+      "@energinet-datahub/watt/validation-message": [
+        "libs/watt/src/lib/validation-message/index.ts"
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/vater/index.ts"],
       "rxjs": ["./node_modules/rxjs"],

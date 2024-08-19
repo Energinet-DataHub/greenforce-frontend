@@ -37,7 +37,6 @@ import { WattRangeValidators } from '@energinet-datahub/watt/utils/validators';
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
 
-
 @Component({
   selector: 'watt-field',
   standalone: true,
