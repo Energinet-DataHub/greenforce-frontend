@@ -21,8 +21,9 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { WattIconComponent } from '../../foundations/icon/icon.component';
-import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
+
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   imports: [WattIconComponent, WattSpinnerComponent],

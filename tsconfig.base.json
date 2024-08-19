@@ -410,7 +410,7 @@
         "libs/watt/src/lib/picker/datepicker/index.ts"
       ],
       "@energinet-datahub/watt/datetimepicker": [
-        "libs/watt/src/lib/components/picker/datetimepicker/index.ts"
+        "libs/watt/src/lib/picker/datetimepicker/index.ts"
       ],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/description-list/index.ts"
@@ -436,6 +436,9 @@
       "@energinet-datahub/watt/modal": ["libs/watt/src/lib/modal/index.ts"],
       "@energinet-datahub/watt/phone-field": [
         "libs/watt/src/lib/phone-field/index.ts"
+      ],
+      "@energinet-datahub/watt/progress-tracker": [
+        "libs/watt/src/lib/progress-tracker/index.ts"
       ],
       "@energinet-datahub/watt/picker/shared": [
         "libs/watt/src/lib/picker/shared/index.ts"

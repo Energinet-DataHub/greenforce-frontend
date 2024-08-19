@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { Component, DestroyRef, inject, input, OnInit, ViewEncapsulation } from '@angular/core';
-import { WattTimepickerComponent } from '../timepicker';
-import { WattDatepickerComponent } from '../datepicker';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { ControlValueAccessor, FormBuilder, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import dayjs from 'dayjs';
+
+import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   standalone: true,

@@ -24,7 +24,7 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { localizationProviders } from '../shared/+storybook/storybook-configuration-localization.providers';
-import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDatetimepickerComponent } from './watt-datetimepicker.component';
 import dayjs from 'dayjs';
 

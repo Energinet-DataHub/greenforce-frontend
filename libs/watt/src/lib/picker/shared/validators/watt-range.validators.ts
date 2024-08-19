@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { WattDateRange } from '../../../../utils/date';
+import { WattDateRange } from '@energinet-datahub/watt/utils/date';
 
 export class WattRangeValidators {
   static required: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
