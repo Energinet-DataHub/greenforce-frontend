@@ -17,9 +17,10 @@ limitations under the License.
 <form
   vater-stack
   direction="row"
-  gap="m"
+  gap="s"
   tabindex="-1"
   [formGroup]="formGroup"
+  wattQueryParams
   *transloco="let translate; read: 'eSett.meteringGridAreaImbalance.filters'"
 >
   <watt-dropdown
@@ -32,7 +33,7 @@ limitations under the License.
 
   <watt-dropdown
     dhDropdownTranslator
-    translate="eSett.meteringGridAreaImbalance.shared.valuesToInclude"
+    translateKey="eSett.meteringGridAreaImbalance.shared.valuesToInclude"
     [formControl]="formGroup.controls.valuesToInclude!"
     [options]="valuestoIncludeOptions"
     [chipMode]="true"

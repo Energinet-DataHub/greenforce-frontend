@@ -435,7 +435,6 @@ build/terraform/**/*.tfvars
 /coverage
 /libpeerconnection.log
 npm-debug.log
-yarn-error.log
 testem.log
 /typings
 
@@ -447,13 +446,6 @@ Thumbs.db
 documentation.json
 
 .angular
-
-# Yarn
-.yarnrc
-!.yarn/[Rr]eleases/
-.yarn/install-state.gz
-.yarn/cache
-.yarn/ci-cache/install-state.gz
 
 #Poor man monorepo
 backend/*
@@ -475,6 +467,7 @@ __azurite*
 __blobstorage*
 
 .nx/cache
+.nx/workspace-data
 
 # Verify mismatch file
 *.received.*

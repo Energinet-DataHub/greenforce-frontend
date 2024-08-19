@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, Subscription, of, switchMap, takeUntil } from 'rxjs';
+import { Subscription, of, switchMap, takeUntil } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -39,8 +40,6 @@ import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
@@ -83,8 +82,8 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 })
 export class DhOutgoingMessageDrawerComponent {
   private readonly apollo = inject(Apollo);
-  private readonly esettHttp = inject(EsettExchangeHttp);
   private readonly toastService = inject(WattToastService);
+  private readonly httpClient = inject(HttpClient);
 
   private subscription?: Subscription;
 
@@ -143,9 +142,7 @@ export class DhOutgoingMessageDrawerComponent {
             this.outgoingMessage.documentId &&
             this.outgoingMessage.documentStatus !== DocumentStatus.Received
           ) {
-            this.loadDispatchDocument(this.outgoingMessage.documentId).subscribe((res) =>
-              this.dispatchDocument.set(res)
-            );
+            this.loadDocument(this.outgoingMessage.dispatchDocumentUrl, this.dispatchDocument.set);
           }
 
           if (
@@ -154,32 +151,15 @@ export class DhOutgoingMessageDrawerComponent {
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
               this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
           ) {
-            this.loadResponseDocument(this.outgoingMessage.documentId).subscribe((res) =>
-              this.responseDocument.set(res)
-            );
+            this.loadDocument(this.outgoingMessage.responseDocumentUrl, this.responseDocument.set);
           }
         },
       });
   }
 
-  private loadResponseDocument(documentId: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeResponseDocumentGet(documentId).pipe(
-      switchMap((res) => {
-        const blob = res as unknown as Blob;
-        return new Response(blob).text();
-      }),
-      takeUntil(this.closed)
-    );
-  }
-
-  private loadDispatchDocument(documentId: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeDispatchDocumentGet(documentId).pipe(
-      switchMap((res) => {
-        const blob = res as unknown as Blob;
-        return new Response(blob).text();
-      }),
-      takeUntil(this.closed)
-    );
+  private loadDocument(url: string | null | undefined, setDocument: (doc: string) => void) {
+    if (!url) return;
+    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
   }
 
   downloadXML(documentType: 'message' | 'receipt') {

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, DestroyRef, OnInit, effect, inject, input, output } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject, input, output } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -44,11 +44,13 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+
 import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-relation';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' | 'eicFunction'>>;
+type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 
 @Component({
   standalone: true,
@@ -74,32 +76,33 @@ type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' 
       width: 85%;
     }
   `,
-  template: ` <form
+  template: `<form
     vater-stack
     direction="row"
-    gap="m"
+    gap="s"
     tabindex="-1"
     fill="horizontal"
     *transloco="
       let t;
       read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
     "
-    [formGroup]="filterForm"
+    [formGroup]="filtersForm"
   >
     <watt-dropdown
       [placeholder]="t('status')"
       [chipMode]="true"
       [options]="statusOptions"
-      [formControl]="filterForm.controls.status!"
+      [formControl]="filtersForm.controls.status!"
       dhDropdownTranslator
-      translate="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
+      translateKey="marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.statusOptions"
     />
+
     @if (marketRole() === eicFunction.BalanceResponsibleParty) {
       <watt-dropdown
         [placeholder]="t('energySupplier')"
         [chipMode]="true"
         [options]="energySupplierOptions$ | push"
-        [formControl]="filterForm.controls.energySupplierWithNameId!"
+        [formControl]="filtersForm.controls.energySupplierWithNameId!"
       />
     }
 
@@ -108,7 +111,7 @@ type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' 
         [placeholder]="t('balanceResponsible')"
         [chipMode]="true"
         [options]="balanceResponsibleOptions$ | push"
-        [formControl]="filterForm.controls.balanceResponsibleWithNameId!"
+        [formControl]="filtersForm.controls.balanceResponsibleWithNameId!"
       />
     }
 
@@ -116,17 +119,21 @@ type Filters = FormControls<Omit<DhBalanceResponsibleRelationFilters, 'actorId' 
       [placeholder]="t('gridArea')"
       [chipMode]="true"
       [options]="gridAreaOptions$ | push"
-      [formControl]="filterForm.controls.gridAreaCode!"
+      [formControl]="filtersForm.controls.gridAreaCode!"
     />
+
     <vater-spacer />
+
     <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
   </form>`,
 })
 export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  marketRole = input.required<EicFunction>();
-  inital = input.required<DhBalanceResponsibleRelationFilters>();
-  filter = output<Partial<DhBalanceResponsibleRelationFilters>>();
+
+  actor = input.required<DhActorExtended>();
+  marketRole = computed(() => this.actor().marketRole);
+
+  filtersChanges = output<Partial<DhBalanceResponsibleRelationFilters>>();
 
   searchEvent$ = new BehaviorSubject<string>('');
 
@@ -139,50 +146,29 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
     'asc'
   );
 
-  filterForm!: FormGroup<Filters>;
+  filtersForm = new FormGroup<Filters>({
+    status: dhMakeFormControl(),
+    energySupplierWithNameId: dhMakeFormControl(),
+    balanceResponsibleWithNameId: dhMakeFormControl(),
+    gridAreaCode: dhMakeFormControl(),
+    search: dhMakeFormControl(),
+  });
 
   constructor() {
-    effect(() => {
-      const {
-        status,
-        energySupplierWithNameId,
-        balanceResponsibleWithNameId,
-        gridAreaCode: gridAreaId,
-        search,
-      } = this.inital();
-
-      this.filterForm.patchValue(
-        {
-          status: status ?? null,
-          energySupplierWithNameId: energySupplierWithNameId ?? null,
-          balanceResponsibleWithNameId: balanceResponsibleWithNameId ?? null,
-          gridAreaCode: gridAreaId ?? null,
-          search: search ?? null,
-        },
-        { emitEvent: false }
-      );
-    });
+    toObservable(this.actor)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.filtersForm.reset());
   }
 
   ngOnInit(): void {
-    const { status, energySupplierWithNameId, balanceResponsibleWithNameId, gridAreaCode, search } =
-      this.inital();
-    this.filterForm = new FormGroup<Filters>({
-      status: dhMakeFormControl(status),
-      energySupplierWithNameId: dhMakeFormControl(energySupplierWithNameId),
-      balanceResponsibleWithNameId: dhMakeFormControl(balanceResponsibleWithNameId),
-      gridAreaCode: dhMakeFormControl(gridAreaCode),
-      search: dhMakeFormControl(search),
-    });
-
-    this.filterForm.valueChanges
+    this.filtersForm.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) =>
-        this.filter.emit(value as Partial<DhBalanceResponsibleRelationFilters>)
+        this.filtersChanges.emit(value as Partial<DhBalanceResponsibleRelationFilters>)
       );
 
-    this.searchEvent$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((search) => {
-      this.filterForm.patchValue({ search: search === '' ? null : search });
+    this.searchEvent$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+      this.filtersForm.patchValue({ search: value === '' ? null : value });
     });
   }
 }

@@ -5,47 +5,40 @@
     "version": "3.0"
   },
   "paths": {
-    "/v3/calculations": {
-      "post": {
+    "/v3/calculations/{calculationId}": {
+      "get": {
         "tags": [
           "Calculation"
         ],
-        "summary": "Create a calculation.",
-        "operationId": "CreateCalculation",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CalculationRequestDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CalculationRequestDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CalculationRequestDto"
-              }
+        "summary": "Returns a calculation matching calculationId.",
+        "operationId": "GetCalculation",
+        "parameters": [
+          {
+            "name": "calculationId",
+            "in": "path",
+            "required": true,
+            "description": "CalculationId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
-          },
-          "required": true
-        },
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/CalculationDto"
                 }
               }
             }
           }
         }
-      },
+      }
+    },
+    "/v3/calculations": {
       "get": {
         "tags": [
           "Calculation"
@@ -69,7 +62,11 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/CalculationState"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/CalculationState"
+                }
+              ]
             }
           },
           {
@@ -126,22 +123,50 @@
         }
       }
     },
-    "/v3/calculations/{calculationId}": {
+    "/v3/SettlementReport": {
       "get": {
         "tags": [
-          "Calculation"
+          "SettlementReport"
         ],
-        "summary": "Returns a calculation matching calculationId.",
-        "operationId": "GetCalculation",
+        "summary": "Returns a subset of calculations that are valid for use with settlement reports.\r\nSettlement reports must access only a subset of data about calculations, as settlement reports are used by actors.",
+        "operationId": "GetApplicableCalculations",
         "parameters": [
           {
-            "name": "calculationId",
-            "in": "path",
-            "required": true,
-            "description": "CalculationId",
+            "name": "calculationType",
+            "in": "query",
+            "schema": {
+              "description": "Defines the wholesale calculation type",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/CalculationType"
+                }
+              ]
+            }
+          },
+          {
+            "name": "gridAreaCodes",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "periodStart",
+            "in": "query",
             "schema": {
               "type": "string",
-              "format": "uuid"
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodEnd",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
             }
           }
         ],
@@ -151,88 +176,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CalculationDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v3/SettlementReport/Download": {
-      "get": {
-        "tags": [
-          "SettlementReport"
-        ],
-        "summary": "Downloads a compressed settlement report for the specified parameters.",
-        "operationId": "Download",
-        "parameters": [
-          {
-            "name": "gridAreaCodes",
-            "in": "query",
-            "required": true,
-            "description": "A list of grid areas to create the settlement report for.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "calculationType",
-            "in": "query",
-            "required": true,
-            "description": "Currently expects BalanceFixing only.",
-            "schema": {
-              "$ref": "#/components/schemas/CalculationType"
-            }
-          },
-          {
-            "name": "periodStart",
-            "in": "query",
-            "required": true,
-            "description": "The start date and time of the period covered by the settlement report.",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "periodEnd",
-            "in": "query",
-            "required": true,
-            "description": "The end date and time of the period covered by the settlement report.",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "energySupplier",
-            "in": "query",
-            "description": "Optional GLN/EIC identifier for an energy supplier.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "csvFormatLocale",
-            "in": "query",
-            "description": "Optional locale used to format the CSV file, e.g. da-DK. Defaults to en-US.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": null,
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SettlementReportApplicableCalculationDto"
+                  }
                 }
               }
             }
@@ -282,7 +229,18 @@
             "nullable": true
           },
           "executionState": {
-            "$ref": "#/components/schemas/CalculationState"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationState"
+              }
+            ]
+          },
+          "orchestrationState": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationOrchestrationState"
+              }
+            ]
           },
           "areSettlementReportsCreated": {
             "type": "boolean"
@@ -294,37 +252,36 @@
             }
           },
           "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
+            "description": "Defines the wholesale calculation type",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
           },
           "createdByUserId": {
             "type": "string",
             "format": "uuid"
+          },
+          "completedTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
-      "CalculationRequestDto": {
-        "type": "object",
-        "description": "An immutable request to create a calculation.",
-        "additionalProperties": false,
-        "properties": {
-          "calculationType": {
-            "$ref": "#/components/schemas/CalculationType"
-          },
-          "gridAreaCodes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
+      "CalculationOrchestrationState": {
+        "type": "string",
+        "enum": [
+          "Scheduled",
+          "Calculating",
+          "Calculated",
+          "CalculationFailed",
+          "ActorMessagesEnqueuing",
+          "ActorMessagesEnqueued",
+          "ActorMessagesEnqueuingFailed",
+          "Completed"
+        ]
       },
       "CalculationState": {
         "type": "string",
@@ -346,13 +303,38 @@
           "SecondCorrectionSettlement",
           "ThirdCorrectionSettlement"
         ]
+      },
+      "SettlementReportApplicableCalculationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "calculationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "calculationTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
         "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        "scheme": "bearer"
+        "scheme": "Bearer"
       }
     }
   },

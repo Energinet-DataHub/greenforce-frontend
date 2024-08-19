@@ -67,18 +67,24 @@ export default {
 const template = `
 
 <watt-datepicker label="Single date" [formControl]="exampleFormControlSingle">
-  <watt-field-error *ngIf="exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days">Start date cannot be older than 3 days</watt-field-error>
+  @if (exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days) {
+    <watt-field-error>Start date cannot be older than 3 days</watt-field-error>
+  }
 </watt-datepicker>
 
 <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
+@if (withValidations) {
+  <p>Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
+}
 
 <br />
 
 <watt-datepicker label="Date range" [formControl]="exampleFormControlRange" [range]="true" />
 
 <p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
+@if (withValidations) {
+  <p>Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
+}
 
 <watt-date-chip [formControl]="exampleChipFormControlSingle">
   Single date
@@ -86,14 +92,18 @@ const template = `
 
 
 <p>Value: <code>{{ exampleChipFormControlSingle.value | json }}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlSingle?.errors | json }}</code></p>
+@if (withValidations) {
+  <p>Errors: <code>{{ exampleChipFormControlSingle?.errors | json }}</code></p>
+}
 
 <watt-date-range-chip [formControl]="exampleChipFormControlRange">
   Date range
 </watt-date-range-chip>
 
 <p>Selected range: <code data-testid="rangeValue">{{ exampleChipFormControlRange.value | json }}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{ exampleChipFormControlRange?.errors | json }}</code></p>
+@if (withValidations) {
+  <p>Errors: <code>{{ exampleChipFormControlRange?.errors | json }}</code></p>
+}
 `;
 
 export const WithFormControl: StoryFn<WattDatepickerStoryConfig> = (args) => ({
@@ -143,9 +153,9 @@ export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({
       Validators.required,
       startDateCannotBeOlderThan3DaysValidator(),
     ]),
-    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
+    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required]),
     exampleChipFormControlSingle: new FormControl(null, [Validators.required]),
-    exampleChipFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
+    exampleChipFormControlRange: new FormControl(null, [WattRangeValidators.required]),
     withValidations: true,
     ...args,
   },

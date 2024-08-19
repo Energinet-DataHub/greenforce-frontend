@@ -29,30 +29,6 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         _client = client;
     }
 
-    [HttpPost]
-    [Route("InviteUser")]
-    public Task<ActionResult> InviteUserAsync(UserInvitationDto invite)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UsersInviteAsync(invite));
-    }
-
-    [HttpPost]
-    [Route("ReInviteUser")]
-    public Task<ActionResult> ReInviteUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UsersReinviteAsync(userId));
-    }
-
-    [HttpPost]
-    [Route("ResetUser2Fa")]
-    public Task<ActionResult> ResetTwoFactorAuthenticationAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() =>
-            _client.UserReset2faAsync(userId));
-    }
-
     /// <summary>
     ///     Retrieves actors associated with the users external actor token.
     /// </summary>
@@ -66,77 +42,10 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         return HandleExceptionAsync(() => _client.UserActorsGetAsync(externalToken));
     }
 
-    /// <summary>
-    ///     Retrieves actors associated with the userId specified, ensures only actors you are allowed to see are returned.
-    /// </summary>
-    [HttpGet]
-    [Route("GetUserActorsByUserId")]
-    public Task<ActionResult<GetActorsAssociatedWithUserResponse>> GetUserActorsByUserIdAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.UserActorsGetAsync(userId));
-    }
-
-    [HttpPut]
-    [Route("UpdateUserIdentity")]
-    public Task<ActionResult> UpdateUserIdentityAsync(Guid userId, UserIdentityUpdateDto userIdentityUpdateDto)
-    {
-        return HandleExceptionAsync(() => _client.UserUseridentityAsync(userId, userIdentityUpdateDto));
-    }
-
-    /// <summary>
-    /// Initiates MitID signup
-    /// </summary>
-    [HttpPost]
-    [Route("InitiateMitIdSignup")]
-    public Task InitiateMitIdSignupAsync()
-    {
-        return HandleExceptionAsync(() => _client.UserInitiateMitidSignupAsync());
-    }
-
     [HttpPost]
     [Route("ResetMitId")]
     public Task ResetMitIdAsync()
     {
         return HandleExceptionAsync(() => _client.UserResetMitidAsync());
-    }
-
-    /// <summary>
-    /// Deactivates the specified user.
-    /// </summary>
-    [HttpPut]
-    [Route("DeactivateUser")]
-    public Task<ActionResult> DeactivateUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.UserDeactivateAsync(userId));
-    }
-
-    /// <summary>
-    /// Reactivates the specified user.
-    /// </summary>
-    [HttpPut]
-    [Route("ReActivateUser")]
-    public Task<ActionResult> ReActivateUserAsync(Guid userId)
-    {
-        return HandleExceptionAsync(() => _client.UserReactivateAsync(userId));
-    }
-
-    /// <summary>
-    /// Returns current user profile.
-    /// </summary>
-    [HttpGet]
-    [Route("GetUserProfile")]
-    public Task<ActionResult<GetUserProfileResponse>> GetUserProfileAsync()
-    {
-        return HandleExceptionAsync(() => _client.UserUserprofileGetAsync());
-    }
-
-    /// <summary>
-    /// Updates current user profile.
-    /// </summary>
-    [HttpPut]
-    [Route("UpdateUserProfile")]
-    public Task<ActionResult> UpdateUserProfileAsync(UserProfileUpdateDto userProfileUpdateDto)
-    {
-        return HandleExceptionAsync(() => _client.UserUserprofilePutAsync(userProfileUpdateDto));
     }
 }

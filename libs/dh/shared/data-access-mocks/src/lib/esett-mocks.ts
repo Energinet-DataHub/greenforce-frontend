@@ -25,7 +25,6 @@ import {
   mockResendExchangeMessagesMutation,
   mockDownloadEsettExchangeEventsQuery,
   mockDownloadMeteringGridAreaImbalanceQuery,
-  mockDownloadBalanceResponsiblesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -48,7 +47,7 @@ export function eSettMocks(apiBase: string) {
     getOutgoingMessageByIdQuery(),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
-    getBalanceResponsibleMessagesQuery(),
+    getBalanceResponsibleMessagesQuery(apiBase),
     getMeteringGridAreaImbalanceQuery(),
     getStorageDocumentLink(apiBase),
     getMgaImbalanceDocument(apiBase),
@@ -57,7 +56,7 @@ export function eSettMocks(apiBase: string) {
     resendMessageMutation(),
     downloadEsettExchangeEventsQuery(),
     downloadMeteringGridAreaImbalanceQuery(),
-    downloadBalanceResponsiblesQuery(),
+    downloadBalanceResponsiblesQuery(apiBase),
   ];
 }
 
@@ -140,17 +139,19 @@ function getOutgoingMessagesQuery() {
   });
 }
 
-function getBalanceResponsibleMessagesQuery() {
+function getBalanceResponsibleMessagesQuery(apiBase: string) {
   return mockGetBalanceResponsibleMessagesQuery(async () => {
     await delay(mswConfig.delay);
+    const messages = eSettBalanceResponsibleMessages(apiBase);
     return HttpResponse.json(
       {
         data: {
           __typename: 'Query',
           balanceResponsible: {
             __typename: 'BalanceResponsiblePageResult',
-            totalCount: eSettBalanceResponsibleMessages.length,
-            page: eSettBalanceResponsibleMessages,
+            balanceResponsiblesUrl: `${apiBase}/v1/EsettExchange/DownloadBalanceResponsibles`,
+            totalCount: messages.length,
+            page: messages,
           },
         },
       },
@@ -243,10 +244,9 @@ function downloadMeteringGridAreaImbalanceQuery() {
   });
 }
 
-function downloadBalanceResponsiblesQuery() {
-  return mockDownloadBalanceResponsiblesQuery(async () => {
+function downloadBalanceResponsiblesQuery(apiBase: string) {
+  return http.get(`${apiBase}/v1/EsettExchange/DownloadBalanceResponsibles`, async () => {
     await delay(mswConfig.delay);
-
     return HttpResponse.json(
       {
         data: {

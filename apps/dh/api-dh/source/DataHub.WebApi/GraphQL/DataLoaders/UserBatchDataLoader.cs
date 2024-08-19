@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
+public class UserBatchDataLoader : BatchDataLoader<Guid, AuditIdentityDto>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
@@ -27,16 +27,12 @@ public class UserBatchDataLoader : BatchDataLoader<Guid, UserOverviewItemDto>
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<Guid, UserOverviewItemDto>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
+    protected override async Task<IReadOnlyDictionary<Guid, AuditIdentityDto>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
     {
-        var filters = new UserOverviewFilterDto()
-        {
-            ActorId = null,
-            SearchText = null,
-            UserRoleIds = Array.Empty<Guid>(),
-            UserStatus = Array.Empty<UserStatus>(),
-        };
-        var result = await _client.UserOverviewUsersSearchAsync(1, int.MaxValue, UserOverviewSortProperty.Email, SortDirection.Asc, filters, cancellationToken);
-        return result.Users.ToDictionary(x => x.Id);
+        var auditIdentities = await _client
+            .AuditIdentityPostAsync(keys, cancellationToken)
+            .ConfigureAwait(false);
+
+        return auditIdentities.ToDictionary(ident => ident.AuditIdentityId);
     }
 }

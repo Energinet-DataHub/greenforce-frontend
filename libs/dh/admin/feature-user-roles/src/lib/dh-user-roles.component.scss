@@ -33,8 +33,8 @@ watt-empty-state {
   padding: var(--watt-space-xl);
 }
 
-watt-spinner {
+.loading-container {
   display: flex;
   justify-content: center;
-  margin-top: var(--watt-space-xl);
+  margin-top: var(--watt-space-m);
 }

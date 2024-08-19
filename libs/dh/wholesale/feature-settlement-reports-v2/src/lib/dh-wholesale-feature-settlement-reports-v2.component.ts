@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   VaterFlexComponent,
@@ -30,7 +30,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhSettlementReports } from './dh-settlement-report';
 import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports-table.component';
 import { DhRequestSettlementReportButtonComponent } from './button/dh-request-settlement-report-button.component';
 
@@ -80,7 +79,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
             </watt-empty-state>
           </vater-stack>
         } @else {
-          <vater-flex gap="ml">
+          <vater-flex fill="vertical" gap="ml">
             <vater-stack direction="row" gap="s">
               <h3>{{ t('topBarTitle') }}</h3>
               <span class="watt-chip-label">{{ totalCount() }}</span>
@@ -98,34 +97,12 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
   `,
 })
 export class DhWholesaleFeatureSettlementReportsV2Component {
-  private readonly apollo = inject(Apollo);
-
-  private readonly settlementReportsQuery = this.apollo.watchQuery({
+  private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {
     fetchPolicy: 'network-only',
-    query: GetSettlementReportsDocument,
   });
 
-  settlementReports = signal<DhSettlementReports>([]);
+  settlementReports = computed(() => this.settlementReportsQuery.data()?.settlementReports ?? []);
   totalCount = computed(() => this.settlementReports().length);
-  isLoading = signal(false);
-  hasError = signal(false);
-
-  constructor() {
-    this.fetchData();
-  }
-
-  private fetchData(): void {
-    this.settlementReportsQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
-      next: ({ loading, data }) => {
-        this.isLoading.set(loading);
-
-        this.settlementReports.set(data?.settlementReports ?? []);
-      },
-      error: () => {
-        this.isLoading.set(false);
-        this.hasError.set(true);
-        this.settlementReports.set([]);
-      },
-    });
-  }
+  isLoading = this.settlementReportsQuery.loading;
+  hasError = computed(() => this.settlementReportsQuery.error() !== undefined);
 }

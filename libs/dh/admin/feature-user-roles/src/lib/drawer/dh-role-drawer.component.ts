@@ -28,13 +28,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
 
 import {
   DhRoleStatusComponent,
   DhTabDataGeneralErrorComponent,
 } from '@energinet-datahub/dh/admin/shared';
-import { DhAdminUserRoleWithPermissionsManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUserRoleManagementStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { UserRoleDto, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -46,7 +46,7 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
   standalone: true,
   templateUrl: './dh-role-drawer.component.html',
   styleUrls: [`./dh-role-drawer.component.scss`],
-  providers: [provideComponentStore(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore)],
+  providers: [provideComponentStore(DhUserRoleManagementStore)],
   imports: [
     RxLet,
     RxPush,
@@ -66,14 +66,18 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
   ],
 })
 export class DhRoleDrawerComponent {
-  private readonly store = inject(DhAdminUserRoleWithPermissionsManagementDataAccessApiStore);
+  private readonly store = inject(DhUserRoleManagementStore);
   private toastService = inject(WattToastService);
   private translocoService = inject(TranslocoService);
-  basicUserRole: MarketParticipantUserRoleDto | null = null;
+  basicUserRole: UserRoleDto | null = null;
+
+  UserRoleStatus = UserRoleStatus;
 
   userRoleWithPermissions$ = this.store.userRole$;
   isLoading$ = this.store.isLoading$;
   hasGeneralError$ = this.store.hasGeneralError$;
+
+  deactivateUserRoleIsLoading$ = this.store.deactivateUserRoleIsLoading$;
 
   @ViewChild('drawer')
   drawer!: WattDrawerComponent;
@@ -97,7 +101,7 @@ export class DhRoleDrawerComponent {
     this.basicUserRole = null;
   }
 
-  open(role: MarketParticipantUserRoleDto): void {
+  open(role: UserRoleDto): void {
     this.basicUserRole = role;
     this.drawer.open();
     this.loadUserRoleWithPermissions();
@@ -117,6 +121,7 @@ export class DhRoleDrawerComponent {
         message: this.translocoService.translate('admin.userManagement.drawer.disablingUserRole'),
         type: 'info',
       });
+
       this.store.disableUserRole({
         userRoleId: this.basicUserRole.id,
         onSuccessFn: () => {
@@ -126,6 +131,7 @@ export class DhRoleDrawerComponent {
             ),
             type: 'success',
           });
+
           this.onDeActivated();
         },
       });

@@ -72,7 +72,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
     @if (loading === false && dataSource.filteredData.length === 0 && !hasError) {
       <watt-empty-state
-        *ngIf="loading === false && dataSource.filteredData.length === 0 && !hasError"
         icon="custom-power"
         [title]="translations.claims.noData.title | transloco"
         [message]="translations.claims.noData.message | transloco"
@@ -81,7 +80,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
     @if (loading === false && hasError) {
       <watt-empty-state
-        *ngIf="loading === false && hasError"
         icon="custom-power"
         [title]="translations.claims.error.title | transloco"
         [message]="translations.claims.error.message | transloco"

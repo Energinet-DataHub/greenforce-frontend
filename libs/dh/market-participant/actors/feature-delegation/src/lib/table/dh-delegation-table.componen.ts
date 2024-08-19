@@ -53,7 +53,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
         <ng-container
           *wattTableCell="columns['delegatedTo']; header: t('columns.delegatedTo'); let entry"
         >
-          {{ entry.delegatedTo?.name }}
+          {{ entry.delegatedTo?.glnOrEicNumber }} • {{ entry.delegatedTo?.name }}
         </ng-container>
 
         <ng-container

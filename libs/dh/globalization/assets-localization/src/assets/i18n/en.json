@@ -76,7 +76,8 @@
     },
     "search": "Search",
     "selectedValues": "{{count}} selected",
-    "calculationType": "Calculation type"
+    "calculationType": "Calculation type",
+    "all": "All"
   },
   "clipboard": {
     "success": "Copied",
@@ -99,7 +100,7 @@
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "Request Calculation"
+        "requestCalculation": "Request Calculation Data"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -209,7 +210,18 @@
         "missing_required_value": "Field '{{ param }}' requires a value, but a value was not provided.",
         "invalid_gln": "'{{ value.value }}' is an invalid GLN/EIC",
         "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
-        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'"
+        "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'",
+        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
+        "args": {
+          "param": {
+            "Invitation": {
+              "InvitationUserDetails": {
+                "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
+                "LastName": "{{ admin.userManagement.inviteUser.lastname }}"
+              }
+            }
+          }
+        }
       },
       "validation": {
         "organization": {
@@ -313,6 +325,7 @@
         },
         "glnOrEicNumber": "GLN/EIC",
         "name": "Market participant name",
+        "nameMaxLength": "Name must be under {{ maxLength }} characters",
         "contact": "Contact",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "departmentOrName": "Department/Name",
@@ -347,7 +360,8 @@
         "glnOrEic": "GLN/EIC",
         "name": "Name",
         "marketRole": "Market role",
-        "status": "Status"
+        "status": "Status",
+        "mail": "E-mail"
       },
       "create": "New market participant",
       "actors": "Market Participants",
@@ -355,7 +369,8 @@
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
+        "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
       },
       "status": {
         "Active": "Active",
@@ -525,6 +540,8 @@
         "departmentEmail": "E-mail",
         "departmentPhone": "Phone no.",
         "required": "Field is required",
+        "nameMaxLength": "{{ marketParticipant.actor.create.nameMaxLength }}",
+        "departmentNameMaxLength": "Name must be under {{ maxLength }} characters",
         "invalidEmail": "Invalid e-mail",
         "cancel": "Cancel",
         "save": "Save changes",
@@ -874,12 +891,10 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "scheduling": "Execution",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
-        "summation": "Monthly summation",
         "period": {
           "label": "Period",
           "required": "Date range is required",
@@ -919,26 +934,22 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
-      "executionStates": {
-        "PENDING": "Pending",
-        "EXECUTING": "Running",
-        "COMPLETED": "Finished",
-        "FAILED": "Failed"
+      "states": {
+        "SCHEDULED": "Scheduled",
+        "CALCULATING": "Calculating...",
+        "CALCULATION_FAILED": "Calculation failed",
+        "CALCULATED": "Calculated",
+        "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
+        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
+        "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
+        "COMPLETED": "Messages enqueued"
       },
       "executionTypes": {
         "ACTUAL": "Actual",
         "SIMULATION": "Simulation"
       },
-      "scheduling": {
-        "NOW": "Run now",
-        "SCHEDULED": "Schedule"
-      },
-      "summation": {
-        "YES": "Yes",
-        "NO": "No"
-      },
       "filters": {
-        "executionStates": "Status",
+        "states": "Status",
         "executionTime": "Execution time",
         "gridAreas": "Grid areas",
         "calculationType": "{{shared.calculationType}}",
@@ -957,14 +968,29 @@
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
         "executionTime": "Execution time",
+        "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
       },
-      "gridAreas": {
-        "header": "{{total}} Grid Areas",
-        "gridAreaCode": "ID",
-        "name": "name",
-        "emptyTitle": "No grid areas found"
+      "progress": {
+        "SCHEDULE": {
+          "pending": "Pending scheduling",
+          "executing": "Scheduling",
+          "failed": "Scheduling failed",
+          "completed": "Scheduled"
+        },
+        "CALCULATE": {
+          "pending": "Pending calculation",
+          "executing": "Calculating",
+          "failed": "Calculation failed",
+          "completed": "Calculated"
+        },
+        "ACTOR_MESSAGE_ENQUEUE": {
+          "pending": "Pending enqueuing messages",
+          "executing": "Enqueuing messages",
+          "failed": "Enqueuing messages failed",
+          "completed": "Messages enqueued"
+        }
       }
     },
     "requestCalculation": {
@@ -972,20 +998,21 @@
       "balanceResponsible": "Balance responsible",
       "error": "Unfortunately, an error occurred requesting the calculation",
       "success": "The calculation has been requested",
-      "topBarTitle": "Request Calculation",
+      "topBarTitle": "Request Calculation Data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
+      "priceType": "Price type",
       "period": "Period",
-      "gridareas": "Grid areas",
+      "gridarea": "Grid area",
       "request": "Request",
       "maxPeriodLength": "Period cannot be longer than 31 days",
       "calculationTypes": {
-        "preliminaryaggregation": "Aggregation",
-        "balancefixing": "Balance fixing",
-        "wholesalefixing": "Wholesale fixing",
-        "firstcorrection": "First correction",
-        "secondcorrection": "Second correction",
-        "thirdcorrection": "Third correction"
+        "BALANCE_FIXING": "Balance fixing",
+        "AGGREGATION": "Aggregation",
+        "WHOLESALE_FIXING": "Wholesale fixing",
+        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
       },
       "meteringPointTypes": {
         "All": "All",
@@ -994,6 +1021,16 @@
         "PRODUCTION": "Production",
         "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
         "EXCHANGE": "Exchange"
+      },
+      "priceTypeOptions": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "MONTHLY_TARIFF": "Tariff monthly sum",
+        "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
+        "MONTHLY_FEE": "Fee monthly sum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       }
     },
     "settlementReportsV2": {
@@ -1004,14 +1041,14 @@
       "requestSettlementReport": "Request settlement report",
       "columns": {
         "calculationType": "Calculation type",
-        "period": "Period",
+        "period": "Calculation period",
         "numberOfGridAreasInReport": "Gridareas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
       },
       "reportStatus": {
-        "IN_PROGRESS": "In progress",
+        "IN_PROGRESS": "In progress ({{ progress }}%)",
         "ERROR": "Error",
         "COMPLETED": "Completed",
         "download": "Download"
@@ -1028,7 +1065,8 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Calculation type",
         "includeBasisData": "Include basis data",
-        "period": "Period",
+        "allowLargeTextFiles": "Allow large files",
+        "period": "Calculation period",
         "includeMonthlySum": "Include monthly sum",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
@@ -1039,51 +1077,13 @@
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."
-      }
-    },
-    "settlementReports": {
-      "topBarTitle": "Settlement Reports",
-      "downloadNoBasisData": "Download (no basis data)",
-      "selectedRows": {
-        "singular": "{{ selectedCount }} selected row",
-        "plural": "{{ selectedCount }} selected rows"
       },
-      "SelectPeriod": "To download select a period first",
-      "gridAreasLoadFailed": "Could not load grid areas",
-      "noEntries": "No results",
-      "results": "Search results",
-      "tabs": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
-      },
-      "table": {
-        "title": "Processes",
-        "calculationType": "{{shared.calculationType}}",
-        "gridAreaName": "Grid area",
-        "gridAreaCode": "Grid Area Code",
-        "periodStart": "Period from",
-        "periodEnd": "Period to",
-        "executionTime": "Execution time",
-        "emptyTitle": "No processes found",
-        "emptyHelperText": "Try changing the search criteria",
-        "download": "—"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
-      },
-      "filters": {
-        "calculationType": "{{shared.calculationType}}",
-        "gridArea": "Grid area",
-        "period": "Period",
-        "executionTime": "Execution time",
-        "executionTimeRequired": "Execution time is required",
-        "actor": "Actor",
-        "loadingActors": "Loading energy suppliers...",
-        "loadingGridAreas": "Loading grid areas...",
-        "actorPlaceholder": "Energy supplier",
-        "calculationTypePlaceholder": "Select {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Grid area"
+      "selectCalculationModal": {
+        "title": "Which calculation do you want data for?",
+        "description": "More than one calculation has been carried out. Which calculation do you want to include in the settlement report?",
+        "latest": "latest",
+        "cancel": "Close",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
     }
   },
@@ -1113,7 +1113,7 @@
           "description": "Description"
         },
         "serverErrors": {
-          "invalidPhoneNumber": "Invalid phone no."
+          "generalError": "Something went wrong. The user could not be invited. Please try again"
         },
         "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub, because the user is not part of your organisation"
       },
@@ -1195,14 +1195,14 @@
       },
       "topBarTitle": "User Management",
       "userStatus": {
-        "Active": "Active",
-        "Inactive": "Deactivated",
-        "Invited": "Awaiting activation",
-        "InviteExpired": "Activation expired"
+        "ACTIVE": "Active",
+        "INACTIVE": "Deactivated",
+        "INVITED": "Awaiting activation",
+        "INVITE_EXPIRED": "Activation expired"
       },
       "roleStatus": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
       },
       "tabs": {
         "masterData": {
@@ -1312,7 +1312,6 @@
           "masterData": {
             "label": "Master data",
             "eicFunction": "Market role",
-            "selectEicFunctionStatus": "Select market role",
             "name": "Name",
             "nameMaxLengthErrorText": "Name must be under 250 characters",
             "description": "Description"

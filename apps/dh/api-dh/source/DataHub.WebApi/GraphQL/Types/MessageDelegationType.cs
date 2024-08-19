@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types;

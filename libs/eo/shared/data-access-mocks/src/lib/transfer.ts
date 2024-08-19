@@ -28,9 +28,11 @@ export function transferMocks(apiBase: string) {
 }
 
 const senderName = 'Producent A/S';
+const statuses = ['Active', 'Inactive', 'Proposal', 'ProposalExpired'];
+const randomStatus = () => statuses[Math.floor(Math.random() * statuses.length)];
 
 function getTransferAgreements(apiBase: string) {
-  return http.get(`${apiBase}/transfer/transfer-agreements`, async () => {
+  return http.get(`${apiBase}/transfer/transfer-agreements/overview`, async () => {
     const data = {
       result: [
         {
@@ -40,6 +42,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '39293595',
+          transferAgreementStatus: 'Active',
         },
         {
           id: '0f190d46-7736-4f71-ad07-63dbaeeb689a',
@@ -48,6 +51,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
+          transferAgreementStatus: 'Inactive',
         },
         {
           id: '8892efde-2d14-48a5-85ad-85cb45386790',
@@ -56,6 +60,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
+          transferAgreementStatus: 'Proposal',
         },
         {
           id: 'fe1a2948-a2eb-4464-b6bc-c0be0289b1cc',
@@ -64,6 +69,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '39293595',
+          transferAgreementStatus: 'ProposalExpired',
         },
         {
           id: 'b1dd65a9-ded0-4ff2-bf4e-fb04c8bf6b1e',
@@ -72,6 +78,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
+          transferAgreementStatus: randomStatus(),
         },
         {
           id: 'e31acbac-d26d-4c5b-aaa4-98fb49c740c5',
@@ -80,6 +87,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
+          transferAgreementStatus: randomStatus(),
         },
         {
           id: '427e47ed-47b3-45f0-8d62-e2a9930090f0',
@@ -88,6 +96,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
+          transferAgreementStatus: randomStatus(),
         },
         {
           id: '3e3b749b-6149-4e34-bc6e-a13ffed0f28c',
@@ -96,6 +105,7 @@ function getTransferAgreements(apiBase: string) {
           senderName,
           senderTin: '11223344',
           receiverTin: '12345678',
+          transferAgreementStatus: randomStatus(),
         },
       ],
     };

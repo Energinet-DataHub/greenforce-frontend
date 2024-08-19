@@ -76,7 +76,8 @@
     },
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
-    "calculationType": "Beregningstype"
+    "calculationType": "Beregningstype",
+    "all": "Alle"
   },
   "clipboard": {
     "success": "Kopieret",
@@ -99,7 +100,7 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "Anmod om beregning"
+        "requestCalculation": "Anmod om beregningsdata"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -209,7 +210,18 @@
         "missing_required_value": "Feltet '{{ param }}' kræver en værdi, men denne er ikke blevet angivet.",
         "invalid_gln": "'{{ value.value }}' er et ugyldigt GLN/EIC",
         "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
-        "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'."
+        "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'.",
+        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
+        "args": {
+          "param": {
+            "Invitation": {
+              "InvitationUserDetails": {
+                "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
+                "LastName": "{{ admin.userManagement.inviteUser.lastname }}"
+              }
+            }
+          }
+        }
       },
       "validation": {
         "organization": {
@@ -313,6 +325,7 @@
         },
         "glnOrEicNumber": "GLN/EIC",
         "name": "Aktørnavn",
+        "nameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "contact": "Kontakt",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "departmentOrName": "Afdeling/Navn",
@@ -335,7 +348,7 @@
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
-            "Inactive": "Inaktiv",
+            "Inactive": "Deaktiveret",
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
@@ -347,7 +360,8 @@
         "glnOrEic": "GLN/EIC",
         "name": "Navn",
         "marketRole": "Markedsrolle",
-        "status": "Status"
+        "status": "Status",
+        "mail": "E-mail"
       },
       "create": "Ny aktør",
       "actors": "Aktører",
@@ -355,7 +369,8 @@
         "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
         "name": "{{ marketParticipant.actorsOverview.shared.name }}",
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-        "status": "{{ marketParticipant.actorsOverview.shared.status }}"
+        "status": "{{ marketParticipant.actorsOverview.shared.status }}",
+        "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
       },
       "status": {
         "Active": "Aktiv",
@@ -484,7 +499,7 @@
             "status": {
               "New": "Ny",
               "Active": "Aktiv",
-              "Inactive": "Inaktiv",
+              "Inactive": "Deaktiveret",
               "Passive": "Passiv",
               "Deleted": "Slettet"
             },
@@ -525,6 +540,8 @@
         "departmentPhone": "Telefonnr.",
         "required": "Udfyld feltet",
         "invalidEmail": "Ugyldig e-mail",
+        "nameMaxLength": "{{ marketParticipant.actor.create.nameMaxLength }}",
+        "departmentNameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "cancel": "Fortryd",
         "save": "Gem ændringer",
         "updateRequest": {
@@ -873,12 +890,10 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "scheduling": "Kørsel",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
         },
-        "summation": "Månedlige summer",
         "period": {
           "label": "Periode",
           "required": "Dato-periode påkrævet",
@@ -918,26 +933,22 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
       },
-      "executionStates": {
-        "PENDING": "Afventer",
-        "EXECUTING": "Kører",
-        "COMPLETED": "Afsluttet",
-        "FAILED": "Fejl"
+      "states": {
+        "SCHEDULED": "Planlagt",
+        "CALCULATING": "Beregner...",
+        "CALCULATION_FAILED": "Beregning fejlet",
+        "CALCULATED": "Beregnet",
+        "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
+        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
+        "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
+        "COMPLETED": "Beskeder dannet"
       },
       "executionTypes": {
         "ACTUAL": "Faktisk",
         "SIMULATION": "Simulering"
       },
-      "scheduling": {
-        "NOW": "Kør nu",
-        "SCHEDULED": "Planlæg"
-      },
-      "summation": {
-        "YES": "Ja",
-        "NO": "Nej"
-      },
       "filters": {
-        "executionStates": "Status",
+        "states": "Status",
         "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
         "calculationType": "{{shared.calculationType}}",
@@ -956,14 +967,29 @@
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
         "executionTime": "Eksekveringstidspunkt",
+        "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}"
       },
-      "gridAreas": {
-        "header": "{{total}} Netområder",
-        "gridAreaCode": "ID",
-        "name": "navn",
-        "emptyTitle": "Ingen netområder fundet"
+      "progress": {
+        "SCHEDULE": {
+          "pending": "Afventer planlægning",
+          "executing": "Planlægger",
+          "failed": "Planlægning fejlet",
+          "completed": "Planlagt"
+        },
+        "CALCULATE": {
+          "pending": "Afventer beregning",
+          "executing": "Beregner",
+          "failed": "Beregning fejlet",
+          "completed": "Beregnet"
+        },
+        "ACTOR_MESSAGE_ENQUEUE": {
+          "pending": "Afventer beskeddannelse",
+          "executing": "Danner beskeder",
+          "failed": "Beskeddannelse fejlet",
+          "completed": "Beskeder dannet"
+        }
       }
     },
     "requestCalculation": {
@@ -971,20 +997,21 @@
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl under anmodingen om beregning",
       "success": "Din anmoding er startet",
-      "topBarTitle": "Anmod om beregning",
+      "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
+      "priceType": "Pristype",
       "period": "Periode",
-      "gridAreas": "Netområder",
+      "gridArea": "Netområde",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være 31 dage",
       "calculationTypes": {
-        "preliminaryaggregation": "Aggregering",
-        "balancefixing": "Balancefiksering",
-        "wholesalefixing": "Engrosfiksering",
-        "firstcorrection": "Første korrektion",
-        "secondcorrection": "Anden korrektion",
-        "thirdcorrection": "Tredje korrektion"
+        "BALANCE_FIXING": "Balancefiksering",
+        "AGGREGATION": "Aggregering",
+        "WHOLESALE_FIXING": "Engrosfiksering",
+        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
       "meteringPointTypes": {
         "All": "Alle",
@@ -993,6 +1020,16 @@
         "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling"
+      },
+      "priceTypeOptions": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr",
+        "MONTHLY_TARIFF": "Tarif månedssum",
+        "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
+        "MONTHLY_FEE": "Gebyr månedssum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       }
     },
     "settlementReportsV2": {
@@ -1003,14 +1040,14 @@
       "requestSettlementReport": "Anmod om afregningsrapport",
       "columns": {
         "calculationType": "Beregningstype",
-        "period": "Periode",
+        "period": "Beregningsperiode",
         "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
         "actorName": "Aktørnavn"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang",
+        "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
         "download": "Download"
@@ -1027,7 +1064,8 @@
         "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
-        "period": "Periode",
+        "allowLargeTextFiles": "Tillad store filer",
+        "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
@@ -1038,51 +1076,13 @@
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
-      }
-    },
-    "settlementReports": {
-      "topBarTitle": "Afregningsrapporter",
-      "downloadNoBasisData": "Download (uden basisdata)",
-      "selectedRows": {
-        "singular": "{{ selectedCount }} valgt række",
-        "plural": "{{ selectedCount }} valgte rækker"
       },
-      "SelectPeriod": "For at downloade skal du vælge en periode først",
-      "gridAreasLoadFailed": "kunne ikke hente netområder",
-      "noEntries": "Ingen resultater",
-      "results": "Balancefiksering",
-      "tabs": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}"
-      },
-      "table": {
-        "title": "Processer",
-        "calculationType": "{{shared.calculationType}}",
-        "gridAreaName": "Netvirksomhed",
-        "gridAreaCode": "Netområde",
-        "periodStart": "Periode fra",
-        "periodEnd": "Periode til",
-        "executionTime": "Kørsel tid",
-        "emptyTitle": "Ingen processer fundet",
-        "emptyHelperText": "Prøv at ændre dine søgeindstillinger",
-        "download": "—"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}"
-      },
-      "filters": {
-        "calculationType": "{{shared.calculationType}}",
-        "gridArea": "Netområde",
-        "period": "Periode",
-        "executionTime": "Kørsel tid",
-        "executionTimeRequired": "Eksekveringstid påkrævet",
-        "actor": "Aktør",
-        "loadingActors": "Henter elleverandører...",
-        "loadingGridAreas": "Henter netområder...",
-        "actorPlaceholder": "Elleverandør",
-        "calculationTypePlaceholder": "Vælg {{shared.calculationType}}",
-        "gridAreasPlaceholder": "Netområde"
+      "selectCalculationModal": {
+        "title": "Hvilken beregning ønsker du data for?",
+        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "latest": "nyeste",
+        "cancel": "Luk",
+        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
       }
     }
   },
@@ -1112,7 +1112,7 @@
           "description": "Beskrivelse"
         },
         "serverErrors": {
-          "invalidPhoneNumber": "Telefonnr. er ugyldigt"
+          "generalError": "Noget gik galt. Brugeren blev ikke inviteret. Prøv igen"
         },
         "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
@@ -1178,7 +1178,7 @@
               "logs": {
                 "status": {
                   "Active": "Aktiv",
-                  "Inactive": "Inaktiv"
+                  "Inactive": "Deaktiveret"
                 },
                 "roles": {
                   "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>",
@@ -1194,14 +1194,14 @@
       },
       "topBarTitle": "Brugeradministration",
       "userStatus": {
-        "Active": "Aktiv",
-        "Inactive": "Deaktiveret",
-        "Invited": "Afventer aktivering",
-        "InviteExpired": "Aktivering udløbet"
+        "ACTIVE": "Aktiv",
+        "INACTIVE": "Deaktiveret",
+        "INVITED": "Afventer aktivering",
+        "INVITE_EXPIRED": "Aktivering udløbet"
       },
       "roleStatus": {
-        "active": "Aktiv",
-        "inactive": "Inaktiv"
+        "ACTIVE": "Aktiv",
+        "INACTIVE": "Deaktiveret"
       },
       "tabs": {
         "masterData": {
@@ -1311,7 +1311,6 @@
           "masterData": {
             "label": "Stamdata",
             "eicFunction": "Markedsrolle",
-            "selectEicFunctionStatus": "Markedsrolle",
             "name": "Navn",
             "nameMaxLengthErrorText": "Navn skal være under 250 karakterer",
             "description": "Beskrivelse"

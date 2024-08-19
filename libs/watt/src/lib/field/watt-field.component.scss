@@ -33,26 +33,31 @@ watt-field watt-field-error,
   display: none;
 }
 
-watt-field.watt-field--invalid watt-field-hint {
-  display: none;
-}
-
-watt-field.watt-field--invalid watt-field-error {
-  display: block;
-}
-
-form.ng-submitted watt-field.watt-field--invalid .watt-field-wrapper,
-watt-field.watt-field--invalid .watt-field-wrapper {
-  border-color: var(--watt-color-state-danger);
-}
-
-form.ng-submitted watt-field.watt-field--invalid .label,
-watt-field.watt-field--invalid .label {
-  color: var(--watt-color-state-danger);
-
-  &.required::after {
-    color: var(--watt-color-state-danger);
+form.ng-submitted .ng-invalid,
+:not(form).ng-touched.ng-invalid {
+  & watt-field watt-field-hint {
+    display: none;
   }
+
+  & watt-field watt-field-error {
+    display: block;
+  }
+
+  & watt-field .watt-field-wrapper {
+    border-color: var(--watt-color-state-danger);
+  }
+
+  & watt-field .label {
+    color: var(--watt-color-state-danger);
+
+    &.required::after {
+      color: var(--watt-color-state-danger);
+    }
+  }
+}
+
+.watt-field-wrapper input[matinput] {
+  width: 100%;
 }
 
 watt-field {
@@ -70,6 +75,10 @@ watt-field {
     min-height: 100px;
   }
 
+  &:not(.watt-field--chip).watt-field--unlabelled {
+    min-height: 73px;
+  }
+
   &.watt-field--chip .watt-field-wrapper {
     border: none;
     padding-left: 0;
@@ -79,7 +88,6 @@ watt-field {
     min-height: 27px;
     display: flex;
     align-items: center;
-    padding-bottom: var(--watt-space-s);
 
     watt-icon {
       margin-left: var(--watt-space-s);
@@ -124,6 +132,10 @@ watt-field {
     watt-field-hint,
     watt-field-error {
       @include watt.typography-watt-text-s;
+    }
+
+    :not(.watt-field--chip) watt-field-hint,
+    :not(.watt-field--chip) watt-field-error {
       padding-left: var(--watt-space-s);
     }
   }

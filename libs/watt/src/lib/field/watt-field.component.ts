@@ -14,87 +14,100 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  ViewChild,
   ViewEncapsulation,
+  computed,
   inject,
+  input,
+  signal,
+  viewChild,
 } from '@angular/core';
-import { ControlContainer, FormControl, FormGroupDirective, Validators } from '@angular/forms';
+import { FormControl, ValidationErrors, Validators } from '@angular/forms';
+import { filter, startWith, switchMap, tap } from 'rxjs/operators';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
+import { WattRangeValidators } from '../picker/shared/validators/watt-range.validators';
+import { VaterStackComponent } from '../vater/vater-stack.component';
 
 @Component({
   selector: 'watt-field',
   standalone: true,
-  imports: [NgClass, WattIconComponent, WattTooltipDirective, WattFieldErrorComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
+  imports: [WattIconComponent, WattTooltipDirective, WattFieldErrorComponent, VaterStackComponent],
   styleUrls: ['./watt-field.component.scss'],
   template: `
-    <label [attr.for]="id ? id : null">
-      @if (!chipMode) {
-        <span class="label" [ngClass]="{ required: _isRequired }">
-          {{ label }}
-          @if (tooltip) {
+    <label [attr.for]="id()">
+      @if (label()) {
+        <span class="label" [class.required]="isRequired()">
+          {{ label() }}
+          @if (tooltip(); as tooltip) {
             <watt-icon name="info" wattTooltipPosition="top" [wattTooltip]="tooltip" />
           }
         </span>
       }
-      <div style="display: flex;align-items: center; gap: var(--watt-space-s);">
+      <vater-stack direction="row" gap="s">
         <div class="watt-field-wrapper" #wrapper>
           <ng-content />
         </div>
         <ng-content select="watt-field-descriptor" />
-      </div>
+      </vater-stack>
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
-      @if (control?.errors?.['required'] || control?.errors?.['rangeRequired']) {
+      @if (isEmpty()) {
         <watt-field-error>{{ intl.required }}</watt-field-error>
       }
     </label>
   `,
+  host: {
+    '[class.watt-field--chip]': 'chipMode()',
+    '[class.watt-field--unlabelled]': 'unlabelled()',
+  },
 })
-export class WattFieldComponent implements OnChanges {
-  private _formGroupDirective = inject(FormGroupDirective, { optional: true });
+export class WattFieldComponent {
   intl = inject(WattFieldIntlService);
 
-  @Input() label: string | undefined;
-  @Input({ required: true }) control!: FormControl | null;
-  @Input() id!: string;
-  @Input() chipMode = false;
-  @Input() tooltip?: string;
+  control = input<FormControl | null>(null);
+  label = input<string>();
+  id = input<string>();
+  chipMode = input(false);
+  tooltip = input<string>();
+
+  unlabelled = computed(() => !this.label());
+
+  errors = signal<ValidationErrors | null>(null);
+  isRequired = signal(false);
+  isEmpty = computed(() => this.errors()?.['required'] || this.errors()?.['rangeRequired']);
 
   // Used for text fields with autocomplete
-  @ViewChild('wrapper', { static: true }) wrapper!: ElementRef<HTMLDivElement>;
+  wrapper = viewChild.required<ElementRef>('wrapper');
 
-  @HostBinding('class.watt-field--chip')
-  get _chip() {
-    return this.chipMode;
-  }
-
-  @HostBinding('class.watt-field--invalid')
-  get _hasError() {
-    return (
-      (this.control?.status === 'INVALID' && !!this.control?.touched) ||
-      (this._formGroupDirective?.submitted && this.control?.status === 'INVALID')
+  constructor() {
+    const status$ = toObservable(this.control).pipe(
+      filter((control) => control !== null),
+      switchMap((control) =>
+        control.statusChanges.pipe(
+          startWith(control.status),
+          tap(() => this.isRequired.set(this.isRequiredControl(control))),
+          tap(() => this.errors.set(control.errors))
+        )
+      ),
+      takeUntilDestroyed()
     );
-  }
-  protected _isRequired = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['control']) {
-      this._isRequired = this.control?.hasValidator(Validators.required) ?? false;
-    }
+    // Subscribe for side effects
+    status$.subscribe();
+  }
+
+  isRequiredControl(control: FormControl) {
+    const validators = [Validators.required, WattRangeValidators.required];
+    return validators.some((validator) => control.hasValidator(validator));
   }
 }

@@ -14,44 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject } from '@angular/core';
-import { provideComponentStore } from '@ngrx/component-store';
+import { Component, DestroyRef, computed, inject } from '@angular/core';
+
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import {
-  DhAdminUserManagementDataAccessApiStore,
-  DhAdminUserRolesManagementDataAccessApiStore,
-  DhUserActorsDataAccessApiStore,
-} from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  MarketParticipantSortDirection,
-  MarketParticipantUserOverviewSortProperty,
-  MarketParticipantUserStatus,
-} from '@energinet-datahub/dh/shared/domain';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/table';
+
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
+
 import { DhProfileModalService } from '@energinet-datahub/dh/profile/feature-profile-modal';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import {
+  DhAdminUserManagementDataAccessApiStore,
+  DhAdminUserRolesManagementDataAccessApiStore,
+  DhUserManagementFilters,
+} from '@energinet-datahub/dh/admin/data-access-api';
+
+import {
+  GetFilteredActorsDocument,
+  MarketParticipantSortDirctionType,
+  UserOverviewSortProperty,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
-import { DhUsersOverviewStatusFilterComponent } from './dh-users-overview-status-filter.component';
-import { DhUsersOverviewActorFilterComponent } from './dh-users-overview-actor-filter.component';
-import { DhUsersOverviewUserRoleFilterComponent } from './dh-users-overview-userrole-filter.component';
 import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
+import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export const debounceTimeValue = 250;
 
@@ -80,7 +85,6 @@ export const debounceTimeValue = 250;
   ],
   providers: [
     provideComponentStore(DhAdminUserManagementDataAccessApiStore),
-    provideComponentStore(DhUserActorsDataAccessApiStore),
     provideComponentStore(DhAdminUserRolesManagementDataAccessApiStore),
   ],
   imports: [
@@ -99,19 +103,17 @@ export const debounceTimeValue = 250;
     WattSearchComponent,
 
     DhUsersTabTableComponent,
-    DhUsersOverviewStatusFilterComponent,
-    DhUsersOverviewActorFilterComponent,
-    DhUsersOverviewUserRoleFilterComponent,
     DhPermissionRequiredDirective,
     DhInviteUserModalComponent,
+    DhUsersOverviewFiltersComponent,
   ],
 })
 export class DhUsersOverviewComponent {
   private destroyRef = inject(DestroyRef);
   private store = inject(DhAdminUserManagementDataAccessApiStore);
-  private actorStore = inject(DhUserActorsDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private profileModalService = inject(DhProfileModalService);
+  private modalService = inject(WattModalService);
 
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
@@ -119,22 +121,24 @@ export class DhUsersOverviewComponent {
   readonly pageIndex$ = this.store.paginatorPageIndex$;
   readonly pageSize$ = this.store.pageSize$;
 
+  readonly actors = query(GetFilteredActorsDocument);
+  readonly actorOptions = computed<WattDropdownOptions>(() =>
+    (this.actors.data()?.filteredActors ?? []).map((actor) => ({
+      displayValue: actor.displayName,
+      value: actor.id,
+    }))
+  );
+  readonly canChooseMultipleActors = computed(() => this.actorOptions().length > 1);
   readonly isLoading$ =
-    this.store.isLoading$ || this.actorStore.isLoading$ || this.userRolesStore.isLoading$;
+    this.store.isLoading$ || this.actors.loading() || this.userRolesStore.isLoading$;
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
-  readonly initialStatusFilter$ = this.store.initialStatusFilter$;
-  readonly actorOptions$: Observable<WattDropdownOptions> = this.actorStore.actors$;
+  readonly initialStatusValue$ = this.store.initialStatusValue$;
   readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
-  readonly canChooseMultipleActors$ = this.actorStore.canChooseMultipleActors$;
 
   searchInput$ = new BehaviorSubject<string>('');
-  isInviteUserModalVisible = false;
 
   constructor() {
-    this.actorStore.getActors();
-    this.userRolesStore.getRoles();
-
     this.onSearchInput();
 
     this.profileModalService.onProfileUpdate$
@@ -149,33 +153,24 @@ export class DhUsersOverviewComponent {
     });
   }
 
-  onStatusChanged(value: MarketParticipantUserStatus[]): void {
-    this.store.updateStatusFilter(value);
+  updateFilters(value: DhUserManagementFilters): void {
+    this.store.updateFilters(value);
   }
 
   sortChanged = (
-    sortProperty: MarketParticipantUserOverviewSortProperty,
-    direction: MarketParticipantSortDirection
+    sortProperty: UserOverviewSortProperty,
+    direction: MarketParticipantSortDirctionType
   ) => this.store.updateSort(sortProperty, direction);
-
-  onActorFilterChanged(actorId: string | undefined): void {
-    this.store.updateActorFilter(actorId);
-  }
-
-  onUserRolesFilterChanged(userRoles: string[]): void {
-    this.store.updateUserRoleFilter(userRoles);
-  }
 
   reloadUsers(): void {
     this.store.reloadUsers();
   }
 
-  modalOnClose(): void {
-    this.isInviteUserModalVisible = false;
-  }
-
   showInviteUserModal(): void {
-    this.isInviteUserModalVisible = true;
+    this.modalService.open({
+      component: DhInviteUserModalComponent,
+      disableClose: true,
+    });
   }
 
   private onSearchInput(): void {

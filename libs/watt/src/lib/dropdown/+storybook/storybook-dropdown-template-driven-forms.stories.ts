@@ -20,7 +20,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattDropdownComponent } from '../watt-dropdown.component';
 import { WattDropdownOption } from '../watt-dropdown-option';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
+import { WattFieldHintComponent } from '../../field';
 
 const dropdownOptions: WattDropdownOption[] = [
   { value: 'outlaws', displayValue: 'The Outlaws' },
@@ -38,7 +38,7 @@ const meta: Meta<WattDropdownComponent> = {
       providers: [provideAnimations()],
     }),
     moduleMetadata({
-      imports: [FormsModule, WattFieldErrorComponent, WattFieldHintComponent],
+      imports: [FormsModule, WattFieldHintComponent],
     }),
   ],
 };
@@ -69,7 +69,6 @@ const howToUseGuideBasic = `
  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
 
   <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options">
-    <watt-field-error>This field is required</watt-field-error>
     <watt-field-hint>This is a hint</watt-field-hint>
   </watt-dropdown>`;
 
@@ -87,7 +86,6 @@ export const SingleSelect: StoryFn<WattDropdownComponent> = (
       [(ngModel)]="singleSelectionModel"
       [placeholder]="placeholder"
       [options]="options">
-        <watt-field-error>This field is required</watt-field-error>
         <watt-field-hint>This is a hint</watt-field-hint>
       </watt-dropdown>`,
 });
@@ -119,7 +117,6 @@ export const MultiSelect: StoryFn<WattDropdownComponent> = (
       [placeholder]="placeholder"
       [noOptionsFoundLabel]="noOptionsFoundLabel"
       [options]="options">
-        <watt-field-error>This field is required</watt-field-error>
         <watt-field-hint>This is a hint</watt-field-hint>
       </watt-dropdown>
 `,
@@ -145,7 +142,6 @@ export const WithLabel: StoryFn<WattDropdownComponent> = () => ({
   },
   template: `
     <watt-dropdown [label]="label" [(ngModel)]="singleSelectionModel">
-      <watt-field-error>This field is required</watt-field-error>
       <watt-field-hint>This is a hint</watt-field-hint>
     </watt-dropdown>
 `,
@@ -171,9 +167,7 @@ export const WithValidation: StoryFn<WattDropdownComponent> = () => ({
       [required]="true"
       [label]="label"
       [options]="options">
-
-      <watt-field-error>This field is required</watt-field-error>
-      <watt-field-hint>This is a hint</watt-field-hint>
+        <watt-field-hint>This is a hint</watt-field-hint>
     </watt-dropdown>`,
 });
 WithValidation.parameters = {

@@ -27,28 +27,28 @@ import { imbalancePricesMonthOverviewQueryMock } from './data/imbalance-prices/i
 
 export function imbalancePricesMocks(apiBase: string) {
   return [
-    getImbalancePricesOverviewQuery(),
+    getImbalancePricesOverviewQuery(apiBase),
     imbalancePricesUploadImbalanceCSV(apiBase),
     imbalancePricesDownloadImbalanceCSV(apiBase),
-    getImbalancePricesMonthOverviewQuery(),
+    getImbalancePricesMonthOverviewQuery(apiBase),
   ];
 }
 
-function getImbalancePricesOverviewQuery() {
+function getImbalancePricesOverviewQuery(apiBase: string) {
   return mockGetImbalancePricesOverviewQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: imbalancePricesOverviewQueryMock,
+      data: imbalancePricesOverviewQueryMock(apiBase),
     });
   });
 }
 
-function getImbalancePricesMonthOverviewQuery() {
+function getImbalancePricesMonthOverviewQuery(apiBase: string) {
   return mockGetImbalancePricesMonthOverviewQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
-      data: imbalancePricesMonthOverviewQueryMock,
+      data: imbalancePricesMonthOverviewQueryMock(apiBase),
     });
   });
 }

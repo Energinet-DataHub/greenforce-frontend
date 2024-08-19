@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, signal, viewChild, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable, switchMap, takeUntil } from 'rxjs';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import {
@@ -28,7 +27,6 @@ import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
@@ -52,7 +50,6 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
   ],
   imports: [
     TranslocoDirective,
-    RxPush,
 
     WATT_DRAWER,
     WattDescriptionListComponent,
@@ -64,40 +61,31 @@ import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
-  private readonly esettHttp = inject(EsettExchangeHttp);
+  private readonly httpClient = inject(HttpClient);
 
   balanceResponsibleMessage: DhBalanceResponsibleMessage | undefined;
-  xmlMessage$: Observable<string> | null = null;
+  xmlMessage = signal<string | undefined>(undefined);
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
+  drawer = viewChild.required(WattDrawerComponent);
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
   public open(message: DhBalanceResponsibleMessage): void {
-    this.drawer?.open();
+    this.drawer().open();
 
     this.balanceResponsibleMessage = message;
 
-    if (this.balanceResponsibleMessage.id) {
-      this.xmlMessage$ = this.loadDocument(this.balanceResponsibleMessage.id);
+    if (this.balanceResponsibleMessage.storageDocumentUrl) {
+      this.loadDocument(this.balanceResponsibleMessage.storageDocumentUrl, this.xmlMessage.set);
     }
   }
 
   onClose(): void {
     this.closed.emit();
-
     this.balanceResponsibleMessage = undefined;
   }
 
-  private loadDocument(documentLink: string): Observable<string> {
-    return this.esettHttp.v1EsettExchangeStorageDocumentGet(documentLink).pipe(
-      switchMap((res) => {
-        const blobPart = res as unknown as BlobPart;
-        const blob = new Blob([blobPart]);
-        return new Response(blob).text();
-      }),
-      takeUntil(this.closed)
-    );
+  private loadDocument(url: string, setDocument: (doc: string) => void) {
+    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
   }
 }

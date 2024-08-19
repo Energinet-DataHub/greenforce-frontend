@@ -18,19 +18,19 @@ limitations under the License.
   <vater-flex fill="vertical" gap="ml">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("topBarTitle") }}</h3>
-      <span class="watt-chip-label">{{ totalCount }}</span>
 
       <vater-spacer />
 
       <dh-imbalance-prices-uploader
         *dhPermissionRequired="['imbalance-prices:manage']"
+        [uploadUrl]="uploadUrl()!"
         (uploadSuccess)="onUploadSuccess()"
       />
     </vater-stack>
 
     <dh-table-month-view
       [tableDataSource]="tableDataSource"
-      [isLoading]="isLoading"
+      [isLoading]="isLoading()"
       [hasError]="hasError"
     />
 

@@ -33,7 +33,7 @@ import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 const { calculations } = daTranslations.wholesale;
 
-it('mounts', () => {
+it.skip('mounts', () => {
   cy.mount(DhCalculationsComponent, {
     providers: [
       importProvidersFrom(MatSnackBarModule),

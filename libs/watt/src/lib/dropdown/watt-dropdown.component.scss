@@ -16,11 +16,15 @@
  */
 @use "@energinet-datahub/watt/utils" as watt;
 
+watt-dropdown:not(.watt-chip-mode) {
+  width: 100%;
+}
+
 watt-dropdown {
   --watt-input-color: var(--watt-typography-text-color);
   --watt-input-placeholder-color: var(--watt-on-light-high-emphasis);
 
-  display: inline-block;
+  display: block;
   width: auto;
   overflow: hidden;
 
@@ -140,6 +144,20 @@ watt-dropdown {
     .mat-select-search-inner.mat-select-search-inner-toggle-all
     .mat-select-search-input {
     padding-left: 0;
+  }
+
+  ngx-mat-select-search .mat-select-search-inner {
+    margin-left: 5px;
+  }
+
+  ngx-mat-select-search .mat-select-search-input {
+    padding: 0;
+    margin-left: 4px;
+  }
+
+  ngx-mat-select-search
+    .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
+    margin: 0;
   }
 
   .mdc-list-item .mat-select-search-input,

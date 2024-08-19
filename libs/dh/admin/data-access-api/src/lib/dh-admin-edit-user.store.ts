@@ -15,15 +15,26 @@
  * limitations under the License.
  */
 import { Injectable, inject } from '@angular/core';
-import { Observable, exhaustMap, forkJoin, tap } from 'rxjs';
-import { ComponentStore } from '@ngrx/component-store';
-import { tapResponse } from '@ngrx/operators';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
-import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
+import { Apollo } from 'apollo-angular';
+import { tapResponse } from '@ngrx/operators';
+import { Observable, exhaustMap, tap } from 'rxjs';
+import { ComponentStore } from '@ngrx/component-store';
+import { HttpStatusCode } from '@angular/common/http';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
 import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { DhAdminUserRolesStore, UpdateUserRoles } from './dh-admin-user-roles.store';
+import {
+  ApiError,
+  GetUserByIdDocument,
+  UpdateActorUserRolesInput,
+  UpdateUserAndRolesDocument,
+  UserOverviewSearchDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { ApiErrorCollection } from './dh-api-error-utils';
 
 interface State {
   readonly requestState: SavingState | ErrorState;
@@ -33,13 +44,17 @@ const initialState: State = {
   requestState: SavingState.INIT,
 };
 
+type MutationResponseType =
+  | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserIdentity']
+  | ResultOf<typeof UpdateUserAndRolesDocument>['updateUserRoleAssignment'];
+
 @Injectable()
 export class DhAdminEditUserStore extends ComponentStore<State> {
-  private readonly userRolesStore = inject(DhAdminUserRolesStore);
+  private readonly apollo = inject(Apollo);
 
   isSaving$ = this.select((state) => state.requestState === SavingState.SAVING);
 
-  constructor(private marketParticipantUserHttpClient: MarketParticipantUserHttp) {
+  constructor() {
     super(initialState);
   }
 
@@ -50,9 +65,9 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
         firstName: string;
         lastName: string;
         phoneNumber: string;
-        updateUserRoles?: UpdateUserRoles;
+        updateUserRoles: UpdateActorUserRolesInput[];
         onSuccessFn: () => void;
-        onErrorFn: (statusCode: HttpStatusCode) => void;
+        onErrorFn: (statusCode: HttpStatusCode, errors: ApiErrorCollection[]) => void;
       }>
     ) =>
       trigger$.pipe(
@@ -69,31 +84,51 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
             onSuccessFn,
             onErrorFn,
           }) => {
-            const requests: Observable<unknown>[] = [];
-
-            requests.push(
-              this.marketParticipantUserHttpClient.v1MarketParticipantUserUpdateUserIdentityPut(
-                userId,
-                { firstName, lastName, phoneNumber }
-              )
-            );
-
-            if (updateUserRoles) {
-              requests.push(this.userRolesStore.assignRoles(userId, updateUserRoles));
-            }
-
-            return forkJoin(requests).pipe(
-              tapResponse(
-                () => {
-                  this.setSaving(SavingState.SAVED);
-                  onSuccessFn();
+            return this.apollo
+              .mutate({
+                mutation: UpdateUserAndRolesDocument,
+                refetchQueries: [UserOverviewSearchDocument, GetUserByIdDocument],
+                variables: {
+                  updateUserInput: {
+                    userId,
+                    userIdentityUpdateDto: {
+                      firstName,
+                      lastName,
+                      phoneNumber,
+                    },
+                  },
+                  updateRolesInput: {
+                    userId,
+                    input: updateUserRoles,
+                  },
                 },
-                (error: HttpErrorResponse) => {
-                  this.setSaving(ErrorState.GENERAL_ERROR);
-                  onErrorFn(error.status);
-                }
-              )
-            );
+              })
+              .pipe(
+                tapResponse(
+                  (response) => {
+                    if (response.loading || response.data?.updateUserIdentity === undefined) return;
+
+                    const updateUserAndRoles = this.handleResponse([
+                      response.data.updateUserIdentity,
+                      response.data.updateUserRoleAssignment,
+                    ]);
+
+                    if (updateUserAndRoles.success) {
+                      this.setSaving(SavingState.SAVED);
+                      onSuccessFn();
+                    }
+
+                    if (updateUserAndRoles.errors.length > 0) {
+                      this.setSaving(ErrorState.GENERAL_ERROR);
+                      const firstError = updateUserAndRoles.errors[0];
+                      onErrorFn(firstError.statusCode, updateUserAndRoles.errors);
+                    }
+                  },
+                  () => {
+                    this.setSaving(ErrorState.GENERAL_ERROR);
+                  }
+                )
+              );
           }
         )
       )
@@ -105,4 +140,18 @@ export class DhAdminEditUserStore extends ComponentStore<State> {
       requestState: savingState,
     })
   );
+
+  private handleResponse<T extends MutationResponseType>(res: T[]) {
+    if (res?.every((x) => x.success)) {
+      return { success: true, errors: [] };
+    }
+
+    return {
+      success: false,
+      errors: res
+        .map((x) => x.errors)
+        .flat()
+        .filter((x): x is ApiError => !!x),
+    };
+  }
 }

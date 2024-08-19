@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -29,6 +28,37 @@ public static class MarketParticipantClientExtensions
             {
                 UserStatus = [],
                 UserRoleIds = [],
+            });
+    }
+
+    internal static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+        this IMarketParticipantClient_V1 client,
+        CancellationToken cancellationToken = default)
+    {
+        var actors = await client.ActorGetAsync(cancellationToken);
+        var gridAreas = await client.GridAreaGetAsync(cancellationToken);
+
+        return gridAreas
+            .OrderBy(g => g.Code)
+            .Select(gridArea =>
+            {
+                var owner = actors.FirstOrDefault(actor =>
+                    actor.Status == "Active" &&
+                    actor.MarketRoles.Any(mr =>
+                        mr.EicFunction == EicFunction.GridAccessProvider &&
+                        mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
+
+                return owner == null
+                    ? gridArea
+                    : new GridAreaDto
+                    {
+                        Id = gridArea.Id,
+                        Code = gridArea.Code,
+                        Name = owner.Name.Value,
+                        PriceAreaCode = gridArea.PriceAreaCode,
+                        ValidFrom = gridArea.ValidFrom,
+                        ValidTo = gridArea.ValidTo,
+                    };
             });
     }
 }

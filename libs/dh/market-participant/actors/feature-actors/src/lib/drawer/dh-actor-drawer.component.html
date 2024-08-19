@@ -15,38 +15,46 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
-  <watt-drawer #drawer (closed)="onClose()">
+  <watt-drawer [loading]="isLoading()" #drawer (closed)="closed.emit()">
     <watt-drawer-topbar>
-      <dh-actor-status-badge [status]="actor?.status" />
+      <dh-actor-status-badge [status]="actor()?.status" />
     </watt-drawer-topbar>
 
-    <watt-drawer-actions>
-      <watt-button
-        *dhPermissionRequired="['actor-master-data:manage']"
-        variant="secondary"
-        (click)="editActorModal.open()"
-        >{{ t("edit") }}</watt-button
-      >
-    </watt-drawer-actions>
+    @if (hasActorAccess()) {
+      <watt-drawer-actions>
+        <watt-button
+          *dhPermissionRequired="['actor-master-data:manage']"
+          variant="secondary"
+          (click)="editActorModal.open()"
+          >{{ t("edit") }}</watt-button
+        >
+      </watt-drawer-actions>
+    }
 
     <watt-drawer-heading>
-      <h2 class="actor-heading">{{ actor?.glnOrEicNumber }} {{ actor?.name }}</h2>
+      <h2 class="actor-heading">
+        @if (actor()?.glnOrEicNumber) {
+          {{ actor()?.glnOrEicNumber }} • {{ actor()?.name }}
+        } @else {
+          {{ actor()?.name }}
+        }
+      </h2>
 
       <div class="actor-metadata">
         <div class="actor-metadata__item">
           <span class="watt-label">{{ t("metadata.marketRole") }}</span>
           <span>
-            @if (actor?.marketRole) {
-              {{ "marketParticipant.marketRoles." + actor?.marketRole | transloco }}
+            @if (actor()?.marketRole) {
+              {{ "marketParticipant.marketRoles." + actor()?.marketRole | transloco }}
             } @else {
-              {{ actor?.marketRole | dhEmDashFallback }}
+              {{ actor()?.marketRole | dhEmDashFallback }}
             }
           </span>
         </div>
 
         <div class="actor-metadata__item">
           <span class="watt-label">{{ t("metadata.organization") }}</span>
-          <span>{{ actor?.organization?.name | dhEmDashFallback }}</span>
+          <span>{{ actor()?.organization?.name | dhEmDashFallback }}</span>
         </div>
       </div>
     </watt-drawer-heading>
@@ -59,45 +67,45 @@ limitations under the License.
               <watt-description-list variant="stack">
                 <watt-description-list-item
                   [label]="t('tabs.masterData.glnOrEic')"
-                  [value]="actor?.glnOrEicNumber"
+                  [value]="actor()?.glnOrEicNumber"
                 />
 
                 <watt-description-list-item
                   [label]="t('tabs.masterData.name')"
-                  [value]="actor?.name"
+                  [value]="actor()?.name"
                 />
 
-                @if (isGridAccessProvider) {
+                @if (isGridAccessProvider()) {
                   <watt-description-list-item
                     [label]="t('tabs.masterData.gridArea')"
-                    [value]="gridAreaOrFallback"
+                    [value]="gridAreaOrFallback()"
                   />
                 }
 
                 <watt-description-list-item
                   [label]="t('tabs.masterData.marketRole')"
-                  [value]="marketRoleOrFallback"
+                  [value]="marketRoleOrFallback()"
                 />
               </watt-description-list>
             </watt-card>
           </watt-tab>
 
-          @if (hasActorAccess && actor) {
+          @if (hasActorAccess() && actor()) {
             <watt-tab
               [label]="t('tabs.b2bAccess.tabLabel')"
               *dhPermissionRequired="['actor-credentials:manage']"
             >
-              <dh-b2b-access-tab [actorId]="actor.id" />
+              <dh-b2b-access-tab [actorId]="actor()?.id!" />
             </watt-tab>
 
             <ng-container *dhFeatureFlag="'market-participant-delegation'">
               <ng-container *dhPermissionRequired="['delegation:view']">
                 <watt-tab
                   [label]="t('tabs.delegation.tabLabel')"
-                  *dhCanDelegateFor="actor?.marketRole"
+                  *dhCanDelegateFor="actor()?.marketRole"
                 >
                   @defer (on viewport) {
-                    <dh-delegation-tab [actor]="actor!" />
+                    <dh-delegation-tab [actor]="actor()!" />
                   } @placeholder {
                     <watt-spinner />
                   }
@@ -108,7 +116,7 @@ limitations under the License.
             <ng-container *dhPermissionRequired="['balance-responsibility:view']">
               @if (showBalanceResponsibleRelationTab()) {
                 <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
-                  <dh-balance-responsible-relation-tab [actor]="actor!" />
+                  <dh-balance-responsible-relation-tab [actor]="actor()!" />
                 </watt-tab>
               }
             </ng-container>
@@ -116,7 +124,7 @@ limitations under the License.
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
             <dh-actor-audit-log-tab
-              [actorId]="actor!.id"
+              [actorId]="actor()?.id!"
               [actorNumberNameLookup]="actorNumberNameLookup()"
               [gridAreaCodeLookup]="gridAreaCodeLookup()"
             />
@@ -127,4 +135,4 @@ limitations under the License.
   </watt-drawer>
 </ng-container>
 
-<dh-actors-edit-actor-modal #editActorModal [actor]="actor" />
+<dh-actors-edit-actor-modal #editActorModal [actor]="actor()" />

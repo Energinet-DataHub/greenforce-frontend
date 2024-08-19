@@ -21,14 +21,17 @@ limitations under the License.
   [disableRipple]="true"
   (selectedIndexChange)="emitSelectedTabChange($event)"
 >
-  @for (tab of tabElements; track tab) {
-    <mat-tab [label]="tab.label">
-      <ng-container *ngTemplateOutlet="tab.templateRef" />
+  @for (tab of tabElements(); track tab) {
+    <mat-tab [label]="tab.label()">
+      <ng-container *ngTemplateOutlet="tab.templateRef()" />
     </mat-tab>
   }
-  <mat-tab labelClass="watt-tabs-actions" [disabled]="true">
-    <ng-template mat-tab-label>
-      <ng-content />
-    </ng-template>
-  </mat-tab>
+
+  @if (actionsTab()) {
+    <mat-tab labelClass="watt-tabs-action" [disabled]="true">
+      <ng-template mat-tab-label>
+        <ng-content />
+      </ng-template>
+    </mat-tab>
+  }
 </mat-tab-group>

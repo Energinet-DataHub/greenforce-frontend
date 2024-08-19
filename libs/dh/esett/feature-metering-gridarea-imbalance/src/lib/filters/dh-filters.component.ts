@@ -17,18 +17,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
+  DestroyRef,
   OnInit,
-  Output,
   inject,
+  input,
+  output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { Subscription, debounceTime } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -41,9 +40,10 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -80,17 +80,17 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
     WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
+    WattQueryParamsDirective,
+
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDestroy {
-  private apollo = inject(Apollo);
-  private subscription: Subscription | null = null;
+export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
-  @Input() initial?: DhMeteringGridAreaImbalanceFilters;
-
-  @Output() filter = new EventEmitter<DhMeteringGridAreaImbalanceFilters>();
-  @Output() formReset = new EventEmitter<void>();
+  initial = input.required<DhMeteringGridAreaImbalanceFilters>();
+  filter = output<DhMeteringGridAreaImbalanceFilters>();
+  formReset = output<void>();
 
   gridAreaOptions$ = getGridAreaOptions();
   valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
@@ -102,19 +102,14 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit, OnDe
 
   ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
-      gridArea: dhMakeFormControl(this.initial?.gridArea),
-      valuesToInclude: dhMakeFormControl(this.initial?.valuesToInclude),
-      created: dhMakeFormControl(this.initial?.created),
-      calculationPeriod: dhMakeFormControl(this.initial?.calculationPeriod),
+      gridArea: dhMakeFormControl(this.initial().gridArea),
+      valuesToInclude: dhMakeFormControl(this.initial().valuesToInclude),
+      created: dhMakeFormControl(this.initial().created),
+      calculationPeriod: dhMakeFormControl(this.initial().calculationPeriod),
     });
 
-    this.subscription = this.formGroup.valueChanges
-      .pipe(debounceTime(500))
+    this.formGroup.valueChanges
+      .pipe(debounceTime(500), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => this.filter.emit(value as DhMeteringGridAreaImbalanceFilters));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = null;
   }
 }

@@ -14,50 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule } from '@angular/common/http';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormGroupDirective } from '@angular/forms';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ApolloTestingModule } from 'apollo-angular/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSelectHarness } from '@angular/material/select/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
+import { of } from 'rxjs';
+import { MockProvider } from 'ng-mocks';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/angular';
-import { MockProvider } from 'ng-mocks';
-import { of } from 'rxjs';
 
-import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { DhUsers } from '@energinet-datahub/dh/admin/shared';
+import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhAdminUserManagementDataAccessApiStore } from '@energinet-datahub/dh/admin/data-access-api';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+
 import {
-  MarketParticipantUserOverviewItemDto,
-  MarketParticipantUserStatus,
-} from '@energinet-datahub/dh/shared/domain';
+  DhAdminUserManagementDataAccessApiStore,
+  DhUserManagementFilters,
+} from '@energinet-datahub/dh/admin/data-access-api';
+
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhUsersOverviewComponent, debounceTimeValue } from './dh-users-overview.component';
-import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
-const users: MarketParticipantUserOverviewItemDto[] = [
+const users: DhUsers = [
   {
+    __typename: 'User',
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
     firstName: 'Test User First',
     lastName: 'Test User Last',
     phoneNumber: '11111111',
-    createdDate: '2022-01-01T23:00:00Z',
-    status: 'Active',
+    status: UserStatus.Active,
+    createdDate: new Date(),
   },
 ];
 
 describe(DhUsersOverviewComponent, () => {
-  async function setup(mockUsers: MarketParticipantUserOverviewItemDto[] = []) {
+  async function setup(mockUsers: DhUsers = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
       {
         users$: of(mockUsers),
         isLoading$: of(false),
         updateSearchText: jest.fn(),
-        updateStatusFilter: jest.fn(),
+        updateFilters: jest.fn(),
       },
       'useValue'
     );
@@ -71,8 +77,8 @@ describe(DhUsersOverviewComponent, () => {
     );
 
     const { fixture } = await render(DhUsersOverviewComponent, {
-      imports: [getTranslocoTestingModule(), HttpClientModule, DhApiModule.forRoot()],
-      providers: [FormGroupDirective, MsalServiceMock],
+      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), ApolloTestingModule],
+      providers: [FormGroupDirective, MsalServiceMock, provideHttpClient(withInterceptorsFromDi())],
       componentProviders: [storeMock, toastServiceMock],
     });
 
@@ -114,7 +120,7 @@ describe(DhUsersOverviewComponent, () => {
       name: new RegExp(testUser.phoneNumber ?? '', 'i'),
     });
     const status = screen.getByRole('gridcell', {
-      name: new RegExp(enTranslations.admin.userManagement.userStatus.Active, 'i'),
+      name: new RegExp(enTranslations.admin.userManagement.userStatus.ACTIVE, 'i'),
     });
 
     expect(firstName).toBeInTheDocument();
@@ -136,7 +142,7 @@ describe(DhUsersOverviewComponent, () => {
     expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
   }));
 
-  it('forwards status filter value to store', fakeAsync(async () => {
+  it('forwards filters to store', fakeAsync(async () => {
     const { store, matSelect, statusFilterBtn } = await setup();
 
     userEvent.click(statusFilterBtn);
@@ -152,7 +158,11 @@ describe(DhUsersOverviewComponent, () => {
 
     tick(debounceTimeValue);
 
-    const allOptions = Object.keys(MarketParticipantUserStatus);
-    expect(store.updateStatusFilter).toHaveBeenCalledWith(allOptions);
+    const actualValue: DhUserManagementFilters = {
+      actorId: null,
+      status: Object.values(UserStatus) as UserStatus[],
+      userRoleIds: null,
+    };
+    expect(store.updateFilters).toHaveBeenCalledWith(actualValue);
   }));
 });

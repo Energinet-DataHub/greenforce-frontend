@@ -34,13 +34,15 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 
-import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.component';
+import { DhCalculationsGridAreasTableComponent } from '../grid-areas/table.component';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 @Component({
   standalone: true,
@@ -48,14 +50,17 @@ import { DhCalculationsGridAreasComponent } from '../grid-areas/grid-areas.compo
     TranslocoDirective,
 
     WATT_DRAWER,
+    WATT_PROGRESS_TRACKER,
     WattBadgeComponent,
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+    VaterFlexComponent,
+    VaterUtilityDirective,
 
-    DhCalculationsGridAreasComponent,
+    DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,
   ],
   selector: 'dh-calculations-details',

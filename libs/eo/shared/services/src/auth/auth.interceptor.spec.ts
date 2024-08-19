@@ -14,15 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
+import { RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 
 import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from './auth.interceptor';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+const translocoConfig: TranslocoTestingOptions = {
+  langs: { en: {} }, // provide your translations here
+};
 
 @Component({
   template: '',
@@ -30,22 +42,26 @@ import { EoAuthorizationInterceptor, eoAuthorizationInterceptorProvider } from '
 class TestDefaultRouteComponent {}
 
 describe(EoAuthorizationInterceptor, () => {
-  function sendRequest(): Promise<unknown> {
-    return lastValueFrom(http.get(testEndpoint));
+  function sendRequest(url = testEndpoint): Promise<unknown> {
+    return lastValueFrom(http.get(url));
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestDefaultRouteComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
           { path: defaultRoutePath, component: TestDefaultRouteComponent },
         ]),
+        TranslocoTestingModule.forRoot(translocoConfig),
         MatSnackBarModule,
       ],
-      providers: [eoAuthorizationInterceptorProvider],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        eoAuthorizationInterceptorProvider,
+      ],
     });
 
     http = TestBed.inject(HttpClient);
@@ -59,7 +75,8 @@ describe(EoAuthorizationInterceptor, () => {
   const defaultRoutePath = 'default';
   let http: HttpClient;
   let httpController: HttpTestingController;
-  const testEndpoint = '/api/test';
+  const testEndpoint = 'https://demo.energytrackandtrace.dk/api/some-endpoint';
+  const testEndpointWallet = 'https://demo.energytrackandtrace.dk/wallet-api/some-endpoint';
 
   describe('Given the user has insufficient permissions', () => {
     function respondWith403Forbidden(errorMessage: string): void {
@@ -87,7 +104,7 @@ describe(EoAuthorizationInterceptor, () => {
     });
 
     it('Then an error message is displayed', async () => {
-      const snackBar = TestBed.inject(MatSnackBar);
+      const snackBar = TestBed.inject(WattToastService);
       jest.spyOn(snackBar, 'open');
 
       const whenResponse = sendRequest();
@@ -104,6 +121,46 @@ describe(EoAuthorizationInterceptor, () => {
       const testRequest = httpController.expectOne(testEndpoint);
       testRequest.flush(body);
     }
+
+    it('When API is requested, Then Authorization header is added', async () => {
+      expect.assertions(1);
+
+      const whenResponse = sendRequest();
+      const testRequest = httpController.expectOne(testEndpoint);
+      testRequest.flush(null);
+
+      await whenResponse;
+
+      expect(testRequest.request.headers.get('Authorization')).toEqual('Bearer ');
+    });
+
+    it('When Wallet API is requested, Then Authorization header is added', async () => {
+      expect.assertions(1);
+
+      const whenResponse = sendRequest(testEndpointWallet);
+      const testRequest = httpController.expectOne(testEndpointWallet);
+      testRequest.flush(null);
+
+      await whenResponse;
+
+      expect(testRequest.request.headers.get('Authorization')).toEqual('Bearer ');
+    });
+
+    /**
+     * NOTE: ASSETS LOCATED UNDER THE API OR WALLET API URLS WILL HAVE THE AUTHORIZATION HEADER
+     */
+    it('When assets are requested, Then Authorization header is not added', async () => {
+      expect.assertions(1);
+
+      const assetUrl = testEndpoint.replace('/api/some-endpoint', '/assets/some-asset.svg');
+      const whenResponse = sendRequest(assetUrl);
+      const testRequest = httpController.expectOne(assetUrl);
+      testRequest.flush('Dummy response');
+
+      await whenResponse;
+
+      expect(testRequest.request.headers.get('Authorization')).toBeNull();
+    });
 
     it('Then the request passes', async () => {
       expect.assertions(1);

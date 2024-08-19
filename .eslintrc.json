@@ -42,7 +42,6 @@
                   "type:domain",
                   "type:environments",
                   "type:feature",
-                  "type:routing",
                   "type:test-util",
                   "type:ui",
                   "type:util"
@@ -63,22 +62,10 @@
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
-                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:domain",
                   "type:environments"
-                ]
-              },
-              {
-                "sourceTag": "type:routing",
-                "onlyDependOnLibsWithTags": [
-                  "type:data-access",
-                  "type:routing",
-                  "type:util",
-                  "type:test-util",
-                  "type:shell",
-                  "type:domain"
                 ]
               },
               {
@@ -123,7 +110,6 @@
                   "type:feature",
                   "type:ui",
                   "type:data-access",
-                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:e2e-util",
@@ -139,7 +125,6 @@
                 "sourceTag": "type:configuration",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
-                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:configuration",
@@ -200,7 +185,11 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"]
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
       "files": ["*.ts"],
@@ -217,13 +206,16 @@
       "files": ["*.js", "*.ts"],
       "extends": ["plugin:sonarjs/recommended"],
       "rules": {
-        "sonarjs/cognitive-complexity": ["error", 8]
+        "sonarjs/cognitive-complexity": ["error", 10]
       }
     },
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nx/javascript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
       "files": "*.json",

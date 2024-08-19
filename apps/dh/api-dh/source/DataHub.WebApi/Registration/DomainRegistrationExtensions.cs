@@ -17,6 +17,7 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 
 // ReSharper disable UnusedMethodReturnValue.Global
@@ -38,6 +39,8 @@ public static class DomainRegistrationExtensions
                 GetBaseUri(apiClientSettings.WholesaleBaseUrl))
             .AddWholesaleOrchestrationsClient(
                 GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
+            .AddSettlementReportsClient(
+                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl))
             .AddESettClient(
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(
@@ -74,6 +77,14 @@ public static class DomainRegistrationExtensions
     {
         return serviceCollection.AddScoped<IWholesaleOrchestrationsClient, WholesaleOrchestrationsClient>(
             provider => new WholesaleOrchestrationsClient(
+                baseUri.ToString(),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+    }
+
+    private static IServiceCollection AddSettlementReportsClient(this IServiceCollection serviceCollection, Uri baseUri)
+    {
+        return serviceCollection.AddScoped<ISettlementReportsClient, SettlementReportsClient>(
+            provider => new SettlementReportsClient(
                 baseUri.ToString(),
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }

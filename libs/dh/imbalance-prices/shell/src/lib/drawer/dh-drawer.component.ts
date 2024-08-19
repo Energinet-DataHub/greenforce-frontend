@@ -25,6 +25,8 @@ import {
   inject,
   computed,
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
@@ -34,16 +36,17 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { ImbalancePricesHttp } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+
+import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
-import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigger';
+import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
+import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
@@ -89,24 +92,24 @@ import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigg
     `,
   ],
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_DRAWER,
     WattDatePipe,
-    WATT_EXPANDABLE_CARD_COMPONENTS,
+    VaterFlexComponent,
     WattButtonComponent,
     WattSpinnerComponent,
-    VaterFlexComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
 
-    DhStatusBadgeComponent,
     DhEmDashFallbackPipe,
+    DhStatusBadgeComponent,
     DhTableDayViewComponent,
   ],
 })
 export class DhImbalancePricesDrawerComponent {
   private readonly toastService = inject(WattToastService);
-  private readonly httpClient = inject(ImbalancePricesHttp);
+  private readonly httpClient = inject(HttpClient);
   private readonly apollo = inject(Apollo);
 
   private readonly yearAndMonth = computed(() => {
@@ -116,12 +119,14 @@ export class DhImbalancePricesDrawerComponent {
       return { year: 0, month: 0 };
     }
 
-    const date = dayjs(imbalancePrice.name);
+    const date = dayjs(imbalancePrice.name).tz(danishTimeZoneIdentifier);
 
     return { year: date.get('year'), month: date.get('month') + 1 };
   });
 
   imbalancePrice = input<DhImbalancePrice>();
+
+  url = signal<string>('');
 
   imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
   isLoading = signal(false);
@@ -153,7 +158,7 @@ export class DhImbalancePricesDrawerComponent {
     this.closed.emit();
   }
 
-  downloadCSV() {
+  downloadCSV(url: string) {
     this.toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
@@ -164,10 +169,8 @@ export class DhImbalancePricesDrawerComponent {
       type: 'text/csv',
     };
 
-    const { year, month } = this.yearAndMonth();
-
     this.httpClient
-      .v1ImbalancePricesDownloadImbalanceCSVGet(month, year)
+      .get(url, { responseType: 'text' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
@@ -202,7 +205,7 @@ export class DhImbalancePricesDrawerComponent {
       .subscribe({
         next: (result) => {
           this.isLoading.set(result.loading);
-
+          this.url.set(result.data.imbalancePricesForMonth[0].imbalancePricesDownloadImbalanceUrl);
           this.imbalancePricesForMonth.set(result.data.imbalancePricesForMonth);
         },
         error: () => {

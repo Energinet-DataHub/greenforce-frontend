@@ -17,16 +17,15 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  ContentChildren,
-  EventEmitter,
-  Output,
-  QueryList,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
+  contentChildren,
+  viewChild,
 } from '@angular/core';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { Subject } from 'rxjs';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-breadcrumb',
@@ -36,10 +35,10 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   template: `<ng-template #templateRef><ng-content /></ng-template>`,
 })
 export class WattBreadcrumbComponent {
-  @ViewChild('templateRef', { static: true }) public templateRef!: TemplateRef<unknown>;
-
+  templateRef = viewChild.required<TemplateRef<unknown>>('templateRef');
   // Used to determine if the breadcrumb is interactive or not
-  @Output() click: EventEmitter<unknown> = new EventEmitter<unknown>(); // eslint-disable-line @angular-eslint/no-output-native
+  actionEmitter = new Subject<unknown>();
+  click = outputFromObservable(this.actionEmitter);
 }
 
 /**
@@ -54,14 +53,14 @@ export class WattBreadcrumbComponent {
   styleUrls: ['./watt-breadcrumbs.component.scss'],
   template: `
     <nav>
-      @for (breadcrumb of breadcrumbs; track breadcrumb; let isLast = $last) {
+      @for (breadcrumb of breadcrumbs(); track breadcrumb; let isLast = $last) {
         <span
           class="watt-breadcrumb"
-          (click)="breadcrumb.click.emit($event)"
-          [class.interactive]="breadcrumb.click.observed"
-          [attr.role]="breadcrumb.click.observed ? 'link' : null"
+          (click)="breadcrumb.actionEmitter.next($event)"
+          [class.interactive]="breadcrumb.actionEmitter.observed"
+          [attr.role]="breadcrumb.actionEmitter.observed ? 'link' : null"
         >
-          <ng-container *ngTemplateOutlet="breadcrumb.templateRef" />
+          <ng-container *ngTemplateOutlet="breadcrumb.templateRef()" />
           @if (!isLast) {
             <watt-icon name="right" />
           }
@@ -74,8 +73,7 @@ export class WattBreadcrumbsComponent {
   /**
    * @ignore
    */
-  @ContentChildren(WattBreadcrumbComponent)
-  breadcrumbs!: QueryList<WattBreadcrumbComponent>;
+  breadcrumbs = contentChildren<WattBreadcrumbComponent>(WattBreadcrumbComponent);
 }
 
 export const WATT_BREADCRUMBS = [WattBreadcrumbsComponent, WattBreadcrumbComponent] as const;

@@ -1,19 +1,21 @@
 query GetCalculationById($id: UUID!) {
   calculationById(id: $id) {
     id
-    executionState
-    executionTimeEnd
+    state
     executionTimeStart
+    executionTimeEnd
     period
     statusType
     calculationType
     createdByUserName
     gridAreas {
       code
-      name
-      id
-      priceAreaCode
-      validFrom
+      displayName
+    }
+    currentStep
+    progress {
+      step
+      status
     }
   }
 }

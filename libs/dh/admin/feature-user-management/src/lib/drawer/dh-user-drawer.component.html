@@ -15,48 +15,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
-  <watt-drawer #drawer size="large" (closed)="onClose()">
+  <watt-drawer [loading]="isLoading()" #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
-      @if (selectedUser) {
-        <dh-user-status [status]="selectedUser.status" />
+      @if (selectedUser()) {
+        <dh-user-status [status]="selectedUser()?.status!" />
       }
     </watt-drawer-topbar>
     <watt-drawer-heading>
-      <h2>{{ selectedUser?.firstName + " " + selectedUser?.lastName }}</h2>
+      @if (selectedUser()) {
+        <h2>{{ selectedUser()?.firstName + " " + selectedUser()?.lastName }}</h2>
+      }
     </watt-drawer-heading>
 
     <watt-drawer-actions *dhPermissionRequired="['users:manage']">
-      @if (selectedUser?.status !== "Inactive") {
+      @if (selectedUser()?.status !== UserStatus.Inactive) {
         <watt-button
           variant="secondary"
           (click)="requestDeactivateUser()"
-          [loading]="isDeactivating$ | push: { strategy: 'native' }"
+          [loading]="isDeactivating()"
           >{{ t("deactivate") }}</watt-button
         >
       }
 
-      @if (selectedUser?.status === "Inactive") {
+      @if (selectedUser()?.status === UserStatus.Inactive) {
         <watt-button
           *dhPermissionRequired="['users:reactivate']"
           variant="secondary"
           (click)="requestReActivateUser()"
-          [loading]="isReActivating$ | push: { strategy: 'native' }"
+          [loading]="isReActivating()"
           >{{ t("reactivate") }}</watt-button
         >
       }
 
-      @if (selectedUser?.status === "Invited" || selectedUser?.status === "InviteExpired") {
-        <watt-button
-          variant="secondary"
-          (click)="reinvite()"
-          [loading]="isReinviting$ | push: { strategy: 'native' }"
-          >{{ t("reinvite") }}</watt-button
-        >
+      @if (
+        selectedUser()?.status === UserStatus.Invited ||
+        selectedUser()?.status === UserStatus.InviteExpired
+      ) {
+        <watt-button variant="secondary" (click)="reinvite()" [loading]="isReinviting()">{{
+          t("reinvite")
+        }}</watt-button>
       }
 
-      <watt-button variant="secondary" (click)="isEditUserModalVisible = true">{{
-        t("edit")
-      }}</watt-button>
+      <watt-button variant="secondary" (click)="showEditUserModal()">{{ t("edit") }}</watt-button>
 
       <watt-button variant="icon" icon="menu" [mat-menu-trigger-for]="menu">
         <mat-menu #menu="matMenu">
@@ -65,16 +65,12 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    @if (drawer.isOpen && selectedUser) {
+    @if (drawer.isOpen && selectedUser()) {
       <watt-drawer-content>
-        <dh-drawer-tabs [user]="selectedUser" />
+        <dh-drawer-tabs [user]="selectedUser()!" />
       </watt-drawer-content>
     }
   </watt-drawer>
-
-  @if (isEditUserModalVisible) {
-    <dh-edit-user-modal [user]="selectedUser" (closed)="modalOnClose()" />
-  }
 
   <watt-modal
     #deactivateConfirmationModal
@@ -86,9 +82,9 @@ limitations under the License.
     <p>
       {{
         t("deactivateConfirmation.body", {
-          first: selectedUser?.firstName,
-          last: selectedUser?.lastName,
-          email: selectedUser?.email
+          first: selectedUser()?.firstName,
+          last: selectedUser()?.lastName,
+          email: selectedUser()?.email
         })
       }}
     </p>
@@ -119,9 +115,9 @@ limitations under the License.
     <p>
       {{
         t("reactivateConfirmation.body", {
-          first: selectedUser?.firstName,
-          last: selectedUser?.lastName,
-          email: selectedUser?.email
+          first: selectedUser()?.firstName,
+          last: selectedUser()?.lastName,
+          email: selectedUser()?.email
         })
       }}
     </p>

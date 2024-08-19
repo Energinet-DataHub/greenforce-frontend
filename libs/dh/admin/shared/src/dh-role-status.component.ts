@@ -18,21 +18,23 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { MarketParticipantUserRoleStatus } from '@energinet-datahub/dh/shared/domain';
+import { UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-role-status',
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.roleStatus'">
-    @if (status === 'Active') {
-      <watt-badge type="info">{{ t('active') }}</watt-badge>
-    } @else if (status === 'Inactive') {
-      <watt-badge type="warning">{{ t('inactive') }}</watt-badge>
+    @if (status === UserRoleStatus.Active) {
+      <watt-badge type="info">{{ t('ACTIVE') }}</watt-badge>
+    } @else if (status === UserRoleStatus.Inactive) {
+      <watt-badge type="warning">{{ t('INACTIVE') }}</watt-badge>
     }
   </ng-container>`,
   imports: [TranslocoDirective, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhRoleStatusComponent {
-  @Input() status!: MarketParticipantUserRoleStatus;
+  UserRoleStatus = UserRoleStatus;
+
+  @Input() status!: UserRoleStatus;
 }

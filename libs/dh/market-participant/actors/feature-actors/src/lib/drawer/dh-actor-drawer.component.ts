@@ -14,25 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, ViewChild, input } from '@angular/core';
-import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  Component,
+  inject,
+  input,
+  signal,
+  computed,
+  viewChild,
+  DestroyRef,
+  output,
+} from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { Apollo } from 'apollo-angular';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import {
   DhPermissionRequiredDirective,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -47,10 +55,8 @@ import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
-import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { RxPush } from '@rx-angular/template/push';
+import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -81,49 +87,45 @@ import { RxPush } from '@rx-angular/template/push';
   ],
   viewProviders: [DhActorAuditLogService],
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    WATT_DRAWER,
+    TranslocoDirective,
+
     WATT_TABS,
     WATT_CARD,
+    WATT_DRAWER,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+
     VaterStackComponent,
-    DhFeatureFlagDirective,
+
     DhEmDashFallbackPipe,
-    DhPermissionRequiredDirective,
-    DhActorsEditActorModalComponent,
-    DhActorStatusBadgeComponent,
+    DhFeatureFlagDirective,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
     DhCanDelegateForDirective,
-    DhBalanceResponsibleRelationTabComponent,
     DhActorAuditLogTabComponent,
+    DhActorStatusBadgeComponent,
+    DhPermissionRequiredDirective,
+    DhActorsEditActorModalComponent,
+    DhBalanceResponsibleRelationTabComponent,
   ],
 })
 export class DhActorDrawerComponent {
-  private readonly apollo = inject(Apollo);
   private readonly permissionService = inject(PermissionService);
-  private readonly closed$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
-  private subscription?: Subscription;
+  actorQuery = lazyQuery(GetActorByIdDocument);
 
-  private getActorByIdQuery$ = this.apollo.watchQuery({
-    errorPolicy: 'all',
-    returnPartialData: true,
-    query: GetActorByIdDocument,
-  });
+  actor = computed(() => this.actorQuery.data()?.actorById);
 
-  actor: DhActorExtended | undefined = undefined;
-  hasActorAccess = false;
+  hasActorAccess = signal(false);
+  closed = output();
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
+  isLoading = this.actorQuery.loading;
 
-  closed = outputFromObservable(this.closed$);
+  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   actorNumberNameLookup = input.required<{
     [Key: string]: {
@@ -131,59 +133,45 @@ export class DhActorDrawerComponent {
       name: string;
     };
   }>();
+
   gridAreaCodeLookup = input.required<{
     [Key: string]: string;
   }>();
 
-  public open(actorId: string): void {
-    this.drawer?.open();
-    this.loadActor(actorId);
-  }
+  showBalanceResponsibleRelationTab = computed(
+    () =>
+      this.actor()?.marketRole === EicFunction.EnergySupplier ||
+      this.actor()?.marketRole === EicFunction.BalanceResponsibleParty
+  );
 
-  onClose(): void {
-    this.closed$.next();
-  }
-
-  get marketRoleOrFallback(): string {
-    if (this.actor?.marketRole) {
-      return translate('marketParticipant.marketRoles.' + this.actor.marketRole);
+  marketRoleOrFallback = computed(() => {
+    if (this.actor()?.marketRole) {
+      return translate('marketParticipant.marketRoles.' + this.actor()?.marketRole);
     }
 
     return emDash;
-  }
+  });
 
-  get isGridAccessProvider(): boolean {
-    return this.actor?.marketRole === EicFunction.GridAccessProvider;
-  }
+  isGridAccessProvider = computed(
+    () => this.actor()?.marketRole === EicFunction.GridAccessProvider
+  );
 
-  get gridAreaOrFallback() {
-    const stringList = this.actor?.gridAreas?.map((gridArea) => gridArea.code).join(', ');
+  gridAreaOrFallback = computed(() => {
+    const stringList = this.actor()
+      ?.gridAreas?.map((gridArea) => gridArea.code)
+      .join(', ');
+
     return stringList ?? emDash;
-  }
+  });
 
-  public showBalanceResponsibleRelationTab(): boolean {
-    return (
-      this.actor?.marketRole === EicFunction.EnergySupplier ||
-      this.actor?.marketRole === EicFunction.BalanceResponsibleParty
-    );
-  }
-
-  private loadActor(id: string): void {
-    this.subscription?.unsubscribe();
-
-    this.getActorByIdQuery$.setVariables({ id });
-
-    this.subscription = this.getActorByIdQuery$.valueChanges
-      .pipe(takeUntil(this.closed$))
-      .subscribe({
-        next: (result) => {
-          this.actor = result.data?.actorById;
-        },
-      });
+  public open(actorId: string): void {
+    this.drawer().open();
 
     this.permissionService
-      .hasActorAccess(id)
-      .pipe(takeUntil(this.closed$))
-      .subscribe((hasAccess) => (this.hasActorAccess = hasAccess));
+      .hasActorAccess(actorId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
+
+    this.actorQuery.query({ variables: { id: actorId } });
   }
 }

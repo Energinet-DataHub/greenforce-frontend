@@ -30,8 +30,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
-import { MarketParticipantUserRoleDto } from '@energinet-datahub/dh/shared/domain';
-
 import {
   WattTableDataSource,
   WattTableColumnDef,
@@ -48,6 +46,7 @@ import {
 } from '@energinet-datahub/dh/admin/shared';
 
 import { DhRoleDrawerComponent } from '../drawer/dh-role-drawer.component';
+import { UserRoleDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-roles-overview-table',
@@ -79,9 +78,9 @@ import { DhRoleDrawerComponent } from '../drawer/dh-role-drawer.component';
 export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   private _destroyRef = inject(DestroyRef);
 
-  activeRow: MarketParticipantUserRoleDto | undefined = undefined;
+  activeRow: UserRoleDto | undefined = undefined;
 
-  @Input() roles: MarketParticipantUserRoleDto[] = [];
+  @Input() roles: UserRoleDto[] = [];
   @Input() isLoading = false;
   @Input() hasGeneralError = false;
   @Input() paginator!: WattPaginatorComponent<unknown>;
@@ -92,24 +91,21 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(DhRoleDrawerComponent)
   drawer!: DhRoleDrawerComponent;
 
-  @ViewChild(WattTableComponent<MarketParticipantUserRoleDto>)
-  table!: WattTableComponent<MarketParticipantUserRoleDto>;
+  @ViewChild(WattTableComponent<UserRoleDto>)
+  table!: WattTableComponent<UserRoleDto>;
 
-  readonly dataSource: WattTableDataSource<MarketParticipantUserRoleDto> =
-    new WattTableDataSource<MarketParticipantUserRoleDto>();
+  readonly dataSource: WattTableDataSource<UserRoleDto> = new WattTableDataSource<UserRoleDto>();
 
-  columns: WattTableColumnDef<MarketParticipantUserRoleDto> = {
+  columns: WattTableColumnDef<UserRoleDto> = {
     name: { accessor: 'name' },
     marketRole: { accessor: 'eicFunction' },
     status: { accessor: 'status' },
   };
 
-  filteredAndSortedData: MarketParticipantUserRoleDto[] = [];
+  filteredAndSortedData: UserRoleDto[] = [];
 
-  activeRowComparator = (
-    currentRow: MarketParticipantUserRoleDto,
-    activeRow: MarketParticipantUserRoleDto
-  ): boolean => currentRow.id === activeRow.id;
+  activeRowComparator = (currentRow: UserRoleDto, activeRow: UserRoleDto): boolean =>
+    currentRow.id === activeRow.id;
 
   translateHeader = (key: string) =>
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
@@ -143,7 +139,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
       );
   }
 
-  onRowClick(row: MarketParticipantUserRoleDto): void {
+  onRowClick(row: UserRoleDto): void {
     this.drawer.open(row);
     this.activeRow = row;
   }

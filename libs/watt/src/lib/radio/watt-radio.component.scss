@@ -35,6 +35,8 @@ watt-radio label {
 watt-radio input[type="radio"] {
   width: 24px;
   height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   appearance: none;
   margin: 0 var(--watt-space-s) 0 0;
   border: 2px solid currentColor;

@@ -37,7 +37,6 @@ import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 export interface GridAreaOverviewRow {
-  id: string;
   code: string;
   actor: string;
   organization: string;

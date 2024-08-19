@@ -28,6 +28,8 @@ const period = {
   end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
 };
 
+const url = 'https://localhost:4200';
+
 export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
   {
     __typename: 'EsettOutgoingMessage',
@@ -47,6 +49,8 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2021-01-01T00:10:00.000Z'),
     period,
+    responseDocumentUrl: url,
+    dispatchDocumentUrl: url,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -66,6 +70,8 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2021-02-01T00:10:00.000Z'),
     period,
+    responseDocumentUrl: url,
+    dispatchDocumentUrl: url,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -85,6 +91,8 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2022-01-01T00:10:00.000Z'),
     period,
+    responseDocumentUrl: url,
+    dispatchDocumentUrl: url,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -104,5 +112,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     timeSeriesType: TimeSeriesType.Consumption,
     created: new Date('2023-01-01T00:10:00.000Z'),
     period,
+    responseDocumentUrl: url,
+    dispatchDocumentUrl: url,
   },
 ];

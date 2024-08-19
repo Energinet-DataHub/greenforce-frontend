@@ -38,6 +38,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 import { ActorsFilters } from '../actors-filters';
 
@@ -58,6 +59,8 @@ type Form = FormGroup<{
     VaterStackComponent,
     WattButtonComponent,
     WattDropdownComponent,
+    WattQueryParamsDirective,
+
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-actors-filters',
@@ -76,14 +79,15 @@ type Form = FormGroup<{
     <form
       vater-stack
       direction="row"
-      gap="m"
+      gap="s"
       tabindex="-1"
       [formGroup]="formGroup"
+      wattQueryParams
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
       <watt-dropdown
         dhDropdownTranslator
-        translate="marketParticipant.actorsOverview.status"
+        translateKey="marketParticipant.actorsOverview.status"
         [formControl]="formGroup.controls.actorStatus"
         [options]="actorStatusOptions"
         [multiple]="true"
@@ -93,7 +97,7 @@ type Form = FormGroup<{
 
       <watt-dropdown
         dhDropdownTranslator
-        translate="marketParticipant.marketRoles"
+        translateKey="marketParticipant.marketRoles"
         [formControl]="formGroup.controls.marketRoles"
         [options]="marketRolesOptions"
         [multiple]="true"

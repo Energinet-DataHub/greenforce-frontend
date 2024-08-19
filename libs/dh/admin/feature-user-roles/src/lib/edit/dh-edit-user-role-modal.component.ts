@@ -23,6 +23,8 @@ import {
   Output,
   ViewChild,
   DestroyRef,
+  viewChild,
+  computed,
 } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -30,6 +32,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { combineLatest, map, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -40,18 +43,18 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import {
-  DhAdminMarketRolePermissionsStore,
   DhAdminUserRoleEditDataAccessApiStore,
-  DhAdminUserRoleWithPermissionsManagementDataAccessApiStore,
+  DhUserRoleManagementStore,
+  DhUserRoleWithPermissions,
 } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  MarketParticipantPermissionDetailsDto,
-  MarketParticipantUpdateUserRoleDto,
-  MarketParticipantUserRoleWithPermissionsDto,
-} from '@energinet-datahub/dh/shared/domain';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
+import {
+  GetPermissionByEicFunctionDocument,
+  PermissionDetailsDto,
+  UpdateUserRoleDtoInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-edit-user-role-modal',
@@ -70,7 +73,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared'
       }
     `,
   ],
-  providers: [DhAdminUserRoleEditDataAccessApiStore, DhAdminMarketRolePermissionsStore],
+  providers: [DhAdminUserRoleEditDataAccessApiStore],
   imports: [
     RxPush,
     RxLet,
@@ -93,10 +96,7 @@ import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared'
 export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   private readonly userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly userRoleWithPermissionsStore = inject(
-    DhAdminUserRoleWithPermissionsManagementDataAccessApiStore
-  );
-  private readonly marketRolePermissionsStore = inject(DhAdminMarketRolePermissionsStore);
+  private readonly userRoleWithPermissionsStore = inject(DhUserRoleManagementStore);
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastService = inject(WattToastService);
@@ -107,7 +107,13 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
   readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
 
-  readonly marketRolePermissions$ = this.marketRolePermissionsStore.permissions$;
+  permissionsQuery = lazyQuery(GetPermissionByEicFunctionDocument);
+
+  permissions = computed<PermissionDetailsDto[]>(
+    () => this.permissionsQuery.data()?.permissionsByEicFunction ?? []
+  );
+
+  private readonly marketRolePermissions$ = toObservable(this.permissions);
   readonly initiallySelectedPermissions$ = combineLatest([
     this.marketRolePermissions$,
     this.userRole$,
@@ -123,7 +129,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
     })
   );
-  readonly marketRolePermissionsIsLoading$ = this.marketRolePermissionsStore.isLoading$;
+  readonly marketRolePermissionsIsLoading = this.permissionsQuery.loading;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
@@ -135,6 +141,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   });
 
   @ViewChild(WattModalComponent) editUserRoleModal!: WattModalComponent;
+
+  tabs = viewChild(WattTabsComponent);
 
   @Output() closed = new EventEmitter<{ saveSuccess: boolean }>();
 
@@ -148,7 +156,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
         permissionIds,
       });
 
-      this.marketRolePermissionsStore.getPermissions(userRole.eicFunction);
+      this.permissionsQuery.refetch({ eicFunction: userRole.eicFunction });
     });
 
     this.hasValidationError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
@@ -167,7 +175,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
     this.closed.emit({ saveSuccess });
   }
 
-  onSelectionChanged(selectedPermissions: MarketParticipantPermissionDetailsDto[]): void {
+  onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {
     if (this.skipFirstPermissionSelectionEvent) {
       this.skipFirstPermissionSelectionEvent = false;
 
@@ -180,8 +188,11 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
     this.userRoleEditForm.markAsDirty();
   }
 
-  save(userRole: MarketParticipantUserRoleWithPermissionsDto): void {
+  save(userRole: DhUserRoleWithPermissions): void {
     if (this.userRoleEditForm.invalid) {
+      if (this.userRoleEditForm.controls.description.hasError('required')) {
+        this.tabs()?.setSelectedIndex(0);
+      }
       return;
     }
 
@@ -191,7 +202,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
 
     const formControls = this.userRoleEditForm.controls;
 
-    const updatedUserRole: MarketParticipantUpdateUserRoleDto = {
+    const updatedUserRole: UpdateUserRoleDtoInput = {
       name: formControls.name.value,
       description: formControls.description.value,
       permissions: formControls.permissionIds.value,

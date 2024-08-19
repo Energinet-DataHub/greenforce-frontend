@@ -14,58 +14,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
+  Validators,
   FormControl,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+
+import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { catchError, of } from 'rxjs';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { catchError, filter, map, of, startWith, switchMap, tap } from 'rxjs';
 
 import {
   MeteringPointType,
-  EdiB2CProcessType,
   RequestCalculationDocument,
   EicFunction,
   GetSelectedActorDocument,
   GetActorsForRequestCalculationDocument,
   RequestCalculationMutation,
   GetGridAreasDocument,
+  CalculationType,
+  PriceType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import {
+  aggregationCalculationTypes,
+  getMinDate,
+  wholesaleCalculationTypes,
+} from '@energinet-datahub/dh/wholesale/domain';
 import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
+import { Permission, Range } from '@energinet-datahub/dh/shared/domain';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { RxPush } from '@rx-angular/template/push';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
 const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
 type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
 
-type SelectedEicFunctionType = EicFunction | null | undefined;
-
 type FormType = {
-  processType: FormControl<EdiB2CProcessType | null>;
-  period: FormControl<WattRange<string | null>>;
-  gridarea: FormControl<string | null>;
+  calculationType: FormControl<CalculationType | null>;
+  period: FormControl<Range<string> | null>;
+  gridArea: FormControl<string | null>;
   meteringPointType: FormControl<ExtendMeteringPointType | null>;
+  priceType: FormControl<PriceType | null>;
   energySupplierId: FormControl<string | null>;
   balanceResponsibleId: FormControl<string | null>;
 };
@@ -112,31 +124,47 @@ export class DhWholesaleRequestCalculationComponent {
   private _transloco = inject(TranslocoService);
   private _toastService = inject(WattToastService);
   private _destroyRef = inject(DestroyRef);
-  private _selectedEicFunction: SelectedEicFunctionType;
+  private _permissionService = inject(PermissionService);
 
+  minDate = getMinDate();
   maxDate = new Date();
-  minDate = dayjs().startOf('month').subtract(38, 'months').toDate();
+
+  requestAggregatedMeasuredDataView = this.hasPermission('request-aggregated-measured-data:view');
+  requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
+
+  excludeCalculationTypes = computed(() => {
+    const aggregation = this.requestAggregatedMeasuredDataView() ? [] : aggregationCalculationTypes;
+    const wholesale = this.requestWholesaleSettlementView() ? [] : wholesaleCalculationTypes;
+    return [...aggregation, ...wholesale];
+  });
+
+  gridAreaIsRequired = signal(false);
 
   isLoading = false;
+  isReady = false;
 
   form = this._fb.group<FormType>({
-    processType: this._fb.control(null, Validators.required),
-    period: this._fb.control({ start: null, end: null }, [
+    calculationType: this._fb.control(CalculationType.Aggregation, Validators.required),
+    period: this._fb.control(null, [
       Validators.required,
-      WattRangeValidators.required(),
+      WattRangeValidators.required,
       max31DaysDateRangeValidator,
     ]),
+    gridArea: this._fb.control(null),
+    meteringPointType: this._fb.control(ExtendMeteringPoint.All, Validators.required),
+    priceType: this._fb.control(PriceType.TariffSubscriptionAndFee, Validators.required),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
-    gridarea: this._fb.control(null, Validators.required),
-    meteringPointType: this._fb.control(null, Validators.required),
   });
 
   gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions: WattDropdownOptions = [];
 
   meteringPointOptions: WattDropdownOptions = [];
-  progressTypeOptions: WattDropdownOptions = [];
+  priceTypeOptions = computed(() => dhEnumToWattDropdownOptions(PriceType));
+  calculationTypeOptions = computed(() =>
+    dhEnumToWattDropdownOptions(CalculationType, 'asc', this.excludeCalculationTypes())
+  );
 
   selectedActorQuery = this._apollo.watchQuery({
     query: GetSelectedActorDocument,
@@ -154,45 +182,49 @@ export class DhWholesaleRequestCalculationComponent {
   });
 
   constructor() {
-    this.selectedActorQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
-      next: (result) => {
-        if (result.loading || result.error) return;
-
-        const { glnOrEicNumber, marketRole } = result.data.selectedActor;
-
-        if (!glnOrEicNumber || !marketRole) return;
-
-        this._selectedEicFunction = marketRole;
-
-        if (this._selectedEicFunction === EicFunction.BalanceResponsibleParty) {
-          this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
-        }
-
-        if (this._selectedEicFunction === EicFunction.EnergySupplier) {
-          this.form.controls.energySupplierId.setValue(glnOrEicNumber);
-        }
-
-        this.form.controls.meteringPointType.setValue(ExtendMeteringPoint.All);
-
-        const excludedMeteringpointTypes = this.getExcludedMeterpointTypes(
-          this._selectedEicFunction
-        );
-
-        const excludeProcessTypes = this.getExcludedProcessTypes(this._selectedEicFunction);
-
-        this.meteringPointOptions = dhEnumToWattDropdownOptions(
-          ExtendMeteringPoint,
-          'asc',
-          excludedMeteringpointTypes
-        );
-
-        this.progressTypeOptions = dhEnumToWattDropdownOptions(
-          EdiB2CProcessType,
-          'asc',
-          excludeProcessTypes
-        );
-      },
-    });
+    this.selectedActorQuery.valueChanges
+      .pipe(
+        filter((result) => !result.loading && !result.error),
+        tap(() => {
+          this.isReady = true;
+        }),
+        map((result) => result.data.selectedActor),
+        map(({ marketRole, ...rest }) => (marketRole ? { ...rest, marketRole } : null)),
+        exists(),
+        tap(({ marketRole }) => {
+          this.meteringPointOptions = dhEnumToWattDropdownOptions(
+            ExtendMeteringPoint,
+            'asc',
+            this.getExcludedMeterpointTypes(marketRole)
+          );
+        }),
+        tap(({ glnOrEicNumber, marketRole }) => {
+          if (marketRole === EicFunction.BalanceResponsibleParty) {
+            this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
+          } else if (marketRole === EicFunction.EnergySupplier) {
+            this.form.controls.energySupplierId.setValue(glnOrEicNumber);
+          }
+        }),
+        switchMap(({ marketRole }) =>
+          this.form.controls.calculationType.valueChanges.pipe(
+            startWith(this.form.controls.calculationType.value),
+            exists(),
+            map((value) => wholesaleCalculationTypes.includes(value)),
+            tap((isWholesale) => {
+              if (isWholesale && marketRole !== EicFunction.GridAccessProvider) {
+                this.gridAreaIsRequired.set(false);
+                this.form.controls.gridArea.removeValidators(Validators.required);
+              } else {
+                this.gridAreaIsRequired.set(true);
+                this.form.controls.gridArea.setValidators(Validators.required);
+              }
+            }),
+            tap(() => this.form.controls.gridArea.updateValueAndValidity())
+          )
+        ),
+        takeUntilDestroyed()
+      )
+      .subscribe();
 
     this.energySupplierQuery.valueChanges.pipe(takeUntilDestroyed()).subscribe({
       next: (result) => {
@@ -217,7 +249,7 @@ export class DhWholesaleRequestCalculationComponent {
 
     if (queryResult.loading) return;
 
-    if (!queryResult.errors && queryResult?.data?.createAggregatedMeasureDataRequest) {
+    if (!queryResult.errors && queryResult?.data?.requestCalculation) {
       const message = this._transloco.translate(label('success'));
       this._toastService.open({ message, type: 'success' });
     } else {
@@ -230,39 +262,36 @@ export class DhWholesaleRequestCalculationComponent {
     this._toastService.open({ message, type: 'danger' });
   }
 
-  showEnergySupplierDropdown(): boolean {
-    return false; //Not support yet this._selectedEicFunction === EicFunction.BalanceResponsibleParty;
-  }
-
-  showBalanceResponsibleDropdown(): boolean {
-    return this._selectedEicFunction === EicFunction.EnergySupplier;
+  isWholesaleRequest() {
+    const calculationType = this.form.controls.calculationType.value;
+    return !calculationType ? true : wholesaleCalculationTypes.includes(calculationType);
   }
 
   requestCalculation(): void {
     const {
-      gridarea,
-      meteringPointType,
+      calculationType,
       period,
+      gridArea,
+      meteringPointType,
+      priceType,
       energySupplierId,
       balanceResponsibleId,
-      processType: processtType,
     } = this.form.getRawValue();
 
-    if (!gridarea || !meteringPointType || !processtType || !period.start || !period.end) return;
-
-    const meteringPoint = meteringPointType as MeteringPointType;
+    if (!calculationType || !period) return;
 
     this._apollo
       .mutate({
         mutation: RequestCalculationDocument,
         variables: {
-          meteringPointType: meteringPointType === ExtendMeteringPoint.All ? null : meteringPoint,
-          processtType,
-          startDate: period.start,
-          endDate: period.end,
+          calculationType,
+          period: { start: dayjs(period.start).toDate(), end: dayjs(period.end).toDate() },
+          gridArea,
+          meteringPointType:
+            meteringPointType === ExtendMeteringPoint.All ? null : meteringPointType,
+          priceType,
           balanceResponsibleId,
           energySupplierId,
-          gridArea: gridarea,
         },
       })
       .pipe(
@@ -276,22 +305,14 @@ export class DhWholesaleRequestCalculationComponent {
       });
   }
 
-  private getExcludedMeterpointTypes(selectedEicFunction: SelectedEicFunctionType) {
+  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction) {
     return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
       selectedEicFunction === EicFunction.EnergySupplier
       ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
       : [];
   }
 
-  private getExcludedProcessTypes(selectedEicFunction: SelectedEicFunctionType) {
-    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
-      ? [
-          EdiB2CProcessType.Firstcorrection,
-          EdiB2CProcessType.Secondcorrection,
-          EdiB2CProcessType.Thirdcorrection,
-          EdiB2CProcessType.Wholesalefixing,
-        ]
-      : [];
+  hasPermission(permission: Permission) {
+    return toSignal(this._permissionService.hasPermission(permission), { initialValue: false });
   }
 }

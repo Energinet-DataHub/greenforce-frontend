@@ -3,6 +3,7 @@ query getBalanceResponsibleMessages(
   $pageSize: Int!
   $sortProperty: BalanceResponsibleSortProperty!
   $sortDirection: SortDirection!
+  $locale: String!
 ) {
   balanceResponsible(
     pageNumber: $pageNumber
@@ -20,6 +21,7 @@ query getBalanceResponsibleMessages(
       balanceResponsibleWithName {
         value
       }
+      storageDocumentUrl
       balanceResponsible
       meteringPointType
       validPeriod
@@ -29,6 +31,7 @@ query getBalanceResponsibleMessages(
         name
       }
     }
+    balanceResponsiblesUrl(locale: $locale)
     totalCount
   }
 }

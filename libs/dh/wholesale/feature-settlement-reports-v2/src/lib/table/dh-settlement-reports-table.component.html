@@ -45,9 +45,9 @@ limitations under the License.
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns['includesBaseData']; header: t('columns.basisData'); let entry"
+      *wattTableCell="columns['includesBasisData']; header: t('columns.basisData'); let entry"
     >
-      @if (entry.includesBaseData) {
+      @if (entry.includesBasisData) {
         {{ "yes" | transloco }}
       } @else {
         {{ "no" | transloco }}
@@ -57,7 +57,8 @@ limitations under the License.
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
       <dh-settlement-reports-status
         [status]="entry.statusType"
-        (download)="downloadReport(entry.id)"
+        [progress]="entry.progress"
+        (download)="downloadReport(entry.settlementReportDownloadUrl)"
       />
     </ng-container>
   </watt-table>

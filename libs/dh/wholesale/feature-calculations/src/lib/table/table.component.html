@@ -14,7 +14,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-data-table vater inset="m" *transloco="let t; read: 'wholesale.calculations'" [error]="error">
+<watt-data-table
+  vater
+  inset="ml"
+  *transloco="let t; read: 'wholesale.calculations'"
+  [error]="error"
+>
   <h3>{{ t("headline") }}</h3>
   <watt-button variant="secondary" icon="plus" (click)="create.emit()">
     {{ t("new") }}
@@ -49,7 +54,7 @@ limitations under the License.
     <!-- Status -->
     <ng-container *wattTableCell="columns.status; let calculation">
       <watt-badge [type]="calculation.statusType">
-        {{ t("executionStates." + calculation.executionState) }}
+        {{ t("states." + calculation.state) }}
       </watt-badge>
     </ng-container>
   </watt-table>

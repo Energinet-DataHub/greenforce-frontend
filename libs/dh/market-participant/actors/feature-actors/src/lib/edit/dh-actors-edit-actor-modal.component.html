@@ -14,63 +14,68 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-@if (actor) {
-  <watt-modal
-    [loading]="isLoading"
-    [title]="actor.name"
-    [size]="'small'"
-    *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
-  >
-    <form
-      id="updateActorForm"
-      [formGroup]="actorForm"
-      *rxLet="formInitialValues$"
-      (ngSubmit)="save()"
+<watt-modal
+  [loading]="isLoading()"
+  [title]="actorName()"
+  size="large"
+  *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
+>
+  <form id="updateActorForm" [formGroup]="actorForm" (ngSubmit)="save()">
+    <watt-text-field
+      class="actor-field"
+      [required]="true"
+      [label]="t('name')"
+      [formControl]="actorForm.controls.name"
     >
-      <watt-text-field
-        class="actor-field"
-        [required]="true"
-        [label]="t('name')"
-        [formControl]="actorForm.controls.name"
-      />
+      @if (actorForm.controls.name.hasError("maxlength")) {
+        <watt-field-error>
+          {{ t("nameMaxLength", { maxLength: nameMaxLength }) }}
+        </watt-field-error>
+      }
+    </watt-text-field>
 
-      <h4>{{ t("contactHeader") }}</h4>
+    <h4>{{ t("contactHeader") }}</h4>
 
-      <watt-text-field
-        class="contact-field"
-        [required]="true"
-        [label]="t('departmentName')"
-        [formControl]="actorForm.controls.departmentName"
-      />
+    <watt-text-field
+      class="contact-field"
+      [required]="true"
+      [label]="t('departmentName')"
+      [formControl]="actorForm.controls.departmentName"
+    >
+      @if (actorForm.controls.departmentName.hasError("maxlength")) {
+        <watt-field-error>
+          {{ t("departmentNameMaxLength", { maxLength: departmentNameMaxLength }) }}
+        </watt-field-error>
+      }
+    </watt-text-field>
 
-      <watt-text-field
-        class="contact-field"
-        type="email"
-        [required]="true"
-        [label]="t('departmentEmail')"
-        [formControl]="actorForm.controls.departmentEmail"
-      >
-        @if (actorForm.controls.departmentEmail.hasError("email")) {
-          <watt-field-error>
-            {{ t("invalidEmail") }}
-          </watt-field-error>
-        }
-      </watt-text-field>
+    <watt-text-field
+      class="contact-field"
+      type="email"
+      [required]="true"
+      [label]="t('departmentEmail')"
+      [formControl]="actorForm.controls.departmentEmail"
+    >
+      @if (actorForm.controls.departmentEmail.hasError("email")) {
+        <watt-field-error>
+          {{ t("invalidEmail") }}
+        </watt-field-error>
+      }
+    </watt-text-field>
 
-      <watt-phone-field
-        class="phone-field"
-        [label]="t('departmentPhone')"
-        [formControl]="actorForm.controls.departmentPhone"
-      />
-    </form>
+    <watt-phone-field
+      class="phone-field"
+      [label]="t('departmentPhone')"
+      [formControl]="actorForm.controls.departmentPhone"
+    />
+  </form>
 
-    <watt-modal-actions>
-      <watt-button variant="secondary" (click)="close()">
-        {{ t("cancel") }}
-      </watt-button>
-      <watt-button variant="secondary" type="submit" formId="updateActorForm">
-        {{ t("save") }}
-      </watt-button>
-    </watt-modal-actions>
-  </watt-modal>
-}
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="close()">
+      {{ t("cancel") }}
+    </watt-button>
+    <watt-button variant="secondary" type="submit" formId="updateActorForm">
+      {{ t("save") }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>

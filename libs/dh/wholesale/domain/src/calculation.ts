@@ -16,10 +16,10 @@
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import {
-  CalculationState,
   GetCalculationsDocument,
   CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import dayjs from 'dayjs';
 
 export type Calculation = ResultOf<typeof GetCalculationsDocument>['calculations'][0];
 
@@ -27,5 +27,16 @@ export type CalculationGridArea = ResultOf<
   typeof GetCalculationsDocument
 >['calculations'][0]['gridAreas'][0];
 
-export const executionStates = Object.values(CalculationState);
-export const calculationTypes = Object.values(CalculationType);
+export const wholesaleCalculationTypes = [
+  CalculationType.WholesaleFixing,
+  CalculationType.FirstCorrectionSettlement,
+  CalculationType.SecondCorrectionSettlement,
+  CalculationType.ThirdCorrectionSettlement,
+];
+
+export const aggregationCalculationTypes = [
+  CalculationType.Aggregation,
+  CalculationType.BalanceFixing,
+];
+
+export const getMinDate = () => dayjs().startOf('month').subtract(38, 'months').toDate();

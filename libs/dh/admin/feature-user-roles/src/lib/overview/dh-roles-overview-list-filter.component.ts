@@ -14,20 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject, DestroyRef, output } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import {
-  MarketParticipantEicFunction,
-  MarketParticipantUserRoleStatus,
-} from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export interface DhUserRolesFilters {
+  status: UserRoleStatus | null;
+  marketRoles: EicFunction[] | null;
+}
+
+// Map query variables type to object of form controls type
+type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
+type Filters = FormControls<DhUserRolesFilters>;
 
 @Component({
   selector: 'dh-roles-overview-list-filter',
@@ -41,61 +50,37 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
     `,
   ],
   imports: [
-    RxLet,
-    RxPush,
-    TranslocoDirective,
     ReactiveFormsModule,
+    TranslocoDirective,
 
     VaterStackComponent,
     WattDropdownComponent,
+    WattQueryParamsDirective,
+
     DhDropdownTranslatorDirective,
   ],
 })
 export class DhRolesOverviewListFilterComponent implements OnInit {
-  private _destroyRef = inject(DestroyRef);
-  private _translocoService = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
 
-  @Output() statusChanged = new EventEmitter<MarketParticipantUserRoleStatus | null>();
-  @Output() eicFunctionChanged = new EventEmitter<MarketParticipantEicFunction[] | null>();
+  formGroup = new FormGroup<Filters>({
+    status: dhMakeFormControl(UserRoleStatus.Active),
+    marketRoles: dhMakeFormControl([]),
+  });
 
-  statusControl = new FormControl<MarketParticipantUserRoleStatus | null>(null);
-  marketRolesControl = new FormControl<MarketParticipantEicFunction[] | null>(null);
+  statusOptions: WattDropdownOption[] = dhEnumToWattDropdownOptions(UserRoleStatus);
+  marketRolesOptions: WattDropdownOption[] = dhEnumToWattDropdownOptions(EicFunction);
 
-  statusOptions: WattDropdownOption[] = [];
-  marketRolesOptions: WattDropdownOption[] = Object.keys(MarketParticipantEicFunction).map(
-    (entry) => ({
-      value: entry,
-      displayValue: entry,
-    })
-  );
+  statusChanged = output<UserRoleStatus | null>();
+  eicFunctionChanged = output<EicFunction[] | null>();
 
   ngOnInit(): void {
-    this.buildStatusListOptions();
+    this.formGroup.controls.status.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => this.statusChanged.emit(value));
 
-    this.statusControl.valueChanges
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((e) => this.statusChanged.emit(e));
-
-    this.marketRolesControl.valueChanges
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe((e) => this.eicFunctionChanged.emit(e));
-
-    this.statusControl.setValue(this.statusOptions[0].value as MarketParticipantUserRoleStatus);
-  }
-
-  private buildStatusListOptions() {
-    this._translocoService
-      .selectTranslateObject('admin.userManagement.roleStatus')
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.statusOptions = Object.keys(MarketParticipantUserRoleStatus).map((entry) => {
-            return {
-              value: entry,
-              displayValue: keys[entry.toLowerCase()],
-            };
-          });
-        },
-      });
+    this.formGroup.controls.marketRoles.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => this.eicFunctionChanged.emit(value));
   }
 }

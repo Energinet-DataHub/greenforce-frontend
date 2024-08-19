@@ -31,7 +31,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       display: flex;
       justify-content: center;
 
-      @media (min-width: 754px) {
+      @media (min-width: 960px) {
         padding-top: 185px;
       }
     }
@@ -46,7 +46,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       place-items: center;
       gap: 34px;
 
-      @media (min-width: 754px) {
+      @media (min-width: 960px) {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
         grid-template-areas: 'content image';
@@ -72,24 +72,15 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
 
     h3 {
-      font-size: 28px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 34px;
       margin-bottom: 30px;
-    }
-
-    p {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
     }
   `,
   template: `
     <section>
       <div class="content">
-        <h3>{{ translations.landingPage.granularCertificates.heading | transloco }}</h3>
+        <h3 class="headline-3">
+          {{ translations.landingPage.granularCertificates.heading | transloco }}
+        </h3>
         <p>{{ translations.landingPage.granularCertificates.content | transloco }}</p>
       </div>
 

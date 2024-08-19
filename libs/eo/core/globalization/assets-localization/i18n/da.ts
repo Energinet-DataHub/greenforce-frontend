@@ -18,6 +18,15 @@
 import { TranslationKeys } from './translation-keys';
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
+    meta: {
+      title: 'Energy Track & Trace™',
+      description:
+        'Energy Track & Trace™ er din pålidelige kilde til sporing, og certificering, af grøn strøm. Vi beviser hvor din strøm kommer fra.',
+      keywords:
+        'grøn strøm, sporing, certificering, granulære certifikater, Energy Track & Trace, bæredygtig energi, vedvarende energi',
+      author: 'Energy Track & Trace™',
+      url: 'https://energytrackandtrace.dk',
+    },
     announcementBar: {
       message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
     },
@@ -102,6 +111,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       Via vores løsning kan du som virksomhed se, hvornår du er tilstrækkelig dækket med grøn strøm, og hvornår du ikke er. Det giver dig et overblik, du kan handle ud fra og en sikkerhed for, at du handler rigtigt.
       </p>`,
     },
+    naming: {
+      heading: 'Energy Track and Trace™ – fælles europæisk navn for granulære certifikater',
+      content: `<p>Energioprindelse skiftede i foråret 2024 navn til Energy Track and Trace™.
+        Energy Track and Trace™ er navnet på samarbejdet på tværs af EU, som Energinet er aktivt deltager i.
+      </p>
+
+      <p>
+        Det sikrer entydighed og genkendelse på tværs af EU.
+        Tidligere har samarbejdet om granulære certifikater (GC'er) i Danmark heddet Energioprindelse, El Oprindelse og Energy Origin.
+        Teknologien bag hedder Project Origin.
+      </p>`,
+    },
     cta: {
       heading: `Er du klar til at spore din virkshomheds energi?`,
       section1: {
@@ -134,10 +155,13 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privatlivspolitik</a>
+              <a href="/da/privacy-policy">Privatlivspolitik</a>
             </li>
             <li>
-              <a href="/terms">Vilkår og betingelser</a>
+              <a href="/da/terms">Vilkår og betingelser</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
             </li>
           </ul>
         `,
@@ -151,6 +175,14 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
     },
   },
+  documentation: {
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page.',
+    },
+    endpoints: 'Endpoints',
+    topbarTitle: 'Documentation',
+  },
   sidebar: {
     dashboard: 'Overblik',
     meteringPoints: 'Målepunkter',
@@ -158,6 +190,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     certificates: 'Certifikater',
     transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
+    consent: 'Fuldmagter',
   },
   footer: {
     poweredBy: 'Drevet af',
@@ -303,26 +336,23 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   meteringPoints: {
     title: 'Målepunkter',
-    infoBoxTitle: 'Du har muligheden for at slå dine målepunkter TIL og FRA.',
+    infoBoxTitle: 'Hjælp til Målepunkter',
     infoBoxContent: `
-      <p>For produktionsmålepunkter:</p>
-
+      <h3>Produktion:</h3>
       <ul>
-        <li>At slå den 'TIL' betyder, at målepunktet aktivt udsteder certifikater for strøm.</li>
-        <li>At skifte den 'FRA' vil stoppe målepunktet fra at udstede certifikater.</li>
+        <li>Et målepunkt (elmåler), der producerer grøn strøm fra sol eller vindkraft.</li>
       </ul>
 
-      <br />
-      <p>For forbrugsmålepunkter:</p>
-
+      <h3>Forbrug:</h3>
       <ul>
-        <li>
-          'TIL' indikerer, at forbrugsmålepunktet aktivt udsteder forbrugscertifikater.
-        </li>
-        <li>
-          'FRA' indikerer, at forbrugsmålepunktet vil skaffe sin elektricitet fra
-          et andet sted.
-        </li>
+        <li>Et målepunkt (elmåler), der skal anvende strøm fra sol eller vindkraft.</li>
+      </ul>
+
+      <h3>Aktiver/Deaktiver:</h3>
+      <ul>
+        <li>Når du AKTIVERER et målepunkt, udstedes der Granulære Certifikater.</li>
+        <li>Når du DEAKTIVERER et målepunkt, stopper udstedelsen af Granulære Certifikater.</li>
+        <li>Begge dele sker øjeblikkeligt, men der er forsinkelse på visningen.</li>
       </ul>
       `,
     pendingRelationStatus: {
@@ -393,6 +423,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     productionType: 'produktion',
     consumptionType: 'forbrug',
     certificateDetailsLink: 'Se certifikat',
+    exportCertificates: 'Eksporter',
+    exportFailed: 'Eksport af certifikater fejlede, prøv venligst igen.',
   },
   certificateDetails: {
     title: 'Certifikatdetaljer - {{certificateType}}',
@@ -524,11 +556,15 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Overførselsaftaler',
     creationOfTransferAgreementFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
+    removalOfTransferAgreementProposalFailed:
+      'Fjernelse af forslaget til overførselsaftalen mislykkedes.',
     tableTitle: 'Resultater',
     createNewTransferAgreement: 'Ny overførselsaftale',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Aktiv',
     inactiveTransferAgreement: 'Inaktiv',
+    pendingTransferAgreement: 'Afventer',
+    expiredTransferAgreementProposals: 'Udløbet',
     noData: {
       title: 'Ingen overførselsaftaler fundet',
       message: 'Du har ikke nogen overførselsaftaler.',
@@ -627,6 +663,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
       link: {
         hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
+        hintProposal:
+          'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
         error: 'Kunne ikke generere link. Prøv igen.',
         copy: 'Kopiér link',
         retry: 'Generer',
@@ -652,13 +690,72 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       declineButton: 'Ok',
     },
   },
+  consent: {
+    title: 'Fuldmagter',
+    noData: {
+      title: '',
+      message: 'Der er ingen fuldmagter',
+    },
+    error: {
+      title: 'Ups! Noget gik galt.',
+      message: 'Prøv venligst at genindlæse siden.',
+    },
+    tableTitle: 'Fuldmagter',
+    grantorTableHeader: 'Fuldmagtsgiver',
+    agentTableHeader: 'Fuldmagtshaver',
+    validFromTableHeader: 'Gyldig fra',
+    requestForConsent: 'Anmod om fuldmagt',
+  },
+  consentDetails: {
+    validFrom: 'Gyldig fra',
+    editConsent: 'Administrer fuldmagt',
+    permissionsFor: 'Fuldmagt til',
+  },
+  editConsent: {
+    permissions: 'Fuldmagter',
+    cancel: 'Fortryd',
+    saveChanges: 'Gem ændringer',
+    revoke: 'Tilbagekald fuldmagt',
+    revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
+    revokeError: 'Der opstod en fejl under tilbagekaldelsen af fuldmagten. Prøv igen.',
+  },
+  grantConsent: {
+    title: '{{organizationName}} har anmodet om fuldmagt',
+    description:
+      'Giv {{organizationName}} fuldmagt til følgende funktioner på Energy Track And Trace',
+    permissions: {
+      overview: {
+        title: 'Overblik',
+        description:
+          'Se mængden af overført certificeret grøn strøm samt hvor stor andel af forbrugt strøm der er certificeret grøn strøm.',
+      },
+      meteringPoints: {
+        title: 'Målepunkter',
+        description:
+          'Administrer hvilke produktionselmålere der skal udstede certifikater for grøn strøm, og hvilke forbrugselmålere der skal kunne matches med certificeret grøn strøm.',
+      },
+      transferAgreements: {
+        title: 'Overførselsaftaler',
+        description: 'Se og opret aftaler om overførsel af certificeret grøn strøm.',
+      },
+    },
+    acceptTermsAndConditions: 'Accepter <a href="/terms" target="_blank">vilkår og betingelser</a>',
+    decline: 'Afvis',
+    accept: 'Accepter',
+    accepted: 'Fuldmagt afgivet',
+    declined: 'Fuldmagt afvist',
+    error: {
+      title: 'Uventet fejl',
+      message: 'Der opstod en uventet fejl. Prøv igen.',
+    },
+  },
   help: {
     title: 'Hjælp',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
+      <li><a class="internal-link" href="/da/{{faqLink}}">Ofte Stillede Spørgsmål</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduktion til Energy Origin</a>
+        <a class="internal-link" href="/da/{{introductionLink}}">Introduktion til Energy Origin</a>
       </li>
       <li>
         <a

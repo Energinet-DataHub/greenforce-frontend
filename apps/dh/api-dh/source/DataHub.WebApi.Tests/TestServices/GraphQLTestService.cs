@@ -15,25 +15,30 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL;
+using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using HotChocolate;
 using HotChocolate.Execution;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
 
-public static class GraphQLTestService
+public class GraphQLTestService
 {
-    static GraphQLTestService()
+    public GraphQLTestService()
     {
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
+        MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
+        HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
             .AddGraphQLServer()
+            .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
@@ -41,6 +46,8 @@ public static class GraphQLTestService
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(WholesaleClientV3Mock.Object)
+            .AddSingleton(MarketParticipantClientV1Mock.Object)
+            .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -50,13 +57,17 @@ public static class GraphQLTestService
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
     }
 
-    public static Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; }
+    public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 
-    public static IServiceProvider Services { get; }
+    public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
 
-    public static RequestExecutorProxy Executor { get; }
+    public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 
-    public static async Task<IExecutionResult> ExecuteRequestAsync(
+    public IServiceProvider Services { get; set; }
+
+    public RequestExecutorProxy Executor { get; set; }
+
+    public async Task<IExecutionResult> ExecuteRequestAsync(
         Action<IQueryRequestBuilder> configureRequest,
         CancellationToken cancellationToken = default)
     {

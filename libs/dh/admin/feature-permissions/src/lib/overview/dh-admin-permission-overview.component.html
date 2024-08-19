@@ -32,7 +32,7 @@ limitations under the License.
         *dhPermissionRequired="['user-roles:manage']"
         icon="download"
         variant="text"
-        (click)="downloadRelationCSV()"
+        (click)="downloadRelationCSV(url())"
       >
         {{ "shared.downloadreport" | transloco }}
       </watt-button>

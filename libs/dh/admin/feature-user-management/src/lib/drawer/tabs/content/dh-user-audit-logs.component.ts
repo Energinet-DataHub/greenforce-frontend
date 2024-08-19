@@ -14,23 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnChanges, inject, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
+import { Component, OnChanges, inject, input } from '@angular/core';
+
+import { Apollo } from 'apollo-angular';
+import { catchError, map, of, tap } from 'rxjs';
 import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { catchError, map, of, tap } from 'rxjs';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { MarketParticipantUserOverviewItemDto } from '@energinet-datahub/dh/shared/domain';
-import { Apollo } from 'apollo-angular';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import {
   GetUserAuditLogsDocument,
   UserAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhUser } from '@energinet-datahub/dh/admin/shared';
 
 @Component({
   selector: 'dh-user-audit-logs',
@@ -54,16 +58,16 @@ import {
   ],
   imports: [
     RxLet,
-    NgTemplateOutlet,
     RxPush,
-    TranslocoDirective,
     TranslocoPipe,
+    NgTemplateOutlet,
+    TranslocoDirective,
 
     WATT_CARD,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
     WATT_TABLE,
     WattDatePipe,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
   ],
 })
 export class DhUserAuditLogsComponent implements OnChanges {
@@ -91,7 +95,7 @@ export class DhUserAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  user = input.required<MarketParticipantUserOverviewItemDto>();
+  user = input.required<DhUser>();
 
   ngOnChanges(): void {
     this.getUserAuditLogsQuery?.refetch({ id: this.user().id });

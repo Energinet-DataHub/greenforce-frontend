@@ -16,6 +16,13 @@
  */
 export interface TranslationKeys {
   landingPage: {
+    meta: {
+      title: string;
+      description: string;
+      keywords: string;
+      author: string;
+      url: string;
+    };
     announcementBar: {
       message: string;
     };
@@ -72,6 +79,10 @@ export interface TranslationKeys {
       heading: string;
       content: string;
     };
+    naming: {
+      heading: string;
+      content: string;
+    };
     cta: {
       heading: string;
       section1: {
@@ -102,6 +113,14 @@ export interface TranslationKeys {
       };
     };
   };
+  documentation: {
+    error: {
+      title: string;
+      message: string;
+    };
+    endpoints: string;
+    topbarTitle: string;
+  };
   sidebar: {
     dashboard: string;
     meteringPoints: string;
@@ -109,6 +128,7 @@ export interface TranslationKeys {
     certificates: string;
     transfers: string;
     activityLog: string;
+    consent: string;
   };
   footer: {
     poweredBy: string;
@@ -319,6 +339,8 @@ export interface TranslationKeys {
     productionType: string;
     consumptionType: string;
     certificateDetailsLink: string;
+    exportCertificates: string;
+    exportFailed: string;
   };
   certificateDetails: {
     title: string;
@@ -418,11 +440,14 @@ export interface TranslationKeys {
   transfers: {
     title: string;
     creationOfTransferAgreementFailed: string;
+    removalOfTransferAgreementProposalFailed: string;
     tableTitle: string;
     createNewTransferAgreement: string;
     transferAgreementStatusFilterLabel: string;
     activeTransferAgreement: string;
     inactiveTransferAgreement: string;
+    pendingTransferAgreement: string;
+    expiredTransferAgreementProposals: string;
     noData: {
       title: string;
       message: string;
@@ -509,6 +534,7 @@ export interface TranslationKeys {
       };
       link: {
         hint: string;
+        hintProposal: string;
         error: string;
         copy: string;
         retry: string;
@@ -532,6 +558,62 @@ export interface TranslationKeys {
       title: string;
       message: string;
       declineButton: string;
+    };
+  };
+  consent: {
+    title: string;
+    noData: {
+      title: string;
+      message: string;
+    };
+    error: {
+      title: string;
+      message: string;
+    };
+    tableTitle: string;
+    grantorTableHeader: string;
+    agentTableHeader: string;
+    validFromTableHeader: string;
+    requestForConsent: string;
+  };
+  consentDetails: {
+    validFrom: string;
+    editConsent: string;
+    permissionsFor: string;
+  };
+  editConsent: {
+    permissions: string;
+    cancel: string;
+    saveChanges: string;
+    revoke: string;
+    revokeSuccess: string;
+    revokeError: string;
+  };
+  grantConsent: {
+    title: string;
+    description: string;
+    permissions: {
+      overview: {
+        title: string;
+        description: string;
+      };
+      meteringPoints: {
+        title: string;
+        description: string;
+      };
+      transferAgreements: {
+        title: string;
+        description: string;
+      };
+    };
+    acceptTermsAndConditions: string;
+    decline: string;
+    accept: string;
+    accepted: string;
+    declined: string;
+    error: {
+      title: string;
+      message: string;
     };
   };
   help: {

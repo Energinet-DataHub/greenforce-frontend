@@ -8,7 +8,9 @@ query getSettlementReports {
     calculationType
     period
     numberOfGridAreasInReport
-    includesBaseData
+    includesBasisData
+    progress
     statusType
+    settlementReportDownloadUrl
   }
 }

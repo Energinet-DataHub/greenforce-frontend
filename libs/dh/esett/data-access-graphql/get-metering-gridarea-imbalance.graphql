@@ -27,6 +27,7 @@ query getMeteringGridAreaImbalance(
       gridArea {
         displayName
       }
+      mgaImbalanceDocumentUrl
       documentDateTime
       receivedDateTime
       period

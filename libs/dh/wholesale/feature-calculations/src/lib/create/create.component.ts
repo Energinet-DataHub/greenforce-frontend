@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   AbstractControl,
@@ -29,14 +29,13 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { combineLatest, first, map, Observable, of, startWith, Subject, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { first, map, Observable, of, tap } from 'rxjs';
 
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/utils/date';
-import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
@@ -49,16 +48,18 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
+  CalculationType,
   CreateCalculationDocument,
-  GetGridAreasDocument,
   GetLatestBalanceFixingDocument,
   StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
-  filterValidGridAreas,
-  GridArea,
-  calculationTypes,
-} from '@energinet-datahub/dh/wholesale/domain';
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
+import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 interface FormValues {
   calculationType: FormControl<StartCalculationType>;
@@ -69,7 +70,6 @@ interface FormValues {
 @Component({
   selector: 'dh-calculations-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss'],
   standalone: true,
   imports: [
     RxLet,
@@ -89,16 +89,21 @@ interface FormValues {
     WattFieldErrorComponent,
     WattFieldHintComponent,
     WattTextFieldComponent,
+
+    VaterFlexComponent,
+    VaterStackComponent,
+
+    DhCalculationsGridAreasDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
 })
-export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
+export class DhCalculationsCreateComponent implements OnInit {
+  CalculationType = StartCalculationType;
+
   private _toast = inject(WattToastService);
   private _transloco = inject(TranslocoService);
   private _router = inject(Router);
   private _apollo = inject(Apollo);
-  private _destroyRef = inject(DestroyRef);
-
-  private executionTypeChanged_$ = new Subject<void>();
 
   @ViewChild('modal') modal?: WattModalComponent;
 
@@ -131,73 +136,28 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
       { validators: Validators.required }
     ),
     dateRange: new FormControl(null, {
-      validators: [WattRangeValidators.required(), this.validateResolutionTransition()],
+      validators: [WattRangeValidators.required, this.validateResolutionTransition()],
       asyncValidators: () => this.validateBalanceFixing(),
     }),
   });
 
-  gridAreasQuery = this._apollo.watchQuery({
-    query: GetGridAreasDocument,
-  });
-
-  onDateRangeChange$ = this.formGroup.controls.dateRange.valueChanges.pipe(startWith(null));
-
-  calculationTypes: Observable<WattDropdownOption[]> = this._transloco
-    .selectTranslateObject('wholesale.calculations.calculationTypes')
-    .pipe(
-      map((translations) =>
-        calculationTypes.map((calculationType) => ({
-          displayValue: this._transloco.translate(
-            translations[calculationType].replace(/{{|}}/g, '')
-          ),
-          value: calculationType,
-        }))
-      )
-    );
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: Date | null;
   showPeriodWarning = false;
 
-  gridAreas$: Observable<WattDropdownOption[]> = combineLatest([
-    this.gridAreasQuery.valueChanges.pipe(map((result) => result.data?.gridAreas ?? [])),
-    this.onDateRangeChange$,
-    this.executionTypeChanged_$.pipe(startWith('')),
-  ]).pipe(
-    map(([gridAreas, dateRange]) => filterValidGridAreas(gridAreas, dateRange)),
-    map((gridAreas) =>
-      // HACK: This is a temporary solution to filter out grid areas that has no data
-      this.ffs.isEnabled('calculations-include-all-grid-areas')
-        ? gridAreas
-        : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code))
-    ),
-    map((gridAreas) => {
-      this.setMinDate(gridAreas);
-      this.validatePeriod(gridAreas);
-      return this.mapGridAreasToDropdownOptions(gridAreas);
-    }),
-    tap((gridAreas) => this.selectGridAreas(gridAreas))
-  );
+  minDate = this.ffs.isEnabled('create-calculation-minimum-date')
+    ? getMinDate()
+    : new Date('2021-02-01'); // Temporary minimum date for certain environments
 
-  minDate?: Date;
   maxDate = new Date();
 
   ngOnInit(): void {
-    this.toggleGridAreasControl();
-
     // Close toast on navigation
     this._router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
       this._toast.dismiss();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.executionTypeChanged_$.complete();
-  }
-
-  onExecutionTypeSelected(selection: HTMLInputElement) {
-    this.selectedExecutionType = selection.value;
-    this.executionTypeChanged_$.next();
   }
 
   open() {
@@ -249,6 +209,7 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
           }
         },
         error: () => {
+          this.loading = false;
           this._toast.update({
             type: 'danger',
             message: this._transloco.translate('wholesale.calculations.create.toast.error'),
@@ -271,52 +232,6 @@ export class DhCalculationsCreateComponent implements OnInit, OnDestroy {
 
     // This is apparently neccessary to reset the dropdown validity state
     this.formGroup.controls.calculationType.setErrors(null);
-  }
-
-  private selectGridAreas(gridAreas: WattDropdownOption[]) {
-    if (this.selectedExecutionType === 'ACTUAL') {
-      this.formGroup.patchValue({
-        gridAreas: gridAreas.map((gridArea) => gridArea.value),
-      });
-    } else {
-      this.formGroup.patchValue({
-        gridAreas: [],
-      });
-    }
-  }
-
-  private setMinDate(gridAreas: GridArea[]) {
-    if (gridAreas.length === 0) return;
-    const validFromDates: number[] = gridAreas.map((gridArea) => {
-      return new Date(gridArea.validFrom).getTime();
-    });
-    this.minDate = new Date(Math.min(...validFromDates));
-  }
-
-  private mapGridAreasToDropdownOptions(gridAreas: GridArea[]): WattDropdownOption[] {
-    return gridAreas.map((gridArea) => ({
-      displayValue: gridArea.displayName,
-      value: gridArea.code,
-    }));
-  }
-
-  private toggleGridAreasControl() {
-    // Disable grid areas when date range is invalid
-    this.onDateRangeChange$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
-      const gridAreasControl = this.formGroup.controls.gridAreas;
-      const disableGridAreas = this.formGroup.controls.dateRange.invalid;
-      if (disableGridAreas == gridAreasControl.disabled) return; // prevent ng0100
-      disableGridAreas ? gridAreasControl.disable() : gridAreasControl.enable();
-    });
-  }
-
-  private validatePeriod(gridAreas: GridArea[]) {
-    if (gridAreas.length === 0) {
-      this.formGroup.controls.dateRange.setErrors({
-        ...this.formGroup.controls.dateRange.errors,
-        invalidPeriod: true,
-      });
-    }
   }
 
   private validateBalanceFixing(): Observable<null> {

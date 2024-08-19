@@ -16,6 +16,7 @@
  */
 import {
   Component,
+  DestroyRef,
   EnvironmentInjector,
   inject,
   runInInjectionContext,
@@ -33,13 +34,21 @@ import {
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, combineLatest, map, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+import {
+  WATT_MODAL,
+  WattModalComponent,
+  WattModalService,
+  WattTypedModal,
+} from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import {
+  WattDatepickerComponent,
+  danishTimeZoneIdentifier,
+} from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import {
@@ -50,6 +59,7 @@ import {
   CalculationType,
   EicFunction,
   GetActorByIdDocument,
+  GetSettlementReportCalculationsByGridAreasDocument,
   GetSettlementReportsDocument,
   RequestSettlementReportDocument,
   RequestSettlementReportMutation,
@@ -60,22 +70,29 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import {
-  DhSelectedActorStore,
+  DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
+import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal.component';
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
 import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
+
+const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
 type DhFormType = FormGroup<{
   calculationType: FormControl<string>;
   includeBasisData: FormControl<boolean>;
-  period: FormControl<WattRange<string> | null>;
+  allowLargeTextFiles: FormControl<boolean>;
+  period: FormControl<WattRange<Date> | null>;
   includeMonthlySum: FormControl<boolean>;
   energySupplier?: FormControl<string | null>;
   gridAreas: FormControl<string[] | null>;
   combineResultsInOneFile: FormControl<boolean>;
+  calculationIdForGridAreaGroup?: FormGroup<{
+    [gridAreaCode: string]: FormControl<string>;
+  }>;
 }>;
 
 @Component({
@@ -115,16 +132,23 @@ type DhFormType = FormGroup<{
 export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly apollo = inject(Apollo);
 
   private readonly permissionService = inject(PermissionService);
-  private readonly apollo = inject(Apollo);
   private readonly toastService = inject(WattToastService);
-  private readonly actorStore = inject(DhSelectedActorStore);
+  private readonly modalService = inject(WattModalService);
+  private readonly actorStorage = inject(DhActorStorage);
 
-  private modal = viewChild(WattModalComponent);
+  private modal = viewChild.required(WattModalComponent);
 
-  minDate = dayjs().startOf('month').subtract(6, 'months').subtract(3, 'year').toDate();
-  maxDate = new Date();
+  minDate = dayjs()
+    .tz(danishTimeZoneIdentifier)
+    .startOf('month')
+    .subtract(6, 'months')
+    .subtract(3, 'year')
+    .toDate();
+  maxDate = dayjs().tz(danishTimeZoneIdentifier).toDate();
 
   form: DhFormType = this.formBuilder.group({
     calculationType: new FormControl<string>('', {
@@ -132,7 +156,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       nonNullable: true,
     }),
     includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
-    period: new FormControl<WattRange<string> | null>(null, [
+    allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
+    period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
     ]),
@@ -152,11 +177,17 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     })
   );
 
-  calculationTypeOptions = dhEnumToWattDropdownOptions(CalculationType, null, [
-    CalculationType.Aggregation,
-  ]);
+  calculationTypeOptions = this.getCalculationTypeOptions();
   gridAreaOptions$ = this.getGridAreaOptions();
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
+    map((options) => [
+      {
+        displayValue: translate('shared.all'),
+        value: ALL_ENERGY_SUPPLIERS,
+      },
+      ...options,
+    ])
+  );
 
   hasMoreThanOneGridAreaOption = toSignal(this.hasMoreThanOneGridAreaOption$());
 
@@ -173,35 +204,72 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   submitInProgress = signal(false);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.submitInProgress()) {
       return;
     }
 
-    this.requestSettlementReport()?.subscribe({
-      next: ({ loading, data }) => {
-        this.submitInProgress.set(loading);
+    this.submitInProgress.set(true);
 
-        if (loading) {
-          return;
-        }
+    this.getCalculationByGridAreas()
+      ?.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ settlementReportGridAreaCalculationsForPeriod }) => {
+          // If there are no calculations for all of the selected grid areas
+          if (settlementReportGridAreaCalculationsForPeriod.length === 0) {
+            return this.requestSettlementReport();
+          }
 
-        if (this.isUpdateSuccessful(data)) {
-          this.modal()?.close(true);
+          this.form.controls.calculationIdForGridAreaGroup = this.formBuilder.group({});
 
-          this.showSuccessNotification();
-        } else {
+          for (const {
+            key,
+            value: [firstElement],
+          } of settlementReportGridAreaCalculationsForPeriod) {
+            this.form.controls.calculationIdForGridAreaGroup?.addControl(
+              key,
+              new FormControl(firstElement.calculationId, { nonNullable: true })
+            );
+          }
+
+          // If there is only one calculation per selected grid area
+          const onlyOneCalculationPerSelectedGridArea =
+            settlementReportGridAreaCalculationsForPeriod.every(
+              (gridArea) => gridArea.value.length === 1
+            );
+
+          if (onlyOneCalculationPerSelectedGridArea) {
+            return this.requestSettlementReport();
+          }
+
+          if (this.form.getRawValue().calculationType === CalculationType.BalanceFixing) {
+            return this.requestSettlementReport();
+          }
+
+          // If there are multiple calculations for any selected grid area
+          this.modalService.open({
+            component: DhSelectCalculationModalComponent,
+            data: {
+              rawData: settlementReportGridAreaCalculationsForPeriod,
+              formGroup: this.form.controls.calculationIdForGridAreaGroup,
+            },
+            onClosed: (isSuccess) => {
+              if (isSuccess) {
+                this.requestSettlementReport();
+              } else {
+                this.submitInProgress.set(false);
+              }
+            },
+          });
+        },
+        error: () => {
           this.showErrorNotification();
-        }
-      },
-      error: () => {
-        this.submitInProgress.set(false);
-
-        this.showErrorNotification();
-      },
-    });
+        },
+      });
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   private requestSettlementReport() {
     const {
       calculationType,
@@ -211,45 +279,95 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       gridAreas,
       energySupplier,
       combineResultsInOneFile,
+      allowLargeTextFiles,
     } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
       return;
     }
 
-    return this.apollo.mutate({
-      mutation: RequestSettlementReportDocument,
-      variables: {
-        input: {
-          calculationType: calculationType as CalculationType,
-          inculdeBasicData: includeBasisData,
-          period: {
-            start: new Date(period.start),
-            end: period.end ? new Date(period.end) : null,
+    this.apollo
+      .mutate({
+        mutation: RequestSettlementReportDocument,
+        variables: {
+          input: {
+            calculationType: calculationType as CalculationType,
+            includeBasisData,
+            period: {
+              start: period.start,
+              end: period.end ? period.end : null,
+            },
+            includeMonthlySums: includeMonthlySum,
+            gridAreasWithCalculations: this.getGridAreasWithCalculations(
+              gridAreas,
+              calculationType == CalculationType.BalanceFixing
+            ),
+            combineResultInASingleFile: combineResultsInOneFile,
+            preventLargeTextFiles: !allowLargeTextFiles,
+            energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
+            csvLanguage: translate('selectedLanguageIso'),
           },
-          includeMonthlySums: includeMonthlySum,
-          gridAreasWithCalculations: gridAreas.map((gridAreaCode) => ({
-            gridAreaCode,
-            calculationId: '',
-          })),
-          combineResultInASingleFile: combineResultsInOneFile,
-          supplierId: energySupplier,
         },
-      },
-      refetchQueries: (result) => {
-        if (this.isUpdateSuccessful(result.data)) {
-          return [GetSettlementReportsDocument];
-        }
+        refetchQueries: (result) => {
+          if (this.isUpdateSuccessful(result.data)) {
+            return [GetSettlementReportsDocument];
+          }
 
-        return [];
-      },
-    });
+          return [];
+        },
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ loading, data }) => {
+          if (loading) {
+            return;
+          }
+
+          if (this.isUpdateSuccessful(data)) {
+            this.modal().close(true);
+
+            this.showSuccessNotification();
+          } else {
+            this.showErrorNotification();
+          }
+        },
+        error: () => {
+          this.submitInProgress.set(false);
+
+          this.showErrorNotification();
+        },
+      });
+  }
+
+  private getCalculationTypeOptions(): WattDropdownOptions {
+    const selectedUser = this.actorStorage.getSelectedActor();
+
+    return dhEnumToWattDropdownOptions(CalculationType, null, [
+      CalculationType.Aggregation,
+      selectedUser?.marketRole === EicFunction.SystemOperator ? CalculationType.BalanceFixing : '',
+    ]);
+  }
+
+  private getGridAreasWithCalculations(
+    gridAreas: string[],
+    isBalanceFixing: boolean
+  ): { gridAreaCode: string; calculationId: string | null }[] {
+    return gridAreas
+      .map((gridAreaCode) => ({
+        gridAreaCode,
+        calculationId: this.form.controls.calculationIdForGridAreaGroup?.value[gridAreaCode] ?? '',
+      }))
+      .filter(({ calculationId }) => !!calculationId)
+      .map(({ gridAreaCode, calculationId }) => ({
+        gridAreaCode,
+        calculationId: isBalanceFixing ? null : calculationId,
+      }));
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    return this.isFas$.pipe(
-      switchMap((isFas) => {
-        if (isFas) {
+    return this.showAllGridAres().pipe(
+      switchMap((showAllGridAreas) => {
+        if (showAllGridAreas) {
           return runInInjectionContext(this.environmentInjector, () => getGridAreaOptions());
         }
 
@@ -258,32 +376,78 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     );
   }
 
-  private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
-    return this.actorStore.selectedActor$.pipe(
-      switchMap((actor) =>
-        this.apollo.query({
-          query: GetActorByIdDocument,
-          variables: {
-            id: actor?.id,
-          },
-        })
-      ),
-      map((result) =>
-        result.data.actorById.gridAreas.map((gridArea) => ({
-          value: gridArea.code,
-          displayValue: gridArea.displayName,
-        }))
-      ),
-      tap((gridAreaOptions) => {
-        if (gridAreaOptions.length === 1) {
-          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
-        }
-      })
+  private showAllGridAres(): Observable<boolean> {
+    const isFas$ = this.permissionService.isFas();
+    const canSeeAllGridAreas = [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
+      this.actorStorage.getSelectedActor().marketRole
     );
+
+    return isFas$.pipe(map((isFas) => isFas || canSeeAllGridAreas));
+  }
+
+  private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
+    const actorId = this.actorStorage.getSelectedActorId();
+    return this.apollo
+      .query({
+        query: GetActorByIdDocument,
+        variables: {
+          id: actorId,
+        },
+      })
+      .pipe(
+        map((result) =>
+          result.data.actorById.gridAreas.map((gridArea) => ({
+            value: gridArea.code,
+            displayValue: gridArea.displayName,
+          }))
+        ),
+        tap((gridAreaOptions) => {
+          if (gridAreaOptions.length === 1) {
+            this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+          }
+        })
+      );
   }
 
   private hasMoreThanOneGridAreaOption$(): Observable<boolean> {
     return this.gridAreaOptions$.pipe(map((gridAreaOptions) => gridAreaOptions.length > 1));
+  }
+
+  private getCalculationByGridAreas() {
+    const { calculationType, period, gridAreas } = this.form.getRawValue();
+
+    if (period == null || gridAreas == null) {
+      return;
+    }
+
+    return this.apollo
+      .query({
+        query: GetSettlementReportCalculationsByGridAreasDocument,
+        variables: {
+          calculationType: calculationType as CalculationType,
+          gridAreaIds: gridAreas,
+          calculationPeriod: {
+            start: period.start,
+            end: period?.end ? period.end : null,
+          },
+        },
+      })
+      .pipe(
+        map((result) => {
+          const dataCopy = structuredClone(result.data);
+
+          return {
+            ...dataCopy,
+            settlementReportGridAreaCalculationsForPeriod:
+              dataCopy.settlementReportGridAreaCalculationsForPeriod.map((entry) => ({
+                ...entry,
+                value: [...entry.value].sort(
+                  (a, b) => b.calculationDate.getTime() - a.calculationDate.getTime()
+                ),
+              })),
+          };
+        })
+      );
   }
 
   private shouldShowMonthlySumCheckbox(): Observable<boolean> {

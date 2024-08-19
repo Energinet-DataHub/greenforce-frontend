@@ -110,7 +110,7 @@ export class DhClientSecretViewComponent {
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.clientSecretMetadata()?.expirationDate,
+          value: this.clientSecretMetadata()?.expirationDate.toDateString(),
           valueIsDate: true,
         },
       ];
@@ -132,7 +132,6 @@ export class DhClientSecretViewComponent {
       onClosed: (result) => {
         if (result) {
           this.store.removeActorCredentials({
-            actorId: this.actorId(),
             onSuccess: this.onRemoveSuccessFn,
             onError: this.onRemoveErrorFn,
           });

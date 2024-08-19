@@ -15,36 +15,37 @@
  * limitations under the License.
  */
 
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, viewChild, output, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Component, ViewChild, Output, EventEmitter, inject, Signal } from '@angular/core';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { switchMap } from 'rxjs';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { EsettExchangeHttp } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+
+import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DhMeteringGridAreaImbalance,
   MeteringGridAreaImbalancePerDayDto,
 } from '../dh-metering-gridarea-imbalance';
 import { DhDrawerImbalanceTableComponent } from './dh-drawer-imbalance-table.component';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
@@ -71,20 +72,20 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     `,
   ],
   imports: [
-    TranslocoDirective,
-    TranslocoPipe,
     RxPush,
+    TranslocoPipe,
+    TranslocoDirective,
 
-    WATT_DRAWER,
     WATT_TABS,
+    WATT_DRAWER,
     WATT_EXPANDABLE_CARD_COMPONENTS,
 
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
     WattSpinnerComponent,
     WattButtonComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
 
     VaterFlexComponent,
 
@@ -93,67 +94,54 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   ],
 })
 export class DhMeteringGridAreaImbalanceDrawerComponent {
-  private readonly _esettHttp = inject(EsettExchangeHttp);
-  private _getDocument$ = new Subject<string>();
   private _toastService = inject(WattToastService);
+  private readonly httpClient = inject(HttpClient);
 
   surplusDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDto>();
   deficitDataSource = new WattTableDataSource<MeteringGridAreaImbalancePerDayDto>();
 
-  xmlMessage: Signal<string | undefined> = toSignal(
-    this._getDocument$.pipe(
-      switchMap((documentLink) => this.loadDocument(documentLink)),
-      takeUntilDestroyed()
-    )
-  );
-
   meteringGridAreaImbalance: DhMeteringGridAreaImbalance | null = null;
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
+  xmlMessage = signal<string | undefined>(undefined);
 
-  @Output() closed = new EventEmitter<void>();
+  drawer = viewChild.required(WattDrawerComponent);
+  closed = output<void>();
+  closed$ = outputToObservable(this.closed);
 
   public open(message: DhMeteringGridAreaImbalance): void {
-    this.drawer?.open();
+    this.drawer().open();
 
     this.meteringGridAreaImbalance = message;
     this.surplusDataSource.data = message.incomingImbalancePerDay;
     this.deficitDataSource.data = message.outgoingImbalancePerDay;
 
-    if (message !== null && message.id) {
-      this._getDocument$.next(message.id);
-    }
+    this.loadDocument(message.mgaImbalanceDocumentUrl, this.xmlMessage.set);
   }
 
   onClose(): void {
     this.closed.emit();
   }
 
-  private loadDocument(meteringGridAreaImbalanceId: string): Observable<string> {
-    return this._esettHttp.v1EsettExchangeMgaImbalanceDocumentGet(meteringGridAreaImbalanceId).pipe(
-      switchMap((res) => {
-        const blobPart = res as unknown as BlobPart;
-        const blob = new Blob([blobPart]);
-        return new Response(blob).text();
-      }),
-      takeUntil(this.closed)
-    );
+  private loadDocument(url: string | null | undefined, setDocument: (doc: string) => void) {
+    if (!url) return;
+    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
   }
 
-  downloadCSV(meteringGridAreaImbalanceId: string) {
+  downloadCSV(url: string | undefined | null): void {
+    if (!url) return;
+
     this._toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
     });
 
     const fileOptions = {
-      name: 'mga-' + meteringGridAreaImbalanceId,
+      name: 'mga-' + url,
       type: 'text/xml',
     };
 
-    this._esettHttp
-      .v1EsettExchangeMgaImbalanceDocumentGet(meteringGridAreaImbalanceId)
+    this.httpClient
+      .get(url, { responseType: 'text' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this._toastService.dismiss(),

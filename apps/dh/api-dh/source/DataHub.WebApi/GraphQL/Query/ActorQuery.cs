@@ -15,7 +15,8 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -103,4 +104,28 @@ public partial class Query
             Actors = associatedActors.ActorIds,
         };
     }
+
+    public async Task<IEnumerable<ActorDto>> FilteredActorsAsync(
+        [Service] IHttpContextAccessor httpContext,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        if (httpContext.HttpContext == null)
+        {
+            return Enumerable.Empty<ActorDto>();
+        }
+
+        var actors = await client.ActorGetAsync();
+
+        if (httpContext.HttpContext.User.IsFas())
+        {
+            return actors;
+        }
+
+        var actorId = httpContext.HttpContext.User.GetAssociatedActor();
+        return actors.Where(actor => actor.ActorId == actorId);
+    }
+
+    public async Task<IEnumerable<SelectionActorDto>> GetSelectionActorsAsync(
+        [Service] IMarketParticipantClient_V1 client) =>
+            await client.QuerySelectionActorsAsync();
 }

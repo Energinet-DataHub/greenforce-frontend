@@ -27,12 +27,16 @@ limitations under the License.
           [showResetOption]="false"
           [formControl]="form.controls.calculationType"
           [options]="calculationTypeOptions"
-          translate="wholesale.settlementReportsV2.calculationTypes"
+          translateKey="wholesale.settlementReportsV2.calculationTypes"
           dhDropdownTranslator
         />
 
         <watt-checkbox [formControl]="form.controls.includeBasisData">
           {{ t("includeBasisData") }}
+        </watt-checkbox>
+
+        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+          {{ t("allowLargeTextFiles") }}
         </watt-checkbox>
       </div>
 

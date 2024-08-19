@@ -28,10 +28,12 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
+    displayName: 'Test Actor 1 • EnergySupplier',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '1',
@@ -43,16 +45,19 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 1',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb4',
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 3',
+    displayName: 'Test Actor 3 • GridAccessProvider',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '2',
@@ -64,16 +69,19 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 3',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 2',
+    displayName: 'Test Actor 2 • BalanceResponsibleParty',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 - DK1`,
+        displayName: `DK1 • DK1`,
         code: 'DK1',
         name: 'DK1',
         id: '3',
@@ -85,16 +93,19 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 2',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c18-08da5f28ddb1',
     glnOrEicNumber: '5790000555444',
     name: 'Test Actor 3',
+    displayName: 'Test Actor 3 • DanishEnergyAgency',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 - DK2`,
+        displayName: `DK2 • DK2`,
         code: 'DK2',
         name: 'DK2',
         id: '4',
@@ -106,16 +117,19 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 2',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
     glnOrEicNumber: '5790000555123',
+    userRoles: [],
     name: 'Test Actor 4',
+    displayName: 'Test Actor 4 • DanishEnergyAgency',
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 - DK2`,
+        displayName: `DK2 • DK2`,
         code: 'DK2',
         name: 'DK2',
         id: '5',
@@ -127,16 +141,19 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       name: 'Test Organization 3',
     } as Organization,
+    publicMail: null,
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
     glnOrEicNumber: '5790000555333',
     name: 'Test Actor 5',
+    displayName: 'Test Actor 5 • BalanceResponsibleParty',
+    userRoles: [],
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 - DK2`,
+        displayName: `DK2 • DK2`,
         code: 'DK2',
         name: 'DK2',
         id: '6',
@@ -145,5 +162,33 @@ export const marketParticipantActors: Actor[] = [
     marketRole: EicFunction.BalanceResponsibleParty,
     status: null as unknown as ActorStatus,
     organization: null as unknown as Organization,
+    publicMail: {
+      __typename: 'ActorPublicMail',
+      mail: 'hello@efad0fee-9d7c-49c6-7c20-08da5f28ddb1.com',
+    },
+  },
+  {
+    __typename: 'Actor',
+    id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb2',
+    glnOrEicNumber: '5790000555588',
+    name: 'Test Actor 6',
+    displayName: 'Test Actor 6 • EnergySupplier',
+    userRoles: [],
+    gridAreas: [
+      {
+        __typename: 'GridAreaDto',
+        displayName: `DK1 • DK1`,
+        code: 'DK1',
+        name: 'DK1',
+        id: '1',
+      } as GridAreaDto,
+    ],
+    marketRole: EicFunction.EnergySupplier,
+    status: ActorStatus.Active,
+    organization: {
+      __typename: 'Organization',
+      name: 'Test Organization 1',
+    } as Organization,
+    publicMail: null,
   },
 ];

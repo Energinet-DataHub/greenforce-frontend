@@ -16,57 +16,69 @@ limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
   <watt-nav-list>
-    <watt-nav-list-item link="/message-archive">{{
+    <watt-nav-list-item [link]="getLink('message-archive')">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>
 
-    <watt-nav-list-item link="/market-participant">{{
+    <watt-nav-list-item [link]="getLink('market-participant')">{{
       transloco("marketParticipantActors")
     }}</watt-nav-list-item>
 
-    <watt-nav-list-item link="/grid-areas">{{
+    <watt-nav-list-item [link]="getLink('grid-areas')">{{
       transloco("marketParticipantGridAreas")
     }}</watt-nav-list-item>
 
-    <watt-nav-list-item *dhPermissionRequired="['esett-exchange:manage']" link="/esett">{{
-      transloco("eSett")
-    }}</watt-nav-list-item>
+    <watt-nav-list-item
+      *dhPermissionRequired="['esett-exchange:manage']"
+      [link]="getLink('esett')"
+      >{{ transloco("eSett") }}</watt-nav-list-item
+    >
 
-    <watt-nav-list-item link="/imbalance-prices">{{
-      transloco("imbalancePrices")
-    }}</watt-nav-list-item>
+    <watt-nav-list-item
+      *dhPermissionRequired="['imbalance-prices:view']"
+      [link]="getLink('imbalance-prices')"
+      >{{ transloco("imbalancePrices") }}</watt-nav-list-item
+    >
   </watt-nav-list>
 
   <ng-container
     *dhPermissionRequired="[
-      'calculations:manage',
+      'calculations:view',
       'settlement-reports:manage',
-      'request-aggregated-measured-data:view'
+      'request-aggregated-measured-data:view',
+      'request-wholesale-settlement:view'
     ]"
   >
     <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
       <watt-nav-list-item
-        *dhPermissionRequired="['request-aggregated-measured-data:view']"
-        link="/wholesale/request-calculation"
+        *dhPermissionRequired="[
+          'request-aggregated-measured-data:view',
+          'request-wholesale-settlement:view'
+        ]"
+        [link]="getWholesaleLink('request-calculation')"
         >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
       >
       <watt-nav-list-item
-        *dhPermissionRequired="['calculations:manage']"
-        link="/wholesale/calculations"
+        *dhPermissionRequired="['calculations:view']"
+        [link]="getWholesaleLink('calculations')"
         >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
       >
 
-      <watt-nav-list-item
-        *dhPermissionRequired="['settlement-reports:manage']"
-        link="/wholesale/settlement-reports"
-        >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
-      >
+      <ng-container *dhFeatureFlag="'settlement-reports-v2'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['settlement-reports:manage']"
+          [link]="getWholesaleLink('settlement-reports')"
+          >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
+        >
+      </ng-container>
     </watt-nav-list>
   </ng-container>
 
   <ng-container *dhPermissionRequired="['users:manage']">
     <watt-nav-list [expandable]="true" [title]="transloco('admin.menuGroupLabel')">
-      <watt-nav-list-item link="/admin">{{ transloco("admin.userManagement") }}</watt-nav-list-item>
+      <watt-nav-list-item [link]="getLink('admin')">{{
+        transloco("admin.userManagement")
+      }}</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
 </ng-container>

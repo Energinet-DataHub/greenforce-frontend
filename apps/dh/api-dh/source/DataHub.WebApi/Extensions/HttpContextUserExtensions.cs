@@ -20,7 +20,7 @@ public static class HttpContextUserExtensions
 {
     public static bool IsFas(this ClaimsPrincipal user)
     {
-        return user.Claims.Any(c => c is { Type: "membership", Value: "fas" });
+        return user.Claims.Any(c => c is { Type: "multitenancy", Value: "true" });
     }
 
     public static Guid GetAssociatedActor(this ClaimsPrincipal user)

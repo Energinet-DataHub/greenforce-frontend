@@ -19,44 +19,38 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WHOLESALE_CALCULATIONS_PATH,
-  WHOLESALE_SETTLEMENT_REPORTS_PATH,
-  WHOLESALE_REQUEST_CALCULATION_PATH,
-} from '@energinet-datahub/dh/wholesale/routing';
+
+import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
-    path: WHOLESALE_REQUEST_CALCULATION_PATH,
-    canActivate: [PermissionGuard(['request-aggregated-measured-data:view'])],
+    path: getPath<WholesaleSubPaths>('request-calculation'),
+    canActivate: [
+      PermissionGuard([
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+      ]),
+    ],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
     data: {
       titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
     },
   },
   {
-    path: WHOLESALE_CALCULATIONS_PATH,
-    canActivate: [PermissionGuard(['calculations:manage'])],
+    path: getPath<WholesaleSubPaths>('calculations'),
+    canActivate: [PermissionGuard(['calculations:view'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
       titleTranslationKey: 'wholesale.calculations.topBarTitle',
     },
   },
   {
-    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
+    path: getPath<WholesaleSubPaths>('settlement-reports'),
     canMatch: [() => inject(DhFeatureFlagsService).isEnabled('settlement-reports-v2')],
     canActivate: [PermissionGuard(['settlement-reports:manage'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports-v2'),
     data: {
-      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
-    },
-  },
-  {
-    path: WHOLESALE_SETTLEMENT_REPORTS_PATH,
-    canActivate: [PermissionGuard(['settlement-reports:manage'])],
-    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-settlement-reports'),
-    data: {
-      titleTranslationKey: 'wholesale.settlementReports.topBarTitle',
+      titleTranslationKey: 'wholesale.settlementReportsV2.topBarTitle',
     },
   },
 ];

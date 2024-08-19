@@ -21,6 +21,8 @@ public record RequestSettlementReportInput(
     Interval Period,
     RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,
+    bool PreventLargeTextFiles,
     bool IncludeMonthlySums,
-    bool InculdeBasicData,
-    Guid? SupplierId);
+    bool IncludeBasisData,
+    string? EnergySupplier,
+    string? CsvLanguage);

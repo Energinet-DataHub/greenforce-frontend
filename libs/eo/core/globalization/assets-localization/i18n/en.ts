@@ -19,6 +19,15 @@ import { TranslationKeys } from './translation-keys';
 
 export const EN_TRANSLATIONS: TranslationKeys = {
   landingPage: {
+    meta: {
+      title: 'Energy Track & Trace™',
+      description:
+        'Energy Track & Trace™ is your reliable source for tracking and certification of green power. We prove where your power comes from.',
+      keywords:
+        'green power, green energy, tracking, certification, granular certificates, Energy Track & Trace, sustainable energy, renewable energy',
+      author: 'Energy Track & Trace™',
+      url: 'https://energytrackandtrace.dk',
+    },
     announcementBar: {
       message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
     },
@@ -116,6 +125,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       This gives you an insight you can act on and the certainty that you are making the right decision.
       </p>`,
     },
+    naming: {
+      heading: 'Energy Track and Trace™ – common European name for granular certificates',
+      content: `<p>In the spring of 2024, Energioprindelse changed its name to Energy Track and Trace™.
+          Energy Track and Trace™ is the name of the collaboration across the EU, in which Energinet is an active participant.
+        </p>
+
+        <p>
+          It ensures consistency and recognition across the EU. Previously,
+          the collaboration on granular certificates (GCs) in Denmark was called Energioprindelse, El Oprindelse, and Energy Origin.
+          The technology behind it is called Project Origin.
+        </p>`,
+    },
     cta: {
       heading: `Ready to track your company’s energy?`,
       section1: {
@@ -148,10 +169,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/privacy-policy">Privacy policy</a>
+              <a href="/en/privacy-policy">Privacy policy</a>
             </li>
             <li>
-              <a href="/terms">Terms of use</a>
+              <a href="/en/terms">Terms of use</a>
             </li>
           </ul>
         `,
@@ -165,6 +186,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
     },
   },
+  documentation: {
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page.',
+    },
+    endpoints: 'Endpoints',
+    topbarTitle: 'Documentation',
+  },
   sidebar: {
     dashboard: 'Dashboard',
     meteringPoints: 'Metering Points',
@@ -172,6 +201,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     certificates: 'Certificates',
     transfers: 'Transfers',
     activityLog: 'Activity Log',
+    consent: 'Consent',
   },
   footer: {
     poweredBy: 'Powered by',
@@ -316,28 +346,24 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   meteringPoints: {
     title: 'Metering Points',
-    infoBoxTitle: 'You have the option to switch your metering points ON and OFF.',
+    infoBoxTitle: 'Help for Metering Points',
     infoBoxContent: `
-    <p>For Production metering points:</p>
+      <h3>Production:</h3>
+      <ul>
+        <li>A metering point (electricity meter) that produces green electricity from solar or wind power.</li>
+      </ul>
 
-    <ul>
-      <li>Turning it 'ON' means the metering point is actively issuing certificates of power.</li>
-      <li>Switching it 'OFF' will stop the metering point from issuing certificates.</li>
-    </ul>
+      <h3>Consumption:</h3>
+      <ul>
+        <li>A metering point (electricity meter) that uses electricity from solar or wind power.</li>
+      </ul>
 
-    <br />
-    <p>For Consumption metering points:</p>
-
-    <ul>
-      <li>
-        'ON' indicates that the Consumption metering point actively issues consumption
-        certificates.
-      </li>
-      <li>
-        'OFF' indicates that the Consumption metering point will source its electricity from
-        elsewhere.
-      </li>
-    </ul>
+      <h3>Activate/Deactivate:</h3>
+      <ul>
+        <li>When you ACTIVATE a metering point, Granular Certificates are issued.</li>
+        <li>When you DEACTIVATE a metering point, the issuance of Granular Certificates stops.</li>
+        <li>Both actions occur instantly, but there is a delay in the display.</li>
+      </ul>
     `,
     pendingRelationStatus: {
       title: 'Awaiting response from DataHub',
@@ -406,6 +432,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     productionType: 'production',
     consumptionType: 'consumption',
     certificateDetailsLink: 'View certificate',
+    exportCertificates: 'Export',
+    exportFailed: 'Exporting certificates failed, please try again.',
   },
   certificateDetails: {
     title: 'Certificate Details - {{certificateType}}',
@@ -537,11 +565,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Transfers',
     creationOfTransferAgreementFailed:
       'Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.',
+    removalOfTransferAgreementProposalFailed: 'Removing the transfer agreement proposal failed.',
     tableTitle: 'Transfer agreements',
     createNewTransferAgreement: 'New transfer agreement',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Active',
     inactiveTransferAgreement: 'Inactive',
+    pendingTransferAgreement: 'Pending',
+    expiredTransferAgreementProposals: 'Expired',
     noData: {
       title: 'No transfer agreements found',
       message: 'You do not have any transfer agreements.',
@@ -641,6 +672,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
       link: {
         hint: 'Link expires in 14 days, usable by one organization or specific company.',
+        hintProposal:
+          'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
         error: `Couldn't generate link. Please try again.`,
         copy: 'Copy link',
         retry: 'Generate',
@@ -669,13 +702,72 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       declineButton: 'Ok',
     },
   },
+  consent: {
+    title: 'Consent',
+    noData: {
+      title: '',
+      message: 'You do not have any consents.',
+    },
+    error: {
+      title: 'Oops! Something went wrong.',
+      message: 'Please try reloading the page..',
+    },
+    tableTitle: 'Consents',
+    grantorTableHeader: 'Grantor',
+    agentTableHeader: 'Agent',
+    validFromTableHeader: 'Valid from',
+    requestForConsent: 'Request for consent',
+  },
+  consentDetails: {
+    validFrom: 'Valid from',
+    editConsent: 'Manage consent',
+    permissionsFor: 'Permissions for',
+  },
+  editConsent: {
+    permissions: 'Permissions',
+    cancel: 'Cancel',
+    saveChanges: 'Save changes',
+    revoke: 'Revoke consent',
+    revokeSuccess: 'Consent revoked',
+    revokeError: 'Could not revoke consent. Please try again.',
+  },
+  grantConsent: {
+    title: '{{organizationName}} has requested authorization',
+    description:
+      'Grant {{organizationName}} authorization for the following functionalities on Energy Track And Trace',
+    permissions: {
+      overview: {
+        title: 'Overview',
+        description:
+          'View the amount of transferred certified green electricity and the proportion of consumed electricity that is certified green.',
+      },
+      meteringPoints: {
+        title: 'Metering Points',
+        description:
+          'Manage which production meters should issue certificates for green electricity, and which consumption meters should be matched with certified green electricity.',
+      },
+      transferAgreements: {
+        title: 'Transfer Agreements',
+        description: 'View and create agreements for the transfer of certified green electricity.',
+      },
+    },
+    acceptTermsAndConditions: 'Accept <a href="/terms" target="_blank">terms and conditions</a>',
+    decline: 'Decline',
+    accept: 'Accept',
+    accepted: 'Authorization granted',
+    declined: 'Authorization declined',
+    error: {
+      title: 'Unexpected error',
+      message: 'An unexpected error occurred. Please try again.',
+    },
+  },
   help: {
     title: 'Help',
     content: `
     <ul>
-      <li><a class="internal-link" href="{{faqLink}}">FAQ</a></li>
+      <li><a class="internal-link" href="/en/{{faqLink}}">FAQ</a></li>
       <li>
-        <a class="internal-link" href="{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
+        <a class="internal-link" href="/en/{{introductionLink}}">Introduction to Energy Origin (Danish)</a>
       </li>
       <li>
         <a

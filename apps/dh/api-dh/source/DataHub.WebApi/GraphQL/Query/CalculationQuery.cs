@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -39,7 +39,7 @@ public partial class Query
         {
             Period = period,
             CalculationTypes = [Clients.Wholesale.v3.CalculationType.BalanceFixing],
-            ExecutionStates = [CalculationState.Completed],
+            States = [CalculationOrchestrationState.Completed],
         };
 
         var calculations = await client.QueryCalculationsAsync(input);

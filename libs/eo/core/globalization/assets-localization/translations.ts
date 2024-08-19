@@ -17,6 +17,13 @@
 // !!!!! This file is auto-generated. Do not edit. !!!!!
 export const translations = {
   landingPage: {
+    meta: {
+      title: 'landingPage.meta.title' as const,
+      description: 'landingPage.meta.description' as const,
+      keywords: 'landingPage.meta.keywords' as const,
+      author: 'landingPage.meta.author' as const,
+      url: 'landingPage.meta.url' as const,
+    } as const,
     announcementBar: {
       message: 'landingPage.announcementBar.message' as const,
     } as const,
@@ -73,6 +80,10 @@ export const translations = {
       heading: 'landingPage.proveSustainability.heading' as const,
       content: 'landingPage.proveSustainability.content' as const,
     } as const,
+    naming: {
+      heading: 'landingPage.naming.heading' as const,
+      content: 'landingPage.naming.content' as const,
+    } as const,
     cta: {
       heading: 'landingPage.cta.heading' as const,
       section1: {
@@ -103,6 +114,14 @@ export const translations = {
       } as const,
     } as const,
   } as const,
+  documentation: {
+    error: {
+      title: 'documentation.error.title' as const,
+      message: 'documentation.error.message' as const,
+    } as const,
+    endpoints: 'documentation.endpoints' as const,
+    topbarTitle: 'documentation.topbarTitle' as const,
+  } as const,
   sidebar: {
     dashboard: 'sidebar.dashboard' as const,
     meteringPoints: 'sidebar.meteringPoints' as const,
@@ -110,6 +129,7 @@ export const translations = {
     certificates: 'sidebar.certificates' as const,
     transfers: 'sidebar.transfers' as const,
     activityLog: 'sidebar.activityLog' as const,
+    consent: 'sidebar.consent' as const,
   } as const,
   footer: {
     poweredBy: 'footer.poweredBy' as const,
@@ -320,6 +340,8 @@ export const translations = {
     productionType: 'certificates.productionType' as const,
     consumptionType: 'certificates.consumptionType' as const,
     certificateDetailsLink: 'certificates.certificateDetailsLink' as const,
+    exportCertificates: 'certificates.exportCertificates' as const,
+    exportFailed: 'certificates.exportFailed' as const,
   } as const,
   certificateDetails: {
     title: 'certificateDetails.title' as const,
@@ -421,11 +443,15 @@ export const translations = {
   transfers: {
     title: 'transfers.title' as const,
     creationOfTransferAgreementFailed: 'transfers.creationOfTransferAgreementFailed' as const,
+    removalOfTransferAgreementProposalFailed:
+      'transfers.removalOfTransferAgreementProposalFailed' as const,
     tableTitle: 'transfers.tableTitle' as const,
     createNewTransferAgreement: 'transfers.createNewTransferAgreement' as const,
     transferAgreementStatusFilterLabel: 'transfers.transferAgreementStatusFilterLabel' as const,
     activeTransferAgreement: 'transfers.activeTransferAgreement' as const,
     inactiveTransferAgreement: 'transfers.inactiveTransferAgreement' as const,
+    pendingTransferAgreement: 'transfers.pendingTransferAgreement' as const,
+    expiredTransferAgreementProposals: 'transfers.expiredTransferAgreementProposals' as const,
     noData: {
       title: 'transfers.noData.title' as const,
       message: 'transfers.noData.message' as const,
@@ -521,6 +547,7 @@ export const translations = {
       } as const,
       link: {
         hint: 'createTransferAgreementProposal.invitation.link.hint' as const,
+        hintProposal: 'createTransferAgreementProposal.invitation.link.hintProposal' as const,
         error: 'createTransferAgreementProposal.invitation.link.error' as const,
         copy: 'createTransferAgreementProposal.invitation.link.copy' as const,
         retry: 'createTransferAgreementProposal.invitation.link.retry' as const,
@@ -544,6 +571,62 @@ export const translations = {
       title: 'respondTransferAgreementProposal.error.title' as const,
       message: 'respondTransferAgreementProposal.error.message' as const,
       declineButton: 'respondTransferAgreementProposal.error.declineButton' as const,
+    } as const,
+  } as const,
+  consent: {
+    title: 'consent.title' as const,
+    noData: {
+      title: 'consent.noData.title' as const,
+      message: 'consent.noData.message' as const,
+    } as const,
+    error: {
+      title: 'consent.error.title' as const,
+      message: 'consent.error.message' as const,
+    } as const,
+    tableTitle: 'consent.tableTitle' as const,
+    grantorTableHeader: 'consent.grantorTableHeader' as const,
+    agentTableHeader: 'consent.agentTableHeader' as const,
+    validFromTableHeader: 'consent.validFromTableHeader' as const,
+    requestForConsent: 'consent.requestForConsent' as const,
+  } as const,
+  consentDetails: {
+    validFrom: 'consentDetails.validFrom' as const,
+    editConsent: 'consentDetails.editConsent' as const,
+    permissionsFor: 'consentDetails.permissionsFor' as const,
+  } as const,
+  editConsent: {
+    permissions: 'editConsent.permissions' as const,
+    cancel: 'editConsent.cancel' as const,
+    saveChanges: 'editConsent.saveChanges' as const,
+    revoke: 'editConsent.revoke' as const,
+    revokeSuccess: 'editConsent.revokeSuccess' as const,
+    revokeError: 'editConsent.revokeError' as const,
+  } as const,
+  grantConsent: {
+    title: 'grantConsent.title' as const,
+    description: 'grantConsent.description' as const,
+    permissions: {
+      overview: {
+        title: 'grantConsent.permissions.overview.title' as const,
+        description: 'grantConsent.permissions.overview.description' as const,
+      } as const,
+      meteringPoints: {
+        title: 'grantConsent.permissions.meteringPoints.title' as const,
+        description: 'grantConsent.permissions.meteringPoints.description' as const,
+      } as const,
+      transferAgreements: {
+        title: 'grantConsent.permissions.transferAgreements.title' as const,
+        description: 'grantConsent.permissions.transferAgreements.description' as const,
+      } as const,
+    } as const,
+    acceptTermsAndConditions: 'grantConsent.acceptTermsAndConditions' as const,
+    decline: 'grantConsent.decline' as const,
+    accept: 'grantConsent.accept' as const,
+    accepted: 'grantConsent.accepted' as const,
+    declined: 'grantConsent.declined' as const,
+    error: {
+      title: 'grantConsent.error.title' as const,
+      message: 'grantConsent.error.message' as const,
     } as const,
   } as const,
   help: {

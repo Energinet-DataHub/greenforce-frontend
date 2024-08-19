@@ -29,23 +29,6 @@ public class MarketParticipantActorController : MarketParticipantControllerBase
     }
 
     /// <summary>
-    /// Retrieves currently configured credentials for an actor, or returns 404.
-    /// </summary>
-    [HttpGet]
-    [Route("GetActorCredentials")]
-    public async Task<ActionResult<ActorCredentialsDto>> GetActorCredentialsAsync(Guid actorId)
-    {
-        try
-        {
-            return Ok(await _client.ActorCredentialsGetAsync(actorId).ConfigureAwait(false));
-        }
-        catch (ApiException ex) when (ex.StatusCode == 404)
-        {
-            return NotFound();
-        }
-    }
-
-    /// <summary>
     /// Assigns the given certificate credentials to the actor.
     /// </summary>
     [HttpPost]

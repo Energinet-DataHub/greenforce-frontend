@@ -1,10 +1,20 @@
 {
-  "apiBase": "https://demo.energioprindelse.dk/api",
-  "developerPortal": "https://demo.energioprindelse.dk/developer/",
+  "apiBase": "https://demo.energytrackandtrace.dk/api",
+  "developerPortal": "https://demo.energytrackandtrace.dk/developer/",
   "apiVersions": {
     "certificates": "20240423",
+    "wallet-api": "20240515",
     "transfer": "20240103",
     "claim-automation": "20240103",
-    "measurements": "20240110"
-  }
+    "measurements": "20240110",
+    "authorization": "20230101"
+  },
+  "/* NOTE: Remember to add the URLs to the prerendered routes: /apps/eo/app-eo-landing-page/src/prerendered-routes.txt */": "ex. /en/documentation/<DOC-ID>",
+  "documentation": [
+    {
+      "id": "3rd-party-api-usage",
+      "title": "3rd party API usage",
+      "src": "https://raw.githubusercontent.com/Energinet-DataHub/energy-origin/main/doc/guide_3rd_party.md"
+    }
+  ]
 }

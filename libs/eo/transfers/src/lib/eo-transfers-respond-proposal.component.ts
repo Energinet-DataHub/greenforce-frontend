@@ -140,7 +140,7 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
               translations.respondTransferAgreementProposal.success.acceptButton | transloco
             }}</watt-button>
           } @else {
-            <watt-button variant="primary" (click)="onDecline()">{{
+            <watt-button variant="primary" (click)="modal.close(true)">{{
               translations.respondTransferAgreementProposal.error.declineButton | transloco
             }}</watt-button>
           }
@@ -153,6 +153,7 @@ export class EoTransfersRespondProposalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() proposalId!: string;
   @Output() accepted = new EventEmitter<EoTransferAgreementProposal>();
+  @Output() declined = new EventEmitter<string>();
 
   private cd = inject(ChangeDetectorRef);
   private router = inject(Router);
@@ -204,6 +205,7 @@ export class EoTransfersRespondProposalComponent implements OnChanges {
   }
 
   onDecline() {
+    this.declined.emit(this.proposalId);
     this.modal.close(false);
   }
 }

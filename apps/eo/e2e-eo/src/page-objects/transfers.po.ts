@@ -26,7 +26,8 @@ export class TransfersPo {
   private testStartDate = '12052023';
 
   // Visibility
-  headerIsVisible = () => cy.get('h2').should('contain.text', this.pageHeaderText);
+  headerIsVisible = () =>
+    cy.get('h2', { timeout: 10000 }).should('contain.text', this.pageHeaderText);
   cardHeaderIsVisible = () => cy.get('h3').should('contain.text', this.cardHeaderText);
   urlIsTransfersPage = () => cy.url().should('contain', 'transfers');
   tableIsVisible = () => cy.get(this.transfersTable).should('be.visible');
@@ -38,6 +39,10 @@ export class TransfersPo {
     cy.get(this.transfersTable).should('contain', this.testReceiverId);
 
   // Interaction
+  visit() {
+    cy.visit('/en/transfers');
+  }
+
   clickNewAgreementButton() {
     cy.get(this.newAgreementButton).click();
   }

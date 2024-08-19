@@ -19,14 +19,16 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 import { exhaustMap, filter, Observable, tap } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
-  MarketParticipantUserRoleHttp,
-  MarketParticipantUpdateUserRoleDto,
-} from '@energinet-datahub/dh/shared/domain';
-
-import { DhAdminUserRolesManagementDataAccessApiStore } from './dh-admin-user-roles-management-data-access-api.store';
+  ApiErrorDescriptor,
+  GetUserRoleAuditLogsDocument,
+  GetUserRolesDocument,
+  UpdateUserRoleDocument,
+  UpdateUserRoleDtoInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 interface DhEditUserRoleState {
   readonly requestState: LoadingState | ErrorState;
@@ -38,14 +40,14 @@ const initialState: DhEditUserRoleState = {
 
 @Injectable()
 export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEditUserRoleState> {
-  private readonly userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
+  private readonly apollo = inject(Apollo);
 
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasValidationError$ = this.select(
     (state) => state.requestState === ErrorState.VALIDATION_EXCEPTION
   ).pipe(filter((value) => value));
 
-  constructor(private httpClient: MarketParticipantUserRoleHttp) {
+  constructor() {
     super(initialState);
   }
 
@@ -53,44 +55,72 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
     (
       trigger$: Observable<{
         userRoleId: string;
-        updatedUserRole: MarketParticipantUpdateUserRoleDto;
+        updatedUserRole: UpdateUserRoleDtoInput;
         onSuccessFn: () => void;
         onErrorFn: (statusCode: HttpStatusCode) => void;
       }>
     ) =>
       trigger$.pipe(
-        tap(() => {
-          this.patchState({ requestState: LoadingState.LOADING });
-        }),
         exhaustMap(({ userRoleId, updatedUserRole, onSuccessFn, onErrorFn }) =>
-          this.httpClient.v1MarketParticipantUserRoleUpdatePut(userRoleId, updatedUserRole).pipe(
-            tapResponse(
-              () => {
-                this.patchState({ requestState: LoadingState.LOADED });
-
-                this.userRolesStore.updateRoleById({
-                  id: userRoleId,
-                  name: updatedUserRole.name,
-                });
-
-                onSuccessFn();
+          this.apollo
+            .mutate({
+              mutation: UpdateUserRoleDocument,
+              variables: {
+                input: {
+                  userRoleId,
+                  userRole: updatedUserRole,
+                },
               },
-              (error: HttpErrorResponse) => {
-                this.handleError(error);
-                onErrorFn(error.status);
-              }
+              refetchQueries: (result) => {
+                if (result.data?.updateUserRole.success) {
+                  return [GetUserRolesDocument, GetUserRoleAuditLogsDocument];
+                }
+
+                return [];
+              },
+            })
+            .pipe(
+              tap(({ loading }) => {
+                if (loading) {
+                  this.patchState({ requestState: LoadingState.LOADING });
+                }
+              }),
+              tapResponse(
+                ({ loading, data }) => {
+                  if (loading) {
+                    return;
+                  }
+
+                  this.patchState({ requestState: LoadingState.LOADED });
+
+                  if (data?.updateUserRole.success) {
+                    onSuccessFn();
+                  }
+
+                  if (data?.updateUserRole.errors?.length) {
+                    const [firstError] = data.updateUserRole.errors;
+                    const [firstApiError] = firstError.apiErrors;
+
+                    this.handleError(firstError.statusCode, firstApiError);
+
+                    onErrorFn(firstError.statusCode);
+                  }
+                },
+                (error: HttpErrorResponse) => {
+                  onErrorFn(error.status);
+                }
+              )
             )
-          )
         )
       )
   );
 
-  private handleError({ status, error }: HttpErrorResponse): void {
+  private handleError(statusCode: number, firstApiError: ApiErrorDescriptor): void {
     let requestState = ErrorState.GENERAL_ERROR;
 
     if (
-      status === HttpStatusCode.BadRequest &&
-      error?.error?.code === ErrorState.VALIDATION_EXCEPTION
+      statusCode === HttpStatusCode.BadRequest &&
+      firstApiError.code === 'market_participant.validation.market_role.reserved'
     ) {
       requestState = ErrorState.VALIDATION_EXCEPTION;
     }
