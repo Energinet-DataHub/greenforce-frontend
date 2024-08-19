@@ -437,14 +437,14 @@
       "@energinet-datahub/watt/phone-field": [
         "libs/watt/src/lib/phone-field/index.ts"
       ],
-      "@energinet-datahub/watt/query-params": [
-        "libs/watt/src/lib/query-params/index.ts"
-      ],
       "@energinet-datahub/watt/picker/shared": [
         "libs/watt/src/lib/picker/shared/index.ts"
       ],
       "@energinet-datahub/watt/progress-tracker": [
         "libs/watt/src/lib/progress-tracker/index.ts"
+      ],
+      "@energinet-datahub/watt/query-params": [
+        "libs/watt/src/lib/query-params/index.ts"
       ],
       "@energinet-datahub/watt/radio": ["libs/watt/src/lib/radio/index.ts"],
       "@energinet-datahub/watt/resize-observer": [
