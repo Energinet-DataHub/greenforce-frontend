@@ -31,10 +31,12 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattRangeValidators } from '@energinet-datahub/watt/utils/validators';
+
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
-import { WattRangeValidators } from '../picker/shared/validators/watt-range.validators';
-import { VaterStackComponent } from '../vater/vater-stack.component';
+
 
 @Component({
   selector: 'watt-field',

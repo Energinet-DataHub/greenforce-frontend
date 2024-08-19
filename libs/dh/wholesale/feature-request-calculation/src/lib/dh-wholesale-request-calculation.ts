@@ -46,7 +46,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattRangeValidators } from '@energinet-datahub/watt/utils/validators';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import {
   aggregationCalculationTypes,
