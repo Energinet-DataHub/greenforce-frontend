@@ -19,18 +19,28 @@ import { Injectable, inject } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, switchMap, take, tap } from 'rxjs';
 import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { tapResponse } from '@ngrx/operators';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import {
+  GetAllUsersDocument,
   MarketParticipantSortDirctionType,
   UserOverviewSearchDocument,
   UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhUsers } from '@energinet-datahub/dh/admin/shared';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import type { ResultOf } from '@graphql-typed-document-node/core';
-import { tapResponse } from '@ngrx/operators';
+export type UserToDownload = {
+  userName: string;
+  userEmail: string;
+  marketParticipantName: string;
+  organizationName: string;
+};
+
+export type UsersToDownload = UserToDownload[];
 
 type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
 
@@ -85,7 +95,8 @@ export class DhAdminUserManagementDataAccessApiStore
   extends ComponentStore<DhUserManagementState>
   implements OnStoreInit
 {
-  readonly apollo = inject(Apollo);
+  private readonly apollo = inject(Apollo);
+
   readonly isInit$ = this.select((state) => state.usersRequestState === LoadingState.INIT);
   readonly isLoading$ = this.select((state) => state.usersRequestState === LoadingState.LOADING);
   readonly hasGeneralError$ = this.select(
@@ -115,6 +126,10 @@ export class DhAdminUserManagementDataAccessApiStore
     },
     { debounce: true }
   );
+
+  private readonly getAllUsersQuery = lazyQuery(GetAllUsersDocument);
+
+  readonly isDownloading = this.getAllUsersQuery.loading;
 
   constructor() {
     super(initialState);
@@ -211,6 +226,32 @@ export class DhAdminUserManagementDataAccessApiStore
 
   updateSort(sortProperty: UserOverviewSortProperty, direction: MarketParticipantSortDirctionType) {
     this.patchState({ sortProperty, direction });
+  }
+
+  downloadUsers(onSuccess: (items: UsersToDownload) => void, onError: () => void) {
+    this.getAllUsersQuery.query({
+      variables: {
+        pageNumber: 1,
+        pageSize: 10_000,
+        sortProperty: UserOverviewSortProperty.Email,
+        sortDirection: MarketParticipantSortDirctionType.Asc,
+      },
+      onCompleted: ({ userOverviewSearch: { users } }) => {
+        const usersToDownload: UsersToDownload = users.map((user) => {
+          const [firstMarketParticipant] = user.actors ?? [];
+
+          return {
+            userName: user.name,
+            userEmail: user.email,
+            marketParticipantName: firstMarketParticipant?.name ?? '',
+            organizationName: firstMarketParticipant?.organization.name ?? '',
+          };
+        });
+
+        onSuccess(usersToDownload);
+      },
+      onError: () => onError(),
+    });
   }
 
   readonly reloadUsers = () => {
