@@ -20,7 +20,7 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { RxPush } from '@rx-angular/template/push';
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/utils/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_CARD } from '@energinet-datahub/watt/card';

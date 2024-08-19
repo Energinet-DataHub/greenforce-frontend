@@ -20,7 +20,7 @@ import { Component, effect, inject, input } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';

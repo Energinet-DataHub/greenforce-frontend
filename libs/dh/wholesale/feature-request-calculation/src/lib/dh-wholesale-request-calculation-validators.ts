@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 
 type rangeControl = AbstractControl<WattRange<string>>;
 

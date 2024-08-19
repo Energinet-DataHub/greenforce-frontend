@@ -34,7 +34,7 @@ import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datah
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet-datahub/watt/utils/date';
 import {
   GetAuditLogByActorIdDocument,
   GetDelegationsForActorDocument,

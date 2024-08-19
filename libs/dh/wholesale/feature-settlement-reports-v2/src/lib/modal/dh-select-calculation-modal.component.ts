@@ -21,7 +21,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
 

@@ -35,7 +35,7 @@ import {
   WattDrawerActionsComponent,
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsent } from '@energinet-datahub/eo/consent/data-access-api';

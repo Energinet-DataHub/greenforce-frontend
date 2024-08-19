@@ -50,7 +50,7 @@ import {
   danishTimeZoneIdentifier,
 } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 import {
   getActorOptions,
   getGridAreaOptions,

@@ -17,7 +17,7 @@
 import { Component, effect, input } from '@angular/core';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/utils/date';
 
 import {
   DhBalanceResponsibleRelation,

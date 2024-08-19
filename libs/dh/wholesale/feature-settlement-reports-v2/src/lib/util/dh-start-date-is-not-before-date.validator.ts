@@ -16,7 +16,7 @@
  */
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattRange, dayjs } from '@energinet-datahub/watt/utils/date';
 
 export const dhStartDateIsNotBeforeDateValidator =
   (date: Date) =>
