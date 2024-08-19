@@ -431,9 +431,6 @@
       "@energinet-datahub/watt/phone-field": [
         "libs/watt/src/lib/phone-field/index.ts"
       ],
-      "@energinet-datahub/watt/picker/timepicker": [
-        "libs/watt/src/lib/picker/timepicker/index.ts"
-      ],
       "@energinet-datahub/watt/picker/datepicker": [
         "libs/watt/src/lib/picker/datepicker/index.ts"
       ],
@@ -442,6 +439,9 @@
       ],
       "@energinet-datahub/watt/picker/shared": [
         "libs/watt/src/lib/picker/shared/index.ts"
+      ],
+      "@energinet-datahub/watt/picker/timepicker": [
+        "libs/watt/src/lib/picker/timepicker/index.ts"
       ],
       "@energinet-datahub/watt/progress-tracker": [
         "libs/watt/src/lib/progress-tracker/index.ts"
