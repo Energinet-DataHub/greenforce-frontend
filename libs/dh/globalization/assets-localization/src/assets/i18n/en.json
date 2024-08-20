@@ -855,7 +855,8 @@
     "status": {
       "IN_COMPLETE": "Missing prices",
       "NO_DATA": "No prices",
-      "COMPLETE": "Complete"
+      "COMPLETE": "Complete",
+      "MISSING": "Mangler"
     },
     "drawer": {
       "priceAreaLabel": "Price area",

@@ -854,7 +854,8 @@
     "status": {
       "IN_COMPLETE": "Mangler priser",
       "NO_DATA": "Ingen priser",
-      "COMPLETE": "Komplet"
+      "COMPLETE": "Komplet",
+      "MISSING": "Mangler"
     },
     "drawer": {
       "priceAreaLabel": "Prisområde",

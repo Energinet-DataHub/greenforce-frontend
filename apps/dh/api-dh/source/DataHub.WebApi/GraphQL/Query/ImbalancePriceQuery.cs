@@ -59,8 +59,8 @@ public partial class Query
             {
                 PriceAreaCode = priceAreaCode switch
                 {
-                    PriceAreaCode.AreaCode1 => Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk1,
-                    PriceAreaCode.AreaCode2 => Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk2,
+                    PriceAreaCode.AreaCode1 => Enums.PriceAreaCode.Dk1,
+                    PriceAreaCode.AreaCode2 => Enums.PriceAreaCode.Dk2,
                     _ => throw new ArgumentOutOfRangeException(nameof(priceAreaCode)),
                 },
                 Name = from,
@@ -78,16 +78,55 @@ public partial class Query
     public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
         int year,
         int month,
-        Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode areaCode,
+        Enums.PriceAreaCode areaCode,
         [Service] IImbalancePricesClient_V1 client)
     {
         var parsedAreaCode = areaCode switch
         {
-            Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
-            Energinet.DataHub.WebApi.GraphQL.Enums.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
+            Enums.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
+            Enums.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
             _ => throw new ArgumentOutOfRangeException(nameof(areaCode)),
         };
 
-        return await client.GetByMonthAsync(year, month, parsedAreaCode);
+        var imbalancePrices = await client.GetByMonthAsync(year, month, parsedAreaCode);
+
+        foreach (var imbalancePrice in imbalancePrices)
+        {
+            var missingTimestamps = new List<ImbalancePriceDto>();
+            var sortedPrices = imbalancePrice.ImbalancePrices.OrderBy(x => x.Timestamp);
+
+            var previousTimestamp = sortedPrices.First().Timestamp;
+
+            foreach (var price in sortedPrices.Skip(1))
+            {
+                var currentTimestamp = price.Timestamp;
+
+                var differenceInHours = (currentTimestamp - previousTimestamp).TotalHours;
+
+                if (differenceInHours > 1)
+                {
+                    for (int i = 1; i < differenceInHours; i++)
+                    {
+                        var missingTimestamp = previousTimestamp.AddHours(i);
+                        var missingPrice = new ImbalancePriceDto
+                        {
+                            Timestamp = missingTimestamp,
+                            Price = 0,
+                        };
+
+                        missingTimestamps.Add(missingPrice);
+                    }
+                }
+
+                previousTimestamp = currentTimestamp;
+            }
+
+            imbalancePrice.ImbalancePrices = imbalancePrice.ImbalancePrices
+                .Concat(missingTimestamps)
+                .OrderBy(x => x.Timestamp)
+                .ToList();
+        }
+
+        return imbalancePrices;
     }
 }
