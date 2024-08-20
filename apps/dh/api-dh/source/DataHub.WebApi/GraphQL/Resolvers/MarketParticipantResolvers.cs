@@ -117,6 +117,11 @@ public class MarketParticipantResolvers
         }
     }
 
+    public async Task<ActorDto?> GetAdministratedByAsync(
+        [Parent] User user,
+        [Service] IMarketParticipantClient_V1 client) =>
+            user.AdministratedBy.HasValue ? await client.ActorGetAsync(user.AdministratedBy.Value) : null;
+
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
         ActorPublicMailByActorId dataLoader) =>
