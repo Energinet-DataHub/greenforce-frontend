@@ -53,11 +53,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
       [options]="gridAreaOptions()"
       [showResetOption]="false"
       [multiple]="true"
-    >
-      <watt-field-hint>
-        {{ t('create.gridArea.hint', { count: control().value?.length }) }}
-      </watt-field-hint>
-    </watt-dropdown>
+    />
   `,
 })
 export class DhCalculationsGridAreasDropdownComponent {

@@ -50,6 +50,7 @@ public sealed class DateRangeType : AnyType
                 x => x.Value switch
                 {
                     StringValueNode s => s.Value,
+                    NullValueNode _ => null,
                     _ => throw new FormatException(),
                 });
 
@@ -110,6 +111,7 @@ public sealed class DateRangeType : AnyType
     private static Instant? Parse(object? value) =>
         value switch
         {
+            null => null,
             string s when s == string.Empty => null,
             string s => InstantPattern.ExtendedIso.Parse(s) switch
             {
