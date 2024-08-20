@@ -25,6 +25,7 @@ limitations under the License.
       <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
 
       <watt-button
+        *dhPermissionRequired="['fas']"
         icon="download"
         variant="text"
         (click)="download()"
