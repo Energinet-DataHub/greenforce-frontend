@@ -41,7 +41,7 @@ describe(DhCalculationsComponent, () => {
   it('should show filter chips', async () => {
     await setup();
     ['Period', 'Calculation type', 'Grid areas', 'Status']
-      .map((filter) => screen.getByRole('button', { name: new RegExp(filter) }))
+      .map((filter) => screen.getByRole('button', { name: new RegExp(filter), pressed: false }))
       .forEach((element) => expect(element).toBeInTheDocument());
   });
 
