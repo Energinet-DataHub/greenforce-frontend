@@ -107,10 +107,6 @@ type Filters = FormControls<CalculationQueryInput>;
         [placeholder]="t('gridAreas')"
       />
 
-      <watt-date-range-chip [formControl]="this._formGroup.controls.executionTime!">
-        {{ t('executionTime') }}
-      </watt-date-range-chip>
-
       <watt-dropdown
         formControlName="states"
         [chipMode]="true"
@@ -141,7 +137,6 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({
-      executionTime: dhMakeFormControl(this.initial?.executionTime),
       period: dhMakeFormControl(this.initial?.period),
       gridAreaCodes: dhMakeFormControl(this.initial?.gridAreaCodes),
       calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),

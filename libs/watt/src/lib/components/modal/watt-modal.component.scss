@@ -48,6 +48,10 @@
     @include watt.media(">Small") {
       --watt-modal-width: 520px;
     }
+
+    & .watt-modal-title {
+      @include watt.typography-watt-headline-3;
+    }
   }
 
   &--medium {

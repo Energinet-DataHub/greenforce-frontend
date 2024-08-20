@@ -1,0 +1,5 @@
+mutation CancelScheduledCalculation($input: CancelScheduledCalculationInput!) {
+  cancelScheduledCalculation(input: $input) {
+    boolean
+  }
+}
