@@ -38,7 +38,7 @@ public partial class Mutation
         var requestDto = new StartCalculationRequestDto(
             StartDate: period.Start.ToDateTimeOffset(),
             EndDate: period.End.ToDateTimeOffset(),
-            ScheduledAt: DateTimeOffset.UtcNow, // TODO: Get ScheduledAt from frontend
+            ScheduledAt: scheduledAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: gridAreaCodes,
             CalculationType: calculationType);
 
