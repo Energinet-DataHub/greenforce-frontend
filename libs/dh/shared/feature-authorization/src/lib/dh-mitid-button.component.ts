@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
-import { MarketParticipantUserHttp } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
@@ -76,21 +75,13 @@ import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain
         </span>
       }
     </a>
-
-    @if (hasReset()) {
-      <ng-container *dhFeatureFlag="'new-login-flow'">
-        <watt-button (click)="resetMitId()">Fjern MitID tilknytning</watt-button>
-      </ng-container>
-    }
   `,
 })
 export class DhMitIDButtonComponent {
-  private marketParticipantUserHttp = inject(MarketParticipantUserHttp);
   private config = inject(dhB2CEnvironmentToken);
   private initiateMitIdSignupMutation = mutation(InitiateMitIdSignupDocument);
 
   isLoading = signal(false);
-  hasReset = computed(() => this.mode() === 'signup');
 
   mode = input.required<'signup' | 'login'>();
 
@@ -104,10 +95,6 @@ export class DhMitIDButtonComponent {
         onCompleted: () => this.redirectToMitID(),
       });
     }
-  }
-
-  resetMitId() {
-    this.marketParticipantUserHttp.v1MarketParticipantUserResetMitIdPost().subscribe();
   }
 
   private async redirectToMitID() {
