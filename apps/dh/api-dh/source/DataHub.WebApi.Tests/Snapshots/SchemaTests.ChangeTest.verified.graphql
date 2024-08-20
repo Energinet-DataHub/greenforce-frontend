@@ -584,6 +584,7 @@ type UpdateUserRolePayload {
 
 type User {
   actors: [Actor!]
+  administratedBy: Actor
   id: UUID!
   name: String!
   status: UserStatus!
