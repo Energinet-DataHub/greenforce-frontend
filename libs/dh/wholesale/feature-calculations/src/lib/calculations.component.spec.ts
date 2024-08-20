@@ -38,15 +38,10 @@ async function setup() {
 }
 
 describe(DhCalculationsComponent, () => {
-  it('should show filter chips with initial values', async () => {
+  it('should show filter chips', async () => {
     await setup();
-    ['Period', 'Calculation type', 'Grid areas', 'Execution time', 'Status']
-      .map((filter) =>
-        screen.getByRole('button', {
-          name: new RegExp(filter),
-          pressed: filter === 'Execution time',
-        })
-      )
+    ['Period', 'Calculation type', 'Grid areas', 'Status']
+      .map((filter) => screen.getByRole('button', { name: new RegExp(filter) }))
       .forEach((element) => expect(element).toBeInTheDocument());
   });
 
