@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 .headline {
-  margin: 0;
+  display: inline-block;
+  padding-right: var(--watt-space-s);
 }
 
 dh-calculations-grid-areas-table {
