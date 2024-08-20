@@ -17,6 +17,7 @@ limitations under the License.
 <watt-field [id]="id" [control]="control" [label]="label">
   @if (!range) {
     <input
+      inert
       matInput
       aria-label="time-input"
       autocomplete="off"
@@ -41,6 +42,7 @@ limitations under the License.
       (focusout)="onFocusOut($event)"
     >
       <input
+        inert
         aria-label="start-time-input"
         matStartDate
         #startTimeInput
@@ -48,6 +50,7 @@ limitations under the License.
         spellcheck="false"
       />
       <input
+        inert
         aria-label="end-time-input"
         matEndDate
         #endTimeInput

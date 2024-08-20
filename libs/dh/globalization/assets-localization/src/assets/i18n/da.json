@@ -883,6 +883,7 @@
       "errorMessage": "{{shared.error.message}}",
       "search": "Søg",
       "new": "Ny beregning",
+      "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
@@ -890,6 +891,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
+        "executionTypeHint": "Ekstern beregning sender resultat til aktørerne",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
@@ -903,6 +905,12 @@
           "label": "Netområder",
           "required": "Netområde påkrævet",
           "hint": "{{shared.selectedValues}}"
+        },
+        "scheduledAt": {
+          "label": "Beregningstidspunkt",
+          "now": "Beregn nu",
+          "schedule": "Planlæg beregning",
+          "past": "Tidspunkt er overstået"
         },
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
@@ -920,8 +928,8 @@
           "cancel": "Kør ikke"
         },
         "toast": {
-          "loading": "Starter beregning...",
-          "success": "Din beregning er startet.",
+          "loading": "Opretter beregning...",
+          "success": "Din beregning er oprettet.",
           "error": "{{shared.error.title}}"
         }
       },
@@ -931,7 +939,8 @@
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
         "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
+        "UNKNOWN": "Beregning"
       },
       "states": {
         "SCHEDULED": "Planlagt",
@@ -944,8 +953,8 @@
         "COMPLETED": "Beskeder dannet"
       },
       "executionTypes": {
-        "ACTUAL": "Faktisk",
-        "SIMULATION": "Simulering"
+        "EXTERNAL": "Ekstern",
+        "INTERNAL": "Intern"
       },
       "filters": {
         "states": "Status",
@@ -969,7 +978,19 @@
         "executionTime": "Eksekveringstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
-        "emptyMessage": "{{shared.error.message}}"
+        "emptyMessage": "{{shared.error.message}}",
+        "copyId": "Kopier ID",
+        "cancelCalculation": "Annuller beregning",
+        "cancelModal": {
+          "title": "Annuller planlagt beregning?",
+          "close": "Luk",
+          "confirm": "Annuller beregning"
+        },
+        "toast": {
+          "loading": "Anullerer beregning...",
+          "success": "Din beregning er annulleret.",
+          "error": "{{shared.error.title}}"
+        }
       },
       "progress": {
         "SCHEDULE": {
