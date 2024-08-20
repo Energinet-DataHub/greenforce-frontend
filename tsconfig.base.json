@@ -425,6 +425,9 @@
       "@energinet-datahub/watt/datepicker": [
         "libs/watt/src/lib/components/picker/datepicker/index.ts"
       ],
+      "@energinet-datahub/watt/datetimepicker": [
+        "libs/watt/src/lib/components/picker/datetimepicker/index.ts"
+      ],
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/components/description-list/index.ts"
       ],

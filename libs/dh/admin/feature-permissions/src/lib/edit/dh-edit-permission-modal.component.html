@@ -24,10 +24,8 @@ limitations under the License.
               [label]="t('tab.masterData.descriptionInputLabel')"
               [formControl]="userPermissionsForm.controls.description"
             >
-              @if (
-                userPermissionsForm.controls.description.errors?.["maxlength"];
-                as maxLengthError
-              ) {
+              @let maxLengthError = userPermissionsForm.controls.description.errors?.["maxlength"];
+              @if (maxLengthError) {
                 <watt-field-error>{{
                   t("tab.masterData.descriptionExceedsMaxLength", maxLengthError)
                 }}</watt-field-error>

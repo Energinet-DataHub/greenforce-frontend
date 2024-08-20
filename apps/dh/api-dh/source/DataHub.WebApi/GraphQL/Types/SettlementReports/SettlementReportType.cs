@@ -12,14 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-/// <summary>
-/// An immutable request to create (start) a calculation.
-/// </summary>
-public sealed record StartCalculationRequestDto(
-    StartCalculationType CalculationType,
-    IEnumerable<string> GridAreaCodes,
-    DateTimeOffset StartDate,
-    DateTimeOffset EndDate,
-    DateTimeOffset ScheduledAt);
+namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+
+public class SettlementReportType : ObjectType<SettlementReport>
+{
+    protected override void Configure(
+        IObjectTypeDescriptor<SettlementReport> descriptor)
+    {
+        descriptor.Name("SettlementReport");
+
+        descriptor
+           .Field("settlementReportDownloadUrl")
+           .ResolveWith<WholesaleResolvers>(c => c.GetSettlementReportDownloadUrl(default!, default!, default!));
+    }
+}

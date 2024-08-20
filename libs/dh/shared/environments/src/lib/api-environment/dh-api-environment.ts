@@ -5,6 +5,8 @@ import { environment } from '../environment';
 
 export interface DhApiEnvironment {
   readonly apiBase: string;
+  readonly getUserActorsUrl: string;
+  readonly getTokenUrl: string;
 }
 
 export const dhApiEnvironmentToken = new InjectionToken<DhApiEnvironment>('dhApiEnvironmentToken', {

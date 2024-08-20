@@ -27,11 +27,11 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
-import { WholesaleSettlementReportHttp } from '@energinet-datahub/dh/shared/domain';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -60,7 +60,7 @@ import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-stat
 })
 export class DhSettlementReportsTableComponent {
   private permissionService = inject(PermissionService);
-  private reportEndpoint = inject(WholesaleSettlementReportHttp);
+  private httpClient = inject(HttpClient);
   private toastService = inject(WattToastService);
 
   columns: WattTableColumnDef<DhSettlementReport> = {
@@ -92,16 +92,24 @@ export class DhSettlementReportsTableComponent {
     });
   }
 
-  downloadReport(reportId: string) {
+  downloadReport(settlementReportDownloadUrl: string | undefined | null) {
     const fileOptions = { name: 'SettlementReport.zip', type: 'application/zip' };
+
+    if (!settlementReportDownloadUrl) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('shared.downloadFailed'),
+      });
+      return;
+    }
 
     this.toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
     });
 
-    this.reportEndpoint
-      .v1WholesaleSettlementReportDownloadReportGet(reportId)
+    this.httpClient
+      .get(settlementReportDownloadUrl, { responseType: 'blob' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
         complete: () => this.toastService.dismiss(),
