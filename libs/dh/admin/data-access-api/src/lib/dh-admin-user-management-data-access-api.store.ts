@@ -237,16 +237,12 @@ export class DhAdminUserManagementDataAccessApiStore
         sortDirection: MarketParticipantSortDirctionType.Asc,
       },
       onCompleted: ({ userOverviewSearch: { users } }) => {
-        const usersToDownload: UsersToDownload = users.map((user) => {
-          const [firstMarketParticipant] = user.actors ?? [];
-
-          return {
-            userName: user.name,
-            userEmail: user.email,
-            marketParticipantName: firstMarketParticipant?.name ?? '',
-            organizationName: firstMarketParticipant?.organization.name ?? '',
-          };
-        });
+        const usersToDownload: UsersToDownload = users.map((user) => ({
+          userName: user.name,
+          userEmail: user.email,
+          marketParticipantName: user.administratedBy?.name ?? '',
+          organizationName: user.administratedBy?.organization.name ?? '',
+        }));
 
         onSuccess(usersToDownload);
       },
