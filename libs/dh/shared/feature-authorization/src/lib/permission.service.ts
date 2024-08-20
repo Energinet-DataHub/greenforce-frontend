@@ -34,6 +34,11 @@ export class PermissionService {
       map((internalToken) => {
         const claims = this.parseClaims(internalToken);
         const roles = this.acquireRoles(claims);
+
+        if (permission === 'fas') {
+          return this.acquireMultiTenancy(claims);
+        }
+
         return roles.includes(permission);
       })
     );
