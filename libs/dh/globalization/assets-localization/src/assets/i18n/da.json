@@ -928,8 +928,8 @@
           "cancel": "Kør ikke"
         },
         "toast": {
-          "loading": "Starter beregning...",
-          "success": "Din beregning er startet.",
+          "loading": "Opretter beregning...",
+          "success": "Din beregning er oprettet.",
           "error": "{{shared.error.title}}"
         }
       },

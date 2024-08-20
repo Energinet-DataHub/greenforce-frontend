@@ -929,8 +929,8 @@
           "cancel": "Cancel"
         },
         "toast": {
-          "loading": "Starting calculation...",
-          "success": "The calculation has been started",
+          "loading": "Creating calculation...",
+          "success": "The calculation has been created",
           "error": "{{shared.error.title}}"
         }
       },
@@ -966,7 +966,7 @@
         "period": "{{shared.form.filters.period}}"
       },
       "columns": {
-        "startedBy": "Started by",
+        "startedBy": "Created by",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
