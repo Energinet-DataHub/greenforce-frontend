@@ -14,15 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-heading',
+  encapsulation: ViewEncapsulation.None,
   template: `<ng-content />`,
   styles: [
     `
-      :host {
+      watt-drawer-heading {
         margin-left: var(--watt-space-ml);
+      }
+
+      watt-drawer-heading h1,
+      watt-drawer-heading h2,
+      watt-drawer-heading h3,
+      watt-drawer-heading h4,
+      watt-drawer-heading h5,
+      watt-drawer-heading h6 {
+        margin: 0;
+        line-height: 48px !important; /* align with actions */
       }
     `,
   ],

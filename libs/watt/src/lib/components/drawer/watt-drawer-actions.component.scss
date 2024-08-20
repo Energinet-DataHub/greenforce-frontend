@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 :host {
+  flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
   gap: var(--watt-space-m);
