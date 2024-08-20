@@ -90,12 +90,17 @@ export class DhCalculationsTableComponent {
   loading = false;
   error = false;
 
-  filter = signal<CalculationQueryInput>({
-    executionTime: {
-      start: dayjs().startOf('day').subtract(10, 'days').toDate(),
-      end: dayjs().endOf('day').toDate(),
+  filter = signal<CalculationQueryInput>({});
+
+  variables = computed(() => ({
+    input: {
+      ...this.filter(),
+      executionTime: {
+        start: dayjs().startOf('day').subtract(30, 'days').toDate(),
+        end: null,
+      },
     },
-  });
+  }));
 
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
@@ -107,7 +112,7 @@ export class DhCalculationsTableComponent {
     this.apollo.watchQuery({
       fetchPolicy: 'network-only',
       query: GetCalculationsDocument,
-      variables: { input: this.filter() },
+      variables: this.variables(),
     })
   );
 
@@ -130,7 +135,7 @@ export class DhCalculationsTableComponent {
   subscribe = effect((onCleanup) => {
     const unsubscribe = this.query().subscribeToMore({
       document: OnCalculationProgressDocument,
-      variables: { input: this.filter() },
+      variables: this.variables(),
       updateQuery: (prev, options) =>
         this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
     });
