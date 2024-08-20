@@ -981,6 +981,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "copyId": "Copy ID",
+        "cancelCalculation": "Cancel calculation",
         "cancelModal": {
           "title": "Cancel scheduled calculation?",
           "close": "Close",

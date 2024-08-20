@@ -980,6 +980,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "copyId": "Kopier ID",
+        "cancelCalculation": "Annuller beregning",
         "cancelModal": {
           "title": "Annuller planlagt beregning?",
           "close": "Luk",

@@ -49,7 +49,9 @@ limitations under the License.
   </watt-drawer-topbar>
   @if (guid && calculation?.state === CalculationOrchestrationState.Scheduled) {
     <watt-drawer-actions>
-      <watt-button variant="secondary" (click)="modal().open()">Annuller beregning</watt-button>
+      <watt-button variant="secondary" (click)="modal().open()">
+        {{ t("details.cancelCalculation") }}
+      </watt-button>
     </watt-drawer-actions>
   }
   <watt-drawer-heading>
