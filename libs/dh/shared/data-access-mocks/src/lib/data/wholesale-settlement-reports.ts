@@ -23,7 +23,9 @@ import {
 const periodStart = new Date('2021-12-01T23:00:00Z');
 const periodEnd = new Date('2021-12-02T23:00:00Z');
 
-export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
+export const wholesaleSettlementReportsQueryMock = (
+  apiBase: string
+): GetSettlementReportsQuery => ({
   __typename: 'Query',
   settlementReports: [
     {
@@ -40,6 +42,7 @@ export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
         id: '1',
         name: 'Sort Strøm',
       },
+      settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
     },
     {
       __typename: 'SettlementReport',
@@ -48,13 +51,14 @@ export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 2,
       includesBasisData: true,
-      statusType: SettlementReportStatusType.InProgress,
+      statusType: SettlementReportStatusType.Completed,
       progress: 45.25,
       actor: {
         __typename: 'Actor',
         id: '2',
         name: 'Hvid Strøm',
       },
+      settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
     },
     {
       __typename: 'SettlementReport',
@@ -70,6 +74,7 @@ export const wholesaleSettlementReportsQueryMock: GetSettlementReportsQuery = {
         id: '3',
         name: 'Blå Strøm',
       },
+      settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
     },
   ],
-};
+});

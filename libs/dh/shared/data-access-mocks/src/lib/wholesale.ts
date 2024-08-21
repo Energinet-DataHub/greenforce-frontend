@@ -59,7 +59,7 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
-    getSettlementReports(),
+    getSettlementReports(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
@@ -634,7 +634,7 @@ function requestCalculationMutation() {
   });
 }
 
-function getSettlementReports() {
+function getSettlementReports(apiBase: string) {
   return mockGetSettlementReportsQuery(async () => {
     await delay(mswConfig.delay);
 
@@ -650,7 +650,7 @@ function getSettlementReports() {
       });
 
     return HttpResponse.json({
-      data: wholesaleSettlementReportsQueryMock,
+      data: wholesaleSettlementReportsQueryMock(apiBase),
     });
   });
 }
