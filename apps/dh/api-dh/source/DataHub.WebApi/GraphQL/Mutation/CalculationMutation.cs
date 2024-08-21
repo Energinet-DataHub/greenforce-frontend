@@ -22,12 +22,13 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 public partial class Mutation
 {
     public async Task<Guid> CreateCalculationAsync(
-    Interval period,
-    string[] gridAreaCodes,
-    StartCalculationType calculationType,
-    [Service] IWholesaleOrchestrationsClient client,
-    [Service] ITopicEventSender sender,
-    CancellationToken cancellationToken)
+        Interval period,
+        string[] gridAreaCodes,
+        StartCalculationType calculationType,
+        DateTimeOffset? scheduledAt,
+        [Service] IWholesaleOrchestrationsClient client,
+        [Service] ITopicEventSender sender,
+        CancellationToken cancellationToken)
     {
         if (!period.HasEnd || !period.HasStart)
         {
@@ -37,7 +38,7 @@ public partial class Mutation
         var requestDto = new StartCalculationRequestDto(
             StartDate: period.Start.ToDateTimeOffset(),
             EndDate: period.End.ToDateTimeOffset(),
-            ScheduledAt: DateTimeOffset.UtcNow, // TODO: Get ScheduledAt from frontend
+            ScheduledAt: scheduledAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: gridAreaCodes,
             CalculationType: calculationType);
 
@@ -47,5 +48,10 @@ public partial class Mutation
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId, cancellationToken);
 
         return calculationId;
+    }
+
+    public async Task<bool> CancelScheduledCalculationAsync(Guid guid)
+    {
+        return await Task.FromResult(true);
     }
 }

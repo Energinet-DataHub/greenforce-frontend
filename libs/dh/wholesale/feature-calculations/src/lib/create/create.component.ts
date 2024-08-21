@@ -31,9 +31,14 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { first, map, Observable, of, tap } from 'rxjs';
 
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import {
+  WattFieldComponent,
+  WattFieldErrorComponent,
+  WattFieldHintComponent,
+} from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -43,6 +48,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
@@ -65,6 +71,8 @@ interface FormValues {
   calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
+  isScheduled: FormControl<boolean>;
+  scheduledAt: FormControl<Date | null>;
 }
 
 @Component({
@@ -79,15 +87,18 @@ interface FormValues {
 
     WATT_MODAL,
     WattButtonComponent,
-    WattDatepickerComponent,
     WattDatePipe,
+    WattDatepickerComponent,
+    WattDatetimepickerComponent,
     WattDropdownComponent,
     WattEmptyStateComponent,
+    WattFieldComponent,
     WattFilterChipComponent,
     WattSpinnerComponent,
     WattValidationMessageComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
+    WattRadioComponent,
     WattTextFieldComponent,
 
     VaterFlexComponent,
@@ -139,7 +150,11 @@ export class DhCalculationsCreateComponent implements OnInit {
       validators: [WattRangeValidators.required, this.validateResolutionTransition()],
       asyncValidators: () => this.validateBalanceFixing(),
     }),
+    isScheduled: new FormControl(false, { nonNullable: true }),
+    scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
   });
+
+  minScheduledAt = new Date();
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
@@ -153,6 +168,12 @@ export class DhCalculationsCreateComponent implements OnInit {
 
   maxDate = new Date();
 
+  constructor() {
+    this.formGroup.controls.isScheduled.valueChanges.subscribe(() => {
+      this.formGroup.controls.scheduledAt.updateValueAndValidity();
+    });
+  }
+
   ngOnInit(): void {
     // Close toast on navigation
     this._router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
@@ -165,13 +186,14 @@ export class DhCalculationsCreateComponent implements OnInit {
   }
 
   createCalculation() {
-    const { calculationType, gridAreas, dateRange } = this.formGroup.getRawValue();
+    const { calculationType, dateRange, gridAreas, isScheduled, scheduledAt } =
+      this.formGroup.getRawValue();
 
     if (
       this.formGroup.invalid ||
-      gridAreas === null ||
+      calculationType === null ||
       dateRange === null ||
-      calculationType === null
+      gridAreas === null
     )
       return;
 
@@ -180,9 +202,10 @@ export class DhCalculationsCreateComponent implements OnInit {
         mutation: CreateCalculationDocument,
         variables: {
           input: {
-            gridAreaCodes: gridAreas,
+            calculationType,
             period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
-            calculationType: calculationType,
+            gridAreaCodes: gridAreas,
+            scheduledAt: isScheduled ? scheduledAt : null,
           },
         },
       })
@@ -274,5 +297,11 @@ export class DhCalculationsCreateComponent implements OnInit {
         ? { resolutionTransition: true }
         : null;
     };
+  }
+
+  private validateScheduledAt(control: AbstractControl<Date | null>): ValidationErrors | null {
+    if (!control.parent?.get('isScheduled')?.value) return null;
+    if (control.value && control.value < new Date()) return { past: true };
+    return control.value ? null : { required: true };
   }
 }
