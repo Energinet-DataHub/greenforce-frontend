@@ -439,6 +439,20 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     fuelCodeLabel: 'Brændstofkode',
     backToCertificatesLink: '<< Tilbage til certifikater',
     biddingZoneHeadline: 'Budzone',
+    energyTag: {
+      headline: 'EnergyTag',
+      connectedGridIdentification: 'Net',
+      country: 'Land',
+      energyCarrier: 'Energikilde',
+      gcFaceValue: 'Mængde (Wh)',
+      gcIssuanceDatestamp: 'Udstedelsesdato',
+      gcIssueDeviceType: 'Udstedelsestype',
+      gcIssueMarketZone: 'Budzone',
+      gcIssuer: 'Udsteder',
+      productionDeviceCapacity: 'Anlægskapacitet',
+      productionDeviceCommercialOperationDate: 'Kommerciel Driftsdato for anlæg',
+      productionDeviceLocation: 'Anlæggets adresse'
+    }
   },
   activityLog: {
     title: 'Aktivitetslog',

@@ -14,6 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export interface EoCertificateAttributes {
+  // Common attributes
+  energyTag_ConnectedGridIdentification?: string;
+  energyTag_Country?: string;
+  energyTag_EnergyCarrier?: string;
+  energyTag_GcFaceValue?: string;
+  energyTag_GcIssuanceDatestamp?: string;
+  energyTag_GcIssueDeviceType?: string;
+  energyTag_GcIssueMarketZone?: string;
+  energyTag_GcIssuer?: string;
+  energyTag_ProductionDeviceCapacity?: string;
+  energyTag_ProductionDeviceCommercialOperationDate?: string;
+  energyTag_ProductionDeviceLocation?: string;
+  energyTag_ProductionDeviceUniqueIdentification?: string;
+  energyTag_ProductionEndingIntervalTimestamp?: string;
+  energyTag_ProductionStartingIntervalTimestamp?: string;
+
+  // Production-specific attributes
+  energyTag_ProducedEnergySource?: string;
+  energyTag_ProducedEnergyTechnology?: string;
+
+  // Attributes before EnergyTag
+  assetId?: string;
+  fuelCode?: string;
+  techCode?: string;
+}
+
 export interface EoCertificate {
   federatedStreamId: {
     registry: string;
@@ -24,11 +51,7 @@ export interface EoCertificate {
   end: number;
   gridArea: string;
   certificateType: EoCertificateType;
-  attributes: {
-    assetId: string;
-    fuelCode: string;
-    techCode: string;
-  };
+  attributes: EoCertificateAttributes;
   time?: string;
   amount?: string;
 }
