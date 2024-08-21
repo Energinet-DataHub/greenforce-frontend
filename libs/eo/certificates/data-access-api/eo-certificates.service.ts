@@ -98,7 +98,17 @@ export class EoCertificatesService {
           .get<EoCertificate>(`${walletApiBase}/certificates/${registry}/${streamId}`)
           .pipe(
             tap((certificate) => {
-              this.cacheCertificate(cacheKey, certificate);
+              if(certificate.attributes.energyTag_GcIssuanceDatestamp) {
+                this.cacheCertificate(cacheKey, {
+                  ...certificate,
+                  attributes: {
+                    ...certificate.attributes,
+                    energyTag_GcIssuanceDatestamp: new Date(certificate.attributes.energyTag_GcIssuanceDatestamp).getTime(),
+                  }
+                });
+              } else {
+                this.cacheCertificate(cacheKey, certificate);
+              }
             }),
             catchError(() => {
               this.cacheNotFound(cacheKey);
