@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, viewChild, output, signal, computed } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
-import { map, Subscription } from 'rxjs';
 
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
@@ -31,10 +30,11 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
-import { getPermissionsWatchQuery } from '../shared/dh-get-permissions-watch-query';
 import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
 import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
 import { DhEditPermissionModalComponent } from '../edit/dh-edit-permission-modal.component';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-admin-permission-detail',
@@ -60,29 +60,30 @@ import { DhEditPermissionModalComponent } from '../edit/dh-edit-permission-modal
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  private getPermissionsQuery = getPermissionsWatchQuery();
-  private subscription?: Subscription;
+  private query = query(GetPermissionsDocument, { variables: { searchTerm: '' } });
 
-  @ViewChild(WattDrawerComponent)
-  drawer!: WattDrawerComponent;
+  drawer = viewChild.required(WattDrawerComponent);
 
-  selectedPermission: PermissionDto | null = null;
+  selectedPermission = computed(() =>
+    this.query
+      .data()
+      ?.permissions?.permissions.find((permission) => permission.id === this.permissionId())
+  );
   isEditPermissionModalVisible = false;
 
-  @Output() closed = new EventEmitter<void>();
-  @Output() updated = new EventEmitter<void>();
+  permissionId = signal<number | undefined>(undefined);
+
+  closed = output<void>();
+  updated = output<void>();
 
   onClose(): void {
-    this.drawer.close();
+    this.drawer().close();
     this.closed.emit();
-    this.selectedPermission = null;
-    this.subscription?.unsubscribe();
   }
 
   open(permission: PermissionDto): void {
-    this.subscription?.unsubscribe();
-    this.loadData(permission.id);
-    this.drawer.open();
+    this.permissionId.set(permission.id);
+    this.drawer().open();
   }
 
   modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
@@ -90,25 +91,6 @@ export class DhAdminPermissionDetailComponent {
 
     if (saveSuccess) {
       this.updated.emit();
-      this.refreshData();
     }
-  }
-
-  private loadData(permissionId: number): void {
-    this.subscription = this.getPermissionsQuery.valueChanges
-      .pipe(
-        map((result) =>
-          result.data.permissions.permissions.find((permission) => permission.id === permissionId)
-        )
-      )
-      .subscribe({
-        next: (permission) => {
-          this.selectedPermission = permission ? { ...permission } : null;
-        },
-      });
-  }
-
-  private refreshData(): void {
-    this.getPermissionsQuery.refetch();
   }
 }
