@@ -708,7 +708,7 @@ input CalculationQueryInput {
 }
 
 input CancelScheduledCalculationInput {
-  guid: UUID!
+  calculationId: UUID!
 }
 
 input CreateActorContactDtoInput {
