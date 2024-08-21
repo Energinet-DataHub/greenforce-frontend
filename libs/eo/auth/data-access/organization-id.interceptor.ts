@@ -37,7 +37,6 @@ export class EoOrganizationIdInterceptor implements HttpInterceptor {
 
     const modifiedReq = req.clone({
       setParams: {
-        orgId: org_ids,
         organizationId: org_ids,
       },
     });
