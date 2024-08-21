@@ -43,18 +43,18 @@ import {
         <watt-spinner />
       </vater-stack>
     }
-    @let auditLogDataSource = auditLog();
-    @if (!isLoading() && auditLogDataSource.data.length === 0) {
+
+    @if (!isLoading() && auditLog.data.length === 0) {
       <watt-empty-state
         [icon]="hasError() ? 'custom-power' : 'cancel'"
         size="small"
         [title]="hasError() ? t('tabs.shared.error') : t('tabs.shared.noData')"
       />
     }
-    @if (auditLogDataSource.data.length > 0 && !isLoading()) {
+    @if (auditLog.data.length > 0 && !isLoading()) {
       <watt-card variant="solid">
         <watt-table
-          [dataSource]="auditLogDataSource"
+          [dataSource]="auditLog"
           [columns]="auditLogColumns"
           [hideColumnHeaders]="true"
           [suppressRowHoverHighlight]="true"
@@ -91,12 +91,8 @@ export class DhOrganizationHistoryComponent {
   isLoading = this.getAuditLogByOrganizationIdQuery.loading;
   hasError = computed(() => this.getAuditLogByOrganizationIdQuery.error !== undefined);
 
-  auditLog = computed(
-    () =>
-      new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>(
-        this.getAuditLogByOrganizationIdQuery.data()?.organizationAuditLogs
-      )
-  );
+  auditLog: WattTableDataSource<OrganizationAuditedChangeAuditLogDto> =
+    new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 
   auditLogColumns: WattTableColumnDef<OrganizationAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
@@ -111,6 +107,11 @@ export class DhOrganizationHistoryComponent {
           variables: { organizationId },
         });
       }
+    });
+
+    effect(() => {
+      this.auditLog.data =
+        this.getAuditLogByOrganizationIdQuery.data()?.organizationAuditLogs ?? [];
     });
   }
 }
