@@ -111,7 +111,7 @@ public partial class Query
                         var missingPrice = new ImbalancePriceDto
                         {
                             Timestamp = missingTimestamp,
-                            Price = 0,
+                            Price = null,
                         };
 
                         missingTimestamps.Add(missingPrice);
