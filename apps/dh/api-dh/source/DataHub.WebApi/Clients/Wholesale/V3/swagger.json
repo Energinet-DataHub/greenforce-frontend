@@ -277,7 +277,9 @@
           "ActorMessagesEnqueuing",
           "ActorMessagesEnqueued",
           "ActorMessagesEnqueuingFailed",
-          "Completed"
+          "Completed",
+          "Canceled",
+          "Started"
         ]
       },
       "CalculationState": {
