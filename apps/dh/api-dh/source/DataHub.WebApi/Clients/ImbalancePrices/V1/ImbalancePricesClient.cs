@@ -27,57 +27,57 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IImbalancePricesClient_V1
     {
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task UploadAsync(FileParameter imbalancePricesFile, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task UploadAsync(FileParameter imbalancePricesFile, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ImbalancePricesDailyDto>> GetByMonthAsync(int? year, int? month, PriceAreaCode? priceAreaCode, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ImbalancePricesDailyDto>> GetByMonthAsync(int? year, int? month, PriceAreaCode? priceAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ImbalancePricePeriodStatus> StatusAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, PriceAreaCode? priceAreaCode, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ImbalancePricePeriodStatus> StatusAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, PriceAreaCode? priceAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task PingAsync(string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task PingAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task AuthorizedPingAsync(string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task AuthorizedPingAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
@@ -126,7 +126,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task UploadAsync(FileParameter imbalancePricesFile, string? api_version = null)
         {
@@ -134,7 +134,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UploadAsync(FileParameter imbalancePricesFile, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
@@ -219,7 +219,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, string? api_version = null)
         {
@@ -227,7 +227,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<FileResponse> DownloadAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
@@ -309,7 +309,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ImbalancePricesDailyDto>> GetByMonthAsync(int? year, int? month, PriceAreaCode? priceAreaCode, string? api_version = null)
         {
@@ -317,7 +317,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ImbalancePricesDailyDto>> GetByMonthAsync(int? year, int? month, PriceAreaCode? priceAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
@@ -405,7 +405,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ImbalancePricePeriodStatus> StatusAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, PriceAreaCode? priceAreaCode, string? api_version = null)
         {
@@ -413,7 +413,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ImbalancePricePeriodStatus> StatusAsync(System.DateTimeOffset? fromDate, System.DateTimeOffset? toDate, PriceAreaCode? priceAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
@@ -501,7 +501,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task PingAsync(string? api_version = null)
         {
@@ -509,7 +509,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task PingAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
@@ -579,7 +579,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task AuthorizedPingAsync(string? api_version = null)
         {
@@ -587,7 +587,7 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task AuthorizedPingAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
@@ -779,8 +779,8 @@ namespace Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public PriceAreaCode PriceAreaCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Price { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? Price { get; set; } = default!;
 
     }
 

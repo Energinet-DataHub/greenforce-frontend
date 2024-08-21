@@ -281,7 +281,7 @@ type GridAreaOverviewItemDto {
 type ImbalancePrice {
   priceAreaCode: PriceAreaCode!
   timestamp: DateTime!
-  price: Float!
+  price: Float
 }
 
 "Imbalance price for a given date"
