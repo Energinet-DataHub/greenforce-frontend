@@ -252,7 +252,8 @@ export class EoCertificatesOverviewComponent implements OnInit {
             header: this.transloco.translate(this.translations.certificates.timeTableHeader),
           },
           meteringPoint: {
-            accessor: (x) => x.attributes.assetId,
+            accessor: (x) =>
+              x.attributes.assetId ?? x.attributes.energyTag_ProductionDeviceUniqueIdentification,
             header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
             sort: false,
           },
@@ -272,7 +273,11 @@ export class EoCertificatesOverviewComponent implements OnInit {
             },
             header: this.transloco.translate(this.translations.certificates.typeTableHeader),
           },
-          action: { accessor: (x) => x.attributes.assetId, header: '' },
+          action: {
+            accessor: (x) =>
+              x.attributes.assetId ?? x.attributes.energyTag_ProductionDeviceUniqueIdentification,
+            header: '',
+          },
         };
 
         this.dataSource.sortData = (data: EoCertificate[]) => {
