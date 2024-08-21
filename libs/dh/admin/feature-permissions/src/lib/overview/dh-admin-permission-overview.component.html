@@ -47,7 +47,7 @@ limitations under the License.
         sortBy="name"
         sortDirection="asc"
         [sortClear]="false"
-        [loading]="loading"
+        [loading]="loading()"
       >
         <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
           {{ element.name }}
@@ -60,7 +60,7 @@ limitations under the License.
         </ng-container>
       </watt-table>
 
-      @if (error) {
+      @if (hasError()) {
         <vater-stack fill="vertical" justify="center">
           <watt-empty-state
             icon="custom-power"
