@@ -37,11 +37,6 @@ export class PermissionService {
           return this.acquireMultiTenancy(claims);
         }
         const roles = this.acquireRoles(claims);
-
-        if (permission === 'fas') {
-          return this.acquireMultiTenancy(claims);
-        }
-
         return roles.includes(permission);
       })
     );
