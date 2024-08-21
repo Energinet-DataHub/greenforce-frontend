@@ -20,6 +20,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 
 import { DhUser } from '@energinet-datahub/dh/admin/shared';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 
@@ -32,6 +33,8 @@ import { DhUserAuditLogsComponent } from './content/dh-user-audit-logs.component
   templateUrl: './dh-drawer-tabs.component.html',
   imports: [
     TranslocoDirective,
+
+    DhPermissionRequiredDirective,
 
     WattTabComponent,
     WattTabsComponent,
