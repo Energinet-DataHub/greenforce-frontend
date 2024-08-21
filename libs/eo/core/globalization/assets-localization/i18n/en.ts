@@ -460,8 +460,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       gcIssuer: 'Issuer',
       productionDeviceCapacity: 'Production Device Capacity',
       productionDeviceCommercialOperationDate: 'Commercial Operation Date for Production Device',
-      productionDeviceLocation: 'Location of Production Device'
-    }
+      productionDeviceLocation: 'Location of Production Device',
+    },
   },
   activityLog: {
     title: 'Activity Log',

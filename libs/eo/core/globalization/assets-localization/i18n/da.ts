@@ -451,8 +451,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       gcIssuer: 'Udsteder',
       productionDeviceCapacity: 'Anlægskapacitet',
       productionDeviceCommercialOperationDate: 'Kommerciel Driftsdato for anlæg',
-      productionDeviceLocation: 'Anlæggets adresse'
-    }
+      productionDeviceLocation: 'Anlæggets adresse',
+    },
   },
   activityLog: {
     title: 'Aktivitetslog',

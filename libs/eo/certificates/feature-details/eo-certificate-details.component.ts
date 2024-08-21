@@ -102,7 +102,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           </watt-card>
 
           <!-- Only show energy tags section, on certs with energy tags -->
-          @if(cert.attributes.energyTag_ConnectedGridIdentification) {
+          @if (cert.attributes.energyTag_ConnectedGridIdentification) {
             <watt-card>
               <div class="space-between">
                 <eo-stack size="M">
@@ -110,33 +110,48 @@ import { translations } from '@energinet-datahub/eo/translations';
                     <b>{{ translations.certificateDetails.energyTag.headline | transloco }}</b>
                   </h4>
                   <div class="grid-table">
-                    <b>{{ translations.certificateDetails.energyTag.connectedGridIdentification | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_ConnectedGridIdentification}}</div>
+                    <b>{{
+                      translations.certificateDetails.energyTag.connectedGridIdentification
+                        | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_ConnectedGridIdentification }}</div>
 
                     <b>{{ translations.certificateDetails.energyTag.country | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_Country}}</div>
+                    <div>{{ cert.attributes.energyTag_Country }}</div>
 
                     <b>{{ translations.certificateDetails.energyTag.energyCarrier | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_EnergyCarrier}}</div>
+                    <div>{{ cert.attributes.energyTag_EnergyCarrier }}</div>
 
-                    <b>{{ translations.certificateDetails.energyTag.gcIssuanceDatestamp | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_GcIssuanceDatestamp}}</div>
+                    <b>{{
+                      translations.certificateDetails.energyTag.gcIssuanceDatestamp | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_GcIssuanceDatestamp }}</div>
 
-                    <b>{{ translations.certificateDetails.energyTag.gcIssueDeviceType | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_GcIssueDeviceType}}</div>
+                    <b>{{
+                      translations.certificateDetails.energyTag.gcIssueDeviceType | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_GcIssueDeviceType }}</div>
 
                     <b>{{ translations.certificateDetails.energyTag.gcIssuer | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_GcIssuer}}</div>
+                    <div>{{ cert.attributes.energyTag_GcIssuer }}</div>
 
-                    <b>{{ translations.certificateDetails.energyTag.productionDeviceCapacity | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_ProductionDeviceCapacity}}</div>
+                    <b>{{
+                      translations.certificateDetails.energyTag.productionDeviceCapacity | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_ProductionDeviceCapacity }}</div>
 
-                    <b>{{ translations.certificateDetails.energyTag.productionDeviceCommercialOperationDate | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_ProductionDeviceCommercialOperationDate}}</div>
+                    <b>{{
+                      translations.certificateDetails.energyTag
+                        .productionDeviceCommercialOperationDate | transloco
+                    }}</b>
+                    <div>
+                      {{ cert.attributes.energyTag_ProductionDeviceCommercialOperationDate }}
+                    </div>
 
-                    <b>{{ translations.certificateDetails.energyTag.productionDeviceLocation | transloco }}</b>
-                    <div>{{cert.attributes.energyTag_ProductionDeviceLocation}}</div>
-
+                    <b>{{
+                      translations.certificateDetails.energyTag.productionDeviceLocation | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
                   </div>
                 </eo-stack>
               </div>
@@ -166,10 +181,17 @@ import { translations } from '@energinet-datahub/eo/translations';
                   </div>
                 </eo-stack>
 
-                @if((cert.attributes.techCode ?? cert.attributes.energyTag_ProducedEnergyTechnology) === techCodes.Wind) {
-                  <watt-icon name="windmill" size="xxl" style="color: var(--watt-color-primary);"/>
+                @if (
+                  (cert.attributes.techCode ??
+                    cert.attributes.energyTag_ProducedEnergyTechnology) === techCodes.Wind
+                ) {
+                  <watt-icon name="windmill" size="xxl" style="color: var(--watt-color-primary);" />
                 } @else {
-                  <watt-icon name="solarPower" size="xxl" style="color: var(--watt-color-primary);"/>
+                  <watt-icon
+                    name="solarPower"
+                    size="xxl"
+                    style="color: var(--watt-color-primary);"
+                  />
                 }
               </div>
             </watt-card>
