@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO.Compression;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
@@ -33,6 +34,7 @@ public class GetUserOverviewResponseType : ObjectType<GetUserOverviewResponse>
                 x.LastName,
                 x.Email,
                 x.PhoneNumber,
+                x.AdministratedBy,
                 x.CreatedDate));
          });
     }

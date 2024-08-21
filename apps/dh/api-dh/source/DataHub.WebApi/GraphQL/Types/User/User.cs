@@ -24,4 +24,5 @@ public sealed record User(
     string LastName,
     string Email,
     string? PhoneNumber,
+    Guid? AdministratedBy,
     DateTimeOffset CreatedDate);
