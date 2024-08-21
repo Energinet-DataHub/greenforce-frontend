@@ -63,6 +63,7 @@ public class Subscription
         state switch
         {
             CalculationOrchestrationState.Scheduled => true,
+            CalculationOrchestrationState.Started => true,
             CalculationOrchestrationState.Calculating => true,
             CalculationOrchestrationState.CalculationFailed => false,
             CalculationOrchestrationState.Calculated => true,
@@ -70,5 +71,6 @@ public class Subscription
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => false,
             CalculationOrchestrationState.ActorMessagesEnqueued => false,
             CalculationOrchestrationState.Completed => false,
+            CalculationOrchestrationState.Canceled => false,
         };
 }
