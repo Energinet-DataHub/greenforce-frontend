@@ -20,7 +20,7 @@ export interface EoCertificateAttributes {
   energyTag_Country?: string;
   energyTag_EnergyCarrier?: string;
   energyTag_GcFaceValue?: string;
-  energyTag_GcIssuanceDatestamp?: string;
+  energyTag_GcIssuanceDatestamp?: number;
   energyTag_GcIssueDeviceType?: string;
   energyTag_GcIssueMarketZone?: string;
   energyTag_GcIssuer?: string;
