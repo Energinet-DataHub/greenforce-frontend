@@ -21,8 +21,11 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
+import { AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -37,6 +40,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     WATT_CARD,
     WattDatePipe,
     TranslocoPipe,
+    WattIconComponent,
   ],
   standalone: true,
   styles: [
@@ -79,38 +83,120 @@ import { translations } from '@energinet-datahub/eo/translations';
             <eo-stack size="M">
               <div class="grid-table">
                 <b>{{ translations.certificateDetails.energyLabel | transloco }}</b>
-                <div>{{ cert?.quantity | energyUnit }}</div>
+                <div>{{ cert.quantity | energyUnit }}</div>
                 <b>{{ translations.certificateDetails.startTimeLabel | transloco }}</b>
-                <div>{{ cert?.start | wattDate: 'longAbbr' }}</div>
+                <div>{{ cert.start | wattDate: 'longAbbr' }}</div>
                 <b>{{ translations.certificateDetails.endTimeLabel | transloco }}</b>
-                <div>{{ cert?.end | wattDate: 'longAbbr' }}</div>
+                <div>{{ cert.end | wattDate: 'longAbbr' }}</div>
                 <b>{{ translations.certificateDetails.gsrnLabel | transloco }}</b>
-                <div>{{ cert?.attributes?.assetId }}</div>
+                <div>
+                  {{
+                    cert.attributes.assetId ??
+                      cert.attributes.energyTag_ProductionDeviceUniqueIdentification
+                  }}
+                </div>
                 <b>{{ translations.certificateDetails.certificateIdLabel | transloco }}</b>
-                <div>{{ cert?.federatedStreamId?.streamId }}</div>
+                <div>{{ cert.federatedStreamId.streamId }}</div>
               </div>
             </eo-stack>
           </watt-card>
-          <watt-card>
-            <div class="space-between">
-              <eo-stack size="M">
-                <h4>
-                  <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
-                </h4>
-                <div class="grid-table">
-                  <b>{{ translations.certificateDetails.technologyCodeLabel | transloco }}</b>
-                  <div>{{ cert?.attributes?.techCode }}</div>
-                  <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
-                  <div>{{ cert?.attributes?.fuelCode }}</div>
-                </div>
-              </eo-stack>
-              <img
-                alt="Windmill"
-                src="/assets/images/certificates/windmill.png"
-                style="height: 79px;"
-              />
-            </div>
-          </watt-card>
+
+          <!-- Only show energy tags section, on certs with energy tags -->
+          @if (cert.attributes.energyTag_ConnectedGridIdentification) {
+            <watt-card>
+              <div class="space-between">
+                <eo-stack size="M">
+                  <h4>
+                    <b>{{ translations.certificateDetails.energyTag.headline | transloco }}</b>
+                  </h4>
+                  <div class="grid-table">
+                    <b>{{
+                      translations.certificateDetails.energyTag.connectedGridIdentification
+                        | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_ConnectedGridIdentification }}</div>
+
+                    <b>{{ translations.certificateDetails.energyTag.country | transloco }}</b>
+                    <div>{{ cert.attributes.energyTag_Country }}</div>
+
+                    <b>{{ translations.certificateDetails.energyTag.energyCarrier | transloco }}</b>
+                    <div>{{ cert.attributes.energyTag_EnergyCarrier }}</div>
+
+                    <b>{{
+                      translations.certificateDetails.energyTag.gcIssuanceDatestamp | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_GcIssuanceDatestamp }}</div>
+
+                    <b>{{
+                      translations.certificateDetails.energyTag.gcIssueDeviceType | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_GcIssueDeviceType }}</div>
+
+                    <b>{{ translations.certificateDetails.energyTag.gcIssuer | transloco }}</b>
+                    <div>{{ cert.attributes.energyTag_GcIssuer }}</div>
+
+                    <b>{{
+                      translations.certificateDetails.energyTag.productionDeviceCapacity | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_ProductionDeviceCapacity }}</div>
+
+                    <b>{{
+                      translations.certificateDetails.energyTag
+                        .productionDeviceCommercialOperationDate | transloco
+                    }}</b>
+                    <div>
+                      {{ cert.attributes.energyTag_ProductionDeviceCommercialOperationDate }}
+                    </div>
+
+                    <b>{{
+                      translations.certificateDetails.energyTag.productionDeviceLocation | transloco
+                    }}</b>
+                    <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
+                  </div>
+                </eo-stack>
+              </div>
+            </watt-card>
+          }
+          @if (cert.certificateType === 'production') {
+            <watt-card>
+              <div class="space-between">
+                <eo-stack size="M">
+                  <h4>
+                    <b>{{ translations.certificateDetails.technologyHeadline | transloco }}</b>
+                  </h4>
+                  <div class="grid-table">
+                    <b>{{ translations.certificateDetails.technologyCodeLabel | transloco }}</b>
+                    <div>
+                      {{
+                        cert.attributes.techCode ??
+                          cert.attributes.energyTag_ProducedEnergyTechnology
+                      }}
+                    </div>
+                    <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
+                    <div>
+                      {{
+                        cert.attributes.fuelCode ?? cert.attributes.energyTag_ProducedEnergySource
+                      }}
+                    </div>
+                  </div>
+                </eo-stack>
+
+                @if (
+                  (cert.attributes.techCode ??
+                    cert.attributes.energyTag_ProducedEnergyTechnology) === techCodes.Wind
+                ) {
+                  <watt-icon name="windmill" size="xxl" style="color: var(--watt-color-primary);" />
+                } @else {
+                  <watt-icon
+                    name="solarPower"
+                    size="xxl"
+                    style="color: var(--watt-color-primary);"
+                  />
+                }
+              </div>
+            </watt-card>
+          }
+
           <h4>
             <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
               translations.certificateDetails.backToCertificatesLink | transloco
@@ -142,6 +228,7 @@ export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+  protected techCodes = AibTechCode;
 
   protected translations = translations;
 
