@@ -25,8 +25,8 @@ public static class WholesaleClientExtensions
     {
         var states = input.States ?? [];
         var calculationTypes = input.CalculationTypes ?? [];
-        var minExecutionTime = input.ExecutionTime?.Start.ToDateTimeOffset();
-        var maxExecutionTime = input.ExecutionTime?.End.ToDateTimeOffset();
+        var minExecutionTime = input.ExecutionTime?.HasStart == true ? input.ExecutionTime?.Start.ToDateTimeOffset() : null;
+        var maxExecutionTime = input.ExecutionTime?.HasEnd == true ? input.ExecutionTime?.End.ToDateTimeOffset() : null;
         var periodStart = input.Period?.Start.ToDateTimeOffset();
         var periodEnd = input.Period?.End.ToDateTimeOffset();
 

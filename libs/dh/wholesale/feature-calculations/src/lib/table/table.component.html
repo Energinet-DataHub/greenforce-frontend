@@ -40,10 +40,17 @@ limitations under the License.
   >
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let calculation">
-      <div>
-        <div>{{ calculation.executionTimeStart | wattDate: "long" }}</div>
-        <div>{{ calculation.executionTimeEnd | wattDate: "long" }}</div>
-      </div>
+      @if (calculation.state === CalculationOrchestrationState.Scheduled) {
+        <vater-stack direction="row">
+          <div>{{ calculation.executionTimeStart | wattDate: "long" }}</div>
+          <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />
+        </vater-stack>
+      } @else {
+        <div>
+          <div>{{ calculation.executionTimeStart | wattDate: "long" }}</div>
+          <div>{{ calculation.executionTimeEnd | wattDate: "long" }}</div>
+        </div>
+      }
     </ng-container>
 
     <!-- Process Type -->
