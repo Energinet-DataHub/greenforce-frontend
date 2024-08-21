@@ -101,38 +101,8 @@ limitations under the License.
               </watt-card>
             }
           </watt-tab>
-          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <vater-stack [fill]="'horizontal'" [align]="'center'">
-              @if (isLoadingAuditLog) {
-                <watt-spinner />
-              }
-            </vater-stack>
-            @if (!isLoadingAuditLog && auditLog.data.length === 0) {
-              <watt-empty-state
-                [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
-                size="small"
-                [title]="auditLogFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
-              />
-            }
-            @if (auditLog.data.length > 0 && !isLoadingAuditLog) {
-              <watt-card variant="solid">
-                <watt-table
-                  [dataSource]="auditLog"
-                  [columns]="auditLogColumns"
-                  [hideColumnHeaders]="true"
-                  [suppressRowHoverHighlight]="true"
-                  sortBy="timestamp"
-                  sortDirection="desc"
-                >
-                  <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
-                    {{ element.timestamp | wattDate: "long" }}
-                  </ng-container>
-                  <ng-container *wattTableCell="auditLogColumns['value']; let entry">
-                    <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
-                  </ng-container>
-                </watt-table>
-              </watt-card>
-            }
+          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['fas']">
+            <dh-organization-history [organizationId]="organization?.organizationId!" />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

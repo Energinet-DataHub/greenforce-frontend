@@ -122,7 +122,7 @@ limitations under the License.
             </ng-container>
           }
 
-          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
+          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['fas']">
             <dh-actor-audit-log-tab
               [actorId]="actor()?.id!"
               [actorNumberNameLookup]="actorNumberNameLookup()"
