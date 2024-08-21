@@ -159,7 +159,7 @@ type Calculation {
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
   period: DateRange!
-  executionTimeStart: DateTime
+  executionTimeStart: DateTime!
   executionTimeEnd: DateTime
   createdByUserName: String
   gridAreas: [GridAreaDto!]!

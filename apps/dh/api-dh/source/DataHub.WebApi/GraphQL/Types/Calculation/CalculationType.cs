@@ -42,7 +42,8 @@ public class CalculationType : ObjectType<CalculationDto>
             .Name("period");
 
         descriptor
-            .Field(f => f.ExecutionTimeStart);
+            .Field(f => f.ExecutionTimeStart ?? f.ScheduledAt)
+            .Name("executionTimeStart");
 
         descriptor
             .Field(f => f.CompletedTime)
