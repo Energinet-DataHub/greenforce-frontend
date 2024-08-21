@@ -39,7 +39,7 @@ public static class WholesaleClientExtensions
             periodEnd);
 
         return calculations
-            .OrderByDescending(x => x.ExecutionTimeStart)
+            .OrderByDescending(x => x.ScheduledAt)
             .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType));
     }
