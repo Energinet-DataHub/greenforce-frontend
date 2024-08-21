@@ -92,6 +92,11 @@ public partial class Query
 
         foreach (var imbalancePrice in imbalancePrices)
         {
+            if (imbalancePrice.ImbalancePrices.Count == 0)
+            {
+                continue;
+            }
+
             var missingTimestamps = new List<ImbalancePriceDto>();
             var sortedPrices = imbalancePrice.ImbalancePrices.OrderBy(x => x.Timestamp);
 
