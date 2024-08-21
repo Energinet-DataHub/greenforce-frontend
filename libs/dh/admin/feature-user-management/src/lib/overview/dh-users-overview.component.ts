@@ -227,7 +227,10 @@ export class DhUsersOverviewComponent {
       message: translate('shared.downloadStart'),
     });
 
-    this.store.downloadUsers(onSuccess, onError);
+    this.store
+      .downloadUsers()
+      .then((value) => onSuccess(value))
+      .catch(() => onError());
   }
 
   private onSearchInput(): void {

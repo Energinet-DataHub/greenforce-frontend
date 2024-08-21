@@ -228,26 +228,17 @@ export class DhAdminUserManagementDataAccessApiStore
     this.patchState({ sortProperty, direction });
   }
 
-  downloadUsers(onSuccess: (items: UsersToDownload) => void, onError: () => void) {
-    this.getAllUsersQuery.query({
-      variables: {
-        pageNumber: 1,
-        pageSize: 10_000,
-        sortProperty: UserOverviewSortProperty.Email,
-        sortDirection: MarketParticipantSortDirctionType.Asc,
-      },
-      onCompleted: ({ userOverviewSearch: { users } }) => {
-        const usersToDownload: UsersToDownload = users.map((user) => ({
-          userName: user.name,
-          userEmail: user.email,
-          marketParticipantName: user.administratedBy?.name ?? '',
-          organizationName: user.administratedBy?.organization.name ?? '',
-        }));
-
-        onSuccess(usersToDownload);
-      },
-      onError: () => onError(),
-    });
+  downloadUsers(): Promise<UsersToDownload> {
+    return this.getAllUsersQuery
+      .query({
+        variables: {
+          pageNumber: 1,
+          pageSize: 10_000,
+          sortProperty: UserOverviewSortProperty.Email,
+          sortDirection: MarketParticipantSortDirctionType.Asc,
+        },
+      })
+      .then((response) => this.mapUsersToDownload(response.data));
   }
 
   readonly reloadUsers = () => {
@@ -256,5 +247,14 @@ export class DhAdminUserManagementDataAccessApiStore
 
   ngrxOnStoreInit() {
     this.loadUsers(this.fetchUsersParams$);
+  }
+
+  private mapUsersToDownload(response: ResultOf<typeof GetAllUsersDocument>): UsersToDownload {
+    return response.userOverviewSearch.users.map((user) => ({
+      userName: user.name,
+      userEmail: user.email,
+      marketParticipantName: user.administratedBy?.name ?? '',
+      organizationName: user.administratedBy?.organization.name ?? '',
+    }));
   }
 }
