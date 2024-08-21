@@ -20,9 +20,9 @@ import { WattRange } from './watt-date-range';
 export const formatStrings = {
   monthYear: 'MMMM YYYY',
   short: 'DD-MM-YYYY',
-  shortAbbr: 'DD-MMM-YYYY',
+  shortAbbr: 'DD. MMM YYYY',
   long: 'DD-MM-YYYY, HH:mm',
-  longAbbr: 'DD-MMM-YYYY HH:mm',
+  longAbbr: 'DD. MMM YYYY HH:mm',
   time: 'HH:mm',
   longAbbrWithSeconds: 'DD-MMM YYYY HH:mm:ss',
 };
