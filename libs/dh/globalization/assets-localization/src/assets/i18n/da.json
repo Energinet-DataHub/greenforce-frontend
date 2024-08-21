@@ -1110,7 +1110,9 @@
   },
   "admin": {
     "userManagement": {
+      "topBarTitle": "Brugeradministration",
       "connect": "Tilknyt MitID",
+      "download": "Download",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
@@ -1138,7 +1140,13 @@
         },
         "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
-      "download": "Download",
+      "downloadUsers": {
+        "userName": "Brugernavn",
+        "email": "E-mail",
+        "marketParticipantName": "Aktørnavn",
+        "organisationName": "Organisationsnavn",
+        "fileName": "DataHub brugere ({{ datetime }}) ['{{ env }}' miljø]"
+      },
       "drawer": {
         "edit": "Rediger bruger",
         "reinvite": "Send invitation igen",
@@ -1214,7 +1222,6 @@
           }
         }
       },
-      "topBarTitle": "Brugeradministration",
       "userStatus": {
         "ACTIVE": "Aktiv",
         "INACTIVE": "Deaktiveret",

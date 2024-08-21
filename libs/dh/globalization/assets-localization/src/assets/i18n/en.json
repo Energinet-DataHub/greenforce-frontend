@@ -1111,7 +1111,9 @@
   },
   "admin": {
     "userManagement": {
+      "topBarTitle": "User Management",
       "connect": "Connect MitID",
+      "download": "Download",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",
@@ -1139,7 +1141,13 @@
         },
         "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub, because the user is not part of your organisation"
       },
-      "download": "Download",
+      "downloadUsers": {
+        "userName": "Username",
+        "email": "E-mail",
+        "marketParticipantName": "Market participant name",
+        "organisationName": "Organisation name",
+        "fileName": "DataHub users ({{ datetime }}) ['{{ env }}' environment]"
+      },
       "drawer": {
         "edit": "Edit user",
         "reinvite": "Resend invitation",
@@ -1215,7 +1223,6 @@
           }
         }
       },
-      "topBarTitle": "User Management",
       "userStatus": {
         "ACTIVE": "Active",
         "INACTIVE": "Deactivated",

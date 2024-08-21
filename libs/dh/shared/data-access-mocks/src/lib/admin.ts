@@ -44,6 +44,7 @@ import {
   mockReset2faMutation,
   mockGetSelectionActorsQuery,
   mockDeactivateUserRoleMutation,
+  mockGetAllUsersQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -79,7 +80,6 @@ export function adminMocks(apiBase: string) {
     reActivedUser(),
     reInviteUser(),
     reset2fa(),
-
     getUserRoles(),
     getUserRoleWithPermissions(),
     updateUserRole(),
@@ -88,6 +88,7 @@ export function adminMocks(apiBase: string) {
     createUserRole(),
     getUserRolesByActorId(),
     deactivateUserRole(),
+    getAllUsersQuery(),
   ];
 }
 
@@ -480,5 +481,34 @@ function getGridAreasQuery() {
   return mockGetGridAreasQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({ data: getGridAreas });
+  });
+}
+
+function getAllUsersQuery() {
+  return mockGetAllUsersQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        userOverviewSearch: {
+          __typename: 'GetUserOverviewResponse',
+          users: [
+            {
+              __typename: 'User',
+              name: 'User name',
+              email: 'username@mock.com',
+              administratedBy: {
+                __typename: 'Actor',
+                name: 'Market participant name',
+                organization: {
+                  __typename: 'Organization',
+                  name: 'Organization name',
+                },
+              },
+            },
+          ],
+        },
+      },
+    });
   });
 }

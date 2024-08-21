@@ -20,7 +20,9 @@ type ExportToCSVArgs = {
   fileName?: string;
 };
 
-export const exportToCSV = ({ headers, lines, fileName = 'result' }: ExportToCSVArgs) => {
+const defaultFileName = 'result';
+
+export const exportToCSV = ({ headers, lines, fileName = defaultFileName }: ExportToCSVArgs) => {
   exportToCSVRaw({
     content: `${headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`,
     fileName,
@@ -29,7 +31,7 @@ export const exportToCSV = ({ headers, lines, fileName = 'result' }: ExportToCSV
 
 export const exportToCSVRaw = ({
   content,
-  fileName = 'result',
+  fileName = defaultFileName,
 }: {
   content: string;
   fileName: string;
