@@ -26,7 +26,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -108,7 +108,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,7 +172,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -218,6 +218,10 @@
           "unit": {
             "type": "string"
           },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
           "executionTimeStart": {
             "type": "string",
             "format": "date-time",
@@ -227,13 +231,6 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
-          },
-          "executionState": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CalculationState"
-              }
-            ]
           },
           "orchestrationState": {
             "allOf": [
