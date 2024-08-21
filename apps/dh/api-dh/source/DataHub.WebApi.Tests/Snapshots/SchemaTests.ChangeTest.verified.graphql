@@ -977,6 +977,8 @@ enum CalculationOrchestrationState {
   ACTOR_MESSAGES_ENQUEUED
   ACTOR_MESSAGES_ENQUEUING_FAILED
   COMPLETED
+  CANCELED
+  STARTED
 }
 
 enum CalculationProgressStep {
