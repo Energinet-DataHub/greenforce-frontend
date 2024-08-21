@@ -1061,10 +1061,14 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
+      "downloadReport": {
+        "baseName": "Settlement report",
+        "multipleGridAreas": "multiple grid areas"
+      },
       "columns": {
         "calculationType": "Calculation type",
         "period": "Calculation period",
-        "numberOfGridAreasInReport": "Gridareas",
+        "numberOfGridAreasInReport": "Grid areas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
