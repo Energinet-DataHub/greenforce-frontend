@@ -38,11 +38,11 @@ import {
   template: ` <ng-container
     *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
   >
-    <vater-stack [fill]="'horizontal'" [align]="'center'">
-      @if (isLoading()) {
+    @if (isLoading()) {
+      <vater-stack fill="horizontal" align="center">
         <watt-spinner />
-      }
-    </vater-stack>
+      </vater-stack>
+    }
     @let auditLogDataSource = auditLog();
     @if (!isLoading() && auditLogDataSource.data.length === 0) {
       <watt-empty-state
