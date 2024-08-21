@@ -125,7 +125,9 @@ import { translations } from '@energinet-datahub/eo/translations';
                     <b>{{
                       translations.certificateDetails.energyTag.gcIssuanceDatestamp | transloco
                     }}</b>
-                    <div>{{ cert.attributes.energyTag_GcIssuanceDatestamp | wattDate: 'shortAbbr' }}</div>
+                    <div>
+                      {{ cert.attributes.energyTag_GcIssuanceDatestamp | wattDate: 'shortAbbr' }}
+                    </div>
 
                     <b>{{
                       translations.certificateDetails.energyTag.gcIssueDeviceType | transloco
