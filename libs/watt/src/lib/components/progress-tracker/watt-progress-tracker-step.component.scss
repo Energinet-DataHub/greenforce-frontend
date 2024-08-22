@@ -34,6 +34,12 @@
   --watt-progress-tracker-step-fill-color: var(--watt-color-primary);
 }
 
+.watt-progress-tracker-step-canceled {
+  --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-600);
+  --watt-progress-tracker-step-bridge-color: var(--watt-color-neutral-grey-600);
+  --watt-progress-tracker-step-fill-color: var(--watt-color-neutral-grey-600);
+}
+
 .watt-progress-tracker-step-failed {
   --watt-progress-tracker-step-text-color: var(--watt-color-state-danger);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-state-danger);

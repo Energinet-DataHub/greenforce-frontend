@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 
-public enum ProgressStatus
-{
-    Pending,
-    Executing,
-    Failed,
-    Canceled,
-    Completed,
-}
+/// <summary>
+/// An immutable request to cancel a scheduled calculation.
+/// </summary>
+public sealed record CancelScheduledCalculationRequestDto(
+    Guid CalculationId);

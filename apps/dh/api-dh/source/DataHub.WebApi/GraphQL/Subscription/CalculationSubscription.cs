@@ -63,6 +63,8 @@ public class Subscription
         state switch
         {
             CalculationOrchestrationState.Scheduled => true,
+            CalculationOrchestrationState.Canceled => false,
+            CalculationOrchestrationState.Started => true,
             CalculationOrchestrationState.Calculating => true,
             CalculationOrchestrationState.CalculationFailed => false,
             CalculationOrchestrationState.Calculated => true,

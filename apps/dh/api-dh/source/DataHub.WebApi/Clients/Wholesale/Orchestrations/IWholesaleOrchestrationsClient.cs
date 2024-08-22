@@ -25,4 +25,9 @@ public interface IWholesaleOrchestrationsClient
     /// Start a calculation and return its id.
     /// </summary>
     public Task<Guid> StartCalculationAsync(StartCalculationRequestDto requestDto, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Cancel a scheduled calculation. Throws an exception if the calculation is already started.
+    /// </summary>
+    public Task CancelScheduledCalculationAsync(CancelScheduledCalculationRequestDto requestDto, CancellationToken cancellationToken);
 }

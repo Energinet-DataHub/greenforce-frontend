@@ -52,4 +52,18 @@ public class WholesaleOrchestrationsClient : IWholesaleOrchestrationsClient
         var calculationId = await actualResponse.Content.ReadFromJsonAsync<Guid>(cancellationToken);
         return calculationId;
     }
+
+    public async Task CancelScheduledCalculationAsync(
+        CancelScheduledCalculationRequestDto requestDto,
+        CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "api/CancelScheduledCalculation");
+        request.Content = new StringContent(
+            JsonConvert.SerializeObject(requestDto),
+            Encoding.UTF8,
+            "application/json");
+
+        using var actualResponse = await HttpClient.SendAsync(request, cancellationToken);
+        actualResponse.EnsureSuccessStatusCode();
+    }
 }
