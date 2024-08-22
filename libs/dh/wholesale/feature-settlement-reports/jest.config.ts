@@ -16,10 +16,10 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-wholesale-feature-settlement-reports-v2',
+  displayName: 'dh-wholesale-feature-settlement-reports',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-settlement-reports-v2',
+  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-settlement-reports',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
