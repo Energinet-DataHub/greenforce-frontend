@@ -68,6 +68,7 @@ public class CalculationType : ObjectType<CalculationDto>
             .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
                 CalculationOrchestrationState.Scheduled => ProcessStatus.Neutral,
+                CalculationOrchestrationState.Canceled => ProcessStatus.Neutral,
                 CalculationOrchestrationState.Started => ProcessStatus.Info,
                 CalculationOrchestrationState.Calculating => ProcessStatus.Info,
                 CalculationOrchestrationState.CalculationFailed => ProcessStatus.Danger,
@@ -76,7 +77,6 @@ public class CalculationType : ObjectType<CalculationDto>
                 CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessStatus.Danger,
                 CalculationOrchestrationState.ActorMessagesEnqueued => ProcessStatus.Info,
                 CalculationOrchestrationState.Completed => ProcessStatus.Success,
-                CalculationOrchestrationState.Canceled => ProcessStatus.Neutral,
             });
 
         descriptor
