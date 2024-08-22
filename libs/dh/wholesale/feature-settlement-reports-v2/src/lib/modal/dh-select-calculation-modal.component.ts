@@ -45,7 +45,7 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
   `,
   template: `
     <watt-modal
-      *transloco="let t; read: 'wholesale.settlementReportsV2.selectCalculationModal'"
+      *transloco="let t; read: 'wholesale.settlementReports.selectCalculationModal'"
       [title]="t('title')"
       #modal
     >

@@ -126,7 +126,7 @@ export class DhSettlementReportsTableComponent {
   }
 
   private settlementReportName(report: DhSettlementReport): string {
-    const baseTranslationPath = 'wholesale.settlementReportsV2';
+    const baseTranslationPath = 'wholesale.settlementReports';
 
     const calculationPeriod = wattFormatDate(report.period, 'short');
     const calculationType = translate(
