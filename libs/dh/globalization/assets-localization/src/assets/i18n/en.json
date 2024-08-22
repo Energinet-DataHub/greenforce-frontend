@@ -946,13 +946,15 @@
       },
       "states": {
         "SCHEDULED": "Scheduled",
+        "STARTED": "Started",
         "CALCULATING": "Calculating...",
         "CALCULATION_FAILED": "Calculation failed",
         "CALCULATED": "Calculated",
         "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Messages enqueued"
+        "COMPLETED": "Messages enqueued",
+        "CANCELED": "Canceled"
       },
       "executionTypes": {
         "EXTERNAL": "External",
