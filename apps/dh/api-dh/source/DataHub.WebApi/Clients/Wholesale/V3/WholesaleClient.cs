@@ -567,6 +567,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
         Completed = 7,
 
+        [System.Runtime.Serialization.EnumMember(Value = @"Canceled")]
+        Canceled = 8,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Started")]
+        Started = 9,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]

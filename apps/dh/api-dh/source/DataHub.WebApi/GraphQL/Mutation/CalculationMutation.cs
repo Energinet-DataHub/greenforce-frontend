@@ -50,8 +50,15 @@ public partial class Mutation
         return calculationId;
     }
 
-    public async Task<bool> CancelScheduledCalculationAsync(Guid guid)
+    public async Task<bool> CancelScheduledCalculationAsync(
+        Guid calculationId,
+        [Service] IWholesaleOrchestrationsClient client,
+        CancellationToken cancellationToken)
     {
-        return await Task.FromResult(true);
+        var requestDto = new CancelScheduledCalculationRequestDto(calculationId);
+
+        await client.CancelScheduledCalculationAsync(requestDto, cancellationToken);
+
+        return true;
     }
 }
