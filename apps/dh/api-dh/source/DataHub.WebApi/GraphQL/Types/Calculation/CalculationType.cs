@@ -76,7 +76,7 @@ public class CalculationType : ObjectType<CalculationDto>
                 CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessStatus.Danger,
                 CalculationOrchestrationState.ActorMessagesEnqueued => ProcessStatus.Info,
                 CalculationOrchestrationState.Completed => ProcessStatus.Success,
-                CalculationOrchestrationState.Canceled => ProcessStatus.Warning,
+                CalculationOrchestrationState.Canceled => ProcessStatus.Neutral,
             });
 
         descriptor
@@ -119,6 +119,7 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => CalculationProgressStep.Schedule,
+            CalculationOrchestrationState.Canceled => CalculationProgressStep.Schedule,
             CalculationOrchestrationState.Started => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.Calculating => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.CalculationFailed => CalculationProgressStep.Calculate,
@@ -127,7 +128,6 @@ public class CalculationType : ObjectType<CalculationDto>
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStep.ActorMessageEnqueue,
             CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStep.ActorMessageEnqueue,
             CalculationOrchestrationState.Completed => CalculationProgressStep.ActorMessageEnqueue,
-            CalculationOrchestrationState.Canceled => CalculationProgressStep.Schedule,
         };
 
     /// <summary>
@@ -139,6 +139,7 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => ProgressStatus.Canceled,
             CalculationOrchestrationState.Started => ProgressStatus.Completed,
             CalculationOrchestrationState.Calculating => ProgressStatus.Completed,
             CalculationOrchestrationState.CalculationFailed => ProgressStatus.Completed,
@@ -147,7 +148,6 @@ public class CalculationType : ObjectType<CalculationDto>
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Completed,
             CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
             CalculationOrchestrationState.Completed => ProgressStatus.Completed,
-            CalculationOrchestrationState.Canceled => ProgressStatus.Failed, // TODO: Is this correct?
         };
 
     /// <summary>
@@ -159,6 +159,7 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
             CalculationOrchestrationState.Started => ProgressStatus.Executing,
             CalculationOrchestrationState.Calculating => ProgressStatus.Executing,
             CalculationOrchestrationState.CalculationFailed => ProgressStatus.Failed,
@@ -167,7 +168,6 @@ public class CalculationType : ObjectType<CalculationDto>
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Completed,
             CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
             CalculationOrchestrationState.Completed => ProgressStatus.Completed,
-            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
         };
 
     /// <summary>
@@ -179,6 +179,7 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
             CalculationOrchestrationState.Started => ProgressStatus.Pending,
             CalculationOrchestrationState.Calculating => ProgressStatus.Pending,
             CalculationOrchestrationState.CalculationFailed => ProgressStatus.Pending,
@@ -187,6 +188,5 @@ public class CalculationType : ObjectType<CalculationDto>
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Failed,
             CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
             CalculationOrchestrationState.Completed => ProgressStatus.Completed,
-            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
         };
 }
