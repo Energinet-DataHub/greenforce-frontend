@@ -17,20 +17,24 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { UserRoleViewDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type ActorUserRole = ResultOf<typeof GetUserByIdDocument>['userById']['actors'][0]['userRoles'][0];
 
 @Pipe({ name: 'filterUserRoles', standalone: true })
 export class FilterUserRolesPipe implements PipeTransform {
-  transform(userRoles: UserRoleViewDto[] | null | undefined, includeAllUserRoles = false) {
-    return (userRoles || []).filter((userRole) => userRole.userActorId || includeAllUserRoles);
+  transform(userRoles: ActorUserRole[] | null | undefined, includeAllUserRoles = false) {
+    return (userRoles || []).filter((userRole) => userRole.assigned || includeAllUserRoles);
   }
 }
 
 @Pipe({ name: 'userRolesIntoTable', standalone: true })
 export class UserRolesIntoTablePipe implements PipeTransform {
-  readonly dataSource = new WattTableDataSource<UserRoleViewDto>();
+  readonly dataSource = new WattTableDataSource<ActorUserRole>();
 
-  transform(userRoles: UserRoleViewDto[] | null | undefined) {
+  transform(userRoles: ActorUserRole[] | null | undefined) {
     this.dataSource.data = userRoles || [];
     return this.dataSource;
   }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -27,17 +27,19 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type ActorUserRole = ResultOf<typeof GetUserByIdDocument>['userById']['actors'][0]['userRoles'][0];
+
 import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
-import {
-  GetUserRoleViewDocument,
-  UserRoleViewDto,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
+import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   selector: 'dh-user-roles',
@@ -53,6 +55,8 @@ import {
 
     WattSpinnerComponent,
     WATT_TABLE,
+    WattIconComponent,
+    WattTooltipDirective,
     WattEmptyStateComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
     WattBadgeComponent,
@@ -73,24 +77,12 @@ export class DhUserRolesComponent {
 
   updateUserRoles = output<UpdateUserRoles>();
 
-  userRoleViewQuery = lazyQuery(GetUserRoleViewDocument);
+  userRolesPerActor = computed(() => this.user()?.actors ?? []);
 
-  isLoading = this.userRoleViewQuery.loading;
-  hasGeneralError = this.userRoleViewQuery.error;
-  userRolesPerActor = computed(() => this.userRoleViewQuery.data()?.userRoleView ?? []);
-
-  columns: WattTableColumnDef<UserRoleViewDto> = {
+  columns: WattTableColumnDef<ActorUserRole> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
-
-  constructor() {
-    effect(() => {
-      if (this.user()?.id) {
-        this.userRoleViewQuery.refetch({ userId: this.user()?.id });
-      }
-    });
-  }
 
   resetUpdateUserRoles(): void {
     this._updateUserRoles = {
@@ -103,21 +95,17 @@ export class DhUserRolesComponent {
     return actor ? actor.atLeastOneRoleIsAssigned : false;
   }
 
-  selectionChanged(
-    actorId: string,
-    userRoles: UserRoleViewDto[],
-    allAssignable: UserRoleViewDto[]
-  ) {
+  selectionChanged(actorId: string, userRoles: ActorUserRole[], allAssignable: ActorUserRole[]) {
     const actor = this.getOrAddActor(actorId);
 
     actor.atLeastOneRoleIsAssigned = userRoles.length > 0;
 
     actor.userRolesToUpdate.added = userRoles
-      .filter((userRole) => !userRole.userActorId)
+      .filter((userRole) => !userRole.assigned)
       .map((userRole) => userRole.id);
 
     actor.userRolesToUpdate.removed = allAssignable
-      .filter((userRole) => userRole.userActorId)
+      .filter((userRole) => userRole.assigned)
       .filter((userRole) => !userRoles.map((ur) => ur.id).includes(userRole.id))
       .map((userRole) => userRole.id);
 

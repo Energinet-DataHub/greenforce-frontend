@@ -1296,6 +1296,7 @@
           }
         },
         "roles": {
+          "userResponsible": "Brugeransvarlig",
           "tabLabel": "Brugerroller",
           "roles": "Brugerroller",
           "role": "Brugerrolle",

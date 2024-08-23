@@ -23,7 +23,7 @@ $offset: 6px;
 :host {
   position: absolute;
   pointer-events: none;
-  z-index: 1000;
+  z-index: 100000000;
   display: inline-block;
   background: var(--watt-color-primary-dark);
   color: var(--watt-color-primary-dark-contrast);

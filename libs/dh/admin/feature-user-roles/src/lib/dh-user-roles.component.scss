@@ -33,6 +33,14 @@ watt-empty-state {
   padding: var(--watt-space-xl);
 }
 
+watt-expandable-card-title {
+  display: flex;
+  gap: var(--watt-space-s);
+  watt-icon {
+    color: var(--watt-color-primary-darker);
+  }
+}
+
 .loading-container {
   display: flex;
   justify-content: center;
