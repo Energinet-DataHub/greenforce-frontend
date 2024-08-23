@@ -27,7 +27,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/auth/data-access';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { EoAccountMenuComponent } from './eo-account-menu';
 

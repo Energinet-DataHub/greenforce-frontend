@@ -1,0 +1,13 @@
+{
+  "name": "eo-core-util-api-versioning",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/core/util-api-versioning",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:core", "type:util"]
+}

@@ -22,7 +22,7 @@ export function aggregateTransfersMocks(apiBase: string) {
 }
 
 function getAggregateTransfers(apiBase: string) {
-  return http.get(`${apiBase}/v1/aggregate-transfers`.replace('/api', '/wallet-api'), () => {
+  return http.get(`${apiBase}/aggregate-transfers`.replace('/api', '/wallet-api'), () => {
     const state = localStorage.getItem('aggregate-transfers');
     if (state === 'has-error') {
       return HttpResponse.error();

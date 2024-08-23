@@ -61,7 +61,7 @@ export class EoCertificatesService {
   }
 
   getCertificates(pageNumber = 1, pageSize = 10, sortBy: sortCertificatesBy, sort: SortDirection) {
-    const walletApiBase = `${this.apiBase}/v1`.replace('/api', '/wallet-api');
+    const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
     return this.http
       .get<EoCertificateResponse>(
         `${walletApiBase}/certificates?sortBy=${sortBy}&sort=${sort}&limit=${pageSize}&skip=${(pageNumber - 1) * pageSize}`
@@ -83,7 +83,7 @@ export class EoCertificatesService {
   }
 
   getCertificate(registry: string, streamId: string): Observable<EoCertificate | null> {
-    const walletApiBase = `${this.apiBase}/v1`.replace('/api', '/wallet-api');
+    const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
     const cacheKey = `${registry}-${streamId}`;
     const cachedCertificate = this.getCachedCertificate(cacheKey);
 
