@@ -62,7 +62,7 @@ limitations under the License.
       }
 
       <!-- Execution type -->
-      <watt-field [chipMode]="true" [label]="t('create.executionType')" style="min-height: 86px">
+      <watt-field [chipMode]="true" [label]="t('create.executionType')" style="min-height: 100px">
         <vater-stack direction="row" gap="s">
           <watt-filter-chip choice name="executionType" value="EXTERNAL" [selected]="true">
             {{ t("executionTypes.EXTERNAL") }}
@@ -73,6 +73,37 @@ limitations under the License.
         </vater-stack>
         <watt-field-hint>{{ t("create.executionTypeHint") }}</watt-field-hint>
       </watt-field>
+
+      <vater-flex gap="s">
+        <label>{{ t("create.scheduledAt.label") }}</label>
+        <watt-radio
+          group="isScheduled"
+          [formControl]="formGroup.controls.isScheduled"
+          [value]="false"
+        >
+          {{ t("create.scheduledAt.now") }}
+        </watt-radio>
+        <vater-stack direction="row" gap="ml" align="flex-start">
+          <watt-radio
+            group="isScheduled"
+            [formControl]="formGroup.controls.isScheduled"
+            [value]="true"
+            style="min-width: max-content; min-height: 66px; margin-top: var(--watt-space-s)"
+          >
+            {{ t("create.scheduledAt.schedule") }}
+          </watt-radio>
+          @if (formGroup.controls.isScheduled.value) {
+            <watt-datetimepicker
+              [min]="minScheduledAt"
+              [formControl]="formGroup.controls.scheduledAt"
+            >
+              @if (formGroup.controls.scheduledAt.errors?.past) {
+                <watt-field-error>{{ t("create.scheduledAt.past") }}</watt-field-error>
+              }
+            </watt-datetimepicker>
+          }
+        </vater-stack>
+      </vater-flex>
 
       <!-- Process type -->
       <watt-dropdown
@@ -111,37 +142,6 @@ limitations under the License.
         [period]="formGroup.controls.dateRange.value"
         [disabled]="this.formGroup.controls.dateRange.invalid"
       />
-
-      <vater-flex gap="s">
-        <label>{{ t("create.scheduledAt.label") }}</label>
-        <watt-radio
-          group="isScheduled"
-          [formControl]="formGroup.controls.isScheduled"
-          [value]="false"
-        >
-          {{ t("create.scheduledAt.now") }}
-        </watt-radio>
-        <vater-stack direction="row" gap="ml" align="flex-start">
-          <watt-radio
-            group="isScheduled"
-            [formControl]="formGroup.controls.isScheduled"
-            [value]="true"
-            style="min-width: max-content; min-height: 72px; margin-top: var(--watt-space-s)"
-          >
-            {{ t("create.scheduledAt.schedule") }}
-          </watt-radio>
-          @if (formGroup.controls.isScheduled.value) {
-            <watt-datetimepicker
-              [min]="minScheduledAt"
-              [formControl]="formGroup.controls.scheduledAt"
-            >
-              @if (formGroup.controls.scheduledAt.errors?.past) {
-                <watt-field-error>{{ t("create.scheduledAt.past") }}</watt-field-error>
-              }
-            </watt-datetimepicker>
-          }
-        </vater-stack>
-      </vater-flex>
     </form>
   }
 
