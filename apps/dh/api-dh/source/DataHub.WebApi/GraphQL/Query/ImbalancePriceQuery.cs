@@ -130,6 +130,26 @@ public partial class Query
                 .Concat(missingTimestamps)
                 .OrderBy(x => x.Timestamp)
                 .ToList();
+
+            var count = imbalancePrice.ImbalancePrices.Count;
+
+            // Fill in so that we have 24 hours of data
+            if (count < 24)
+            {
+                var lastTimestamp = imbalancePrice.ImbalancePrices.Last().Timestamp;
+
+                for (int i = 1; i <= 24 - count; i++)
+                {
+                    var missingTimestamp = lastTimestamp.AddHours(i);
+                    var missingPrice = new ImbalancePriceDto
+                    {
+                        Timestamp = missingTimestamp,
+                        Price = null,
+                    };
+
+                    imbalancePrice.ImbalancePrices.Add(missingPrice);
+                }
+            }
         }
 
         return imbalancePrices;
