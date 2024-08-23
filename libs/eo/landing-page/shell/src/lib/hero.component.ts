@@ -27,7 +27,7 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoLearnMoreComponent } from './learn-more.component';
@@ -182,6 +182,6 @@ export class EoLandingPageHeroComponent implements AfterViewInit {
   }
 
   onLogin(): void {
-    this.authService.startLogin();
+    this.authService.login();
   }
 }

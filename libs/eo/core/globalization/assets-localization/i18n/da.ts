@@ -259,6 +259,16 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     save: 'Gem',
     cancel: 'Fortryd',
   },
+  terms: {
+    title: 'Vilkår og betingelser',
+    acceptingTerms: 'Jeg accepterer vilkårene og betingelserne',
+    reject: 'Afvis',
+    accept: 'Accepter',
+    fetchingTermsError: {
+      title: '{{shared.error.title}}',
+      message: '{{shared.error.message}}',
+    },
+  },
   dashboard: {
     title: 'Overblik',
     tabs: {

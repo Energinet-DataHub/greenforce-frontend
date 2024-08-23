@@ -57,7 +57,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
       </ng-container>
 
       <ng-container *wattTableCell="columns['price']; let entry">
-        @if (!entry.price) {
+        @if (entry.price === null || entry.price === undefined) {
           <watt-badge type="danger">{{ t('MISSING') }}</watt-badge>
         } @else {
           <span [ngClass]="{ 'negative-price': entry.price < 0 }">

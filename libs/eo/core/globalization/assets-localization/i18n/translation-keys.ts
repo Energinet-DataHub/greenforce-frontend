@@ -196,6 +196,16 @@ export interface TranslationKeys {
     save: string;
     cancel: string;
   };
+  terms: {
+    title: string;
+    acceptingTerms: string;
+    reject: string;
+    accept: string;
+    fetchingTermsError: {
+      title: string;
+      message: string;
+    };
+  };
   dashboard: {
     title: string;
     tabs: {

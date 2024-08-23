@@ -22,7 +22,7 @@ export function aggregateClaimsMocks(apiBase: string) {
 }
 
 function getAggregateClaims(apiBase: string) {
-  return http.get(`${apiBase}/v1/aggregate-claims`.replace('/api', '/wallet-api'), () => {
+  return http.get(`${apiBase}/aggregate-claims`.replace('/api', '/wallet-api'), () => {
     const state = localStorage.getItem('aggregate-claims');
     if (state === 'has-error') {
       return HttpResponse.error();

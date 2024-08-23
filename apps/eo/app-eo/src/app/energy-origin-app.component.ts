@@ -19,7 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterOutlet } from '@angular/router';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 

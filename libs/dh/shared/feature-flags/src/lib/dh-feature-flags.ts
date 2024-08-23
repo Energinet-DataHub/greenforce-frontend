@@ -46,10 +46,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  'settlement-reports-v2': {
-    created: latestBump,
-    disabledEnvironments: [],
-  },
   // This should be removed when there is no longer a need to create calculations
   // in closed periods OR as soon as possible after go-live (01-09-2024)
   'create-calculation-minimum-date': {

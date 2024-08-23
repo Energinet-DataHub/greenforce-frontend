@@ -197,6 +197,16 @@ export const translations = {
     save: 'languageSwitcher.save' as const,
     cancel: 'languageSwitcher.cancel' as const,
   } as const,
+  terms: {
+    title: 'terms.title' as const,
+    acceptingTerms: 'terms.acceptingTerms' as const,
+    reject: 'terms.reject' as const,
+    accept: 'terms.accept' as const,
+    fetchingTermsError: {
+      title: 'terms.fetchingTermsError.title' as const,
+      message: 'terms.fetchingTermsError.message' as const,
+    } as const,
+  } as const,
   dashboard: {
     title: 'dashboard.title' as const,
     tabs: {

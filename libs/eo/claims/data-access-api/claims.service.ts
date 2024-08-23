@@ -64,7 +64,7 @@ export class EoClaimsService {
   #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
 
-  #apiBase = `${this.#apiEnvironment.apiBase}/v1`.replace('/api', '/wallet-api');
+  #apiBase = `${this.#apiEnvironment.apiBase}`.replace('/api', '/wallet-api');
 
   getClaims() {
     return this.#http

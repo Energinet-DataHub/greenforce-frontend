@@ -28,7 +28,7 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { EoAuthService } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
@@ -144,7 +144,7 @@ export class EoLandingPageHeaderComponent {
   }
 
   login() {
-    this.authService.startLogin();
+    this.authService.login();
   }
 
   init(): void {
