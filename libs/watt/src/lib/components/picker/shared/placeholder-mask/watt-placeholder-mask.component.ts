@@ -78,7 +78,8 @@ export class WattPlaceholderMaskComponent {
     { allowSignalWrites: true }
   );
 
-  inputEffect = effect(() => {
-    this.primaryInputElement().dispatchEvent(new InputEvent('input'));
-  });
+  inputEffect = effect(
+    () => this.primaryInputElement().dispatchEvent(new InputEvent('input')),
+    { allowSignalWrites: true } // This effect triggers an NG0600 error if this is not true
+  );
 }
