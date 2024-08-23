@@ -142,22 +142,4 @@ export class DhSettlementReportsTableComponent {
 
     return `${name} - ${calculationPeriod}.zip`;
   }
-
-  private settlementReportName(report: DhSettlementReport): string {
-    const baseTranslationPath = 'wholesale.settlementReportsV2';
-
-    const calculationPeriod = wattFormatDate(report.period, 'short');
-    const calculationType = translate(
-      `${baseTranslationPath}.calculationTypes.${report.calculationType}`
-    );
-
-    let name = translate(`${baseTranslationPath}.downloadReport.baseName`);
-    name += ` - ${calculationType}`;
-
-    if (report.numberOfGridAreasInReport > 1) {
-      name += ` - ` + translate(`${baseTranslationPath}.downloadReport.multipleGridAreas`);
-    }
-
-    return `${name} - ${calculationPeriod}.zip`;
-  }
 }
