@@ -41,7 +41,7 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client)
     {
         var user = await client.UserAsync(id);
-        return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, null, user.CreatedDate);
+        return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.AdministratedBy, user.CreatedDate);
     }
 
     public async Task<bool> EmailExistsAsync(

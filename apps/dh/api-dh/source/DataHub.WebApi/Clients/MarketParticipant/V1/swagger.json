@@ -4258,6 +4258,10 @@
             "type": "string",
             "nullable": true
           },
+          "administratedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
           "createdDate": {
             "type": "string",
             "format": "date-time"
