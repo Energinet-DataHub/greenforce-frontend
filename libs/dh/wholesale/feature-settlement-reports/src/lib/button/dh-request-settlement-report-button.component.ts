@@ -28,7 +28,7 @@ import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-set
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
     <watt-button variant="secondary" (click)="openModal()">
-      {{ 'wholesale.settlementReportsV2.requestSettlementReport' | transloco }}
+      {{ 'wholesale.settlementReports.requestSettlementReport' | transloco }}
     </watt-button>
   `,
 })

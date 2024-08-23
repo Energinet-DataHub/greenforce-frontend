@@ -1,7 +1,7 @@
 {
-  "name": "dh-wholesale-feature-settlement-reports-v2",
+  "name": "dh-wholesale-feature-settlement-reports",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/wholesale/feature-settlement-reports-v2/src",
+  "sourceRoot": "libs/dh/wholesale/feature-settlement-reports/src",
   "prefix": "dh",
   "projectType": "library",
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-settlement-reports-v2/jest.config.ts"
+        "jestConfig": "libs/dh/wholesale/feature-settlement-reports/jest.config.ts"
       }
     },
     "lint": {
