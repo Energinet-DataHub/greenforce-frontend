@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
   ViewEncapsulation,
+  effect,
   inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { Maskito, MaskitoOptions } from '@maskito/core';
 
@@ -35,59 +33,53 @@ import { Maskito, MaskitoOptions } from '@maskito/core';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })
-export class WattPlaceholderMaskComponent implements AfterViewInit, OnDestroy, OnInit {
-  @Input({ required: true })
-  primaryInputElement!: HTMLInputElement;
-
-  @Input()
-  secondaryInputElement?: HTMLInputElement;
-
-  @Input({ required: true })
-  mask!: MaskitoOptions;
-
-  @Input({ required: true })
-  placeholder!: string;
-
-  @Output()
-  maskApplied = new EventEmitter<string>();
-
-  maskedInput?: Maskito;
-  primaryGhost = '';
-  primaryFiller = this.placeholder;
+export class WattPlaceholderMaskComponent {
   cdr = inject(ChangeDetectorRef);
+  primaryInputElement = input.required<HTMLInputElement>();
+  secondaryInputElement = input<HTMLInputElement>();
+  mask = input.required<MaskitoOptions>();
+  placeholder = input.required<string>();
+  maskApplied = output<string>();
+  maskedInput = signal<Maskito | null>(null);
+  primaryGhost = signal('');
+  primaryFiller = signal<string | null>(null);
 
-  ngAfterViewInit(): void {
-    this.primaryInputElement.dispatchEvent(new InputEvent('input'));
-  }
+  maskEffect = effect(
+    (onCleanup) => {
+      const mask = this.mask();
+      const placeholder = this.placeholder();
+      const primaryMask: MaskitoOptions = {
+        ...mask,
+        preprocessors: [
+          ...(mask.preprocessors ?? []),
+          (state) => {
+            this.primaryGhost.set(state.elementState.value.slice(0, placeholder.length));
+            this.primaryFiller.set(placeholder.slice(state.elementState.value.length));
+            return state;
+          },
+        ],
+        postprocessors: [
+          (elementState) => {
+            this.maskApplied.emit(elementState.value);
+            return elementState;
+          },
+          ...(mask.postprocessors ?? []),
+        ],
+      };
 
-  ngOnInit(): void {
-    this.setMask();
-  }
+      const maskedInput = new Maskito(this.primaryInputElement(), primaryMask);
+      this.maskedInput.set(maskedInput);
 
-  ngOnDestroy(): void {
-    this.maskedInput?.destroy();
-  }
+      onCleanup(() => {
+        maskedInput.destroy();
+        this.maskedInput.set(null);
+      });
+    },
+    { allowSignalWrites: true }
+  );
 
-  private setMask() {
-    const primaryMask: MaskitoOptions = {
-      ...this.mask,
-      preprocessors: [
-        ...(this.mask.preprocessors || []),
-        (state) => {
-          this.primaryGhost = state.elementState.value.slice(0, this.placeholder.length);
-          this.primaryFiller = this.placeholder.slice(state.elementState.value.length);
-          this.cdr.detectChanges();
-          return state;
-        },
-      ],
-      postprocessors: [
-        (elementState) => {
-          this.maskApplied.emit(elementState.value);
-          return elementState;
-        },
-        ...(this.mask.postprocessors || []),
-      ],
-    };
-    this.maskedInput = new Maskito(this.primaryInputElement, primaryMask);
-  }
+  inputEffect = effect(
+    () => this.primaryInputElement().dispatchEvent(new InputEvent('input')),
+    { allowSignalWrites: true } // This effect triggers an NG0600 error if this is not true
+  );
 }

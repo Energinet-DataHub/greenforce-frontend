@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   AbstractControl,
@@ -66,6 +66,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface FormValues {
   calculationType: FormControl<StartCalculationType>;
@@ -154,19 +155,24 @@ export class DhCalculationsCreateComponent implements OnInit {
     scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
   });
 
-  minScheduledAt = new Date();
-
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
   selectedExecutionType = 'ACTUAL';
   latestPeriodEnd?: Date | null;
   showPeriodWarning = false;
 
+  minScheduledAt = new Date();
+  scheduledAt = toSignal(this.formGroup.controls.scheduledAt.valueChanges);
+
   minDate = this.ffs.isEnabled('create-calculation-minimum-date')
     ? getMinDate()
     : new Date('2021-02-01'); // Temporary minimum date for certain environments
 
-  maxDate = new Date();
+  maxDate = computed(() =>
+    dayjs(this.scheduledAt() ?? new Date())
+      .subtract(1, 'day')
+      .toDate()
+  );
 
   constructor() {
     this.formGroup.controls.isScheduled.valueChanges.subscribe(() => {
