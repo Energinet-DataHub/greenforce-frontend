@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -44,6 +51,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 @Component({
   selector: 'dh-user-roles',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   templateUrl: './dh-user-roles.component.html',
   styleUrls: ['./dh-user-roles.component.scss'],
