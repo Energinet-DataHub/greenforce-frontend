@@ -14,8 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  Actor,
+  ActorStatus,
+  EicFunction,
+  Organization,
+  User,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
+const actors = [
+  {
+    __typename: 'Actor',
+    id: '801011ea-a291-41f7-be19-581abc05a5ac',
+    glnOrEicNumber: '5790000555465',
+    name: 'Inactive balance responsible',
+    displayName: 'Inactive balance responsible • BalanceResponsibleParty',
+    gridAreas: [],
+    userRoles: [],
+    marketRole: EicFunction.BalanceResponsibleParty,
+    balanceResponsibleAgreements: [],
+    status: ActorStatus.Inactive,
+    organization: {
+      __typename: 'Organization',
+      organizationId: '1',
+      name: '',
+    } as Organization,
+  },
+] as Actor[];
 export const overviewUsers: User[] = [
   {
     __typename: 'User',
@@ -27,6 +53,7 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 12345678',
     createdDate: new Date(),
     name: 'Test Test',
+    actors,
   },
   {
     __typename: 'User',
@@ -38,6 +65,7 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 22345678',
     createdDate: new Date(),
     name: 'Test1 Test1',
+    actors,
   },
   {
     __typename: 'User',
@@ -49,6 +77,7 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 32345678',
     createdDate: new Date(),
     name: 'Test2 Test2',
+    actors,
   },
   {
     __typename: 'User',
@@ -60,6 +89,7 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 34345678',
     createdDate: new Date(),
     name: 'Test3 Test3',
+    actors,
   },
   {
     __typename: 'User',
@@ -71,5 +101,6 @@ export const overviewUsers: User[] = [
     phoneNumber: null,
     createdDate: new Date(),
     name: 'Test4 Test4',
+    actors,
   },
 ];
