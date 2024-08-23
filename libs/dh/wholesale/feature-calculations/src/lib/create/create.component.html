@@ -92,7 +92,7 @@ limitations under the License.
         [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
         [range]="true"
         [min]="minDate"
-        [max]="maxDate"
+        [max]="maxDate()"
       >
         @if (
           (formGroup.controls.dateRange.errors?.resolutionTransition ||
