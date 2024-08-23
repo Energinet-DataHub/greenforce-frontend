@@ -41,6 +41,18 @@ const imbalancePrices: ImbalancePrice[] = [
     price: -100.041549,
     timestamp: new Date('2024-01-01T02:00:00.000+01:00'),
   },
+  {
+    __typename: 'ImbalancePrice',
+    priceAreaCode: PriceAreaCode.Dk1,
+    price: 0,
+    timestamp: new Date('2024-01-01T03:00:00.000+01:00'),
+  },
+  {
+    __typename: 'ImbalancePrice',
+    priceAreaCode: PriceAreaCode.Dk1,
+    price: null,
+    timestamp: new Date('2024-01-01T04:00:00.000+01:00'),
+  },
 ];
 
 export const imbalancePricesForMonth = (apiBase: string): ImbalancePriceDaily[] => [
