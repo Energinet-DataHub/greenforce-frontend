@@ -131,7 +131,9 @@ public partial class Query
                 .OrderBy(x => x.Timestamp)
                 .ToList();
 
-            var count = imbalancePrice.ImbalancePrices.Count;
+            var count = imbalancePrice.ImbalancePrices
+                .DistinctBy(x => x.Timestamp.Hour)
+                .Count();
 
             // Fill in so that we have 24 hours of data
             if (count < 24)
