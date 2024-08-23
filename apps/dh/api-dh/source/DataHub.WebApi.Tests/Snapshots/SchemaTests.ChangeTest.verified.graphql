@@ -159,7 +159,7 @@ type Calculation {
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
   period: DateRange!
-  executionTimeStart: DateTime
+  executionTimeStart: DateTime!
   executionTimeEnd: DateTime
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
@@ -172,6 +172,10 @@ type Calculation {
 type CalculationProgress {
   step: CalculationProgressStep!
   status: ProgressStatus!
+}
+
+type CancelScheduledCalculationPayload {
+  boolean: Boolean
 }
 
 type CreateCalculationPayload {
@@ -277,7 +281,7 @@ type GridAreaOverviewItemDto {
 type ImbalancePrice {
   priceAreaCode: PriceAreaCode!
   timestamp: DateTime!
-  price: Float!
+  price: Float
 }
 
 "Imbalance price for a given date"
@@ -361,6 +365,7 @@ type Mutation {
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
@@ -584,6 +589,7 @@ type UpdateUserRolePayload {
 
 type User {
   actors: [Actor!]
+  administratedBy: Actor
   id: UUID!
   name: String!
   status: UserStatus!
@@ -701,6 +707,10 @@ input CalculationQueryInput {
   period: DateRange
 }
 
+input CancelScheduledCalculationInput {
+  calculationId: UUID!
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -730,6 +740,7 @@ input CreateCalculationInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   calculationType: StartCalculationType!
+  scheduledAt: DateTime
 }
 
 input CreateDelegationsForActorInput {
@@ -966,6 +977,8 @@ enum CalculationOrchestrationState {
   ACTOR_MESSAGES_ENQUEUED
   ACTOR_MESSAGES_ENQUEUING_FAILED
   COMPLETED
+  CANCELED
+  STARTED
 }
 
 enum CalculationProgressStep {
@@ -1156,6 +1169,7 @@ enum ProgressStatus {
   pending
   executing
   failed
+  canceled
   completed
 }
 

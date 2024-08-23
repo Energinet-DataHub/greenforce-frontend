@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Component, effect, inject, input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, effect, inject, input } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -31,7 +32,6 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -92,16 +92,20 @@ export class DhSettlementReportsTableComponent {
     });
   }
 
-  downloadReport(settlementReportDownloadUrl: string | undefined | null) {
-    const fileOptions = { name: 'SettlementReport.zip', type: 'application/zip' };
+  downloadReport(settlementReport: DhSettlementReport) {
+    const { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {
       this.toastService.open({
         type: 'danger',
         message: translate('shared.downloadFailed'),
       });
+
       return;
     }
+
+    const fileName = this.settlementReportName(settlementReport);
+    const fileOptions = { name: fileName, type: 'application/zip' };
 
     this.toastService.open({
       type: 'loading',
@@ -119,5 +123,23 @@ export class DhSettlementReportsTableComponent {
             message: translate('shared.downloadFailed'),
           }),
       });
+  }
+
+  private settlementReportName(report: DhSettlementReport): string {
+    const baseTranslationPath = 'wholesale.settlementReports';
+
+    const calculationPeriod = wattFormatDate(report.period, 'short');
+    const calculationType = translate(
+      `${baseTranslationPath}.calculationTypes.${report.calculationType}`
+    );
+
+    let name = translate(`${baseTranslationPath}.downloadReport.baseName`);
+    name += ` - ${calculationType}`;
+
+    if (report.numberOfGridAreasInReport > 1) {
+      name += ` - ` + translate(`${baseTranslationPath}.downloadReport.multipleGridAreas`);
+    }
+
+    return `${name} - ${calculationPeriod}.zip`;
   }
 }

@@ -25,6 +25,7 @@ limitations under the License.
       (focusout)="onFocusOut($event)"
     >
       <input
+        inert
         aria-label="start-date-input"
         matStartDate
         #startDateInput
@@ -35,6 +36,7 @@ limitations under the License.
       />
 
       <input
+        inert
         aria-label="end-date-input"
         matEndDate
         #endDateInput
@@ -72,6 +74,7 @@ limitations under the License.
     />
   } @else {
     <input
+      inert
       matInput
       tabindex="-1"
       aria-label="date-input"

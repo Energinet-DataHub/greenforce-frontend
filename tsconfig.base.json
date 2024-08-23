@@ -209,8 +209,8 @@
       "@energinet-datahub/dh/wholesale/feature-request-calculation": [
         "libs/dh/wholesale/feature-request-calculation/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/feature-settlement-reports-v2": [
-        "libs/dh/wholesale/feature-settlement-reports-v2/src/index.ts"
+      "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
+        "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/shell": [
         "libs/dh/wholesale/shell/src/index.ts"

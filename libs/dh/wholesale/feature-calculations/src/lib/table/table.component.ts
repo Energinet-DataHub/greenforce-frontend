@@ -48,7 +48,10 @@ import {
   CalculationQueryInput,
   OnCalculationProgressDocument,
   GetCalculationsQuery,
+  CalculationOrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 type wholesaleTableData = WattTableDataSource<Calculation>;
 
@@ -66,6 +69,8 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattEmptyStateComponent,
+    WattIconComponent,
+    WattTooltipDirective,
     DhCalculationsFiltersComponent,
     DhEmDashFallbackPipe,
   ],
@@ -76,6 +81,8 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
 export class DhCalculationsTableComponent {
   private apollo = inject(Apollo);
 
+  CalculationOrchestrationState = CalculationOrchestrationState;
+
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
   @Output() create = new EventEmitter<void>();
@@ -83,12 +90,17 @@ export class DhCalculationsTableComponent {
   loading = false;
   error = false;
 
-  filter = signal<CalculationQueryInput>({
-    executionTime: {
-      start: dayjs().startOf('day').subtract(10, 'days').toDate(),
-      end: dayjs().endOf('day').toDate(),
+  filter = signal<CalculationQueryInput>({});
+
+  variables = computed(() => ({
+    input: {
+      ...this.filter(),
+      executionTime: {
+        start: dayjs().startOf('day').subtract(30, 'days').toDate(),
+        end: null,
+      },
     },
-  });
+  }));
 
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
@@ -100,7 +112,7 @@ export class DhCalculationsTableComponent {
     this.apollo.watchQuery({
       fetchPolicy: 'network-only',
       query: GetCalculationsDocument,
-      variables: { input: this.filter() },
+      variables: this.variables(),
     })
   );
 
@@ -123,7 +135,7 @@ export class DhCalculationsTableComponent {
   subscribe = effect((onCleanup) => {
     const unsubscribe = this.query().subscribeToMore({
       document: OnCalculationProgressDocument,
-      variables: { input: this.filter() },
+      variables: this.variables(),
       updateQuery: (prev, options) =>
         this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
     });
@@ -136,9 +148,9 @@ export class DhCalculationsTableComponent {
     startedBy: { accessor: 'createdByUserName' },
     periodFrom: { accessor: (calculation) => calculation.period?.start },
     periodTo: { accessor: (calculation) => calculation.period?.end },
-    executionTime: { accessor: 'executionTimeStart' },
+    executionTime: { accessor: 'executionTimeStart', size: 'max-content' },
     calculationType: { accessor: 'calculationType' },
-    status: { accessor: 'state' },
+    status: { accessor: 'state', size: 'max-content' },
   };
 
   getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);

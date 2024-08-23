@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable *transloco="let t; read: 'wholesale.settlementReportsV2'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'wholesale.settlementReports'">
   <watt-table
     [dataSource]="tableDataSource"
     [columns]="columns"
@@ -58,7 +58,7 @@ limitations under the License.
       <dh-settlement-reports-status
         [status]="entry.statusType"
         [progress]="entry.progress"
-        (download)="downloadReport(entry.settlementReportDownloadUrl)"
+        (download)="downloadReport(entry)"
       />
     </ng-container>
   </watt-table>

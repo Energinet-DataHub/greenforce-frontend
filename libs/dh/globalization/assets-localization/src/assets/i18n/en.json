@@ -855,7 +855,8 @@
     "status": {
       "IN_COMPLETE": "Missing prices",
       "NO_DATA": "No prices",
-      "COMPLETE": "Complete"
+      "COMPLETE": "Complete",
+      "MISSING": "Mangler"
     },
     "drawer": {
       "priceAreaLabel": "Price area",
@@ -884,6 +885,7 @@
       "errorMessage": "{{shared.error.message}}",
       "search": "Search",
       "new": "New calculation",
+      "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
       "create": {
         "title": "New calculation",
         "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
@@ -891,6 +893,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
+        "executionTypeHint": "External calculation sends the result to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
@@ -904,6 +907,12 @@
           "label": "Grid areas",
           "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
+        },
+        "scheduledAt": {
+          "label": "Calculation time",
+          "now": "Run now",
+          "schedule": "Schedule calculation",
+          "past": "Time has passed"
         },
         "confirm": "Create",
         "cancel": "Cancel",
@@ -921,8 +930,8 @@
           "cancel": "Cancel"
         },
         "toast": {
-          "loading": "Starting calculation...",
-          "success": "The calculation has been started",
+          "loading": "Creating calculation...",
+          "success": "The calculation has been created",
           "error": "{{shared.error.title}}"
         }
       },
@@ -932,21 +941,24 @@
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
         "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
+        "UNKNOWN": "Calculation"
       },
       "states": {
         "SCHEDULED": "Scheduled",
+        "STARTED": "Started",
         "CALCULATING": "Calculating...",
         "CALCULATION_FAILED": "Calculation failed",
         "CALCULATED": "Calculated",
         "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Messages enqueued"
+        "COMPLETED": "Messages enqueued",
+        "CANCELED": "Canceled"
       },
       "executionTypes": {
-        "ACTUAL": "Actual",
-        "SIMULATION": "Simulation"
+        "EXTERNAL": "External",
+        "INTERNAL": "Internal"
       },
       "filters": {
         "states": "Status",
@@ -957,7 +969,7 @@
         "period": "{{shared.form.filters.period}}"
       },
       "columns": {
-        "startedBy": "Started by",
+        "startedBy": "Created by",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
@@ -970,7 +982,19 @@
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
-        "emptyMessage": "{{shared.error.message}}"
+        "emptyMessage": "{{shared.error.message}}",
+        "copyId": "Copy ID",
+        "cancelCalculation": "Cancel calculation",
+        "cancelModal": {
+          "title": "Cancel scheduled calculation?",
+          "close": "Close",
+          "confirm": "Cancel calculation"
+        },
+        "toast": {
+          "loading": "Cancelling calculation...",
+          "success": "The calculation has been cancelled",
+          "error": "{{shared.error.title}}"
+        }
       },
       "progress": {
         "SCHEDULE": {
@@ -1033,16 +1057,20 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       }
     },
-    "settlementReportsV2": {
+    "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "emptyMessage": "There are no settlement reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
+      "downloadReport": {
+        "baseName": "Settlement report",
+        "multipleGridAreas": "multiple grid areas"
+      },
       "columns": {
         "calculationType": "Calculation type",
         "period": "Calculation period",
-        "numberOfGridAreasInReport": "Gridareas",
+        "numberOfGridAreasInReport": "Grid areas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
@@ -1062,7 +1090,7 @@
         "THIRD_CORRECTION_SETTLEMENT": "3rd correction settlement"
       },
       "requestReportModal": {
-        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "calculationType": "Calculation type",
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
@@ -1073,7 +1101,7 @@
         "gridAreaHint": "{{ count }} selected",
         "combineResultsInOneFile": "Combine results in one file",
         "cancel": "Cancel",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."
@@ -1083,13 +1111,15 @@
         "description": "More than one calculation has been carried out. Which calculation do you want to include in the settlement report?",
         "latest": "latest",
         "cancel": "Close",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },
   "admin": {
     "userManagement": {
+      "topBarTitle": "User Management",
       "connect": "Connect MitID",
+      "download": "Download",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",
@@ -1117,7 +1147,13 @@
         },
         "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub, because the user is not part of your organisation"
       },
-      "download": "Download",
+      "downloadUsers": {
+        "userName": "Username",
+        "email": "E-mail",
+        "marketParticipantName": "Market participant name",
+        "organisationName": "Organisation name",
+        "fileName": "DataHub users ({{ datetime }}) ['{{ env }}' environment]"
+      },
       "drawer": {
         "edit": "Edit user",
         "reinvite": "Resend invitation",
@@ -1193,7 +1229,6 @@
           }
         }
       },
-      "topBarTitle": "User Management",
       "userStatus": {
         "ACTIVE": "Active",
         "INACTIVE": "Deactivated",

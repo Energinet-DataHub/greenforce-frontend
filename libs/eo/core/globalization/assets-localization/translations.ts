@@ -366,6 +366,22 @@ export const translations = {
     fuelCodeLabel: 'certificateDetails.fuelCodeLabel' as const,
     backToCertificatesLink: 'certificateDetails.backToCertificatesLink' as const,
     biddingZoneHeadline: 'certificateDetails.biddingZoneHeadline' as const,
+    energyTag: {
+      headline: 'certificateDetails.energyTag.headline' as const,
+      connectedGridIdentification:
+        'certificateDetails.energyTag.connectedGridIdentification' as const,
+      country: 'certificateDetails.energyTag.country' as const,
+      energyCarrier: 'certificateDetails.energyTag.energyCarrier' as const,
+      gcFaceValue: 'certificateDetails.energyTag.gcFaceValue' as const,
+      gcIssuanceDatestamp: 'certificateDetails.energyTag.gcIssuanceDatestamp' as const,
+      gcIssueDeviceType: 'certificateDetails.energyTag.gcIssueDeviceType' as const,
+      gcIssueMarketZone: 'certificateDetails.energyTag.gcIssueMarketZone' as const,
+      gcIssuer: 'certificateDetails.energyTag.gcIssuer' as const,
+      productionDeviceCapacity: 'certificateDetails.energyTag.productionDeviceCapacity' as const,
+      productionDeviceCommercialOperationDate:
+        'certificateDetails.energyTag.productionDeviceCommercialOperationDate' as const,
+      productionDeviceLocation: 'certificateDetails.energyTag.productionDeviceLocation' as const,
+    } as const,
   } as const,
   activityLog: {
     title: 'activityLog.title' as const,

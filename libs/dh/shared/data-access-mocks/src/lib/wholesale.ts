@@ -27,6 +27,7 @@ import {
   ProcessStatus,
   CalculationType,
   mockCreateCalculationMutation,
+  mockCancelScheduledCalculationMutation,
   mockGetActorsForRequestCalculationQuery,
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
@@ -58,9 +59,10 @@ export function wholesaleMocks(apiBase: string) {
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
-    getSettlementReports(),
+    getSettlementReports(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
+    cancelScheduledCalculation(),
   ];
 }
 
@@ -73,6 +75,21 @@ function createCalculation() {
         createCalculation: {
           __typename: 'CreateCalculationPayload',
           uuid: '779195a4-2505-4290-97a6-f3eba2b7d179',
+        },
+      },
+    });
+  });
+}
+
+function cancelScheduledCalculation() {
+  return mockCancelScheduledCalculationMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelScheduledCalculation: {
+          __typename: 'CancelScheduledCalculationPayload',
+          boolean: true,
         },
       },
     });
@@ -617,7 +634,7 @@ function requestCalculationMutation() {
   });
 }
 
-function getSettlementReports() {
+function getSettlementReports(apiBase: string) {
   return mockGetSettlementReportsQuery(async () => {
     await delay(mswConfig.delay);
 
@@ -633,7 +650,7 @@ function getSettlementReports() {
       });
 
     return HttpResponse.json({
-      data: wholesaleSettlementReportsQueryMock,
+      data: wholesaleSettlementReportsQueryMock(apiBase),
     });
   });
 }

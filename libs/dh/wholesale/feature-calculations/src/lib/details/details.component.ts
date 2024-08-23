@@ -21,11 +21,11 @@ import {
   Output,
   EventEmitter,
   effect,
-  Injector,
   input,
+  viewChild,
 } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -38,11 +38,21 @@ import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker'
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { GetCalculationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  CalculationOrchestrationState,
+  CancelScheduledCalculationDocument,
+  GetCalculationByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhCalculationsGridAreasTableComponent } from '../grid-areas/table.component';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 @Component({
   standalone: true,
@@ -51,12 +61,17 @@ import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/wa
 
     WATT_DRAWER,
     WATT_PROGRESS_TRACKER,
+    WattButtonComponent,
     WattBadgeComponent,
+    WattCopyToClipboardDirective,
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
+    WattModalComponent,
+    WattModalActionsComponent,
     WattSpinnerComponent,
+    WattTooltipDirective,
     VaterFlexComponent,
     VaterUtilityDirective,
 
@@ -68,8 +83,9 @@ import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/wa
   styleUrls: ['./details.component.scss'],
 })
 export class DhCalculationsDetailsComponent {
+  private toast = inject(WattToastService);
+  private transloco = inject(TranslocoService);
   private apollo = inject(Apollo);
-  private injector = inject(Injector);
 
   @Output() closed = new EventEmitter<void>();
   id = input<string>();
@@ -77,9 +93,38 @@ export class DhCalculationsDetailsComponent {
   @ViewChild(WattDrawerComponent)
   drawer!: WattDrawerComponent;
 
+  modal = viewChild.required<WattModalComponent>('modal');
+
   calculation?: Calculation;
   error = false;
   loading = false;
+
+  CalculationOrchestrationState = CalculationOrchestrationState;
+
+  cancelCalculation = mutation(CancelScheduledCalculationDocument, {
+    onCompleted: () =>
+      this.toast.update({
+        type: 'success',
+        message: this.transloco.translate('wholesale.calculations.details.toast.success'),
+      }),
+    onError: () =>
+      this.toast.update({
+        type: 'danger',
+        message: this.transloco.translate('wholesale.calculations.details.toast.error'),
+      }),
+  });
+
+  cancelModalClosed = (shouldCancel: boolean) => {
+    const calculationId = this.id();
+    if (shouldCancel && calculationId) {
+      this.toast.open({
+        type: 'loading',
+        message: this.transloco.translate('wholesale.calculations.details.toast.loading'),
+      });
+
+      this.cancelCalculation.mutate({ variables: { input: { calculationId } } });
+    }
+  };
 
   constructor() {
     effect(() => {

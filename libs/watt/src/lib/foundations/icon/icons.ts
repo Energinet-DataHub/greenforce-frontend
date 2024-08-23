@@ -75,6 +75,9 @@ const materialIcons = {
   power: 'power',
   location: 'location_on',
   smartDisplay: 'smart_display',
+  windmill: 'energy',
+  solarPower: 'solar_power',
+  priorityHigh: 'priority_high',
 };
 
 /**

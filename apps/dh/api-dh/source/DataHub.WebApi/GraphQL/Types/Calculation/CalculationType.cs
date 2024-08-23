@@ -42,7 +42,8 @@ public class CalculationType : ObjectType<CalculationDto>
             .Name("period");
 
         descriptor
-            .Field(f => f.ExecutionTimeStart);
+            .Field(f => f.ExecutionTimeStart ?? f.ScheduledAt)
+            .Name("executionTimeStart");
 
         descriptor
             .Field(f => f.CompletedTime)
@@ -67,6 +68,8 @@ public class CalculationType : ObjectType<CalculationDto>
             .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
                 CalculationOrchestrationState.Scheduled => ProcessStatus.Neutral,
+                CalculationOrchestrationState.Canceled => ProcessStatus.Neutral,
+                CalculationOrchestrationState.Started => ProcessStatus.Info,
                 CalculationOrchestrationState.Calculating => ProcessStatus.Info,
                 CalculationOrchestrationState.CalculationFailed => ProcessStatus.Danger,
                 CalculationOrchestrationState.Calculated => ProcessStatus.Info,
@@ -116,6 +119,8 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => CalculationProgressStep.Schedule,
+            CalculationOrchestrationState.Canceled => CalculationProgressStep.Schedule,
+            CalculationOrchestrationState.Started => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.Calculating => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.CalculationFailed => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.Calculated => CalculationProgressStep.Calculate,
@@ -134,6 +139,8 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => ProgressStatus.Canceled,
+            CalculationOrchestrationState.Started => ProgressStatus.Completed,
             CalculationOrchestrationState.Calculating => ProgressStatus.Completed,
             CalculationOrchestrationState.CalculationFailed => ProgressStatus.Completed,
             CalculationOrchestrationState.Calculated => ProgressStatus.Completed,
@@ -152,6 +159,8 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Started => ProgressStatus.Executing,
             CalculationOrchestrationState.Calculating => ProgressStatus.Executing,
             CalculationOrchestrationState.CalculationFailed => ProgressStatus.Failed,
             CalculationOrchestrationState.Calculated => ProgressStatus.Completed,
@@ -170,6 +179,8 @@ public class CalculationType : ObjectType<CalculationDto>
         state switch
         {
             CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
+            CalculationOrchestrationState.Started => ProgressStatus.Pending,
             CalculationOrchestrationState.Calculating => ProgressStatus.Pending,
             CalculationOrchestrationState.CalculationFailed => ProgressStatus.Pending,
             CalculationOrchestrationState.Calculated => ProgressStatus.Pending,

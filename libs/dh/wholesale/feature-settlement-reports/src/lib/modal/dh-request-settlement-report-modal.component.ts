@@ -485,14 +485,14 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   private showSuccessNotification(): void {
     this.toastService.open({
-      message: translate('wholesale.settlementReportsV2.requestReportModal.requestSuccess'),
+      message: translate('wholesale.settlementReports.requestReportModal.requestSuccess'),
       type: 'success',
     });
   }
 
   private showErrorNotification(): void {
     this.toastService.open({
-      message: translate('wholesale.settlementReportsV2.requestReportModal.requestError'),
+      message: translate('wholesale.settlementReports.requestReportModal.requestError'),
       type: 'danger',
     });
   }

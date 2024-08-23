@@ -854,7 +854,8 @@
     "status": {
       "IN_COMPLETE": "Mangler priser",
       "NO_DATA": "Ingen priser",
-      "COMPLETE": "Komplet"
+      "COMPLETE": "Komplet",
+      "MISSING": "Mangler"
     },
     "drawer": {
       "priceAreaLabel": "Prisområde",
@@ -883,6 +884,7 @@
       "errorMessage": "{{shared.error.message}}",
       "search": "Søg",
       "new": "Ny beregning",
+      "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
@@ -890,6 +892,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
+        "executionTypeHint": "Ekstern beregning sender resultat til aktørerne",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
@@ -903,6 +906,12 @@
           "label": "Netområder",
           "required": "Netområde påkrævet",
           "hint": "{{shared.selectedValues}}"
+        },
+        "scheduledAt": {
+          "label": "Beregningstidspunkt",
+          "now": "Beregn nu",
+          "schedule": "Planlæg beregning",
+          "past": "Tidspunkt er overstået"
         },
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
@@ -920,8 +929,8 @@
           "cancel": "Kør ikke"
         },
         "toast": {
-          "loading": "Starter beregning...",
-          "success": "Din beregning er startet.",
+          "loading": "Opretter beregning...",
+          "success": "Din beregning er oprettet.",
           "error": "{{shared.error.title}}"
         }
       },
@@ -931,21 +940,24 @@
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
         "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}"
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
+        "UNKNOWN": "Beregning"
       },
       "states": {
         "SCHEDULED": "Planlagt",
+        "STARTED": "Startet",
         "CALCULATING": "Beregner...",
         "CALCULATION_FAILED": "Beregning fejlet",
         "CALCULATED": "Beregnet",
         "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
         "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Beskeder dannet"
+        "COMPLETED": "Beskeder dannet",
+        "CANCELED": "Annulleret"
       },
       "executionTypes": {
-        "ACTUAL": "Faktisk",
-        "SIMULATION": "Simulering"
+        "EXTERNAL": "Ekstern",
+        "INTERNAL": "Intern"
       },
       "filters": {
         "states": "Status",
@@ -969,7 +981,19 @@
         "executionTime": "Eksekveringstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
-        "emptyMessage": "{{shared.error.message}}"
+        "emptyMessage": "{{shared.error.message}}",
+        "copyId": "Kopier ID",
+        "cancelCalculation": "Annuller beregning",
+        "cancelModal": {
+          "title": "Annuller planlagt beregning?",
+          "close": "Luk",
+          "confirm": "Annuller beregning"
+        },
+        "toast": {
+          "loading": "Anullerer beregning...",
+          "success": "Din beregning er annulleret.",
+          "error": "{{shared.error.title}}"
+        }
       },
       "progress": {
         "SCHEDULE": {
@@ -1032,12 +1056,16 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       }
     },
-    "settlementReportsV2": {
+    "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
+      "downloadReport": {
+        "baseName": "Afregningsrapport",
+        "multipleGridAreas": "flere net"
+      },
       "columns": {
         "calculationType": "Beregningstype",
         "period": "Beregningsperiode",
@@ -1061,7 +1089,7 @@
         "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
       },
       "requestReportModal": {
-        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
@@ -1072,7 +1100,7 @@
         "gridAreaHint": "{{ count }} valgte",
         "combineResultsInOneFile": "Kombiner resultater i en fil",
         "cancel": "Fortryd",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
@@ -1082,13 +1110,15 @@
         "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
         "latest": "nyeste",
         "cancel": "Luk",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },
   "admin": {
     "userManagement": {
+      "topBarTitle": "Brugeradministration",
       "connect": "Tilknyt MitID",
+      "download": "Download",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
@@ -1116,7 +1146,13 @@
         },
         "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
-      "download": "Download",
+      "downloadUsers": {
+        "userName": "Brugernavn",
+        "email": "E-mail",
+        "marketParticipantName": "Aktørnavn",
+        "organisationName": "Organisationsnavn",
+        "fileName": "DataHub brugere ({{ datetime }}) ['{{ env }}' miljø]"
+      },
       "drawer": {
         "edit": "Rediger bruger",
         "reinvite": "Send invitation igen",
@@ -1192,7 +1228,6 @@
           }
         }
       },
-      "topBarTitle": "Brugeradministration",
       "userStatus": {
         "ACTIVE": "Aktiv",
         "INACTIVE": "Deaktiveret",
