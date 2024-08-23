@@ -34,17 +34,17 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-type ActorUserRole = ResultOf<typeof GetUserByIdDocument>['userById']['actors'][0]['userRoles'][0];
-
-import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import {
+  DhActorUserRole,
+  DhActorUserRoles,
+  DhUser,
+  UpdateUserRoles,
+} from '@energinet-datahub/dh/admin/shared';
 
 import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
-import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
@@ -87,7 +87,7 @@ export class DhUserRolesComponent {
 
   userRolesPerActor = computed(() => this.user()?.actors ?? []);
 
-  columns: WattTableColumnDef<ActorUserRole> = {
+  columns: WattTableColumnDef<DhActorUserRole> = {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
@@ -103,7 +103,7 @@ export class DhUserRolesComponent {
     return actor ? actor.atLeastOneRoleIsAssigned : false;
   }
 
-  selectionChanged(actorId: string, userRoles: ActorUserRole[], allAssignable: ActorUserRole[]) {
+  selectionChanged(actorId: string, userRoles: DhActorUserRoles, allAssignable: DhActorUserRoles) {
     const actor = this.getOrAddActor(actorId);
 
     actor.atLeastOneRoleIsAssigned = userRoles.length > 0;

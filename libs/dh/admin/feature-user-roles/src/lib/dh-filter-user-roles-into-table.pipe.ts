@@ -15,26 +15,22 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
+import { DhActorUserRole, DhActorUserRoles } from '@energinet-datahub/dh/admin/shared';
 
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-type ActorUserRole = ResultOf<typeof GetUserByIdDocument>['userById']['actors'][0]['userRoles'][0];
 
 @Pipe({ name: 'filterUserRoles', standalone: true })
 export class FilterUserRolesPipe implements PipeTransform {
-  transform(userRoles: ActorUserRole[] | null | undefined, includeAllUserRoles = false) {
+  transform(userRoles: DhActorUserRoles | null | undefined, includeAllUserRoles = false) {
     return (userRoles || []).filter((userRole) => userRole.assigned || includeAllUserRoles);
   }
 }
 
 @Pipe({ name: 'userRolesIntoTable', standalone: true })
 export class UserRolesIntoTablePipe implements PipeTransform {
-  readonly dataSource = new WattTableDataSource<ActorUserRole>();
+  readonly dataSource = new WattTableDataSource<DhActorUserRole>();
 
-  transform(userRoles: ActorUserRole[] | null | undefined) {
+  transform(userRoles: DhActorUserRoles | null | undefined) {
     this.dataSource.data = userRoles || [];
     return this.dataSource;
   }
