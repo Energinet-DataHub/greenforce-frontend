@@ -43,6 +43,7 @@ import {
   dhGroupByMarketParticipant,
   dhGroupByType,
 } from '../util/dh-group-balance-responsible-relations';
+import { dhApplyFilter } from './dh-apply-filter';
 
 type BalanceResponsbleRelationsState = {
   relations: DhBalanceResponsibleRelations;
@@ -69,7 +70,8 @@ export const DhBalanceResponsibleRelationsStore = signalStore(
   withComputed(({ loadingState, filters, actor, relations }) => ({
     filteredRelations: computed(() =>
       relations().filter(
-        (relation) => applyFilter(filters(), relation) && applySearch(filters(), relation, actor())
+        (relation) =>
+          dhApplyFilter(filters(), relation) && applySearch(filters(), relation, actor())
       )
     ),
     isLoading: computed(() => loadingState() === LoadingState.LOADING),
@@ -176,49 +178,5 @@ const applySearch = (
     energySupplierWithName?.actorName.value
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
-  );
-};
-
-const applyFilter = (
-  filters: DhBalanceResponsibleRelationFilters,
-  balanceResponsibilityAgreement: DhBalanceResponsibleRelation
-) => {
-  const { gridArea, balanceResponsibleWithName, energySupplierWithName, status } =
-    balanceResponsibilityAgreement;
-
-  const {
-    energySupplierWithNameId,
-    balanceResponsibleWithNameId,
-    status: statusFilter,
-    gridAreaCode,
-  } = filters;
-
-  if (checkifAllAreNull(filters)) return true;
-
-  return (
-    (isNullOrUndefined(statusFilter) || status === statusFilter) &&
-    (isNullOrUndefined(energySupplierWithNameId) ||
-      energySupplierWithName?.id === energySupplierWithNameId) &&
-    (isNullOrUndefined(gridAreaCode) || gridArea?.code === gridAreaCode) &&
-    (isNullOrUndefined(balanceResponsibleWithNameId) ||
-      balanceResponsibleWithName?.id === balanceResponsibleWithNameId)
-  );
-};
-
-const isNullOrUndefined = <T>(value: T | null | undefined): value is T => {
-  return value === null || value === undefined;
-};
-
-const checkifAllAreNull = ({
-  energySupplierWithNameId,
-  balanceResponsibleWithNameId,
-  status,
-  gridAreaCode,
-}: DhBalanceResponsibleRelationFilters) => {
-  return (
-    energySupplierWithNameId === null &&
-    balanceResponsibleWithNameId === null &&
-    status === null &&
-    gridAreaCode === null
   );
 };
