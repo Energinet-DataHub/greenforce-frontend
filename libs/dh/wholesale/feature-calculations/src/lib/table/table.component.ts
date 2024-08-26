@@ -145,11 +145,11 @@ export class DhCalculationsTableComponent {
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
-    startedBy: { accessor: 'createdByUserName' },
-    periodFrom: { accessor: (calculation) => calculation.period?.start },
-    periodTo: { accessor: (calculation) => calculation.period?.end },
-    executionTime: { accessor: 'executionTimeStart', size: 'max-content' },
     calculationType: { accessor: 'calculationType' },
+    executionType: { accessor: 'isInternal' },
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    period: { accessor: 'period', size: 'minmax(max-content, auto)' },
+    executionTime: { accessor: 'executionTimeStart', size: 'minmax(max-content, auto)' },
     status: { accessor: 'state', size: 'max-content' },
   };
 

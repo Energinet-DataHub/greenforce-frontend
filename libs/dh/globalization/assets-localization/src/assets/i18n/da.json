@@ -894,6 +894,10 @@
       "search": "Søg",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "executionType": {
+        "internal": "Intern",
+        "external": "Ekstern"
+      },
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
@@ -969,24 +973,23 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
         "period": "Beregningsperiode"
       },
       "columns": {
-        "startedBy": "Bestilt af",
-        "periodFrom": "Periode fra",
-        "periodTo": "Periode til",
-        "executionTime": "Eksekveringstid",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Afviklingstype",
+        "period": "Beregningsperiode",
+        "executionTime": "Beregningstidspunkt",
         "status": "Status"
       },
       "details": {
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
-        "executionTime": "Eksekveringstidspunkt",
+        "startedBy": "Bestilt af",
+        "executionTime": "Beregningstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",

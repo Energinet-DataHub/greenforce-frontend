@@ -38,6 +38,16 @@ limitations under the License.
     sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
+    <!-- Process Type -->
+    <ng-container *wattTableCell="columns.calculationType; let calculation">
+      {{ t("calculationTypes." + calculation.calculationType) }}
+    </ng-container>
+
+    <!-- Process Type -->
+    <ng-container *wattTableCell="columns.executionType; let calculation">
+      {{ calculation.isInternal ? t("executionType.internal") : t("executionType.external") }}
+    </ng-container>
+
     <!-- Execution Time -->
     <ng-container *wattTableCell="columns.executionTime; let calculation">
       @if (calculation.state === CalculationOrchestrationState.Scheduled) {
@@ -54,8 +64,8 @@ limitations under the License.
     </ng-container>
 
     <!-- Process Type -->
-    <ng-container *wattTableCell="columns.calculationType; let calculation">
-      {{ t("calculationTypes." + calculation.calculationType) }}
+    <ng-container *wattTableCell="columns.period; let calculation">
+      {{ calculation.period | wattDate }}
     </ng-container>
 
     <!-- Status -->
