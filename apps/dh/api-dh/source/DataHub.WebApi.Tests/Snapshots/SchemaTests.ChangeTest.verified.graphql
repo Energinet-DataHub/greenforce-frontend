@@ -164,7 +164,6 @@ type Calculation {
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
   state: CalculationOrchestrationState!
-  isInternalCalculation: Boolean!
   statusType: ProcessStatus!
   currentStep: CalculationProgressStep!
   progress: [CalculationProgress!]!
