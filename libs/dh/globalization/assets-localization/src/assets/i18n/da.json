@@ -17,6 +17,15 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "envinronementName": {
+    "localhost": "lokalt",
+    "d-001": "dev-001",
+    "d-002": "dev-002",
+    "t-001": "test-001",
+    "t-002": "test-002",
+    "b-001": "preprod",
+    "p-001": "produktion"
+  },
   "shared": {
     "error": {
       "title": "Ups! Der opstod en fejl",
@@ -1151,7 +1160,7 @@
         "email": "E-mail",
         "marketParticipantName": "Aktørnavn",
         "organisationName": "Organisationsnavn",
-        "fileName": "DataHub brugere ({{ datetime }}) ['{{ env }}' miljø]"
+        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
       },
       "drawer": {
         "edit": "Rediger bruger",

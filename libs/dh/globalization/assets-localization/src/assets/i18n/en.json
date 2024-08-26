@@ -17,6 +17,15 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "envinronementName": {
+    "localhost": "local",
+    "d-001": "dev-001",
+    "d-002": "dev-002",
+    "t-001": "test-001",
+    "t-002": "test-002",
+    "b-001": "preprod",
+    "p-001": "production"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -1152,7 +1161,7 @@
         "email": "E-mail",
         "marketParticipantName": "Market participant name",
         "organisationName": "Organisation name",
-        "fileName": "DataHub users ({{ datetime }}) ['{{ env }}' environment]"
+        "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
       },
       "drawer": {
         "edit": "Edit user",
