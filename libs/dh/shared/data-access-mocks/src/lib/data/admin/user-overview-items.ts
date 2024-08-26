@@ -17,11 +17,34 @@
 import {
   Actor,
   ActorStatus,
+  ActorUserRole,
   EicFunction,
   Organization,
   User,
+  UserRoleStatus,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+const userActorRoles: ActorUserRole[] = [
+  {
+    __typename: 'ActorUserRole',
+    assigned: true,
+    description: 'Test description',
+    id: '1',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name',
+    status: UserRoleStatus.Active,
+  },
+  {
+    __typename: 'ActorUserRole',
+    assigned: false,
+    description: 'Test description 2',
+    id: '2',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name 2',
+    status: UserRoleStatus.Active,
+  },
+];
 
 const actors = [
   {
@@ -31,7 +54,7 @@ const actors = [
     name: 'Inactive balance responsible',
     displayName: 'Inactive balance responsible • BalanceResponsibleParty',
     gridAreas: [],
-    userRoles: [],
+    userRoles: userActorRoles,
     marketRole: EicFunction.BalanceResponsibleParty,
     balanceResponsibleAgreements: [],
     status: ActorStatus.Inactive,
