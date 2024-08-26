@@ -264,6 +264,9 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "isInternalCalculation": {
+            "type": "boolean"
           }
         }
       },

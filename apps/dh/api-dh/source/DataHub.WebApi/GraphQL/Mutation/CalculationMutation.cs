@@ -40,7 +40,9 @@ public partial class Mutation
             EndDate: period.End.ToDateTimeOffset(),
             ScheduledAt: scheduledAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: gridAreaCodes,
-            CalculationType: calculationType);
+            CalculationType: calculationType,
+            // TODO: Implement IsInternalCalculation when frontend is ready
+            IsInternalCalculation: false);
 
         var calculationId = await client
             .StartCalculationAsync(requestDto, cancellationToken);
