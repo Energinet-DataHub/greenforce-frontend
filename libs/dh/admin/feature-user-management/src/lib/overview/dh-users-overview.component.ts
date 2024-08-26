@@ -203,7 +203,7 @@ export class DhUsersOverviewComponent {
 
       const fileName = translate(`${basePath}.fileName`, {
         datetime: wattFormatDate(new Date(), 'long'),
-        env: this.environment.current,
+        env: translate(`envinronementName.${this.environment.current}`),
       });
 
       exportToCSV({
