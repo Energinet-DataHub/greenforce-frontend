@@ -64,10 +64,6 @@ public class CalculationType : ObjectType<CalculationDto>
             .Name("state");
 
         descriptor
-            .Field(f => f.IsInternalCalculation)
-            .Name("isInternalCalculation");
-
-        descriptor
             .Field("statusType")
             .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
