@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { dayjs } from '@energinet-datahub/watt/date';
+
 import { DhFeatureFlag, DhFeatureFlags, dhFeatureFlagsConfig } from './dh-feature-flags';
 
 const maxAgeOfDays = 62;
@@ -22,7 +23,7 @@ const maxAgeOfDays = 62;
 const featureFlagCases = Object.keys(dhFeatureFlagsConfig).map((featureFlag) => {
   const created = (dhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag).created;
   const parsedDate = dayjs(created, 'DD-MM-YYYY');
-  const diffInDays = parsedDate.diff(new Date(), 'days');
+  const diffInDays = dayjs(new Date()).diff(parsedDate, 'days');
 
   return [featureFlag, diffInDays];
 });
