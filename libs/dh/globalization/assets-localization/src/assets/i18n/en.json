@@ -909,13 +909,11 @@
           "error": "Process type is required"
         },
         "period": {
-          "label": "Period",
-          "required": "Date range is required",
+          "label": "Calculation period",
           "invalid": "Invalid period"
         },
         "gridArea": {
           "label": "Grid areas",
-          "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -976,7 +974,7 @@
         "gridAreas": "Grid areas",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Calculation period"
       },
       "columns": {
         "startedBy": "Created by",

@@ -908,13 +908,11 @@
           "error": "Procestype påkrævet"
         },
         "period": {
-          "label": "Periode",
-          "required": "Dato-periode påkrævet",
+          "label": "Beregningsperiode",
           "invalid": "Ugyldig periode"
         },
         "gridArea": {
           "label": "Netområder",
-          "required": "Netområde påkrævet",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -975,7 +973,7 @@
         "gridAreas": "Netområder",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Beregningsperiode"
       },
       "columns": {
         "startedBy": "Bestilt af",
