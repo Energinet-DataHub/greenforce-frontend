@@ -15,40 +15,27 @@
  * limitations under the License.
  */
 
-.container {
-  display: block;
-}
-
-watt-table {
-  box-sizing: border-box;
-  padding: var(--watt-space-m) 0;
-}
-
-watt-field-error {
-  display: block;
-  padding-top: var(--watt-space-m);
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-expandable-card {
-  .mat-expansion-panel {
-    overflow: visible;
+dh-user-roles {
+  .container {
+    display: block;
   }
 
-  watt-expandable-card-title {
-    display: flex;
-    gap: var(--watt-space-s);
-    watt-icon {
-      color: var(--watt-color-primary-darker);
+  watt-table {
+    box-sizing: border-box;
+    padding: var(--watt-space-m) 0;
+  }
+
+  watt-expandable-card {
+    .mat-expansion-panel {
+      overflow: visible;
+    }
+
+    watt-expandable-card-title {
+      display: flex;
+      gap: var(--watt-space-s);
+      watt-icon {
+        color: var(--watt-color-primary-darker);
+      }
     }
   }
-}
-
-.loading-container {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-m);
 }

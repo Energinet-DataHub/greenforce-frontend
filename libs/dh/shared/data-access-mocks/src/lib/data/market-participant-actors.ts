@@ -17,10 +17,33 @@
 import {
   Actor,
   ActorStatus,
+  ActorUserRole,
   EicFunction,
   GridAreaDto,
   Organization,
+  UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+const userActorRoles: ActorUserRole[] = [
+  {
+    __typename: 'ActorUserRole',
+    assigned: true,
+    description: 'Test description',
+    id: '1',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name',
+    status: UserRoleStatus.Active,
+  },
+  {
+    __typename: 'ActorUserRole',
+    assigned: false,
+    description: 'Test description 2',
+    id: '2',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name 2',
+    status: UserRoleStatus.Active,
+  },
+];
 
 export const marketParticipantActors: Actor[] = [
   {
@@ -29,7 +52,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
     displayName: 'Test Actor 1 • EnergySupplier',
-    userRoles: [],
+    userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -53,7 +76,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 3',
     displayName: 'Test Actor 3 • GridAccessProvider',
-    userRoles: [],
+    userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -77,7 +100,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 2',
     displayName: 'Test Actor 2 • BalanceResponsibleParty',
-    userRoles: [],
+    userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -101,7 +124,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555444',
     name: 'Test Actor 3',
     displayName: 'Test Actor 3 • DanishEnergyAgency',
-    userRoles: [],
+    userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -123,7 +146,7 @@ export const marketParticipantActors: Actor[] = [
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
     glnOrEicNumber: '5790000555123',
-    userRoles: [],
+    userRoles: userActorRoles,
     name: 'Test Actor 4',
     displayName: 'Test Actor 4 • DanishEnergyAgency',
     gridAreas: [
@@ -149,7 +172,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555333',
     name: 'Test Actor 5',
     displayName: 'Test Actor 5 • BalanceResponsibleParty',
-    userRoles: [],
+    userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -173,7 +196,7 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555588',
     name: 'Test Actor 6',
     displayName: 'Test Actor 6 • EnergySupplier',
-    userRoles: [],
+    userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
