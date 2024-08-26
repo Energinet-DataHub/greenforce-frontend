@@ -85,10 +85,6 @@ type Filters = FormControls<CalculationQueryInput>;
       wattQueryParams
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
-      <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
-        t('period')
-      }}</watt-date-range-chip>
-
       <watt-dropdown
         formControlName="calculationTypes"
         [chipMode]="true"
@@ -98,6 +94,10 @@ type Filters = FormControls<CalculationQueryInput>;
         dhDropdownTranslator
         translateKey="wholesale.calculations.calculationTypes"
       />
+
+      <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
+        t('period')
+      }}</watt-date-range-chip>
 
       <watt-dropdown
         formControlName="gridAreaCodes"
