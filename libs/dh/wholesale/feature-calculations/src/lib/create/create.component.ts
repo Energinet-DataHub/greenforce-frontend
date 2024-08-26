@@ -69,6 +69,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { toSignal } from '@angular/core/rxjs-interop';
 
 interface FormValues {
+  executionType: FormControl<string | null>;
   calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
@@ -139,6 +140,7 @@ export class DhCalculationsCreateComponent implements OnInit {
   ];
 
   formGroup = new FormGroup<FormValues>({
+    executionType: new FormControl(null),
     calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
@@ -177,6 +179,15 @@ export class DhCalculationsCreateComponent implements OnInit {
   constructor() {
     this.formGroup.controls.isScheduled.valueChanges.subscribe(() => {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
+    });
+
+    this.formGroup.controls.executionType.valueChanges.subscribe((value) => {
+      if (value === 'INTERNAL') {
+        this.formGroup.controls.calculationType.disable();
+        this.formGroup.controls.calculationType.setValue(StartCalculationType.Aggregation);
+      } else {
+        this.formGroup.controls.calculationType.enable();
+      }
     });
   }
 

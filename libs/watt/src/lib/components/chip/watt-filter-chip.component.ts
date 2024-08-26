@@ -35,7 +35,7 @@ import { useIsFirstRender } from '../../utils/lifecycle/use-is-first-render';
         [value]="value"
         [checked]="selected"
         [disabled]="disabled"
-        (change)="selectionChange.emit(input)"
+        (change)="selectionChange.emit(input.value)"
       />
       <ng-content />
     </watt-chip>
@@ -47,6 +47,6 @@ export class WattFilterChipComponent {
   @Input() name?: string;
   @Input() value?: string;
   @Input() choice?: string;
-  @Output() selectionChange = new EventEmitter<HTMLInputElement>();
+  @Output() selectionChange = new EventEmitter<string>();
   isFirstRender = useIsFirstRender();
 }
