@@ -33,7 +33,11 @@ limitations under the License.
             >{{ actor.glnOrEicNumber }} • {{ actor.organization.name }} – {{ actor.name }} -
             {{ translateMarketRole(actor.userRoles[0].eicFunction) }}
             @if (actor.id === user()?.administratedBy?.id) {
-              <watt-icon name="personCheck" [wattTooltip]="t('userResponsible')" />
+              <watt-icon
+                name="personCheck"
+                wattTooltipPosition="right"
+                [wattTooltip]="t('userResponsible')"
+              />
             }
           </watt-expandable-card-title>
         } @else {
@@ -41,7 +45,11 @@ limitations under the License.
             >{{ actor.glnOrEicNumber }} • {{ actor.organization.name }} -
             {{ translateMarketRole(actor.userRoles[0].eicFunction) }}
             @if (actor.id === user()?.administratedBy?.id) {
-              <watt-icon name="personCheck" [wattTooltip]="t('userResponsible')" />
+              <watt-icon
+                name="personCheck"
+                wattTooltipPosition="right"
+                [wattTooltip]="t('userResponsible')"
+              />
             }
           </watt-expandable-card-title>
         }
