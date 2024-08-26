@@ -22,6 +22,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 public partial class Mutation
 {
     public async Task<Guid> CreateCalculationAsync(
+        bool isInternal,
         Interval period,
         string[] gridAreaCodes,
         StartCalculationType calculationType,
@@ -41,8 +42,7 @@ public partial class Mutation
             ScheduledAt: scheduledAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: gridAreaCodes,
             CalculationType: calculationType,
-            // TODO: Implement IsInternalCalculation when frontend is ready
-            IsInternalCalculation: false);
+            IsInternalCalculation: isInternal);
 
         var calculationId = await client
             .StartCalculationAsync(requestDto, cancellationToken);

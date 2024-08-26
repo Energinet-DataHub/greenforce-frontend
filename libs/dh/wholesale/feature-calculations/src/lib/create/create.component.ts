@@ -220,6 +220,7 @@ export class DhCalculationsCreateComponent implements OnInit {
         mutation: CreateCalculationDocument,
         variables: {
           input: {
+            isInternal,
             calculationType,
             period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
             gridAreaCodes: gridAreas,
