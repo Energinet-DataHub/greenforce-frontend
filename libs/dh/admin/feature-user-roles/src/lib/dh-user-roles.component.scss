@@ -26,10 +26,6 @@ dh-user-roles {
   }
 
   watt-expandable-card {
-    .mat-expansion-panel {
-      overflow: visible;
-    }
-
     watt-expandable-card-title {
       display: flex;
       gap: var(--watt-space-s);
