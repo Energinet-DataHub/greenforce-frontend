@@ -48,7 +48,7 @@ export type DhBalanceResponsibleRelationsGrouped = {
 }[];
 
 export type DhBalanceResponsibleRelationFilters = {
-  status: InputMaybe<BalanceResponsibilityAgreementStatus>;
+  status: InputMaybe<BalanceResponsibilityAgreementStatus[]>;
   energySupplierWithNameId: InputMaybe<string>;
   gridAreaCode: InputMaybe<Scalars['UUID']['input']>;
   balanceResponsibleWithNameId: InputMaybe<string>;
