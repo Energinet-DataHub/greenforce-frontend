@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -59,10 +59,10 @@ export class DhTableMonthViewComponent {
 
   activeRow = signal<DhImbalancePrice | undefined>(undefined);
 
-  @Input() isLoading!: boolean;
-  @Input() hasError!: boolean;
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
-  @Input({ required: true }) tableDataSource!: WattTableDataSource<DhImbalancePrice>;
+  tableDataSource = input.required<WattTableDataSource<DhImbalancePrice>>();
 
   onRowClick(entry: DhImbalancePrice): void {
     this.activeRow.set(entry);
