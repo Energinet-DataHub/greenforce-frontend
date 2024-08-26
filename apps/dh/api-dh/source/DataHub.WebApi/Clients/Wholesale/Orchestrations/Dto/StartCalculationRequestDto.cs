@@ -22,4 +22,5 @@ public sealed record StartCalculationRequestDto(
     IEnumerable<string> GridAreaCodes,
     DateTimeOffset StartDate,
     DateTimeOffset EndDate,
-    DateTimeOffset ScheduledAt);
+    DateTimeOffset ScheduledAt,
+    bool IsInternalCalculation);
