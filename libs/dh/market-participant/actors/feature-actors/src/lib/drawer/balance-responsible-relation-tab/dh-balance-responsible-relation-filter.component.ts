@@ -91,6 +91,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     <watt-dropdown
       [placeholder]="t('status')"
       [chipMode]="true"
+      [multiple]="true"
       [options]="statusOptions"
       [formControl]="filtersForm.controls.status!"
       dhDropdownTranslator
