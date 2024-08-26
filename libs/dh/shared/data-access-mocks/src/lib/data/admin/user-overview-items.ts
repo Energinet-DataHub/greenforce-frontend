@@ -64,6 +64,23 @@ const actors = [
       name: '',
     } as Organization,
   },
+  {
+    __typename: 'Actor',
+    id: '301011ea-a291-41f7-be19-581abc05a5ac',
+    glnOrEicNumber: '5790000555465',
+    name: 'Balance responsible',
+    displayName: 'Balance responsible • BalanceResponsibleParty',
+    gridAreas: [],
+    userRoles: userActorRoles,
+    marketRole: EicFunction.BalanceResponsibleParty,
+    balanceResponsibleAgreements: [],
+    status: ActorStatus.Active,
+    organization: {
+      __typename: 'Organization',
+      organizationId: '1',
+      name: '',
+    } as Organization,
+  },
 ] as Actor[];
 export const overviewUsers: User[] = [
   {
@@ -77,6 +94,7 @@ export const overviewUsers: User[] = [
     createdDate: new Date(),
     name: 'Test Test',
     actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -89,6 +107,7 @@ export const overviewUsers: User[] = [
     createdDate: new Date(),
     name: 'Test1 Test1',
     actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -101,6 +120,7 @@ export const overviewUsers: User[] = [
     createdDate: new Date(),
     name: 'Test2 Test2',
     actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -113,6 +133,7 @@ export const overviewUsers: User[] = [
     createdDate: new Date(),
     name: 'Test3 Test3',
     actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -125,5 +146,6 @@ export const overviewUsers: User[] = [
     createdDate: new Date(),
     name: 'Test4 Test4',
     actors,
+    administratedBy: actors[0],
   },
 ];
