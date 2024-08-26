@@ -537,6 +537,9 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         [Newtonsoft.Json.JsonProperty("completedTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? CompletedTime { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("isInternalCalculation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsInternalCalculation { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
