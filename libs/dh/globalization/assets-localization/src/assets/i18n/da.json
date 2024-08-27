@@ -901,19 +901,18 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "executionTypeHint": "Ekstern beregning sender resultat til aktørerne",
+        "isExternalHint": "Ekstern beregning sender resultat til aktørerne",
+        "isInternalHint": "Intern beregning sender ingen meddelelser til aktørerne",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
         },
         "period": {
-          "label": "Periode",
-          "required": "Dato-periode påkrævet",
+          "label": "Beregningsperiode",
           "invalid": "Ugyldig periode"
         },
         "gridArea": {
           "label": "Netområder",
-          "required": "Netområde påkrævet",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -970,24 +969,24 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
+        "executionType": "Afviklingstype",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Beregningsperiode"
       },
       "columns": {
-        "startedBy": "Bestilt af",
-        "periodFrom": "Periode fra",
-        "periodTo": "Periode til",
-        "executionTime": "Eksekveringstid",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Afviklingstype",
+        "period": "Beregningsperiode",
+        "executionTime": "Beregningstidspunkt",
         "status": "Status"
       },
       "details": {
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
-        "executionTime": "Eksekveringstidspunkt",
+        "startedBy": "Bestilt af",
+        "executionTime": "Beregningstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",

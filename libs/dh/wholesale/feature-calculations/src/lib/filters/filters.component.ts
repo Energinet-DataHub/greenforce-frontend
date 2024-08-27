@@ -32,6 +32,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
+  CalculationExecutionType,
   CalculationOrchestrationState,
   CalculationQueryInput,
   CalculationType,
@@ -85,10 +86,6 @@ type Filters = FormControls<CalculationQueryInput>;
       wattQueryParams
       *transloco="let t; read: 'wholesale.calculations.filters'"
     >
-      <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
-        t('period')
-      }}</watt-date-range-chip>
-
       <watt-dropdown
         formControlName="calculationTypes"
         [chipMode]="true"
@@ -98,6 +95,19 @@ type Filters = FormControls<CalculationQueryInput>;
         dhDropdownTranslator
         translateKey="wholesale.calculations.calculationTypes"
       />
+
+      <watt-dropdown
+        formControlName="executionType"
+        [chipMode]="true"
+        [options]="executionTypeOptions"
+        [placeholder]="t('executionType')"
+        dhDropdownTranslator
+        translateKey="wholesale.calculations.executionTypes"
+      />
+
+      <watt-date-range-chip [formControl]="this._formGroup.controls.period!">{{
+        t('period')
+      }}</watt-date-range-chip>
 
       <watt-dropdown
         formControlName="gridAreaCodes"
@@ -130,6 +140,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
   _formGroup!: FormGroup<Filters>;
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
+  executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   gridAreaOptions$ = getGridAreaOptions();
   executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState, null, [
     CalculationOrchestrationState.ActorMessagesEnqueued,
@@ -137,6 +148,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({
+      executionType: dhMakeFormControl(this.initial?.executionType),
       period: dhMakeFormControl(this.initial?.period),
       gridAreaCodes: dhMakeFormControl(this.initial?.gridAreaCodes),
       calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
