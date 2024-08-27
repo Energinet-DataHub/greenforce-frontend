@@ -20,6 +20,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 public record CalculationQueryInput(
     string[]? GridAreaCodes = null,
     CalculationOrchestrationState[]? States = null,
+    bool? IsInternal = null,
     Clients.Wholesale.v3.CalculationType[]? CalculationTypes = null,
     Interval? ExecutionTime = null,
     Interval? Period = null);
