@@ -902,19 +902,18 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "executionTypeHint": "External calculation sends the result to the actors",
+        "isExternalHint": "External calculation sends the result to the actors",
+        "isInternalHint": "Internal calculation does not send messages to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
         "period": {
-          "label": "Period",
-          "required": "Date range is required",
+          "label": "Calculation period",
           "invalid": "Invalid period"
         },
         "gridArea": {
           "label": "Grid areas",
-          "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -971,24 +970,24 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Execution time",
         "gridAreas": "Grid areas",
+        "executionType": "Execution type",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Calculation period"
       },
       "columns": {
-        "startedBy": "Created by",
-        "periodFrom": "Period from",
-        "periodTo": "Period to",
-        "executionTime": "Execution time",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Execution type",
+        "period": "Calculation period",
+        "executionTime": "Calculation time",
         "status": "Status"
       },
       "details": {
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
-        "executionTime": "Execution time",
+        "startedBy": "Created by",
+        "executionTime": "Calculation time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",

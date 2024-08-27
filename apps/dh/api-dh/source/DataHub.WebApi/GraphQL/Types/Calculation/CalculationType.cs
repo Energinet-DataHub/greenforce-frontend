@@ -64,6 +64,10 @@ public class CalculationType : ObjectType<CalculationDto>
             .Name("state");
 
         descriptor
+            .Field(f => f.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External)
+            .Name("executionType");
+
+        descriptor
             .Field("statusType")
             .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
@@ -81,42 +85,47 @@ public class CalculationType : ObjectType<CalculationDto>
 
         descriptor
             .Field("currentStep")
-            .Resolve(context => GetProgressStep(context.Parent<CalculationDto>().OrchestrationState));
+            .Resolve(context => GetProgressStep(context.Parent<CalculationDto>()));
 
         descriptor
             .Field("progress")
             .Type<NonNullType<ListType<NonNullType<ObjectType<CalculationProgress>>>>>()
             .Resolve(context =>
             {
-                var state = context.Parent<CalculationDto>().OrchestrationState;
-                return new List<CalculationProgress>
+                var calculation = context.Parent<CalculationDto>();
+                var state = calculation.OrchestrationState;
+
+                var scheduleStep = new CalculationProgress()
                 {
-                    new()
-                    {
-                        Step = CalculationProgressStep.Schedule,
-                        Status = GetScheduleProgressStatus(state),
-                    },
-                    new()
-                    {
-                        Step = CalculationProgressStep.Calculate,
-                        Status = GetCalculateProgressStatus(state),
-                    },
-                    new()
-                    {
-                        Step = CalculationProgressStep.ActorMessageEnqueue,
-                        Status = GetActorMessageEnqueueProgressStatus(state),
-                    },
+                    Step = CalculationProgressStep.Schedule,
+                    Status = GetScheduleProgressStatus(state),
                 };
+
+                var calculateStep = new CalculationProgress()
+                {
+                    Step = CalculationProgressStep.Calculate,
+                    Status = GetCalculateProgressStatus(state),
+                };
+
+                var actorMessageEnqueueStep = new CalculationProgress()
+                {
+                    Step = CalculationProgressStep.ActorMessageEnqueue,
+                    Status = GetActorMessageEnqueueProgressStatus(state),
+                };
+
+                return calculation.IsInternalCalculation
+                    ? new List<CalculationProgress> { scheduleStep, calculateStep }
+                    : [scheduleStep, calculateStep, actorMessageEnqueueStep];
             });
     }
 
     /// <summary>
-    /// Map one of the many orchestration states to a corresponding progress step.
+    /// Get the current progress step from a calculation.
     /// </summary>
-    /// <param name="state">The orchestration state of the calculatio.n</param>
+    /// <param name="calculation">The calculation to get progress step from.</param>
     /// <returns>The progress step the orchestration state belongs to.</returns>
-    private static CalculationProgressStep GetProgressStep(CalculationOrchestrationState state) =>
-        state switch
+    private static CalculationProgressStep GetProgressStep(CalculationDto calculation) =>
+        calculation.OrchestrationState switch
         {
             CalculationOrchestrationState.Scheduled => CalculationProgressStep.Schedule,
             CalculationOrchestrationState.Canceled => CalculationProgressStep.Schedule,
@@ -127,6 +136,7 @@ public class CalculationType : ObjectType<CalculationDto>
             CalculationOrchestrationState.ActorMessagesEnqueuing => CalculationProgressStep.ActorMessageEnqueue,
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStep.ActorMessageEnqueue,
             CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStep.ActorMessageEnqueue,
+            CalculationOrchestrationState.Completed when calculation.IsInternalCalculation => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.Completed => CalculationProgressStep.ActorMessageEnqueue,
         };
 

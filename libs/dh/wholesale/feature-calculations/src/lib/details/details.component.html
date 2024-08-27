@@ -67,6 +67,10 @@ limitations under the License.
     </div>
     <watt-description-list>
       <watt-description-list-item
+        [label]="t('details.startedBy')"
+        [value]="calculation?.createdByUserName | dhEmDashFallback"
+      />
+      <watt-description-list-item
         [label]="t('details.period')"
         [value]="calculation?.period | wattDate: 'short' | dhEmDashFallback"
       />
