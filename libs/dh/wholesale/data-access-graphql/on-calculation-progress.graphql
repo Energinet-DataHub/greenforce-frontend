@@ -6,7 +6,7 @@ subscription OnCalculationProgress($input: CalculationQueryInput!) {
     executionTimeStart
     period
     statusType
-    isInternal
+    executionType
     calculationType
     createdByUserName
     gridAreas {

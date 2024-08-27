@@ -64,8 +64,8 @@ public class CalculationType : ObjectType<CalculationDto>
             .Name("state");
 
         descriptor
-            .Field(f => f.IsInternalCalculation)
-            .Name("isInternal");
+            .Field(f => f.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External)
+            .Name("executionType");
 
         descriptor
             .Field("statusType")

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -24,7 +25,7 @@ public static class WholesaleClientExtensions
         CalculationQueryInput input)
     {
         var states = input.States ?? [];
-        var isInternal = input.IsInternal;
+        var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
         var calculationTypes = input.CalculationTypes ?? [];
         var minExecutionTime = input.ExecutionTime?.HasStart == true ? input.ExecutionTime?.Start.ToDateTimeOffset() : null;
         var maxExecutionTime = input.ExecutionTime?.HasEnd == true ? input.ExecutionTime?.End.ToDateTimeOffset() : null;
@@ -43,6 +44,6 @@ public static class WholesaleClientExtensions
             .OrderByDescending(x => x.ScheduledAt)
             .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
-            .Where(x => isInternal == null || x.IsInternalCalculation == isInternal);
+            .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal);
     }
 }

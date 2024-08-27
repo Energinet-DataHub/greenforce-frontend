@@ -6,7 +6,7 @@ query GetCalculationById($id: UUID!) {
     executionTimeEnd
     period
     statusType
-    isInternal
+    executionType
     calculationType
     createdByUserName
     gridAreas {

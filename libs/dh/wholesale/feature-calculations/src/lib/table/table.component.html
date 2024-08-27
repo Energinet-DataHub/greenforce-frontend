@@ -43,9 +43,9 @@ limitations under the License.
       {{ t("calculationTypes." + calculation.calculationType) }}
     </ng-container>
 
-    <!-- Process Type -->
+    <!-- Execution Type -->
     <ng-container *wattTableCell="columns.executionType; let calculation">
-      {{ calculation.isInternal ? t("executionType.internal") : t("executionType.external") }}
+      {{ t("executionTypes." + calculation.executionType) }}
     </ng-container>
 
     <!-- Execution Time -->
