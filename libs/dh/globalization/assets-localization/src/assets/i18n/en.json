@@ -975,6 +975,7 @@
       "filters": {
         "states": "Status",
         "gridAreas": "Grid areas",
+        "executionType": "Execution type",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
         "period": "Calculation period"

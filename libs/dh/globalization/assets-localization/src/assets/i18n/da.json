@@ -974,6 +974,7 @@
       "filters": {
         "states": "Status",
         "gridAreas": "Netområder",
+        "executionType": "Afviklingstype",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
         "period": "Beregningsperiode"
