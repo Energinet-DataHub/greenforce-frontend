@@ -16,7 +16,7 @@
  */
 import {
   Component,
-  Input,
+  input,
   ViewChild,
   EventEmitter,
   Output,
@@ -83,7 +83,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   });
   isLoading = false;
 
-  @Input() organization!: DhOrganizationDetails;
+  organization = input.required<DhOrganizationDetails>();
 
   @Output() closed = new EventEmitter<void>();
 
@@ -92,20 +92,22 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   }
 
   ngOnChanges() {
-    this.domainControl.setValue(this.organization.domain);
+    this.domainControl.setValue(this.organization().domain);
   }
 
   save(): void {
     if (this.domainControl.invalid || this.isLoading) return;
 
-    if (!this.organization.organizationId) return;
+    const { organizationId } = this.organization();
+
+    if (!organizationId) return;
 
     this.apollo
       .mutate({
         mutation: UpdateOrganizationDocument,
         variables: {
           input: {
-            orgId: this.organization.organizationId,
+            orgId: organizationId,
             domain: this.domainControl.value,
           },
         },
