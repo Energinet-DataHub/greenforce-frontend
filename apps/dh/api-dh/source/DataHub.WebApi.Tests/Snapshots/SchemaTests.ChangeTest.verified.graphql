@@ -739,7 +739,7 @@ input CreateActorMarketRoleInput {
 }
 
 input CreateCalculationInput {
-  isInternal: Boolean!
+  executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
   calculationType: StartCalculationType!
