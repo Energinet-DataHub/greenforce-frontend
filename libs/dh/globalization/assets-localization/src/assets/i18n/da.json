@@ -894,10 +894,6 @@
       "search": "Søg",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
-      "executionType": {
-        "internal": "Intern",
-        "external": "Ekstern"
-      },
       "create": {
         "title": "Ny beregning",
         "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",

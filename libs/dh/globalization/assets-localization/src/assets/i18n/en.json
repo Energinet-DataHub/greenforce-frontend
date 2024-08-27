@@ -895,10 +895,6 @@
       "search": "Search",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
-      "executionType": {
-        "internal": "Internal",
-        "external": "External"
-      },
       "create": {
         "title": "New calculation",
         "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
