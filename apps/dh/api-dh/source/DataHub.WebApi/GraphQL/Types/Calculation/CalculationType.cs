@@ -85,7 +85,7 @@ public class CalculationType : ObjectType<CalculationDto>
 
         descriptor
             .Field("currentStep")
-            .Resolve(context => GetProgressStep(context.Parent<CalculationDto>().OrchestrationState));
+            .Resolve(context => GetProgressStep(context.Parent<CalculationDto>()));
 
         descriptor
             .Field("progress")
@@ -120,12 +120,12 @@ public class CalculationType : ObjectType<CalculationDto>
     }
 
     /// <summary>
-    /// Map one of the many orchestration states to a corresponding progress step.
+    /// Get the current progress step from a calculation.
     /// </summary>
-    /// <param name="state">The orchestration state of the calculatio.n</param>
+    /// <param name="calculation">The calculation to get progress step from.</param>
     /// <returns>The progress step the orchestration state belongs to.</returns>
-    private static CalculationProgressStep GetProgressStep(CalculationOrchestrationState state) =>
-        state switch
+    private static CalculationProgressStep GetProgressStep(CalculationDto calculation) =>
+        calculation.OrchestrationState switch
         {
             CalculationOrchestrationState.Scheduled => CalculationProgressStep.Schedule,
             CalculationOrchestrationState.Canceled => CalculationProgressStep.Schedule,
@@ -136,6 +136,7 @@ public class CalculationType : ObjectType<CalculationDto>
             CalculationOrchestrationState.ActorMessagesEnqueuing => CalculationProgressStep.ActorMessageEnqueue,
             CalculationOrchestrationState.ActorMessagesEnqueuingFailed => CalculationProgressStep.ActorMessageEnqueue,
             CalculationOrchestrationState.ActorMessagesEnqueued => CalculationProgressStep.ActorMessageEnqueue,
+            CalculationOrchestrationState.Completed when calculation.IsInternalCalculation => CalculationProgressStep.Calculate,
             CalculationOrchestrationState.Completed => CalculationProgressStep.ActorMessageEnqueue,
         };
 
