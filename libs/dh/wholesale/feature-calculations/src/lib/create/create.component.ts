@@ -58,6 +58,7 @@ import {
   CreateCalculationDocument,
   GetLatestBalanceFixingDocument,
   StartCalculationType,
+  CalculationExecutionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -69,7 +70,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { toSignal } from '@angular/core/rxjs-interop';
 
 interface FormValues {
-  isInternal: FormControl<boolean | null>;
+  executionType: FormControl<CalculationExecutionType | null>;
   calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
@@ -112,6 +113,7 @@ interface FormValues {
 })
 export class DhCalculationsCreateComponent implements OnInit {
   CalculationType = StartCalculationType;
+  CalculationExecutionType = CalculationExecutionType;
 
   private _toast = inject(WattToastService);
   private _transloco = inject(TranslocoService);
@@ -140,7 +142,9 @@ export class DhCalculationsCreateComponent implements OnInit {
   ];
 
   formGroup = new FormGroup<FormValues>({
-    isInternal: new FormControl<boolean | null>(null, { validators: Validators.required }),
+    executionType: new FormControl<CalculationExecutionType | null>(null, {
+      validators: Validators.required,
+    }),
     calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
@@ -181,8 +185,8 @@ export class DhCalculationsCreateComponent implements OnInit {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
     });
 
-    this.formGroup.controls.isInternal.valueChanges.subscribe((isInternal) => {
-      if (isInternal) {
+    this.formGroup.controls.executionType.valueChanges.subscribe((executionType) => {
+      if (executionType == CalculationExecutionType.Internal) {
         this.formGroup.controls.calculationType.disable();
         this.formGroup.controls.calculationType.setValue(StartCalculationType.Aggregation);
       } else {
@@ -203,12 +207,12 @@ export class DhCalculationsCreateComponent implements OnInit {
   }
 
   createCalculation() {
-    const { isInternal, calculationType, dateRange, gridAreas, isScheduled, scheduledAt } =
+    const { executionType, calculationType, dateRange, gridAreas, isScheduled, scheduledAt } =
       this.formGroup.getRawValue();
 
     if (
       this.formGroup.invalid ||
-      isInternal === null ||
+      executionType === null ||
       calculationType === null ||
       dateRange === null ||
       gridAreas === null
@@ -220,7 +224,7 @@ export class DhCalculationsCreateComponent implements OnInit {
         mutation: CreateCalculationDocument,
         variables: {
           input: {
-            isInternal,
+            executionType,
             calculationType,
             period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
             gridAreaCodes: gridAreas,
