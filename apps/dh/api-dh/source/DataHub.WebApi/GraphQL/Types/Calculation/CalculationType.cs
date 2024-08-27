@@ -92,25 +92,30 @@ public class CalculationType : ObjectType<CalculationDto>
             .Type<NonNullType<ListType<NonNullType<ObjectType<CalculationProgress>>>>>()
             .Resolve(context =>
             {
-                var state = context.Parent<CalculationDto>().OrchestrationState;
-                return new List<CalculationProgress>
+                var calculation = context.Parent<CalculationDto>();
+                var state = calculation.OrchestrationState;
+
+                var scheduleStep = new CalculationProgress()
                 {
-                    new()
-                    {
-                        Step = CalculationProgressStep.Schedule,
-                        Status = GetScheduleProgressStatus(state),
-                    },
-                    new()
-                    {
-                        Step = CalculationProgressStep.Calculate,
-                        Status = GetCalculateProgressStatus(state),
-                    },
-                    new()
-                    {
-                        Step = CalculationProgressStep.ActorMessageEnqueue,
-                        Status = GetActorMessageEnqueueProgressStatus(state),
-                    },
+                    Step = CalculationProgressStep.Schedule,
+                    Status = GetScheduleProgressStatus(state),
                 };
+
+                var calculateStep = new CalculationProgress()
+                {
+                    Step = CalculationProgressStep.Calculate,
+                    Status = GetCalculateProgressStatus(state),
+                };
+
+                var actorMessageEnqueueStep = new CalculationProgress()
+                {
+                    Step = CalculationProgressStep.ActorMessageEnqueue,
+                    Status = GetActorMessageEnqueueProgressStatus(state),
+                };
+
+                return calculation.IsInternalCalculation
+                    ? new List<CalculationProgress> { scheduleStep, calculateStep }
+                    : [scheduleStep, calculateStep, actorMessageEnqueueStep];
             });
     }
 
