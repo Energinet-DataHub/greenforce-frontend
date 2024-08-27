@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, Input, OnInit, TemplateRef, ViewContainerRef, inject } from '@angular/core';
+import { Directive, OnInit, TemplateRef, ViewContainerRef, inject, input } from '@angular/core';
 
 import { DhFeatureFlags } from './dh-feature-flags';
 import { DhFeatureFlagsService } from './dh-feature-flags.service';
@@ -25,10 +25,10 @@ export class DhFeatureFlagDirective implements OnInit {
   private viewContainer = inject(ViewContainerRef);
   private featureFlagsService = inject(DhFeatureFlagsService);
 
-  @Input() dhFeatureFlag?: DhFeatureFlags;
+  dhFeatureFlag = input<DhFeatureFlags>();
 
   ngOnInit(): void {
-    const isEnabled = this.featureFlagsService.isEnabled(this.dhFeatureFlag);
+    const isEnabled = this.featureFlagsService.isEnabled(this.dhFeatureFlag());
 
     if (isEnabled) {
       this.viewContainer.createEmbeddedView(this.templateRef);
