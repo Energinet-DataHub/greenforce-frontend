@@ -92,16 +92,6 @@ export class DhCalculationsTableComponent {
 
   filter = signal<CalculationQueryInput>({});
 
-  variables = computed(() => ({
-    input: {
-      ...this.filter(),
-      executionTime: {
-        start: dayjs().startOf('day').subtract(30, 'days').toDate(),
-        end: null,
-      },
-    },
-  }));
-
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
   // when the BFF is deployed to API Management. This will be fixed in a later PR.
@@ -112,7 +102,7 @@ export class DhCalculationsTableComponent {
     this.apollo.watchQuery({
       fetchPolicy: 'network-only',
       query: GetCalculationsDocument,
-      variables: this.variables(),
+      variables: { input: this.filter() },
     })
   );
 
@@ -135,7 +125,7 @@ export class DhCalculationsTableComponent {
   subscribe = effect((onCleanup) => {
     const unsubscribe = this.query().subscribeToMore({
       document: OnCalculationProgressDocument,
-      variables: this.variables(),
+      variables: { input: this.filter() },
       updateQuery: (prev, options) =>
         this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
     });
