@@ -15,74 +15,76 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-  @if (hasGeneralError()) {
-    <watt-empty-state
-      icon="custom-power"
-      [title]="'shared.error.title' | transloco"
-      [message]="'shared.error.message' | transloco"
-    />
-  } @else if (isLoading()) {
-    <div class="loading-container">
-      <watt-spinner />
-    </div>
-  } @else {
-    <mat-accordion multi class="container">
-      @for (actor of userRolesPerActor(); track actor) {
-        <watt-expandable-card
-          variant="solid"
-          [expanded]="expanded()"
-          *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+  <mat-accordion multi class="container">
+    @for (actor of userRolesPerActor(); track actor) {
+      <watt-expandable-card
+        variant="solid"
+        [expanded]="expanded()"
+        *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+      >
+        @if (!selectMode) {
+          <watt-badge>{{
+            t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
+          }}</watt-badge>
+        }
+
+        @if (actor.name) {
+          <watt-expandable-card-title
+            >{{ actor.glnOrEicNumber }} • {{ actor.organization.name }} – {{ actor.name }} -
+            {{ translateMarketRole(actor.userRoles[0].eicFunction) }}
+            @if (actor.id === user()?.administratedBy?.id) {
+              <watt-icon
+                name="personCheck"
+                wattTooltipPosition="right"
+                [wattTooltip]="t('userResponsible')"
+              />
+            }
+          </watt-expandable-card-title>
+        } @else {
+          <watt-expandable-card-title
+            >{{ actor.glnOrEicNumber }} • {{ actor.organization.name }} -
+            {{ translateMarketRole(actor.userRoles[0].eicFunction) }}
+            @if (actor.id === user()?.administratedBy?.id) {
+              <watt-icon
+                name="personCheck"
+                wattTooltipPosition="right"
+                [wattTooltip]="t('userResponsible')"
+              />
+            }
+          </watt-expandable-card-title>
+        }
+
+        @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode()) {
+          <watt-field-error>
+            {{ t("atleastOneRole") }}
+          </watt-field-error>
+        }
+
+        <watt-table
+          [dataSource]="actor.userRoles | filterUserRoles: selectMode() | userRolesIntoTable"
+          [initialSelection]="actor.userRoles | filterUserRoles: false"
+          [columns]="columns"
+          sortBy="marketRole"
+          sortDirection="asc"
+          [selectable]="selectMode()"
+          (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
         >
-          @if (!selectMode) {
-            <watt-badge>{{
-              t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
-            }}</watt-badge>
-          }
-
-          @if (actor.name) {
-            <watt-expandable-card-title
-              >{{ actor.actorNumber }} • {{ actor.organizationName }} – {{ actor.name }} -
-              {{ translateMarketRole(actor.userRoles[0].marketRole) }}
-            </watt-expandable-card-title>
-          } @else {
-            <watt-expandable-card-title
-              >{{ actor.actorNumber }} • {{ actor.organizationName }} -
-              {{ translateMarketRole(actor.userRoles[0].marketRole) }}
-            </watt-expandable-card-title>
-          }
-
-          @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode()) {
-            <watt-field-error>
-              {{ t("atleastOneRole") }}
-            </watt-field-error>
-          }
-
-          <watt-table
-            [dataSource]="actor.userRoles | filterUserRoles: selectMode() | userRolesIntoTable"
-            [initialSelection]="actor.userRoles | filterUserRoles: false"
-            [columns]="columns"
-            sortBy="marketRole"
-            sortDirection="asc"
-            [selectable]="selectMode()"
-            (selectionChange)="selectionChanged(actor.id, $event, actor.userRoles)"
+          <ng-container
+            *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
           >
-            <ng-container
-              *wattTableCell="columns['name']; header: t('assigned.columns.name'); let element"
-            >
-              {{ element.name }}
-            </ng-container>
-            <ng-container
-              *wattTableCell="
-                columns['description'];
-                header: t('assigned.columns.description');
-                let element
-              "
-            >
-              {{ element.description }}
-            </ng-container>
-          </watt-table>
-        </watt-expandable-card>
-      }
-    </mat-accordion>
-  }
+            {{ element.name }}
+          </ng-container>
+          <ng-container
+            *wattTableCell="
+              columns['description'];
+              header: t('assigned.columns.description');
+              let element
+            "
+          >
+            {{ element.description }}
+          </ng-container>
+        </watt-table>
+      </watt-expandable-card>
+    }
+  </mat-accordion>
 </ng-container>

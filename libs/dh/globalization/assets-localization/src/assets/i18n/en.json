@@ -1305,6 +1305,7 @@
           }
         },
         "roles": {
+          "userResponsible": "User responsible",
           "tabLabel": "User Roles",
           "roles": "User roles",
           "role": "User role",

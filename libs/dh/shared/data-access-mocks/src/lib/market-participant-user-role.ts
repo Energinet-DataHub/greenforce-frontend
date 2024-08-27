@@ -17,24 +17,12 @@
 import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import {
-  mockGetPermissionByEicFunctionQuery,
-  mockGetUserRoleViewQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetPermissionByEicFunctionQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { marketParticipantUserRoleViewQuery } from './data/market-participant-user-role-view';
 import { marketParticipantUserRolePermissionsQuery } from './data/market-participant-user-role-permissions';
 
 export function marketParticipantUserRoleMocks() {
-  return [getUserRoleView(), getPermissionsByEicFunction()];
-}
-
-function getUserRoleView() {
-  return mockGetUserRoleViewQuery(async () => {
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({ data: marketParticipantUserRoleViewQuery });
-  });
+  return [getPermissionsByEicFunction()];
 }
 
 function getPermissionsByEicFunction() {
