@@ -53,6 +53,7 @@ const users: DhUsers = [
     phoneNumber: '11111111',
     status: UserStatus.Active,
     createdDate: new Date(),
+    actors: [],
   },
 ];
 

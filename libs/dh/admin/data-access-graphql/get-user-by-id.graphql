@@ -7,5 +7,24 @@ query GetUserById($id: UUID!) {
     createdDate
     firstName
     lastName
+    administratedBy {
+      id
+    }
+    actors {
+      id
+      name
+      glnOrEicNumber
+      organization {
+        organizationId
+        name
+      }
+      userRoles {
+        id
+        eicFunction
+        name
+        description
+        assigned
+      }
+    }
   }
 }
