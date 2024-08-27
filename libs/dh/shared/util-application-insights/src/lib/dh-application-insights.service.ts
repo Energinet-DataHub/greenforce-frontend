@@ -28,7 +28,9 @@ import {
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhApplicationInsights {
   private angularPlugin!: AngularPlugin;
   private appInsights: ApplicationInsights | undefined = undefined;
