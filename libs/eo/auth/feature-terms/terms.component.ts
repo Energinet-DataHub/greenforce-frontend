@@ -198,7 +198,7 @@ export class EoTermsComponent {
       const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
 
       if (redirectUrl) {
-        this.router.navigateByUrl(`${this.transloco.getActiveLang()}/${redirectUrl}`);
+        this.router.navigateByUrl(redirectUrl);
       } else {
         this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
       }

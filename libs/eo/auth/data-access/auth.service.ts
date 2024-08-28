@@ -75,9 +75,9 @@ export class EoAuthService {
     this.userManager = new UserManager(settings);
   }
 
-  login(thirdPartyClientId?: string, redirectUrl?: string): Promise<void> {
+  login(config?: { thirdPartyClientId?: string, redirectUrl?: string}): Promise<void> {
     return (
-      this.userManager?.signinRedirect({ state: { thirdPartyClientId, redirectUrl } }) ??
+      this.userManager?.signinRedirect({ state: config }) ??
       Promise.resolve()
     );
   }
