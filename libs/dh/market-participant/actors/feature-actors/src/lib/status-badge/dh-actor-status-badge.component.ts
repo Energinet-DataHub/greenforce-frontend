@@ -43,5 +43,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhActorStatusBadgeComponent {
-  status = input.required<ActorStatus | null | undefined>();
+  status = input.required<ActorStatus | undefined>();
 }
