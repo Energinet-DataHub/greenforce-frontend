@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -77,21 +77,23 @@ export interface GridAreaOverviewRow {
     DhEmDashFallbackPipe,
   ],
 })
-export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
+export class DhMarketParticipantGridAreaOverviewComponent {
   columns: WattTableColumnDef<GridAreaOverviewRow> = {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
     organization: { accessor: 'organization' },
   };
 
-  @Input() gridAreas: GridAreaOverviewRow[] = [];
-  @Input() isLoading = false;
-  @Input() hasError = false;
+  gridAreas = input<GridAreaOverviewRow[]>([]);
+  isLoading = input<boolean>(false);
+  hasError = input<boolean>(false);
 
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
-  ngOnChanges() {
-    this.dataSource.data = this.gridAreas;
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.gridAreas();
+    });
   }
 
   search(value: string) {

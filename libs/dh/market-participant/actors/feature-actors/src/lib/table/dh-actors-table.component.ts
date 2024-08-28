@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, input, ViewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -66,12 +66,12 @@ export class DhActorsTableComponent {
     },
   };
 
-  @Input() isLoading!: boolean;
-  @Input() hasError!: boolean;
-  @Input() actorNumberNameLookup!: { [Key: string]: { number: string; name: string } };
-  @Input() gridAreaCodeLookup!: { [Key: string]: string };
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
+  actorNumberNameLookup = input.required<{ [key: string]: { number: string; name: string } }>();
+  gridAreaCodeLookup = input.required<{ [key: string]: string }>();
 
-  @Input() tableDataSource!: WattTableDataSource<DhActor>;
+  tableDataSource = input.required<WattTableDataSource<DhActor>>();
 
   @ViewChild(DhActorDrawerComponent)
   drawer: DhActorDrawerComponent | undefined;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -26,7 +26,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   selector: 'dh-actor-status-badge',
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.status'">
-      @switch (status) {
+      @switch (status()) {
         @case ('Active') {
           <watt-badge type="success">{{ t('Active') }}</watt-badge>
         }
@@ -34,7 +34,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
           <watt-badge type="neutral">{{ t('Inactive') }}</watt-badge>
         }
         @default {
-          {{ status | dhEmDashFallback }}
+          {{ status() | dhEmDashFallback }}
         }
       }
     </ng-container>
@@ -43,5 +43,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhActorStatusBadgeComponent {
-  @Input({ required: true }) status: ActorStatus | null | undefined = null;
+  status = input.required<ActorStatus | undefined>();
 }

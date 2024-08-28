@@ -20,10 +20,10 @@ limitations under the License.
   *transloco="let t; read: 'marketParticipant.organizationsOverview'"
 >
   <watt-table
-    [dataSource]="tableDataSource"
+    [dataSource]="tableDataSource()"
     [columns]="columns"
     sortBy="name"
-    [loading]="isLoading"
+    [loading]="isLoading()"
     sortDirection="asc"
     [sortClear]="false"
     [activeRow]="activeRow"
@@ -43,12 +43,12 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+  @if (!isLoading() && tableDataSource().filteredData.length === 0) {
     <vater-stack fill="vertical" justify="center">
       <watt-empty-state
-        [icon]="hasError ? 'custom-power' : 'cancel'"
-        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+        [icon]="hasError() ? 'custom-power' : 'cancel'"
+        [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
       />
     </vater-stack>
   }
