@@ -17,6 +17,15 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "envinronementName": {
+    "localhost": "local",
+    "d-001": "dev-001",
+    "d-002": "dev-002",
+    "t-001": "test-001",
+    "t-002": "test-002",
+    "b-001": "preprod",
+    "p-001": "production"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -893,19 +902,18 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "executionTypeHint": "External calculation sends the result to the actors",
+        "isExternalHint": "External calculation sends the result to the actors",
+        "isInternalHint": "Internal calculation does not send messages to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
         "period": {
-          "label": "Period",
-          "required": "Date range is required",
+          "label": "Calculation period",
           "invalid": "Invalid period"
         },
         "gridArea": {
           "label": "Grid areas",
-          "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -962,24 +970,24 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Execution time",
         "gridAreas": "Grid areas",
+        "executionType": "Execution type",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Calculation period"
       },
       "columns": {
-        "startedBy": "Created by",
-        "periodFrom": "Period from",
-        "periodTo": "Period to",
-        "executionTime": "Execution time",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Execution type",
+        "period": "Calculation period",
+        "executionTime": "Calculation time",
         "status": "Status"
       },
       "details": {
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
-        "executionTime": "Execution time",
+        "startedBy": "Created by",
+        "executionTime": "Calculation time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
@@ -1152,7 +1160,7 @@
         "email": "E-mail",
         "marketParticipantName": "Market participant name",
         "organisationName": "Organisation name",
-        "fileName": "DataHub users ({{ datetime }}) ['{{ env }}' environment]"
+        "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
       },
       "drawer": {
         "edit": "Edit user",
@@ -1297,6 +1305,7 @@
           }
         },
         "roles": {
+          "userResponsible": "User responsible",
           "tabLabel": "User Roles",
           "roles": "User roles",
           "role": "User role",

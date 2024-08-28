@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Controllers.MarketParticipant.Dto;
+namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
-public sealed record ActorViewDto(
-    Guid Id,
-    string OrganizationName,
-    string ActorNumber,
-    string Name,
-    IEnumerable<UserRoleViewDto> UserRoles);
+public enum CalculationExecutionType
+{
+    External,
+    Internal,
+}

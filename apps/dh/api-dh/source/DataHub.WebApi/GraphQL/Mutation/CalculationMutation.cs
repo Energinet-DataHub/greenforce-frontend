@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Subscriptions;
 using NodaTime;
 
@@ -22,6 +23,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 public partial class Mutation
 {
     public async Task<Guid> CreateCalculationAsync(
+        CalculationExecutionType executionType,
         Interval period,
         string[] gridAreaCodes,
         StartCalculationType calculationType,
@@ -40,7 +42,8 @@ public partial class Mutation
             EndDate: period.End.ToDateTimeOffset(),
             ScheduledAt: scheduledAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: gridAreaCodes,
-            CalculationType: calculationType);
+            CalculationType: calculationType,
+            IsInternalCalculation: executionType == CalculationExecutionType.Internal);
 
         var calculationId = await client
             .StartCalculationAsync(requestDto, cancellationToken);

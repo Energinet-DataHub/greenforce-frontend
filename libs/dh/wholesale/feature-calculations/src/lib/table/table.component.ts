@@ -30,7 +30,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
@@ -92,16 +92,6 @@ export class DhCalculationsTableComponent {
 
   filter = signal<CalculationQueryInput>({});
 
-  variables = computed(() => ({
-    input: {
-      ...this.filter(),
-      executionTime: {
-        start: dayjs().startOf('day').subtract(30, 'days').toDate(),
-        end: null,
-      },
-    },
-  }));
-
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
   // when the BFF is deployed to API Management. This will be fixed in a later PR.
@@ -112,7 +102,7 @@ export class DhCalculationsTableComponent {
     this.apollo.watchQuery({
       fetchPolicy: 'network-only',
       query: GetCalculationsDocument,
-      variables: this.variables(),
+      variables: { input: this.filter() },
     })
   );
 
@@ -135,7 +125,7 @@ export class DhCalculationsTableComponent {
   subscribe = effect((onCleanup) => {
     const unsubscribe = this.query().subscribeToMore({
       document: OnCalculationProgressDocument,
-      variables: this.variables(),
+      variables: { input: this.filter() },
       updateQuery: (prev, options) =>
         this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
     });
@@ -145,11 +135,10 @@ export class DhCalculationsTableComponent {
 
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
-    startedBy: { accessor: 'createdByUserName' },
-    periodFrom: { accessor: (calculation) => calculation.period?.start },
-    periodTo: { accessor: (calculation) => calculation.period?.end },
-    executionTime: { accessor: 'executionTimeStart', size: 'max-content' },
     calculationType: { accessor: 'calculationType' },
+    executionType: { accessor: 'executionType' },
+    period: { accessor: 'period', size: 'minmax(max-content, auto)' },
+    executionTime: { accessor: 'executionTimeStart', size: 'minmax(max-content, auto)' },
     status: { accessor: 'state', size: 'max-content' },
   };
 

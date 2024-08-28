@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -26,15 +26,15 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
   standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'imbalancePrices.status'">
-      @switch (status) {
+      @switch (status()) {
         @case ('IN_COMPLETE') {
-          <watt-badge type="danger">{{ t(status) }}</watt-badge>
+          <watt-badge type="danger">{{ t(status()) }}</watt-badge>
         }
         @case ('NO_DATA') {
-          <watt-badge type="danger">{{ t(status) }}</watt-badge>
+          <watt-badge type="danger">{{ t(status()) }}</watt-badge>
         }
         @case ('COMPLETE') {
-          <watt-badge type="neutral">{{ t(status) }}</watt-badge>
+          <watt-badge type="neutral">{{ t(status()) }}</watt-badge>
         }
       }
     </ng-container>
@@ -42,5 +42,5 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
   imports: [TranslocoDirective, WattBadgeComponent],
 })
 export class DhStatusBadgeComponent {
-  @Input({ required: true }) status!: ImbalancePriceStatus;
+  status = input.required<ImbalancePriceStatus>();
 }

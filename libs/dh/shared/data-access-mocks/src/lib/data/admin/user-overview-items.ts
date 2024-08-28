@@ -14,8 +14,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User, UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  Actor,
+  ActorStatus,
+  ActorUserRole,
+  EicFunction,
+  Organization,
+  User,
+  UserRoleStatus,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
+const userActorRoles: ActorUserRole[] = [
+  {
+    __typename: 'ActorUserRole',
+    assigned: true,
+    description: 'Test description',
+    id: '1',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name',
+    status: UserRoleStatus.Active,
+  },
+  {
+    __typename: 'ActorUserRole',
+    assigned: false,
+    description: 'Test description 2',
+    id: '2',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name 2',
+    status: UserRoleStatus.Active,
+  },
+];
+
+const actors = [
+  {
+    __typename: 'Actor',
+    id: '801011ea-a291-41f7-be19-581abc05a5ac',
+    glnOrEicNumber: '5790000555465',
+    name: 'Inactive balance responsible',
+    displayName: 'Inactive balance responsible • BalanceResponsibleParty',
+    gridAreas: [],
+    userRoles: userActorRoles,
+    marketRole: EicFunction.BalanceResponsibleParty,
+    balanceResponsibleAgreements: [],
+    status: ActorStatus.Inactive,
+    organization: {
+      __typename: 'Organization',
+      organizationId: '1',
+      name: '',
+    } as Organization,
+  },
+  {
+    __typename: 'Actor',
+    id: '301011ea-a291-41f7-be19-581abc05a5ac',
+    glnOrEicNumber: '5790000555465',
+    name: 'Balance responsible',
+    displayName: 'Balance responsible • BalanceResponsibleParty',
+    gridAreas: [],
+    userRoles: userActorRoles,
+    marketRole: EicFunction.BalanceResponsibleParty,
+    balanceResponsibleAgreements: [],
+    status: ActorStatus.Active,
+    organization: {
+      __typename: 'Organization',
+      organizationId: '1',
+      name: '',
+    } as Organization,
+  },
+] as Actor[];
 export const overviewUsers: User[] = [
   {
     __typename: 'User',
@@ -27,6 +93,8 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 12345678',
     createdDate: new Date(),
     name: 'Test Test',
+    actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -38,6 +106,8 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 22345678',
     createdDate: new Date(),
     name: 'Test1 Test1',
+    actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -49,6 +119,8 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 32345678',
     createdDate: new Date(),
     name: 'Test2 Test2',
+    actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -60,6 +132,8 @@ export const overviewUsers: User[] = [
     phoneNumber: '+45 34345678',
     createdDate: new Date(),
     name: 'Test3 Test3',
+    actors,
+    administratedBy: actors[0],
   },
   {
     __typename: 'User',
@@ -71,5 +145,7 @@ export const overviewUsers: User[] = [
     phoneNumber: null,
     createdDate: new Date(),
     name: 'Test4 Test4',
+    actors,
+    administratedBy: actors[0],
   },
 ];

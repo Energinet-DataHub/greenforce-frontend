@@ -97,41 +97,78 @@ public partial class Query
                 continue;
             }
 
-            var missingTimestamps = new List<ImbalancePriceDto>();
-            var sortedPrices = imbalancePrice.ImbalancePrices.OrderBy(x => x.Timestamp);
-
-            var previousTimestamp = sortedPrices.First().Timestamp;
-
-            foreach (var price in sortedPrices.Skip(1))
-            {
-                var currentTimestamp = price.Timestamp;
-
-                var differenceInHours = (currentTimestamp - previousTimestamp).TotalHours;
-
-                if (differenceInHours > 1)
-                {
-                    for (int i = 1; i < differenceInHours; i++)
-                    {
-                        var missingTimestamp = previousTimestamp.AddHours(i);
-                        var missingPrice = new ImbalancePriceDto
-                        {
-                            Timestamp = missingTimestamp,
-                            Price = null,
-                        };
-
-                        missingTimestamps.Add(missingPrice);
-                    }
-                }
-
-                previousTimestamp = currentTimestamp;
-            }
+            var missingTimestamps = FindMissingTimestaps(imbalancePrice);
 
             imbalancePrice.ImbalancePrices = imbalancePrice.ImbalancePrices
                 .Concat(missingTimestamps)
                 .OrderBy(x => x.Timestamp)
                 .ToList();
+
+            EnsureFullDataset(imbalancePrice.ImbalancePrices);
         }
 
         return imbalancePrices;
+    }
+
+    // Ensure that we have 24 hours of data
+    private static void EnsureFullDataset(ICollection<ImbalancePriceDto> imbalancePrices)
+    {
+        var count = imbalancePrices
+                        // Handle if the same hour is present multiple times (e.g. due to daylight saving time)
+                        .DistinctBy(x => x.Timestamp.Hour)
+                        .Count();
+
+        // Fill in so that we have 24 hours of data
+        if (count < 24)
+        {
+            var lastTimestamp = imbalancePrices.Last().Timestamp;
+
+            for (int i = 1; i <= 24 - count; i++)
+            {
+                var missingTimestamp = lastTimestamp.AddHours(i);
+                var missingPrice = new ImbalancePriceDto
+                {
+                    Timestamp = missingTimestamp,
+                    Price = null,
+                };
+
+                imbalancePrices.Add(missingPrice);
+            }
+        }
+    }
+
+    // Look for gaps in the data and fill them in with prices of null
+    private static List<ImbalancePriceDto> FindMissingTimestaps(ImbalancePricesDailyDto imbalancePrice)
+    {
+        var missingTimestamps = new List<ImbalancePriceDto>();
+        var sortedPrices = imbalancePrice.ImbalancePrices.OrderBy(x => x.Timestamp);
+
+        var previousTimestamp = sortedPrices.First().Timestamp;
+
+        foreach (var price in sortedPrices.Skip(1))
+        {
+            var currentTimestamp = price.Timestamp;
+
+            var differenceInHours = (currentTimestamp - previousTimestamp).TotalHours;
+
+            if (differenceInHours > 1)
+            {
+                for (int i = 1; i < differenceInHours; i++)
+                {
+                    var missingTimestamp = previousTimestamp.AddHours(i);
+                    var missingPrice = new ImbalancePriceDto
+                    {
+                        Timestamp = missingTimestamp,
+                        Price = null,
+                    };
+
+                    missingTimestamps.Add(missingPrice);
+                }
+            }
+
+            previousTimestamp = currentTimestamp;
+        }
+
+        return missingTimestamps;
     }
 }
