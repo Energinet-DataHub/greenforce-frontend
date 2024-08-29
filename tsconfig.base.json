@@ -239,6 +239,9 @@
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/index.ts"
       ],
+      "@energinet-datahub/eo/auth/ui-actor-menu": [
+        "libs/eo/auth/ui-actor-menu/index.ts"
+      ],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"
       ],

@@ -21,12 +21,21 @@ import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datah
 import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
+import { EoAccountMenuComponent } from './eo-account-menu';
+import { is } from 'date-fns/locale';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattNavListComponent, WattNavListItemComponent, TranslocoPipe],
+  imports: [
+    WattNavListComponent,
+    WattNavListItemComponent,
+    TranslocoPipe,
+    EoAccountMenuComponent,
+    EoActorMenuComponent,
+  ],
   selector: 'eo-primary-navigation',
   styles: [
     `
@@ -45,22 +54,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         grid-area: nav;
         align-self: stretch;
         overflow: auto;
-      }
-
-      .userinfo {
-        grid-area: userinfo;
-        background-color: var(--watt-on-light-low-emphasis);
-        border-radius: 8px;
-        margin: var(--watt-space-m);
-        padding: var(--watt-space-s) var(--watt-space-m);
-
-        p {
-          color: var(--watt-on-dark-high-emphasis);
-
-          &.company-name {
-            color: var(--watt-on-dark-medium-emphasis);
-          }
-        }
       }
     `,
   ],
@@ -89,24 +82,39 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </watt-nav-list-item>
     </watt-nav-list>
 
-    <section class="userinfo">
-      <p class="watt-label company-name">{{ user()?.org_name }}</p>
-      <p class="watt-label">
-        {{ translations.userInformation.tin | transloco: { tin: user()?.org_cvr } }}
-      </p>
-      <p class="watt-label">{{ user()?.name }}</p>
-    </section>
+    <eo-actor-menu
+      [actors]="organizations"
+      [currentActor]="currentActor"
+      (actorSelected)="onActorSelected($event)"
+    />
   `,
 })
 export class EoPrimaryNavigationComponent {
   protected user = inject(EoAuthService).user;
 
   protected routes = eoRoutes;
-  protected userInfo = signal<{ name: string; cpn: string; tin: string } | null>(null);
   protected translations = translations;
 
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
+  }
+
+  protected organizations = [
+    {
+      name: 'Energinet',
+      tin: '12345678',
+      isSelf: true,
+    },
+    {
+      name: 'DataHub',
+      tin: '11223344',
+      isSelf: false,
+    },
+  ];
+  protected currentActor = {name: this.user()?.org_name, tin: this.user()?.org_cvr, org_name: this.user()?.org_name};
+
+  onActorSelected(event: any) {
+    console.log('Actor selected', event);
   }
 }

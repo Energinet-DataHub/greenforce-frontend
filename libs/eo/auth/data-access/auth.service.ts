@@ -19,8 +19,12 @@ import { Injectable, inject, signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { User, UserManager } from 'oidc-client-ts';
 
-import { eoB2cEnvironmentToken, EoB2cEnvironment } from '@energinet-datahub/eo/shared/environments';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import {
+  eoB2cEnvironmentToken,
+  EoB2cEnvironment,
+  EoApiEnvironment,
+  eoApiEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 
 export interface EoUser {
   id_token: string;
@@ -75,11 +79,8 @@ export class EoAuthService {
     this.userManager = new UserManager(settings);
   }
 
-  login(config?: { thirdPartyClientId?: string, redirectUrl?: string}): Promise<void> {
-    return (
-      this.userManager?.signinRedirect({ state: config }) ??
-      Promise.resolve()
-    );
+  login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
+    return this.userManager?.signinRedirect({ state: config }) ?? Promise.resolve();
   }
 
   acceptTos(): Promise<void> {

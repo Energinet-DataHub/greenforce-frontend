@@ -1,0 +1,13 @@
+{
+  "name": "eo-actor-menu",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/auth/actor-menu",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:ui"]
+}
