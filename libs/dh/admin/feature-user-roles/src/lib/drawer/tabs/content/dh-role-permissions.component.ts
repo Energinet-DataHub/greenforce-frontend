@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -30,20 +30,20 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
   templateUrl: './dh-role-permissions.component.html',
   imports: [TranslocoDirective, WATT_TABLE, WATT_CARD],
 })
-export class DhRolePermissionsComponent implements OnChanges {
-  @Input() role: DhUserRoleWithPermissions | null = null;
+export class DhRolePermissionsComponent {
+  role = input.required<DhUserRoleWithPermissions | null>();
 
-  readonly dataSource: WattTableDataSource<DhUserRolePermissionDetails> = new WattTableDataSource(
-    undefined
-  );
+  readonly dataSource = new WattTableDataSource<DhUserRolePermissionDetails>(undefined);
 
   columns: WattTableColumnDef<DhUserRolePermissionDetails> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
 
-  ngOnChanges() {
-    this.dataSource.data = this.role?.permissions ?? [];
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.role()?.permissions ?? [];
+    });
   }
 
   translateHeader = (key: string) =>
