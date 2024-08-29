@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const content = document.getElementById('content');
   const onboardingStatus = getQueryParam('state');
 
-  if (onboardingStatus === 'success') {
+  if (onboardingStatus === 'granted') {
     content.innerHTML = `
       <div class="alert success">
         <strong>Success!</strong><br>
