@@ -28,8 +28,10 @@ import { tapResponse } from '@ngrx/operators';
 import { MsalService } from '@azure/msal-angular';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
 
-import { DhActorStorage } from './dh-actor-storage';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+
+import { DhActorStorage } from './dh-actor-storage';
 
 type CachedEntry = { token: string; value: Observable<string> } | undefined;
 
@@ -43,6 +45,7 @@ export class DhActorTokenService {
   private msalService = inject(MsalService);
   private apiToken = inject(dhApiEnvironmentToken);
   private httpClient = inject(HttpClient);
+  private appInsights = inject(DhApplicationInsights);
 
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
     return this.isUserActorsRequest(request) || this.isTokenRequest(request);
@@ -98,7 +101,15 @@ export class DhActorTokenService {
                     }
                   }
                 },
-                () => this.msalService.instance.logout()
+                () => {
+                  this.appInsights.trackEvent('Failed login by non-DataHub user');
+                  this.appInsights.flush();
+
+                  // Delay redirect to logout so AppInsights has a chance to flush
+                  setTimeout(() => {
+                    this.msalService.instance.logout();
+                  }, 2_000);
+                }
               ),
               map(({ token }) => token)
             )
