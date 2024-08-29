@@ -36,10 +36,9 @@ limitations under the License.
         />
       } @else {
         <watt-table
-          [dataSource]="dataSource()"
+          [dataSource]="dataSource"
           [loading]="isLoading()"
           [columns]="columns"
-          sortBy="eicFunction"
           sortDirection="asc"
           [selectable]="true"
           (selectionChange)="selectionChanged($event)"
