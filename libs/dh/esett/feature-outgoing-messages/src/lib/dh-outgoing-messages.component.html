@@ -18,11 +18,13 @@ limitations under the License.
   <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("tabHeading") }}</h3>
-      <span class="watt-chip-label">{{ totalCount }}</span>
-      <span class="watt-chip-label">{{ t("countGridAreas", { gridAreaCount }) }}</span>
+      <span class="watt-chip-label">{{ totalCount() }}</span>
+      <span class="watt-chip-label">{{
+        t("countGridAreas", { gridAreaCount: gridAreaCount() })
+      }}</span>
 
-      <div class="health-icons" *rxLet="serviceStatus$ as serviceStatus">
-        @for (status of serviceStatus; track status) {
+      <div class="health-icons">
+        @for (status of serviceStatus(); track status) {
           @if (status.isReady) {
             <watt-icon name="success" [title]="t('status.' + status.component)" />
           } @else {
@@ -39,43 +41,43 @@ limitations under the License.
         (search)="documentIdSearch$.next($event)"
       />
 
-      <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download()">{{
+      <watt-button icon="download" variant="text" [loading]="downloading()" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
     </vater-stack>
 
-    <ng-container *rxLet="statusReport$ as report">
-      @if (report.waitingForExternalResponse > 0) {
-        <vater-stack direction="row" gap="s" class="resend-container">
-          <span class="watt-chip-label">{{
-            t("messagesNotSent", { number: report.waitingForExternalResponse })
-          }}</span>
-          <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
-            t("resendMessages")
-          }}</watt-button>
-        </vater-stack>
-      }
-    </ng-container>
+    @let waitingForExternalResponse = statusReport();
+
+    @if (waitingForExternalResponse > 0) {
+      <vater-stack direction="row" gap="s" class="resend-container">
+        <span class="watt-chip-label">{{
+          t("messagesNotSent", { number: waitingForExternalResponse })
+        }}</span>
+        <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
+          t("resendMessages")
+        }}</watt-button>
+      </vater-stack>
+    }
 
     <dh-outgoing-messages-filters
-      [initial]="filters$ | push"
+      [initial]="filters()"
       (filter)="onFiltersEvent($event)"
       (formReset)="searchComponent.clear()"
     />
 
     <dh-outgoing-messages-table
-      [tableDataSource]="tableDataSource"
-      [sortMetadata]="sortMetaData$ | push"
-      [isLoading]="isLoading"
-      [hasError]="hasError"
+      [tableDataSource]="tableDataSource()"
+      [sortMetadata]="sort()"
+      [isLoading]="isLoading()"
+      [hasError]="hasError()"
       (sortChange)="onSortEvent($event)"
     />
 
+    @let page = pageMetaData();
     <watt-paginator
-      [length]="totalCount"
-      *rxLet="pageMetaData$ as pageMetaData"
-      [pageIndex]="pageMetaData.pageIndex"
-      [pageSize]="pageMetaData.pageSize"
+      [length]="totalCount()"
+      [pageIndex]="page.pageIndex"
+      [pageSize]="page.pageSize"
       (changed)="onPageEvent($event)"
     />
   </vater-flex>

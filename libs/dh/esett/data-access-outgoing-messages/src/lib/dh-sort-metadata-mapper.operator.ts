@@ -15,51 +15,47 @@
  * limitations under the License.
  */
 import { Sort } from '@angular/material/sort';
-import { Observable, map, pipe } from 'rxjs';
 
 import {
   ExchangeEventSortProperty,
   SortDirection,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-type InType = Observable<Sort>;
-
-type OutType = Observable<{
+export type ExchangeEventSort = {
   sortProperty: ExchangeEventSortProperty;
   sortDirection: SortDirection;
-}>;
+};
 
-export const dhExchangeSortMetadataMapper = pipe<InType, OutType>(
-  map(({ active, direction }) => {
-    const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
+export function dhExchangeSortMetadataMapper(sort: Sort): ExchangeEventSort {
+  const sortDirection =
+    sort.direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
 
-    let sortProperty: ExchangeEventSortProperty;
+  let sortProperty: ExchangeEventSortProperty;
 
-    switch (active) {
-      case 'id':
-        sortProperty = ExchangeEventSortProperty.DocumentId;
-        break;
-      case 'calculationType':
-        sortProperty = ExchangeEventSortProperty.CalculationType;
-        break;
-      case 'messageType':
-        sortProperty = ExchangeEventSortProperty.TimeSeriesType;
-        break;
-      case 'gridArea':
-        sortProperty = ExchangeEventSortProperty.GridAreaCode;
-        break;
-      case 'lastDispatched':
-        sortProperty = ExchangeEventSortProperty.LatestDispatched;
-        break;
-      case 'status':
-        sortProperty = ExchangeEventSortProperty.DocumentStatus;
-        break;
-      case 'created':
-      default:
-        sortProperty = ExchangeEventSortProperty.Created;
-        break;
-    }
+  switch (sort.active) {
+    case 'id':
+      sortProperty = ExchangeEventSortProperty.DocumentId;
+      break;
+    case 'calculationType':
+      sortProperty = ExchangeEventSortProperty.CalculationType;
+      break;
+    case 'messageType':
+      sortProperty = ExchangeEventSortProperty.TimeSeriesType;
+      break;
+    case 'gridArea':
+      sortProperty = ExchangeEventSortProperty.GridAreaCode;
+      break;
+    case 'lastDispatched':
+      sortProperty = ExchangeEventSortProperty.LatestDispatched;
+      break;
+    case 'status':
+      sortProperty = ExchangeEventSortProperty.DocumentStatus;
+      break;
+    case 'created':
+    default:
+      sortProperty = ExchangeEventSortProperty.Created;
+      break;
+  }
 
-    return { sortProperty, sortDirection };
-  })
-);
+  return { sortProperty, sortDirection };
+}
