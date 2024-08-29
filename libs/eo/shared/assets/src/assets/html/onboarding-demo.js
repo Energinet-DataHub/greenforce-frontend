@@ -34,8 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
     `;
   } else {
     content.innerHTML = `
-      <button class="button" onclick="startOnboarding()">Start Onboarding</button>
+      <button class="button" id="startOnboardingButton">Start Onboarding</button>
     `;
+    document
+      .getElementById('startOnboardingButton')
+      .addEventListener('click', () => startOnboarding());
   }
 });
 
