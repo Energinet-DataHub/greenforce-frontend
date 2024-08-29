@@ -67,22 +67,24 @@ limitations under the License.
           <watt-filter-chip
             choice
             [value]="CalculationExecutionType.External"
-            (selectionChange)="formGroup.controls.executionType.setValue($event)"
+            [selected]="executionType.value === CalculationExecutionType.External"
+            (selectionChange)="executionType.setValue($event)"
           >
             {{ t("executionTypes.EXTERNAL") }}
           </watt-filter-chip>
           <watt-filter-chip
             choice
             [value]="CalculationExecutionType.Internal"
-            (selectionChange)="formGroup.controls.executionType.setValue($event)"
+            [selected]="executionType.value === CalculationExecutionType.Internal"
+            (selectionChange)="executionType.setValue($event)"
           >
             {{ t("executionTypes.INTERNAL") }}
           </watt-filter-chip>
         </vater-stack>
-        @if (formGroup.controls.executionType.value === CalculationExecutionType.External) {
+        @if (executionType.value === CalculationExecutionType.External) {
           <watt-field-hint>{{ t("create.isExternalHint") }}</watt-field-hint>
         }
-        @if (formGroup.controls.executionType.value === CalculationExecutionType.Internal) {
+        @if (executionType.value === CalculationExecutionType.Internal) {
           <watt-field-hint>{{ t("create.isInternalHint") }}</watt-field-hint>
         }
       </watt-field>
