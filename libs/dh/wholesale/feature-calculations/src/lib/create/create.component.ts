@@ -161,6 +161,8 @@ export class DhCalculationsCreateComponent implements OnInit {
     scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
   });
 
+  executionType = this.formGroup.controls.executionType;
+
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
   selectedExecutionType = 'ACTUAL';
@@ -185,7 +187,7 @@ export class DhCalculationsCreateComponent implements OnInit {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
     });
 
-    this.formGroup.controls.executionType.valueChanges.subscribe((executionType) => {
+    this.executionType.valueChanges.subscribe((executionType) => {
       if (executionType == CalculationExecutionType.Internal) {
         this.formGroup.controls.calculationType.disable();
         this.formGroup.controls.calculationType.setValue(StartCalculationType.Aggregation);
