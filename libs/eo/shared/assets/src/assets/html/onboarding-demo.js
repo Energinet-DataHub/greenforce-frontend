@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-document.addEventListener("DOMContentLoaded", function () {
-  const content = document.getElementById("content");
-  const onboardingStatus = getQueryParam("state");
+document.addEventListener('DOMContentLoaded', function () {
+  const content = document.getElementById('content');
+  const onboardingStatus = getQueryParam('state');
 
-  if (onboardingStatus === "success") {
+  if (onboardingStatus === 'success') {
     content.innerHTML = `
       <div class="alert success">
         <strong>Success!</strong><br>
         You have successfully completed the onboarding process.
       </div>
     `;
-  } else if (onboardingStatus === "declined") {
+  } else if (onboardingStatus === 'declined') {
     content.innerHTML = `
       <div class="alert error">
         <strong>Error</strong><br>
@@ -40,20 +40,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function startOnboarding(clientId) {
-  let language = navigator.language.split("-")[0];
-  if (language !== "da" && language !== "en") {
-    language = "en";
+  let language = navigator.language.split('-')[0];
+  if (language !== 'da' && language !== 'en') {
+    language = 'en';
   }
-  clientId = clientId ?? getQueryParam("client-id");
+  clientId = clientId ?? getQueryParam('client-id');
   const redirectUrl = window.location.href;
 
   if (!clientId) {
-    clientId = prompt("Client ID is missing. Please enter a valid client ID:");
+    clientId = prompt('Client ID is missing. Please enter a valid client ID:');
     if (!clientId) {
-      alert("Client ID is required to proceed.");
+      alert('Client ID is required to proceed.');
       return;
     }
-    window.location.assign(window.location.href + "?client-id=" + clientId);
+    window.location.assign(window.location.href + '?client-id=' + clientId);
     startOnboarding(clientId);
     return;
   }
