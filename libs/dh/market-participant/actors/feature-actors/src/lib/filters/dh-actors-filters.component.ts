@@ -19,7 +19,7 @@ import {
   Component,
   DestroyRef,
   EventEmitter,
-  Input,
+  input,
   OnInit,
   Output,
   inject,
@@ -115,7 +115,7 @@ type Form = FormGroup<{
 export class DhActorsFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  @Input({ required: true }) initial!: ActorsFilters;
+  initial = input.required<ActorsFilters>();
 
   @Output() filter = new EventEmitter<ActorsFilters>();
   @Output() formReset = new EventEmitter<void>();
@@ -136,8 +136,8 @@ export class DhActorsFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      actorStatus: dhMakeFormControl<ActorStatus[]>(this.initial.actorStatus),
-      marketRoles: dhMakeFormControl<EicFunction[]>(this.initial.marketRoles),
+      actorStatus: dhMakeFormControl<ActorStatus[]>(this.initial().actorStatus),
+      marketRoles: dhMakeFormControl<EicFunction[]>(this.initial().marketRoles),
     });
 
     this.formGroup.valueChanges
