@@ -31,7 +31,6 @@ import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-aut
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   standalone: true,
@@ -120,7 +119,6 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 })
 export class DhCoreLoginComponent implements AfterViewInit {
   private config = inject(dhB2CEnvironmentToken);
-  private appInsights = inject(DhApplicationInsights);
 
   progressBarValue = signal(0);
   showProgressBar = signal(false);
@@ -140,14 +138,8 @@ export class DhCoreLoginComponent implements AfterViewInit {
       setTimeout(() => {
         localStorage.removeItem('mitIdRelogin');
 
-        this.appInsights.trackEvent('Failed MitID login by non-DataHub user');
-        this.appInsights.flush();
-
-        // Delay redirect to MitID login so AppInsights has a chance to flush
-        setTimeout(() => {
-          this.mitIdButton().redirectToMitIdSignup();
-          this.showProgressBar.set(false);
-        }, 2_000);
+        this.mitIdButton().redirectToMitIdSignup();
+        this.showProgressBar.set(false);
       }, 20_000);
     }
   }
