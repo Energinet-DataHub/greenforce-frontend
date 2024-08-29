@@ -32,9 +32,8 @@ limitations under the License.
     <PackageReference Include="Azure.Monitor.Query" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Verify.Xunit" Version="23.5.0" />
-    <PackageReference Include="WireMock.Net" Version="1.5.49" />
-    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="5.0.0" />
-    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="5.0.0" />
+    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="6.1.0" />
+    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.5" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3" />
@@ -52,7 +51,6 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit" Version="2.7.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
