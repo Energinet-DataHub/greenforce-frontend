@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Subscriptions;
 using NodaTime;
@@ -26,7 +27,7 @@ public partial class Mutation
         CalculationExecutionType executionType,
         Interval period,
         string[] gridAreaCodes,
-        StartCalculationType calculationType,
+        CalculationType calculationType,
         DateTimeOffset? scheduledAt,
         [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,

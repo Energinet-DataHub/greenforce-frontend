@@ -54,10 +54,9 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
-  CalculationType,
   CreateCalculationDocument,
   GetLatestBalanceFixingDocument,
-  StartCalculationType,
+  CalculationType,
   CalculationExecutionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
@@ -71,7 +70,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
-  calculationType: FormControl<StartCalculationType>;
+  calculationType: FormControl<CalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
   isScheduled: FormControl<boolean>;
@@ -112,7 +111,7 @@ interface FormValues {
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit {
-  CalculationType = StartCalculationType;
+  CalculationType = CalculationType;
   CalculationExecutionType = CalculationExecutionType;
 
   private _toast = inject(WattToastService);
@@ -135,17 +134,17 @@ export class DhCalculationsCreateComponent implements OnInit {
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    StartCalculationType.WholesaleFixing,
-    StartCalculationType.FirstCorrectionSettlement,
-    StartCalculationType.SecondCorrectionSettlement,
-    StartCalculationType.ThirdCorrectionSettlement,
+    CalculationType.WholesaleFixing,
+    CalculationType.FirstCorrectionSettlement,
+    CalculationType.SecondCorrectionSettlement,
+    CalculationType.ThirdCorrectionSettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
     executionType: new FormControl<CalculationExecutionType | null>(null, {
       validators: Validators.required,
     }),
-    calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
+    calculationType: new FormControl<CalculationType>(CalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
@@ -162,6 +161,7 @@ export class DhCalculationsCreateComponent implements OnInit {
   });
 
   executionType = this.formGroup.controls.executionType;
+  calculationType = this.formGroup.controls.calculationType;
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
@@ -190,7 +190,7 @@ export class DhCalculationsCreateComponent implements OnInit {
     this.executionType.valueChanges.subscribe((executionType) => {
       if (executionType == CalculationExecutionType.Internal) {
         this.formGroup.controls.calculationType.disable();
-        this.formGroup.controls.calculationType.setValue(StartCalculationType.Aggregation);
+        this.formGroup.controls.calculationType.setValue(CalculationType.Aggregation);
       } else {
         this.formGroup.controls.calculationType.enable();
       }
@@ -312,7 +312,7 @@ export class DhCalculationsCreateComponent implements OnInit {
   private validateResolutionTransition(): ValidatorFn {
     return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
       // List of calculation types that are affected by the validator
-      const affected = [StartCalculationType.BalanceFixing, StartCalculationType.Aggregation];
+      const affected = [CalculationType.BalanceFixing, CalculationType.Aggregation];
       const calculationType = control.parent?.get('calculationType')?.value;
       if (!affected.includes(calculationType) || !control.value) return null;
       const start = dayjs.utc(control.value.start);
