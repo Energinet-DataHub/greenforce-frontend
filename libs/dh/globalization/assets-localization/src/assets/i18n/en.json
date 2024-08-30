@@ -902,7 +902,7 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "isExternalHint": "External calculation sends the result to the actors",
+        "isExternalHint": "External calculation sends the messages to the actors",
         "isInternalHint": "Internal calculation does not send messages to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
