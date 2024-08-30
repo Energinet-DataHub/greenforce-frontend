@@ -55,9 +55,9 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
-  GetLatestBalanceFixingDocument,
   CalculationType,
   CalculationExecutionType,
+  GetLatestCalculationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -283,10 +283,13 @@ export class DhCalculationsCreateComponent implements OnInit {
   }
 
   private validateBalanceFixing(): Observable<null> {
-    const { dateRange } = this.formGroup.controls;
+    const { calculationType, dateRange } = this.formGroup.controls;
 
     // Hide warning initially
     this.latestPeriodEnd = null;
+
+    // Skip validation if calculation type is aggregation
+    if (calculationType.value === CalculationType.Aggregation) return of(null);
 
     // Skip validation if end and start is not set
     if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
@@ -294,9 +297,10 @@ export class DhCalculationsCreateComponent implements OnInit {
     // This observable always returns null (no error)
     return this._apollo
       .query({
-        query: GetLatestBalanceFixingDocument,
+        query: GetLatestCalculationDocument,
         fetchPolicy: 'network-only',
         variables: {
+          calculationType: calculationType.value,
           period: {
             end: dayjs(dateRange.value.end).toDate(),
             start: dayjs(dateRange.value.start).toDate(),
@@ -304,7 +308,7 @@ export class DhCalculationsCreateComponent implements OnInit {
         },
       })
       .pipe(
-        tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
+        tap((result) => (this.latestPeriodEnd = result.data?.latestCalculation?.period?.end)),
         map(() => null)
       );
   }
