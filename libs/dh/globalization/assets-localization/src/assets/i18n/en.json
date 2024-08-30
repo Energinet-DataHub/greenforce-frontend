@@ -979,15 +979,17 @@
       "columns": {
         "calculationType": "{{shared.calculationType}}",
         "executionType": "Execution type",
+        "executionTime": "Execution time",
         "period": "Calculation period",
-        "executionTime": "Calculation time",
         "status": "Status"
       },
       "details": {
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
         "startedBy": "Created by",
-        "executionTime": "Calculation time",
+        "calculationId": "Calculation ID",
+        "executionType": "Execution type",
+        "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
