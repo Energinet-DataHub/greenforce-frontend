@@ -901,8 +901,8 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "isExternalHint": "Ekstern beregning sender resultat til aktørerne",
-        "isInternalHint": "Intern beregning sender ingen meddelelser til aktørerne",
+        "isExternalHint": "Ekstern beregning - sender beskeder til aktørerne",
+        "isInternalHint": "Intern beregning - sender ingen beskeder til aktørerne",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
