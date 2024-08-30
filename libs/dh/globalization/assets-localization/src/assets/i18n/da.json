@@ -960,7 +960,7 @@
         "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
         "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Beskeder dannet",
+        "COMPLETED": "Afsluttet",
         "CANCELED": "Annulleret"
       },
       "executionTypes": {
