@@ -16,7 +16,7 @@
  */
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, effect, input, output } from '@angular/core';
+import { Component, computed, effect, input, output, viewChild } from '@angular/core';
 
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
@@ -29,7 +29,12 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import {
+  WattTableColumnDef,
+  WattTableDataSource,
+  WATT_TABLE,
+  WattTableComponent,
+} from '@energinet-datahub/watt/table';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -55,6 +60,8 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   templateUrl: './dh-assignable-user-roles.component.html',
 })
 export class DhAssignableUserRolesComponent {
+  private readonly userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
+
   actorId = input.required<string>();
 
   assignableUserRoles = lazyQuery(GetUserRolesByActorIdDocument);
@@ -62,13 +69,17 @@ export class DhAssignableUserRolesComponent {
   readonly isLoading = computed(() => this.assignableUserRoles.loading());
   readonly hasError = computed(() => this.assignableUserRoles.error());
 
-  readonly dataSource = computed(
-    () => new WattTableDataSource<UserRoleItem>(this.assignableUserRoles.data()?.userRolesByActorId)
-  );
+  readonly dataSource = new WattTableDataSource<UserRoleItem>([]);
 
   readonly selectedUserRoles = output<UserRoleItem[]>();
 
   constructor() {
+    effect(() => {
+      this.dataSource.data = this.assignableUserRoles.data()?.userRolesByActorId ?? [];
+
+      this.userRolesTable()?.clearSelection();
+    });
+
     effect(() => this.assignableUserRoles.query({ variables: { actorId: this.actorId() } }));
   }
 
