@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { SelectionActor } from './dh-selected-actor.component';
 
