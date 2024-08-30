@@ -961,7 +961,7 @@
         "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Messages enqueued",
+        "COMPLETED": "Completed",
         "CANCELED": "Canceled"
       },
       "executionTypes": {
