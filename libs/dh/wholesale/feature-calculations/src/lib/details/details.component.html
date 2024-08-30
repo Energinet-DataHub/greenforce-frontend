@@ -56,12 +56,7 @@ limitations under the License.
   }
   <watt-drawer-heading>
     <div class="headline-container">
-      <h3
-        [wattCopyToClipboard]="id()"
-        [wattTooltip]="t('details.copyId')"
-        wattTooltipPosition="right"
-        class="headline watt-headline-2"
-      >
+      <h3 class="headline watt-headline-2">
         {{ t("calculationTypes." + (calculation?.calculationType ?? "UNKNOWN")) }}
       </h3>
     </div>
