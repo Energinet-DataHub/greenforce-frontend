@@ -123,7 +123,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             // whereas our endpoint's `pageNumber` param starts at `1`
             pageNumber: pageMetaData.pageIndex + 1,
             pageSize: pageMetaData.pageSize,
-            gridAreaCode: filters.gridArea,
+            gridAreaCodes: filters.gridArea,
             createdFrom: filters.created?.start,
             createdTo: filters.created?.end,
             calculationPeriod: filters.calculationPeriod,
@@ -190,7 +190,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
             query: DownloadMeteringGridAreaImbalanceDocument,
             variables: {
               locale: translate('selectedLanguageIso'),
-              gridAreaCode: filters.gridArea,
+              gridAreaCodes: filters.gridArea,
               createdFrom: filters.created?.start,
               createdTo: filters.created?.end,
               calculationPeriod: filters.calculationPeriod,

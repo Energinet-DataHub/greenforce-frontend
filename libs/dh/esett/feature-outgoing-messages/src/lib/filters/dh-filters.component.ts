@@ -121,7 +121,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
       latestDispatch,
       messageTypes,
       period,
-      status,
+      statuses,
     } = this.initial();
 
     this.formGroup = new FormGroup<Filters>({
@@ -129,7 +129,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
       messageTypes: dhMakeFormControl(messageTypes),
       gridAreas: dhMakeFormControl(gridAreas),
       actorNumber: dhMakeFormControl(actorNumber),
-      status: dhMakeFormControl(status),
+      statuses: dhMakeFormControl(statuses),
       period: dhMakeFormControl(period),
       created: dhMakeFormControl(created),
       latestDispatch: dhMakeFormControl(latestDispatch),

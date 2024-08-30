@@ -3,10 +3,10 @@ query getOutgoingMessages(
   $pageSize: Int!
   $periodInterval: DateRange
   $sentInterval: DateRange
-  $gridAreaCode: String
+  $gridAreaCodes: [String!]
   $createdInterval: DateRange
   $calculationType: ExchangeEventCalculationType
-  $documentStatus: DocumentStatus
+  $documentStatuses: [DocumentStatus!]
   $timeSeriesType: TimeSeriesType
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
@@ -17,9 +17,9 @@ query getOutgoingMessages(
     pageNumber: $pageNumber
     pageSize: $pageSize
     periodInterval: $periodInterval
-    gridAreaCode: $gridAreaCode
+    gridAreaCodes: $gridAreaCodes
     calculationType: $calculationType
-    documentStatus: $documentStatus
+    documentStatuses: $documentStatuses
     timeSeriesType: $timeSeriesType
     documentId: $documentId
     sortProperty: $sortProperty

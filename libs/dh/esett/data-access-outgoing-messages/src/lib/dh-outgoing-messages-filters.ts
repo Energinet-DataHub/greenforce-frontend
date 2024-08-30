@@ -25,9 +25,9 @@ import {
 export type DhOutgoingMessagesFilters = {
   calculationTypes?: InputMaybe<ExchangeEventCalculationType>;
   messageTypes?: InputMaybe<TimeSeriesType>;
-  gridAreas?: InputMaybe<string>;
+  gridAreas?: InputMaybe<string | [string]>;
   actorNumber?: InputMaybe<string>;
-  status?: InputMaybe<DocumentStatus>;
+  statuses?: InputMaybe<DocumentStatus | [DocumentStatus]>;
   period?: InputMaybe<Scalars['DateRange']['input']>;
   created?: InputMaybe<Scalars['DateRange']['input']>;
   latestDispatch?: InputMaybe<Scalars['DateRange']['input']>;
