@@ -47,6 +47,8 @@ export class DhActorTokenService {
   private httpClient = inject(HttpClient);
   private appInsights = inject(DhApplicationInsights);
 
+  private logoutInProgressGate = false;
+
   public isPartOfAuthFlow(request: HttpRequest<unknown>) {
     return this.isUserActorsRequest(request) || this.isTokenRequest(request);
   }
@@ -101,14 +103,22 @@ export class DhActorTokenService {
                     }
                   }
                 },
+                // Error callback called for every failed request to the token endpoint
+                // Happens when:
+                // 1. a non-DataHub user tries to login with MitID
                 () => {
-                  this.appInsights.trackEvent('Failed login by non-DataHub user');
-                  this.appInsights.flush();
+                  this.logoutInProgressGate = true;
 
-                  // Delay redirect to logout so AppInsights has a chance to flush
-                  setTimeout(() => {
-                    this.msalService.instance.logout();
-                  }, 2_000);
+                  // Prevent multiple logs of the same event in AppInsights
+                  if (this.logoutInProgressGate) {
+                    this.appInsights.trackEvent('Failed login by non-DataHub user');
+                    this.appInsights.flush();
+
+                    // Delay redirect to logout so AppInsights has a chance to flush
+                    setTimeout(() => this.msalService.instance.logout(), 2_000);
+
+                    this.logoutInProgressGate = false;
+                  }
                 }
               ),
               map(({ token }) => token)
