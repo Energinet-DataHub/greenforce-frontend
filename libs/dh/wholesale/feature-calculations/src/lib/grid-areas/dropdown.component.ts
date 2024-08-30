@@ -23,17 +23,11 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-    WattDropdownComponent,
-    WattFieldErrorComponent,
-    WattFieldHintComponent,
-  ],
+  imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
@@ -53,7 +47,11 @@ import { TranslocoDirective } from '@ngneat/transloco';
       [options]="gridAreaOptions()"
       [showResetOption]="false"
       [multiple]="true"
-    />
+    >
+      <watt-field-hint>
+        {{ t('create.gridArea.hint', { count: control().value?.length }) }}
+      </watt-field-hint>
+    </watt-dropdown>
   `,
 })
 export class DhCalculationsGridAreasDropdownComponent {
