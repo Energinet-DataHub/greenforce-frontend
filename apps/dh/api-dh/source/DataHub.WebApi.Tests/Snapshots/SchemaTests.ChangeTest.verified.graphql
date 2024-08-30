@@ -250,6 +250,7 @@ type GetUserProfileResponse {
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
+  preselectedForNewCalculations: Boolean!
   id: UUID!
   code: String!
   name: String!

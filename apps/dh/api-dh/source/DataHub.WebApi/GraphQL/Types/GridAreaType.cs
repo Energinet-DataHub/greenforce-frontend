@@ -19,6 +19,12 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class GridAreaType : ObjectType<GridAreaDto>
 {
+    private readonly List<string> _preselectedGridAreas = [
+        "003", "007", "016", "031", "042", "051", "084", "085", "131", "141", "151", "154", "233",
+        "244", "245", "331", "341", "342", "344", "347", "348", "351", "357", "370", "371", "381",
+        "384", "385", "396", "531", "532", "533", "543", "584", "740", "757", "791", "853", "854",
+        "860", "911", "950", "951", "952", "953", "954", "960", "962", "990"];
+
     protected override void Configure(IObjectTypeDescriptor<GridAreaDto> descriptor)
     {
         descriptor.Name("GridAreaDto");
@@ -38,5 +44,9 @@ public class GridAreaType : ObjectType<GridAreaDto>
                 var gridArea when string.IsNullOrWhiteSpace(gridArea.Name) => gridArea.Code,
                 var gridArea => $"{gridArea.Code} • {gridArea.Name}",
             });
+
+        descriptor
+            .Field("preselectedForNewCalculations")
+            .Resolve(context => _preselectedGridAreas.Contains(context.Parent<GridAreaDto>().Code));
     }
 }

@@ -81,7 +81,11 @@ export class DhCalculationsGridAreasDropdownComponent {
   );
 
   selectGridAreas = effect(() => {
-    this.control().patchValue(this.gridAreas().map((gridArea) => gridArea.code));
+    this.control().patchValue(
+      this.gridAreas()
+        .filter((gridArea) => gridArea.preselectedForNewCalculations)
+        .map((gridArea) => gridArea.code)
+    );
   });
 
   toggleDisable = effect(() => {

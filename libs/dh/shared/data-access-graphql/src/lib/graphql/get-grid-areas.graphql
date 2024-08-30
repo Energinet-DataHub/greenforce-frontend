@@ -6,5 +6,6 @@ query GetGridAreas {
     displayName
     validTo
     validFrom
+    preselectedForNewCalculations
   }
 }
