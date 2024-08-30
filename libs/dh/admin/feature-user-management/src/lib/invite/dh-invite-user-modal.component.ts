@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -180,8 +179,10 @@ export class DhInviteUserModalComponent extends WattTypedModal {
 
   constructor() {
     super();
+
     effect(() => {
       const actors = this.actors.data()?.filteredActors;
+
       if (actors !== undefined && actors.length === 1) {
         const [firstActor] = actors;
         this.baseInfo.controls.actorId.setValue(firstActor.id);
@@ -191,6 +192,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     effect(
       () => {
         const actorId = this.actorIdChanged();
+
         actorId !== null
           ? this.baseInfo.controls.email.enable()
           : this.baseInfo.controls.email.disable();

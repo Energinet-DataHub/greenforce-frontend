@@ -64,14 +64,29 @@ limitations under the License.
       <!-- Execution type -->
       <watt-field [chipMode]="true" [label]="t('create.executionType')" style="min-height: 100px">
         <vater-stack direction="row" gap="s">
-          <watt-filter-chip choice name="executionType" value="EXTERNAL" [selected]="true">
+          <watt-filter-chip
+            choice
+            [value]="CalculationExecutionType.External"
+            [selected]="executionType.value === CalculationExecutionType.External"
+            (selectionChange)="executionType.setValue($event)"
+          >
             {{ t("executionTypes.EXTERNAL") }}
           </watt-filter-chip>
-          <watt-filter-chip choice name="executionType" value="INTERNAL" [disabled]="true">
+          <watt-filter-chip
+            choice
+            [value]="CalculationExecutionType.Internal"
+            [selected]="executionType.value === CalculationExecutionType.Internal"
+            (selectionChange)="executionType.setValue($event)"
+          >
             {{ t("executionTypes.INTERNAL") }}
           </watt-filter-chip>
         </vater-stack>
-        <watt-field-hint>{{ t("create.executionTypeHint") }}</watt-field-hint>
+        @if (executionType.value === CalculationExecutionType.External) {
+          <watt-field-hint>{{ t("create.isExternalHint") }}</watt-field-hint>
+        }
+        @if (executionType.value === CalculationExecutionType.Internal) {
+          <watt-field-hint>{{ t("create.isInternalHint") }}</watt-field-hint>
+        }
       </watt-field>
 
       <vater-flex gap="s">

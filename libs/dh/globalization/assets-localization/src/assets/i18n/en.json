@@ -902,19 +902,18 @@
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "executionTypeHint": "External calculation sends the result to the actors",
+        "isExternalHint": "External calculation sends the messages to the actors",
+        "isInternalHint": "Internal calculation does not send messages to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
         "period": {
-          "label": "Period",
-          "required": "Date range is required",
+          "label": "Calculation period",
           "invalid": "Invalid period"
         },
         "gridArea": {
           "label": "Grid areas",
-          "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -962,7 +961,7 @@
         "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Messages enqueued",
+        "COMPLETED": "Completed",
         "CANCELED": "Canceled"
       },
       "executionTypes": {
@@ -971,23 +970,25 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Execution time",
         "gridAreas": "Grid areas",
+        "executionType": "Execution type",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Calculation period"
       },
       "columns": {
-        "startedBy": "Created by",
-        "periodFrom": "Period from",
-        "periodTo": "Period to",
-        "executionTime": "Execution time",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Execution type",
+        "executionTime": "Execution time",
+        "period": "Calculation period",
         "status": "Status"
       },
       "details": {
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
+        "startedBy": "Created by",
+        "calculationId": "Calculation ID",
+        "executionType": "Execution type",
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",

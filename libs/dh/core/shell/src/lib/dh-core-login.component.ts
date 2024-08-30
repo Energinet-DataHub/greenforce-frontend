@@ -17,11 +17,12 @@
 import {
   AfterViewInit,
   Component,
-  ViewChild,
   ViewEncapsulation,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
@@ -29,7 +30,6 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
@@ -106,6 +106,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
           mode="login"
           >{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button
         >
+
         @if (showProgressBar()) {
           <label>
             {{ 'login.linkingMitId' | transloco }}
@@ -117,31 +118,35 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
   `,
 })
 export class DhCoreLoginComponent implements AfterViewInit {
-  private _config = inject(dhB2CEnvironmentToken);
+  private config = inject(dhB2CEnvironmentToken);
 
   progressBarValue = signal(0);
   showProgressBar = signal(false);
 
-  @ViewChild(DhMitIDButtonComponent) mitIdButton!: DhMitIDButtonComponent;
+  mitIdButton = viewChild.required(DhMitIDButtonComponent);
 
   ngAfterViewInit(): void {
     const mitIdRelogin = Boolean(localStorage.getItem('mitIdRelogin'));
+
     if (mitIdRelogin) {
       this.showProgressBar.set(true);
+
       setInterval(() => {
         this.progressBarValue.set(this.progressBarValue() + 1);
       }, 200);
+
       setTimeout(() => {
         localStorage.removeItem('mitIdRelogin');
-        this.mitIdButton.redirectToMitIdSignup();
+
+        this.mitIdButton().redirectToMitIdSignup();
         this.showProgressBar.set(false);
-      }, 20000);
+      }, 20_000);
     }
   }
 
   async login() {
     const instance = MSALInstanceFactory({
-      ...this._config,
+      ...this.config,
     });
 
     await instance.initialize();

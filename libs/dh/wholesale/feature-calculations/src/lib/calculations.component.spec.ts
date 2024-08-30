@@ -40,7 +40,7 @@ async function setup() {
 describe(DhCalculationsComponent, () => {
   it('should show filter chips', async () => {
     await setup();
-    ['Period', 'Calculation type', 'Grid areas', 'Status']
+    ['Calculation type', 'Calculation period', 'Execution type', 'Grid areas', 'Status']
       .map((filter) => screen.getByRole('button', { name: new RegExp(filter), pressed: false }))
       .forEach((element) => expect(element).toBeInTheDocument());
   });

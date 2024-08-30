@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { AbstractControl, FormControl } from '@angular/forms';
 
 import { dhGlnOrEicValidator } from './dh-gln-or-eic.validator';

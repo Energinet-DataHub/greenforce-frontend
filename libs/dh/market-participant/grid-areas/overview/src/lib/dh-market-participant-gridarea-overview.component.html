@@ -38,12 +38,12 @@ limitations under the License.
         aria-label="gridAreas"
         sortBy="code"
         sortDirection="asc"
-        [loading]="isLoading"
+        [loading]="isLoading()"
       />
-      @if (!isLoading && (hasError || dataSource.data.length === 0)) {
+      @if (!isLoading() && (hasError() || dataSource.data.length === 0)) {
         <watt-empty-state
-          [icon]="hasError ? 'custom-power' : 'cancel'"
-          [title]="hasError ? t('error') : t('noGridAreas')"
+          [icon]="hasError() ? 'custom-power' : 'cancel'"
+          [title]="hasError() ? t('error') : t('noGridAreas')"
         />
       }
     </vater-flex>

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 export enum BusinessReasons {
   D02 = 'Preparation for imbalance settlement',
   D03 = 'Temporary',

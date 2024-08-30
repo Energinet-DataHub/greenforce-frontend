@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Type } from '@angular/core';
 import { MountConfig, mount } from 'cypress/angular';
 
