@@ -65,18 +65,26 @@ limitations under the License.
         {{ t("calculationTypes." + (calculation?.calculationType ?? "UNKNOWN")) }}
       </h3>
     </div>
-    <watt-description-list>
+    <watt-description-list [groupsPerRow]="3">
       <watt-description-list-item
         [label]="t('details.startedBy')"
         [value]="calculation?.createdByUserName | dhEmDashFallback"
+      />
+      <watt-description-list-item
+        [label]="t('details.executionType')"
+        [value]="calculation && t('executionTypes.' + calculation.executionType) | dhEmDashFallback"
+      />
+      <watt-description-list-item
+        [label]="t('details.executionTime')"
+        [value]="calculation?.executionTimeStart | wattDate: 'long' | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="t('details.period')"
         [value]="calculation?.period | wattDate: 'short' | dhEmDashFallback"
       />
       <watt-description-list-item
-        [label]="t('details.executionTime')"
-        [value]="calculation?.executionTimeStart | wattDate: 'long' | dhEmDashFallback"
+        [label]="t('details.calculationId')"
+        [value]="calculation?.id | dhEmDashFallback"
       />
     </watt-description-list>
   </watt-drawer-heading>
