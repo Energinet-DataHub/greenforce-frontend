@@ -21,7 +21,7 @@ limitations under the License.
         *ngTemplateOutlet="
           userRolesHeadline;
           context: {
-            $implicit: assignableUserRoles.data()?.userRolesByActorId?.length
+            $implicit: assignableUserRoles.data()?.userRolesByActorId?.length,
           }
         "
       />
@@ -36,10 +36,9 @@ limitations under the License.
         />
       } @else {
         <watt-table
-          [dataSource]="dataSource()"
+          [dataSource]="dataSource"
           [loading]="isLoading()"
           [columns]="columns"
-          sortBy="eicFunction"
           sortDirection="asc"
           [selectable]="true"
           (selectionChange)="selectionChanged($event)"

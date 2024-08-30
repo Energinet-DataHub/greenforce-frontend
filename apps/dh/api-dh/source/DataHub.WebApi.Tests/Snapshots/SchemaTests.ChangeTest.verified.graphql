@@ -156,6 +156,7 @@ type Calculation {
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
   state: CalculationOrchestrationState!
+  executionType: CalculationExecutionType!
   statusType: ProcessStatus!
   currentStep: CalculationProgressStep!
   progress: [CalculationProgress!]!
@@ -685,6 +686,7 @@ input AddressDtoInput {
 input CalculationQueryInput {
   gridAreaCodes: [String!]
   states: [CalculationOrchestrationState!]
+  executionType: CalculationExecutionType
   calculationTypes: [CalculationType!]
   executionTime: DateRange
   period: DateRange
@@ -720,6 +722,7 @@ input CreateActorMarketRoleInput {
 }
 
 input CreateCalculationInput {
+  executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
   calculationType: StartCalculationType!
@@ -955,6 +958,11 @@ enum BalanceResponsibleSortProperty {
   VALID_FROM
   VALID_TO
   RECEIVED_DATE
+}
+
+enum CalculationExecutionType {
+  EXTERNAL
+  INTERNAL
 }
 
 enum CalculationOrchestrationState {

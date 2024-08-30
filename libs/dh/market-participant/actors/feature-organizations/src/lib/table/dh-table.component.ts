@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, input, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -56,19 +56,17 @@ export class DhOrganizationsTableComponent {
     name: { accessor: 'name' },
   };
 
-  @Input() isLoading!: boolean;
-  @Input() hasError!: boolean;
+  tableDataSource = input.required<WattTableDataSource<DhOrganization>>();
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
-  @Input() tableDataSource!: WattTableDataSource<DhOrganization>;
-
-  @ViewChild(DhOrganizationDrawerComponent)
-  drawer: DhOrganizationDrawerComponent | undefined;
+  drawer = viewChild.required(DhOrganizationDrawerComponent);
 
   onRowClick(organization: DhOrganization): void {
     this.activeRow = organization;
 
     // todo fix nullable organizationId
-    this.drawer?.open(organization.organizationId ?? '');
+    this.drawer().open(organization.organizationId ?? '');
   }
 
   onClose(): void {
