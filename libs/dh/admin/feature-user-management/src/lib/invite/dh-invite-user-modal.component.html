@@ -61,6 +61,7 @@ limitations under the License.
         </watt-text-field>
       </form>
     </watt-stepper-step>
+
     <watt-stepper-step
       #informationStep
       [label]="t('informations')"
@@ -113,6 +114,7 @@ limitations under the License.
             {{ t("noUserRolesError") }}
           </watt-field-error>
         }
+
         @if (selectedActorId() !== null) {
           <dh-assignable-user-roles
             [actorId]="selectedActorId()!"
