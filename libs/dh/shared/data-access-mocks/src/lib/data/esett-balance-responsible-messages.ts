@@ -17,7 +17,7 @@
 import {
   BalanceResponsibleType,
   GridAreaDto,
-  TimeSeriesType,
+  BalanceResponsibilityMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import dayjs from 'dayjs';
 
@@ -39,13 +39,13 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
       receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
       supplier: '123',
       balanceResponsible: '321',
-      gridArea: '344',
+      gridAreas: '344',
       gridAreaWithName: {
         __typename: 'GridAreaDto',
         code: '344',
         name: 'N1 A/S',
       } as GridAreaDto,
-      meteringPointType: TimeSeriesType.Production,
+      meteringPointType: BalanceResponsibilityMeteringPointType.Production,
       validPeriod,
       balanceResponsibleWithName: {
         __typename: 'ActorNameDto',
@@ -69,7 +69,7 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
         code: '999',
         name: 'N2 A/S',
       } as GridAreaDto,
-      meteringPointType: TimeSeriesType.Production,
+      meteringPointType: BalanceResponsibilityMeteringPointType.Production,
       validPeriod: validPeriodWithNull,
       balanceResponsibleWithName: {
         __typename: 'ActorNameDto',
@@ -89,7 +89,7 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
       balanceResponsible: '999',
       gridArea: '000',
       gridAreaWithName: null,
-      meteringPointType: TimeSeriesType.Production,
+      meteringPointType: BalanceResponsibilityMeteringPointType.Production,
       validPeriod: validPeriodWithNull,
       balanceResponsibleWithName: null,
       supplierWithName: null,
