@@ -136,8 +136,8 @@ export class DhCalculationsTableComponent {
   dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
-    executionType: { accessor: 'executionType' },
     period: { accessor: 'period', size: 'minmax(max-content, auto)' },
+    executionType: { accessor: 'executionType' },
     executionTime: { accessor: 'executionTimeStart', size: 'minmax(max-content, auto)' },
     status: { accessor: 'state', size: 'max-content' },
   };
