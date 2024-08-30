@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
