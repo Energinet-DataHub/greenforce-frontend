@@ -978,15 +978,17 @@
       "columns": {
         "calculationType": "{{shared.calculationType}}",
         "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
         "period": "Beregningsperiode",
-        "executionTime": "Beregningstidspunkt",
         "status": "Status"
       },
       "details": {
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
         "startedBy": "Bestilt af",
-        "executionTime": "Beregningstidspunkt",
+        "calculationId": "Beregnings-ID",
+        "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
