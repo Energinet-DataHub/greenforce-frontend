@@ -83,7 +83,7 @@ export class DhCalculationsGridAreasDropdownComponent {
   selectGridAreas = effect(() => {
     this.control().patchValue(
       this.gridAreas()
-        .filter((gridArea) => gridArea.preselectedForNewCalculations)
+        .filter((gridArea) => gridArea.includedInCalculation)
         .map((gridArea) => gridArea.code)
     );
   });
