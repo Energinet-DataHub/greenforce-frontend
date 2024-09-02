@@ -114,7 +114,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
-    preselectedForNewCalculations: true,
+    includedInCalculation: true,
   },
   {
     __typename: 'GridAreaDto',
@@ -125,7 +125,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
-    preselectedForNewCalculations: false,
+    includedInCalculation: false,
   },
 ];
 
