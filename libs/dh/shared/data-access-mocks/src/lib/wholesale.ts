@@ -32,7 +32,6 @@ import {
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetGridAreasQuery,
-  mockGetLatestBalanceFixingQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
@@ -608,21 +607,6 @@ function getGridAreasQuery() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', gridAreas: mockedGridAreas },
-    });
-  });
-}
-
-function getLatestBalanceFixing() {
-  return mockGetLatestBalanceFixingQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        latestBalanceFixing: {
-          __typename: 'Calculation',
-          period: { start: periodStart, end: periodEnd },
-        },
-      },
     });
   });
 }
