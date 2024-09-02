@@ -19,6 +19,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class GridAreaType : ObjectType<GridAreaDto>
 {
+    // This list should be replaced with data from the MarketParticipant API once available
     private readonly List<string> _includedInCalculation = [
         "003", "007", "016", "031", "042", "051", "084", "085", "131", "141", "151", "154", "233",
         "244", "245", "331", "341", "342", "344", "347", "348", "351", "357", "370", "371", "381",
