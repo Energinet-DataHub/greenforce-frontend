@@ -283,7 +283,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   }
 
   private isNewUserInfoValid() {
-    return this.userInfo.valid || this.emailExists || !this.inOrganizationMailDomain;
+    return this.userInfo.valid || this.emailExists() || !this.inOrganizationMailDomain();
   }
 
   private isRolesInfoValid() {
