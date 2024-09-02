@@ -32,6 +32,7 @@ import {
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetGridAreasQuery,
+  mockGetLatestCalculationQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
@@ -55,6 +56,7 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
     getGridAreasQuery(),
+    getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
@@ -606,6 +608,21 @@ function getGridAreasQuery() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', gridAreas: mockedGridAreas },
+    });
+  });
+}
+
+function getLatestCalculation() {
+  return mockGetLatestCalculationQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        latestCalculation: {
+          __typename: 'Calculation',
+          period: { start: periodStart, end: periodEnd },
+        },
+      },
     });
   });
 }
