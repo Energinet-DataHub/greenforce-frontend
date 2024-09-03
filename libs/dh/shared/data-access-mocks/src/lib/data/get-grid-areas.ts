@@ -27,6 +27,7 @@ export const getGridAreas: GetGridAreasQuery = {
       validFrom: new Date(),
       validTo: null,
       __typename: 'GridAreaDto',
+      includedInCalculation: true,
     },
     {
       id: '89801ec1-af12-46d9-b044-05a004a0d46c',
@@ -36,6 +37,7 @@ export const getGridAreas: GetGridAreasQuery = {
       validFrom: new Date(),
       validTo: null,
       __typename: 'GridAreaDto',
+      includedInCalculation: true,
     },
     {
       id: 'd45f9498-1954-4c7d-8e9c-0d4a2aba058b',
@@ -45,6 +47,7 @@ export const getGridAreas: GetGridAreasQuery = {
       validFrom: new Date(),
       validTo: null,
       __typename: 'GridAreaDto',
+      includedInCalculation: false,
     },
   ],
 };

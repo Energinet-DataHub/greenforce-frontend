@@ -13,6 +13,7 @@ query GetActorById($id: UUID!) {
     }
     organization {
       name
+      id
     }
   }
 }

@@ -1,5 +1,0 @@
-query GetLatestBalanceFixing($period: DateRange!) {
-  latestBalanceFixing(period: $period) {
-    period
-  }
-}
