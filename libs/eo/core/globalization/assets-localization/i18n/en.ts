@@ -749,6 +749,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     permissions: 'Permissions',
+    description: 'You have given {{organizationName}} the power of attorney to manage the following on your behalf.',
+    postscript: `
+      <p>You can withdraw your power of attorney at any time (in whole or in part) if you no longer wish to allow the third party to manage your overview, metering points, and/or transfer agreements.</p>
+      <p>You can partially withdraw by unchecking the boxes for the items you no longer wish to authorize.</p>
+      <p>You can fully revoke the power of attorney by clicking on 'Revoke consent'.</p>`,
     cancel: 'Cancel',
     saveChanges: 'Save changes',
     revoke: 'Revoke consent',

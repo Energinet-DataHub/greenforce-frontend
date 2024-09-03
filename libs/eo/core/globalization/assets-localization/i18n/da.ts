@@ -737,6 +737,12 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     permissions: 'Fuldmagter',
+    description: 'Du har givet {{organizationName}} fuldmagt til at administrere følgende for dig.',
+    postscript: `
+      <p>Du kan til enhver tid trække din fuldmagt tilbage (helt eller delvist), hvis du ikke længere ønsker at lade tredjeparten administrere overblik, målepunkter og/eller overførselsaftaler for dig.</p>
+      <p>Du tilbagekalder delvist ved at fjerne flueben ud for det, der ikke længere skal gives fuldmagt til.</p>
+      <p>Du tilbagekalder fuldmagt helt ved at klikke på 'Tilbagekald fuldmagt'.<p>
+    `,
     cancel: 'Fortryd',
     saveChanges: 'Gem ændringer',
     revoke: 'Tilbagekald fuldmagt',

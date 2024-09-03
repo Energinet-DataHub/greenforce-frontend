@@ -607,6 +607,8 @@ export interface TranslationKeys {
   };
   editConsent: {
     permissions: string;
+    description: string;
+    postscript: string;
     cancel: string;
     saveChanges: string;
     revoke: string;

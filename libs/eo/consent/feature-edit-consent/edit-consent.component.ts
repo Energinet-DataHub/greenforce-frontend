@@ -91,7 +91,6 @@ import { translations } from '@energinet-datahub/eo/translations';
         display: flex;
         flex-direction: column;
         gap: var(--watt-space-m);
-        margin-bottom: var(--watt-space-l);
 
         li {
           padding-left: 0;
@@ -115,6 +114,12 @@ import { translations } from '@energinet-datahub/eo/translations';
       .visually-hidden {
         opacity: 0;
       }
+
+      .postscript {
+        display: flex;
+        flex-direction: column;
+        gap: var(--watt-space-m);
+      }
     }
   `,
   template: `
@@ -128,6 +133,8 @@ import { translations } from '@energinet-datahub/eo/translations';
         @if (!isLoading()) {
           <h4>{{ translations.editConsent.permissions | transloco }}</h4>
 
+          <div class="description" [innerHTML]="translations.editConsent.description | transloco: { organizationName: consent.clientName }"></div>
+
           <ul>
             @for (permission of permissions; track permission) {
               <li>
@@ -138,6 +145,9 @@ import { translations } from '@energinet-datahub/eo/translations';
               </li>
             }
           </ul>
+
+          <div class="postscript" [innerHTML]="translations.editConsent.postscript | transloco"></div>
+
         } @else {
           <div class="loading-container">
             <watt-spinner />
