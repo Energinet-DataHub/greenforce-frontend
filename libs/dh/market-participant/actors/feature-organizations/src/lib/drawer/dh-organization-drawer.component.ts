@@ -180,9 +180,7 @@ export class DhOrganizationDrawerComponent {
           this.organizationFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          this.organization = result.data?.organizationById
-            ? { ...result.data.organizationById, organizationId: id }
-            : undefined;
+          this.organization = result.data?.organizationById;
         },
         error: () => {
           this.organizationFailedToLoad = true;

@@ -66,7 +66,7 @@ export class DhOrganizationsTableComponent {
     this.activeRow = organization;
 
     // todo fix nullable organizationId
-    this.drawer().open(organization.organizationId ?? '');
+    this.drawer().open(organization.id ?? '');
   }
 
   onClose(): void {

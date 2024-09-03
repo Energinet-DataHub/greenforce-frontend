@@ -89,7 +89,7 @@ export class DhChooseOrganizationStepComponent {
     this._getOrganizationsQuery$.subscribe((result) => {
       if (result.data?.organizations) {
         this.organizationOptions = result.data.organizations.map((org) => ({
-          value: org.organizationId ?? '',
+          value: org.id ?? '',
           displayValue: org.name,
         }));
       }
