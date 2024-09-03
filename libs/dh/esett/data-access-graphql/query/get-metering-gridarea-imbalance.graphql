@@ -25,6 +25,7 @@ query getMeteringGridAreaImbalance(
     items {
       id
       gridArea {
+        id
         displayName
       }
       mgaImbalanceDocumentUrl
