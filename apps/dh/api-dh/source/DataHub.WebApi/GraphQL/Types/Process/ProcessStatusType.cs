@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-public enum UIProgressStatus
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Process;
+
+public class ProcessStatusType : EnumType<ProcessStatus>
 {
-    Pending,
-    Executing,
-    Failed,
-    Canceled,
-    Completed,
+    protected override void Configure(IEnumTypeDescriptor<ProcessStatus> descriptor)
+    {
+        descriptor.AsLowerCase();
+    }
 }
