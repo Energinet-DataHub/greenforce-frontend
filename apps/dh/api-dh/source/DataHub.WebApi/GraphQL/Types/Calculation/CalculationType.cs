@@ -71,16 +71,16 @@ public class CalculationType : ObjectType<CalculationDto>
             .Field("statusType")
             .Resolve(context => context.Parent<CalculationDto>().OrchestrationState switch
             {
-                CalculationOrchestrationState.Scheduled => ProcessStatus.Neutral,
-                CalculationOrchestrationState.Canceled => ProcessStatus.Neutral,
-                CalculationOrchestrationState.Started => ProcessStatus.Info,
-                CalculationOrchestrationState.Calculating => ProcessStatus.Info,
-                CalculationOrchestrationState.CalculationFailed => ProcessStatus.Danger,
-                CalculationOrchestrationState.Calculated => ProcessStatus.Info,
-                CalculationOrchestrationState.ActorMessagesEnqueuing => ProcessStatus.Info,
-                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessStatus.Danger,
-                CalculationOrchestrationState.ActorMessagesEnqueued => ProcessStatus.Info,
-                CalculationOrchestrationState.Completed => ProcessStatus.Success,
+                CalculationOrchestrationState.Scheduled => UIProcessStatus.Neutral,
+                CalculationOrchestrationState.Canceled => UIProcessStatus.Neutral,
+                CalculationOrchestrationState.Started => UIProcessStatus.Info,
+                CalculationOrchestrationState.Calculating => UIProcessStatus.Info,
+                CalculationOrchestrationState.CalculationFailed => UIProcessStatus.Danger,
+                CalculationOrchestrationState.Calculated => UIProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuing => UIProcessStatus.Info,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => UIProcessStatus.Danger,
+                CalculationOrchestrationState.ActorMessagesEnqueued => UIProcessStatus.Info,
+                CalculationOrchestrationState.Completed => UIProcessStatus.Success,
             });
 
         descriptor
@@ -145,19 +145,19 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculation.</param>
     /// <returns>The progress status of the schedule step.</returns>
-    private static ProgressStatus GetScheduleProgressStatus(CalculationOrchestrationState state) =>
+    private static UIProgressStatus GetScheduleProgressStatus(CalculationOrchestrationState state) =>
         state switch
         {
-            CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
-            CalculationOrchestrationState.Canceled => ProgressStatus.Canceled,
-            CalculationOrchestrationState.Started => ProgressStatus.Completed,
-            CalculationOrchestrationState.Calculating => ProgressStatus.Completed,
-            CalculationOrchestrationState.CalculationFailed => ProgressStatus.Completed,
-            CalculationOrchestrationState.Calculated => ProgressStatus.Completed,
-            CalculationOrchestrationState.ActorMessagesEnqueuing => ProgressStatus.Completed,
-            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Completed,
-            CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
-            CalculationOrchestrationState.Completed => ProgressStatus.Completed,
+            CalculationOrchestrationState.Scheduled => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => UIProgressStatus.Canceled,
+            CalculationOrchestrationState.Started => UIProgressStatus.Completed,
+            CalculationOrchestrationState.Calculating => UIProgressStatus.Completed,
+            CalculationOrchestrationState.CalculationFailed => UIProgressStatus.Completed,
+            CalculationOrchestrationState.Calculated => UIProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => UIProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => UIProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => UIProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => UIProgressStatus.Completed,
         };
 
     /// <summary>
@@ -165,19 +165,19 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculation.</param>
     /// <returns>The progress status of the calculate step.</returns>
-    private static ProgressStatus GetCalculateProgressStatus(CalculationOrchestrationState state) =>
+    private static UIProgressStatus GetCalculateProgressStatus(CalculationOrchestrationState state) =>
         state switch
         {
-            CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
-            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
-            CalculationOrchestrationState.Started => ProgressStatus.Executing,
-            CalculationOrchestrationState.Calculating => ProgressStatus.Executing,
-            CalculationOrchestrationState.CalculationFailed => ProgressStatus.Failed,
-            CalculationOrchestrationState.Calculated => ProgressStatus.Completed,
-            CalculationOrchestrationState.ActorMessagesEnqueuing => ProgressStatus.Completed,
-            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Completed,
-            CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
-            CalculationOrchestrationState.Completed => ProgressStatus.Completed,
+            CalculationOrchestrationState.Scheduled => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Started => UIProgressStatus.Executing,
+            CalculationOrchestrationState.Calculating => UIProgressStatus.Executing,
+            CalculationOrchestrationState.CalculationFailed => UIProgressStatus.Failed,
+            CalculationOrchestrationState.Calculated => UIProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => UIProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => UIProgressStatus.Completed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => UIProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => UIProgressStatus.Completed,
         };
 
     /// <summary>
@@ -185,18 +185,18 @@ public class CalculationType : ObjectType<CalculationDto>
     /// </summary>
     /// <param name="state">The orchestration state of the calculation.</param>
     /// <returns>The progress status of the actor message enqueue step.</returns>
-    private static ProgressStatus GetActorMessageEnqueueProgressStatus(CalculationOrchestrationState state) =>
+    private static UIProgressStatus GetActorMessageEnqueueProgressStatus(CalculationOrchestrationState state) =>
         state switch
         {
-            CalculationOrchestrationState.Scheduled => ProgressStatus.Pending,
-            CalculationOrchestrationState.Canceled => ProgressStatus.Pending,
-            CalculationOrchestrationState.Started => ProgressStatus.Pending,
-            CalculationOrchestrationState.Calculating => ProgressStatus.Pending,
-            CalculationOrchestrationState.CalculationFailed => ProgressStatus.Pending,
-            CalculationOrchestrationState.Calculated => ProgressStatus.Pending,
-            CalculationOrchestrationState.ActorMessagesEnqueuing => ProgressStatus.Executing,
-            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProgressStatus.Failed,
-            CalculationOrchestrationState.ActorMessagesEnqueued => ProgressStatus.Completed,
-            CalculationOrchestrationState.Completed => ProgressStatus.Completed,
+            CalculationOrchestrationState.Scheduled => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Canceled => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Started => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Calculating => UIProgressStatus.Pending,
+            CalculationOrchestrationState.CalculationFailed => UIProgressStatus.Pending,
+            CalculationOrchestrationState.Calculated => UIProgressStatus.Pending,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => UIProgressStatus.Executing,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => UIProgressStatus.Failed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => UIProgressStatus.Completed,
+            CalculationOrchestrationState.Completed => UIProgressStatus.Completed,
         };
 }
