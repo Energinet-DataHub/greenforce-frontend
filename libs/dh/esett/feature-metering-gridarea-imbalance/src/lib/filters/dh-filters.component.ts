@@ -102,7 +102,7 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup<Filters>({
-      gridArea: dhMakeFormControl(this.initial().gridArea),
+      gridAreas: dhMakeFormControl(this.initial().gridAreas),
       valuesToInclude: dhMakeFormControl(this.initial().valuesToInclude),
       created: dhMakeFormControl(this.initial().created),
       calculationPeriod: dhMakeFormControl(this.initial().calculationPeriod),

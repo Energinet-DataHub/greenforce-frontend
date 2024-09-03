@@ -24,8 +24,9 @@ limitations under the License.
   *transloco="let translate; read: 'eSett.meteringGridAreaImbalance.filters'"
 >
   <watt-dropdown
-    [formControl]="formGroup.controls.gridArea!"
+    [formControl]="formGroup.controls.gridAreas!"
     [chipMode]="true"
+    [multiple]="true"
     sortDirection="asc"
     [options]="gridAreaOptions$ | push"
     [placeholder]="translate('gridArea')"
