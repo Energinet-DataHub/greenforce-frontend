@@ -39,7 +39,7 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
       receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
       supplier: '123',
       balanceResponsible: '321',
-      gridAreas: '344',
+      gridArea: '344',
       gridAreaWithName: {
         __typename: 'GridAreaDto',
         code: '344',
