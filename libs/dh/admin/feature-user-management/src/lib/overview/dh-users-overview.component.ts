@@ -51,7 +51,7 @@ import {
 
 import {
   GetFilteredActorsDocument,
-  MarketParticipantSortDirctionType,
+  UiSortDirectionType,
   UiUserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -167,10 +167,8 @@ export class DhUsersOverviewComponent {
     this.store.updateFilters(value);
   }
 
-  sortChanged = (
-    sortProperty: UiUserOverviewSortProperty,
-    direction: MarketParticipantSortDirctionType
-  ) => this.store.updateSort(sortProperty, direction);
+  sortChanged = (sortProperty: UiUserOverviewSortProperty, direction: UiSortDirectionType) =>
+    this.store.updateSort(sortProperty, direction);
 
   reloadUsers(): void {
     this.store.reloadUsers();

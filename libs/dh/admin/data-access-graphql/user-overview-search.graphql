@@ -5,7 +5,7 @@ query userOverviewSearch(
   $userStatus: [UserStatus!]
   $pageNumber: Int!
   $pageSize: Int!
-  $sortDirection: MarketParticipantSortDirctionType!
+  $sortDirection: UISortDirectionType!
   $sortProperty: UIUserOverviewSortProperty!
 ) {
   userOverviewSearch(

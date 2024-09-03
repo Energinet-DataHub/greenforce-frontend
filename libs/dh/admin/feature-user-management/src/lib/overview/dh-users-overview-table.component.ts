@@ -46,7 +46,7 @@ import {
 } from '@energinet-datahub/dh/admin/shared';
 
 import {
-  MarketParticipantSortDirctionType,
+  UiSortDirectionType,
   UiUserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -103,7 +103,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
 
   @Input({ required: true }) sortChanged!: (
     prop: UiUserOverviewSortProperty,
-    direction: MarketParticipantSortDirctionType
+    direction: UiSortDirectionType
   ) => void;
 
   @Output() reload = new EventEmitter<void>();
@@ -119,7 +119,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
       const property = (x.active.charAt(0).toUpperCase() +
         x.active.slice(1)) as UiUserOverviewSortProperty;
       const direction = (x.direction.charAt(0).toUpperCase() +
-        x.direction.slice(1)) as MarketParticipantSortDirctionType;
+        x.direction.slice(1)) as UiSortDirectionType;
 
       this.sortChanged(property, direction);
     });
