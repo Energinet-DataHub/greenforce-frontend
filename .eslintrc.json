@@ -221,6 +221,15 @@
       "files": "*.json",
       "parser": "jsonc-eslint-parser",
       "rules": {}
+    },
+    {
+      "files": ["*.graphql"],
+      "excludedFiles": ["schema.graphql"],
+      "extends": "plugin:@graphql-eslint/operations-recommended"
+    },
+    {
+      "files": "schema.graphql",
+      "extends": "plugin:@graphql-eslint/schema-recommended"
     }
   ]
 }
