@@ -516,8 +516,16 @@ function getSelectedActorQuery() {
         __typename: 'Query',
         selectedActor: {
           __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000001',
           glnOrEicNumber: '123',
-          gridAreas: [{ __typename: 'GridAreaDto', code: '805', name: 'hello' }],
+          gridAreas: [
+            {
+              __typename: 'GridAreaDto',
+              id: '00000000-0000-0000-0000-000000000002',
+              code: '805',
+              name: 'hello',
+            },
+          ],
           marketRole: EicFunction.EnergySupplier,
         },
       },
@@ -622,6 +630,7 @@ function getLatestCalculation() {
         __typename: 'Query',
         latestCalculation: {
           __typename: 'Calculation',
+          id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
         },
       },
