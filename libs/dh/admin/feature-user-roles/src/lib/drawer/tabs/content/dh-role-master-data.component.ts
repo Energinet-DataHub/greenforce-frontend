@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
@@ -38,5 +38,5 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
   ],
 })
 export class DhRoleMasterDataComponent {
-  @Input() role: DhUserRoleWithPermissions | null = null;
+  role = input<DhUserRoleWithPermissions | null>(null);
 }
