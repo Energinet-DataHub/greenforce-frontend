@@ -32,7 +32,7 @@ import {
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetGridAreasQuery,
-  mockGetLatestBalanceFixingQuery,
+  mockGetLatestCalculationQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
@@ -56,7 +56,7 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
     getGridAreasQuery(),
-    getLatestBalanceFixing(),
+    getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
@@ -614,13 +614,13 @@ function getGridAreasQuery() {
   });
 }
 
-function getLatestBalanceFixing() {
-  return mockGetLatestBalanceFixingQuery(async () => {
+function getLatestCalculation() {
+  return mockGetLatestCalculationQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        latestBalanceFixing: {
+        latestCalculation: {
           __typename: 'Calculation',
           period: { start: periodStart, end: periodEnd },
         },
