@@ -707,9 +707,9 @@
           "AGGREGATION": "Aggregering"
         },
         "messageType": {
-          "MGA_EXCHANGE": "Udveksling",
-          "PRODUCTION": "Produktion",
-          "CONSUMPTION": "Forbrug"
+          "MgaExchange": "Udveksling",
+          "Production": "Produktion",
+          "Consumption": "Forbrug"
         },
         "documentStatus": {
           "RECEIVED": "Modtaget",
