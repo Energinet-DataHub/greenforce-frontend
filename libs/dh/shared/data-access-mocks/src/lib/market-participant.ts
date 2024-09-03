@@ -166,7 +166,7 @@ function getOrganizationById() {
     const { id } = variables;
 
     const organizationById = {
-      ...getOrganizationsQueryMock.organizations.find((a) => a.organizationId === id),
+      ...getOrganizationsQueryMock.organizations.find((a) => a.id === id),
       address: {
         __typename: 'AddressDto',
         country: 'DK',

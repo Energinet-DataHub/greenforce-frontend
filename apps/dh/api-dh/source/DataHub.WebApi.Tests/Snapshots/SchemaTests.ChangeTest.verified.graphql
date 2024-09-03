@@ -380,7 +380,7 @@ type Mutation {
 }
 
 type Organization {
-  organizationId: String
+  id: UUID!
   actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
