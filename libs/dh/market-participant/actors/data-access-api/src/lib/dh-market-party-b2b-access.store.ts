@@ -43,8 +43,8 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById']['credentials'];
 
 interface DhB2BAccessState {
-  credentials: ActorCredentials | null;
-  clientSecret: string | null;
+  credentials: ActorCredentials | null | undefined;
+  clientSecret: string | undefined;
   loadingCredentials: boolean;
   generateSecretInProgress: boolean;
   uploadInProgress: boolean;
@@ -53,7 +53,7 @@ interface DhB2BAccessState {
 
 const initialState: DhB2BAccessState = {
   credentials: null,
-  clientSecret: null,
+  clientSecret: undefined,
   loadingCredentials: true,
   generateSecretInProgress: false,
   uploadInProgress: false,
@@ -222,7 +222,8 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
                   if (clientSecret.error) onError();
 
                   this.patchState({
-                    clientSecret: clientSecret.data?.requestClientSecretCredentials?.secretText,
+                    clientSecret:
+                      clientSecret.data?.requestClientSecretCredentials?.secretText ?? undefined,
                   });
 
                   onSuccess();
@@ -239,7 +240,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
   readonly resetClientSecret = this.updater(
     (state): DhB2BAccessState => ({
       ...state,
-      clientSecret: null,
+      clientSecret: undefined,
     })
   );
 
@@ -259,7 +260,7 @@ export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState
           return this.client.delete(removeUrl).pipe(
             tapResponse(
               () => {
-                this.patchState({ credentials: null, clientSecret: null });
+                this.patchState({ credentials: null, clientSecret: undefined });
 
                 onSuccess();
               },
