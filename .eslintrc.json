@@ -229,7 +229,19 @@
     },
     {
       "files": "schema.graphql",
-      "extends": "plugin:@graphql-eslint/schema-recommended"
+      "extends": "plugin:@graphql-eslint/schema-recommended",
+      "rules": {
+        "@graphql-eslint/require-description": "off",
+        "@graphql-eslint/strict-id-in-types": [
+          "error",
+          {
+            "acceptedIdTypes": ["UUID"],
+            "exceptions": {
+              "suffixes": ["Payload"]
+            }
+          }
+        ]
+      }
     }
   ]
 }
