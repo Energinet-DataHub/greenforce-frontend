@@ -44,7 +44,7 @@ const userActorRoles: ActorUserRole[] = [
   },
 ];
 
-export const actors = (organizationId: string): Actor[] => [
+export const actors = (id: string): Actor[] => [
   {
     __typename: 'Actor',
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
@@ -58,7 +58,7 @@ export const actors = (organizationId: string): Actor[] => [
     status: ActorStatus.Inactive,
     organization: {
       __typename: 'Organization',
-      organizationId,
+      id,
       name: '',
     } as Organization,
   },
@@ -75,7 +75,7 @@ export const actors = (organizationId: string): Actor[] => [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
-      organizationId,
+      id,
       name: '',
     } as Organization,
   },

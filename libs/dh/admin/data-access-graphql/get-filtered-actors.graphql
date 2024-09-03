@@ -3,6 +3,7 @@ query GetFilteredActors {
     displayName
     id
     organization {
+      id
       domain
     }
   }
