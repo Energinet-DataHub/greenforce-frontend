@@ -155,6 +155,8 @@ export const DhOutgoingMessagesSignalStore = signalStore(
       } = filters;
       store.outgoingMessageQuery().query({
         variables: {
+          // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
+          // whereas our endpoint's `pageNumber` param starts at `1`
           pageNumber: pageIndex + 1,
           pageSize: pageSize,
           calculationType: calculationTypes,

@@ -5,7 +5,7 @@ query downloadEsettExchangeEvents(
   $sentInterval: DateRange
   $gridAreaCodes: [String!]
   $calculationType: ExchangeEventCalculationType
-  $timeSeriesType: TimeSeriesType
+  $timeSeriesType: EsettTimeSeriesType
   $documentStatuses: [DocumentStatus!]
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!

@@ -36,7 +36,7 @@ import {
   ExchangeEventCalculationType,
   ExchangeEventSearchResult,
   PriceAreaCode,
-  TimeSeriesType,
+  EsettTimeSeriesType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
@@ -60,7 +60,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     calculationType: ExchangeEventCalculationType.Aggregation,
     gridAreaCodeOut: null,
     documentStatus: DocumentStatus.Accepted,
-    timeSeriesType: TimeSeriesType.Consumption,
+    timeSeriesType: EsettTimeSeriesType.Consumption,
   },
   {
     __typename: 'ExchangeEventSearchResult',
@@ -85,7 +85,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     calculationType: ExchangeEventCalculationType.Aggregation,
     gridAreaCodeOut: '111',
     documentStatus: DocumentStatus.Rejected,
-    timeSeriesType: TimeSeriesType.Production,
+    timeSeriesType: EsettTimeSeriesType.Production,
   },
   {
     __typename: 'ExchangeEventSearchResult',
@@ -110,7 +110,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     calculationType: ExchangeEventCalculationType.Aggregation,
     gridAreaCodeOut: '222',
     documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Production,
+    timeSeriesType: EsettTimeSeriesType.Production,
   },
   {
     __typename: 'ExchangeEventSearchResult',
@@ -135,7 +135,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     calculationType: ExchangeEventCalculationType.BalanceFixing,
     gridAreaCodeOut: '333',
     documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Production,
+    timeSeriesType: EsettTimeSeriesType.Production,
   },
   {
     __typename: 'ExchangeEventSearchResult',
@@ -160,7 +160,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     calculationType: ExchangeEventCalculationType.BalanceFixing,
     gridAreaCodeOut: '333',
     documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Production,
+    timeSeriesType: EsettTimeSeriesType.Production,
   },
   {
     __typename: 'ExchangeEventSearchResult',
@@ -185,6 +185,6 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     calculationType: ExchangeEventCalculationType.BalanceFixing,
     gridAreaCodeOut: '333',
     documentStatus: DocumentStatus.AwaitingReply,
-    timeSeriesType: TimeSeriesType.Production,
+    timeSeriesType: EsettTimeSeriesType.Production,
   },
 ];

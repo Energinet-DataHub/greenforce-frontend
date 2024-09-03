@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, debounceTime } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
@@ -106,12 +106,10 @@ export class DhOutgoingMessagesComponent {
   private store = inject(DhOutgoingMessagesSignalStore);
   private toastService = inject(WattToastService);
 
-  tableDataSource = computed(
-    () =>
-      new WattTableDataSource<DhOutgoingMessage>(this.store.outgoingMessages(), {
-        disableClientSideSort: true,
-      })
-  );
+  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], {
+    disableClientSideSort: true,
+  });
+
   totalCount = this.store.outgoingMessagesTotalCount;
   gridAreaCount = this.store.gridAreaCount;
 
@@ -141,6 +139,10 @@ export class DhOutgoingMessagesComponent {
   constructor() {
     this.documentIdSearch$.pipe(debounceTime(250), takeUntilDestroyed()).subscribe((documentId) => {
       this.store.documentIdUpdate(documentId);
+    });
+
+    effect(() => {
+      this.tableDataSource.data = this.store.outgoingMessages();
     });
   }
 

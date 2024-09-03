@@ -21,7 +21,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhMeteringGridAreaImbalanceFilters = {
-  gridAreas?: InputMaybe<string | [string]>;
+  gridAreas?: InputMaybe<[string]>;
   valuesToInclude: MeteringGridImbalanceValuesToInclude;
   created?: InputMaybe<Scalars['DateRange']['input']>;
   calculationPeriod?: InputMaybe<Scalars['DateRange']['input']>;

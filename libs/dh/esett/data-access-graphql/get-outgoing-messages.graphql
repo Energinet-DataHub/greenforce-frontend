@@ -7,7 +7,7 @@ query getOutgoingMessages(
   $createdInterval: DateRange
   $calculationType: ExchangeEventCalculationType
   $documentStatuses: [DocumentStatus!]
-  $timeSeriesType: TimeSeriesType
+  $timeSeriesType: EsettTimeSeriesType
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
