@@ -17,12 +17,10 @@ using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
 
-public class UIUserOverviewSortPropertyType : EnumType<MarketParticipant.UserOverviewSortProperty>
+public class UserOverviewSortPropertyType : EnumType<MarketParticipant.UserOverviewSortProperty>
 {
     protected override void Configure(IEnumTypeDescriptor<MarketParticipant.UserOverviewSortProperty> descriptor)
     {
-        descriptor
-            .Name("UIUserOverviewSortProperty")
-            .AsIsCase();
+        descriptor.AsIsCase();
     }
 }

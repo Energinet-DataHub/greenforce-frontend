@@ -27,7 +27,7 @@ import {
   GetAllUsersDocument,
   MarketParticipantSortDirctionType,
   UserOverviewSearchDocument,
-  UiUserOverviewSortProperty,
+  UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhUsers } from '@energinet-datahub/dh/admin/shared';
@@ -68,7 +68,7 @@ interface DhUserManagementState {
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
   readonly pageSize: number;
-  readonly sortProperty: UiUserOverviewSortProperty;
+  readonly sortProperty: UserOverviewSortProperty;
   readonly direction: MarketParticipantSortDirctionType;
   readonly searchText: string | undefined;
   readonly statusFilter: UserStatus[] | null;
@@ -82,7 +82,7 @@ export const initialState: DhUserManagementState = {
   usersRequestState: LoadingState.INIT,
   pageNumber: 1,
   pageSize: 50,
-  sortProperty: UiUserOverviewSortProperty.Email,
+  sortProperty: UserOverviewSortProperty.Email,
   direction: MarketParticipantSortDirctionType.Asc,
   searchText: undefined,
   statusFilter: [UserStatus.Active, UserStatus.Invited, UserStatus.InviteExpired],
@@ -224,10 +224,7 @@ export class DhAdminUserManagementDataAccessApiStore
     });
   }
 
-  updateSort(
-    sortProperty: UiUserOverviewSortProperty,
-    direction: MarketParticipantSortDirctionType
-  ) {
+  updateSort(sortProperty: UserOverviewSortProperty, direction: MarketParticipantSortDirctionType) {
     this.patchState({ sortProperty, direction });
   }
 
@@ -242,7 +239,7 @@ export class DhAdminUserManagementDataAccessApiStore
           actorId: actorIdFilter,
           userStatus: statusFilter,
           userRoleIds: userRoleFilter,
-          sortProperty: UiUserOverviewSortProperty.Email,
+          sortProperty: UserOverviewSortProperty.Email,
           sortDirection: MarketParticipantSortDirctionType.Asc,
         },
       })

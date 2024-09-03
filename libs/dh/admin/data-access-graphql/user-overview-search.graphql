@@ -6,7 +6,7 @@ query userOverviewSearch(
   $pageNumber: Int!
   $pageSize: Int!
   $sortDirection: MarketParticipantSortDirctionType!
-  $sortProperty: UIUserOverviewSortProperty!
+  $sortProperty: UserOverviewSortProperty!
 ) {
   userOverviewSearch(
     actorId: $actorId

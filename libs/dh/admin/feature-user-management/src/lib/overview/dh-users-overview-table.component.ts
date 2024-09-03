@@ -47,7 +47,7 @@ import {
 
 import {
   MarketParticipantSortDirctionType,
-  UiUserOverviewSortProperty,
+  UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -102,7 +102,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   @Input({ required: true }) hasGeneralError = false;
 
   @Input({ required: true }) sortChanged!: (
-    prop: UiUserOverviewSortProperty,
+    prop: UserOverviewSortProperty,
     direction: MarketParticipantSortDirctionType
   ) => void;
 
@@ -117,7 +117,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
       const property = (x.active.charAt(0).toUpperCase() +
-        x.active.slice(1)) as UiUserOverviewSortProperty;
+        x.active.slice(1)) as UserOverviewSortProperty;
       const direction = (x.direction.charAt(0).toUpperCase() +
         x.direction.slice(1)) as MarketParticipantSortDirctionType;
 

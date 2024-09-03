@@ -52,7 +52,7 @@ import {
 import {
   GetFilteredActorsDocument,
   MarketParticipantSortDirctionType,
-  UiUserOverviewSortProperty,
+  UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -168,7 +168,7 @@ export class DhUsersOverviewComponent {
   }
 
   sortChanged = (
-    sortProperty: UiUserOverviewSortProperty,
+    sortProperty: UserOverviewSortProperty,
     direction: MarketParticipantSortDirctionType
   ) => this.store.updateSort(sortProperty, direction);
 
