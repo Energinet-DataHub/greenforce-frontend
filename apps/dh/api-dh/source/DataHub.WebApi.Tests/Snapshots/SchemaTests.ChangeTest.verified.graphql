@@ -42,10 +42,6 @@ type ActorClientSecretCredentialsDto {
   expirationDate: DateTime!
 }
 
-type ActorClientSecretDto {
-  secretText: String!
-}
-
 type ActorContactDto {
   contactId: UUID!
   actorId: UUID!
@@ -498,7 +494,7 @@ type RequestCalculationPayload {
 }
 
 type RequestClientSecretCredentialsPayload {
-  actorClientSecretDto: ActorClientSecretDto
+  secretText: String
 }
 
 type RequestSettlementReportGridAreaCalculation {
