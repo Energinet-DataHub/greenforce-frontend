@@ -17,9 +17,9 @@
 import { Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhAdminShellComponent } from './dh-admin-shell.component';
-
 import { AdminSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+
+import { DhAdminShellComponent } from './dh-admin-shell.component';
 
 export const dhAdminShellRoutes: Routes = [
   {
@@ -45,6 +45,7 @@ export const dhAdminShellRoutes: Routes = [
       },
       {
         path: getPath<AdminSubPaths>('permissions'),
+        canActivate: [PermissionGuard(['fas'])],
         loadComponent: () => import('@energinet-datahub/dh/admin/feature-permissions'),
       },
     ],
