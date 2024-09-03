@@ -98,16 +98,16 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   save(): void {
     if (this.domainControl.invalid || this.isLoading) return;
 
-    const { organizationId } = this.organization();
+    const { id } = this.organization();
 
-    if (!organizationId) return;
+    if (!id) return;
 
     this.apollo
       .mutate({
         mutation: UpdateOrganizationDocument,
         variables: {
           input: {
-            orgId: organizationId,
+            orgId: id,
             domain: this.domainControl.value,
           },
         },

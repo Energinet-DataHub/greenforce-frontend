@@ -60,7 +60,7 @@ const actors = [
     status: ActorStatus.Inactive,
     organization: {
       __typename: 'Organization',
-      organizationId: '1',
+      id: '1',
       name: '',
     } as Organization,
   },
@@ -77,7 +77,7 @@ const actors = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
-      organizationId: '1',
+      id: '1',
       name: '',
     } as Organization,
   },

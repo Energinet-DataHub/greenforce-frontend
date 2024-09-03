@@ -25,7 +25,7 @@ public class OrganizationType : ObjectType<OrganizationDto>
 
         descriptor
             .Field(f => f.OrganizationId)
-            .Resolve(context => context.Parent<OrganizationDto>().OrganizationId.ToString());
+            .Name("id");
         descriptor
             .Field("actors")
            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsForOrganizationAsync(default!, default!));

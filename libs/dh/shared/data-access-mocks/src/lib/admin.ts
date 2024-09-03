@@ -502,6 +502,7 @@ function getAllUsersQuery() {
                 name: 'Market participant name',
                 organization: {
                   __typename: 'Organization',
+                  id: '1',
                   name: 'Organization name',
                 },
               },
