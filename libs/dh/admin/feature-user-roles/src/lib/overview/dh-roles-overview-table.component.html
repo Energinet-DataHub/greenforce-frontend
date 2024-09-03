@@ -27,10 +27,10 @@ limitations under the License.
     [activeRow]="activeRow"
     [activeRowComparator]="activeRowComparator"
     [sortClear]="false"
-    [loading]="isLoading"
+    [loading]="isLoading()"
   >
-    <ng-container *wattTableCell="columns['marketRole']; let mr">
-      {{ t(mr.eicFunction) }}
+    <ng-container *wattTableCell="columns['marketRole']; let role">
+      {{ t(role.eicFunction) }}
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; let role">
@@ -38,13 +38,13 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  @if (!isLoading && roles.length === 0) {
+  @if (!isLoading() && roles().length === 0) {
     <vater-stack
       fill="vertical"
       justify="center"
       *transloco="let t; read: 'admin.userManagement.tabs.roles'"
     >
-      @if (hasGeneralError) {
+      @if (hasGeneralError()) {
         <dh-tab-data-general-error (reload)="reload.emit()" />
       } @else {
         <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
