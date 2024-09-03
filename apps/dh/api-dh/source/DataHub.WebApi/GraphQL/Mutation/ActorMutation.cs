@@ -135,9 +135,8 @@ public partial class Mutation
         return true;
     }
 
-    [UseMutationConvention(PayloadFieldName = "secretText")]
-    public async Task<string> RequestClientSecretCredentialsAsync(
+    public async Task<ActorClientSecretDto> RequestClientSecretCredentialsAsync(
         Guid actorId,
         [Service] IMarketParticipantClient_V1 client) =>
-            (await client.ActorCredentialsSecretAsync(actorId)).SecretText;
+            await client.ActorCredentialsSecretAsync(actorId);
 }
