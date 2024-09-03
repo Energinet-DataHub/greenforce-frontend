@@ -10,6 +10,7 @@ subscription OnCalculationProgress($input: CalculationQueryInput!) {
     calculationType
     createdByUserName
     gridAreas {
+      id
       code
       displayName
     }

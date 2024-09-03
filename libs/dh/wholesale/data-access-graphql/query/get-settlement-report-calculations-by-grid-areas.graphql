@@ -13,6 +13,7 @@ query GetSettlementReportCalculationsByGridAreas(
       calculationId
       calculationDate
       gridAreaWithName {
+        id
         displayName
         code
       }

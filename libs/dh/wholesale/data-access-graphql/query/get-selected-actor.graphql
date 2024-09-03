@@ -1,8 +1,10 @@
 query GetSelectedActor {
   selectedActor {
+    id
     glnOrEicNumber
     marketRole
     gridAreas {
+      id
       code
       name
     }
