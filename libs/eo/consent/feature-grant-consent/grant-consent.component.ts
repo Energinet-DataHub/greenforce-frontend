@@ -99,6 +99,12 @@ import { translations } from '@energinet-datahub/eo/translations';
         }
       }
 
+      .description {
+        display: flex;
+        flex-direction: column;
+        gap: var(--watt-space-m);
+      }
+
       .loading-container {
         height: 100%;
         display: flex;
@@ -127,12 +133,8 @@ import { translations } from '@energinet-datahub/eo/translations';
               translations.grantConsent.title | transloco: { organizationName: organizationName() }
             }}
           </h3>
-          <p>
-            {{
-              translations.grantConsent.description
-                | transloco: { organizationName: organizationName() }
-            }}
-          </p>
+          <div class="description" [innerHTML]="translations.grantConsent.description
+                | transloco: { organizationName: organizationName() }"></div>
 
           <ul>
             @for (permission of permissions; track permission) {

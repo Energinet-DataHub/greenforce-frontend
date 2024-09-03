@@ -757,8 +757,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   grantConsent: {
     title: '{{organizationName}} has requested authorization',
-    description:
-      'Grant {{organizationName}} authorization for the following functionalities on Energy Track And Trace',
+    description: `
+        <p>{{organizationName}} is a service provider that is registered as a third party in Energy Track & Trace Denmark, and can therefore request a power of attorney from you as an electricity consumer and/or electricity producer.</p>
+        <p>A service provider offers energy services to customers based on your electricity consumption and/or production. The third party will have access to what you allow in the checkboxes below.</p>
+        <p>You can withdraw your power of attorney at any time (in whole or in part) if you no longer wish to share your data with a third party.</p>`,
     permissions: {
       overview: {
         title: 'Overview',
