@@ -751,8 +751,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   grantConsent: {
     title: '{{organizationName}} har anmodet om fuldmagt',
-    description:
-      `<p>{{organizationName}} er en service provider, der er oprettet som 3. part i Energy Track & Trace Danmark, og kan dermed anmode om fuldmagt fra dig som elforbruger og/eller elproducent.</p>
+    description: `<p>{{organizationName}} er en service provider, der er oprettet som 3. part i Energy Track & Trace Danmark, og kan dermed anmode om fuldmagt fra dig som elforbruger og/eller elproducent.</p>
        <p>En service provider tilbyder energiydelser til kunder baseret på dit el-forbrug og/eller produk-tion. 3. parten får adgang til det, du tillader i afkrydsningsboksene herunder.</p>
        <p>Du kan til enhver tid trække din fuldmagt tilbage (helt eller delvist), hvis du ikke længere ønsker at dele dine data med en tredjepart.</p>`,
     permissions: {

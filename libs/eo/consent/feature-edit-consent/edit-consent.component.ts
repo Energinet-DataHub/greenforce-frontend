@@ -133,7 +133,13 @@ import { translations } from '@energinet-datahub/eo/translations';
         @if (!isLoading()) {
           <h4>{{ translations.editConsent.permissions | transloco }}</h4>
 
-          <div class="description" [innerHTML]="translations.editConsent.description | transloco: { organizationName: consent.clientName }"></div>
+          <div
+            class="description"
+            [innerHTML]="
+              translations.editConsent.description
+                | transloco: { organizationName: consent.clientName }
+            "
+          ></div>
 
           <ul>
             @for (permission of permissions; track permission) {
@@ -146,8 +152,10 @@ import { translations } from '@energinet-datahub/eo/translations';
             }
           </ul>
 
-          <div class="postscript" [innerHTML]="translations.editConsent.postscript | transloco"></div>
-
+          <div
+            class="postscript"
+            [innerHTML]="translations.editConsent.postscript | transloco"
+          ></div>
         } @else {
           <div class="loading-container">
             <watt-spinner />

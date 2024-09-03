@@ -133,8 +133,13 @@ import { translations } from '@energinet-datahub/eo/translations';
               translations.grantConsent.title | transloco: { organizationName: organizationName() }
             }}
           </h3>
-          <div class="description" [innerHTML]="translations.grantConsent.description
-                | transloco: { organizationName: organizationName() }"></div>
+          <div
+            class="description"
+            [innerHTML]="
+              translations.grantConsent.description
+                | transloco: { organizationName: organizationName() }
+            "
+          ></div>
 
           <ul>
             @for (permission of permissions; track permission) {
