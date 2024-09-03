@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
 
-public class UISortDirectionType : EnumType<SortDirection>
+public class SortDirctionType : EnumType<MarketParticipant.SortDirection>
 {
-    protected override void Configure(IEnumTypeDescriptor<SortDirection> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MarketParticipant.SortDirection> descriptor)
     {
-        descriptor.Name("UISortDirectionType");
+        descriptor.Name("MarketParticipantSortDirctionType");
         descriptor.AsIsCase();
     }
 }

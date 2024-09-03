@@ -4,7 +4,7 @@ query GetAllUsers(
   $userRoleIds: [UUID!]
   $pageNumber: Int!
   $pageSize: Int!
-  $sortDirection: UISortDirectionType!
+  $sortDirection: MarketParticipantSortDirctionType!
   $sortProperty: UIUserOverviewSortProperty!
 ) {
   userOverviewSearch(
