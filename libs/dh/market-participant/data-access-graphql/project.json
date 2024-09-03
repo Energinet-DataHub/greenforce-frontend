@@ -2,7 +2,7 @@
   "name": "dh-market-participant-data-access-graphql",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/market-participant/data-access-graphql/src",
+  "sourceRoot": "libs/dh/market-participant/data-access-graphql",
   "prefix": "dh",
   "tags": ["product:dh", "domain:market-participant", "type:data-access"],
   "targets": {
