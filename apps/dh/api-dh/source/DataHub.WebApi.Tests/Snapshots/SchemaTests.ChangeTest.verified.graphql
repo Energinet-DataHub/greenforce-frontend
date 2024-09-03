@@ -441,7 +441,8 @@ type Query {
   selectionActors: [SelectionActorDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
-  latestBalanceFixing(period: DateRange!): Calculation
+  latestBalanceFixing(period: DateRange!): Calculation @deprecated(reason: "Use `latestCalculation` instead")
+  latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -726,7 +727,7 @@ input CreateCalculationInput {
   executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: StartCalculationType!
+  calculationType: CalculationType!
   scheduledAt: DateTime
 }
 
@@ -1174,22 +1175,6 @@ enum SettlementReportStatusType {
 enum SortDirection {
   ASCENDING
   DESCENDING
-}
-
-"Defines the wholesale orchestrations calculation type"
-enum StartCalculationType {
-  "Balance fixing"
-  BALANCE_FIXING
-  "Aggregation."
-  AGGREGATION
-  "Wholesale fixing."
-  WHOLESALE_FIXING
-  "First correction settlement."
-  FIRST_CORRECTION_SETTLEMENT
-  "Second correction settlement."
-  SECOND_CORRECTION_SETTLEMENT
-  "Third correction settlement."
-  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum TimeSeriesType {

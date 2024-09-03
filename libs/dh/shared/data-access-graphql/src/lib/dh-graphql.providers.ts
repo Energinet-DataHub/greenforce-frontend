@@ -75,6 +75,9 @@ export const graphQLProviders = makeEnvironmentProviders([
         cache: new InMemoryCache({
           typePolicies: {
             ...scalarTypePolicies,
+            Organization: {
+              merge: true,
+            },
             MessageDelegationType: {
               keyFields: ['id', 'periodId'],
             },
