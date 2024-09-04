@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { Component, ViewChild, inject, signal } from '@angular/core';
-import { Apollo, MutationResult } from 'apollo-angular';
+import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { MutationResult } from 'apollo-angular';
 import {
   FormControl,
   FormGroup,
@@ -40,6 +40,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhProfileModalService } from './dh-profile-modal.service';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 type UserPreferencesForm = FormGroup<{
   email: FormControl<string>;
@@ -85,22 +86,23 @@ type UserPreferencesForm = FormGroup<{
   templateUrl: './dh-profile-modal.component.html',
 })
 export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
-  private readonly _formBuilder = inject(NonNullableFormBuilder);
-  private readonly _toastService = inject(WattToastService);
-  private readonly _apollo = inject(Apollo);
-  private readonly _profileModalService = inject(DhProfileModalService);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly toastService = inject(WattToastService);
+  private readonly profileModalService = inject(DhProfileModalService);
 
-  private readonly _getUserProfileQuery = this._apollo.watchQuery({
-    returnPartialData: true,
-    query: GetUserProfileDocument,
-  });
-  protected loadingUserProfile = signal<boolean>(false);
-  protected updatingUserProfile = signal<boolean>(false);
+  private readonly getUserProfileQuery = query(GetUserProfileDocument, { returnPartialData: true });
+  private readonly updateUserProfileMutation = mutation(UpdateUserProfileDocument);
 
-  @ViewChild(WattModalComponent)
-  private _profileModal!: WattModalComponent;
+  private profileModal = viewChild.required(WattModalComponent);
 
-  userPreferencesForm: UserPreferencesForm = this._formBuilder.group({
+  private userProfile = computed(() => this.getUserProfileQuery.data()?.userProfile);
+
+  hasFederatedLogin = computed(() => this.userProfile()?.hasFederatedLogin);
+
+  loadingUserProfile = this.getUserProfileQuery.loading;
+  updatingUserProfile = this.updateUserProfileMutation.loading;
+
+  userPreferencesForm: UserPreferencesForm = this.formBuilder.group({
     email: { value: this.modalData.email, disabled: true },
     phoneNumber: ['', Validators.required],
     firstName: ['', Validators.required],
@@ -109,60 +111,59 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
   constructor() {
     super();
-    this._getUserProfileQuery.valueChanges.subscribe((result) => {
-      this.loadingUserProfile.set(result.loading);
-      if (result.data?.userProfile === undefined) return;
-
-      const { firstName, lastName, phoneNumber } = result.data.userProfile;
-      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
-    });
+    effect(
+      () => {
+        const userProfile = this.userProfile();
+        if (userProfile === undefined) return;
+        const { phoneNumber, firstName, lastName } = userProfile;
+        this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   closeModal(saveSuccess: boolean) {
-    this._profileModal.close(saveSuccess);
+    this.profileModal().close(saveSuccess);
   }
 
-  save() {
+  async save() {
     if (this.userPreferencesForm.invalid) {
       return;
     }
 
     const { firstName, lastName, phoneNumber } = this.userPreferencesForm.getRawValue();
 
-    this._apollo
-      .mutate<UpdateUserProfileMutation>({
-        mutation: UpdateUserProfileDocument,
-        variables: {
-          input: {
-            userProfileUpdateDto: {
-              firstName,
-              lastName,
-              phoneNumber,
-            },
+    const response = await this.updateUserProfileMutation.mutate({
+      refetchQueries: [GetUserProfileDocument],
+      variables: {
+        input: {
+          userProfileUpdateDto: {
+            firstName,
+            lastName,
+            phoneNumber,
           },
         },
-      })
-      .subscribe((result) => this.handleUpdateUserProfileResponse(result));
+      },
+    });
+
+    this.handleUpdateUserProfileResponse(response);
   }
 
   private handleUpdateUserProfileResponse(response: MutationResult<UpdateUserProfileMutation>) {
-    this.updatingUserProfile.set(response.loading);
-
     if (
       response.data?.updateUserProfile?.errors &&
       response.data?.updateUserProfile?.errors.length > 0
     ) {
-      this._toastService.open({
+      this.toastService.open({
         type: 'danger',
         message: readApiErrorResponse(response.data?.updateUserProfile?.errors),
       });
     }
 
     if (response.data?.updateUserProfile?.saved) {
-      this._toastService.open({ message: translate('shared.profile.success'), type: 'success' });
+      this.toastService.open({ message: translate('shared.profile.success'), type: 'success' });
       this.closeModal(true);
-      this._getUserProfileQuery.refetch();
-      this._profileModalService.notifyAboutProfileUpdate();
+      this.profileModalService.notifyAboutProfileUpdate();
     }
   }
 }

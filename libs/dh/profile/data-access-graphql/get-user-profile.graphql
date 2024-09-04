@@ -3,5 +3,6 @@ query getUserProfile {
     firstName
     lastName
     phoneNumber
+    hasFederatedLogin
   }
 }
