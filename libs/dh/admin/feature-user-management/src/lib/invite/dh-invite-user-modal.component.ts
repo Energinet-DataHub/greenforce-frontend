@@ -145,7 +145,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       [
         (control) => {
           if (control.value) {
-            this.checkForAssociatedActors
+            return this.checkForAssociatedActors
               .query({ variables: { email: control.value } })
               .then((result) => {
                 const associatedActors = result.data?.associatedActors.actors ?? [];
