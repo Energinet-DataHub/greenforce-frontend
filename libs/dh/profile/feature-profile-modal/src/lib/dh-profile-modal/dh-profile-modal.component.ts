@@ -34,7 +34,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
-  GetUserProfileDocument,
+  UserProfileDocument,
   UpdateUserProfileDocument,
   UpdateUserProfileMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -90,17 +90,17 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   private readonly toastService = inject(WattToastService);
   private readonly profileModalService = inject(DhProfileModalService);
 
-  private readonly getUserProfileQuery = query(GetUserProfileDocument, { returnPartialData: true });
-  private readonly updateUserProfileMutation = mutation(UpdateUserProfileDocument);
+  private readonly userProfileQuery = query(UserProfileDocument, { returnPartialData: true });
+  private readonly userProfileMutation = mutation(UpdateUserProfileDocument);
 
   private profileModal = viewChild.required(WattModalComponent);
 
-  private userProfile = computed(() => this.getUserProfileQuery.data()?.userProfile);
+  private userProfile = computed(() => this.userProfileQuery.data()?.userProfile);
 
   hasFederatedLogin = computed(() => this.userProfile()?.hasFederatedLogin);
 
-  loadingUserProfile = this.getUserProfileQuery.loading;
-  updatingUserProfile = this.updateUserProfileMutation.loading;
+  loadingUserProfile = this.userProfileQuery.loading;
+  updatingUserProfile = this.userProfileMutation.loading;
 
   userPreferencesForm: UserPreferencesForm = this.formBuilder.group({
     email: { value: this.modalData.email, disabled: true },
@@ -133,8 +133,8 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
     const { firstName, lastName, phoneNumber } = this.userPreferencesForm.getRawValue();
 
-    const response = await this.updateUserProfileMutation.mutate({
-      refetchQueries: [GetUserProfileDocument],
+    const response = await this.userProfileMutation.mutate({
+      refetchQueries: [UserProfileDocument],
       variables: {
         input: {
           userProfileUpdateDto: {

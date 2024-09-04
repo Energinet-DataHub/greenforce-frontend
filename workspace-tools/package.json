@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "ts-morph": "22.0.0",
-    "prettier": "3.2.5",
+    "prettier": "3.3.3",
     "@nx/devkit": "19.4.2",
     "@nx/angular": "19.4.2",
     "tslib": "2.4.0"
