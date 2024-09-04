@@ -30,6 +30,7 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
             calculationId: '8ff516a1-95b0-4f07-9b58-3fb94791casd',
             gridAreaWithName: {
               __typename: 'GridAreaDto',
+              id: '00000000-0000-0000-0000-000000000002',
               code: '002',
               displayName: '002 • Gul netvirksomhed',
             },
@@ -40,6 +41,7 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
             calculationId: '911d0c33-3232-49e1-00aa-bcef313d1098',
             gridAreaWithName: {
               __typename: 'GridAreaDto',
+              id: '00000000-0000-0000-0000-000000000002',
               code: '002',
               displayName: '002 • Gul netvirksomhed',
             },

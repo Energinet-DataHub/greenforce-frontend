@@ -39,6 +39,7 @@ query getOutgoingMessages(
       calculationType
       timeSeriesType
       gridArea {
+        id
         displayName
       }
       gridAreaCodeOut

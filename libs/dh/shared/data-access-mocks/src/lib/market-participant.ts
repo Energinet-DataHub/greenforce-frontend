@@ -131,6 +131,7 @@ function getActorEditableFields() {
     const query: GetActorEditableFieldsQuery = {
       __typename: 'Query',
       actorById: {
+        id: '00000000-0000-0000-0000-000000000005',
         __typename: 'Actor',
         name: 'Test Actor 1',
         organization: {
@@ -521,6 +522,7 @@ function getBalanceResponsibleRelation() {
         data: {
           __typename: 'Query',
           actorById: {
+            id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
             __typename: 'Actor',
             balanceResponsibleAgreements: [],
           },
@@ -532,6 +534,7 @@ function getBalanceResponsibleRelation() {
       data: {
         __typename: 'Query',
         actorById: {
+          id: '00000000-0000-0000-0000-000000000006',
           __typename: 'Actor',
           balanceResponsibleAgreements,
         },

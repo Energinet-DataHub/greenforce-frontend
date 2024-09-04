@@ -85,6 +85,7 @@
       }
     },
     "@nx/eslint:lint": {
+      "dependsOn": ["^generate"],
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
       "cache": true
     }

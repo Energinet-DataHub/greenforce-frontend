@@ -1,15 +1,16 @@
-subscription OnCalculationProgress($input: CalculationQueryInput!) {
-  calculationProgress(input: $input) {
+query GetCalculationById($id: UUID!) {
+  calculationById(id: $id) {
     id
     state
-    executionTimeEnd
     executionTimeStart
+    executionTimeEnd
     period
     statusType
     executionType
     calculationType
     createdByUserName
     gridAreas {
+      id
       code
       displayName
     }

@@ -2,7 +2,12 @@
   "name": "dh-admin-data-access-graphql",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/admin/data-access-graphql/src",
+  "sourceRoot": "libs/dh/admin/data-access-graphql",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:admin", "type:data-access"]
+  "tags": ["product:dh", "domain:admin", "type:data-access"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
 }

@@ -17,9 +17,11 @@ query GetAllUsers(
     sortDirection: $sortDirection
   ) {
     users {
+      id
       name
       email
       administratedBy {
+        id
         name
         organization {
           id

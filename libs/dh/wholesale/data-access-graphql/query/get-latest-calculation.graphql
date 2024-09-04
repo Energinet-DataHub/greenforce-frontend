@@ -3,6 +3,7 @@ query GetLatestCalculation(
   $calculationType: CalculationType!
 ) {
   latestCalculation(period: $period, calculationType: $calculationType) {
+    id
     period
   }
 }

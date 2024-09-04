@@ -1,5 +1,6 @@
 query getBalanceResponsibleRelation($id: UUID!) {
   actorById(id: $id) {
+    id
     balanceResponsibleAgreements {
       validPeriod
       status
