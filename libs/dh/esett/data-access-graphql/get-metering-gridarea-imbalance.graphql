@@ -4,7 +4,7 @@ query getMeteringGridAreaImbalance(
   $createdFrom: DateTime
   $createdTo: DateTime
   $calculationPeriod: DateRange
-  $gridAreaCode: String
+  $gridAreaCodes: [String!]
   $documentId: String
   $valuesToInclude: MeteringGridImbalanceValuesToInclude!
   $sortProperty: MeteringGridAreaImbalanceSortProperty!
@@ -16,7 +16,7 @@ query getMeteringGridAreaImbalance(
     createdFrom: $createdFrom
     createdTo: $createdTo
     calculationPeriod: $calculationPeriod
-    gridAreaCode: $gridAreaCode
+    gridAreaCodes: $gridAreaCodes
     documentId: $documentId
     sortProperty: $sortProperty
     sortDirection: $sortDirection

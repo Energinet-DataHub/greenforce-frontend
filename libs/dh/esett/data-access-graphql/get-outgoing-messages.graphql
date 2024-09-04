@@ -3,11 +3,11 @@ query getOutgoingMessages(
   $pageSize: Int!
   $periodInterval: DateRange
   $sentInterval: DateRange
-  $gridAreaCode: String
+  $gridAreaCodes: [String!]
   $createdInterval: DateRange
   $calculationType: ExchangeEventCalculationType
-  $documentStatus: DocumentStatus
-  $timeSeriesType: TimeSeriesType
+  $documentStatuses: [DocumentStatus!]
+  $timeSeriesType: EsettTimeSeriesType
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
@@ -17,9 +17,9 @@ query getOutgoingMessages(
     pageNumber: $pageNumber
     pageSize: $pageSize
     periodInterval: $periodInterval
-    gridAreaCode: $gridAreaCode
+    gridAreaCodes: $gridAreaCodes
     calculationType: $calculationType
-    documentStatus: $documentStatus
+    documentStatuses: $documentStatuses
     timeSeriesType: $timeSeriesType
     documentId: $documentId
     sortProperty: $sortProperty

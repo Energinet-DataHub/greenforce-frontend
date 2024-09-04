@@ -708,9 +708,9 @@
           "AGGREGATION": "Aggregation"
         },
         "messageType": {
-          "MGA_EXCHANGE": "Exchange",
-          "PRODUCTION": "Production",
-          "CONSUMPTION": "Consumption"
+          "MgaExchange": "Exchange",
+          "Production": "Production",
+          "Consumption": "Consumption"
         },
         "documentStatus": {
           "RECEIVED": "Received",
