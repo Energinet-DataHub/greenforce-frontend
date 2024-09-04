@@ -32,7 +32,7 @@ import {
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetGridAreasQuery,
-  mockGetLatestBalanceFixingQuery,
+  mockGetLatestCalculationQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
@@ -56,7 +56,7 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
     getGridAreasQuery(),
-    getLatestBalanceFixing(),
+    getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
@@ -114,6 +114,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
+    includedInCalculation: true,
   },
   {
     __typename: 'GridAreaDto',
@@ -124,6 +125,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
+    includedInCalculation: false,
   },
 ];
 
@@ -514,8 +516,16 @@ function getSelectedActorQuery() {
         __typename: 'Query',
         selectedActor: {
           __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000001',
           glnOrEicNumber: '123',
-          gridAreas: [{ __typename: 'GridAreaDto', code: '805', name: 'hello' }],
+          gridAreas: [
+            {
+              __typename: 'GridAreaDto',
+              id: '00000000-0000-0000-0000-000000000002',
+              code: '805',
+              name: 'hello',
+            },
+          ],
           marketRole: EicFunction.EnergySupplier,
         },
       },
@@ -612,14 +622,15 @@ function getGridAreasQuery() {
   });
 }
 
-function getLatestBalanceFixing() {
-  return mockGetLatestBalanceFixingQuery(async () => {
+function getLatestCalculation() {
+  return mockGetLatestCalculationQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        latestBalanceFixing: {
+        latestCalculation: {
           __typename: 'Calculation',
+          id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
         },
       },

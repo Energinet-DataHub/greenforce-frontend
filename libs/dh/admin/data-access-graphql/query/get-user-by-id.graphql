@@ -15,7 +15,7 @@ query GetUserById($id: UUID!) {
       name
       glnOrEicNumber
       organization {
-        organizationId
+        id
         name
       }
       userRoles {

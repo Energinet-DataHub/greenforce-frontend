@@ -737,6 +737,12 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     permissions: 'Fuldmagter',
+    description: 'Du har givet {{organizationName}} fuldmagt til at administrere følgende for dig.',
+    postscript: `
+      <p>Du kan til enhver tid trække din fuldmagt tilbage (helt eller delvist), hvis du ikke længere ønsker at lade tredjeparten administrere overblik, målepunkter og/eller overførselsaftaler for dig.</p>
+      <p>Du tilbagekalder delvist ved at fjerne flueben ud for det, der ikke længere skal gives fuldmagt til.</p>
+      <p>Du tilbagekalder fuldmagt helt ved at klikke på 'Tilbagekald fuldmagt'.<p>
+    `,
     cancel: 'Fortryd',
     saveChanges: 'Gem ændringer',
     revoke: 'Tilbagekald fuldmagt',
@@ -745,8 +751,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   grantConsent: {
     title: '{{organizationName}} har anmodet om fuldmagt',
-    description:
-      'Giv {{organizationName}} fuldmagt til følgende funktioner på Energy Track And Trace',
+    description: `<p>{{organizationName}} er en service provider, der er oprettet som 3. part i Energy Track & Trace Danmark, og kan dermed anmode om fuldmagt fra dig som elforbruger og/eller elproducent.</p>
+       <p>En service provider tilbyder energiydelser til kunder baseret på dit el-forbrug og/eller produk-tion. 3. parten får adgang til det, du tillader i afkrydsningsboksene herunder.</p>
+       <p>Du kan til enhver tid trække din fuldmagt tilbage (helt eller delvist), hvis du ikke længere ønsker at dele dine data med en tredjepart.</p>`,
     permissions: {
       overview: {
         title: 'Overblik',

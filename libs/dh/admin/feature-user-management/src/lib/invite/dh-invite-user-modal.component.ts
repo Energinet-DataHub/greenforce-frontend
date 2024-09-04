@@ -118,6 +118,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   inOrganizationMailDomain = computed(() => {
     const email = this.emailChanged();
     const domain = this.domain();
+
     return !!email && !!domain && email.toUpperCase().endsWith(domain.toUpperCase());
   });
 
@@ -144,7 +145,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       [
         (control) => {
           if (control.value) {
-            this.checkForAssociatedActors
+            return this.checkForAssociatedActors
               .query({ variables: { email: control.value } })
               .then((result) => {
                 const associatedActors = result.data?.associatedActors.actors ?? [];
@@ -282,7 +283,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   }
 
   private isNewUserInfoValid() {
-    return this.userInfo.valid || this.emailExists || !this.inOrganizationMailDomain;
+    return this.userInfo.valid || this.emailExists() || !this.inOrganizationMailDomain();
   }
 
   private isRolesInfoValid() {

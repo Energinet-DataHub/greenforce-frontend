@@ -4,5 +4,10 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/market-participant/actors/data-access-graphql",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:market-participant", "type:data-access"]
+  "tags": ["product:dh", "domain:market-participant", "type:data-access"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
 }

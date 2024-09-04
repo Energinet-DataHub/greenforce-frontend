@@ -20,7 +20,7 @@ import {
   Component,
   DestroyRef,
   EventEmitter,
-  Input,
+  input,
   OnChanges,
   Output,
   ViewChild,
@@ -81,10 +81,10 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   activeRow: UserRoleDto | undefined = undefined;
 
-  @Input() roles: UserRoleDto[] = [];
-  @Input() isLoading = false;
-  @Input() hasGeneralError = false;
-  @Input() paginator!: WattPaginatorComponent<unknown>;
+  roles = input<UserRoleDto[]>([]);
+  isLoading = input(false);
+  hasGeneralError = input(false);
+  paginator = input.required<WattPaginatorComponent<unknown>>();
 
   @Output() userRoleDeactivated = new EventEmitter<void>();
   @Output() reload = new EventEmitter<void>();
@@ -112,8 +112,8 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
     translate(`admin.userManagement.tabs.roles.table.columns.${key}`);
 
   ngOnChanges() {
-    this.dataSource.data = this.roles;
-    this.dataSource.paginator = this.paginator?.instance;
+    this.dataSource.data = this.roles();
+    this.dataSource.paginator = this.paginator()?.instance;
     this.updateFilteredAndSortedData();
   }
 
@@ -122,7 +122,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
       this.updateFilteredAndSortedData();
     });
 
-    this.dataSource.paginator = this.paginator?.instance;
+    this.dataSource.paginator = this.paginator()?.instance;
 
     this.dataSource.sortingDataAccessor = (data, header) =>
       header === 'marketRole'
@@ -133,11 +133,12 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
   }
 
   private updateFilteredAndSortedData() {
-    if (this.dataSource.sort)
+    if (this.dataSource.sort) {
       this.filteredAndSortedData = this.dataSource.sortData(
         this.dataSource.filteredData,
         this.dataSource.sort
       );
+    }
   }
 
   onRowClick(row: UserRoleDto): void {

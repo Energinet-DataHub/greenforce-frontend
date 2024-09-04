@@ -495,13 +495,16 @@ function getAllUsersQuery() {
           users: [
             {
               __typename: 'User',
+              id: '00000000-0000-0000-0000-000000000001',
               name: 'User name',
               email: 'username@mock.com',
               administratedBy: {
+                id: '00000000-0000-0000-0000-000000000002',
                 __typename: 'Actor',
                 name: 'Market participant name',
                 organization: {
                   __typename: 'Organization',
+                  id: '1',
                   name: 'Organization name',
                 },
               },

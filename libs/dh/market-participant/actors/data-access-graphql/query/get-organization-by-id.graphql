@@ -1,6 +1,6 @@
 query GetOrganizationById($id: UUID!) {
   organizationById(id: $id) {
-    organizationId
+    id
     name
     businessRegisterIdentifier
     domain

@@ -3,10 +3,10 @@ query downloadEsettExchangeEvents(
   $periodInterval: DateRange
   $createdInterval: DateRange
   $sentInterval: DateRange
-  $gridAreaCode: String
+  $gridAreaCodes: [String!]
   $calculationType: ExchangeEventCalculationType
-  $timeSeriesType: TimeSeriesType
-  $documentStatus: DocumentStatus
+  $timeSeriesType: EsettTimeSeriesType
+  $documentStatuses: [DocumentStatus!]
   $documentId: String
   $sortProperty: ExchangeEventSortProperty!
   $sortDirection: SortDirection!
@@ -17,10 +17,10 @@ query downloadEsettExchangeEvents(
     periodInterval: $periodInterval
     createdInterval: $createdInterval
     sentInterval: $sentInterval
-    gridAreaCode: $gridAreaCode
+    gridAreaCodes: $gridAreaCodes
     calculationType: $calculationType
     timeSeriesType: $timeSeriesType
-    documentStatus: $documentStatus
+    documentStatuses: $documentStatuses
     documentId: $documentId
     sortProperty: $sortProperty
     sortDirection: $sortDirection

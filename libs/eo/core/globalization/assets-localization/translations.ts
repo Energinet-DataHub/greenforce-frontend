@@ -622,6 +622,8 @@ export const translations = {
   } as const,
   editConsent: {
     permissions: 'editConsent.permissions' as const,
+    description: 'editConsent.description' as const,
+    postscript: 'editConsent.postscript' as const,
     cancel: 'editConsent.cancel' as const,
     saveChanges: 'editConsent.saveChanges' as const,
     revoke: 'editConsent.revoke' as const,

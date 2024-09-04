@@ -708,9 +708,9 @@
           "AGGREGATION": "Aggregation"
         },
         "messageType": {
-          "MGA_EXCHANGE": "Exchange",
-          "PRODUCTION": "Production",
-          "CONSUMPTION": "Consumption"
+          "MgaExchange": "Exchange",
+          "Production": "Production",
+          "Consumption": "Consumption"
         },
         "documentStatus": {
           "RECEIVED": "Received",
@@ -897,7 +897,13 @@
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
       "create": {
         "title": "New calculation",
-        "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+        "periodWarning": {
+          "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+          "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{latestPeriodEnd}}.",
+          "FIRST_CORRECTION_SETTLEMENT": "There are existing first correction settlements in the chosen period! Latest first correction settlement was executed {{latestPeriodEnd}}.",
+          "SECOND_CORRECTION_SETTLEMENT": "There are existing second correction settlements in the chosen period! Latest second correction settlement was executed {{latestPeriodEnd}}.",
+          "THIRD_CORRECTION_SETTLEMENT": "There are existing third correction settlements in the chosen period! Latest third correction settlement was executed {{latestPeriodEnd}}."
+        },
         "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{resolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
@@ -925,15 +931,45 @@
         "confirm": "Create",
         "cancel": "Cancel",
         "warning": {
-          "title": "Rerun balance fixing?",
+          "title": {
+            "BALANCE_FIXING": "Rerun balance fixing?",
+            "WHOLESALE_FIXING": "Rerun wholesale fixing?",
+            "FIRST_CORRECTION_SETTLEMENT": "Rerun first correction settlement?",
+            "SECOND_CORRECTION_SETTLEMENT": "Rerun second correction settlement?",
+            "THIRD_CORRECTION_SETTLEMENT": "Rerun third correction settlement?"
+          },
           "message": {
             "label": "This will issue new data to the actors",
-            "body": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements."
+            "body": {
+              "BALANCE_FIXING": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
+              "WHOLESALE_FIXING": "Rerunning a wholesale fixing will result in all associated actors receiving new data for their settlements.",
+              "FIRST_CORRECTION_SETTLEMENT": "Rerunning a first correction settlement will result in all associated actors receiving new data for their settlements.",
+              "SECOND_CORRECTION_SETTLEMENT": "Rerunning a second correction settlement will result in all associated actors receiving new data for their settlements.",
+              "THIRD_CORRECTION_SETTLEMENT": "Rerunning a third correction settlement will result in all associated actors receiving new data for their settlements."
+            }
           },
-          "body": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
+          "body": {
+            "BALANCE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
+            "WHOLESALE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous wholesale fixings and new data will be issued to the actors.",
+            "FIRST_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous first correction settlements and new data will be issued to the actors.",
+            "SECOND_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous second correction settlements and new data will be issued to the actors.",
+            "THIRD_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous third correction settlements and new data will be issued to the actors."
+          },
           "confirmation": "Are you sure you want to run this calculation?",
-          "hint": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
-          "validation": "I WANT TO RERUN BALANCE FIXING",
+          "hint": {
+            "BALANCE_FIXING": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
+            "WHOLESALE_FIXING": "Enter I WANT TO RERUN WHOLESALE FIXING to confirm",
+            "FIRST_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN FIRST CORRECTION SETTLEMENT to confirm",
+            "SECOND_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN SECOND CORRECTION SETTLEMENT to confirm",
+            "THIRD_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN THIRD CORRECTION SETTLEMENT to confirm"
+          },
+          "validation": {
+            "BALANCE_FIXING": "I WANT TO RERUN BALANCE FIXING",
+            "WHOLESALE_FIXING": "I WANT TO RERUN WHOLESALE FIXING",
+            "FIRST_CORRECTION_SETTLEMENT": "I WANT TO RERUN FIRST CORRECTION SETTLEMENT",
+            "SECOND_CORRECTION_SETTLEMENT": "I WANT TO RERUN SECOND CORRECTION SETTLEMENT",
+            "THIRD_CORRECTION_SETTLEMENT": "I WANT TO RERUN THIRD CORRECTION SETTLEMENT"
+          },
           "confirm": "Rerun",
           "cancel": "Cancel"
         },
