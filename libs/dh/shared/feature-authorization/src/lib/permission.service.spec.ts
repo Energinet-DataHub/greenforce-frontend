@@ -18,6 +18,7 @@ import { firstValueFrom, of } from 'rxjs';
 
 import { PermissionService } from './permission.service';
 import { DhActorTokenService } from './dh-actor-token.service';
+import { TestBed } from '@angular/core/testing';
 
 describe(PermissionService, () => {
   // base64 encoded access token: { role: ['actors:manage'] }
@@ -25,27 +26,43 @@ describe(PermissionService, () => {
 
   test('should return true if permission is found within access token roles', async () => {
     // arrange
-    const target = new PermissionService({
-      acquireToken: () => of(fakeAccessToken),
-    } as DhActorTokenService);
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: DhActorTokenService,
+          useValue: { acquireToken: () => of(fakeAccessToken) },
+        },
+      ],
+    });
 
     // act
-    const actual = await firstValueFrom(target.hasPermission('actors:manage'));
+    await TestBed.runInInjectionContext(async () => {
+      const target = new PermissionService();
+      const actual = await firstValueFrom(target.hasPermission('actors:manage'));
 
-    // assert
-    expect(actual).toBe(true);
+      // assert
+      expect(actual).toBe(true);
+    });
   });
 
   test('should return false if permission is not found within access token roles', async () => {
     // arrange
-    const target = new PermissionService({
-      acquireToken: () => of(fakeAccessToken),
-    } as DhActorTokenService);
+    // arrange
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: DhActorTokenService,
+          useValue: { acquireToken: () => of(fakeAccessToken) },
+        },
+      ],
+    });
 
     // act
-    const actual = await firstValueFrom(target.hasPermission('grid-areas:manage'));
-
-    // assert
-    expect(actual).toBe(false);
+    await TestBed.runInInjectionContext(async () => {
+      const target = new PermissionService();
+      const actual = await firstValueFrom(target.hasPermission('grid-areas:manage'));
+      // assert
+      expect(actual).toBe(false);
+    });
   });
 });
