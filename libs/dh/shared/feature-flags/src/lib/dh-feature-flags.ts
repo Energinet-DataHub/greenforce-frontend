@@ -34,10 +34,6 @@ const latestBump = '26-08-2024';
  * },
  */
 export const dhFeatureFlagsConfig = {
-  'market-participant-delegation': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
-  },
   'calculations-include-all-grid-areas': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001],
