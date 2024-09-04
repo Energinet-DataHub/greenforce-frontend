@@ -14,27 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+dh-user-roles {
+  .container {
+    display: block;
+  }
 
-.container {
-  display: block;
-}
+  watt-table {
+    box-sizing: border-box;
+    padding: var(--watt-space-m) 0;
+  }
 
-watt-table {
-  box-sizing: border-box;
-  padding: var(--watt-space-m) 0;
-}
-
-watt-field-error {
-  display: block;
-  padding-top: var(--watt-space-m);
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-.loading-container {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-m);
+  watt-expandable-card {
+    watt-expandable-card-title {
+      display: flex;
+      gap: var(--watt-space-s);
+      watt-icon {
+        color: var(--watt-color-primary-darker);
+      }
+    }
+  }
 }

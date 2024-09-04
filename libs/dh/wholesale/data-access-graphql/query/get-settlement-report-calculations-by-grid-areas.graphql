@@ -1,0 +1,22 @@
+query GetSettlementReportCalculationsByGridAreas(
+  $calculationType: CalculationType!
+  $gridAreaIds: [String!]!
+  $calculationPeriod: DateRange!
+) {
+  settlementReportGridAreaCalculationsForPeriod(
+    calculationType: $calculationType
+    gridAreaId: $gridAreaIds
+    calculationPeriod: $calculationPeriod
+  ) {
+    key
+    value {
+      calculationId
+      calculationDate
+      gridAreaWithName {
+        id
+        displayName
+        code
+      }
+    }
+  }
+}

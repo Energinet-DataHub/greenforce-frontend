@@ -23,7 +23,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '20-06-2024';
+const latestBump = '26-08-2024';
 
 /**
  * Feature flag example:
@@ -45,10 +45,6 @@ export const dhFeatureFlagsConfig = {
   'new-login-flow': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
-  'settlement-reports-v2': {
-    created: latestBump,
-    disabledEnvironments: [],
   },
   // This should be removed when there is no longer a need to create calculations
   // in closed periods OR as soon as possible after go-live (01-09-2024)

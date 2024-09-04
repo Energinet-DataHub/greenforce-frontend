@@ -41,7 +41,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
 import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 
 @Component({
@@ -199,7 +199,7 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
   `,
 })
 export class EoTransfersDrawerComponent {
-  protected authStore = inject(EoAuthStore);
+  private authService: EoAuthService = inject(EoAuthService);
   protected translations = translations;
 
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
@@ -240,10 +240,7 @@ export class EoTransfersDrawerComponent {
 
   open() {
     this.drawer.open();
-
-    this.authStore.getTin$.subscribe((tin) => {
-      this.ownTin.set(tin);
-    });
+    this.ownTin.set(this.authService.user()?.org_cvr);
   }
 
   onClose() {

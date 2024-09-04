@@ -50,6 +50,7 @@ const materialIcons = {
   pendingActions: 'pending_actions',
   toggleOn: 'toggle_on',
   toggleOff: 'toggle_off',
+  personCheck: 'person_check',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
@@ -75,6 +76,9 @@ const materialIcons = {
   power: 'power',
   location: 'location_on',
   smartDisplay: 'smart_display',
+  windmill: 'energy',
+  solarPower: 'solar_power',
+  priorityHigh: 'priority_high',
 };
 
 /**

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';

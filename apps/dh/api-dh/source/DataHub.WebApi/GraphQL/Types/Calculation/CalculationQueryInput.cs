@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
@@ -20,6 +21,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 public record CalculationQueryInput(
     string[]? GridAreaCodes = null,
     CalculationOrchestrationState[]? States = null,
+    CalculationExecutionType? ExecutionType = null,
     Clients.Wholesale.v3.CalculationType[]? CalculationTypes = null,
     Interval? ExecutionTime = null,
     Interval? Period = null);

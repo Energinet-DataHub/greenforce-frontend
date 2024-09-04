@@ -20,8 +20,7 @@ import { map, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
-import { EoAuthStore } from '@energinet-datahub/eo/shared/services';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
 export interface EoTransfer {
   startDate: number;
@@ -66,9 +65,9 @@ export interface EoTransferAgreementProposal {
 })
 export class EoTransfersService {
   #apiBase: string;
-  #authStore = inject(EoAuthStore);
+  #authService = inject(EoAuthService);
 
-  private user = toSignal(this.#authStore.getUserInfo$);
+  private user = this.#authService.user;
 
   constructor(
     private http: HttpClient,
@@ -105,8 +104,9 @@ export class EoTransfersService {
   private setSender(transfer: EoListedTransfer) {
     return {
       ...transfer,
-      senderName: transfer.senderName === '' ? this.user()?.name : transfer.senderName,
-      senderTin: transfer.senderTin === '' ? this.user()?.tin ?? '' : transfer.senderTin,
+      senderName: transfer.senderName === '' ? this.#authService.user()?.name : transfer.senderName,
+      senderTin:
+        transfer.senderTin === '' ? (this.#authService.user()?.org_cvr ?? '') : transfer.senderTin,
     };
   }
 

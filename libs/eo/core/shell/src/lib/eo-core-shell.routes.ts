@@ -23,7 +23,10 @@ import {
   UrlSegment,
   UrlSegmentGroup,
 } from '@angular/router';
-import { EoScopeGuard } from '@energinet-datahub/eo/auth/routing-security';
+import { inject } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { eoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
@@ -35,12 +38,12 @@ import {
   eoActivityLogRoutePath,
   eoOnboardingRoutePath,
   eoConsentRoutePath,
+  eoTermsRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { EoLoginComponent } from './eo-login.component';
-import { EoShellComponent } from './eo-shell.component';
+import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { translations } from '@energinet-datahub/eo/translations';
-import { inject } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+
+import { EoShellComponent } from './eo-shell.component';
 
 const routes: Routes = [
   {
@@ -50,10 +53,18 @@ const routes: Routes = [
   },
   { path: 'login', component: EoLoginComponent },
   {
-    path: 'terms',
-    title: 'Terms',
+    path: eoTermsRoutePath,
+    title: translations.terms.title,
     loadChildren: () =>
-      import('@energinet-datahub/eo/terms').then((esModule) => esModule.eoTermsRoutes),
+      import('@energinet-datahub/eo/auth/feature-terms').then((esModule) => esModule.eoTermsRoutes),
+  },
+  {
+    path: eoPrivacyPolicyRoutePath,
+    title: translations.privacyPolicy.title,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/privacy-policy/shell').then(
+        (esModule) => esModule.eoPrivacyPolicyRoutes
+      ),
   },
   {
     path: 'callback',
@@ -72,7 +83,7 @@ const routes: Routes = [
     children: [
       {
         path: eoCertificatesRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         loadChildren: () =>
           import('@energinet-datahub/eo/certificates/shell').then(
             (esModule) => esModule.eoCertificatesRoutes
@@ -80,7 +91,7 @@ const routes: Routes = [
       },
       {
         path: eoDashboardRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.dashboard.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
@@ -89,7 +100,7 @@ const routes: Routes = [
       },
       {
         path: eoMeteringPointsRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.meteringPoints.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
@@ -98,7 +109,7 @@ const routes: Routes = [
       },
       {
         path: eoActivityLogRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.activityLog.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/activity-log/shell').then(
@@ -107,14 +118,14 @@ const routes: Routes = [
       },
       {
         path: eoTransferRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.transfers.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
       },
       {
         path: eoConsentRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.consent.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/consent/shell').then(
@@ -123,18 +134,10 @@ const routes: Routes = [
       },
       {
         path: eoClaimsRoutePath,
-        canActivate: [EoScopeGuard],
+        canActivate: [eoScopeGuard],
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
-      },
-      {
-        path: eoPrivacyPolicyRoutePath,
-        title: translations.privacyPolicy.title,
-        loadChildren: () =>
-          import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.eoPrivacyPolicyRoutes
-          ),
       },
       {
         path: eoHelpRoutePath,

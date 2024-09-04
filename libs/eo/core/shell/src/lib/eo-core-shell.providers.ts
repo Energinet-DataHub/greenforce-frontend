@@ -20,10 +20,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TitleStrategy } from '@angular/router';
 
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
+import { eoApiVersioningInterceptorProvider } from '@energinet-datahub/eo/core/api-versioning';
+
 import {
-  eoApiVersioningInterceptorProvider,
   eoAuthorizationInterceptorProvider,
-} from '@energinet-datahub/eo/shared/services';
+  eoOrganizationIdInterceptorProvider,
+} from '@energinet-datahub/eo/auth/data-access';
+
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { browserConfigurationProviders } from '@energinet-datahub/gf/util-browser';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
@@ -39,6 +42,7 @@ export const eoCoreShellProviders = [
   danishDatetimeProviders,
   importProvidersFrom(MatDialogModule, MatSnackBarModule),
   eoAuthorizationInterceptorProvider,
+  eoOrganizationIdInterceptorProvider,
   eoApiVersioningInterceptorProvider,
   WattModalService,
   ...translocoProviders,

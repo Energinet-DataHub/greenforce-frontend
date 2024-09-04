@@ -36,7 +36,6 @@ const wholesaleSubPaths = {
   requestCalculation: 'request-calculation',
   calculations: 'calculations',
   settlementReports: 'settlement-reports',
-  settlementReportsV2: 'settlement-reports-v2',
 } as const;
 
 const basePaths = {

@@ -84,14 +84,6 @@ type ActorUserRole {
   assigned: Boolean!
 }
 
-type ActorViewDto {
-  id: UUID!
-  organizationName: String!
-  actorNumber: String!
-  name: String!
-  userRoles: [UserRoleViewDto!]!
-}
-
 type AddressDto {
   streetName: String
   number: String
@@ -144,7 +136,7 @@ type BalanceResponsibleType {
   receivedDateTime: DateTime!
   supplier: String!
   balanceResponsible: String!
-  meteringPointType: TimeSeriesType!
+  meteringPointType: BalanceResponsibilityMeteringPointType!
   gridArea: String!
 }
 
@@ -159,11 +151,12 @@ type Calculation {
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
   period: DateRange!
-  executionTimeStart: DateTime
+  executionTimeStart: DateTime!
   executionTimeEnd: DateTime
   createdByUserName: String
   gridAreas: [GridAreaDto!]!
   state: CalculationOrchestrationState!
+  executionType: CalculationExecutionType!
   statusType: ProcessStatus!
   currentStep: CalculationProgressStep!
   progress: [CalculationProgress!]!
@@ -215,7 +208,7 @@ type EsettOutgoingMessage {
   documentId: String!
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
+  timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
 }
@@ -234,7 +227,7 @@ type ExchangeEventSearchResult {
   gridAreaCodeOut: String
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
+  timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
 }
@@ -257,6 +250,7 @@ type GetUserProfileResponse {
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
+  includedInCalculation: Boolean!
   id: UUID!
   code: String!
   name: String!
@@ -281,7 +275,7 @@ type GridAreaOverviewItemDto {
 type ImbalancePrice {
   priceAreaCode: PriceAreaCode!
   timestamp: DateTime!
-  price: Float!
+  price: Float
 }
 
 "Imbalance price for a given date"
@@ -386,7 +380,7 @@ type Mutation {
 }
 
 type Organization {
-  organizationId: String
+  id: UUID!
   actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
@@ -447,14 +441,15 @@ type Query {
   selectionActors: [SelectionActorDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
-  latestBalanceFixing(period: DateRange!): Calculation
+  latestBalanceFixing(period: DateRange!): Calculation @deprecated(reason: "Use `latestCalculation` instead")
+  latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
-  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   gridAreas: [GridAreaDto!]!
@@ -481,7 +476,6 @@ type Query {
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
   userRoles: [UserRoleDto!]!
-  userRoleView(userId: UUID!): [ActorViewDto!]!
 }
 
 type ReActivateUserPayload {
@@ -588,7 +582,7 @@ type UpdateUserRolePayload {
 }
 
 type User {
-  actors: [Actor!]
+  actors: [Actor!]!
   administratedBy: Actor
   id: UUID!
   name: String!
@@ -627,14 +621,6 @@ type UserRoleDto {
   description: String!
   eicFunction: EicFunction!
   status: UserRoleStatus!
-}
-
-type UserRoleViewDto {
-  id: UUID!
-  marketRole: EicFunction!
-  name: String!
-  description: String!
-  userActorId: UUID
 }
 
 type UserRoleWithPermissions {
@@ -702,13 +688,14 @@ input AddressDtoInput {
 input CalculationQueryInput {
   gridAreaCodes: [String!]
   states: [CalculationOrchestrationState!]
+  executionType: CalculationExecutionType
   calculationTypes: [CalculationType!]
   executionTime: DateRange
   period: DateRange
 }
 
 input CancelScheduledCalculationInput {
-  guid: UUID!
+  calculationId: UUID!
 }
 
 input CreateActorContactDtoInput {
@@ -737,9 +724,10 @@ input CreateActorMarketRoleInput {
 }
 
 input CreateCalculationInput {
+  executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: StartCalculationType!
+  calculationType: CalculationType!
   scheduledAt: DateTime
 }
 
@@ -962,10 +950,21 @@ enum BalanceResponsibilityAgreementStatus {
   EXPIRED
 }
 
+enum BalanceResponsibilityMeteringPointType {
+  MgaExchange
+  Production
+  Consumption
+}
+
 enum BalanceResponsibleSortProperty {
   VALID_FROM
   VALID_TO
   RECEIVED_DATE
+}
+
+enum CalculationExecutionType {
+  EXTERNAL
+  INTERNAL
 }
 
 enum CalculationOrchestrationState {
@@ -977,6 +976,8 @@ enum CalculationOrchestrationState {
   ACTOR_MESSAGES_ENQUEUED
   ACTOR_MESSAGES_ENQUEUING_FAILED
   COMPLETED
+  CANCELED
+  STARTED
 }
 
 enum CalculationProgressStep {
@@ -1053,6 +1054,12 @@ enum EicFunction {
   SerialEnergyTrader
   Delegated
   ItSupplier
+}
+
+enum EsettTimeSeriesType {
+  MgaExchange
+  Production
+  Consumption
 }
 
 enum ExchangeEventCalculationType {
@@ -1167,6 +1174,7 @@ enum ProgressStatus {
   pending
   executing
   failed
+  canceled
   completed
 }
 
@@ -1179,28 +1187,6 @@ enum SettlementReportStatusType {
 enum SortDirection {
   ASCENDING
   DESCENDING
-}
-
-"Defines the wholesale orchestrations calculation type"
-enum StartCalculationType {
-  "Balance fixing"
-  BALANCE_FIXING
-  "Aggregation."
-  AGGREGATION
-  "Wholesale fixing."
-  WHOLESALE_FIXING
-  "First correction settlement."
-  FIRST_CORRECTION_SETTLEMENT
-  "Second correction settlement."
-  SECOND_CORRECTION_SETTLEMENT
-  "Third correction settlement."
-  THIRD_CORRECTION_SETTLEMENT
-}
-
-enum TimeSeriesType {
-  MGA_EXCHANGE
-  PRODUCTION
-  CONSUMPTION
 }
 
 enum UserAuditedChange {

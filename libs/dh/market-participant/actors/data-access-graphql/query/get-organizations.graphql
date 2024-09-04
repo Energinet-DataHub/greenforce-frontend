@@ -1,0 +1,8 @@
+query GetOrganizations {
+  organizations {
+    id
+    businessRegisterIdentifier
+    name
+    domain
+  }
+}

@@ -14,6 +14,8 @@
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Subscriptions;
 using NodaTime;
 
@@ -22,9 +24,10 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 public partial class Mutation
 {
     public async Task<Guid> CreateCalculationAsync(
+        CalculationExecutionType executionType,
         Interval period,
         string[] gridAreaCodes,
-        StartCalculationType calculationType,
+        CalculationType calculationType,
         DateTimeOffset? scheduledAt,
         [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,
@@ -40,7 +43,8 @@ public partial class Mutation
             EndDate: period.End.ToDateTimeOffset(),
             ScheduledAt: scheduledAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: gridAreaCodes,
-            CalculationType: calculationType);
+            CalculationType: calculationType,
+            IsInternalCalculation: executionType == CalculationExecutionType.Internal);
 
         var calculationId = await client
             .StartCalculationAsync(requestDto, cancellationToken);
@@ -50,8 +54,15 @@ public partial class Mutation
         return calculationId;
     }
 
-    public async Task<bool> CancelScheduledCalculationAsync(Guid guid)
+    public async Task<bool> CancelScheduledCalculationAsync(
+        Guid calculationId,
+        [Service] IWholesaleOrchestrationsClient client,
+        CancellationToken cancellationToken)
     {
-        return await Task.FromResult(true);
+        var requestDto = new CancelScheduledCalculationRequestDto(calculationId);
+
+        await client.CancelScheduledCalculationAsync(requestDto, cancellationToken);
+
+        return true;
     }
 }

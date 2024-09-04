@@ -22,7 +22,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { provideComponentStore } from '@ngrx/component-store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, Observable, debounceTime } from 'rxjs';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -30,6 +30,7 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { wattFormatDate } from '@energinet-datahub/watt/date';
 
 import {
   VaterFlexComponent,
@@ -45,6 +46,7 @@ import {
   DhAdminUserManagementDataAccessApiStore,
   DhAdminUserRolesManagementDataAccessApiStore,
   DhUserManagementFilters,
+  UsersToDownload,
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 import {
@@ -53,10 +55,14 @@ import {
   UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
 import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
 import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
 
 export const debounceTimeValue = 250;
 
@@ -114,6 +120,8 @@ export class DhUsersOverviewComponent {
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);
   private profileModalService = inject(DhProfileModalService);
   private modalService = inject(WattModalService);
+  private environment = inject(dhAppEnvironmentToken);
+  private toastService = inject(WattToastService);
 
   readonly users$ = this.store.users$;
   readonly totalUserCount$ = this.store.totalUserCount$;
@@ -135,6 +143,8 @@ export class DhUsersOverviewComponent {
 
   readonly initialStatusValue$ = this.store.initialStatusValue$;
   readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
+
+  readonly isDownloading = this.store.isDownloading;
 
   searchInput$ = new BehaviorSubject<string>('');
 
@@ -171,6 +181,56 @@ export class DhUsersOverviewComponent {
       component: DhInviteUserModalComponent,
       disableClose: true,
     });
+  }
+
+  download(): void {
+    const onSuccess = (usersToDownload: UsersToDownload) => {
+      const basePath = 'admin.userManagement.downloadUsers';
+
+      const headers = [
+        `"${translate(basePath + '.userName')}"`,
+        `"${translate(basePath + '.email')}"`,
+        `"${translate(basePath + '.marketParticipantName')}"`,
+        `"${translate(basePath + '.organisationName')}"`,
+      ];
+
+      const lines = usersToDownload.map((x) => [
+        `"${x.userName}"`,
+        `"${x.userEmail}"`,
+        `"${x.marketParticipantName}"`,
+        `"${x.organizationName}"`,
+      ]);
+
+      const fileName = translate(`${basePath}.fileName`, {
+        datetime: wattFormatDate(new Date(), 'long'),
+        env: translate(`envinronementName.${this.environment.current}`),
+      });
+
+      exportToCSV({
+        headers,
+        lines,
+        fileName,
+      });
+
+      this.toastService.dismiss();
+    };
+
+    const onError = () => {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('shared.downloadFailed'),
+      });
+    };
+
+    this.toastService.open({
+      type: 'loading',
+      message: translate('shared.downloadStart'),
+    });
+
+    this.store
+      .downloadUsers()
+      .then((value) => onSuccess(value))
+      .catch(() => onError());
   }
 
   private onSearchInput(): void {

@@ -1,8 +1,0 @@
-query GetOrganizations {
-  organizations {
-    organizationId
-    businessRegisterIdentifier
-    name
-    domain
-  }
-}

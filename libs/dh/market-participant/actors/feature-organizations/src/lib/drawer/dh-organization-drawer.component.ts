@@ -15,37 +15,40 @@
  * limitations under the License.
  */
 import { Component, ViewChild, Output, EventEmitter, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
 import { Apollo } from 'apollo-angular';
 import { Subscription, takeUntil } from 'rxjs';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   ActorStatus,
   EicFunction,
   GetActorsByOrganizationIdDocument,
-  GetAuditLogByOrganizationIdDocument,
   GetOrganizationByIdDocument,
-  OrganizationAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import {
+  WattDescriptionListComponent,
+  WattDescriptionListItemComponent,
+} from '@energinet-datahub/watt/description-list';
 
 import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
+import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
 
 type Actor = {
   actorNumberAndName: string;
@@ -81,27 +84,28 @@ type Actor = {
     `,
   ],
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
-    WATT_DRAWER,
-    WATT_TABLE,
     WATT_TABS,
     WATT_CARD,
+    WATT_TABLE,
+    WATT_DRAWER,
 
     VaterStackComponent,
 
-    WattButtonComponent,
     WattDatePipe,
+    WattButtonComponent,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
 
-    DhActorStatusBadgeComponent,
     DhEmDashFallbackPipe,
+    DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
 
+    DhOrganizationHistoryComponent,
     DhOrganizationEditModalComponent,
   ],
 })
@@ -109,7 +113,6 @@ export class DhOrganizationDrawerComponent {
   private apollo = inject(Apollo);
   private organizationSubscription?: Subscription;
   private actorsSubscription?: Subscription;
-  private organizationAuditLogSubscription?: Subscription;
 
   private getOrganizationByIdQuery$ = this.apollo.watchQuery({
     errorPolicy: 'all',
@@ -121,11 +124,6 @@ export class DhOrganizationDrawerComponent {
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'all',
     query: GetActorsByOrganizationIdDocument,
-  });
-
-  private getAuditLogByOrganizationIdQuery$ = this.apollo.watchQuery({
-    errorPolicy: 'all',
-    query: GetAuditLogByOrganizationIdDocument,
   });
 
   isLoadingOrganization = false;
@@ -140,18 +138,11 @@ export class DhOrganizationDrawerComponent {
   organization: DhOrganizationDetails | undefined = undefined;
 
   actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
-  auditLog: WattTableDataSource<OrganizationAuditedChangeAuditLogDto> =
-    new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 
   actorColumns: WattTableColumnDef<Actor> = {
     actorNumberAndName: { accessor: 'actorNumberAndName' },
     marketRole: { accessor: 'marketRole' },
     status: { accessor: 'status' },
-  };
-
-  auditLogColumns: WattTableColumnDef<OrganizationAuditedChangeAuditLogDto> = {
-    timestamp: { accessor: 'timestamp' },
-    value: { accessor: null },
   };
 
   isEditModalVisible = false;
@@ -166,7 +157,6 @@ export class DhOrganizationDrawerComponent {
 
     this.loadOrganization(organizationId);
     this.loadActors(organizationId);
-    this.loadAuditLog(organizationId);
   }
 
   onClose(): void {
@@ -190,9 +180,7 @@ export class DhOrganizationDrawerComponent {
           this.organizationFailedToLoad =
             !result.loading && (!!result.error || !!result.errors?.length);
 
-          this.organization = result.data?.organizationById
-            ? { ...result.data.organizationById, organizationId: id }
-            : undefined;
+          this.organization = result.data?.organizationById;
         },
         error: () => {
           this.organizationFailedToLoad = true;
@@ -228,28 +216,6 @@ export class DhOrganizationDrawerComponent {
         error: () => {
           this.actorsFailedToLoad = true;
           this.isLoadingActors = false;
-        },
-      });
-  }
-
-  private loadAuditLog(organizationId: string): void {
-    this.organizationAuditLogSubscription?.unsubscribe();
-
-    this.getAuditLogByOrganizationIdQuery$.setVariables({ organizationId });
-
-    this.organizationAuditLogSubscription = this.getAuditLogByOrganizationIdQuery$.valueChanges
-      .pipe(takeUntil(this.closed))
-      .subscribe({
-        next: (result) => {
-          this.isLoadingAuditLog = result.loading;
-          this.auditLogFailedToLoad =
-            !result.loading && (!!result.error || !!result.errors?.length);
-
-          this.auditLog.data = [...(result.data?.organizationAuditLogs ?? [])].reverse();
-        },
-        error: () => {
-          this.auditLogFailedToLoad = true;
-          this.isLoadingAuditLog = false;
         },
       });
   }

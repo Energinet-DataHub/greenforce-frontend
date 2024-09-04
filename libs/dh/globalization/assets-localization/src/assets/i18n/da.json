@@ -17,6 +17,15 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "envinronementName": {
+    "localhost": "lokalt",
+    "d-001": "dev-001",
+    "d-002": "dev-002",
+    "t-001": "test-001",
+    "t-002": "test-002",
+    "b-001": "preprod",
+    "p-001": "produktion"
+  },
   "shared": {
     "error": {
       "title": "Ups! Der opstod en fejl",
@@ -698,9 +707,9 @@
           "AGGREGATION": "Aggregering"
         },
         "messageType": {
-          "MGA_EXCHANGE": "Udveksling",
-          "PRODUCTION": "Produktion",
-          "CONSUMPTION": "Forbrug"
+          "MgaExchange": "Udveksling",
+          "Production": "Produktion",
+          "Consumption": "Forbrug"
         },
         "documentStatus": {
           "RECEIVED": "Modtaget",
@@ -854,7 +863,8 @@
     "status": {
       "IN_COMPLETE": "Mangler priser",
       "NO_DATA": "Ingen priser",
-      "COMPLETE": "Komplet"
+      "COMPLETE": "Komplet",
+      "MISSING": "Mangler"
     },
     "drawer": {
       "priceAreaLabel": "Prisområde",
@@ -886,24 +896,29 @@
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
       "create": {
         "title": "Ny beregning",
-        "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+        "periodWarning": {
+          "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+          "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{latestPeriodEnd}}.",
+          "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! Første korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
+          "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! Anden korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
+          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! Tredje korrektionsafregning er senest kørt {{latestPeriodEnd}}."
+        },
         "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "executionTypeHint": "Ekstern beregning sender resultat til aktørerne",
+        "isExternalHint": "Ekstern beregning - sender beskeder til aktørerne",
+        "isInternalHint": "Intern beregning - sender ingen beskeder til aktørerne",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
         },
         "period": {
-          "label": "Periode",
-          "required": "Dato-periode påkrævet",
+          "label": "Beregningsperiode",
           "invalid": "Ugyldig periode"
         },
         "gridArea": {
           "label": "Netområder",
-          "required": "Netområde påkrævet",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -915,15 +930,45 @@
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
         "warning": {
-          "title": "Genkør balancefiksering?",
+          "title": {
+            "BALANCE_FIXING": "Genkør balancefiksering?",
+            "WHOLESALE_FIXING": "Genkør engrosfiksering?",
+            "FIRST_CORRECTION_SETTLEMENT": "Genkør første korrektionsafregning?",
+            "SECOND_CORRECTION_SETTLEMENT": "Genkør anden korrektionsafregning?",
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør tredje korrektionsafregning?"
+          },
           "message": {
             "label": "Dette vil give aktørerne nye data",
-            "body": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+            "body": {
+              "BALANCE_FIXING": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en første korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "SECOND_CORRECTION_SETTLEMENT": "Genkørsel af en anden korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en tredje korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+            }
           },
-          "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+          "body": {
+            "BALANCE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte første korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "SECOND_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte anden korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte tredje korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne."
+          },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
-          "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
-          "validation": "JEG VIL GENKØRE BALANCEFIKSERING",
+          "hint": {
+            "BALANCE_FIXING": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
+            "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
+            "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE FØRSTE KORREKTIONSAFREGNING for at bekræfte",
+            "SECOND_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE ANDEN KORREKTIONSAFREGNING for at bekræfte",
+            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE TREDJE KORREKTIONSAFREGNING for at bekræfte"
+          },
+          "validation": {
+            "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
+            "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
+            "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE FØRSTE KORREKTIONSAFREGNING",
+            "SECOND_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE ANDEN KORREKTIONSAFREGNING",
+            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE TREDJE KORREKTIONSAFREGNING"
+          },
           "confirm": "Genkør",
           "cancel": "Kør ikke"
         },
@@ -944,13 +989,15 @@
       },
       "states": {
         "SCHEDULED": "Planlagt",
+        "STARTED": "Startet",
         "CALCULATING": "Beregner...",
         "CALCULATION_FAILED": "Beregning fejlet",
         "CALCULATED": "Beregnet",
         "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
         "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Beskeder dannet"
+        "COMPLETED": "Afsluttet",
+        "CANCELED": "Annulleret"
       },
       "executionTypes": {
         "EXTERNAL": "Ekstern",
@@ -958,24 +1005,26 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Eksekveringstid",
         "gridAreas": "Netområder",
+        "executionType": "Afviklingstype",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Beregningsperiode"
       },
       "columns": {
-        "startedBy": "Bestilt af",
-        "periodFrom": "Periode fra",
-        "periodTo": "Periode til",
-        "executionTime": "Eksekveringstid",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
+        "period": "Beregningsperiode",
         "status": "Status"
       },
       "details": {
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
-        "executionTime": "Eksekveringstidspunkt",
+        "startedBy": "Bestilt af",
+        "calculationId": "Beregnings-ID",
+        "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
@@ -1053,12 +1102,16 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       }
     },
-    "settlementReportsV2": {
+    "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
+      "downloadReport": {
+        "baseName": "Afregningsrapport",
+        "multipleGridAreas": "flere net"
+      },
       "columns": {
         "calculationType": "Beregningstype",
         "period": "Beregningsperiode",
@@ -1082,7 +1135,7 @@
         "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
       },
       "requestReportModal": {
-        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
@@ -1093,7 +1146,7 @@
         "gridAreaHint": "{{ count }} valgte",
         "combineResultsInOneFile": "Kombiner resultater i en fil",
         "cancel": "Fortryd",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
@@ -1103,13 +1156,15 @@
         "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
         "latest": "nyeste",
         "cancel": "Luk",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },
   "admin": {
     "userManagement": {
+      "topBarTitle": "Brugeradministration",
       "connect": "Tilknyt MitID",
+      "download": "Download",
       "inviteUser": {
         "title": "Inviter bruger",
         "informations": "Information",
@@ -1137,7 +1192,13 @@
         },
         "unknowEmailInfoMessage": "For at acceptere invitationen skal brugeren allerede have adgang til DataHub, fordi brugeren ikke er en del af din organisation."
       },
-      "download": "Download",
+      "downloadUsers": {
+        "userName": "Brugernavn",
+        "email": "E-mail",
+        "marketParticipantName": "Aktørnavn",
+        "organisationName": "Organisationsnavn",
+        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
+      },
       "drawer": {
         "edit": "Rediger bruger",
         "reinvite": "Send invitation igen",
@@ -1213,7 +1274,6 @@
           }
         }
       },
-      "topBarTitle": "Brugeradministration",
       "userStatus": {
         "ACTIVE": "Aktiv",
         "INACTIVE": "Deaktiveret",
@@ -1282,6 +1342,7 @@
           }
         },
         "roles": {
+          "userResponsible": "Brugeransvarlig",
           "tabLabel": "Brugerroller",
           "roles": "Brugerroller",
           "role": "Brugerrolle",

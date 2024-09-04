@@ -60,7 +60,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -128,7 +128,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/csv": {
                 "schema": {}
@@ -163,7 +163,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/octet-stream": {
                 "schema": {}
@@ -198,7 +198,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -245,7 +245,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/octet-stream": {
                 "schema": {}
@@ -280,7 +280,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/octet-stream": {
                 "schema": {}
@@ -338,7 +338,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -415,7 +415,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/csv": {
                 "schema": {}
@@ -442,7 +442,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -481,7 +481,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "OK"
           }
         }
       }
@@ -511,7 +511,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/octet-stream": {
                 "schema": {}
@@ -569,7 +569,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -646,7 +646,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/csv": {
                 "schema": {}
@@ -673,7 +673,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
@@ -743,7 +743,7 @@
           "meteringPointType": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/TimeSeriesType"
+                "$ref": "#/components/schemas/MeteringPointType"
               }
             ]
           },
@@ -836,17 +836,19 @@
               }
             ]
           },
-          "gridAreaCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "documentStatus": {
+          "gridAreaCodes": {
+            "type": "array",
             "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DocumentStatus"
-              }
-            ]
+            "items": {
+              "type": "string"
+            }
+          },
+          "documentStatuses": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DocumentStatus"
+            }
           },
           "periodFrom": {
             "type": "string",
@@ -1095,9 +1097,12 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "gridAreaCode": {
-            "type": "string",
-            "nullable": true
+          "gridAreaCodes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
           },
           "createdFrom": {
             "type": "string",
@@ -1260,6 +1265,14 @@
           "Imbalances",
           "Balances",
           "Both"
+        ]
+      },
+      "MeteringPointType": {
+        "type": "string",
+        "enum": [
+          "MgaExchange",
+          "Production",
+          "Consumption"
         ]
       },
       "ReadinessStatusDto": {

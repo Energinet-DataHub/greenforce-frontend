@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { FormGroupDirective } from '@angular/forms';
+import { signal } from '@angular/core';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSelectHarness } from '@angular/material/select/testing';
@@ -52,6 +53,7 @@ const users: DhUsers = [
     phoneNumber: '11111111',
     status: UserStatus.Active,
     createdDate: new Date(),
+    actors: [],
   },
 ];
 
@@ -64,6 +66,7 @@ describe(DhUsersOverviewComponent, () => {
         isLoading$: of(false),
         updateSearchText: jest.fn(),
         updateFilters: jest.fn(),
+        isDownloading: signal(false),
       },
       'useValue'
     );

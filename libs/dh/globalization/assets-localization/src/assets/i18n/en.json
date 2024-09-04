@@ -17,6 +17,15 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "envinronementName": {
+    "localhost": "local",
+    "d-001": "dev-001",
+    "d-002": "dev-002",
+    "t-001": "test-001",
+    "t-002": "test-002",
+    "b-001": "preprod",
+    "p-001": "production"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -699,9 +708,9 @@
           "AGGREGATION": "Aggregation"
         },
         "messageType": {
-          "MGA_EXCHANGE": "Exchange",
-          "PRODUCTION": "Production",
-          "CONSUMPTION": "Consumption"
+          "MgaExchange": "Exchange",
+          "Production": "Production",
+          "Consumption": "Consumption"
         },
         "documentStatus": {
           "RECEIVED": "Received",
@@ -855,7 +864,8 @@
     "status": {
       "IN_COMPLETE": "Missing prices",
       "NO_DATA": "No prices",
-      "COMPLETE": "Complete"
+      "COMPLETE": "Complete",
+      "MISSING": "Mangler"
     },
     "drawer": {
       "priceAreaLabel": "Price area",
@@ -887,24 +897,29 @@
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
       "create": {
         "title": "New calculation",
-        "periodWarning": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+        "periodWarning": {
+          "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
+          "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{latestPeriodEnd}}.",
+          "FIRST_CORRECTION_SETTLEMENT": "There are existing first correction settlements in the chosen period! Latest first correction settlement was executed {{latestPeriodEnd}}.",
+          "SECOND_CORRECTION_SETTLEMENT": "There are existing second correction settlements in the chosen period! Latest second correction settlement was executed {{latestPeriodEnd}}.",
+          "THIRD_CORRECTION_SETTLEMENT": "There are existing third correction settlements in the chosen period! Latest third correction settlement was executed {{latestPeriodEnd}}."
+        },
         "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{resolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
-        "executionTypeHint": "External calculation sends the result to the actors",
+        "isExternalHint": "External calculation sends the messages to the actors",
+        "isInternalHint": "Internal calculation does not send messages to the actors",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Process type is required"
         },
         "period": {
-          "label": "Period",
-          "required": "Date range is required",
+          "label": "Calculation period",
           "invalid": "Invalid period"
         },
         "gridArea": {
           "label": "Grid areas",
-          "required": "Grid area is required",
           "hint": "{{shared.selectedValues}}"
         },
         "scheduledAt": {
@@ -916,15 +931,45 @@
         "confirm": "Create",
         "cancel": "Cancel",
         "warning": {
-          "title": "Rerun balance fixing?",
+          "title": {
+            "BALANCE_FIXING": "Rerun balance fixing?",
+            "WHOLESALE_FIXING": "Rerun wholesale fixing?",
+            "FIRST_CORRECTION_SETTLEMENT": "Rerun first correction settlement?",
+            "SECOND_CORRECTION_SETTLEMENT": "Rerun second correction settlement?",
+            "THIRD_CORRECTION_SETTLEMENT": "Rerun third correction settlement?"
+          },
           "message": {
             "label": "This will issue new data to the actors",
-            "body": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements."
+            "body": {
+              "BALANCE_FIXING": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
+              "WHOLESALE_FIXING": "Rerunning a wholesale fixing will result in all associated actors receiving new data for their settlements.",
+              "FIRST_CORRECTION_SETTLEMENT": "Rerunning a first correction settlement will result in all associated actors receiving new data for their settlements.",
+              "SECOND_CORRECTION_SETTLEMENT": "Rerunning a second correction settlement will result in all associated actors receiving new data for their settlements.",
+              "THIRD_CORRECTION_SETTLEMENT": "Rerunning a third correction settlement will result in all associated actors receiving new data for their settlements."
+            }
           },
-          "body": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
+          "body": {
+            "BALANCE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
+            "WHOLESALE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous wholesale fixings and new data will be issued to the actors.",
+            "FIRST_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous first correction settlements and new data will be issued to the actors.",
+            "SECOND_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous second correction settlements and new data will be issued to the actors.",
+            "THIRD_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous third correction settlements and new data will be issued to the actors."
+          },
           "confirmation": "Are you sure you want to run this calculation?",
-          "hint": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
-          "validation": "I WANT TO RERUN BALANCE FIXING",
+          "hint": {
+            "BALANCE_FIXING": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
+            "WHOLESALE_FIXING": "Enter I WANT TO RERUN WHOLESALE FIXING to confirm",
+            "FIRST_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN FIRST CORRECTION SETTLEMENT to confirm",
+            "SECOND_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN SECOND CORRECTION SETTLEMENT to confirm",
+            "THIRD_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN THIRD CORRECTION SETTLEMENT to confirm"
+          },
+          "validation": {
+            "BALANCE_FIXING": "I WANT TO RERUN BALANCE FIXING",
+            "WHOLESALE_FIXING": "I WANT TO RERUN WHOLESALE FIXING",
+            "FIRST_CORRECTION_SETTLEMENT": "I WANT TO RERUN FIRST CORRECTION SETTLEMENT",
+            "SECOND_CORRECTION_SETTLEMENT": "I WANT TO RERUN SECOND CORRECTION SETTLEMENT",
+            "THIRD_CORRECTION_SETTLEMENT": "I WANT TO RERUN THIRD CORRECTION SETTLEMENT"
+          },
           "confirm": "Rerun",
           "cancel": "Cancel"
         },
@@ -945,13 +990,15 @@
       },
       "states": {
         "SCHEDULED": "Scheduled",
+        "STARTED": "Started",
         "CALCULATING": "Calculating...",
         "CALCULATION_FAILED": "Calculation failed",
         "CALCULATED": "Calculated",
         "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Messages enqueued"
+        "COMPLETED": "Completed",
+        "CANCELED": "Canceled"
       },
       "executionTypes": {
         "EXTERNAL": "External",
@@ -959,23 +1006,25 @@
       },
       "filters": {
         "states": "Status",
-        "executionTime": "Execution time",
         "gridAreas": "Grid areas",
+        "executionType": "Execution type",
         "calculationType": "{{shared.calculationType}}",
         "reset": "{{shared.form.reset}}",
-        "period": "{{shared.form.filters.period}}"
+        "period": "Calculation period"
       },
       "columns": {
-        "startedBy": "Created by",
-        "periodFrom": "Period from",
-        "periodTo": "Period to",
-        "executionTime": "Execution time",
         "calculationType": "{{shared.calculationType}}",
+        "executionType": "Execution type",
+        "executionTime": "Execution time",
+        "period": "Calculation period",
         "status": "Status"
       },
       "details": {
         "headline": "Calculation: {{id}}",
         "period": "Calculation period",
+        "startedBy": "Created by",
+        "calculationId": "Calculation ID",
+        "executionType": "Execution type",
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
         "emptyTitle": "{{shared.error.title}}",
@@ -1054,16 +1103,20 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       }
     },
-    "settlementReportsV2": {
+    "settlementReports": {
       "topBarTitle": "Settlement Reports",
       "emptyMessage": "There are no settlement reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
+      "downloadReport": {
+        "baseName": "Settlement report",
+        "multipleGridAreas": "multiple grid areas"
+      },
       "columns": {
         "calculationType": "Calculation type",
         "period": "Calculation period",
-        "numberOfGridAreasInReport": "Gridareas",
+        "numberOfGridAreasInReport": "Grid areas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
@@ -1083,7 +1136,7 @@
         "THIRD_CORRECTION_SETTLEMENT": "3rd correction settlement"
       },
       "requestReportModal": {
-        "title": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "calculationType": "Calculation type",
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
@@ -1094,7 +1147,7 @@
         "gridAreaHint": "{{ count }} selected",
         "combineResultsInOneFile": "Combine results in one file",
         "cancel": "Cancel",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}",
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."
@@ -1104,13 +1157,15 @@
         "description": "More than one calculation has been carried out. Which calculation do you want to include in the settlement report?",
         "latest": "latest",
         "cancel": "Close",
-        "confirm": "{{ wholesale.settlementReportsV2.requestSettlementReport }}"
+        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },
   "admin": {
     "userManagement": {
+      "topBarTitle": "User Management",
       "connect": "Connect MitID",
+      "download": "Download",
       "inviteUser": {
         "title": "Invite user",
         "informations": "Information",
@@ -1138,7 +1193,13 @@
         },
         "unknowEmailInfoMessage": "In order to accept the invitation, the user must already have access to DataHub, because the user is not part of your organisation"
       },
-      "download": "Download",
+      "downloadUsers": {
+        "userName": "Username",
+        "email": "E-mail",
+        "marketParticipantName": "Market participant name",
+        "organisationName": "Organisation name",
+        "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
+      },
       "drawer": {
         "edit": "Edit user",
         "reinvite": "Resend invitation",
@@ -1214,7 +1275,6 @@
           }
         }
       },
-      "topBarTitle": "User Management",
       "userStatus": {
         "ACTIVE": "Active",
         "INACTIVE": "Deactivated",
@@ -1283,6 +1343,7 @@
           }
         },
         "roles": {
+          "userResponsible": "User responsible",
           "tabLabel": "User Roles",
           "roles": "User roles",
           "role": "User role",

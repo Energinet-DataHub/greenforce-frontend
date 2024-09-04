@@ -28,6 +28,7 @@ export const filteredActors: Actor[] = [
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
     organization: {
+      id: '00000000-0000-0000-0000-000000000031',
       name: 'Energinet DataHub A/S',
       businessRegisterIdentifier: '5790001330583',
       domain: 'energinet.dk',
@@ -50,6 +51,7 @@ export const filteredActors: Actor[] = [
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
     organization: {
+      id: '00000000-0000-0000-0000-000000000033',
       name: 'Sort Størm A/S',
       businessRegisterIdentifier: '5790001330583',
       domain: 'sort.dk',

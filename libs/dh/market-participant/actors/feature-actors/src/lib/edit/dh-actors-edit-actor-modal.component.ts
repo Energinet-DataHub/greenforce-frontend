@@ -14,20 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MutationResult } from 'apollo-angular';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
-import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
+import { MutationResult } from 'apollo-angular';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
+
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetActorByIdDocument,
   GetActorEditableFieldsDocument,
@@ -36,6 +40,7 @@ import {
   UpdateActorDocument,
   UpdateActorMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   dhMarketParticipantNameMaxLength,
   dhMarketParticipantNameMaxLengthValidatorFn,
@@ -79,6 +84,7 @@ export class DhActorsEditActorModalComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
+  private readonly permissionService = inject(PermissionService);
 
   innerModal = viewChild.required<WattModalComponent>(WattModalComponent);
 
@@ -103,7 +109,17 @@ export class DhActorsEditActorModalComponent {
     () => this.actorEditableFieldsQuery.loading() || this.updateActorMutation.loading()
   );
 
+  hasActorManagePermission = toSignal(this.permissionService.hasPermission('actors:manage'), {
+    initialValue: false,
+  });
+
   constructor() {
+    effect(() => {
+      this.hasActorManagePermission()
+        ? this.actorForm.controls.name.enable()
+        : this.actorForm.controls.name.disable();
+    });
+
     effect(
       () => {
         const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;

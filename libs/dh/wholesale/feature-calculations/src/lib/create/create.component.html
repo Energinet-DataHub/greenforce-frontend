@@ -18,7 +18,9 @@ limitations under the License.
   #modal
   *transloco="let t; read: 'wholesale.calculations'"
   size="small"
-  [title]="showPeriodWarning ? t('create.warning.title') : t('create.title')"
+  [title]="
+    showPeriodWarning ? t('create.warning.title.' + calculationType.value) : t('create.title')
+  "
   (closed)="onClose($event)"
 >
   @if (!showPeriodWarning) {
@@ -30,12 +32,7 @@ limitations under the License.
       id="create-calculation"
       novalidate
       [formGroup]="formGroup"
-      (ngSubmit)="
-        latestPeriodEnd &&
-        formGroup.controls.calculationType.value === CalculationType.BalanceFixing
-          ? (showPeriodWarning = true)
-          : modal.close(true)
-      "
+      (ngSubmit)="latestPeriodEnd ? (showPeriodWarning = true) : modal.close(true)"
     >
       <!-- Quarterly Resolution Transition Error -->
       @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
@@ -49,35 +46,82 @@ limitations under the License.
             })
           }}"
         />
-      } @else if (
-        latestPeriodEnd &&
-        formGroup.controls.calculationType.value === CalculationType.BalanceFixing
-      ) {
+      } @else if (latestPeriodEnd) {
         <watt-validation-message
           size="normal"
           type="warning"
           icon="warning"
-          message="{{ t('create.periodWarning', { latestPeriodEnd: latestPeriodEnd | wattDate }) }}"
+          message="{{
+            t('create.periodWarning.' + calculationType.value, {
+              latestPeriodEnd: latestPeriodEnd | wattDate,
+            })
+          }}"
         />
       }
 
       <!-- Execution type -->
-      <watt-field [chipMode]="true" [label]="t('create.executionType')" style="min-height: 86px">
+      <watt-field [chipMode]="true" [label]="t('create.executionType')" style="min-height: 100px">
         <vater-stack direction="row" gap="s">
-          <watt-filter-chip choice name="executionType" value="EXTERNAL" [selected]="true">
+          <watt-filter-chip
+            choice
+            [value]="CalculationExecutionType.External"
+            [selected]="executionType.value === CalculationExecutionType.External"
+            (selectionChange)="executionType.setValue($event)"
+          >
             {{ t("executionTypes.EXTERNAL") }}
           </watt-filter-chip>
-          <watt-filter-chip choice name="executionType" value="INTERNAL" [disabled]="true">
+          <watt-filter-chip
+            choice
+            [value]="CalculationExecutionType.Internal"
+            [selected]="executionType.value === CalculationExecutionType.Internal"
+            (selectionChange)="executionType.setValue($event)"
+          >
             {{ t("executionTypes.INTERNAL") }}
           </watt-filter-chip>
         </vater-stack>
-        <watt-field-hint>{{ t("create.executionTypeHint") }}</watt-field-hint>
+        @if (executionType.value === CalculationExecutionType.External) {
+          <watt-field-hint>{{ t("create.isExternalHint") }}</watt-field-hint>
+        }
+        @if (executionType.value === CalculationExecutionType.Internal) {
+          <watt-field-hint>{{ t("create.isInternalHint") }}</watt-field-hint>
+        }
       </watt-field>
+
+      <vater-flex gap="s">
+        <label>{{ t("create.scheduledAt.label") }}</label>
+        <watt-radio
+          group="isScheduled"
+          [formControl]="formGroup.controls.isScheduled"
+          [value]="false"
+        >
+          {{ t("create.scheduledAt.now") }}
+        </watt-radio>
+        <vater-stack direction="row" gap="ml" align="flex-start">
+          <watt-radio
+            group="isScheduled"
+            [formControl]="formGroup.controls.isScheduled"
+            [value]="true"
+            style="min-width: max-content; min-height: 66px; margin-top: var(--watt-space-s)"
+          >
+            {{ t("create.scheduledAt.schedule") }}
+          </watt-radio>
+          @if (formGroup.controls.isScheduled.value) {
+            <watt-datetimepicker
+              [min]="minScheduledAt"
+              [formControl]="formGroup.controls.scheduledAt"
+            >
+              @if (formGroup.controls.scheduledAt.errors?.past) {
+                <watt-field-error>{{ t("create.scheduledAt.past") }}</watt-field-error>
+              }
+            </watt-datetimepicker>
+          }
+        </vater-stack>
+      </vater-flex>
 
       <!-- Process type -->
       <watt-dropdown
         [label]="t('create.calculationType.label')"
-        [formControl]="formGroup.controls.calculationType"
+        [formControl]="calculationType"
         [options]="calculationTypesOptions"
         [showResetOption]="false"
         [multiple]="false"
@@ -89,10 +133,10 @@ limitations under the License.
       <watt-datepicker
         [label]="t('create.period.label')"
         [formControl]="formGroup.controls.dateRange"
-        [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
+        [rangeMonthOnlyMode]="monthOnly.includes(calculationType.value)"
         [range]="true"
         [min]="minDate"
-        [max]="maxDate"
+        [max]="maxDate()"
       >
         @if (
           (formGroup.controls.dateRange.errors?.resolutionTransition ||
@@ -111,37 +155,6 @@ limitations under the License.
         [period]="formGroup.controls.dateRange.value"
         [disabled]="this.formGroup.controls.dateRange.invalid"
       />
-
-      <vater-flex gap="s">
-        <label>{{ t("create.scheduledAt.label") }}</label>
-        <watt-radio
-          group="isScheduled"
-          [formControl]="formGroup.controls.isScheduled"
-          [value]="false"
-        >
-          {{ t("create.scheduledAt.now") }}
-        </watt-radio>
-        <vater-stack direction="row" gap="ml" align="flex-start">
-          <watt-radio
-            group="isScheduled"
-            [formControl]="formGroup.controls.isScheduled"
-            [value]="true"
-            style="min-width: max-content; min-height: 72px; margin-top: var(--watt-space-s)"
-          >
-            {{ t("create.scheduledAt.schedule") }}
-          </watt-radio>
-          @if (formGroup.controls.isScheduled.value) {
-            <watt-datetimepicker
-              [min]="minScheduledAt"
-              [formControl]="formGroup.controls.scheduledAt"
-            >
-              @if (formGroup.controls.scheduledAt.errors?.past) {
-                <watt-field-error>{{ t("create.scheduledAt.past") }}</watt-field-error>
-              }
-            </watt-datetimepicker>
-          }
-        </vater-stack>
-      </vater-flex>
     </form>
   }
 
@@ -167,13 +180,13 @@ limitations under the License.
         icon="warning"
         size="normal"
         [label]="t('message.label')"
-        [message]="t('message.body')"
+        [message]="t('message.body.' + calculationType.value)"
       />
-      <p>{{ t("body") }}</p>
+      <p>{{ t("body." + calculationType.value) }}</p>
       <p>{{ t("confirmation") }}</p>
 
       <watt-text-field [formControl]="confirmFormControl">
-        <watt-field-hint>{{ t("hint") }}</watt-field-hint>
+        <watt-field-hint>{{ t("hint." + calculationType.value) }}</watt-field-hint>
       </watt-text-field>
 
       <watt-modal-actions>
@@ -181,7 +194,9 @@ limitations under the License.
           {{ t("cancel") }}
         </watt-button>
         <watt-button
-          [disabled]="confirmFormControl.value?.toUpperCase() !== t('validation')"
+          [disabled]="
+            confirmFormControl.value?.toUpperCase() !== t('validation.' + calculationType.value)
+          "
           (click)="modal.close(true)"
         >
           {{ t("confirm") }}

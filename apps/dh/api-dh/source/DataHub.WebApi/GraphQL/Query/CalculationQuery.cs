@@ -31,6 +31,7 @@ public partial class Query
         [Service] IWholesaleClient_V3 client) =>
         await client.QueryCalculationsAsync(input);
 
+    [GraphQLDeprecated("Use `latestCalculation` instead")]
     public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
         Interval period,
         [Service] IWholesaleClient_V3 client)
@@ -39,6 +40,22 @@ public partial class Query
         {
             Period = period,
             CalculationTypes = [Clients.Wholesale.v3.CalculationType.BalanceFixing],
+            States = [CalculationOrchestrationState.Completed],
+        };
+
+        var calculations = await client.QueryCalculationsAsync(input);
+        return calculations.FirstOrDefault();
+    }
+
+    public async Task<CalculationDto?> GetLatestCalculationAsync(
+        Interval period,
+        Clients.Wholesale.v3.CalculationType calculationType,
+        [Service] IWholesaleClient_V3 client)
+    {
+        var input = new CalculationQueryInput
+        {
+            Period = period,
+            CalculationTypes = [calculationType],
             States = [CalculationOrchestrationState.Completed],
         };
 

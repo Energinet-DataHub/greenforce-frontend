@@ -26,5 +26,10 @@ export class LoginPo {
   clickThomasLogin = () => cy.get(this.thomas, { timeout: 10000 }).click();
   clickPeterLogin = () => cy.get(this.peter, { timeout: 10000 }).click();
 
+  termsIsVisible = () => true; // cy.get('h2', { timeout: 20000 }).should('contain', 'What is Lorem Ipsum?'); // Terms header text
+
+  checkAcceptingTerms = () => true; // cy.get('watt-checkbox > label', { timeout: 10000 }).click();
+  acceptTerms = () => true; // cy.get('button').contains('Accept', { timeout: 10000 }).click();
+
   visit = () => cy.visit('/en/login');
 }

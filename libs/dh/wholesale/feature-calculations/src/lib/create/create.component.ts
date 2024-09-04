@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   AbstractControl,
@@ -54,10 +54,10 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
-  CalculationType,
   CreateCalculationDocument,
-  GetLatestBalanceFixingDocument,
-  StartCalculationType,
+  CalculationType,
+  CalculationExecutionType,
+  GetLatestCalculationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -66,9 +66,11 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface FormValues {
-  calculationType: FormControl<StartCalculationType>;
+  executionType: FormControl<CalculationExecutionType | null>;
+  calculationType: FormControl<CalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<Range<string> | null>;
   isScheduled: FormControl<boolean>;
@@ -109,7 +111,8 @@ interface FormValues {
   ],
 })
 export class DhCalculationsCreateComponent implements OnInit {
-  CalculationType = StartCalculationType;
+  CalculationType = CalculationType;
+  CalculationExecutionType = CalculationExecutionType;
 
   private _toast = inject(WattToastService);
   private _transloco = inject(TranslocoService);
@@ -131,14 +134,17 @@ export class DhCalculationsCreateComponent implements OnInit {
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    StartCalculationType.WholesaleFixing,
-    StartCalculationType.FirstCorrectionSettlement,
-    StartCalculationType.SecondCorrectionSettlement,
-    StartCalculationType.ThirdCorrectionSettlement,
+    CalculationType.WholesaleFixing,
+    CalculationType.FirstCorrectionSettlement,
+    CalculationType.SecondCorrectionSettlement,
+    CalculationType.ThirdCorrectionSettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
-    calculationType: new FormControl<StartCalculationType>(StartCalculationType.BalanceFixing, {
+    executionType: new FormControl<CalculationExecutionType | null>(null, {
+      validators: Validators.required,
+    }),
+    calculationType: new FormControl<CalculationType>(CalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
@@ -154,7 +160,8 @@ export class DhCalculationsCreateComponent implements OnInit {
     scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
   });
 
-  minScheduledAt = new Date();
+  executionType = this.formGroup.controls.executionType;
+  calculationType = this.formGroup.controls.calculationType;
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
 
@@ -162,15 +169,31 @@ export class DhCalculationsCreateComponent implements OnInit {
   latestPeriodEnd?: Date | null;
   showPeriodWarning = false;
 
+  minScheduledAt = new Date();
+  scheduledAt = toSignal(this.formGroup.controls.scheduledAt.valueChanges);
+
   minDate = this.ffs.isEnabled('create-calculation-minimum-date')
     ? getMinDate()
     : new Date('2021-02-01'); // Temporary minimum date for certain environments
 
-  maxDate = new Date();
+  maxDate = computed(() =>
+    dayjs(this.scheduledAt() ?? new Date())
+      .subtract(1, 'day')
+      .toDate()
+  );
 
   constructor() {
     this.formGroup.controls.isScheduled.valueChanges.subscribe(() => {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
+    });
+
+    this.executionType.valueChanges.subscribe((executionType) => {
+      if (executionType == CalculationExecutionType.Internal) {
+        this.formGroup.controls.calculationType.disable();
+        this.formGroup.controls.calculationType.setValue(CalculationType.Aggregation);
+      } else {
+        this.formGroup.controls.calculationType.enable();
+      }
     });
   }
 
@@ -186,11 +209,12 @@ export class DhCalculationsCreateComponent implements OnInit {
   }
 
   createCalculation() {
-    const { calculationType, dateRange, gridAreas, isScheduled, scheduledAt } =
+    const { executionType, calculationType, dateRange, gridAreas, isScheduled, scheduledAt } =
       this.formGroup.getRawValue();
 
     if (
       this.formGroup.invalid ||
+      executionType === null ||
       calculationType === null ||
       dateRange === null ||
       gridAreas === null
@@ -202,6 +226,7 @@ export class DhCalculationsCreateComponent implements OnInit {
         mutation: CreateCalculationDocument,
         variables: {
           input: {
+            executionType,
             calculationType,
             period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
             gridAreaCodes: gridAreas,
@@ -258,10 +283,13 @@ export class DhCalculationsCreateComponent implements OnInit {
   }
 
   private validateBalanceFixing(): Observable<null> {
-    const { dateRange } = this.formGroup.controls;
+    const { calculationType, dateRange } = this.formGroup.controls;
 
     // Hide warning initially
     this.latestPeriodEnd = null;
+
+    // Skip validation if calculation type is aggregation
+    if (calculationType.value === CalculationType.Aggregation) return of(null);
 
     // Skip validation if end and start is not set
     if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
@@ -269,9 +297,10 @@ export class DhCalculationsCreateComponent implements OnInit {
     // This observable always returns null (no error)
     return this._apollo
       .query({
-        query: GetLatestBalanceFixingDocument,
+        query: GetLatestCalculationDocument,
         fetchPolicy: 'network-only',
         variables: {
+          calculationType: calculationType.value,
           period: {
             end: dayjs(dateRange.value.end).toDate(),
             start: dayjs(dateRange.value.start).toDate(),
@@ -279,7 +308,7 @@ export class DhCalculationsCreateComponent implements OnInit {
         },
       })
       .pipe(
-        tap((result) => (this.latestPeriodEnd = result.data?.latestBalanceFixing?.period?.end)),
+        tap((result) => (this.latestPeriodEnd = result.data?.latestCalculation?.period?.end)),
         map(() => null)
       );
   }
@@ -287,7 +316,7 @@ export class DhCalculationsCreateComponent implements OnInit {
   private validateResolutionTransition(): ValidatorFn {
     return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
       // List of calculation types that are affected by the validator
-      const affected = [StartCalculationType.BalanceFixing, StartCalculationType.Aggregation];
+      const affected = [CalculationType.BalanceFixing, CalculationType.Aggregation];
       const calculationType = control.parent?.get('calculationType')?.value;
       if (!affected.includes(calculationType) || !control.value) return null;
       const start = dayjs.utc(control.value.start);

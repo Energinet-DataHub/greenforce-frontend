@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
@@ -21,6 +22,7 @@ public class UserType : ObjectType<User>
     {
         descriptor
             .Field("actors")
+            .Type<NonNullType<ListType<NonNullType<ObjectType<ActorDto>>>>>()
             .ResolveWith<MarketParticipantResolvers>(x => x.GetActorByUserIdAsync(default!, default!));
 
         descriptor

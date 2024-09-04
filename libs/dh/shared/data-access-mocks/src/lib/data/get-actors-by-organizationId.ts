@@ -19,9 +19,32 @@ import {
   EicFunction,
   Organization,
   Actor,
+  ActorUserRole,
+  UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const actors = (organizationId: string): Actor[] => [
+const userActorRoles: ActorUserRole[] = [
+  {
+    __typename: 'ActorUserRole',
+    assigned: true,
+    description: 'Test description',
+    id: '1',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name',
+    status: UserRoleStatus.Active,
+  },
+  {
+    __typename: 'ActorUserRole',
+    assigned: false,
+    description: 'Test description 2',
+    id: '2',
+    eicFunction: EicFunction.BalanceResponsibleParty,
+    name: 'Test name 2',
+    status: UserRoleStatus.Active,
+  },
+];
+
+export const actors = (id: string): Actor[] => [
   {
     __typename: 'Actor',
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
@@ -29,13 +52,13 @@ export const actors = (organizationId: string): Actor[] => [
     name: 'Inactive balance responsible',
     displayName: 'Inactive balance responsible • BalanceResponsibleParty',
     gridAreas: [],
-    userRoles: [],
+    userRoles: userActorRoles,
     marketRole: EicFunction.BalanceResponsibleParty,
     balanceResponsibleAgreements: [],
     status: ActorStatus.Inactive,
     organization: {
       __typename: 'Organization',
-      organizationId,
+      id,
       name: '',
     } as Organization,
   },
@@ -46,13 +69,13 @@ export const actors = (organizationId: string): Actor[] => [
     name: 'Active energy supplier',
     displayName: 'Active energy supplier • EnergySupplier',
     gridAreas: [],
-    userRoles: [],
+    userRoles: userActorRoles,
     marketRole: EicFunction.EnergySupplier,
     balanceResponsibleAgreements: [],
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
-      organizationId,
+      id,
       name: '',
     } as Organization,
   },

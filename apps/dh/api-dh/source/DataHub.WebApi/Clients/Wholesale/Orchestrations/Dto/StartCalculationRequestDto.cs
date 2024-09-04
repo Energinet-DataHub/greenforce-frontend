@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 
 /// <summary>
 /// An immutable request to create (start) a calculation.
 /// </summary>
 public sealed record StartCalculationRequestDto(
-    StartCalculationType CalculationType,
+    CalculationType CalculationType,
     IEnumerable<string> GridAreaCodes,
     DateTimeOffset StartDate,
     DateTimeOffset EndDate,
-    DateTimeOffset ScheduledAt);
+    DateTimeOffset ScheduledAt,
+    bool IsInternalCalculation);

@@ -34,6 +34,7 @@ export const permissions = [
   'request-wholesale-settlement:view',
   'calculations:view',
   'imbalance-prices:view',
+  'fas',
 ] as const;
 
 export type Permission = (typeof permissions)[number];

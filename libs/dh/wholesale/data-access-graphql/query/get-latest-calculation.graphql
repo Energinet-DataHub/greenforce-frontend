@@ -1,0 +1,9 @@
+query GetLatestCalculation(
+  $period: DateRange!
+  $calculationType: CalculationType!
+) {
+  latestCalculation(period: $period, calculationType: $calculationType) {
+    id
+    period
+  }
+}

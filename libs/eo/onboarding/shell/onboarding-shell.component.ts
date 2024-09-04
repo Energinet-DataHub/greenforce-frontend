@@ -17,7 +17,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthService } from './auth.service';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
@@ -36,7 +36,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   template: ` <watt-spinner /> `,
 })
 export class EoOnboardingShellComponent implements OnInit {
-  private auth = inject(AuthService);
+  private auth = inject(EoAuthService);
   private route = inject(ActivatedRoute);
 
   clientId: string | null = null;
@@ -47,8 +47,6 @@ export class EoOnboardingShellComponent implements OnInit {
 
     if (!thirdPartyClientId || !redirectUrl) return;
 
-    this.auth.login(thirdPartyClientId, redirectUrl).catch((err) => {
-      console.error('Error logging in:', err);
-    });
+    this.auth.login(thirdPartyClientId, redirectUrl);
   }
 }

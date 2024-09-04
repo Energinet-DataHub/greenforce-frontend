@@ -1,0 +1,15 @@
+query GetActorEditableFields($actorId: UUID!) {
+  actorById(id: $actorId) {
+    id
+    name
+    organization {
+      domain
+      id
+    }
+    contact {
+      name
+      email
+      phone
+    }
+  }
+}

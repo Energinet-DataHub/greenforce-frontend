@@ -1,0 +1,23 @@
+query downloadMeteringGridAreaImbalance(
+  $locale: String!
+  $createdFrom: DateTime
+  $createdTo: DateTime
+  $calculationPeriod: DateRange
+  $gridAreaCodes: [String!]
+  $documentId: String
+  $valuesToInclude: MeteringGridImbalanceValuesToInclude!
+  $sortProperty: MeteringGridAreaImbalanceSortProperty!
+  $sortDirection: SortDirection!
+) {
+  downloadMeteringGridAreaImbalance(
+    locale: $locale
+    createdFrom: $createdFrom
+    createdTo: $createdTo
+    calculationPeriod: $calculationPeriod
+    gridAreaCodes: $gridAreaCodes
+    documentId: $documentId
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
+    valuesToInclude: $valuesToInclude
+  )
+}

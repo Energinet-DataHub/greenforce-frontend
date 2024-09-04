@@ -1,9 +1,0 @@
-query GetFilteredActors {
-  filteredActors {
-    displayName
-    id
-    organization {
-      domain
-    }
-  }
-}

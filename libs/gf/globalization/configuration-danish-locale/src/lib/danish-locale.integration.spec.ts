@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 import { TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 import { danishLocaleProvider } from './danish-locale.provider';
 import { danishCurrencyProvider } from './danish-currency.provider';
 import { danishLocaleInitializer } from './danish-locale.initializer';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -38,13 +39,12 @@ describe('Danish locale', () => {
 
   it('configures the DecimalPipe', () => {
     @Component({
-      template: "{{ value | number: '1.1' }}",
+      template: "{{ value() | number: '1.1' }}",
       standalone: true,
       imports: [DecimalPipe],
     })
     class TestHostComponent {
-      @Input()
-      value = 123456789;
+      value = input(123456789);
     }
 
     const hostFixture = TestBed.createComponent(TestHostComponent);
@@ -56,13 +56,12 @@ describe('Danish locale', () => {
 
   it('configures the CurrencyPipe', () => {
     @Component({
-      template: "{{ value | currency: undefined: 'code' }}",
+      template: "{{ value() | currency: undefined: 'code' }}",
       standalone: true,
       imports: [CurrencyPipe],
     })
     class TestHostComponent {
-      @Input()
-      value = 1234.56;
+      value = input(1234.56);
     }
 
     const hostFixture = TestBed.createComponent(TestHostComponent);
@@ -74,13 +73,12 @@ describe('Danish locale', () => {
 
   it('configures the PercentPipe', () => {
     @Component({
-      template: "{{ value | percent:'4.3-5' }}",
+      template: "{{ value() | percent:'4.3-5' }}",
       standalone: true,
       imports: [PercentPipe],
     })
     class TestHostComponent {
-      @Input()
-      value = 1.3495;
+      value = input(1.3495);
     }
 
     const hostFixture = TestBed.createComponent(TestHostComponent);
@@ -94,13 +92,12 @@ describe('Danish locale', () => {
     const testDate = new Date('2020-05-24T08:00:00Z');
 
     @Component({
-      template: "{{ value | date: 'medium' }}",
+      template: "{{ value() | date: 'medium' }}",
       standalone: true,
       imports: [DatePipe],
     })
     class TestHostComponent {
-      @Input()
-      value = testDate;
+      value = input(testDate);
     }
 
     const hostFixture = TestBed.createComponent(TestHostComponent);

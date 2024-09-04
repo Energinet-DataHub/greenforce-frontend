@@ -196,6 +196,16 @@ export interface TranslationKeys {
     save: string;
     cancel: string;
   };
+  terms: {
+    title: string;
+    acceptingTerms: string;
+    reject: string;
+    accept: string;
+    fetchingTermsError: {
+      title: string;
+      message: string;
+    };
+  };
   dashboard: {
     title: string;
     tabs: {
@@ -355,6 +365,20 @@ export interface TranslationKeys {
     fuelCodeLabel: string;
     backToCertificatesLink: string;
     biddingZoneHeadline: string;
+    energyTag: {
+      headline: string;
+      connectedGridIdentification: string;
+      country: string;
+      energyCarrier: string;
+      gcFaceValue: string;
+      gcIssuanceDatestamp: string;
+      gcIssueDeviceType: string;
+      gcIssueMarketZone: string;
+      gcIssuer: string;
+      productionDeviceCapacity: string;
+      productionDeviceCommercialOperationDate: string;
+      productionDeviceLocation: string;
+    };
   };
   activityLog: {
     title: string;
@@ -583,6 +607,8 @@ export interface TranslationKeys {
   };
   editConsent: {
     permissions: string;
+    description: string;
+    postscript: string;
     cancel: string;
     saveChanges: string;
     revoke: string;

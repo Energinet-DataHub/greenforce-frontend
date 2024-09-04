@@ -197,6 +197,16 @@ export const translations = {
     save: 'languageSwitcher.save' as const,
     cancel: 'languageSwitcher.cancel' as const,
   } as const,
+  terms: {
+    title: 'terms.title' as const,
+    acceptingTerms: 'terms.acceptingTerms' as const,
+    reject: 'terms.reject' as const,
+    accept: 'terms.accept' as const,
+    fetchingTermsError: {
+      title: 'terms.fetchingTermsError.title' as const,
+      message: 'terms.fetchingTermsError.message' as const,
+    } as const,
+  } as const,
   dashboard: {
     title: 'dashboard.title' as const,
     tabs: {
@@ -356,6 +366,22 @@ export const translations = {
     fuelCodeLabel: 'certificateDetails.fuelCodeLabel' as const,
     backToCertificatesLink: 'certificateDetails.backToCertificatesLink' as const,
     biddingZoneHeadline: 'certificateDetails.biddingZoneHeadline' as const,
+    energyTag: {
+      headline: 'certificateDetails.energyTag.headline' as const,
+      connectedGridIdentification:
+        'certificateDetails.energyTag.connectedGridIdentification' as const,
+      country: 'certificateDetails.energyTag.country' as const,
+      energyCarrier: 'certificateDetails.energyTag.energyCarrier' as const,
+      gcFaceValue: 'certificateDetails.energyTag.gcFaceValue' as const,
+      gcIssuanceDatestamp: 'certificateDetails.energyTag.gcIssuanceDatestamp' as const,
+      gcIssueDeviceType: 'certificateDetails.energyTag.gcIssueDeviceType' as const,
+      gcIssueMarketZone: 'certificateDetails.energyTag.gcIssueMarketZone' as const,
+      gcIssuer: 'certificateDetails.energyTag.gcIssuer' as const,
+      productionDeviceCapacity: 'certificateDetails.energyTag.productionDeviceCapacity' as const,
+      productionDeviceCommercialOperationDate:
+        'certificateDetails.energyTag.productionDeviceCommercialOperationDate' as const,
+      productionDeviceLocation: 'certificateDetails.energyTag.productionDeviceLocation' as const,
+    } as const,
   } as const,
   activityLog: {
     title: 'activityLog.title' as const,
@@ -596,6 +622,8 @@ export const translations = {
   } as const,
   editConsent: {
     permissions: 'editConsent.permissions' as const,
+    description: 'editConsent.description' as const,
+    postscript: 'editConsent.postscript' as const,
     cancel: 'editConsent.cancel' as const,
     saveChanges: 'editConsent.saveChanges' as const,
     revoke: 'editConsent.revoke' as const,

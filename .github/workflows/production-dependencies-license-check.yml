@@ -6,7 +6,7 @@ concurrency:
 
 env:
   # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.13
+  BUN_VERSION: 1.1.26
 
 on:
   pull_request:

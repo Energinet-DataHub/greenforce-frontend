@@ -1,0 +1,11 @@
+query GetOrganizationById($id: UUID!) {
+  organizationById(id: $id) {
+    id
+    name
+    businessRegisterIdentifier
+    domain
+    address {
+      country
+    }
+  }
+}

@@ -32,7 +32,7 @@ import {
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetGridAreasQuery,
-  mockGetLatestBalanceFixingQuery,
+  mockGetLatestCalculationQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
@@ -40,6 +40,7 @@ import {
   CalculationOrchestrationState,
   CalculationProgressStep,
   ProgressStatus,
+  CalculationExecutionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -55,11 +56,11 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
     getGridAreasQuery(),
-    getLatestBalanceFixing(),
+    getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
-    getSettlementReports(),
+    getSettlementReports(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
@@ -113,6 +114,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
+    includedInCalculation: true,
   },
   {
     __typename: 'GridAreaDto',
@@ -123,6 +125,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
+    includedInCalculation: false,
   },
 ];
 
@@ -131,6 +134,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd: null,
     statusType: ProcessStatus.Neutral,
@@ -161,6 +165,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd: null,
     statusType: ProcessStatus.Info,
@@ -191,6 +196,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '44447c27-6359-4f34-beed-7b51eccdda4e',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd,
     statusType: ProcessStatus.Success,
@@ -221,6 +227,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '59e65aec-df77-4f6f-b6d2-aa0fd4b4bc86',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd,
     statusType: ProcessStatus.Danger,
@@ -251,6 +258,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '78a9f690-6b8d-4708-92e9-dce64a31b1f7',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd: null,
     statusType: ProcessStatus.Neutral,
@@ -281,6 +289,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '8d631523-e6da-4883-ba6c-04bfd1c30d71',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd: null,
     statusType: ProcessStatus.Info,
@@ -311,14 +320,15 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: 'ac84205b-6b9c-4f5c-8c6c-2ab81cc870b8',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.Internal,
     executionTimeStart,
     executionTimeEnd,
     statusType: ProcessStatus.Success,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationType.Aggregation,
     createdByUserName: fakeUserEmail,
     state: CalculationOrchestrationState.Completed,
-    currentStep: CalculationProgressStep.ActorMessageEnqueue,
+    currentStep: CalculationProgressStep.Calculate,
     progress: [
       {
         __typename: 'CalculationProgress',
@@ -330,17 +340,13 @@ const mockedCalculations: Calculation[] = [
         step: CalculationProgressStep.Calculate,
         status: ProgressStatus.Completed,
       },
-      {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Completed,
-      },
     ],
   },
   {
     __typename: 'Calculation',
     id: '376e3cb8-16d7-4fb7-9cdf-1b55cc6af76f',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd,
     statusType: ProcessStatus.Danger,
@@ -371,6 +377,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '3dad0a65-4094-44f8-80f1-7543622dcdf1',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd: null,
     statusType: ProcessStatus.Neutral,
@@ -401,6 +408,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: 'd0071d78-208c-4d69-8dd8-5538ed93b4da',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd: null,
     statusType: ProcessStatus.Info,
@@ -431,6 +439,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '1d109536-c2c6-4e3f-b3ab-85e73083e876',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd,
     statusType: ProcessStatus.Success,
@@ -461,6 +470,7 @@ const mockedCalculations: Calculation[] = [
     __typename: 'Calculation',
     id: '19e3d848-e82f-4752-a68f-9befc755864c',
     period: { start: periodStart, end: periodEnd },
+    executionType: CalculationExecutionType.External,
     executionTimeStart,
     executionTimeEnd,
     statusType: ProcessStatus.Danger,
@@ -506,8 +516,16 @@ function getSelectedActorQuery() {
         __typename: 'Query',
         selectedActor: {
           __typename: 'Actor',
+          id: '00000000-0000-0000-0000-000000000001',
           glnOrEicNumber: '123',
-          gridAreas: [{ __typename: 'GridAreaDto', code: '805', name: 'hello' }],
+          gridAreas: [
+            {
+              __typename: 'GridAreaDto',
+              id: '00000000-0000-0000-0000-000000000002',
+              code: '805',
+              name: 'hello',
+            },
+          ],
           marketRole: EicFunction.EnergySupplier,
         },
       },
@@ -604,14 +622,15 @@ function getGridAreasQuery() {
   });
 }
 
-function getLatestBalanceFixing() {
-  return mockGetLatestBalanceFixingQuery(async () => {
+function getLatestCalculation() {
+  return mockGetLatestCalculationQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        latestBalanceFixing: {
+        latestCalculation: {
           __typename: 'Calculation',
+          id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
         },
       },
@@ -634,7 +653,7 @@ function requestCalculationMutation() {
   });
 }
 
-function getSettlementReports() {
+function getSettlementReports(apiBase: string) {
   return mockGetSettlementReportsQuery(async () => {
     await delay(mswConfig.delay);
 
@@ -650,7 +669,7 @@ function getSettlementReports() {
       });
 
     return HttpResponse.json({
-      data: wholesaleSettlementReportsQueryMock,
+      data: wholesaleSettlementReportsQueryMock(apiBase),
     });
   });
 }

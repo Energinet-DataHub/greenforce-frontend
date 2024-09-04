@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 import { DecimalPipe, NgClass } from '@angular/common';
+import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh-imbalance-prices';
 
@@ -39,6 +42,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
   ],
   template: `
     <watt-table
+      *transloco="let t; read: 'imbalancePrices.status'"
       [dataSource]="tableDataSource"
       [columns]="columns"
       [sortClear]="false"
@@ -53,13 +57,17 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
       </ng-container>
 
       <ng-container *wattTableCell="columns['price']; let entry">
-        <span [ngClass]="{ 'negative-price': entry.price < 0 }">
-          {{ entry.price | number: '1.5-6' }}
-        </span>
+        @if (entry.price === null || entry.price === undefined) {
+          <watt-badge type="danger">{{ t('MISSING') }}</watt-badge>
+        } @else {
+          <span [ngClass]="{ 'negative-price': entry.price < 0 }">
+            {{ entry.price | number: '1.5-6' }}
+          </span>
+        }
       </ng-container>
     </watt-table>
   `,
-  imports: [DecimalPipe, NgClass, WATT_TABLE, WattDatePipe],
+  imports: [DecimalPipe, NgClass, TranslocoDirective, WattBadgeComponent, WATT_TABLE, WattDatePipe],
 })
 export class DhTableDayViewComponent {
   columns: WattTableColumnDef<DhImbalancePricesForDayProcessed> = {

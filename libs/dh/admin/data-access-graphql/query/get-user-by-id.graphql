@@ -1,0 +1,30 @@
+query GetUserById($id: UUID!) {
+  userById(id: $id) {
+    id
+    email
+    phoneNumber
+    status
+    createdDate
+    firstName
+    lastName
+    administratedBy {
+      id
+    }
+    actors {
+      id
+      name
+      glnOrEicNumber
+      organization {
+        id
+        name
+      }
+      userRoles {
+        id
+        eicFunction
+        name
+        description
+        assigned
+      }
+    }
+  }
+}
