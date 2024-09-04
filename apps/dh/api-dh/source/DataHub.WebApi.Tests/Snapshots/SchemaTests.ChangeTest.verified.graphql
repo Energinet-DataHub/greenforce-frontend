@@ -245,6 +245,7 @@ type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+  hasFederatedLogin: Boolean!
 }
 
 type GridAreaDto {
