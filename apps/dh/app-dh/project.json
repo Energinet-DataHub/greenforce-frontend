@@ -16,7 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["flat", "msw", "dayjs"],
+        "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
         "assets": [
           {
             "glob": "**/*",
