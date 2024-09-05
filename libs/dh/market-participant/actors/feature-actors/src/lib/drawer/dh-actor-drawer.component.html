@@ -98,7 +98,7 @@ limitations under the License.
               <dh-b2b-access-tab [actorId]="actor()?.id!" />
             </watt-tab>
 
-            <ng-container *dhFeatureFlag="'market-participant-delegation'">
+            <ng-container>
               <ng-container *dhPermissionRequired="['delegation:view']">
                 <watt-tab
                   [label]="t('tabs.delegation.tabLabel')"
