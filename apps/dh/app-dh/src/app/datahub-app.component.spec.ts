@@ -14,18 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { importProvidersFrom } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
+import { provideServiceWorker } from '@angular/service-worker';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterOutlet, provideRouter } from '@angular/router';
 import { render } from '@testing-library/angular';
 
-import { DataHubAppComponent } from './datahub-app.component';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalGuardMock, MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
-
 import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
-import { provideHttpClient } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
+
+import { DataHubAppComponent } from './datahub-app.component';
 
 describe(DataHubAppComponent, () => {
   it('has a router outlet', async () => {
@@ -50,6 +51,9 @@ describe(DataHubAppComponent, () => {
         MsalServiceMock,
         MsalGuardMock,
         importProvidersFrom(getTranslocoTestingModule()),
+        provideServiceWorker('', {
+          enabled: false,
+        }),
       ],
     });
 
