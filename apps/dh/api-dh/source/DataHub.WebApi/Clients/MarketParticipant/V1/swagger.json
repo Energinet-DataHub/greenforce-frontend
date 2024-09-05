@@ -4224,6 +4224,9 @@
           },
           "phoneNumber": {
             "type": "string"
+          },
+          "hasFederatedLogin": {
+            "type": "boolean"
           }
         }
       },
