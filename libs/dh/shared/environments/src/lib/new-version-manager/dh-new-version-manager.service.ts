@@ -35,7 +35,7 @@ export class DhNewVersionManager {
 
         this.toast.open({
           type: 'info',
-          message: 'A new version is available. Click to update.',
+          message: 'A new version of DataHub is available. Click to update.',
           actionLabel: 'Reload',
           action: () => window.location.reload(),
           duration: 1000 * 60 * 60,
