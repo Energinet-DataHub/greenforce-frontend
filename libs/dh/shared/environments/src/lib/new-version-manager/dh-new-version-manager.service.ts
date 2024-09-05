@@ -29,13 +29,16 @@ export class DhNewVersionManager {
 
   init() {
     this.swUpdate.versionUpdates
-      .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
-      .subscribe((evt) => {
-        console.log('Version ready event', evt);
+      .pipe(filter((event): event is VersionReadyEvent => event.type === 'VERSION_READY'))
+      .subscribe((event) => {
+        console.log('Version ready event', event);
 
         this.toast.open({
+          type: 'info',
           message: 'A new version is available. Click to update.',
-          duration: 0,
+          actionLabel: 'Reload',
+          action: () => window.location.reload(),
+          duration: 1000 * 60 * 60,
         });
       });
   }
