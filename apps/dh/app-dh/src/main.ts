@@ -19,13 +19,14 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideServiceWorker } from '@angular/service-worker';
+
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
   dhAppEnvironmentToken,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
-
 import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
 
 import { loadDhApiEnvironment } from './configuration/load-dh-api-environment';
@@ -33,7 +34,6 @@ import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
 import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
 
 import { DataHubAppComponent } from './app/datahub-app.component';
-import { provideServiceWorker } from '@angular/service-worker';
 
 if (environment.production) {
   enableProdMode();
