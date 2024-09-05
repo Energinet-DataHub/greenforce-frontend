@@ -26,7 +26,7 @@ limitations under the License.
     [sortClear]="false"
   >
     <ng-container *wattTableCell="columns.firstName; header: t('columns.firstName'); let element">
-      {{ element.firstName | dhEmDashFallback }} {{ element.lastName | dhEmDashFallback }}
+      {{ element.firstName | dhEmDashFallback }}
     </ng-container>
 
     <ng-container *wattTableCell="columns.lastName; header: t('columns.lastName'); let element">
