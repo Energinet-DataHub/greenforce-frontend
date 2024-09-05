@@ -44,6 +44,7 @@ import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graph
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
+  dhNewVersionManagerInitializer,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 import { dhLanguageServiceInitializer } from '@energinet-datahub/dh/globalization/feature-language-picker';
@@ -117,4 +118,5 @@ export const dhCoreShellProviders = [
   interceptors,
   msalProviders,
   dhLanguageServiceInitializer,
+  dhNewVersionManagerInitializer,
 ];

@@ -14,20 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// API environment
-export * from './lib/api-environment/dh-api-environment';
-export * from './lib/api-environment/load-dh-api-environment';
+import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
 
-// B2C environment
-export * from './lib/b2c-environment/dh-b2c-environment';
-export * from './lib/b2c-environment/load-dh-b2c-environment';
+import { DhNewVersionManager } from './dh-new-version-manager.service';
 
-// App environment
-export * from './lib/app-environment/dh-app-environment';
-export * from './lib/app-environment/load-dh-app-environment';
-
-// Application environment
-export * from './lib/environment';
-
-// New version prompt
-export * from './lib/new-version-manager/dh-new-version-manager.initializer';
+export const dhNewVersionManagerInitializer: FactoryProvider = {
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: (newVersionManager: DhNewVersionManager) => () => newVersionManager.init(),
+  deps: [DhNewVersionManager],
+};
