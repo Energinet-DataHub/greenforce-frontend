@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "DataHub 3.0",
+  "short_name": "DataHub 3.0",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,7 +13,9 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#00898a",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./"
 }

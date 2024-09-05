@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -33,6 +33,7 @@ import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
 import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
 
 import { DataHubAppComponent } from './app/datahub-app.component';
+import { provideServiceWorker } from '@angular/service-worker';
 
 if (environment.production) {
   enableProdMode();
@@ -64,6 +65,10 @@ Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironmen
             scrollPositionRestoration: 'enabled',
           })
         ),
+        provideServiceWorker('ngsw-worker.js', {
+          enabled: !isDevMode(),
+          registrationStrategy: 'registerWhenStable:30000',
+        }),
       ],
     });
   })
