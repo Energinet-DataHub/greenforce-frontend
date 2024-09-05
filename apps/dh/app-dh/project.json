@@ -19,23 +19,23 @@
         "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
         "assets": [
           {
-            "glob": "**/*",
             "input": "libs/dh/shared/assets/src/favicon",
-            "output": ""
-          },
-          {
-            "glob": "staticwebapp.config.json",
-            "input": "apps/dh/app-dh",
-            "output": ""
-          },
-          {
             "glob": "**/*",
+            "output": ""
+          },
+          {
+            "input": "apps/dh/app-dh",
+            "glob": "staticwebapp.config.json",
+            "output": ""
+          },
+          {
             "input": "libs/dh/shared/assets/src/assets",
+            "glob": "**/*",
             "output": "assets"
           },
           {
-            "glob": "**/*",
             "input": "libs/dh/globalization/assets-localization/src/assets",
+            "glob": "**/*",
             "output": "assets"
           },
           {
