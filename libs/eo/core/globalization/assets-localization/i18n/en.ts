@@ -181,7 +181,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         heading: 'Developers',
         content: `
           <p>Get access to our</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a><br />
+          <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
         `,
       },
     },
