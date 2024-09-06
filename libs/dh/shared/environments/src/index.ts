@@ -28,6 +28,3 @@ export * from './lib/app-environment/load-dh-app-environment';
 
 // Application environment
 export * from './lib/environment';
-
-// New version prompt
-export * from './lib/new-version-manager/dh-new-version-manager.initializer';

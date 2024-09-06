@@ -32,6 +32,8 @@ export class DhNewVersionManager {
   private readonly twoHours = 1000 * 60 * 60 * 2;
 
   init() {
+    console.log('Init');
+
     this.swUpdate.versionUpdates
       .pipe(filter((event): event is VersionReadyEvent => event.type === 'VERSION_READY'))
       .subscribe(() => {
