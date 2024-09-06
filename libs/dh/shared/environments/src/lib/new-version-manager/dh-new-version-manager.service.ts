@@ -29,6 +29,8 @@ export class DhNewVersionManager {
   private readonly toast = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
+  private readonly twoHours = 1000 * 60 * 60 * 2;
+
   init() {
     this.swUpdate.versionUpdates
       .pipe(filter((event): event is VersionReadyEvent => event.type === 'VERSION_READY'))
@@ -38,7 +40,7 @@ export class DhNewVersionManager {
           message: this.transloco.translate('newVersionAvailable.message'),
           actionLabel: this.transloco.translate('newVersionAvailable.action'),
           action: () => window.location.reload(),
-          duration: 1000 * 60 * 60,
+          duration: this.twoHours,
         });
       });
   }
