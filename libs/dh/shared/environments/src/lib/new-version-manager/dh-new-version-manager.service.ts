@@ -16,6 +16,7 @@
  */
 import { inject, Injectable } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { TranslocoService } from '@ngneat/transloco';
 import { filter } from 'rxjs';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -26,17 +27,16 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 export class DhNewVersionManager {
   private readonly swUpdate = inject(SwUpdate);
   private readonly toast = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
 
   init() {
     this.swUpdate.versionUpdates
       .pipe(filter((event): event is VersionReadyEvent => event.type === 'VERSION_READY'))
-      .subscribe((event) => {
-        console.log('Version ready event', event);
-
+      .subscribe(() => {
         this.toast.open({
           type: 'info',
-          message: 'A new version of DataHub is available. Click to update.',
-          actionLabel: 'Reload',
+          message: this.transloco.translate('newVersionAvailable.message'),
+          actionLabel: this.transloco.translate('newVersionAvailable.action'),
           action: () => window.location.reload(),
           duration: 1000 * 60 * 60,
         });
