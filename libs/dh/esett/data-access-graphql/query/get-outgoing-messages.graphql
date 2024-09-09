@@ -1,0 +1,51 @@
+query getOutgoingMessages(
+  $pageNumber: Int!
+  $pageSize: Int!
+  $periodInterval: DateRange
+  $sentInterval: DateRange
+  $gridAreaCodes: [String!]
+  $createdInterval: DateRange
+  $calculationType: ExchangeEventCalculationType
+  $documentStatuses: [DocumentStatus!]
+  $timeSeriesType: EsettTimeSeriesType
+  $documentId: String
+  $sortProperty: ExchangeEventSortProperty!
+  $sortDirection: SortDirection!
+  $actorNumber: String
+) {
+  esettExchangeEvents(
+    pageNumber: $pageNumber
+    pageSize: $pageSize
+    periodInterval: $periodInterval
+    gridAreaCodes: $gridAreaCodes
+    calculationType: $calculationType
+    documentStatuses: $documentStatuses
+    timeSeriesType: $timeSeriesType
+    documentId: $documentId
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
+    createdInterval: $createdInterval
+    sentInterval: $sentInterval
+    actorNumber: $actorNumber
+  ) {
+    items {
+      created
+      lastDispatched
+      documentId
+      actorNumber
+      energySupplier {
+        value
+      }
+      calculationType
+      timeSeriesType
+      gridArea {
+        id
+        displayName
+      }
+      gridAreaCodeOut
+      documentStatus
+    }
+    totalCount
+    gridAreaCount
+  }
+}

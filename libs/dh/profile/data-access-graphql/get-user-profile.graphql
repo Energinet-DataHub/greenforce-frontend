@@ -1,7 +1,0 @@
-query getUserProfile {
-  userProfile {
-    firstName
-    lastName
-    phoneNumber
-  }
-}

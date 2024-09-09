@@ -18,7 +18,9 @@ limitations under the License.
   #modal
   *transloco="let t; read: 'wholesale.calculations'"
   size="small"
-  [title]="showPeriodWarning ? t('create.warning.title') : t('create.title')"
+  [title]="
+    showPeriodWarning ? t('create.warning.title.' + calculationType.value) : t('create.title')
+  "
   (closed)="onClose($event)"
 >
   @if (!showPeriodWarning) {
@@ -30,12 +32,7 @@ limitations under the License.
       id="create-calculation"
       novalidate
       [formGroup]="formGroup"
-      (ngSubmit)="
-        latestPeriodEnd &&
-        formGroup.controls.calculationType.value === CalculationType.BalanceFixing
-          ? (showPeriodWarning = true)
-          : modal.close(true)
-      "
+      (ngSubmit)="latestPeriodEnd ? (showPeriodWarning = true) : modal.close(true)"
     >
       <!-- Quarterly Resolution Transition Error -->
       @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
@@ -49,15 +46,16 @@ limitations under the License.
             })
           }}"
         />
-      } @else if (
-        latestPeriodEnd &&
-        formGroup.controls.calculationType.value === CalculationType.BalanceFixing
-      ) {
+      } @else if (latestPeriodEnd) {
         <watt-validation-message
           size="normal"
           type="warning"
           icon="warning"
-          message="{{ t('create.periodWarning', { latestPeriodEnd: latestPeriodEnd | wattDate }) }}"
+          message="{{
+            t('create.periodWarning.' + calculationType.value, {
+              latestPeriodEnd: latestPeriodEnd | wattDate,
+            })
+          }}"
         />
       }
 
@@ -67,22 +65,24 @@ limitations under the License.
           <watt-filter-chip
             choice
             [value]="CalculationExecutionType.External"
-            (selectionChange)="formGroup.controls.executionType.setValue($event)"
+            [selected]="executionType.value === CalculationExecutionType.External"
+            (selectionChange)="executionType.setValue($event)"
           >
             {{ t("executionTypes.EXTERNAL") }}
           </watt-filter-chip>
           <watt-filter-chip
             choice
             [value]="CalculationExecutionType.Internal"
-            (selectionChange)="formGroup.controls.executionType.setValue($event)"
+            [selected]="executionType.value === CalculationExecutionType.Internal"
+            (selectionChange)="executionType.setValue($event)"
           >
             {{ t("executionTypes.INTERNAL") }}
           </watt-filter-chip>
         </vater-stack>
-        @if (formGroup.controls.executionType.value === CalculationExecutionType.External) {
+        @if (executionType.value === CalculationExecutionType.External) {
           <watt-field-hint>{{ t("create.isExternalHint") }}</watt-field-hint>
         }
-        @if (formGroup.controls.executionType.value === CalculationExecutionType.Internal) {
+        @if (executionType.value === CalculationExecutionType.Internal) {
           <watt-field-hint>{{ t("create.isInternalHint") }}</watt-field-hint>
         }
       </watt-field>
@@ -121,7 +121,7 @@ limitations under the License.
       <!-- Process type -->
       <watt-dropdown
         [label]="t('create.calculationType.label')"
-        [formControl]="formGroup.controls.calculationType"
+        [formControl]="calculationType"
         [options]="calculationTypesOptions"
         [showResetOption]="false"
         [multiple]="false"
@@ -133,7 +133,7 @@ limitations under the License.
       <watt-datepicker
         [label]="t('create.period.label')"
         [formControl]="formGroup.controls.dateRange"
-        [rangeMonthOnlyMode]="monthOnly.includes(formGroup.controls.calculationType.value)"
+        [rangeMonthOnlyMode]="monthOnly.includes(calculationType.value)"
         [range]="true"
         [min]="minDate"
         [max]="maxDate()"
@@ -180,13 +180,13 @@ limitations under the License.
         icon="warning"
         size="normal"
         [label]="t('message.label')"
-        [message]="t('message.body')"
+        [message]="t('message.body.' + calculationType.value)"
       />
-      <p>{{ t("body") }}</p>
+      <p>{{ t("body." + calculationType.value) }}</p>
       <p>{{ t("confirmation") }}</p>
 
       <watt-text-field [formControl]="confirmFormControl">
-        <watt-field-hint>{{ t("hint") }}</watt-field-hint>
+        <watt-field-hint>{{ t("hint." + calculationType.value) }}</watt-field-hint>
       </watt-text-field>
 
       <watt-modal-actions>
@@ -194,7 +194,9 @@ limitations under the License.
           {{ t("cancel") }}
         </watt-button>
         <watt-button
-          [disabled]="confirmFormControl.value?.toUpperCase() !== t('validation')"
+          [disabled]="
+            confirmFormControl.value?.toUpperCase() !== t('validation.' + calculationType.value)
+          "
           (click)="modal.close(true)"
         >
           {{ t("confirm") }}

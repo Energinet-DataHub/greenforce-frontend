@@ -1,0 +1,33 @@
+query GetAllUsers(
+  $actorId: UUID
+  $userStatus: [UserStatus!]
+  $userRoleIds: [UUID!]
+  $pageNumber: Int!
+  $pageSize: Int!
+  $sortDirection: MarketParticipantSortDirctionType!
+  $sortProperty: UserOverviewSortProperty!
+) {
+  userOverviewSearch(
+    actorId: $actorId
+    userRoleIds: $userRoleIds
+    userStatus: $userStatus
+    pageSize: $pageSize
+    pageNumber: $pageNumber
+    sortProperty: $sortProperty
+    sortDirection: $sortDirection
+  ) {
+    users {
+      id
+      name
+      email
+      administratedBy {
+        id
+        name
+        organization {
+          id
+          name
+        }
+      }
+    }
+  }
+}

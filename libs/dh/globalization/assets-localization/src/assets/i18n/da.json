@@ -707,9 +707,9 @@
           "AGGREGATION": "Aggregering"
         },
         "messageType": {
-          "MGA_EXCHANGE": "Udveksling",
-          "PRODUCTION": "Produktion",
-          "CONSUMPTION": "Forbrug"
+          "MgaExchange": "Udveksling",
+          "Production": "Produktion",
+          "Consumption": "Forbrug"
         },
         "documentStatus": {
           "RECEIVED": "Modtaget",
@@ -896,13 +896,19 @@
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
       "create": {
         "title": "Ny beregning",
-        "periodWarning": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+        "periodWarning": {
+          "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
+          "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{latestPeriodEnd}}.",
+          "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! Første korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
+          "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! Anden korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
+          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! Tredje korrektionsafregning er senest kørt {{latestPeriodEnd}}."
+        },
         "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
-        "isExternalHint": "Ekstern beregning sender resultat til aktørerne",
-        "isInternalHint": "Intern beregning sender ingen meddelelser til aktørerne",
+        "isExternalHint": "Ekstern beregning - sender beskeder til aktørerne",
+        "isInternalHint": "Intern beregning - sender ingen beskeder til aktørerne",
         "calculationType": {
           "label": "{{shared.calculationType}}",
           "error": "Procestype påkrævet"
@@ -924,15 +930,45 @@
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
         "warning": {
-          "title": "Genkør balancefiksering?",
+          "title": {
+            "BALANCE_FIXING": "Genkør balancefiksering?",
+            "WHOLESALE_FIXING": "Genkør engrosfiksering?",
+            "FIRST_CORRECTION_SETTLEMENT": "Genkør første korrektionsafregning?",
+            "SECOND_CORRECTION_SETTLEMENT": "Genkør anden korrektionsafregning?",
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør tredje korrektionsafregning?"
+          },
           "message": {
             "label": "Dette vil give aktørerne nye data",
-            "body": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+            "body": {
+              "BALANCE_FIXING": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en første korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "SECOND_CORRECTION_SETTLEMENT": "Genkørsel af en anden korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en tredje korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+            }
           },
-          "body": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+          "body": {
+            "BALANCE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte første korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "SECOND_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte anden korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte tredje korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne."
+          },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
-          "hint": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
-          "validation": "JEG VIL GENKØRE BALANCEFIKSERING",
+          "hint": {
+            "BALANCE_FIXING": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
+            "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
+            "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE FØRSTE KORREKTIONSAFREGNING for at bekræfte",
+            "SECOND_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE ANDEN KORREKTIONSAFREGNING for at bekræfte",
+            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE TREDJE KORREKTIONSAFREGNING for at bekræfte"
+          },
+          "validation": {
+            "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
+            "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
+            "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE FØRSTE KORREKTIONSAFREGNING",
+            "SECOND_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE ANDEN KORREKTIONSAFREGNING",
+            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE TREDJE KORREKTIONSAFREGNING"
+          },
           "confirm": "Genkør",
           "cancel": "Kør ikke"
         },
@@ -960,7 +996,7 @@
         "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
         "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Beskeder dannet",
+        "COMPLETED": "Afsluttet",
         "CANCELED": "Annulleret"
       },
       "executionTypes": {
@@ -978,15 +1014,17 @@
       "columns": {
         "calculationType": "{{shared.calculationType}}",
         "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
         "period": "Beregningsperiode",
-        "executionTime": "Beregningstidspunkt",
         "status": "Status"
       },
       "details": {
         "headline": "Beregning: {{id}}",
         "period": "Beregningsperiode",
         "startedBy": "Bestilt af",
-        "executionTime": "Beregningstidspunkt",
+        "calculationId": "Beregnings-ID",
+        "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
         "gridAreas": "Netområder",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",

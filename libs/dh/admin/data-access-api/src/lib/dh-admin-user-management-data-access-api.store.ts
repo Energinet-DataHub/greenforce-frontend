@@ -229,11 +229,16 @@ export class DhAdminUserManagementDataAccessApiStore
   }
 
   downloadUsers(): Promise<UsersToDownload> {
+    const { actorIdFilter, userRoleFilter, statusFilter } = this.state();
+
     return this.getAllUsersQuery
       .query({
         variables: {
           pageNumber: 1,
           pageSize: 10_000,
+          actorId: actorIdFilter,
+          userStatus: statusFilter,
+          userRoleIds: userRoleFilter,
           sortProperty: UserOverviewSortProperty.Email,
           sortDirection: MarketParticipantSortDirctionType.Asc,
         },

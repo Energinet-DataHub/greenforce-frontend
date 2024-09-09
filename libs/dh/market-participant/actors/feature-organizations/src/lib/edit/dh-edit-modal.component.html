@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <watt-modal
   size="small"
-  [title]="organization.name"
+  [title]="organization().name"
   (closed)="onCloseModal()"
   [loading]="isLoading"
   *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"

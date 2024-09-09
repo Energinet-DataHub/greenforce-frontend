@@ -181,7 +181,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         heading: 'Developers',
         content: `
           <p>Get access to our</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a><br />
+          <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
         `,
       },
     },
@@ -749,6 +750,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     permissions: 'Permissions',
+    description:
+      'You have given {{organizationName}} the power of attorney to manage the following on your behalf.',
+    postscript: `
+      <p>You can withdraw your power of attorney at any time (in whole or in part) if you no longer wish to allow the third party to manage your overview, metering points, and/or transfer agreements.</p>
+      <p>You can partially withdraw by unchecking the boxes for the items you no longer wish to authorize.</p>
+      <p>You can fully revoke the power of attorney by clicking on 'Revoke consent'.</p>`,
     cancel: 'Cancel',
     saveChanges: 'Save changes',
     revoke: 'Revoke consent',
@@ -757,8 +764,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   grantConsent: {
     title: '{{organizationName}} has requested authorization',
-    description:
-      'Grant {{organizationName}} authorization for the following functionalities on Energy Track And Trace',
+    description: `
+        <p>{{organizationName}} is a service provider that is registered as a third party in Energy Track & Trace Denmark, and can therefore request a power of attorney from you as an electricity consumer and/or electricity producer.</p>
+        <p>A service provider offers energy services to customers based on your electricity consumption and/or production. The third party will have access to what you allow in the checkboxes below.</p>
+        <p>You can withdraw your power of attorney at any time (in whole or in part) if you no longer wish to share your data with a third party.</p>`,
     permissions: {
       overview: {
         title: 'Overview',

@@ -14,21 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, catchError, debounceTime, map, of, switchMap, take } from 'rxjs';
-import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
+import { BehaviorSubject, debounceTime } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
-import { RxLet } from '@rx-angular/template/let';
 import { Sort } from '@angular/material/sort';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
-  DownloadEsettExchangeEventsDocument,
-  GetOutgoingMessagesDocument,
   GetServiceStatusDocument,
   GetStatusReportDocument,
   ResendExchangeMessagesDocument,
@@ -46,13 +40,15 @@ import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import {
   DhOutgoingMessagesFilters,
-  DhOutgoingMessagesStore,
+  DhOutgoingMessagesSignalStore,
 } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
 import { DhOutgoingMessage } from './dh-outgoing-message';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -89,193 +85,99 @@ import { DhOutgoingMessage } from './dh-outgoing-message';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    RxLet,
 
     WATT_CARD,
-    WattPaginatorComponent,
+    WattIconComponent,
     WattButtonComponent,
     WattSearchComponent,
-    WattIconComponent,
+    WattPaginatorComponent,
+
     VaterFlexComponent,
-    VaterSpacerComponent,
     VaterStackComponent,
+    VaterSpacerComponent,
     VaterUtilityDirective,
 
-    DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessagesTableComponent,
+    DhOutgoingMessagesFiltersComponent,
   ],
-  providers: [DhOutgoingMessagesStore],
+  providers: [DhOutgoingMessagesSignalStore],
 })
-export class DhOutgoingMessagesComponent implements OnInit {
-  private _apollo = inject(Apollo);
-  private _destroyRef = inject(DestroyRef);
-  private _store = inject(DhOutgoingMessagesStore);
-  private _toastService = inject(WattToastService);
+export class DhOutgoingMessagesComponent {
+  private store = inject(DhOutgoingMessagesSignalStore);
+  private toastService = inject(WattToastService);
 
-  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], { disableClientSideSort: true });
-  totalCount = 0;
-  gridAreaCount = 0;
+  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], {
+    disableClientSideSort: true,
+  });
 
-  filters$ = this._store.filters$;
-  pageMetaData$ = this._store.pageMetaData$;
-  sortMetaData$ = this._store.sortMetaData$;
+  totalCount = this.store.outgoingMessagesTotalCount;
+  gridAreaCount = this.store.gridAreaCount;
+
+  filters = this.store.filters;
+  pageMetaData = this.store.pageMetaData;
+  sort = this.store.sort;
+
+  downloading = this.store.downloading;
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
-  isLoading = false;
-  isDownloading = false;
-  hasError = false;
+  serviceStatusQuery = query(GetServiceStatusDocument, { fetchPolicy: 'cache-and-network' });
+  serviceStatus = computed(() => this.serviceStatusQuery.data()?.esettServiceStatus ?? []);
 
-  serviceStatus$ = this._apollo
-    .watchQuery({
-      fetchPolicy: 'cache-and-network',
-      query: GetServiceStatusDocument,
-    })
-    .valueChanges.pipe(
-      takeUntilDestroyed(),
-      map(({ data }) => data?.esettServiceStatus ?? [])
-    );
-
-  statusReport$ = this._apollo
-    .watchQuery({
-      query: GetStatusReportDocument,
-    })
-    .valueChanges.pipe(
-      takeUntilDestroyed(),
-      map(({ data }) => data?.esettExchangeStatusReport ?? 0)
-    );
-
-  /**
-   * Represents an observable stream of outgoing messages.
-   * Emits the result of a GraphQL query to retrieve outgoing messages based on the provided variables.
-   * @type {Observable<QueryResult<GetOutgoingMessagesQuery>>}
-   */
-  outgoingMessages$ = this._store.queryVariables$.pipe(
-    switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
-      this._apollo
-        .watchQuery({
-          fetchPolicy: 'cache-and-network',
-          query: GetOutgoingMessagesDocument,
-          variables: {
-            // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
-            // whereas our endpoint's `pageNumber` param starts at `1`
-            pageNumber: pageMetaData.pageIndex + 1,
-            pageSize: pageMetaData.pageSize,
-            calculationType: filters.calculationTypes,
-            timeSeriesType: filters.messageTypes,
-            gridAreaCode: filters.gridAreas,
-            actorNumber: filters.actorNumber,
-            documentStatus: filters.status,
-            periodInterval: filters.period,
-            createdInterval: filters.created,
-            sentInterval: filters.latestDispatch,
-            documentId,
-            sortProperty: sortMetaData.sortProperty,
-            sortDirection: sortMetaData.sortDirection,
-          },
-        })
-        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
-    ),
-    takeUntilDestroyed()
+  statusRaportQuery = query(GetStatusReportDocument);
+  statusReport = computed(
+    () => this.statusRaportQuery.data()?.esettExchangeStatusReport?.waitingForExternalResponse ?? 0
   );
 
-  ngOnInit() {
-    this.outgoingMessages$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: (result) => {
-        this.isLoading = result.loading;
+  resendMutation = mutation(ResendExchangeMessagesDocument, {
+    refetchQueries: [GetStatusReportDocument],
+  });
 
-        this.tableDataSource.data = result.data?.esettExchangeEvents.items ?? [];
-        this.totalCount = result.data?.esettExchangeEvents.totalCount ?? 0;
-        this.gridAreaCount = result.data?.esettExchangeEvents.gridAreaCount ?? 0;
+  isLoading = computed(() => this.resendMutation.loading() || this.store.loading());
+  hasError = computed(() => this.resendMutation.error() !== undefined || this.store.hasError());
 
-        this.hasError = !!result.errors;
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      },
+  constructor() {
+    this.documentIdSearch$.pipe(debounceTime(250), takeUntilDestroyed()).subscribe((documentId) => {
+      this.store.documentIdUpdate(documentId);
     });
 
-    this._store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
+    effect(() => {
+      this.tableDataSource.data = this.store.outgoingMessages();
+    });
   }
 
   onFiltersEvent(filters: DhOutgoingMessagesFilters): void {
-    this._store.patchState((state) => ({
-      ...state,
-      filters,
-      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
-    }));
+    this.store.updateFilter(filters);
   }
 
   onSortEvent(sortMetaData: Sort): void {
-    this._store.patchState((state) => ({
-      ...state,
-      sortMetaData,
-      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
-    }));
+    this.store.updateSort(sortMetaData);
   }
 
-  onPageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
+  onPageEvent(page: PageEvent): void {
+    this.store.updatePage(page);
   }
 
-  download() {
-    this.isDownloading = true;
+  async download() {
+    const document = await this.store.downloadDocument();
 
-    this._store.queryVariables$
-      .pipe(
-        take(1),
-        switchMap(({ filters, documentId, sortMetaData }) =>
-          this._apollo.query({
-            returnPartialData: false,
-            fetchPolicy: 'no-cache',
-            query: DownloadEsettExchangeEventsDocument,
-            variables: {
-              locale: translate('selectedLanguageIso'),
-              periodInterval: filters.period,
-              createdInterval: filters.created,
-              sentInterval: filters.latestDispatch,
-              gridAreaCode: filters.gridAreas,
-              calculationType: filters.calculationTypes,
-              timeSeriesType: filters.messageTypes,
-              documentStatus: filters.status,
-              documentId,
-              actorNumber: filters.actorNumber,
-              sortProperty: sortMetaData.sortProperty,
-              sortDirection: sortMetaData.sortDirection,
-            },
-          })
-        )
-      )
-      .subscribe({
-        next: (result) => {
-          this.isDownloading = result.loading;
-
-          exportToCSVRaw({
-            content: result?.data?.downloadEsettExchangeEvents ?? '',
-            fileName: 'eSett-outgoing-messages',
-          });
-        },
-        error: () => {
-          this.isDownloading = false;
-          this._toastService.open({
-            message: translate('shared.error.message'),
-            type: 'danger',
-          });
-        },
+    if ((document.loading === false && document.error) || document.errors) {
+      this.toastService.open({
+        message: translate('shared.error.message'),
+        type: 'danger',
       });
+      return;
+    }
+
+    exportToCSVRaw({
+      content: document.data?.downloadEsettExchangeEvents ?? '',
+      fileName: 'eSett-outgoing-messages',
+    });
   }
 
   resend(): void {
-    if (!this.isLoading) {
-      this.isLoading = true;
-      this._apollo
-        .mutate({
-          mutation: ResendExchangeMessagesDocument,
-          refetchQueries: [GetStatusReportDocument],
-        })
-        .subscribe(() => (this.isLoading = false));
+    if (!this.isLoading()) {
+      this.resendMutation.mutate();
     }
   }
 }

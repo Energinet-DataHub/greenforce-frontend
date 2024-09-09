@@ -1,0 +1,10 @@
+query GetFilteredActors {
+  filteredActors {
+    displayName
+    id
+    organization {
+      id
+      domain
+    }
+  }
+}

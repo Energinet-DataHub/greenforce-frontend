@@ -1,0 +1,23 @@
+subscription OnCalculationProgress($input: CalculationQueryInput!) {
+  calculationProgress(input: $input) {
+    id
+    state
+    executionTimeEnd
+    executionTimeStart
+    period
+    statusType
+    executionType
+    calculationType
+    createdByUserName
+    gridAreas {
+      id
+      code
+      displayName
+    }
+    currentStep
+    progress {
+      step
+      status
+    }
+  }
+}

@@ -49,8 +49,6 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhCalculationsGridAreasTableComponent } from '../grid-areas/table.component';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
-import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
@@ -63,7 +61,6 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
     WATT_PROGRESS_TRACKER,
     WattButtonComponent,
     WattBadgeComponent,
-    WattCopyToClipboardDirective,
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
@@ -71,7 +68,6 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
     WattModalComponent,
     WattModalActionsComponent,
     WattSpinnerComponent,
-    WattTooltipDirective,
     VaterFlexComponent,
     VaterUtilityDirective,
 

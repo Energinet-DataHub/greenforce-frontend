@@ -1,0 +1,8 @@
+query userProfile {
+  userProfile {
+    firstName
+    lastName
+    phoneNumber
+    hasFederatedLogin
+  }
+}

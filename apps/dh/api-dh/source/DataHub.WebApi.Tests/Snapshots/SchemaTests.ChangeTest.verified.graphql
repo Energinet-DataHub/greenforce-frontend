@@ -136,7 +136,7 @@ type BalanceResponsibleType {
   receivedDateTime: DateTime!
   supplier: String!
   balanceResponsible: String!
-  meteringPointType: TimeSeriesType!
+  meteringPointType: BalanceResponsibilityMeteringPointType!
   gridArea: String!
 }
 
@@ -208,7 +208,7 @@ type EsettOutgoingMessage {
   documentId: String!
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
+  timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
 }
@@ -227,7 +227,7 @@ type ExchangeEventSearchResult {
   gridAreaCodeOut: String
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
-  timeSeriesType: TimeSeriesType!
+  timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
 }
@@ -245,11 +245,13 @@ type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+  hasFederatedLogin: Boolean!
 }
 
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
+  includedInCalculation: Boolean!
   id: UUID!
   code: String!
   name: String!
@@ -379,7 +381,7 @@ type Mutation {
 }
 
 type Organization {
-  organizationId: String
+  id: UUID!
   actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
@@ -440,14 +442,15 @@ type Query {
   selectionActors: [SelectionActorDto!]!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput!): [Calculation!]!
-  latestBalanceFixing(period: DateRange!): Calculation
+  latestBalanceFixing(period: DateRange!): Calculation @deprecated(reason: "Use `latestCalculation` instead")
+  latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
-  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCode: String calculationType: ExchangeEventCalculationType documentStatus: DocumentStatus timeSeriesType: TimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCode: String documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   gridAreas: [GridAreaDto!]!
@@ -725,7 +728,7 @@ input CreateCalculationInput {
   executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: StartCalculationType!
+  calculationType: CalculationType!
   scheduledAt: DateTime
 }
 
@@ -948,6 +951,12 @@ enum BalanceResponsibilityAgreementStatus {
   EXPIRED
 }
 
+enum BalanceResponsibilityMeteringPointType {
+  MgaExchange
+  Production
+  Consumption
+}
+
 enum BalanceResponsibleSortProperty {
   VALID_FROM
   VALID_TO
@@ -1046,6 +1055,12 @@ enum EicFunction {
   SerialEnergyTrader
   Delegated
   ItSupplier
+}
+
+enum EsettTimeSeriesType {
+  MgaExchange
+  Production
+  Consumption
 }
 
 enum ExchangeEventCalculationType {
@@ -1173,28 +1188,6 @@ enum SettlementReportStatusType {
 enum SortDirection {
   ASCENDING
   DESCENDING
-}
-
-"Defines the wholesale orchestrations calculation type"
-enum StartCalculationType {
-  "Balance fixing"
-  BALANCE_FIXING
-  "Aggregation."
-  AGGREGATION
-  "Wholesale fixing."
-  WHOLESALE_FIXING
-  "First correction settlement."
-  FIRST_CORRECTION_SETTLEMENT
-  "Second correction settlement."
-  SECOND_CORRECTION_SETTLEMENT
-  "Third correction settlement."
-  THIRD_CORRECTION_SETTLEMENT
-}
-
-enum TimeSeriesType {
-  MGA_EXCHANGE
-  PRODUCTION
-  CONSUMPTION
 }
 
 enum UserAuditedChange {

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';

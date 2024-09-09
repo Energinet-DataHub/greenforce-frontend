@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { APP_INITIALIZER, Component } from '@angular/core';
 import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
 import { APP_BASE_HREF } from '@angular/common';

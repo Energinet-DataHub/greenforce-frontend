@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
 import { Permission } from '@energinet-datahub/dh/shared/domain';
@@ -27,7 +27,7 @@ type Claims = { [name: string]: unknown };
   providedIn: 'root',
 })
 export class PermissionService {
-  constructor(private actorTokenService: DhActorTokenService) {}
+  private readonly actorTokenService = inject(DhActorTokenService);
 
   public hasPermission(permission: Permission) {
     return this.actorTokenService.acquireToken().pipe(
