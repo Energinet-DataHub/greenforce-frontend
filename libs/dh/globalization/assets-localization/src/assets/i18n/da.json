@@ -6,6 +6,10 @@
   "sessionExpirationTitle": "Session udløber snart",
   "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer",
   "sessionExpirationContentPartB": "Du blive logget af om",
+  "newVersionAvailable": {
+    "message": "Ny version tilgængelig",
+    "action": "Opdater"
+  },
   "shell": {
     "logout": "Log ud",
     "profile": "Profil",

@@ -6,6 +6,10 @@
   "sessionExpirationTitle": "Session expires soon",
   "sessionExpirationContentPartA": "You have been inactive for 2 hours",
   "sessionExpirationContentPartB": "You will be signed out in",
+  "newVersionAvailable": {
+    "message": "A new version is available",
+    "action": "Update"
+  },
   "shell": {
     "logout": "Sign out",
     "profile": "Profile",
