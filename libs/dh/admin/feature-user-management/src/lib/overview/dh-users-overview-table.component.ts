@@ -116,11 +116,12 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.usersTable()
       .sortChange.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((x) => {
-        const property = (x.active.charAt(0).toUpperCase() +
-          x.active.slice(1)) as UserOverviewSortProperty;
-        const direction = (x.direction.charAt(0).toUpperCase() +
-          x.direction.slice(1)) as MarketParticipantSortDirctionType;
+      .subscribe((sortEvent) => {
+        const property = (sortEvent.active.charAt(0).toUpperCase() +
+          sortEvent.active.slice(1)) as UserOverviewSortProperty;
+
+        const direction = (sortEvent.direction.charAt(0).toUpperCase() +
+          sortEvent.direction.slice(1)) as MarketParticipantSortDirctionType;
 
         this.sortChanged()(property, direction);
       });
