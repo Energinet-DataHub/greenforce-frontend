@@ -22,7 +22,7 @@ limitations under the License.
     [activeRow]="activeRow"
     sortBy="email"
     sortDirection="asc"
-    [loading]="isLoading"
+    [loading]="isLoading()"
     [sortClear]="false"
   >
     <ng-container *wattTableCell="columns.firstName; header: t('columns.firstName'); let element">
@@ -46,9 +46,9 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  @if (!isLoading && dataSource.data.length === 0) {
+  @if (!isLoading() && dataSource.data.length === 0) {
     <vater-stack fill="vertical" justify="center">
-      @if (hasGeneralError) {
+      @if (hasGeneralError()) {
         <dh-tab-data-general-error (reload)="reload.emit()" />
       } @else {
         <watt-empty-state icon="cancel" [title]="t('emptyTitle')" [message]="t('emptyMessage')" />
