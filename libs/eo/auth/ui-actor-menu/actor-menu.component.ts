@@ -26,6 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { translations } from '@energinet-datahub/eo/translations';
+import { NgClass } from '@angular/common';
 
 export interface Actor {
   name?: string;
@@ -40,13 +41,17 @@ const selector = 'eo-actor-menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  imports: [TranslocoPipe, MatMenuModule],
+  imports: [TranslocoPipe, MatMenuModule, NgClass],
   selector,
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
     ${selector} .menu-trigger {
-      cursor: pointer; // TODO: REMOVE IF NO ACTORS ARE AVAILABLE
+      cursor: pointer;
+      pointer-events: none;
+      &.has-actors {
+        pointer-events: auto;
+      }
       background-color: var(--watt-on-light-low-emphasis);
       border-radius: 8px;
       margin: var(--watt-space-m);
@@ -97,7 +102,7 @@ const selector = 'eo-actor-menu';
   `,
   template: `
     <!-- TODO: Add loading state -->
-    <div [matMenuTriggerFor]="menu" class="menu-trigger">
+    <div [matMenuTriggerFor]="menu" class="menu-trigger" [ngClass]="{'has-actors': actors.length > 0}">
       <p class="watt-label company-name">{{ currentActor.org_name }}</p>
       <p class="watt-label">
         {{ translations.userInformation.tin | transloco: { tin: currentActor.tin } }}

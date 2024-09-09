@@ -100,21 +100,11 @@ export class EoPrimaryNavigationComponent {
     return 'Menu';
   }
 
-  protected organizations = [
-    {
-      name: 'Energinet',
-      tin: '12345678',
-      isSelf: true,
-    },
-    {
-      name: 'DataHub',
-      tin: '11223344',
-      isSelf: false,
-    },
-  ];
+  // TODO: Implement this when backend is ready #3280
+  protected organizations = [];
   protected currentActor = {name: this.user()?.org_name, tin: this.user()?.org_cvr, org_name: this.user()?.org_name};
 
-  onActorSelected(event: any) {
-    console.log('Actor selected', event);
-  }
+  // TODO: Implement this when backend is ready #3280
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  onActorSelected(event: unknown) {}
 }
