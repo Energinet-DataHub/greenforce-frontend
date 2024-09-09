@@ -43,9 +43,9 @@ export const dhFeatureFlagsConfig = {
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
   // This should be removed when there is no longer a need to create calculations
-  // in closed periods OR as soon as possible after go-live (01-09-2024)
+  // in closed periods OR as soon as possible after go-live
   'create-calculation-minimum-date': {
-    created: '10-07-2024', // Intentionally not using latest bump, so it expires after go-live
+    created: '23-07-2024', // Intentionally not using latest bump, so it expires after go-live
     disabledEnvironments: [
       DhAppEnvironment.test_001,
       DhAppEnvironment.preprod,
