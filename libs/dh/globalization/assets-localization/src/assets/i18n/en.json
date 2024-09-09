@@ -1339,8 +1339,7 @@
             "userRolePlaceholder": "User role"
           },
           "columns": {
-            "firstName": "First name",
-            "lastName": "Last name",
+            "name": "Name",
             "email": "E-mail",
             "phone": "Phone no.",
             "status": "Status"

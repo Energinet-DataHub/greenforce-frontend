@@ -85,7 +85,6 @@ export class DhUsersTabTableComponent implements AfterViewInit {
 
   columns: WattTableColumnDef<DhUser> = {
     firstName: { accessor: 'firstName' },
-    lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
     status: { accessor: 'status' },
