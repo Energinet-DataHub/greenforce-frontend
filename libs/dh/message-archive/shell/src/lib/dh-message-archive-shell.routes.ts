@@ -16,12 +16,13 @@
  */
 import { Routes } from '@angular/router';
 
+import { DhMessageArchiveSearchPageComponent } from '@energinet-datahub/dh/message-archive/feature-search';
 import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
 export const dhMessageArchiveShellRoutes: Routes = [
   {
     path: '',
-    component: DhMessageArchiveLogSearchComponent,
+    component: DhMessageArchiveSearchPageComponent,
     pathMatch: 'full',
     data: {
       titleTranslationKey: 'messageArchive.search.topBarTitle',

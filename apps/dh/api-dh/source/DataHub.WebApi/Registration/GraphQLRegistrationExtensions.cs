@@ -17,6 +17,7 @@ using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using HotChocolate.Execution.Configuration;
+using HotChocolate.Types.Pagination;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Registration;
@@ -35,6 +36,7 @@ public static class GraphQLRegistrationExtensions
             .AddMutationType<Mutation>()
             .AddSubscriptionType<Subscription>()
             .AddTypes()
-            .BindRuntimeType<Interval, DateRangeType>();
+            .BindRuntimeType<Interval, DateRangeType>()
+            .SetPagingOptions(new PagingOptions { IncludeTotalCount = true });
     }
 }

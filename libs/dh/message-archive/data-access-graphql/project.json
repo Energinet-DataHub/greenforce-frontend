@@ -1,0 +1,13 @@
+{
+  "name": "dh-message-archive-data-access-graphql",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/message-archive/data-access-graphql",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:wholesale", "type:data-access"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
