@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
@@ -24,7 +24,6 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoAccountMenuComponent } from './eo-account-menu';
-import { is } from 'date-fns/locale';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
