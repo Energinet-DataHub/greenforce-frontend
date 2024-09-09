@@ -1338,8 +1338,7 @@
             "userRolePlaceholder": "Brugerrolle"
           },
           "columns": {
-            "firstName": "Fornavn",
-            "lastName": "Efternavn",
+            "name": "Navn",
             "email": "E-mail",
             "phone": "Telefonnr.",
             "status": "Status"
