@@ -72,6 +72,7 @@
     "@angular/platform-browser-dynamic": "18.1.0",
     "@angular/platform-server": "18.1.0",
     "@angular/router": "18.1.0",
+    "@angular/service-worker": "18.1.0",
     "@angular/ssr": "18.1.0",
     "@apollo/client": "3.8.1",
     "@azure/msal-angular": "3.0.16",

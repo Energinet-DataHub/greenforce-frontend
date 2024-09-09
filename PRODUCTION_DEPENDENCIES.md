@@ -13,6 +13,7 @@
 | [@angular/platform-browser](https://github.com/angular/angular) | 18.1.0 | MIT |
 | [@angular/platform-server](https://github.com/angular/angular) | 18.1.0 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 18.1.0 | MIT |
+| [@angular/service-worker](https://github.com/angular/angular) | 18.1.0 | MIT |
 | [@angular/ssr](https://github.com/angular/angular-cli) | 18.1.0 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
