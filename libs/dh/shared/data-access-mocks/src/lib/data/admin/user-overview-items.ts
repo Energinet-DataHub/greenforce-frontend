@@ -46,7 +46,7 @@ const userActorRoles: ActorUserRole[] = [
   },
 ];
 
-const actors = [
+const actors: Actor[] = [
   {
     __typename: 'Actor',
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
@@ -81,7 +81,8 @@ const actors = [
       name: '',
     } as Organization,
   },
-] as Actor[];
+];
+
 export const overviewUsers: User[] = [
   {
     __typename: 'User',
