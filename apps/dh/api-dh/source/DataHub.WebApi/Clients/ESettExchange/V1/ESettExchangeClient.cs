@@ -1569,7 +1569,6 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         public string BalanceResponsible { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringPointType MeteringPointType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("validFromDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1587,13 +1586,10 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum BalanceResponsibleSortProperty
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ValidFrom")]
         ValidFrom = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ValidTo")]
         ValidTo = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ReceivedDate")]
         ReceivedDate = 2,
 
     }
@@ -1602,11 +1598,9 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum CalculationType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BalanceFixing")]
-        BalanceFixing = 0,
+        BalanceFixing = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Aggregation")]
-        Aggregation = 1,
+        Aggregation = 2,
 
     }
 
@@ -1614,23 +1608,17 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum DocumentStatus
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Received")]
-        Received = 0,
+        Received = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"AwaitingDispatch")]
-        AwaitingDispatch = 1,
+        AwaitingDispatch = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"AwaitingReply")]
-        AwaitingReply = 2,
+        AwaitingReply = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Accepted")]
-        Accepted = 3,
+        Accepted = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Rejected")]
-        Rejected = 4,
+        Rejected = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BizTalkAccepted")]
-        BizTalkAccepted = 5,
+        BizTalkAccepted = 6,
 
     }
 
@@ -1638,16 +1626,12 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum ESettStageComponent
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Ingestion")]
         Ingestion = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Converter")]
         Converter = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Sender")]
         Sender = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Receiver")]
         Receiver = 3,
 
     }
@@ -1667,17 +1651,15 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public partial class ExchangeEventFilter
     {
         [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationType? CalculationType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType? TimeSeriesType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("gridAreaCodes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string>? GridAreaCodes { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("documentStatuses", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [Newtonsoft.Json.JsonProperty("documentStatuses", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<DocumentStatus>? DocumentStatuses { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("periodFrom", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1756,15 +1738,12 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         public System.DateTimeOffset Created { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationType CalculationType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType TimeSeriesType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("documentStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public DocumentStatus DocumentStatus { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("lastDispatched", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1776,25 +1755,18 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum ExchangeEventSortProperty
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"CalculationType")]
         CalculationType = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Created")]
         Created = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DocumentId")]
         DocumentId = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DocumentStatus")]
         DocumentStatus = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"GridAreaCode")]
         GridAreaCode = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TimeSeriesType")]
         TimeSeriesType = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LatestDispatched")]
         LatestDispatched = 6,
 
     }
@@ -1803,11 +1775,9 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public partial class ExchangeEventSortPropertySorting
     {
         [Newtonsoft.Json.JsonProperty("sortProperty", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ExchangeEventSortProperty SortProperty { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("direction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SortDirection Direction { get; set; } = default!;
 
     }
@@ -1833,11 +1803,9 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         public string GridAreaCode { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationType CalculationType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timeSeriesType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public TimeSeriesType TimeSeriesType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("periodFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1847,7 +1815,6 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         public System.DateTimeOffset PeriodTo { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("documentStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public DocumentStatus DocumentStatus { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("lastDispatched", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1885,15 +1852,12 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
         public string? DocumentId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringGridImbalanceValuesToInclude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringGridImbalanceValuesToInclude MeteringGridImbalanceValuesToInclude { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sortProperty", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringGridAreaImbalanceSortProperty SortProperty { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("sortDirection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SortDirection SortDirection { get; set; } = default!;
 
     }
@@ -1973,16 +1937,12 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum MeteringGridAreaImbalanceSortProperty
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DocumentDateTime")]
         DocumentDateTime = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"GridAreaCode")]
         GridAreaCode = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DocumentId")]
         DocumentId = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ReceivedDateTime")]
         ReceivedDateTime = 3,
 
     }
@@ -1991,13 +1951,10 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum MeteringGridImbalanceValuesToInclude
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Imbalances")]
         Imbalances = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Balances")]
         Balances = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Both")]
         Both = 2,
 
     }
@@ -2006,14 +1963,11 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum MeteringPointType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MgaExchange")]
-        MgaExchange = 0,
+        MgaExchange = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
-        Production = 1,
+        Production = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Consumption")]
-        Consumption = 2,
+        Consumption = 3,
 
     }
 
@@ -2021,7 +1975,6 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public partial class ReadinessStatusDto
     {
         [Newtonsoft.Json.JsonProperty("component", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ESettStageComponent Component { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("isReady", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -2033,10 +1986,8 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum SortDirection
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Ascending")]
         Ascending = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Descending")]
         Descending = 1,
 
     }
@@ -2045,14 +1996,11 @@ namespace Energinet.DataHub.WebApi.Clients.ESettExchange.v1
     public enum TimeSeriesType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MgaExchange")]
-        MgaExchange = 0,
+        MgaExchange = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
-        Production = 1,
+        Production = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Consumption")]
-        Consumption = 2,
+        Consumption = 3,
 
     }
 
