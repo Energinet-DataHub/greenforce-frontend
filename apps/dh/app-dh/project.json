@@ -16,26 +16,26 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["flat", "msw", "dayjs"],
+        "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
         "assets": [
           {
-            "glob": "**/*",
             "input": "libs/dh/shared/assets/src/favicon",
-            "output": ""
-          },
-          {
-            "glob": "staticwebapp.config.json",
-            "input": "apps/dh/app-dh",
-            "output": ""
-          },
-          {
             "glob": "**/*",
+            "output": ""
+          },
+          {
+            "input": "apps/dh/app-dh",
+            "glob": "staticwebapp.config.json",
+            "output": ""
+          },
+          {
             "input": "libs/dh/shared/assets/src/assets",
+            "glob": "**/*",
             "output": "assets"
           },
           {
-            "glob": "**/*",
             "input": "libs/dh/globalization/assets-localization/src/assets",
+            "glob": "**/*",
             "output": "assets"
           },
           {
@@ -88,6 +88,7 @@
             }
           ],
           "outputHashing": "all",
+          "serviceWorker": "apps/dh/app-dh/ngsw-config.json",
           "sourceMap": {
             "hidden": true,
             "scripts": true,

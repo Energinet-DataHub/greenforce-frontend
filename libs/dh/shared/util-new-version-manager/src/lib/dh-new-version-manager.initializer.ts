@@ -14,15 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ErrorHandler, makeEnvironmentProviders } from '@angular/core';
-import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
+import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
 
-import { applicationInsightsInitializer } from './dh-application-insights.initializer';
+import { DhNewVersionManager } from './dh-new-version-manager.service';
 
-export const applicationInsightsProviders = makeEnvironmentProviders([
-  applicationInsightsInitializer,
-  {
-    provide: ErrorHandler,
-    useClass: ApplicationinsightsAngularpluginErrorService,
-  },
-]);
+export const dhNewVersionManagerInitializer: FactoryProvider = {
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: (newVersionManager: DhNewVersionManager) => () => newVersionManager.init(),
+  deps: [DhNewVersionManager],
+};
