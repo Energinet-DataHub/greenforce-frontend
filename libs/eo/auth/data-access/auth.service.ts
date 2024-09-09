@@ -143,6 +143,18 @@ export class EoAuthService {
     return this.userManager ? this.userManager?.signinSilent() : Promise.resolve(null);
   }
 
+  isLoggedIn(): Promise<boolean> {
+    return this.userManager?.getUser().then(
+      (user) => {
+        if (user && !user.expired) {
+          return Promise.resolve(true);
+        }
+        return Promise.resolve(false);
+      },
+      () => Promise.resolve(false)
+    ) ?? Promise.resolve(false);
+  }
+
   checkForExistingToken() {
     return this.userManager?.getUser().then((user) => {
       if (!user) return;
