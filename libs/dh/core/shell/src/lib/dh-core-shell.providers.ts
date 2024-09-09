@@ -52,6 +52,7 @@ import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-
 import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { dhNewVersionManagerInitializer } from '@energinet-datahub/dh/shared/util-new-version-manager';
 
 if (environment.authDisabled) {
   MsalGuard.prototype.canActivate = () => of(true);
@@ -117,4 +118,5 @@ export const dhCoreShellProviders = [
   interceptors,
   msalProviders,
   dhLanguageServiceInitializer,
+  dhNewVersionManagerInitializer,
 ];

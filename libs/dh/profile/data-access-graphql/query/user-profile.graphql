@@ -1,7 +1,8 @@
-query getUserProfile {
+query userProfile {
   userProfile {
     firstName
     lastName
     phoneNumber
+    hasFederatedLogin
   }
 }

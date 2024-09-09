@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import {
-  GetUserProfileQuery,
+  UserProfileQuery,
   UpdateUserProfileMutation,
-  mockGetUserProfileQuery,
+  mockUserProfileQuery,
   mockUpdateUserProfileMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -74,7 +74,7 @@ function updatUserProfileMutation() {
 }
 
 function getUserProfileQuery() {
-  return mockGetUserProfileQuery(async () => {
+  return mockUserProfileQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
@@ -85,8 +85,9 @@ function getUserProfileQuery() {
           lastName: 'Doe',
           phoneNumber: '+46 123000001',
           email: 'mock@energinet.dk',
+          hasFederatedLogin: Math.random() > 0.5,
         },
-      } as GetUserProfileQuery,
+      } as UserProfileQuery,
     });
   });
 }

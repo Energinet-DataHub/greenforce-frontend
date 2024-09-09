@@ -170,7 +170,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         heading: 'Udviklere',
         content: `
           <p>Få adgang til vores</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a>
+          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a><br />
+          <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
         `,
       },
     },

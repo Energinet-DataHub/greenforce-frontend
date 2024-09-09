@@ -40,10 +40,12 @@ limitations under the License.
           [formControl]="userPreferencesForm.controls.phoneNumber"
         />
 
-        <h4>{{ t("login") }}</h4>
-        <dh-mitid-button class="mitid-field" mode="signup">
-          {{ "admin.userManagement.connect" | transloco }}
-        </dh-mitid-button>
+        @if (hasFederatedLogin() === false) {
+          <h4>{{ t("login") }}</h4>
+          <dh-mitid-button class="mitid-field" mode="signup">
+            {{ "admin.userManagement.connect" | transloco }}
+          </dh-mitid-button>
+        }
       </vater-stack>
     </vater-flex>
   </form>

@@ -60,7 +60,10 @@ import { translations } from '@energinet-datahub/eo/translations';
   styles: `
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
-      --watt-modal-min-height: 648px !important;
+
+      @media (min-width: 720px) {
+        --watt-modal-min-height: 800px !important;
+      }
 
       .watt-modal-content {
         display: flex;
@@ -69,12 +72,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
 
       watt-modal-actions {
-        justify-content: space-between;
-        align-items: center;
-
-        watt-button {
-          margin-left: var(--watt-space-m);
-        }
+        gap: var(--watt-space-m);
       }
 
       h3 {
@@ -161,22 +159,12 @@ import { translations } from '@energinet-datahub/eo/translations';
           [ngClass]="{ 'visually-hidden': isLoading() }"
           [attr.aria.hidden]="isLoading()"
         >
-          <watt-checkbox formControlName="termsAndConditions"
-            ><span
-              [innerHTML]="translations.grantConsent.acceptTermsAndConditions | transloco"
-            ></span
-          ></watt-checkbox>
-          <div>
-            <watt-button variant="secondary" (click)="decline()">{{
-              translations.grantConsent.decline | transloco
-            }}</watt-button>
-            <watt-button
-              variant="secondary"
-              (click)="accept()"
-              [disabled]="!form.value.termsAndConditions"
-              >{{ translations.grantConsent.accept | transloco }}</watt-button
-            >
-          </div>
+          <watt-button variant="secondary" (click)="decline()">{{
+            translations.grantConsent.decline | transloco
+          }}</watt-button>
+          <watt-button variant="secondary" (click)="accept()">{{
+            translations.grantConsent.accept | transloco
+          }}</watt-button>
         </watt-modal-actions>
       </watt-modal>
     }
@@ -196,7 +184,7 @@ export class EoGrantConsentModalComponent implements OnInit {
 
   protected translations = translations;
   protected permissions = Object.entries(translations.grantConsent.permissions);
-  protected form!: FormGroup;
+  protected form: FormGroup = new FormGroup({});
   protected isLoading = signal<boolean>(false);
   protected organizationName = signal<string>('');
   protected allowedRedirectUrl = signal<string>('');
@@ -207,10 +195,6 @@ export class EoGrantConsentModalComponent implements OnInit {
   }
 
   private setForm() {
-    this.form = new FormGroup({
-      termsAndConditions: new FormControl(false),
-    });
-
     this.permissions.forEach((permission) => {
       const name = permission[0];
       this.form.addControl(name, new FormControl({ value: true, disabled: true }));
@@ -235,7 +219,6 @@ export class EoGrantConsentModalComponent implements OnInit {
   }
 
   accept() {
-    if (!this.form.value.termsAndConditions) return;
     this.consentService.grant(this.thirdPartyClientId).subscribe({
       next: () => {
         this.redirectOrClose(true);
