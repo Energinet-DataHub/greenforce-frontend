@@ -61,6 +61,10 @@ import { translations } from '@energinet-datahub/eo/translations';
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
+      @media (min-width: 720px) {
+        --watt-modal-min-height: 800px !important;
+      }
+
       .watt-modal-content {
         display: flex;
         flex-direction: column;
