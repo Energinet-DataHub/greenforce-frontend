@@ -20,7 +20,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { EoAuthService } from './auth.service';
 
-export const eoScopeGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+export const eoScopeGuard: CanActivateFn = async (route: ActivatedRouteSnapshot) => {
   const router = inject(Router);
   const authService = inject(EoAuthService);
   const transloco = inject(TranslocoService);
@@ -31,13 +31,13 @@ export const eoScopeGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   }
 
   // Save the current route to redirect to after login
-  const path = route.url.join('/');
+  const path = transloco.getActiveLang() + '/' + route.url.join('/');
   const queryParams = new URLSearchParams(route.queryParams).toString();
   const redirectUrl = queryParams ? `${path}?${queryParams}` : path;
 
   // Redirect to login if user is not authenticated
-  if (!authService.user()) {
-    authService.login(redirectUrl);
+  if (!(await authService.isLoggedIn())) {
+    authService.login({ redirectUrl });
     return false;
   }
 

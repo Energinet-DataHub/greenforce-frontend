@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
@@ -36,8 +35,8 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   template: ` <watt-spinner /> `,
 })
 export class EoOnboardingShellComponent implements OnInit {
-  private auth = inject(EoAuthService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   clientId: string | null = null;
 
@@ -47,6 +46,11 @@ export class EoOnboardingShellComponent implements OnInit {
 
     if (!thirdPartyClientId || !redirectUrl) return;
 
-    this.auth.login(thirdPartyClientId, redirectUrl);
+    this.router.navigate(['/consent'], {
+      queryParams: {
+        'third-party-client-id': thirdPartyClientId,
+        'redirect-url': redirectUrl,
+      },
+    });
   }
 }

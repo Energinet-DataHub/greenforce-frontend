@@ -60,7 +60,10 @@ import { translations } from '@energinet-datahub/eo/translations';
   styles: `
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
-      --watt-modal-min-height: 648px !important;
+
+      @media (min-width: 720px) {
+        --watt-modal-min-height: 800px !important;
+      }
 
       .watt-modal-content {
         display: flex;
