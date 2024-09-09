@@ -84,7 +84,8 @@ const selector = 'eo-actor-menu';
         display: flex;
         flex-direction: column;
 
-        &__tin, &__name {
+        &__tin,
+        &__name {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -102,7 +103,11 @@ const selector = 'eo-actor-menu';
   `,
   template: `
     <!-- TODO: Add loading state -->
-    <div [matMenuTriggerFor]="menu" class="menu-trigger" [ngClass]="{'has-actors': actors.length > 0}">
+    <div
+      [matMenuTriggerFor]="menu"
+      class="menu-trigger"
+      [ngClass]="{ 'has-actors': actors.length > 0 }"
+    >
       <p class="watt-label company-name">{{ currentActor.org_name }}</p>
       <p class="watt-label">
         {{ translations.userInformation.tin | transloco: { tin: currentActor.tin } }}

@@ -37,7 +37,7 @@ export const eoScopeGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
 
   // Redirect to login if user is not authenticated
   if (!authService.user()) {
-    authService.login({redirectUrl});
+    authService.login({ redirectUrl });
     return false;
   }
 

@@ -47,6 +47,6 @@ export class EoOnboardingShellComponent implements OnInit {
 
     if (!thirdPartyClientId || !redirectUrl) return;
 
-    this.auth.login({thirdPartyClientId, redirectUrl});
+    this.auth.login({ thirdPartyClientId, redirectUrl });
   }
 }

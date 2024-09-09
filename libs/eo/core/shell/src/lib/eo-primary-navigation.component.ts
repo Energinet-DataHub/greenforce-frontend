@@ -102,7 +102,11 @@ export class EoPrimaryNavigationComponent {
 
   // TODO: Implement this when backend is ready #3280
   protected organizations = [];
-  protected currentActor = {name: this.user()?.org_name, tin: this.user()?.org_cvr, org_name: this.user()?.org_name};
+  protected currentActor = {
+    name: this.user()?.org_name,
+    tin: this.user()?.org_cvr,
+    org_name: this.user()?.org_name,
+  };
 
   // TODO: Implement this when backend is ready #3280
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
