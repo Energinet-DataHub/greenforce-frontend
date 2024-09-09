@@ -36,7 +36,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   template: ` <watt-spinner /> `,
 })
 export class EoOnboardingShellComponent implements OnInit {
-  private auth = inject(EoAuthService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -48,17 +47,11 @@ export class EoOnboardingShellComponent implements OnInit {
 
     if (!thirdPartyClientId || !redirectUrl) return;
 
-    this.auth.isLoggedIn().then((isLoggedIn) => {
-      if (isLoggedIn) {
-        this.router.navigate(['/consent'], {
-          queryParams: {
-            'third-party-client-id': thirdPartyClientId,
-            'redirect-url': redirectUrl,
-          },
-        });
-      } else {
-        this.auth.login({ thirdPartyClientId, redirectUrl });
-      }
+    this.router.navigate(['/consent'], {
+      queryParams: {
+        'third-party-client-id': thirdPartyClientId,
+        'redirect-url': redirectUrl,
+      },
     });
   }
 }

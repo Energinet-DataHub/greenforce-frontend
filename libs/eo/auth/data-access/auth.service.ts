@@ -135,7 +135,7 @@ export class EoAuthService {
   }
 
   logout(): Promise<void> {
-    sessionStorage.clear();
+    this.userManager?.removeUser();
     return this.userManager?.signoutRedirect() ?? Promise.resolve();
   }
 
