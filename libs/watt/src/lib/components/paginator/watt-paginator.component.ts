@@ -34,7 +34,7 @@ import {
 } from '@angular/material/paginator';
 
 import { Subscription } from 'rxjs';
-import { WattTableDataSource } from '../table';
+import { IWattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
 
 /**
@@ -66,7 +66,7 @@ export class WattPaginatorComponent<T> implements OnInit, OnDestroy {
   @Input() pageSizeOptions = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
   @Input() pageIndex = 0;
-  @Input() set for(dataSource: WattTableDataSource<T>) {
+  @Input() set for(dataSource: IWattTableDataSource<T>) {
     if (!dataSource) return;
     dataSource.paginator = this.instance;
   }

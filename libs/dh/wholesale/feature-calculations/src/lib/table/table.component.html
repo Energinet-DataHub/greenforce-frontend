@@ -32,10 +32,7 @@ limitations under the License.
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    [activeRow]="getActiveRow()"
     [loading]="loading"
-    sortBy="executionTimeStart"
-    sortDirection="desc"
     (rowClick)="selectedRow.emit($event)"
   >
     <!-- Process Type -->
