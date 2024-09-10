@@ -25,4 +25,6 @@ public sealed record RequestedSettlementReportDto(
     int GridAreaCount,
     double Progress,
     Guid RequestedByActorId,
-    bool ContainsBasisData);
+    bool ContainsBasisData,
+    DateTimeOffset CreatedDateTime,
+    DateTimeOffset? EndedDateTime);
