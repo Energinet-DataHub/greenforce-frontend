@@ -833,11 +833,15 @@ input ResetTwoFactorAuthenticationInput {
 }
 
 input StopDelegationInput {
-  stopMessageDelegationDto: [StopProcessDelegationDtoInput!]!
+  stopDelegationPeriods: [StopDelegationPeriodInput!]!
+}
+
+input StopDelegationPeriodInput {
+  delegationId: UUID!
+  stopPeriod: StopProcessDelegationDtoInput!
 }
 
 input StopProcessDelegationDtoInput {
-  id: UUID!
   periodId: UUID!
   stopsAt: DateTime
 }
