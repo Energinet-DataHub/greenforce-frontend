@@ -46,5 +46,5 @@ public class WholesaleResolvers
             httpContextAccessor.HttpContext!,
             "DownloadReport",
             "WholesaleSettlementReport",
-            new { settlementReportId = result.Id });
+            new { settlementReportId = result.Id, Authorization = httpContextAccessor.HttpContext!.Request.Headers["Authorization"] });
 }
