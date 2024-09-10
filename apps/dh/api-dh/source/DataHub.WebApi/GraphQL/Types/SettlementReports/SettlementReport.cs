@@ -28,4 +28,4 @@ public sealed record SettlementReport(
     string StatusMessage,
     double Progress,
     SettlementReportStatusType StatusType,
-    ExecutionTime ExecutionTime);
+    Interval ExecutionTime);

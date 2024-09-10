@@ -55,7 +55,7 @@ public partial class Query
                 string.Empty,
                 report.Progress,
                 settlementReportStatusType,
-                new ExecutionTime(report.CreatedDateTime, report.EndedDateTime)));
+                new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null)));
         }
 
         return settlementReports;
