@@ -21,11 +21,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import dayjs from 'dayjs';
 
-export type Calculation = NonNullable<
-  NonNullable<ResultOf<typeof GetCalculationsDocument>['calculations']>['nodes']
->[number];
+export type Calculation = ResultOf<typeof GetCalculationsDocument>['calculations'][0];
 
-export type CalculationGridArea = Calculation['gridAreas'][0];
+export type CalculationGridArea = ResultOf<
+  typeof GetCalculationsDocument
+>['calculations'][0]['gridAreas'][0];
 
 export const wholesaleCalculationTypes = [
   CalculationType.WholesaleFixing,

@@ -41,7 +41,7 @@ import { MatTableModule } from '@angular/material/table';
 import { map } from 'rxjs';
 
 import { WattCheckboxComponent } from '../checkbox';
-import { IWattTableDataSource } from './watt-table-data-source';
+import { WattTableDataSource } from './watt-table-data-source';
 import { WattDatePipe } from '../../utils/date/watt-date.pipe';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
@@ -167,7 +167,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: IWattTableDataSource<T>;
+  @Input() dataSource!: WattTableDataSource<T>;
 
   /**
    * Column definition record with keys representing the column identifiers

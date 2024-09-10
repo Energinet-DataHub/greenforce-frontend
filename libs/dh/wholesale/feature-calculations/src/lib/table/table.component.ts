@@ -49,8 +49,6 @@ import {
   OnCalculationProgressDocument,
   GetCalculationsQuery,
   CalculationOrchestrationState,
-  GetCalculationsDataSource,
-  SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
@@ -94,60 +92,48 @@ export class DhCalculationsTableComponent {
 
   filter = signal<CalculationQueryInput>({});
 
-  dataSource = new GetCalculationsDataSource({
-    variables: {
-      input: this.filter(),
-      order: { executionTime: SortEnumType.Desc },
-    },
-  });
-
-  refetch = effect(() => this.dataSource.refetch({ input: this.filter() }));
-
-  // TODO: Support this
-  // getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
-
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
   // when the BFF is deployed to API Management. This will be fixed in a later PR.
 
   // Create a new query each time the filter changes rather than using `refetch`,
   // since `refetch` does not properly unsubscribe to the previous query.
-  // query = computed(() =>
-  //   this.apollo.watchQuery({
-  //     fetchPolicy: 'network-only',
-  //     query: GetCalculationsDocument,
-  //     variables: { input: this.filter() },
-  //   })
-  // );
+  query = computed(() =>
+    this.apollo.watchQuery({
+      fetchPolicy: 'network-only',
+      query: GetCalculationsDocument,
+      variables: { input: this.filter() },
+    })
+  );
 
-  // valueChanges = effect((OnCleanup) => {
-  //   const subscription = this.query().valueChanges.subscribe({
-  //     next: (result) => {
-  //       this.loading = result.loading;
-  //       this.error = !!result.errors;
-  //       if (result.data?.calculations) this.dataSource.data = result.data.calculations;
-  //     },
-  //     error: (error) => {
-  //       this.error = error;
-  //       this.loading = false;
-  //     },
-  //   });
+  valueChanges = effect((OnCleanup) => {
+    const subscription = this.query().valueChanges.subscribe({
+      next: (result) => {
+        this.loading = result.loading;
+        this.error = !!result.errors;
+        if (result.data?.calculations) this.dataSource.data = result.data.calculations;
+      },
+      error: (error) => {
+        this.error = error;
+        this.loading = false;
+      },
+    });
 
-  //   OnCleanup(() => subscription.unsubscribe());
-  // });
+    OnCleanup(() => subscription.unsubscribe());
+  });
 
-  // subscribe = effect((onCleanup) => {
-  //   const unsubscribe = this.query().subscribeToMore({
-  //     document: OnCalculationProgressDocument,
-  //     variables: { input: this.filter() },
-  //     updateQuery: (prev, options) =>
-  //       this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
-  //   });
+  subscribe = effect((onCleanup) => {
+    const unsubscribe = this.query().subscribeToMore({
+      document: OnCalculationProgressDocument,
+      variables: { input: this.filter() },
+      updateQuery: (prev, options) =>
+        this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
+    });
 
-  //   onCleanup(() => unsubscribe());
-  // });
+    onCleanup(() => unsubscribe());
+  });
 
-  // dataSource: wholesaleTableData = new WattTableDataSource(undefined);
+  dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period', size: 'minmax(max-content, auto)' },
@@ -156,19 +142,21 @@ export class DhCalculationsTableComponent {
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  // updateQuery = (prev: GetCalculationsQuery, calculation: Calculation) => {
-  //   // Check if the updated calculation is already in the cache
-  //   const isExistingCalculation = prev.calculations.some((c) => c.id === calculation.id);
+  getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
 
-  //   // If the calculation exists, update it with the new values
-  //   const calculations = isExistingCalculation
-  //     ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
-  //     : prev.calculations;
+  updateQuery = (prev: GetCalculationsQuery, calculation: Calculation) => {
+    // Check if the updated calculation is already in the cache
+    const isExistingCalculation = prev.calculations.some((c) => c.id === calculation.id);
 
-  //   // If it was an update, replace the cached calculations with the updated
-  //   // array, otherwise add the new calculation to the top of the list.
-  //   return isExistingCalculation
-  //     ? { ...prev, calculations }
-  //     : { ...prev, calculations: [calculation, ...calculations] };
-  // };
+    // If the calculation exists, update it with the new values
+    const calculations = isExistingCalculation
+      ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
+      : prev.calculations;
+
+    // If it was an update, replace the cached calculations with the updated
+    // array, otherwise add the new calculation to the top of the list.
+    return isExistingCalculation
+      ? { ...prev, calculations }
+      : { ...prev, calculations: [calculation, ...calculations] };
+  };
 }

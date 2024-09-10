@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
+export { WattTableDataSource } from './watt-table-data-source';
 export {
   type WattTableColumn,
   type WattTableColumnDef,
