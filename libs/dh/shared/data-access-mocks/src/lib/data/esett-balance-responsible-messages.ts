@@ -41,6 +41,7 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     gridArea: '344',
     gridAreaWithName: {
       __typename: 'GridAreaDto',
+      id: '11',
       code: '344',
       name: 'N1 A/S',
     } as GridAreaDto,
@@ -65,6 +66,7 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     gridArea: '999',
     gridAreaWithName: {
       __typename: 'GridAreaDto',
+      id: '22',
       code: '999',
       name: 'N2 A/S',
     } as GridAreaDto,
