@@ -19,5 +19,5 @@ using NodaTime;
 namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 public sealed record ExecutionTime(
-    DateTimeOffset CreatedDateTime,
-    DateTimeOffset? EndedDateTime);
+    DateTimeOffset Start,
+    DateTimeOffset? End);

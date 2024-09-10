@@ -540,6 +540,7 @@ type SettlementReport {
   statusMessage: String!
   progress: Float!
   statusType: SettlementReportStatusType!
+  executionTime: ExecutionTime!
 }
 
 type StopDelegationPayload {
@@ -632,6 +633,11 @@ type UserRoleWithPermissions {
   eicFunction: EicFunction!
   status: UserRoleStatus!
   permissions: [PermissionDetailsDto!]!
+}
+
+type ExecutionTime {
+    start: DateTime!
+    end: DateTime
 }
 
 union CreateDelegationsForActorError = ApiError
