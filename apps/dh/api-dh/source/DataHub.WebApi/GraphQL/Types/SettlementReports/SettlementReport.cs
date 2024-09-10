@@ -27,4 +27,5 @@ public sealed record SettlementReport(
     bool IncludesBasisData,
     string StatusMessage,
     double Progress,
-    SettlementReportStatusType StatusType);
+    SettlementReportStatusType StatusType,
+    ExecutionTime ExecutionTime);

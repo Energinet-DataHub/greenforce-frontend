@@ -56,7 +56,8 @@ public partial class Query
                 report.ContainsBasisData,
                 string.Empty,
                 report.Progress,
-                settlementReportStatusType));
+                settlementReportStatusType,
+                new ExecutionTime(report.CreatedDateTime, report.EndedDateTime)));
         }
 
         return settlementReports;
