@@ -42,7 +42,7 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 /** Create an observable of ApolloQueryResult from an ApolloError. */
 function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>> {
@@ -62,12 +62,26 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
 
+export type QueryResult<TResult, TVariables extends OperationVariables> = {
+  data: Signal<TResult | undefined>;
+  error: Signal<ApolloError | undefined>;
+  loading: Signal<boolean>;
+  networkStatus: Signal<NetworkStatus>;
+  reset: () => void;
+  setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
+  getVariables: () => Partial<TVariables>;
+  refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
+  subscribeToMore: <TSubscriptionData, TSubscriptionVariables>(
+    options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
+  ) => () => void;
+};
+
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
   options?: QueryOptions<TVariables>
-) {
+): QueryResult<TResult, TVariables> {
   // Inject dependencies
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
@@ -120,8 +134,7 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
-    // The `data` field is wrongly typed and can actually be empty
-    data.set(result.data ?? undefined);
+    data.set(result.data);
     error.set(result.error);
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
@@ -139,6 +152,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
+    getVariables: () => options$.value?.variables ?? {},
     reset: () => {
       reset$.next();
       data.set(undefined);

@@ -26,6 +26,8 @@ public partial class Query
         [Service] IWholesaleClient_V3 client) =>
         await client.GetCalculationAsync(id);
 
+    [UsePaging]
+    [UseSorting]
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
         [Service] IWholesaleClient_V3 client) =>

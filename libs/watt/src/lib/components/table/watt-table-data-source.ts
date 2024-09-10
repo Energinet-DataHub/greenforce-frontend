@@ -19,10 +19,21 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WattPaginatorComponent } from '../paginator';
 
+export interface IWattTableDataSource<T> extends DataSource<T> {
+  data: T[];
+  filter: string;
+  filteredData: T[];
+  paginator: MatPaginator | WattPaginatorComponent<T> | null;
+  sort: MatTableDataSource<T>['sort'];
+  filterPredicate: MatTableDataSource<T>['filterPredicate'];
+  sortData: MatTableDataSource<T>['sortData'];
+  sortingDataAccessor: MatTableDataSource<T>['sortingDataAccessor'];
+}
+
 /**
  * @see https://material.angular.io/components/table/api#MatTableDataSource
  */
-export class WattTableDataSource<T> extends DataSource<T> {
+export class WattTableDataSource<T> extends DataSource<T> implements IWattTableDataSource<T> {
   private dataSource = new MatTableDataSource<T>();
   private _paginator: MatPaginator | WattPaginatorComponent<T> | null = null;
 

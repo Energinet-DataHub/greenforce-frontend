@@ -14,6 +14,7 @@ const config: CodegenConfig = {
         'typed-document-node',
         'typescript-msw',
         '@homebound/graphql-typescript-scalar-type-policies',
+        'libs/dh/shared/util-apollo/src/lib/codegen.js',
       ],
       config: {
         nonOptionalTypename: true,
