@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Types;
+using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
@@ -111,7 +112,7 @@ public partial class Mutation
         [Service] IMarketParticipantClient_V1 client)
     {
         var gridAreas = await client.GridAreaGetAsync().ConfigureAwait(false);
-        await client.ActorDelegationPostAsync(new CreateProcessDelegationsDto
+        await client.ActorDelegationsPostAsync(new CreateProcessDelegationsDto
         {
             DelegatedFrom = delegations.DelegatedFrom,
             DelegatedTo = delegations.DelegatedTo,
@@ -124,12 +125,12 @@ public partial class Mutation
 
     [Error(typeof(ApiException))]
     public async Task<bool> StopDelegationAsync(
-        IEnumerable<StopProcessDelegationDto> stopMessageDelegationDto,
+        IEnumerable<StopDelegationPeriodInput> stopDelegationPeriods,
         [Service] IMarketParticipantClient_V1 client)
     {
-        foreach (var dto in stopMessageDelegationDto)
+        foreach (var stopDelegationPeriod in stopDelegationPeriods)
         {
-            await client.ActorDelegationPutAsync(dto);
+            await client.ActorDelegationsPutAsync(stopDelegationPeriod.DelegationId, stopDelegationPeriod.StopPeriod);
         }
 
         return true;
