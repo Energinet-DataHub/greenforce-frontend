@@ -152,7 +152,7 @@ export class DhCalculationsCreateComponent {
     ),
     dateRange: new FormControl(null, {
       validators: [WattRangeValidators.required, this.validateResolutionTransition()],
-      asyncValidators: () => this.validateBalanceFixing(),
+      asyncValidators: () => this.validateWholesale(),
     }),
     isScheduled: new FormControl(false, { nonNullable: true }),
     scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
@@ -183,6 +183,10 @@ export class DhCalculationsCreateComponent {
   constructor() {
     this.formGroup.controls.isScheduled.valueChanges.subscribe(() => {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
+    });
+
+    this.calculationType.valueChanges.subscribe(() => {
+      this.formGroup.controls.dateRange.updateValueAndValidity();
     });
 
     this.executionType.valueChanges.subscribe((executionType) => {
@@ -273,7 +277,7 @@ export class DhCalculationsCreateComponent {
     this.formGroup.controls.calculationType.setErrors(null);
   }
 
-  private validateBalanceFixing(): Observable<null> {
+  private validateWholesale(): Observable<null> {
     const { calculationType, dateRange } = this.formGroup.controls;
 
     // Hide warning initially
