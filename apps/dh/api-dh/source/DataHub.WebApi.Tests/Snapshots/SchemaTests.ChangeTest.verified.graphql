@@ -540,6 +540,7 @@ type SettlementReport {
   statusMessage: String!
   progress: Float!
   statusType: SettlementReportStatusType!
+  executionTime: DateRange!
 }
 
 type StopDelegationPayload {
