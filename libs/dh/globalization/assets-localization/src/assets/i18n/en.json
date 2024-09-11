@@ -30,6 +30,11 @@
     "b-001": "preprod",
     "p-001": "production"
   },
+  "duration": {
+    "minutes": "{{ minutes }}m",
+    "hours": "{{ hours }}h {{ duration.minutes }}",
+    "days": "{{ days }}d {{ duration.hours }}"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -1118,6 +1123,8 @@
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
+        "startedAt": "Started",
+        "executionTime": "Execution time",
         "calculationType": "Calculation type",
         "period": "Calculation period",
         "numberOfGridAreasInReport": "Grid areas",
