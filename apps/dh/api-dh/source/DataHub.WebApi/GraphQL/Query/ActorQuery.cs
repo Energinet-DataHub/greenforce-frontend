@@ -64,7 +64,7 @@ public partial class Query
     public async Task<IEnumerable<ProcessDelegation>> GetDelegationsForActorAsync(
         Guid actorId,
         [Service] IMarketParticipantClient_V1 client) =>
-        (await client.ActorDelegationGetAsync(actorId))
+        (await client.ActorDelegationsGetAsync(actorId))
             .Delegations
             .SelectMany(x => x.Periods, (delegation, period) =>
             {
