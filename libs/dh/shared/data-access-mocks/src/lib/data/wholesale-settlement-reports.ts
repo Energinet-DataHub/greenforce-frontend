@@ -23,11 +23,11 @@ import {
 const periodStart = new Date('2021-12-01T23:00:00Z');
 const periodEnd = new Date('2021-12-02T23:00:00Z');
 
-const executionTimeStart = new Date('2024-09-11T11:12:00Z');
+const executionTimeStart = new Date('2024-09-11T06:12:00Z');
 
 const executionTimeEnd_Days = new Date('2024-09-12T17:15:00Z');
 const executionTimeStart_Hours = new Date('2024-09-11T14:44:00Z');
-const executionTimeStart_Minutes = new Date('2024-09-11T11:55:00Z');
+const executionTimeStart_Minutes = new Date('2024-09-11T06:48:00Z');
 
 export const wholesaleSettlementReportsQueryMock = (
   apiBase: string
