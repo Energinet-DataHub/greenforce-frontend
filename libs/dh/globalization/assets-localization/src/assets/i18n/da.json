@@ -1121,8 +1121,6 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
-
-      "duration": "{{ hours }}t {{ minutes }}m",
       "columns": {
         "startedAt": "Bestilt",
         "executionTime": "Kørselstid",

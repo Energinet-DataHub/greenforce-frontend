@@ -1122,7 +1122,6 @@
         "baseName": "Settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
-      "duration": "{{ hours }}h {{ minutes }}m",
       "columns": {
         "startedAt": "Started",
         "executionTime": "Execution time",
