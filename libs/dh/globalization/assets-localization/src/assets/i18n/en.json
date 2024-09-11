@@ -30,6 +30,11 @@
     "b-001": "preprod",
     "p-001": "production"
   },
+  "duration": {
+    "minutes": "{{ minutes }}m",
+    "hours": "{{ hours }}h {{ duration.minutes }}",
+    "days": "{{ days }}d {{ duration.hours }}"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -1117,7 +1122,10 @@
         "baseName": "Settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
+      "duration": "{{ hours }}h {{ minutes }}m",
       "columns": {
+        "startedAt": "Started",
+        "executionTime": "Execution time",
         "calculationType": "Calculation type",
         "period": "Calculation period",
         "numberOfGridAreasInReport": "Grid areas",

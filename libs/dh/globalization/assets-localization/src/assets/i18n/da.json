@@ -30,6 +30,11 @@
     "b-001": "preprod",
     "p-001": "produktion"
   },
+  "duration": {
+    "minutes": "{{ minutes }}m",
+    "hours": "{{ hours }}t {{ duration.minutes }}",
+    "days": "{{ days }}d {{ duration.hours }}"
+  },
   "shared": {
     "error": {
       "title": "Ups! Der opstod en fejl",
@@ -1116,7 +1121,11 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
+
+      "duration": "{{ hours }}t {{ minutes }}m",
       "columns": {
+        "startedAt": "Bestilt",
+        "executionTime": "Kørselstid",
         "calculationType": "Beregningstype",
         "period": "Beregningsperiode",
         "numberOfGridAreasInReport": "Netområder",
