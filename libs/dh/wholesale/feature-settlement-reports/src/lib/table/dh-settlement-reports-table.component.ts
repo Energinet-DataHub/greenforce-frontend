@@ -87,9 +87,8 @@ export class DhSettlementReportsTableComponent {
           ? this.displayedColumns
           : this.displayedColumns.filter((column) => column !== 'actorName');
       });
-    effect(() => {
-      this.tableDataSource.data = this.settlementReports();
-    });
+
+    effect(() => (this.tableDataSource.data = this.settlementReports()));
   }
 
   downloadReport(settlementReport: DhSettlementReport) {
