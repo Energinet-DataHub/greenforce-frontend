@@ -36,7 +36,7 @@ export const wholesaleSettlementReportsQueryMock = (
   settlementReports: [
     {
       __typename: 'SettlementReport',
-      id: '1',
+      id: '85d1798474654be1b8c2f5bc543ed111',
       calculationType: CalculationType.BalanceFixing,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 1,
@@ -56,7 +56,7 @@ export const wholesaleSettlementReportsQueryMock = (
     },
     {
       __typename: 'SettlementReport',
-      id: '2',
+      id: '85d1798474654be1b8c2f5bc543ed222',
       calculationType: CalculationType.Aggregation,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 2,
@@ -76,7 +76,7 @@ export const wholesaleSettlementReportsQueryMock = (
     },
     {
       __typename: 'SettlementReport',
-      id: '3',
+      id: '85d1798474654be1b8c2f5bc543ed333',
       calculationType: CalculationType.WholesaleFixing,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 3,
@@ -96,7 +96,7 @@ export const wholesaleSettlementReportsQueryMock = (
     },
     {
       __typename: 'SettlementReport',
-      id: '4',
+      id: '85d1798474654be1b8c2f5bc543ed444',
       calculationType: CalculationType.FirstCorrectionSettlement,
       period: { start: periodStart, end: null },
       numberOfGridAreasInReport: 42,
