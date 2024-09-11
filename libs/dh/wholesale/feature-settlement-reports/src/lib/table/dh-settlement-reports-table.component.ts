@@ -32,6 +32,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
+import { DhDurationComponent } from './dh-duration.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -56,6 +57,7 @@ import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-stat
     VaterStackComponent,
 
     DhSettlementReportsStatusComponent,
+    DhDurationComponent,
   ],
 })
 export class DhSettlementReportsTableComponent {
@@ -64,6 +66,8 @@ export class DhSettlementReportsTableComponent {
   private toastService = inject(WattToastService);
 
   columns: WattTableColumnDef<DhSettlementReport> = {
+    startedAt: { accessor: (report) => report.executionTime.start },
+    executionTime: { accessor: null },
     actorName: { accessor: (report) => report.actor?.name },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: (report) => report.period.start },
