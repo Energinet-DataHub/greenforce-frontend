@@ -263,8 +263,7 @@ export class DhCalculationsCreateComponent {
 
   onClose(accepted: boolean) {
     if (accepted) this.createCalculation();
-    if (accepted || this.showPeriodWarning) this.reset();
-
+    this.reset();
     this.confirmFormControl.reset();
   }
 

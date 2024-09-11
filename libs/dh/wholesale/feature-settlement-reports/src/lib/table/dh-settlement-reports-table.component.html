@@ -20,6 +20,16 @@ limitations under the License.
     [columns]="columns"
     [displayedColumns]="displayedColumns"
   >
+    <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
+      {{ entry.executionTime.start | wattDate: "long" }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['executionTime']; header: t('columns.executionTime'); let entry"
+    >
+      <dh-duration [value]="entry.executionTime" />
+    </ng-container>
+
     <ng-container *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry">
       {{ entry.actor?.name }}
     </ng-container>

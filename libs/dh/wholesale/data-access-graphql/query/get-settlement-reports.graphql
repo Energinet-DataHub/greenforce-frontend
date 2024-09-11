@@ -12,5 +12,6 @@ query getSettlementReports {
     progress
     statusType
     settlementReportDownloadUrl
+    executionTime
   }
 }
