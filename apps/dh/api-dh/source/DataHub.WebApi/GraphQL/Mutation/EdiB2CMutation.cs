@@ -39,92 +39,85 @@ public partial class Mutation
             Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrection,
         };
 
-        var isAggregatedMeasureDataRequest = requestCalculationDataType switch
+        switch (requestCalculationDataType)
         {
-            RequestCalculationDataType.AllEnergy => true,
-            RequestCalculationDataType.Production => true,
-            RequestCalculationDataType.FlexConsumption => true,
-            RequestCalculationDataType.TotalConsumption => true,
-            RequestCalculationDataType.NonProfiledConsumption => true,
-            RequestCalculationDataType.Exchange => true,
-            RequestCalculationDataType.TariffSubscriptionAndFee => false,
-            RequestCalculationDataType.Tariff => false,
-            RequestCalculationDataType.Subscription => false,
-            RequestCalculationDataType.Fee => false,
-            RequestCalculationDataType.MonthlyTariff => false,
-            RequestCalculationDataType.MonthlySubscription => false,
-            RequestCalculationDataType.MonthlyFee => false,
-            RequestCalculationDataType.MonthlyTariffSubscriptionAndFee => false,
-        };
-
-        MeteringPointType? meteringPointType = requestCalculationDataType switch
-        {
-            RequestCalculationDataType.AllEnergy => null,
-            RequestCalculationDataType.Production => MeteringPointType.Production,
-            RequestCalculationDataType.FlexConsumption => MeteringPointType.FlexConsumption,
-            RequestCalculationDataType.TotalConsumption => MeteringPointType.TotalConsumption,
-            RequestCalculationDataType.NonProfiledConsumption => MeteringPointType.NonProfiledConsumption,
-            RequestCalculationDataType.Exchange => MeteringPointType.Exchange,
-            RequestCalculationDataType.TariffSubscriptionAndFee => null,
-            RequestCalculationDataType.Tariff => null,
-            RequestCalculationDataType.Subscription => null,
-            RequestCalculationDataType.Fee => null,
-            RequestCalculationDataType.MonthlyTariff => null,
-            RequestCalculationDataType.MonthlySubscription => null,
-            RequestCalculationDataType.MonthlyFee => null,
-            RequestCalculationDataType.MonthlyTariffSubscriptionAndFee => null,
-        };
-
-        PriceType? priceType = requestCalculationDataType switch
-        {
-            RequestCalculationDataType.AllEnergy => null,
-            RequestCalculationDataType.Production => null,
-            RequestCalculationDataType.FlexConsumption => null,
-            RequestCalculationDataType.TotalConsumption => null,
-            RequestCalculationDataType.NonProfiledConsumption => null,
-            RequestCalculationDataType.Exchange => null,
-            RequestCalculationDataType.TariffSubscriptionAndFee => PriceType.TariffSubscriptionAndFee,
-            RequestCalculationDataType.Tariff => PriceType.Tariff,
-            RequestCalculationDataType.Subscription => PriceType.Subscription,
-            RequestCalculationDataType.Fee => PriceType.Fee,
-            RequestCalculationDataType.MonthlyTariff => PriceType.MonthlyTariff,
-            RequestCalculationDataType.MonthlySubscription => PriceType.MonthlySubscription,
-            RequestCalculationDataType.MonthlyFee => PriceType.MonthlyFee,
-            RequestCalculationDataType.MonthlyTariffSubscriptionAndFee => PriceType.MonthlyTariffSubscriptionAndFee,
-        };
-
-        if (isAggregatedMeasureDataRequest)
-        {
-             await client.RequestAggregatedMeasureDataAsync(
-                "1.0",
-                new RequestAggregatedMeasureDataMarketRequest()
-                {
-                    CalculationType = ediCalculationType,
-                    MeteringPointType = meteringPointType,
-                    StartDate = period.Start.ToString(),
-                    EndDate = period.End.ToString(),
-                    GridArea = gridArea,
-                    EnergySupplierId = energySupplierId,
-                    BalanceResponsibleId = balanceResponsibleId,
-                },
-                cancellationToken);
-        }
-        else
-        {
-            await client.RequestWholesaleSettlementAsync(
-                "1.0",
-                new RequestWholesaleSettlementMarketRequest()
-                {
-                    CalculationType = ediCalculationType,
-                    StartDate = period.Start.ToString(),
-                    EndDate = period.End.ToString(),
-                    GridArea = gridArea,
-                    EnergySupplierId = energySupplierId,
-                    PriceType = priceType,
-                },
-                cancellationToken);
+            case RequestCalculationDataType.AllEnergy:
+            case RequestCalculationDataType.Production:
+            case RequestCalculationDataType.FlexConsumption:
+            case RequestCalculationDataType.TotalConsumption:
+            case RequestCalculationDataType.NonProfiledConsumption:
+            case RequestCalculationDataType.Exchange:
+                await client.RequestAggregatedMeasureDataAsync(
+                    "1.0",
+                    new RequestAggregatedMeasureDataMarketRequest()
+                    {
+                        CalculationType = ediCalculationType,
+                        StartDate = period.Start.ToString(),
+                        EndDate = period.End.ToString(),
+                        GridArea = gridArea,
+                        EnergySupplierId = energySupplierId,
+                        BalanceResponsibleId = balanceResponsibleId,
+                        MeteringPointType = requestCalculationDataType switch
+                        {
+                            RequestCalculationDataType.AllEnergy => null,
+                            RequestCalculationDataType.Production => MeteringPointType.Production,
+                            RequestCalculationDataType.FlexConsumption => MeteringPointType.FlexConsumption,
+                            RequestCalculationDataType.TotalConsumption => MeteringPointType.TotalConsumption,
+                            RequestCalculationDataType.NonProfiledConsumption => MeteringPointType.NonProfiledConsumption,
+                            RequestCalculationDataType.Exchange => MeteringPointType.Exchange,
+                            RequestCalculationDataType.TariffSubscriptionAndFee or
+                            RequestCalculationDataType.Tariff or
+                            RequestCalculationDataType.Subscription or
+                            RequestCalculationDataType.Fee or
+                            RequestCalculationDataType.MonthlyTariff or
+                            RequestCalculationDataType.MonthlySubscription or
+                            RequestCalculationDataType.MonthlyFee or
+                            RequestCalculationDataType.MonthlyTariffSubscriptionAndFee =>
+                                throw new ArgumentException("Invalid metering point type", nameof(requestCalculationDataType)),
+                        },
+                    },
+                    cancellationToken);
+                return true;
+            case RequestCalculationDataType.TariffSubscriptionAndFee:
+            case RequestCalculationDataType.Tariff:
+            case RequestCalculationDataType.Subscription:
+            case RequestCalculationDataType.Fee:
+            case RequestCalculationDataType.MonthlyTariff:
+            case RequestCalculationDataType.MonthlySubscription:
+            case RequestCalculationDataType.MonthlyFee:
+            case RequestCalculationDataType.MonthlyTariffSubscriptionAndFee:
+                await client.RequestWholesaleSettlementAsync(
+                    "1.0",
+                    new RequestWholesaleSettlementMarketRequest()
+                    {
+                        CalculationType = ediCalculationType,
+                        StartDate = period.Start.ToString(),
+                        EndDate = period.End.ToString(),
+                        GridArea = gridArea,
+                        EnergySupplierId = energySupplierId,
+                        PriceType = requestCalculationDataType switch
+                        {
+                            RequestCalculationDataType.TariffSubscriptionAndFee => PriceType.TariffSubscriptionAndFee,
+                            RequestCalculationDataType.Tariff => PriceType.Tariff,
+                            RequestCalculationDataType.Subscription => PriceType.Subscription,
+                            RequestCalculationDataType.Fee => PriceType.Fee,
+                            RequestCalculationDataType.MonthlyTariff => PriceType.MonthlyTariff,
+                            RequestCalculationDataType.MonthlySubscription => PriceType.MonthlySubscription,
+                            RequestCalculationDataType.MonthlyFee => PriceType.MonthlyFee,
+                            RequestCalculationDataType.MonthlyTariffSubscriptionAndFee => PriceType.MonthlyTariffSubscriptionAndFee,
+                            RequestCalculationDataType.AllEnergy or
+                            RequestCalculationDataType.Production or
+                            RequestCalculationDataType.FlexConsumption or
+                            RequestCalculationDataType.TotalConsumption or
+                            RequestCalculationDataType.NonProfiledConsumption or
+                            RequestCalculationDataType.Exchange =>
+                                throw new ArgumentException("Invalid price type", nameof(requestCalculationDataType)),
+                        },
+                    },
+                    cancellationToken);
+                return true;
         }
 
-        return true;
+        return false;
     }
 }
