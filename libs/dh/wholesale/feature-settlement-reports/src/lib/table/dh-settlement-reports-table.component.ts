@@ -66,7 +66,6 @@ export class DhSettlementReportsTableComponent {
   private toastService = inject(WattToastService);
 
   columns: WattTableColumnDef<DhSettlementReport> = {
-    id: { accessor: 'id' },
     startedAt: { accessor: (report) => report.executionTime.start },
     executionTime: { accessor: null },
     actorName: { accessor: (report) => report.actor?.name },
