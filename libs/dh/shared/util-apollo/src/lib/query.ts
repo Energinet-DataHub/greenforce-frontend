@@ -134,6 +134,7 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
+    // The `data` field is wrongly typed and can actually be empty
     data.set(result.data ?? undefined);
     error.set(result.error);
     loading.set(result.loading);
