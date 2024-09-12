@@ -25,12 +25,14 @@ import { IWattTableDataSource } from '@energinet-datahub/watt/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-interface ConnectionVariables<TSortInput> extends OperationVariables {
+type SortInput = Record<string, 'ASC' | 'DESC' | null | undefined>;
+
+interface ConnectionVariables extends OperationVariables {
   after?: string | null;
   before?: string | null;
   first?: number | null;
   last?: number | null;
-  order?: TSortInput | TSortInput[] | null;
+  order?: SortInput | SortInput[] | null;
 }
 
 type Connection<T> = {
@@ -46,12 +48,7 @@ type Connection<T> = {
 };
 
 // TODO: Minimize null/undefined types?
-export class ApolloDataSource<
-    TResult,
-    TSortInput extends Record<string, 'ASC' | 'DESC' | null | undefined>,
-    TVariables extends ConnectionVariables<TSortInput>,
-    TNode,
-  >
+export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, TNode>
   extends DataSource<TNode>
   implements IWattTableDataSource<TNode>
 {
@@ -139,7 +136,7 @@ export class ApolloDataSource<
     if (!sort) return;
     sort.disableClear = true;
     const variables = this._query.getVariables();
-    const order = variables.order as TSortInput | TSortInput[] | null | undefined;
+    const order = variables.order as SortInput | SortInput[] | null | undefined;
     const initialSort = Array.isArray(order) ? order[0] : order;
     if (!initialSort) return;
     Object.keys(initialSort).forEach((key) => {
