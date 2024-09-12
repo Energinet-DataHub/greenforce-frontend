@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, effect, inject, signal } from '@angular/core';
+import { Injectable, effect, inject, signal, untracked } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
@@ -35,19 +35,17 @@ export class DhLanguageService {
   );
 
   constructor() {
-    effect(
-      () => {
-        this.transloco.setActiveLang(this.selectedLanguage());
-        this.wattLocaleService.setActiveLocale(toDisplayLanguage(this.selectedLanguage()));
+    effect(() => {
+      const selectedLanguage = this.selectedLanguage();
 
-        localStorage.setItem(LOCALE_STORAGE_KEY, this.selectedLanguage());
-      },
-      // This looks unnecessary since this effect does not write to signals itself, but
-      // the problem is that the `setActiveLang` method of `TranslocoService` will emit
-      // synchronously to all subscribers of the translation API. If any of those
-      // subscribers were to write to a signal, it would result in an NG0600 error.
-      { allowSignalWrites: true }
-    );
+      // Prevent tracking signals from subscribers to the translation API
+      untracked(() => {
+        this.transloco.setActiveLang(selectedLanguage);
+        this.wattLocaleService.setActiveLocale(toDisplayLanguage(selectedLanguage));
+      });
+
+      localStorage.setItem(LOCALE_STORAGE_KEY, this.selectedLanguage());
+    });
   }
 
   init(): void {
