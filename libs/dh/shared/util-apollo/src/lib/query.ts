@@ -68,7 +68,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   reset: () => void;
-  getOptions: () => Partial<QueryOptions<TVariables>>;
+  getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
   refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
   subscribeToMore: <TSubscriptionData, TSubscriptionVariables>(
