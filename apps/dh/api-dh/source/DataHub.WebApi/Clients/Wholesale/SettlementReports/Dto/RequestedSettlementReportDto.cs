@@ -27,4 +27,5 @@ public sealed record RequestedSettlementReportDto(
     Guid RequestedByActorId,
     bool ContainsBasisData,
     DateTimeOffset CreatedDateTime,
-    DateTimeOffset? EndedDateTime);
+    DateTimeOffset? EndedDateTime,
+    bool FromApi);

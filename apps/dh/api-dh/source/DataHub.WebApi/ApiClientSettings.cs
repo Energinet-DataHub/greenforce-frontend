@@ -31,4 +31,6 @@ public class ApiClientSettings
     public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
 
     public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
+
+    public string SettlementReportsAPIBaseUrl { get; set; } = string.Empty;
 }

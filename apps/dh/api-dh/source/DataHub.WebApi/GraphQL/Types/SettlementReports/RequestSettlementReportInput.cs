@@ -24,5 +24,6 @@ public record RequestSettlementReportInput(
     bool PreventLargeTextFiles,
     bool IncludeMonthlySums,
     bool IncludeBasisData,
+    bool UseApi,
     string? EnergySupplier,
     string? CsvLanguage);

@@ -40,6 +40,7 @@ public sealed class HealthCheckFixture : IDisposable
         Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleOrchestrationsBaseUrl", "http://localhost:8080/wholesaleorchestrations");
         Environment.SetEnvironmentVariable("ApiClientSettings__ESettExchangeBaseUrl", "http://localhost:8080/esett");
         Environment.SetEnvironmentVariable("ApiClientSettings__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
+        Environment.SetEnvironmentVariable("ApiClientSettings__SettlementReportsAPIBaseUrl", "http://localhost:8080/settlement-reports");
 
         SetServicesAsHealthy();
     }
