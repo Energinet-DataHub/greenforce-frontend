@@ -1079,7 +1079,7 @@
       "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
-      "priceType": "Pristype",
+      "priceType": "Målepunktstype/Pristype",
       "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
