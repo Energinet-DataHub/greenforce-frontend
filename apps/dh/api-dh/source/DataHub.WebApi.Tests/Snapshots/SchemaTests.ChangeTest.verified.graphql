@@ -245,6 +245,7 @@ type GetUserProfileResponse {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+  hasFederatedLogin: Boolean!
 }
 
 type GridAreaDto {
@@ -539,6 +540,10 @@ type SettlementReport {
   statusMessage: String!
   progress: Float!
   statusType: SettlementReportStatusType!
+  executionTime: DateRange!
+  splitReportPerGridArea: Boolean!
+  includeMonthlyAmount: Boolean!
+  gridAreas: [String!]!
 }
 
 type StopDelegationPayload {
@@ -799,11 +804,10 @@ input ReInviteUserInput {
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
+  requestCalculationDataType: RequestCalculationDataType!
   gridArea: String
-  meteringPointType: MeteringPointType
   energySupplierId: String
   balanceResponsibleId: String
-  priceType: PriceType
 }
 
 input RequestClientSecretCredentialsInput {
@@ -832,11 +836,15 @@ input ResetTwoFactorAuthenticationInput {
 }
 
 input StopDelegationInput {
-  stopMessageDelegationDto: [StopProcessDelegationDtoInput!]!
+  stopDelegationPeriods: [StopDelegationPeriodInput!]!
+}
+
+input StopDelegationPeriodInput {
+  delegationId: UUID!
+  stopPeriod: StopProcessDelegationDtoInput!
 }
 
 input StopProcessDelegationDtoInput {
-  id: UUID!
   periodId: UUID!
   stopsAt: DateTime
 }
@@ -1127,14 +1135,6 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
-enum MeteringPointType {
-  PRODUCTION
-  FLEX_CONSUMPTION
-  TOTAL_CONSUMPTION
-  NON_PROFILED_CONSUMPTION
-  EXCHANGE
-}
-
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
@@ -1148,18 +1148,6 @@ enum PermissionAuditedChange {
 enum PriceAreaCode {
   DK1
   DK2
-}
-
-"The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\nthe resolution and charge type fields in the RequestWholesaleSettlement document"
-enum PriceType {
-  TARIFF_SUBSCRIPTION_AND_FEE
-  TARIFF
-  SUBSCRIPTION
-  FEE
-  MONTHLY_TARIFF
-  MONTHLY_SUBSCRIPTION
-  MONTHLY_FEE
-  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
 }
 
 enum ProcessStatus {
@@ -1176,6 +1164,23 @@ enum ProgressStatus {
   failed
   canceled
   completed
+}
+
+enum RequestCalculationDataType {
+  TARIFF_SUBSCRIPTION_AND_FEE
+  TARIFF
+  SUBSCRIPTION
+  FEE
+  MONTHLY_TARIFF
+  MONTHLY_SUBSCRIPTION
+  MONTHLY_FEE
+  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
+  ALL_ENERGY
 }
 
 enum SettlementReportStatusType {

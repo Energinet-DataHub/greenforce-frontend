@@ -191,6 +191,9 @@
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-new-version-manager": [
+        "libs/dh/shared/util-new-version-manager/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-operators": [
         "libs/dh/shared/util-operators/src/index.ts"
       ],
@@ -238,6 +241,9 @@
       ],
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/index.ts"
+      ],
+      "@energinet-datahub/eo/auth/ui-actor-menu": [
+        "libs/eo/auth/ui-actor-menu/index.ts"
       ],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"

@@ -36,20 +36,21 @@ limitations under the License.
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
+        max-width: 500px;
         width: 100%;
       }
       .logo {
-        width: 200px;
-        height: 100px;
+        width: 396px;
+        height: 172px;
         background-color: #ddd;
+        background: url("./dexiflao.png") no-repeat center center;
         margin: 0 auto 1rem;
       }
       h1 {
         margin-bottom: 2rem;
       }
       .button {
-        background-color: #007bff;
+        background-color: #66cc99;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -64,7 +65,7 @@ limitations under the License.
       }
       .success {
         background-color: #d4edda;
-        color: #155724;
+        color: #339966;
         border: 1px solid #c3e6cb;
       }
       .error {
@@ -72,11 +73,29 @@ limitations under the License.
         color: #721c24;
         border: 1px solid #f5c6cb;
       }
+
+      .logo-container {
+        position: relative;
+      }
+
+      .slogan {
+        font-size: 1.2rem;
+        color: #59e09d;
+        margin-bottom: 1rem;
+        position: absolute;
+        bottom: -1rem;
+        left: 11rem;
+        text-align: left;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="logo"></div>
+      <div class="logo-container">
+        <div class="logo"></div>
+        <h2 class="slogan">Empower your clean energy portfolio with control</h2>
+      </div>
+
       <h1>Welcome to Our Platform</h1>
       <div id="content"></div>
     </div>

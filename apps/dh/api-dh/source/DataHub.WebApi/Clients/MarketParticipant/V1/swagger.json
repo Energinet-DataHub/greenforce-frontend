@@ -527,12 +527,12 @@
         }
       }
     },
-    "/actor/{actorId}/delegation": {
+    "/actor/{actorId}/delegations": {
       "get": {
         "tags": [
           "Actor"
         ],
-        "operationId": "delegationGET",
+        "operationId": "delegationsGET",
         "parameters": [
           {
             "name": "actorId",
@@ -575,12 +575,12 @@
         }
       }
     },
-    "/actor/delegation": {
+    "/actor/delegations": {
       "post": {
         "tags": [
           "Actor"
         ],
-        "operationId": "delegationPOST",
+        "operationId": "delegationsPOST",
         "parameters": [
           {
             "name": "api-version",
@@ -626,13 +626,24 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/actor/delegations/{delegationId}": {
       "put": {
         "tags": [
           "Actor"
         ],
-        "operationId": "delegationPUT",
+        "operationId": "delegationsPUT",
         "parameters": [
+          {
+            "name": "delegationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           {
             "name": "api-version",
             "in": "query",
@@ -1208,57 +1219,6 @@
           }
         }
       },
-      "put": {
-        "tags": [
-          "GridArea"
-        ],
-        "operationId": "GridAreaPUT",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeGridAreaDto"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeGridAreaDto"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeGridAreaDto"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "get": {
         "tags": [
           "GridArea"
@@ -1307,6 +1267,66 @@
       }
     },
     "/GridArea/{gridAreaId}": {
+      "put": {
+        "tags": [
+          "GridArea"
+        ],
+        "operationId": "GridAreaPUT",
+        "parameters": [
+          {
+            "name": "gridAreaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ChangeGridAreaDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ChangeGridAreaDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ChangeGridAreaDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "get": {
         "tags": [
           "GridArea"
@@ -1977,6 +1997,66 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Permission"
+        ],
+        "operationId": "PermissionPUT",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdatePermissionDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdatePermissionDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdatePermissionDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/Permission": {
@@ -2030,7 +2110,7 @@
         "tags": [
           "Permission"
         ],
-        "operationId": "PermissionPUT",
+        "operationId": "PermissionPUT2",
         "parameters": [
           {
             "name": "api-version",
@@ -2046,7 +2126,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdatePermissionDto"
+                    "$ref": "#/components/schemas/UpdatePermissionOldDto"
                   }
                 ]
               }
@@ -2055,7 +2135,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdatePermissionDto"
+                    "$ref": "#/components/schemas/UpdatePermissionOldDto"
                   }
                 ]
               }
@@ -2064,7 +2144,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/UpdatePermissionDto"
+                    "$ref": "#/components/schemas/UpdatePermissionOldDto"
                   }
                 ]
               }
@@ -3882,10 +3962,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
           "name": {
             "type": "string"
           }
@@ -4224,6 +4300,9 @@
           },
           "phoneNumber": {
             "type": "string"
+          },
+          "hasFederatedLogin": {
+            "type": "boolean"
           }
         }
       },
@@ -4666,10 +4745,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
           "periodId": {
             "type": "string",
             "format": "uuid"
@@ -4704,6 +4779,15 @@
         }
       },
       "UpdatePermissionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdatePermissionOldDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

@@ -17,8 +17,6 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 using NodaTime;
 using NodaTime.Extensions;
@@ -56,7 +54,11 @@ public partial class Query
                 report.ContainsBasisData,
                 string.Empty,
                 report.Progress,
-                settlementReportStatusType));
+                settlementReportStatusType,
+                new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null),
+                report.SplitReportPerGridArea,
+                report.IncludeMonthlyAmount,
+                report.GridAreas.Select(ga => ga.Key).ToArray()));
         }
 
         return settlementReports;

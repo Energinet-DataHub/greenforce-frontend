@@ -41,11 +41,4 @@ public class MarketParticipantUserController : MarketParticipantControllerBase
         externalToken = externalToken.Replace("Bearer ", string.Empty);
         return HandleExceptionAsync(() => _client.UserActorsGetAsync(externalToken));
     }
-
-    [HttpPost]
-    [Route("ResetMitId")]
-    public Task ResetMitIdAsync()
-    {
-        return HandleExceptionAsync(() => _client.UserResetMitidAsync());
-    }
 }

@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject, OnInit, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, computed, inject, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -29,7 +28,7 @@ import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { first, map, Observable, of, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 
 import {
   WattFieldComponent,
@@ -110,13 +109,12 @@ interface FormValues {
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhCalculationsCreateComponent implements OnInit {
+export class DhCalculationsCreateComponent {
   CalculationType = CalculationType;
   CalculationExecutionType = CalculationExecutionType;
 
   private _toast = inject(WattToastService);
   private _transloco = inject(TranslocoService);
-  private _router = inject(Router);
   private _apollo = inject(Apollo);
 
   @ViewChild('modal') modal?: WattModalComponent;
@@ -154,7 +152,7 @@ export class DhCalculationsCreateComponent implements OnInit {
     ),
     dateRange: new FormControl(null, {
       validators: [WattRangeValidators.required, this.validateResolutionTransition()],
-      asyncValidators: () => this.validateBalanceFixing(),
+      asyncValidators: () => this.validateWholesale(),
     }),
     isScheduled: new FormControl(false, { nonNullable: true }),
     scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
@@ -187,6 +185,10 @@ export class DhCalculationsCreateComponent implements OnInit {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
     });
 
+    this.calculationType.valueChanges.subscribe(() => {
+      this.formGroup.controls.dateRange.updateValueAndValidity();
+    });
+
     this.executionType.valueChanges.subscribe((executionType) => {
       if (executionType == CalculationExecutionType.Internal) {
         this.formGroup.controls.calculationType.disable();
@@ -194,13 +196,6 @@ export class DhCalculationsCreateComponent implements OnInit {
       } else {
         this.formGroup.controls.calculationType.enable();
       }
-    });
-  }
-
-  ngOnInit(): void {
-    // Close toast on navigation
-    this._router.events.pipe(first((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this._toast.dismiss();
     });
   }
 
@@ -268,8 +263,7 @@ export class DhCalculationsCreateComponent implements OnInit {
 
   onClose(accepted: boolean) {
     if (accepted) this.createCalculation();
-    if (accepted || this.showPeriodWarning) this.reset();
-
+    this.reset();
     this.confirmFormControl.reset();
   }
 
@@ -282,7 +276,7 @@ export class DhCalculationsCreateComponent implements OnInit {
     this.formGroup.controls.calculationType.setErrors(null);
   }
 
-  private validateBalanceFixing(): Observable<null> {
+  private validateWholesale(): Observable<null> {
     const { calculationType, dateRange } = this.formGroup.controls;
 
     // Hide warning initially

@@ -19,11 +19,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
+  effect,
   inject,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -81,11 +81,10 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
   ],
 })
 export class DhUsersTabTableComponent implements AfterViewInit {
-  private _destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   columns: WattTableColumnDef<DhUser> = {
     firstName: { accessor: 'firstName' },
-    lastName: { accessor: 'lastName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
     status: { accessor: 'status' },
@@ -94,40 +93,42 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   dataSource = new WattTableDataSource<DhUser>();
   activeRow: DhUser | undefined = undefined;
 
-  @Input({ required: true }) set users(value: DhUsers) {
-    this.dataSource.data = value;
+  users = input.required<DhUsers>();
+
+  isLoading = input.required<boolean>();
+  hasGeneralError = input.required<boolean>();
+
+  sortChanged =
+    input.required<
+      (prop: UserOverviewSortProperty, direction: MarketParticipantSortDirctionType) => void
+    >();
+
+  reload = output<void>();
+
+  private drawer = viewChild.required(DhUserDrawerComponent);
+  private usersTable = viewChild.required(WattTableComponent<DhUser>);
+
+  constructor() {
+    effect(() => (this.dataSource.data = this.users()));
   }
 
-  @Input({ required: true }) isLoading = false;
-  @Input({ required: true }) hasGeneralError = false;
-
-  @Input({ required: true }) sortChanged!: (
-    prop: UserOverviewSortProperty,
-    direction: MarketParticipantSortDirctionType
-  ) => void;
-
-  @Output() reload = new EventEmitter<void>();
-
-  @ViewChild(DhUserDrawerComponent)
-  drawer!: DhUserDrawerComponent;
-
-  @ViewChild(WattTableComponent)
-  usersTable!: WattTableComponent<DhUser>;
-
   ngAfterViewInit(): void {
-    this.usersTable.sortChange.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((x) => {
-      const property = (x.active.charAt(0).toUpperCase() +
-        x.active.slice(1)) as UserOverviewSortProperty;
-      const direction = (x.direction.charAt(0).toUpperCase() +
-        x.direction.slice(1)) as MarketParticipantSortDirctionType;
+    this.usersTable()
+      .sortChange.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((sortEvent) => {
+        const property = (sortEvent.active.charAt(0).toUpperCase() +
+          sortEvent.active.slice(1)) as UserOverviewSortProperty;
 
-      this.sortChanged(property, direction);
-    });
+        const direction = (sortEvent.direction.charAt(0).toUpperCase() +
+          sortEvent.direction.slice(1)) as MarketParticipantSortDirctionType;
+
+        this.sortChanged()(property, direction);
+      });
   }
 
   onRowClick(row: DhUser): void {
     this.activeRow = row;
-    this.drawer.open(row);
+    this.drawer().open(row);
   }
 
   onClosed(): void {

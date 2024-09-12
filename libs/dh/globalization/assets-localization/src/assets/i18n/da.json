@@ -6,6 +6,10 @@
   "sessionExpirationTitle": "Session udløber snart",
   "sessionExpirationContentPartA": "Du har været inaktiv i 2 timer",
   "sessionExpirationContentPartB": "Du blive logget af om",
+  "newVersionAvailable": {
+    "message": "Ny version tilgængelig",
+    "action": "Opdater"
+  },
   "shell": {
     "logout": "Log ud",
     "profile": "Profil",
@@ -25,6 +29,11 @@
     "t-002": "test-002",
     "b-001": "preprod",
     "p-001": "produktion"
+  },
+  "duration": {
+    "minutes": "{{ minutes }}m",
+    "hours": "{{ hours }}t {{ duration.minutes }}",
+    "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
     "error": {
@@ -1070,7 +1079,7 @@
       "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
-      "priceType": "Pristype",
+      "priceType": "Målepunktstype/Pristype",
       "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
@@ -1083,15 +1092,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
-      "meteringPointTypes": {
-        "All": "Alle",
-        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
-        "TOTAL_CONSUMPTION": "Total forbrug",
-        "PRODUCTION": "Produktion",
-        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
-        "EXCHANGE": "Udveksling"
-      },
-      "priceTypeOptions": {
+      "requestCalculationDataTypeOptions": {
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
         "TARIFF": "Tarif",
         "SUBSCRIPTION": "Abonnement",
@@ -1099,7 +1100,13 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "ALL_ENERGY": "Alle",
+        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
+        "PRODUCTION": "Produktion",
+        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
+        "EXCHANGE": "Udveksling"
       }
     },
     "settlementReports": {
@@ -1113,6 +1120,8 @@
         "multipleGridAreas": "flere net"
       },
       "columns": {
+        "startedAt": "Bestilt",
+        "executionTime": "Kørselstid",
         "calculationType": "Beregningstype",
         "period": "Beregningsperiode",
         "numberOfGridAreasInReport": "Netområder",
@@ -1334,8 +1343,7 @@
             "userRolePlaceholder": "Brugerrolle"
           },
           "columns": {
-            "firstName": "Fornavn",
-            "lastName": "Efternavn",
+            "name": "Navn",
             "email": "E-mail",
             "phone": "Telefonnr.",
             "status": "Status"

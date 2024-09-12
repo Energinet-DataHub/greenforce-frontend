@@ -6,6 +6,10 @@
   "sessionExpirationTitle": "Session expires soon",
   "sessionExpirationContentPartA": "You have been inactive for 2 hours",
   "sessionExpirationContentPartB": "You will be signed out in",
+  "newVersionAvailable": {
+    "message": "A new version is available",
+    "action": "Update"
+  },
   "shell": {
     "logout": "Sign out",
     "profile": "Profile",
@@ -25,6 +29,11 @@
     "t-002": "test-002",
     "b-001": "preprod",
     "p-001": "production"
+  },
+  "duration": {
+    "minutes": "{{ minutes }}m",
+    "hours": "{{ hours }}h {{ duration.minutes }}",
+    "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
     "error": {
@@ -1071,7 +1080,7 @@
       "topBarTitle": "Request Calculation Data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
-      "priceType": "Price type",
+      "priceType": "Type of metering point/Price type",
       "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
@@ -1084,15 +1093,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
         "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
       },
-      "meteringPointTypes": {
-        "All": "All",
-        "FLEX_CONSUMPTION": "Flex consumption",
-        "TOTAL_CONSUMPTION": "Total consumption",
-        "PRODUCTION": "Production",
-        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
-        "EXCHANGE": "Exchange"
-      },
-      "priceTypeOptions": {
+      "requestCalculationDataTypeOptions": {
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
         "TARIFF": "Tariff",
         "SUBSCRIPTION": "Subscription",
@@ -1100,7 +1101,13 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "ALL_ENERGY": "All",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange"
       }
     },
     "settlementReports": {
@@ -1114,6 +1121,8 @@
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
+        "startedAt": "Started",
+        "executionTime": "Execution time",
         "calculationType": "Calculation type",
         "period": "Calculation period",
         "numberOfGridAreasInReport": "Grid areas",
@@ -1335,8 +1344,7 @@
             "userRolePlaceholder": "User role"
           },
           "columns": {
-            "firstName": "First name",
-            "lastName": "Last name",
+            "name": "Name",
             "email": "E-mail",
             "phone": "Phone no.",
             "status": "Status"

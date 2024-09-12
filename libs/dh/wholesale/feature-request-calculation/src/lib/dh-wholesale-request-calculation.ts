@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   Validators,
@@ -30,7 +30,6 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { catchError, filter, map, of, startWith, switchMap, tap } from 'rxjs';
 
 import {
-  MeteringPointType,
   RequestCalculationDocument,
   EicFunction,
   GetSelectedActorDocument,
@@ -38,7 +37,7 @@ import {
   RequestCalculationMutation,
   GetGridAreasDocument,
   CalculationType,
-  PriceType,
+  RequestCalculationDataType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dayjs } from '@energinet-datahub/watt/date';
@@ -70,15 +69,11 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
-const ExtendMeteringPoint = { ...MeteringPointType, All: 'All' } as const;
-type ExtendMeteringPointType = (typeof ExtendMeteringPoint)[keyof typeof ExtendMeteringPoint];
-
 type FormType = {
   calculationType: FormControl<CalculationType | null>;
   period: FormControl<Range<string> | null>;
   gridArea: FormControl<string | null>;
-  meteringPointType: FormControl<ExtendMeteringPointType | null>;
-  priceType: FormControl<PriceType | null>;
+  requestCalculationDataType: FormControl<RequestCalculationDataType | null>;
   energySupplierId: FormControl<string | null>;
   balanceResponsibleId: FormControl<string | null>;
 };
@@ -133,17 +128,6 @@ export class DhWholesaleRequestCalculationComponent {
   requestAggregatedMeasuredDataView = this.hasPermission('request-aggregated-measured-data:view');
   requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
 
-  excludeCalculationTypes = computed(() => {
-    const aggregation = this.requestAggregatedMeasuredDataView() ? [] : aggregationCalculationTypes;
-    const wholesale = this.requestWholesaleSettlementView() ? [] : wholesaleCalculationTypes;
-    return [...aggregation, ...wholesale];
-  });
-
-  gridAreaIsRequired = signal(false);
-
-  isLoading = false;
-  isReady = false;
-
   form = this._fb.group<FormType>({
     calculationType: this._fb.control(CalculationType.Aggregation, Validators.required),
     period: this._fb.control(null, [
@@ -152,24 +136,84 @@ export class DhWholesaleRequestCalculationComponent {
       max31DaysDateRangeValidator,
     ]),
     gridArea: this._fb.control(null),
-    meteringPointType: this._fb.control(ExtendMeteringPoint.All, Validators.required),
-    priceType: this._fb.control(PriceType.TariffSubscriptionAndFee, Validators.required),
+    requestCalculationDataType: this._fb.control(null, Validators.required),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
   });
 
-  gridAreaOptions$ = getGridAreaOptions();
-  energySupplierOptions: WattDropdownOptions = [];
-
-  meteringPointOptions: WattDropdownOptions = [];
-  priceTypeOptions = computed(() => dhEnumToWattDropdownOptions(PriceType));
-  calculationTypeOptions = computed(() =>
-    dhEnumToWattDropdownOptions(CalculationType, 'asc', this.excludeCalculationTypes())
-  );
+  updateInitialCalculationType = effect(() => {
+    if (this.requestAggregatedMeasuredDataView()) {
+      this.form.controls.calculationType.setValue(CalculationType.Aggregation);
+    } else {
+      this.form.controls.calculationType.setValue(CalculationType.WholesaleFixing);
+    }
+  });
 
   selectedActorQuery = this._apollo.watchQuery({
     query: GetSelectedActorDocument,
   });
+
+  selectedEicFunction = signal<EicFunction | null>(null);
+
+  calculationType = toSignal(this.form.controls.calculationType.valueChanges);
+  isWholesaleRequest = computed(() => {
+    const calculationType = this.calculationType();
+    return calculationType ? wholesaleCalculationTypes.includes(calculationType) : false;
+  });
+
+  excludeCalculationTypes = computed(() => {
+    const aggregation = this.requestAggregatedMeasuredDataView() ? [] : aggregationCalculationTypes;
+    const wholesale = this.requestWholesaleSettlementView() ? [] : wholesaleCalculationTypes;
+    return [...aggregation, ...wholesale];
+  });
+
+  calculationTypeOptions = computed(() =>
+    dhEnumToWattDropdownOptions(CalculationType, 'asc', this.excludeCalculationTypes())
+  );
+
+  excludeRequestCalculationDataTypes = computed(() => {
+    const isWholesaleRequest = this.isWholesaleRequest();
+    const selectedEicFunction = this.selectedEicFunction();
+
+    if (!selectedEicFunction) return [];
+
+    const excluded = isWholesaleRequest
+      ? [RequestCalculationDataType.AllEnergy]
+      : [
+          RequestCalculationDataType.Fee,
+          RequestCalculationDataType.MonthlyFee,
+          RequestCalculationDataType.MonthlySubscription,
+          RequestCalculationDataType.MonthlyTariff,
+          RequestCalculationDataType.MonthlyTariffSubscriptionAndFee,
+          RequestCalculationDataType.Subscription,
+          RequestCalculationDataType.Tariff,
+          RequestCalculationDataType.TariffSubscriptionAndFee,
+        ];
+
+    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
+      selectedEicFunction === EicFunction.EnergySupplier
+      ? excluded.concat(
+          RequestCalculationDataType.Exchange,
+          RequestCalculationDataType.TotalConsumption
+        )
+      : excluded;
+  });
+
+  requestCalculationDataTypeOptions = computed(() => {
+    return dhEnumToWattDropdownOptions(
+      RequestCalculationDataType,
+      null,
+      this.excludeRequestCalculationDataTypes()
+    );
+  });
+
+  gridAreaIsRequired = signal(false);
+
+  isLoading = false;
+  isReady = false;
+
+  gridAreaOptions$ = getGridAreaOptions();
+  energySupplierOptions: WattDropdownOptions = [];
 
   energySupplierQuery = this._apollo.watchQuery({
     query: GetActorsForRequestCalculationDocument,
@@ -192,13 +236,7 @@ export class DhWholesaleRequestCalculationComponent {
         map((result) => result.data.selectedActor),
         map(({ marketRole, ...rest }) => (marketRole ? { ...rest, marketRole } : null)),
         exists(),
-        tap(({ marketRole }) => {
-          this.meteringPointOptions = dhEnumToWattDropdownOptions(
-            ExtendMeteringPoint,
-            'asc',
-            this.getExcludedMeterpointTypes(marketRole)
-          );
-        }),
+        tap(({ marketRole }) => this.selectedEicFunction.set(marketRole)),
         tap(({ glnOrEicNumber, marketRole }) => {
           if (marketRole === EicFunction.BalanceResponsibleParty) {
             this.form.controls.balanceResponsibleId.setValue(glnOrEicNumber);
@@ -263,23 +301,17 @@ export class DhWholesaleRequestCalculationComponent {
     this._toastService.open({ message, type: 'danger' });
   }
 
-  isWholesaleRequest() {
-    const calculationType = this.form.controls.calculationType.value;
-    return !calculationType ? true : wholesaleCalculationTypes.includes(calculationType);
-  }
-
   requestCalculation(): void {
     const {
       calculationType,
       period,
       gridArea,
-      meteringPointType,
-      priceType,
+      requestCalculationDataType,
       energySupplierId,
       balanceResponsibleId,
     } = this.form.getRawValue();
 
-    if (!calculationType || !period) return;
+    if (!calculationType || !period || !requestCalculationDataType) return;
 
     this._apollo
       .mutate({
@@ -288,9 +320,7 @@ export class DhWholesaleRequestCalculationComponent {
           calculationType,
           period: { start: dayjs(period.start).toDate(), end: dayjs(period.end).toDate() },
           gridArea,
-          meteringPointType:
-            meteringPointType === ExtendMeteringPoint.All ? null : meteringPointType,
-          priceType,
+          requestCalculationDataType,
           balanceResponsibleId,
           energySupplierId,
         },
@@ -304,13 +334,6 @@ export class DhWholesaleRequestCalculationComponent {
 
         this.handleResponse(res);
       });
-  }
-
-  private getExcludedMeterpointTypes(selectedEicFunction: EicFunction) {
-    return selectedEicFunction === EicFunction.BalanceResponsibleParty ||
-      selectedEicFunction === EicFunction.EnergySupplier
-      ? [MeteringPointType.Exchange, MeteringPointType.TotalConsumption]
-      : [];
   }
 
   hasPermission(permission: Permission) {
