@@ -132,9 +132,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           <ul>
             @for (permission of permissions; track permission) {
               <li>
-                <p class="watt-text-s-highlighted">{{
-                  permission[1].title | transloco
-                }}</p>
+                <p class="watt-text-s-highlighted">{{ permission[1].title | transloco }}</p>
                 <p class="watt-text-s">{{ permission[1].description | transloco }}</p>
               </li>
             }
