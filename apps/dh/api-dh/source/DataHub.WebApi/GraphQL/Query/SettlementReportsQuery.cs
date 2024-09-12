@@ -56,7 +56,10 @@ public partial class Query
                 report.Progress,
                 settlementReportStatusType,
                 new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null),
-                report.FromApi));
+                report.FromApi,
+                report.SplitReportPerGridArea,
+                report.IncludeMonthlyAmount,
+                report.GridAreas.Select(ga => ga.Key).ToArray()));
         }
 
         return settlementReports;
