@@ -31,6 +31,7 @@ public sealed class HealthCheckFixture : IDisposable
         "/wholesaleorchestrations/api/monitor/live",
         "/esett/monitor/live",
         "/edib2capi/monitor/live",
+        "/settlement-reports/monitor/live"
     ];
 
     public HealthCheckFixture()
