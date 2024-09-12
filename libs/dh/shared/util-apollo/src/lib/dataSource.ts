@@ -135,7 +135,8 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     this._sort = sort;
     if (!sort) return;
     sort.disableClear = true;
-    const variables = this._query.getVariables();
+    const variables = this._query.getOptions().variables;
+    if (!variables?.order) return;
     const order = variables.order as SortInput | SortInput[] | null | undefined;
     const initialSort = Array.isArray(order) ? order[0] : order;
     if (!initialSort) return;

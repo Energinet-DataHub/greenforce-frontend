@@ -42,7 +42,7 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /** Create an observable of ApolloQueryResult from an ApolloError. */
 function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>> {
@@ -68,8 +68,8 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   reset: () => void;
+  getOptions: () => Partial<QueryOptions<TVariables>>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
-  getVariables: () => Partial<TVariables>;
   refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
   subscribeToMore: <TSubscriptionData, TSubscriptionVariables>(
     options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
@@ -152,7 +152,6 @@ export function query<TResult, TVariables extends OperationVariables>(
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
-    getVariables: () => options$.value?.variables ?? {},
     reset: () => {
       reset$.next();
       data.set(undefined);
@@ -160,6 +159,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       loading.set(false);
       networkStatus.set(NetworkStatus.ready);
     },
+    getOptions: () => options$.value ?? {},
     setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
       options$.next({ ...options$.value, skip: false, ...options });
