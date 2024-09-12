@@ -134,7 +134,7 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
-    data.set(result.data);
+    data.set(result.data ?? undefined);
     error.set(result.error);
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
