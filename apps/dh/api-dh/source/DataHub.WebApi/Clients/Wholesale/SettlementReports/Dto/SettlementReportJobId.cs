@@ -12,23 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-public sealed record RequestedSettlementReportDto(
-    SettlementReportRequestId RequestId,
-    CalculationType CalculationType,
-    DateTimeOffset PeriodStart,
-    DateTimeOffset PeriodEnd,
-    SettlementReportStatus Status,
-    int GridAreaCount,
-    double Progress,
-    Guid RequestedByActorId,
-    bool ContainsBasisData,
-    bool SplitReportPerGridArea,
-    bool IncludeMonthlyAmount,
-    IReadOnlyDictionary<string, CalculationId?> GridAreas,
-    DateTimeOffset CreatedDateTime,
-    DateTimeOffset? EndedDateTime,
-    SettlementReportJobId? JobId);
+public sealed record SettlementReportJobId(long Id);

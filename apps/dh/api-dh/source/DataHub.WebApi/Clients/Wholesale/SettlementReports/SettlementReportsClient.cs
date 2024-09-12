@@ -64,13 +64,7 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
         var actualResponseContent = await actualResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
         var actualResponseApiContent = await actualResponseApi.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
-        var updatedWithApi = new List<RequestedSettlementReportDto>();
-        foreach (var report in actualResponseApiContent)
-        {
-            updatedWithApi.Add(report with { FromApi = true });
-        }
-
-        return actualResponseContent.Concat(updatedWithApi).OrderByDescending(x => x.CreatedDateTime);
+        return actualResponseContent.Concat(actualResponseApiContent).OrderByDescending(x => x.CreatedDateTime);
     }
 
     public async Task<Stream> DownloadAsync(SettlementReportRequestId requestId, CancellationToken cancellationToken)
