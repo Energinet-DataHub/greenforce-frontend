@@ -1080,7 +1080,7 @@
       "topBarTitle": "Request Calculation Data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
-      "priceType": "Price type",
+      "priceType": "Type of metering point/Price type",
       "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
