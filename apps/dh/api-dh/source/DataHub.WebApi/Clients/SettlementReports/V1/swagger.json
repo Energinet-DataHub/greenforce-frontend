@@ -1,0 +1,324 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "settlement-report",
+    "version": "1.0"
+  },
+  "paths": {
+    "/settlement-reports/RequestSettlementReport": {
+      "post": {
+        "tags": [
+          "SettlementReports"
+        ],
+        "operationId": "RequestSettlementReport",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SettlementReportRequestDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SettlementReportRequestDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SettlementReportRequestDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settlement-reports/list": {
+      "get": {
+        "tags": [
+          "SettlementReports"
+        ],
+        "operationId": "list",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestedSettlementReportDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestedSettlementReportDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestedSettlementReportDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CalculationId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CalculationType": {
+        "type": "string",
+        "enum": [
+          "BalanceFixing",
+          "Aggregation",
+          "WholesaleFixing",
+          "FirstCorrectionSettlement",
+          "SecondCorrectionSettlement",
+          "ThirdCorrectionSettlement"
+        ]
+      },
+      "JobRunId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "RequestedSettlementReportDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementReportRequestId"
+              }
+            ]
+          },
+          "calculationType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementReportStatus"
+              }
+            ]
+          },
+          "gridAreaCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "progress": {
+            "type": "number",
+            "format": "double"
+          },
+          "requestedByActorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "containsBasisData": {
+            "type": "boolean"
+          },
+          "jobId": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JobRunId"
+              }
+            ]
+          },
+          "createdDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "SettlementReportRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "splitReportPerGridArea": {
+            "type": "boolean"
+          },
+          "preventLargeTextFiles": {
+            "type": "boolean"
+          },
+          "includeBasisData": {
+            "type": "boolean"
+          },
+          "includeMonthlyAmount": {
+            "type": "boolean"
+          },
+          "filter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementReportRequestFilterDto"
+              }
+            ]
+          }
+        }
+      },
+      "SettlementReportRequestFilterDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gridAreas": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CalculationId"
+            }
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "calculationType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
+          },
+          "energySupplier": {
+            "type": "string",
+            "nullable": true
+          },
+          "csvFormatLocale": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SettlementReportRequestId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "SettlementReportStatus": {
+        "type": "string",
+        "enum": [
+          "InProgress",
+          "Completed",
+          "Failed"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}
