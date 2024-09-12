@@ -16,15 +16,16 @@
  */
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { WattPaginatorComponent } from '../paginator';
 
 export interface IWattTableDataSource<T> extends DataSource<T> {
   data: T[];
   filter: string;
   filteredData: T[];
-  paginator: MatPaginator | WattPaginatorComponent<T> | null;
-  sort: MatTableDataSource<T>['sort'];
+  paginator: MatPaginator | null;
+  sort: MatSort | null;
+  // TODO: Type this properly?
   filterPredicate: MatTableDataSource<T>['filterPredicate'];
   sortData: MatTableDataSource<T>['sortData'];
   sortingDataAccessor: MatTableDataSource<T>['sortingDataAccessor'];
@@ -33,9 +34,9 @@ export interface IWattTableDataSource<T> extends DataSource<T> {
 /**
  * @see https://material.angular.io/components/table/api#MatTableDataSource
  */
+// TODO: Do we still need WattTableDataSource?
 export class WattTableDataSource<T> extends DataSource<T> implements IWattTableDataSource<T> {
   private dataSource = new MatTableDataSource<T>();
-  private _paginator: MatPaginator | WattPaginatorComponent<T> | null = null;
 
   constructor(
     data?: T[],
@@ -72,39 +73,37 @@ export class WattTableDataSource<T> extends DataSource<T> implements IWattTableD
   }
 
   get paginator() {
-    return this._paginator;
+    return this.dataSource.paginator;
   }
-  set paginator(paginator: MatPaginator | WattPaginatorComponent<T> | null) {
-    this._paginator = paginator;
-    this.dataSource.paginator =
-      paginator instanceof WattPaginatorComponent ? paginator.instance : paginator;
+  set paginator(paginator) {
+    this.dataSource.paginator = paginator;
   }
 
   get sort() {
     return this.dataSource.sort;
   }
-  set sort(sort: MatTableDataSource<T>['sort']) {
+  set sort(sort) {
     this.dataSource.sort = sort;
   }
 
   get filterPredicate() {
     return this.dataSource.filterPredicate;
   }
-  set filterPredicate(filterPredicate: MatTableDataSource<T>['filterPredicate']) {
+  set filterPredicate(filterPredicate) {
     this.dataSource.filterPredicate = filterPredicate;
   }
 
   get sortData() {
     return this.dataSource.sortData;
   }
-  set sortData(sortData: MatTableDataSource<T>['sortData']) {
+  set sortData(sortData) {
     this.dataSource.sortData = sortData;
   }
 
   get sortingDataAccessor() {
     return this.dataSource.sortingDataAccessor;
   }
-  set sortingDataAccessor(sortingDataAccessor: MatTableDataSource<T>['sortingDataAccessor']) {
+  set sortingDataAccessor(sortingDataAccessor) {
     this.dataSource.sortingDataAccessor = sortingDataAccessor;
   }
 
