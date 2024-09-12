@@ -1078,7 +1078,7 @@
       "success": "Din anmoding er startet",
       "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
-      "meteringPointType": "Målepunktstype",
+      "meteringPointType": "Målepunktstype/Pristype",
       "priceType": "Pristype",
       "period": "Periode",
       "gridArea": "Netområde",
