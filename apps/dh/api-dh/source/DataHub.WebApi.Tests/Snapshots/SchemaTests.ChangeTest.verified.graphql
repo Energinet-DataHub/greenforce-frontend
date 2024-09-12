@@ -541,6 +541,9 @@ type SettlementReport {
   progress: Float!
   statusType: SettlementReportStatusType!
   executionTime: DateRange!
+  splitReportPerGridArea: Boolean!
+  includeMonthlyAmount: Boolean!
+  gridAreas: [String!]!
 }
 
 type StopDelegationPayload {

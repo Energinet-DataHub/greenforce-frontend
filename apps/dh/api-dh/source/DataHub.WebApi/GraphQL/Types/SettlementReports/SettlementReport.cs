@@ -28,4 +28,7 @@ public sealed record SettlementReport(
     string StatusMessage,
     double Progress,
     SettlementReportStatusType StatusType,
-    Interval ExecutionTime);
+    Interval ExecutionTime,
+    bool SplitReportPerGridArea,
+    bool IncludeMonthlyAmount,
+    string[] GridAreas);
