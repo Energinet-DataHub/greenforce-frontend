@@ -1079,7 +1079,7 @@
       "success": "The calculation has been requested",
       "topBarTitle": "Request Calculation Data",
       "calculationType": "{{shared.calculationType}}",
-      "meteringPointType": "Type of metering point",
+      "meteringPointType": "Type of metering point/Price type ",
       "priceType": "Price type",
       "period": "Period",
       "gridarea": "Grid area",
