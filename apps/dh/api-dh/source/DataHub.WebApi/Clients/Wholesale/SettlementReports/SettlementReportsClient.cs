@@ -53,10 +53,10 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
     public async Task<IEnumerable<RequestedSettlementReportDto>> GetAsync(CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, "settlement-reports/list");
-        using var requestApi = new HttpRequestMessage(HttpMethod.Get, "api/ListSettlementReports");
+        using var requestApi = new HttpRequestMessage(HttpMethod.Get, "settlement-reports/list");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "api/ListSettlementReports");
 
-        using var actualResponseApi = await _apiHttpClient.SendAsync(request, cancellationToken);
+        using var actualResponseApi = await _apiHttpClient.SendAsync(requestApi, cancellationToken);
         using var actualResponse = await _httpClient.SendAsync(request, cancellationToken);
 
         actualResponseApi.EnsureSuccessStatusCode();
