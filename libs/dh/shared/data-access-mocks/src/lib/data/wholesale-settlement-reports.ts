@@ -117,6 +117,7 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeEnd_Seconds,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
+      fromApi: true,
     },
     {
       __typename: 'SettlementReport',
