@@ -67,7 +67,6 @@ export class DhSettlementReportsTableComponent {
 
   columns: WattTableColumnDef<DhSettlementReport> = {
     startedAt: { accessor: (report) => report.executionTime.start },
-    executionTime: { accessor: null },
     actorName: { accessor: (report) => report.actor?.name },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: (report) => report.period.start },
