@@ -25,6 +25,8 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReport } from '../dh-settlement-report';
@@ -38,8 +40,10 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
     TranslocoDirective,
 
     WATT_CARD,
+    WATT_TABLE,
     WATT_DRAWER,
     WattDatePipe,
+    VaterStackComponent,
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
@@ -73,6 +77,10 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
         margin: var(--watt-space-ml);
         width: 60%;
       }
+
+      .card-grid-areas {
+        margin: var(--watt-space-ml);
+      }
     `,
   ],
   templateUrl: './dh-settlement-report-drawer.component.html',
@@ -80,14 +88,25 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
 export class DhSettlementReportDrawerComponent {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
-  report = input.required<DhSettlementReport | undefined>();
+  tableSource = new WattTableDataSource<string>();
+
+  columns: WattTableColumnDef<string> = {
+    code: { accessor: (value) => value },
+  };
+
+  report = input<DhSettlementReport>();
 
   closed = output();
   download = output<Event>();
 
   constructor() {
     effect(() => {
-      this.report() ? this.drawer().open() : this.drawer().close();
+      if (this.report()) {
+        this.drawer().open();
+        this.tableSource.data = this.report()?.gridAreas ?? [];
+      } else {
+        this.drawer().close();
+      }
     });
   }
 }

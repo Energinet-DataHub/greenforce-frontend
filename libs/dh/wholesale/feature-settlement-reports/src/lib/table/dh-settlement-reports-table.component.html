@@ -50,16 +50,6 @@ limitations under the License.
       {{ entry.numberOfGridAreasInReport }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['includesBasisData']; header: t('columns.basisData'); let entry"
-    >
-      @if (entry.includesBasisData) {
-        {{ "yes" | transloco }}
-      } @else {
-        {{ "no" | transloco }}
-      }
-    </ng-container>
-
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
       <dh-settlement-reports-status
         [status]="entry.statusType"

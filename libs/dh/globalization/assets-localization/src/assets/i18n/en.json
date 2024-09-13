@@ -1131,6 +1131,11 @@
         "status": "Status",
         "actorName": "Market participant"
       },
+      "drawer": {
+        "monthlySum": "Monthly sum",
+        "combined": "Kombineret",
+        "gridAreas": "Grid areas"
+      },
       "reportStatus": {
         "IN_PROGRESS": "In progress ({{ progress }}%)",
         "ERROR": "Error",
