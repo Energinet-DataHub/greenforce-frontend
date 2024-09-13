@@ -31,7 +31,7 @@ import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
-import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
+import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhDurationComponent } from '../util/dh-duration.component';
 
 @Component({
