@@ -88,13 +88,13 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
 export class DhSettlementReportDrawerComponent {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
-  tableSource = new WattTableDataSource<DhSettlementReport['gridAreas'][0]>();
+  tableSource = new WattTableDataSource<string>();
 
   columns: WattTableColumnDef<string> = {
     code: { accessor: (value) => value },
   };
 
-  report = input.required<DhSettlementReport | undefined>();
+  report = input<DhSettlementReport>();
 
   closed = output();
   download = output<Event>();
