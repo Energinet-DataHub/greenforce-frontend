@@ -19,6 +19,8 @@ limitations under the License.
     [dataSource]="tableDataSource"
     [columns]="columns"
     [displayedColumns]="displayedColumns"
+    [activeRow]="activeRow()"
+    (rowClick)="onRowClick($event)"
   >
     <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
       {{ entry.executionTime.start | wattDate: "long" }}
@@ -62,8 +64,14 @@ limitations under the License.
       <dh-settlement-reports-status
         [status]="entry.statusType"
         [progress]="entry.progress"
-        (download)="downloadReport(entry)"
+        (download)="downloadReport($event, entry)"
       />
     </ng-container>
   </watt-table>
 </vater-flex>
+
+<dh-settlement-report-drawer
+  [report]="activeRow()"
+  (closed)="activeRow.set(undefined)"
+  (download)="downloadReport($event, activeRow()!)"
+/>

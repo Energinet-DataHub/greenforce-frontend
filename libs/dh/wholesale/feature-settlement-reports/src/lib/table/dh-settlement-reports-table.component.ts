@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -33,6 +33,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhDurationComponent } from '../util/dh-duration.component';
+import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -57,6 +58,7 @@ import { DhDurationComponent } from '../util/dh-duration.component';
     VaterStackComponent,
 
     DhSettlementReportsStatusComponent,
+    DhSettlementReportDrawerComponent,
     DhDurationComponent,
   ],
 })
@@ -81,6 +83,8 @@ export class DhSettlementReportsTableComponent {
 
   settlementReports = input.required<DhSettlementReports>();
 
+  activeRow = signal<DhSettlementReport | undefined>(undefined);
+
   constructor() {
     this.permissionService
       .isFas()
@@ -94,7 +98,15 @@ export class DhSettlementReportsTableComponent {
     effect(() => (this.tableDataSource.data = this.settlementReports()));
   }
 
-  downloadReport(settlementReport: DhSettlementReport) {
+  onRowClick(settlementReport: DhSettlementReport): void {
+    this.activeRow.set(settlementReport);
+  }
+
+  downloadReport(event: Event, settlementReport: DhSettlementReport): void {
+    // Prevent the row click event from firing
+    // so the drawer doesn't open
+    event.stopPropagation();
+
     const { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {
