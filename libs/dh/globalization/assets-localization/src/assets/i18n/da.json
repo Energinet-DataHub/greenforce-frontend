@@ -1130,6 +1130,10 @@
         "status": "Status",
         "actorName": "Aktørnavn"
       },
+      "drawer": {
+        "monthlySum": "Månedssummer",
+        "combined": "Kombineret"
+      },
       "reportStatus": {
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",

@@ -78,6 +78,16 @@ limitations under the License.
             [label]="t('columns.basisData')"
             [value]="(reportView.includesBasisData ? 'yes' : 'no') | transloco"
           />
+
+          <watt-description-list-item
+            [label]="t('drawer.monthlySum')"
+            [value]="(reportView.includeMonthlyAmount ? 'yes' : 'no') | transloco"
+          />
+
+          <watt-description-list-item
+            [label]="t('drawer.combined')"
+            [value]="(reportView.splitReportPerGridArea ? 'yes' : 'no') | transloco"
+          />
         </watt-description-list>
       </watt-card>
     </watt-drawer-content>
