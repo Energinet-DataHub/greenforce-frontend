@@ -53,6 +53,7 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeEnd_Days,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
+      fromApi: true,
     },
     {
       __typename: 'SettlementReport',
@@ -73,6 +74,7 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeStart_Hours,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
+      fromApi: true,
     },
     {
       __typename: 'SettlementReport',
@@ -93,6 +95,7 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeStart_Minutes,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
+      fromApi: true,
     },
     {
       __typename: 'SettlementReport',
@@ -113,6 +116,7 @@ export const wholesaleSettlementReportsQueryMock = (
         end: null,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
+      fromApi: true,
     },
   ],
 });

@@ -13,5 +13,6 @@ query getSettlementReports {
     statusType
     settlementReportDownloadUrl
     executionTime
+    fromApi
   }
 }
