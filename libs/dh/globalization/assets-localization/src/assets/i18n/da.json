@@ -31,6 +31,7 @@
     "p-001": "produktion"
   },
   "duration": {
+    "seconds": "{{ seconds }}s",
     "minutes": "{{ minutes }}m",
     "hours": "{{ hours }}t {{ duration.minutes }}",
     "days": "{{ days }}d {{ duration.hours }}"
