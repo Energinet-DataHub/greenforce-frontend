@@ -84,7 +84,7 @@ services
     .AddGraphQLServices()
     .ModifyRequestOptions(options =>
     {
-        options.IncludeExceptionDetails = true;
+        options.IncludeExceptionDetails = environment.IsDevelopment();
     });
 
 services.SetupHealthEndpoints(apiClientSettings);
