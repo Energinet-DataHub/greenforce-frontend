@@ -174,6 +174,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
         `,
       },
+      drivenBy: 'Drevet af',
     },
   },
   documentation: {

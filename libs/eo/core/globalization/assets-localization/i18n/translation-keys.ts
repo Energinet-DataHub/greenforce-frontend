@@ -111,6 +111,7 @@ export interface TranslationKeys {
         heading: string;
         content: string;
       };
+      drivenBy: string;
     };
   };
   documentation: {

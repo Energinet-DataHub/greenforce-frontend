@@ -185,6 +185,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
         `,
       },
+      drivenBy: 'Driven by',
     },
   },
   documentation: {
