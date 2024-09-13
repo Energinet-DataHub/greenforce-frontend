@@ -38,6 +38,7 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import {
   GetAuditLogByActorIdDocument,
   GetDelegationsForActorDocument,
+  StopDelegationPeriodInput,
   StopDelegationsDocument,
   StopDelegationsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -185,7 +186,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
                 delegationId: delegation.id,
                 stopPeriod: {
                   periodId: delegation.periodId,
-                  stopDate: this.calculateStopDate(selectedOption, stopDate),
+                  stopsAt: this.calculateStopDate(selectedOption, stopDate),
                 },
               };
             }),
