@@ -1133,7 +1133,8 @@
       },
       "drawer": {
         "monthlySum": "Monthly sum",
-        "combined": "Kombineret"
+        "combined": "Kombineret",
+        "gridAreas": "Grid areas"
       },
       "reportStatus": {
         "IN_PROGRESS": "In progress ({{ progress }}%)",

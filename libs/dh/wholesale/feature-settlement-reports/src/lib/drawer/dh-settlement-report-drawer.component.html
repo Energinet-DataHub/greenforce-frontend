@@ -90,6 +90,20 @@ limitations under the License.
           />
         </watt-description-list>
       </watt-card>
+
+      <watt-card variant="solid" class="card-grid-areas">
+        <vater-stack direction="row" gap="s" align="center">
+          <h4>{{ t("drawer.gridAreas") }}</h4>
+          <span class="watt-chip-label">{{ tableSource.data.length }}</span>
+        </vater-stack>
+
+        <watt-table
+          [dataSource]="tableSource"
+          [columns]="columns"
+          [hideColumnHeaders]="true"
+          [suppressRowHoverHighlight]="true"
+        />
+      </watt-card>
     </watt-drawer-content>
   }
 </watt-drawer>

@@ -1132,7 +1132,8 @@
       },
       "drawer": {
         "monthlySum": "Månedssummer",
-        "combined": "Kombineret"
+        "combined": "Kombineret",
+        "gridAreas": "Netområder"
       },
       "reportStatus": {
         "IN_PROGRESS": "I gang ({{ progress }}%)",
