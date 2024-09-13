@@ -30,4 +30,5 @@ public sealed record RequestedSettlementReportDto(
     bool IncludeMonthlyAmount,
     IReadOnlyDictionary<string, CalculationId?> GridAreas,
     DateTimeOffset CreatedDateTime,
-    DateTimeOffset? EndedDateTime);
+    DateTimeOffset? EndedDateTime,
+    SettlementReportJobId? JobId);

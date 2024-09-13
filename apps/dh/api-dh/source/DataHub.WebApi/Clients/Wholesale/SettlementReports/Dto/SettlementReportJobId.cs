@@ -12,18 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NodaTime;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-
-public record RequestSettlementReportInput(
-    Clients.Wholesale.v3.CalculationType CalculationType,
-    Interval Period,
-    RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
-    bool CombineResultInASingleFile,
-    bool PreventLargeTextFiles,
-    bool IncludeMonthlySums,
-    bool IncludeBasisData,
-    bool UseApi,
-    string? EnergySupplier,
-    string? CsvLanguage);
+public sealed record SettlementReportJobId(long Id);

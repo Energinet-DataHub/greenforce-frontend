@@ -541,6 +541,7 @@ type SettlementReport {
   progress: Float!
   statusType: SettlementReportStatusType!
   executionTime: DateRange!
+  fromApi: Boolean!
   splitReportPerGridArea: Boolean!
   includeMonthlyAmount: Boolean!
   gridAreas: [String!]!
@@ -827,6 +828,7 @@ input RequestSettlementReportInput {
   preventLargeTextFiles: Boolean!
   includeMonthlySums: Boolean!
   includeBasisData: Boolean!
+  useApi: Boolean!
   energySupplier: String
   csvLanguage: String
 }
