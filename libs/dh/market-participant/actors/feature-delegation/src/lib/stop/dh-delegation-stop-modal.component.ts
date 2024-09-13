@@ -38,7 +38,6 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import {
   GetAuditLogByActorIdDocument,
   GetDelegationsForActorDocument,
-  StopDelegationPeriodInput,
   StopDelegationsDocument,
   StopDelegationsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
