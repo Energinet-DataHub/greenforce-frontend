@@ -32,7 +32,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
-import { DhDurationComponent } from './dh-duration.component';
+import { DhDurationComponent } from '../util/dh-duration.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
