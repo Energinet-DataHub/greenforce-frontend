@@ -65,7 +65,7 @@ function setup(config?: {hostname?: string, ssr?: boolean}) {
     removeChildSpy,
     loadConsentSpy,
   });
-};
+}
 
 describe('CookieInformationService', () => {
   it('should not add script when on localhost', () => {

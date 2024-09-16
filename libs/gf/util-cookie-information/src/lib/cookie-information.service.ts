@@ -35,7 +35,9 @@ export class CookieInformationService {
   constructor() {
     // Loading the cookie information is not supported on localhost: https://support.cookieinformation.com/en/articles/6718369-technical-faq#h_37636a716d
     if (this.isLocalhost()) {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       this.init = () => {};
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       this.reInit = () => {};
     }
   }
@@ -57,6 +59,7 @@ export class CookieInformationService {
     if (!this.window) return;
 
     // Reload cookie information
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (this.window as any)['CookieInformation']?.loadConsent();
   }
 
