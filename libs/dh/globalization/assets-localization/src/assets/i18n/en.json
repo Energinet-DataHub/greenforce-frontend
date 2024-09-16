@@ -1085,6 +1085,7 @@
       "gridarea": "Grid area",
       "request": "Request",
       "maxPeriodLength": "Period cannot be longer than 31 days",
+      "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
         "BALANCE_FIXING": "Balance fixing",
         "AGGREGATION": "Aggregation",

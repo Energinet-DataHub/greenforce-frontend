@@ -22,6 +22,7 @@ import {
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  ValidatorFn,
 } from '@angular/forms';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -64,7 +65,10 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
+import {
+  max31DaysDateRangeValidator,
+  RangeControl,
+} from './dh-wholesale-request-calculation-validators';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
@@ -128,11 +132,21 @@ export class DhWholesaleRequestCalculationComponent {
   requestAggregatedMeasuredDataView = this.hasPermission('request-aggregated-measured-data:view');
   requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
 
+  monthOnlyForWholesaleRequestsValidator: ValidatorFn = ({ value }: RangeControl) => {
+    if (!value?.end || !value?.start) return null;
+    const start = dayjs(value.start);
+    const end = dayjs(value.end);
+    return start.isSame(start.startOf('month')) && end.isSame(end.endOf('month'))
+      ? null
+      : { monthOnlyForWholesaleRequests: true };
+  };
+
   form = this._fb.group<FormType>({
     calculationType: this._fb.control(CalculationType.Aggregation, Validators.required),
     period: this._fb.control(null, [
       Validators.required,
       WattRangeValidators.required,
+      this.monthOnlyForWholesaleRequestsValidator,
       max31DaysDateRangeValidator,
     ]),
     gridArea: this._fb.control(null),
@@ -244,23 +258,15 @@ export class DhWholesaleRequestCalculationComponent {
             this.form.controls.energySupplierId.setValue(glnOrEicNumber);
           }
         }),
-        switchMap(({ marketRole }) =>
-          this.form.controls.calculationType.valueChanges.pipe(
-            startWith(this.form.controls.calculationType.value),
-            exists(),
-            map((value) => wholesaleCalculationTypes.includes(value)),
-            tap((isWholesale) => {
-              if (isWholesale && marketRole !== EicFunction.GridAccessProvider) {
-                this.gridAreaIsRequired.set(false);
-                this.form.controls.gridArea.removeValidators(Validators.required);
-              } else {
-                this.gridAreaIsRequired.set(true);
-                this.form.controls.gridArea.setValidators(Validators.required);
-              }
-            }),
-            tap(() => this.form.controls.gridArea.updateValueAndValidity())
-          )
-        ),
+        tap(({ marketRole }) => {
+          if (marketRole !== EicFunction.GridAccessProvider) {
+            this.gridAreaIsRequired.set(false);
+            this.form.controls.gridArea.removeValidators(Validators.required);
+          } else {
+            this.gridAreaIsRequired.set(true);
+            this.form.controls.gridArea.setValidators(Validators.required);
+          }
+        }),
         takeUntilDestroyed()
       )
       .subscribe();
