@@ -40,8 +40,8 @@ function getMeteringPoints(apiBase: string) {
           country: 'DK',
         },
         technology: {
-          aibTechCode: 'T020000',
-          aibFuelCode: 'F01050100',
+          techCode: 'T020000',
+          fuelCode: 'F01050100',
         },
         canBeUsedForIssuingCertificates: true,
       },
@@ -59,8 +59,8 @@ function getMeteringPoints(apiBase: string) {
           country: 'DK',
         },
         technology: {
-          aibTechCode: 'T070000',
-          aibFuelCode: 'F00000000',
+          techCode: 'T070000',
+          fuelCode: 'F00000000',
         },
         canBeUsedForIssuingCertificates: false,
       },
@@ -80,8 +80,8 @@ function getMeteringPoints(apiBase: string) {
           country: 'DK',
         },
         technology: {
-          aibTechCode: 'T010000',
-          aibFuelCode: 'F01040100',
+          techCode: 'T010000',
+          fuelCode: 'F01040100',
         },
         canBeUsedForIssuingCertificates: true,
       },
@@ -99,8 +99,8 @@ function getMeteringPoints(apiBase: string) {
           country: 'DK',
         },
         technology: {
-          aibTechCode: 'T010000',
-          aibFuelCode: 'F01040100',
+          techCode: 'T010000',
+          fuelCode: 'F01040100',
         },
         canBeUsedForIssuingCertificates: true,
       },

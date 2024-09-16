@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 
 import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPoint, TechCode } from '@energinet-datahub/eo/metering-points/domain';
 
 import { MeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 

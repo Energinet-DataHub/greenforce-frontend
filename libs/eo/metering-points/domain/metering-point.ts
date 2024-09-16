@@ -40,13 +40,13 @@ export interface MeteringPoint {
     country: string;
   };
   technology: {
-    aibFueldCode: string;
-    aibTechCode: AibTechCode;
+    fueldCode: string;
+    techCode: TechCode;
   };
   subMeterType: 'Virtual' | 'Physical';
 }
 
-export enum AibTechCode {
+export enum TechCode { // Why does frontend need to know these codes?
   Solar = 'T010000',
   Wind = 'T020000',
   Other = 'T070000',
