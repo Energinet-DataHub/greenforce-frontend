@@ -40,7 +40,7 @@
 | [express](https://github.com/expressjs/express) | 4.19.2 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
-| [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
+| [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.10.60 | MIT |

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -31,8 +31,9 @@ import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
-import { DhSettlementReportsStatusComponent } from './dh-settlement-reports-status.component';
-import { DhDurationComponent } from './dh-duration.component';
+import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
+import { DhDurationComponent } from '../util/dh-duration.component';
+import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -57,6 +58,7 @@ import { DhDurationComponent } from './dh-duration.component';
     VaterStackComponent,
 
     DhSettlementReportsStatusComponent,
+    DhSettlementReportDrawerComponent,
     DhDurationComponent,
   ],
 })
@@ -67,12 +69,10 @@ export class DhSettlementReportsTableComponent {
 
   columns: WattTableColumnDef<DhSettlementReport> = {
     startedAt: { accessor: (report) => report.executionTime.start },
-    executionTime: { accessor: null },
     actorName: { accessor: (report) => report.actor?.name },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: (report) => report.period.start },
     numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
-    includesBasisData: { accessor: 'includesBasisData' },
     status: { accessor: 'statusType' },
   };
 
@@ -81,6 +81,8 @@ export class DhSettlementReportsTableComponent {
   tableDataSource = new WattTableDataSource<DhSettlementReport>([]);
 
   settlementReports = input.required<DhSettlementReports>();
+
+  activeRow = signal<DhSettlementReport | undefined>(undefined);
 
   constructor() {
     this.permissionService
@@ -95,7 +97,15 @@ export class DhSettlementReportsTableComponent {
     effect(() => (this.tableDataSource.data = this.settlementReports()));
   }
 
-  downloadReport(settlementReport: DhSettlementReport) {
+  onRowClick(settlementReport: DhSettlementReport): void {
+    this.activeRow.set(settlementReport);
+  }
+
+  downloadReport(event: Event, settlementReport: DhSettlementReport): void {
+    // Prevent the row click event from firing
+    // so the drawer doesn't open
+    event.stopPropagation();
+
     const { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {

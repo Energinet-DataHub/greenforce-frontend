@@ -306,6 +306,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             preventLargeTextFiles: !allowLargeTextFiles,
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
+            useApi: false,
           },
         },
         refetchQueries: (result) => {

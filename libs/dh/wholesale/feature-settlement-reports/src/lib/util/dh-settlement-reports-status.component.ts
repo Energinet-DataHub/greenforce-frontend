@@ -36,9 +36,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         <watt-badge type="warning">{{ t(status()) }}</watt-badge>
       }
       @case ('COMPLETED') {
-        <watt-button type="button" variant="text" icon="fileDownload" (click)="download.emit()">{{
-          t('download')
-        }}</watt-button>
+        <watt-button
+          type="button"
+          variant="text"
+          icon="fileDownload"
+          (click)="download.emit($event)"
+          >{{ t('download') }}</watt-button
+        >
       }
     }
   </ng-container>`,
@@ -47,5 +51,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();
   progress = input.required<number>();
-  download = output<void>();
+
+  download = output<Event>();
 }

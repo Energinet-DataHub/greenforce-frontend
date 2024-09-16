@@ -34,9 +34,9 @@ public sealed class WholesaleSettlementReportController : ControllerBase
 
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] bool fromApi)
     {
-        var reportStream = await _settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
+        var reportStream = await _settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), fromApi, default);
         var fileName = "SettlementReport.zip";
         return File(reportStream, MediaTypeNames.Application.Zip, fileName);
     }
