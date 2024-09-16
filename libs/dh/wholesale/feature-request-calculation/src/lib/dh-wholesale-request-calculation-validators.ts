@@ -17,7 +17,7 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 
-export type RangeControl = AbstractControl<WattRange<string>>;
+type RangeControl = AbstractControl<WattRange<string>>;
 
 export const max31DaysDateRangeValidator: ValidatorFn = ({ value }: RangeControl) => {
   if (!value?.end || !value?.start) return null;
