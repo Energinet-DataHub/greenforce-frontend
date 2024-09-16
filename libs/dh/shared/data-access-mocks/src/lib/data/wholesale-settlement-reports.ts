@@ -56,7 +56,7 @@ export const wholesaleSettlementReportsQueryMock = (
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
       fromApi: true,
       includeMonthlyAmount: true,
-      splitReportPerGridArea: true,
+      combineResultInASingleFile: true,
       gridAreas: ['003', '004', '005', '006', '007'],
     },
     {
@@ -80,7 +80,7 @@ export const wholesaleSettlementReportsQueryMock = (
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
       fromApi: true,
       includeMonthlyAmount: false,
-      splitReportPerGridArea: true,
+      combineResultInASingleFile: true,
       gridAreas: ['100', '101', '102'],
     },
     {
@@ -104,7 +104,7 @@ export const wholesaleSettlementReportsQueryMock = (
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
       fromApi: true,
       includeMonthlyAmount: true,
-      splitReportPerGridArea: false,
+      combineResultInASingleFile: false,
       gridAreas: ['222'],
     },
     {
@@ -128,7 +128,7 @@ export const wholesaleSettlementReportsQueryMock = (
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
       fromApi: true,
       includeMonthlyAmount: false,
-      splitReportPerGridArea: false,
+      combineResultInASingleFile: false,
       gridAreas: [
         '700',
         '701',
@@ -171,7 +171,7 @@ export const wholesaleSettlementReportsQueryMock = (
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
       fromApi: true,
       includeMonthlyAmount: true,
-      splitReportPerGridArea: true,
+      combineResultInASingleFile: true,
       gridAreas: [],
     },
   ],

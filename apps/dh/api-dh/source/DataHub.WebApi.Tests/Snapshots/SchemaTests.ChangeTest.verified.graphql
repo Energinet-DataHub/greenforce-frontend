@@ -542,7 +542,7 @@ type SettlementReport {
   statusType: SettlementReportStatusType!
   executionTime: DateRange!
   fromApi: Boolean!
-  splitReportPerGridArea: Boolean!
+  combineResultInASingleFile: Boolean!
   includeMonthlyAmount: Boolean!
   gridAreas: [String!]!
 }
