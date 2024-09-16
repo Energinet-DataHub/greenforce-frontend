@@ -56,7 +56,7 @@ public static class DomainRegistrationExtensions
         return serviceCollection
             .AddSingleton(provider => new AuthorizedHttpClientFactory(
                 provider.GetRequiredService<IHttpClientFactory>(),
-                () => GetAuthorization(provider.GetRequiredService<IHttpContextAccessor>())));
+                () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty));
     }
 
     private static Uri GetBaseUri(string baseUrl)
@@ -64,18 +64,6 @@ public static class DomainRegistrationExtensions
         return Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
             ? url
             : new Uri("https://empty");
-    }
-
-    private static string GetAuthorization(this IHttpContextAccessor httpContextAccessor)
-    {
-        var headerAuthorization = httpContextAccessor.HttpContext!.Request.Headers["Authorization"];
-
-        if (headerAuthorization.Count > 0)
-        {
-            return headerAuthorization.ToString();
-        }
-
-        return string.Empty;
     }
 
     private static IServiceCollection AddWholesaleClient(this IServiceCollection serviceCollection, Uri baseUri)
