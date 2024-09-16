@@ -32,6 +32,14 @@ export class CookieInformationService {
   private document: Document = inject(DOCUMENT);
   private window = inject(WindowService).nativeWindow;
 
+  constructor() {
+    // Loading the cookie information is not supported on localhost: https://support.cookieinformation.com/en/articles/6718369-technical-faq#h_37636a716d
+    if(this.isLocalhost()) {
+      this.init = () => {};
+      this.reInit = () => {};
+    }
+  }
+
   // Implementation details of cookie information can be found here: https://support.cookieinformation.com/en/articles/5444177-pop-up-implementation
   init(config: CookieInformationConfig): void {
     const { culture } = config;
@@ -49,7 +57,11 @@ export class CookieInformationService {
     if (!this.window) return;
 
     // Reload cookie information
-    (this.window as any)['CookieInformation'].loadConsent();
+    (this.window as any)['CookieInformation']?.loadConsent();
+  }
+
+  private isLocalhost(): boolean {
+    return this.document.location.hostname === 'localhost';
   }
 
   private addSciptToBody(culture: CookieInformationCulture): void {
