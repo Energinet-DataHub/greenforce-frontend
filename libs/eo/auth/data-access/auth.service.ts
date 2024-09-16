@@ -19,6 +19,8 @@ import { Injectable, inject, signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { User, UserManager } from 'oidc-client-ts';
 
+import { WindowService } from '@energinet-datahub/gf/util-browser';
+
 import {
   eoB2cEnvironmentToken,
   EoB2cEnvironment,
@@ -42,6 +44,7 @@ export interface EoUser {
 export class EoAuthService {
   private transloco = inject(TranslocoService);
   private http: HttpClient = inject(HttpClient);
+  private window = inject(WindowService).nativeWindow;
   private b2cEnvironment: EoB2cEnvironment = inject(eoB2cEnvironmentToken);
   private apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   private userManager: UserManager | null = null;
@@ -49,6 +52,8 @@ export class EoAuthService {
   user = signal<EoUser | null>(null);
 
   constructor() {
+    if(!this.window) return;
+
     const settings = {
       /*
        * The authority is the URL of the OIDC provider.
