@@ -26,7 +26,7 @@ public partial class Mutation
     [Service] IMarketParticipantClient_V1 client)
     {
         return client
-            .PermissionPutAsync(new() { Id = id, Description = description })
+            .PermissionPutAsync(id, new() { Description = description })
             .Then(() => client.PermissionGetAsync(id));
     }
 }

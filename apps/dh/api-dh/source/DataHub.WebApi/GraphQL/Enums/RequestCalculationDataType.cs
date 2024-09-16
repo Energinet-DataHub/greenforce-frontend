@@ -12,18 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NodaTime;
+namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-
-public record RequestSettlementReportInput(
-    Clients.Wholesale.v3.CalculationType CalculationType,
-    Interval Period,
-    RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
-    bool CombineResultInASingleFile,
-    bool PreventLargeTextFiles,
-    bool IncludeMonthlySums,
-    bool IncludeBasisData,
-    bool UseApi,
-    string? EnergySupplier,
-    string? CsvLanguage);
+public enum RequestCalculationDataType
+{
+    TariffSubscriptionAndFee = 0,
+    Tariff = 1,
+    Subscription = 2,
+    Fee = 3,
+    MonthlyTariff = 4,
+    MonthlySubscription = 5,
+    MonthlyFee = 6,
+    MonthlyTariffSubscriptionAndFee = 7,
+    AllEnergy = 13,
+    Production = 8,
+    FlexConsumption = 9,
+    TotalConsumption = 10,
+    NonProfiledConsumption = 11,
+    Exchange = 12,
+}

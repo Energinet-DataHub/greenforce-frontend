@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Directive, OnInit, inject, input } from '@angular/core';
+import { DestroyRef, Directive, OnInit, effect, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 @Directive({
   standalone: true,
@@ -31,26 +31,33 @@ export class DhDropdownTranslatorDirective implements OnInit {
 
   translateKey = input.required<string>();
 
+  translation = signal<object | undefined>(undefined);
+
+  options = input<WattDropdownOptions>([]);
+
+  constructor() {
+    effect(() => {
+      const options = this.options();
+      const keys = this.translation();
+
+      if (!keys) return;
+
+      const translatedOptions = options.map((option) => ({
+        ...option,
+        displayValue: this.translateDisplayValue(keys[option.value as keyof typeof keys]),
+      }));
+
+      this.host.options = this.host.sortDirection
+        ? this.host.sortOptions(translatedOptions)
+        : translatedOptions;
+    });
+  }
+
   ngOnInit(): void {
     this.translocoService
       .selectTranslateObject<object>(this.translateKey())
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (keys) => {
-          this.setTranslation(keys);
-        },
-      });
-  }
-
-  private setTranslation(keys: object): void {
-    const translatedOptions = this.host.options.map((option) => ({
-      ...option,
-      displayValue: this.translateDisplayValue(keys[option.value as keyof typeof keys]),
-    }));
-
-    this.host.options = this.host.sortDirection
-      ? this.host.sortOptions(translatedOptions)
-      : translatedOptions;
+      .subscribe((keys) => this.translation.set(keys));
   }
 
   private translateDisplayValue(value: string | undefined) {
