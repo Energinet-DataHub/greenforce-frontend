@@ -96,9 +96,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
   max = input<Date>();
   min = input<Date>();
+  rangeMonthOnlyMode = input(false);
 
   @Input() startAt: Date | null = null;
-  rangeMonthOnlyMode = input(false);
   @Input() label = '';
 
   /**
