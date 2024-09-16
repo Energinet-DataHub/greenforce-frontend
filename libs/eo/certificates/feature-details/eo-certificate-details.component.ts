@@ -25,7 +25,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
-import { AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
+import { TechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -235,7 +235,7 @@ export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
-  protected techCodes = AibTechCode;
+  protected techCodes = TechCode;
 
   protected translations = translations;
 

@@ -44,7 +44,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
+import { EoMeteringPoint, TechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -195,7 +195,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   protected canDeactivate = signal<boolean>(false);
   protected dataSource: WattTableDataSource<EoMeteringPoint> = new WattTableDataSource(undefined);
   protected columns!: WattTableColumnDef<EoMeteringPoint>;
-  protected techCodes = AibTechCode;
+  protected techCodes = TechCode;
 
   @ViewChild('table') table!: WattTableComponent<EoMeteringPoint>;
 
@@ -261,8 +261,8 @@ export class EoMeteringPointsTableComponent implements OnInit {
     return (
       meteringPoint.type === 'Consumption' ||
       (meteringPoint.type === 'Production' &&
-        (meteringPoint.technology.aibTechCode === this.techCodes.Wind ||
-          meteringPoint.technology.aibTechCode === this.techCodes.Solar))
+        (meteringPoint.technology.techCode === this.techCodes.Wind ||
+          meteringPoint.technology.techCode === this.techCodes.Solar))
     );
   }
 
@@ -280,12 +280,12 @@ export class EoMeteringPointsTableComponent implements OnInit {
         accessor: (meteringPoint) => {
           if (meteringPoint.type !== 'Production') return '';
 
-          switch (meteringPoint.technology.aibTechCode) {
-            case AibTechCode.Solar:
+          switch (meteringPoint.technology.techCode) {
+            case TechCode.Solar:
               return this.transloco.translate(this.translations.meteringPoints.solarSource);
-            case AibTechCode.Wind:
+            case TechCode.Wind:
               return this.transloco.translate(this.translations.meteringPoints.windSource);
-            case AibTechCode.Other:
+            case TechCode.Other:
               return this.transloco.translate(this.translations.meteringPoints.otherSource);
             default:
               return '';
