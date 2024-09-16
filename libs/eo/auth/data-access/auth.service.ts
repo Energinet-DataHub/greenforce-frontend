@@ -52,7 +52,7 @@ export class EoAuthService {
   user = signal<EoUser | null>(null);
 
   constructor() {
-    if(!this.window) return;
+    if (!this.window) return;
 
     const settings = {
       /*

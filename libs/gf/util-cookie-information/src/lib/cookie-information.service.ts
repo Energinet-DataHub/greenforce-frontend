@@ -26,7 +26,7 @@ export interface CookieInformationConfig {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CookieInformationService {
   private document: Document = inject(DOCUMENT);
@@ -37,7 +37,7 @@ export class CookieInformationService {
     const { culture } = config;
 
     // Do not load the script if we are on localhost see: https://support.cookieinformation.com/en/articles/6718369-technical-faq#h_37636a716d
-    if(this.document.location.hostname === 'localhost') return;
+    if (this.document.location.hostname === 'localhost') return;
     this.addSciptToBody(culture);
   }
 
@@ -46,7 +46,7 @@ export class CookieInformationService {
     this.removeScriptFromBody();
     this.init(config);
 
-    if(!this.window) return;
+    if (!this.window) return;
 
     // Reload cookie information
     (this.window as any)['CookieInformation'].loadConsent();
