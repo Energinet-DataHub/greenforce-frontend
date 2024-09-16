@@ -46,7 +46,7 @@ export interface MeteringPoint {
   subMeterType: 'Virtual' | 'Physical';
 }
 
-export enum TechCode { // Why does frontend need to know these codes?
+export enum TechCode {
   Solar = 'T010000',
   Wind = 'T020000',
   Other = 'T070000',
