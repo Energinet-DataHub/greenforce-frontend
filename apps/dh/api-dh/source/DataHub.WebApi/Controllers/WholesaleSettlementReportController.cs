@@ -44,7 +44,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
 
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename, [FromQuery] bool fromApi)
     {
         var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
         var baseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl);
@@ -68,7 +68,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
         var settlementReportsClient = new SettlementReportsClient(baseUri.ToString(), client, apiClient);
-        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
+        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), fromApi, default);
 
         // Response...
         var cd = new ContentDisposition
