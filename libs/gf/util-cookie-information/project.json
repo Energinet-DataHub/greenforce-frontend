@@ -1,0 +1,21 @@
+{
+  "name": "gf-util-cookie-information",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/util-cookie-information/src",
+  "prefix": "gf",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/util-cookie-information"],
+      "options": {
+        "jestConfig": "libs/gf/util-cookie-information/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:gf", "domain:shared", "type:util"]
+}

@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import {
+  CookieInformationService,
+  CookieInformationCulture,
+} from '@energinet-datahub/gf/util-cookie-information';
 
 import { EoLandingPageHeaderComponent } from './header.component';
 import { EoLandingPageHeroComponent } from './hero.component';
@@ -112,4 +119,20 @@ import { EoLandingPageNamingComponent } from './naming.component';
     }
   `,
 })
-export class EoLandingPageShellComponent {}
+export class EoLandingPageShellComponent implements OnInit {
+  private transloco = inject(TranslocoService);
+  private cookieInformationService: CookieInformationService = inject(CookieInformationService);
+  private destroyRef = inject(DestroyRef);
+
+  ngOnInit(): void {
+    this.cookieInformationService.init({
+      culture: this.transloco.getActiveLang() as CookieInformationCulture,
+    });
+
+    this.transloco.langChanges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
+      this.cookieInformationService.reInit({
+        culture: lang as CookieInformationCulture,
+      });
+    });
+  }
+}
