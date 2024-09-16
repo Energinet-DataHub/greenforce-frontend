@@ -47,7 +47,26 @@ limitations under the License.
         let entry
       "
     >
-      {{ entry.numberOfGridAreasInReport }}
+      @let gridAreas = entry.gridAreas;
+
+      @if (gridAreas.length > 0) {
+        @if (gridAreas.length < 4) {
+          {{ gridAreas.join(", ") }}
+        } @else {
+          {{
+            t("gridAreasAndCount", {
+              gridAreas: gridAreas.slice(0, 2).join(", "),
+              remainingGridAreasCount: gridAreas.length - 2,
+            })
+          }}
+        }
+      } @else {
+        @if (entry.numberOfGridAreasInReport > 0) {
+          [{{ entry.numberOfGridAreasInReport }}]
+        } @else {
+          {{ t("noData") }}
+        }
+      }
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">

@@ -1131,6 +1131,8 @@
         "status": "Status",
         "actorName": "Market participant"
       },
+      "noData": "No data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
       "drawer": {
         "monthlySum": "Monthly sum",
         "combined": "Kombineret",
