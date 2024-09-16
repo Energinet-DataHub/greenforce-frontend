@@ -223,7 +223,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     if (!this.rangeMonthOnlyMode()) return null;
     const start = dayjs(value.start);
     const end = dayjs(value.end);
-    return start.isSame(start.startOf('month')) && end.isSame(end.endOf('month'))
+    return start.isSame(start.startOf('month')) && end.isSame(start.endOf('month'))
       ? null
       : { monthOnly: true };
   }
