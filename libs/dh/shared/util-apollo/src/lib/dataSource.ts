@@ -23,6 +23,7 @@ import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IWattTableDataSource } from '@energinet-datahub/watt/table';
 import { query, QueryOptions, QueryResult } from './query';
+import { computed, Signal, signal } from '@angular/core';
 
 type SortInput = Record<string, 'ASC' | 'DESC' | null | undefined>;
 type SelectorFn<TResult, TNode> = (data: TResult) => Connection<TNode> | null | undefined;
@@ -55,6 +56,24 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   private _valueChanges: Observable<TResult>;
   private _paginator: MatPaginator | null = null;
   private _sort: MatSort | null = null;
+  private _data: Signal<TNode[]> = signal([]);
+  private _totalCount: Signal<number> = signal(0);
+
+  get loading() {
+    return this._query.loading();
+  }
+
+  get totalCount() {
+    return this._totalCount();
+  }
+
+  get data() {
+    return this._data();
+  }
+
+  get filteredData() {
+    return this._data();
+  }
 
   get sort() {
     return this._sort;
@@ -72,31 +91,6 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     // this._updateChangeSubscription();
   }
 
-  _updateChangeSubscription() {
-    const { sort, paginator } = this;
-    if (!sort || !paginator) return;
-    sort.disableClear = true;
-    const variables = this._query.getOptions().variables;
-    if (!variables?.order) return;
-    const order = variables.order as SortInput | SortInput[] | null | undefined;
-    const initialSort = Array.isArray(order) ? order[0] : order;
-    if (!initialSort) return;
-    Object.keys(initialSort).forEach((key) => {
-      sort.sort({
-        id: key,
-        start: initialSort[key]?.toLowerCase() as SortDirection,
-        disableClear: true,
-      });
-    });
-    sort?.sortChange.subscribe((sort) => {
-      paginator.firstPage(); // TODO: This emits a page event, which is not ideal
-      if (!sort.direction) return;
-      this._query.refetch({
-        order: { [sort.active]: sort.direction.toUpperCase() },
-      } as TVariables);
-    });
-  }
-
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
     selector: SelectorFn<TResult, TNode>,
@@ -108,6 +102,14 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     this._query = query(document, options);
     this._valueChanges = toObservable(this._query.data).pipe(filter(Boolean));
 
+    const connection = computed(() => {
+      const data = this._query.data();
+      return data && this._selector(data);
+    });
+
+    this._totalCount = computed(() => connection()?.totalCount ?? 0);
+    this._data = computed(() => connection()?.nodes ?? []);
+
     this._updateChangeSubscription();
 
     toObservable(this._query.data).subscribe((data) => {
@@ -118,8 +120,6 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
       if (!paginator) return;
       paginator.disabled = false;
       paginator.length = conn.totalCount;
-      this.data = new Array(conn.totalCount);
-      this.filteredData = new Array(conn.totalCount);
       paginator.pageSize = 50; // Get from query variable?
       const endCursor = conn.pageInfo.endCursor;
       const startCursor = conn.pageInfo.startCursor;
@@ -161,11 +161,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     });
   }
 
-  data: TNode[] = [];
-
   filter = '';
-
-  filteredData: TNode[] = [];
 
   filterPredicate = (data: TNode, filter: string) => true;
 
@@ -190,5 +186,30 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
 
   disconnect() {
     // empty
+  }
+
+  _updateChangeSubscription() {
+    const { sort, paginator } = this;
+    if (!sort || !paginator) return;
+    sort.disableClear = true;
+    const variables = this._query.getOptions().variables;
+    if (!variables?.order) return;
+    const order = variables.order as SortInput | SortInput[] | null | undefined;
+    const initialSort = Array.isArray(order) ? order[0] : order;
+    if (!initialSort) return;
+    Object.keys(initialSort).forEach((key) => {
+      sort.sort({
+        id: key,
+        start: initialSort[key]?.toLowerCase() as SortDirection,
+        disableClear: true,
+      });
+    });
+    sort?.sortChange.subscribe((sort) => {
+      paginator.firstPage(); // TODO: This emits a page event, which is not ideal
+      if (!sort.direction) return;
+      this._query.refetch({
+        order: { [sort.active]: sort.direction.toUpperCase() },
+      } as TVariables);
+    });
   }
 }

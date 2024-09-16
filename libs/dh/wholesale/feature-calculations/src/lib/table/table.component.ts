@@ -19,15 +19,13 @@ import {
   Component,
   Output,
   EventEmitter,
-  inject,
   Input,
   signal,
   effect,
-  computed,
 } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -42,20 +40,14 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
-import { Apollo } from 'apollo-angular';
 import {
-  GetCalculationsDocument,
   CalculationQueryInput,
-  OnCalculationProgressDocument,
-  GetCalculationsQuery,
   CalculationOrchestrationState,
   GetCalculationsDataSource,
   SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-
-type wholesaleTableData = WattTableDataSource<Calculation>;
 
 @Component({
   standalone: true,
@@ -81,8 +73,6 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsTableComponent {
-  private apollo = inject(Apollo);
-
   CalculationOrchestrationState = CalculationOrchestrationState;
 
   @Input() id?: string;
@@ -103,8 +93,7 @@ export class DhCalculationsTableComponent {
 
   refetch = effect(() => this.dataSource.refetch({ input: this.filter() }));
 
-  // TODO: Support this
-  // getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
+  getActiveRow = () => this.dataSource.filteredData.find((row) => row.id === this.id);
 
   // TODO: Fix race condition when subscription returns faster than the query.
   // This is not a problem currently since subscriptions don't return any data
@@ -147,7 +136,6 @@ export class DhCalculationsTableComponent {
   //   onCleanup(() => unsubscribe());
   // });
 
-  // dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period', size: 'minmax(max-content, auto)' },

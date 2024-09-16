@@ -32,7 +32,8 @@ limitations under the License.
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    [loading]="loading"
+    [loading]="dataSource.loading"
+    [activeRow]="getActiveRow()"
     (rowClick)="selectedRow.emit($event)"
   >
     <!-- Process Type -->
