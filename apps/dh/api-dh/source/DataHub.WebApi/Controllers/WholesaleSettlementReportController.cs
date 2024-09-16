@@ -28,39 +28,57 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
+    private readonly ISettlementReportsClient _settlementReportsClient;
+
     public WholesaleSettlementReportController(
         IConfiguration configuration,
         IMarketParticipantClient_V1 marketParticipantClient,
+        ISettlementReportsClient settlementReportsClient,
         IHttpClientFactory httpClientFactory)
     {
         _configuration = configuration;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
+        _settlementReportsClient = settlementReportsClient;
     }
 
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename)
     {
         var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
         var baseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl);
         var apiClientBaseUri = GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl);
-        var accessToken = await _marketParticipantClient.GetAndUseDownloadTokenAsync(token);
+        var downloadToken = await _marketParticipantClient.GetAndUseDownloadTokenAsync(token);
 
-        if (string.IsNullOrWhiteSpace(accessToken))
+        if (string.IsNullOrWhiteSpace(downloadToken.AccessToken))
         {
             return Forbid();
         }
 
         var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy");
+
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
         var client = authorizedHttpClientFactory.CreateClient(baseUri);
+
         client.DefaultRequestHeaders.Remove("Authorization");
-        client.DefaultRequestHeaders.Add("Authorization", accessToken);
-        var settlementReportsClient = new SettlementReportsClient(apiClientSettings.MarketParticipantBaseUrl, client, apiClient);
+        client.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
+
+        apiClient.DefaultRequestHeaders.Remove("Authorization");
+        apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
+
+        var settlementReportsClient = new SettlementReportsClient(baseUri.ToString(), client, apiClient);
         var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
-        var fileName = "SettlementReport.zip";
-        return File(reportStream, MediaTypeNames.Application.Zip, fileName);
+
+        // Response...
+        var cd = new ContentDisposition
+        {
+            FileName = Uri.EscapeDataString(filename),
+            Inline = true,  // false = prompt the user for downloading;  true = browser to try to show the file inline
+        };
+        Response.Headers["Content-Disposition"] = cd.ToString();
+        Response.Headers["X-Content-Type-Options"] = "nosniff"; // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+        return File(reportStream, MediaTypeNames.Application.Zip);
     }
 
     private static Uri GetBaseUri(string baseUrl)
