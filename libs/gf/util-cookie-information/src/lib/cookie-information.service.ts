@@ -34,7 +34,7 @@ export class CookieInformationService {
 
   constructor() {
     // Loading the cookie information is not supported on localhost: https://support.cookieinformation.com/en/articles/6718369-technical-faq#h_37636a716d
-    if(this.isLocalhost()) {
+    if (this.isLocalhost()) {
       this.init = () => {};
       this.reInit = () => {};
     }
