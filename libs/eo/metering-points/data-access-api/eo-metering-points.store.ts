@@ -71,8 +71,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       state.meteringPoints?.filter(
         (mp) =>
           mp.type === 'Consumption' &&
-          (mp.technology.techCode === TechCode.Wind ||
-            mp.technology.techCode === TechCode.Solar)
+          (mp.technology.techCode === TechCode.Wind || mp.technology.techCode === TechCode.Solar)
       ) ?? []
   );
   readonly productionMeteringPoints$ = this.select(
@@ -80,8 +79,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       state.meteringPoints?.filter(
         (mp) =>
           mp.type === 'Production' &&
-          (mp.technology.techCode === TechCode.Wind ||
-            mp.technology.techCode === TechCode.Solar)
+          (mp.technology.techCode === TechCode.Wind || mp.technology.techCode === TechCode.Solar)
       ) ?? []
   );
   readonly hasProductionMeteringPoints$ = this.select(
@@ -93,8 +91,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       state.meteringPoints?.filter(
         (mp) =>
           (mp.type === 'Production' || mp.type === 'Consumption') &&
-          (mp.technology.techCode === TechCode.Wind ||
-            mp.technology.techCode === TechCode.Solar)
+          (mp.technology.techCode === TechCode.Wind || mp.technology.techCode === TechCode.Solar)
       ) ?? []
     );
   });
