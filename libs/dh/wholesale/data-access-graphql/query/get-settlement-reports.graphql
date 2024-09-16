@@ -14,7 +14,7 @@ query getSettlementReports {
     settlementReportDownloadUrl
     executionTime
     fromApi
-    splitReportPerGridArea
+    combineResultInASingleFile
     includeMonthlyAmount
     gridAreas
   }

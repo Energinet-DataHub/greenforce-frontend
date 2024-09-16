@@ -30,6 +30,6 @@ public sealed record SettlementReport(
     SettlementReportStatusType StatusType,
     Interval ExecutionTime,
     bool FromApi,
-    bool SplitReportPerGridArea,
+    bool CombineResultInASingleFile,
     bool IncludeMonthlyAmount,
     string[] GridAreas);
