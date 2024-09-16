@@ -23,6 +23,7 @@ import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
   ValidatorFn,
+  FormGroup,
 } from '@angular/forms';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -132,7 +133,12 @@ export class DhWholesaleRequestCalculationComponent {
   requestAggregatedMeasuredDataView = this.hasPermission('request-aggregated-measured-data:view');
   requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
 
-  monthOnlyForWholesaleRequestsValidator: ValidatorFn = ({ value }: RangeControl) => {
+  monthOnlyForWholesaleRequestsValidator: ValidatorFn = (control: RangeControl) => {
+    const parent = control.parent as FormGroup<FormType>;
+    const calculationType = parent?.controls.calculationType.value;
+    const value = control.value;
+    if (!calculationType) return null;
+    if (!wholesaleCalculationTypes.includes(calculationType)) return null;
     if (!value?.end || !value?.start) return null;
     const start = dayjs(value.start);
     const end = dayjs(value.end);
@@ -153,6 +159,11 @@ export class DhWholesaleRequestCalculationComponent {
     requestCalculationDataType: this._fb.control(null, Validators.required),
     energySupplierId: this._fb.control(null),
     balanceResponsibleId: this._fb.control(null),
+  });
+
+  revalidatePeriodEffect = effect(() => {
+    this.calculationType();
+    this.form.controls.period.updateValueAndValidity();
   });
 
   updateInitialCalculationType = effect(() => {
