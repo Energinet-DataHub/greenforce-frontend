@@ -1,0 +1,109 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+@let reportView = report();
+
+<watt-drawer
+  #drawer
+  (closed)="closed.emit()"
+  *transloco="let t; read: 'wholesale.settlementReports'"
+>
+  <watt-drawer-topbar>
+    @if (reportView && reportView.statusType !== "COMPLETED") {
+      <dh-settlement-reports-status
+        [status]="reportView.statusType"
+        [progress]="reportView.progress"
+      />
+    }
+  </watt-drawer-topbar>
+
+  <watt-drawer-heading>
+    @if (reportView) {
+      <h2 class="report-heading">{{ t("calculationTypes." + reportView?.calculationType) }}</h2>
+
+      <div class="metadata">
+        <div class="metadata__item">
+          <span class="watt-label">{{ t("columns.startedAt") }}</span>
+          <span>{{ reportView.executionTime.start | wattDate: "long" }}</span>
+        </div>
+
+        <div class="metadata__item">
+          <span class="watt-label">{{ t("columns.executionTime") }}</span>
+          <span><dh-duration [value]="reportView.executionTime" /></span>
+        </div>
+
+        <div class="metadata__item">
+          <span class="watt-label">{{ t("columns.actorName") }}</span>
+          <span>{{ reportView.actor?.name }}</span>
+        </div>
+      </div>
+    }
+  </watt-drawer-heading>
+
+  @if (reportView?.statusType === "COMPLETED") {
+    <watt-drawer-actions>
+      <watt-button
+        type="button"
+        variant="secondary"
+        icon="fileDownload"
+        (click)="download.emit($event)"
+        >{{ "wholesale.settlementReports.reportStatus.download" | transloco }}</watt-button
+      >
+    </watt-drawer-actions>
+  }
+
+  @if (drawer.isOpen && reportView) {
+    <watt-drawer-content>
+      <watt-card variant="solid" class="card-metadata">
+        <watt-description-list variant="stack">
+          <watt-description-list-item
+            [label]="t('columns.period')"
+            [value]="reportView.period | wattDate: 'short'"
+          />
+
+          <watt-description-list-item
+            [label]="t('columns.basisData')"
+            [value]="(reportView.includesBasisData ? 'yes' : 'no') | transloco"
+          />
+
+          <watt-description-list-item
+            [label]="t('drawer.monthlySum')"
+            [value]="(reportView.includeMonthlyAmount ? 'yes' : 'no') | transloco"
+          />
+
+          <watt-description-list-item
+            [label]="t('drawer.combined')"
+            [value]="(reportView.combineResultInASingleFile ? 'yes' : 'no') | transloco"
+          />
+        </watt-description-list>
+      </watt-card>
+
+      <watt-card variant="solid" class="card-grid-areas">
+        <vater-stack direction="row" gap="s" align="center">
+          <h4>{{ t("drawer.gridAreas") }}</h4>
+          <span class="watt-chip-label">{{ tableSource.data.length }}</span>
+        </vater-stack>
+
+        <watt-table
+          [dataSource]="tableSource"
+          [columns]="columns"
+          [hideColumnHeaders]="true"
+          [suppressRowHoverHighlight]="true"
+        />
+      </watt-card>
+    </watt-drawer-content>
+  }
+</watt-drawer>

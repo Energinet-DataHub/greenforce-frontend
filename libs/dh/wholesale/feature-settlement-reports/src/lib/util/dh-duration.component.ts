@@ -35,6 +35,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       {{ 'duration.hours' | transloco: durationView }}
     } @else if (durationView.minutes > 0) {
       {{ 'duration.minutes' | transloco: durationView }}
+    } @else if (durationView.seconds > 0) {
+      {{ 'duration.seconds' | transloco: durationView }}
     }
   `,
 })
@@ -51,6 +53,11 @@ export class DhDurationComponent {
     const diffInMilliseconds = dayjs(end).diff(start, 'milliseconds');
     const duration = dayjs.duration(diffInMilliseconds);
 
-    return { days: duration.days(), hours: duration.hours(), minutes: duration.minutes() };
+    return {
+      days: duration.days(),
+      hours: duration.hours(),
+      minutes: duration.minutes(),
+      seconds: duration.seconds(),
+    };
   });
 }
