@@ -69,16 +69,10 @@ public static class DomainRegistrationExtensions
     private static string GetAuthorization(this IHttpContextAccessor httpContextAccessor)
     {
         var headerAuthorization = httpContextAccessor.HttpContext!.Request.Headers["Authorization"];
-        var queryParamAuthorization = httpContextAccessor.HttpContext!.Request.Query["Authorization"];
 
         if (headerAuthorization.Count > 0)
         {
             return headerAuthorization.ToString();
-        }
-
-        if (queryParamAuthorization.Count > 0)
-        {
-            return queryParamAuthorization.ToString();
         }
 
         return string.Empty;

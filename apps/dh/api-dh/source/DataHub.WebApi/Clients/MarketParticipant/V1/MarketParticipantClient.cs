@@ -434,6 +434,24 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Guid> CreateDownloadTokenAsync(string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Guid> CreateDownloadTokenAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> GetAndUseDownloadTokenAsync(System.Guid token, string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> GetAndUseDownloadTokenAsync(System.Guid token, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> UserActorsGetAsync(string? externalToken, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -662,9 +680,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class MarketParticipantClient_V1 : IMarketParticipantClient_V1
     {
-        #pragma warning disable 8618
+#pragma warning disable 8618
         private string _baseUrl;
-        #pragma warning restore 8618
+#pragma warning restore 8618
 
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
@@ -724,7 +742,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor"
                     urlBuilder_.Append("actor");
                     urlBuilder_.Append('?');
@@ -812,7 +831,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor"
                     urlBuilder_.Append("actor");
                     urlBuilder_.Append('?');
@@ -899,7 +919,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -990,7 +1011,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1076,7 +1098,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/name"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1160,7 +1183,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/credentials"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1248,7 +1272,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/credentials"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1346,7 +1371,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/credentials/certificate"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1431,7 +1457,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/credentials/secret"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1520,7 +1547,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/audit"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1609,7 +1637,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/delegations"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1698,7 +1727,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/delegations"
                     urlBuilder_.Append("actor/delegations");
                     urlBuilder_.Append('?');
@@ -1783,7 +1813,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/delegations/{delegationId}"
                     urlBuilder_.Append("actor/delegations/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(delegationId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -1863,7 +1894,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/contacts/public"
                     urlBuilder_.Append("actor/contacts/public");
                     urlBuilder_.Append('?');
@@ -1950,7 +1982,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/contact"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2043,7 +2076,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/contact"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2134,7 +2168,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actor/{actorId}/contact/{contactId}"
                     urlBuilder_.Append("actor/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2216,7 +2251,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "query/selection-actors"
                     urlBuilder_.Append("query/selection-actors");
                     urlBuilder_.Append('?');
@@ -2303,7 +2339,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "audit-identity/{auditIdentityId}"
                     urlBuilder_.Append("audit-identity/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(auditIdentityId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2392,7 +2429,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "audit-identity"
                     urlBuilder_.Append("audit-identity");
                     urlBuilder_.Append('?');
@@ -2479,7 +2517,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "balance-responsibility-relations/{actorId}"
                     urlBuilder_.Append("balance-responsibility-relations/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2568,7 +2607,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "GridArea"
                     urlBuilder_.Append("GridArea");
                     urlBuilder_.Append('?');
@@ -2652,7 +2692,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "GridArea"
                     urlBuilder_.Append("GridArea");
                     urlBuilder_.Append('?');
@@ -2742,10 +2783,10 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "GridArea/{gridAreaId}"
-                    urlBuilder_.Append("GridArea/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(gridAreaId, System.Globalization.CultureInfo.InvariantCulture)));
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "GridArea"
+                    urlBuilder_.Append("GridArea");
                     urlBuilder_.Append('?');
                     if (api_version != null)
                     {
@@ -2825,7 +2866,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "GridArea/{gridAreaId}"
                     urlBuilder_.Append("GridArea/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(gridAreaId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2913,7 +2955,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "GridArea/{gridAreaId}/audit"
                     urlBuilder_.Append("GridArea/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(gridAreaId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -2999,7 +3042,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "GridAreaOverview"
                     urlBuilder_.Append("GridAreaOverview");
                     urlBuilder_.Append('?');
@@ -3086,7 +3130,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "users/invite"
                     urlBuilder_.Append("users/invite");
                     urlBuilder_.Append('?');
@@ -3168,7 +3213,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "users/{userId}/reinvite"
                     urlBuilder_.Append("users/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3249,7 +3295,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization"
                     urlBuilder_.Append("Organization");
                     urlBuilder_.Append('?');
@@ -3337,7 +3384,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization"
                     urlBuilder_.Append("Organization");
                     urlBuilder_.Append('?');
@@ -3424,7 +3472,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization/{organizationId}"
                     urlBuilder_.Append("Organization/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(organizationId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3515,7 +3564,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization/{organizationId}"
                     urlBuilder_.Append("Organization/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(organizationId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3598,7 +3648,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization/{organizationId}/actor"
                     urlBuilder_.Append("Organization/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(organizationId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3687,7 +3738,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization/{organizationId}/audit"
                     urlBuilder_.Append("Organization/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(organizationId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3776,7 +3828,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Organization/{businessRegisterIdentifier}/identity"
                     urlBuilder_.Append("Organization/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(businessRegisterIdentifier, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3865,7 +3918,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Permission/{permissionId}"
                     urlBuilder_.Append("Permission/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(permissionId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -3956,7 +4010,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Permission/{permissionId}"
                     urlBuilder_.Append("Permission/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(permissionId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4036,7 +4091,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Permission"
                     urlBuilder_.Append("Permission");
                     urlBuilder_.Append('?');
@@ -4123,7 +4179,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Permission"
                     urlBuilder_.Append("Permission");
                     urlBuilder_.Append('?');
@@ -4205,7 +4262,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Permission/{permissionId}/audit"
                     urlBuilder_.Append("Permission/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(permissionId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4291,7 +4349,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "Permission/relation"
                     urlBuilder_.Append("Permission/relation");
                     urlBuilder_.Append('?');
@@ -4328,7 +4387,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         {
                             var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
                             var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
-                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                            disposeClient_ = false;
+                            disposeResponse_ = false; // response and client are disposed by FileResponse
                             return fileResponse_;
                         }
                         else
@@ -4372,7 +4432,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: ".well-known/openid-configuration"
                     urlBuilder_.Append(".well-known/openid-configuration");
                     urlBuilder_.Append('?');
@@ -4450,7 +4511,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "token/keys"
                     urlBuilder_.Append("token/keys");
                     urlBuilder_.Append('?');
@@ -4533,7 +4595,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "token"
                     urlBuilder_.Append("token");
                     urlBuilder_.Append('?');
@@ -4597,6 +4660,177 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Guid> CreateDownloadTokenAsync(string? api_version = null)
+        {
+            return CreateDownloadTokenAsync(System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Guid> CreateDownloadTokenAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "createDownloadToken"
+                    urlBuilder_.Append("createDownloadToken");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<string> GetAndUseDownloadTokenAsync(System.Guid token, string? api_version = null)
+        {
+            return GetAndUseDownloadTokenAsync(token, System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<string> GetAndUseDownloadTokenAsync(System.Guid token, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            if (token == null)
+                throw new System.ArgumentNullException("token");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "getAndUseDownloadToken/{token}"
+                    urlBuilder_.Append("getAndUseDownloadToken/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(token, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return response_.Content == null ? string.Empty : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetActorsAssociatedWithExternalUserIdResponse> UserActorsGetAsync(string? externalToken, string? api_version = null)
         {
             return UserActorsGetAsync(externalToken, System.Threading.CancellationToken.None, api_version);
@@ -4617,7 +4851,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/actors"
                     urlBuilder_.Append("user/actors");
                     urlBuilder_.Append('?');
@@ -4708,7 +4943,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4796,7 +5032,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}/actors"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4885,7 +5122,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}/audit"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4977,7 +5215,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}/useridentity"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -5058,7 +5297,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/userprofile"
                     urlBuilder_.Append("user/userprofile");
                     urlBuilder_.Append('?');
@@ -5145,7 +5385,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/userprofile"
                     urlBuilder_.Append("user/userprofile");
                     urlBuilder_.Append('?');
@@ -5224,7 +5465,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/initiate-mitid-signup"
                     urlBuilder_.Append("user/initiate-mitid-signup");
                     urlBuilder_.Append('?');
@@ -5303,7 +5545,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/reset-mitid"
                     urlBuilder_.Append("user/reset-mitid");
                     urlBuilder_.Append('?');
@@ -5385,7 +5628,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}/deactivate"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -5469,7 +5713,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}/reactivate"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -5553,7 +5798,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{userId}/reset-2fa"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -5637,7 +5883,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/{emailAddress}/exists"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(emailAddress, System.Globalization.CultureInfo.InvariantCulture)));
@@ -5727,7 +5974,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "UserOverview/users/search"
                     urlBuilder_.Append("UserOverview/users/search");
                     urlBuilder_.Append('?');
@@ -5827,7 +6075,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles"
                     urlBuilder_.Append("user-roles");
                     urlBuilder_.Append('?');
@@ -5915,7 +6164,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles"
                     urlBuilder_.Append("user-roles");
                     urlBuilder_.Append('?');
@@ -6002,7 +6252,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles/{userRoleId}"
                     urlBuilder_.Append("user-roles/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userRoleId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6093,7 +6344,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles/{userRoleId}"
                     urlBuilder_.Append("user-roles/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userRoleId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6173,7 +6425,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles/assignedtopermission"
                     urlBuilder_.Append("user-roles/assignedtopermission");
                     urlBuilder_.Append('?');
@@ -6264,7 +6517,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles/{userRoleId}/audit"
                     urlBuilder_.Append("user-roles/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userRoleId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6350,7 +6604,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles/permissions"
                     urlBuilder_.Append("user-roles/permissions");
                     urlBuilder_.Append('?');
@@ -6441,7 +6696,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user-roles/{userRoleId}/deactivate"
                     urlBuilder_.Append("user-roles/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userRoleId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6528,7 +6784,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actors/{actorId}/users/{userId}/roles"
                     urlBuilder_.Append("actors/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6625,7 +6882,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actors/{actorId}/users/{userId}/roles"
                     urlBuilder_.Append("actors/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6711,7 +6969,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "actors/{actorId}/roles"
                     urlBuilder_.Append("actors/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(actorId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -6847,7 +7106,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -6859,13 +7118,13 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value is string[])
             {
@@ -8266,12 +8525,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class FileParameter
     {
         public FileParameter(System.IO.Stream data)
-            : this (data, null, null)
+            : this(data, null, null)
         {
         }
 
         public FileParameter(System.IO.Stream data, string? fileName)
-            : this (data, fileName, null)
+            : this(data, fileName, null)
         {
         }
 

@@ -54,7 +54,7 @@ limitations under the License.
       <dh-settlement-reports-status
         [status]="entry.statusType"
         [progress]="entry.progress"
-        (download)="downloadReport($event, entry)"
+        (download)="downloadReport(entry)"
       />
     </ng-container>
   </watt-table>
@@ -63,5 +63,5 @@ limitations under the License.
 <dh-settlement-report-drawer
   [report]="activeRow()"
   (closed)="activeRow.set(undefined)"
-  (download)="downloadReport($event, activeRow()!)"
+  (download)="downloadReport(activeRow()!)"
 />

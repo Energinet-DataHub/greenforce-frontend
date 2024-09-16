@@ -34,6 +34,8 @@ import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -78,6 +80,8 @@ export class DhSettlementReportsTableComponent {
 
   displayedColumns = Object.keys(this.columns);
 
+  addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
+
   tableDataSource = new WattTableDataSource<DhSettlementReport>([]);
 
   settlementReports = input.required<DhSettlementReports>();
@@ -101,11 +105,7 @@ export class DhSettlementReportsTableComponent {
     this.activeRow.set(settlementReport);
   }
 
-  downloadReport(event: Event, settlementReport: DhSettlementReport): void {
-    // Prevent the row click event from firing
-    // so the drawer doesn't open
-    event.stopPropagation();
-
+  async downloadReport(settlementReport: DhSettlementReport) {
     const { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {
@@ -117,25 +117,40 @@ export class DhSettlementReportsTableComponent {
       return;
     }
 
-    const fileName = this.settlementReportName(settlementReport);
-    const fileOptions = { name: fileName, type: 'application/zip' };
-
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
+    const result = await this.addTokenToDownloadUrlMutation.mutate({
+      variables: { url: settlementReportDownloadUrl },
     });
 
-    this.httpClient
-      .get(settlementReportDownloadUrl, { responseType: 'blob' })
-      .pipe(switchMap(streamToFile(fileOptions)))
-      .subscribe({
-        complete: () => this.toastService.dismiss(),
-        error: () =>
-          this.toastService.open({
-            type: 'danger',
-            message: translate('shared.downloadFailed'),
-          }),
-      });
+    const downloadUrl = result.data?.addTokenToDownloadUrl.downloadUrlWithToken;
+
+    if (downloadUrl) {
+      const fileName = this.settlementReportName(settlementReport);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = fileName;
+      link.target = '_blank';
+      link.click();
+      console.log('Downloaded file:', fileName);
+    }
+
+    // const fileOptions = { name: fileName, type: 'application/zip' };
+
+    // this.toastService.open({
+    //   type: 'loading',
+    //   message: translate('shared.downloadStart'),
+    // });
+
+    // this.httpClient
+    //   .get(settlementReportDownloadUrl, { responseType: 'blob' })
+    //   .pipe(switchMap(streamToFile(fileOptions)))
+    //   .subscribe({
+    //     complete: () => this.toastService.dismiss(),
+    //     error: () =>
+    //       this.toastService.open({
+    //         type: 'danger',
+    //         message: translate('shared.downloadFailed'),
+    //       }),
+    //   });
   }
 
   private settlementReportName(report: DhSettlementReport): string {

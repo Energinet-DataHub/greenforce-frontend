@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Net.Mime;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -23,20 +24,49 @@ namespace Energinet.DataHub.WebApi.Controllers;
 [Route("v1/[controller]")]
 public sealed class WholesaleSettlementReportController : ControllerBase
 {
-    private readonly ISettlementReportsClient _settlementReportsClient;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IConfiguration _configuration;
+    private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
     public WholesaleSettlementReportController(
-        ISettlementReportsClient settlementReportsClient)
+        IConfiguration configuration,
+        IMarketParticipantClient_V1 marketParticipantClient,
+        IHttpClientFactory httpClientFactory)
     {
-        _settlementReportsClient = settlementReportsClient;
+        _configuration = configuration;
+        _httpClientFactory = httpClientFactory;
+        _marketParticipantClient = marketParticipantClient;
     }
 
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token)
     {
-        var reportStream = await _settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
+        var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
+        var baseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl);
+        var apiClientBaseUri = GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl);
+        var accessToken = await _marketParticipantClient.GetAndUseDownloadTokenAsync(token);
+
+        if (string.IsNullOrWhiteSpace(accessToken))
+        {
+            return Forbid();
+        }
+
+        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy");
+        var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
+        var client = authorizedHttpClientFactory.CreateClient(baseUri);
+        client.DefaultRequestHeaders.Remove("Authorization");
+        client.DefaultRequestHeaders.Add("Authorization", accessToken);
+        var settlementReportsClient = new SettlementReportsClient(apiClientSettings.MarketParticipantBaseUrl, client, apiClient);
+        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
         var fileName = "SettlementReport.zip";
         return File(reportStream, MediaTypeNames.Application.Zip, fileName);
+    }
+
+    private static Uri GetBaseUri(string baseUrl)
+    {
+        return Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
+            ? url
+            : new Uri("https://empty");
     }
 }
