@@ -27,12 +27,22 @@ import { CookieInformationService } from '@energinet-datahub/gf/util-cookie-info
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
-  private cookieInformationService = inject(CookieInformationService);
-  
-  ngOnInit() {
-    // Set the culture based on your app's language logic
-    const culture = 'en'; // or 'da' for Danish
-    this.cookieInfoService.init(culture);
+  private cookieInformationService: CookieInformationService = inject(CookieInformationService);
+  private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
+
+  ngOnInit(): void {
+    // Initialize cookie information
+    this.cookieInformationService.init({
+      culture: this.transloco.getActiveLang() as CookieInformationCulture,
+    });
+
+    // Reload cookie information on language changes
+    this.transloco.langChanges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
+      this.cookieInformationService.reInit({
+        culture: lang as CookieInformationCulture,
+      });
+    });
   }
 }
 ```
