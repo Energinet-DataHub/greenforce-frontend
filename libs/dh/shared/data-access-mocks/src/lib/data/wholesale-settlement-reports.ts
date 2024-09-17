@@ -88,7 +88,7 @@ export const wholesaleSettlementReportsQueryMock = (
       id: '85d1798474654be1b8c2f5bc543ed333',
       calculationType: CalculationType.WholesaleFixing,
       period: { start: periodStart, end: periodEnd },
-      numberOfGridAreasInReport: 3,
+      numberOfGridAreasInReport: 0,
       includesBasisData: true,
       statusType: SettlementReportStatusType.Error,
       progress: 75,
@@ -105,7 +105,7 @@ export const wholesaleSettlementReportsQueryMock = (
       fromApi: true,
       includeMonthlyAmount: true,
       combineResultInASingleFile: false,
-      gridAreas: ['222'],
+      gridAreas: [],
     },
     {
       __typename: 'SettlementReport',
