@@ -94,6 +94,13 @@ limitations under the License.
           }
         </div>
       }
+
+      <watt-checkbox
+        *dhFeatureFlag="'settlement-report-use-api'"
+        [formControl]="form.controls.useApi"
+      >
+        {{ t("useApi") }}
+      </watt-checkbox>
     </vater-stack>
   </form>
 
