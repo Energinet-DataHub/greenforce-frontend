@@ -96,7 +96,7 @@
     "date-fns": "2.29.2",
     "date-fns-tz": "2.0.0",
     "dayjs": "1.11.10",
-    "express": "4.20.0",
+    "express": "4.21.0",
     "graphql": "16.8.1",
     "graphql-sse": "^2.5.3",
     "highlight.js": "^11.9.0",

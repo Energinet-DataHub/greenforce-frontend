@@ -31,6 +31,7 @@
     "p-001": "produktion"
   },
   "duration": {
+    "seconds": "{{ seconds }}s",
     "minutes": "{{ minutes }}m",
     "hours": "{{ hours }}t {{ duration.minutes }}",
     "days": "{{ days }}d {{ duration.hours }}"
@@ -1127,7 +1128,14 @@
         "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
-        "actorName": "Aktørnavn"
+        "actorName": "Aktør"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "drawer": {
+        "monthlySum": "Månedssummer",
+        "combined": "Kombineret",
+        "gridAreas": "Netområder"
       },
       "reportStatus": {
         "IN_PROGRESS": "I gang ({{ progress }}%)",

@@ -67,15 +67,19 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
         return actualResponseContent.Concat(actualResponseApiContent).OrderByDescending(x => x.CreatedDateTime);
     }
 
-    public async Task<Stream> DownloadAsync(SettlementReportRequestId requestId, CancellationToken cancellationToken)
+    public async Task<Stream> DownloadAsync(SettlementReportRequestId requestId, bool fromApi, CancellationToken cancellationToken)
     {
+        using var requestApi = new HttpRequestMessage(HttpMethod.Get, "settlement-reports/download");
         using var request = new HttpRequestMessage(HttpMethod.Post, "api/SettlementReportDownload");
         request.Content = new StringContent(
             JsonConvert.SerializeObject(requestId),
             Encoding.UTF8,
             "application/json");
 
-        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        var response = await (fromApi
+        ? _apiHttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+        : _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken));
+
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadAsStreamAsync(cancellationToken);
