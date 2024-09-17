@@ -16,6 +16,7 @@ using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers;
@@ -44,6 +45,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
 
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
+    [AllowAnonymous]
     public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename, [FromQuery] bool fromApi)
     {
         var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
