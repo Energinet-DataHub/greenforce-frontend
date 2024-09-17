@@ -49,7 +49,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
         var baseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl);
         var apiClientBaseUri = GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl);
-        var downloadToken = await _marketParticipantClient.GetAndUseDownloadTokenAsync(token);
+        var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
 
         if (string.IsNullOrWhiteSpace(downloadToken.AccessToken))
         {

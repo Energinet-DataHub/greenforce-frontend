@@ -2401,12 +2401,12 @@
         }
       }
     },
-    "/getAndUseDownloadToken/{token}": {
+    "/exchangeDownloadToken/{token}": {
       "post": {
         "tags": [
           "Token"
         ],
-        "operationId": "getAndUseDownloadToken",
+        "operationId": "exchangeDownloadToken",
         "parameters": [
           {
             "name": "token",
@@ -2431,17 +2431,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/DownloadTokenDto"
+                  "$ref": "#/components/schemas/ExchangeDownloadTokenDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DownloadTokenDto"
+                  "$ref": "#/components/schemas/ExchangeDownloadTokenDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DownloadTokenDto"
+                  "$ref": "#/components/schemas/ExchangeDownloadTokenDto"
                 }
               }
             }
@@ -4463,15 +4463,6 @@
           }
         }
       },
-      "DownloadTokenDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "accessToken": {
-            "type": "string"
-          }
-        }
-      },
       "EicFunction": {
         "type": "integer",
         "format": "int32",
@@ -4511,6 +4502,15 @@
           53,
           54
         ]
+      },
+      "ExchangeDownloadTokenDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        }
       },
       "GetActorsAssociatedWithExternalUserIdResponse": {
         "type": "object",

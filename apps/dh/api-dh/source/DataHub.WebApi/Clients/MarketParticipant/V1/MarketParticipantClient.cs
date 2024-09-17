@@ -443,12 +443,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DownloadTokenDto> GetAndUseDownloadTokenAsync(System.Guid token, string? api_version = null);
+        System.Threading.Tasks.Task<ExchangeDownloadTokenDto> ExchangeDownloadTokenAsync(System.Guid token, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DownloadTokenDto> GetAndUseDownloadTokenAsync(System.Guid token, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<ExchangeDownloadTokenDto> ExchangeDownloadTokenAsync(System.Guid token, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4700,15 +4700,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<DownloadTokenDto> GetAndUseDownloadTokenAsync(System.Guid token, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<ExchangeDownloadTokenDto> ExchangeDownloadTokenAsync(System.Guid token, string? api_version = null)
         {
-            return GetAndUseDownloadTokenAsync(token, System.Threading.CancellationToken.None, api_version);
+            return ExchangeDownloadTokenAsync(token, System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<DownloadTokenDto> GetAndUseDownloadTokenAsync(System.Guid token, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<ExchangeDownloadTokenDto> ExchangeDownloadTokenAsync(System.Guid token, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (token == null)
                 throw new System.ArgumentNullException("token");
@@ -4725,8 +4725,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "getAndUseDownloadToken/{token}"
-                    urlBuilder_.Append("getAndUseDownloadToken/");
+                    // Operation Path: "exchangeDownloadToken/{token}"
+                    urlBuilder_.Append("exchangeDownloadToken/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(token, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('?');
                     if (api_version != null)
@@ -4760,7 +4760,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<DownloadTokenDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ExchangeDownloadTokenDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -7524,14 +7524,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class DownloadTokenDto
-    {
-        [Newtonsoft.Json.JsonProperty("accessToken", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string AccessToken { get; set; } = default!;
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum EicFunction
     {
 
@@ -7566,6 +7558,14 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         Delegated = 53,
 
         ItSupplier = 54,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ExchangeDownloadTokenDto
+    {
+        [Newtonsoft.Json.JsonProperty("accessToken", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string AccessToken { get; set; } = default!;
 
     }
 
