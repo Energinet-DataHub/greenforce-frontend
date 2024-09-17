@@ -84,6 +84,11 @@ type ActorUserRole {
   assigned: Boolean!
 }
 
+type AddTokenToDownloadUrlPayload {
+  string: String
+  errors: [AddTokenToDownloadUrlError!]
+}
+
 type AddressDto {
   streetName: String
   number: String
@@ -366,6 +371,7 @@ type Mutation {
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
   inviteUser(input: InviteUserInput!): InviteUserPayload!
@@ -639,6 +645,8 @@ type UserRoleWithPermissions {
   permissions: [PermissionDetailsDto!]!
 }
 
+union AddTokenToDownloadUrlError = ApiError
+
 union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
@@ -681,6 +689,10 @@ input ActorNameDtoInput {
 
 input ActorNumberDtoInput {
   value: String!
+}
+
+input AddTokenToDownloadUrlInput {
+  downloadUrl: URL!
 }
 
 input AddressDtoInput {
@@ -1245,5 +1257,7 @@ scalar DateRange
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
 
 scalar JSON
+
+scalar URL @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc3986")
 
 scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")
