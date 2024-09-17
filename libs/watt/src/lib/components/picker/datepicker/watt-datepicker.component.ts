@@ -27,8 +27,10 @@ import {
   computed,
   inject,
   input,
+  AfterViewInit,
+  effect,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { AbstractControl, NgControl, Validator } from '@angular/forms';
 import {
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   MatCalendarCellClassFunction,
@@ -48,7 +50,7 @@ import { WattLocaleService } from '@energinet-datahub/watt/locale';
 import { MaskitoModule } from '@maskito/angular';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
 import { WattSupportedLocales } from '../../../configuration/watt-date-adapter';
-import { WattDateRange, dayjs } from '../../../utils/date';
+import { WattDateRange, WattRange, dayjs } from '../../../utils/date';
 import { WattButtonComponent } from '../../button';
 import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
 import { WattPickerBase } from '../shared/watt-picker-base';
@@ -84,7 +86,7 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     WattPlaceholderMaskComponent,
   ],
 })
-export class WattDatepickerComponent extends WattPickerBase {
+export class WattDatepickerComponent extends WattPickerBase implements Validator, AfterViewInit {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
@@ -94,9 +96,9 @@ export class WattDatepickerComponent extends WattPickerBase {
 
   max = input<Date>();
   min = input<Date>();
+  rangeMonthOnlyMode = input(false);
 
   @Input() startAt: Date | null = null;
-  @Input() rangeMonthOnlyMode = false;
   @Input() label = '';
 
   /**
@@ -205,6 +207,26 @@ export class WattDatepickerComponent extends WattPickerBase {
         this.datePlaceholder = this.getPlaceholderByLocale(locale);
         this.rangePlaceholder = this.getRangePlaceholder();
       });
+
+    effect(() => {
+      this.rangeMonthOnlyMode();
+      this.ngControl?.control?.updateValueAndValidity();
+    });
+  }
+
+  override ngAfterViewInit() {
+    super.ngAfterViewInit();
+    this.ngControl?.control?.addValidators(this.validate.bind(this));
+  }
+
+  validate({ value }: AbstractControl<WattRange<string>>) {
+    if (!value?.end || !value?.start) return null;
+    if (!this.rangeMonthOnlyMode()) return null;
+    const start = dayjs(value.start);
+    const end = dayjs(value.end);
+    return start.isSame(start.startOf('month')) && end.isSame(start.endOf('month'))
+      ? null
+      : { monthOnly: true };
   }
 
   protected initSingleInput() {
@@ -242,7 +264,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   }
 
   onMonthSelected(date: Date) {
-    if (this.rangeMonthOnlyMode && date) {
+    if (this.rangeMonthOnlyMode() && date) {
       this.matDateRangePicker.select(dayjs(date).startOf('month').toDate());
       this.matDateRangePicker.select(dayjs(date).endOf('month').toDate());
       this.matDateRangePicker.close();

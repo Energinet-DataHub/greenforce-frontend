@@ -16,7 +16,7 @@ limitations under the License.
 -->
 @if (isReady) {
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
-  <form [formGroup]="form" (ngSubmit)="requestCalculation()">
+  <form [formGroup]="form" (ngSubmit)="form.valid && requestCalculation()">
     <vater-flex fill="vertical" gap="m">
       <vater-stack align="flex-start" direction="column" gap="s">
         <watt-dropdown
@@ -38,6 +38,8 @@ limitations under the License.
         >
           @if (form.controls.period.errors?.max31DaysDateRange) {
           <watt-field-error> {{ t('maxPeriodLength')}} </watt-field-error>
+          } @else if (form.controls.period.errors?.monthOnly) {
+          <watt-field-error> {{ t('monthOnlyError')}} </watt-field-error>
           }
         </watt-datepicker>
 

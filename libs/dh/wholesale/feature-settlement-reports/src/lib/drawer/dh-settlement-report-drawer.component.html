@@ -97,12 +97,16 @@ limitations under the License.
           <span class="watt-chip-label">{{ tableSource.data.length }}</span>
         </vater-stack>
 
-        <watt-table
-          [dataSource]="tableSource"
-          [columns]="columns"
-          [hideColumnHeaders]="true"
-          [suppressRowHoverHighlight]="true"
-        />
+        @if (tableSource.data.length > 0) {
+          <watt-table
+            [dataSource]="tableSource"
+            [columns]="columns"
+            [hideColumnHeaders]="true"
+            [suppressRowHoverHighlight]="true"
+          />
+        } @else {
+          {{ t("noData") }}
+        }
       </watt-card>
     </watt-drawer-content>
   }
