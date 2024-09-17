@@ -36,8 +36,7 @@ if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
 }
 
 services
-    .AddControllers()
-    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    .AddControllers();
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
