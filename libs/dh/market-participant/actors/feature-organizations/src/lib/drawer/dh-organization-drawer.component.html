@@ -101,7 +101,7 @@ limitations under the License.
               </watt-card>
             }
           </watt-tab>
-          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['fas']">
+          <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
             <dh-organization-history [organizationId]="organization?.id!" />
           </watt-tab>
         </watt-tabs>
