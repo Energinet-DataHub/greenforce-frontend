@@ -132,6 +132,7 @@ export class DhSettlementReportsTableComponent {
       link.href = downloadUrl;
       link.target = '_blank';
       link.click();
+      link.remove();
     }
   }
 
