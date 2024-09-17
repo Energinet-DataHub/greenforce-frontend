@@ -1338,7 +1338,9 @@
               "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> invited the user into <b>{{ affectedActorName }}</b>",
               "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> added user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
-              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated"
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated",
+              "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested to link MitID to the user",
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user"
             }
           }
         },
