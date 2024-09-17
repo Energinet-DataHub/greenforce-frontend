@@ -24,7 +24,9 @@ public class ApiClientSettings
 
     public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
 
-    public string WholesaleOrchestrationSettlementReportsBaseUrl { get; set; } = string.Empty;
+    public string WholesaleOrchestrationSettlementReportsHeavyBaseUrl { get; set; } = string.Empty;
+
+    public string WholesaleOrchestrationSettlementReportsLightBaseUrl { get; set; } = string.Empty;
 
     public string ESettExchangeBaseUrl { get; set; } = string.Empty;
 

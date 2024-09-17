@@ -20,35 +20,39 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 
 public sealed class SettlementReportsClient : ISettlementReportsClient
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient _heavyHttpClient;
+    private readonly HttpClient _lightHttpClient;
     private readonly HttpClient _apiHttpClient;
 
-    public SettlementReportsClient(string baseUrl, HttpClient httpClient,  HttpClient apiHttpClient)
+    public SettlementReportsClient(string baseUrl, HttpClient heavyHttpClient, HttpClient lightHttpClient, HttpClient apiHttpClient)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
-        ArgumentNullException.ThrowIfNull(httpClient);
+        ArgumentNullException.ThrowIfNull(heavyHttpClient);
         ArgumentNullException.ThrowIfNull(apiHttpClient);
 
-        _httpClient = httpClient;
+        _heavyHttpClient = heavyHttpClient;
+        _lightHttpClient = lightHttpClient;
         _apiHttpClient = apiHttpClient;
     }
 
     public async Task RequestAsync(SettlementReportRequestDto requestDto, CancellationToken cancellationToken)
     {
-            using var request = requestDto.UseAPI
-                ? new HttpRequestMessage(HttpMethod.Post, "settlement-reports/RequestSettlementReport")
-                : new HttpRequestMessage(HttpMethod.Post, "api/RequestSettlementReport");
+        using var request = requestDto.UseAPI
+            ? new HttpRequestMessage(HttpMethod.Post, "settlement-reports/RequestSettlementReport")
+            : new HttpRequestMessage(HttpMethod.Post, "api/RequestSettlementReport");
 
-            request.Content = new StringContent(
-                JsonConvert.SerializeObject(requestDto),
-                Encoding.UTF8,
-                "application/json");
+        request.Content = new StringContent(
+            JsonConvert.SerializeObject(requestDto),
+            Encoding.UTF8,
+            "application/json");
 
-            using var response = await (requestDto.UseAPI
-                ? _apiHttpClient.SendAsync(request, cancellationToken)
-                : _httpClient.SendAsync(request, cancellationToken));
+        using var response = await (requestDto.UseAPI
+            ? _apiHttpClient.SendAsync(request, cancellationToken)
+            : requestDto.IncludeBasisData
+            ? _heavyHttpClient.SendAsync(request, cancellationToken)
+            : _lightHttpClient.SendAsync(request, cancellationToken));
 
-            response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
     }
 
     public async Task<IEnumerable<RequestedSettlementReportDto>> GetAsync(CancellationToken cancellationToken)
@@ -57,7 +61,7 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
         using var request = new HttpRequestMessage(HttpMethod.Get, "api/ListSettlementReports");
 
         using var actualResponseApi = await _apiHttpClient.SendAsync(requestApi, cancellationToken);
-        using var actualResponse = await _httpClient.SendAsync(request, cancellationToken);
+        using var actualResponse = await _heavyHttpClient.SendAsync(request, cancellationToken);
 
         actualResponseApi.EnsureSuccessStatusCode();
         actualResponse.EnsureSuccessStatusCode();
@@ -78,7 +82,7 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
         var response = await (fromApi
         ? _apiHttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-        : _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken));
+        : _heavyHttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken));
 
         response.EnsureSuccessStatusCode();
 
