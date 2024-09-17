@@ -215,6 +215,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   }
 
   override ngAfterViewInit() {
+    super.ngAfterViewInit();
     this.ngControl?.control?.setValidators(this.validate.bind(this));
   }
 
