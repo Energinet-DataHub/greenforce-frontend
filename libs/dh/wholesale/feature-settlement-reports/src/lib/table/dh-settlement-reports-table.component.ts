@@ -119,7 +119,7 @@ export class DhSettlementReportsTableComponent {
       return;
     }
 
-    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${this.settlementReportName(settlementReport)}&fromApi=${settlementReport.fromApi}`;
+    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${this.settlementReportName(settlementReport)}`;
 
     const result = await this.addTokenToDownloadUrlMutation.mutate({
       variables: { url: settlementReportDownloadUrl },
