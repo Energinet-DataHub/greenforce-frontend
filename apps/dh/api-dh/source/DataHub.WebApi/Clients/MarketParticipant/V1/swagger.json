@@ -5236,7 +5236,9 @@
           "InvitedIntoActor",
           "UserRoleAssigned",
           "UserRoleRemoved",
-          "UserRoleRemovedDueToDeactivation"
+          "UserRoleRemovedDueToDeactivation",
+          "UserLoginFederationRequested",
+          "UserLoginFederated"
         ],
         "enum": [
           "FirstName",
@@ -5263,7 +5265,9 @@
               "InvitedIntoActor",
               "UserRoleAssigned",
               "UserRoleRemoved",
-              "UserRoleRemovedDueToDeactivation"
+              "UserRoleRemovedDueToDeactivation",
+              "UserLoginFederationRequested",
+              "UserLoginFederated"
             ],
             "allOf": [
               {

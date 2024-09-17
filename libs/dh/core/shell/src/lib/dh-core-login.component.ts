@@ -30,7 +30,6 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   standalone: true,
@@ -41,7 +40,6 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
     VaterStackComponent,
     WattButtonComponent,
     DhMitIDButtonComponent,
-    DhFeatureFlagDirective,
     MatProgressBarModule,
   ],
   styles: [
@@ -102,7 +100,6 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 
         <dh-mitid-button
           [style.visibility]="showProgressBar() ? 'hidden' : 'visible'"
-          *dhFeatureFlag="'new-login-flow'"
           mode="login"
           >{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button
         >
