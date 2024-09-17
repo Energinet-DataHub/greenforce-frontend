@@ -1085,6 +1085,7 @@
       "gridArea": "Netområde",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være 31 dage",
+      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering",

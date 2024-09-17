@@ -27,7 +27,7 @@ import {
 import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { catchError, filter, map, of, startWith, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, tap } from 'rxjs';
 
 import {
   RequestCalculationDocument,
@@ -244,23 +244,15 @@ export class DhWholesaleRequestCalculationComponent {
             this.form.controls.energySupplierId.setValue(glnOrEicNumber);
           }
         }),
-        switchMap(({ marketRole }) =>
-          this.form.controls.calculationType.valueChanges.pipe(
-            startWith(this.form.controls.calculationType.value),
-            exists(),
-            map((value) => wholesaleCalculationTypes.includes(value)),
-            tap((isWholesale) => {
-              if (isWholesale && marketRole !== EicFunction.GridAccessProvider) {
-                this.gridAreaIsRequired.set(false);
-                this.form.controls.gridArea.removeValidators(Validators.required);
-              } else {
-                this.gridAreaIsRequired.set(true);
-                this.form.controls.gridArea.setValidators(Validators.required);
-              }
-            }),
-            tap(() => this.form.controls.gridArea.updateValueAndValidity())
-          )
-        ),
+        tap(({ marketRole }) => {
+          if (marketRole !== EicFunction.GridAccessProvider) {
+            this.gridAreaIsRequired.set(false);
+            this.form.controls.gridArea.removeValidators(Validators.required);
+          } else {
+            this.gridAreaIsRequired.set(true);
+            this.form.controls.gridArea.setValidators(Validators.required);
+          }
+        }),
         takeUntilDestroyed()
       )
       .subscribe();
