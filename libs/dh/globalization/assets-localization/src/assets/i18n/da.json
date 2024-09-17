@@ -1129,8 +1129,10 @@
         "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
-        "actorName": "Aktørnavn"
+        "actorName": "Aktør"
       },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
       "drawer": {
         "monthlySum": "Månedssummer",
         "combined": "Kombineret",
