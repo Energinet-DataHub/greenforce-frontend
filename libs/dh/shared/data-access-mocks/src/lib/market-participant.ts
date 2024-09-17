@@ -47,6 +47,7 @@ import {
   mockGetActorsForEicFunctionQuery,
   mockGetBalanceResponsibleRelationQuery,
   mockGetActorCredentialsQuery,
+  mockAddTokenToDownloadUrlMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -87,6 +88,7 @@ export function marketParticipantMocks(apiBase: string) {
     stopDelegation(),
     getActorsForEicFunction(),
     getBalanceResponsibleRelation(),
+    addTokenToDownloadUrl(),
   ];
 }
 
@@ -537,6 +539,22 @@ function getBalanceResponsibleRelation() {
           id: '00000000-0000-0000-0000-000000000006',
           __typename: 'Actor',
           balanceResponsibleAgreements,
+        },
+      },
+    });
+  });
+}
+
+function addTokenToDownloadUrl() {
+  return mockAddTokenToDownloadUrlMutation(async ({ variables }) => {
+    const { url } = variables;
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        addTokenToDownloadUrl: {
+          __typename: 'AddTokenToDownloadUrlPayload',
+          downloadUrlWithToken: `${url}?token=12345`,
         },
       },
     });

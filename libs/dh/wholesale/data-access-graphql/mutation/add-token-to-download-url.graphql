@@ -1,0 +1,5 @@
+mutation addTokenToDownloadUrl($url: URL!) {
+  addTokenToDownloadUrl(input: { downloadUrl: $url }) {
+    downloadUrlWithToken: string
+  }
+}
