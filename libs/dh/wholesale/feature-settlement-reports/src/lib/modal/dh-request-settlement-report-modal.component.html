@@ -95,11 +95,12 @@ limitations under the License.
         </div>
       }
 
-      <ng-container *dhFeatureFlag="'settlement-report-use-api'">
-        <watt-checkbox [formControl]="form.controls.useApi">
-          {{ t("useApi") }}
-        </watt-checkbox>
-      </ng-container>
+      <watt-checkbox
+        *dhFeatureFlag="'settlement-report-use-api'"
+        [formControl]="form.controls.useApi"
+      >
+        {{ t("useApi") }}
+      </watt-checkbox>
     </vater-stack>
   </form>
 
