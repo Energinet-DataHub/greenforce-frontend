@@ -1085,6 +1085,7 @@
       "gridArea": "Netområde",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være 31 dage",
+      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering",
@@ -1336,7 +1337,9 @@
               "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> inviterede brugeren ind i <b>{{ affectedActorName }}</b>",
               "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> tildelte brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
-              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret"
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret",
+              "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> har anmodet om at knytte MitID til brugeren",
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren"
             }
           }
         },

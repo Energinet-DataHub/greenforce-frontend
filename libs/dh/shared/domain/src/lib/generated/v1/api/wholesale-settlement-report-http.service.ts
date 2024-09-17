@@ -93,19 +93,29 @@ export class WholesaleSettlementReportHttp {
 
     /**
      * @param settlementReportId 
+     * @param token 
+     * @param filename 
      * @param fromApi 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, fromApi?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, fromApi?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, fromApi?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, fromApi?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (settlementReportId !== undefined && settlementReportId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>settlementReportId, 'settlementReportId');
+        }
+        if (token !== undefined && token !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>token, 'token');
+        }
+        if (filename !== undefined && filename !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>filename, 'filename');
         }
         if (fromApi !== undefined && fromApi !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
