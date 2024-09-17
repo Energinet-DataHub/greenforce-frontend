@@ -46,5 +46,5 @@ public class WholesaleResolvers
             httpContextAccessor.HttpContext!,
             "DownloadReport",
             "WholesaleSettlementReport",
-            new { settlementReportId = result.Id });
+            new { settlementReportId = result.Id, result.FromApi });
 }

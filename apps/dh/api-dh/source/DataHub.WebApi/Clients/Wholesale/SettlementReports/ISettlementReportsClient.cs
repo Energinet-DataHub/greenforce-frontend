@@ -36,5 +36,5 @@ public interface ISettlementReportsClient
     /// Downloads the settlement report with the specified id.
     /// </summary>
     /// <returns>The stream to the report.</returns>
-    public Task<Stream> DownloadAsync(SettlementReportRequestId requestId, CancellationToken cancellationToken);
+    public Task<Stream> DownloadAsync(SettlementReportRequestId requestId, bool fromApi, CancellationToken cancellationToken);
 }

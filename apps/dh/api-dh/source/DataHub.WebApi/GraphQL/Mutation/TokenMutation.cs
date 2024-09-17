@@ -12,24 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Web;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
-public sealed record SettlementReport(
-    string Id,
-    ActorDto? Actor,
-    Clients.Wholesale.v3.CalculationType CalculationType,
-    Interval Period,
-    int NumberOfGridAreasInReport,
-    bool IncludesBasisData,
-    string StatusMessage,
-    double Progress,
-    SettlementReportStatusType StatusType,
-    Interval ExecutionTime,
-    bool FromApi,
-    bool CombineResultInASingleFile,
-    bool IncludeMonthlyAmount,
-    string[] GridAreas);
+public partial class Mutation
+{
+    [Error(typeof(ApiException))]
+    public async Task<string> AddTokenToDownloadUrlAsync(
+        Uri downloadUrl,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var token = await client.CreateDownloadTokenAsync();
+
+        var uriBuilder = new UriBuilder(downloadUrl);
+        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["token"] = token.ToString();
+        uriBuilder.Query = query.ToString();
+        return uriBuilder.Uri.ToString();
+    }
+}

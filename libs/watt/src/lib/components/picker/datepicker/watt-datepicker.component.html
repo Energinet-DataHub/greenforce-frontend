@@ -29,7 +29,7 @@ limitations under the License.
         aria-label="start-date-input"
         matStartDate
         #startDateInput
-        [readOnly]="rangeMonthOnlyMode"
+        [readOnly]="rangeMonthOnlyMode()"
         autocomplete="off"
         spellcheck="false"
         [hidden]="true"
@@ -40,7 +40,7 @@ limitations under the License.
         aria-label="end-date-input"
         matEndDate
         #endDateInput
-        [readOnly]="rangeMonthOnlyMode"
+        [readOnly]="rangeMonthOnlyMode()"
         autocomplete="off"
         spellcheck="false"
         [hidden]="true"
@@ -65,8 +65,8 @@ limitations under the License.
     />
 
     <mat-date-range-picker
-      [panelClass]="rangeMonthOnlyMode ? 'watt-datepicker-range__panel--month-only' : ''"
-      [startView]="rangeMonthOnlyMode ? 'multi-year' : 'month'"
+      [panelClass]="rangeMonthOnlyMode() ? 'watt-datepicker-range__panel--month-only' : ''"
+      [startView]="rangeMonthOnlyMode() ? 'multi-year' : 'month'"
       [startAt]="startAt"
       (monthSelected)="onMonthSelected($event)"
       (closed)="rangePickerClosed()"
