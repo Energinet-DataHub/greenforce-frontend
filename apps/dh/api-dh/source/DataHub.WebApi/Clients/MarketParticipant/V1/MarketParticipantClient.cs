@@ -6891,38 +6891,27 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum ActorAuditedChange
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
-        Name = 0,
+        Name = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Status")]
-        Status = 1,
+        Status = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ContactName")]
-        ContactName = 2,
+        ContactName = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ContactEmail")]
-        ContactEmail = 3,
+        ContactEmail = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ContactPhone")]
-        ContactPhone = 4,
+        ContactPhone = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ContactCategoryAdded")]
-        ContactCategoryAdded = 5,
+        ContactCategoryAdded = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ContactCategoryRemoved")]
-        ContactCategoryRemoved = 6,
+        ContactCategoryRemoved = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"CertificateCredentials")]
-        CertificateCredentials = 7,
+        CertificateCredentials = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ClientSecretCredentials")]
-        ClientSecretCredentials = 8,
+        ClientSecretCredentials = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DelegationStart")]
-        DelegationStart = 9,
+        DelegationStart = 10,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DelegationStop")]
-        DelegationStop = 10,
+        DelegationStop = 11,
 
     }
 
@@ -6930,7 +6919,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class ActorAuditedChangeAuditLogDto
     {
         [Newtonsoft.Json.JsonProperty("change", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ActorAuditedChange Change { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -6990,7 +6978,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public System.Guid ActorId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("category", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ContactCategory Category { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7053,7 +7040,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class ActorMarketRoleDto
     {
         [Newtonsoft.Json.JsonProperty("eicFunction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public EicFunction EicFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("gridAreas", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7124,7 +7110,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public System.Guid GridAreaId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringPointType MeteringPointType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("validFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7175,49 +7160,34 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum ContactCategory
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Default")]
         Default = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Charges")]
         Charges = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ChargeLinks")]
         ChargeLinks = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ElectricalHeating")]
         ElectricalHeating = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"EndOfSupply")]
         EndOfSupply = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"EnerginetInquiry")]
         EnerginetInquiry = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ErrorReport")]
         ErrorReport = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"IncorrectMove")]
         IncorrectMove = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"IncorrectSwitch")]
         IncorrectSwitch = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MeasurementData")]
         MeasurementData = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MeteringPoint")]
         MeteringPoint = 10,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"NetSettlement")]
         NetSettlement = 11,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Notification")]
         Notification = 12,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Recon")]
         Recon = 13,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Reminder")]
         Reminder = 14,
 
     }
@@ -7229,7 +7199,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string Name { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("category", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public ContactCategory Category { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7300,7 +7269,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("gridAreas", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<System.Guid> GridAreas { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("delegatedProcesses", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [Newtonsoft.Json.JsonProperty("delegatedProcesses", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<DelegatedProcess> DelegatedProcesses { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("startsAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7318,11 +7287,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserRoleStatus Status { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("eicFunction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public EicFunction EicFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("permissions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7334,17 +7301,13 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum DelegatedProcess
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"RequestEnergyResults")]
-        RequestEnergyResults = 0,
+        RequestEnergyResults = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ReceiveEnergyResults")]
-        ReceiveEnergyResults = 1,
+        ReceiveEnergyResults = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"RequestWholesaleResults")]
-        RequestWholesaleResults = 2,
+        RequestWholesaleResults = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ReceiveWholesaleResults")]
-        ReceiveWholesaleResults = 3,
+        ReceiveWholesaleResults = 4,
 
     }
 
@@ -7372,53 +7335,37 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum EicFunction
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BalanceResponsibleParty")]
-        BalanceResponsibleParty = 0,
+        BalanceResponsibleParty = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BillingAgent")]
-        BillingAgent = 1,
+        BillingAgent = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"EnergySupplier")]
-        EnergySupplier = 2,
+        EnergySupplier = 12,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"GridAccessProvider")]
-        GridAccessProvider = 3,
+        GridAccessProvider = 14,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ImbalanceSettlementResponsible")]
-        ImbalanceSettlementResponsible = 4,
+        ImbalanceSettlementResponsible = 15,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MeterOperator")]
-        MeterOperator = 5,
+        MeterOperator = 22,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MeteredDataAdministrator")]
-        MeteredDataAdministrator = 6,
+        MeteredDataAdministrator = 23,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MeteredDataResponsible")]
-        MeteredDataResponsible = 7,
+        MeteredDataResponsible = 26,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MeteringPointAdministrator")]
-        MeteringPointAdministrator = 8,
+        MeteringPointAdministrator = 27,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"SystemOperator")]
-        SystemOperator = 9,
+        SystemOperator = 45,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DanishEnergyAgency")]
-        DanishEnergyAgency = 10,
+        DanishEnergyAgency = 48,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"DataHubAdministrator")]
-        DataHubAdministrator = 11,
+        DataHubAdministrator = 50,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"IndependentAggregator")]
-        IndependentAggregator = 12,
+        IndependentAggregator = 51,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"SerialEnergyTrader")]
-        SerialEnergyTrader = 13,
+        SerialEnergyTrader = 52,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Delegated")]
-        Delegated = 14,
+        Delegated = 53,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ItSupplier")]
-        ItSupplier = 15,
+        ItSupplier = 54,
 
     }
 
@@ -7498,7 +7445,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string Name { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserStatus Status { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7525,7 +7471,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum GridAreaAuditedChange
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
         Name = 0,
 
     }
@@ -7534,7 +7479,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class GridAreaAuditedChangeAuditLogDto
     {
         [Newtonsoft.Json.JsonProperty("change", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public GridAreaAuditedChange Change { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7630,73 +7574,50 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum MeteringPointType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
         Unknown = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D01VeProduction")]
         D01VeProduction = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D02Analysis")]
         D02Analysis = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D03NotUsed")]
         D03NotUsed = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D04SurplusProductionGroup6")]
         D04SurplusProductionGroup6 = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D05NetProduction")]
         D05NetProduction = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D06SupplyToGrid")]
         D06SupplyToGrid = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D07ConsumptionFromGrid")]
         D07ConsumptionFromGrid = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D08WholeSaleServicesInformation")]
         D08WholeSaleServicesInformation = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D09OwnProduction")]
         D09OwnProduction = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D10NetFromGrid")]
         D10NetFromGrid = 10,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D11NetToGrid")]
         D11NetToGrid = 11,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D12TotalConsumption")]
         D12TotalConsumption = 12,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D13NetLossCorrection")]
         D13NetLossCorrection = 13,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D14ElectricalHeating")]
         D14ElectricalHeating = 14,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D15NetConsumption")]
         D15NetConsumption = 15,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D17OtherConsumption")]
         D17OtherConsumption = 16,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D18OtherProduction")]
         D18OtherProduction = 17,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D20ExchangeReactiveEnergy")]
         D20ExchangeReactiveEnergy = 18,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"D99InternalUse")]
         D99InternalUse = 19,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"E17Consumption")]
         E17Consumption = 20,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"E18Production")]
         E18Production = 21,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"E20Exchange")]
         E20Exchange = 22,
 
     }
@@ -7705,11 +7626,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum OrganizationAuditedChange
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Domain")]
-        Domain = 0,
+        Domain = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
-        Name = 1,
+        Name = 2,
 
     }
 
@@ -7717,7 +7636,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class OrganizationAuditedChangeAuditLogDto
     {
         [Newtonsoft.Json.JsonProperty("change", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrganizationAuditedChange Change { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7772,11 +7690,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum PermissionAuditedChange
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Claim")]
-        Claim = 0,
+        Claim = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Description")]
-        Description = 1,
+        Description = 2,
 
     }
 
@@ -7784,7 +7700,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class PermissionAuditedChangeAuditLogDto
     {
         [Newtonsoft.Json.JsonProperty("change", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public PermissionAuditedChange Change { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7836,7 +7751,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset Created { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("assignableTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [Newtonsoft.Json.JsonProperty("assignableTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<EicFunction> AssignableTo { get; set; } = default!;
 
     }
@@ -7851,7 +7766,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public System.Guid DelegatedBy { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("process", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public DelegatedProcess Process { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("periods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7875,7 +7789,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string OrganizationName { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("marketRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public EicFunction MarketRole { get; set; } = default!;
 
     }
@@ -7884,10 +7797,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum SortDirection
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Asc")]
         Asc = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Desc")]
         Desc = 1,
 
     }
@@ -7962,7 +7873,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserRoleStatus Status { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("permissions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -7974,35 +7884,25 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum UserAuditedChange
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"FirstName")]
-        FirstName = 0,
+        FirstName = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LastName")]
-        LastName = 1,
+        LastName = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"PhoneNumber")]
-        PhoneNumber = 2,
+        PhoneNumber = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Status")]
-        Status = 3,
+        Status = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"InvitedIntoActor")]
-        InvitedIntoActor = 4,
+        InvitedIntoActor = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"UserRoleAssigned")]
-        UserRoleAssigned = 5,
+        UserRoleAssigned = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"UserRoleRemoved")]
-        UserRoleRemoved = 6,
+        UserRoleRemoved = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"UserRoleRemovedDueToDeactivation")]
-        UserRoleRemovedDueToDeactivation = 7,
+        UserRoleRemovedDueToDeactivation = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"UserLoginFederationRequested")]
-        UserLoginFederationRequested = 8,
+        UserLoginFederationRequested = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"UserLoginFederated")]
-        UserLoginFederated = 9,
+        UserLoginFederated = 10,
 
     }
 
@@ -8010,7 +7910,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class UserAuditedChangeAuditLogDto
     {
         [Newtonsoft.Json.JsonProperty("change", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserAuditedChange Change { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -8073,7 +7972,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("userRoleIds", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<System.Guid> UserRoleIds { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("userStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [Newtonsoft.Json.JsonProperty("userStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<UserStatus> UserStatus { get; set; } = default!;
 
     }
@@ -8085,7 +7984,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserStatus Status { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -8112,22 +8010,16 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum UserOverviewSortProperty
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"FirstName")]
         FirstName = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"LastName")]
         LastName = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Email")]
         Email = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"PhoneNumber")]
         PhoneNumber = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"CreatedDate")]
         CreatedDate = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Status")]
         Status = 5,
 
     }
@@ -8150,20 +8042,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum UserRoleAuditedChange
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Name")]
-        Name = 0,
+        Name = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Description")]
-        Description = 1,
+        Description = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Status")]
-        Status = 2,
+        Status = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"PermissionAdded")]
-        PermissionAdded = 3,
+        PermissionAdded = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"PermissionRemoved")]
-        PermissionRemoved = 4,
+        PermissionRemoved = 5,
 
     }
 
@@ -8171,7 +8058,6 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public partial class UserRoleAuditedChangeAuditLogDto
     {
         [Newtonsoft.Json.JsonProperty("change", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserRoleAuditedChange Change { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timestamp", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -8204,11 +8090,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("eicFunction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public EicFunction EicFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserRoleStatus Status { get; set; } = default!;
 
     }
@@ -8217,11 +8101,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum UserRoleStatus
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Active")]
-        Active = 0,
+        Active = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Inactive")]
-        Inactive = 1,
+        Inactive = 2,
 
     }
 
@@ -8238,11 +8120,9 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         public string Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("eicFunction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public EicFunction EicFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public UserRoleStatus Status { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("permissions", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -8254,17 +8134,13 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
     public enum UserStatus
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Active")]
-        Active = 0,
+        Active = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Inactive")]
-        Inactive = 1,
+        Inactive = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Invited")]
-        Invited = 2,
+        Invited = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"InviteExpired")]
-        InviteExpired = 3,
+        InviteExpired = 4,
 
     }
 
