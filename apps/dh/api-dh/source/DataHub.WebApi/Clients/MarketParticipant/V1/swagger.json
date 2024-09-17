@@ -2921,6 +2921,14 @@
             "name": "sortProperty",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "FirstName",
+                "LastName",
+                "Email",
+                "PhoneNumber",
+                "CreatedDate",
+                "Status"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/UserOverviewSortProperty"
@@ -2932,6 +2940,10 @@
             "name": "sortDirection",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "Asc",
+                "Desc"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/SortDirection"
@@ -3353,6 +3365,24 @@
             "name": "eicFunction",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "BalanceResponsibleParty",
+                "BillingAgent",
+                "EnergySupplier",
+                "GridAccessProvider",
+                "ImbalanceSettlementResponsible",
+                "MeterOperator",
+                "MeteredDataAdministrator",
+                "MeteredDataResponsible",
+                "MeteringPointAdministrator",
+                "SystemOperator",
+                "DanishEnergyAgency",
+                "DataHubAdministrator",
+                "IndependentAggregator",
+                "SerialEnergyTrader",
+                "Delegated",
+                "ItSupplier"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/EicFunction"
@@ -3629,6 +3659,19 @@
     "schemas": {
       "ActorAuditedChange": {
         "type": "string",
+        "x-enumNames": [
+          "Name",
+          "Status",
+          "ContactName",
+          "ContactEmail",
+          "ContactPhone",
+          "ContactCategoryAdded",
+          "ContactCategoryRemoved",
+          "CertificateCredentials",
+          "ClientSecretCredentials",
+          "DelegationStart",
+          "DelegationStop"
+        ],
         "enum": [
           "Name",
           "Status",
@@ -3649,6 +3692,19 @@
         "properties": {
           "change": {
             "readOnly": true,
+            "x-enumNames": [
+              "Name",
+              "Status",
+              "ContactName",
+              "ContactEmail",
+              "ContactPhone",
+              "ContactCategoryAdded",
+              "ContactCategoryRemoved",
+              "CertificateCredentials",
+              "ClientSecretCredentials",
+              "DelegationStart",
+              "DelegationStop"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/ActorAuditedChange"
@@ -3730,6 +3786,23 @@
             "format": "uuid"
           },
           "category": {
+            "x-enumNames": [
+              "Default",
+              "Charges",
+              "ChargeLinks",
+              "ElectricalHeating",
+              "EndOfSupply",
+              "EnerginetInquiry",
+              "ErrorReport",
+              "IncorrectMove",
+              "IncorrectSwitch",
+              "MeasurementData",
+              "MeteringPoint",
+              "NetSettlement",
+              "Notification",
+              "Recon",
+              "Reminder"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/ContactCategory"
@@ -3828,6 +3901,24 @@
         "additionalProperties": false,
         "properties": {
           "eicFunction": {
+            "x-enumNames": [
+              "BalanceResponsibleParty",
+              "BillingAgent",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "ImbalanceSettlementResponsible",
+              "MeterOperator",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "MeteringPointAdministrator",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "DataHubAdministrator",
+              "IndependentAggregator",
+              "SerialEnergyTrader",
+              "Delegated",
+              "ItSupplier"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/EicFunction"
@@ -3919,6 +4010,31 @@
             "format": "uuid"
           },
           "meteringPointType": {
+            "x-enumNames": [
+              "Unknown",
+              "D01VeProduction",
+              "D02Analysis",
+              "D03NotUsed",
+              "D04SurplusProductionGroup6",
+              "D05NetProduction",
+              "D06SupplyToGrid",
+              "D07ConsumptionFromGrid",
+              "D08WholeSaleServicesInformation",
+              "D09OwnProduction",
+              "D10NetFromGrid",
+              "D11NetToGrid",
+              "D12TotalConsumption",
+              "D13NetLossCorrection",
+              "D14ElectricalHeating",
+              "D15NetConsumption",
+              "D17OtherConsumption",
+              "D18OtherProduction",
+              "D20ExchangeReactiveEnergy",
+              "D99InternalUse",
+              "E17Consumption",
+              "E18Production",
+              "E20Exchange"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/MeteringPointType"
@@ -3984,6 +4100,23 @@
       },
       "ContactCategory": {
         "type": "string",
+        "x-enumNames": [
+          "Default",
+          "Charges",
+          "ChargeLinks",
+          "ElectricalHeating",
+          "EndOfSupply",
+          "EnerginetInquiry",
+          "ErrorReport",
+          "IncorrectMove",
+          "IncorrectSwitch",
+          "MeasurementData",
+          "MeteringPoint",
+          "NetSettlement",
+          "Notification",
+          "Recon",
+          "Reminder"
+        ],
         "enum": [
           "Default",
           "Charges",
@@ -4010,6 +4143,23 @@
             "type": "string"
           },
           "category": {
+            "x-enumNames": [
+              "Default",
+              "Charges",
+              "ChargeLinks",
+              "ElectricalHeating",
+              "EndOfSupply",
+              "EnerginetInquiry",
+              "ErrorReport",
+              "IncorrectMove",
+              "IncorrectSwitch",
+              "MeasurementData",
+              "MeteringPoint",
+              "NetSettlement",
+              "Notification",
+              "Recon",
+              "Reminder"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/ContactCategory"
@@ -4134,6 +4284,10 @@
             "type": "string"
           },
           "status": {
+            "x-enumNames": [
+              "Active",
+              "Inactive"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserRoleStatus"
@@ -4141,6 +4295,24 @@
             ]
           },
           "eicFunction": {
+            "x-enumNames": [
+              "BalanceResponsibleParty",
+              "BillingAgent",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "ImbalanceSettlementResponsible",
+              "MeterOperator",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "MeteringPointAdministrator",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "DataHubAdministrator",
+              "IndependentAggregator",
+              "SerialEnergyTrader",
+              "Delegated",
+              "ItSupplier"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/EicFunction"
@@ -4158,6 +4330,12 @@
       },
       "DelegatedProcess": {
         "type": "string",
+        "x-enumNames": [
+          "RequestEnergyResults",
+          "ReceiveEnergyResults",
+          "RequestWholesaleResults",
+          "ReceiveWholesaleResults"
+        ],
         "enum": [
           "RequestEnergyResults",
           "ReceiveEnergyResults",
@@ -4194,6 +4372,24 @@
       },
       "EicFunction": {
         "type": "string",
+        "x-enumNames": [
+          "BalanceResponsibleParty",
+          "BillingAgent",
+          "EnergySupplier",
+          "GridAccessProvider",
+          "ImbalanceSettlementResponsible",
+          "MeterOperator",
+          "MeteredDataAdministrator",
+          "MeteredDataResponsible",
+          "MeteringPointAdministrator",
+          "SystemOperator",
+          "DanishEnergyAgency",
+          "DataHubAdministrator",
+          "IndependentAggregator",
+          "SerialEnergyTrader",
+          "Delegated",
+          "ItSupplier"
+        ],
         "enum": [
           "BalanceResponsibleParty",
           "BillingAgent",
@@ -4318,6 +4514,12 @@
             "type": "string"
           },
           "status": {
+            "x-enumNames": [
+              "Active",
+              "Inactive",
+              "Invited",
+              "InviteExpired"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserStatus"
@@ -4349,6 +4551,9 @@
       },
       "GridAreaAuditedChange": {
         "type": "string",
+        "x-enumNames": [
+          "Name"
+        ],
         "enum": [
           "Name"
         ]
@@ -4359,6 +4564,9 @@
         "properties": {
           "change": {
             "readOnly": true,
+            "x-enumNames": [
+              "Name"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/GridAreaAuditedChange"
@@ -4481,6 +4689,31 @@
       },
       "MeteringPointType": {
         "type": "string",
+        "x-enumNames": [
+          "Unknown",
+          "D01VeProduction",
+          "D02Analysis",
+          "D03NotUsed",
+          "D04SurplusProductionGroup6",
+          "D05NetProduction",
+          "D06SupplyToGrid",
+          "D07ConsumptionFromGrid",
+          "D08WholeSaleServicesInformation",
+          "D09OwnProduction",
+          "D10NetFromGrid",
+          "D11NetToGrid",
+          "D12TotalConsumption",
+          "D13NetLossCorrection",
+          "D14ElectricalHeating",
+          "D15NetConsumption",
+          "D17OtherConsumption",
+          "D18OtherProduction",
+          "D20ExchangeReactiveEnergy",
+          "D99InternalUse",
+          "E17Consumption",
+          "E18Production",
+          "E20Exchange"
+        ],
         "enum": [
           "Unknown",
           "D01VeProduction",
@@ -4509,6 +4742,10 @@
       },
       "OrganizationAuditedChange": {
         "type": "string",
+        "x-enumNames": [
+          "Domain",
+          "Name"
+        ],
         "enum": [
           "Domain",
           "Name"
@@ -4520,6 +4757,10 @@
         "properties": {
           "change": {
             "readOnly": true,
+            "x-enumNames": [
+              "Domain",
+              "Name"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/OrganizationAuditedChange"
@@ -4592,6 +4833,10 @@
       },
       "PermissionAuditedChange": {
         "type": "string",
+        "x-enumNames": [
+          "Claim",
+          "Description"
+        ],
         "enum": [
           "Claim",
           "Description"
@@ -4603,6 +4848,10 @@
         "properties": {
           "change": {
             "readOnly": true,
+            "x-enumNames": [
+              "Claim",
+              "Description"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/PermissionAuditedChange"
@@ -4694,6 +4943,12 @@
             "format": "uuid"
           },
           "process": {
+            "x-enumNames": [
+              "RequestEnergyResults",
+              "ReceiveEnergyResults",
+              "RequestWholesaleResults",
+              "ReceiveWholesaleResults"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/DelegatedProcess"
@@ -4726,6 +4981,24 @@
             "type": "string"
           },
           "marketRole": {
+            "x-enumNames": [
+              "BalanceResponsibleParty",
+              "BillingAgent",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "ImbalanceSettlementResponsible",
+              "MeterOperator",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "MeteringPointAdministrator",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "DataHubAdministrator",
+              "IndependentAggregator",
+              "SerialEnergyTrader",
+              "Delegated",
+              "ItSupplier"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/EicFunction"
@@ -4736,6 +5009,10 @@
       },
       "SortDirection": {
         "type": "string",
+        "x-enumNames": [
+          "Asc",
+          "Desc"
+        ],
         "enum": [
           "Asc",
           "Desc"
@@ -4831,6 +5108,10 @@
             "type": "string"
           },
           "status": {
+            "x-enumNames": [
+              "Active",
+              "Inactive"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserRoleStatus"
@@ -4848,6 +5129,18 @@
       },
       "UserAuditedChange": {
         "type": "string",
+        "x-enumNames": [
+          "FirstName",
+          "LastName",
+          "PhoneNumber",
+          "Status",
+          "InvitedIntoActor",
+          "UserRoleAssigned",
+          "UserRoleRemoved",
+          "UserRoleRemovedDueToDeactivation",
+          "UserLoginFederationRequested",
+          "UserLoginFederated"
+        ],
         "enum": [
           "FirstName",
           "LastName",
@@ -4856,7 +5149,9 @@
           "InvitedIntoActor",
           "UserRoleAssigned",
           "UserRoleRemoved",
-          "UserRoleRemovedDueToDeactivation"
+          "UserRoleRemovedDueToDeactivation",
+          "UserLoginFederationRequested",
+          "UserLoginFederated"
         ]
       },
       "UserAuditedChangeAuditLogDto": {
@@ -4865,6 +5160,18 @@
         "properties": {
           "change": {
             "readOnly": true,
+            "x-enumNames": [
+              "FirstName",
+              "LastName",
+              "PhoneNumber",
+              "Status",
+              "InvitedIntoActor",
+              "UserRoleAssigned",
+              "UserRoleRemoved",
+              "UserRoleRemovedDueToDeactivation",
+              "UserLoginFederationRequested",
+              "UserLoginFederated"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserAuditedChange"
@@ -4977,6 +5284,12 @@
             "format": "uuid"
           },
           "status": {
+            "x-enumNames": [
+              "Active",
+              "Inactive",
+              "Invited",
+              "InviteExpired"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserStatus"
@@ -5008,6 +5321,14 @@
       },
       "UserOverviewSortProperty": {
         "type": "string",
+        "x-enumNames": [
+          "FirstName",
+          "LastName",
+          "Email",
+          "PhoneNumber",
+          "CreatedDate",
+          "Status"
+        ],
         "enum": [
           "FirstName",
           "LastName",
@@ -5034,6 +5355,13 @@
       },
       "UserRoleAuditedChange": {
         "type": "string",
+        "x-enumNames": [
+          "Name",
+          "Description",
+          "Status",
+          "PermissionAdded",
+          "PermissionRemoved"
+        ],
         "enum": [
           "Name",
           "Description",
@@ -5048,6 +5376,13 @@
         "properties": {
           "change": {
             "readOnly": true,
+            "x-enumNames": [
+              "Name",
+              "Description",
+              "Status",
+              "PermissionAdded",
+              "PermissionRemoved"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserRoleAuditedChange"
@@ -5095,6 +5430,24 @@
             "type": "string"
           },
           "eicFunction": {
+            "x-enumNames": [
+              "BalanceResponsibleParty",
+              "BillingAgent",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "ImbalanceSettlementResponsible",
+              "MeterOperator",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "MeteringPointAdministrator",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "DataHubAdministrator",
+              "IndependentAggregator",
+              "SerialEnergyTrader",
+              "Delegated",
+              "ItSupplier"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/EicFunction"
@@ -5102,6 +5455,10 @@
             ]
           },
           "status": {
+            "x-enumNames": [
+              "Active",
+              "Inactive"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserRoleStatus"
@@ -5112,6 +5469,10 @@
       },
       "UserRoleStatus": {
         "type": "string",
+        "x-enumNames": [
+          "Active",
+          "Inactive"
+        ],
         "enum": [
           "Active",
           "Inactive"
@@ -5132,6 +5493,24 @@
             "type": "string"
           },
           "eicFunction": {
+            "x-enumNames": [
+              "BalanceResponsibleParty",
+              "BillingAgent",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "ImbalanceSettlementResponsible",
+              "MeterOperator",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "MeteringPointAdministrator",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "DataHubAdministrator",
+              "IndependentAggregator",
+              "SerialEnergyTrader",
+              "Delegated",
+              "ItSupplier"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/EicFunction"
@@ -5139,6 +5518,10 @@
             ]
           },
           "status": {
+            "x-enumNames": [
+              "Active",
+              "Inactive"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/UserRoleStatus"
@@ -5155,6 +5538,12 @@
       },
       "UserStatus": {
         "type": "string",
+        "x-enumNames": [
+          "Active",
+          "Inactive",
+          "Invited",
+          "InviteExpired"
+        ],
         "enum": [
           "Active",
           "Inactive",
