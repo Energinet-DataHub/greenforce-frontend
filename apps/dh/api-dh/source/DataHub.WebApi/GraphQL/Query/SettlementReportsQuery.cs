@@ -74,9 +74,9 @@ public partial class Query
         var gridAreaCalculations = new Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>();
         var calculations = await client.GetApplicableCalculationsAsync(
             calculationType,
-            gridAreaId,
             calculationPeriod.Start.ToDateTimeOffset(),
-            calculationPeriod.End.ToDateTimeOffset());
+            calculationPeriod.End.ToDateTimeOffset(),
+            gridAreaId);
 
         foreach (var calculation in calculations)
         {

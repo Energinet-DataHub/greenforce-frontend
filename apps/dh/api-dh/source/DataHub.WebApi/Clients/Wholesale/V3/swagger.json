@@ -124,7 +124,7 @@
       }
     },
     "/v3/SettlementReport": {
-      "get": {
+      "post": {
         "tags": [
           "SettlementReport"
         ],
@@ -136,21 +136,19 @@
             "in": "query",
             "schema": {
               "description": "Defines the wholesale calculation type",
+              "x-enumNames": [
+                "BalanceFixing",
+                "Aggregation",
+                "WholesaleFixing",
+                "FirstCorrectionSettlement",
+                "SecondCorrectionSettlement",
+                "ThirdCorrectionSettlement"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/CalculationType"
                 }
               ]
-            }
-          },
-          {
-            "name": "gridAreaCodes",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
             }
           },
           {
@@ -170,6 +168,34 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -233,6 +259,18 @@
             "nullable": true
           },
           "orchestrationState": {
+            "x-enumNames": [
+              "Scheduled",
+              "Calculating",
+              "Calculated",
+              "CalculationFailed",
+              "ActorMessagesEnqueuing",
+              "ActorMessagesEnqueued",
+              "ActorMessagesEnqueuingFailed",
+              "Completed",
+              "Canceled",
+              "Started"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/CalculationOrchestrationState"
@@ -250,6 +288,14 @@
           },
           "calculationType": {
             "description": "Defines the wholesale calculation type",
+            "x-enumNames": [
+              "BalanceFixing",
+              "Aggregation",
+              "WholesaleFixing",
+              "FirstCorrectionSettlement",
+              "SecondCorrectionSettlement",
+              "ThirdCorrectionSettlement"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/CalculationType"
@@ -272,6 +318,18 @@
       },
       "CalculationOrchestrationState": {
         "type": "string",
+        "x-enumNames": [
+          "Scheduled",
+          "Calculating",
+          "Calculated",
+          "CalculationFailed",
+          "ActorMessagesEnqueuing",
+          "ActorMessagesEnqueued",
+          "ActorMessagesEnqueuingFailed",
+          "Completed",
+          "Canceled",
+          "Started"
+        ],
         "enum": [
           "Scheduled",
           "Calculating",
@@ -287,6 +345,12 @@
       },
       "CalculationState": {
         "type": "string",
+        "x-enumNames": [
+          "Pending",
+          "Executing",
+          "Completed",
+          "Failed"
+        ],
         "enum": [
           "Pending",
           "Executing",
@@ -297,6 +361,14 @@
       "CalculationType": {
         "type": "string",
         "description": "Defines the wholesale calculation type",
+        "x-enumNames": [
+          "BalanceFixing",
+          "Aggregation",
+          "WholesaleFixing",
+          "FirstCorrectionSettlement",
+          "SecondCorrectionSettlement",
+          "ThirdCorrectionSettlement"
+        ],
         "enum": [
           "BalanceFixing",
           "Aggregation",
