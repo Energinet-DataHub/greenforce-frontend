@@ -1,0 +1,673 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EDI B2C Web API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/ArchivedMessageGetDocument": {
+      "post": {
+        "tags": [
+          "ArchivedMessageGetDocument"
+        ],
+        "operationId": "ArchivedMessageGetDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ArchivedMessageSearch": {
+      "post": {
+        "tags": [
+          "ArchivedMessageSearch"
+        ],
+        "operationId": "ArchivedMessageSearch",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Orchestrations": {
+      "get": {
+        "tags": [
+          "Orchestrations"
+        ],
+        "summary": "Get orchestrations",
+        "operationId": "Orchestrations",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Optional parameter to only get orchestrations after this value",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrchestrationStatusQueryResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Orchestrations/{id}": {
+      "get": {
+        "tags": [
+          "Orchestrations"
+        ],
+        "summary": "Get status of orchestration with a given instance id",
+        "operationId": "Orchestrations2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The instance id of the orchestration to get status for",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DurableOrchestrationStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Orchestrations/{id}/terminate": {
+      "post": {
+        "tags": [
+          "Orchestrations"
+        ],
+        "summary": "Terminate a running orchestration",
+        "operationId": "terminate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The instance id of the orchestration to terminate",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "description": "The reasons for the termination",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/RequestAggregatedMeasureData": {
+      "post": {
+        "tags": [
+          "RequestAggregatedMeasureData"
+        ],
+        "operationId": "RequestAggregatedMeasureData",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/RequestWholesaleSettlement": {
+      "post": {
+        "tags": [
+          "RequestWholesaleSettlement"
+        ],
+        "operationId": "RequestWholesaleSettlement",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ArchivedMessageResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentType": {
+            "type": "string"
+          },
+          "senderNumber": {
+            "type": "string"
+          },
+          "receiverNumber": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "businessReason": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CalculationType": {
+        "type": "string",
+        "enum": [
+          "PreliminaryAggregation",
+          "BalanceFixing",
+          "WholesaleFixing",
+          "FirstCorrection",
+          "SecondCorrection",
+          "ThirdCorrection"
+        ]
+      },
+      "DurableOrchestrationStatus": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "instanceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdatedTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "input": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JToken"
+              }
+            ]
+          },
+          "output": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JToken"
+              }
+            ]
+          },
+          "runtimeStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrchestrationRuntimeStatus"
+              }
+            ]
+          },
+          "customStatus": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JToken"
+              }
+            ]
+          },
+          "history": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/JToken"
+            }
+          }
+        }
+      },
+      "JToken": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/JToken"
+        }
+      },
+      "MessageCreationPeriod": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MeteringPointType": {
+        "type": "string",
+        "enum": [
+          "Production",
+          "FlexConsumption",
+          "TotalConsumption",
+          "NonProfiledConsumption",
+          "Exchange"
+        ]
+      },
+      "OrchestrationRuntimeStatus": {
+        "type": "string",
+        "enum": [
+          "Running",
+          "Completed",
+          "ContinuedAsNew",
+          "Failed",
+          "Canceled",
+          "Terminated",
+          "Pending",
+          "Suspended",
+          "Unknown"
+        ]
+      },
+      "OrchestrationStatusQueryResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "durableOrchestrationState": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DurableOrchestrationStatus"
+            }
+          },
+          "continuationToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PriceType": {
+        "type": "string",
+        "description": "The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\r\nthe resolution and charge type fields in the RequestWholesaleSettlement document",
+        "enum": [
+          "TariffSubscriptionAndFee",
+          "Tariff",
+          "Subscription",
+          "Fee",
+          "MonthlyTariff",
+          "MonthlySubscription",
+          "MonthlyFee",
+          "MonthlyTariffSubscriptionAndFee"
+        ]
+      },
+      "RequestAggregatedMeasureDataMarketRequest": {
+        "type": "object",
+        "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+        "additionalProperties": false,
+        "properties": {
+          "calculationType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
+          },
+          "meteringPointType": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "gridArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "energySupplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "balanceResponsibleId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RequestWholesaleSettlementMarketRequest": {
+        "type": "object",
+        "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+        "additionalProperties": false,
+        "properties": {
+          "calculationType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CalculationType"
+              }
+            ]
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "gridArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "energySupplierId": {
+            "type": "string",
+            "nullable": true
+          },
+          "resolution": {
+            "type": "string",
+            "deprecated": true,
+            "nullable": true
+          },
+          "priceType": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PriceType"
+              }
+            ]
+          }
+        }
+      },
+      "SearchArchivedMessagesCriteria": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "createdDuringPeriod": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageCreationPeriod"
+              }
+            ]
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "senderNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentTypes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "businessReasons": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "includeRelatedMessages": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}
