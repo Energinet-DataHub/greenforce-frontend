@@ -16,13 +16,6 @@
         "rootDir": "libs/dh/shared/feature-graphql-codegen/src"
       }
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "libs/dh/shared/feature-graphql-codegen/jest.config.ts"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
