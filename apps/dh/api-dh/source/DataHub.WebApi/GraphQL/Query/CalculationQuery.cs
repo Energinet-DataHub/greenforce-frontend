@@ -30,8 +30,16 @@ public partial class Query
     [UseSorting]
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
-        [Service] IWholesaleClient_V3 client) =>
-        await client.QueryCalculationsAsync(input);
+        string? filter,
+        [Service] IWholesaleClient_V3 client)
+    {
+        Guid id;
+        return string.IsNullOrWhiteSpace(filter)
+            ? await client.QueryCalculationsAsync(input)
+            : Guid.TryParse(filter, out id)
+                ? [await client.GetCalculationAsync(id)]
+                : [];
+    }
 
     [GraphQLDeprecated("Use `latestCalculation` instead")]
     public async Task<CalculationDto?> GetLatestBalanceFixingAsync(

@@ -5,6 +5,7 @@ query GetCalculations(
   $after: String
   $before: String
   $order: [CalculationSortInput!]
+  $filter: String
 ) {
   calculations(
     input: $input
@@ -13,6 +14,7 @@ query GetCalculations(
     after: $after
     before: $before
     order: $order
+    filter: $filter
   ) {
     totalCount
     pageInfo {

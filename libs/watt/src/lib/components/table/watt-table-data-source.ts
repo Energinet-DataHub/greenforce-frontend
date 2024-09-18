@@ -27,7 +27,6 @@ export interface IWattTableDataSource<T> extends DataSource<T> {
   sort: MatSort | null;
   totalCount: number;
   // TODO: Type this properly?
-  filterPredicate: MatTableDataSource<T>['filterPredicate'];
   sortData: MatTableDataSource<T>['sortData'];
   sortingDataAccessor: MatTableDataSource<T>['sortingDataAccessor'];
 }

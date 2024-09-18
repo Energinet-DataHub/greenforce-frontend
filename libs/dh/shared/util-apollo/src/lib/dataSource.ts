@@ -16,14 +16,29 @@
  */
 import { TypedDocumentNode } from 'apollo-angular';
 import { OperationVariables } from '@apollo/client/core';
-import { filter, map, Observable, startWith, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  EMPTY,
+  filter,
+  map,
+  merge,
+  Observable,
+  startWith,
+  Subscription,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IWattTableDataSource } from '@energinet-datahub/watt/table';
 import { query, QueryOptions, QueryResult } from './query';
-import { computed, Signal, signal } from '@angular/core';
+import { signal } from '@angular/core';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 type SortInput = Record<string, 'ASC' | 'DESC' | null | undefined>;
 type SelectorFn<TResult, TNode> = (data: TResult) => Connection<TNode> | null | undefined;
@@ -45,6 +60,7 @@ interface ConnectionVariables extends OperationVariables {
   first?: number | null;
   last?: number | null;
   order?: SortInput | SortInput[] | null;
+  filter?: string | null;
 }
 
 export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, TNode>
@@ -52,16 +68,14 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   implements IWattTableDataSource<TNode>
 {
   private _query: QueryResult<TResult, TVariables>;
-  private _selector: SelectorFn<TResult, TNode>;
-  private _valueChanges: Observable<TResult>;
-  private _paginator: MatPaginator | null = null;
-  private _sort: MatSort | null = null;
-  private _data: Signal<TNode[]> = signal([]);
-  private _totalCount: Signal<number> = signal(0);
+  private _connection: Observable<Connection<TNode>>;
+  private _subscription?: Subscription;
 
-  get loading() {
-    return this._query.loading();
-  }
+  private _totalCount = signal(0);
+  private _data = signal<TNode[]>([]);
+  private _sort: MatSort | null = null;
+  private _filter = new BehaviorSubject('');
+  private _paginator: MatPaginator | null = null;
 
   get totalCount() {
     return this._totalCount();
@@ -71,14 +85,26 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     return this._data();
   }
 
+  get loading() {
+    return this._query.loading();
+  }
+
   get filteredData() {
-    return this._data();
+    return this.data;
+  }
+
+  get filter() {
+    return this._filter.value;
+  }
+  set filter(filter) {
+    this._filter.next(filter);
   }
 
   get sort() {
     return this._sort;
   }
   set sort(sort) {
+    if (sort) this._configureSort(sort);
     this._sort = sort;
     this._updateChangeSubscription();
   }
@@ -88,7 +114,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   }
   set paginator(paginator) {
     this._paginator = paginator;
-    // this._updateChangeSubscription();
+    this._updateChangeSubscription();
   }
 
   constructor(
@@ -98,118 +124,152 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   ) {
     super();
 
-    this._selector = selector;
     this._query = query(document, options);
-    this._valueChanges = toObservable(this._query.data).pipe(filter(Boolean));
-
-    const connection = computed(() => {
-      const data = this._query.data();
-      return data && this._selector(data);
-    });
-
-    this._totalCount = computed(() => connection()?.totalCount ?? 0);
-    this._data = computed(() => connection()?.nodes ?? []);
+    this._connection = toObservable(this._query.data).pipe(
+      exists(),
+      map((data) => selector(data)),
+      exists()
+    );
 
     this._updateChangeSubscription();
 
-    toObservable(this._query.data).subscribe((data) => {
-      if (!data) return;
-      const conn = this._selector(data);
-      if (!conn) return;
-      const paginator = this.paginator;
-      if (!paginator) return;
-      paginator.disabled = false;
-      paginator.length = conn.totalCount;
-      paginator.pageSize = 50; // Get from query variable?
-      const endCursor = conn.pageInfo.endCursor;
-      const startCursor = conn.pageInfo.startCursor;
-      paginator.page.pipe(take(1)).subscribe((event) => {
-        const previousPageIndex = event?.previousPageIndex ?? 0;
-        const currentPageIndex = event.pageIndex;
-        paginator.disabled = true; // Looks bad, but cursor based doesnt support click spamming
-        // This first so first page is never less than 50 (if total > 50 that is)
-        if (!paginator.hasPreviousPage()) {
-          this._query.refetch({
-            after: null,
-            before: null,
-            first: 50,
-            last: null,
-          } as TVariables);
-        } else if (currentPageIndex - previousPageIndex === 1) {
-          this._query.refetch({
-            after: endCursor,
-            before: null,
-            first: 50,
-            last: null,
-          } as TVariables);
-        } else if (currentPageIndex - previousPageIndex === -1) {
-          this._query.refetch({
-            after: null,
-            before: startCursor,
-            first: null,
-            last: 50,
-          } as TVariables);
-        } else if (!paginator.hasNextPage()) {
-          this._query.refetch({
-            after: null,
-            before: null,
-            first: null,
-            last: conn.totalCount % 50, // Get from query variable?
-          } as TVariables);
-        }
-      });
-    });
+    // toObservable(this._query.data).subscribe((data) => {
+    //   // if (!data) return;
+    //   // const conn = this._selector(data);
+    //   // if (!conn) return;
+    //   // const paginator = this.paginator;
+    //   // if (!paginator) return;
+    //   // paginator.disabled = false;
+    //   const endCursor = conn.pageInfo.endCursor;
+    //   const startCursor = conn.pageInfo.startCursor;
+    //   paginator.page.pipe(take(1)).subscribe((event) => {
+    //     const previousPageIndex = event?.previousPageIndex ?? 0;
+    //     const currentPageIndex = event.pageIndex;
+    //     paginator.disabled = true; // Looks bad, but cursor based doesnt support click spamming
+    //     // This first so first page is never less than 50 (if total > 50 that is)
+    //     if (!paginator.hasPreviousPage()) {
+    //       this._query.refetch({
+    //         after: null,
+    //         before: null,
+    //         first: 50,
+    //         last: null,
+    //       } as TVariables);
+    //     } else if (currentPageIndex - previousPageIndex === 1) {
+    //       this._query.refetch({
+    //         after: endCursor,
+    //         before: null,
+    //         first: 50,
+    //         last: null,
+    //       } as TVariables);
+    //     } else if (currentPageIndex - previousPageIndex === -1) {
+    //       this._query.refetch({
+    //         after: null,
+    //         before: startCursor,
+    //         first: null,
+    //         last: 50,
+    //       } as TVariables);
+    //     } else if (!paginator.hasNextPage()) {
+    //       this._query.refetch({
+    //         after: null,
+    //         before: null,
+    //         first: null,
+    //         last: conn.totalCount % 50, // Get from query variable?
+    //       } as TVariables);
+    //     }
+    //   });
+    // });
   }
 
-  filter = '';
-
-  filterPredicate = (data: TNode, filter: string) => true;
-
   sortData = (data: TNode[], sort: MatSort) => {
-    console.log(data, sort);
     return [] as TNode[];
   };
 
   sortingDataAccessor = (data: TNode, sortHeaderId: string): string | number => '';
 
+  // TODO: should we reset sorting/pagination when refetching?
   refetch = (variables?: TVariables) => {
     this._query.refetch(variables);
   };
 
   connect() {
-    return this._valueChanges.pipe(
-      map((data) => this._selector(data)),
-      map((connection) => connection?.nodes ?? []),
+    return this._connection.pipe(
+      tap((connection) => this._totalCount.set(connection.totalCount)),
+      map((connection) => connection.nodes ?? []),
+      tap((nodes) => this._data.set(nodes)),
       startWith([] as TNode[])
     );
   }
 
   disconnect() {
-    // empty
+    this._subscription?.unsubscribe();
+    this._subscription = undefined;
+  }
+
+  _configureSort(sort: MatSort) {
+    // There is no concept of a "default" sort direction in GraphQL
+    sort.disableClear = true;
+
+    // Read the initial sort input from variables
+    const variables = this._query.getOptions().variables;
+    const order = variables?.order;
+    const initialSort = Array.isArray(order) ? order[0] : order;
+    if (!initialSort) return;
+
+    // Update MatSort to reflect the initial sort
+    const [id, direction] = Object.entries(initialSort)[0];
+    sort.sort({
+      id,
+      start: (direction?.toLowerCase() ?? '') as SortDirection,
+      disableClear: true,
+    });
   }
 
   _updateChangeSubscription() {
     const { sort, paginator } = this;
-    if (!sort || !paginator) return;
-    sort.disableClear = true;
-    const variables = this._query.getOptions().variables;
-    if (!variables?.order) return;
-    const order = variables.order as SortInput | SortInput[] | null | undefined;
-    const initialSort = Array.isArray(order) ? order[0] : order;
-    if (!initialSort) return;
-    Object.keys(initialSort).forEach((key) => {
-      sort.sort({
-        id: key,
-        start: initialSort[key]?.toLowerCase() as SortDirection,
-        disableClear: true,
-      });
-    });
-    sort?.sortChange.subscribe((sort) => {
-      paginator.firstPage(); // TODO: This emits a page event, which is not ideal
-      if (!sort.direction) return;
-      this._query.refetch({
-        order: { [sort.active]: sort.direction.toUpperCase() },
-      } as TVariables);
-    });
+
+    const filterChange = this._filter.pipe(
+      debounceTime(100),
+      map((filter) => ({ filter }))
+    );
+
+    // TODO: Go to first page on Paginator on sort change
+    const sortChange = !sort
+      ? EMPTY
+      : sort.sortChange.pipe(
+          filter((s) => Boolean(s.direction)),
+          map((s) => ({ order: { [s.active]: s.direction.toUpperCase() } })),
+          tap(() => paginator?.firstPage())
+        );
+
+    const pageChange = EMPTY; //!paginator
+    // ? EMPTY
+    // : this._connection.pipe(
+    //     tap((connection) => (paginator.length = connection.totalCount)),
+    //     tap(() => (paginator.disabled = false)),
+    //     switchMap((connection) =>
+    //       paginator.page.pipe(
+    //         take(1),
+    //         takeUntil(sortChange), // TODO: Test this
+    //         tap(() => (paginator.disabled = true)),
+    //         map((event) => Paging.make(event.pageSize, connection)),
+    //         tap((paging) => {
+    //           switch (Paging.getIntent(paging)) {
+    //             case Paging.Intent.FIRST:
+    //               return Paging.firstPage(paging);
+    //             case Paging.Intent.NEXT:
+    //               return Paging.nextPage(paging);
+    //             case Paging.Intent.PREVIOUS:
+    //               return Paging.previousPage(paging);
+    //             case Paging.Intent.LAST:
+    //               return Paging.lastPage(paging);
+    //           }
+    //         })
+    //       )
+    //     )
+    //   );
+
+    const variablesChange = merge(filterChange, sortChange, pageChange) as Observable<TVariables>;
+    this._subscription?.unsubscribe();
+    this._subscription = variablesChange.subscribe((variables) => this.refetch(variables));
   }
 }
