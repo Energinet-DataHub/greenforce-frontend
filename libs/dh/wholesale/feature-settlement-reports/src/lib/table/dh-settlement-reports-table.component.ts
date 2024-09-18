@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, inject, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, input, signal } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
-import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
 
 @Component({
@@ -78,6 +78,8 @@ export class DhSettlementReportsTableComponent {
 
   displayedColumns = Object.keys(this.columns);
 
+  addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
+
   tableDataSource = new WattTableDataSource<DhSettlementReport>([]);
 
   settlementReports = input.required<DhSettlementReports>();
@@ -101,12 +103,12 @@ export class DhSettlementReportsTableComponent {
     this.activeRow.set(settlementReport);
   }
 
-  downloadReport(event: Event, settlementReport: DhSettlementReport): void {
+  async downloadReport(event: Event, settlementReport: DhSettlementReport) {
+    let { settlementReportDownloadUrl } = settlementReport;
+
     // Prevent the row click event from firing
     // so the drawer doesn't open
     event.stopPropagation();
-
-    const { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {
       this.toastService.open({
@@ -117,25 +119,21 @@ export class DhSettlementReportsTableComponent {
       return;
     }
 
-    const fileName = this.settlementReportName(settlementReport);
-    const fileOptions = { name: fileName, type: 'application/zip' };
+    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${this.settlementReportName(settlementReport)}`;
 
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
+    const result = await this.addTokenToDownloadUrlMutation.mutate({
+      variables: { url: settlementReportDownloadUrl },
     });
 
-    this.httpClient
-      .get(settlementReportDownloadUrl, { responseType: 'blob' })
-      .pipe(switchMap(streamToFile(fileOptions)))
-      .subscribe({
-        complete: () => this.toastService.dismiss(),
-        error: () =>
-          this.toastService.open({
-            type: 'danger',
-            message: translate('shared.downloadFailed'),
-          }),
-      });
+    const downloadUrl = result.data?.addTokenToDownloadUrl.downloadUrlWithToken;
+
+    if (downloadUrl) {
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.target = '_blank';
+      link.click();
+      link.remove();
+    }
   }
 
   private settlementReportName(report: DhSettlementReport): string {
