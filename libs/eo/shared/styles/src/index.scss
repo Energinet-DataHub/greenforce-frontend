@@ -36,3 +36,12 @@
 @use "./lib/@energinet-datahub/eo/shared/styles/utilities/utilities-text";
 @use "./lib/@energinet-datahub/eo/shared/styles/utilities/utilities-spacing";
 @use "./lib/@energinet-datahub/eo/shared/styles/utilities/utilities-layout";
+
+// Cookie information
+#cookie-information-template-wrapper #Coi-Renew {
+  right: 0px;
+  left: initial;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 0px;
+  transform-origin: right bottom;
+}
