@@ -1160,7 +1160,7 @@
         "allowLargeTextFiles": "Allow large files",
         "period": "Calculation period",
         "includeMonthlySum": "Include monthly sum",
-        "useApi": "Request report via jobs",
+        "useApi": "Request report via new solution",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
