@@ -37,7 +37,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IWattTableDataSource } from '@energinet-datahub/watt/table';
-import { lazyQuery, LazyQueryOptions, LazyQueryResult } from './lazyQuery';
+import { query, QueryOptions, QueryResult } from './query';
 import { signal } from '@angular/core';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { Connection, ConnectionVariables, SelectorFn } from './types';
@@ -47,7 +47,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   extends DataSource<TNode>
   implements IWattTableDataSource<TNode>
 {
-  private _query: LazyQueryResult<TResult, TVariables>;
+  private _query: QueryResult<TResult, TVariables>;
   private _connection: Observable<Connection<TNode>>;
   private _inputChange: ReplaySubject<TVariables | undefined> = new ReplaySubject(1);
   private _subscription?: Subscription;
@@ -105,20 +105,22 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
     selector: SelectorFn<TResult, TNode>,
-    options?: LazyQueryOptions<TResult, TVariables>
+    options?: QueryOptions<TVariables>
   ) {
     super();
 
-    this._query = lazyQuery(document, options);
+    this._query = query(document, { ...options, skip: true });
     this._connection = toObservable(this._query.data).pipe(
       exists(),
       map((data) => selector(data)),
       exists()
     );
+
+    if (!options?.skip) this._inputChange.next(options?.variables);
   }
 
   refetch = (variables?: TVariables) => this._inputChange.next(variables);
-  subscribeToMore: LazyQueryResult<TResult, TVariables>['subscribeToMore'] = (options) =>
+  subscribeToMore: QueryResult<TResult, TVariables>['subscribeToMore'] = (options) =>
     this._query.subscribeToMore(options);
 
   connect() {
