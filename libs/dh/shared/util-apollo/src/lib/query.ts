@@ -33,6 +33,7 @@ import {
   firstValueFrom,
   map,
   of,
+  share,
   shareReplay,
   skipWhile,
   startWith,
@@ -95,7 +96,8 @@ export function query<TResult, TVariables extends OperationVariables>(
   const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
     skipWhile((opts) => opts?.skip ?? false),
-    map((opts) => client.watchQuery({ ...opts, query: document }))
+    map((opts) => client.watchQuery({ ...opts, query: document })),
+    share()
   );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
@@ -135,7 +137,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
     // The `data` field is wrongly typed and can actually be empty
-    if (!result.loading) data.set(result.data ?? undefined);
+    data.set(result.data ?? undefined);
     error.set(result.error);
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
