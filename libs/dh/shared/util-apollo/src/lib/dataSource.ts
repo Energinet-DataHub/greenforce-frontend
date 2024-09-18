@@ -73,6 +73,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   get error() {
     return this._query.error();
   }
+
   get filteredData() {
     return this.data;
   }
