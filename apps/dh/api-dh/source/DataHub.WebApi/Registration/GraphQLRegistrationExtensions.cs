@@ -38,6 +38,11 @@ public static class GraphQLRegistrationExtensions
             .AddTypes()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
-            .SetPagingOptions(new PagingOptions { DefaultPageSize = 50, IncludeTotalCount = true });
+            .SetPagingOptions(new PagingOptions
+            {
+                RequirePagingBoundaries = true,
+                MaxPageSize = 250,
+                IncludeTotalCount = true,
+            });
     }
 }
