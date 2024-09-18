@@ -31,12 +31,19 @@ public partial class Query
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
         string? filter,
-        [Service] IWholesaleClient_V3 client) =>
-        string.IsNullOrWhiteSpace(filter)
-            ? await client.QueryCalculationsAsync(input)
-            : Guid.TryParse(filter, out var id)
-                ? new List<CalculationDto> { await client.GetCalculationAsync(id) }.Where(x => x is not null)
-                : [];
+        [Service] IWholesaleClient_V3 client)
+    {
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            return await client.QueryCalculationsAsync(input);
+        }
+
+        var calculation = Guid.TryParse(filter, out var id)
+            ? await client.GetCalculationAsync(id)
+            : null;
+
+        return calculation is not null ? [calculation] : [];
+    }
 
     [GraphQLDeprecated("Use `latestCalculation` instead")]
     public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
