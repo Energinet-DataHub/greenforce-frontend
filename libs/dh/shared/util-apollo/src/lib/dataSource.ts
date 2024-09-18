@@ -15,15 +15,16 @@
  * limitations under the License.
  */
 import { TypedDocumentNode } from 'apollo-angular';
-import { OperationVariables } from '@apollo/client/core';
 import {
   BehaviorSubject,
+  connectable,
   debounceTime,
-  EMPTY,
   filter,
   map,
   merge,
   Observable,
+  ReplaySubject,
+  skip,
   startWith,
   Subscription,
   switchMap,
@@ -36,39 +37,19 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IWattTableDataSource } from '@energinet-datahub/watt/table';
-import { query, QueryOptions, QueryResult } from './query';
+import { lazyQuery, LazyQueryOptions, LazyQueryResult } from './lazyQuery';
 import { signal } from '@angular/core';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-
-type SortInput = Record<string, 'ASC' | 'DESC' | null | undefined>;
-type SelectorFn<TResult, TNode> = (data: TResult) => Connection<TNode> | null | undefined;
-type Connection<T> = {
-  pageInfo: {
-    // hasNextPage: boolean;
-    // hasPreviousPage: boolean;
-    startCursor?: string | null;
-    endCursor?: string | null;
-  };
-  // edges?: Maybe<Array<ArchivedMessagesEdge>>;
-  totalCount: number;
-  nodes?: T[] | null;
-};
-
-interface ConnectionVariables extends OperationVariables {
-  after?: string | null;
-  before?: string | null;
-  first?: number | null;
-  last?: number | null;
-  order?: SortInput | SortInput[] | null;
-  filter?: string | null;
-}
+import { Connection, ConnectionVariables, SelectorFn } from './types';
+import { navigate, firstPage } from './util/paging';
 
 export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, TNode>
   extends DataSource<TNode>
   implements IWattTableDataSource<TNode>
 {
-  private _query: QueryResult<TResult, TVariables>;
+  private _query: LazyQueryResult<TResult, TVariables>;
   private _connection: Observable<Connection<TNode>>;
+  private _inputChange: ReplaySubject<TVariables | undefined> = new ReplaySubject(1);
   private _subscription?: Subscription;
 
   private _totalCount = signal(0);
@@ -120,64 +101,16 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
     selector: SelectorFn<TResult, TNode>,
-    options?: QueryOptions<TVariables>
+    options?: LazyQueryOptions<TResult, TVariables>
   ) {
     super();
 
-    this._query = query(document, options);
+    this._query = lazyQuery(document, options);
     this._connection = toObservable(this._query.data).pipe(
       exists(),
       map((data) => selector(data)),
       exists()
     );
-
-    this._updateChangeSubscription();
-
-    // toObservable(this._query.data).subscribe((data) => {
-    //   // if (!data) return;
-    //   // const conn = this._selector(data);
-    //   // if (!conn) return;
-    //   // const paginator = this.paginator;
-    //   // if (!paginator) return;
-    //   // paginator.disabled = false;
-    //   const endCursor = conn.pageInfo.endCursor;
-    //   const startCursor = conn.pageInfo.startCursor;
-    //   paginator.page.pipe(take(1)).subscribe((event) => {
-    //     const previousPageIndex = event?.previousPageIndex ?? 0;
-    //     const currentPageIndex = event.pageIndex;
-    //     paginator.disabled = true; // Looks bad, but cursor based doesnt support click spamming
-    //     // This first so first page is never less than 50 (if total > 50 that is)
-    //     if (!paginator.hasPreviousPage()) {
-    //       this._query.refetch({
-    //         after: null,
-    //         before: null,
-    //         first: 50,
-    //         last: null,
-    //       } as TVariables);
-    //     } else if (currentPageIndex - previousPageIndex === 1) {
-    //       this._query.refetch({
-    //         after: endCursor,
-    //         before: null,
-    //         first: 50,
-    //         last: null,
-    //       } as TVariables);
-    //     } else if (currentPageIndex - previousPageIndex === -1) {
-    //       this._query.refetch({
-    //         after: null,
-    //         before: startCursor,
-    //         first: null,
-    //         last: 50,
-    //       } as TVariables);
-    //     } else if (!paginator.hasNextPage()) {
-    //       this._query.refetch({
-    //         after: null,
-    //         before: null,
-    //         first: null,
-    //         last: conn.totalCount % 50, // Get from query variable?
-    //       } as TVariables);
-    //     }
-    //   });
-    // });
   }
 
   sortData = (data: TNode[], sort: MatSort) => {
@@ -186,10 +119,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
 
   sortingDataAccessor = (data: TNode, sortHeaderId: string): string | number => '';
 
-  // TODO: should we reset sorting/pagination when refetching?
-  refetch = (variables?: TVariables) => {
-    this._query.refetch(variables);
-  };
+  refetch = (variables?: TVariables) => this._inputChange.next(variables);
 
   connect() {
     return this._connection.pipe(
@@ -203,6 +133,8 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   disconnect() {
     this._subscription?.unsubscribe();
     this._subscription = undefined;
+    this._inputChange.complete();
+    this._filter.complete();
   }
 
   _configureSort(sort: MatSort) {
@@ -227,49 +159,58 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   _updateChangeSubscription() {
     const { sort, paginator } = this;
 
+    // Sorting and pagination are required for this data source
+    if (!sort || !paginator) return;
+
     const filterChange = this._filter.pipe(
+      skip(1),
       debounceTime(100),
       map((filter) => ({ filter }))
     );
 
-    // TODO: Go to first page on Paginator on sort change
-    const sortChange = !sort
-      ? EMPTY
-      : sort.sortChange.pipe(
-          filter((s) => Boolean(s.direction)),
-          map((s) => ({ order: { [s.active]: s.direction.toUpperCase() } })),
-          tap(() => paginator?.firstPage())
-        );
+    const sortChange = sort.sortChange.pipe(
+      filter((s) => Boolean(s.direction)),
+      map((s) => ({ ...firstPage(paginator), order: { [s.active]: s.direction.toUpperCase() } })),
+      tap(() => paginator.firstPage())
+    );
 
-    const pageChange = EMPTY; //!paginator
-    // ? EMPTY
-    // : this._connection.pipe(
-    //     tap((connection) => (paginator.length = connection.totalCount)),
-    //     tap(() => (paginator.disabled = false)),
-    //     switchMap((connection) =>
-    //       paginator.page.pipe(
-    //         take(1),
-    //         takeUntil(sortChange), // TODO: Test this
-    //         tap(() => (paginator.disabled = true)),
-    //         map((event) => Paging.make(event.pageSize, connection)),
-    //         tap((paging) => {
-    //           switch (Paging.getIntent(paging)) {
-    //             case Paging.Intent.FIRST:
-    //               return Paging.firstPage(paging);
-    //             case Paging.Intent.NEXT:
-    //               return Paging.nextPage(paging);
-    //             case Paging.Intent.PREVIOUS:
-    //               return Paging.previousPage(paging);
-    //             case Paging.Intent.LAST:
-    //               return Paging.lastPage(paging);
-    //           }
-    //         })
-    //       )
-    //     )
-    //   );
+    // Create observables that emits just before the sort and input changes, in order
+    // to prevent the paginator observable from running in response to `firstPage()`.
+    const beforeSortChange = connectable(sort.sortChange);
+    const beforeInputChange = connectable(this._inputChange);
+    const pageChange = this._connection.pipe(
+      tap((connection) => (paginator.length = connection.totalCount)),
+      tap(() => (paginator.disabled = false)),
+      switchMap((connection) =>
+        paginator.page.pipe(
+          take(1),
+          takeUntil(beforeSortChange),
+          takeUntil(beforeInputChange),
+          tap(() => (paginator.disabled = true)),
+          map((event) => navigate(paginator, event, connection.pageInfo))
+        )
+      )
+    );
 
-    const variablesChange = merge(filterChange, sortChange, pageChange) as Observable<TVariables>;
+    const inputChange = this._inputChange.pipe(
+      tap(() => paginator.firstPage()),
+      map((variables) => ({
+        ...firstPage(paginator),
+        order: null,
+        ...variables,
+      }))
+    );
+
+    const variablesChange = merge(
+      filterChange,
+      sortChange,
+      pageChange,
+      inputChange
+    ) as Observable<TVariables>;
+
     this._subscription?.unsubscribe();
-    this._subscription = variablesChange.subscribe((variables) => this.refetch(variables));
+    this._subscription = beforeSortChange.connect();
+    this._subscription.add(beforeInputChange.connect());
+    this._subscription.add(variablesChange.subscribe((v) => this._query.refetch(v)));
   }
 }
