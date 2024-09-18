@@ -16,6 +16,14 @@
  */
 @use "@energinet-datahub/watt";
 
+#cookie-information-template-wrapper #Coi-Renew {
+  right: 0px;
+  left: initial;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 0px;
+  transform-origin: right bottom;
+}
+
 /* You can add global styles to this file, and also import other style files */
 body {
   background: #000;
