@@ -50,7 +50,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Collections.Generic.IEnumerable<string> body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -283,7 +283,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Collections.Generic.IEnumerable<string> body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -291,7 +291,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
@@ -302,10 +306,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     if (calculationType != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("calculationType")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(calculationType, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (gridAreaCodes != null)
-                    {
-                        foreach (var item_ in gridAreaCodes) { urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCodes")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
                     }
                     if (periodStart != null)
                     {
