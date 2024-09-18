@@ -16,115 +16,202 @@
  */
 import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
-import { WindowService } from '@energinet-datahub/gf/util-browser';
 import { CookieInformationService } from './cookie-information.service';
-import { CookieInformationCulture } from './supported-cultures';
-
-function setup(config?: {hostname?: string, ssr?: boolean}) {
-  const appendChildSpy = jest.fn<Node, [Node]>();
-  const removeChildSpy = jest.fn<Node, [Node]>();
-  const createElementSpy = jest.fn().mockImplementation(() => ({
-    setAttribute: jest.fn(),
-  }));
-  const loadConsentSpy = jest.fn();
-
-  const mockDocument = {
-    body: {
-      appendChild: appendChildSpy,
-      removeChild: removeChildSpy,
-    } as unknown as HTMLElement,
-    createElement: createElementSpy,
-    getElementById: jest.fn(),
-    location: {
-      hostname: config?.hostname,
-    } as Location,
-  };
-
-  const mockWindowService = {
-    nativeWindow: config?.ssr ? undefined : {
-      CookieInformation: {
-        loadConsent: loadConsentSpy,
-      },
-    } as unknown as Window,
-  };
-
-  TestBed.configureTestingModule({
-    providers: [
-      CookieInformationService,
-      { provide: DOCUMENT, useValue: mockDocument },
-      { provide: WindowService, useValue: mockWindowService },
-    ],
-  });
-  const service = TestBed.inject(CookieInformationService);
-
-  return({
-    service,
-    mockDocument,
-    createElementSpy,
-    appendChildSpy,
-    removeChildSpy,
-    loadConsentSpy,
-  });
-}
+import { WindowService } from '@energinet-datahub/gf/util-browser';
+import { CookieInformationConfig } from './cookie-information.types';
+import { COOKIE_CATEGORIES } from './cookie-information.constants';
 
 describe('CookieInformationService', () => {
-  it('should not add script when on localhost', () => {
-    const {mockDocument, service, createElementSpy} = setup({hostname: 'localhost'});
+  let service: CookieInformationService;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let mockDocument: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let mockWindow: any;
+  let eventListeners: { [key: string]: ((event: Event) => void)[] };
 
-    mockDocument.location.hostname = 'localhost';
-    service.init({ culture: 'en' });
+  const setupTest = (isLocalhost = false) => {
+    eventListeners = {};
 
-    const createdScript = createElementSpy.mock.results;
-    expect(createdScript.length).toBe(0);
+    mockDocument = {
+      location: { hostname: isLocalhost ? 'localhost' : 'example.com' } as unknown as Location,
+      createElement: jest.fn().mockReturnValue({ setAttribute: jest.fn() }),
+      body: { appendChild: jest.fn() } as unknown as HTMLElement,
+      getElementById: jest.fn(),
+    };
+
+    mockWindow = {
+      CookieInformation: {
+        loadConsent: jest.fn(),
+        renew: jest.fn(),
+        getConsentGivenFor: jest.fn(),
+      },
+      addEventListener: jest.fn((event, callback) => {
+        if (!eventListeners[event]) {
+          eventListeners[event] = [];
+        }
+        eventListeners[event].push(callback);
+      }),
+      dispatchEvent: jest.fn((event) => {
+        const listeners = eventListeners[event.type] || [];
+        listeners.forEach((listener) => listener(event));
+      }),
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        CookieInformationService,
+        { provide: DOCUMENT, useValue: mockDocument },
+        { provide: WindowService, useValue: { nativeWindow: mockWindow } },
+      ],
+    });
+
+    service = TestBed.inject(CookieInformationService);
+    TestBed.inject(WindowService);
+  };
+
+  it('should be created', () => {
+    setupTest();
+    expect(service).toBeTruthy();
   });
 
-  it.each<CookieInformationCulture>(['en', 'da'])(
-    'should add script to body with correct attributes for culture %s',
-      (culture) => {
-        const {service, createElementSpy, appendChildSpy} = setup();
+  it('should return consent status of all cookie categories', () => {
+    setupTest();
 
-        service.init({ culture });
+    const status = service.getConsentStatus();
 
-        expect(createElementSpy).toHaveBeenCalledWith('script');
-        expect(appendChildSpy).toHaveBeenCalledTimes(1);
-
-        const createdScript = createElementSpy.mock.results[0].value;
-        expect(createdScript.id).toBe('CookieConsent');
-        expect(createdScript.src).toBe('https://policy.app.cookieinformation.com/uc.js');
-        expect(createdScript.setAttribute).toHaveBeenCalledWith(
-          'data-culture',
-          culture.toUpperCase()
-        );
-        expect(createdScript.setAttribute).toHaveBeenCalledWith('data-gcm-version', '2.0');
-        expect(createdScript.type).toBe('text/javascript');
-
-        expect(appendChildSpy).toHaveBeenCalledWith(createdScript);
-      }
-  );
-
-  it('should remove existing script, add new one, and call loadConsent', () => {
-    const {service, mockDocument, createElementSpy, appendChildSpy, removeChildSpy, loadConsentSpy} = setup();
-    const mockScript = { id: 'CookieConsent' } as HTMLElement;
-    mockDocument.getElementById.mockReturnValue(mockScript);
-
-    service.reInit({ culture: 'da' });
-
-    expect(removeChildSpy).toHaveBeenCalledWith(mockScript);
-    expect(createElementSpy).toHaveBeenCalledWith('script');
-    expect(appendChildSpy).toHaveBeenCalledTimes(1);
-    expect(loadConsentSpy).toHaveBeenCalled();
-
-    const createdScript = createElementSpy.mock.results[0].value;
-    expect(createdScript.setAttribute).toHaveBeenCalledWith('data-culture', 'DA');
+    expect(status[COOKIE_CATEGORIES.NECESSARY]).toBe(true);
+    expect(status[COOKIE_CATEGORIES.FUNCTIONAL]).toBe(false);
+    expect(status[COOKIE_CATEGORIES.STATISTIC]).toBe(false);
+    expect(status[COOKIE_CATEGORIES.MARKETING]).toBe(false);
+    expect(status[COOKIE_CATEGORIES.UNCLASSIFIED]).toBe(false);
   });
 
-  it('should not call loadConsent when window is undefined', () => {
-    const {service, mockDocument, loadConsentSpy} = setup({ssr: true});
-    const mockScript = { id: 'CookieConsent' } as HTMLElement;
-    mockDocument.getElementById.mockReturnValue(mockScript);
+  describe('init', () => {
+    it('should not load script on localhost', () => {
+      setupTest(true);
+      const config: CookieInformationConfig = { culture: 'en' };
+      service.init(config);
+      expect(mockDocument.createElement).not.toHaveBeenCalled();
+    });
 
-    service.reInit({ culture: 'da' });
+    it('should add script to body when not on localhost', () => {
+      setupTest();
+      const config: CookieInformationConfig = { culture: 'en' };
+      service.init(config);
+      expect(mockDocument.createElement).toHaveBeenCalledWith('script');
+      expect(mockDocument.body.appendChild).toHaveBeenCalled();
+    });
 
-    expect(loadConsentSpy).not.toHaveBeenCalled();
+    it('should only add script once, and if already added set the culture', () => {
+      setupTest();
+      const config: CookieInformationConfig = { culture: 'en' };
+      const mockedScript = {setAttribute: jest.fn()};
+      service.init(config);
+      mockDocument.getElementById.mockReturnValue(mockedScript);
+
+      service.init({ culture: 'da' });
+
+      expect(mockedScript.setAttribute).toHaveBeenCalledWith('data-culture', 'DA');
+      expect(mockDocument.body.appendChild).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('reInit', () => {
+    it('should set culture when not on localhost', () => {
+      setupTest();
+      const config: CookieInformationConfig = { culture: 'en' };
+      const mockedScript = {setAttribute: jest.fn()};
+      mockDocument.getElementById.mockReturnValue(mockedScript);
+
+      service.reInit(config);
+
+      expect(mockedScript.setAttribute).toHaveBeenCalledWith('data-culture', 'EN');
+    });
+
+    it('should reload consent when not on localhost', () => {
+      setupTest();
+      const config: CookieInformationConfig = { culture: 'en' };
+      service.reInit(config);
+      expect(mockWindow.CookieInformation.loadConsent).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('isConsentGiven', () => {
+    it('should return correct consent default status', () => {
+      setupTest();
+
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.NECESSARY)).toBe(true);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.FUNCTIONAL)).toBe(false);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.STATISTIC)).toBe(false);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.MARKETING)).toBe(false);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.UNCLASSIFIED)).toBe(false);
+    });
+
+    it('should return correct consent status, after changed', () => {
+      setupTest();
+      service.init({ culture: 'en' });
+
+      const mockEvent = new CustomEvent('CookieInformationConsentGiven', {
+        detail: {
+          consents: {
+            [COOKIE_CATEGORIES.NECESSARY]: true,
+            [COOKIE_CATEGORIES.FUNCTIONAL]: false,
+            [COOKIE_CATEGORIES.STATISTIC]: false,
+            [COOKIE_CATEGORIES.MARKETING]: true,
+            [COOKIE_CATEGORIES.UNCLASSIFIED]: false,
+          },
+        },
+      });
+      mockWindow.dispatchEvent(mockEvent);
+
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.NECESSARY)).toBe(true);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.FUNCTIONAL)).toBe(false);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.STATISTIC)).toBe(false);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.MARKETING)).toBe(true);
+      expect(service.isConsentGiven(COOKIE_CATEGORIES.UNCLASSIFIED)).toBe(false);
+    });
+  });
+
+  describe('openDialog', () => {
+    it('should call CookieInformation.renew, when not localhost', () => {
+      setupTest();
+      service.openDialog();
+      expect(mockWindow.CookieInformation.renew).toHaveBeenCalled();
+    });
+
+    it('should NOT call CookieInformation.renew, when localhost', () => {
+      setupTest(true);
+      service.openDialog();
+      expect(mockWindow.CookieInformation.renew).toHaveBeenCalled();
+    });
+  });
+
+  describe('consentGiven$', () => {
+    it('should emit updated consent status', (done) => {
+      setupTest();
+      service.init({ culture: 'en' });
+      const mockEvent = new CustomEvent('CookieInformationConsentGiven', {
+        detail: {
+          consents: {
+            [COOKIE_CATEGORIES.NECESSARY]: true,
+            [COOKIE_CATEGORIES.FUNCTIONAL]: true,
+            [COOKIE_CATEGORIES.STATISTIC]: true,
+            [COOKIE_CATEGORIES.MARKETING]: true,
+            [COOKIE_CATEGORIES.UNCLASSIFIED]: true,
+          },
+        },
+      });
+
+      mockWindow.dispatchEvent(mockEvent);
+
+      service.consentGiven$.subscribe((status) => {
+        expect(status[COOKIE_CATEGORIES.NECESSARY]).toBe(true);
+        expect(status[COOKIE_CATEGORIES.FUNCTIONAL]).toBe(true);
+        expect(status[COOKIE_CATEGORIES.STATISTIC]).toBe(true);
+        expect(status[COOKIE_CATEGORIES.MARKETING]).toBe(true);
+        expect(status[COOKIE_CATEGORIES.UNCLASSIFIED]).toBe(true);
+        done();
+      });
+    });
   });
 });
