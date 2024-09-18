@@ -16,7 +16,6 @@ using System.IO;
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 #pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
 #pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
-#pragma warning disable 8600 // Disable "CS8600 Converting null literal or possible null value to non-nullable type"
 #pragma warning disable 8603 // Disable "CS8603 Possible null reference return"
 #pragma warning disable 8604 // Disable "CS8604 Possible null reference argument for parameter"
 #pragma warning disable 8625 // Disable "CS8625 Cannot convert null literal to non-nullable reference type"
@@ -760,7 +759,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -772,7 +771,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -830,22 +829,16 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public enum CalculationType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"PreliminaryAggregation")]
         PreliminaryAggregation = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BalanceFixing")]
         BalanceFixing = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"WholesaleFixing")]
         WholesaleFixing = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"FirstCorrection")]
         FirstCorrection = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"SecondCorrection")]
         SecondCorrection = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ThirdCorrection")]
         ThirdCorrection = 5,
 
     }
@@ -872,7 +865,6 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         public JToken? Output { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("runtimeStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrchestrationRuntimeStatus RuntimeStatus { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("customStatus", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -904,19 +896,14 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public enum MeteringPointType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Production")]
         Production = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"FlexConsumption")]
         FlexConsumption = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TotalConsumption")]
         TotalConsumption = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"NonProfiledConsumption")]
         NonProfiledConsumption = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Exchange")]
         Exchange = 4,
 
     }
@@ -925,32 +912,23 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public enum OrchestrationRuntimeStatus
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Running")]
         Running = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
         Completed = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ContinuedAsNew")]
         ContinuedAsNew = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Failed")]
         Failed = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Canceled")]
         Canceled = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Terminated")]
         Terminated = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Pending")]
         Pending = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Suspended")]
         Suspended = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Unknown")]
-        Unknown = 8,
+        Unknown = -1,
 
     }
 
@@ -973,28 +951,20 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public enum PriceType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"TariffSubscriptionAndFee")]
         TariffSubscriptionAndFee = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Tariff")]
         Tariff = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Subscription")]
         Subscription = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Fee")]
         Fee = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MonthlyTariff")]
         MonthlyTariff = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MonthlySubscription")]
         MonthlySubscription = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MonthlyFee")]
         MonthlyFee = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"MonthlyTariffSubscriptionAndFee")]
         MonthlyTariffSubscriptionAndFee = 7,
 
     }
@@ -1006,11 +976,9 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public partial class RequestAggregatedMeasureDataMarketRequest
     {
         [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationType CalculationType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public MeteringPointType? MeteringPointType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1037,7 +1005,6 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     public partial class RequestWholesaleSettlementMarketRequest
     {
         [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationType CalculationType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1057,7 +1024,6 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         public string? Resolution { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("priceType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public PriceType? PriceType { get; set; } = default!;
 
     }
