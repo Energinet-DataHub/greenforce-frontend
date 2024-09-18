@@ -17,8 +17,6 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 using NodaTime;
 using NodaTime.Extensions;
@@ -48,15 +46,20 @@ public partial class Query
             };
 
             settlementReports.Add(new SettlementReport(
-                report.RequestId.Id,
-                actor,
-                report.CalculationType,
-                new Interval(report.PeriodStart.ToInstant(), report.PeriodEnd.ToInstant()),
-                report.GridAreaCount,
-                report.ContainsBasisData,
-                string.Empty,
-                report.Progress,
-                settlementReportStatusType));
+                Id: report.RequestId.Id,
+                Actor: actor,
+                CalculationType: report.CalculationType,
+                Period: new Interval(report.PeriodStart.ToInstant(), report.PeriodEnd.ToInstant()),
+                NumberOfGridAreasInReport: report.GridAreaCount,
+                IncludesBasisData: report.ContainsBasisData,
+                StatusMessage: string.Empty,
+                Progress: report.Progress,
+                StatusType: settlementReportStatusType,
+                ExecutionTime: new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null),
+                FromApi: report.JobId is not null,
+                CombineResultInASingleFile: !report.SplitReportPerGridArea,
+                IncludeMonthlyAmount: report.IncludeMonthlyAmount,
+                GridAreas: report.GridAreas.Select(ga => ga.Key).ToArray()));
         }
 
         return settlementReports;

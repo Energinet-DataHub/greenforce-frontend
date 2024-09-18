@@ -96,7 +96,7 @@
     "date-fns": "2.29.2",
     "date-fns-tz": "2.0.0",
     "dayjs": "1.11.10",
-    "express": "4.19.2",
+    "express": "4.21.0",
     "graphql": "16.8.1",
     "graphql-sse": "^2.5.3",
     "highlight.js": "^11.9.0",
@@ -218,7 +218,7 @@
     "source-map-explorer": "2.5.3",
     "storybook-addon-pseudo-states": "2.1.0",
     "ts-jest": "29.1.2",
-    "typescript": "^5.5.3",
+    "typescript": "~5.5.3",
     "typescript-eslint": "^7.16.0"
   },
   "volta": {

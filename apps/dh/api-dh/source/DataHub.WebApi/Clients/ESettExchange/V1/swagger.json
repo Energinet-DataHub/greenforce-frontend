@@ -32,6 +32,11 @@
             "name": "sortProperty",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "ValidFrom",
+                "ValidTo",
+                "ReceivedDate"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/BalanceResponsibleSortProperty"
@@ -43,6 +48,10 @@
             "name": "sortDirection",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "Ascending",
+                "Descending"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/SortDirection"
@@ -100,6 +109,11 @@
             "name": "sortProperty",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "ValidFrom",
+                "ValidTo",
+                "ReceivedDate"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/BalanceResponsibleSortProperty"
@@ -111,6 +125,10 @@
             "name": "sortDirection",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "Ascending",
+                "Descending"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/SortDirection"
@@ -741,6 +759,11 @@
             "type": "string"
           },
           "meteringPointType": {
+            "x-enumNames": [
+              "MgaExchange",
+              "Production",
+              "Consumption"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/MeteringPointType"
@@ -762,38 +785,65 @@
         }
       },
       "BalanceResponsibleSortProperty": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "ValidFrom",
           "ValidTo",
           "ReceivedDate"
+        ],
+        "enum": [
+          0,
+          1,
+          2
         ]
       },
       "CalculationType": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "BalanceFixing",
           "Aggregation"
+        ],
+        "enum": [
+          1,
+          2
         ]
       },
       "DocumentStatus": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "Received",
           "AwaitingDispatch",
           "AwaitingReply",
           "Accepted",
           "Rejected",
           "BizTalkAccepted"
+        ],
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
         ]
       },
       "ESettStageComponent": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "Ingestion",
           "Converter",
           "Sender",
           "Receiver"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
         ]
       },
       "ExchangeEventDownloadFilter": {
@@ -961,6 +1011,10 @@
             "format": "date-time"
           },
           "calculationType": {
+            "x-enumNames": [
+              "BalanceFixing",
+              "Aggregation"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/CalculationType"
@@ -968,6 +1022,11 @@
             ]
           },
           "timeSeriesType": {
+            "x-enumNames": [
+              "MgaExchange",
+              "Production",
+              "Consumption"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/TimeSeriesType"
@@ -975,6 +1034,14 @@
             ]
           },
           "documentStatus": {
+            "x-enumNames": [
+              "Received",
+              "AwaitingDispatch",
+              "AwaitingReply",
+              "Accepted",
+              "Rejected",
+              "BizTalkAccepted"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/DocumentStatus"
@@ -989,8 +1056,9 @@
         }
       },
       "ExchangeEventSortProperty": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "CalculationType",
           "Created",
           "DocumentId",
@@ -998,6 +1066,15 @@
           "GridAreaCode",
           "TimeSeriesType",
           "LatestDispatched"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
         ]
       },
       "ExchangeEventSortPropertySorting": {
@@ -1005,6 +1082,15 @@
         "additionalProperties": false,
         "properties": {
           "sortProperty": {
+            "x-enumNames": [
+              "CalculationType",
+              "Created",
+              "DocumentId",
+              "DocumentStatus",
+              "GridAreaCode",
+              "TimeSeriesType",
+              "LatestDispatched"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/ExchangeEventSortProperty"
@@ -1012,6 +1098,10 @@
             ]
           },
           "direction": {
+            "x-enumNames": [
+              "Ascending",
+              "Descending"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/SortDirection"
@@ -1045,6 +1135,10 @@
             "type": "string"
           },
           "calculationType": {
+            "x-enumNames": [
+              "BalanceFixing",
+              "Aggregation"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/CalculationType"
@@ -1052,6 +1146,11 @@
             ]
           },
           "timeSeriesType": {
+            "x-enumNames": [
+              "MgaExchange",
+              "Production",
+              "Consumption"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/TimeSeriesType"
@@ -1067,6 +1166,14 @@
             "format": "date-time"
           },
           "documentStatus": {
+            "x-enumNames": [
+              "Received",
+              "AwaitingDispatch",
+              "AwaitingReply",
+              "Accepted",
+              "Rejected",
+              "BizTalkAccepted"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/DocumentStatus"
@@ -1129,6 +1236,11 @@
             "nullable": true
           },
           "meteringGridImbalanceValuesToInclude": {
+            "x-enumNames": [
+              "Imbalances",
+              "Balances",
+              "Both"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/MeteringGridImbalanceValuesToInclude"
@@ -1136,6 +1248,12 @@
             ]
           },
           "sortProperty": {
+            "x-enumNames": [
+              "DocumentDateTime",
+              "GridAreaCode",
+              "DocumentId",
+              "ReceivedDateTime"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/MeteringGridAreaImbalanceSortProperty"
@@ -1143,6 +1261,10 @@
             ]
           },
           "sortDirection": {
+            "x-enumNames": [
+              "Ascending",
+              "Descending"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/SortDirection"
@@ -1251,28 +1373,47 @@
         }
       },
       "MeteringGridAreaImbalanceSortProperty": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "DocumentDateTime",
           "GridAreaCode",
           "DocumentId",
           "ReceivedDateTime"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
         ]
       },
       "MeteringGridImbalanceValuesToInclude": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "Imbalances",
           "Balances",
           "Both"
+        ],
+        "enum": [
+          0,
+          1,
+          2
         ]
       },
       "MeteringPointType": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "MgaExchange",
           "Production",
           "Consumption"
+        ],
+        "enum": [
+          1,
+          2,
+          3
         ]
       },
       "ReadinessStatusDto": {
@@ -1280,6 +1421,12 @@
         "additionalProperties": false,
         "properties": {
           "component": {
+            "x-enumNames": [
+              "Ingestion",
+              "Converter",
+              "Sender",
+              "Receiver"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/ESettStageComponent"
@@ -1292,18 +1439,29 @@
         }
       },
       "SortDirection": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "Ascending",
           "Descending"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "TimeSeriesType": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "MgaExchange",
           "Production",
           "Consumption"
+        ],
+        "enum": [
+          1,
+          2,
+          3
         ]
       }
     },

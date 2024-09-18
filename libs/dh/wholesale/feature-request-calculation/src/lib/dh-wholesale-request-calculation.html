@@ -16,7 +16,7 @@ limitations under the License.
 -->
 @if (isReady) {
 <watt-card vater inset="0" *transloco="let t; read: 'wholesale.requestCalculation'">
-  <form [formGroup]="form" (ngSubmit)="requestCalculation()">
+  <form [formGroup]="form" (ngSubmit)="form.valid && requestCalculation()">
     <vater-flex fill="vertical" gap="m">
       <vater-stack align="flex-start" direction="column" gap="s">
         <watt-dropdown
@@ -38,6 +38,8 @@ limitations under the License.
         >
           @if (form.controls.period.errors?.max31DaysDateRange) {
           <watt-field-error> {{ t('maxPeriodLength')}} </watt-field-error>
+          } @else if (form.controls.period.errors?.monthOnly) {
+          <watt-field-error> {{ t('monthOnlyError')}} </watt-field-error>
           }
         </watt-datepicker>
 
@@ -49,25 +51,14 @@ limitations under the License.
           [showResetOption]="!gridAreaIsRequired()"
         />
 
-        @if (isWholesaleRequest()) {
         <watt-dropdown
-          translateKey="wholesale.requestCalculation.priceTypeOptions"
-          [label]="t('priceType')"
-          [formControl]="form.controls.priceType"
-          [options]="priceTypeOptions()"
+          translateKey="wholesale.requestCalculation.requestCalculationDataTypeOptions"
+          [label]="isWholesaleRequest() ? t('priceType') : t('meteringPointType')"
+          [formControl]="form.controls.requestCalculationDataType"
+          [options]="requestCalculationDataTypeOptions()"
           [showResetOption]="false"
           dhDropdownTranslator
         />
-        } @else {
-        <watt-dropdown
-          translateKey="wholesale.requestCalculation.meteringPointTypes"
-          [label]="t('meteringPointType')"
-          [formControl]="form.controls.meteringPointType"
-          [options]="meteringPointOptions"
-          [showResetOption]="false"
-          dhDropdownTranslator
-        />
-        }
       </vater-stack>
       <vater-stack direction="column" align="flex-end">
         <watt-button variant="primary" type="submit" [loading]="isLoading">

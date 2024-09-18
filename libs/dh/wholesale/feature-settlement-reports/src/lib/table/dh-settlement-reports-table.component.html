@@ -19,7 +19,13 @@ limitations under the License.
     [dataSource]="tableDataSource"
     [columns]="columns"
     [displayedColumns]="displayedColumns"
+    [activeRow]="activeRow()"
+    (rowClick)="onRowClick($event)"
   >
+    <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
+      {{ entry.executionTime.start | wattDate: "long" }}
+    </ng-container>
+
     <ng-container *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry">
       {{ entry.actor?.name }}
     </ng-container>
@@ -41,16 +47,25 @@ limitations under the License.
         let entry
       "
     >
-      {{ entry.numberOfGridAreasInReport }}
-    </ng-container>
+      @let gridAreas = entry.gridAreas;
 
-    <ng-container
-      *wattTableCell="columns['includesBasisData']; header: t('columns.basisData'); let entry"
-    >
-      @if (entry.includesBasisData) {
-        {{ "yes" | transloco }}
+      @if (gridAreas.length > 0) {
+        @if (gridAreas.length < 4) {
+          {{ gridAreas.join(", ") }}
+        } @else {
+          {{
+            t("gridAreasAndCount", {
+              gridAreas: gridAreas.slice(0, 2).join(", "),
+              remainingGridAreasCount: gridAreas.length - 2,
+            })
+          }}
+        }
       } @else {
-        {{ "no" | transloco }}
+        @if (entry.numberOfGridAreasInReport > 0) {
+          [{{ entry.numberOfGridAreasInReport }}]
+        } @else {
+          {{ t("noData") }}
+        }
       }
     </ng-container>
 
@@ -58,8 +73,14 @@ limitations under the License.
       <dh-settlement-reports-status
         [status]="entry.statusType"
         [progress]="entry.progress"
-        (download)="downloadReport(entry)"
+        (download)="downloadReport($event, entry)"
       />
     </ng-container>
   </watt-table>
 </vater-flex>
+
+<dh-settlement-report-drawer
+  [report]="activeRow()"
+  (closed)="activeRow.set(undefined)"
+  (download)="downloadReport($event, activeRow()!)"
+/>

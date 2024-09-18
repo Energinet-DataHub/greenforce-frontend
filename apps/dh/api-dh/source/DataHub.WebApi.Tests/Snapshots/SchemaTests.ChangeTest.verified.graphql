@@ -84,6 +84,11 @@ type ActorUserRole {
   assigned: Boolean!
 }
 
+type AddTokenToDownloadUrlPayload {
+  string: String
+  errors: [AddTokenToDownloadUrlError!]
+}
+
 type AddressDto {
   streetName: String
   number: String
@@ -366,6 +371,7 @@ type Mutation {
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
   inviteUser(input: InviteUserInput!): InviteUserPayload!
@@ -540,6 +546,11 @@ type SettlementReport {
   statusMessage: String!
   progress: Float!
   statusType: SettlementReportStatusType!
+  executionTime: DateRange!
+  fromApi: Boolean!
+  combineResultInASingleFile: Boolean!
+  includeMonthlyAmount: Boolean!
+  gridAreas: [String!]!
 }
 
 type StopDelegationPayload {
@@ -634,6 +645,8 @@ type UserRoleWithPermissions {
   permissions: [PermissionDetailsDto!]!
 }
 
+union AddTokenToDownloadUrlError = ApiError
+
 union CreateDelegationsForActorError = ApiError
 
 union CreateMarketParticipantError = ApiError
@@ -676,6 +689,10 @@ input ActorNameDtoInput {
 
 input ActorNumberDtoInput {
   value: String!
+}
+
+input AddTokenToDownloadUrlInput {
+  downloadUrl: URL!
 }
 
 input AddressDtoInput {
@@ -800,11 +817,10 @@ input ReInviteUserInput {
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
+  requestCalculationDataType: RequestCalculationDataType!
   gridArea: String
-  meteringPointType: MeteringPointType
   energySupplierId: String
   balanceResponsibleId: String
-  priceType: PriceType
 }
 
 input RequestClientSecretCredentialsInput {
@@ -824,6 +840,7 @@ input RequestSettlementReportInput {
   preventLargeTextFiles: Boolean!
   includeMonthlySums: Boolean!
   includeBasisData: Boolean!
+  useApi: Boolean!
   energySupplier: String
   csvLanguage: String
 }
@@ -833,11 +850,15 @@ input ResetTwoFactorAuthenticationInput {
 }
 
 input StopDelegationInput {
-  stopMessageDelegationDto: [StopProcessDelegationDtoInput!]!
+  stopDelegationPeriods: [StopDelegationPeriodInput!]!
+}
+
+input StopDelegationPeriodInput {
+  delegationId: UUID!
+  stopPeriod: StopProcessDelegationDtoInput!
 }
 
 input StopProcessDelegationDtoInput {
-  id: UUID!
   periodId: UUID!
   stopsAt: DateTime
 }
@@ -1128,14 +1149,6 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
-enum MeteringPointType {
-  PRODUCTION
-  FLEX_CONSUMPTION
-  TOTAL_CONSUMPTION
-  NON_PROFILED_CONSUMPTION
-  EXCHANGE
-}
-
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
@@ -1149,18 +1162,6 @@ enum PermissionAuditedChange {
 enum PriceAreaCode {
   DK1
   DK2
-}
-
-"The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\nthe resolution and charge type fields in the RequestWholesaleSettlement document"
-enum PriceType {
-  TARIFF_SUBSCRIPTION_AND_FEE
-  TARIFF
-  SUBSCRIPTION
-  FEE
-  MONTHLY_TARIFF
-  MONTHLY_SUBSCRIPTION
-  MONTHLY_FEE
-  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
 }
 
 enum ProcessStatus {
@@ -1177,6 +1178,23 @@ enum ProgressStatus {
   failed
   canceled
   completed
+}
+
+enum RequestCalculationDataType {
+  TARIFF_SUBSCRIPTION_AND_FEE
+  TARIFF
+  SUBSCRIPTION
+  FEE
+  MONTHLY_TARIFF
+  MONTHLY_SUBSCRIPTION
+  MONTHLY_FEE
+  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
+  ALL_ENERGY
 }
 
 enum SettlementReportStatusType {
@@ -1199,6 +1217,8 @@ enum UserAuditedChange {
   USER_ROLE_ASSIGNED
   USER_ROLE_REMOVED
   USER_ROLE_REMOVED_DUE_TO_DEACTIVATION
+  USER_LOGIN_FEDERATION_REQUESTED
+  USER_LOGIN_FEDERATED
 }
 
 enum UserOverviewSortProperty {
@@ -1237,5 +1257,7 @@ scalar DateRange
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
 
 scalar JSON
+
+scalar URL @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc3986")
 
 scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")

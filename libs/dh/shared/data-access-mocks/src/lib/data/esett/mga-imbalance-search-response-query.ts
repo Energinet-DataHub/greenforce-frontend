@@ -140,7 +140,8 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
-  } as MeteringGridAreaImbalanceSearchResult,
+    mgaImbalanceDocumentUrl: null,
+  },
   {
     id: '6c6d12ee1c6c4ae0b70980d8618565a2-6',
     gridArea: {
@@ -240,6 +241,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: 'b5e7a912bc61410bab80d0cfd7d08427-2',
@@ -344,6 +346,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: 'b5e7a912bc61410bab80d0cfd7d08427-12',
@@ -448,6 +451,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: '00d00f2a3d3146749799c53c889a7e02-2',
@@ -545,6 +549,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: '00d00f2a3d3146749799c53c889a7e02-6',
@@ -642,6 +647,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: 'c9e63891b9634ef698b05669946c2f92-8',
@@ -746,6 +752,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: 'c9e63891b9634ef698b05669946c2f92-12',
@@ -850,6 +857,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: '43bce0d153974cd082b0ea541bdd473e-2',
@@ -947,6 +955,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: '43bce0d153974cd082b0ea541bdd473e-6',
@@ -1044,6 +1053,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: '307393ae1b8747a49a316f64dfa22235-3',
@@ -1148,6 +1158,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
   {
     id: '307393ae1b8747a49a316f64dfa22235-13',
@@ -1196,6 +1207,7 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
       },
     ],
     __typename: 'MeteringGridAreaImbalanceSearchResult',
+    mgaImbalanceDocumentUrl: null,
   },
 ];
 

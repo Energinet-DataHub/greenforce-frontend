@@ -30,6 +30,12 @@
     "b-001": "preprod",
     "p-001": "production"
   },
+  "duration": {
+    "seconds": "{{ seconds }}s",
+    "minutes": "{{ minutes }}m",
+    "hours": "{{ hours }}h {{ duration.minutes }}",
+    "days": "{{ days }}d {{ duration.hours }}"
+  },
   "shared": {
     "error": {
       "title": "An unexpected error occured",
@@ -1075,11 +1081,12 @@
       "topBarTitle": "Request Calculation Data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
-      "priceType": "Price type",
+      "priceType": "Type of metering point/Price type",
       "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
       "maxPeriodLength": "Period cannot be longer than 31 days",
+      "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
         "BALANCE_FIXING": "Balance fixing",
         "AGGREGATION": "Aggregation",
@@ -1088,15 +1095,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
         "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
       },
-      "meteringPointTypes": {
-        "All": "All",
-        "FLEX_CONSUMPTION": "Flex consumption",
-        "TOTAL_CONSUMPTION": "Total consumption",
-        "PRODUCTION": "Production",
-        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
-        "EXCHANGE": "Exchange"
-      },
-      "priceTypeOptions": {
+      "requestCalculationDataTypeOptions": {
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
         "TARIFF": "Tariff",
         "SUBSCRIPTION": "Subscription",
@@ -1104,7 +1103,13 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "ALL_ENERGY": "All",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "PRODUCTION": "Production",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange"
       }
     },
     "settlementReports": {
@@ -1118,12 +1123,21 @@
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
+        "startedAt": "Started",
+        "executionTime": "Execution time",
         "calculationType": "Calculation type",
         "period": "Calculation period",
         "numberOfGridAreasInReport": "Grid areas",
         "basisData": "Basis data",
         "status": "Status",
         "actorName": "Market participant"
+      },
+      "noData": "No data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "drawer": {
+        "monthlySum": "Monthly sum",
+        "combined": "Kombineret",
+        "gridAreas": "Grid areas"
       },
       "reportStatus": {
         "IN_PROGRESS": "In progress ({{ progress }}%)",
@@ -1146,6 +1160,7 @@
         "allowLargeTextFiles": "Allow large files",
         "period": "Calculation period",
         "includeMonthlySum": "Include monthly sum",
+        "useApi": "Request report via new solution",
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
@@ -1324,7 +1339,9 @@
               "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> invited the user into <b>{{ affectedActorName }}</b>",
               "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> added user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> in market party <b>{{ affectedActorName }}</b>",
-              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated"
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> removed user role <b>{{ affectedUserRoleName }}</b> due to the role being deactivated",
+              "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested to link MitID to the user",
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> has successfully linked MitID to the user"
             }
           }
         },
@@ -1339,8 +1356,7 @@
             "userRolePlaceholder": "User role"
           },
           "columns": {
-            "firstName": "First name",
-            "lastName": "Last name",
+            "name": "Name",
             "email": "E-mail",
             "phone": "Phone no.",
             "status": "Status"

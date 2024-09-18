@@ -12,5 +12,10 @@ query getSettlementReports {
     progress
     statusType
     settlementReportDownloadUrl
+    executionTime
+    fromApi
+    combineResultInASingleFile
+    includeMonthlyAmount
+    gridAreas
   }
 }

@@ -25,4 +25,10 @@ public sealed record RequestedSettlementReportDto(
     int GridAreaCount,
     double Progress,
     Guid RequestedByActorId,
-    bool ContainsBasisData);
+    bool ContainsBasisData,
+    bool SplitReportPerGridArea,
+    bool IncludeMonthlyAmount,
+    IReadOnlyDictionary<string, CalculationId?> GridAreas,
+    DateTimeOffset CreatedDateTime,
+    DateTimeOffset? EndedDateTime,
+    SettlementReportJobId? JobId);

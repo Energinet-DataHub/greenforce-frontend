@@ -66,6 +66,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
+      id: 'id-test-organization-1',
       name: 'Test Organization 1',
     } as Organization,
     publicMail: null,
@@ -90,6 +91,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
+      id: 'id-test-organization-3',
       name: 'Test Organization 3',
     } as Organization,
     publicMail: null,
@@ -114,6 +116,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
+      id: 'id-test-organization-2',
       name: 'Test Organization 2',
     } as Organization,
     publicMail: null,
@@ -138,6 +141,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Inactive,
     organization: {
       __typename: 'Organization',
+      id: 'id-test-organization-2',
       name: 'Test Organization 2',
     } as Organization,
     publicMail: null,
@@ -162,6 +166,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
+      id: 'id-test-organization-3',
       name: 'Test Organization 3',
     } as Organization,
     publicMail: null,
@@ -210,6 +215,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
+      id: 'id-test-organization-1',
       name: 'Test Organization 1',
     } as Organization,
     publicMail: null,

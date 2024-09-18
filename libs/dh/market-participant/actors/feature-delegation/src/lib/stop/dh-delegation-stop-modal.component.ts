@@ -54,7 +54,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     dh-delegation-stop-modal {
       display: block;
 
-      vater-stack[align="flex-start"] {
+      vater-stack[align='flex-start'] {
         margin-top: var(--watt-space-m);
       }
 
@@ -180,11 +180,13 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
         mutation: StopDelegationsDocument,
         variables: {
           input: {
-            stopMessageDelegationDto: this.modalData.map((delegation) => {
+            stopDelegationPeriods: this.modalData.map((delegation) => {
               return {
-                id: delegation.id,
-                periodId: delegation.periodId,
-                stopsAt: this.calculateStopDate(selectedOption, stopDate),
+                delegationId: delegation.id,
+                stopPeriod: {
+                  periodId: delegation.periodId,
+                  stopsAt: this.calculateStopDate(selectedOption, stopDate),
+                },
               };
             }),
           },
