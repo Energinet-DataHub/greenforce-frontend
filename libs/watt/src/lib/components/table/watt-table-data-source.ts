@@ -26,9 +26,6 @@ export interface IWattTableDataSource<T> extends DataSource<T> {
   paginator: MatPaginator | null;
   sort: MatSort | null;
   totalCount: number;
-  // TODO: Type this properly?
-  sortData: MatTableDataSource<T>['sortData'];
-  sortingDataAccessor: MatTableDataSource<T>['sortingDataAccessor'];
 }
 
 /**

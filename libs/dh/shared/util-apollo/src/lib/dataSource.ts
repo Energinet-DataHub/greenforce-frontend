@@ -113,12 +113,6 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     );
   }
 
-  sortData = (data: TNode[], sort: MatSort) => {
-    return [] as TNode[];
-  };
-
-  sortingDataAccessor = (data: TNode, sortHeaderId: string): string | number => '';
-
   refetch = (variables?: TVariables) => this._inputChange.next(variables);
 
   connect() {

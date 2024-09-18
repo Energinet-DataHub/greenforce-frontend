@@ -41,7 +41,7 @@ import { MatTableModule } from '@angular/material/table';
 import { map } from 'rxjs';
 
 import { WattCheckboxComponent } from '../checkbox';
-import { IWattTableDataSource } from './watt-table-data-source';
+import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
 import { WattDatePipe } from '../../utils/date/watt-date.pipe';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
@@ -337,7 +337,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this._sort;
-
+    if (this.dataSource instanceof WattTableDataSource === false) return;
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
       const sortColumn = this.columns[sortHeaderId];
       if (!sortColumn?.accessor) return '';
