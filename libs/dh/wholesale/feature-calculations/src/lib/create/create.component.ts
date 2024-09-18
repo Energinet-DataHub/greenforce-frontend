@@ -57,6 +57,7 @@ import {
   CalculationType,
   CalculationExecutionType,
   GetLatestCalculationDocument,
+  GetCalculationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -219,6 +220,7 @@ export class DhCalculationsCreateComponent {
     this._apollo
       .mutate({
         mutation: CreateCalculationDocument,
+        refetchQueries: [GetCalculationsDocument],
         variables: {
           input: {
             executionType,
