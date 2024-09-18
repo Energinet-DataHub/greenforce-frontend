@@ -385,14 +385,23 @@
         }
       },
       "CalculationType": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "PreliminaryAggregation",
           "BalanceFixing",
           "WholesaleFixing",
           "FirstCorrection",
           "SecondCorrection",
           "ThirdCorrection"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
         ]
       },
       "DurableOrchestrationStatus": {
@@ -432,6 +441,17 @@
             ]
           },
           "runtimeStatus": {
+            "x-enumNames": [
+              "Running",
+              "Completed",
+              "ContinuedAsNew",
+              "Failed",
+              "Canceled",
+              "Terminated",
+              "Pending",
+              "Suspended",
+              "Unknown"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/OrchestrationRuntimeStatus"
@@ -476,18 +496,27 @@
         }
       },
       "MeteringPointType": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "Production",
           "FlexConsumption",
           "TotalConsumption",
           "NonProfiledConsumption",
           "Exchange"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
         ]
       },
       "OrchestrationRuntimeStatus": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "Running",
           "Completed",
           "ContinuedAsNew",
@@ -497,6 +526,17 @@
           "Pending",
           "Suspended",
           "Unknown"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          -1
         ]
       },
       "OrchestrationStatusQueryResult": {
@@ -517,9 +557,10 @@
         }
       },
       "PriceType": {
-        "type": "string",
+        "type": "integer",
         "description": "The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of\r\nthe resolution and charge type fields in the RequestWholesaleSettlement document",
-        "enum": [
+        "format": "int32",
+        "x-enumNames": [
           "TariffSubscriptionAndFee",
           "Tariff",
           "Subscription",
@@ -528,6 +569,16 @@
           "MonthlySubscription",
           "MonthlyFee",
           "MonthlyTariffSubscriptionAndFee"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
         ]
       },
       "RequestAggregatedMeasureDataMarketRequest": {
@@ -536,6 +587,14 @@
         "additionalProperties": false,
         "properties": {
           "calculationType": {
+            "x-enumNames": [
+              "PreliminaryAggregation",
+              "BalanceFixing",
+              "WholesaleFixing",
+              "FirstCorrection",
+              "SecondCorrection",
+              "ThirdCorrection"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/CalculationType"
@@ -576,6 +635,14 @@
         "additionalProperties": false,
         "properties": {
           "calculationType": {
+            "x-enumNames": [
+              "PreliminaryAggregation",
+              "BalanceFixing",
+              "WholesaleFixing",
+              "FirstCorrection",
+              "SecondCorrection",
+              "ThirdCorrection"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/CalculationType"
