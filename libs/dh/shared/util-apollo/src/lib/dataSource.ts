@@ -193,7 +193,6 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
       tap(() => paginator.firstPage()),
       map((variables) => ({
         ...firstPage(paginator),
-        order: null,
         ...variables,
       }))
     );
