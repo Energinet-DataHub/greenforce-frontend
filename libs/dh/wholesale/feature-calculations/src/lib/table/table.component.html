@@ -19,7 +19,7 @@ limitations under the License.
   inset="ml"
   *transloco="let t; read: 'wholesale.calculations'"
   [searchLabel]="t('search')"
-  [error]="error"
+  [error]="dataSource.error"
 >
   <h3>{{ t("headline") }}</h3>
   <watt-button variant="secondary" icon="plus" (click)="create.emit()">
