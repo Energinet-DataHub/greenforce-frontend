@@ -69,15 +69,15 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
         using var actualResponseApi = await _apiHttpClient.SendAsync(requestApi, cancellationToken);
         using var actualResponse = await _httpClient.SendAsync(request, cancellationToken);
-        using var actualLigtResponse = await _lightHttpClient.SendAsync(request, cancellationToken);
+        using var actualLightResponse = await _lightHttpClient.SendAsync(request, cancellationToken);
 
         actualResponseApi.EnsureSuccessStatusCode();
         actualResponse.EnsureSuccessStatusCode();
-        actualLigtResponse.EnsureSuccessStatusCode();
+        actualLightResponse.EnsureSuccessStatusCode();
 
         var actualResponseApiContent = await actualResponseApi.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
         var actualResponseContent = await actualResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
-        var actualLightResponseContent = await actualLigtResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
+        var actualLightResponseContent = await actualLightResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
         return actualResponseContent.Concat(actualLightResponseContent).Concat(actualResponseApiContent).OrderByDescending(x => x.CreatedDateTime);
     }
 
@@ -97,22 +97,5 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadAsStreamAsync(cancellationToken);
-    }
-
-    private async Task<IEnumerable<RequestedSettlementReportDto>> GetSettlementReportsFromOrchestrationAsync(CancellationToken cancellationToken)
-    {
-        using var request = new HttpRequestMessage(HttpMethod.Get, "api/ListSettlementReports");
-
-        using var heavyReportsReponse = await _httpClient.SendAsync(request, cancellationToken);
-        using var lightReportsResponse = await _lightHttpClient.SendAsync(request, cancellationToken);
-
-        heavyReportsReponse.EnsureSuccessStatusCode();
-        lightReportsResponse.EnsureSuccessStatusCode();
-
-        var heavyReports = await heavyReportsReponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
-        var lightReports = await lightReportsResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
-
-        var distinctReportsFromLightOrchestration = lightReports.Where(x => x.RequestId != null && !heavyReports.Any(y => y.RequestId == x.RequestId));
-        return heavyReports.Concat(distinctReportsFromLightOrchestration);
     }
 }
