@@ -117,6 +117,8 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
   }
 
   refetch = (variables?: TVariables) => this._inputChange.next(variables);
+  subscribeToMore: LazyQueryResult<TResult, TVariables>['subscribeToMore'] = (options) =>
+    this._query.subscribeToMore(options);
 
   connect() {
     return this._connection.pipe(
