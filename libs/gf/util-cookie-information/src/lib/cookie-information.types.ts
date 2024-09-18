@@ -14,7 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/cookie-information.constants';
-export * from './lib/cookie-information.service';
-export * from './lib/cookie-information.types';
-export * from './lib/supported-cultures';
+import { CookieInformationCulture } from './supported-cultures';
+import { COOKIE_CATEGORIES } from './cookie-information.constants';
+
+declare global {
+  interface Window {
+    CookieInformation?: {
+      loadConsent: () => void;
+      getConsentGivenFor: (category: string) => boolean;
+      renew: () => void;
+    };
+  }
+}
+
+export interface CookieInformationConfig {
+  culture: CookieInformationCulture;
+}
+
+export type CookieCategory = (typeof COOKIE_CATEGORIES)[keyof typeof COOKIE_CATEGORIES];
+
+export type ConsentStatus = {
+  [K in CookieCategory]: boolean;
+};
