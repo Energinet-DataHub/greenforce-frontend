@@ -38,6 +38,10 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001],
   },
+  'new-login-flow': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
   // This should be removed when there is no longer a need to create calculations
   // in closed periods OR as soon as possible after go-live
   'create-calculation-minimum-date': {
@@ -53,6 +57,14 @@ export const dhFeatureFlagsConfig = {
   'quarterly-resolution-transition-datetime-override': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
+  'settlement-report-use-api': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
   },
 } satisfies FeatureFlagConfig;
 

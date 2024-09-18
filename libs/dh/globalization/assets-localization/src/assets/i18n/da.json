@@ -1159,6 +1159,7 @@
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
+        "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
