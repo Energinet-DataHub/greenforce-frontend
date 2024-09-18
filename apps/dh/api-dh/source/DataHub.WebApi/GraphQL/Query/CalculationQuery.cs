@@ -38,11 +38,15 @@ public partial class Query
             return await client.QueryCalculationsAsync(input);
         }
 
-        var calculation = Guid.TryParse(filter, out var id)
-            ? await client.GetCalculationAsync(id)
-            : null;
-
-        return calculation is not null ? [calculation] : [];
+        try
+        {
+            var calculationId = Guid.Parse(filter);
+            return [await client.GetCalculationAsync(calculationId)];
+        }
+        catch (Exception)
+        {
+            return [];
+        }
     }
 
     [GraphQLDeprecated("Use `latestCalculation` instead")]
