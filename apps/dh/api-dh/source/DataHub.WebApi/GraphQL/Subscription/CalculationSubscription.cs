@@ -23,8 +23,13 @@ namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 public class Subscription
 {
     public IObservable<CalculationDto> OnCalculationUpdatedAsync(
-        [Service] IWholesaleClient_V3 client)
+        [Service] ITopicEventReceiver eventReceiver,
+        [Service] IWholesaleClient_V3 client,
+        CancellationToken cancellationToken)
     {
+        var calculationIdStream = eventReceiver
+          .Observe<Guid>(nameof(Mutation.Mutation.CreateCalculationAsync), cancellationToken);
+
         // Filter the list of states to only include those that are in progress
         var input = new CalculationQueryInput()
         {
@@ -35,6 +40,7 @@ public class Subscription
             .FromAsync(() => client.QueryCalculationsAsync(input))
             .SelectMany(calculations => calculations)
             .Select(calculation => calculation.CalculationId)
+            .Merge(calculationIdStream)
             .SelectMany(id => Observable
                 .Interval(TimeSpan.FromSeconds(10))
                 .Select(_ => id)
