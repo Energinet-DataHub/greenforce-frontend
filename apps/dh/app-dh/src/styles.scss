@@ -24,3 +24,11 @@ canvas {
   z-index: 1;
   pointer-events: none;
 }
+
+#cookie-information-template-wrapper #Coi-Renew {
+  right: 0px;
+  left: initial;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 0px;
+  transform-origin: right bottom;
+}
