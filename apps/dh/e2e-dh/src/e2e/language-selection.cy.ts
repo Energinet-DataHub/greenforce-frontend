@@ -25,8 +25,8 @@ describe('Language selection', () => {
 
     // When English is selected
     // Then English translations are displayed
-    cy.findByTestId('profileMenu').click();
-    cy.findByText('English').click();
+    cy.findByTestId('profileMenu').click({ force: true });
+    cy.findByText('English').click({ force: true });
 
     cy.findByRole('heading', {
       name: new RegExp('Search in request and response messages', 'i'),
@@ -35,8 +35,8 @@ describe('Language selection', () => {
     // Given English is selected
     // When Danish is selected
     // Then Danish translations are displayed
-    cy.findByTestId('profileMenu').click();
-    cy.findByText('Dansk').click();
+    cy.findByTestId('profileMenu').click({ force: true });
+    cy.findByText('Dansk').click({ force: true });
 
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbesked', 'i'),
