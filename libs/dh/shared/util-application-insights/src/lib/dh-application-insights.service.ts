@@ -58,6 +58,7 @@ export class DhApplicationInsights {
         instrumentationKey: this.dhAppConfig.applicationInsights.instrumentationKey,
         enableCorsCorrelation: true,
         distributedTracingMode: DistributedTracingModes.W3C,
+        disableCookiesUsage: true,
         extensions: [this.angularPlugin],
         extensionConfig: {
           [this.angularPlugin.identifier]: {
@@ -69,6 +70,10 @@ export class DhApplicationInsights {
     });
 
     this.appInsights.loadAppInsights();
+  }
+
+  setCookiesUsage(enabled: boolean) {
+    this.appInsights?.core.getCookieMgr().setEnabled(enabled);
   }
 
   /**
