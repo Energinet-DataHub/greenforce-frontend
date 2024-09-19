@@ -84,11 +84,11 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
             <ng-content select="h4" />
-            <span class="watt-chip-label">{{ count ?? table.dataSource.data.length }}</span>
+            <span class="watt-chip-label">{{ count ?? table.dataSource.totalCount }}</span>
           </vater-stack>
           <vater-spacer />
           @if (enableSearch) {
-            <watt-search [label]="intl.search" (search)="onSearch($event)" />
+            <watt-search [label]="searchLabel ?? intl.search" (search)="onSearch($event)" />
           }
           <ng-content select="watt-button" />
         </vater-stack>
@@ -115,6 +115,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
 export class WattDataTableComponent {
   @Input() error: unknown;
   @Input() enableSearch = true;
+  @Input() searchLabel?: string;
   @Input() enablePaginator = true;
   @Input() count?: number;
   @Input() variant: WATT_CARD_VARIANT = 'elevation';

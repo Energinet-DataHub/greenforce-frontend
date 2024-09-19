@@ -902,7 +902,7 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{shared.error.title}}",
       "errorMessage": "{{shared.error.message}}",
-      "search": "Search",
+      "search": "Search by ID",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
       "create": {

@@ -43,6 +43,7 @@ public class GraphQLTestService
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
             .AddTypes()
+            .AddSorting()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(WholesaleClientV3Mock.Object)
