@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
-export {
-  type WattTableColumn,
-  type WattTableColumnDef,
-  WattTableComponent,
-  WattTableCellDirective,
-  WattTableToolbarDirective,
-  WattTableToolbarSpacerComponent,
-  WATT_TABLE,
-} from './watt-table.component';
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+tslib_1.__exportStar(require('./apollo-data-source'), exports);

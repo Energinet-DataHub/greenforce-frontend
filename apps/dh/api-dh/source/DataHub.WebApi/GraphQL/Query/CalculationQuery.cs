@@ -26,10 +26,28 @@ public partial class Query
         [Service] IWholesaleClient_V3 client) =>
         await client.GetCalculationAsync(id);
 
+    [UsePaging]
+    [UseSorting]
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
-        [Service] IWholesaleClient_V3 client) =>
-        await client.QueryCalculationsAsync(input);
+        string? filter,
+        [Service] IWholesaleClient_V3 client)
+    {
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            return await client.QueryCalculationsAsync(input);
+        }
+
+        try
+        {
+            var calculationId = Guid.Parse(filter);
+            return [await client.GetCalculationAsync(calculationId)];
+        }
+        catch (Exception)
+        {
+            return [];
+        }
+    }
 
     [GraphQLDeprecated("Use `latestCalculation` instead")]
     public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
