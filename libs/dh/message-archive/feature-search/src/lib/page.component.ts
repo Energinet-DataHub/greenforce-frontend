@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import { Component } from '@angular/core';
+import { DhMessageArchiveSearchTableComponent } from './table.component';
+import { DhMessageArchiveSearchStartComponent } from './start.component';
 
-import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
-import { DhMessageArchiveSearchPageComponent } from '@energinet-datahub/dh/message-archive/feature-search';
-
-export const dhMessageArchiveShellRoutes: Routes = [
-  {
-    path: '',
-    component: DhMessageArchiveSearchPageComponent,
-    pathMatch: 'full',
-    data: {
-      titleTranslationKey: 'messageArchive.search.topBarTitle',
-    },
-  },
-];
+@Component({
+  selector: 'dh-message-archive-search-page',
+  standalone: true,
+  imports: [DhMessageArchiveSearchTableComponent, DhMessageArchiveSearchStartComponent],
+  template: `
+    <dh-message-archive-search-start #start />
+    <dh-message-archive-search-table
+      [variables]="start.variables()"
+      (start)="start.modal().open()"
+    />
+  `,
+})
+export class DhMessageArchiveSearchPageComponent {}

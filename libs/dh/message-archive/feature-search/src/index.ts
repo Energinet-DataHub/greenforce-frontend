@@ -14,18 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
-
-import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
-import { DhMessageArchiveSearchPageComponent } from '@energinet-datahub/dh/message-archive/feature-search';
-
-export const dhMessageArchiveShellRoutes: Routes = [
-  {
-    path: '',
-    component: DhMessageArchiveSearchPageComponent,
-    pathMatch: 'full',
-    data: {
-      titleTranslationKey: 'messageArchive.search.topBarTitle',
-    },
-  },
-];
+export * from './lib/page.component';

@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import 'jest-preset-angular/setup-jest';
 
-import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
-import { DhMessageArchiveSearchPageComponent } from '@energinet-datahub/dh/message-archive/feature-search';
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
 
-export const dhMessageArchiveShellRoutes: Routes = [
-  {
-    path: '',
-    component: DhMessageArchiveSearchPageComponent,
-    pathMatch: 'full',
-    data: {
-      titleTranslationKey: 'messageArchive.search.topBarTitle',
-    },
-  },
-];
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
