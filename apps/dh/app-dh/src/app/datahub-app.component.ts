@@ -69,7 +69,6 @@ export class DataHubAppComponent implements OnInit {
     this.cookieInformationService.consentGiven$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((status) => {
-        console.log('setting cookies usage', status);
         this.appInsights.setCookiesUsage(status.cookie_cat_statistic);
       });
 
