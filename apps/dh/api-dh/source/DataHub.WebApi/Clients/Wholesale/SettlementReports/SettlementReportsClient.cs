@@ -66,10 +66,11 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
     {
         using var requestApi = new HttpRequestMessage(HttpMethod.Get, "settlement-reports/list");
         using var request = new HttpRequestMessage(HttpMethod.Get, "api/ListSettlementReports");
+        using var lightRequest = new HttpRequestMessage(HttpMethod.Get, "api/ListSettlementReports");
 
         using var actualResponseApi = await _apiHttpClient.SendAsync(requestApi, cancellationToken);
         using var actualResponse = await _httpClient.SendAsync(request, cancellationToken);
-        using var actualLightResponse = await _lightHttpClient.SendAsync(request, cancellationToken);
+        using var actualLightResponse = await _lightHttpClient.SendAsync(lightRequest, cancellationToken);
 
         actualResponseApi.EnsureSuccessStatusCode();
         actualResponse.EnsureSuccessStatusCode();
