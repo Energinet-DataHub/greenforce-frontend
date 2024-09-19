@@ -23,9 +23,12 @@
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",
-        "!{projectRoot}/src/lib/generated/graphql.ts"
+        "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
-      "outputs": ["{projectRoot}/src/lib/generated/graphql.ts"],
+      "outputs": [
+        "{projectRoot}/src/lib/generated/graphql/types.ts",
+        "{projectRoot}/src/lib/generated/graphql/data-source.ts"
+      ],
       "options": { "commands": ["graphql-codegen"] }
     },
     "generate": {
@@ -35,9 +38,12 @@
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/libs/dh/shared/util-apollo/src/lib/codegen.js",
         "{workspaceRoot}/libs/**/*.graphql",
-        "!{projectRoot}/src/lib/generated/graphql.ts"
+        "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
-      "outputs": ["{projectRoot}/src/lib/generated/graphql.ts"],
+      "outputs": [
+        "{projectRoot}/src/lib/generated/graphql/types.ts",
+        "{projectRoot}/src/lib/generated/graphql/data-source.ts"
+      ],
       "options": { "commands": ["graphql-codegen"] }
     }
   },

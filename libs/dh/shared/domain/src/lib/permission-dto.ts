@@ -16,7 +16,7 @@
  */
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { GetPermissionsDocument } from './generated/graphql';
+import { GetPermissionsDocument } from './generated/graphql/types';
 
 export type PermissionDto = ResultOf<
   typeof GetPermissionsDocument
