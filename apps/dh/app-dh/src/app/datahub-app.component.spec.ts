@@ -31,7 +31,7 @@ import { DataHubAppComponent } from './datahub-app.component';
 describe(DataHubAppComponent, () => {
   it('has a router outlet', async () => {
     const view = await render(DataHubAppComponent, {
-      providers: [MsalServiceMock, MsalGuardMock],
+      providers: [...dhCoreShellProviders, MsalServiceMock, MsalGuardMock],
     });
 
     const routerOutlet = view.fixture.debugElement
