@@ -170,14 +170,16 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     useApi: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  isFas$ = this.permissionService.isFas().pipe(
-    tap((isFas) => {
-      if (isFas) {
-        this.form.addControl(
-          'energySupplier',
-          new FormControl<string | null>(null, Validators.required)
-        );
-      }
+  canSelectEnergySupplier$ = this.canSelectEnergySupplier().pipe(
+    tap({
+      next: (canSelectEnergySupplier) => {
+        if (canSelectEnergySupplier) {
+          this.form.addControl(
+            'energySupplier',
+            new FormControl<string | null>(null, Validators.required)
+          );
+        }
+      },
     })
   );
 
@@ -309,7 +311,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             ),
             combineResultInASingleFile: combineResultsInOneFile,
             preventLargeTextFiles: !allowLargeTextFiles,
-            energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
+            energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
             useApi,
           },
@@ -391,8 +393,17 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     return isFas$.pipe(map((isFas) => isFas || canSeeAllGridAreas));
   }
 
+  private canSelectEnergySupplier(): Observable<boolean> {
+    const isFas$ = this.permissionService.isFas();
+    const isGridAccessProvider =
+      this.actorStorage.getSelectedActor().marketRole === EicFunction.GridAccessProvider;
+
+    return isFas$.pipe(map((isFas) => isFas || isGridAccessProvider));
+  }
+
   private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
     const actorId = this.actorStorage.getSelectedActorId();
+
     return this.apollo
       .query({
         query: GetActorByIdDocument,
