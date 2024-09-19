@@ -606,7 +606,21 @@ function getCalculations() {
     } else {
       await delay(mswConfig.delay);
       return HttpResponse.json({
-        data: { __typename: 'Query', calculations: mockedCalculations },
+        data: {
+          __typename: 'Query',
+          calculations: {
+            __typename: 'CalculationsConnection',
+            pageInfo: {
+              __typename: 'PageInfo',
+              hasNextPage: true,
+              hasPreviousPage: false,
+              startCursor: 'startCursor',
+              endCursor: 'endCursor',
+            },
+            totalCount: mockedCalculations.length,
+            nodes: mockedCalculations,
+          },
+        },
       });
       //return res(ctx.status(404), ctx.delay(300));
     }

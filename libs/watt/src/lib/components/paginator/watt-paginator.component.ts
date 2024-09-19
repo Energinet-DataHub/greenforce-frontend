@@ -19,12 +19,12 @@ import {
   Component,
   inject,
   OnInit,
-  OnDestroy,
-  ViewChild,
   ViewEncapsulation,
-  Input,
-  Output,
-  EventEmitter,
+  viewChild,
+  input,
+  effect,
+  output,
+  computed,
 } from '@angular/core';
 import {
   MatPaginator,
@@ -33,9 +33,9 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 
-import { Subscription } from 'rxjs';
-import { WattTableDataSource } from '../table';
+import { IWattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 /**
  * Usage:
@@ -52,54 +52,53 @@ import { WattPaginatorIntlService } from './watt-paginator-intl.service';
     <mat-paginator
       class="watt-paginator"
       (page)="changed.emit($event)"
-      [length]="length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      [pageIndex]="pageIndex"
+      [length]="length()"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="pageSizeOptions()"
+      [pageIndex]="pageIndex()"
       [showFirstLastButtons]="true"
-      [attr.aria-label]="description"
+      [attr.aria-label]="description()"
     />
   `,
 })
-export class WattPaginatorComponent<T> implements OnInit, OnDestroy {
-  @Input() length = 0;
-  @Input() pageSizeOptions = [50, 100, 150, 200, 250];
-  @Input() pageSize = 50;
-  @Input() pageIndex = 0;
-  @Input() set for(dataSource: WattTableDataSource<T>) {
-    if (!dataSource) return;
-    dataSource.paginator = this.instance;
-  }
-
-  @Output() changed = new EventEmitter<PageEvent>();
-
-  @ViewChild(MatPaginator, { static: true }) instance!: MatPaginator;
-
-  description?: string;
-
+export class WattPaginatorComponent<T> implements OnInit {
   private intl = inject(WattPaginatorIntlService);
   private matPaginatorIntl = inject(MatPaginatorIntl);
-  private subscription?: Subscription;
 
-  ngOnInit() {
-    this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
-    this.subscription = this.intl.changes.subscribe(this.updateLabels);
-    this.updateLabels();
-  }
+  length = input(0);
+  pageSizeOptions = input([50, 100, 150, 200, 250]);
+  pageSize = input(50);
+  pageIndex = input(0);
+  for = input<IWattTableDataSource<T>>();
+  changed = output<PageEvent>();
+  instance = viewChild.required(MatPaginator);
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
+  changes = toSignal(this.intl.changes);
+  description = computed(() => {
+    this.changes();
+    return this.intl.description;
+  });
 
-  private updateLabels = () => {
-    this.description = this.intl.description;
+  updateDataSource = effect(() => {
+    const dataSource = this.for();
+    const instance = this.instance();
+    if (!dataSource) return;
+    dataSource.paginator = instance;
+  });
+
+  updateLabels = effect(() => {
+    this.changes();
     this.matPaginatorIntl.itemsPerPageLabel = this.intl.itemsPerPage;
     this.matPaginatorIntl.nextPageLabel = this.intl.nextPage;
     this.matPaginatorIntl.previousPageLabel = this.intl.previousPage;
     this.matPaginatorIntl.firstPageLabel = this.intl.firstPage;
     this.matPaginatorIntl.lastPageLabel = this.intl.lastPage;
     this.matPaginatorIntl.changes.next();
-  };
+  });
+
+  ngOnInit() {
+    this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
+  }
 
   private getRangeLabel = (page: number, pageSize: number, length: number) => {
     if (length == 0 || pageSize == 0) {

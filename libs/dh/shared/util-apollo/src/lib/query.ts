@@ -33,6 +33,7 @@ import {
   firstValueFrom,
   map,
   of,
+  share,
   shareReplay,
   skipWhile,
   startWith,
@@ -62,12 +63,26 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
 
+export type QueryResult<TResult, TVariables extends OperationVariables> = {
+  data: Signal<TResult | undefined>;
+  error: Signal<ApolloError | undefined>;
+  loading: Signal<boolean>;
+  networkStatus: Signal<NetworkStatus>;
+  reset: () => void;
+  getOptions: () => QueryOptions<TVariables>;
+  setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
+  refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
+  subscribeToMore: <TSubscriptionData, TSubscriptionVariables>(
+    options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
+  ) => () => void;
+};
+
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
   options?: QueryOptions<TVariables>
-) {
+): QueryResult<TResult, TVariables> {
   // Inject dependencies
   const client = inject(Apollo);
   const destroyRef = inject(DestroyRef);
@@ -81,7 +96,8 @@ export function query<TResult, TVariables extends OperationVariables>(
   const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
     skipWhile((opts) => opts?.skip ?? false),
-    map((opts) => client.watchQuery({ ...opts, query: document }))
+    map((opts) => client.watchQuery({ ...opts, query: document })),
+    share()
   );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
@@ -146,6 +162,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       loading.set(false);
       networkStatus.set(NetworkStatus.ready);
     },
+    getOptions: () => options$.value ?? {},
     setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
       options$.next({ ...options$.value, skip: false, ...options });

@@ -19,15 +19,13 @@ import {
   Component,
   Output,
   EventEmitter,
-  inject,
   Input,
   signal,
   effect,
-  computed,
 } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableDataSource, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -42,18 +40,15 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
-import { Apollo } from 'apollo-angular';
 import {
-  GetCalculationsDocument,
   CalculationQueryInput,
-  OnCalculationProgressDocument,
-  GetCalculationsQuery,
   CalculationOrchestrationState,
+  GetCalculationsDataSource,
+  SortEnumType,
+  OnCalculationUpdatedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-
-type wholesaleTableData = WattTableDataSource<Calculation>;
 
 @Component({
   standalone: true,
@@ -79,61 +74,12 @@ type wholesaleTableData = WattTableDataSource<Calculation>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsTableComponent {
-  private apollo = inject(Apollo);
-
   CalculationOrchestrationState = CalculationOrchestrationState;
 
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
   @Output() create = new EventEmitter<void>();
 
-  loading = false;
-  error = false;
-
-  filter = signal<CalculationQueryInput>({});
-
-  // TODO: Fix race condition when subscription returns faster than the query.
-  // This is not a problem currently since subscriptions don't return any data
-  // when the BFF is deployed to API Management. This will be fixed in a later PR.
-
-  // Create a new query each time the filter changes rather than using `refetch`,
-  // since `refetch` does not properly unsubscribe to the previous query.
-  query = computed(() =>
-    this.apollo.watchQuery({
-      fetchPolicy: 'network-only',
-      query: GetCalculationsDocument,
-      variables: { input: this.filter() },
-    })
-  );
-
-  valueChanges = effect((OnCleanup) => {
-    const subscription = this.query().valueChanges.subscribe({
-      next: (result) => {
-        this.loading = result.loading;
-        this.error = !!result.errors;
-        if (result.data?.calculations) this.dataSource.data = result.data.calculations;
-      },
-      error: (error) => {
-        this.error = error;
-        this.loading = false;
-      },
-    });
-
-    OnCleanup(() => subscription.unsubscribe());
-  });
-
-  subscribe = effect((onCleanup) => {
-    const unsubscribe = this.query().subscribeToMore({
-      document: OnCalculationProgressDocument,
-      variables: { input: this.filter() },
-      updateQuery: (prev, options) =>
-        this.updateQuery(prev, options.subscriptionData.data.calculationProgress),
-    });
-
-    onCleanup(() => unsubscribe());
-  });
-
-  dataSource: wholesaleTableData = new WattTableDataSource(undefined);
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period', size: 'minmax(max-content, auto)' },
@@ -142,21 +88,32 @@ export class DhCalculationsTableComponent {
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  getActiveRow = () => this.dataSource.data.find((row) => row.id === this.id);
+  filter = signal<CalculationQueryInput>({});
 
-  updateQuery = (prev: GetCalculationsQuery, calculation: Calculation) => {
-    // Check if the updated calculation is already in the cache
-    const isExistingCalculation = prev.calculations.some((c) => c.id === calculation.id);
+  dataSource = new GetCalculationsDataSource({
+    variables: {
+      input: this.filter(),
+      order: { executionTime: SortEnumType.Desc },
+    },
+  });
 
-    // If the calculation exists, update it with the new values
-    const calculations = isExistingCalculation
-      ? prev.calculations.map((c) => (c.id === calculation.id ? calculation : c))
-      : prev.calculations;
+  refetch = effect(() => this.dataSource.refetch({ input: this.filter() }));
+  getActiveRow = () => this.dataSource.filteredData.find((row) => row.id === this.id);
 
-    // If it was an update, replace the cached calculations with the updated
-    // array, otherwise add the new calculation to the top of the list.
-    return isExistingCalculation
-      ? { ...prev, calculations }
-      : { ...prev, calculations: [calculation, ...calculations] };
-  };
+  constructor() {
+    this.dataSource.subscribeToMore({
+      document: OnCalculationUpdatedDocument,
+      updateQuery: (prev, options) => ({
+        ...prev,
+        calculations: prev.calculations && {
+          ...prev.calculations,
+          nodes: prev.calculations?.nodes?.map((c) =>
+            c.id === options.subscriptionData.data.calculationUpdated.id
+              ? options.subscriptionData.data.calculationUpdated
+              : c
+          ),
+        },
+      }),
+    });
+  }
 }
