@@ -74,6 +74,13 @@ export class DhApplicationInsights {
 
   setCookiesUsage(enabled: boolean) {
     this.appInsights?.core.getCookieMgr().setEnabled(enabled);
+
+    if (!enabled) {
+      this.appInsights?.core.getCookieMgr().purge('ai_user');
+      this.appInsights?.core.getCookieMgr().purge('ai_session');
+    } else {
+      this.appInsights?.context.user.update();
+    }
   }
 
   /**
