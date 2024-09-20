@@ -25,7 +25,10 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 
-import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   BusinessReason,
@@ -49,6 +52,7 @@ import { form, FormValues } from './form';
     WattTextFieldComponent,
     WattTimepickerComponent,
     WattDropdownComponent,
+    DhDropdownTranslatorDirective,
   ],
   template: `
     <watt-modal #modal *transloco="let t; read: 'messageArchive.search'" size="small" title="New">
@@ -76,6 +80,8 @@ import { form, FormValues } from './form';
           [options]="businessReasonOptions"
           [placeholder]="t('typeOrChoose')"
           [multiple]="true"
+          dhDropdownTranslator
+          translateKey="messageArchive.businessReason"
         />
 
         <!-- Sender -->
