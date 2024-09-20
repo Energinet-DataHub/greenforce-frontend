@@ -104,6 +104,27 @@
       }
     },
     {
+      "name": "Launch Edi",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build eSett",
+      "program": "${workspaceFolder}/backend/opengeh-edi/source/B2CWebApi/bin/Debug/net8.0/Energinet.DataHub.EDI.B2CWebApi.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/opengeh-edi/source/B2CWebApi",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:6004"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
       "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",
