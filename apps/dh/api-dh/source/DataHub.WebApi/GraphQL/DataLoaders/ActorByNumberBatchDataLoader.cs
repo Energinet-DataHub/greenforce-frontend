@@ -34,7 +34,7 @@ public class ActorByNumberBatchDataLoader : BatchDataLoader<string, ActorDto>
             return (await _client
                 .ActorGetAsync(cancellationToken))
                 .Where(x => keys.Contains(x.ActorNumber.Value))
-                .DistinctBy(x => x.ActorNumber.Value)
+                .DistinctBy(x => x.ActorNumber.Value) // TODO: This is not the correct way
                 .ToDictionary(x => x.ActorNumber.Value);
         }
 }
