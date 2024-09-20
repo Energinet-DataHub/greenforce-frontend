@@ -26,7 +26,8 @@ import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/doma
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattTableColumnDef, WattTableComponent } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 type ArchivedMessage = NonNullable<
@@ -40,8 +41,9 @@ type ArchivedMessage = NonNullable<
     TranslocoDirective,
     WattButtonComponent,
     WattDataTableComponent,
-    WattTableComponent,
+    WATT_TABLE,
     VaterUtilityDirective,
+    WattDatePipe,
   ],
   template: `
     <watt-data-table *transloco="let t; read: 'messageArchive.search'" vater inset="ml">
@@ -50,12 +52,26 @@ type ArchivedMessage = NonNullable<
         {{ t('new') }}
       </watt-button>
       <watt-table
+        *transloco="let resolveHeader; read: 'messageArchive.columns'"
         #table
         description="Search result"
         [dataSource]="dataSource"
         [columns]="columns"
-        [resolveHeader]="t"
-      />
+        [resolveHeader]="resolveHeader"
+      >
+        <ng-container *wattTableCell="columns['documentType']; let row">
+          <div>
+            {{ row.businessTransaction }}
+            <br />
+            <span class="number">{{ row.documentType }}</span>
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns['createdAt']; let row">
+          <div style="white-space: nowrap">
+            {{ row.createdAt | wattDate: 'long' }}
+          </div>
+        </ng-container>
+      </watt-table>
     </watt-data-table>
   `,
 })
@@ -76,8 +92,8 @@ export class DhMessageArchiveSearchTableComponent {
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
     documentType: { accessor: 'documentType' },
-    senderNumber: { accessor: (m) => m.sender?.displayName },
-    receiverNumber: { accessor: (m) => m.receiver?.displayName },
+    sender: { accessor: (m) => m.sender?.displayName },
+    receiver: { accessor: (m) => m.receiver?.displayName },
     createdAt: { accessor: 'createdAt' },
   };
 }

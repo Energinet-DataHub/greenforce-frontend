@@ -10,7 +10,7 @@ query GetArchivedMessages(
   $last: Int
   $after: String
   $before: String
-  $order: [ArchivedMessageResultSortInput!]
+  $order: [ArchivedMessageSortInput!]
 ) {
   archivedMessages(
     first: $first
@@ -37,12 +37,15 @@ query GetArchivedMessages(
       documentType
       sender {
         displayName
+        glnOrEicNumber
       }
       receiver {
         displayName
+        glnOrEicNumber
       }
       createdAt
       businessReason
+      businessTransaction
     }
   }
 }
