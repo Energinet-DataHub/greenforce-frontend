@@ -140,6 +140,13 @@
     "document": {
       "loadFailed": "Failed to load document"
     },
+    "columns": {
+      "messageId": "Message ID",
+      "documentType": "Document type",
+      "sender": "Sender",
+      "receiver": "Receiver",
+      "createdAt": "Date and time"
+    },
     "search": {
       "topBarTitle": "Search in request and response messages",
       "documentType": "Document type",

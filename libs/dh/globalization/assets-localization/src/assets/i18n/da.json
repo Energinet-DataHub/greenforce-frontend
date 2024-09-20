@@ -140,6 +140,13 @@
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
     },
+    "columns": {
+      "messageId": "Besked ID",
+      "documentType": "Dokumenttype",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "createdAt": "Dato og tid"
+    },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
       "documentType": "Dokumenttype",
