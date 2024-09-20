@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
@@ -22,6 +22,7 @@ import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattNavListComponent, WattNavListItemComponent, WattShellComponent } from '@energinet-datahub/watt/shell';
 import { translations } from '@energinet-datahub/eo/translations';
+import { CookieInformationCulture, CookieInformationService } from '@energinet-datahub/gf/util-cookie-information';
 
 const selector = 'eo-api-documentation';
 
@@ -96,15 +97,22 @@ const selector = 'eo-api-documentation';
     </watt-shell>
   `,
 })
-export class EoApiDocumentationComponent {
+export class EoApiDocumentationComponent implements OnInit{
   private transloco = inject(TranslocoService);
   private activeLang = this.transloco.getActiveLang();
+  private cookieInformationService: CookieInformationService = inject(CookieInformationService);
   private docs = inject(eoApiEnvironmentToken).documentation;
 
   protected translations = translations;
   protected afterViewInit = signal<boolean>(false);
   protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
   protected links = this.docs.map((doc) => ({ title: doc.title, src: '/' + this.activeLang + '/documentation/' + doc.id }));
+
+  ngOnInit(): void {
+    this.cookieInformationService.init({
+      culture: this.transloco.getActiveLang() as CookieInformationCulture,
+    });
+  }
 
   gotoDevPortal(event: Event) {
     event.preventDefault();

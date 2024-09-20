@@ -317,7 +317,8 @@
         }
       },
       "CalculationOrchestrationState": {
-        "type": "string",
+        "type": "integer",
+        "format": "int32",
         "x-enumNames": [
           "Scheduled",
           "Calculating",
@@ -331,20 +332,21 @@
           "Started"
         ],
         "enum": [
-          "Scheduled",
-          "Calculating",
-          "Calculated",
-          "CalculationFailed",
-          "ActorMessagesEnqueuing",
-          "ActorMessagesEnqueued",
-          "ActorMessagesEnqueuingFailed",
-          "Completed",
-          "Canceled",
-          "Started"
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          11
         ]
       },
       "CalculationState": {
-        "type": "string",
+        "type": "integer",
+        "format": "int32",
         "x-enumNames": [
           "Pending",
           "Executing",
@@ -352,15 +354,16 @@
           "Failed"
         ],
         "enum": [
-          "Pending",
-          "Executing",
-          "Completed",
-          "Failed"
+          0,
+          1,
+          2,
+          3
         ]
       },
       "CalculationType": {
-        "type": "string",
+        "type": "integer",
         "description": "Defines the wholesale calculation type",
+        "format": "int32",
         "x-enumNames": [
           "BalanceFixing",
           "Aggregation",
@@ -370,12 +373,12 @@
           "ThirdCorrectionSettlement"
         ],
         "enum": [
-          "BalanceFixing",
-          "Aggregation",
-          "WholesaleFixing",
-          "FirstCorrectionSettlement",
-          "SecondCorrectionSettlement",
-          "ThirdCorrectionSettlement"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
         ]
       },
       "SettlementReportApplicableCalculationDto": {
