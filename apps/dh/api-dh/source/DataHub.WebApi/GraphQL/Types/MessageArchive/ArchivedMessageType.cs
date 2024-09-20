@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
@@ -39,5 +40,9 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResult>
             .Resolve(context => context.DataLoader<ActorByNumberBatchDataLoader>().LoadAsync(
                 context.Parent<ArchivedMessageResult>().ReceiverNumber,
                 context.RequestAborted));
+
+        descriptor
+            .Field(f => f.DocumentType)
+            .Resolve(context => Enum.Parse<DocumentType>(context.Parent<ArchivedMessageResult>().DocumentType));
     }
 }
