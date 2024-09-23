@@ -43,10 +43,11 @@ import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import {
   CalculationQueryInput,
   CalculationOrchestrationState,
-  GetCalculationsDataSource,
   SortEnumType,
   OnCalculationUpdatedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
