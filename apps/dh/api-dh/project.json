@@ -31,22 +31,15 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
+        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug --no-hot-reload"
       }
     },
     "generate": {
       "executor": "nx:run-commands",
       "inputs": ["default"],
       "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],
-      "cache": true,
       "options": {
-        "command": "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
-      }
-    },
-    "watch-schema": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "dotnet watch --no-hot-reload --non-interactive --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj -- schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
+        "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln"
       }
     }
   },
