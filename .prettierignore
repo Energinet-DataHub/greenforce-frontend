@@ -2,6 +2,7 @@
 
 /dist
 /coverage
+libs/dh/shared/feature-graphql-codegen/dist/**/*
 **/generated/**/*
 schema.graphql
 

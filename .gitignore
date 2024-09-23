@@ -474,4 +474,4 @@ __blobstorage*
 
 # GraphQL generated files
 schema.graphql
-libs/dh/shared/domain/src/lib/generated/graphql.ts
+libs/dh/shared/domain/src/lib/generated/graphql

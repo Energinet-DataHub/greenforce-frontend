@@ -156,7 +156,10 @@
         "libs/dh/shared/domain/src/lib/generated/v1/configuration.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql": [
-        "libs/dh/shared/domain/src/lib/generated/graphql.ts"
+        "libs/dh/shared/domain/src/lib/generated/graphql/types.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain/graphql/data-source": [
+        "libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts"
       ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"

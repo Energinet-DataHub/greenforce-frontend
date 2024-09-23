@@ -50,15 +50,15 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
             // The operation was not a "Connection" query
             if (!selectionName) return null;
 
-            const queryType = `${name}Query`;
-            const variablesType = `${name}QueryVariables`;
+            const queryType = `Types.${name}Query`;
+            const variablesType = `Types.${name}QueryVariables`;
             const nodeType = `NonNullable<NonNullable<${queryType}['${selectionName}']>['nodes']>[number]`;
 
             // prettier-ignore
             const lines = [
               `export class ${name}DataSource extends ApolloDataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
                 `constructor(options?: QueryOptions<${variablesType}>) {`,
-                  `super(${name}Document, data => data.${selectionName}, options);`,
+                  `super(Types.${name}Document, data => data.${selectionName}, options);`,
                 `}`,
               `}`,
             ];
@@ -72,6 +72,7 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
 
   return {
     prepend: [
+      "import * as Types from './types'",
       "import { ApolloDataSource, QueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
     ],
     content: result
