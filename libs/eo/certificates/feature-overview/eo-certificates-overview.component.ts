@@ -298,7 +298,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
     this.dataSource.data = [];
     // This makes sure the paginator is keeping track of the total count
     setTimeout(() => {
-      this.paginator.instance.length = this.totalCount();
+      this.paginator.instance().length = this.totalCount();
     });
 
     this.certificatesService

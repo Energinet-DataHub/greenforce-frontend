@@ -20,6 +20,8 @@
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
+        "{workspaceRoot}/codegen.ts",
+        "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql.ts"
       ],
@@ -30,6 +32,8 @@
       "executor": "nx:run-commands",
       "cache": false,
       "inputs": [
+        "{workspaceRoot}/codegen.ts",
+        "{workspaceRoot}/libs/dh/shared/util-apollo/src/lib/codegen.js",
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql.ts"
       ],

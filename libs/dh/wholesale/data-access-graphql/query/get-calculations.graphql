@@ -1,23 +1,48 @@
-query GetCalculations($input: CalculationQueryInput!) {
-  calculations(input: $input) {
-    id
-    state
-    executionTimeStart
-    executionTimeEnd
-    period
-    statusType
-    executionType
-    calculationType
-    createdByUserName
-    gridAreas {
-      id
-      code
-      displayName
+query GetCalculations(
+  $input: CalculationQueryInput!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: [CalculationSortInput!]
+  $filter: String
+) {
+  calculations(
+    input: $input
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+    order: $order
+    filter: $filter
+  ) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
-    currentStep
-    progress {
-      step
-      status
+    nodes {
+      id
+      state
+      executionTimeStart
+      executionTimeEnd
+      period
+      statusType
+      executionType
+      calculationType
+      createdByUserName
+      gridAreas {
+        id
+        code
+        displayName
+      }
+      currentStep
+      progress {
+        step
+        status
+      }
     }
   }
 }

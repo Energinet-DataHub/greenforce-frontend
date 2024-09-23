@@ -50,7 +50,7 @@ environments.forEach((env) => {
 
     cy.visit(env.url);
 
-    cy.get('watt-button').click();
+    cy.get('watt-button').click({ force: true });
 
     // Should have correct redirect_uri
     cy.location('href', { timeout: 10_000 }).should((url) => {

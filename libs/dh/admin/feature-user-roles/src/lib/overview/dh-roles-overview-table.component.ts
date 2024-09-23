@@ -113,7 +113,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges() {
     this.dataSource.data = this.roles();
-    this.dataSource.paginator = this.paginator()?.instance;
+    this.dataSource.paginator = this.paginator()?.instance();
     this.updateFilteredAndSortedData();
   }
 
@@ -122,7 +122,7 @@ export class DhRolesTabTableComponent implements OnChanges, AfterViewInit {
       this.updateFilteredAndSortedData();
     });
 
-    this.dataSource.paginator = this.paginator()?.instance;
+    this.dataSource.paginator = this.paginator()?.instance();
 
     this.dataSource.sortingDataAccessor = (data, header) =>
       header === 'marketRole'

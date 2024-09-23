@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ApolloError, OperationVariables } from '@apollo/client/core';
+import { ApolloError, ApolloQueryResult, OperationVariables } from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { QueryOptions, query } from './query';
+import { QueryOptions, QueryResult, query } from './query';
 
 // Lazy queries cannot be skipped as they are triggered imperatively
 export interface LazyQueryOptions<TResult, TVariables extends OperationVariables>
@@ -25,12 +25,19 @@ export interface LazyQueryOptions<TResult, TVariables extends OperationVariables
   onError?: (error: ApolloError) => void;
 }
 
+export interface LazyQueryResult<TResult, TVariables extends OperationVariables>
+  extends QueryResult<TResult, TVariables> {
+  query: (
+    options?: Partial<LazyQueryOptions<TResult, TVariables>>
+  ) => Promise<ApolloQueryResult<TResult>>;
+}
+
 /** Signal-based wrapper around Apollo's `query` function, made to align with `useLazyQuery`. */
 export function lazyQuery<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
   options?: LazyQueryOptions<TResult, TVariables>
-) {
+): LazyQueryResult<TResult, TVariables> {
   // Rename the options to avoid shadowing
   const parentOptions = options;
   const queryResult = query(document, { ...options, skip: true });
