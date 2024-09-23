@@ -170,13 +170,13 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     useApi: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  showEnergySupplierDowndown$ = this.permissionService.isFas().pipe(
+  showEnergySupplierDropdown$ = this.permissionService.isFas().pipe(
     map(
       (isFas) =>
         isFas || this.actorStorage.getSelectedActor().marketRole === EicFunction.SystemOperator
     ),
-    tap((showEnergySupplierDowndown) => {
-      if (showEnergySupplierDowndown) {
+    tap((showEnergySupplierDropdown) => {
+      if (showEnergySupplierDropdown) {
         this.form.addControl(
           'energySupplier',
           new FormControl<string | null>(null, Validators.required)

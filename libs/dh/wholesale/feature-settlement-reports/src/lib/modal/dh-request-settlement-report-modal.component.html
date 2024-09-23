@@ -60,7 +60,7 @@ limitations under the License.
         }
       </div>
 
-      @if ((showEnergySupplierDowndown$ | push) && form.controls.energySupplier) {
+      @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
         <div class="items-group">
           <watt-dropdown
             [label]="t('energySupplier')"
