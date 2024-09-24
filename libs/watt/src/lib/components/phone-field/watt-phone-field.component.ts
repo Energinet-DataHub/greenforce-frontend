@@ -67,11 +67,12 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
+    ReactiveFormsModule,
+    MatSelectModule,
+    MaskitoDirective,
+
     WattFieldComponent,
     WattIconComponent,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MaskitoDirective,
     WattFieldErrorComponent,
   ],
   providers: [
