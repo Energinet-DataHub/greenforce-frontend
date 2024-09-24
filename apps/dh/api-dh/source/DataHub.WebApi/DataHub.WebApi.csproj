@@ -47,18 +47,17 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.1.0" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.Data" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.Diagnostics" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.9.0">
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.Data" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.Diagnostics" Version="13.9.12" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.9.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="8.3.2" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="11.1.0" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="13.2.0" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -66,12 +65,12 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28">
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.11.20">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NodaTime" Version="3.1.11" />
-    <PackageReference Include="NSwag.MSBuild" Version="14.0.3">
+    <PackageReference Include="NodaTime" Version="3.1.12" />
+    <PackageReference Include="NSwag.MSBuild" Version="14.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -79,8 +78,8 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="System.Reactive" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.0" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Condition="Exists('$(MarketingParticipantProjectReference)')" Include="$(MarketingParticipantProjectReference)" />
