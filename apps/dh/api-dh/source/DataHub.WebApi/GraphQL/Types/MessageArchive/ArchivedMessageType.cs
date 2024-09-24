@@ -45,6 +45,8 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResult>
             .Field(f => f.DocumentType)
             .Resolve(context => Enum.Parse<DocumentType>(context.Parent<ArchivedMessageResult>().DocumentType));
 
+        descriptor.Field("documentUrl")
+            .ResolveWith<MessageArchiveResolvers>(c => c.GetDocument(default!, default!, default!));
         descriptor
             .Field("businessTransaction")
             .Resolve(context =>
