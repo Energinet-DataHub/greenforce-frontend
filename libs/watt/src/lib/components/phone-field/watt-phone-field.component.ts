@@ -196,9 +196,12 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @ignore */
-  selectedContry(event: MatSelectChange) {
-    const country = this.countries.find((contry) => contry.countryIsoCode === event.value);
-    if (!country) throw new Error('Prefix not found');
+  selectedContry({ value }: MatSelectChange) {
+    const country = this.countries.find((contry) => contry.countryIsoCode === value);
+
+    if (!country) {
+      throw new Error('Prefix not found');
+    }
 
     this.setCountry(country);
     this.formControl().reset();
