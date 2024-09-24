@@ -18,12 +18,11 @@ import { Component, computed, signal, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattTimepickerComponent } from '@energinet-datahub/watt/timepicker';
 
 import {
   DhDropdownTranslatorDirective,
@@ -45,31 +44,35 @@ import { form, FormValues } from './form';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+    VaterStackComponent,
     WattButtonComponent,
     WattDatetimepickerComponent,
     WattModalComponent,
     WattModalActionsComponent,
-    WattTextFieldComponent,
-    WattTimepickerComponent,
     WattDropdownComponent,
     DhDropdownTranslatorDirective,
   ],
   template: `
-    <watt-modal #modal *transloco="let t; read: 'messageArchive.search'" size="small" title="New">
+    <watt-modal
+      #modal
+      *transloco="let t; read: 'messageArchive.start'"
+      size="small"
+      [title]="t('title')"
+    >
       <form
+        vater-stack
+        gap="s"
+        offset="m"
         id="dh-message-archive-search-start-form"
         [formGroup]="form"
         (ngSubmit)="values.set(form.getRawValue())"
       >
-        <!-- MessageId -->
-        <watt-text-field [label]="t('messageId')" [formControl]="form.controls.messageId" />
-
         <!-- Document Type -->
         <watt-dropdown
           [label]="t('documentType')"
           [formControl]="form.controls.documentTypes"
           [options]="documentTypeOptions"
-          [placeholder]="t('typeOrChoose')"
+          [placeholder]="t('placeholder')"
           [multiple]="true"
         />
 
@@ -78,7 +81,7 @@ import { form, FormValues } from './form';
           [label]="t('businessReason')"
           [formControl]="form.controls.businessReasons"
           [options]="businessReasonOptions"
-          [placeholder]="t('typeOrChoose')"
+          [placeholder]="t('placeholder')"
           [multiple]="true"
           dhDropdownTranslator
           translateKey="messageArchive.businessReason"
@@ -86,35 +89,36 @@ import { form, FormValues } from './form';
 
         <!-- Sender -->
         <watt-dropdown
-          [label]="t('senderGln')"
+          [label]="t('sender')"
           [formControl]="form.controls.senderNumber"
           [options]="actorOptions()"
-          [placeholder]="t('typeOrChoose')"
+          [placeholder]="t('placeholder')"
         />
 
         <!-- Receiver -->
         <watt-dropdown
-          [label]="t('receiverGln')"
+          [label]="t('receiver')"
           [formControl]="form.controls.receiverNumber"
           [options]="actorOptions()"
-          [placeholder]="t('typeOrChoose')"
+          [placeholder]="t('placeholder')"
         />
 
         <!-- From -->
-        <watt-datetimepicker [label]="t('periode')" [formControl]="form.controls.start" />
+        <watt-datetimepicker [label]="t('start')" [formControl]="form.controls.start" />
 
         <!-- To -->
-        <watt-datetimepicker [label]="t('time')" [formControl]="form.controls.end" />
-
-        <!-- Reference id -->
-        <watt-checkbox [formControl]="form.controls.includeRelated" wattInput name="reference-id">
-          {{ t('includeRelatedMessage') }}
-        </watt-checkbox>
+        <watt-datetimepicker [label]="t('end')" [formControl]="form.controls.end" />
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">Cancel</watt-button>
-        <watt-button type="submit" formId="dh-message-archive-search-start-form">
-          Confirm
+        <watt-button variant="secondary" (click)="modal.close(false)">
+          {{ t('cancel') }}
+        </watt-button>
+        <watt-button
+          (click)="modal.close(true)"
+          type="submit"
+          formId="dh-message-archive-search-start-form"
+        >
+          {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
@@ -124,6 +128,7 @@ export class DhMessageArchiveSearchStartComponent {
   form = form;
 
   modal = viewChild.required<WattModalComponent>('modal');
+
   values = signal<FormValues | null>(null);
   variables = computed(() => {
     const values = this.values();

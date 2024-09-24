@@ -16,23 +16,20 @@
  */
 import { Component, effect, input, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import {
-  GetArchivedMessagesDocument,
   GetArchivedMessagesQueryVariables,
   SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-
-type ArchivedMessage = NonNullable<
-  NonNullable<ResultOf<typeof GetArchivedMessagesDocument>['archivedMessages']>['nodes']
->[number];
+import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 
 @Component({
   selector: 'dh-message-archive-search-table',
@@ -41,13 +38,19 @@ type ArchivedMessage = NonNullable<
     TranslocoDirective,
     WattButtonComponent,
     WattDataTableComponent,
+    WattEmptyStateComponent,
     WATT_TABLE,
     VaterUtilityDirective,
     WattDatePipe,
   ],
   template: `
-    <watt-data-table *transloco="let t; read: 'messageArchive.search'" vater inset="ml">
-      <h3>{{ t('searchResult') }}</h3>
+    <watt-data-table
+      *transloco="let t; read: 'messageArchive'"
+      vater
+      inset="ml"
+      [error]="dataSource.error"
+    >
+      <h3>{{ t('results') }}</h3>
       <watt-button variant="secondary" icon="plus" (click)="start.emit()">
         {{ t('new') }}
       </watt-button>
@@ -58,12 +61,28 @@ type ArchivedMessage = NonNullable<
         [dataSource]="dataSource"
         [columns]="columns"
         [resolveHeader]="resolveHeader"
+        [activeRow]="selection()"
+        (rowClick)="selectionChange.emit($event)"
       >
         <ng-container *wattTableCell="columns['documentType']; let row">
           <div>
             {{ row.businessTransaction }}
             <br />
             <span class="number">{{ row.documentType }}</span>
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns['sender']; let row">
+          <div>
+            {{ row.sender?.displayName }}
+            <br />
+            <span class="number">{{ row.sender?.glnOrEicNumber }}</span>
+          </div>
+        </ng-container>
+        <ng-container *wattTableCell="columns['receiver']; let row">
+          <div>
+            {{ row.receiver?.displayName }}
+            <br />
+            <span class="number">{{ row.receiver?.glnOrEicNumber }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns['createdAt']; let row">
@@ -77,8 +96,9 @@ type ArchivedMessage = NonNullable<
 })
 export class DhMessageArchiveSearchTableComponent {
   variables = input<GetArchivedMessagesQueryVariables | undefined>();
+  selection = input<ArchivedMessage | undefined>();
+  selectionChange = output<ArchivedMessage>();
   start = output();
-
   dataSource = new GetArchivedMessagesDataSource({
     skip: true,
     variables: {
