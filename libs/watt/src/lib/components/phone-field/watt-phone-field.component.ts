@@ -25,6 +25,7 @@ import {
   inject,
   input,
   signal,
+  untracked,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -165,7 +166,14 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
       const country = this.countries.find((country) => value.startsWith(country.phoneExtension));
 
       if (country) {
-        this.setCountry(country);
+        // Exclude Signal from being tracked
+        // in case the parent component sets the value inside an `effect`
+        // thus causeing the `effect` to re-run
+        // Note: Revisit once v19 is released because the `effect` API has changed
+        // significantly and this might not be necessary anymore
+        untracked(() => {
+          this.setCountry(country);
+        });
 
         value = maskitoTransform(value, this.mask);
       }
