@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.EDI;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,15 @@ public class MessageArchiveController : ControllerBase
     [HttpGet("{id}/Document")]
     [Produces("text/plain")]
     public async Task<ActionResult<string>> GetDocumentAsync(string id, CancellationToken cancellationToken)
+    {
+        var document = await _archivedMessagesSearch.GetDocumentAsync(Guid.Parse(id), cancellationToken);
+        return Ok(document);
+    }
+
+    [HttpGet]
+    [Route("Document")]
+    [Produces(MediaTypeNames.Text.Plain)]
+    public async Task<ActionResult<string>> GetDocumentByIdAsync(string id, CancellationToken cancellationToken)
     {
         var document = await _archivedMessagesSearch.GetDocumentAsync(Guid.Parse(id), cancellationToken);
         return Ok(document);
