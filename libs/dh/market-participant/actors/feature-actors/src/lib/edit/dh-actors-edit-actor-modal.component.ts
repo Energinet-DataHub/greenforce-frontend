@@ -120,22 +120,19 @@ export class DhActorsEditActorModalComponent {
         : this.actorForm.controls.name.disable();
     });
 
-    effect(
-      () => {
-        const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
-        if (!actorEditableFields) return;
+    effect(() => {
+      const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
+      if (!actorEditableFields) return;
 
-        const { name, contact } = actorEditableFields;
+      const { name, contact } = actorEditableFields;
 
-        this.actorForm.patchValue({
-          name,
-          departmentName: contact?.name,
-          departmentPhone: contact?.phone,
-          departmentEmail: contact?.email,
-        });
-      },
-      { allowSignalWrites: true }
-    );
+      this.actorForm.patchValue({
+        name,
+        departmentName: contact?.name,
+        departmentPhone: contact?.phone,
+        departmentEmail: contact?.email,
+      });
+    });
   }
 
   open() {
