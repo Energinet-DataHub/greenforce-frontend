@@ -15,6 +15,7 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
@@ -47,6 +48,7 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResult>
 
         descriptor.Field("documentUrl")
             .ResolveWith<MessageArchiveResolvers>(c => c.GetDocument(default!, default!, default!));
+
         descriptor
             .Field("businessTransaction")
             .Resolve(context =>
