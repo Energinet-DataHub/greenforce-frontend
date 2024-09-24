@@ -92,7 +92,7 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
             "application/json");
 
         var response = await (fromApi
-        ? _apiHttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+        ? _apiHttpClient.SendAsync(requestApi, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
         : _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken));
 
         response.EnsureSuccessStatusCode();
