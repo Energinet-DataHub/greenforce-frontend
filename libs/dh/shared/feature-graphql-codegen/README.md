@@ -10,7 +10,7 @@ have been made to the TypeScript file, run the below command to generate the Com
 file in the `dist` folder:
 
 ```sh
-bun nx run dh-shared-feature-graphql-codegen:build 
+bun nx run dh-shared-feature-graphql-codegen:build
 ```
 
 _For convenience and a simpler setup, the contents of the `dist` folder is intentionally
