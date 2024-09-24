@@ -128,7 +128,9 @@
     }
   },
   "messageArchive": {
-    "unknowenError": "Unknown error",
+    "topBarTitle": "Search in request and response messages",
+    "new": "New search",
+    "results": "Results",
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
@@ -146,6 +148,25 @@
       "sender": "Sender",
       "receiver": "Receiver",
       "createdAt": "Date and time"
+    },
+    "start": {
+      "title": "New search",
+      "placeholder": "Type or choose",
+      "documentType": "Document type",
+      "businessReason": "Business reason",
+      "sender": "Sender",
+      "receiver": "Receiver",
+      "start": "Start time",
+      "end": "End time",
+      "cancel": "Cancel",
+      "confirm": "Search"
+    },
+    "details": {
+      "created": "Sent",
+      "messageId": "Message ID",
+      "receiver": "Receiver",
+      "sender": "Sender",
+      "download": "Download"
     },
     "businessReason": {
       "D02": "Preparation for imbalance settlement",

@@ -128,7 +128,9 @@
     }
   },
   "messageArchive": {
-    "unknowenError": "Ukendt fejl",
+    "topBarTitle": "Fremsøg forretningsbesked",
+    "new": "Ny søgning",
+    "results": "Resultater",
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
@@ -146,6 +148,25 @@
       "sender": "Afsender",
       "receiver": "Modtager",
       "createdAt": "Dato og tid"
+    },
+    "start": {
+      "title": "Ny søgning",
+      "placeholder": "Indtast eller vælg",
+      "documentType": "Dokumenttype",
+      "businessReason": "Forretningsårsag",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "start": "Starttidspunkt",
+      "end": "Sluttidspunkt",
+      "cancel": "Fortryd",
+      "confirm": "Søg"
+    },
+    "details": {
+      "created": "Sendt",
+      "messageId": "Besked ID",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "download": "Download"
     },
     "businessReason": {
       "D02": "Forberedelse til balanceafregning",
