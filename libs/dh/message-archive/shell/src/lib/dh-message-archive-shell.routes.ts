@@ -25,7 +25,7 @@ export const dhMessageArchiveShellRoutes: Routes = [
     component: DhMessageArchiveSearchPageComponent,
     pathMatch: 'full',
     data: {
-      titleTranslationKey: 'messageArchive.search.topBarTitle',
+      titleTranslationKey: 'messageArchive.topBarTitle',
     },
   },
 ];
