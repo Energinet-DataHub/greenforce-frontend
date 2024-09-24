@@ -122,14 +122,14 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
-  readonly countries = [
+  readonly countries: Contry[] = [
     { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
     { countryIsoCode: 'SE', icon: 'custom-flag-se', phoneExtension: '+46' },
     { countryIsoCode: 'NO', icon: 'custom-flag-no', phoneExtension: '+47' },
     { countryIsoCode: 'DE', icon: 'custom-flag-de', phoneExtension: '+49' },
     { countryIsoCode: 'FI', icon: 'custom-flag-fi', phoneExtension: '+358' },
     { countryIsoCode: 'PL', icon: 'custom-flag-pl', phoneExtension: '+48' },
-  ] as Contry[];
+  ];
 
   formControl = input.required<FormControl>();
   label = input<string>();
