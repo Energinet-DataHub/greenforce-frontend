@@ -48,9 +48,9 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
   standalone: true,
   imports: [
     TranslocoDirective,
-    WATT_DRAWER,
     VaterFlexComponent,
     VaterUtilityDirective,
+    WATT_DRAWER,
     WattButtonComponent,
     WattCodeComponent,
     WattDatePipe,
