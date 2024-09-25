@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/data-access-graphql/src",
   "prefix": "dh",
+  "implicitDependencies": ["api-dh"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

@@ -5,6 +5,7 @@
   "sourceRoot": "libs/dh/message-archive/data-access-graphql",
   "prefix": "dh",
   "tags": ["product:dh", "domain:message-archive", "type:data-access"],
+  "implicitDependencies": ["api-dh"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
