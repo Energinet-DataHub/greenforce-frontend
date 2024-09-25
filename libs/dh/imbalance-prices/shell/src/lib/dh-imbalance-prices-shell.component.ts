@@ -81,7 +81,7 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
 })
 export class DhImbalancePricesShellComponent {
   private readonly getImbalancePricesOverview = query(GetImbalancePricesOverviewDocument);
-  private readonly pricePeridsData = computed(
+  private readonly pricePeriodsData = computed(
     () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.pricePeriods ?? []
   );
 
@@ -96,7 +96,7 @@ export class DhImbalancePricesShellComponent {
   selectedPeriod: string | null = null;
 
   monthYearOptions: Signal<WattDropdownOptions> = computed(() => {
-    const periods = this.pricePeridsData().map((period) => period.name.toISOString());
+    const periods = this.pricePeriodsData().map((period) => period.name.toISOString());
 
     return [...new Set(periods)].map((period) => ({
       value: period,
@@ -106,7 +106,7 @@ export class DhImbalancePricesShellComponent {
 
   constructor() {
     effect(() => {
-      this.tableDataSource.data = this.pricePeridsData();
+      this.tableDataSource.data = this.pricePeriodsData();
     });
   }
 
@@ -116,7 +116,7 @@ export class DhImbalancePricesShellComponent {
   }
 
   onPeriodChange(): void {
-    const pricePeriodsData = this.pricePeridsData();
+    const pricePeriodsData = this.pricePeriodsData();
 
     this.tableDataSource.data = this.selectedPeriod
       ? pricePeriodsData.filter((period) => period.name.toISOString() === this.selectedPeriod)
