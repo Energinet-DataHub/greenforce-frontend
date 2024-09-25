@@ -1166,8 +1166,8 @@
         "gridAreaHint": "{{ count }} valgte",
         "combineResultsInOneFile": "Kombiner resultater i en fil",
         "cancel": "Fortryd",
-        "continue": "Næste",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
+        "continue": "Næste",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
