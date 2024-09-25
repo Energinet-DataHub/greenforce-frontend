@@ -274,25 +274,30 @@ type GetUserProfileResponse {
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
+  status: GridAreaStatus!
   includedInCalculation: Boolean!
   id: UUID!
   code: String!
   name: String!
+  type: GridAreaType!
   validFrom: DateTime!
   validTo: DateTime
 }
 
 type GridAreaOverviewItemDto {
+  priceAreaCode: PriceAreaCode!
+  displayName: String!
+  status: GridAreaStatus!
   id: UUID!
   code: String!
   name: String!
-  priceAreaCode: String!
   validFrom: DateTime!
   validTo: DateTime
   actorNumber: String
   actorName: String
   organizationName: String
   fullFlexDate: DateTime
+  type: GridAreaType!
 }
 
 "Imbalance price"
@@ -1138,6 +1143,24 @@ enum ExchangeEventSortProperty {
   GRID_AREA_CODE
   TIME_SERIES_TYPE
   LATEST_DISPATCHED
+}
+
+enum GridAreaStatus {
+  Created
+  Active
+  Expired
+  Archived
+}
+
+enum GridAreaType {
+  NotSet
+  Transmission
+  Distribution
+  Other
+  Test
+  GridLossDK
+  GridLossAbroad
+  Aboard
 }
 
 enum ImbalancePriceStatus {
