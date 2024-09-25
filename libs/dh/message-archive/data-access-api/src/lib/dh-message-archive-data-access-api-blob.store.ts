@@ -17,12 +17,12 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { MessageArchiveHttp, Stream } from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveHttp } from '@energinet-datahub/dh/shared/domain';
 import { LoadingState, ErrorState } from '@energinet-datahub/dh/shared/data-access-api';
 import { filter, Observable, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
-  readonly blobContent?: Stream | null;
+  readonly blobContent?: Blob | null;
   readonly loadingState: LoadingState | ErrorState;
 }
 
@@ -37,7 +37,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     super(initialState);
   }
 
-  blobContent$: Observable<Stream> = this.select((state) => state.blobContent as Stream).pipe(
+  blobContent$: Observable<Blob> = this.select((state) => state.blobContent as Blob).pipe(
     filter((searchResult) => !!searchResult)
   );
   isDownloading$ = this.select((state) => state.loadingState === LoadingState.LOADING);
@@ -72,7 +72,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateDownloadResult = this.updater(
-    (state: DownloadBlobResultState, downloadResult: Stream | null): DownloadBlobResultState => ({
+    (state: DownloadBlobResultState, downloadResult: Blob | null): DownloadBlobResultState => ({
       ...state,
       blobContent: downloadResult,
     })

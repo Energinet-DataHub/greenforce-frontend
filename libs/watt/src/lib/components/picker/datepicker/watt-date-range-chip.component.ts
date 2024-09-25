@@ -25,6 +25,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
 
 import {
   DateRange,
@@ -39,7 +40,6 @@ import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
-import { DateAdapter } from '@angular/material/core';
 import { WattDatepickerIntlService } from './watt-datepicker-intl.service';
 
 type customSelectionStrategy = (date: Date | null) => DateRange<Date>;
@@ -77,6 +77,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   standalone: true,
   imports: [
     MatDatepickerModule,
+
     WattMenuChipComponent,
     WattDatePipe,
     WattIconComponent,
@@ -123,6 +124,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
         </mat-date-range-picker-actions>
       }
     </mat-date-range-picker>
+
     <watt-field [control]="formControl" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
@@ -137,7 +139,15 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
           separator=""
           [rangePicker]="picker"
         >
-          <input type="text" matStartDate tabindex="-1" role="none" [value]="value?.start" />
+          <input
+            type="text"
+            matStartDate
+            tabindex="-1"
+            role="none"
+            [value]="value?.start"
+            (dateChange)="value = input.value!"
+            (dateChange)="showActions && onSelectionChange($event.value ? input.value! : null)"
+          />
           <input
             type="text"
             matEndDate
@@ -145,7 +155,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
             role="none"
             [value]="value?.end"
             (dateChange)="value = input.value!"
-            (dateChange)="selectionChange.emit($event.value ? input.value! : null)"
+            (dateChange)="onSelectionChange($event.value ? input.value! : null)"
           />
         </mat-date-range-input>
         <ng-content />
@@ -188,5 +198,9 @@ export class WattDateRangeChipComponent {
   clearInput(): void {
     this.value = undefined;
     this.selectionChange.emit(null);
+  }
+
+  onSelectionChange(value: WattRange<Date> | null): void {
+    this.selectionChange.emit(value);
   }
 }

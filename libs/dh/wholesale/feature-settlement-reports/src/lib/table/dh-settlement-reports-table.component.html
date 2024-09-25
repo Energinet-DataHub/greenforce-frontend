@@ -70,11 +70,15 @@ limitations under the License.
     </ng-container>
 
     <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
-      <dh-settlement-reports-status
-        [status]="entry.statusType"
-        [progress]="entry.progress"
-        (download)="downloadReport($event, entry)"
-      />
+      @let reportIsEmpty = entry.statusType === "COMPLETED" && entry.gridAreas.length === 0;
+
+      @if (reportIsEmpty === false) {
+        <dh-settlement-reports-status
+          [status]="entry.statusType"
+          [progress]="entry.progress"
+          (download)="downloadReport($event, entry)"
+        />
+      }
     </ng-container>
   </watt-table>
 </vater-flex>
