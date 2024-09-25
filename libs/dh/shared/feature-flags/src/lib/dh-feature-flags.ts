@@ -66,6 +66,10 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.prod,
     ],
   },
+  'message-archive-v2': {
+    created: '25-09-2024',
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
