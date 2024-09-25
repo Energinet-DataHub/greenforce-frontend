@@ -22,7 +22,9 @@ export class WattDataIntlService {
   readonly changes: Subject<void> = new Subject<void>();
   search = 'Search';
   emptyTitle = 'No results found';
-  emptyMessage = 'Try changing the search criteria.';
+  emptyText = 'Try changing the search criteria.';
   errorTitle = 'An unexpected error occured';
-  errorMessage = 'Unfortunately, an error occurred while retrieving the necessary information.';
+  errorText = 'Unfortunately, an error occurred while retrieving the necessary information.';
+  defaultTitle = 'An unexpected error occured';
+  defaultText = 'Unfortunately, an error occurred while retrieving the necessary information.';
 }
