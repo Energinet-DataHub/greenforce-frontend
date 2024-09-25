@@ -5,6 +5,7 @@
   "sourceRoot": "libs/dh/market-participant/actors/data-access-graphql",
   "prefix": "dh",
   "tags": ["product:dh", "domain:market-participant", "type:data-access"],
+  "implicitDependencies": ["api-dh"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
