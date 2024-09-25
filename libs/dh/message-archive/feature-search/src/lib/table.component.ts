@@ -54,7 +54,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
       (clear)="reset()"
     >
       <h3>{{ t('results') }}</h3>
-      <watt-button variant="secondary" icon="plus" (click)="start.emit()">
+      <watt-button variant="secondary" icon="plus" (click)="new.emit()">
         {{ t('new') }}
       </watt-button>
       <watt-table
@@ -100,7 +100,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 })
 export class DhMessageArchiveSearchTableComponent {
   selection = model<ArchivedMessage>();
-  start = output();
+  new = output();
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },

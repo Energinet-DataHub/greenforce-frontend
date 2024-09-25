@@ -32,7 +32,7 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
   template: `
     <dh-message-archive-search-details [message]="message()" (close)="message.set(undefined)" />
     <dh-message-archive-search-start #start (start)="table.fetch($event)" (clear)="table.reset()" />
-    <dh-message-archive-search-table #table [(selection)]="message" (start)="start.open()" />
+    <dh-message-archive-search-table #table [(selection)]="message" (new)="start.open()" />
   `,
 })
 export class DhMessageArchiveSearchPageComponent {
