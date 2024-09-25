@@ -33,7 +33,11 @@ limitations under the License.
 
   <watt-modal-actions>
     <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
-    <watt-button type="submit" formId="request-as-settlement-report-form" [loading]="submitInProgress()">
+    <watt-button
+      type="submit"
+      formId="request-as-settlement-report-form"
+      [loading]="submitInProgress()"
+    >
       {{ t("continue") }}
     </watt-button>
   </watt-modal-actions>
