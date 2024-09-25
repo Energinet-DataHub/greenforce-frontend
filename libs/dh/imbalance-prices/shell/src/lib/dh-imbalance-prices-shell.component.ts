@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect } from '@angular/core';
+import { Component, computed, effect, Signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
@@ -28,6 +29,8 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { wattFormatDate } from '@energinet-datahub/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -60,12 +63,14 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     `,
   ],
   imports: [
+    FormsModule,
     TranslocoDirective,
 
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
+    WattDropdownComponent,
     VaterUtilityDirective,
     WattPaginatorComponent,
 
@@ -76,6 +81,9 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
 })
 export class DhImbalancePricesShellComponent {
   private readonly getImbalancePricesOverview = query(GetImbalancePricesOverviewDocument);
+  private readonly pricePeridsData = computed(
+    () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.pricePeriods ?? []
+  );
 
   tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
 
@@ -85,15 +93,33 @@ export class DhImbalancePricesShellComponent {
     () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.uploadImbalancePricesUrl
   );
 
+  selectedPeriod: string | null = null;
+
+  monthYearOptions: Signal<WattDropdownOptions> = computed(() => {
+    const periods = this.pricePeridsData().map((period) => period.name.toISOString());
+
+    return [...new Set(periods)].map((period) => ({
+      value: period,
+      displayValue: wattFormatDate(period, 'monthYear')!,
+    }));
+  });
+
   constructor() {
     effect(() => {
-      this.tableDataSource.data =
-        this.getImbalancePricesOverview.data()?.imbalancePricesOverview.pricePeriods ?? [];
+      this.tableDataSource.data = this.pricePeridsData();
     });
   }
 
   onUploadSuccess(): void {
     this.tableDataSource.data = [];
     this.getImbalancePricesOverview.refetch();
+  }
+
+  onPeriodChange(): void {
+    const pricePeriodsData = this.pricePeridsData();
+
+    this.tableDataSource.data = this.selectedPeriod
+      ? pricePeriodsData.filter((period) => period.name.toISOString() === this.selectedPeriod)
+      : pricePeriodsData;
   }
 }
