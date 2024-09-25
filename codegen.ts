@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   config: { sort: false },
   documents: 'libs/**/*.graphql',
   generates: {
-    'libs/dh/shared/domain/src/lib/generated/graphql.ts': {
+    'libs/dh/shared/domain/src/lib/generated/graphql/types.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
         'typescript',
@@ -29,6 +29,12 @@ const config: CodegenConfig = {
           DateRange: 'libs/dh/shared/domain/src/lib/type-policies#dateRangeTypePolicy',
         },
       },
+    },
+    'libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts': {
+      plugins: [
+        { add: { content: '/* eslint-disable */' } },
+        'libs/dh/shared/feature-graphql-codegen/dist/apollo-data-source.js',
+      ],
     },
   },
 };

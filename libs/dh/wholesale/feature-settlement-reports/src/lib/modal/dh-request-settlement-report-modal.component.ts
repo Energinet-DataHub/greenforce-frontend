@@ -74,6 +74,7 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal.component';
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
@@ -93,6 +94,7 @@ type DhFormType = FormGroup<{
   calculationIdForGridAreaGroup?: FormGroup<{
     [gridAreaCode: string]: FormControl<string>;
   }>;
+  useApi: FormControl<boolean>;
 }>;
 
 @Component({
@@ -113,6 +115,7 @@ type DhFormType = FormGroup<{
     WattFieldHintComponent,
 
     DhDropdownTranslatorDirective,
+    DhFeatureFlagDirective,
   ],
   styles: `
     :host {
@@ -164,11 +167,16 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     combineResultsInOneFile: new FormControl<boolean>(false, { nonNullable: true }),
+    useApi: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  isFas$ = this.permissionService.isFas().pipe(
-    tap((isFas) => {
-      if (isFas) {
+  showEnergySupplierDropdown$ = this.permissionService.isFas().pipe(
+    map(
+      (isFas) =>
+        isFas || this.actorStorage.getSelectedActor().marketRole === EicFunction.SystemOperator
+    ),
+    tap((showEnergySupplierDropdown) => {
+      if (showEnergySupplierDropdown) {
         this.form.addControl(
           'energySupplier',
           new FormControl<string | null>(null, Validators.required)
@@ -280,6 +288,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       energySupplier,
       combineResultsInOneFile,
       allowLargeTextFiles,
+      useApi,
     } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
@@ -306,6 +315,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             preventLargeTextFiles: !allowLargeTextFiles,
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
+            useApi,
           },
         },
         refetchQueries: (result) => {

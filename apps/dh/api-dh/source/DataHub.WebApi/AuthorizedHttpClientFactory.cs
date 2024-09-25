@@ -42,6 +42,11 @@ public class AuthorizedHttpClientFactory
     private void SetAuthorizationHeader(HttpClient httpClient)
     {
         var str = _authorizationHeaderProvider();
+        if (string.IsNullOrEmpty(str))
+        {
+            return;
+        }
+
         httpClient.DefaultRequestHeaders.Add("Authorization", str);
     }
 }

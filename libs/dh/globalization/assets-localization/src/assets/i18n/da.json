@@ -31,6 +31,7 @@
     "p-001": "produktion"
   },
   "duration": {
+    "seconds": "{{ seconds }}s",
     "minutes": "{{ minutes }}m",
     "hours": "{{ hours }}t {{ duration.minutes }}",
     "days": "{{ days }}d {{ duration.hours }}"
@@ -900,7 +901,7 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{shared.error.title}}",
       "errorMessage": "{{shared.error.message}}",
-      "search": "Søg",
+      "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
       "create": {
@@ -1079,11 +1080,12 @@
       "topBarTitle": "Anmod om beregningsdata",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
-      "priceType": "Pristype",
+      "priceType": "Målepunktstype/Pristype",
       "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
       "maxPeriodLength": "Perioden må max være 31 dage",
+      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "Balancefiksering",
         "AGGREGATION": "Aggregering",
@@ -1092,15 +1094,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
         "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
       },
-      "meteringPointTypes": {
-        "All": "Alle",
-        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
-        "TOTAL_CONSUMPTION": "Total forbrug",
-        "PRODUCTION": "Produktion",
-        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
-        "EXCHANGE": "Udveksling"
-      },
-      "priceTypeOptions": {
+      "requestCalculationDataTypeOptions": {
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
         "TARIFF": "Tarif",
         "SUBSCRIPTION": "Abonnement",
@@ -1108,7 +1102,13 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "ALL_ENERGY": "Alle",
+        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
+        "PRODUCTION": "Produktion",
+        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
+        "EXCHANGE": "Udveksling"
       }
     },
     "settlementReports": {
@@ -1129,7 +1129,14 @@
         "numberOfGridAreasInReport": "Netområder",
         "basisData": "Datagrundlag",
         "status": "Status",
-        "actorName": "Aktørnavn"
+        "actorName": "Aktør"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "drawer": {
+        "monthlySum": "Månedssummer",
+        "combined": "Kombineret",
+        "gridAreas": "Netområder"
       },
       "reportStatus": {
         "IN_PROGRESS": "I gang ({{ progress }}%)",
@@ -1152,6 +1159,7 @@
         "allowLargeTextFiles": "Tillad store filer",
         "period": "Beregningsperiode",
         "includeMonthlySum": "Inkluder månedssummer",
+        "useApi": "Bestil rapport via. ny løsning",
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
@@ -1330,7 +1338,9 @@
               "INVITED_INTO_ACTOR": "<b>{{ auditedBy }}</b> inviterede brugeren ind i <b>{{ affectedActorName }}</b>",
               "USER_ROLE_ASSIGNED": "<b>{{ auditedBy }}</b> tildelte brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
               "USER_ROLE_REMOVED": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b> i aktøren <b>{{ affectedActorName }}</b>",
-              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret"
+              "USER_ROLE_REMOVED_DUE_TO_DEACTIVATION": "<b>{{ auditedBy }}</b> fjernede brugerrollen <b>{{ affectedUserRoleName }}</b>, da rollen blev deaktiveret",
+              "USER_LOGIN_FEDERATION_REQUESTED": "<b>{{ auditedBy }}</b> har anmodet om at knytte MitID til brugeren",
+              "USER_LOGIN_FEDERATED": "<b>{{ auditedBy }}</b> har succesfuldt knyttet MitID til brugeren"
             }
           }
         },

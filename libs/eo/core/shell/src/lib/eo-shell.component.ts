@@ -15,14 +15,26 @@
  * limitations under the License.
  */
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  CookieInformationService,
+  CookieInformationCulture,
+} from '@energinet-datahub/gf/util-cookie-information';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
@@ -152,25 +164,35 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     </watt-shell>
   `,
 })
-export class EoShellComponent implements OnDestroy {
+export class EoShellComponent implements OnInit, OnDestroy {
   protected titleService = inject(Title);
   private idleTimerService = inject(IdleTimerService);
   private authService = inject(EoAuthService);
+  private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
+  private cookieInformationService: CookieInformationService = inject(CookieInformationService);
 
   protected translations = translations;
   protected cookiesSet: string | null = null;
 
   constructor() {
     this.idleTimerService.startMonitor();
-    this.getBannerStatus();
+  }
+
+  ngOnInit(): void {
+    this.cookieInformationService.init({
+      culture: this.transloco.getActiveLang() as CookieInformationCulture,
+    });
+
+    this.transloco.langChanges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
+      this.cookieInformationService.reInit({
+        culture: lang as CookieInformationCulture,
+      });
+    });
   }
 
   onLogout() {
     this.authService.logout();
-  }
-
-  getBannerStatus() {
-    this.cookiesSet = localStorage.getItem('cookiesAccepted');
   }
 
   ngOnDestroy() {

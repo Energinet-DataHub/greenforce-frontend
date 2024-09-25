@@ -14,11 +14,13 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Energinet.DataHub.Core.App.WebApp.Authentication;
-using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
+using Energinet.DataHub.Core.App.Common.Extensions.Options;
+using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
+using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
@@ -49,18 +51,20 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
-services.AddHealthChecks();
-
 services.AddHttpContextAccessor();
 
 services.AddSwagger();
 
-var mitIdExternalOpenIdUrl = configuration.GetValue<string>("MITID_EXTERNAL_OPEN_ID_URL") ?? "-";
-var externalOpenIdUrl = configuration.GetValue<string>("EXTERNAL_OPEN_ID_URL") ?? "-";
-var internalOpenIdUrl = configuration.GetValue<string>("INTERNAL_OPEN_ID_URL") ?? "-";
-var backendBffAppId = configuration.GetValue<string>("BACKEND_BFF_APP_ID") ?? "-";
+// HACK: Support for 'dotnet tool swagger' execution, which requires no exceptions in Startup file.
+if (configuration.GetChildren().All(section => section.Key != UserAuthenticationOptions.SectionName))
+{
+    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
+    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.ExternalMetadataAddress)}"] = "https://datahub.dk";
+    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.InternalMetadataAddress)}"] = "https://datahub.dk";
+    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.BackendBffAppId)}"] = "https://datahub.dk";
+}
 
-services.AddJwtBearerAuthentication(mitIdExternalOpenIdUrl, externalOpenIdUrl, internalOpenIdUrl, backendBffAppId);
+services.AddJwtBearerAuthenticationForWebApp(builder.Configuration);
 
 services
     .AddAuthorizationBuilder()
@@ -123,6 +127,7 @@ if (!environment.IsDevelopment())
 
 app.MapLiveHealthChecks();
 app.MapReadyHealthChecks();
+app.MapStatusHealthChecks();
 
 app.RunWithGraphQLCommands(args);
 

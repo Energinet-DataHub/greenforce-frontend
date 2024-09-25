@@ -26,9 +26,13 @@ public class ApiClientSettings
 
     public string WholesaleOrchestrationSettlementReportsBaseUrl { get; set; } = string.Empty;
 
+    public string WholesaleOrchestrationSettlementReportsLightBaseUrl { get; set; } = string.Empty;
+
     public string ESettExchangeBaseUrl { get; set; } = string.Empty;
 
     public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
 
     public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
+
+    public string SettlementReportsAPIBaseUrl { get; set; } = string.Empty;
 }

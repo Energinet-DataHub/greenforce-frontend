@@ -2,12 +2,12 @@
   "apiBase": "https://demo.energytrackandtrace.dk/api",
   "developerPortal": "https://demo.energytrackandtrace.dk/developer/",
   "apiVersions": {
-    "certificates": "20240515",
-    "wallet-api": "20240515",
-    "transfer": "20240515",
-    "claim-automation": "20240515",
-    "measurements": "20240515",
-    "authorization": "20230101"
+    "certificates": "1",
+    "wallet-api": "1",
+    "transfer": "1",
+    "claim-automation": "1",
+    "measurements": "1",
+    "authorization": "1"
   },
   "/* NOTE: Remember to add the URLs to the prerendered routes: /apps/eo/app-eo-landing-page/src/prerendered-routes.txt */": "ex. /en/documentation/<DOC-ID>",
   "documentation": [

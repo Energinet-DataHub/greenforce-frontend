@@ -156,7 +156,10 @@
         "libs/dh/shared/domain/src/lib/generated/v1/configuration.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql": [
-        "libs/dh/shared/domain/src/lib/generated/graphql.ts"
+        "libs/dh/shared/domain/src/lib/generated/graphql/types.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain/graphql/data-source": [
+        "libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts"
       ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
@@ -166,6 +169,9 @@
       ],
       "@energinet-datahub/dh/shared/feature-flags": [
         "libs/dh/shared/feature-flags/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/feature-graphql-codegen": [
+        "libs/dh/shared/feature-graphql-codegen/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/test-util-auth": [
         "libs/dh/shared/test-util-auth/src/index.ts"
@@ -389,6 +395,9 @@
       ],
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
+      ],
+      "@energinet-datahub/gf/util-cookie-information": [
+        "libs/gf/util-cookie-information/src/index.ts"
       ],
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
       "@energinet-datahub/watt/badge": [

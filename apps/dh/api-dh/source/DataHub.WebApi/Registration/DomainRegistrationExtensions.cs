@@ -40,7 +40,9 @@ public static class DomainRegistrationExtensions
             .AddWholesaleOrchestrationsClient(
                 GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
             .AddSettlementReportsClient(
-                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl))
+                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl),
+                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsLightBaseUrl),
+                GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl))
             .AddESettClient(
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(
@@ -81,12 +83,14 @@ public static class DomainRegistrationExtensions
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }
 
-    private static IServiceCollection AddSettlementReportsClient(this IServiceCollection serviceCollection, Uri baseUri)
+    private static IServiceCollection AddSettlementReportsClient(this IServiceCollection serviceCollection, Uri baseUri, Uri lightBaseUri, Uri apiBaseUri)
     {
         return serviceCollection.AddScoped<ISettlementReportsClient, SettlementReportsClient>(
             provider => new SettlementReportsClient(
                 baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(lightBaseUri),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(apiBaseUri)));
     }
 
     private static IServiceCollection AddESettClient(this IServiceCollection serviceCollection, Uri baseUri)

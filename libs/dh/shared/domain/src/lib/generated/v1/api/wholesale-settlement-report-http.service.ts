@@ -18,8 +18,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-// @ts-ignore
-import { Stream } from '../model/stream';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -93,18 +91,33 @@ export class WholesaleSettlementReportHttp {
 
     /**
      * @param settlementReportId 
+     * @param token 
+     * @param filename 
+     * @param fromApi 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<Stream>;
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Stream>>;
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Stream>>;
-    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<Blob>;
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Blob>>;
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Blob>>;
+    public v1WholesaleSettlementReportDownloadReportGet(settlementReportId?: string, token?: string, filename?: string, fromApi?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/zip', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (settlementReportId !== undefined && settlementReportId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>settlementReportId, 'settlementReportId');
+        }
+        if (token !== undefined && token !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>token, 'token');
+        }
+        if (filename !== undefined && filename !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>filename, 'filename');
+        }
+        if (fromApi !== undefined && fromApi !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>fromApi, 'fromApi');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -139,23 +152,12 @@ export class WholesaleSettlementReportHttp {
         }
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
         let localVarPath = `/v1/WholesaleSettlementReport/DownloadReport`;
-        return this.httpClient.request<Stream>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
-                responseType: <any>responseType_,
+                responseType: "blob",
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,

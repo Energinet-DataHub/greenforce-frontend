@@ -50,7 +50,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Collections.Generic.IEnumerable<string> body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -283,7 +283,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// </summary>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.Collections.Generic.IEnumerable<string> gridAreaCodes = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SettlementReportApplicableCalculationDto>> GetApplicableCalculationsAsync(CalculationType? calculationType = null, System.DateTimeOffset? periodStart = null, System.DateTimeOffset? periodEnd = null, System.Collections.Generic.IEnumerable<string> body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -291,7 +291,11 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
@@ -302,10 +306,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
                     if (calculationType != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("calculationType")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(calculationType, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (gridAreaCodes != null)
-                    {
-                        foreach (var item_ in gridAreaCodes) { urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCodes")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
                     }
                     if (periodStart != null)
                     {
@@ -515,7 +515,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         public System.DateTimeOffset? ExecutionTimeEnd { get; set; }
 
         [Newtonsoft.Json.JsonProperty("orchestrationState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationOrchestrationState OrchestrationState { get; set; }
 
         [Newtonsoft.Json.JsonProperty("areSettlementReportsCreated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -528,7 +527,6 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
         /// Defines the wholesale calculation type
         /// </summary>
         [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public CalculationType CalculationType { get; set; }
 
         [Newtonsoft.Json.JsonProperty("createdByUserId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -546,35 +544,25 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     public enum CalculationOrchestrationState
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Scheduled")]
-        Scheduled = 0,
+        Scheduled = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Calculating")]
-        Calculating = 1,
+        Calculating = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Calculated")]
-        Calculated = 2,
+        Calculated = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"CalculationFailed")]
-        CalculationFailed = 3,
+        CalculationFailed = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ActorMessagesEnqueuing")]
-        ActorMessagesEnqueuing = 4,
+        ActorMessagesEnqueuing = 5,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ActorMessagesEnqueued")]
-        ActorMessagesEnqueued = 5,
+        ActorMessagesEnqueued = 6,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ActorMessagesEnqueuingFailed")]
-        ActorMessagesEnqueuingFailed = 6,
+        ActorMessagesEnqueuingFailed = 7,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
-        Completed = 7,
+        Completed = 8,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Canceled")]
-        Canceled = 8,
+        Canceled = 9,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Started")]
-        Started = 9,
+        Started = 11,
 
     }
 
@@ -582,16 +570,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     public enum CalculationState
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Pending")]
         Pending = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Executing")]
         Executing = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
         Completed = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Failed")]
         Failed = 3,
 
     }
@@ -603,22 +587,16 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.v3
     public enum CalculationType
     {
 
-        [System.Runtime.Serialization.EnumMember(Value = @"BalanceFixing")]
         BalanceFixing = 0,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"Aggregation")]
         Aggregation = 1,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"WholesaleFixing")]
         WholesaleFixing = 2,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"FirstCorrectionSettlement")]
         FirstCorrectionSettlement = 3,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"SecondCorrectionSettlement")]
         SecondCorrectionSettlement = 4,
 
-        [System.Runtime.Serialization.EnumMember(Value = @"ThirdCorrectionSettlement")]
         ThirdCorrectionSettlement = 5,
 
     }

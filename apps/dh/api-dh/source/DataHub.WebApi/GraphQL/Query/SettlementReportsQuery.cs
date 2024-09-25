@@ -46,16 +46,20 @@ public partial class Query
             };
 
             settlementReports.Add(new SettlementReport(
-                report.RequestId.Id,
-                actor,
-                report.CalculationType,
-                new Interval(report.PeriodStart.ToInstant(), report.PeriodEnd.ToInstant()),
-                report.GridAreaCount,
-                report.ContainsBasisData,
-                string.Empty,
-                report.Progress,
-                settlementReportStatusType,
-                new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null)));
+                Id: report.RequestId.Id,
+                Actor: actor,
+                CalculationType: report.CalculationType,
+                Period: new Interval(report.PeriodStart.ToInstant(), report.PeriodEnd.ToInstant()),
+                NumberOfGridAreasInReport: report.GridAreaCount,
+                IncludesBasisData: report.ContainsBasisData,
+                StatusMessage: string.Empty,
+                Progress: report.Progress,
+                StatusType: settlementReportStatusType,
+                ExecutionTime: new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null),
+                FromApi: report.JobId is not null,
+                CombineResultInASingleFile: !report.SplitReportPerGridArea,
+                IncludeMonthlyAmount: report.IncludeMonthlyAmount,
+                GridAreas: report.GridAreas.Select(ga => ga.Key).ToArray()));
         }
 
         return settlementReports;
@@ -70,9 +74,9 @@ public partial class Query
         var gridAreaCalculations = new Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>();
         var calculations = await client.GetApplicableCalculationsAsync(
             calculationType,
-            gridAreaId,
             calculationPeriod.Start.ToDateTimeOffset(),
-            calculationPeriod.End.ToDateTimeOffset());
+            calculationPeriod.End.ToDateTimeOffset(),
+            gridAreaId);
 
         foreach (var calculation in calculations)
         {

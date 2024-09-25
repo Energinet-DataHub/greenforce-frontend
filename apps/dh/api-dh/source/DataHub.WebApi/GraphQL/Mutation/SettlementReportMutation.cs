@@ -40,6 +40,7 @@ public partial class Mutation
                 requestSettlementReportInput.PreventLargeTextFiles,
                 requestSettlementReportInput.IncludeBasisData,
                 requestSettlementReportInput.IncludeMonthlySums,
+                requestSettlementReportInput.UseApi,
                 requestFilter),
             default);
 

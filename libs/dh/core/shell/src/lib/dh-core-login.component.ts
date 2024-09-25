@@ -41,8 +41,8 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
     VaterStackComponent,
     WattButtonComponent,
     DhMitIDButtonComponent,
-    DhFeatureFlagDirective,
     MatProgressBarModule,
+    DhFeatureFlagDirective,
   ],
   styles: [
     `
