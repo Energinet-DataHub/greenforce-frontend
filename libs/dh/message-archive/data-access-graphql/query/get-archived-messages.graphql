@@ -1,30 +1,28 @@
 query GetArchivedMessages(
   $created: DateRange!
-  $messageId: String
   $senderNumber: String
   $receiverNumber: String
   $documentTypes: [DocumentType!]
   $businessReasons: [BusinessReason!]
-  $includeRelatedMessages: Boolean
   $first: Int
   $last: Int
   $after: String
   $before: String
   $order: [ArchivedMessageSortInput!]
+  $filter: String
 ) {
   archivedMessages(
+    created: $created
+    senderNumber: $senderNumber
+    receiverNumber: $receiverNumber
+    documentTypes: $documentTypes
+    businessReasons: $businessReasons
     first: $first
     last: $last
     after: $after
     before: $before
     order: $order
-    created: $created
-    messageId: $messageId
-    senderNumber: $senderNumber
-    receiverNumber: $receiverNumber
-    documentTypes: $documentTypes
-    businessReasons: $businessReasons
-    includeRelatedMessages: $includeRelatedMessages
+    filter: $filter
   ) {
     totalCount
     pageInfo {
