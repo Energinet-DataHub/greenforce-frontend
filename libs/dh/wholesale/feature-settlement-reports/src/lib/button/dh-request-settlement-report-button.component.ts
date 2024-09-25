@@ -14,13 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
+import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-as-settlement-report-modal.component';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-request-settlement-report-button',
@@ -34,10 +40,29 @@ import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-set
 })
 export class DhRequestSettlementReportButtonComponent {
   private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
+  private readonly actorStorage = inject(DhActorStorage);
+  private readonly destroyRef = inject(DestroyRef);
 
   openModal() {
-    this.modalService.open({
-      component: DhRequestSettlementReportModalComponent,
-    });
+    this.permissionService
+      .isFas()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isFas) => {
+        if (isFas) {
+          this.modalService.open({
+            component: DhRequestAsSettlementReportModalComponent,
+          });
+        } else {
+          this.modalService.open({
+            component: DhRequestSettlementReportModalComponent,
+            data: {
+              isFas: false,
+              actorId: this.actorStorage.getSelectedActorId(),
+              marketRole: this.actorStorage.getSelectedActor().marketRoles,
+            },
+          });
+        }
+      });
   }
 }

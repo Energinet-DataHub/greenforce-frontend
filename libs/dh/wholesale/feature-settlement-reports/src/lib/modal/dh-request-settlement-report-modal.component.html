@@ -21,6 +21,42 @@ limitations under the License.
 >
   <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-stack align="stretch" direction="column" gap="l">
+
+      @if (hasMoreThanOneGridAreaOption()) {
+        <div class="items-group">
+          <watt-dropdown
+            [multiple]="true"
+            sortDirection="asc"
+            [label]="t('gridArea')"
+            [formControl]="form.controls.gridAreas"
+            [options]="gridAreaOptions$ | push"
+          >
+            @if (multipleGridAreasSelected$ | push) {
+              <watt-field-hint>
+                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+              </watt-field-hint>
+            }
+          </watt-dropdown>
+
+          @if (multipleGridAreasSelected$ | push) {
+            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+              {{ t("combineResultsInOneFile") }}
+            </watt-checkbox>
+          }
+        </div>
+      }
+
+      @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
+        <div class="items-group">
+          <watt-dropdown
+            [label]="t('energySupplier')"
+            [showResetOption]="false"
+            [formControl]="form.controls.energySupplier"
+            [options]="energySupplierOptions$ | push"
+          />
+        </div>
+      }
+
       <div class="items-group">
         <watt-dropdown
           [label]="t('calculationType')"
@@ -59,41 +95,6 @@ limitations under the License.
           </watt-checkbox>
         }
       </div>
-
-      @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
-        <div class="items-group">
-          <watt-dropdown
-            [label]="t('energySupplier')"
-            [showResetOption]="false"
-            [formControl]="form.controls.energySupplier"
-            [options]="energySupplierOptions$ | push"
-          />
-        </div>
-      }
-
-      @if (hasMoreThanOneGridAreaOption()) {
-        <div class="items-group">
-          <watt-dropdown
-            [multiple]="true"
-            sortDirection="asc"
-            [label]="t('gridArea')"
-            [formControl]="form.controls.gridAreas"
-            [options]="gridAreaOptions$ | push"
-          >
-            @if (miltipleGridAreasSelected$ | push) {
-              <watt-field-hint>
-                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-              </watt-field-hint>
-            }
-          </watt-dropdown>
-
-          @if (miltipleGridAreasSelected$ | push) {
-            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
-              {{ t("combineResultsInOneFile") }}
-            </watt-checkbox>
-          }
-        </div>
-      }
 
       <watt-checkbox
         *dhFeatureFlag="'settlement-report-use-api'"
