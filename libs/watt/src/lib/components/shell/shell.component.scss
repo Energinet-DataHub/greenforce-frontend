@@ -36,7 +36,7 @@
 
 .watt-sidenav {
   width: 245px;
-  background-color: var(--watt-color-primary-dark);
+  background-color: var(--watt-sidenav-background-color);
 
   @include watt.media("<Large") {
     width: calc(245px + 44px); // Added closing button width
