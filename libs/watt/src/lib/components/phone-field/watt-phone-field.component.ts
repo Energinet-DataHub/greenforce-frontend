@@ -25,6 +25,7 @@ import {
   inject,
   input,
   signal,
+  untracked,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -67,11 +68,12 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
+    ReactiveFormsModule,
+    MatSelectModule,
+    MaskitoDirective,
+
     WattFieldComponent,
     WattIconComponent,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MaskitoDirective,
     WattFieldErrorComponent,
   ],
   providers: [
@@ -122,14 +124,14 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
-  readonly countries = [
+  readonly countries: Contry[] = [
     { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
     { countryIsoCode: 'SE', icon: 'custom-flag-se', phoneExtension: '+46' },
     { countryIsoCode: 'NO', icon: 'custom-flag-no', phoneExtension: '+47' },
     { countryIsoCode: 'DE', icon: 'custom-flag-de', phoneExtension: '+49' },
     { countryIsoCode: 'FI', icon: 'custom-flag-fi', phoneExtension: '+358' },
     { countryIsoCode: 'PL', icon: 'custom-flag-pl', phoneExtension: '+48' },
-  ] as Contry[];
+  ];
 
   formControl = input.required<FormControl>();
   label = input<string>();
@@ -161,12 +163,22 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   writeValue(value: string): void {
     if (value) {
-      const country = this.countries.find((x) => value.startsWith(x.phoneExtension));
+      const country = this.countries.find((country) => value.startsWith(country.phoneExtension));
+
       if (country) {
-        this.setCountry(country);
+        // Exclude Signal from being tracked
+        // in case the parent component sets the value inside an `effect`.
+        // Without this, updating the Signal internaly triggers the parrent `effect` to re-run.
+        // Note: Revisit once v19 is released because the `effect` API has changed
+        // significantly and this might not be necessary anymore
+        untracked(() => {
+          this.setCountry(country);
+        });
+
         value = maskitoTransform(value, this.mask);
       }
     }
+
     this.value = value;
   }
 
@@ -196,9 +208,12 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   }
 
   /** @ignore */
-  selectedContry(event: MatSelectChange) {
-    const country = this.countries.find((contry) => contry.countryIsoCode === event.value);
-    if (!country) throw new Error('Prefix not found');
+  selectedContry({ value }: MatSelectChange) {
+    const country = this.countries.find((contry) => contry.countryIsoCode === value);
+
+    if (!country) {
+      throw new Error('Prefix not found');
+    }
 
     this.setCountry(country);
     this.formControl().reset();
