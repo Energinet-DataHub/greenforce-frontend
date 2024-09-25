@@ -92,7 +92,10 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     return this._sort;
   }
   set sort(sort) {
-    if (sort) this._configureSort(sort);
+    if (sort) {
+      // Avoid NG0100: Expression has changed after it was checked
+      setTimeout(() => this._configureSort(sort), 0);
+    }
     this._sort = sort;
     this._updateChangeSubscription();
   }
@@ -120,8 +123,6 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     );
 
     if (!options?.skip) this._inputChange.next(options?.variables);
-
-    this._updateChangeSubscription();
   }
 
   refetch = (variables?: TVariables) => this._inputChange.next(variables);
