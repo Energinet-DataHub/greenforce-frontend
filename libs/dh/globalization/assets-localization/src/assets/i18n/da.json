@@ -50,6 +50,21 @@
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
     },
+    "data": {
+      "default": {
+        "title": "Start søgning",
+        "text": "Dine resultater vil fremgå her"
+      },
+      "error": {
+        "title": "Ups! Der opstod en fejl",
+        "text": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+        "button": "Prøv igen"
+      },
+      "empty": {
+        "title": "Ingen resultater fundet",
+        "text": "Prøv at ændre dine søgeindstillinger"
+      }
+    },
     "navigation": {
       "next": "Næste",
       "previous": "Forrige"

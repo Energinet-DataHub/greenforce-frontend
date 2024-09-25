@@ -50,6 +50,21 @@
       "title": "No results found",
       "message": "Try changing the search criteria"
     },
+    "data": {
+      "default": {
+        "title": "Start search",
+        "text": "Your results will appear here"
+      },
+      "error": {
+        "title": "An unexpected error occured",
+        "text": "Unfortunately, an error occurred while retrieving the necessary information",
+        "button": "Try again"
+      },
+      "empty": {
+        "title": "No results found",
+        "text": "Try changing the search criteria"
+      }
+    },
     "navigation": {
       "next": "Next",
       "previous": "Previous"
