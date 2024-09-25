@@ -111,6 +111,36 @@ type ApiErrorDescriptor {
   args: JSON!
 }
 
+type ArchivedMessage {
+  sender: Actor
+  receiver: Actor
+  documentType: DocumentType!
+  documentUrl: String
+  businessTransaction: BusinessTransaction!
+  id: String!
+  messageId: String
+  createdAt: DateTime!
+  businessReason: String
+}
+
+"A connection to a list of items."
+type ArchivedMessagesConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ArchivedMessagesEdge!]
+  "A flattened list of the nodes."
+  nodes: [ArchivedMessage!]
+}
+
+"An edge in a connection."
+type ArchivedMessagesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: ArchivedMessage!
+}
+
 type AssociatedActors {
   email: String!
   actors: [UUID!]!
@@ -492,6 +522,7 @@ type Query {
   gridAreas: [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+  archivedMessages(created: DateRange! messageId: String senderNumber: String receiverNumber: String documentTypes: [DocumentType!] businessReasons: [BusinessReason!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ArchivedMessageSortInput!]): ArchivedMessagesConnection
   organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
@@ -731,6 +762,14 @@ input AddressDtoInput {
   zipCode: String
   city: String
   country: String!
+}
+
+input ArchivedMessageSortInput {
+  messageId: SortEnumType
+  documentType: SortEnumType
+  sender: SortEnumType
+  receiver: SortEnumType
+  createdAt: SortEnumType
 }
 
 input CalculationQueryInput {
@@ -1025,6 +1064,102 @@ enum BalanceResponsibleSortProperty {
   RECEIVED_DATE
 }
 
+enum BusinessReason {
+  D02
+  D03
+  D04
+  D05
+  D06
+  D07
+  D09
+  D10
+  D11
+  D12
+  D13
+  D14
+  D15
+  D16
+  D17
+  D18
+  D19
+  D20
+  D21
+  D22
+  D23
+  D24
+  D25
+  D26
+  D27
+  D28
+  D29
+  D30
+  D31
+  D32
+  D33
+  D34
+  D35
+  D36
+  D37
+  D38
+  D39
+  D40
+  D41
+  D43
+  D44
+  D45
+  D46
+  D47
+  E01
+  E02
+  E03
+  E05
+  E06
+  E0G
+  E20
+  E23
+  E30
+  E32
+  E34
+  E53
+  E56
+  E65
+  E66
+  E67
+  E75
+  E79
+  E80
+  E84
+}
+
+enum BusinessTransaction {
+  RSM001
+  RSM003
+  RSM004
+  RSM005
+  RSM006
+  RSM009
+  RSM012
+  RSM014
+  RSM015
+  RSM016
+  RSM017
+  RSM018
+  RSM019
+  RSM020
+  RSM021
+  RSM022
+  RSM024
+  RSM025
+  RSM027
+  RSM028
+  RSM030
+  RSM031
+  RSM032
+  RSM033
+  RSM034
+  RSM035
+}
+
 enum CalculationExecutionType {
   EXTERNAL
   INTERNAL
@@ -1091,6 +1226,63 @@ enum DocumentStatus {
   ACCEPTED
   REJECTED
   BIZ_TALK_ACCEPTED
+}
+
+enum DocumentType {
+  CONFIRM_REQUEST_CHANGE_OF_SUPPLIER
+  REJECT_REQUEST_CHANGE_OF_SUPPLIER
+  REQUEST_CHANGE_OF_SUPPLIER
+  CONFIRM_REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
+  REJECT_REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
+  REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
+  GENERIC_NOTIFICATION
+  CONFIRM_REQUEST_END_OF_SUPPLY
+  REJECT_REQUEST_END_OF_SUPPLY
+  REQUEST_END_OF_SUPPLY
+  REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
+  REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
+  ACKNOWLEDGEMENT
+  NOTIFY_VALIDATED_MEASURE_DATA
+  NOTIFY_AGGREGATED_MEASURE_DATA
+  REJECT_REQUEST_VALIDATED_MEASURE_DATA
+  REQUEST_VALIDATED_MEASURE_DATA
+  REJECT_REQUEST_AGGREGATED_MEASURE_DATA
+  REQUEST_AGGREGATED_MEASURE_DATA
+  B2_C_REQUEST_AGGREGATED_MEASURE_DATA
+  REJECT_REQUEST_WHOLESALE_SETTLEMENT
+  REQUEST_WHOLESALE_SETTLEMENT
+  B2_C_REQUEST_WHOLESALE_SETTLEMENT
+  REJECT_REQUEST_FOR_REMINDERS
+  REMINDER_OF_MISSING_MEASURE_DATA
+  REQUEST_FOR_REMINDERS
+  NOTIFY_WHOLESALE_SERVICES
+  CONFIRM_REQUEST_SERVICE
+  REJECT_REQUEST_SERVICE
+  REQUEST_SERVICE
+  CONFIRM_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  REJECT_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  ACCOUNTING_POINT_CHARACTERISTICS
+  CONFIRM_REQUEST_CANCELLATION
+  REJECT_REQUEST_CANCELLATION
+  REQUEST_CANCELLATION
+  NOTIFY_CANCELLATION
+  CONFIRM_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
+  REJECT_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
+  REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
+  CHARACTERISTICS_OF_A_CUSTOMER_AT_AN_AP
+  CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
+  REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  REQUEST_CHANGE_BILLING_MASTER_DATA
+  NOTIFY_BILLING_MASTER_DATA
+  REJECT_REQUEST_BILLING_MASTER_DATA
+  REQUEST_BILLING_MASTER_DATA
+  CONFIRM_REQUEST_CHANGE_OF_PRICELIST
+  REJECT_REQUEST_CHANGE_OF_PRICELIST
+  REQUEST_CHANGE_OF_PRICELIST
+  NOTIFY_PRICELIST
+  REJECT_REQUEST_PRICELIST
+  REQUEST_PRICELIST
 }
 
 enum ESettStageComponent {
