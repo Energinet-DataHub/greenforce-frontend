@@ -30,16 +30,18 @@ public partial class Query
         string? receiverNumber,
         DocumentType[]? documentTypes,
         BusinessReason[]? businessReasons,
-        bool? includeRelatedMessages,
-        [Service] IEdiB2CWebAppClient_V1 client) =>
-            await client.ArchivedMessageSearchAsync("1.0", new SearchArchivedMessagesCriteria()
+        string? filter,
+        [Service] IEdiB2CWebAppClient_V1 client)
+    {
+        var search = !string.IsNullOrWhiteSpace(filter)
+            ? new SearchArchivedMessagesCriteria() { MessageId = filter, IncludeRelatedMessages = true }
+            : new SearchArchivedMessagesCriteria()
             {
                 CreatedDuringPeriod = new MessageCreationPeriod()
                 {
                     Start = created.Start.ToDateTimeOffset(),
                     End = created.End.ToDateTimeOffset(),
                 },
-                MessageId = string.IsNullOrEmpty(messageId) ? null : messageId,
                 SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : messageId,
                 ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : messageId,
                 DocumentTypes = documentTypes.IsNullOrEmpty()
@@ -48,6 +50,8 @@ public partial class Query
                 BusinessReasons = businessReasons.IsNullOrEmpty()
                     ? null
                     : businessReasons?.Select(x => x.ToString()).ToArray(),
-                IncludeRelatedMessages = includeRelatedMessages ?? false,
-            });
+            };
+
+        return await client.ArchivedMessageSearchAsync("1.0", search);
+    }
 }
