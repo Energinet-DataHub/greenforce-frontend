@@ -100,7 +100,7 @@ export class DhImbalancePricesShellComponent {
 
     return [...new Set(periods)].map((period) => ({
       value: period,
-      displayValue: wattFormatDate(period, 'monthYear')!,
+      displayValue: wattFormatDate(period, 'monthYear') as string,
     }));
   });
 
