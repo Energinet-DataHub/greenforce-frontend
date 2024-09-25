@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, output, signal, viewChild } from '@angular/core';
+import { Component, computed, output, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -36,7 +36,7 @@ import {
   GetArchivedMessagesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { form, FormValues } from './form';
+import { form } from './form/start';
 
 @Component({
   selector: 'dh-message-archive-search-start',
@@ -66,7 +66,7 @@ import { form, FormValues } from './form';
         offset="m"
         id="dh-message-archive-search-start-form"
         [formGroup]="form"
-        (ngSubmit)="values.set(form.getRawValue())"
+        (ngSubmit)="onSubmit()"
       >
         <watt-dropdown
           [label]="t('documentType')"
@@ -116,17 +116,10 @@ import { form, FormValues } from './form';
 })
 export class DhMessageArchiveSearchStartComponent {
   form = form;
+
+  search = output<GetArchivedMessagesQueryVariables>();
   close = output<boolean>();
-
   modal = viewChild.required<WattModalComponent>('modal');
-
-  values = signal<FormValues | null>(null);
-  variables = computed(() => {
-    const values = this.values();
-    if (!values) return undefined;
-    const { start, end, ...variables } = values;
-    return { ...variables, created: { start, end } } as GetArchivedMessagesQueryVariables;
-  });
 
   documentTypeOptions = dhEnumToWattDropdownOptions(DocumentType);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
@@ -139,4 +132,11 @@ export class DhMessageArchiveSearchStartComponent {
       displayValue: actor.name || actor.glnOrEicNumber,
     }))
   );
+
+  onSubmit = () => {
+    const values = this.form.getRawValue();
+    if (!values || !values.start) return;
+    const { start, end, ...variables } = values;
+    this.search.emit({ ...variables, created: { start, end } });
+  };
 }

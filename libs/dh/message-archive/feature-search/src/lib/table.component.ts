@@ -99,7 +99,6 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
   `,
 })
 export class DhMessageArchiveSearchTableComponent {
-  variables = input<GetArchivedMessagesQueryVariables | undefined>();
   selection = input<ArchivedMessage | undefined>();
   selectionChange = output<ArchivedMessage>();
   start = output();
@@ -111,8 +110,6 @@ export class DhMessageArchiveSearchTableComponent {
     },
   });
 
-  refetch = effect(() => this.variables() && this.dataSource.refetch(this.variables()));
-
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
     documentType: { accessor: 'documentType' },
@@ -120,6 +117,8 @@ export class DhMessageArchiveSearchTableComponent {
     receiver: { accessor: (m) => m.receiver?.displayName },
     createdAt: { accessor: 'createdAt' },
   };
+
+  search = (variables: GetArchivedMessagesQueryVariables) => this.dataSource.refetch(variables);
 
   update(reset: boolean) {
     if (reset) {

@@ -30,7 +30,11 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
     DhMessageArchiveSearchTableComponent,
   ],
   template: `
-    <dh-message-archive-search-start #start (close)="table.update($event)" />
+    <dh-message-archive-search-start
+      #start
+      (search)="table.search($event)"
+      (close)="table.update($event)"
+    />
     <dh-message-archive-search-details
       #details
       [message]="message()"
@@ -38,7 +42,6 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
     />
     <dh-message-archive-search-table
       #table
-      [variables]="start.variables()"
       [selection]="message()"
       (selectionChange)="message.set($event)"
       (start)="start.modal().open()"
