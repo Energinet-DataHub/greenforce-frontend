@@ -71,8 +71,8 @@ const selector = 'eo-landing-page-footer';
           grid-template-columns: repeat(5, auto);
           grid-template-rows: auto;
           grid-template-areas:
-        "logo address contact legal developers"
-        "logo address contact legal drivenBy";
+            'logo address contact legal developers'
+            'logo address contact legal drivenBy';
           gap: 0 64px;
         }
       }
@@ -173,7 +173,6 @@ const selector = 'eo-landing-page-footer';
         <h4 class="headline-5">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
         <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
       </section>
-
     </footer>
   `,
 })
