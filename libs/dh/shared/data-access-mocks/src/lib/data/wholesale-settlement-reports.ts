@@ -90,7 +90,7 @@ export const wholesaleSettlementReportsQueryMock = (
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 0,
       includesBasisData: true,
-      statusType: SettlementReportStatusType.Error,
+      statusType: SettlementReportStatusType.Completed,
       progress: 75,
       actor: {
         __typename: 'Actor',
