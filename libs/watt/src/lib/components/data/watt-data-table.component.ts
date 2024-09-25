@@ -14,15 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, ViewEncapsulation, contentChild, inject, input, output } from '@angular/core';
 
 import {
   VaterFlexComponent,
