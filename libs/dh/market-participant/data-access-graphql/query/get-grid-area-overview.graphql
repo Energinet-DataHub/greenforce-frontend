@@ -9,6 +9,8 @@ query GetGridAreaOverview {
     actorNumber
     actorName
     organizationName
+    type
     fullFlexDate
+    status
   }
 }

@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
@@ -27,15 +26,26 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  DhEmDashFallbackPipe,
+  dhEnumToWattDropdownOptions,
+  exportToCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { FormsModule } from '@angular/forms';
 
 export interface GridAreaOverviewRow {
   code: string;
   actor: string;
   organization: string;
+  status: GridAreaStatus;
+  type: GridAreaType;
 }
 
 @Component({
@@ -58,10 +68,11 @@ export interface GridAreaOverviewRow {
     `,
   ],
   imports: [
+    FormsModule,
+
     TranslocoDirective,
     TranslocoPipe,
 
-    WATT_CARD,
     WATT_TABLE,
     WattPaginatorComponent,
     VaterFlexComponent,
@@ -72,9 +83,12 @@ export interface GridAreaOverviewRow {
     WattSearchComponent,
     WattButtonComponent,
     WattButtonComponent,
+    WattDropdownComponent,
     WattDatePipe,
 
     DhEmDashFallbackPipe,
+    DhDropdownTranslatorDirective,
+    DhGridAreaStatusBadgeComponent,
   ],
 })
 export class DhMarketParticipantGridAreaOverviewComponent {
@@ -82,17 +96,25 @@ export class DhMarketParticipantGridAreaOverviewComponent {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
     organization: { accessor: 'organization' },
+    type: { accessor: 'type' },
+    status: { accessor: 'status' },
   };
 
   gridAreas = input<GridAreaOverviewRow[]>([]);
   isLoading = input<boolean>(false);
   hasError = input<boolean>(false);
 
+  gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, 'asc', [GridAreaType.NotSet]);
+
+  selectedGridAreaType = signal<GridAreaType | null>(null);
+
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.gridAreas();
+      this.dataSource.data = this.gridAreas()?.filter(
+        (x) => x.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null
+      );
     });
   }
 
@@ -109,18 +131,29 @@ export class DhMarketParticipantGridAreaOverviewComponent {
 
     const columnsPath = 'marketParticipant.gridAreas.columns';
 
+    const statusPath = 'marketParticipant.gridAreas.status';
+    const typesPath = 'marketParticipant.gridAreas.types';
+
     const headers = [
       `"${translate(columnsPath + '.code')}"`,
       `"${translate(columnsPath + '.actor')}"`,
       `"${translate(columnsPath + '.organization')}"`,
+      `"${translate(columnsPath + '.type')}"`,
+      `"${translate(columnsPath + '.status')}"`,
     ];
 
     const lines = dataSorted.map((gridArea) => [
       `"${gridArea.code}"`,
       `"${gridArea.actor}"`,
       `"${gridArea.organization}"`,
+      `"${translate(typesPath + '.' + gridArea.type)}"`,
+      `"${translate(statusPath + '.' + gridArea.status)}"`,
     ]);
 
     exportToCSV({ headers, lines, fileName: 'grid-areas' });
+  }
+
+  public onGridAreaTypeChange(type: GridAreaType | null): void {
+    this.selectedGridAreaType.set(type);
   }
 }

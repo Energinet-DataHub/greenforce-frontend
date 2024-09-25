@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card vater inset="ml" *transloco="let t; read: 'marketParticipant.gridAreas'">
-  <vater-flex fill="vertical" gap="ml">
-    <vater-stack direction="row">
+  <vater-flex *transloco="let t; read: 'marketParticipant.gridAreas'" fill="vertical" gap="ml">
+    <vater-stack direction="row" gap="m">
       <h3>{{ t("topBarTitle") }}</h3>
       <span class="watt-chip-label">{{ dataSource.data.length }}</span>
 
@@ -30,22 +30,59 @@ limitations under the License.
     </vater-stack>
 
     <vater-flex fill="vertical" scrollable>
-      <watt-table
-        *transloco="let translateColumns; read: 'marketParticipant.gridAreas.columns'"
-        [columns]="columns"
-        [dataSource]="dataSource"
-        [resolveHeader]="translateColumns"
-        aria-label="gridAreas"
-        sortBy="code"
-        sortDirection="asc"
-        [loading]="isLoading()"
-      />
-      @if (!isLoading() && (hasError() || dataSource.data.length === 0)) {
-        <watt-empty-state
-          [icon]="hasError() ? 'custom-power' : 'cancel'"
-          [title]="hasError() ? t('error') : t('noGridAreas')"
+      <vater-stack align="flex-start" gap="m">
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="marketParticipant.gridAreas.types"
+          [chipMode]="true"
+          [options]="gridAreaTypeOptions"
+          [(ngModel)]="selectedGridAreaType"
+          (ngModelChange)="onGridAreaTypeChange($event)"
+          [placeholder]="t('areaTypePlaceholder')"
         />
-      }
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          aria-label="gridAreas"
+          sortBy="code"
+          sortDirection="asc"
+          [loading]="isLoading()"
+        >
+          <ng-container *wattTableCell="columns['code']; header: t('columns.code'); let gridArea">
+            {{ gridArea.code }}
+          </ng-container>
+
+          <ng-container *wattTableCell="columns['actor']; header: t('columns.actor'); let gridArea">
+            {{ gridArea.actor }}
+          </ng-container>
+
+          <ng-container
+            *wattTableCell="
+              columns['organization'];
+              header: t('columns.organization');
+              let gridArea
+            "
+          >
+            {{ gridArea.organization }}
+          </ng-container>
+
+          <ng-container *wattTableCell="columns['type']; header: t('columns.type'); let gridArea">
+            {{ t("types." + gridArea.type) }}
+          </ng-container>
+
+          <ng-container
+            *wattTableCell="columns['status']; header: t('columns.status'); let gridArea"
+          >
+            <dh-gridarea-status-badge [status]="gridArea.status" />
+          </ng-container>
+        </watt-table>
+        @if (!isLoading() && (hasError() || dataSource.data.length === 0)) {
+          <watt-empty-state
+            [icon]="hasError() ? 'custom-power' : 'cancel'"
+            [title]="hasError() ? t('error') : t('noGridAreas')"
+          />
+        }
+      </vater-stack>
     </vater-flex>
     <watt-paginator [for]="dataSource" [pageSize]="100" />
   </vater-flex>
