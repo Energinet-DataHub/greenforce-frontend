@@ -17,10 +17,11 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 watt-nav-list {
-  background-color: var(--watt-color-primary-dark);
+  background-color: var(--watt-sidenav-background-color);
 
   watt-nav-list-item {
     display: block;
+
     a {
       @include watt.space-inset-squish-m;
       display: block;
@@ -31,7 +32,7 @@ watt-nav-list {
 
     a:hover,
     a.active {
-      background-color: var(--watt-color-primary);
+      background-color: var(--watt-nav-list-hover-background-color);
     }
 
     a.active {
@@ -41,14 +42,14 @@ watt-nav-list {
 
   &.watt-nav-list--expandable {
     .mat-expansion-panel {
-      background-color: var(--watt-color-primary-dark);
+      background-color: var(--watt-sidenav-background-color);
       border-radius: 0;
     }
 
     .mat-expansion-panel-header.mat-expanded:hover,
     .mat-expansion-panel:not(.mat-expanded)
       .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
-      background-color: var(--watt-color-primary);
+      background-color: var(--watt-nav-list-hover-background-color);
     }
 
     .mat-expansion-panel-header {
