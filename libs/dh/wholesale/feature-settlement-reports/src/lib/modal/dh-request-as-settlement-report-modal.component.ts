@@ -35,7 +35,6 @@ import { RxPush } from '@rx-angular/template/push';
 import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import {
   DhActorStorage,
   PermissionService,
