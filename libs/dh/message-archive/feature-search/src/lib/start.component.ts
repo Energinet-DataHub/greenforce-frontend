@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, signal, viewChild } from '@angular/core';
+import { Component, computed, output, signal, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -58,6 +58,7 @@ import { form, FormValues } from './form';
       *transloco="let t; read: 'messageArchive.start'"
       size="small"
       [title]="t('title')"
+      (closed)="close.emit($event)"
     >
       <form
         vater-stack
@@ -67,7 +68,6 @@ import { form, FormValues } from './form';
         [formGroup]="form"
         (ngSubmit)="values.set(form.getRawValue())"
       >
-        <!-- Document Type -->
         <watt-dropdown
           [label]="t('documentType')"
           [formControl]="form.controls.documentTypes"
@@ -75,8 +75,6 @@ import { form, FormValues } from './form';
           [placeholder]="t('placeholder')"
           [multiple]="true"
         />
-
-        <!-- Business Reason -->
         <watt-dropdown
           [label]="t('businessReason')"
           [formControl]="form.controls.businessReasons"
@@ -86,35 +84,27 @@ import { form, FormValues } from './form';
           dhDropdownTranslator
           translateKey="messageArchive.businessReason"
         />
-
-        <!-- Sender -->
         <watt-dropdown
           [label]="t('sender')"
           [formControl]="form.controls.senderNumber"
           [options]="actorOptions()"
           [placeholder]="t('placeholder')"
         />
-
-        <!-- Receiver -->
         <watt-dropdown
           [label]="t('receiver')"
           [formControl]="form.controls.receiverNumber"
           [options]="actorOptions()"
           [placeholder]="t('placeholder')"
         />
-
-        <!-- From -->
         <watt-datetimepicker [label]="t('start')" [formControl]="form.controls.start" />
-
-        <!-- To -->
         <watt-datetimepicker [label]="t('end')" [formControl]="form.controls.end" />
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">
+        <watt-button variant="secondary" (click)="modal.close(true)">
           {{ t('cancel') }}
         </watt-button>
         <watt-button
-          (click)="modal.close(true)"
+          (click)="modal.close(false)"
           type="submit"
           formId="dh-message-archive-search-start-form"
         >
@@ -126,6 +116,7 @@ import { form, FormValues } from './form';
 })
 export class DhMessageArchiveSearchStartComponent {
   form = form;
+  close = output<boolean>();
 
   modal = viewChild.required<WattModalComponent>('modal');
 

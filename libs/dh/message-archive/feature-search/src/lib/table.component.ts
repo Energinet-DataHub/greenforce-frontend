@@ -48,7 +48,10 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
       *transloco="let t; read: 'messageArchive'"
       vater
       inset="ml"
+      [searchLabel]="t('searchById')"
       [error]="dataSource.error"
+      [ready]="dataSource.called"
+      (clear)="update(true)"
     >
       <h3>{{ t('results') }}</h3>
       <watt-button variant="secondary" icon="plus" (click)="start.emit()">
@@ -60,6 +63,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
         description="Search result"
         [dataSource]="dataSource"
         [columns]="columns"
+        [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
         (rowClick)="selectionChange.emit($event)"
@@ -116,4 +120,10 @@ export class DhMessageArchiveSearchTableComponent {
     receiver: { accessor: (m) => m.receiver?.displayName },
     createdAt: { accessor: 'createdAt' },
   };
+
+  update(reset: boolean) {
+    if (reset) {
+      this.dataSource.reset();
+    }
+  }
 }
