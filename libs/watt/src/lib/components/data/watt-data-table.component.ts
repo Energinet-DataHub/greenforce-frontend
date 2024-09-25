@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ContentChild, Input, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 
 import {
   VaterFlexComponent,
@@ -78,54 +86,57 @@ import { WattDataIntlService } from './watt-data-intl.service';
     `,
   ],
   template: `
-    <watt-card vater fill="vertical" [variant]="variant">
+    <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex fill="vertical" gap="m">
         <vater-stack direction="row" gap="m">
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
             <ng-content select="h4" />
-            <span class="watt-chip-label">{{ count ?? table.dataSource.totalCount }}</span>
+            <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
           </vater-stack>
           <vater-spacer />
-          @if (enableSearch) {
-            <watt-search [label]="searchLabel ?? intl.search" (search)="onSearch($event)" />
+          @if (enableSearch()) {
+            <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
           }
           <ng-content select="watt-button" />
         </vater-stack>
         <ng-content select="watt-data-filters" />
         <vater-flex scrollable fill="vertical">
           <ng-content select="watt-table" />
-          @if (!table.loading && table.dataSource.filteredData.length === 0) {
+          @if (!table().loading && table().dataSource.filteredData.length === 0) {
             <div class="watt-data-table--empty-state">
               <watt-empty-state
-                [icon]="error ? 'custom-power' : 'cancel'"
-                [title]="error ? intl.errorTitle : intl.emptyTitle"
-                [message]="error ? intl.errorMessage : intl.emptyMessage"
+                [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
+                [title]="error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle"
+                [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
               />
             </div>
           }
         </vater-flex>
-        @if (enablePaginator) {
-          <watt-paginator [for]="table.dataSource" />
+        @if (enablePaginator()) {
+          <watt-paginator [for]="table().dataSource" />
         }
       </vater-flex>
     </watt-card>
   `,
 })
 export class WattDataTableComponent {
-  @Input() error: unknown;
-  @Input() enableSearch = true;
-  @Input() searchLabel?: string;
-  @Input() enablePaginator = true;
-  @Input() count?: number;
-  @Input() variant: WATT_CARD_VARIANT = 'elevation';
-
-  @ContentChild(WattTableComponent, { descendants: true })
-  table!: WattTableComponent<unknown>;
-
   intl = inject(WattDataIntlService);
 
+  error = input<unknown>();
+  ready = input(true);
+  enableSearch = input(true);
+  searchLabel = input<string>();
+  enablePaginator = input(true);
+  count = input<number>();
+  variant = input<WATT_CARD_VARIANT>('elevation');
+
+  clear = output();
+
+  table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
+
   onSearch(value: string) {
-    this.table.dataSource.filter = value;
+    this.table().dataSource.filter = value;
+    if (!value) this.clear.emit();
   }
 }
