@@ -17,35 +17,22 @@
 import { Component, signal } from '@angular/core';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 
-import { DhMessageArchiveSearchStartComponent } from './start.component';
 import { DhMessageArchiveSearchDetailsComponent } from './details.component';
+import { DhMessageArchiveSearchStartComponent } from './start.component';
 import { DhMessageArchiveSearchTableComponent } from './table.component';
 
 @Component({
   selector: 'dh-message-archive-search-page',
   standalone: true,
   imports: [
-    DhMessageArchiveSearchStartComponent,
     DhMessageArchiveSearchDetailsComponent,
+    DhMessageArchiveSearchStartComponent,
     DhMessageArchiveSearchTableComponent,
   ],
   template: `
-    <dh-message-archive-search-start
-      #start
-      (search)="table.search($event)"
-      (close)="table.update($event)"
-    />
-    <dh-message-archive-search-details
-      #details
-      [message]="message()"
-      (close)="message.set(undefined)"
-    />
-    <dh-message-archive-search-table
-      #table
-      [selection]="message()"
-      (selectionChange)="message.set($event)"
-      (start)="start.modal().open()"
-    />
+    <dh-message-archive-search-details [message]="message()" (close)="message.set(undefined)" />
+    <dh-message-archive-search-start #start (start)="table.fetch($event)" (clear)="table.reset()" />
+    <dh-message-archive-search-table #table [(selection)]="message" (start)="start.open()" />
   `,
 })
 export class DhMessageArchiveSearchPageComponent {

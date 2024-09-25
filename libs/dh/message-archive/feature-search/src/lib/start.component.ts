@@ -47,9 +47,9 @@ import { form } from './form/start';
     VaterStackComponent,
     WattButtonComponent,
     WattDatetimepickerComponent,
-    WattModalComponent,
-    WattModalActionsComponent,
     WattDropdownComponent,
+    WattModalActionsComponent,
+    WattModalComponent,
     DhDropdownTranslatorDirective,
   ],
   template: `
@@ -58,7 +58,7 @@ import { form } from './form/start';
       *transloco="let t; read: 'messageArchive.start'"
       size="small"
       [title]="t('title')"
-      (closed)="close.emit($event)"
+      (closed)="$event && clear.emit()"
     >
       <form
         vater-stack
@@ -117,8 +117,8 @@ import { form } from './form/start';
 export class DhMessageArchiveSearchStartComponent {
   form = form;
 
-  search = output<GetArchivedMessagesQueryVariables>();
-  close = output<boolean>();
+  start = output<GetArchivedMessagesQueryVariables>();
+  clear = output();
   modal = viewChild.required<WattModalComponent>('modal');
 
   documentTypeOptions = dhEnumToWattDropdownOptions(DocumentType);
@@ -133,10 +133,11 @@ export class DhMessageArchiveSearchStartComponent {
     }))
   );
 
+  open = () => this.modal().open();
   onSubmit = () => {
     const values = this.form.getRawValue();
     if (!values || !values.start) return;
     const { start, end, ...variables } = values;
-    this.search.emit({ ...variables, created: { start, end } });
+    this.start.emit({ ...variables, created: { start, end } });
   };
 }

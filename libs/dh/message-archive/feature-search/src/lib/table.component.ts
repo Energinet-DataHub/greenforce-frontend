@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, input, output } from '@angular/core';
+import { Component, model, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -36,12 +36,12 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
   standalone: true,
   imports: [
     TranslocoDirective,
+    VaterUtilityDirective,
+    WATT_TABLE,
     WattButtonComponent,
     WattDataTableComponent,
-    WattEmptyStateComponent,
-    WATT_TABLE,
-    VaterUtilityDirective,
     WattDatePipe,
+    WattEmptyStateComponent,
   ],
   template: `
     <watt-data-table
@@ -51,7 +51,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
       [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
-      (clear)="update(true)"
+      (clear)="reset()"
     >
       <h3>{{ t('results') }}</h3>
       <watt-button variant="secondary" icon="plus" (click)="start.emit()">
@@ -66,7 +66,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="selectionChange.emit($event)"
+        (rowClick)="selection.set($event)"
       >
         <ng-container *wattTableCell="columns['documentType']; let row">
           <div>
@@ -99,16 +99,8 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
   `,
 })
 export class DhMessageArchiveSearchTableComponent {
-  selection = input<ArchivedMessage | undefined>();
-  selectionChange = output<ArchivedMessage>();
+  selection = model<ArchivedMessage>();
   start = output();
-  dataSource = new GetArchivedMessagesDataSource({
-    skip: true,
-    variables: {
-      created: { start: new Date(), end: new Date() },
-      order: { createdAt: SortEnumType.Desc },
-    },
-  });
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
@@ -118,11 +110,14 @@ export class DhMessageArchiveSearchTableComponent {
     createdAt: { accessor: 'createdAt' },
   };
 
-  search = (variables: GetArchivedMessagesQueryVariables) => this.dataSource.refetch(variables);
+  dataSource = new GetArchivedMessagesDataSource({
+    skip: true,
+    variables: {
+      created: { start: new Date(), end: new Date() },
+      order: { createdAt: SortEnumType.Desc },
+    },
+  });
 
-  update(reset: boolean) {
-    if (reset) {
-      this.dataSource.reset();
-    }
-  }
+  fetch = (variables: GetArchivedMessagesQueryVariables) => this.dataSource.refetch(variables);
+  reset = () => this.dataSource.reset();
 }
