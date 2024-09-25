@@ -96,7 +96,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
   const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
-    skipWhile((opts) => opts?.skip ?? false),
+    filter((opts) => !opts?.skip),
     map((opts) => client.watchQuery({ ...opts, query: document })),
     share()
   );
@@ -161,6 +161,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     called: called as Signal<boolean>,
     reset: () => {
       reset$.next();
+      options$.next({ ...options, skip: true });
       data.set(undefined);
       error.set(undefined);
       loading.set(false);
@@ -170,7 +171,8 @@ export function query<TResult, TVariables extends OperationVariables>(
     getOptions: () => options$.value ?? {},
     setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      options$.next({ ...options$.value, skip: false, ...options });
+      const mergedVariables = { ...options$.value?.variables, ...options.variables } as TVariables;
+      options$.next({ ...options$.value, skip: false, ...options, variables: mergedVariables });
       return result;
     },
     refetch: (variables?: Partial<TVariables>) => {
@@ -179,8 +181,8 @@ export function query<TResult, TVariables extends OperationVariables>(
       options$.next({
         ...options$.value,
         skip: false,
-        variables: mergedVariables,
         fetchPolicy: 'network-only',
+        variables: mergedVariables,
       });
       return result;
     },
