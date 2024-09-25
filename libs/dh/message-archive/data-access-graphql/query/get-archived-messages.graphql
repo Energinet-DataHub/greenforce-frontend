@@ -35,10 +35,12 @@ query GetArchivedMessages(
       documentType
       documentUrl
       sender {
+        id
         displayName
         glnOrEicNumber
       }
       receiver {
+        id
         displayName
         glnOrEicNumber
       }
