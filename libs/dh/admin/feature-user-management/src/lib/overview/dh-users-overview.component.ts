@@ -142,7 +142,7 @@ export class DhUsersOverviewComponent {
   readonly hasGeneralError$ = this.store.hasGeneralError$;
 
   readonly initialStatusValue$ = this.store.initialStatusValue$;
-  readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.rolesOptions$;
+  readonly userRolesOptions$: Observable<WattDropdownOptions> = this.userRolesStore.activeUserRoleOptions$;
 
   readonly isDownloading = this.store.isDownloading;
 
