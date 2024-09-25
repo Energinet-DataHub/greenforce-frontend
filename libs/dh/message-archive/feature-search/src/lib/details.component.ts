@@ -30,13 +30,13 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { tap } from 'rxjs';
 
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, type WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
