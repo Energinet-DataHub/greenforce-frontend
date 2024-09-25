@@ -131,6 +131,7 @@
     "topBarTitle": "Search in request and response messages",
     "new": "New search",
     "results": "Results",
+    "searchById": "Search by ID",
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
@@ -158,7 +159,7 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Cancel",
+      "cancel": "Clear search",
       "confirm": "Search"
     },
     "details": {

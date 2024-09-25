@@ -131,6 +131,7 @@
     "topBarTitle": "Fremsøg forretningsbesked",
     "new": "Ny søgning",
     "results": "Resultater",
+    "searchById": "Søg på ID",
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
@@ -158,7 +159,7 @@
       "receiver": "Modtager",
       "start": "Starttidspunkt",
       "end": "Sluttidspunkt",
-      "cancel": "Fortryd",
+      "cancel": "Ryd søgning",
       "confirm": "Søg"
     },
     "details": {
