@@ -138,8 +138,9 @@ function getActorEditableFields() {
         name: 'Test Actor 1',
         organization: {
           __typename: 'Organization',
+          id: 'organization-id-1',
           domain: 'fake-domain.dk',
-        } as Organization,
+        },
         contact: {
           __typename: 'ActorContactDto',
           name: 'Test Department',
