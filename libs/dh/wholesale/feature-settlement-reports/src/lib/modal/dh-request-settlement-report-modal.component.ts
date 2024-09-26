@@ -177,7 +177,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
       if (showEnergySupplierDropdown) {
         this.form.addControl(
           'energySupplier',
-          new FormControl<string | null>(null, Validators.required)
+          new FormControl<string | null>(ALL_ENERGY_SUPPLIERS, Validators.required)
         );
       }
     })
