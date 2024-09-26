@@ -14,31 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { FormsModule } from '@angular/forms';
 import { Component, effect, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
+
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
 import {
   DhDropdownTranslatorDirective,
   DhEmDashFallbackPipe,
   dhEnumToWattDropdownOptions,
   exportToCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { FormsModule } from '@angular/forms';
 
 export interface GridAreaOverviewRow {
   code: string;
@@ -70,21 +75,22 @@ export interface GridAreaOverviewRow {
   imports: [
     FormsModule,
 
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
+    WATT_CARD,
     WATT_TABLE,
-    WattPaginatorComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-    WattEmptyStateComponent,
-    WattSearchComponent,
-    WattButtonComponent,
-    WattButtonComponent,
-    WattDropdownComponent,
     WattDatePipe,
+    WattButtonComponent,
+    WattSearchComponent,
+    WattDropdownComponent,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
 
     DhEmDashFallbackPipe,
     DhDropdownTranslatorDirective,
@@ -151,9 +157,5 @@ export class DhMarketParticipantGridAreaOverviewComponent {
     ]);
 
     exportToCSV({ headers, lines, fileName: 'grid-areas' });
-  }
-
-  public onGridAreaTypeChange(type: GridAreaType | null): void {
-    this.selectedGridAreaType.set(type);
   }
 }
