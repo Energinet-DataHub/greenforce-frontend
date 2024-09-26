@@ -72,27 +72,25 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
           <div>
             {{ row.businessTransaction }}
             <br />
-            <span class="number">{{ row.documentType }}</span>
+            <span>{{ row.documentType }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns['sender']; let row">
           <div>
             {{ row.sender?.displayName }}
             <br />
-            <span class="number">{{ row.sender?.glnOrEicNumber }}</span>
+            <span>{{ row.sender?.glnOrEicNumber }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns['receiver']; let row">
           <div>
             {{ row.receiver?.displayName }}
             <br />
-            <span class="number">{{ row.receiver?.glnOrEicNumber }}</span>
+            <span>{{ row.receiver?.glnOrEicNumber }}</span>
           </div>
         </ng-container>
         <ng-container *wattTableCell="columns['createdAt']; let row">
-          <div style="white-space: nowrap">
-            {{ row.createdAt | wattDate: 'long' }}
-          </div>
+          {{ row.createdAt | wattDate: 'long' }}
         </ng-container>
       </watt-table>
     </watt-data-table>
