@@ -675,11 +675,30 @@
       "columns": {
         "code": "Netområde",
         "actor": "Netvirksomhed",
-        "organization": "Organisation"
+        "organization": "Organisation",
+        "status": "Status",
+        "type": "Type"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
+      },
+      "areaTypePlaceholder": "Vælg type",
+      "status": {
+        "Created": "Oprettet",
+        "Active": "Aktiv",
+        "Expired": "Udløbet",
+        "Archived": "Arkiveret"
+      },
+      "types": {
+        "NotSet": "Ikke angivet",
+        "Transmission": "Transmission",
+        "Distribution": "Distribution",
+        "Other": "Andet",
+        "Test": "Test",
+        "GridLossDK": "Nettab DK",
+        "GridLossAbroad": "Nettab udland",
+        "Aboard": "Udland"
       }
     }
   },

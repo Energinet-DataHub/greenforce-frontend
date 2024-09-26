@@ -5,6 +5,7 @@
   "sourceRoot": "libs/dh/admin/data-access-graphql",
   "prefix": "dh",
   "tags": ["product:dh", "domain:admin", "type:data-access"],
+  "implicitDependencies": ["api-dh"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"

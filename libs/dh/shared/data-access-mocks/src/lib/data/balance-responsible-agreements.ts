@@ -18,6 +18,8 @@ import {
   BalanceResponsibilityAgreement,
   BalanceResponsibilityAgreementStatus,
   GridAreaDto,
+  GridAreaStatus,
+  GridAreaType,
   MarketParticipantMeteringPointType,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -32,6 +34,8 @@ const gridArea: GridAreaDto = {
   validFrom: new Date('2024-03-01T00:00+03:00'),
   validTo: new Date('2024-03-01T00:00+04:00'),
   includedInCalculation: true,
+  status: GridAreaStatus.Active,
+  type: GridAreaType.Distribution,
 };
 
 export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
