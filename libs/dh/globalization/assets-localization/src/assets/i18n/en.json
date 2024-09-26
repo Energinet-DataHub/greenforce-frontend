@@ -786,11 +786,30 @@
       "columns": {
         "code": "Grid area",
         "actor": "Grid access provider",
-        "organization": "Organisation"
+        "organization": "Organisation",
+        "status": "Status",
+        "type": "Type"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
+      },
+      "areaTypePlaceholder": "Choose type",
+      "status": {
+        "Created": "Created",
+        "Active": "Active",
+        "Expired": "Expired",
+        "Archived": "Archived"
+      },
+      "types": {
+        "NotSet": "Not specified",
+        "Transmission": "Transmission",
+        "Distribution": "Distribution",
+        "Other": "Other",
+        "Test": "Test",
+        "GridLossDK": "Grid loss DK",
+        "GridLossAbroad": "Grid loss abroad",
+        "Aboard": "Abroad"
       }
     }
   },
