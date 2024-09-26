@@ -17,7 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { map, switchMap, tap } from 'rxjs';
+import { map, startWith, switchMap, tap } from 'rxjs';
 
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -33,7 +33,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-message-archive-search-details',
@@ -97,14 +96,14 @@ export class DhMessageArchiveSearchDetailsComponent {
   loading = signal(true);
 
   documentChange = toObservable(this.message).pipe(
-    map((message) => message?.documentUrl),
-    exists(),
     tap(() => this.loading.set(true)),
-    switchMap((url) => this.httpClient.get(url, { responseType: 'text' })),
-    tap(() => this.loading.set(false))
+    map((message) => message?.documentUrl),
+    switchMap((url) => (!url ? [''] : this.httpClient.get(url, { responseType: 'text' }))),
+    tap(() => this.loading.set(false)),
+    startWith('')
   );
 
-  document = toSignal(this.documentChange, { initialValue: '' });
+  document = toSignal(this.documentChange, { requireSync: true });
 
   businessTransaction = computed(() => this.message()?.businessTransaction);
   messageId = computed(() => this.message()?.messageId);
