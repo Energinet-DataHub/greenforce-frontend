@@ -95,6 +95,7 @@ export class DhRequestAsSettlementReportModalComponent extends WattTypedModal {
         .isFas()
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((isFas) => {
+          this.modalService.close(true);
           this.modalService.open({
             component: DhRequestSettlementReportModalComponent,
             data: {
@@ -116,6 +117,7 @@ export class DhRequestAsSettlementReportModalComponent extends WattTypedModal {
         })
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
+          this.modalService.close(true);
           this.modalService.open({
             component: DhRequestSettlementReportModalComponent,
             data: {
