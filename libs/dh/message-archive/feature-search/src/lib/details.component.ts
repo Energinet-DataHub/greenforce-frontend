@@ -37,7 +37,7 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WATT_DRAWER, type WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
@@ -61,7 +61,6 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
   ],
   template: `
     <watt-drawer
-      #drawer
       size="normal"
       *transloco="let t; read: 'messageArchive.details'"
       (closed)="close.emit()"
@@ -114,7 +113,7 @@ export class DhMessageArchiveSearchDetailsComponent {
   sender = computed(() => this.message()?.sender?.displayName);
   receiver = computed(() => this.message()?.receiver?.displayName);
 
-  drawer = viewChild<WattDrawerComponent>('drawer');
+  drawer = viewChild(WattDrawerComponent);
 
   constructor() {
     effect((onCleanup) => {
