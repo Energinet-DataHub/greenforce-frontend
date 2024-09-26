@@ -14,45 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject } from '@angular/core';
+import { Component, computed } from '@angular/core';
+
 import {
-  DhMarketParticipantGridAreaOverviewComponent,
   GridAreaOverviewRow,
+  DhMarketParticipantGridAreaOverviewComponent,
 } from '@energinet-datahub/dh/market-participant/grid-areas/overview';
-import { Apollo } from 'apollo-angular';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-grid-areas-shell',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   templateUrl: './dh-grid-areas-shell.component.html',
   standalone: true,
   imports: [DhMarketParticipantGridAreaOverviewComponent],
 })
 export class DhGridAreasShellComponent {
   private readonly gln = new RegExp('^[0-9]+$');
-  private readonly apollo = inject(Apollo);
+  getActorsQuery = query(GetGridAreaOverviewDocument);
 
-  getActorsQuery$ = this.apollo.watchQuery({
-    query: GetGridAreaOverviewDocument,
-  });
-
-  isLoading = false;
-  hasError = false;
-  rows: GridAreaOverviewRow[] = [];
-
-  constructor() {
-    this.getActorsQuery$.valueChanges.pipe(takeUntilDestroyed()).subscribe((result) => {
-      this.hasError = !!result.error || !!result.errors?.length;
-      this.isLoading = result.loading;
-      this.rows =
-        result.data?.gridAreaOverview?.map((x) => ({
-          code: x.code,
-          actor: x.actorNumber
-            ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
-            : '',
-          organization: x.organizationName ?? '',
-        })) ?? [];
-    });
-  }
+  isLoading = this.getActorsQuery.loading;
+  hasError = computed(() => Boolean(this.getActorsQuery.error()));
+  rows = computed<GridAreaOverviewRow[]>(
+    () =>
+      this.getActorsQuery.data()?.gridAreaOverview.map((x) => ({
+        code: x.code,
+        actor: x.actorNumber
+          ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+          : '',
+        organization: x.organizationName ?? '',
+        status: x.status,
+        type: x.type,
+      })) ?? []
+  );
 }
