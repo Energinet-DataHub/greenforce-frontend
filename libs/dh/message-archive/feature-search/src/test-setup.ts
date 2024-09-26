@@ -14,17 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import 'jest-preset-angular/setup-jest';
 
-@Injectable({ providedIn: 'root' })
-export class WattDataIntlService {
-  readonly changes: Subject<void> = new Subject<void>();
-  search = 'Search';
-  emptyTitle = 'No results found';
-  emptyText = 'Try changing the search criteria.';
-  errorTitle = 'An unexpected error occured';
-  errorText = 'Unfortunately, an error occurred while retrieving the necessary information.';
-  defaultTitle = 'An unexpected error occured';
-  defaultText = 'Unfortunately, an error occurred while retrieving the necessary information.';
-}
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

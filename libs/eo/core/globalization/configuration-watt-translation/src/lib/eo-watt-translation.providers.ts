@@ -42,9 +42,9 @@ export class EoDataIntlService extends WattDataIntlService {
     transloco.selectTranslateObject('shared').subscribe((translations) => {
       this.search = translations.search;
       this.emptyTitle = translations.empty.title;
-      this.emptyMessage = translations.empty.message;
+      this.emptyText = translations.empty.message;
       this.errorTitle = translations.error.title;
-      this.errorMessage = translations.error.message;
+      this.errorText = translations.error.message;
       this.changes.next();
     });
   }

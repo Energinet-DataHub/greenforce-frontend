@@ -46,6 +46,7 @@ export function mutation<TResult, TVariables>(
   const data = signal<TResult | undefined>(undefined);
   const error = signal<ApolloError | undefined>(undefined);
   const loading = signal(false);
+  const called = signal(false);
 
   return {
     // Upcast to prevent writing to signals
@@ -56,6 +57,7 @@ export function mutation<TResult, TVariables>(
       data.set(undefined);
       error.set(undefined);
       loading.set(false);
+      called.set(false);
     },
     mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
       const mergedOptions = { ...parentOptions, ...options };

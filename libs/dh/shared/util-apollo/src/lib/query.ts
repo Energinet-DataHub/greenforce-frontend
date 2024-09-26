@@ -68,6 +68,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   error: Signal<ApolloError | undefined>;
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
+  called: Signal<boolean>;
   reset: () => void;
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
@@ -95,7 +96,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
   const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
-    skipWhile((opts) => opts?.skip ?? false),
+    filter((opts) => !opts?.skip),
     map((opts) => client.watchQuery({ ...opts, query: document })),
     share()
   );
@@ -132,6 +133,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   const data = signal<TResult | undefined>(undefined);
   const error = signal<ApolloError | undefined>(undefined);
   const loading = signal(!options?.skip);
+  const called = signal(false);
   const networkStatus = signal(options?.skip ? NetworkStatus.ready : NetworkStatus.loading);
 
   // Update the signal values based on the result of the query
@@ -141,6 +143,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     error.set(result.error);
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
+    called.set(true);
   });
 
   // Clean up when the component is destroyed
@@ -155,17 +158,21 @@ export function query<TResult, TVariables extends OperationVariables>(
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
+    called: called as Signal<boolean>,
     reset: () => {
       reset$.next();
+      options$.next({ ...options, skip: true });
       data.set(undefined);
       error.set(undefined);
       loading.set(false);
       networkStatus.set(NetworkStatus.ready);
+      called.set(false);
     },
     getOptions: () => options$.value ?? {},
     setOptions: (options: Partial<QueryOptions<TVariables>>) => {
       const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      options$.next({ ...options$.value, skip: false, ...options });
+      const mergedVariables = { ...options$.value?.variables, ...options.variables } as TVariables;
+      options$.next({ ...options$.value, skip: false, ...options, variables: mergedVariables });
       return result;
     },
     refetch: (variables?: Partial<TVariables>) => {
@@ -174,8 +181,8 @@ export function query<TResult, TVariables extends OperationVariables>(
       options$.next({
         ...options$.value,
         skip: false,
-        variables: mergedVariables,
         fetchPolicy: 'network-only',
+        variables: mergedVariables,
       });
       return result;
     },
