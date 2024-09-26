@@ -15,19 +15,9 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-  untracked,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { tap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -42,6 +32,8 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   selector: 'dh-message-archive-search-details',
@@ -63,7 +55,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
     <watt-drawer
       size="normal"
       *transloco="let t; read: 'messageArchive.details'"
-      (closed)="close.emit()"
+      (closed)="onClose()"
     >
       <watt-drawer-heading>
         <h2>{{ documentType() }} ({{ businessTransaction() }})</h2>
@@ -100,11 +92,19 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 export class DhMessageArchiveSearchDetailsComponent {
   private httpClient = inject(HttpClient);
 
-  message = input<ArchivedMessage | undefined>();
   close = output();
-
+  message = signal<ArchivedMessage | null>(null);
   loading = signal(true);
-  document = signal('');
+
+  documentChange = toObservable(this.message).pipe(
+    map((message) => message?.documentUrl),
+    exists(),
+    tap(() => this.loading.set(true)),
+    switchMap((url) => this.httpClient.get(url, { responseType: 'text' })),
+    tap(() => this.loading.set(false))
+  );
+
+  document = toSignal(this.documentChange, { initialValue: '' });
 
   businessTransaction = computed(() => this.message()?.businessTransaction);
   messageId = computed(() => this.message()?.messageId);
@@ -115,33 +115,20 @@ export class DhMessageArchiveSearchDetailsComponent {
 
   drawer = viewChild(WattDrawerComponent);
 
-  constructor() {
-    effect((onCleanup) => {
-      const message = this.message();
-      const drawer = this.drawer();
-
-      if (!drawer) return;
-      if (!message) return drawer.close();
-
-      drawer.open();
-
-      untracked(() => {
-        this.document.set('');
-        if (!message.documentUrl) return;
-        this.loading.set(true);
-        const subscription = this.httpClient
-          .get(message.documentUrl, { responseType: 'text' })
-          .pipe(tap(() => this.loading.set(false)))
-          .subscribe((doc) => this.document.set(doc));
-
-        onCleanup(() => subscription.unsubscribe());
-      });
-    });
-  }
-
-  download() {
+  download = () => {
     // TODO: Consider using .json or .xml based on the document type
     const download = streamToFile({ name: `${this.messageId()}.txt`, type: '' });
     download(this.document()).subscribe();
-  }
+  };
+
+  open = (message: ArchivedMessage) => {
+    this.message.set(message);
+    this.drawer()?.open();
+  };
+
+  onClose = () => {
+    this.message.set(null);
+    this.drawer()?.close();
+    this.close.emit();
+  };
 }

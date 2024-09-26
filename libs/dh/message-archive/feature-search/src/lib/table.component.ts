@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, model, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -66,7 +66,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="selection.set($event)"
+        (rowClick)="onRowClick($event)"
       >
         <ng-container *wattTableCell="columns['documentType']; let row">
           <div>
@@ -99,8 +99,9 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
   `,
 })
 export class DhMessageArchiveSearchTableComponent {
-  selection = model<ArchivedMessage>();
   new = output();
+  select = output<ArchivedMessage>();
+  selection = signal<ArchivedMessage | undefined>(undefined);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
@@ -120,4 +121,10 @@ export class DhMessageArchiveSearchTableComponent {
 
   fetch = (variables: GetArchivedMessagesQueryVariables) => this.dataSource.refetch(variables);
   reset = () => this.dataSource.reset();
+  clearSelection = () => this.selection.set(undefined);
+
+  onRowClick = (row: ArchivedMessage) => {
+    this.selection.set(row);
+    this.select.emit(row);
+  };
 }

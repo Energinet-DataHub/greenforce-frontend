@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, signal } from '@angular/core';
-import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
+import { Component } from '@angular/core';
 
 import { DhMessageArchiveSearchDetailsComponent } from './details.component';
 import { DhMessageArchiveSearchStartComponent } from './start.component';
@@ -30,11 +29,9 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
     DhMessageArchiveSearchTableComponent,
   ],
   template: `
-    <dh-message-archive-search-details [message]="message()" (close)="message.set(undefined)" />
+    <dh-message-archive-search-details #details (close)="table.clearSelection()" />
     <dh-message-archive-search-start #start (start)="table.fetch($event)" (clear)="table.reset()" />
-    <dh-message-archive-search-table #table [(selection)]="message" (new)="start.open()" />
+    <dh-message-archive-search-table #table (select)="details.open($event)" (new)="start.open()" />
   `,
 })
-export class DhMessageArchiveSearchPageComponent {
-  message = signal<ArchivedMessage | undefined>(undefined);
-}
+export class DhMessageArchiveSearchPageComponent {}
