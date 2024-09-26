@@ -886,6 +886,7 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
     },
+    "periodPlaceholder": "Periode",
     "uploadButton": "Indlæs fil",
     "uploadSuccess": "Fil uploadet",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen",
