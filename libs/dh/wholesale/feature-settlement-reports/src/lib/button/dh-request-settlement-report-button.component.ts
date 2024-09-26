@@ -59,7 +59,7 @@ export class DhRequestSettlementReportButtonComponent {
             data: {
               isFas: false,
               actorId: this.actorStorage.getSelectedActorId(),
-              marketRole: this.actorStorage.getSelectedActor().marketRoles,
+              marketRole: this.actorStorage.getSelectedActor()?.marketRole,
             },
           });
         }
