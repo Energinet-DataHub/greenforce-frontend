@@ -884,6 +884,8 @@ input RequestSettlementReportInput {
   useApi: Boolean!
   energySupplier: String
   csvLanguage: String
+  requestAsActorId: String
+  requestAsMarketRole: SettlementReportMarketRole
 }
 
 input ResetTwoFactorAuthenticationInput {
@@ -1236,6 +1238,14 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum SettlementReportMarketRole {
+  OTHER
+  GRID_ACCESS_PROVIDER
+  ENERGY_SUPPLIER
+  SYSTEM_OPERATOR
+  DATA_HUB_ADMINISTRATOR
 }
 
 enum SettlementReportStatusType {
