@@ -17,7 +17,7 @@
 import {
   Component,
   inject,
-  Input,
+  input,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -76,8 +76,9 @@ type UserRole = ResultOf<
   ],
 })
 export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {
-  @Input({ required: true }) selectedPermission!: PermissionDto;
   private apollo = inject(Apollo);
+
+  selectedPermission = input.required<PermissionDto>();
 
   subscription!: Subscription;
   userRoles: UserRole[] = [];
@@ -101,7 +102,7 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
   ngOnInit(): void {
     this.getPermissionQuery = this.apollo.watchQuery({
       query: GetPermissionDetailsDocument,
-      variables: { id: this.selectedPermission.id },
+      variables: { id: this.selectedPermission().id },
     });
 
     this.subscription = this.getPermissionQuery.valueChanges.subscribe({

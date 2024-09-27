@@ -17,11 +17,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
   OnChanges,
-  ViewChild,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -39,15 +38,14 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphq
   standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.permissionsTable'">
     <watt-table
-      #permissionTable
       description="permissions"
       [dataSource]="dataSource"
       [columns]="columns"
+      [selectable]="permissions().length > 0"
+      [initialSelection]="initialSelection()"
       sortBy="name"
-      [selectable]="permissions.length > 0"
-      [initialSelection]="initialSelection"
       sortDirection="asc"
-      (selectionChange)="onSelectionChange($event)"
+      (selectionChange)="selectionChanged.emit($event)"
     >
       <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
         {{ element.name }}
@@ -67,18 +65,16 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphq
       }
     `,
   ],
-  // Using `OnPush` causes issues with table's header row translations
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoDirective, WATT_TABLE],
 })
 export class DhPermissionsTableComponent implements OnChanges {
-  @Input() permissions: PermissionDetailsDto[] = [];
-  @Input() initialSelection: PermissionDetailsDto[] = [];
+  permissions = input<PermissionDetailsDto[]>([]);
+  initialSelection = input<PermissionDetailsDto[]>([]);
 
-  @Output() selectionChanged = new EventEmitter<PermissionDetailsDto[]>();
+  selectionChanged = output<PermissionDetailsDto[]>();
 
-  @ViewChild(WattTableComponent<PermissionDetailsDto>)
-  permissionsTable!: WattTableComponent<PermissionDetailsDto>;
+  permissionsTable = viewChild(WattTableComponent);
 
   readonly dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
@@ -87,12 +83,8 @@ export class DhPermissionsTableComponent implements OnChanges {
     description: { accessor: 'description' },
   };
 
-  ngOnChanges() {
-    this.dataSource.data = this.permissions;
-    if (this.permissionsTable) this.permissionsTable.clearSelection();
-  }
-
-  onSelectionChange(selections: PermissionDetailsDto[]): void {
-    this.selectionChanged.emit(selections);
+  ngOnChanges(): void {
+    this.dataSource.data = this.permissions();
+    if (this.permissionsTable) this.permissionsTable()?.clearSelection();
   }
 }

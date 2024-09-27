@@ -17,7 +17,7 @@
 import {
   Component,
   inject,
-  Input,
+  input,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -76,8 +76,9 @@ type MarketRole = ResultOf<
   ],
 })
 export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges, OnDestroy {
-  @Input({ required: true }) selectedPermission!: PermissionDto;
   private apollo = inject(Apollo);
+
+  selectedPermission = input.required<PermissionDto>();
 
   subscription!: Subscription;
   marketRoles: MarketRole[] = [];
@@ -100,7 +101,7 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
   ngOnInit(): void {
     this.getPermissionQuery = this.apollo.watchQuery({
       query: GetPermissionDetailsDocument,
-      variables: { id: this.selectedPermission.id },
+      variables: { id: this.selectedPermission().id },
     });
 
     this.subscription = this.getPermissionQuery.valueChanges.subscribe({

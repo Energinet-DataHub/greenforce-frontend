@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, inject, OnChanges } from '@angular/core';
+import { Component, inject, OnChanges, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { RxLet } from '@rx-angular/template/let';
@@ -94,9 +94,9 @@ export class DhPermissionAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  @Input({ required: true }) selectedPermission!: PermissionDto;
+  selectedPermission = input.required<PermissionDto>();
 
   ngOnChanges(): void {
-    this.getPermissionAuditLogsQuery?.refetch({ id: this.selectedPermission?.id });
+    this.getPermissionAuditLogsQuery?.refetch({ id: this.selectedPermission()?.id });
   }
 }
