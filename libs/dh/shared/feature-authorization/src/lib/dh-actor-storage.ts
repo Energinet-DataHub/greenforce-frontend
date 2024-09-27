@@ -73,7 +73,7 @@ export class DhActorStorage {
     this.setSelectedActorId(actor.id);
   };
 
-  getSelectedActor = () => {
+  getSelectedActor = (): SelectionActor | null => {
     const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
     const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
 

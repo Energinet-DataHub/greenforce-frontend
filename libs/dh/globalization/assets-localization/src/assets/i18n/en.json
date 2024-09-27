@@ -1285,6 +1285,7 @@
       },
       "requestReportModal": {
         "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
+        "requestAs": "Request as",
         "calculationType": "Calculation type",
         "includeBasisData": "Include basis data",
         "allowLargeTextFiles": "Allow large files",
@@ -1296,6 +1297,7 @@
         "gridAreaHint": "{{ count }} selected",
         "combineResultsInOneFile": "Combine results in one file",
         "cancel": "Cancel",
+        "continue": "Next",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "requestSuccess": "Settlement report has been requested.",

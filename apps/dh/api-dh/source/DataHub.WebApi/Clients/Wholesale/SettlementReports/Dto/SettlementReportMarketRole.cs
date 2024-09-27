@@ -14,12 +14,11 @@
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-public sealed record SettlementReportRequestDto(
-    bool SplitReportPerGridArea,
-    bool PreventLargeTextFiles,
-    bool IncludeBasisData,
-    bool IncludeMonthlyAmount,
-    bool UseAPI,
-    SettlementReportRequestFilterDto Filter,
-    string? ActorNumberOverride,
-    SettlementReportMarketRole? MarketRoleOverride);
+public enum SettlementReportMarketRole
+{
+    Other,
+    GridAccessProvider,
+    EnergySupplier,
+    SystemOperator,
+    DataHubAdministrator,
+}
