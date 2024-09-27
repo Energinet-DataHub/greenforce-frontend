@@ -28,7 +28,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 export function getActorOptions(
-  eicFunctions: [EicFunction],
+  eicFunctions: EicFunction[],
   valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
 ): Observable<WattDropdownOptions> {
   const apollo = inject(Apollo);

@@ -50,6 +50,21 @@
       "title": "Ingen resultater fundet",
       "message": "Prøv at ændre dine søgeindstillinger"
     },
+    "data": {
+      "default": {
+        "title": "Start søgning",
+        "text": "Dine resultater vil fremgå her"
+      },
+      "error": {
+        "title": "Ups! Der opstod en fejl",
+        "text": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+        "button": "Prøv igen"
+      },
+      "empty": {
+        "title": "Ingen resultater fundet",
+        "text": "Prøv at ændre dine søgeindstillinger"
+      }
+    },
     "navigation": {
       "next": "Næste",
       "previous": "Forrige"
@@ -128,7 +143,10 @@
     }
   },
   "messageArchive": {
-    "unknowenError": "Ukendt fejl",
+    "topBarTitle": "Fremsøg forretningsbesked",
+    "new": "Ny søgning",
+    "results": "Resultater",
+    "searchById": "Søg på ID",
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
@@ -139,6 +157,98 @@
     },
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
+    },
+    "columns": {
+      "messageId": "Besked ID",
+      "documentType": "Dokumenttype",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "createdAt": "Dato og tid"
+    },
+    "start": {
+      "title": "Ny søgning",
+      "placeholder": "Indtast eller vælg",
+      "documentType": "Dokumenttype",
+      "businessReason": "Forretningsårsag",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "start": "Starttidspunkt",
+      "end": "Sluttidspunkt",
+      "cancel": "Ryd søgning",
+      "confirm": "Søg"
+    },
+    "details": {
+      "created": "Sendt",
+      "messageId": "Besked ID",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "download": "Download"
+    },
+    "businessReason": {
+      "D02": "Forberedelse til balanceafregning",
+      "D03": "Midlertidig",
+      "D04": "1. afregning",
+      "D05": "2. afregning",
+      "D06": "Kontinuerlig måleraflæsning fra profilmålepunkter",
+      "D07": "Tilbageførsel af leverandørskifte",
+      "D09": "Seneste tilgængelige værdi",
+      "D10": "Måleraflæsning, indberettet forbrug",
+      "D11": "Forkert proces",
+      "D12": "Annuller måleraflæsningsanmodning",
+      "D13": "Skift af leverandør til sidstnævnte udbyder",
+      "D14": "Luk målepunkt ned",
+      "D15": "Tilslut målepunkt",
+      "D16": "Sammensmeltning af net",
+      "D17": "Opdater afregningsdata",
+      "D18": "Opdater takstoplysninger",
+      "D19": "Måleraflæsning",
+      "D20": "Elektrisk opvarmning",
+      "D21": "Indflytning af anden årsag",
+      "D22": "Serviceanmodning",
+      "D23": "Ikke brugt",
+      "D24": "Manglende flex-måleraflæsning",
+      "D25": "Manglende ikke-profilen tidsserie",
+      "D26": "Manglende flex-tidsserie",
+      "D27": "Manglende profillæsning",
+      "D28": "Forslag kontaktinformation",
+      "D29": "Sekundær indflytning",
+      "D30": "Skift med kort varsel",
+      "D31": "Overfør målepunkt",
+      "D32": "Korrektionsafregning",
+      "D33": "Forkert flytning",
+      "D34": "Afslut forsyning pga. omfordeling",
+      "D35": "Fortsæt forsyning pga. afvist omfordeling",
+      "D36": "Fortsæt kundens forsyning",
+      "D37": "Annuller serviceanmodning",
+      "D38": "Afslut forsyning med kort varsel",
+      "D39": "Produktionsforpligtelse",
+      "D40": "Fjernede forældre relation på målepunkt",
+      "D41": "Ingen afbrydelse af målepunkt",
+      "D43": "Historiske oplysninger om forbrug",
+      "D44": "Proces annulleret af anmodende part",
+      "D45": "Proces annulleret af ITX",
+      "D46": "Dato for leverandørskifte forårsaget af afslutning af forsyning",
+      "D47": "Påmindelse",
+      "E01": "Flytte",
+      "E02": "Nyt målepunkt",
+      "E03": "Skift af balanceleverandør",
+      "E05": "Annullering",
+      "E06": "Ikke-anmodet skift af balanceleverandør",
+      "E0G": "Datajustering for stamdata målepunkt",
+      "E20": "Afslutning af forsyning",
+      "E23": "Periodisk aflæsning",
+      "E30": "Historiske data",
+      "E32": "Opdater stamdata målepunkt",
+      "E34": "Opdater stamdata forbruger",
+      "E53": "Måleraflæsning på forespørgsel",
+      "E56": "Skift af balanceresponsabel part",
+      "E65": "Kunde indflytning",
+      "E66": "Kunde fraflytning",
+      "E67": "Placering af måler",
+      "E75": "Skift af afmålingsmetode",
+      "E79": "Skift af tilslutningsstatus",
+      "E80": "Ændring af estimeret årligt volumen",
+      "E84": "Opdater stamdata måler"
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
@@ -675,11 +785,30 @@
       "columns": {
         "code": "Netområde",
         "actor": "Netvirksomhed",
-        "organization": "Organisation"
+        "organization": "Organisation",
+        "status": "Status",
+        "type": "Type"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
+      },
+      "areaTypePlaceholder": "Vælg type",
+      "status": {
+        "Created": "Oprettet",
+        "Active": "Aktiv",
+        "Expired": "Udløbet",
+        "Archived": "Arkiveret"
+      },
+      "types": {
+        "NotSet": "Ikke angivet",
+        "Transmission": "Transmission",
+        "Distribution": "Distribution",
+        "Other": "Andet",
+        "Test": "Test",
+        "GridLossDK": "Nettab DK",
+        "GridLossAbroad": "Nettab udland",
+        "Aboard": "Udland"
       }
     }
   },
@@ -1155,6 +1284,7 @@
       },
       "requestReportModal": {
         "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
+        "requestAs": "Anmod som",
         "calculationType": "Beregningstype",
         "includeBasisData": "Inkluder datagrundlag",
         "allowLargeTextFiles": "Tillad store filer",
@@ -1167,6 +1297,7 @@
         "combineResultsInOneFile": "Kombiner resultater i en fil",
         "cancel": "Fortryd",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
+        "continue": "Næste",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."

@@ -50,12 +50,14 @@ export class DhDataIntlService extends WattDataIntlService {
   constructor(transloco: TranslocoService) {
     super();
 
-    transloco.selectTranslateObject('shared').subscribe((translations) => {
+    transloco.selectTranslateObject('shared.data').subscribe((translations) => {
       this.search = translations.search;
       this.emptyTitle = translations.empty.title;
-      this.emptyMessage = translations.empty.message;
+      this.emptyText = translations.empty.text;
       this.errorTitle = translations.error.title;
-      this.errorMessage = translations.error.message;
+      this.errorText = translations.error.text;
+      this.defaultTitle = translations.default.title;
+      this.defaultText = translations.default.text;
       this.changes.next();
     });
   }

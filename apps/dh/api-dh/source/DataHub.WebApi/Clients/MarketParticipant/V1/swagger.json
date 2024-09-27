@@ -1148,77 +1148,6 @@
       }
     },
     "/GridArea": {
-      "post": {
-        "tags": [
-          "GridArea"
-        ],
-        "operationId": "GridAreaPOST",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateGridAreaDto"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateGridAreaDto"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CreateGridAreaDto"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              }
-            }
-          }
-        }
-      },
       "get": {
         "tags": [
           "GridArea"
@@ -1267,71 +1196,11 @@
       }
     },
     "/GridArea/{gridAreaId}": {
-      "put": {
-        "tags": [
-          "GridArea"
-        ],
-        "operationId": "GridAreaPUT",
-        "parameters": [
-          {
-            "name": "gridAreaId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeGridAreaDto"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeGridAreaDto"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ChangeGridAreaDto"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "get": {
         "tags": [
           "GridArea"
         ],
-        "operationId": "GridAreaGET",
+        "operationId": "GridArea",
         "parameters": [
           {
             "name": "gridAreaId",
@@ -4165,15 +4034,6 @@
           }
         }
       },
-      "ChangeGridAreaDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        }
-      },
       "ChangeOrganizationDto": {
         "type": "object",
         "additionalProperties": false,
@@ -4294,21 +4154,6 @@
             "items": {
               "$ref": "#/components/schemas/ActorMarketRoleDto"
             }
-          }
-        }
-      },
-      "CreateGridAreaDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "priceAreaCode": {
-            "type": "string"
           }
         }
       },
@@ -4720,6 +4565,23 @@
           "priceAreaCode": {
             "type": "string"
           },
+          "type": {
+            "x-enumNames": [
+              "NotSet",
+              "Transmission",
+              "Distribution",
+              "Other",
+              "Test",
+              "GridLossDK",
+              "GridLossAbroad",
+              "Aboard"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GridAreaType"
+              }
+            ]
+          },
           "validFrom": {
             "type": "string",
             "format": "date-time"
@@ -4773,8 +4635,49 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "type": {
+            "x-enumNames": [
+              "NotSet",
+              "Transmission",
+              "Distribution",
+              "Other",
+              "Test",
+              "GridLossDK",
+              "GridLossAbroad",
+              "Aboard"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GridAreaType"
+              }
+            ]
           }
         }
+      },
+      "GridAreaType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "NotSet",
+          "Transmission",
+          "Distribution",
+          "Other",
+          "Test",
+          "GridLossDK",
+          "GridLossAbroad",
+          "Aboard"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
       },
       "InvitationUserDetailsDto": {
         "type": "object",

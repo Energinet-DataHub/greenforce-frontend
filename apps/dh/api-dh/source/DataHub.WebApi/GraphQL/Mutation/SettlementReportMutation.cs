@@ -41,7 +41,9 @@ public partial class Mutation
                 requestSettlementReportInput.IncludeBasisData,
                 requestSettlementReportInput.IncludeMonthlySums,
                 requestSettlementReportInput.UseApi,
-                requestFilter),
+                requestFilter,
+                requestSettlementReportInput.RequestAsActorId,
+                requestSettlementReportInput.RequestAsMarketRole),
             default);
 
         return true;

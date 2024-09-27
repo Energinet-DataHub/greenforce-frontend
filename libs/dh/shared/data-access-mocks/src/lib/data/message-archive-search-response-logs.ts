@@ -133,6 +133,7 @@ export const messageArchiveSearchResponseLogs: SearchResult = {
       id: rejectedMessageId,
     },
     {
+      messageId: 'RequestAggregatedMeasureData-ID',
       documentType: 'RequestAggregatedMeasureData',
       createdDate: '2023-06-14T12:12:29.5600357+00:00',
       senderGln: '5790001330552',

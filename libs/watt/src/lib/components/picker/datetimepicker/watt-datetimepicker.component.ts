@@ -32,6 +32,13 @@ import dayjs from 'dayjs';
     WattTimepickerComponent,
     VaterFlexComponent,
   ],
+  styles: [
+    `
+      watt-datetimepicker {
+        width: 100%;
+      }
+    `,
+  ],
   template: `
     <vater-flex direction="row" gap="s">
       <watt-datepicker

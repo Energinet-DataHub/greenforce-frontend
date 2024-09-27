@@ -32,7 +32,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, combineLatest, map, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
@@ -63,16 +63,13 @@ import {
   GetSettlementReportsDocument,
   RequestSettlementReportDocument,
   RequestSettlementReportMutation,
+  SettlementReportMarketRole,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import {
-  DhActorStorage,
-  PermissionService,
-} from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
@@ -96,6 +93,12 @@ type DhFormType = FormGroup<{
   }>;
   useApi: FormControl<boolean>;
 }>;
+
+type SettlementReportRequestedBy = {
+  isFas: boolean;
+  actorId: string;
+  marketRole: EicFunction;
+};
 
 @Component({
   selector: 'dh-request-settlement-report-modal',
@@ -132,16 +135,14 @@ type DhFormType = FormGroup<{
   `,
   templateUrl: './dh-request-settlement-report-modal.component.html',
 })
-export class DhRequestSettlementReportModalComponent extends WattTypedModal {
+export class DhRequestSettlementReportModalComponent extends WattTypedModal<SettlementReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
   private readonly apollo = inject(Apollo);
 
-  private readonly permissionService = inject(PermissionService);
   private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);
-  private readonly actorStorage = inject(DhActorStorage);
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -170,16 +171,13 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
     useApi: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  showEnergySupplierDropdown$ = this.permissionService.isFas().pipe(
-    map(
-      (isFas) =>
-        isFas || this.actorStorage.getSelectedActor().marketRole === EicFunction.SystemOperator
-    ),
+  showEnergySupplierDropdown$ = of(this.modalData.isFas).pipe(
+    map((isFas) => isFas || this.modalData.marketRole === EicFunction.SystemOperator),
     tap((showEnergySupplierDropdown) => {
       if (showEnergySupplierDropdown) {
         this.form.addControl(
           'energySupplier',
-          new FormControl<string | null>(null, Validators.required)
+          new FormControl<string | null>(ALL_ENERGY_SUPPLIERS, Validators.required)
         );
       }
     })
@@ -201,7 +199,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
 
-  miltipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
+  multipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
     map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
     tap((moreThanOneGridAreas) => {
       if (!moreThanOneGridAreas) {
@@ -295,6 +293,26 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
       return;
     }
 
+    let marketRole: SettlementReportMarketRole;
+
+    switch (this.modalData.marketRole) {
+      case EicFunction.DataHubAdministrator:
+        marketRole = SettlementReportMarketRole.DataHubAdministrator;
+        break;
+      case EicFunction.EnergySupplier:
+        marketRole = SettlementReportMarketRole.EnergySupplier;
+        break;
+      case EicFunction.GridAccessProvider:
+        marketRole = SettlementReportMarketRole.GridAccessProvider;
+        break;
+      case EicFunction.SystemOperator:
+        marketRole = SettlementReportMarketRole.SystemOperator;
+        break;
+      default:
+        marketRole = SettlementReportMarketRole.Other;
+        break;
+    }
+
     this.apollo
       .mutate({
         mutation: RequestSettlementReportDocument,
@@ -316,6 +334,8 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
             useApi,
+            requestAsActorId: this.modalData.actorId,
+            requestAsMarketRole: marketRole,
           },
         },
         refetchQueries: (result) => {
@@ -350,11 +370,9 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private getCalculationTypeOptions(): WattDropdownOptions {
-    const selectedUser = this.actorStorage.getSelectedActor();
-
     return dhEnumToWattDropdownOptions(CalculationType, null, [
       CalculationType.Aggregation,
-      selectedUser?.marketRole === EicFunction.SystemOperator ? CalculationType.BalanceFixing : '',
+      this.modalData.marketRole === EicFunction.SystemOperator ? CalculationType.BalanceFixing : '',
     ]);
   }
 
@@ -387,16 +405,15 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal {
   }
 
   private showAllGridAres(): Observable<boolean> {
-    const isFas$ = this.permissionService.isFas();
     const canSeeAllGridAreas = [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
-      this.actorStorage.getSelectedActor().marketRole
+      this.modalData.marketRole
     );
 
-    return isFas$.pipe(map((isFas) => isFas || canSeeAllGridAreas));
+    return of(this.modalData.isFas || canSeeAllGridAreas);
   }
 
   private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
-    const actorId = this.actorStorage.getSelectedActorId();
+    const actorId = this.modalData.actorId;
     return this.apollo
       .query({
         query: GetActorByIdDocument,
