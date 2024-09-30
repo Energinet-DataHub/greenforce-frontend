@@ -20,7 +20,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -30,7 +29,6 @@ import {
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -48,7 +46,6 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-edit-consent-modal',
   imports: [
-    ReactiveFormsModule,
     NgClass,
     WATT_MODAL,
     WattIconComponent,
