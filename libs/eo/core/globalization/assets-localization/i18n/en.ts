@@ -750,46 +750,64 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     permissionsFor: 'Permissions for',
   },
   editConsent: {
-    permissions: 'Permissions',
-    description:
-      'You have given {{organizationName}} the power of attorney to manage the following on your behalf.',
-    postscript: `
-      <p>You can withdraw your power of attorney at any time (in whole or in part) if you no longer wish to allow the third party to manage your overview, metering points, and/or transfer agreements.</p>
-      <p>You can partially withdraw by unchecking the boxes for the items you no longer wish to authorize.</p>
-      <p>You can fully revoke the power of attorney by clicking on 'Revoke consent'.</p>`,
+    description: `
+      <p>You have granted {{organizationName}} power of attorney to:</p>
+    `,
+    postDescription: `
+      <h4>Revocation of power of attorney</h4>
+      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done by clicking on 'Revoke power of attorney'.</p>
+      <p>Upon revocation, {{organizationName}} will no longer be able to retrieve data and manage certificates.</p>
+    `,
     cancel: 'Cancel',
     saveChanges: 'Save changes',
-    revoke: 'Revoke consent',
-    revokeSuccess: 'Consent revoked',
-    revokeError: 'Could not revoke consent. Please try again.',
+    revoke: 'Revoke power of attorney',
+    revokeSuccess: 'The power of attorney has been revoked',
+    revokeError: 'An error occurred while revoking the power of attorney. Please try again.',
   },
-  grantConsent: {
-    title: '{{organizationName}} has requested authorization',
-    description: `
-        <p>{{organizationName}} is a service provider that is registered as a third party in Energy Track & Trace Denmark, and can therefore request a power of attorney from you as an electricity consumer and/or electricity producer.</p>
-        <p>A service provider offers energy services to customers based on your electricity consumption and/or production. The third party will have access to what you allow in the checkboxes below.</p>
-        <p>You can withdraw your power of attorney at any time (in whole or in part) if you no longer wish to share your data with a third party.</p>`,
+  consentPermissions: {
     permissions: {
       overview: {
-        title: 'Overview',
+        title: 'Access to Data',
         description:
-          'View the amount of transferred certified green electricity and the proportion of consumed electricity that is certified green.',
+          'The amount of transferred certified green energy and the proportion of consumed energy that is certified green',
       },
       meteringPoints: {
         title: 'Metering Points',
         description:
-          'Manage which production meters should issue certificates for green electricity, and which consumption meters should be matched with certified green electricity.',
+          'Administration of production electricity meters that are to issue certificates for green energy and which consumption meters are to be matched with certified green energy.',
       },
       transferAgreements: {
         title: 'Transfer Agreements',
-        description: 'View and create agreements for the transfer of certified green electricity.',
+        description: 'Access to and creation of agreements for the transfer of certified green energy.',
       },
     },
+    description: '<p>This means that {{organizationName}} has the ability to retrieve data and manage certificates.</p>'
+  },
+  grantConsent: {
+    title: '{{organizationName}} has requested power of attorney',
+    description: `
+      <p>{{organizationName}} is a service provider and can request power of attorney.</p>
+      <p>A service provider offers energy services based on electricity consumption and/or production. {{organizationName}} gains access to data via power of attorney.</p>
+      <br />
+      <p>I hereby grant {{organizationName}} power of attorney to: </p>
+    `,
+    postDescription: `
+      <br />
+      <h4>Valid from</h4>
+      <p>The power of attorney is valid for {{genitiveOrganizationName}} retrieval and administration of the aforementioned data from the date of acceptance of the power of attorney.</p>
+
+      <h4>Responsibility</h4>
+      <p>Energinet DataHub A/S cannot be held responsible for {{genitiveOrganizationName}} (i.e., the power of attorney holder's) use and handling of the retrieved data.</p>
+
+      <h4>Revocation of power of attorney</h4>
+      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done at energytrackandtrace.dk under the 'Power of Attorney' menu. Select the desired power of attorney and then click on 'Manage power of attorney' to revoke it.</p>
+      <p>Upon revocation, the service provider will no longer be able to retrieve data and manage certificates.</p>
+    `,
     acceptTermsAndConditions: 'Accept <a href="/terms" target="_blank">terms and conditions</a>',
     decline: 'Decline',
     accept: 'Accept',
-    accepted: 'Authorization granted',
-    declined: 'Authorization declined',
+    accepted: 'Power of attorney granted',
+    declined: 'Power of attorney declined',
     error: {
       title: 'Unexpected error',
       message: 'An unexpected error occurred. Please try again.',

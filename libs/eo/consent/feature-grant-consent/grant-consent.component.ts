@@ -39,6 +39,9 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoGenitivePipe } from '@energinet-datahub/eo/shared/utilities';
+import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -50,6 +53,8 @@ import { translations } from '@energinet-datahub/eo/translations';
     WattSpinnerComponent,
     TranslocoPipe,
     WattButtonComponent,
+    EoGenitivePipe,
+    EoConsentPermissionsComponent,
   ],
   standalone: true,
   styles: `
@@ -60,38 +65,21 @@ import { translations } from '@energinet-datahub/eo/translations';
         --watt-modal-min-height: 800px !important;
       }
 
-      .watt-modal-content {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-
       watt-modal-actions {
         gap: var(--watt-space-m);
       }
 
+      p {
+        margin-top: var(--watt-space-s);
+      }
+
       h3 {
         text-align: center;
+        margin-bottom: var(--watt-space-m);
       }
 
-      ul {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-m);
-        margin-bottom: var(--watt-space-l);
-
-        li {
-          padding-left: 0;
-          &::before {
-            display: none;
-          }
-        }
-      }
-
-      .description {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-m);
+      h4 {
+        margin-top: var(--watt-space-m);
       }
 
       .loading-container {
@@ -125,18 +113,27 @@ import { translations } from '@energinet-datahub/eo/translations';
             class="description"
             [innerHTML]="
               translations.grantConsent.description
-                | transloco: { organizationName: organizationName() }
+                | transloco
+                  : {
+                      organizationName: organizationName(),
+                    }
             "
           ></div>
 
-          <ul>
-            @for (permission of permissions; track permission) {
-              <li>
-                <p class="watt-text-s-highlighted">{{ permission[1].title | transloco }}</p>
-                <p class="watt-text-s">{{ permission[1].description | transloco }}</p>
-              </li>
-            }
-          </ul>
+          <eo-consent-permissions [serviceProviderName]="organizationName()" />
+
+          <div
+            class="description"
+            [innerHTML]="
+              translations.grantConsent.postDescription
+                | transloco
+                  : {
+                      organizationName: organizationName(),
+                      genitiveOrganizationName:
+                        organizationName() | genitive: transloco.getActiveLang(),
+                    }
+            "
+          ></div>
         } @else {
           <div class="loading-container">
             <watt-spinner />
@@ -162,7 +159,7 @@ export class EoGrantConsentModalComponent {
   private cd = inject(ChangeDetectorRef);
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
-  private transloco = inject(TranslocoService);
+  protected transloco = inject(TranslocoService);
 
   @Input() thirdPartyClientId!: string;
   @Input() redirectUrl!: string;
@@ -171,7 +168,6 @@ export class EoGrantConsentModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   protected translations = translations;
-  protected permissions = Object.entries(translations.grantConsent.permissions);
   protected isLoading = signal<boolean>(false);
   protected organizationName = signal<string>('');
   protected allowedRedirectUrl = signal<string>('');

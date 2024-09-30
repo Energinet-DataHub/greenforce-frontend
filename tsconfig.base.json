@@ -288,6 +288,9 @@
       "@energinet-datahub/eo/consent/feature-overview": [
         "libs/eo/consent/feature-overview/index.ts"
       ],
+      "@energinet-datahub/eo/consent/feature-permissions": [
+        "libs/eo/consent/feature-permissions/index.ts"
+      ],
       "@energinet-datahub/eo/consent/shell": ["libs/eo/consent/shell/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
