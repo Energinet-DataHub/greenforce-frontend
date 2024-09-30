@@ -769,7 +769,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         description: 'Adgang samt oprettelse af aftaler om overførsel af certificeret grøn strøm.',
       },
     },
-    description: '<p>Dette indebærer, at {{organizationName}} har mulighed for at hente data og administrere certifikater.</p>'
+    description:
+      '<p>Dette indebærer, at {{organizationName}} har mulighed for at hente data og administrere certifikater.</p>',
   },
   grantConsent: {
     title: '{{organizationName}} har anmodet om fuldmagt',

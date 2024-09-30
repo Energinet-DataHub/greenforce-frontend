@@ -21,7 +21,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class EoGenitivePipe implements PipeTransform {
-
   transform(value: string, language: string): string {
     if (!value) {
       return '';
@@ -48,5 +47,4 @@ export class EoGenitivePipe implements PipeTransform {
 
     return value; // Fallback if language is not recognized
   }
-
 }

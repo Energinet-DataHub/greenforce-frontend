@@ -778,10 +778,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
       transferAgreements: {
         title: 'Transfer Agreements',
-        description: 'Access to and creation of agreements for the transfer of certified green energy.',
+        description:
+          'Access to and creation of agreements for the transfer of certified green energy.',
       },
     },
-    description: '<p>This means that {{organizationName}} has the ability to retrieve data and manage certificates.</p>'
+    description:
+      '<p>This means that {{organizationName}} has the ability to retrieve data and manage certificates.</p>',
   },
   grantConsent: {
     title: '{{organizationName}} has requested power of attorney',
