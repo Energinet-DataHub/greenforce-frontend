@@ -1,0 +1,52 @@
+query GetArchivedMessages(
+  $created: DateRange!
+  $senderNumber: String
+  $receiverNumber: String
+  $documentTypes: [DocumentType!]
+  $businessReasons: [BusinessReason!]
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: [ArchivedMessageSortInput!]
+  $filter: String
+) {
+  archivedMessages(
+    created: $created
+    senderNumber: $senderNumber
+    receiverNumber: $receiverNumber
+    documentTypes: $documentTypes
+    businessReasons: $businessReasons
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+    order: $order
+    filter: $filter
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      messageId
+      documentType
+      documentUrl
+      sender {
+        id
+        displayName
+        glnOrEicNumber
+      }
+      receiver {
+        id
+        displayName
+        glnOrEicNumber
+      }
+      createdAt
+      businessReason
+      businessTransaction
+    }
+  }
+}

@@ -72,11 +72,7 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
       }
 
       form {
-        overflow-y: hidden;
-      }
-
-      watt-dropdown {
-        width: auto;
+        flex-wrap: wrap;
       }
     `,
   ],

@@ -53,7 +53,7 @@ limitations under the License.
     }
   </watt-drawer-heading>
 
-  @if (reportView?.statusType === "COMPLETED") {
+  @if (reportView && reportView.statusType === "COMPLETED" && reportView.gridAreas.length > 0) {
     <watt-drawer-actions>
       <watt-button
         type="button"

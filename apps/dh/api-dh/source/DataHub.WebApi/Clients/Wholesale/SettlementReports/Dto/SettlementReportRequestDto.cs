@@ -20,4 +20,6 @@ public sealed record SettlementReportRequestDto(
     bool IncludeBasisData,
     bool IncludeMonthlyAmount,
     bool UseAPI,
-    SettlementReportRequestFilterDto Filter);
+    SettlementReportRequestFilterDto Filter,
+    string? ActorNumberOverride,
+    SettlementReportMarketRole? MarketRoleOverride);

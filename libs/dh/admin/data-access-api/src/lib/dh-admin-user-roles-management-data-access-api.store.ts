@@ -24,7 +24,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { GetUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetUserRolesDocument, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type UserRoleItem = ResultOf<typeof GetUserRolesDocument>['userRoles'][0];
 
@@ -54,7 +54,7 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
   hasGeneralError$ = this.select((state) => state.requestState === ErrorState.GENERAL_ERROR);
 
-  rolesOptions$: Observable<WattDropdownOptions> = of([]);
+  activeUserRoleOptions$: Observable<WattDropdownOptions> = of([]);
 
   constructor() {
     super(initialState);
@@ -111,17 +111,21 @@ export class DhAdminUserRolesManagementDataAccessApiStore
   };
 
   ngrxOnStoreInit(): void {
-    this.rolesOptions$ = this.transloco.selectTranslateObject('marketParticipant.marketRoles').pipe(
-      combineLatestWith(this.select((state) => state.roles)),
-      filter(([, roles]) => roles.length > 0),
-      // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
-      map(([keys, roles]) =>
-        roles.map((role: UserRoleItem) => ({
-          displayValue: `${role.name} (${keys[role.eicFunction]})`,
-          value: role.id,
-        }))
-      )
-    );
+    this.activeUserRoleOptions$ = this.transloco
+      .selectTranslateObject('marketParticipant.marketRoles')
+      .pipe(
+        combineLatestWith(this.select((state) => state.roles)),
+        filter(([, roles]) => roles.length > 0),
+        // eslint-disable-next-line @ngrx/avoid-mapping-component-store-selectors
+        map(([keys, roles]) =>
+          roles
+            .filter((x) => x.status === UserRoleStatus.Active)
+            .map((role: UserRoleItem) => ({
+              displayValue: `${role.name} (${keys[role.eicFunction]})`,
+              value: role.id,
+            }))
+        )
+      );
 
     this.getRoles();
   }

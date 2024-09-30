@@ -41,6 +41,8 @@ import {
   CalculationProgressStep,
   ProgressStatus,
   CalculationExecutionType,
+  GridAreaStatus,
+  GridAreaType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -114,6 +116,8 @@ export const mockedGridAreas: GridAreaDto[] = [
     priceAreaCode: PriceAreaCode.Dk1,
     validFrom,
     validTo: null,
+    status: GridAreaStatus.Active,
+    type: GridAreaType.Distribution,
     includedInCalculation: true,
   },
   {
@@ -123,6 +127,8 @@ export const mockedGridAreas: GridAreaDto[] = [
     name: 'hello again',
     displayName: '002 • hello again',
     priceAreaCode: PriceAreaCode.Dk1,
+    status: GridAreaStatus.Created,
+    type: GridAreaType.GridLossDk,
     validFrom,
     validTo: null,
     includedInCalculation: false,

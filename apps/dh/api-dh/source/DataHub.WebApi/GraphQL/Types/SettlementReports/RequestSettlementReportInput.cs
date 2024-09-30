@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -26,4 +27,6 @@ public record RequestSettlementReportInput(
     bool IncludeBasisData,
     bool UseApi,
     string? EnergySupplier,
-    string? CsvLanguage);
+    string? CsvLanguage,
+    string? RequestAsActorId,
+    SettlementReportMarketRole? RequestAsMarketRole);

@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--watt-space-m);
-  margin-left: auto;
-  margin-right: var(--watt-space-ml);
-}
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import type { GetArchivedMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type ArchivedMessage = NonNullable<
+  NonNullable<ResultOf<typeof GetArchivedMessagesDocument>['archivedMessages']>['nodes']
+>[number];

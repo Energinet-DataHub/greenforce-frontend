@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card vater inset="ml" *transloco="let t; read: 'imbalancePrices'">
-  <vater-flex fill="vertical" gap="ml">
+  <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("topBarTitle") }}</h3>
 
@@ -25,6 +25,16 @@ limitations under the License.
         *dhPermissionRequired="['imbalance-prices:manage']"
         [uploadUrl]="uploadUrl()!"
         (uploadSuccess)="onUploadSuccess()"
+      />
+    </vater-stack>
+
+    <vater-stack direction="row" gap="m">
+      <watt-dropdown
+        [chipMode]="true"
+        [(ngModel)]="selectedPeriod"
+        [options]="monthYearOptions()"
+        (ngModelChange)="onPeriodChange()"
+        [placeholder]="t('periodPlaceholder')"
       />
     </vater-stack>
 

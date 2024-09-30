@@ -5,6 +5,7 @@
   "sourceRoot": "libs/dh/imbalance-prices/data-access-graphql",
   "prefix": "dh",
   "tags": ["product:dh", "domain:imbalance-prices", "type:data-access"],
+  "implicitDependencies": ["api-dh"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"

@@ -74,6 +74,9 @@ export class WattIconComponent {
    * @returns
    */
   private setIcon(name?: WattIcon) {
+    this.icon = '';
+    this.customIcon = '';
+
     if (!name) {
       console.warn('No icon was provided!');
       return;
