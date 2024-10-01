@@ -39,6 +39,6 @@ public class GridAreaDtoType : ObjectType<GridAreaDto>
 
         descriptor
             .Field("includedInCalculation")
-            .Resolve(context => new[] { GridAreaType.Test, GridAreaType.Distribution, GridAreaType.GridLossDK }.Contains(context.Parent<GridAreaDto>().Type));
+            .Resolve(context => new[] { GridAreaType.Transmission, GridAreaType.Distribution, GridAreaType.GridLossDK }.Contains(context.Parent<GridAreaDto>().Type));
     }
 }
