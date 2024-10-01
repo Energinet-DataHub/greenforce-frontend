@@ -53,13 +53,7 @@ import { form } from './form/start';
     DhDropdownTranslatorDirective,
   ],
   template: `
-    <watt-modal
-      #modal
-      *transloco="let t; read: 'messageArchive.start'"
-      size="small"
-      [title]="t('title')"
-      (closed)="$event && clear.emit()"
-    >
+    <watt-modal *transloco="let t; read: 'messageArchive.start'" size="small" [title]="t('title')">
       <form
         vater-stack
         gap="s"
@@ -102,11 +96,11 @@ import { form } from './form/start';
         <watt-datetimepicker [label]="t('end')" [formControl]="form.controls.end" />
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(true)">
+        <watt-button variant="secondary" (click)="onClose(false)">
           {{ t('cancel') }}
         </watt-button>
         <watt-button
-          (click)="modal.close(false)"
+          (click)="onClose(true)"
           type="submit"
           formId="dh-message-archive-search-start-form"
         >
@@ -121,7 +115,7 @@ export class DhMessageArchiveSearchStartComponent {
 
   start = output<GetArchivedMessagesQueryVariables>();
   clear = output();
-  modal = viewChild.required<WattModalComponent>('modal');
+  modal = viewChild.required(WattModalComponent);
 
   documentTypeOptions = dhEnumToWattDropdownOptions(DocumentType);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
@@ -136,10 +130,21 @@ export class DhMessageArchiveSearchStartComponent {
   );
 
   open = () => this.modal().open();
+
   onSubmit = () => {
     const values = this.form.getRawValue();
+    console.log(values);
     if (!values || !values.start) return;
     const { start, end, ...variables } = values;
     this.start.emit({ ...variables, created: { start, end } });
+  };
+
+  onClose = (accepted: boolean) => {
+    this.modal().close(accepted);
+    // Temporary solution until filters are implemented, in which case
+    // the form should always reset whether it was accepted or not.
+    if (accepted) return;
+    this.form.reset();
+    this.clear.emit();
   };
 }
