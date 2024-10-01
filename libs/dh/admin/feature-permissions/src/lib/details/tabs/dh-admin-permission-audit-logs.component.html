@@ -15,18 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
-  @if (isLoading$ | push) {
+  @if (isLoading()) {
     <div class="spinner">
       <watt-spinner />
     </div>
   } @else {
-    @if (!(hasFailed$ | push)) {
+    @if (!hasError()) {
       <watt-card-title>
         <ng-container
           *ngTemplateOutlet="
             auditLogHeadline;
             context: {
-              $implicit: dataSource.data.length
+              $implicit: dataSource.data.length,
             }
           "
         />
@@ -69,9 +69,9 @@ limitations under the License.
   <ng-container *transloco="let t; read: 'admin.userManagement.tabs.history'">
     <h4>
       @if (auditLogCount === 1) {
-        {{ t("changesSingular", { auditLogCount: auditLogCount }) }}
+        {{ t("changesSingular", { auditLogCount }) }}
       } @else {
-        {{ t("changesPlural", { auditLogCount: auditLogCount }) }}
+        {{ t("changesPlural", { auditLogCount }) }}
       }
     </h4>
   </ng-container>
