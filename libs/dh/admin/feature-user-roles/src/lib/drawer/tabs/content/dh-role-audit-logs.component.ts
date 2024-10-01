@@ -14,13 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, input, OnChanges } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { catchError, map, of, tap } from 'rxjs';
-import { Apollo } from 'apollo-angular';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -32,6 +28,7 @@ import {
   UserRoleAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -55,9 +52,7 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
     `,
   ],
   imports: [
-    RxLet,
     NgTemplateOutlet,
-    RxPush,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -68,25 +63,14 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
     WattDatePipe,
   ],
 })
-export class DhRoleAuditLogsComponent implements OnChanges {
-  private readonly apollo = inject(Apollo);
-  private readonly getUserRoleAuditLogsQuery = this.apollo.watchQuery({
-    query: GetUserRoleAuditLogsDocument,
-    fetchPolicy: 'cache-and-network',
-  });
+export class DhRoleAuditLogsComponent {
+  private readonly auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument);
+  private readonly auditLogs = computed(() => this.auditLogsQuery.data()?.userRoleAuditLogs ?? []);
+
+  isLoading = this.auditLogsQuery.loading;
+  hasFailed = computed(() => this.auditLogsQuery.error() !== undefined);
 
   dataSource = new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>();
-
-  hasFailed$ = this.getUserRoleAuditLogsQuery.valueChanges.pipe(
-    map((result) => !!result.error),
-    catchError(() => of(true))
-  );
-
-  isLoading$ = this.getUserRoleAuditLogsQuery.valueChanges.pipe(
-    tap((result) => (this.dataSource.data = [...(result.data?.userRoleAuditLogs ?? [])].reverse())),
-    map((result) => result.loading),
-    catchError(() => of(false))
-  );
 
   columns: WattTableColumnDef<UserRoleAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
@@ -95,7 +79,11 @@ export class DhRoleAuditLogsComponent implements OnChanges {
 
   role = input.required<DhUserRoleWithPermissions>();
 
-  ngOnChanges(): void {
-    this.getUserRoleAuditLogsQuery?.refetch({ id: this.role()?.id });
-  }
+  refetchQueryEffect = effect(() => {
+    this.auditLogsQuery.refetch({ id: this.role()?.id });
+  });
+
+  updateDataEffect = effect(() => {
+    this.dataSource.data = [...this.auditLogs()].reverse();
+  });
 }
