@@ -86,7 +86,7 @@ export class DhPermissionsTableComponent implements OnChanges {
   ngOnChanges(): void {
     this.dataSource.data = this.permissions();
 
-    if (this.permissionsTable) {
+    if (this.permissionsTable()) {
       this.permissionsTable()?.clearSelection();
     }
   }
