@@ -14,68 +14,62 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="loading as isLoading">
-  <watt-card
-    variant="solid"
-    *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
-  >
-    @if (isLoading) {
-      <div class="spinner">
-        <watt-spinner />
-      </div>
-    }
-
-    @if (!isLoading) {
-      <watt-card-title *rxLet="userRoles.length as userRoleCount">
-        @if (userRoleCount === 1 && !error) {
-          <h4>
-            {{ t("rolesSingular", { userRoleCount }) }}
-          </h4>
-        } @else if (userRoleCount !== 1 && !error) {
-          <h4>
-            {{ t("rolesPlural", { userRoleCount }) }}
-          </h4>
-        }
+<watt-card
+  variant="solid"
+  *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
+>
+  @if (loading()) {
+    <div class="spinner">
+      <watt-spinner />
+    </div>
+  } @else {
+    @if (userRolesCount() === 1 && !hasError()) {
+      <watt-card-title>
+        <h4>
+          {{ t("rolesSingular", { userRoleCount: userRolesCount() }) }}
+        </h4>
       </watt-card-title>
-
-      @if (!error) {
-        <watt-table
-          [columns]="columns"
-          [dataSource]="dataSource"
-          sortBy="name"
-          sortDirection="desc"
-          [sortClear]="false"
-        >
-          <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
-            {{ element.name }}
-          </ng-container>
-          <ng-container
-            *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
-          >
-            <ng-container
-              *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
-            >
-              {{ translateMarketRole(element.eicFunction) }}
-            </ng-container>
-          </ng-container>
-        </watt-table>
-      }
-
-      @if (error) {
-        <watt-empty-state
-          icon="custom-power"
-          [title]="'shared.error.title' | transloco"
-          [message]="'shared.error.message' | transloco"
-        />
-      }
-
-      <ng-container *rxLet="userRoles.length as userRoleCount">
-        @if (userRoleCount === 0) {
-          <h4 class="no-results-text">
-            {{ t("noEntries") }}
-          </h4>
-        }
-      </ng-container>
+    } @else if (userRolesCount() !== 1 && !hasError()) {
+      <watt-card-title>
+        <h4>
+          {{ t("rolesPlural", { userRoleCount: userRolesCount() }) }}
+        </h4>
+      </watt-card-title>
     }
-  </watt-card>
-</ng-container>
+
+    @if (!hasError()) {
+      <watt-table
+        [columns]="columns"
+        [dataSource]="dataSource"
+        sortBy="name"
+        sortDirection="desc"
+        [sortClear]="false"
+      >
+        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
+          {{ element.name }}
+        </ng-container>
+        <ng-container
+          *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
+        >
+          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
+            {{ translateMarketRole(element.eicFunction) }}
+          </ng-container>
+        </ng-container>
+      </watt-table>
+    }
+
+    @if (hasError()) {
+      <watt-empty-state
+        icon="custom-power"
+        [title]="'shared.error.title' | transloco"
+        [message]="'shared.error.message' | transloco"
+      />
+    }
+
+    @if (userRolesCount() === 0) {
+      <h4 class="no-results-text">
+        {{ t("noEntries") }}
+      </h4>
+    }
+  }
+</watt-card>

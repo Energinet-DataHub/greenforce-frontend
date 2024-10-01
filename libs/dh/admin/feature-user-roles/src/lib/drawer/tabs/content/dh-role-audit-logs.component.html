@@ -18,20 +18,18 @@ limitations under the License.
   variant="solid"
   *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'"
 >
-  @if (isLoading$ | push) {
+  @if (isLoading()) {
     <div class="spinner">
       <watt-spinner />
     </div>
-  }
-
-  @if (!(isLoading$ | push)) {
-    @if (!(hasFailed$ | push)) {
+  } @else {
+    @if (!hasFailed()) {
       <watt-card-title>
         <ng-container
           *ngTemplateOutlet="
             auditLogHeadline;
             context: {
-              $implicit: dataSource.data.length
+              $implicit: dataSource.data.length,
             }
           "
         />
@@ -60,7 +58,7 @@ limitations under the License.
               [innerHTML]="
                 t('logs.roles.' + element.change, {
                   auditedBy: element.auditedBy,
-                  status: t('logs.status.' + element.currentValue)
+                  status: t('logs.status.' + element.currentValue),
                 })
               "
             ></span>
@@ -75,7 +73,7 @@ limitations under the License.
       }
     }
 
-    @if (hasFailed$ | push) {
+    @if (hasFailed()) {
       <watt-empty-state
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
