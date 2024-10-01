@@ -26,9 +26,9 @@ public partial class Mutation
         [Service] IMarketParticipantClient_V1 marketPartClient,
         [Service] ISettlementReportsClient client)
     {
-        var requestAsActor = string.IsNullOrEmpty(requestSettlementReportInput.RequestAsActorId)
-        ? null
-        : await marketPartClient.ActorGetAsync(Guid.Parse(requestSettlementReportInput.RequestAsActorId));
+        var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
+            ? await marketPartClient.ActorGetAsync(actorNumber)
+            : null;
 
         var requestFilter = new SettlementReportRequestFilterDto(
             requestSettlementReportInput.GridAreasWithCalculations.ToDictionary(
