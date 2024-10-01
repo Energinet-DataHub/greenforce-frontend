@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -22,8 +23,13 @@ public partial class Mutation
 {
     public async Task<bool> RequestSettlementReportAsync(
         RequestSettlementReportInput requestSettlementReportInput,
+        [Service] IMarketParticipantClient_V1 marketPartClient,
         [Service] ISettlementReportsClient client)
     {
+        var requestAsActor = string.IsNullOrEmpty(requestSettlementReportInput.RequestAsActorId)
+        ? null
+        : await marketPartClient.ActorGetAsync(Guid.Parse(requestSettlementReportInput.RequestAsActorId));
+
         var requestFilter = new SettlementReportRequestFilterDto(
             requestSettlementReportInput.GridAreasWithCalculations.ToDictionary(
                 x => x.GridAreaCode,
@@ -42,7 +48,7 @@ public partial class Mutation
                 requestSettlementReportInput.IncludeMonthlySums,
                 requestSettlementReportInput.UseApi,
                 requestFilter,
-                requestSettlementReportInput.RequestAsActorId,
+                requestAsActor?.ActorNumber.Value,
                 requestSettlementReportInput.RequestAsMarketRole),
             default);
 
