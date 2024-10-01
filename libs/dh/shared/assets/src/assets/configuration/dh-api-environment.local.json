@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://localhost:5001",
+  "apiBase": "https://localhost:44322",
   "getUserActorsUrl": "/v1/MarketParticipantUser/GetUserActors",
   "getTokenUrl": "/v1/Token"
 }
