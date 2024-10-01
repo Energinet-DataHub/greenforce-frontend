@@ -42,16 +42,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  // This should be removed when there is no longer a need to create calculations
-  // in closed periods OR as soon as possible after go-live
-  'create-calculation-minimum-date': {
-    created: '28-07-2024', // Intentionally not using latest bump, so it expires after go-live
-    disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
-  },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
   'quarterly-resolution-transition-datetime-override': {
