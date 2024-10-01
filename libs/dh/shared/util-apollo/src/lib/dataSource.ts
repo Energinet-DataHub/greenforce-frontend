@@ -215,8 +215,10 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
       mergeWith(sortChange),
       tap(() => paginator.firstPage()),
       map((opts) => ({ ...opts, variables: { ...firstPage(paginator), ...opts.variables } })),
-      mergeWith(pageChange)
-    ) as Observable<QueryOptions<TVariables>>;
+      mergeWith(pageChange),
+      map((opts) => ({ ...opts, fetchPolicy: 'cache-and-network' })),
+      map((opts) => opts as QueryOptions<TVariables>)
+    );
 
     this._subscription?.unsubscribe();
     this._subscription = dataChange.subscribe((nodes) => this._data.set(nodes));

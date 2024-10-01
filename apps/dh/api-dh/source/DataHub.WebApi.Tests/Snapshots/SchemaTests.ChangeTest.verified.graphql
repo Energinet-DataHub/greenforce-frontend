@@ -526,7 +526,7 @@ type Query {
   gridAreas: [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  archivedMessages(created: DateRange! messageId: String senderNumber: String receiverNumber: String documentTypes: [DocumentType!] businessReasons: [BusinessReason!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ArchivedMessageSortInput!]): ArchivedMessagesConnection
+  archivedMessages(created: DateRange! senderNumber: String receiverNumber: String documentTypes: [DocumentType!] businessReasons: [BusinessReason!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ArchivedMessageSortInput!]): ArchivedMessagesConnection
   organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!

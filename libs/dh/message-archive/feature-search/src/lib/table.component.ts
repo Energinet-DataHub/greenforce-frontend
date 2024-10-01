@@ -94,7 +94,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 })
 export class DhMessageArchiveSearchTableComponent {
   new = output();
-  select = output<ArchivedMessage>();
+  open = output<ArchivedMessage>();
   selection = signal<ArchivedMessage | undefined>(undefined);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
@@ -119,6 +119,6 @@ export class DhMessageArchiveSearchTableComponent {
 
   onRowClick = (row: ArchivedMessage) => {
     this.selection.set(row);
-    this.select.emit(row);
+    this.open.emit(row);
   };
 }

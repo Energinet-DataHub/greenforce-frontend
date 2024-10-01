@@ -25,7 +25,6 @@ public partial class Query
     [UseSorting]
     public async Task<IEnumerable<ArchivedMessageResult>> GetArchivedMessagesAsync(
         Interval created,
-        string? messageId,
         string? senderNumber,
         string? receiverNumber,
         DocumentType[]? documentTypes,
@@ -42,8 +41,8 @@ public partial class Query
                     Start = created.Start.ToDateTimeOffset(),
                     End = created.End.ToDateTimeOffset(),
                 },
-                SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : messageId,
-                ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : messageId,
+                SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : senderNumber,
+                ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : receiverNumber,
                 DocumentTypes = documentTypes.IsNullOrEmpty()
                     ? null
                     : documentTypes?.Select(x => x.ToString()).ToArray(),
