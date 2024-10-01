@@ -23,7 +23,6 @@ import { messageArchiveSearchResponseLogs } from './data/message-archive-search-
 import { document, documentJson } from './data/message-archived-document';
 import {
   BusinessReason,
-  BusinessTransaction,
   DocumentType,
   mockGetArchivedMessagesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -111,7 +110,6 @@ function getArchivedMessages(apiBase: string) {
             },
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             documentUrl: `${apiBase}/v1/MessageArchive/Document?id=${m.id}`,
-            businessTransaction: BusinessTransaction.Rsm016,
             businessReason: BusinessReason.D14,
           })),
         },

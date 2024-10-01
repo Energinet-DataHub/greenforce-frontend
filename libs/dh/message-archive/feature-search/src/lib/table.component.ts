@@ -69,11 +69,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
         (rowClick)="onRowClick($event)"
       >
         <ng-container *wattTableCell="columns['documentType']; let row">
-          <div>
-            {{ row.businessTransaction }}
-            <br />
-            <span>{{ row.documentType }}</span>
-          </div>
+          {{ t('documentType.' + row.documentType) }}
         </ng-container>
         <ng-container *wattTableCell="columns['sender']; let row">
           <div>
