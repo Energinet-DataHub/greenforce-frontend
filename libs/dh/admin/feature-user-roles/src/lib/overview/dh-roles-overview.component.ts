@@ -119,7 +119,6 @@ export class DhUserRolesOverviewComponent {
     searchTerm: null,
   });
 
-
   roles = computed(() => this.rolesByEicFunctionIdGraphQL.data()?.userRolesByEicFunction ?? []);
 
   rolesFiltered = computed(() => this.filterRoles(this.roles(), this.filters()));

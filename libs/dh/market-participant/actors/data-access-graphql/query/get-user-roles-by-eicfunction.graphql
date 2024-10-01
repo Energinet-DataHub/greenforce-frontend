@@ -1,6 +1,6 @@
 query GetUserRolesByEicfunction($eicfunction: EicFunction!) {
   userRolesByEicFunction(eicFunction: $eicfunction) {
-     id
+    id
     name
     description
     eicFunction
