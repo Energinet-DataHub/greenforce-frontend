@@ -30,11 +30,16 @@ public partial class Query
         string? receiverNumber,
         DocumentType[]? documentTypes,
         BusinessReason[]? businessReasons,
+        bool? includeRelated,
         string? filter,
         [Service] IEdiB2CWebAppClient_V1 client)
     {
         var search = !string.IsNullOrWhiteSpace(filter)
-            ? new SearchArchivedMessagesCriteria() { MessageId = filter, IncludeRelatedMessages = true }
+            ? new SearchArchivedMessagesCriteria()
+            {
+                MessageId = filter,
+                IncludeRelatedMessages = includeRelated ?? false,
+            }
             : new SearchArchivedMessagesCriteria()
             {
                 CreatedDuringPeriod = new MessageCreationPeriod()
