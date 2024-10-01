@@ -14,20 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  inject,
-  input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { Apollo, QueryRef } from 'apollo-angular';
-import { Subscription } from 'rxjs';
-import { ApolloError } from '@apollo/client';
-import { RxLet } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -39,6 +27,7 @@ import {
   GetPermissionDetailsDocument,
   GetPermissionDetailsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 type UserRole = ResultOf<
   typeof GetPermissionDetailsDocument
@@ -67,7 +56,6 @@ type UserRole = ResultOf<
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxLet,
 
     WATT_CARD,
     WATT_TABLE,
@@ -75,15 +63,17 @@ type UserRole = ResultOf<
     WattSpinnerComponent,
   ],
 })
-export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDestroy {
-  private apollo = inject(Apollo);
+export class DhAdminPermissionRolesComponent {
+  private readonly getPermissionQuery = lazyQuery(GetPermissionDetailsDocument);
+  private readonly userRoles = computed(
+    () => this.getPermissionQuery.data()?.permissionById?.userRoles ?? []
+  );
 
   selectedPermission = input.required<PermissionDto>();
 
-  subscription!: Subscription;
-  userRoles: UserRole[] = [];
-  loading = false;
-  error?: ApolloError;
+  userRolesCount = computed(() => this.userRoles().length);
+  loading = this.getPermissionQuery.loading;
+  hasError = computed(() => this.getPermissionQuery.error() !== undefined);
 
   dataSource = new WattTableDataSource<UserRole>();
 
@@ -92,43 +82,11 @@ export class DhAdminPermissionRolesComponent implements OnInit, OnChanges, OnDes
     eicFunction: { accessor: 'eicFunction' },
   };
 
-  private getPermissionQuery?: QueryRef<
-    GetPermissionDetailsQuery,
-    {
-      id: number;
-    }
-  >;
+  private userRolesEffect = effect(() => {
+    this.dataSource.data = this.userRoles();
+  });
 
-  ngOnInit(): void {
-    this.getPermissionQuery = this.apollo.watchQuery({
-      query: GetPermissionDetailsDocument,
-      variables: { id: this.selectedPermission().id },
-    });
-
-    this.subscription = this.getPermissionQuery.valueChanges.subscribe({
-      next: (result) => {
-        this.userRoles = result.data?.permissionById?.userRoles ?? [];
-        this.loading = result.loading;
-        this.error = result.error;
-        this.dataSource.data = this.userRoles;
-      },
-      error: (error) => {
-        this.error = error;
-      },
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.selectedPermission.firstChange === false &&
-      changes.selectedPermission.currentValue
-    ) {
-      const id = changes.selectedPermission.currentValue.id;
-      this.getPermissionQuery?.refetch({ id });
-    }
-  }
+  private queryRefetchEffect = effect(() => {
+    this.getPermissionQuery.refetch({ id: this.selectedPermission().id });
+  });
 }
