@@ -14,19 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  inject,
-  input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { Apollo, QueryRef } from 'apollo-angular';
-import { Subscription } from 'rxjs';
-import { ApolloError } from '@apollo/client';
 import { RxLet } from '@rx-angular/template/let';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
@@ -35,10 +24,8 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  GetPermissionDetailsDocument,
-  GetPermissionDetailsQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 type MarketRole = ResultOf<
   typeof GetPermissionDetailsDocument
@@ -75,15 +62,13 @@ type MarketRole = ResultOf<
     WattEmptyStateComponent,
   ],
 })
-export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges, OnDestroy {
-  private apollo = inject(Apollo);
+export class DhAdminPermissionMarketRolesComponent {
+  private readonly getPermissionQuery = lazyQuery(GetPermissionDetailsDocument);
+  private readonly marketRoles = computed(() => {
+    return this.getPermissionQuery.data()?.permissionById?.assignableTo ?? [];
+  });
 
   selectedPermission = input.required<PermissionDto>();
-
-  subscription!: Subscription;
-  marketRoles: MarketRole[] = [];
-  loading = false;
-  error?: ApolloError;
 
   dataSource = new WattTableDataSource<MarketRole>();
 
@@ -91,43 +76,16 @@ export class DhAdminPermissionMarketRolesComponent implements OnInit, OnChanges,
     name: { accessor: null },
   };
 
-  private getPermissionQuery?: QueryRef<
-    GetPermissionDetailsQuery,
-    {
-      id: number;
-    }
-  >;
+  marketRolesCount = computed(() => this.marketRoles().length);
 
-  ngOnInit(): void {
-    this.getPermissionQuery = this.apollo.watchQuery({
-      query: GetPermissionDetailsDocument,
-      variables: { id: this.selectedPermission().id },
-    });
+  isLoading = this.getPermissionQuery.loading;
+  hasError = computed(() => this.getPermissionQuery.error() !== undefined);
 
-    this.subscription = this.getPermissionQuery.valueChanges.subscribe({
-      next: (result) => {
-        this.marketRoles = result.data?.permissionById?.assignableTo ?? [];
-        this.loading = result.loading;
-        this.error = result.error;
-        this.dataSource.data = this.marketRoles;
-      },
-      error: (error) => {
-        this.error = error;
-      },
-    });
-  }
+  private queryRefetchEffect = effect(() => {
+    this.getPermissionQuery?.refetch({ id: this.selectedPermission().id });
+  });
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.selectedPermission.firstChange === false &&
-      changes.selectedPermission.currentValue
-    ) {
-      const id = changes.selectedPermission.currentValue.id;
-      this.getPermissionQuery?.refetch({ id });
-    }
-  }
+  private marketRolesEffect = effect(() => {
+    this.dataSource.data = this.marketRoles();
+  });
 }
