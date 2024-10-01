@@ -795,8 +795,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     `,
     postDescription: `
       <br />
-      <h4>Valid from</h4>
-      <p>The power of attorney is valid for {{genitiveOrganizationName}} retrieval and administration of the aforementioned data from the date of acceptance of the power of attorney.</p>
+      <h4>Effective Date</h4>
+      <p>The power of attorney becomes effective from the date of acceptance and applies to {{genitiveOrganizationName}} retrieval and administration of the aforementioned data.</p>
 
       <h4>Responsibility</h4>
       <p>Energinet DataHub A/S cannot be held responsible for {{genitiveOrganizationName}} (i.e., the power of attorney holder's) use and handling of the retrieved data.</p>
