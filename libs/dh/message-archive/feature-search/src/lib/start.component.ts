@@ -133,7 +133,6 @@ export class DhMessageArchiveSearchStartComponent {
 
   onSubmit = () => {
     const values = this.form.getRawValue();
-    console.log(values);
     if (!values || !values.start) return;
     const { start, end, ...variables } = values;
     this.start.emit({ ...variables, created: { start, end } });
