@@ -48,7 +48,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
 {
   private _query: QueryResult<TResult, TVariables>;
   private _connection: Observable<Connection<TNode>>;
-  private _inputChange: ReplaySubject<TVariables | undefined> = new ReplaySubject(1);
+  private _inputChange: ReplaySubject<Partial<TVariables> | undefined> = new ReplaySubject(1);
   private _subscription?: Subscription;
 
   private _totalCount = signal(0);
@@ -125,7 +125,7 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     if (!options?.skip) this._inputChange.next(options?.variables);
   }
 
-  refetch = (variables?: TVariables) => this._inputChange.next(variables);
+  refetch = (variables?: Partial<TVariables>) => this._inputChange.next(variables);
   subscribeToMore: QueryResult<TResult, TVariables>['subscribeToMore'] = (options) =>
     this._query.subscribeToMore(options);
 
