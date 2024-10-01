@@ -174,6 +174,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
         `,
       },
+      drivenBy: 'Drevet af',
     },
   },
   documentation: {
@@ -737,40 +738,60 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     permissionsFor: 'Fuldmagt til',
   },
   editConsent: {
-    permissions: 'Fuldmagter',
-    description: 'Du har givet {{organizationName}} fuldmagt til at administrere følgende for dig.',
-    postscript: `
-      <p>Du kan til enhver tid trække din fuldmagt tilbage (helt eller delvist), hvis du ikke længere ønsker at lade tredjeparten administrere overblik, målepunkter og/eller overførselsaftaler for dig.</p>
-      <p>Du tilbagekalder delvist ved at fjerne flueben ud for det, der ikke længere skal gives fuldmagt til.</p>
-      <p>Du tilbagekalder fuldmagt helt ved at klikke på 'Tilbagekald fuldmagt'.<p>
+    description: `
+      <p>You have granted {{organizationName}} power of attorney to:</p>
     `,
-    cancel: 'Fortryd',
-    saveChanges: 'Gem ændringer',
-    revoke: 'Tilbagekald fuldmagt',
-    revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
-    revokeError: 'Der opstod en fejl under tilbagekaldelsen af fuldmagten. Prøv igen.',
+    postDescription: `
+      <h4>Revocation of power of attorney</h4>
+      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done by clicking on 'Revoke power of attorney'.</p>
+      <p>Upon revocation, {{organizationName}} will no longer be able to retrieve data and manage certificates.</p>
+    `,
+    cancel: 'Cancel',
+    saveChanges: 'Save changes',
+    revoke: 'Revoke power of attorney',
+    revokeSuccess: 'The power of attorney has been revoked',
+    revokeError: 'An error occurred while revoking the power of attorney. Please try again.',
   },
-  grantConsent: {
-    title: '{{organizationName}} har anmodet om fuldmagt',
-    description: `<p>{{organizationName}} er en service provider, der er oprettet som 3. part i Energy Track & Trace Danmark, og kan dermed anmode om fuldmagt fra dig som elforbruger og/eller elproducent.</p>
-       <p>En service provider tilbyder energiydelser til kunder baseret på dit el-forbrug og/eller produk-tion. 3. parten får adgang til det, du tillader i afkrydsningsboksene herunder.</p>
-       <p>Du kan til enhver tid trække din fuldmagt tilbage (helt eller delvist), hvis du ikke længere ønsker at dele dine data med en tredjepart.</p>`,
+  consentPermissions: {
     permissions: {
       overview: {
-        title: 'Overblik',
+        title: 'Adgang til data',
         description:
-          'Se mængden af overført certificeret grøn strøm samt hvor stor andel af forbrugt strøm der er certificeret grøn strøm.',
+          'Mængden af overført certificeret grøn strøm samt andelen af den forbrugte strøm, der er certificeret grøn',
       },
       meteringPoints: {
         title: 'Målepunkter',
         description:
-          'Administrer hvilke produktionselmålere der skal udstede certifikater for grøn strøm, og hvilke forbrugselmålere der skal kunne matches med certificeret grøn strøm.',
+          'Administration af produktionselmålere, der skal udstede certifikater for grøn strøm og hvilke forbrugselmålere, der skal kunne matches med certificeret grøn strøm.',
       },
       transferAgreements: {
         title: 'Overførselsaftaler',
-        description: 'Se og opret aftaler om overførsel af certificeret grøn strøm.',
+        description: 'Adgang samt oprettelse af aftaler om overførsel af certificeret grøn strøm.',
       },
     },
+    description:
+      '<p>Dette indebærer, at {{organizationName}} har mulighed for at hente data og administrere certifikater.</p>',
+  },
+  grantConsent: {
+    title: '{{organizationName}} har anmodet om fuldmagt',
+    description: `
+      <p>{{organizationName}} er en service provider, og kan anmode om fuldmagt.</p>
+      <p>En service provider tilbyder energiydelser baseret på elforbrug og/eller produktion. {{organizationName}} får adgang til data via fuldmagt.</p>
+      <br />
+      <p>Jeg giver hermed {{organizationName}} fuldmagt til: </p>
+    `,
+    postDescription: `
+      <br />
+      <h4>Gyldig fra</h4>
+      <p>Fuldmagten gælder for {{genitiveOrganizationName}} indhentning og administration af ovenstående data fra datoen for accept af fuldmagten.</p>
+
+      <h4>Ansvar</h4>
+      <p>Energinet DataHub A/S kan ikke drages til ansvar for {{genitiveOrganizationName}} (dvs. fuldmagthavers) anvendelse og behandling af de hentede data.</p>
+
+      <h4>Tilbagekaldelse af fuldmagt</h4>
+      <p>Fuldmagten kan til enhver tid trækkes tilbage, hvis deling af data med {{organizationName}} ikke længere ønskes. Dette kan gøres på energytrackandtrace.dk under menupunktet 'Fuldmagter'. Vælg den ønskede fuldmagt, og klik derefter på 'Administrer fuldmagt' for at tilbagekalde den.</p>
+      <p>Ved tilbagekaldelse af fuldmagten har service provideren ikke længere mulighed for at hente data og administrere certifikater.</p>
+    `,
     acceptTermsAndConditions: 'Accepter <a href="/terms" target="_blank">vilkår og betingelser</a>',
     decline: 'Afvis',
     accept: 'Accepter',

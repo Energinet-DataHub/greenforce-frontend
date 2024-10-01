@@ -48,13 +48,15 @@ const selector = 'eo-landing-page-footer';
           'contact'
           'legal'
           'developers'
-          'logo';
+          'logo'
+          'drivenBy';
 
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
             'logo logo logo logo'
-            'address contact legal developers';
+            'address contact legal developers'
+            'address contact legal drivenBy';
           grid-template-rows: auto 1fr;
           grid-template-columns: repeat(4, auto);
           gap: 1vw;
@@ -65,11 +67,13 @@ const selector = 'eo-landing-page-footer';
           }
         }
 
-        @media (min-width: 1000px) {
+        @media (min-width: 1164px) {
           grid-template-columns: repeat(5, auto);
           grid-template-rows: auto;
-          grid-template-areas: 'logo address contact legal developers';
-          gap: 64px;
+          grid-template-areas:
+            'logo address contact legal developers'
+            'logo address contact legal drivenBy';
+          gap: 0 64px;
         }
       }
 
@@ -92,6 +96,14 @@ const selector = 'eo-landing-page-footer';
 
       .developers {
         grid-area: developers;
+      }
+
+      .driven-by {
+        grid-area: drivenBy;
+
+        .logo {
+          width: 160px;
+        }
       }
 
       h4 {
@@ -155,6 +167,11 @@ const selector = 'eo-landing-page-footer';
               | transloco: { linkToDevPortal: devPortalHref, icon: openInNewIcon }
           "
         ></div>
+      </section>
+
+      <section class="driven-by">
+        <h4 class="headline-5">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
+        <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
       </section>
     </footer>
   `,

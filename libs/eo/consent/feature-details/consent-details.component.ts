@@ -41,6 +41,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsent } from '@energinet-datahub/eo/consent/data-access-api';
 
 import { EoEditConsentModalComponent } from '@energinet-datahub/eo/consent/feature-edit-consent';
+import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 
 const selector = 'eo-consent-details-drawer';
 
@@ -57,6 +58,7 @@ const selector = 'eo-consent-details-drawer';
     TranslocoPipe,
     WattDatePipe,
     EoEditConsentModalComponent,
+    EoConsentPermissionsComponent,
   ],
   standalone: true,
   styles: `
@@ -95,24 +97,6 @@ const selector = 'eo-consent-details-drawer';
           align-self: auto !important;
         }
       }
-
-      .permissions {
-        margin-top: var(--watt-space-s);
-        list-style: none !important;
-        padding: 0;
-
-        .permission {
-          &::before {
-            display: none;
-          }
-          padding: var(--watt-space-m) 0;
-          border-bottom: 1px solid var(--watt-color-neutral-grey-400);
-
-          .description {
-            margin-top: var(--watt-space-s);
-          }
-        }
-      }
     }
   `,
   template: `
@@ -137,14 +121,7 @@ const selector = 'eo-consent-details-drawer';
         <watt-drawer-content>
           <h3>{{ translations.consentDetails.permissionsFor | transloco }}</h3>
 
-          <ul class="permissions">
-            @for (permission of permissions; track permission) {
-              <li class="permission">
-                <h4>{{ permission[1].title | transloco }}</h4>
-                <p class="watt-text-s description">{{ permission[1].description | transloco }}</p>
-              </li>
-            }
-          </ul>
+          <eo-consent-permissions [serviceProviderName]="consent.clientName" />
         </watt-drawer-content>
       </watt-drawer>
 
@@ -168,7 +145,6 @@ export class EoConsentDetailsDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
 
   protected translations = translations;
-  protected permissions = Object.entries(translations.grantConsent.permissions);
   public opened = false;
 
   editConsent() {

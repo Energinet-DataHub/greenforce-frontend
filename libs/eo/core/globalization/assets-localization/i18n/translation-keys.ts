@@ -111,6 +111,7 @@ export interface TranslationKeys {
         heading: string;
         content: string;
       };
+      drivenBy: string;
     };
   };
   documentation: {
@@ -605,19 +606,7 @@ export interface TranslationKeys {
     editConsent: string;
     permissionsFor: string;
   };
-  editConsent: {
-    permissions: string;
-    description: string;
-    postscript: string;
-    cancel: string;
-    saveChanges: string;
-    revoke: string;
-    revokeSuccess: string;
-    revokeError: string;
-  };
-  grantConsent: {
-    title: string;
-    description: string;
+  consentPermissions: {
     permissions: {
       overview: {
         title: string;
@@ -632,6 +621,21 @@ export interface TranslationKeys {
         description: string;
       };
     };
+    description: string;
+  };
+  editConsent: {
+    description: string;
+    postDescription: string;
+    cancel: string;
+    saveChanges: string;
+    revoke: string;
+    revokeSuccess: string;
+    revokeError: string;
+  };
+  grantConsent: {
+    title: string;
+    description: string;
+    postDescription: string;
     acceptTermsAndConditions: string;
     decline: string;
     accept: string;

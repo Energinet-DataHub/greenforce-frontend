@@ -20,7 +20,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -31,30 +30,31 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoGenitivePipe } from '@energinet-datahub/eo/shared/utilities';
+import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-grant-consent-modal',
   imports: [
-    ReactiveFormsModule,
     NgClass,
     WATT_MODAL,
     WattIconComponent,
-    WattCheckboxComponent,
     WattSpinnerComponent,
     TranslocoPipe,
     WattButtonComponent,
+    EoGenitivePipe,
+    EoConsentPermissionsComponent,
   ],
   standalone: true,
   styles: `
@@ -65,42 +65,21 @@ import { translations } from '@energinet-datahub/eo/translations';
         --watt-modal-min-height: 800px !important;
       }
 
-      .watt-modal-content {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-
       watt-modal-actions {
         gap: var(--watt-space-m);
       }
 
+      p {
+        margin-top: var(--watt-space-s);
+      }
+
       h3 {
         text-align: center;
+        margin-bottom: var(--watt-space-m);
       }
 
-      ul {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-m);
-        margin-bottom: var(--watt-space-l);
-
-        li {
-          padding-left: 0;
-          &::before {
-            display: none;
-          }
-
-          p {
-            padding-left: 22px; // magic number to align with checkbox
-          }
-        }
-      }
-
-      .description {
-        display: flex;
-        flex-direction: column;
-        gap: var(--watt-space-m);
+      h4 {
+        margin-top: var(--watt-space-m);
       }
 
       .loading-container {
@@ -122,7 +101,6 @@ import { translations } from '@energinet-datahub/eo/translations';
         [hideCloseButton]="true"
         [disableClose]="true"
         [panelClass]="['eo-grant-consent-modal']"
-        [formGroup]="form"
       >
         @if (!isLoading()) {
           <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
@@ -135,20 +113,27 @@ import { translations } from '@energinet-datahub/eo/translations';
             class="description"
             [innerHTML]="
               translations.grantConsent.description
-                | transloco: { organizationName: organizationName() }
+                | transloco
+                  : {
+                      organizationName: organizationName(),
+                    }
             "
           ></div>
 
-          <ul>
-            @for (permission of permissions; track permission) {
-              <li>
-                <watt-checkbox [formControlName]="permission[0]">{{
-                  permission[1].title | transloco
-                }}</watt-checkbox>
-                <p class="watt-text-s">{{ permission[1].description | transloco }}</p>
-              </li>
-            }
-          </ul>
+          <eo-consent-permissions [serviceProviderName]="organizationName()" />
+
+          <div
+            class="description"
+            [innerHTML]="
+              translations.grantConsent.postDescription
+                | transloco
+                  : {
+                      organizationName: organizationName(),
+                      genitiveOrganizationName:
+                        organizationName() | genitive: transloco.getActiveLang(),
+                    }
+            "
+          ></div>
         } @else {
           <div class="loading-container">
             <watt-spinner />
@@ -170,11 +155,11 @@ import { translations } from '@energinet-datahub/eo/translations';
     }
   `,
 })
-export class EoGrantConsentModalComponent implements OnInit {
+export class EoGrantConsentModalComponent {
   private cd = inject(ChangeDetectorRef);
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
-  private transloco = inject(TranslocoService);
+  protected transloco = inject(TranslocoService);
 
   @Input() thirdPartyClientId!: string;
   @Input() redirectUrl!: string;
@@ -183,23 +168,10 @@ export class EoGrantConsentModalComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   protected translations = translations;
-  protected permissions = Object.entries(translations.grantConsent.permissions);
-  protected form: FormGroup = new FormGroup({});
   protected isLoading = signal<boolean>(false);
   protected organizationName = signal<string>('');
   protected allowedRedirectUrl = signal<string>('');
   public opened = false;
-
-  ngOnInit(): void {
-    this.setForm();
-  }
-
-  private setForm() {
-    this.permissions.forEach((permission) => {
-      const name = permission[0];
-      this.form.addControl(name, new FormControl({ value: true, disabled: true }));
-    });
-  }
 
   open() {
     // If the third party client id is not set, theres no reason to open the modal
