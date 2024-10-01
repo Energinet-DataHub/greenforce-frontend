@@ -16,13 +16,13 @@ limitations under the License.
 -->
 <vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.balanceResponsible'">
   <watt-table
-    [dataSource]="tableDataSource"
+    [dataSource]="tableDataSource()"
     [columns]="columns"
     [resolveHeader]="translateHeader"
-    [loading]="isLoading"
+    [loading]="isLoading()"
     [sortClear]="false"
-    [sortBy]="sortMetadata.active"
-    [sortDirection]="sortMetadata.direction"
+    [sortBy]="sortMetadata().active"
+    [sortDirection]="sortMetadata().direction"
     [activeRow]="activeRow"
     (rowClick)="onRowClick($event)"
     (sortChange)="sortChange.emit($event)"
@@ -87,12 +87,12 @@ limitations under the License.
     </ng-container>
   </watt-table>
 
-  @if (!isLoading && tableDataSource.filteredData.length === 0) {
+  @if (!isLoading() && tableDataSource().filteredData.length === 0) {
     <vater-stack fill="vertical" justify="center">
       <watt-empty-state
-        [icon]="hasError ? 'custom-power' : 'cancel'"
-        [title]="hasError ? t('errorTitle') : t('emptyTitle')"
-        [message]="hasError ? t('errorMessage') : t('emptyMessage')"
+        [icon]="hasError() ? 'custom-power' : 'cancel'"
+        [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
       />
     </vater-stack>
   }
