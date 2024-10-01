@@ -60,6 +60,16 @@ export const dhFeatureFlagsConfig = {
     created: '25-09-2024',
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
+  notifications: {
+    created: '01-10-2024',
+    disabledEnvironments: [
+      DhAppEnvironment.dev_002,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

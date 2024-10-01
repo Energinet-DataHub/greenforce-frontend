@@ -94,6 +94,8 @@ export class StorybookIconOverviewComponent {
         { name: 'Mark Email Unread', icon: 'markEmailUnread' },
         { name: 'Link', icon: 'link' },
         { name: 'Open In New', icon: 'openInNew' },
+        { name: 'Notifications', icon: 'notifications' },
+        { name: 'Notifications Unread', icon: 'notificationsUnread' },
       ],
     },
     {
