@@ -64,7 +64,9 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
   ],
 })
 export class DhRoleAuditLogsComponent {
-  private readonly auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument);
+  private readonly auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument, {
+    fetchPolicy: 'cache-and-network',
+  });
   private readonly auditLogs = computed(() => this.auditLogsQuery.data()?.userRoleAuditLogs ?? []);
 
   isLoading = this.auditLogsQuery.loading;

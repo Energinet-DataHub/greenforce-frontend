@@ -63,7 +63,9 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
   ],
 })
 export class DhPermissionAuditLogsComponent {
-  private readonly getPermissionAuditLogsQuery = lazyQuery(GetPermissionAuditLogsDocument);
+  private readonly getPermissionAuditLogsQuery = lazyQuery(GetPermissionAuditLogsDocument, {
+    fetchPolicy: 'cache-and-network',
+  });
   private readonly auditLogs = computed(() => {
     return this.getPermissionAuditLogsQuery.data()?.permissionAuditLogs ?? [];
   });
