@@ -79,6 +79,8 @@ const materialIcons = {
   windmill: 'energy',
   solarPower: 'solar_power',
   priorityHigh: 'priority_high',
+  notifications: 'notifications',
+  notificationsUnread: 'notifications_unread',
 };
 
 /**

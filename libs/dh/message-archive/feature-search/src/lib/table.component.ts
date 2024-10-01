@@ -113,7 +113,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
 })
 export class DhMessageArchiveSearchTableComponent implements OnInit {
   new = output();
-  select = output<ArchivedMessage>();
+  open = output<ArchivedMessage>();
   selection = signal<ArchivedMessage | undefined>(undefined);
   dataTable = viewChild.required(WattDataTableComponent);
   form = new FormGroup({ includeRelated: new FormControl(false) });
@@ -153,6 +153,6 @@ export class DhMessageArchiveSearchTableComponent implements OnInit {
 
   onRowClick = (row: ArchivedMessage) => {
     this.selection.set(row);
-    this.select.emit(row);
+    this.open.emit(row);
   };
 }
