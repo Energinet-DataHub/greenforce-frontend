@@ -100,7 +100,7 @@ export const graphQLProviders = makeEnvironmentProviders([
           errorHandler(dhApplicationInsights),
           split(
             isSubscriptionQuery,
-            sseLink.create(`${dhApiEnvironment.apiBase}/graphql&ngsw-bypass=true`),
+            sseLink.create(`${dhApiEnvironment.apiBase}/graphql?ngsw-bypass=true`),
             httpLink.create({
               uri: (operation: Operation) => {
                 return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
