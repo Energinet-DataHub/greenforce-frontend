@@ -74,6 +74,8 @@ import { form } from './form/start';
           [options]="documentTypeOptions"
           [placeholder]="t('placeholder')"
           [multiple]="true"
+          dhDropdownTranslator
+          translateKey="messageArchive.documentType"
         />
         <watt-dropdown
           [label]="t('businessReason')"
