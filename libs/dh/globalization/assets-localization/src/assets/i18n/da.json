@@ -147,6 +147,9 @@
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
+    "filters": {
+      "includeRelated": "Inkluder relaterede"
+    },
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",

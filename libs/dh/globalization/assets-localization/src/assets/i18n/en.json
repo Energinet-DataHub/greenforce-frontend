@@ -147,6 +147,9 @@
     "new": "New search",
     "results": "Results",
     "searchById": "Search by ID",
+    "filters": {
+      "includeRelated": "Include related"
+    },
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
