@@ -29,9 +29,9 @@ describe('EoGenitivePipe', () => {
   });
 
   it('should return empty string if value is null or empty', () => {
-    expect(pipe.transform(null, 'da')).toBe('');
+    expect(pipe.transform(null as unknown as string, 'da')).toBe('');
     expect(pipe.transform('', 'da')).toBe('');
-    expect(pipe.transform(null, 'en')).toBe('');
+    expect(pipe.transform(null as unknown as string, 'en')).toBe('');
     expect(pipe.transform('', 'en')).toBe('');
   });
 

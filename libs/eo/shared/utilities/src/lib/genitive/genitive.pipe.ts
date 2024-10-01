@@ -30,14 +30,14 @@ export class EoGenitivePipe implements PipeTransform {
 
     if (language === 'da') {
       // Danish rules
-      if (lastChar === 's') {
+      if (lastChar.toLocaleLowerCase() === 's') {
         return `${value}'`; // Just add an apostrophe if it ends with 's'
       } else {
         return `${value}s`; // Add 's' otherwise
       }
     } else if (language === 'en') {
       // English rules
-      if (lastChar === 's') {
+      if (lastChar.toLocaleLowerCase() === 's') {
         return `${value}'`; // Just add an apostrophe if it ends with 's'
       } else {
         console.log(value);
