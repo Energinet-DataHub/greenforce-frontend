@@ -171,10 +171,7 @@ export class DhCalculationsCreateComponent {
   minScheduledAt = new Date();
   scheduledAt = toSignal(this.formGroup.controls.scheduledAt.valueChanges);
 
-  minDate = this.ffs.isEnabled('create-calculation-minimum-date')
-    ? getMinDate()
-    : new Date('2021-02-01'); // Temporary minimum date for certain environments
-
+  minDate = getMinDate();
   maxDate = computed(() =>
     dayjs(this.scheduledAt() ?? new Date())
       .subtract(1, 'day')
