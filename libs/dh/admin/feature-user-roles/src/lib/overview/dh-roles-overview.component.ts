@@ -21,6 +21,7 @@ import {
   DestroyRef,
   computed,
   signal,
+  effect,
 } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
 import { take, BehaviorSubject, debounceTime } from 'rxjs';
@@ -29,7 +30,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  DhPermissionRequiredDirective,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,
@@ -43,8 +47,9 @@ import {
   EicFunction,
   UserRoleStatus,
   GetUserRolesDocument,
+  GetUserRolesByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhRolesTabTableComponent } from './dh-roles-overview-table.component';
 import { DhRolesOverviewListFilterComponent } from './dh-roles-overview-list-filter.component';
@@ -102,8 +107,10 @@ type Filters = {
 export class DhUserRolesOverviewComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly transloco = inject(TranslocoService);
+  private readonly actorStorage = inject(DhActorStorage);
 
-  private rolesGraphQL = query(GetUserRolesDocument);
+  private rolesGraphQL = lazyQuery(GetUserRolesDocument);
+  private rolesByActorIdGraphQL = lazyQuery(GetUserRolesByActorIdDocument);
 
   searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
@@ -114,14 +121,33 @@ export class DhUserRolesOverviewComponent {
     searchTerm: null,
   });
 
-  roles = computed(() => this.rolesGraphQL.data()?.userRoles ?? []);
+  isAdmin = computed(
+    () => this.actorStorage.getSelectedActor()?.marketRole === EicFunction.DataHubAdministrator
+  );
+
+  roles = computed(() =>
+    this.isAdmin()
+      ? (this.rolesGraphQL.data()?.userRoles ?? [])
+      : (this.rolesByActorIdGraphQL.data()?.userRolesByActorId ?? [])
+  );
+
   rolesFiltered = computed(() => this.filterRoles(this.roles(), this.filters()));
 
-  isLoading = this.rolesGraphQL.loading;
-  hasGeneralError = computed(() => Boolean(this.rolesGraphQL.error()));
+  isLoading = this.isAdmin() ? this.rolesGraphQL.loading : this.rolesByActorIdGraphQL.loading;
+
+  hasGeneralError = computed(() => {
+    return Boolean(this.isAdmin() ? this.rolesGraphQL.error : this.rolesByActorIdGraphQL.error);
+  });
 
   constructor() {
     this.onSearchInput();
+    effect(() => {
+      this.isAdmin()
+        ? this.rolesGraphQL.query()
+        : this.rolesByActorIdGraphQL.query({
+            variables: { actorId: this.actorStorage.getSelectedActorId() },
+          });
+    });
   }
 
   updateFilterStatus(status: UserRoleStatus | null) {
@@ -133,7 +159,7 @@ export class DhUserRolesOverviewComponent {
   }
 
   reloadRoles(): void {
-    this.rolesGraphQL.refetch();
+    this.isAdmin() ? this.rolesGraphQL.refetch() : this.rolesByActorIdGraphQL.refetch();
   }
 
   modalOnClose(): void {
