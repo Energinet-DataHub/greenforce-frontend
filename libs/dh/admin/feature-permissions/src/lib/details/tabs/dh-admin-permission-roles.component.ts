@@ -23,10 +23,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  GetPermissionDetailsDocument,
-  GetPermissionDetailsQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 type UserRole = ResultOf<
