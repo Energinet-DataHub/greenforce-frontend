@@ -112,6 +112,7 @@ export const translations = {
         heading: 'landingPage.footer.section4.heading' as const,
         content: 'landingPage.footer.section4.content' as const,
       } as const,
+      drivenBy: 'landingPage.footer.drivenBy' as const,
     } as const,
   } as const,
   documentation: {
@@ -620,10 +621,26 @@ export const translations = {
     editConsent: 'consentDetails.editConsent' as const,
     permissionsFor: 'consentDetails.permissionsFor' as const,
   } as const,
+  consentPermissions: {
+    permissions: {
+      overview: {
+        title: 'consentPermissions.permissions.overview.title' as const,
+        description: 'consentPermissions.permissions.overview.description' as const,
+      } as const,
+      meteringPoints: {
+        title: 'consentPermissions.permissions.meteringPoints.title' as const,
+        description: 'consentPermissions.permissions.meteringPoints.description' as const,
+      } as const,
+      transferAgreements: {
+        title: 'consentPermissions.permissions.transferAgreements.title' as const,
+        description: 'consentPermissions.permissions.transferAgreements.description' as const,
+      } as const,
+    } as const,
+    description: 'consentPermissions.description' as const,
+  } as const,
   editConsent: {
-    permissions: 'editConsent.permissions' as const,
     description: 'editConsent.description' as const,
-    postscript: 'editConsent.postscript' as const,
+    postDescription: 'editConsent.postDescription' as const,
     cancel: 'editConsent.cancel' as const,
     saveChanges: 'editConsent.saveChanges' as const,
     revoke: 'editConsent.revoke' as const,
@@ -633,20 +650,7 @@ export const translations = {
   grantConsent: {
     title: 'grantConsent.title' as const,
     description: 'grantConsent.description' as const,
-    permissions: {
-      overview: {
-        title: 'grantConsent.permissions.overview.title' as const,
-        description: 'grantConsent.permissions.overview.description' as const,
-      } as const,
-      meteringPoints: {
-        title: 'grantConsent.permissions.meteringPoints.title' as const,
-        description: 'grantConsent.permissions.meteringPoints.description' as const,
-      } as const,
-      transferAgreements: {
-        title: 'grantConsent.permissions.transferAgreements.title' as const,
-        description: 'grantConsent.permissions.transferAgreements.description' as const,
-      } as const,
-    } as const,
+    postDescription: 'grantConsent.postDescription' as const,
     acceptTermsAndConditions: 'grantConsent.acceptTermsAndConditions' as const,
     decline: 'grantConsent.decline' as const,
     accept: 'grantConsent.accept' as const,
