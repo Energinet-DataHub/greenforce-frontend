@@ -46,7 +46,6 @@ query GetArchivedMessages(
       }
       createdAt
       businessReason
-      businessTransaction
     }
   }
 }

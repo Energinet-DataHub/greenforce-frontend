@@ -116,7 +116,6 @@ type ArchivedMessage {
   receiver: Actor
   documentType: DocumentType!
   documentUrl: String
-  businessTransaction: BusinessTransaction!
   id: String!
   messageId: String
   createdAt: DateTime!
@@ -1136,35 +1135,6 @@ enum BusinessReason {
   E79
   E80
   E84
-}
-
-enum BusinessTransaction {
-  RSM001
-  RSM003
-  RSM004
-  RSM005
-  RSM006
-  RSM009
-  RSM012
-  RSM014
-  RSM015
-  RSM016
-  RSM017
-  RSM018
-  RSM019
-  RSM020
-  RSM021
-  RSM022
-  RSM024
-  RSM025
-  RSM027
-  RSM028
-  RSM030
-  RSM031
-  RSM032
-  RSM033
-  RSM034
-  RSM035
 }
 
 enum CalculationExecutionType {

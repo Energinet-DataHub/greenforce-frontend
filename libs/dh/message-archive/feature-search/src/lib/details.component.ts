@@ -51,29 +51,28 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
     DhEmDashFallbackPipe,
   ],
   template: `
-    <watt-drawer
-      size="normal"
-      *transloco="let t; read: 'messageArchive.details'"
-      (closed)="onClose()"
-    >
+    <watt-drawer size="normal" *transloco="let t; read: 'messageArchive'" (closed)="onClose()">
       <watt-drawer-heading>
-        <h2>{{ documentType() }} ({{ businessTransaction() }})</h2>
+        <h2>{{ t('documentType.' + documentType()) }}</h2>
         <watt-description-list [groupsPerRow]="2">
-          <watt-description-list-item [label]="t('messageId')" [value]="messageId()" />
+          <watt-description-list-item [label]="t('details.messageId')" [value]="messageId()" />
           <watt-description-list-item
-            [label]="t('created')"
+            [label]="t('details.created')"
             [value]="createdAt() | wattDate: 'long'"
           />
-          <watt-description-list-item [label]="t('sender')" [value]="sender() | dhEmDashFallback" />
           <watt-description-list-item
-            [label]="t('receiver')"
+            [label]="t('details.sender')"
+            [value]="sender() | dhEmDashFallback"
+          />
+          <watt-description-list-item
+            [label]="t('details.receiver')"
             [value]="receiver() | dhEmDashFallback"
           />
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions>
         <watt-button (click)="download()" icon="download" [disabled]="!document()">
-          {{ t('download') }}
+          {{ t('details.download') }}
         </watt-button>
       </watt-drawer-actions>
       <watt-drawer-content>
@@ -105,7 +104,6 @@ export class DhMessageArchiveSearchDetailsComponent {
 
   document = toSignal(this.documentChange, { requireSync: true });
 
-  businessTransaction = computed(() => this.message()?.businessTransaction);
   messageId = computed(() => this.message()?.messageId);
   documentType = computed(() => this.message()?.documentType);
   createdAt = computed(() => this.message()?.createdAt);
