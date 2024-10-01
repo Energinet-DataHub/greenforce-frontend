@@ -24,9 +24,16 @@ public partial class Query
 
     public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
             EicFunction eicFunction,
-            [Service] IMarketParticipantClient_V1 client) =>
-            (await client.UserRolesGetAsync())
-                .Where(u => u.EicFunction == eicFunction);
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        var userRoles = await client.UserRolesGetAsync();
+        if (eicFunction == EicFunction.DataHubAdministrator)
+        {
+            return userRoles;
+        }
+
+        return userRoles.Where(u => u.EicFunction == eicFunction);
+    }
 
     public async Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
         Guid id,

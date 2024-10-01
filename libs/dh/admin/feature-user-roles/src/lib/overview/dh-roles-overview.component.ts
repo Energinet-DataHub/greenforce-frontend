@@ -46,8 +46,7 @@ import {
   UserRoleDto,
   EicFunction,
   UserRoleStatus,
-  GetUserRolesDocument,
-  GetUserRolesByActorIdDocument,
+  GetUserRolesByEicfunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -109,8 +108,7 @@ export class DhUserRolesOverviewComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly actorStorage = inject(DhActorStorage);
 
-  private rolesGraphQL = lazyQuery(GetUserRolesDocument);
-  private rolesByActorIdGraphQL = lazyQuery(GetUserRolesByActorIdDocument);
+  private rolesByEicFunctionIdGraphQL = lazyQuery(GetUserRolesByEicfunctionDocument);
 
   searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
@@ -121,32 +119,24 @@ export class DhUserRolesOverviewComponent {
     searchTerm: null,
   });
 
-  isAdmin = computed(
-    () => this.actorStorage.getSelectedActor()?.marketRole === EicFunction.DataHubAdministrator
-  );
 
-  roles = computed(() =>
-    this.isAdmin()
-      ? (this.rolesGraphQL.data()?.userRoles ?? [])
-      : (this.rolesByActorIdGraphQL.data()?.userRolesByActorId ?? [])
-  );
+  roles = computed(() => this.rolesByEicFunctionIdGraphQL.data()?.userRolesByEicFunction ?? []);
 
   rolesFiltered = computed(() => this.filterRoles(this.roles(), this.filters()));
 
-  isLoading = this.isAdmin() ? this.rolesGraphQL.loading : this.rolesByActorIdGraphQL.loading;
+  isLoading = this.rolesByEicFunctionIdGraphQL.loading;
 
-  hasGeneralError = computed(() => {
-    return Boolean(this.isAdmin() ? this.rolesGraphQL.error : this.rolesByActorIdGraphQL.error);
-  });
+  hasGeneralError = computed(() => Boolean(this.rolesByEicFunctionIdGraphQL.error));
 
   constructor() {
     this.onSearchInput();
     effect(() => {
-      this.isAdmin()
-        ? this.rolesGraphQL.query()
-        : this.rolesByActorIdGraphQL.query({
-            variables: { actorId: this.actorStorage.getSelectedActorId() },
-          });
+      const eicFunction = this.actorStorage.getSelectedActor()?.marketRole;
+      if (eicFunction !== undefined) {
+        this.rolesByEicFunctionIdGraphQL.query({
+          variables: { eicfunction: eicFunction },
+        });
+      }
     });
   }
 
@@ -159,7 +149,7 @@ export class DhUserRolesOverviewComponent {
   }
 
   reloadRoles(): void {
-    this.isAdmin() ? this.rolesGraphQL.refetch() : this.rolesByActorIdGraphQL.refetch();
+    this.rolesByEicFunctionIdGraphQL.refetch();
   }
 
   modalOnClose(): void {
