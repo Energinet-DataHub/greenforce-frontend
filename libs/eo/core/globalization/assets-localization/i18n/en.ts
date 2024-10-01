@@ -751,18 +751,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     description: `
-      <p>You have granted {{organizationName}} power of attorney to:</p>
+      <p>You have granted {{organizationName}} Power of Attorney to:</p>
     `,
     postDescription: `
-      <h4>Revocation of power of attorney</h4>
-      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done by clicking on 'Revoke power of attorney'.</p>
+      <h4>Revocation of Power of Attorney</h4>
+      <p>The Power of Attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done by clicking on 'Revoke Power of Attorney'.</p>
       <p>Upon revocation, {{organizationName}} will no longer be able to retrieve data and manage certificates.</p>
     `,
     cancel: 'Cancel',
     saveChanges: 'Save changes',
-    revoke: 'Revoke power of attorney',
-    revokeSuccess: 'The power of attorney has been revoked',
-    revokeError: 'An error occurred while revoking the power of attorney. Please try again.',
+    revoke: 'Revoke Power of Attorney',
+    revokeSuccess: 'The Power of Attorney has been revoked',
+    revokeError: 'An error occurred while revoking the Power of Attorney. Please try again.',
   },
   consentPermissions: {
     permissions: {
@@ -786,23 +786,23 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       '<p>This means that {{organizationName}} has the ability to retrieve data and manage certificates.</p>',
   },
   grantConsent: {
-    title: '{{organizationName}} has requested power of attorney',
+    title: '{{organizationName}} has requested Power of Attorney',
     description: `
-      <p>{{organizationName}} is a service provider and can request power of attorney.</p>
-      <p>A service provider offers energy services based on electricity consumption and/or production. {{organizationName}} gains access to data via power of attorney.</p>
+      <p>{{organizationName}} is a service provider and can request Power of Attorney.</p>
+      <p>A service provider offers energy services based on electricity consumption and/or production. {{organizationName}} gains access to data via Power of Attorney.</p>
       <br />
-      <p>I hereby grant {{organizationName}} power of attorney to: </p>
+      <p>I hereby grant {{organizationName}} Power of Attorney to: </p>
     `,
     postDescription: `
       <br />
       <h4>Effective Date</h4>
-      <p>The power of attorney becomes effective from the date of acceptance and applies to {{genitiveOrganizationName}} retrieval and administration of the aforementioned data.</p>
+      <p>The Power of Attorney becomes effective from the date of acceptance and applies to {{genitiveOrganizationName}} retrieval and administration of the aforementioned data.</p>
 
       <h4>Responsibility</h4>
-      <p>Energinet DataHub A/S cannot be held responsible for {{genitiveOrganizationName}} (i.e., the power of attorney holder's) use and handling of the retrieved data.</p>
+      <p>Energinet DataHub A/S cannot be held responsible for {{genitiveOrganizationName}} (i.e., the Power of Attorney holder's) use and handling of the retrieved data.</p>
 
-      <h4>Revocation of power of attorney</h4>
-      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done at energytrackandtrace.dk under the 'Power of Attorney' menu. Select the desired power of attorney and then click on 'Manage power of attorney' to revoke it.</p>
+      <h4>Revocation of Power of Attorney</h4>
+      <p>The Power of Attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done at energytrackandtrace.dk under the 'Power of Attorney' menu. Select the desired Power of Attorney and then click on 'Manage Power of Attorney' to revoke it.</p>
       <p>Upon revocation, the service provider will no longer be able to retrieve data and manage certificates.</p>
     `,
     acceptTermsAndConditions: 'Accept <a href="/terms" target="_blank">terms and conditions</a>',
