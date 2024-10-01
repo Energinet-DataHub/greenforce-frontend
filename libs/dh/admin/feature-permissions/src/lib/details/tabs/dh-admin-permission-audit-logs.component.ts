@@ -14,13 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, OnChanges, input } from '@angular/core';
+import { Component, input, computed, effect } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { catchError, map, of, tap } from 'rxjs';
-import { Apollo } from 'apollo-angular';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -32,6 +28,7 @@ import {
   GetPermissionAuditLogsDocument,
   PermissionAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-admin-permission-audit-logs',
@@ -54,8 +51,6 @@ import {
     `,
   ],
   imports: [
-    RxLet,
-    RxPush,
     NgTemplateOutlet,
     TranslocoDirective,
     TranslocoPipe,
@@ -67,27 +62,16 @@ import {
     WattDatePipe,
   ],
 })
-export class DhPermissionAuditLogsComponent implements OnChanges {
-  private readonly apollo = inject(Apollo);
-  private readonly getPermissionAuditLogsQuery = this.apollo.watchQuery({
-    query: GetPermissionAuditLogsDocument,
-    fetchPolicy: 'cache-and-network',
+export class DhPermissionAuditLogsComponent {
+  private readonly getPermissionAuditLogsQuery = lazyQuery(GetPermissionAuditLogsDocument);
+  private readonly auditLogs = computed(() => {
+    return this.getPermissionAuditLogsQuery.data()?.permissionAuditLogs ?? [];
   });
 
+  isLoading = this.getPermissionAuditLogsQuery.loading;
+  hasError = computed(() => this.getPermissionAuditLogsQuery.error() !== undefined);
+
   dataSource = new WattTableDataSource<PermissionAuditedChangeAuditLogDto>();
-
-  hasFailed$ = this.getPermissionAuditLogsQuery.valueChanges.pipe(
-    map((result) => !!result.error),
-    catchError(() => of(true))
-  );
-
-  isLoading$ = this.getPermissionAuditLogsQuery.valueChanges.pipe(
-    tap(
-      (result) => (this.dataSource.data = [...(result.data?.permissionAuditLogs ?? [])].reverse())
-    ),
-    map((result) => result.loading),
-    catchError(() => of(false))
-  );
 
   columns: WattTableColumnDef<PermissionAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
@@ -96,7 +80,11 @@ export class DhPermissionAuditLogsComponent implements OnChanges {
 
   selectedPermission = input.required<PermissionDto>();
 
-  ngOnChanges(): void {
-    this.getPermissionAuditLogsQuery?.refetch({ id: this.selectedPermission()?.id });
-  }
+  private auditLogsEffect = effect(() => {
+    this.dataSource.data = [...this.auditLogs()].reverse();
+  });
+
+  private queryRefetchEffect = effect(() => {
+    this.getPermissionAuditLogsQuery.refetch({ id: this.selectedPermission()?.id });
+  });
 }
