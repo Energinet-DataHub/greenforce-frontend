@@ -13,9 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
