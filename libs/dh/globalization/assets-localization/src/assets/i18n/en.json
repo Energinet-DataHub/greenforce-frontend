@@ -851,7 +851,8 @@
         "actor": "Grid access provider",
         "organization": "Organisation",
         "status": "Status",
-        "type": "Type"
+        "type": "Type",
+        "priceArea": "Price area"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
