@@ -21,6 +21,10 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "notificationsCenter": {
+    "headline": "Notifications",
+    "noNotifications": "No notifications"
+  },
   "envinronementName": {
     "localhost": "local",
     "d-001": "dev-001",
