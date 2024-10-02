@@ -1,0 +1,307 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EDI B2C Web API",
+    "version": "2.0"
+  },
+  "paths": {
+    "/ArchivedMessageSearch": {
+      "post": {
+        "tags": [
+          "ArchivedMessageSearch"
+        ],
+        "operationId": "ArchivedMessageSearch",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/SearchArchivedMessagesRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ArchivedMessageResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentType": {
+            "type": "string"
+          },
+          "senderNumber": {
+            "type": "string"
+          },
+          "receiverNumber": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "businessReason": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "DirectionToSortBy": {
+        "type": "integer",
+        "description": "Represents the direction to sort by when searching for archived messages.",
+        "format": "int32",
+        "x-enumNames": [
+          "Ascending",
+          "Descending"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "FieldToSortBy": {
+        "type": "integer",
+        "description": "Represents the fields that can be sorted on when searching for archived messages.",
+        "format": "int32",
+        "x-enumNames": [
+          "MessageId",
+          "DocumentType",
+          "SenderNumber",
+          "ReceiverNumber",
+          "CreatedAt"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "MessageCreationPeriod": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchArchivedMessagesCriteria": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "createdDuringPeriod": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MessageCreationPeriod"
+              }
+            ]
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          },
+          "senderNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "receiverNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "documentTypes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "businessReasons": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "includeRelatedMessages": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SearchArchivedMessagesCursor": {
+        "type": "object",
+        "description": "Pagination cursor for the search of archived messages.\r\nPointing to the field value to sort by and the record id.\r\nWhen navigating forward, the cursor points to the last record of the current page.\r\nand when navigating backward, the cursor points to the first record of the current page.",
+        "additionalProperties": false,
+        "properties": {
+          "fieldToSortByValue": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          },
+          "recordId": {
+            "type": "integer",
+            "description": "",
+            "format": "int64"
+          }
+        }
+      },
+      "SearchArchivedMessagesPagination": {
+        "type": "object",
+        "description": "Pagination when searching for archived messages that supports sorting on a specific field.",
+        "additionalProperties": false,
+        "properties": {
+          "cursor": {
+            "description": "",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SearchArchivedMessagesCursor"
+              }
+            ]
+          },
+          "sortBy": {
+            "description": "",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FieldToSortBy"
+              }
+            ]
+          },
+          "directionToSortBy": {
+            "description": "",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DirectionToSortBy"
+              }
+            ]
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "",
+            "format": "int32"
+          },
+          "navigationForward": {
+            "type": "boolean",
+            "description": ""
+          }
+        }
+      },
+      "SearchArchivedMessagesRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "searchCriteria": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+              }
+            ]
+          },
+          "pagination": {
+            "description": "Pagination when searching for archived messages that supports sorting on a specific field.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SearchArchivedMessagesPagination"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}
