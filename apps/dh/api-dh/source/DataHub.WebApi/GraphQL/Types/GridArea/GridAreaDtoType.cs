@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using Microsoft.Extensions.Logging;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
 
@@ -39,6 +40,12 @@ public class GridAreaDtoType : ObjectType<GridAreaDto>
 
         descriptor
             .Field("includedInCalculation")
-            .Resolve(context => new[] { GridAreaType.Transmission, GridAreaType.Distribution, GridAreaType.GridLossDK }.Contains(context.Parent<GridAreaDto>().Type));
+            .Resolve((context) =>
+                {
+                    var logger = context.Service<ILogger<GridAreaDto>>();
+                    var gridArea = context.Parent<GridAreaDto>();
+                    logger.LogInformation($"Checking if grid area {gridArea.Type} is set");
+                    return new[] { GridAreaType.Transmission, GridAreaType.Distribution, GridAreaType.GridLossDK }.Contains(gridArea.Type);
+                });
     }
 }
