@@ -850,7 +850,8 @@
         "actor": "Netvirksomhed",
         "organization": "Organisation",
         "status": "Status",
-        "type": "Type"
+        "type": "Type",
+        "priceArea": "Prisområde"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
