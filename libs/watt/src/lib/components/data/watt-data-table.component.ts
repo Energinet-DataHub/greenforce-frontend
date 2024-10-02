@@ -14,7 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation, contentChild, inject, input, output } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  contentChild,
+  inject,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 
 import {
   VaterFlexComponent,
@@ -126,6 +134,9 @@ export class WattDataTableComponent {
   clear = output();
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
+
+  search = viewChild(WattSearchComponent);
+  reset = () => this.search()?.clear();
 
   onSearch(value: string) {
     this.table().dataSource.filter = value;
