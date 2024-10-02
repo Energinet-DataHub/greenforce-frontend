@@ -51,6 +51,7 @@ export class DhGridAreasShellComponent {
         organization: x.organizationName ?? '',
         status: x.status,
         type: x.type,
+        priceArea: x.priceAreaCode,
       })) ?? []
   );
 }

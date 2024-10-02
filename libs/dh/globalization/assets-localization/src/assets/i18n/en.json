@@ -21,6 +21,10 @@
     "loginWithMitID": "Login with MitID",
     "linkingMitId": "Linking MitID"
   },
+  "notificationsCenter": {
+    "headline": "Notifications",
+    "noNotifications": "No notifications"
+  },
   "envinronementName": {
     "localhost": "local",
     "d-001": "dev-001",
@@ -147,6 +151,9 @@
     "new": "New search",
     "results": "Results",
     "searchById": "Search by ID",
+    "filters": {
+      "includeRelated": "Include related"
+    },
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
@@ -844,7 +851,8 @@
         "actor": "Grid access provider",
         "organization": "Organisation",
         "status": "Status",
-        "type": "Type"
+        "type": "Type",
+        "priceArea": "Price area"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

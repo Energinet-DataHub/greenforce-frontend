@@ -4,6 +4,7 @@ query GetArchivedMessages(
   $receiverNumber: String
   $documentTypes: [DocumentType!]
   $businessReasons: [BusinessReason!]
+  $includeRelated: Boolean
   $first: Int
   $last: Int
   $after: String
@@ -17,6 +18,7 @@ query GetArchivedMessages(
     receiverNumber: $receiverNumber
     documentTypes: $documentTypes
     businessReasons: $businessReasons
+    includeRelated: $includeRelated
     first: $first
     last: $last
     after: $after
