@@ -31,6 +31,7 @@ import { FormGroupDirective } from '@angular/forms';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { of } from 'rxjs';
 import { ApolloModule } from 'apollo-angular';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -119,4 +120,5 @@ export const dhCoreShellProviders = [
   msalProviders,
   dhLanguageServiceInitializer,
   dhNewVersionManagerInitializer,
+  provideHotToastConfig(),
 ];

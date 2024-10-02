@@ -17,6 +17,12 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@energinet-datahub/watt";
 @use "highlight.js/styles/github.css";
+@use "@ngxpert/hot-toast/src/styles/styles.scss";
+
+:root {
+  --hot-toast-message-justify-content: flex-start;
+  --hot-toast-shadow: 0px 4px 18px 0px rgba(46, 50, 52, 0.08);
+}
 
 canvas {
   position: absolute;
