@@ -32,7 +32,7 @@ limitations under the License.
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
-  
+
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/Wholesale/V3/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/Wholesale/V3/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/EDI/B2CWebApi/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/EDI/B2CWebApi/V1/swagger.json')" />
@@ -41,7 +41,7 @@ limitations under the License.
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ImbalancePrices/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ImbalancePrices/V1/ImbalancePricesClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ImbalancePrices/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/MarketParticipant/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/MarketParticipant/V1/MarketParticipantClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/MarketParticipant/V1/swagger.json')" />
   </Target>
-  
+
   <Target Name="ExportSchema" AfterTargets="Build">
     <Exec Command="dotnet exec $(OutputPath)$(AssemblyName).dll schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql" />
   </Target>
@@ -85,6 +85,7 @@ limitations under the License.
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.0" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Condition="Exists('$(MarketingParticipantProjectReference)')" Include="$(MarketingParticipantProjectReference)" />
