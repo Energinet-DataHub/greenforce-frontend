@@ -84,7 +84,7 @@ public class ArchivedMessagesSearch
                 // and when navigating backward, the cursor points to the first record of the current page.
                 // The cursor used is not part of the result set.
                 // Cursor = new SearchArchivedMessagesCursor(),
-                PageSize = 1500000,
+                PageSize = 2000000,
                 NavigationForward = true,
                 SortBy = FieldToSortBy.CreatedAt,
                 DirectionToSortBy = DirectionToSortBy.Descending,
