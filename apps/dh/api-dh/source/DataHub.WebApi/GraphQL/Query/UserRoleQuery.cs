@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -24,16 +25,9 @@ public partial class Query
 
     public async Task<IEnumerable<UserRoleDto>> GetUserRolesByEicFunctionAsync(
             EicFunction eicFunction,
-            [Service] IMarketParticipantClient_V1 client)
-    {
-        var userRoles = await client.UserRolesGetAsync();
-        if (eicFunction == EicFunction.DataHubAdministrator)
-        {
-            return userRoles;
-        }
-
-        return userRoles.Where(u => u.EicFunction == eicFunction);
-    }
+            [Service] IMarketParticipantClient_V1 client) =>
+            (await client.UserRolesGetAsync())
+                .Where(u => u.EicFunction == eicFunction);
 
     public async Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
         Guid id,
@@ -41,6 +35,20 @@ public partial class Query
         await client.UserRolesGetAsync(id);
 
     public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserRolesGetAsync();
+        [Service] IHttpContextAccessor httpContext,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        if (httpContext.HttpContext == null)
+        {
+            return Enumerable.Empty<UserRoleDto>();
+        }
+
+        var user = httpContext.HttpContext.User;
+        if (user.IsFas())
+        {
+            return await client.UserRolesGetAsync();
+        }
+
+        return await client.ActorsRolesAsync(user.GetAssociatedActor());
+    }
 }
