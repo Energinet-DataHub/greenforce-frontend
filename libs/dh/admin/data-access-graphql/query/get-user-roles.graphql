@@ -1,9 +1,7 @@
 query GetUserRoles {
   userRoles {
-    id
     name
+    id
     description
-    eicFunction
-    status
   }
 }

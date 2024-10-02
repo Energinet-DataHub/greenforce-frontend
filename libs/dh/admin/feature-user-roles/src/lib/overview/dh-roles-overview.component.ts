@@ -21,7 +21,6 @@ import {
   DestroyRef,
   computed,
   signal,
-  effect,
 } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoService, TranslocoPipe } from '@ngneat/transloco';
 import { take, BehaviorSubject, debounceTime } from 'rxjs';
@@ -30,10 +29,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import {
-  DhActorStorage,
-  DhPermissionRequiredDirective,
-} from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import {
   VaterFlexComponent,
@@ -46,9 +42,9 @@ import {
   UserRoleDto,
   EicFunction,
   UserRoleStatus,
-  GetUserRolesByEicfunctionDocument,
+  GetUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhRolesTabTableComponent } from './dh-roles-overview-table.component';
 import { DhRolesOverviewListFilterComponent } from './dh-roles-overview-list-filter.component';
@@ -106,9 +102,8 @@ type Filters = {
 export class DhUserRolesOverviewComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly transloco = inject(TranslocoService);
-  private readonly actorStorage = inject(DhActorStorage);
 
-  private rolesByEicFunctionIdGraphQL = lazyQuery(GetUserRolesByEicfunctionDocument);
+  private rolesGraphQL = query(GetUserRolesDocument);
 
   searchInput$ = new BehaviorSubject<string>('');
   isCreateUserRoleModalVisible = false;
@@ -119,24 +114,14 @@ export class DhUserRolesOverviewComponent {
     searchTerm: null,
   });
 
-  roles = computed(() => this.rolesByEicFunctionIdGraphQL.data()?.userRolesByEicFunction ?? []);
-
+  roles = computed(() => this.rolesGraphQL.data()?.userRoles ?? []);
   rolesFiltered = computed(() => this.filterRoles(this.roles(), this.filters()));
 
-  isLoading = this.rolesByEicFunctionIdGraphQL.loading;
-
-  hasGeneralError = computed(() => Boolean(this.rolesByEicFunctionIdGraphQL.error));
+  isLoading = this.rolesGraphQL.loading;
+  hasGeneralError = computed(() => Boolean(this.rolesGraphQL.error()));
 
   constructor() {
     this.onSearchInput();
-    effect(() => {
-      const eicFunction = this.actorStorage.getSelectedActor()?.marketRole;
-      if (eicFunction !== undefined) {
-        this.rolesByEicFunctionIdGraphQL.query({
-          variables: { eicfunction: eicFunction },
-        });
-      }
-    });
   }
 
   updateFilterStatus(status: UserRoleStatus | null) {
@@ -148,7 +133,7 @@ export class DhUserRolesOverviewComponent {
   }
 
   reloadRoles(): void {
-    this.rolesByEicFunctionIdGraphQL.refetch();
+    this.rolesGraphQL.refetch();
   }
 
   modalOnClose(): void {
