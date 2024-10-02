@@ -21,6 +21,10 @@
     "loginWithMitID": "Login med MitID",
     "linkingMitId": "Tilknytter MitID"
   },
+  "notificationsCenter": {
+    "headline": "Notifikationer",
+    "noNotifications": "Ingen notifikationer"
+  },
   "envinronementName": {
     "localhost": "lokalt",
     "d-001": "dev-001",
@@ -147,6 +151,9 @@
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
+    "filters": {
+      "includeRelated": "Inkluder relaterede"
+    },
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
@@ -843,7 +850,8 @@
         "actor": "Netvirksomhed",
         "organization": "Organisation",
         "status": "Status",
-        "type": "Type"
+        "type": "Type",
+        "priceArea": "Prisområde"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

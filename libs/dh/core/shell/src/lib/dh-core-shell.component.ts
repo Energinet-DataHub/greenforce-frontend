@@ -31,6 +31,7 @@ import {
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
+import { DhNotificationsCenterComponent } from './dh-notifications-center.component';
 
 @Component({
   selector: 'dh-shell',
@@ -48,6 +49,7 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     DhProfileAvatarComponent,
     DhSelectedActorComponent,
     DhFeatureFlagDirective,
+    DhNotificationsCenterComponent,
   ],
 })
 export class DhCoreShellComponent {

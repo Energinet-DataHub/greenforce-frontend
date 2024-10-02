@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, output, signal } from '@angular/core';
+import { Component, OnInit, output, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -30,18 +30,28 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
+import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+
+type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
 @Component({
   selector: 'dh-message-archive-search-table',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     TranslocoDirective,
     VaterUtilityDirective,
     WATT_TABLE,
     WattButtonComponent,
+    WattDataFiltersComponent,
     WattDataTableComponent,
     WattDatePipe,
     WattEmptyStateComponent,
+    WattFilterChipComponent,
+    WattFormChipDirective,
   ],
   template: `
     <watt-data-table
@@ -57,6 +67,15 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
       <watt-button variant="secondary" icon="plus" (click)="new.emit()">
         {{ t('new') }}
       </watt-button>
+      @if (dataSource.filter) {
+        <watt-data-filters>
+          <form [formGroup]="form">
+            <watt-filter-chip [formControl]="this.form.controls.includeRelated">
+              {{ t('filters.includeRelated') }}
+            </watt-filter-chip>
+          </form>
+        </watt-data-filters>
+      }
       <watt-table
         *transloco="let resolveHeader; read: 'messageArchive.columns'"
         #table
@@ -92,10 +111,13 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
     </watt-data-table>
   `,
 })
-export class DhMessageArchiveSearchTableComponent {
+export class DhMessageArchiveSearchTableComponent implements OnInit {
   new = output();
   open = output<ArchivedMessage>();
   selection = signal<ArchivedMessage | undefined>(undefined);
+  dataTable = viewChild.required(WattDataTableComponent);
+  form = new FormGroup({ includeRelated: new FormControl(false) });
+  filterChanges = this.form.valueChanges.pipe(takeUntilDestroyed());
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
@@ -113,9 +135,21 @@ export class DhMessageArchiveSearchTableComponent {
     },
   });
 
-  fetch = (variables: GetArchivedMessagesQueryVariables) => this.dataSource.refetch(variables);
-  reset = () => this.dataSource.reset();
+  ngOnInit() {
+    this.filterChanges.subscribe((variables) => this.dataSource.refetch(variables));
+  }
+
   clearSelection = () => this.selection.set(undefined);
+
+  fetch = (variables: Variables) => {
+    this.dataTable().reset();
+    this.dataSource.refetch(variables);
+  };
+
+  reset = () => {
+    this.dataTable().reset();
+    this.dataSource.reset();
+  };
 
   onRowClick = (row: ArchivedMessage) => {
     this.selection.set(row);
