@@ -62,6 +62,12 @@ limitations under the License.
           {{ gridArea.organization }}
         </ng-container>
 
+        <ng-container
+          *wattTableCell="columns['priceArea']; header: t('columns.priceArea'); let gridArea"
+        >
+          {{ gridArea.priceArea }}
+        </ng-container>
+
         <ng-container *wattTableCell="columns['type']; header: t('columns.type'); let gridArea">
           {{ t("types." + gridArea.type) }}
         </ng-container>

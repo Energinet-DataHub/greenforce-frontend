@@ -41,7 +41,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GridAreaStatus,
+  GridAreaType,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
 
@@ -51,6 +55,7 @@ export interface GridAreaOverviewRow {
   organization: string;
   status: GridAreaStatus;
   type: GridAreaType;
+  priceArea: PriceAreaCode;
 }
 
 @Component({
@@ -102,6 +107,7 @@ export class DhMarketParticipantGridAreaOverviewComponent {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
     organization: { accessor: 'organization' },
+    priceArea: { accessor: 'priceArea' },
     type: { accessor: 'type' },
     status: { accessor: 'status' },
   };
