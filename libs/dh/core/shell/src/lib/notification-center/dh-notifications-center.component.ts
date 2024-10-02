@@ -15,15 +15,17 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
+import { DhNotificationBannerComponent } from './dh-notification-banner.component';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [OverlayModule, TranslocoDirective, WattButtonComponent],
   styles: [
     `
@@ -35,7 +37,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         background-color: var(--watt-color-neutral-white);
         border-radius: 4px;
         min-width: 350px;
-        overflow-y: auto;
       }
 
       h3 {
@@ -47,6 +48,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       .no-notifications {
         margin: 0;
         padding: var(--watt-space-m) var(--watt-space-ml);
+      }
+
+      watt-button {
+        margin: var(--watt-space-m) var(--watt-space-ml);
       }
     `,
   ],
@@ -75,11 +80,17 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         <h3>{{ t('headline') }}</h3>
 
         <p class="no-notifications">{{ t('noNotifications') }}</p>
+
+        <watt-button variant="primary" (click)="showNotificationBanner()">
+          Show notification
+        </watt-button>
       </div>
     </ng-template>
   `,
 })
 export class DhNotificationsCenterComponent {
+  private readonly hotToast = inject(HotToastService);
+
   isOpen = false;
 
   positionPairs: ConnectionPositionPair[] = [
@@ -91,4 +102,18 @@ export class DhNotificationsCenterComponent {
       overlayY: 'top',
     },
   ];
+
+  showNotificationBanner(): void {
+    this.hotToast.show(DhNotificationBannerComponent, {
+      position: 'top-right',
+      dismissible: true,
+      style: {
+        'background-color': 'rgba(219, 219, 219, 0.3)',
+        border: '1px solid #e0e0e0', // gray-300
+        width: '345px',
+        color: 'rgba(0, 0, 0, 0.87)', // on-light-high-emphasis
+        'backdrop-filter': 'blur(30px)',
+      },
+    });
+  }
 }

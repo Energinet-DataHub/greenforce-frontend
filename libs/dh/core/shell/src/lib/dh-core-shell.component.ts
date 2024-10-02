@@ -30,8 +30,8 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
+import { DhNotificationsCenterComponent } from './notification-center/dh-notifications-center.component';
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
-import { DhNotificationsCenterComponent } from './dh-notifications-center.component';
 
 @Component({
   selector: 'dh-shell',
