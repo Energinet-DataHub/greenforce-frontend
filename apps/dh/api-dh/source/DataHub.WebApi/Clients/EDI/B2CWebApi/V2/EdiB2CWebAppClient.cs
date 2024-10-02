@@ -33,7 +33,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ArchivedMessageResult>> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ArchivedMessageResultV2>> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
@@ -88,7 +88,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ArchivedMessageResult>> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ArchivedMessageResultV2>> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");
@@ -139,7 +139,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<ArchivedMessageResult>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<ArchivedMessageResultV2>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -279,8 +279,11 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ArchivedMessageResult
+    public partial class ArchivedMessageResultV2
     {
+        [Newtonsoft.Json.JsonProperty("recordId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long RecordId { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Id { get; set; } = default!;
 
@@ -375,13 +378,16 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
 
     /// <summary>
     /// Pagination cursor for the search of archived messages.
-    /// <br/>Pointing to the field value to sort by and the record id.
+    /// <br/>Pointing to the field being sorted by and the record id.
     /// <br/>When navigating forward, the cursor points to the last record of the current page.
     /// <br/>and when navigating backward, the cursor points to the first record of the current page.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SearchArchivedMessagesCursor
     {
+        /// <summary>
+        /// is null if dataset is not being sorted
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("fieldToSortByValue", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? FieldToSortByValue { get; set; } = default!;
 
@@ -396,6 +402,12 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SearchArchivedMessagesPagination
     {
+        /// <summary>
+        /// Pagination cursor for the search of archived messages.
+        /// <br/>Pointing to the field being sorted by and the record id.
+        /// <br/>When navigating forward, the cursor points to the last record of the current page.
+        /// <br/>and when navigating backward, the cursor points to the first record of the current page.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("cursor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SearchArchivedMessagesCursor? Cursor { get; set; } = default!;
 

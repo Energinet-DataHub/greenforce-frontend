@@ -60,7 +60,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                    "$ref": "#/components/schemas/ArchivedMessageResultV2"
                   }
                 }
               },
@@ -68,7 +68,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                    "$ref": "#/components/schemas/ArchivedMessageResultV2"
                   }
                 }
               },
@@ -76,7 +76,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ArchivedMessageResult"
+                    "$ref": "#/components/schemas/ArchivedMessageResultV2"
                   }
                 }
               }
@@ -88,10 +88,14 @@
   },
   "components": {
     "schemas": {
-      "ArchivedMessageResult": {
+      "ArchivedMessageResultV2": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "recordId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "id": {
             "type": "string"
           },
@@ -209,12 +213,12 @@
       },
       "SearchArchivedMessagesCursor": {
         "type": "object",
-        "description": "Pagination cursor for the search of archived messages.\r\nPointing to the field value to sort by and the record id.\r\nWhen navigating forward, the cursor points to the last record of the current page.\r\nand when navigating backward, the cursor points to the first record of the current page.",
+        "description": "Pagination cursor for the search of archived messages.\r\nPointing to the field being sorted by and the record id.\r\nWhen navigating forward, the cursor points to the last record of the current page.\r\nand when navigating backward, the cursor points to the first record of the current page.",
         "additionalProperties": false,
         "properties": {
           "fieldToSortByValue": {
             "type": "string",
-            "description": "",
+            "description": "is null if dataset is not being sorted",
             "nullable": true
           },
           "recordId": {
@@ -230,7 +234,7 @@
         "additionalProperties": false,
         "properties": {
           "cursor": {
-            "description": "",
+            "description": "Pagination cursor for the search of archived messages.\r\nPointing to the field being sorted by and the record id.\r\nWhen navigating forward, the cursor points to the last record of the current page.\r\nand when navigating backward, the cursor points to the first record of the current page.",
             "nullable": true,
             "allOf": [
               {
@@ -239,7 +243,6 @@
             ]
           },
           "sortBy": {
-            "description": "",
             "nullable": true,
             "allOf": [
               {
@@ -248,7 +251,6 @@
             ]
           },
           "directionToSortBy": {
-            "description": "",
             "nullable": true,
             "allOf": [
               {
@@ -258,12 +260,10 @@
           },
           "pageSize": {
             "type": "integer",
-            "description": "",
             "format": "int32"
           },
           "navigationForward": {
-            "type": "boolean",
-            "description": ""
+            "type": "boolean"
           }
         }
       },

@@ -17,9 +17,9 @@ using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 
-public class ArchivedMessageSortType : SortInputType<ArchivedMessageResult>
+public class ArchivedMessageSortType : SortInputType<ArchivedMessageResultV2>
 {
-    protected override void Configure(ISortInputTypeDescriptor<ArchivedMessageResult> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<ArchivedMessageResultV2> descriptor)
     {
         descriptor.Name("ArchivedMessageSortInput");
         descriptor.BindFieldsExplicitly();

@@ -16,9 +16,6 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Microsoft.IdentityModel.Tokens;
 using NodaTime;
-using ArchivedMessageResult = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.ArchivedMessageResult;
-using MessageCreationPeriod = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.MessageCreationPeriod;
-using SearchArchivedMessagesCriteria = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.SearchArchivedMessagesCriteria;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -26,7 +23,7 @@ public partial class Query
 {
     [UsePaging]
     [UseSorting]
-    public async Task<IEnumerable<ArchivedMessageResult>> GetArchivedMessagesAsync(
+    public async Task<IEnumerable<ArchivedMessageResultV2>> GetArchivedMessagesAsync(
         Interval created,
         string? senderNumber,
         string? receiverNumber,

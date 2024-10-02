@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
-using ArchivedMessageResult = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.ArchivedMessageResult;
 using MessageCreationPeriod = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.MessageCreationPeriod;
 using SearchArchivedMessagesCriteria = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.SearchArchivedMessagesCriteria;
 
@@ -53,7 +52,7 @@ public class ArchivedMessagesSearch
        return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, "1.0", cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(
+    private async Task<ICollection<ArchivedMessageResultV2>?> GetSearchResultResponseMessagesAsync(
         ArchivedMessageSearchCriteria archivedMessageSearch,
         CancellationToken cancellationToken)
     {
@@ -93,7 +92,7 @@ public class ArchivedMessagesSearch
         return await _b2CWebAppClientV2.ArchivedMessageSearchAsync("1.0", searchRequest, cancellationToken);
     }
 
-    private static SearchResult MapResult(ICollection<ArchivedMessageResult> searchResultResponseMessages)
+    private static SearchResult MapResult(ICollection<ArchivedMessageResultV2> searchResultResponseMessages)
     {
         var result = new List<ArchivedMessage>();
 
