@@ -31,12 +31,12 @@ public partial class Query
         DocumentType[]? documentTypes,
         BusinessReason[]? businessReasons,
         bool? includeRelated,
-        string? after,
-        string? before,
-        int? first,
-        int? last,
-        ArchivedMessageSortInput? order,
         string? filter,
+        int? first,
+        string? after,
+        int? last,
+        string? before,
+        ArchivedMessageSortInput? order,
         [Service] IEdiB2CWebAppClient_V2 client)
     {
         var searchCriteria = !string.IsNullOrWhiteSpace(filter)
