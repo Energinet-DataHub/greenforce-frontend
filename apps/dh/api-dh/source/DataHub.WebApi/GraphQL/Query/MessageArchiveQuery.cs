@@ -75,6 +75,8 @@ public partial class Query
             Pagination = pagination,
         };
 
-        return await client.ArchivedMessageSearchAsync("1.0", searchArchivedMessagesRequest, CancellationToken.None);
+        var response = await client.ArchivedMessageSearchAsync("1.0", searchArchivedMessagesRequest, CancellationToken.None);
+
+        return response.Messages;
     }
 }
