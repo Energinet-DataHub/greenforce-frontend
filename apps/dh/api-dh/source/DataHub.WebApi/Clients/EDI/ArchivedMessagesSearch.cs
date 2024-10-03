@@ -12,24 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
-using MessageCreationPeriod = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.MessageCreationPeriod;
-using SearchArchivedMessagesCriteria = Energinet.DataHub.Edi.B2CWebApp.Clients.v2.SearchArchivedMessagesCriteria;
 
 namespace Energinet.DataHub.WebApi.Clients.EDI;
 
 public class ArchivedMessagesSearch
 {
     private readonly IEdiB2CWebAppClient_V1 _b2CWebAppClient;
-    private readonly IEdiB2CWebAppClient_V2 _b2CWebAppClientV2;
 
-    public ArchivedMessagesSearch(
-        IEdiB2CWebAppClient_V1 b2CWebAppClient,
-        IEdiB2CWebAppClient_V2 b2CWebAppClientV2)
+    public ArchivedMessagesSearch(IEdiB2CWebAppClient_V1 b2CWebAppClient)
     {
         _b2CWebAppClient = b2CWebAppClient;
-        _b2CWebAppClientV2 = b2CWebAppClientV2;
     }
 
     public async Task<SearchResult> SearchAsync(
@@ -52,7 +49,7 @@ public class ArchivedMessagesSearch
        return await _b2CWebAppClient.ArchivedMessageGetDocumentAsync(id, "1.0", cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<ICollection<ArchivedMessageResultV2>?> GetSearchResultResponseMessagesAsync(
+    private async Task<ICollection<ArchivedMessageResult>?> GetSearchResultResponseMessagesAsync(
         ArchivedMessageSearchCriteria archivedMessageSearch,
         CancellationToken cancellationToken)
     {
@@ -73,26 +70,10 @@ public class ArchivedMessagesSearch
             IncludeRelatedMessages = archivedMessageSearch.IncludeRelatedMessages,
         };
 
-        var searchRequest = new SearchArchivedMessagesRequest()
-        {
-            SearchCriteria = criteria,
-            Pagination = new SearchArchivedMessagesPagination
-            {
-                // Pointing to the field value to sort by and the record id.
-                // When navigating forward, the cursor points to the last record of the current page.
-                // and when navigating backward, the cursor points to the first record of the current page.
-                // The cursor used is not part of the result set.
-                // Cursor = new SearchArchivedMessagesCursor(),
-                PageSize = 2000000,
-                NavigationForward = true,
-                SortBy = FieldToSortBy.CreatedAt,
-                DirectionToSortBy = DirectionToSortBy.Descending,
-            },
-        };
-        return await _b2CWebAppClientV2.ArchivedMessageSearchAsync("1.0", searchRequest, cancellationToken);
+        return await _b2CWebAppClient.ArchivedMessageSearchAsync("1.0", criteria, cancellationToken);
     }
 
-    private static SearchResult MapResult(ICollection<ArchivedMessageResultV2> searchResultResponseMessages)
+    private static SearchResult MapResult(ICollection<ArchivedMessageResult> searchResultResponseMessages)
     {
         var result = new List<ArchivedMessage>();
 
