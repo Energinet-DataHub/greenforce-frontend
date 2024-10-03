@@ -28,6 +28,7 @@ import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
@@ -39,6 +40,7 @@ describe(DhCoreShellComponent, () => {
         WattModalService,
         provideHttpClientTesting(),
         importProvidersFrom([MatDialogModule]),
+        provideHotToastConfig(),
       ],
     });
   });
