@@ -91,7 +91,7 @@ public partial class Query
         };
 
         var response = await client.ArchivedMessageSearchAsync(
-            "1.0",
+            "2.0",
             searchArchivedMessagesRequest,
             CancellationToken.None);
 
@@ -127,7 +127,7 @@ public partial class Query
             return null;
         }
 
-        var sub = cursor.Split('+');
+        var sub = cursor.Split('+', 2);
 
         return sub.Length != 2
             ? throw new FormatException("The cursor is not in the expected format.")
