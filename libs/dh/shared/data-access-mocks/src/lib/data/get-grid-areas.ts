@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetGridAreasQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetGridAreasQuery, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const getGridAreas: GetGridAreasQuery = {
   __typename: 'Query',
@@ -28,6 +28,7 @@ export const getGridAreas: GetGridAreasQuery = {
       validTo: null,
       __typename: 'GridAreaDto',
       includedInCalculation: true,
+      type: GridAreaType.Distribution,
     },
     {
       id: '89801ec1-af12-46d9-b044-05a004a0d46c',
@@ -38,6 +39,7 @@ export const getGridAreas: GetGridAreasQuery = {
       validTo: null,
       __typename: 'GridAreaDto',
       includedInCalculation: true,
+      type: GridAreaType.Distribution,
     },
     {
       id: 'd45f9498-1954-4c7d-8e9c-0d4a2aba058b',
@@ -48,6 +50,7 @@ export const getGridAreas: GetGridAreasQuery = {
       validTo: null,
       __typename: 'GridAreaDto',
       includedInCalculation: false,
+      type: GridAreaType.Test,
     },
   ],
 };

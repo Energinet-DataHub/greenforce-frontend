@@ -58,6 +58,7 @@ public static class MarketParticipantClientExtensions
                         PriceAreaCode = gridArea.PriceAreaCode,
                         ValidFrom = gridArea.ValidFrom,
                         ValidTo = gridArea.ValidTo,
+                        Type = gridArea.Type,
                     };
             });
     }
