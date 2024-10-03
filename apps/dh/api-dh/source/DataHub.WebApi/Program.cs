@@ -36,6 +36,8 @@ if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
         .UseAzureMonitor();
 }
 
+builder.Services.AddApplicationInsightsForWebApp("BFF");
+
 services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
