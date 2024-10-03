@@ -146,7 +146,7 @@ public partial class Query
             FieldToSortBy.DocumentType => message.DocumentType,
             FieldToSortBy.SenderNumber => message.SenderNumber ?? string.Empty,
             FieldToSortBy.ReceiverNumber => message.ReceiverNumber ?? string.Empty,
-            FieldToSortBy.CreatedAt => message.CreatedAt.ToString("o"),
+            FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
         };
 
         return new Edge<ArchivedMessageResultV2>(message, $"{message.RecordId}+{sortCursor}");
