@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Globalization;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
@@ -146,7 +147,7 @@ public partial class Query
             FieldToSortBy.DocumentType => message.DocumentType,
             FieldToSortBy.SenderNumber => message.SenderNumber ?? string.Empty,
             FieldToSortBy.ReceiverNumber => message.ReceiverNumber ?? string.Empty,
-            FieldToSortBy.CreatedAt => message.CreatedAt.ToString(),
+            FieldToSortBy.CreatedAt => message.CreatedAt.ToString("o"),
         };
 
         return new Edge<ArchivedMessageResultV2>(message, $"{message.RecordId}+{sortCursor}");
