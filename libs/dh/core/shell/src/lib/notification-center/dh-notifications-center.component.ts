@@ -107,12 +107,24 @@ export class DhNotificationsCenterComponent {
     this.hotToast.show(DhNotificationBannerComponent, {
       position: 'top-right',
       dismissible: true,
+      autoClose: false,
       style: {
         'background-color': 'rgba(219, 219, 219, 0.3)',
-        border: '1px solid #e0e0e0', // gray-300
+        border: '1px solid #bdbdbd', // gray-400
         width: '345px',
         color: 'rgba(0, 0, 0, 0.87)', // on-light-high-emphasis
         'backdrop-filter': 'blur(30px)',
+      },
+      closeStyle: {
+        position: 'absolute',
+        left: '-10px',
+        top: '-10px',
+        'background-color': 'rgb(237, 237, 237)',
+        width: '12px',
+        height: '12px',
+        border: '1px solid #bdbdbd', // gray-400
+        'border-radius': '50%',
+        opacity: '1',
       },
     });
   }
