@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -46,6 +47,8 @@ public static class DomainRegistrationExtensions
             .AddESettClient(
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(
+                GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
+            .AddEdiWebAppClientV2(
                 GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
             .AddImbalancePricesClient(
                 GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
@@ -113,6 +116,14 @@ public static class DomainRegistrationExtensions
     {
         return serviceCollection.AddScoped<IEdiB2CWebAppClient_V1, EdiB2CWebAppClient_V1>(
             provider => new EdiB2CWebAppClient_V1(
+                baseUri.ToString(),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+    }
+
+    private static IServiceCollection AddEdiWebAppClientV2(this IServiceCollection serviceCollection, Uri baseUri)
+    {
+        return serviceCollection.AddScoped<IEdiB2CWebAppClient_V2, EdiB2CWebAppClient_V2>(
+            provider => new EdiB2CWebAppClient_V2(
                 baseUri.ToString(),
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }
