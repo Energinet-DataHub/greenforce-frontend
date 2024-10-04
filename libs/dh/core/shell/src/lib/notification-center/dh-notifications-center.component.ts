@@ -21,12 +21,14 @@ import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
+import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
+import { DhNotificationComponent } from './dh-notification.component';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  imports: [OverlayModule, TranslocoDirective, WattButtonComponent],
+  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
   styles: [
     `
       :host {
@@ -35,14 +37,18 @@ import { DhNotificationBannerComponent } from './dh-notification-banner.componen
 
       .notifications-panel {
         background-color: var(--watt-color-neutral-white);
-        border-radius: 4px;
-        min-width: 350px;
+        border-radius: 8px;
+        width: 344px;
       }
 
       h3 {
         border-bottom: 1px solid var(--watt-color-neutral-grey-200);
         margin: 0;
         padding: var(--watt-space-m) var(--watt-space-ml);
+      }
+
+      dh-notification:not(:last-of-type) {
+        border-bottom: 1px solid var(--watt-color-neutral-grey-200);
       }
 
       .no-notifications {
@@ -79,6 +85,10 @@ import { DhNotificationBannerComponent } from './dh-notification-banner.componen
       >
         <h3>{{ t('headline') }}</h3>
 
+        @for (item of notifications; track item) {
+          <dh-notification [notification]="item" />
+        }
+
         <p class="no-notifications">{{ t('noNotifications') }}</p>
 
         <watt-button variant="primary" (click)="showNotificationBanner()">
@@ -92,6 +102,27 @@ export class DhNotificationsCenterComponent {
   private readonly hotToast = inject(HotToastService);
 
   isOpen = false;
+
+  notifications: DhNotification[] = [
+    {
+      datetime: new Date('2024-10-04'),
+      headline: 'Afregningsrapporter',
+      message: 'Afregningsrapport klar til download',
+      read: false,
+    },
+    {
+      datetime: new Date('2024-10-03'),
+      headline: 'B2B-adgang',
+      message: 'Client Secret udløber snart',
+      read: true,
+    },
+    {
+      datetime: new Date('2024-10-02'),
+      headline: 'CVR-opdatering',
+      message: 'Sort Strøm A/S har ændret navn til Grøn Strøm A/S',
+      read: false,
+    },
+  ];
 
   positionPairs: ConnectionPositionPair[] = [
     {
