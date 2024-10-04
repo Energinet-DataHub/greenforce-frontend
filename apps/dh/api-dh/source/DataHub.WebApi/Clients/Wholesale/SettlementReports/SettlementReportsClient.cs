@@ -79,7 +79,12 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
         var actualResponseApiContent = await actualResponseApi.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
         var actualResponseContent = await actualResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
         var actualLightResponseContent = await actualLightResponse.Content.ReadFromJsonAsync<IEnumerable<RequestedSettlementReportDto>>(cancellationToken) ?? [];
-        return actualResponseContent.Concat(actualLightResponseContent).Concat(actualResponseApiContent).OrderByDescending(x => x.CreatedDateTime);
+        var combined = actualResponseContent
+            .UnionBy(actualLightResponseContent, x => x.RequestId)
+            .Concat(actualResponseApiContent)
+            .OrderByDescending(x => x.CreatedDateTime);
+
+        return combined;
     }
 
     public async Task<Stream> DownloadAsync(SettlementReportRequestId requestId, bool fromApi, CancellationToken cancellationToken)
