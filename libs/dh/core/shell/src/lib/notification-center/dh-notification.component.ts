@@ -61,7 +61,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
       }
     }
   `,
-  template: `<div class="notification" [ngClass]="{ 'notification--unread': notification().read }">
+  template: `<div class="notification" [ngClass]="{ 'notification--unread': !notification().read }">
     <span class="notification__datetime watt-text-s">
       {{ notification().datetime | wattDate: 'long' }}
     </span>
