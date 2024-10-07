@@ -261,17 +261,23 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 })
 export class EoTransfersPeriodComponent implements OnInit {
   @Input() formGroupName!: string;
+  @Input() mode: 'create' | 'edit' = 'create';
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
 
   protected translations = translations;
   protected form!: FormGroup<EoTransfersPeriodForm>;
-  protected minStartDate: Date = new Date();
+  protected minStartDate?: Date = new Date();
   protected minEndDate: Date = new Date();
 
   private _destroyRef = inject(DestroyRef);
   private _rootFormGroup = inject(FormGroupDirective);
 
   ngOnInit() {
+    // We don't want to set a min start date when editing
+    if(this.mode === 'edit') {
+      this.minStartDate = undefined;
+    }
+
     this.initForm();
     this.subscribeStartDateChanges();
     this.subscribeHasEndDateChanges();
