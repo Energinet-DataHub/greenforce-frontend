@@ -29,7 +29,6 @@ import { render, screen } from '@testing-library/angular';
 
 import { DhUsers } from '@energinet-datahub/dh/admin/shared';
 import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
@@ -80,7 +79,7 @@ describe(DhUsersOverviewComponent, () => {
     );
 
     const { fixture } = await render(DhUsersOverviewComponent, {
-      imports: [getTranslocoTestingModule(), DhApiModule.forRoot(), ApolloTestingModule],
+      imports: [getTranslocoTestingModule(), ApolloTestingModule],
       providers: [FormGroupDirective, MsalServiceMock, provideHttpClient(withInterceptorsFromDi())],
       componentProviders: [storeMock, toastServiceMock],
     });
