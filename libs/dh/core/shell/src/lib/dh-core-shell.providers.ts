@@ -39,7 +39,6 @@ import {
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   dhApiEnvironmentToken,
@@ -106,7 +105,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot(), ApolloModule]),
+  importProvidersFrom([MatDialogModule, MatSnackBarModule, ApolloModule]),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
