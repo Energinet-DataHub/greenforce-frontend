@@ -22,7 +22,7 @@ import { tapResponse } from '@ngrx/operators';
 import { Apollo } from 'apollo-angular';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { GetUserRolesDocument, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 

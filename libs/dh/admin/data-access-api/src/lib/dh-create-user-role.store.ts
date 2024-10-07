@@ -20,7 +20,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 import { Apollo, MutationResult } from 'apollo-angular';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateUserRoleDocument,
   CreateUserRoleDtoInput,
