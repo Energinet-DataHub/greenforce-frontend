@@ -17,8 +17,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
-import { DhNotification } from './dh-notification';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import { DhNotification } from './dh-notification';
 
 @Component({
   selector: 'dh-notification',
