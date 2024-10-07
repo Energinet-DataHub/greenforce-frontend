@@ -16,68 +16,68 @@ namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
 public enum BusinessReason
 {
-  D02, // Preparation for imbalance settlement
-  D03, // Temporary
-  D04, // 1st settlement
-  D05, // 2nd settlement
-  D06, // Continuous meter reading from profiled metering points
-  D07, // Rollback Change-of-supplier
-  D09, // Latest available value
-  D10, // Meter reading, profiled consumption
-  D11, // Incorrect process
-  D12, // Cancel meter reading request
-  D13, // Change of supply to supplier of last resort
-  D14, // Close down metering point
-  D15, // Connect meteringpoint
-  D16, // Merge of Grids
-  D17, // Update masterdata settlement
-  D18, // Update charge information
-  D19, // Meter Reading
-  D20, // Electrical heating
-  D21, // Move-in due to other reason
-  D22, // Service request
-  D23, // Not used
-  D24, // Missing flex meter reading
-  D25, // Missing non-profiled time series
-  D26, // Missing flex time series
-  D27, // Missing profiled reading
-  D28, // Proposal contact information
-  D29, // Secondary move-in
-  D30, // Switch with short notice
-  D31, // Transfer metering point
-  D32, // Correction settlement
-  D33, // Incorrect move
-  D34, // End supply due to reallocate
-  D35, // Continue supply due to rejected reallocate
-  D36, // Continue supply of customer
-  D37, // Cancel service request
-  D38, // End of supply with short notice
-  D39, // Production Obligation
-  D40, // Removed parent relation on meteringpoint
-  D41, // No disconnection of meteringpoint
-  D43, // Historical information about consumption
-  D44, // Process cancelled by requesting party
-  D45, // Process cancelled by ITX
-  D46, // Date of Supplier change caused by End of supply
-  D47, // Reminder
-  E01, // Move
-  E02, // New metering point
-  E03, // Change of balance supplier
-  E05, // Cancellation
-  E06, // Unrequested change of balance supplier
-  E0G, // Data alignment for master data metering point
-  E20, // End of supply
-  E23, // Periodic metering
-  E30, // Historical data
-  E32, // Update master data metering point
-  E34, // Update master data consumer
-  E53, // Meter reading on demand
-  E56, // Change of Balance Responsible Party
-  E65, // Customer move-in
-  E66, // Customer move-out
-  E67, // Placement of Meter
-  E75, // Change of metering method
-  E79, // Change Connection Status
-  E80, // Change of estimated annual volume
-  E84, // Update master data meter
+  D02,
+  D03,
+  D04,
+  D05,
+  D06,
+  D07,
+  D09,
+  D10,
+  D11,
+  D12,
+  D13,
+  D14,
+  D15,
+  D16,
+  D17,
+  D18,
+  D19,
+  D20,
+  D21,
+  D22,
+  D23,
+  D24,
+  D25,
+  D26,
+  D27,
+  D28,
+  D29,
+  D30,
+  D31,
+  D32,
+  D33,
+  D34,
+  D35,
+  D36,
+  D37,
+  D38,
+  D39,
+  D40,
+  D41,
+  D43,
+  D44,
+  D45,
+  D46,
+  D47,
+  E01,
+  E02,
+  E03,
+  E05,
+  E06,
+  E0G,
+  E20,
+  E23,
+  E30,
+  E32,
+  E34,
+  E53,
+  E56,
+  E65,
+  E66,
+  E67,
+  E75,
+  E79,
+  E80,
+  E84,
 }

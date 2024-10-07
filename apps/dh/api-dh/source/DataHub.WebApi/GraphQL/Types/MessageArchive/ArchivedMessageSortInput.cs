@@ -12,21 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using HotChocolate.Data.Sorting;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 
-public class ArchivedMessageSortType : SortInputType<ArchivedMessageResult>
-{
-    protected override void Configure(ISortInputTypeDescriptor<ArchivedMessageResult> descriptor)
-    {
-        descriptor.Name("ArchivedMessageSortInput");
-        descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.MessageId);
-        descriptor.Field(f => f.DocumentType);
-        descriptor.Field(f => f.SenderNumber).Name("sender");
-        descriptor.Field(f => f.ReceiverNumber).Name("receiver");
-        descriptor.Field(f => f.CreatedAt);
-    }
-}
+public record ArchivedMessageSortInput(
+    SortDirection? MessageId,
+    SortDirection? DocumentType,
+    SortDirection? Sender,
+    SortDirection? Receiver,
+    SortDirection? CreatedAt);

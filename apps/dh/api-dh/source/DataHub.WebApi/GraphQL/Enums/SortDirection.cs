@@ -14,32 +14,8 @@
 
 namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
-public enum BusinessTransaction
+public enum SortDirection
 {
-  RSM001,
-  RSM003,
-  RSM004,
-  RSM005,
-  RSM006,
-  RSM009,
-  RSM012,
-  RSM014,
-  RSM015,
-  RSM016,
-  RSM017,
-  RSM018,
-  RSM019,
-  RSM020,
-  RSM021,
-  RSM022,
-  RSM024,
-  RSM025,
-  RSM027,
-  RSM028,
-  RSM030,
-  RSM031,
-  RSM032,
-  RSM033,
-  RSM034,
-  RSM035,
+    Asc,
+    Desc,
 }

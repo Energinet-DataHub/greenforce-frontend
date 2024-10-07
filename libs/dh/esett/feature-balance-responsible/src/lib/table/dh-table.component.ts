@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, input, output, ViewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { Sort } from '@angular/material/sort';
 
@@ -76,13 +76,13 @@ export class DhBalanceResponsibleTableComponent {
     return translate(`${baseKey}.${columnId}`);
   };
 
-  @Input() isLoading!: boolean;
-  @Input() hasError!: boolean;
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
-  @Input() tableDataSource!: WattTableDataSource<DhBalanceResponsibleMessage>;
-  @Input() sortMetadata!: Sort;
+  tableDataSource = input.required<WattTableDataSource<DhBalanceResponsibleMessage>>();
+  sortMetadata = input.required<Sort>();
 
-  @Output() sortChange = new EventEmitter<Sort>();
+  sortChange = output<Sort>();
 
   onRowClick(activeRow: DhBalanceResponsibleMessage): void {
     this.activeRow = activeRow;

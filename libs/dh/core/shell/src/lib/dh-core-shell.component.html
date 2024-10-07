@@ -31,10 +31,12 @@ limitations under the License.
 
   <ng-container watt-shell-toolbar>
     <h2 class="toolbar__heading">
-      {{ titleTranslationKey$ | push | transloco }}
+      {{ titleTranslationKey() | transloco }}
     </h2>
 
     <div class="toolbar__actions">
+      <dh-notifications-center *dhFeatureFlag="'notifications'" />
+
       <dh-profile-avatar />
     </div>
   </ng-container>

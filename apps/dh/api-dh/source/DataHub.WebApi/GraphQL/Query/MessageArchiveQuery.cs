@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
+using HotChocolate.Types.Pagination;
 using Microsoft.IdentityModel.Tokens;
 using NodaTime;
 
@@ -22,19 +24,27 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 public partial class Query
 {
     [UsePaging]
-    [UseSorting]
-    public async Task<IEnumerable<ArchivedMessageResult>> GetArchivedMessagesAsync(
+    public async Task<Connection<ArchivedMessageResultV2>> GetArchivedMessagesAsync(
         Interval created,
-        string? messageId,
         string? senderNumber,
         string? receiverNumber,
         DocumentType[]? documentTypes,
         BusinessReason[]? businessReasons,
+        bool? includeRelated,
         string? filter,
-        [Service] IEdiB2CWebAppClient_V1 client)
+        int? first,
+        string? after,
+        int? last,
+        string? before,
+        ArchivedMessageSortInput? order,
+        [Service] IEdiB2CWebAppClient_V2 client)
     {
-        var search = !string.IsNullOrWhiteSpace(filter)
-            ? new SearchArchivedMessagesCriteria() { MessageId = filter, IncludeRelatedMessages = true }
+        var searchCriteria = !string.IsNullOrWhiteSpace(filter)
+            ? new SearchArchivedMessagesCriteria()
+            {
+                MessageId = filter,
+                IncludeRelatedMessages = includeRelated ?? false,
+            }
             : new SearchArchivedMessagesCriteria()
             {
                 CreatedDuringPeriod = new MessageCreationPeriod()
@@ -42,8 +52,8 @@ public partial class Query
                     Start = created.Start.ToDateTimeOffset(),
                     End = created.End.ToDateTimeOffset(),
                 },
-                SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : messageId,
-                ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : messageId,
+                SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : senderNumber,
+                ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : receiverNumber,
                 DocumentTypes = documentTypes.IsNullOrEmpty()
                     ? null
                     : documentTypes?.Select(x => x.ToString()).ToArray(),
@@ -52,6 +62,93 @@ public partial class Query
                     : businessReasons?.Select(x => x.ToString()).ToArray(),
             };
 
-        return await client.ArchivedMessageSearchAsync("1.0", search);
+        var (field, direction) = order switch
+        {
+            { MessageId: not null } => (FieldToSortBy.MessageId, order.MessageId),
+            { DocumentType: not null } => (FieldToSortBy.DocumentType, order.DocumentType),
+            { Sender: not null } => (FieldToSortBy.SenderNumber, order.Sender),
+            { Receiver: not null } => (FieldToSortBy.ReceiverNumber, order.Receiver),
+            { CreatedAt: not null } => (FieldToSortBy.CreatedAt, order.CreatedAt),
+            _ => (FieldToSortBy.CreatedAt, SortDirection.Desc),
+        };
+
+        var pageSize = first ?? last ?? 50;
+        var cursor = ParseCursor(after ?? before);
+        var forward = !last.HasValue;
+        var pagination = new SearchArchivedMessagesPagination
+        {
+            Cursor = cursor,
+            PageSize = pageSize,
+            NavigationForward = forward,
+            SortBy = field,
+            DirectionToSortBy = (DirectionToSortBy?)direction,
+        };
+
+        var searchArchivedMessagesRequest = new SearchArchivedMessagesRequest
+        {
+            SearchCriteria = searchCriteria,
+            Pagination = pagination,
+        };
+
+        var response = await client.ArchivedMessageSearchAsync(
+            "2.0",
+            searchArchivedMessagesRequest,
+            CancellationToken.None);
+
+        var edges = response.Messages.Select(message => MakeEdge(message, field)).ToList();
+
+        // This logic is not completely sound, since it may be inaccurate when the
+        // TotalCount is divisible with PageSize. Given that this is already an edge
+        // case AND at worst results in an empty page AND the frontend does not use
+        // these values at all (it has its own logic for determining these), it is
+        // an acceptable compromise over having to include these in the client API.
+        var exhausted = edges.Count < pageSize;
+        var isFirstPage = (cursor is null && forward) || (exhausted && !forward);
+        var isLastPage = (cursor is null && !forward) || (exhausted && forward);
+
+        var pageInfo = new ConnectionPageInfo(
+            !isFirstPage,
+            !isLastPage,
+            edges.FirstOrDefault()?.Cursor,
+            edges.LastOrDefault()?.Cursor);
+
+        var connection = new Connection<ArchivedMessageResultV2>(
+            edges,
+            pageInfo,
+            response.TotalCount);
+
+        return connection;
+    }
+
+    private static SearchArchivedMessagesCursor? ParseCursor(string? cursor)
+    {
+        if (cursor is null)
+        {
+            return null;
+        }
+
+        var sub = cursor.Split('+', 2);
+
+        return sub.Length != 2
+            ? throw new FormatException("The cursor is not in the expected format.")
+            : !long.TryParse(sub[0], out var recordId)
+            ? throw new FormatException("The record ID is not a valid long.")
+            : new SearchArchivedMessagesCursor { FieldToSortByValue = sub[1], RecordId = recordId };
+    }
+
+    private static Edge<ArchivedMessageResultV2> MakeEdge(
+        ArchivedMessageResultV2 message,
+        FieldToSortBy field)
+    {
+        var sortCursor = field switch
+        {
+            FieldToSortBy.MessageId => message.MessageId ?? string.Empty,
+            FieldToSortBy.DocumentType => message.DocumentType,
+            FieldToSortBy.SenderNumber => message.SenderNumber ?? string.Empty,
+            FieldToSortBy.ReceiverNumber => message.ReceiverNumber ?? string.Empty,
+            FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+        };
+
+        return new Edge<ArchivedMessageResultV2>(message, $"{message.RecordId}+{sortCursor}");
     }
 }

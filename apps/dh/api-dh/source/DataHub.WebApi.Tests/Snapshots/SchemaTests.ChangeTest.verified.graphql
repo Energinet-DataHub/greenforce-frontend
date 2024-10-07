@@ -116,7 +116,7 @@ type ArchivedMessage {
   receiver: Actor
   documentType: DocumentType!
   documentUrl: String
-  businessTransaction: BusinessTransaction!
+  recordId: Long!
   id: String!
   messageId: String
   createdAt: DateTime!
@@ -527,7 +527,7 @@ type Query {
   gridAreas: [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  archivedMessages(created: DateRange! messageId: String senderNumber: String receiverNumber: String documentTypes: [DocumentType!] businessReasons: [BusinessReason!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ArchivedMessageSortInput!]): ArchivedMessagesConnection
+  archivedMessages(created: DateRange! senderNumber: String receiverNumber: String documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
@@ -1138,35 +1138,6 @@ enum BusinessReason {
   E84
 }
 
-enum BusinessTransaction {
-  RSM001
-  RSM003
-  RSM004
-  RSM005
-  RSM006
-  RSM009
-  RSM012
-  RSM014
-  RSM015
-  RSM016
-  RSM017
-  RSM018
-  RSM019
-  RSM020
-  RSM021
-  RSM022
-  RSM024
-  RSM025
-  RSM027
-  RSM028
-  RSM030
-  RSM031
-  RSM032
-  RSM033
-  RSM034
-  RSM035
-}
-
 enum CalculationExecutionType {
   EXTERNAL
   INTERNAL
@@ -1528,6 +1499,9 @@ scalar DateRange
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
 
 scalar JSON
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
 
 scalar URL @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc3986")
 
