@@ -43,8 +43,11 @@ public class BalanceResponsibilityAgreementStatusTests
 
     public static IEnumerable<object[]> GetTestCases()
     {
+        yield return new object[] { "Awaiting", DateTimeOffset.Now.AddDays(5), null };
         yield return new object[] { "Active without enddate", DateTimeOffset.Now.AddDays(-5), null };
-        yield return new object[] { "Active with enddate", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(5) };
+        yield return new object[] { "Active with enddate", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(10) };
+        yield return new object[] { "Expired", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(-1) };
+        yield return new object[] { "SoonToExpire", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(3) };
     }
 
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
