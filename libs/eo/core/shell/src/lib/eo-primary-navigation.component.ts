@@ -25,7 +25,6 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoAccountMenuComponent } from './eo-account-menu';
-import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -103,7 +102,6 @@ export class EoPrimaryNavigationComponent implements OnInit{
   }
 
   private actorService = inject(EoActorService);
-  private consentService = inject(EoConsentService);
 
   protected routes = eoRoutes;
   protected translations = translations;
@@ -113,7 +111,9 @@ export class EoPrimaryNavigationComponent implements OnInit{
   protected self = this.actorService.self;
   protected isSelf = this.actorService.isSelf;
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
+    /* TODO: Implement this when the backend is ready
     this.consentService.getReceivedConsents().subscribe((receivedConsents) => {
       const actorsOfReceivedConsents: Actor[] = receivedConsents.map((org) => ({
         tin: org.tin,
@@ -123,6 +123,7 @@ export class EoPrimaryNavigationComponent implements OnInit{
 
       this.actorService.setActors(actorsOfReceivedConsents);
     });
+    */
   }
 
   onActorSelected(selectedActor: Actor) {
