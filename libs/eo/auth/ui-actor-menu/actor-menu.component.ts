@@ -28,7 +28,6 @@ import { NgClass } from '@angular/common';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { translations } from '@energinet-datahub/eo/translations';
 
-
 const selector = 'eo-actor-menu';
 
 @Component({
@@ -98,7 +97,7 @@ const selector = 'eo-actor-menu';
     }
   `,
   template: `
-    @if(self() && currentActor()) {
+    @if (self() && currentActor()) {
       <div
         [matMenuTriggerFor]="menu"
         class="menu-trigger"

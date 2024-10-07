@@ -28,7 +28,7 @@ export class EoActorService {
   private window = inject(WindowService).nativeWindow;
   private config = {
     key: 'actor',
-  }
+  };
 
   actor = signal<Actor | null>(null);
   actors = signal<Actor[]>([]);
@@ -40,9 +40,7 @@ export class EoActorService {
   isSelf = computed(() => this.actor()?.org_id === this.self.org_id);
 
   constructor() {
-    this.setCurrentActor(
-      this.getSavedActor()
-    );
+    this.setCurrentActor(this.getSavedActor());
   }
 
   setActors(actors: Actor[]) {
@@ -57,12 +55,12 @@ export class EoActorService {
 
   private getSavedActor(): Actor | null {
     const actor = this.window?.sessionStorage.getItem(this.config.key);
-    return actor ? JSON.parse(actor) as Actor : null;
+    return actor ? (JSON.parse(actor) as Actor) : null;
   }
 
   private saveActor(actor: Actor) {
-    if(!actor) return;
-    if(actor.org_id === this.getSavedActor()?.org_id) return;
+    if (!actor) return;
+    if (actor.org_id === this.getSavedActor()?.org_id) return;
 
     this.window?.sessionStorage.setItem(this.config.key, JSON.stringify(actor));
   }

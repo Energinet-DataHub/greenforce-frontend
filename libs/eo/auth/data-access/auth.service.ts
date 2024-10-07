@@ -41,11 +41,11 @@ export interface EoUser extends User {
     org_cvr: string;
     org_ids: string;
     tos_accepted: boolean;
-  },
+  };
   state: {
     thirdPartyClientId?: string;
     redirectUrl?: string;
-  }
+  };
 }
 
 @Injectable({
@@ -111,7 +111,7 @@ export class EoAuthService {
             profile: {
               ...user.profile,
               tos_accepted: true,
-            }
+            },
           } as EoUser);
           resolve();
         },
@@ -124,10 +124,8 @@ export class EoAuthService {
   }
 
   private setUser(user: EoUser | null): void {
-    if(!user) return;
-    user
-      ? this.user.set(user)
-      : this.user.set(null);
+    if (!user) return;
+    user ? this.user.set(user) : this.user.set(null);
   }
 
   signinCallback(): Promise<User | null> {

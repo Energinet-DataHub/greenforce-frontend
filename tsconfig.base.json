@@ -245,9 +245,7 @@
       "@energinet-datahub/eo/auth/data-access": [
         "libs/eo/auth/data-access/index.ts"
       ],
-      "@energinet-datahub/eo/auth/domain": [
-        "libs/eo/auth/domain/index.ts"
-      ],
+      "@energinet-datahub/eo/auth/domain": ["libs/eo/auth/domain/index.ts"],
       "@energinet-datahub/eo/auth/feature-login": [
         "libs/eo/auth/feature-login/index.ts"
       ],

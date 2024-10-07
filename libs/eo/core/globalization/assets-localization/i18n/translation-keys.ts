@@ -145,7 +145,7 @@ export interface TranslationKeys {
   actorMenu: {
     onBehalfOf: string;
     tin: string;
-  }
+  };
   topbar: {
     help: string;
     logout: string;

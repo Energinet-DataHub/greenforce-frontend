@@ -65,7 +65,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
       <watt-nav-list-item link="{{ routes.meteringpoints }}">
         {{ translations.sidebar.meteringPoints | transloco }}
       </watt-nav-list-item>
-      @if(isSelf()){
+      @if (isSelf()) {
         <watt-nav-list-item link="{{ routes.claims }}">
           {{ translations.sidebar.claims | transloco }}
         </watt-nav-list-item>
@@ -77,7 +77,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
       <watt-nav-list-item link="{{ routes.transfer }}">
         {{ translations.sidebar.transfers | transloco }}
       </watt-nav-list-item>
-      @if(isSelf()){
+      @if (isSelf()) {
         <watt-nav-list-item link="{{ routes.consent }}">
           {{ translations.sidebar.consent | transloco }}
         </watt-nav-list-item>
@@ -95,7 +95,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     />
   `,
 })
-export class EoPrimaryNavigationComponent implements OnInit{
+export class EoPrimaryNavigationComponent implements OnInit {
   @HostBinding('attr.aria-label')
   get ariaLabelAttribute(): string {
     return 'Menu';
