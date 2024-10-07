@@ -14,28 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhMessageArchiveLogSearchComponent } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
 export const dhMessageArchiveShellRoutes: Routes = [
   {
     path: '',
-    canMatch: [() => inject(DhFeatureFlagsService).isEnabled('message-archive-v2')],
     loadComponent: () =>
       import('@energinet-datahub/dh/message-archive/feature-search').then(
         (m) => m.DhMessageArchiveSearchPageComponent
       ),
-    pathMatch: 'full',
-    data: {
-      titleTranslationKey: 'messageArchive.topBarTitle',
-    },
-  },
-  {
-    path: '',
-    component: DhMessageArchiveLogSearchComponent,
     pathMatch: 'full',
     data: {
       titleTranslationKey: 'messageArchive.topBarTitle',
