@@ -142,9 +142,10 @@ export interface TranslationKeys {
     privacyPolicy: string;
     accessibilityStatement: string;
   };
-  userInformation: {
+  actorMenu: {
+    onBehalfOf: string;
     tin: string;
-  };
+  }
   topbar: {
     help: string;
     logout: string;

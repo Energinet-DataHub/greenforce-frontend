@@ -17,23 +17,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoPipe } from '@ngneat/transloco';
-
-import { translations } from '@energinet-datahub/eo/translations';
 import { NgClass } from '@angular/common';
 
-export interface Actor {
-  name?: string;
-  org_name?: string;
-  tin?: string;
-  isSelf?: boolean; // is the user the actor, or acting on behalf of the actor
-}
+import { Actor } from '@energinet-datahub/eo/auth/domain';
+import { translations } from '@energinet-datahub/eo/translations';
+
 
 const selector = 'eo-actor-menu';
 
@@ -54,14 +48,16 @@ const selector = 'eo-actor-menu';
       }
       background-color: var(--watt-on-light-low-emphasis);
       border-radius: 8px;
-      margin: var(--watt-space-m);
+      margin: var(--watt-space-s);
       padding: var(--watt-space-s) var(--watt-space-m);
 
       .watt-label {
         color: var(--watt-on-dark-high-emphasis);
 
-        &.company-name {
+        &.on-behalf-of {
           color: var(--watt-on-dark-medium-emphasis);
+          @include watt.typography-font-size('xs');
+          @include watt.typography-font-weight('semibold');
         }
       }
     }
@@ -102,39 +98,50 @@ const selector = 'eo-actor-menu';
     }
   `,
   template: `
-    <!-- TODO: Add loading state -->
-    <div
-      [matMenuTriggerFor]="menu"
-      class="menu-trigger"
-      [ngClass]="{ 'has-actors': actors.length > 0 }"
-    >
-      <p class="watt-label company-name">{{ currentActor.org_name }}</p>
-      <p class="watt-label">
-        {{ translations.userInformation.tin | transloco: { tin: currentActor.tin } }}
-      </p>
-      <p class="watt-label">{{ currentActor.name }}</p>
-    </div>
-    <mat-menu #menu="matMenu" class="actor-menu-panel">
-      @for (actor of actors; track $index) {
-        <button mat-menu-item (click)="selectActor(actor)">
-          <div class="actor">
-            <small class="actor__tin">{{ actor.tin }}</small>
-            <small class="actor__name">{{ actor.name }}</small>
-          </div>
-        </button>
-      }
-    </mat-menu>
+    @if(self() && currentActor()) {
+      <div
+        [matMenuTriggerFor]="menu"
+        class="menu-trigger"
+        [ngClass]="{ 'has-actors': actors().length > 0 }"
+      >
+        @if (currentActor()?.org_id !== self()?.org_id) {
+          <p class="watt-label on-behalf-of">
+            {{ translations.actorMenu.onBehalfOf | transloco: { org_name: self()?.org_name } }}
+          </p>
+        }
+        <p class="watt-label">
+          {{ translations.actorMenu.tin | transloco: { tin: currentActor()?.tin } }}
+        </p>
+        <p class="watt-label">{{ currentActor()?.org_name }}</p>
+      </div>
+      <mat-menu #menu="matMenu" class="actor-menu-panel">
+        @for (actor of actors(); track $index) {
+          @if (actor.org_id !== currentActor()?.org_id) {
+            <button mat-menu-item (click)="selectActor(actor)">
+              <div class="actor">
+                <small class="actor__tin">{{ actor.tin }}</small>
+                <small class="actor__name">{{ actor.org_name }}</small>
+              </div>
+            </button>
+          }
+        }
+      </mat-menu>
+    }
   `,
 })
 export class EoActorMenuComponent {
-  @Input() actors: Actor[] = [];
-  @Input() currentActor!: Actor;
+  actors = input<Actor[]>([]);
+  currentActor = input.required<Actor | null>();
+  self = input.required<Actor | null>();
 
-  @Output() actorSelected = new EventEmitter<Actor>();
+  actorSelected = output<Actor>();
 
   protected translations = translations;
 
   selectActor(actor: Actor) {
-    this.actorSelected.emit(actor);
+    // Wait to emit the selection until the menu has closed
+    setTimeout(() => {
+      this.actorSelected.emit(actor);
+    }, 150);
   }
 }

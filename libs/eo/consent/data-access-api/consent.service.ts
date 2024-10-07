@@ -31,6 +31,12 @@ export interface EoConsent {
   idpClientId: string;
 }
 
+export interface EoReceivedConsent {
+  organizationId: string;
+  organizationName: string;
+  tin: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -48,6 +54,12 @@ export class EoConsentService {
   getConsents() {
     return this.#http
       .get<{ result: EoConsent[] }>(`${this.#apiBase}/authorization/consents`)
+      .pipe(map((res) => res.result));
+  }
+
+  getReceivedConsents() {
+    return this.#http
+      .get<{ result: EoReceivedConsent[] }>(`${this.#apiBase}/authorization/consents/received`)
       .pipe(map((res) => res.result));
   }
 

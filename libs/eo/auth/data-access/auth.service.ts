@@ -28,14 +28,24 @@ import {
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 
-export interface EoUser {
-  id_token: string;
-  name: string;
-  org_name: string;
-  org_cvr: string;
-  org_ids: string;
-  scope: string[];
-  tos_accepted: boolean;
+export interface EoUser extends User {
+  profile: {
+    sub: string;
+    iss: string;
+    aud: string;
+    exp: number;
+    iat: number;
+    name: string;
+    org_name: string;
+    org_id: string;
+    org_cvr: string;
+    org_ids: string;
+    tos_accepted: boolean;
+  },
+  state: {
+    thirdPartyClientId?: string;
+    redirectUrl?: string;
+  }
 }
 
 @Injectable({
@@ -47,8 +57,8 @@ export class EoAuthService {
   private window = inject(WindowService).nativeWindow;
   private b2cEnvironment: EoB2cEnvironment = inject(eoB2cEnvironmentToken);
   private apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
-  private userManager: UserManager | null = null;
 
+  userManager: UserManager | null = null;
   user = signal<EoUser | null>(null);
 
   constructor() {
@@ -90,7 +100,7 @@ export class EoAuthService {
 
   acceptTos(): Promise<void> {
     const user = this.user();
-    if (!user || user?.tos_accepted)
+    if (!user || user?.profile.tos_accepted)
       return Promise.reject('User not found or already accepted TOS');
 
     return new Promise<void>((resolve, reject) => {
@@ -98,8 +108,11 @@ export class EoAuthService {
         () => {
           this.user.set({
             ...user,
-            tos_accepted: true,
-          });
+            profile: {
+              ...user.profile,
+              tos_accepted: true,
+            }
+          } as EoUser);
           resolve();
         },
         (error) => {
@@ -110,17 +123,10 @@ export class EoAuthService {
     });
   }
 
-  private setUser(user: User | null): void {
+  private setUser(user: EoUser | null): void {
+    if(!user) return;
     user
-      ? this.user.set({
-          id_token: user?.id_token ?? '',
-          name: user?.profile?.name ?? '',
-          org_cvr: (user?.profile?.['org_cvr'] as string) ?? '',
-          org_ids: (user?.profile?.['org_ids'] as string) ?? '',
-          org_name: (user?.profile?.['org_name'] as string) ?? '',
-          scope: user?.scopes,
-          tos_accepted: this.user()?.tos_accepted ? true : !!user?.profile?.['tos_accepted'],
-        })
+      ? this.user.set(user)
       : this.user.set(null);
   }
 
@@ -128,7 +134,7 @@ export class EoAuthService {
     return this.userManager
       ? this.userManager?.signinCallback().then((user) => {
           if (user) {
-            this.setUser(user);
+            this.setUser(user as EoUser);
           }
           return Promise.resolve(user ?? null);
         })
@@ -165,7 +171,7 @@ export class EoAuthService {
   checkForExistingToken() {
     return this.userManager?.getUser().then((user) => {
       if (!user) return;
-      this.setUser(user);
+      this.setUser(user as EoUser);
     });
   }
 }

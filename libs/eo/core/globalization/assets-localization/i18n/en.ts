@@ -216,8 +216,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     privacyPolicy: 'Privacy Policy',
     accessibilityStatement: 'Accessibility Statement',
   },
-  userInformation: {
+  actorMenu: {
     tin: 'CVR / TIN: {{tin}}',
+    onBehalfOf: '{{org_name}} on behalf of',
   },
   topbar: {
     help: '{{shared.help}}',
