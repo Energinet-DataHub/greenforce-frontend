@@ -134,9 +134,6 @@
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/data-access-api": [
-        "libs/dh/shared/data-access-api/src/index.ts"
-      ],
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
       ],
@@ -145,12 +142,6 @@
       ],
       "@energinet-datahub/dh/shared/domain": [
         "libs/dh/shared/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/domain/api": [
-        "libs/dh/shared/domain/src/lib/generated/v1/api.module.ts"
-      ],
-      "@energinet-datahub/dh/shared/domain/configuration": [
-        "libs/dh/shared/domain/src/lib/generated/v1/configuration.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql": [
         "libs/dh/shared/domain/src/lib/generated/graphql/types.ts"
@@ -202,9 +193,6 @@
       ],
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/data-access-api": [
-        "libs/dh/wholesale/data-access-api/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/domain": [
         "libs/dh/wholesale/domain/src/index.ts"
