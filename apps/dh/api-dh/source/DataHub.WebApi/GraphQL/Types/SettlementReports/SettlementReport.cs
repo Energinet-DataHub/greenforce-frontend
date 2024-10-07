@@ -20,7 +20,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 public sealed record SettlementReport(
     string Id,
-    ActorDto? Actor,
+    Guid RequestedByActorId,
     Clients.Wholesale.v3.CalculationType CalculationType,
     Interval Period,
     int NumberOfGridAreasInReport,

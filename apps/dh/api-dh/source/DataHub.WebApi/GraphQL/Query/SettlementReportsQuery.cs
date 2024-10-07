@@ -35,8 +35,6 @@ public partial class Query
 
         foreach (var report in await settlementReportsClient.GetAsync(default))
         {
-            var actor = await marketParticipantClient.ActorGetAsync(report.RequestedByActorId);
-
             var settlementReportStatusType = report.Status switch
             {
                 SettlementReportStatus.InProgress => SettlementReportStatusType.InProgress,
@@ -47,7 +45,7 @@ public partial class Query
 
             settlementReports.Add(new SettlementReport(
                 Id: report.RequestId.Id,
-                Actor: actor,
+                RequestedByActorId: report.RequestedByActorId,
                 CalculationType: report.CalculationType,
                 Period: new Interval(report.PeriodStart.ToInstant(), report.PeriodEnd.ToInstant()),
                 NumberOfGridAreasInReport: report.GridAreaCount,
