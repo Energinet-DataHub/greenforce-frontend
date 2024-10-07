@@ -75,7 +75,7 @@ limitations under the License.
       <mat-option>{{ emDash }}</mat-option>
     }
 
-    @for (option of filteredOptions$ | push; track option) {
+    @for (option of filteredOptions$ | push; track option.value) {
       <mat-option [value]="option.value" [disabled]="option.disabled">
         {{ option.displayValue }}
       </mat-option>
