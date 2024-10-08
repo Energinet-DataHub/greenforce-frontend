@@ -21,7 +21,7 @@ import { tapResponse } from '@ngrx/operators';
 import { exhaustMap, filter, Observable, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 import {
   ApiErrorDescriptor,
   GetUserRoleAuditLogsDocument,
