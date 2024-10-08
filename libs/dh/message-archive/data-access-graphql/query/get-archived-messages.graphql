@@ -9,7 +9,7 @@ query GetArchivedMessages(
   $last: Int
   $after: String
   $before: String
-  $order: [ArchivedMessageSortInput!]
+  $order: ArchivedMessageSortInput
   $filter: String
 ) {
   archivedMessages(

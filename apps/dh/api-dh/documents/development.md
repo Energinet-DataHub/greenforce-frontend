@@ -193,20 +193,6 @@ Update the subsystem clients using NSwag:
 
 - Build the `DataHub.WebApi` dotnet project
 
-### Generating HttpClient and DTOs
-
-After the BFF is built, a Swagger definition file is generated. This file is
-used to auto-generate any HttpClients and DTOs needed to communicate with the
-BFF. To do that run:
-
-```sh
-bun nx run api-dh:build-client
-```
-
-*Note: The files are automatically placed in
-`libs/dh/shared/domain/src/lib/generated/v1/**`. You **must not** modify these
-files manually.*
-
 ### OpenAPI
 
 We use [Swashbuckle] to expose a Swagger UI and an OpenAPI v3 endpoint.

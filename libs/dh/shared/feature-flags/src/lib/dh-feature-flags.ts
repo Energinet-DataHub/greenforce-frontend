@@ -56,10 +56,6 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.prod,
     ],
   },
-  'message-archive-v2': {
-    created: '25-09-2024',
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
   notifications: {
     created: '01-10-2024',
     disabledEnvironments: [

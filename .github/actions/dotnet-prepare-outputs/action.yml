@@ -41,8 +41,3 @@ runs:
           --no-restore \
           --configuration Release \
           --output '${{ inputs.output_path }}\functions\bff'
-
-    - name: Publish Swagger
-      shell: bash
-      run: |
-        cp "${{ github.workspace }}/apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net8.0/swagger.json" "${{ inputs.output_path }}"

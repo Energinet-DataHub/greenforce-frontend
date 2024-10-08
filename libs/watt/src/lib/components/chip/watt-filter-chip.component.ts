@@ -50,8 +50,7 @@ export class WattFilterChipComponent<T = string> {
   isFirstRender = useIsFirstRender();
 
   onChange(input: HTMLInputElement): void {
-    // TODO: Reverted because of issue, fix later
-    // const value = this.choice ? input.value : input.checked;
-    this.selectionChange.emit(input.value as T);
+    const value = this.choice !== undefined ? input.value : input.checked;
+    this.selectionChange.emit(value as T);
   }
 }

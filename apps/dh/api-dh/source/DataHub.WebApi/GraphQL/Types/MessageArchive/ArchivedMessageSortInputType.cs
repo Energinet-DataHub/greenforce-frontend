@@ -12,23 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 
-public class SettlementReportType : ObjectType<SettlementReport>
+public class ArchivedMessageSortInputType : InputObjectType<ArchivedMessageSortInput>
 {
     protected override void Configure(
-        IObjectTypeDescriptor<SettlementReport> descriptor)
+        IInputObjectTypeDescriptor<ArchivedMessageSortInput> descriptor)
     {
-        descriptor.Name("SettlementReport");
-
-        descriptor
-           .Field("settlementReportDownloadUrl")
-           .ResolveWith<WholesaleResolvers>(c => c.GetSettlementReportDownloadUrl(default!, default!, default!));
-
-        descriptor
-            .Field("actor")
-            .ResolveWith<MarketParticipantResolvers>(c => c.GetRequestedByActorAsync(default!, default!));
+        descriptor.Field(f => f.MessageId).Type<DefaultSortEnumType>();
+        descriptor.Field(f => f.DocumentType).Type<DefaultSortEnumType>();
+        descriptor.Field(f => f.Sender).Type<DefaultSortEnumType>();
+        descriptor.Field(f => f.Receiver).Type<DefaultSortEnumType>();
+        descriptor.Field(f => f.CreatedAt).Type<DefaultSortEnumType>();
     }
 }
