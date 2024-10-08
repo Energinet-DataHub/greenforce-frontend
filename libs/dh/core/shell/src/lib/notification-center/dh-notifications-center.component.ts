@@ -20,6 +20,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
@@ -100,6 +101,7 @@ import { DhNotificationComponent } from './dh-notification.component';
 })
 export class DhNotificationsCenterComponent {
   private readonly hotToast = inject(HotToastService);
+  private readonly colorService = inject(WattColorHelperService);
 
   isOpen = false;
 
@@ -140,22 +142,13 @@ export class DhNotificationsCenterComponent {
       dismissible: true,
       autoClose: false,
       style: {
-        'background-color': 'rgba(219, 219, 219, 0.3)',
-        border: '1px solid #bdbdbd', // gray-400
-        width: '345px',
-        color: 'rgba(0, 0, 0, 0.87)', // on-light-high-emphasis
+        border: `1px solid ${this.colorService.getColor(WattColor.grey400)}`,
         'backdrop-filter': 'blur(30px)',
       },
       closeStyle: {
         position: 'absolute',
         left: '-10px',
         top: '-10px',
-        'background-color': 'rgb(237, 237, 237)',
-        width: '12px',
-        height: '12px',
-        border: '1px solid #bdbdbd', // gray-400
-        'border-radius': '50%',
-        opacity: '1',
       },
     });
   }
