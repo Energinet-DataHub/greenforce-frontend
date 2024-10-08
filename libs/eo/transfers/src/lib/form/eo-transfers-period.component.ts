@@ -156,7 +156,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                         endDate:
                           (error.endDate | wattDate: 'long') ||
                             translations.createTransferAgreementProposal.timeframe.endDate
-                              .noEndDateLabel | transloco
+                              .noEndDateLabel | transloco,
                       }
               }}
             }
@@ -229,7 +229,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                             endDate:
                               (error.endDate | wattDate: 'long') ||
                                 translations.createTransferAgreementProposal.timeframe.endDate
-                                  .noEndDateLabel | transloco
+                                  .noEndDateLabel | transloco,
                           }
                   }}
                 }
@@ -247,7 +247,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
                             endDate:
                               (error.endDate | wattDate: 'long') ||
                                 translations.createTransferAgreementProposal.timeframe.endDate
-                                  .noEndDateLabel | transloco
+                                  .noEndDateLabel | transloco,
                           }
                   }}
                 }
@@ -274,7 +274,7 @@ export class EoTransfersPeriodComponent implements OnInit {
 
   ngOnInit() {
     // We don't want to set a min start date when editing
-    if(this.mode === 'edit') {
+    if (this.mode === 'edit') {
       this.minStartDate = undefined;
     }
 
