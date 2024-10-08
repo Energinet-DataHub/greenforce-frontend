@@ -24,6 +24,9 @@
           "spec": "**/*-healthchecks.cy.ts",
           "browser": "chrome"
         },
+        "dev": {
+          "devServerTarget": "app-dh:serve:development"
+        },
         "production": {
           "devServerTarget": "app-dh:serve:production"
         }
