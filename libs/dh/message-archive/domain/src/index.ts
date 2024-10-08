@@ -15,6 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/archivedMessage';
-export * from './lib/businessReasons';
-export * from './lib/documentTypes';
-export * from './lib/roleTypes';

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SearchResult } from '@energinet-datahub/dh/shared/domain';
-
 const messageId1 = '38374f50-f00c-4e2a-aec1-70d391cade06';
 const messageId2 = '41c8490b-7a7b-45bd-b95b-87659964e7aa';
 const messageId3 = '4f92c84e-d976-43f8-9df2-86d7d3adbf43';
@@ -26,7 +24,7 @@ const messageId7 = '81f5667d-155f-44cf-b77a-ac748403defe';
 const messageId8 = '894678e2-7b8a-4b93-a2eb-3498a118aeb1';
 const rejectedMessageId = 'f23b0e28-f173-4348-b83f-b783fa3e5531';
 
-export const messageArchiveSearchResponseLogs: SearchResult = {
+export const messageArchiveSearchResponseLogs = {
   messages: [
     {
       messageId: messageId1,
