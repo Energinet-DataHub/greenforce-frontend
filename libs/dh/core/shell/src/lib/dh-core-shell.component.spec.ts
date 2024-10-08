@@ -20,7 +20,6 @@ import { render, RenderResult } from '@testing-library/angular';
 import { ApolloModule } from 'apollo-angular';
 import { importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
@@ -40,7 +39,6 @@ describe(DhCoreShellComponent, () => {
         WattModalService,
         provideHttpClientTesting(),
         importProvidersFrom([MatDialogModule]),
-        provideHotToastConfig(),
       ],
     });
   });
