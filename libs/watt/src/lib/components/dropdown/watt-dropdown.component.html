@@ -52,7 +52,7 @@ limitations under the License.
     [ngClass]="{ chip: chipMode }"
     [panelClass]="{
       'watt-dropdown-panel': true,
-      'watt-dropdown-panel-chip-mode': chipMode,
+      'watt-dropdown-panel-chip-mode': chipMode
     }"
   >
     <!-- We use this instead of ngIf, since it will trigger a NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. -->
@@ -75,7 +75,7 @@ limitations under the License.
       <mat-option>{{ emDash }}</mat-option>
     }
 
-    @for (option of filteredOptions$ | push; track option.value) {
+    @for (option of filteredOptions$ | push; track option) {
       <mat-option [value]="option.value" [disabled]="option.disabled">
         {{ option.displayValue }}
       </mat-option>
