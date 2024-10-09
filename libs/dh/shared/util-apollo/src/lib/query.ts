@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Signal, inject, signal } from '@angular/core';
+import { DestroyRef, Signal, inject, signal, untracked } from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -69,6 +69,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   called: Signal<boolean>;
+  result: () => Promise<ApolloQueryResult<TResult>>;
   reset: () => void;
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
@@ -136,6 +137,23 @@ export function query<TResult, TVariables extends OperationVariables>(
   const called = signal(false);
   const networkStatus = signal(options?.skip ? NetworkStatus.ready : NetworkStatus.loading);
 
+  // Get the current result, or the incoming result if query is loading
+  const result = () =>
+    untracked(() =>
+      firstValueFrom(
+        result$.pipe(
+          startWith({
+            data: data() as TResult, // Satisfy ApolloQueryResult type, but technically incorrect
+            error: error(),
+            loading: loading(),
+            networkStatus: networkStatus(),
+          }),
+          filter((result) => !result.loading),
+          takeUntilDestroyed(destroyRef)
+        )
+      )
+    );
+
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
     // The `data` field is wrongly typed and can actually be empty
@@ -159,6 +177,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
     called: called as Signal<boolean>,
+    result,
     reset: () => {
       reset$.next();
       options$.next({ ...options, skip: true });
@@ -169,22 +188,15 @@ export function query<TResult, TVariables extends OperationVariables>(
       called.set(false);
     },
     getOptions: () => options$.value ?? {},
-    setOptions: (options: Partial<QueryOptions<TVariables>>) => {
-      const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      const mergedVariables = { ...options$.value?.variables, ...options.variables } as TVariables;
-      options$.next({ ...options$.value, skip: false, ...options, variables: mergedVariables });
-      return result;
+    setOptions: (newOptions: Partial<QueryOptions<TVariables>>) => {
+      const variables = { ...options$.value?.variables, ...newOptions.variables } as TVariables;
+      options$.next({ ...options$.value, skip: false, ...newOptions, variables });
+      return result();
     },
-    refetch: (variables?: Partial<TVariables>) => {
-      const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      const mergedVariables = { ...options$.value?.variables, ...variables } as TVariables;
-      options$.next({
-        ...options$.value,
-        skip: false,
-        fetchPolicy: 'network-only',
-        variables: mergedVariables,
-      });
-      return result;
+    refetch: (newVariables?: Partial<TVariables>) => {
+      const variables = { ...options$.value?.variables, ...newVariables } as TVariables;
+      options$.next({ ...options$.value, skip: false, fetchPolicy: 'network-only', variables });
+      return result();
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
       document: query,
