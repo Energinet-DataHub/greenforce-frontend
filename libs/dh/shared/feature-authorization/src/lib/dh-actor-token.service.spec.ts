@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { DhActorTokenService } from './dh-actor-token.service';
+import { TestBed } from '@angular/core/testing';
 import {
   HttpHandler,
   HttpRequest,
@@ -25,10 +26,9 @@ import {
 import { firstValueFrom, of } from 'rxjs';
 
 import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test-util';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
 
 import { DhActorStorage } from './dh-actor-storage';
-import { TestBed } from '@angular/core/testing';
-import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 describe(DhActorTokenService, () => {
   const createActorsRequest = () =>
