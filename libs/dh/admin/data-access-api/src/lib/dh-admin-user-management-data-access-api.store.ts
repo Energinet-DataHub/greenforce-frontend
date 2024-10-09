@@ -22,7 +22,7 @@ import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 import {
   GetAllUsersDocument,
   MarketParticipantSortDirctionType,

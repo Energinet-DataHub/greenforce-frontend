@@ -17,17 +17,17 @@
 import { By } from '@angular/platform-browser';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { render, RenderResult } from '@testing-library/angular';
+import { ApolloModule } from 'apollo-angular';
+import { importProvidersFrom } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { MatDialogModule } from '@angular/material/dialog';
-import { importProvidersFrom } from '@angular/core';
-import { ApolloModule } from 'apollo-angular';
 
 describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
