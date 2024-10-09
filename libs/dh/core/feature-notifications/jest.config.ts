@@ -16,15 +16,10 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-app',
-  preset: '../../../jest.preset.js',
+  displayName: 'dh-core-feature-notifications',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: { crypto: require('crypto') },
-  coverageDirectory: '../../coverage/apps/dh/app-dh',
-  moduleNameMapper: {
-    '.*watt-code.worker-factory': './watt-code.worker-mock-factory.ts',
-    '@ngxpert/hot-toast': './libs/dh/shared/test-util/src/lib/dh-hot-toast.mock.ts',
-  },
+  coverageDirectory: '../../../../coverage/libs/dh/core/feature-notifications',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

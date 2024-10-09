@@ -48,6 +48,9 @@
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
+      "@energinet-datahub/dh/core/feature-notifications": [
+        "libs/dh/core/feature-notifications/src/index.ts"
+      ],
       "@energinet-datahub/dh/core/routing": [
         "libs/dh/core/routing/src/index.ts"
       ],
@@ -116,14 +119,8 @@
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
       ],
-      "@energinet-datahub/dh/message-archive/data-access-api": [
-        "libs/dh/message-archive/data-access-api/src/index.ts"
-      ],
       "@energinet-datahub/dh/message-archive/domain": [
         "libs/dh/message-archive/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/message-archive/feature-log-search": [
-        "libs/dh/message-archive/feature-log-search/src/index.ts"
       ],
       "@energinet-datahub/dh/message-archive/feature-search": [
         "libs/dh/message-archive/feature-search/src/index.ts"
@@ -140,9 +137,6 @@
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/data-access-api": [
-        "libs/dh/shared/data-access-api/src/index.ts"
-      ],
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
       ],
@@ -151,12 +145,6 @@
       ],
       "@energinet-datahub/dh/shared/domain": [
         "libs/dh/shared/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/domain/api": [
-        "libs/dh/shared/domain/src/lib/generated/v1/api.module.ts"
-      ],
-      "@energinet-datahub/dh/shared/domain/configuration": [
-        "libs/dh/shared/domain/src/lib/generated/v1/configuration.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql": [
         "libs/dh/shared/domain/src/lib/generated/graphql/types.ts"
@@ -176,14 +164,8 @@
       "@energinet-datahub/dh/shared/feature-graphql-codegen": [
         "libs/dh/shared/feature-graphql-codegen/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/test-util-auth": [
-        "libs/dh/shared/test-util-auth/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/test-util-i18n": [
-        "libs/dh/shared/test-util-i18n/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/test-util-metering-point": [
-        "libs/dh/shared/test-util-metering-point/src/index.ts"
+      "@energinet-datahub/dh/shared/test-util": [
+        "libs/dh/shared/test-util/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/ui-search": [
         "libs/dh/shared/ui-search/src/index.ts"
@@ -208,9 +190,6 @@
       ],
       "@energinet-datahub/dh/shared/util-table": [
         "libs/dh/shared/util-table/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/data-access-api": [
-        "libs/dh/wholesale/data-access-api/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/domain": [
         "libs/dh/wholesale/domain/src/index.ts"

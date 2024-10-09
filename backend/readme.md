@@ -39,12 +39,3 @@ git clone <https://github.com/Energinet-DataHub/opengeh-wholesale.git>
 ### eSett
 
 git clone github.com/Energinet-DataHub/opengeh-esett-exchange.git
-
-## Generating HttpClient and DTOs
-
-When generating clients and types from these local backend repositories,
-remember to add the `--skip-nx-cache` flag to the build-client script:
-
-```sh
-bun nx run api-dh:build-client --skip-nx-cache
-```

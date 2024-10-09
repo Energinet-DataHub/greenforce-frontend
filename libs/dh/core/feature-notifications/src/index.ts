@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
+export { DhNotificationsCenterComponent } from './lib/dh-notifications-center.component';

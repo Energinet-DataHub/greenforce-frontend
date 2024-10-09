@@ -29,9 +29,9 @@ import {
   DhSelectedActorComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
-import { DhNotificationsCenterComponent } from './dh-notifications-center.component';
 
 @Component({
   selector: 'dh-shell',

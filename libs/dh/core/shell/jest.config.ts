@@ -20,6 +20,9 @@ export default {
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
+  moduleNameMapper: {
+    '@ngxpert/hot-toast': './libs/dh/shared/test-util/src/lib/dh-hot-toast.mock.ts',
+  },
   coverageDirectory: '../../../../coverage/libs/dh/core/shell',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

@@ -1,0 +1,20 @@
+{
+  "name": "dh-shared-test-util",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/test-util/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util"],
+      "options": {
+        "jestConfig": "libs/dh/shared/test-util/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:test-util"]
+}

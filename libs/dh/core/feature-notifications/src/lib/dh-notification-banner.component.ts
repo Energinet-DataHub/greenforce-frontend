@@ -14,7 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
+import { Component, input } from '@angular/core';
+
+@Component({
+  selector: 'dh-notification-banner',
+  standalone: true,
+  styles: `
+    :host {
+      display: block;
+    }
+
+    p {
+      margin: 0;
+    }
+  `,
+  template: `
+    <h5 class="watt-space-stack-xxs">{{ headline() }}</h5>
+    <p>{{ message() }}</p>
+  `,
+})
+export class DhNotificationBannerComponent {
+  headline = input<string>('eSett');
+  message = input<string>('Nye balanceansvarsrelationer');
+}

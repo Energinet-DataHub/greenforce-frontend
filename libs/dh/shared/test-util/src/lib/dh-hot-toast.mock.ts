@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
+import { Injectable, makeEnvironmentProviders } from '@angular/core';
+
+export function provideHotToastConfig() {
+  return makeEnvironmentProviders([]);
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class HotToastService {}
