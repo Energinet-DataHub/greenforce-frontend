@@ -112,6 +112,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   `,
 })
 export class EoAccountMenuComponent {
+  // This is a dummy change to trigger a build
   protected user = inject(EoAuthService).user;
   protected isOpen = signal<boolean>(false);
 }
