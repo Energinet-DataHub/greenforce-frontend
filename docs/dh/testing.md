@@ -36,7 +36,7 @@ for instructions.
 In this case import `getTranslocoTestingModule` function in the testing setup. This will preload the translation files and set the default language to "English". So the English translation file should be used when looking for specific strings. For example:
 
 ```ts
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 

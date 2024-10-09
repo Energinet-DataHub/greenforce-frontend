@@ -23,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 

@@ -22,7 +22,7 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterOutlet, provideRouter } from '@angular/router';
 import { render } from '@testing-library/angular';
 
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 import { MsalGuardMock, MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
 

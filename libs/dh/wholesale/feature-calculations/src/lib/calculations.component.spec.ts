@@ -14,16 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { render, screen } from '@testing-library/angular';
-import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { importProvidersFrom } from '@angular/core';
 import { ApolloModule } from 'apollo-angular';
-import { DhCalculationsComponent } from './calculations.component';
+
+import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
+
+import { DhCalculationsComponent } from './calculations.component';
 
 async function setup() {
   await render(`<dh-calculations />`, {
