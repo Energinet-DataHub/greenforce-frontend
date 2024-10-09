@@ -53,7 +53,9 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
   template: `
     <watt-drawer size="normal" *transloco="let t; read: 'messageArchive'" (closed)="onClose()">
       <watt-drawer-heading>
-        <h2>{{ t('documentType.' + documentType()) }}</h2>
+        @if (documentType()) {
+          <h2>{{ t('documentType.' + documentType()) }}</h2>
+        }
         <watt-description-list [groupsPerRow]="2">
           <watt-description-list-item [label]="t('details.messageId')" [value]="messageId()" />
           <watt-description-list-item
