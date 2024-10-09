@@ -48,6 +48,9 @@
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
+      "@energinet-datahub/dh/core/feature-notifications": [
+        "libs/dh/core/feature-notifications/src/index.ts"
+      ],
       "@energinet-datahub/dh/core/routing": [
         "libs/dh/core/routing/src/index.ts"
       ],
