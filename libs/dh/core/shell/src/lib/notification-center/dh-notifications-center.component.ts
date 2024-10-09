@@ -15,16 +15,21 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
+
+import { DhNotification } from './dh-notification';
+import { DhNotificationBannerComponent } from './dh-notification-banner.component';
+import { DhNotificationComponent } from './dh-notification.component';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [OverlayModule, TranslocoDirective, WattButtonComponent],
+  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
   styles: [
     `
       :host {
@@ -33,9 +38,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
       .notifications-panel {
         background-color: var(--watt-color-neutral-white);
-        border-radius: 4px;
-        min-width: 350px;
-        overflow-y: auto;
+        border-radius: 8px;
+        width: 344px;
       }
 
       h3 {
@@ -44,9 +48,17 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         padding: var(--watt-space-m) var(--watt-space-ml);
       }
 
+      dh-notification:not(:last-of-type) {
+        border-bottom: 1px solid var(--watt-color-neutral-grey-200);
+      }
+
       .no-notifications {
         margin: 0;
         padding: var(--watt-space-m) var(--watt-space-ml);
+      }
+
+      watt-button {
+        margin: var(--watt-space-m) var(--watt-space-ml);
       }
     `,
   ],
@@ -74,13 +86,45 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       >
         <h3>{{ t('headline') }}</h3>
 
+        @for (item of notifications; track item) {
+          <dh-notification [notification]="item" />
+        }
+
         <p class="no-notifications">{{ t('noNotifications') }}</p>
+
+        <watt-button variant="primary" (click)="showNotificationBanner()">
+          Show notification
+        </watt-button>
       </div>
     </ng-template>
   `,
 })
 export class DhNotificationsCenterComponent {
+  private readonly hotToast = inject(HotToastService);
+  private readonly colorService = inject(WattColorHelperService);
+
   isOpen = false;
+
+  notifications: DhNotification[] = [
+    {
+      datetime: new Date('2024-10-04'),
+      headline: 'Afregningsrapporter',
+      message: 'Afregningsrapport klar til download',
+      read: false,
+    },
+    {
+      datetime: new Date('2024-10-03'),
+      headline: 'B2B-adgang',
+      message: 'Client Secret udløber snart',
+      read: true,
+    },
+    {
+      datetime: new Date('2024-10-02'),
+      headline: 'CVR-opdatering',
+      message: 'Sort Strøm A/S har ændret navn til Grøn Strøm A/S',
+      read: false,
+    },
+  ];
 
   positionPairs: ConnectionPositionPair[] = [
     {
@@ -91,4 +135,21 @@ export class DhNotificationsCenterComponent {
       overlayY: 'top',
     },
   ];
+
+  showNotificationBanner(): void {
+    this.hotToast.show(DhNotificationBannerComponent, {
+      position: 'top-right',
+      dismissible: true,
+      autoClose: false,
+      style: {
+        border: `1px solid ${this.colorService.getColor(WattColor.grey400)}`,
+        'backdrop-filter': 'blur(30px)',
+      },
+      closeStyle: {
+        position: 'absolute',
+        left: '-10px',
+        top: '-10px',
+      },
+    });
+  }
 }
