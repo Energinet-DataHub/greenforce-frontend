@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:alpine3.19
+FROM nginxinc/nginx-unprivileged:alpine-slim
 
 ARG APP_FOLDER=./artifacts/app-eo/
 
