@@ -21,9 +21,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApolloModule } from 'apollo-angular';
 
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
+import { getTranslocoTestingModule, MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
-import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 import { DhCalculationsComponent } from './calculations.component';
 
