@@ -143,8 +143,9 @@ export const translations = {
     privacyPolicy: 'footer.privacyPolicy' as const,
     accessibilityStatement: 'footer.accessibilityStatement' as const,
   } as const,
-  userInformation: {
-    tin: 'userInformation.tin' as const,
+  actorMenu: {
+    onBehalfOf: 'actorMenu.onBehalfOf' as const,
+    tin: 'actorMenu.tin' as const,
   } as const,
   topbar: {
     help: 'topbar.help' as const,

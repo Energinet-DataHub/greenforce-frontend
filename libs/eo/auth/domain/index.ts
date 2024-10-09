@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './auth.interceptor';
-export * from './auth.service';
-export * from './auth.guard';
-export * from './idle-timer.service';
-export * from './organization-id.interceptor';
-export * from './terms.service';
-export * from './actor.service';
+export interface Actor {
+  org_id: string;
+  org_name: string;
+  tin: string;
+}

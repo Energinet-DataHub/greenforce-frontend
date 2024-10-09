@@ -150,7 +150,7 @@ export class EoConsentOverviewComponent implements OnInit {
       .selectTranslation()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.setColumns(this.authService.user()?.org_name);
+        this.setColumns(this.authService.user()?.profile.org_name);
         this.cd.detectChanges();
 
         if (this.thirdPartyClientId && !this.grantConsentModal.opened) {

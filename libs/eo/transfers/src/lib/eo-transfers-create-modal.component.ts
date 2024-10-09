@@ -71,7 +71,7 @@ export interface EoTransferAgreementsWithRecipient {
         }
 
         <eo-transfers-form
-          [senderTin]="authService.user()?.org_cvr"
+          [senderTin]="authService.user()?.profile?.org_cvr"
           [transferAgreements]="transferAgreements"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
@@ -142,8 +142,8 @@ export class EoTransfersCreateModalComponent {
         this.proposalCreated.emit({
           ...proposal,
           id: proposalId,
-          senderTin: this.authService.user()?.org_cvr as string,
-          senderName: this.authService.user()?.name as string,
+          senderTin: this.authService.user()?.profile.org_cvr as string,
+          senderName: this.authService.user()?.profile.name as string,
         });
         this.cd.detectChanges();
       },

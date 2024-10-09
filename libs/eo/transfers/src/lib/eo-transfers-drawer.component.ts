@@ -240,7 +240,7 @@ export class EoTransfersDrawerComponent {
 
   open() {
     this.drawer.open();
-    this.ownTin.set(this.authService.user()?.org_cvr);
+    this.ownTin.set(this.authService.user()?.profile.org_cvr);
   }
 
   onClose() {

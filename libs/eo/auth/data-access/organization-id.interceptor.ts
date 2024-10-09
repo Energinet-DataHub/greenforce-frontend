@@ -19,12 +19,12 @@ import { ClassProvider, Injectable, inject } from '@angular/core';
 
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
-import { EoAuthService } from './auth.service';
+import { EoActorService } from './actor.service';
 
 @Injectable()
 export class EoOrganizationIdInterceptor implements HttpInterceptor {
   private apiBase: string = inject(eoApiEnvironmentToken).apiBase;
-  private authService: EoAuthService = inject(EoAuthService);
+  private actor = inject(EoActorService).actor;
 
   private apiBaseUrls = [this.apiBase, this.apiBase.replace('/api', '/wallet-api')];
 
@@ -32,12 +32,12 @@ export class EoOrganizationIdInterceptor implements HttpInterceptor {
     // Only requests to the API should be handled by this interceptor
     if (!this.isApiRequest(this.apiBaseUrls, req)) return handler.handle(req);
 
-    const org_ids = this.authService.user()?.org_ids;
-    if (!org_ids) return handler.handle(req);
+    const currentActor = this.actor()?.org_id;
+    if (!currentActor) return handler.handle(req);
 
     const modifiedReq = req.clone({
       setParams: {
-        organizationId: org_ids,
+        organizationId: currentActor,
       },
     });
     return handler.handle(modifiedReq);
