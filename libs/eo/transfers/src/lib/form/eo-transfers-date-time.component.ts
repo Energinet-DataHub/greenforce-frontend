@@ -164,7 +164,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 export class EoTransfersDateTimeComponent
   implements ControlValueAccessor, Validator, OnInit, OnChanges
 {
-  @Input() min!: Date;
+  @Input() min?: Date;
   @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
   @Input() label = '';
 

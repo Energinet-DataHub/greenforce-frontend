@@ -226,6 +226,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
       <form [formGroup]="form">
         <ng-container *ngTemplateOutlet="receiver" />
         <eo-transfers-form-period
+          mode="edit"
           formGroupName="period"
           [existingTransferAgreements]="existingTransferAgreements()"
         />
