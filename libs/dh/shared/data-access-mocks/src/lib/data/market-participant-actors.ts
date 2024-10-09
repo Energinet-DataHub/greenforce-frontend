@@ -99,7 +99,7 @@ export const marketParticipantActors: Actor[] = [
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
-    glnOrEicNumber: '5790000555466',
+    glnOrEicNumber: '5790000555465',
     name: 'Test Actor 2',
     displayName: 'Test Actor 2 • BalanceResponsibleParty',
     userRoles: userActorRoles,
