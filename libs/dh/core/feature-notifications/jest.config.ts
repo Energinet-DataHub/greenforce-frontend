@@ -16,11 +16,10 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-shared-test-util-metering-point',
+  displayName: 'dh-core-feature-notifications',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/shared/test-util-metering-point',
+  coverageDirectory: '../../../../coverage/libs/dh/core/feature-notifications',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

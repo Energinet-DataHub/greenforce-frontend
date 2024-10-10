@@ -16,11 +16,11 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-shared-test-util-i18n',
+  displayName: 'dh-shared-test-util',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/shared/test-util-i18n',
+  coverageDirectory: '../../../../coverage/libs/dh/shared/test-util',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

@@ -14,6 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { validMeteringPointId } from './valid-metering-point-id';
+import { Component, input } from '@angular/core';
 
-export const invalidMeteringPointId = validMeteringPointId + '0';
+@Component({
+  selector: 'dh-notification-banner',
+  standalone: true,
+  styles: `
+    :host {
+      display: block;
+    }
+
+    p {
+      margin: 0;
+    }
+  `,
+  template: `
+    <h5 class="watt-space-stack-xxs">{{ headline() }}</h5>
+    <p>{{ message() }}</p>
+  `,
+})
+export class DhNotificationBannerComponent {
+  headline = input<string>('eSett');
+  message = input<string>('Nye balanceansvarsrelationer');
+}

@@ -14,4 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const validMeteringPointId = '123456789000000000';
+export type DhNotification = {
+  datetime: Date;
+  headline: string;
+  message: string;
+  read: boolean;
+};
