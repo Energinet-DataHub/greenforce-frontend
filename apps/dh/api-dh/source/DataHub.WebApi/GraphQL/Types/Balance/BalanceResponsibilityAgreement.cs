@@ -67,6 +67,11 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityRe
                 var dateTimeNow = DateTimeOffset.UtcNow;
                 var validPeriod = new Interval(Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidFrom), balanceResponsibilityAgreement.ValidTo != null ? Instant.FromDateTimeOffset(balanceResponsibilityAgreement.ValidTo.Value) : null);
 
+                if (validPeriod.HasEnd && validPeriod.End.Minus(Instant.FromDateTimeOffset(dateTimeNow)).ToTimeSpan().TotalDays < 7 && validPeriod.End > Instant.FromDateTimeOffset(dateTimeNow))
+                {
+                    return BalanceResponsibilityAgreementStatus.SoonToExpire;
+                }
+
                 if (validPeriod.Start < Instant.FromDateTimeOffset(dateTimeNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(dateTimeNow)))
                 {
                     return BalanceResponsibilityAgreementStatus.Active;
@@ -75,11 +80,6 @@ public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityRe
                 if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(dateTimeNow))
                 {
                     return BalanceResponsibilityAgreementStatus.Expired;
-                }
-
-                if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(dateTimeNow).Minus(Duration.FromDays(7)))
-                {
-                    return BalanceResponsibilityAgreementStatus.SoonToExpire;
                 }
 
                 return BalanceResponsibilityAgreementStatus.Awaiting;
