@@ -69,7 +69,7 @@ export class WattDrawerComponent implements OnDestroy {
   /** Emits whenever the drawer is closed. */
   @Output() closed = new EventEmitter<void>();
 
-  @ViewChild(CdkTrapFocus) cdkTrapFocus!: CdkTrapFocus;
+  @ViewChild(CdkTrapFocus) cdkTrapFocus?: CdkTrapFocus;
 
   /** @ignore */
   bypassClickCheck = false;
@@ -116,7 +116,7 @@ export class WattDrawerComponent implements OnDestroy {
     // Trap focus whenever open is called. This doesn't work on the
     // initial call (when first opening the drawer), but this is
     // handled by the autoFocus property on mat-drawer.
-    this.cdkTrapFocus.focusTrap.focusInitialElementWhenReady();
+    this.cdkTrapFocus?.focusTrap.focusInitialElementWhenReady();
 
     // Disable click outside check until the current event loop is finished.
     // This might seem hackish, but the order of execution is stable here.

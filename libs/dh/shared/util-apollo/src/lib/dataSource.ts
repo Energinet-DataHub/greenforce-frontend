@@ -92,20 +92,23 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     return this._sort;
   }
   set sort(sort) {
-    if (sort) {
-      // Avoid NG0100: Expression has changed after it was checked
-      setTimeout(() => this._configureSort(sort), 0);
-    }
-    this._sort = sort;
-    this._updateChangeSubscription();
+    // Wait for the next tick to prevent NG0100 and to make sure MatSort is ready
+    setTimeout(() => {
+      if (sort) this._configureSort(sort);
+      this._sort = sort;
+      this._updateChangeSubscription();
+    });
   }
 
   get paginator() {
     return this._paginator;
   }
   set paginator(paginator) {
-    this._paginator = paginator;
-    this._updateChangeSubscription();
+    // Wait for the next tick to make sure MatPaginator is ready
+    setTimeout(() => {
+      this._paginator = paginator;
+      this._updateChangeSubscription();
+    });
   }
 
   constructor(

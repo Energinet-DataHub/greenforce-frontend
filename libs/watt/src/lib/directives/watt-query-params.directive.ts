@@ -50,8 +50,8 @@ export class WattQueryParamsDirective implements OnInit {
         this.router.navigate([], {
           replaceUrl: true,
           relativeTo: this.route,
-          queryParams: hasSetProperties ? { [filtersKey]: qs.stringify(formValuesClone) } : null,
-          queryParamsHandling: hasSetProperties ? 'merge' : null,
+          queryParams: { [filtersKey]: hasSetProperties ? qs.stringify(formValuesClone) : null },
+          queryParamsHandling: 'merge',
         });
       });
 

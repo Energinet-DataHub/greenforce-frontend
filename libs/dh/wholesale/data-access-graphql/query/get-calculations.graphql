@@ -18,8 +18,6 @@ query GetCalculations(
   ) {
     totalCount
     pageInfo {
-      hasNextPage
-      hasPreviousPage
       startCursor
       endCursor
     }
