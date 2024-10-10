@@ -30,7 +30,7 @@
 // ***********************************************************
 import './commands';
 
-before(() => {
+beforeEach(() => {
   if (!['b2c-healthchecks.cy.ts'].includes(Cypress.spec.name)) {
     cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'));
   }
