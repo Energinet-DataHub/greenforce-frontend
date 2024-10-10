@@ -56,15 +56,6 @@ services.AddHttpContextAccessor();
 
 services.AddSwagger();
 
-// HACK: Support for 'dotnet tool swagger' execution, which requires no exceptions in Startup file.
-if (configuration.GetChildren().All(section => section.Key != UserAuthenticationOptions.SectionName))
-{
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.ExternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.InternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.BackendBffAppId)}"] = "https://datahub.dk";
-}
-
 services.AddJwtBearerAuthenticationForWebApp(builder.Configuration);
 
 services
