@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 using HotChocolate.Types.Pagination;
@@ -24,7 +24,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 public partial class Query
 {
     [UsePaging]
-    public async Task<Connection<ArchivedMessageResultV2>> GetArchivedMessagesAsync(
+    public async Task<Connection<ArchivedMessageResultV3>> GetArchivedMessagesAsync(
         Interval created,
         string? senderNumber,
         string? receiverNumber,
@@ -37,15 +37,15 @@ public partial class Query
         int? last,
         string? before,
         ArchivedMessageSortInput? order,
-        [Service] IEdiB2CWebAppClient_V2 client)
+        [Service] IEdiB2CWebAppClient_V3 client)
     {
         var searchCriteria = !string.IsNullOrWhiteSpace(filter)
-            ? new SearchArchivedMessagesCriteria()
+            ? new SearchArchivedMessagesCriteriaV3()
             {
                 MessageId = filter,
                 IncludeRelatedMessages = includeRelated ?? false,
             }
-            : new SearchArchivedMessagesCriteria()
+            : new SearchArchivedMessagesCriteriaV3()
             {
                 CreatedDuringPeriod = new MessageCreationPeriod()
                 {
@@ -54,9 +54,7 @@ public partial class Query
                 },
                 SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : senderNumber,
                 ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : receiverNumber,
-                DocumentTypes = documentTypes.IsNullOrEmpty()
-                    ? null
-                    : documentTypes?.Select(x => x.ToString()).ToArray(),
+                DocumentTypes = documentTypes,
                 BusinessReasons = businessReasons.IsNullOrEmpty()
                     ? null
                     : businessReasons?.Select(x => x.ToString()).ToArray(),
@@ -84,14 +82,14 @@ public partial class Query
             DirectionToSortBy = (DirectionToSortBy?)direction,
         };
 
-        var searchArchivedMessagesRequest = new SearchArchivedMessagesRequest
+        var searchArchivedMessagesRequest = new SearchArchivedMessagesRequestV3
         {
             SearchCriteria = searchCriteria,
             Pagination = pagination,
         };
 
         var response = await client.ArchivedMessageSearchAsync(
-            "2.0",
+            "3.0",
             searchArchivedMessagesRequest,
             CancellationToken.None);
 
@@ -112,7 +110,7 @@ public partial class Query
             edges.FirstOrDefault()?.Cursor,
             edges.LastOrDefault()?.Cursor);
 
-        var connection = new Connection<ArchivedMessageResultV2>(
+        var connection = new Connection<ArchivedMessageResultV3>(
             edges,
             pageInfo,
             response.TotalCount);
@@ -136,8 +134,8 @@ public partial class Query
             : new SearchArchivedMessagesCursor { FieldToSortByValue = sub[1], RecordId = recordId };
     }
 
-    private static Edge<ArchivedMessageResultV2> MakeEdge(
-        ArchivedMessageResultV2 message,
+    private static Edge<ArchivedMessageResultV3> MakeEdge(
+        ArchivedMessageResultV3 message,
         FieldToSortBy field)
     {
         var sortCursor = field switch
@@ -149,6 +147,6 @@ public partial class Query
             FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
         };
 
-        return new Edge<ArchivedMessageResultV2>(message, $"{message.RecordId}+{sortCursor}");
+        return new Edge<ArchivedMessageResultV3>(message, $"{message.RecordId}+{sortCursor}");
     }
 }
