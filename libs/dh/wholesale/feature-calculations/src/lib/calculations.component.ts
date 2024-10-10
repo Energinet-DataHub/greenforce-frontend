@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -44,9 +44,6 @@ import { DhCalculationsTableComponent } from './table/table.component';
 export class DhCalculationsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-
-  @ViewChild(DhCalculationsDetailsComponent)
-  details!: DhCalculationsDetailsComponent;
 
   id = toSignal<string>(this.route.queryParams.pipe(map((p) => p.id ?? undefined)));
 
