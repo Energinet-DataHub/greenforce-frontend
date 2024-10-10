@@ -1192,6 +1192,7 @@
         "UNKNOWN": "Beregning"
       },
       "states": {
+        "INDETERMINATE": "Ubestemt",
         "SCHEDULED": "Planlagt",
         "STARTED": "Startet",
         "CALCULATING": "Beregner...",

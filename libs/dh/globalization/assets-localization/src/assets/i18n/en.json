@@ -1193,6 +1193,7 @@
         "UNKNOWN": "Calculation"
       },
       "states": {
+        "INDETERMINATE": "Indeterminate",
         "SCHEDULED": "Scheduled",
         "STARTED": "Started",
         "CALCULATING": "Calculating...",
