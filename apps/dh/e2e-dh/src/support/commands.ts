@@ -80,11 +80,11 @@ Cypress.Commands.add('login', (email: string, password: string) => {
 Cypress.Commands.add('removeCookieBanner', () => {
   Cypress.log({
     displayName: 'Cookie banner',
-    message: 'Decline cookies'
-  })
+    message: 'Decline cookies',
+  });
   cy.getCookie('CookieInformationConsent', { log: false }).then((consent) => {
     if (!consent) {
       cy.get('button[id=declineButton]', { log: false }).click({ log: false });
     }
-  })
+  });
 });
