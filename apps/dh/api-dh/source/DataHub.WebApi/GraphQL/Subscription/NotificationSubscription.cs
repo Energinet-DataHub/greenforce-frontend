@@ -23,10 +23,20 @@ public partial class Subscription
         [Service] ITopicEventReceiver eventReceiver,
         CancellationToken cancellationToken)
     {
+        var delayed = new List<NotificationDto>
+        {
+            new() { ReasonIdentifier = "BalanceResponsibilityActorUnrecognized", OccurredAt = new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero) },
+        }.ToObservable()
+        .Delay(TimeSpan.FromSeconds(30));
+
         return new List<NotificationDto>
         {
-            new(),
-        }.ToObservable();
+            new() { ReasonIdentifier = "BalanceResponsibilityActorUnrecognized", OccurredAt = new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero) },
+            new() { ReasonIdentifier = "BalanceResponsibilityValidationFailed", OccurredAt = new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero) },
+            new() { ReasonIdentifier = "ActorClientSecretExpiresSoon", OccurredAt = new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero) },
+            new() { ReasonIdentifier = "OrganizationIdentityUpdated", OccurredAt = new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero) },
+        }.ToObservable()
+        .Concat(delayed);
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
