@@ -33,7 +33,6 @@ public static class DomainRegistrationExtensions
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
-            .RegisterEDIServices(apiClientSettings.EdiB2CWebApiBaseUrl)
             .AddMarketParticipantGeneratedClient(
                 GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
             .AddWholesaleClient(
