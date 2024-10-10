@@ -50,6 +50,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
 export interface QueryOptions<TVariables extends OperationVariables>
   extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading'> {
+  // The `nextFetchPolicy` typically also accepts a function. Omitted for simplicity.
+  nextFetchPolicy?: WatchQueryOptions<TVariables>['fetchPolicy'];
   skip?: boolean;
 }
 
@@ -215,7 +217,8 @@ export function query<TResult, TVariables extends OperationVariables>(
     },
     refetch: (newVariables?: Partial<TVariables>) => {
       const variables = { ...options$.value?.variables, ...newVariables } as TVariables;
-      options$.next({ ...options$.value, skip: false, fetchPolicy: 'network-only', variables });
+      const fetchPolicy = options$.value?.nextFetchPolicy ?? 'network-only';
+      options$.next({ ...options$.value, skip: false, fetchPolicy, variables });
       return result();
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
