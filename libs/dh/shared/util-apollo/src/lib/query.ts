@@ -29,6 +29,7 @@ import {
   Observable,
   Subject,
   catchError,
+  delayWhen,
   filter,
   firstValueFrom,
   map,
@@ -231,7 +232,8 @@ export function query<TResult, TVariables extends OperationVariables>(
         .pipe(
           map(({ data }) => data),
           exists(), // The data should generally be available, but types says otherwise
-          withLatestFrom(refReplay$), // Ensure the ref (and cache) is ready,
+          withLatestFrom(refReplay$), // Ensure the ref (and cache) is ready
+          delayWhen(() => result()), // Do not attempt to merge when result is loading
           takeUntilDestroyed(destroyRef), // Stop the subscription when the component is destroyed
           takeUntil(reset$) // Or when resetting the query
         )
