@@ -51,6 +51,7 @@ export class DhCalculationsComponent {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { id },
+      queryParamsHandling: 'merge',
     });
   }
 }
