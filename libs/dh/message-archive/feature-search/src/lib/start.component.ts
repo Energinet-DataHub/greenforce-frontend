@@ -142,6 +142,7 @@ export class DhMessageArchiveSearchStartComponent {
     const values = this.form.getRawValue();
     if (!values || !values.start) return;
     const { start, end, ...variables } = values;
+    this.clear.emit(); // Reset table to show loading indicator
     this.start.emit({ ...variables, created: { start, end } });
   };
 
