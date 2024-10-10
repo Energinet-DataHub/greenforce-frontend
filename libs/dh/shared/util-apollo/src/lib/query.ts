@@ -45,11 +45,6 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-/** Create an observable of ApolloQueryResult from an ApolloError. */
-function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>> {
-  return of({ error, data: undefined as T, loading: false, networkStatus: NetworkStatus.error });
-}
-
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
 export interface QueryOptions<TVariables extends OperationVariables>
@@ -78,6 +73,21 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
     options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
   ) => () => void;
 };
+
+/** Create an observable of ApolloQueryResult from an ApolloError. */
+function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>> {
+  return of({ error, data: undefined as T, loading: false, networkStatus: NetworkStatus.error });
+}
+
+/** Create an initial ApolloQueryResult object. */
+function makeInitialResult<T>(skip?: boolean): ApolloQueryResult<T> {
+  return {
+    data: undefined as T,
+    error: undefined,
+    loading: !skip,
+    networkStatus: skip ? NetworkStatus.ready : NetworkStatus.loading,
+  };
+}
 
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
@@ -130,12 +140,16 @@ export function query<TResult, TVariables extends OperationVariables>(
     )
   );
 
+  const initial = makeInitialResult<TResult>(options?.skip);
+
   // Signals holding the result values
-  const data = signal<TResult | undefined>(undefined);
-  const error = signal<ApolloError | undefined>(undefined);
-  const loading = signal(!options?.skip);
+  const data = signal<TResult | undefined>(initial.data);
+  const error = signal<ApolloError | undefined>(initial.error);
+  const loading = signal(initial.loading);
+  const networkStatus = signal(initial.networkStatus);
+
+  // Extra signal to track if the query has been called
   const called = signal(false);
-  const networkStatus = signal(options?.skip ? NetworkStatus.ready : NetworkStatus.loading);
 
   // Get the current result, or the incoming result if query is loading
   const result = () =>
@@ -150,7 +164,11 @@ export function query<TResult, TVariables extends OperationVariables>(
           }),
           filter((result) => !result.loading),
           takeUntilDestroyed(destroyRef)
-        )
+        ),
+        // Prevent EmptyError if the parent component is destroyed before the first value is
+        // emitted. This default value should be ignored, since the component is destroyed.
+        // It is only to prevent (harmless) uncaught exceptions in the log.
+        { defaultValue: makeInitialResult<TResult>(false) }
       )
     );
 
@@ -181,10 +199,11 @@ export function query<TResult, TVariables extends OperationVariables>(
     reset: () => {
       reset$.next();
       options$.next({ ...options, skip: true });
-      data.set(undefined);
-      error.set(undefined);
-      loading.set(false);
-      networkStatus.set(NetworkStatus.ready);
+      const initial = makeInitialResult<TResult>(true);
+      data.set(initial.data);
+      error.set(initial.error);
+      loading.set(initial.loading);
+      networkStatus.set(initial.networkStatus);
       called.set(false);
     },
     getOptions: () => options$.value ?? {},
