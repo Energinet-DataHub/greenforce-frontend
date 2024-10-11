@@ -17,7 +17,7 @@
 import { Component, computed, output, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
-import dayjs from 'dayjs';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
