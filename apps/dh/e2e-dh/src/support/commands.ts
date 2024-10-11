@@ -17,8 +17,8 @@
 import '@testing-library/cypress/add-commands';
 
 function loginViaB2C(email: string, password: string) {
-  cy.visit('/');
   cy.removeCookieBanner();
+  cy.visit('/');
 
   cy.get('watt-button').click();
 
