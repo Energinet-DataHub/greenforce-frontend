@@ -39,14 +39,14 @@ describe('query', () => {
 
   afterEach(() => controller.verify());
 
-  it('should initialize query', fakeAsync(() =>
+  it('should initialize query', () =>
     TestBed.runInInjectionContext(() => {
       query(TEST_QUERY);
       const op = controller.expectOne(TEST_QUERY);
       expect(op.operation.operationName).toEqual('TestQuery');
-    })));
+    }));
 
-  it('should respond correctly initially', fakeAsync(() =>
+  it('should respond correctly initially', () =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
       controller.expectOne(TEST_QUERY);
@@ -54,7 +54,7 @@ describe('query', () => {
       expect(result.error()).toBeUndefined();
       expect(result.loading()).toBe(true);
       expect(result.networkStatus()).toBe(NetworkStatus.loading);
-    })));
+    }));
 
   it('should respond correctly on success', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
@@ -81,14 +81,14 @@ describe('query', () => {
       expect(result.networkStatus()).toBe(NetworkStatus.error);
     })));
 
-  it('should respond correctly when skipped', fakeAsync(() =>
+  it('should respond correctly when skipped', () =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY, { skip: true });
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
-    })));
+    }));
 
   it('should start a new query on refetch', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
