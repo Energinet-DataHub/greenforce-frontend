@@ -20,7 +20,7 @@ using HotChocolate.Subscriptions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
-public class Subscription
+public partial class Subscription
 {
     public IObservable<CalculationDto> OnCalculationUpdatedAsync(
         [Service] ITopicEventReceiver eventReceiver,
