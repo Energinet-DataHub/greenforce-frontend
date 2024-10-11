@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { map, startWith, switchMap, tap } from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -32,7 +33,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'dh-message-archive-search-details',
@@ -53,7 +53,9 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
   template: `
     <watt-drawer size="normal" *transloco="let t; read: 'messageArchive'" (closed)="onClose()">
       <watt-drawer-heading>
-        <h2>{{ t('documentType.' + documentType()) }}</h2>
+        @if (documentType()) {
+          <h2>{{ t('documentType.' + documentType()) }}</h2>
+        }
         <watt-description-list [groupsPerRow]="2">
           <watt-description-list-item [label]="t('details.messageId')" [value]="messageId()" />
           <watt-description-list-item

@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
+
 const messageId1 = '38374f50-f00c-4e2a-aec1-70d391cade06';
 const messageId2 = '41c8490b-7a7b-45bd-b95b-87659964e7aa';
 const messageId3 = '4f92c84e-d976-43f8-9df2-86d7d3adbf43';
@@ -28,7 +30,7 @@ export const messageArchiveSearchResponseLogs = {
   messages: [
     {
       messageId: messageId1,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.NotifyAggregatedMeasureData,
       createdDate: '2023-06-14T12:10:54.9519045+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080000729821',
@@ -36,7 +38,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId2,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.NotifyBillingMasterData,
       createdDate: '2023-06-14T12:25:02.6605962+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080005056076',
@@ -44,7 +46,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId3,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.NotifyCancellation,
       createdDate: '2023-06-14T12:25:29.0746675+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080005056076',
@@ -52,7 +54,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId4,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.NotifyPricelist,
       createdDate: '2023-06-14T12:23:53.6801627+00:00',
       senderGln: '5790001330552',
       receiverGln: '5790001687137',
@@ -60,7 +62,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId5,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.NotifyValidatedMeasureData,
       createdDate: '2023-06-14T10:41:25.3732968+00:00',
       senderGln: '5790001330552',
       receiverGln: '5790001687137',
@@ -68,7 +70,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId6,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.AccountingPointCharacteristics,
       createdDate: '2023-06-14T12:24:13.9029624+00:00',
       senderGln: '5790001330552',
       receiverGln: '5790001687137',
@@ -76,7 +78,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId7,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.Acknowledgement,
       createdDate: '2023-06-14T12:24:49.2059959+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080005056076',
@@ -84,7 +86,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: messageId8,
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.B2CRequestAggregatedMeasureData,
       createdDate: '2023-06-14T12:26:48.7104608+00:00',
       senderGln: '5790001330552',
       receiverGln: '5706552000028',
@@ -92,7 +94,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: '932b5654-520c-4b81-afdb-9c3e22ce7162',
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.NotifyCancellation,
       createdDate: '2023-06-14T12:11:53.579528+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080000729821',
@@ -100,7 +102,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: 'b87ee79b-eef6-4960-8f3a-3ce3d030ab7c',
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.B2CRequestWholesaleSettlement,
       createdDate: '2023-06-14T12:25:15.1479964+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080005056076',
@@ -108,7 +110,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: 'c50b271a11d8-408f',
-      documentType: 'NotifyAggregatedMeasureData',
+      documentType: DocumentType.CharacteristicsOfACustomerAtAnAp,
       createdDate: '2023-06-14T12:12:08.6108809+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080000729821',
@@ -116,7 +118,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: 'ActorsMayWriteWhatever',
-      documentType: 'RequestAggregatedMeasureData',
+      documentType: DocumentType.ConfirmRequestCancellation,
       createdDate: '2023-06-14T12:26:06.6019294+00:00',
       senderGln: '5790001330552',
       receiverGln: '5706552000028',
@@ -124,7 +126,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: rejectedMessageId,
-      documentType: 'RejectRequestAggregatedMeasureData',
+      documentType: DocumentType.RejectRequestAggregatedMeasureData,
       createdDate: '2023-06-14T12:12:29.5600357+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080000729821',
@@ -132,7 +134,7 @@ export const messageArchiveSearchResponseLogs = {
     },
     {
       messageId: 'RequestAggregatedMeasureData-ID',
-      documentType: 'RequestAggregatedMeasureData',
+      documentType: DocumentType.ConfirmRequestChangeBillingMasterData,
       createdDate: '2023-06-14T12:12:29.5600357+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080000729821',
