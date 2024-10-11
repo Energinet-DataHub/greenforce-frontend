@@ -82,9 +82,7 @@ Cypress.Commands.add('removeCookieBanner', () => {
     displayName: 'Cookie banner',
     message: 'Decline cookies'
   })
-  cy.getCookie('CookieInformationConsent', { log: false }).then((consent) => {
-    if (!consent) {
-      cy.get('button[id=declineButton]', { log: false }).click({ log: false });
-    }
-  })
+  cy.get('a').contains('Cookie Information').then(() => {
+    cy.get('button[id=declineButton]', { log: false }).click({ log: false });
+  });
 });
