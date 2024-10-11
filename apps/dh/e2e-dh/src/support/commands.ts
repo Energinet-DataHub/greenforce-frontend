@@ -83,7 +83,7 @@ Cypress.Commands.add('removeCookieBanner', () => {
     message: 'Decline cookies',
   });
   cy.location('host').then(($host) => {
-    cy.setCookie('CookieInformationConsent', '%7B%22consents_approved%22%3A%5B%5D%7D', {
+    cy.setCookie('CookieInformationConsent', encodeURIComponent('{"consents_approved":[]}'), {
       domain: $host,
       sameSite: 'lax',
       secure: true,
