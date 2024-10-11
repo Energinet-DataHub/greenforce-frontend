@@ -19,27 +19,29 @@ namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public partial class Subscription
 {
-    public IObservable<NotificationDto> OnNotificationAddedAsync(
+    public IObservable<Notification> OnNotificationAddedAsync(
         [Service] ITopicEventReceiver eventReceiver,
         CancellationToken cancellationToken)
     {
-        var delayed = new List<NotificationDto>
+        var delayed = new List<Notification>
         {
-            new() { ReasonIdentifier = "BalanceResponsibilityActorUnrecognized", OccurredAt = new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero) },
-        }.ToObservable()
+            new("BalanceResponsibilityActorUnrecognized", "123", new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero)),
+        }
+        .ToObservable()
         .Delay(TimeSpan.FromSeconds(30));
 
-        return new List<NotificationDto>
+        return new List<Notification>
         {
-            new() { ReasonIdentifier = "BalanceResponsibilityActorUnrecognized", OccurredAt = new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero) },
-            new() { ReasonIdentifier = "BalanceResponsibilityValidationFailed", OccurredAt = new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero) },
-            new() { ReasonIdentifier = "ActorClientSecretExpiresSoon", OccurredAt = new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero) },
-            new() { ReasonIdentifier = "OrganizationIdentityUpdated", OccurredAt = new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero) },
+            new("BalanceResponsibilityActorUnrecognized", "123", new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero)),
+            new("BalanceResponsibilityValidationFailed", "123", new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero)),
+            new("ActorClientSecretExpiresSoon", "123", new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero)),
+            new("OrganizationIdentityUpdated", "123", new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero)),
         }.ToObservable()
-        .Concat(delayed);
+        .Concat(delayed)
+        .Concat(Observable.Never<Notification>());
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
-    public NotificationDto NotificationAdded([EventMessage] NotificationDto notification) =>
+    public Notification NotificationAdded([EventMessage] Notification notification) =>
         notification;
 }
