@@ -28,16 +28,20 @@ import {
   BehaviorSubject,
   Observable,
   Subject,
+  asyncScheduler,
   catchError,
+  defer,
   delayWhen,
   filter,
   firstValueFrom,
   map,
+  mergeWith,
   of,
   share,
   shareReplay,
   skipWhile,
   startWith,
+  subscribeOn,
   switchMap,
   take,
   takeUntil,
@@ -154,17 +158,24 @@ export function query<TResult, TVariables extends OperationVariables>(
   // Extra signal to track if the query has been called
   const called = signal(false);
 
+  // Gets the current ApolloQueryResult from signal values
+  const toApolloQueryResult = () => ({
+    data: data() as TResult, // Satisfy ApolloQueryResult type, but technically incorrect
+    error: error(),
+    loading: loading(),
+    networkStatus: networkStatus(),
+  });
+
   // Get the current result, or the incoming result if query is loading
   const result = () =>
     untracked(() =>
       firstValueFrom(
-        result$.pipe(
-          startWith({
-            data: data() as TResult, // Satisfy ApolloQueryResult type, but technically incorrect
-            error: error(),
-            loading: loading(),
-            networkStatus: networkStatus(),
-          }),
+        // Wait for the current event loop to finish before attempting to
+        // read the current result. This is to allow the query to enter a
+        // loading state if result() is called immediately after querying.
+        defer(() => [toApolloQueryResult()]).pipe(
+          subscribeOn(asyncScheduler),
+          mergeWith(result$),
           filter((result) => !result.loading),
           takeUntilDestroyed(destroyRef)
         ),
