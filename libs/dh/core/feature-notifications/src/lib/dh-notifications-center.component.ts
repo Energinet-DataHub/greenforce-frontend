@@ -23,6 +23,7 @@ import { OnNotificationAddedDocument } from '@energinet-datahub/dh/shared/domain
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIcon } from '@energinet-datahub/watt/icon';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
@@ -107,6 +108,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
 })
 export class DhNotificationsCenterComponent {
   private readonly bannerService = inject(DhNotificationBannerService);
+  private readonly now = new Date();
 
   isOpen = false;
 
@@ -115,6 +117,11 @@ export class DhNotificationsCenterComponent {
     onData: (data) => {
       const { occurredAt: datetime, reasonIdentifier: headline } = data.notificationAdded;
       const notification: DhNotification = { datetime, headline, message: '', read: false };
+
+      if (dayjs(datetime).isAfter(this.now)) {
+        this.bannerService.showBanner();
+      }
+
       this.notifications.update((notifications) => [notification, ...notifications]);
     },
   });
