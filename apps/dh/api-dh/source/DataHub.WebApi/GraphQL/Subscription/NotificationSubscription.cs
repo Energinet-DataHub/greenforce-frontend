@@ -29,23 +29,11 @@ public partial class Subscription
        return Observable
             .Interval(TimeSpan.FromSeconds(15))
             .SelectMany(_ => Observable
-                // .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
-                .FromAsync(() => TestNotficationAsync())
+                .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
                 .SelectMany(notification => notification));
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
     public Notification NotificationAdded([EventMessage] Notification notification) =>
         notification;
-
-    private async Task<IEnumerable<Notification>> TestNotficationAsync()
-    {
-        return await Task.FromResult(new List<Notification>
-        {
-            new("BalanceResponsibilityActorUnrecognized", "123", new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero)),
-            new("BalanceResponsibilityValidationFailed", "123", new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero)),
-            new("ActorClientSecretExpiresSoon", "123", new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero)),
-            new("OrganizationIdentityUpdated", "123", new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero)),
-        });
-    }
 }
