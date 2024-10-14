@@ -1472,6 +1472,7 @@ enum UserOverviewSortProperty {
   PhoneNumber
   CreatedDate
   Status
+  LatestLoginAt
 }
 
 enum UserRoleAuditedChange {
