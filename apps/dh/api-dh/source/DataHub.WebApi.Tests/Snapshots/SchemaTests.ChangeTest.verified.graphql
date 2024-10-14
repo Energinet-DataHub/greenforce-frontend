@@ -671,6 +671,7 @@ type User {
   email: String!
   phoneNumber: String
   createdDate: DateTime!
+  latestLoginAt: DateTime
 }
 
 type UserAuditedChangeAuditLogDto {
