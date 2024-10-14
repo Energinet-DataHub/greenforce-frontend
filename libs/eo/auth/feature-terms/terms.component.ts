@@ -26,20 +26,19 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   EoFooterComponent,
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,8 +50,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     WattEmptyStateComponent,
     EoFooterComponent,
     EoHeaderComponent,
-    EoScrollViewComponent,
-    WattSpinnerComponent,
     TranslocoPipe,
     NgxExtendedPdfViewerModule,
   ],
