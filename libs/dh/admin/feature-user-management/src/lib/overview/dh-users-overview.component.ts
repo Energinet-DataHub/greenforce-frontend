@@ -192,6 +192,7 @@ export class DhUsersOverviewComponent {
         `"${translate(basePath + '.userName')}"`,
         `"${translate(basePath + '.email')}"`,
         `"${translate(basePath + '.marketParticipantName')}"`,
+        `"${translate(basePath + '.latestLogin')}"`,
         `"${translate(basePath + '.organisationName')}"`,
       ];
 
@@ -199,6 +200,7 @@ export class DhUsersOverviewComponent {
         `"${x.userName}"`,
         `"${x.userEmail}"`,
         `"${x.marketParticipantName}"`,
+        `"${x.latestLoginAt && wattFormatDate(x.latestLoginAt, 'short') || ''}"`,
         `"${x.organizationName}"`,
       ]);
 

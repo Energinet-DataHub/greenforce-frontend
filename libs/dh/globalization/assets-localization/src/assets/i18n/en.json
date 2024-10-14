@@ -1412,6 +1412,7 @@
         "userName": "Username",
         "email": "E-mail",
         "marketParticipantName": "Market participant name",
+        "latestLogin": "Latest login",
         "organisationName": "Organisation name",
         "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
       },
@@ -1555,6 +1556,7 @@
             "name": "Name",
             "email": "E-mail",
             "phone": "Phone no.",
+            "latestLogin": "Latest login",
             "status": "Status"
           }
         },

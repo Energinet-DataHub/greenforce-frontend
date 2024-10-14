@@ -509,6 +509,23 @@ function getAllUsersQuery() {
                 },
               },
             },
+            {
+              __typename: 'User',
+              id: '00000000-0000-0000-0000-000000000001',
+              name: 'User name',
+              email: 'username2@mock.com',
+              latestLoginAt: new Date(),
+              administratedBy: {
+                id: '00000000-0000-0000-0000-000000000002',
+                __typename: 'Actor',
+                name: 'Market participant name',
+                organization: {
+                  __typename: 'Organization',
+                  id: '1',
+                  name: 'Organization name',
+                },
+              },
+            },
           ],
         },
       },

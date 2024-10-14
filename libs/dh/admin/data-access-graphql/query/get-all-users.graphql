@@ -28,6 +28,7 @@ query GetAllUsers(
           name
         }
       }
+      latestLoginAt
     }
   }
 }
