@@ -246,7 +246,8 @@ export function query<TResult, TVariables extends OperationVariables>(
         .pipe(
           map(({ data }) => data),
           exists(), // The data should generally be available, but types says otherwise
-          withLatestFrom(refReplay$), // Ensure the ref (and cache) is ready
+          combineLatestWith(refWhenData$), // Ensure the ref (and cache) is ready
+          distinctUntilChanged(([prev], [next]) => prev === next), // Only emit when data changes
           delayWhen(() => result()), // Do not attempt to merge when result is loading
           takeUntilDestroyed(destroyRef), // Stop the subscription when the component is destroyed
           takeUntil(reset$) // Or when resetting the query
