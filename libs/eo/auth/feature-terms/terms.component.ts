@@ -39,7 +39,6 @@ import {
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
