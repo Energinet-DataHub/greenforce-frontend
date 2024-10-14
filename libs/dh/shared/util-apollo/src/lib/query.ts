@@ -117,6 +117,8 @@ export function query<TResult, TVariables extends OperationVariables>(
     filter((opts) => !opts?.skip),
     map((opts) => client.watchQuery({ ...opts, query: document })),
     share()
+    // Make sure the ref is available to late subscribers (in `subscribeToMore`)
+    shareReplay(1)
   );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
@@ -132,7 +134,6 @@ export function query<TResult, TVariables extends OperationVariables>(
         takeUntil(reset$) // Stop subscription if the query is reset
       )
     ),
-    shareReplay(1), // Make sure the ref is available to late subscribers (in `subscribeToMore`)
     exists(), // Only emit the replayed ref if it is not null
     takeUntilDestroyed(destroyRef) // Shared observables need to be completed manually
   );
