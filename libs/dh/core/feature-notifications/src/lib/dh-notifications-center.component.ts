@@ -16,24 +16,32 @@
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Component, computed, inject, signal } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { HotToastService } from '@ngxpert/hot-toast';
 
 import { subscription } from '@energinet-datahub/dh/shared/util-apollo';
 import { OnNotificationAddedDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 import { WattIcon } from '@energinet-datahub/watt/icon';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { DhNotification } from './dh-notification';
-import { DhNotificationBannerComponent } from './dh-notification-banner.component';
 import { DhNotificationComponent } from './dh-notification.component';
+import { DhNotificationBannerService } from './dh-notification-banner.service';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
+  imports: [
+    NgClass,
+    OverlayModule,
+    TranslocoDirective,
+
+    WattButtonComponent,
+    DhNotificationComponent,
+  ],
+  providers: [DhNotificationBannerService],
   styles: [
     `
       :host {
@@ -44,6 +52,11 @@ import { DhNotificationComponent } from './dh-notification.component';
         background-color: var(--watt-color-neutral-white);
         border-radius: 8px;
         width: 344px;
+      }
+
+      .notifications-panel__items {
+        max-height: 400px;
+        overflow-y: auto;
       }
 
       h3 {
@@ -64,11 +77,29 @@ import { DhNotificationComponent } from './dh-notification.component';
       watt-button {
         margin: var(--watt-space-m) var(--watt-space-ml);
       }
+
+      .notification-dot {
+        position: relative;
+
+        &:before {
+          background-color: var(--watt-color-state-danger);
+          border-radius: 50%;
+          content: '';
+          height: 5px;
+          left: 25px;
+          position: absolute;
+          top: 16.2px;
+          transform: translateY(-50%);
+          width: 5px;
+          z-index: 4;
+        }
+      }
     `,
   ],
   template: `
     <watt-button
       variant="icon"
+      [ngClass]="{ 'notification-dot': notificationDot() }"
       [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -90,30 +121,38 @@ import { DhNotificationComponent } from './dh-notification.component';
       >
         <h3>{{ t('headline') }}</h3>
 
-        @for (item of notifications(); track item) {
-          <dh-notification [notification]="item" />
-        }
-
-        <p class="no-notifications">{{ t('noNotifications') }}</p>
-
-        <watt-button variant="primary" (click)="showNotificationBanner()">
-          Show notification
-        </watt-button>
+        <div class="notifications-panel__items">
+          @for (item of notifications(); track item) {
+            <dh-notification [notification]="item" />
+          } @empty {
+            <p class="no-notifications">{{ t('noNotifications') }}</p>
+          }
+        </div>
       </div>
     </ng-template>
   `,
 })
 export class DhNotificationsCenterComponent {
-  private readonly hotToast = inject(HotToastService);
-  private readonly colorService = inject(WattColorHelperService);
+  private readonly bannerService = inject(DhNotificationBannerService);
+  private readonly now = new Date();
 
   isOpen = false;
 
   notifications = signal<DhNotification[]>([]);
   notificationAdded = subscription(OnNotificationAddedDocument, {
     onData: (data) => {
-      const { occurredAt: datetime, reasonIdentifier: headline } = data.notificationAdded;
-      const notification: DhNotification = { datetime, headline, message: '', read: false };
+      const { occurredAt, reasonIdentifier: headline } = data.notificationAdded;
+      const notification: DhNotification = {
+        occurredAt,
+        headline,
+        message: '',
+        read: false,
+      };
+
+      if (dayjs(occurredAt).isAfter(this.now)) {
+        this.bannerService.showBanner();
+      }
+
       this.notifications.update((notifications) => [notification, ...notifications]);
     },
   });
@@ -121,6 +160,8 @@ export class DhNotificationsCenterComponent {
   notificationIcon = computed<WattIcon>(() =>
     this.notifications().every((n) => n.read) ? 'notifications' : 'notificationsUnread'
   );
+
+  notificationDot = computed<boolean>(() => this.notificationIcon() === 'notificationsUnread');
 
   positionPairs: ConnectionPositionPair[] = [
     {
@@ -133,19 +174,6 @@ export class DhNotificationsCenterComponent {
   ];
 
   showNotificationBanner(): void {
-    this.hotToast.show(DhNotificationBannerComponent, {
-      position: 'top-right',
-      dismissible: true,
-      autoClose: false,
-      style: {
-        border: `1px solid ${this.colorService.getColor(WattColor.grey400)}`,
-        'backdrop-filter': 'blur(30px)',
-      },
-      closeStyle: {
-        position: 'absolute',
-        left: '-10px',
-        top: '-10px',
-      },
-    });
+    this.bannerService.showBanner();
   }
 }
