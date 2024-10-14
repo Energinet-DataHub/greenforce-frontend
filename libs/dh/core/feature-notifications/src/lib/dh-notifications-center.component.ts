@@ -45,6 +45,11 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
         width: 344px;
       }
 
+      .notifications-panel__items {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
       h3 {
         border-bottom: 1px solid var(--watt-color-neutral-grey-200);
         margin: 0;
@@ -89,15 +94,13 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
       >
         <h3>{{ t('headline') }}</h3>
 
-        @for (item of notifications(); track item) {
-          <dh-notification [notification]="item" />
-        }
-
-        <p class="no-notifications">{{ t('noNotifications') }}</p>
-
-        <watt-button variant="primary" (click)="showNotificationBanner()">
-          Show notification
-        </watt-button>
+        <div class="notifications-panel__items">
+          @for (item of notifications(); track item) {
+            <dh-notification [notification]="item" />
+          } @empty {
+            <p class="no-notifications">{{ t('noNotifications') }}</p>
+          }
+        </div>
       </div>
     </ng-template>
   `,
