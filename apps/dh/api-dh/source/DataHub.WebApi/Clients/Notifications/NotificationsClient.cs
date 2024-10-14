@@ -41,7 +41,7 @@ public sealed class NotificationClient : INotificationsClient
         return responseContent.Select(notificationDto =>
             new Notification(
                 notificationDto.NotificationType,
-                notificationDto.RelatedTo ?? string.Empty,
+                notificationDto.RelatedToId ?? string.Empty,
                 notificationDto.OccurredAt,
                 notificationDto.ExpiresAt));
     }

@@ -16,10 +16,7 @@ namespace Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
 public record NotificationDto(
     int Id,
-    DateTimeOffset ReceivedAt,
+    string NotificationType,
     DateTimeOffset OccurredAt,
     DateTimeOffset ExpiresAt,
-    string NotificationType,
-    string? Permissions,
-    Guid? UserId,
-    string? RelatedTo);
+    string? RelatedToId);
