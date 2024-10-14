@@ -96,6 +96,7 @@ export const overviewUsers: User[] = [
     name: 'Test Test',
     actors,
     administratedBy: actors[0],
+    latestLoginAt: null,
   },
   {
     __typename: 'User',
@@ -109,6 +110,7 @@ export const overviewUsers: User[] = [
     name: 'Test1 Test1',
     actors,
     administratedBy: actors[0],
+    latestLoginAt: null,
   },
   {
     __typename: 'User',
@@ -122,6 +124,7 @@ export const overviewUsers: User[] = [
     name: 'Test2 Test2',
     actors,
     administratedBy: actors[0],
+    latestLoginAt: null,
   },
   {
     __typename: 'User',
@@ -149,5 +152,6 @@ export const overviewUsers: User[] = [
     name: 'Test4 Test4',
     actors,
     administratedBy: actors[0],
+    latestLoginAt: null,
   },
 ];
