@@ -30,14 +30,15 @@ import {
   Subject,
   asyncScheduler,
   catchError,
+  combineLatestWith,
   defer,
   delayWhen,
+  distinctUntilChanged,
   filter,
   firstValueFrom,
   map,
   mergeWith,
   of,
-  share,
   shareReplay,
   skipWhile,
   startWith,
@@ -45,7 +46,6 @@ import {
   switchMap,
   take,
   takeUntil,
-  withLatestFrom,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -130,10 +130,10 @@ export function query<TResult, TVariables extends OperationVariables>(
   // It is possible for subscriptions to return before the initial query has completed, resulting
   // in a runtime error for the `updateQuery` method in `subscribeToMore`. To prevent this, the
   // `refReplay$` observable is created to ensure the cache has data before attempting to merge.
-  const refReplay$ = ref$.pipe(
+  const refWhenData$ = ref$.pipe(
     switchMap((ref) =>
       ref.valueChanges.pipe(
-        skipWhile((data) => !data), // Wait until data is available
+        skipWhile(({ data }) => !data), // Wait until data is available
         map(() => ref), // Then emit the ref
         take(1), // And complete the observable
         startWith(null), // Clear the ref immediately in case of refetch (to prevent stale ref)
