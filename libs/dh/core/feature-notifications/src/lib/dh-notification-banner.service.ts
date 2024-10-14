@@ -19,6 +19,7 @@ import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 
+import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
 
 @Injectable()
@@ -26,8 +27,12 @@ export class DhNotificationBannerService {
   private readonly hotToast = inject(HotToastService);
   private readonly colorService = inject(WattColorHelperService);
 
-  showBanner(): void {
+  showBanner(notification: DhNotification): void {
     this.hotToast.show(DhNotificationBannerComponent, {
+      data: {
+        headline: notification.headline,
+        message: notification.message,
+      },
       position: 'top-right',
       dismissible: true,
       autoClose: false,
