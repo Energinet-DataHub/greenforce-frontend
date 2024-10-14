@@ -200,7 +200,7 @@ export class DhUsersOverviewComponent {
         `"${x.userName}"`,
         `"${x.userEmail}"`,
         `"${x.marketParticipantName}"`,
-        `"${x.latestLoginAt && wattFormatDate(x.latestLoginAt, 'short') || ''}"`,
+        `"${(x.latestLoginAt && wattFormatDate(x.latestLoginAt, 'short')) || ''}"`,
         `"${x.organizationName}"`,
       ]);
 
