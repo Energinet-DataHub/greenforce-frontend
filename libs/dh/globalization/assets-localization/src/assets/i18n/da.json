@@ -1412,6 +1412,7 @@
         "userName": "Brugernavn",
         "email": "E-mail",
         "marketParticipantName": "Aktørnavn",
+        "latestLogin": "Seneste login",
         "organisationName": "Organisationsnavn",
         "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
       },
@@ -1555,6 +1556,7 @@
             "name": "Navn",
             "email": "E-mail",
             "phone": "Telefonnr.",
+            "latestLogin": "Seneste login",
             "status": "Status"
           }
         },

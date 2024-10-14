@@ -4494,6 +4494,11 @@
           "createdDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "latestLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -5328,6 +5333,11 @@
           "administratedBy": {
             "type": "string",
             "format": "uuid"
+          },
+          "latestLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },

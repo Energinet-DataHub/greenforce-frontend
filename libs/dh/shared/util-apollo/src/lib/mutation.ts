@@ -21,6 +21,7 @@ import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, filter, firstValueFrom, map, of, take, tap } from 'rxjs';
 import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { mapGraphQLErrorsToApolloError } from './util/error';
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
 export interface MutationOptions<TResult, TVariables>
@@ -68,7 +69,7 @@ export function mutation<TResult, TVariables>(
           // The MutationResult type is different from QueryResult in several ways
           map(({ errors, ...result }) => ({
             ...result,
-            error: errors?.length ? new ApolloError({ graphQLErrors: errors }) : undefined,
+            error: mapGraphQLErrorsToApolloError(errors),
           })),
           catchError((error: ApolloError) => of({ error, data: undefined, loading: false })),
           tap((result) => {

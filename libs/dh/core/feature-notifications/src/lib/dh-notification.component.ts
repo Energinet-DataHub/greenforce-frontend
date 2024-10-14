@@ -64,7 +64,7 @@ import { DhNotification } from './dh-notification';
   `,
   template: `<div class="notification" [ngClass]="{ 'notification--unread': !notification().read }">
     <span class="notification__datetime watt-text-s">
-      {{ notification().datetime | wattDate: 'long' }}
+      {{ notification().occurredAt | wattDate: 'long' }}
     </span>
     <h5 class="notification__headline watt-space-stack-xxs">{{ notification().headline }}</h5>
     <p class="notification__message">{{ notification().message }}</p>
