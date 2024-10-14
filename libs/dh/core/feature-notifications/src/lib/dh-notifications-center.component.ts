@@ -150,7 +150,7 @@ export class DhNotificationsCenterComponent {
       };
 
       if (dayjs(occurredAt).isAfter(this.now)) {
-        this.bannerService.showBanner();
+        this.bannerService.showBanner(notification);
       }
 
       this.notifications.update((notifications) => [notification, ...notifications]);
@@ -172,8 +172,4 @@ export class DhNotificationsCenterComponent {
       overlayY: 'top',
     },
   ];
-
-  showNotificationBanner(): void {
-    this.bannerService.showBanner();
-  }
 }
