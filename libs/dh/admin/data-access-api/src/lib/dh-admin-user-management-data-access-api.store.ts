@@ -38,6 +38,7 @@ export type UserToDownload = {
   userEmail: string;
   marketParticipantName: string;
   organizationName: string;
+  latestLoginAt: Date | null;
 };
 
 export type UsersToDownload = UserToDownload[];
@@ -260,6 +261,7 @@ export class DhAdminUserManagementDataAccessApiStore
       userEmail: user.email,
       marketParticipantName: user.administratedBy?.name ?? '',
       organizationName: user.administratedBy?.organization.name ?? '',
+      latestLoginAt: user.latestLoginAt ?? null,
     }));
   }
 }

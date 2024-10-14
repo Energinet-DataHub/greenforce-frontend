@@ -26,5 +26,6 @@ query GetUserById($id: UUID!) {
         assigned
       }
     }
+    latestLoginAt
   }
 }

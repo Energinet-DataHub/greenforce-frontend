@@ -135,6 +135,7 @@ export const overviewUsers: User[] = [
     name: 'Test3 Test3',
     actors,
     administratedBy: actors[0],
+    latestLoginAt: new Date(),
   },
   {
     __typename: 'User',
