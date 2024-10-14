@@ -87,7 +87,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     firstName: { accessor: 'firstName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
-    latestLogin: { accessor: 'latestLoginAt' },
+    latestLoginAt: { accessor: 'latestLoginAt' },
     status: { accessor: 'status' },
   };
 
