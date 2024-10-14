@@ -54,7 +54,7 @@ public partial class Subscription
     public CalculationDto CalculationUpdated([EventMessage] CalculationDto calculation) =>
         calculation;
 
-    public bool IsInProgress(CalculationOrchestrationState state) =>
+    private bool IsInProgress(CalculationOrchestrationState state) =>
         state switch
         {
             CalculationOrchestrationState.Scheduled => true,
