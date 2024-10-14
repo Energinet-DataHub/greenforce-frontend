@@ -170,7 +170,6 @@ export class EoTermsComponent implements OnInit {
   }
 
   private updateTermsSource(lang: string) {
-    // Assuming your PDF files are named like 'terms-en.pdf', 'terms-es.pdf', etc.
     this.terms.set(`assets/pdfs/terms-${lang}.pdf`);
   }
 }
