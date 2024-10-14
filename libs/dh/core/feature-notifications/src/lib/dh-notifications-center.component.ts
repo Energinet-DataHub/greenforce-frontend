@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
+import { WattIcon } from '@energinet-datahub/watt/icon';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
@@ -65,7 +66,7 @@ import { DhNotificationComponent } from './dh-notification.component';
   template: `
     <watt-button
       variant="icon"
-      icon="notifications"
+      [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
       (click)="isOpen = !isOpen"
@@ -86,7 +87,7 @@ import { DhNotificationComponent } from './dh-notification.component';
       >
         <h3>{{ t('headline') }}</h3>
 
-        @for (item of notifications; track item) {
+        @for (item of notifications(); track item) {
           <dh-notification [notification]="item" />
         }
 
@@ -105,7 +106,7 @@ export class DhNotificationsCenterComponent {
 
   isOpen = false;
 
-  notifications: DhNotification[] = [
+  notifications = signal<DhNotification[]>([
     {
       datetime: new Date('2024-10-04'),
       headline: 'Afregningsrapporter',
@@ -124,7 +125,11 @@ export class DhNotificationsCenterComponent {
       message: 'Sort Strøm A/S har ændret navn til Grøn Strøm A/S',
       read: false,
     },
-  ];
+  ]);
+
+  notificationIcon = computed<WattIcon>(() =>
+    this.notifications().every((n) => n.read) ? 'notifications' : 'notificationsUnread'
+  );
 
   positionPairs: ConnectionPositionPair[] = [
     {

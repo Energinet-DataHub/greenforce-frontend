@@ -23,7 +23,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -33,6 +32,9 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
+import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import {
   DhActorUserRole,
@@ -45,8 +47,6 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   selector: 'dh-user-roles',
@@ -61,6 +61,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
     MatExpansionModule,
     FormsModule,
 
+    WattCopyToClipboardDirective,
     WattSpinnerComponent,
     WATT_TABLE,
     WattIconComponent,
