@@ -12,22 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Reactive.Linq;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
-using HotChocolate.Subscriptions;
-using NodaTime;
-
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
-public sealed class NotificationDto
-{
-    public string ReasonIdentifier { get; set; } = null!;
-
-    public string RelatedId { get; set; } = null!;
-
-    public DateTimeOffset OccurredAt { get; set; }
-
-    public DateTimeOffset ExpiresAt { get; set; }
-}
+public record Notification(
+    string ReasonIdentifier,
+    string RelatedId,
+    DateTimeOffset OccurredAt,
+    DateTimeOffset ExpiresAt);
