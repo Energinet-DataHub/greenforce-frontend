@@ -115,8 +115,14 @@ export function query<TResult, TVariables extends OperationVariables>(
   const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
     filter((opts) => !opts?.skip),
-    map((opts) => client.watchQuery({ ...opts, query: document })),
-    share()
+    map((opts) =>
+      client.watchQuery({
+        notifyOnNetworkStatusChange: true,
+        ...opts,
+        query: document,
+        useInitialLoading: true,
+      })
+    ),
     // Make sure the ref is available to late subscribers (in `subscribeToMore`)
     shareReplay(1)
   );
