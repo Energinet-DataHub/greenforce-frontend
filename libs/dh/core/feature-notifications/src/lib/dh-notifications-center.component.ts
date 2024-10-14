@@ -115,10 +115,15 @@ export class DhNotificationsCenterComponent {
   notifications = signal<DhNotification[]>([]);
   notificationAdded = subscription(OnNotificationAddedDocument, {
     onData: (data) => {
-      const { occurredAt: datetime, reasonIdentifier: headline } = data.notificationAdded;
-      const notification: DhNotification = { datetime, headline, message: '', read: false };
+      const { occurredAt, reasonIdentifier: headline } = data.notificationAdded;
+      const notification: DhNotification = {
+        occurredAt,
+        headline,
+        message: '',
+        read: false,
+      };
 
-      if (dayjs(datetime).isAfter(this.now)) {
+      if (dayjs(occurredAt).isAfter(this.now)) {
         this.bannerService.showBanner();
       }
 
