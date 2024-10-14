@@ -39,6 +39,7 @@ import {
   map,
   mergeWith,
   of,
+  share,
   shareReplay,
   skipWhile,
   startWith,
@@ -122,9 +123,7 @@ export function query<TResult, TVariables extends OperationVariables>(
         query: document,
         useInitialLoading: true,
       })
-    ),
-    // Make sure the ref is available to late subscribers (in `subscribeToMore`)
-    shareReplay(1)
+    )
   );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
@@ -140,11 +139,13 @@ export function query<TResult, TVariables extends OperationVariables>(
         takeUntil(reset$) // Stop subscription if the query is reset
       )
     ),
+    shareReplay(1), // Make sure the ref is available to late subscribers (in `subscribeToMore`)
     exists(), // Only emit the replayed ref if it is not null
     takeUntilDestroyed(destroyRef) // Shared observables need to be completed manually
   );
 
   const result$ = ref$.pipe(
+    share(),
     // The inner observable will be recreated each time the `options$` emits
     switchMap((ref) =>
       ref.valueChanges.pipe(
