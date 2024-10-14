@@ -16,6 +16,7 @@
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Component, computed, inject, signal } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { subscription } from '@energinet-datahub/dh/shared/util-apollo';
@@ -32,7 +33,14 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
+  imports: [
+    NgClass,
+    OverlayModule,
+    TranslocoDirective,
+
+    WattButtonComponent,
+    DhNotificationComponent,
+  ],
   providers: [DhNotificationBannerService],
   styles: [
     `
@@ -69,11 +77,29 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
       watt-button {
         margin: var(--watt-space-m) var(--watt-space-ml);
       }
+
+      .notification-dot {
+        position: relative;
+
+        &:before {
+          background-color: var(--watt-color-state-danger);
+          border-radius: 50%;
+          content: '';
+          height: 5px;
+          left: 25px;
+          position: absolute;
+          top: 16.2px;
+          transform: translateY(-50%);
+          width: 5px;
+          z-index: 4;
+        }
+      }
     `,
   ],
   template: `
     <watt-button
       variant="icon"
+      [ngClass]="{ 'notification-dot': notificationDot() }"
       [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -134,6 +160,8 @@ export class DhNotificationsCenterComponent {
   notificationIcon = computed<WattIcon>(() =>
     this.notifications().every((n) => n.read) ? 'notifications' : 'notificationsUnread'
   );
+
+  notificationDot = computed<boolean>(() => this.notificationIcon() === 'notificationsUnread');
 
   positionPairs: ConnectionPositionPair[] = [
     {
