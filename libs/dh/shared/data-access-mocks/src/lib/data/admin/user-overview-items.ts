@@ -130,7 +130,7 @@ export const overviewUsers: User[] = [
     firstName: 'Test3',
     lastName: 'Test3',
     status: UserStatus.Invited,
-    phoneNumber: '+45 34345679',
+    phoneNumber: '+45 34345678',
     createdDate: new Date(),
     name: 'Test3 Test3',
     actors,
