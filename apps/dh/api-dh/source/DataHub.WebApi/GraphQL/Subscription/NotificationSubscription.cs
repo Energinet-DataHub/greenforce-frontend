@@ -23,11 +23,11 @@ public partial class Subscription
         [Service] INotificationsClient notificationsClient,
         CancellationToken cancellationToken)
     {
-       return Observable
-            .Interval(TimeSpan.FromSeconds(60))
-            .SelectMany(_ => Observable
-                .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
-                .SelectMany(notification => notification));
+        return Observable
+             .Interval(TimeSpan.FromSeconds(60))
+             .SelectMany(_ => Observable
+                 .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
+                 .SelectMany(notification => notification));
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]

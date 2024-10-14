@@ -17,10 +17,15 @@ using Energinet.DataHub.WebApi.GraphQL.Subscription;
 namespace Energinet.DataHub.WebApi.Clients.Notifications;
 
 /// <summary>
-/// Interface for to a client for working with the notification system.
+/// Interface to a client for working with the notification system.
 /// </summary>
 public interface INotificationsClient
 {
+    /// <summary>
+    /// Get all notifications for the current user.
+    /// </summary>
+    public Task<IEnumerable<Notification>> GetNotificationsAsync(CancellationToken cancellationToken);
+
     /// <summary>
     /// Get all unread notifications for the current user.
     /// </summary>

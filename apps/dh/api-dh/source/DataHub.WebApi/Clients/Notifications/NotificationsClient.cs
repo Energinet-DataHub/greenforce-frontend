@@ -29,12 +29,12 @@ public sealed class NotificationClient : INotificationsClient
         _httpClient = httpClient;
     }
 
-    public async Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Notification>> GetNotificationsAsync(CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Post, "notifications/unread");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "notifications");
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
-        var responseContent = await response.Content.ReadFromJsonAsync<IEnumerable<NotificationDto>>() ?? [];
+        var responseContent = await response.Content.ReadFromJsonAsync<IEnumerable<NotificationDto>>(cancellationToken) ?? [];
 
         response.EnsureSuccessStatusCode();
 
@@ -46,8 +46,28 @@ public sealed class NotificationClient : INotificationsClient
                 notificationDto.ExpiresAt));
     }
 
-    public Task DismissNotificationAsync(int notificationId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        using var request = new HttpRequestMessage(HttpMethod.Get, "notifications/unread");
+
+        using var response = await _httpClient.SendAsync(request, cancellationToken);
+        var responseContent = await response.Content.ReadFromJsonAsync<IEnumerable<NotificationDto>>(cancellationToken) ?? [];
+
+        response.EnsureSuccessStatusCode();
+
+        return responseContent.Select(notificationDto =>
+            new Notification(
+                notificationDto.NotificationType,
+                notificationDto.RelatedToId ?? string.Empty,
+                notificationDto.OccurredAt,
+                notificationDto.ExpiresAt));
+    }
+
+    public async Task DismissNotificationAsync(int notificationId, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"notifications/{notificationId}/dismiss");
+
+        using var response = await _httpClient.SendAsync(request, cancellationToken);
+        response.EnsureSuccessStatusCode();
     }
 }
