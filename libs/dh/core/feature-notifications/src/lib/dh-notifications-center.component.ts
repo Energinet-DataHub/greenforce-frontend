@@ -17,23 +17,22 @@
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Component, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { HotToastService } from '@ngxpert/hot-toast';
 
 import { subscription } from '@energinet-datahub/dh/shared/util-apollo';
 import { OnNotificationAddedDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 import { WattIcon } from '@energinet-datahub/watt/icon';
 
 import { DhNotification } from './dh-notification';
-import { DhNotificationBannerComponent } from './dh-notification-banner.component';
 import { DhNotificationComponent } from './dh-notification.component';
+import { DhNotificationBannerService } from './dh-notification-banner.service';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
   imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
+  providers: [DhNotificationBannerService],
   styles: [
     `
       :host {
@@ -104,8 +103,7 @@ import { DhNotificationComponent } from './dh-notification.component';
   `,
 })
 export class DhNotificationsCenterComponent {
-  private readonly hotToast = inject(HotToastService);
-  private readonly colorService = inject(WattColorHelperService);
+  private readonly bannerService = inject(DhNotificationBannerService);
 
   isOpen = false;
 
@@ -133,19 +131,6 @@ export class DhNotificationsCenterComponent {
   ];
 
   showNotificationBanner(): void {
-    this.hotToast.show(DhNotificationBannerComponent, {
-      position: 'top-right',
-      dismissible: true,
-      autoClose: false,
-      style: {
-        border: `1px solid ${this.colorService.getColor(WattColor.grey400)}`,
-        'backdrop-filter': 'blur(30px)',
-      },
-      closeStyle: {
-        position: 'absolute',
-        left: '-10px',
-        top: '-10px',
-      },
-    });
+    this.bannerService.showBanner();
   }
 }
