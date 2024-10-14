@@ -59,7 +59,6 @@ export const dhFeatureFlagsConfig = {
   notifications: {
     created: '01-10-2024',
     disabledEnvironments: [
-      DhAppEnvironment.dev_002,
       DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
