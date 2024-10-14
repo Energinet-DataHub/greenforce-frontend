@@ -38,6 +38,7 @@ import { WattPaginatorComponent } from '../paginator';
 import { WattEmptyStateComponent } from '../empty-state';
 
 import { WattDataIntlService } from './watt-data-intl.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'watt-data-table',
@@ -114,7 +115,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           }
         </vater-flex>
         @if (enablePaginator()) {
-          <watt-paginator [for]="table().dataSource" />
+          <watt-paginator [for]="table().dataSource" [length]="count() ?? 0" (changed)="pageChanged.emit($event)"/>
         }
       </vater-flex>
     </watt-card>
@@ -132,6 +133,7 @@ export class WattDataTableComponent {
   variant = input<WATT_CARD_VARIANT>('elevation');
 
   clear = output();
+  pageChanged = output<PageEvent>();
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
 

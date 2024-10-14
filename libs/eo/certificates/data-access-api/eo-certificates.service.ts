@@ -37,6 +37,16 @@ interface EoContractResponse {
   result: EoCertificateContract[];
 }
 
+interface EoGetCertificatesConfig {
+  pageIndex: number;
+  pageSize: number;
+  sortBy: 'end' | 'quantity' | 'type';
+  sort: SortDirection;
+  type?: 'production' | 'consumption';
+  start?: number;
+  end?: number;
+}
+
 export type sortCertificatesBy = 'end' | 'quantity' | 'type';
 
 @Injectable({
@@ -60,11 +70,18 @@ export class EoCertificatesService {
     });
   }
 
-  getCertificates(pageNumber = 1, pageSize = 10, sortBy: sortCertificatesBy, sort: SortDirection) {
+  getCertificates(config: EoGetCertificatesConfig) {
     const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
+    const { pageIndex, pageSize, sortBy, sort, type } = config;
+
+    let filters = '';
+    if(type) {
+      filters = `&type=${type}`;
+    }
+
     return this.http
       .get<EoCertificateResponse>(
-        `${walletApiBase}/certificates?sortBy=${sortBy}&sort=${sort}&limit=${pageSize}&skip=${(pageNumber - 1) * pageSize}`
+        `${walletApiBase}/certificates?sortBy=${sortBy}&sort=${sort}&limit=${pageSize}&skip=${pageIndex * pageSize}${filters}`
       )
       .pipe(
         map((response) => {

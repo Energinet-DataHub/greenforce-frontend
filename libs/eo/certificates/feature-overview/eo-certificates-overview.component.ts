@@ -24,21 +24,26 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { Sort, SortDirection } from '@angular/material/sort';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  IWattTableDataSource,
+} from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent } from '@energinet-datahub/watt/vater';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate, EoCertificateType } from '@energinet-datahub/eo/certificates/domain';
@@ -47,144 +52,152 @@ import {
   sortCertificatesBy,
 } from '@energinet-datahub/eo/certificates/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { MatPaginator } from '@angular/material/paginator';
+
+interface CertificateFiltersForm {
+  period: FormControl<{ start: number | null; end: number | null }>;
+  type: FormControl<('production' | 'consumption')[] | undefined>;
+}
+
+class AsyncDataSource<T> implements IWattTableDataSource<T> {
+  private _data = signal<T[]>([]);
+  private _filteredData = signal<T[]>([]);
+
+  totalCount = 0;
+  paginator: MatPaginator | null = null;
+  sort = null;
+  filter = '';
+
+  set data(data: T[]) {
+    this._data.set(data);
+  }
+
+  get data(): T[] {
+    return this._data();
+  }
+
+  get filteredData(): T[] {
+    return this._data(); // TODO: FIX THIS
+  }
+
+  constructor(data: T[]) {
+    this._data.set(data);
+  }
+
+  connect(): Observable<T[]> {
+    return toObservable(this._data);
+  }
+
+  disconnect(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  sortData(data: T[]): T[] {
+    console.log('sortData', data);
+    return data;
+  }
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    WATT_TABLE,
-    WattPaginatorComponent,
-    WattEmptyStateComponent,
-    RouterModule,
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+    WattDropdownComponent,
     VaterStackComponent,
+    WattDateRangeChipComponent,
+    WattTableComponent,
+    ReactiveFormsModule,
+    WattFormChipDirective,
     VaterSpacerComponent,
-    WATT_CARD,
     TranslocoPipe,
     WattButtonComponent,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
   standalone: true,
-  styles: [
-    `
-      @use '@energinet-datahub/watt/utils' as watt;
-
-      :host {
-        .badge {
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          background-color: var(--watt-color-neutral-grey-300);
-          color: var(--watt-on-light-high-emphasis);
-          border-radius: 24px;
-          padding: 2px 8px;
-
-          small {
-            @include watt.typography-font-weight('semi-bold');
-          }
-        }
-
-        watt-empty-state {
-          padding: var(--watt-space-l);
-        }
-
-        watt-paginator {
-          display: block;
-          margin: 0 -24px -24px -24px;
-        }
-      }
-    `,
-  ],
   template: `
-    <watt-card>
-      <watt-card-title>
-        <vater-stack direction="row" gap="s">
-          <h3 class="watt-on-light--high-emphasis">
-            {{ translations.certificates.tableHeader | transloco }}
-          </h3>
-          <div class="badge">
-            <small>{{ totalCount() }}</small>
-          </div>
-          <vater-spacer />
-          <watt-button
-            icon="download"
-            [loading]="exportingCertificates()"
-            (click)="exportCertificates()"
-            >{{ translations.certificates.exportCertificates | transloco }}</watt-button
-          >
-        </vater-stack>
-      </watt-card-title>
+    @if (columns) {
+      <watt-data-table
+        vater
+        inset="m"
+        [error]="state().hasError"
+        [count]="dataSource.paginator?.length"
+        (pageChanged)="pageChanged()"
+        [enableSearch]="false"
+      >
+        <h3>{{ translations.certificates.title | transloco }}</h3>
 
-      @if (columns) {
-        <watt-table
-          #table
-          [loading]="loading()"
-          [columns]="columns"
-          [dataSource]="dataSource"
-          [sortBy]="defaultSortBy"
-          [sortDirection]="defaultSortDirection"
-          (sortChange)="sortData($event)"
-        >
-          <ng-container *wattTableCell="columns.action; let element">
-            @if (element.federatedStreamId.registry && element.federatedStreamId.streamId) {
-              <a
-                class="link"
-                routerLink="/${eoCertificatesRoutePath}/{{ element.federatedStreamId.registry }}/{{
-                  element.federatedStreamId.streamId
-                }}"
+        <watt-data-filters>
+          <form [formGroup]="form">
+            <vater-stack fill="vertical" gap="s" direction="row">
+              <watt-date-range-chip [formControl]="form.controls.period" [placeholder]="false" />
+
+              <watt-dropdown
+                [options]="typeOptions"
+                [chipMode]="true"
+                formControlName="type"
+                [multiple]="true"
+                [placeholder]="translations.certificates.typeDropdown | transloco"
+              />
+
+              <vater-spacer />
+
+              <watt-button
+                icon="download"
+                [loading]="exportingCertificates()"
+                (click)="exportCertificates()"
+                >{{ translations.certificates.exportCertificates | transloco }}</watt-button
               >
-                {{ translations.certificates.certificateDetailsLink | transloco }}
-              </a>
-            }
-          </ng-container>
-        </watt-table>
-      }
+            </vater-stack>
+          </form>
+        </watt-data-filters>
 
-      @if (!loading() && dataSource.filteredData.length === 0 && !hasError()) {
-        <watt-empty-state
-          icon="custom-power"
-          [title]="translations.certificates.noData.title | transloco"
-          [message]="translations.certificates.noData.message | transloco"
+        <watt-table
+          [dataSource]="dataSource"
+          [columns]="columns"
+          sortBy="timestamp"
+          sortDirection="desc"
+          [loading]="state().isLoading"
         />
-      }
-
-      @if (!loading() && hasError()) {
-        <watt-empty-state
-          icon="custom-power"
-          [title]="translations.certificates.error.title | transloco"
-          [message]="translations.certificates.error.message | transloco"
-        />
-      }
-
-      <watt-paginator
-        [length]="totalCount()"
-        [pageSize]="pageSize"
-        [pageIndex]="pageIndex()"
-        [for]="dataSource"
-        (changed)="pageChanged($event)"
-      />
-    </watt-card>
+      </watt-data-table>
+    }
   `,
 })
 export class EoCertificatesOverviewComponent implements OnInit {
   private toastService: WattToastService = inject(WattToastService);
-  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
-  private datePipe: WattDatePipe = inject(WattDatePipe);
-  private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
 
+  private datePipe: WattDatePipe = inject(WattDatePipe);
+  private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
+
+  private certificatesService: EoCertificatesService = inject(EoCertificatesService);
+
   @ViewChild(WattPaginatorComponent) paginator!: WattPaginatorComponent<EoCertificate>;
+
+  protected state = signal<{ hasError: boolean; isLoading: boolean }>({
+    hasError: false,
+    isLoading: false,
+  });
+
+  protected form: FormGroup<CertificateFiltersForm> = new FormGroup({
+    period: new FormControl(this.last30days(), { nonNullable: true }),
+    type: new FormControl<('production' | 'consumption')[] | undefined>(undefined, {
+      nonNullable: true,
+    }),
+  });
+
+  protected typeOptions!: WattDropdownOption[];
 
   protected translations = translations;
   protected columns!: WattTableColumnDef<EoCertificate>;
 
-  protected set search(value: string) {
-    this.dataSource.filter = value;
-  }
-  protected dataSource: WattTableDataSource<EoCertificate> = new WattTableDataSource(undefined);
-  protected totalCount = signal<number>(0);
-  protected pageIndex = signal<number>(0);
-  protected pageSize = 50;
+  protected dataSource: AsyncDataSource<EoCertificate> = new AsyncDataSource<EoCertificate>([]);
   protected exportingCertificates = signal<boolean>(false);
 
   protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
@@ -192,17 +205,57 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected sortBy = this.defaultSortBy;
   protected sortDirection: SortDirection = this.defaultSortDirection;
 
-  protected loading = signal<boolean>(false);
-  protected hasError = signal<boolean>(false);
-
   ngOnInit() {
-    this.setColumns();
-    this.loadData(
-      this.pageIndex() + 1,
-      this.pageSize,
-      this.getSortBy(this.defaultSortBy),
-      this.sortDirection
-    );
+    this.initForm();
+
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setColumns();
+        this.dataSource.sortData = (data) => {
+          console.log('sortData', data);
+          return data;
+        }
+
+        this.typeOptions = [
+          {
+            value: 'production',
+            displayValue: this.transloco.translate(this.translations.certificates.production),
+          },
+          {
+            value: 'consumption',
+            displayValue: this.transloco.translate(this.translations.certificates.consumption),
+          },
+        ];
+
+        this.form.controls.type.setValue(['production', 'consumption']);
+
+        this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+          }
+          this.loadData();
+        });
+
+        this.loadData();
+      });
+  }
+
+  private initForm() {
+    this.form = new FormGroup({
+      period: new FormControl(this.last30days(), { nonNullable: true }),
+      type: new FormControl<('production' | 'consumption')[] | undefined>(undefined, {
+        nonNullable: true,
+      }),
+    });
+  }
+
+  private last30days(): { start: number | null; end: number | null } {
+    return {
+      start: getUnixTime(subDays(startOfToday(), 30)) * 1000, // 30 days ago at 00:00
+      end: getUnixTime(endOfToday()) * 1000, // Today at 23:59:59
+    };
   }
 
   exportCertificates() {
@@ -226,83 +279,76 @@ export class EoCertificatesOverviewComponent implements OnInit {
     });
   }
 
-  pageChanged(event: {
-    previousPageIndex?: number;
-    pageIndex: number;
-    pageSize: number;
-    length: number;
-  }) {
-    this.pageIndex.set(event.pageIndex);
-    this.loadData(
-      event.pageIndex + 1,
-      event.pageSize,
-      this.getSortBy(this.sortBy),
-      this.sortDirection
-    );
+  pageChanged() {
+    this.loadData();
   }
 
   private setColumns(): void {
-    this.transloco
-      .selectTranslation()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.columns = {
-          time: {
-            accessor: (x) => x.time,
-            header: this.transloco.translate(this.translations.certificates.timeTableHeader),
-          },
-          meteringPoint: {
-            accessor: (x) =>
-              x.attributes.assetId ?? x.attributes.energyTag_ProductionDeviceUniqueIdentification,
-            header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
-            sort: false,
-          },
-          amount: {
-            accessor: (x) => x.amount,
-            header: this.transloco.translate(this.translations.certificates.amountTableHeader),
-          },
-          certificateType: {
-            accessor: (x) => {
-              if (x.certificateType.toLowerCase() === EoCertificateType.Production) {
-                return this.transloco.translate(this.translations.certificates.productionType);
-              } else if (x.certificateType.toLowerCase() === EoCertificateType.Consumption) {
-                return this.transloco.translate(this.translations.certificates.consumptionType);
-              } else {
-                return x.certificateType;
-              }
-            },
-            header: this.transloco.translate(this.translations.certificates.typeTableHeader),
-          },
-          action: {
-            accessor: (x) =>
-              x.attributes.assetId ?? x.attributes.energyTag_ProductionDeviceUniqueIdentification,
-            header: '',
-          },
-        };
+    this.columns = {
+      time: {
+        accessor: (x) => x.time,
+        header: this.transloco.translate(this.translations.certificates.timeTableHeader),
+      },
+      meteringPoint: {
+        accessor: (x) =>
+          x.attributes.assetId ?? x.attributes.energyTag_ProductionDeviceUniqueIdentification,
+        header: this.transloco.translate(this.translations.certificates.gsrnTableHeader),
+        sort: false,
+      },
+      amount: {
+        accessor: (x) => x.amount,
+        header: this.transloco.translate(this.translations.certificates.amountTableHeader),
+      },
+      certificateType: {
+        accessor: (x) => {
+          if (x.certificateType.toLowerCase() === EoCertificateType.Production) {
+            return this.transloco.translate(this.translations.certificates.productionType);
+          } else if (x.certificateType.toLowerCase() === EoCertificateType.Consumption) {
+            return this.transloco.translate(this.translations.certificates.consumptionType);
+          } else {
+            return x.certificateType;
+          }
+        },
+        header: this.transloco.translate(this.translations.certificates.typeTableHeader),
+      },
+      action: {
+        accessor: (x) =>
+          x.attributes.assetId ?? x.attributes.energyTag_ProductionDeviceUniqueIdentification,
+        header: '',
+      },
+    };
 
-        this.dataSource.sortData = (data: EoCertificate[]) => {
-          return data;
-        };
-
-        this.cd.detectChanges();
-      });
+    this.cd.detectChanges();
   }
 
-  private loadData(
-    page: number,
-    pageSize: number,
-    sortBy: sortCertificatesBy,
-    sortDirection: SortDirection
-  ) {
-    this.loading.set(true);
-    this.dataSource.data = [];
-    // This makes sure the paginator is keeping track of the total count
-    setTimeout(() => {
-      this.paginator.instance().length = this.totalCount();
-    });
+  private getCertificateTypeFilter(): 'production' | 'consumption' | undefined {
+    const typeArray = this.form.controls.type.value;
+    let type: 'production' | 'consumption' | undefined;
+    if (Array.isArray(typeArray) && typeArray.length === 1) {
+      type = typeArray[0];
+    } else {
+      type = undefined;
+    }
+    return type;
+  }
+
+  private loadData() {
+    this.state.set({ ...this.state(), isLoading: true });
+    this.dataSource.data = []; // We empty the data to show the loading spinner
+
+    const pageIndex = this.dataSource.paginator?.pageIndex || 0;
+    const pageSize = this.dataSource.paginator?.pageSize || 50;
+    const sortBy = this.getSortBy(this.sortBy);
+    const sort = this.sortDirection;
 
     this.certificatesService
-      .getCertificates(page, pageSize, sortBy, sortDirection)
+      .getCertificates({
+        pageIndex,
+        pageSize,
+        sortBy,
+        sort,
+        type: this.getCertificateTypeFilter(),
+      })
       .pipe(
         map((certificates) => {
           return {
@@ -322,19 +368,14 @@ export class EoCertificatesOverviewComponent implements OnInit {
       )
       .subscribe({
         next: (certificates) => {
-          this.totalCount.set(certificates.metadata.total);
-
-          this.dataSource.data = this.insertOrOverwrite(
-            new Array(this.totalCount()).fill(null),
-            this.pageIndex() * this.pageSize,
-            certificates.result
-          );
-          this.loading.set(false);
-          this.hasError.set(false);
+          this.dataSource.data = certificates.result as EoCertificate[];
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.length = certificates.metadata.total;
+          }
+          this.state.set({ ...this.state(), isLoading: false, hasError: false });
         },
         error: () => {
-          this.hasError.set(true);
-          this.loading.set(false);
+          this.state.set({ ...this.state(), isLoading: false, hasError: true });
           this.dataSource.data = [];
         },
       });
@@ -353,13 +394,9 @@ export class EoCertificatesOverviewComponent implements OnInit {
     }
   }
 
-  private insertOrOverwrite<T>(array: T[], index: number, items: T[]): T[] {
-    // Remove elements starting from the index and insert new items
-    array.splice(index, items.length, ...items);
-    return array;
-  }
-
   sortData(sort: Sort) {
+    console.log('sortData', sort);
+    /*
     if (!sort.active || sort.direction === '') {
       this.sortBy = this.defaultSortBy;
       this.sortDirection = this.defaultSortDirection;
@@ -368,11 +405,6 @@ export class EoCertificatesOverviewComponent implements OnInit {
       this.sortDirection = sort.direction;
     }
 
-    this.loadData(
-      this.pageIndex() + 1,
-      this.pageSize,
-      this.getSortBy(this.sortBy),
-      this.sortDirection
-    );
+    this.loadData();*/
   }
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SelectionModel } from '@angular/cdk/collections';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
@@ -354,6 +354,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('CHANGES', changes)
+
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
 
