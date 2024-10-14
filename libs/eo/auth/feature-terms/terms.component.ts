@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, of } from 'rxjs';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
@@ -35,6 +39,7 @@ import {
   EoHeaderComponent,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,60 +54,11 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
     EoScrollViewComponent,
     WattSpinnerComponent,
     TranslocoPipe,
+    NgxExtendedPdfViewerModule,
   ],
   selector: 'eo-auth-terms',
   styles: [
     `
-      .terms::ng-deep {
-        h2 {
-          margin-bottom: 16px;
-        }
-
-        h3 {
-          margin-top: 16px;
-        }
-
-        p {
-          margin-bottom: 16px;
-        }
-
-        ol {
-          margin: 8px 0;
-          padding-left: 32px;
-
-          strong {
-            color: var(--watt-typography-headline-color);
-          }
-        }
-
-        ul {
-          margin: 8px 0;
-          padding-left: 16px;
-        }
-
-        li {
-          --circle-size: 8px;
-        }
-
-        table {
-          font-size: 14px;
-          margin: 32px 0;
-          border: 1px solid black;
-
-          th {
-            background-color: var(--watt-color-primary-light);
-            color: var(--watt-typography-label-color);
-            text-align: left;
-          }
-
-          td {
-            vertical-align: top;
-            border: 1px solid rgba(0, 0, 0, 0.12); //Magic UX color for now
-            padding: 4px;
-          }
-        }
-      }
-
       eo-header,
       eo-footer {
         flex-grow: 0;
@@ -110,81 +66,92 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
         flex-basis: auto;
       }
 
-      .content-box {
-        flex-grow: 1;
-        flex-shrink: 1;
-        flex-basis: auto;
+      .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--watt-space-l);
+        width: 820px; // Magic number by designer.
       }
 
-      .content-wrapper {
-        width: 820px; // Magic number by designer.
+      ::ng-deep #viewer .page {
+        box-shadow: none !important;
+        border: none;
+        margin: 0;
       }
     `,
   ],
   template: `
     <eo-header />
 
-    <div class="content-box watt-space-inset-l">
-      <div class="eo-layout-centered-content">
-        <div class="content-wrapper">
-          <eo-scroll-view class="watt-space-stack-l">
-            @if (!terms() && !loadingTermsFailed) {
-              <div style="display: flex; justify-content: center;"><watt-spinner /></div>
-            } @else if (loadingTermsFailed) {
-              <watt-empty-state
-                icon="danger"
-                [title]="translations.terms.fetchingTermsError.title | transloco"
-                [message]="translations.terms.fetchingTermsError.message | transloco"
-              />
-            } @else {
-              <div [innerHTML]="terms()" class="terms"></div>
-            }
-          </eo-scroll-view>
+    <div class="eo-layout-centered-content watt-space-inset-l">
+      <div class="content-wrapper watt-space-inset-l">
+        @if (!loadingTermsFailed) {
+          <ngx-extended-pdf-viewer
+            [src]="terms()"
+            [language]="language"
+            [textLayer]="true"
+            [height]="'60vh'"
+            [showToolbar]="false"
+            mobileFriendlyZoom="100%"
+            zoom="page-width"
+            [minZoom]="1"
+            [maxZoom]="1"
+            backgroundColor="var(--watt-color-neutral-grey-100)"
+            (pdfLoadingFailed)="loadingTermsFailed = true"
+          />
 
           @if (isLoggedIn) {
-            <div class="watt-space-stack-m">
-              <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
-                {{ translations.terms.acceptingTerms | transloco }}
-              </watt-checkbox>
+            <div class="actions">
+              <div class="watt-space-stack-m">
+                <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
+                  {{ translations.terms.acceptingTerms | transloco }}
+                </watt-checkbox>
+              </div>
+
+              <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
+                {{ translations.terms.reject | transloco }}
+              </watt-button>
+
+              <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow">
+                {{ translations.terms.accept | transloco }}
+              </watt-button>
             </div>
-
-            <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
-              {{ translations.terms.reject | transloco }}
-            </watt-button>
-
-            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow">
-              {{ translations.terms.accept | transloco }}
-            </watt-button>
           }
-        </div>
+        } @else if (loadingTermsFailed) {
+          <watt-empty-state
+            icon="danger"
+            [title]="translations.terms.fetchingTermsError.title | transloco"
+            [message]="translations.terms.fetchingTermsError.message | transloco"
+          />
+        }
       </div>
     </div>
 
     <eo-footer />
   `,
 })
-export class EoTermsComponent {
-  private http = inject(HttpClient);
-  private sanitizer: DomSanitizer = inject(DomSanitizer);
+export class EoTermsComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private authService = inject(EoAuthService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
 
+  language = this.transloco.getActiveLang();
   translations = translations;
   isLoggedIn = !!this.authService.user();
   loadingTermsFailed = false;
-  terms = toSignal(
-    this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' }).pipe(
-      map((html) => this.sanitizer.bypassSecurityTrustHtml(html)),
-      catchError(() => {
-        this.loadingTermsFailed = true;
-        return of(null);
-      })
-    )
-  );
+  terms = signal<string>('');
   hasAcceptedTerms = false;
   startedAcceptFlow = false;
+
+  ngOnInit() {
+    this.transloco.langChanges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((newLang: string) => {
+        this.updateTermsSource(newLang);
+      });
+  }
 
   onReject() {
     this.authService.logout();
@@ -203,5 +170,10 @@ export class EoTermsComponent {
         this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
       }
     });
+  }
+
+  private updateTermsSource(lang: string) {
+    // Assuming your PDF files are named like 'terms-en.pdf', 'terms-es.pdf', etc.
+    this.terms.set(`assets/pdfs/terms-${lang}.pdf`);
   }
 }
