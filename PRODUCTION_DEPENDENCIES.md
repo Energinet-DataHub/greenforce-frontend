@@ -50,6 +50,7 @@
 | [marked](https://github.com/markedjs/marked) | 12.0.2 | MIT |
 | [mermaid](https://github.com/mermaid-js/mermaid) | 10.9.1 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
+| [ngx-extended-pdf-viewer](https://github.com/stephanrauh/ngx-extended-pdf-viewer) | 22.0.0-alpha.0 | Apache-2.0 |
 | [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 18.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.6 | MIT |
 | [oidc-client-ts](https://github.com/authts/oidc-client-ts) | 3.0.1 | Apache-2.0 |
