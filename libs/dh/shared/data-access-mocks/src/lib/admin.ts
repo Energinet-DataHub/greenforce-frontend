@@ -498,6 +498,7 @@ function getAllUsersQuery() {
               id: '00000000-0000-0000-0000-000000000001',
               name: 'User name',
               email: 'username@mock.com',
+              latestLoginAt: null,
               administratedBy: {
                 id: '00000000-0000-0000-0000-000000000002',
                 __typename: 'Actor',
