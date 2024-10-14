@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 import { Component, computed, output, viewChild } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -27,6 +28,7 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -35,8 +37,6 @@ import {
   GetActorsDocument,
   GetArchivedMessagesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { form } from './form/start';
 
 @Component({
   selector: 'dh-message-archive-search-start',
@@ -111,7 +111,14 @@ import { form } from './form/start';
   `,
 })
 export class DhMessageArchiveSearchStartComponent {
-  form = form;
+  form = new FormGroup({
+    documentTypes: dhMakeFormControl<DocumentType[]>(),
+    businessReasons: dhMakeFormControl<BusinessReason[]>(),
+    senderNumber: dhMakeFormControl<string>(),
+    receiverNumber: dhMakeFormControl<string>(),
+    start: dhMakeFormControl(dayjs().startOf('day').toDate()),
+    end: dhMakeFormControl(dayjs().endOf('day').toDate()),
+  });
 
   start = output<GetArchivedMessagesQueryVariables>();
   clear = output();
@@ -135,6 +142,7 @@ export class DhMessageArchiveSearchStartComponent {
     const values = this.form.getRawValue();
     if (!values || !values.start) return;
     const { start, end, ...variables } = values;
+    this.clear.emit(); // Reset table to show loading indicator
     this.start.emit({ ...variables, created: { start, end } });
   };
 
