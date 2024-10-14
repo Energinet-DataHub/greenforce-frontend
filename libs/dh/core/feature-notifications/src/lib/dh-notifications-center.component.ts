@@ -19,6 +19,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { HotToastService } from '@ngxpert/hot-toast';
 
+import { subscription } from '@energinet-datahub/dh/shared/util-apollo';
+import { OnNotificationAddedDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 import { WattIcon } from '@energinet-datahub/watt/icon';
@@ -106,26 +109,14 @@ export class DhNotificationsCenterComponent {
 
   isOpen = false;
 
-  notifications = signal<DhNotification[]>([
-    {
-      datetime: new Date('2024-10-04'),
-      headline: 'Afregningsrapporter',
-      message: 'Afregningsrapport klar til download',
-      read: false,
+  notifications = signal<DhNotification[]>([]);
+  notificationAdded = subscription(OnNotificationAddedDocument, {
+    onData: (data) => {
+      const { occurredAt: datetime, reasonIdentifier: headline } = data.notificationAdded;
+      const notification: DhNotification = { datetime, headline, message: '', read: false };
+      this.notifications.update((notifications) => [notification, ...notifications]);
     },
-    {
-      datetime: new Date('2024-10-03'),
-      headline: 'B2B-adgang',
-      message: 'Client Secret udløber snart',
-      read: true,
-    },
-    {
-      datetime: new Date('2024-10-02'),
-      headline: 'CVR-opdatering',
-      message: 'Sort Strøm A/S har ændret navn til Grøn Strøm A/S',
-      read: false,
-    },
-  ]);
+  });
 
   notificationIcon = computed<WattIcon>(() =>
     this.notifications().every((n) => n.read) ? 'notifications' : 'notificationsUnread'

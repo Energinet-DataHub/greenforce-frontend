@@ -26,13 +26,11 @@ import { Apollo, WatchQueryOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
   BehaviorSubject,
-  Observable,
   Subject,
   catchError,
   filter,
   firstValueFrom,
   map,
-  of,
   share,
   shareReplay,
   skipWhile,
@@ -44,11 +42,7 @@ import {
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-/** Create an observable of ApolloQueryResult from an ApolloError. */
-function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryResult<T>> {
-  return of({ error, data: undefined as T, loading: false, networkStatus: NetworkStatus.error });
-}
+import { fromApolloError } from './util/error';
 
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
