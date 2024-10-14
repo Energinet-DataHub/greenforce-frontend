@@ -12,22 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Reactive;
 using System.Reactive.Linq;
 using Energinet.DataHub.WebApi.Clients.Notifications;
-using HotChocolate.Subscriptions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public partial class Subscription
 {
     public IObservable<Notification> OnNotificationAddedAsync(
-        [Service] ITopicEventReceiver eventReceiver,
         [Service] INotificationsClient notificationsClient,
         CancellationToken cancellationToken)
     {
        return Observable
-            .Interval(TimeSpan.FromSeconds(15))
+            .Interval(TimeSpan.FromSeconds(60))
             .SelectMany(_ => Observable
                 .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
                 .SelectMany(notification => notification));
