@@ -54,6 +54,7 @@ export function mutation<TResult, TVariables>(
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
+    called: called as Signal<boolean>,
     reset: () => {
       data.set(undefined);
       error.set(undefined);
@@ -75,6 +76,7 @@ export function mutation<TResult, TVariables>(
             data.set(result.data ?? undefined);
             error.set(result.error);
             loading.set(result.loading);
+            called.set(true);
           }),
           // Since this observable returns a promise, it should only emit the final result
           filter((result) => !result.loading),

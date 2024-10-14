@@ -618,8 +618,6 @@ function getCalculations() {
             __typename: 'CalculationsConnection',
             pageInfo: {
               __typename: 'PageInfo',
-              hasNextPage: true,
-              hasPreviousPage: false,
               startCursor: 'startCursor',
               endCursor: 'endCursor',
             },
