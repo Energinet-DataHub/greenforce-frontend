@@ -18,8 +18,7 @@ import { Component, ChangeDetectionStrategy, input, computed } from '@angular/co
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import dayjs from 'dayjs';
-import { RxLet } from '@rx-angular/template/let';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-user-latest-login',
@@ -38,14 +37,14 @@ import { RxLet } from '@rx-angular/template/let';
           <watt-badge type="info">{{ t('yesterday') }}</watt-badge>
         }
         @default {
-          <watt-badge [type]="(daysSince()! > 30 && 'warning') || 'info'">{{
+          <watt-badge [type]="(days > 30 && 'warning') || 'info'">{{
             t('daysAgo', { days })
           }}</watt-badge>
         }
       }
     </ng-container>
   `,
-  imports: [TranslocoDirective, WattBadgeComponent, RxLet],
+  imports: [TranslocoDirective, WattBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhUserLatestLoginComponent {
