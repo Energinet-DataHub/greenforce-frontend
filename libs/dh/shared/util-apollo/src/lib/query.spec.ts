@@ -47,27 +47,30 @@ describe('query', () => {
 
   afterEach(() => controller.verify());
 
-  it('should initialize query', () =>
+  it('should initialize query', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       query(TEST_QUERY);
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       expect(op.operation.operationName).toEqual('TestQuery');
-    }));
+    })));
 
-  it('should respond correctly initially', () =>
+  it('should respond correctly initially', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
+      tick();
       controller.expectOne(TEST_QUERY);
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
       expect(result.loading()).toBe(true);
       expect(result.networkStatus()).toBe(NetworkStatus.loading);
-      expect(result.called()).toBe(false);
-    }));
+      expect(result.called()).toBe(true);
+    })));
 
   it('should respond correctly on success', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Query' } };
       op.flush({ data });
@@ -82,6 +85,7 @@ describe('query', () => {
   it('should respond correctly on error', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
@@ -92,25 +96,29 @@ describe('query', () => {
       expect(result.called()).toBe(true);
     })));
 
-  it('should respond correctly when skipped', () =>
+  it('should respond correctly when skipped', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY, { skip: true });
+      tick();
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
       expect(result.called()).toBe(false);
-    }));
+    })));
 
   it('should start a new query on refetch', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
+      tick();
       const queryOp = controller.expectOne(TEST_QUERY);
+
       result.refetch({ name: 'Mutation' });
       const mutationOp = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Mutation' } };
       mutationOp.flush({ data });
       tick();
+
       expect(queryOp.operation.variables['name']).toEqual('Query');
       expect(mutationOp.operation.variables['name']).toEqual('Mutation');
       expect(result.data()).toEqual(data);
@@ -123,6 +131,7 @@ describe('query', () => {
   it('should start a new query on refetch after it has errored', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
@@ -146,6 +155,7 @@ describe('query', () => {
   it('should resolve with ApolloQueryResult on refetch', fakeAsync(() =>
     TestBed.runInInjectionContext(async () => {
       const result = query(TEST_QUERY);
+      tick();
       const queryOp = controller.expectOne(TEST_QUERY);
       const queryData = { __type: { name: 'Query' } };
       queryOp.flush({ data: queryData });
@@ -167,7 +177,9 @@ describe('query', () => {
   it('should start a new query on setOptions', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY, { skip: true });
+      tick();
       result.setOptions({ fetchPolicy: 'network-only' });
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Query' } };
       op.flush({ data });
@@ -182,6 +194,7 @@ describe('query', () => {
   it('should resolve with ApolloQueryResult on setOptions', fakeAsync(() =>
     TestBed.runInInjectionContext(async () => {
       const result = query(TEST_QUERY);
+      tick();
       const queryOp = controller.expectOne(TEST_QUERY);
       const queryData = { __type: { name: 'Query' } };
       queryOp.flush({ data: queryData });
@@ -203,6 +216,7 @@ describe('query', () => {
   it('should clear result after reset', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = query(TEST_QUERY);
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Query' } };
       op.flush({ data });
@@ -219,6 +233,7 @@ describe('query', () => {
     TestBed.runInInjectionContext(() => {
       const onUpdateQuery = jest.fn((x) => x);
       const result = query(TEST_QUERY);
+      tick();
       controller.expectOne(TEST_QUERY);
 
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
@@ -235,6 +250,7 @@ describe('query', () => {
     TestBed.runInInjectionContext(() => {
       const onUpdateQuery = jest.fn((x) => x);
       const result = query(TEST_QUERY);
+      tick();
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
 
       const initialQueryOp = controller.expectOne(TEST_QUERY);
@@ -259,6 +275,7 @@ describe('query', () => {
     TestBed.runInInjectionContext(() => {
       const onUpdateQuery = jest.fn((x) => x);
       const result = query(TEST_QUERY);
+      tick();
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
 
       const subscriptionOp = controller.expectOne(TEST_SUBSCRIPTION);
@@ -282,6 +299,7 @@ describe('query', () => {
     TestBed.runInInjectionContext(() => {
       const onUpdateQuery = jest.fn((x) => x);
       const result = query(TEST_QUERY, { skip: true });
+      tick();
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
 
       const subscriptionOp = controller.expectOne(TEST_SUBSCRIPTION);
@@ -306,6 +324,7 @@ describe('query', () => {
     TestBed.runInInjectionContext(() => {
       const onUpdateQuery = jest.fn((x) => x);
       const result = query(TEST_QUERY);
+      tick();
       const initialQueryOp = controller.expectOne(TEST_QUERY);
       const queryData = { __type: { name: 'Query' } };
       initialQueryOp.flush({ data: queryData });
