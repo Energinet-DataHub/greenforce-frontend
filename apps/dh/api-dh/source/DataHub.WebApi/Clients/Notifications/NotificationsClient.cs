@@ -31,7 +31,7 @@ public sealed class NotificationClient : INotificationsClient
 
     public async Task<IEnumerable<Notification>> GetNotificationsAsync(CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, "notifications");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "api/notifications");
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
         var responseContent = await response.Content.ReadFromJsonAsync<IEnumerable<NotificationDto>>(cancellationToken) ?? [];
@@ -48,7 +48,7 @@ public sealed class NotificationClient : INotificationsClient
 
     public async Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, "notifications/unread");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "api/notifications/unread");
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
         var responseContent = await response.Content.ReadFromJsonAsync<IEnumerable<NotificationDto>>(cancellationToken) ?? [];
@@ -65,7 +65,7 @@ public sealed class NotificationClient : INotificationsClient
 
     public async Task DismissNotificationAsync(int notificationId, CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"notifications/{notificationId}/dismiss");
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"api/notifications/{notificationId}/dismiss");
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Energinet.DataHub.WebApi.Clients.Notifications;
 
@@ -24,7 +25,7 @@ public partial class Subscription
         CancellationToken cancellationToken)
     {
         return Observable
-             .Interval(TimeSpan.FromSeconds(60))
+             .Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), Scheduler.Default)
              .SelectMany(_ => Observable
                  .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
                  .SelectMany(notification => notification));
