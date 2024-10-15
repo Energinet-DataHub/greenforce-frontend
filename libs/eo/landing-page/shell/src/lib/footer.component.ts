@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { translations } from '@energinet-datahub/eo/translations';
 

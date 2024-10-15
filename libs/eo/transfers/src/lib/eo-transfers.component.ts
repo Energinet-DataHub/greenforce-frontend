@@ -24,6 +24,7 @@ import {
   signal,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { AsyncPipe } from '@angular/common';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -31,9 +32,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/components/ui-popup-message';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 import { EoTransfersTableComponent } from './eo-transfers-table.component';
 import {
@@ -42,7 +42,6 @@ import {
   EoTransfersService,
 } from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,7 +50,6 @@ import { AsyncPipe } from '@angular/common';
     WattCardComponent,
     EoTransfersTableComponent,
     EoPopupMessageComponent,
-    EoBetaMessageComponent,
     WattIconComponent,
     VaterStackComponent,
     EoTransfersRespondProposalComponent,

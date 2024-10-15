@@ -34,12 +34,10 @@ import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import {
-  EoFooterComponent,
-  EoHeaderComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
 
 const selector = 'eo-auth-terms';
 
