@@ -50,6 +50,7 @@ import {
   UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
@@ -68,16 +69,15 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
     TranslocoDirective,
-
     VaterStackComponent,
     VaterFlexComponent,
     WattEmptyStateComponent,
     WATT_TABLE,
-
     DhTabDataGeneralErrorComponent,
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserDrawerComponent,
+    WattDatePipe,
   ],
 })
 export class DhUsersTabTableComponent implements AfterViewInit {
@@ -87,6 +87,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     firstName: { accessor: 'firstName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
+    latestLoginAt: { accessor: 'latestLoginAt' },
     status: { accessor: 'status' },
   };
 

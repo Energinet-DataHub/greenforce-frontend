@@ -12,34 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using HotChocolate.Subscriptions;
+using Energinet.DataHub.WebApi.Clients.Notifications;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public partial class Subscription
 {
-    public IObservable<NotificationDto> OnNotificationAddedAsync(
-        [Service] ITopicEventReceiver eventReceiver,
+    public IObservable<Notification> OnNotificationAddedAsync(
+        [Service] INotificationsClient notificationsClient,
         CancellationToken cancellationToken)
     {
-        var delayed = new List<NotificationDto>
-        {
-            new() { ReasonIdentifier = "BalanceResponsibilityActorUnrecognized", OccurredAt = new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero) },
-        }.ToObservable()
-        .Delay(TimeSpan.FromSeconds(30));
-
-        return new List<NotificationDto>
-        {
-            new() { ReasonIdentifier = "BalanceResponsibilityActorUnrecognized", OccurredAt = new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero) },
-            new() { ReasonIdentifier = "BalanceResponsibilityValidationFailed", OccurredAt = new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero) },
-            new() { ReasonIdentifier = "ActorClientSecretExpiresSoon", OccurredAt = new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero) },
-            new() { ReasonIdentifier = "OrganizationIdentityUpdated", OccurredAt = new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero) },
-        }.ToObservable()
-        .Concat(delayed);
+        return Observable
+             .Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), Scheduler.Default)
+             .SelectMany(_ => Observable.FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken)))
+             .SelectMany(notification => notification)
+             .Distinct(notification => notification.Id);
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
-    public NotificationDto NotificationAdded([EventMessage] NotificationDto notification) =>
+    public Notification NotificationAdded([EventMessage] Notification notification) =>
         notification;
 }

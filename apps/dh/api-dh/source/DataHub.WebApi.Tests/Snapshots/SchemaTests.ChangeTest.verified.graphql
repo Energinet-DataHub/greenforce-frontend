@@ -671,6 +671,7 @@ type User {
   email: String!
   phoneNumber: String
   createdDate: DateTime!
+  latestLoginAt: DateTime
 }
 
 type UserAuditedChangeAuditLogDto {
@@ -1471,6 +1472,7 @@ enum UserOverviewSortProperty {
   PhoneNumber
   CreatedDate
   Status
+  LatestLoginAt
 }
 
 enum UserRoleAuditedChange {

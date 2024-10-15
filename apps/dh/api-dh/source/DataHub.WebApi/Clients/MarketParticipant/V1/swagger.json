@@ -2886,7 +2886,8 @@
                 "Email",
                 "PhoneNumber",
                 "CreatedDate",
-                "Status"
+                "Status",
+                "LatestLoginAt"
               ],
               "allOf": [
                 {
@@ -4494,6 +4495,11 @@
           "createdDate": {
             "type": "string",
             "format": "date-time"
+          },
+          "latestLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -5328,6 +5334,11 @@
           "administratedBy": {
             "type": "string",
             "format": "uuid"
+          },
+          "latestLoginAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -5340,7 +5351,8 @@
           "Email",
           "PhoneNumber",
           "CreatedDate",
-          "Status"
+          "Status",
+          "LatestLoginAt"
         ],
         "enum": [
           0,
@@ -5348,7 +5360,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       },
       "UserProfileUpdateDto": {

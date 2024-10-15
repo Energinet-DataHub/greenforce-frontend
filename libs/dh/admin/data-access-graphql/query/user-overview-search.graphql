@@ -25,6 +25,7 @@ query userOverviewSearch(
       phoneNumber
       status
       id
+      latestLoginAt
     }
     totalUserCount
   }

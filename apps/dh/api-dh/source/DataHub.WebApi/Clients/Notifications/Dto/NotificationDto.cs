@@ -10,20 +10,13 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.;
+// limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+namespace Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
-
-public sealed record User(
-    Guid Id,
-    string Name,
-    UserStatus Status,
-    string FirstName,
-    string LastName,
-    string Email,
-    string? PhoneNumber,
-    Guid? AdministratedBy,
-    DateTimeOffset CreatedDate,
-    DateTimeOffset? LatestLoginAt);
+public record NotificationDto(
+    int Id,
+    string NotificationType,
+    DateTimeOffset OccurredAt,
+    DateTimeOffset ExpiresAt,
+    string? RelatedToId);
