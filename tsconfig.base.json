@@ -252,20 +252,26 @@
       "@energinet-datahub/eo/shared/atomic-design/feature-molecules": [
         "libs/eo/shared/atomic-design/feature-molecules/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/components/ui-idle-timer": [
-        "libs/eo/shared/components/ui-idle-timer/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/components/ui-product-logo": [
-        "libs/eo/shared/components/ui-product-logo/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/components/ui-vimeo-player": [
-        "libs/eo/shared/components/ui-vimeo-player/index.ts"
+      "@energinet-datahub/eo/shared/components/ui-footer": [
+        "libs/eo/shared/components/ui-footer/index.ts"
       ],
       "@energinet-datahub/eo/shared/components/ui-header": [
         "libs/eo/shared/components/ui-header/index.ts"
       ],
-      "@energinet-datahub/eo/shared/components/ui-footer": [
-        "libs/eo/shared/components/ui-footer/index.ts"
+      "@energinet-datahub/eo/shared/components/ui-idle-timer": [
+        "libs/eo/shared/components/ui-idle-timer/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/components/ui-info-box": [
+        "libs/eo/shared/components/ui-info-box/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/components/ui-media": [
+        "libs/eo/shared/components/ui-media/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/components/ui-popup-message": [
+        "libs/eo/shared/components/ui-popup-message/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/components/ui-product-logo": [
+        "libs/eo/shared/components/ui-product-logo/index.ts"
       ],
       "@energinet-datahub/eo/shared/components/ui-scroll-view": [
         "libs/eo/shared/components/ui-scroll-view/index.ts"
@@ -273,14 +279,8 @@
       "@energinet-datahub/eo/shared/components/ui-stack": [
         "libs/eo/shared/components/ui-stack/index.ts"
       ],
-      "@energinet-datahub/eo/shared/components/ui-info-box": [
-        "libs/eo/shared/components/ui-info-box/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/components/ui-popup-message": [
-        "libs/eo/shared/components/ui-popup-message/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/components/ui-media": [
-        "libs/eo/shared/components/ui-media/index.ts"
+      "@energinet-datahub/eo/shared/components/ui-vimeo-player": [
+        "libs/eo/shared/components/ui-vimeo-player/index.ts"
       ],
       "@energinet-datahub/eo/shared/data-access-mocks": [
         "libs/eo/shared/data-access-mocks/src/index.ts"
