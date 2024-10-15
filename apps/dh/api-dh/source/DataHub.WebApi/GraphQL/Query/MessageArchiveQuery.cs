@@ -141,10 +141,11 @@ public partial class Query
         var sortCursor = field switch
         {
             FieldToSortBy.MessageId => message.MessageId ?? string.Empty,
-            FieldToSortBy.DocumentType => message.DocumentType,
+            FieldToSortBy.DocumentType => message.DocumentType.ToString(),
             FieldToSortBy.SenderNumber => message.SenderNumber ?? string.Empty,
             FieldToSortBy.ReceiverNumber => message.ReceiverNumber ?? string.Empty,
             FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+            _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Unexpected FieldToSortBy value"),
         };
 
         return new Edge<ArchivedMessageResultV3>(message, $"{message.RecordId}+{sortCursor}");

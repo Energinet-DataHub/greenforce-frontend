@@ -279,6 +279,17 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v3
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ActorRole
+    {
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("code", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Code { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ArchivedMessageResultV3
     {
         [Newtonsoft.Json.JsonProperty("recordId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -296,14 +307,14 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v3
         [Newtonsoft.Json.JsonProperty("senderNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SenderNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("senderRoleCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SenderRoleCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("senderRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole SenderRole { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("receiverNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReceiverNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("receiverRoleCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ReceiverRoleCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("receiverRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole ReceiverRole { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("createdAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset CreatedAt { get; set; } = default!;

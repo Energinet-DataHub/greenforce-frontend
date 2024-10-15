@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 
-public class ArchivedMessageType : ObjectType<ArchivedMessageResultV2>
+public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
 {
-    protected override void Configure(IObjectTypeDescriptor<ArchivedMessageResultV2> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<ArchivedMessageResultV3> descriptor)
     {
         descriptor.Name("ArchivedMessage");
 
@@ -34,7 +34,7 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV2>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.SenderNumber, message.SenderRoleCode),
+                    (message.SenderNumber, (EicFunction)Enum.Parse(typeof(EicFunction), message.SenderRole.Name)),
                     context.RequestAborted);
             });
 
@@ -46,7 +46,7 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV2>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.ReceiverNumber, message.ReceiverRoleCode),
+                    (message.ReceiverNumber, (EicFunction)Enum.Parse(typeof(EicFunction), message.ReceiverRole.Name)),
                     context.RequestAborted);
             });
 

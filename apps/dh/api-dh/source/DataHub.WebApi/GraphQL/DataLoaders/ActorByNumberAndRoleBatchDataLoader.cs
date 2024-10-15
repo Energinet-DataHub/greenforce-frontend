@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ActorByNumberAndRoleBatchDataLoader : BatchDataLoader<(string, string), ActorDto>
+public class ActorByNumberAndRoleBatchDataLoader : BatchDataLoader<(string, EicFunction), ActorDto>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
@@ -27,14 +27,13 @@ public class ActorByNumberAndRoleBatchDataLoader : BatchDataLoader<(string, stri
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<(string, string), ActorDto>> LoadBatchAsync(
-        IReadOnlyList<(string, string)> keys,
+    protected override async Task<IReadOnlyDictionary<(string, EicFunction), ActorDto>> LoadBatchAsync(
+        IReadOnlyList<(string, EicFunction)> keys,
         CancellationToken cancellationToken)
     {
         return (await _client
             .ActorGetAsync(cancellationToken))
-            .Where(x => x.MarketRoles.Any(role => role)) // keys.Contains((x.ActorNumber.Value,, x.MarketRoles.))
-            .DistinctBy(x => x.ActorNumber.Value) // TODO: This is not the correct way
-            .ToDictionary(x => x.ActorNumber.Value);
+            .Where(x => x.MarketRoles.Any(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))))
+            .ToDictionary(x => (x.ActorNumber.Value, x.MarketRoles.First(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))).EicFunction));
     }
 }
