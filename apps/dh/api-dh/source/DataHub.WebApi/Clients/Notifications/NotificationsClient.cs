@@ -40,6 +40,7 @@ public sealed class NotificationClient : INotificationsClient
 
         return responseContent.Select(notificationDto =>
             new Notification(
+                notificationDto.Id,
                 notificationDto.NotificationType,
                 notificationDto.RelatedToId ?? string.Empty,
                 notificationDto.OccurredAt,
@@ -57,6 +58,7 @@ public sealed class NotificationClient : INotificationsClient
 
         return responseContent.Select(notificationDto =>
             new Notification(
+                notificationDto.Id,
                 notificationDto.NotificationType,
                 notificationDto.RelatedToId ?? string.Empty,
                 notificationDto.OccurredAt,

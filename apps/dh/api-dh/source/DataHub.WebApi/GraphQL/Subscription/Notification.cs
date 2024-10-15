@@ -15,6 +15,7 @@
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public record Notification(
+    int Id,
     string ReasonIdentifier,
     string RelatedId,
     DateTimeOffset OccurredAt,
