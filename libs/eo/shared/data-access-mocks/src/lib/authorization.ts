@@ -17,7 +17,12 @@
 import { http, HttpResponse } from 'msw';
 
 export function authorizationMocks(apiBase: string) {
-  return [getConsent(apiBase), getConsents(apiBase), postGrantConsent(apiBase)];
+  return [
+    getConsent(apiBase),
+    getConsents(apiBase),
+    postGrantConsent(apiBase),
+    getReceivedConsents(apiBase),
+  ];
 }
 
 function getConsent(apiBase: string) {
@@ -26,6 +31,26 @@ function getConsent(apiBase: string) {
       idpClientId: '529a55d0-68c7-4129-ba3c-e06d4f1038c4',
       name: 'MOCKED_CLIENT',
       redirectUrl: 'https://demo.energytrackandtrace.dk',
+    };
+    return HttpResponse.json(data, { status: 200 });
+  });
+}
+
+function getReceivedConsents(apiBase: string) {
+  return http.get(`${apiBase}/authorization/consents/received`, () => {
+    const data = {
+      result: [
+        {
+          organizationId: 39293595,
+          organizationName: 'Company Inc.',
+          tin: 39293595,
+        },
+        {
+          organizationId: 77777777,
+          organizationName: 'Viggos Vindmøller',
+          tin: 77777777,
+        },
+      ],
     };
     return HttpResponse.json(data, { status: 200 });
   });

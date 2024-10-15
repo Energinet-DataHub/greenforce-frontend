@@ -42,7 +42,7 @@ export const eoScopeGuard: CanActivateFn = async (route: ActivatedRouteSnapshot)
   }
 
   // Redirect to terms if user has not accepted them
-  if (!authService.user()?.tos_accepted) {
+  if (!authService.user()?.profile.tos_accepted) {
     router.navigate([transloco.getActiveLang(), 'terms'], {
       queryParams: { redirectUrl },
     });
