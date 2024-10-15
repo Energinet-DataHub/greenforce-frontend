@@ -2886,7 +2886,8 @@
                 "Email",
                 "PhoneNumber",
                 "CreatedDate",
-                "Status"
+                "Status",
+                "LatestLoginAt"
               ],
               "allOf": [
                 {
@@ -5350,7 +5351,8 @@
           "Email",
           "PhoneNumber",
           "CreatedDate",
-          "Status"
+          "Status",
+          "LatestLoginAt"
         ],
         "enum": [
           0,
@@ -5358,7 +5360,8 @@
           2,
           3,
           4,
-          5
+          5,
+          6
         ]
       },
       "UserProfileUpdateDto": {

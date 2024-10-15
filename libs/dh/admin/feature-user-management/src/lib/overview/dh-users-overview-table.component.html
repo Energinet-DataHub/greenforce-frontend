@@ -38,7 +38,7 @@ limitations under the License.
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns.latestLogin; header: t('columns.latestLogin'); let element"
+      *wattTableCell="columns.latestLoginAt; header: t('columns.latestLogin'); let element"
     >
       {{ element.latestLoginAt | wattDate: "short" | dhEmDashFallback }}
     </ng-container>
