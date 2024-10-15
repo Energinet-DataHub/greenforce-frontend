@@ -96,7 +96,7 @@ export const overviewUsers: User[] = [
     name: 'Test Test',
     actors,
     administratedBy: actors[0],
-    latestLoginAt: null,
+    latestLoginAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
   },
   {
     __typename: 'User',
@@ -110,7 +110,7 @@ export const overviewUsers: User[] = [
     name: 'Test1 Test1',
     actors,
     administratedBy: actors[0],
-    latestLoginAt: null,
+    latestLoginAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
   },
   {
     __typename: 'User',
@@ -124,7 +124,7 @@ export const overviewUsers: User[] = [
     name: 'Test2 Test2',
     actors,
     administratedBy: actors[0],
-    latestLoginAt: null,
+    latestLoginAt: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000),
   },
   {
     __typename: 'User',
