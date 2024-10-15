@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -25,25 +25,24 @@ import { RxLet } from '@rx-angular/template/let';
   selector: 'dh-user-latest-login',
   standalone: true,
   template: `
+    @let days = daysSince();
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
-      <ng-container *rxLet="getDaysSince(latestLoginAt()) as days">
-        @switch (days) {
-          @case (null) {
-            <watt-badge type="danger">{{ t('never') }}</watt-badge>
-          }
-          @case (0) {
-            <watt-badge type="info">{{ t('today') }}</watt-badge>
-          }
-          @case (1) {
-            <watt-badge type="info">{{ t('yesterday') }}</watt-badge>
-          }
-          @default {
-            <watt-badge [type]="(days > 30 && 'warning') || 'info'">{{
-              t('daysAgo', { days })
-            }}</watt-badge>
-          }
+      @switch (days) {
+        @case (null) {
+          <watt-badge type="danger">{{ t('never') }}</watt-badge>
         }
-      </ng-container>
+        @case (0) {
+          <watt-badge type="info">{{ t('today') }}</watt-badge>
+        }
+        @case (1) {
+          <watt-badge type="info">{{ t('yesterday') }}</watt-badge>
+        }
+        @default {
+          <watt-badge [type]="(daysSince()! > 30 && 'warning') || 'info'">{{
+            t('daysAgo', { days })
+          }}</watt-badge>
+        }
+      }
     </ng-container>
   `,
   imports: [TranslocoDirective, WattBadgeComponent, RxLet],
@@ -52,7 +51,7 @@ import { RxLet } from '@rx-angular/template/let';
 export class DhUserLatestLoginComponent {
   latestLoginAt = input<Date | null>();
 
-  getDaysSince(date: Date | null | undefined): number | null {
-    return date ? dayjs(new Date()).diff(date, 'days') : null;
-  }
+  daysSince = computed(() => {
+    return this.latestLoginAt() ? dayjs(new Date()).diff(this.latestLoginAt(), 'days') : null;
+  });
 }
