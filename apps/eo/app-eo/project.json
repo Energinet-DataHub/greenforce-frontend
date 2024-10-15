@@ -40,11 +40,6 @@
             "glob": "oidc-client-ts.js",
             "input": "node_modules/oidc-client-ts/dist/browser",
             "output": "/"
-          },
-          {
-            "glob": "**/*",
-            "input": "node_modules/ngx-extended-pdf-viewer/assets/",
-            "output": "/assets/"
           }
         ],
         "allowedCommonJsDependencies": ["date-fns", "lottie-web", "dayjs"],
