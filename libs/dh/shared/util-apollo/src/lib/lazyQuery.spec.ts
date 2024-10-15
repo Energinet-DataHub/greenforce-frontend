@@ -56,6 +56,7 @@ describe('lazyQuery', () => {
       const onCompleted = jest.fn();
       const result = lazyQuery(TEST_QUERY, { onCompleted });
       result.query();
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Query' } };
       op.flush({ data });
@@ -68,17 +69,19 @@ describe('lazyQuery', () => {
       const onError = jest.fn();
       const result = lazyQuery(TEST_QUERY, { onError });
       result.query();
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
       expect(onError).toHaveBeenCalled();
     })));
 
-  it('should override options', () =>
+  it('should override options', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = lazyQuery(TEST_QUERY, { variables: { name: 'Query' } });
       result.query({ variables: { name: 'Mutation' } });
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       expect(op.operation.variables['name']).toEqual('Mutation');
-    }));
+    })));
 });

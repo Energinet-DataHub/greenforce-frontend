@@ -53,7 +53,7 @@ import {
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
-import { DhUserLatestLoginComponent } from "./dh-user-latest-login.component";
+import { DhUserLatestLoginComponent } from './dh-user-latest-login.component';
 
 @Component({
   selector: 'dh-users-overview-table',
@@ -78,8 +78,8 @@ import { DhUserLatestLoginComponent } from "./dh-user-latest-login.component";
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserDrawerComponent,
-    DhUserLatestLoginComponent
-],
+    DhUserLatestLoginComponent,
+  ],
 })
 export class DhUsersTabTableComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
