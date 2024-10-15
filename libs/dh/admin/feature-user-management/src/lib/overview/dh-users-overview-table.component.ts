@@ -136,8 +136,4 @@ export class DhUsersTabTableComponent implements AfterViewInit {
   onClosed(): void {
     this.activeRow = undefined;
   }
-
-  getDaysSince(date: Date): number {
-    return Math.floor((new Date().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
-  }
 }
