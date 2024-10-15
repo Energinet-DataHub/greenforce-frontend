@@ -24,7 +24,7 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
+//import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api'; /* TODO: Implement this when the backend is ready */
 
 import { EoAccountMenuComponent } from './eo-account-menu';
 
