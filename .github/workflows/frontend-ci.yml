@@ -31,7 +31,7 @@ env:
 
   # DH E2E
   # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
-  CYPRESS_DH_E2E_USERNAME: ${{ secrets.DH_E2E_U1_USERNAME }}
+  CYPRESS_DH_E2E_USERNAME: ${{ vars.DH_E2E_U1_USERNAME }}
   CYPRESS_DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
   CYPRESS_DH_E2E_B2C_URL: https://b2cshresdevwe002.b2clogin.com
   # See https://github.com/cypress-io/cypress/issues/25357
