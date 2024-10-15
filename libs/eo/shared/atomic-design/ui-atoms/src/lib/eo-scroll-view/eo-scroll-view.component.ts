@@ -14,15 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+
+const selector = 'eo-scroll-view';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-scroll-view',
+  selector,
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      :host {
+      ${selector} {
         display: block;
         word-break: break-word;
 
@@ -33,8 +36,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       }
 
       // This is the contents of the privacy policy with the custom scrollbar
-      .content {
-        max-height: calc(100vh - 470px); // Magic number by designer
+      ${selector} .content {
+        max-height: calc(100vh - 300px);
         word-break: break-word;
         overflow-y: scroll;
         padding-right: var(--watt-space-m);
