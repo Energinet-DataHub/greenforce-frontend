@@ -139,14 +139,14 @@ export function query<TResult, TVariables extends OperationVariables>(
   );
 
   const result$ = ref$.pipe(
-    share(),
     // The inner observable will be recreated each time the `options$` emits
     switchMap((ref) =>
       ref.valueChanges.pipe(
         takeUntil(reset$),
         catchError((error: ApolloError) => fromApolloError<TResult>(error))
       )
-    )
+    ),
+    share()
   );
 
   const initial = makeInitialResult<TResult>(options?.skip);
