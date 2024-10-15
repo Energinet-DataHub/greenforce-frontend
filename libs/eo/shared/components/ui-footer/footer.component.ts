@@ -22,7 +22,7 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { translations } from '@energinet-datahub/eo/translations';
 
-const selector = 'eo-landing-page-footer';
+const selector = 'eo-footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -176,7 +176,7 @@ const selector = 'eo-landing-page-footer';
     </footer>
   `,
 })
-export class EoLandingPageFooterComponent {
+export class EoFooterComponent {
   protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
   protected openInNewIcon =
     '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
