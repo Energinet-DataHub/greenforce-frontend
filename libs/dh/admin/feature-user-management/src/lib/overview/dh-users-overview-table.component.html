@@ -40,7 +40,17 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns.latestLoginAt; header: t('columns.latestLogin'); let element"
     >
-      {{ element.latestLoginAt | wattDate: "short" | dhEmDashFallback }}
+      @if (element.latestLoginAt) {
+        <watt-badge
+          *rxLet="getDaysSince(element.latestLoginAt) as days"
+          [type]="(days > 30 && 'warning') || 'info'"
+          >{{
+            t((days === 0 && "today") || (days === 1 && "yesterday") || "daysAgo", { days })
+          }}</watt-badge
+        >
+      } @else {
+        <watt-badge type="danger">{{ t("never") }}</watt-badge>
+      }
     </ng-container>
 
     <ng-container *wattTableCell="columns.status; header: t('columns.status'); let element">

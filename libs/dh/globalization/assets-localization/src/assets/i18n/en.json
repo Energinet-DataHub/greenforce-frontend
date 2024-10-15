@@ -1559,7 +1559,11 @@
             "phone": "Phone no.",
             "latestLogin": "Latest login",
             "status": "Status"
-          }
+          },
+          "daysAgo": "{{ days }} days ago",
+          "never": "Never",
+          "today": "Today",
+          "yesterday": "Yesterday"
         },
         "roles": {
           "userResponsible": "User responsible",

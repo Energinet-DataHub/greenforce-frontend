@@ -54,6 +54,9 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { RxLet } from '@rx-angular/template/let';
+
 @Component({
   selector: 'dh-users-overview-table',
   standalone: true,
@@ -78,6 +81,8 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
     DhUserStatusComponent,
     DhUserDrawerComponent,
     WattDatePipe,
+    WattBadgeComponent,
+    RxLet,
   ],
 })
 export class DhUsersTabTableComponent implements AfterViewInit {
@@ -134,5 +139,9 @@ export class DhUsersTabTableComponent implements AfterViewInit {
 
   onClosed(): void {
     this.activeRow = undefined;
+  }
+
+  getDaysSince(date: Date): number {
+    return Math.floor((new Date().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
   }
 }
