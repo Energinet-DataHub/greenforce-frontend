@@ -35,4 +35,6 @@ public class ApiClientSettings
     public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
 
     public string SettlementReportsAPIBaseUrl { get; set; } = string.Empty;
+
+    public string NotificationsBaseUrl { get; set; } = string.Empty;
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Signal, inject, signal } from '@angular/core';
+import { DestroyRef, Signal, inject, signal, untracked } from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -27,18 +27,24 @@ import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
   BehaviorSubject,
   Subject,
+  asyncScheduler,
   catchError,
+  combineLatestWith,
+  defer,
+  delayWhen,
+  distinctUntilChanged,
   filter,
   firstValueFrom,
   map,
+  mergeWith,
   share,
   shareReplay,
   skipWhile,
   startWith,
+  subscribeOn,
   switchMap,
   take,
   takeUntil,
-  withLatestFrom,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -48,6 +54,8 @@ import { fromApolloError } from './util/error';
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
 export interface QueryOptions<TVariables extends OperationVariables>
   extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading'> {
+  // The `nextFetchPolicy` typically also accepts a function. Omitted for simplicity.
+  nextFetchPolicy?: WatchQueryOptions<TVariables>['fetchPolicy'];
   skip?: boolean;
 }
 
@@ -63,6 +71,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   called: Signal<boolean>;
+  result: () => Promise<ApolloQueryResult<TResult>>;
   reset: () => void;
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
@@ -71,6 +80,16 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
     options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
   ) => () => void;
 };
+
+/** Create an initial ApolloQueryResult object. */
+function makeInitialResult<T>(skip?: boolean): ApolloQueryResult<T> {
+  return {
+    data: undefined as T,
+    error: undefined,
+    loading: !skip,
+    networkStatus: skip ? NetworkStatus.ready : NetworkStatus.loading,
+  };
+}
 
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
@@ -91,17 +110,23 @@ export function query<TResult, TVariables extends OperationVariables>(
   const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
     filter((opts) => !opts?.skip),
-    map((opts) => client.watchQuery({ ...opts, query: document })),
-    share()
+    map((opts) =>
+      client.watchQuery({
+        notifyOnNetworkStatusChange: true,
+        ...opts,
+        query: document,
+        useInitialLoading: true,
+      })
+    )
   );
 
   // It is possible for subscriptions to return before the initial query has completed, resulting
   // in a runtime error for the `updateQuery` method in `subscribeToMore`. To prevent this, the
   // `refReplay$` observable is created to ensure the cache has data before attempting to merge.
-  const refReplay$ = ref$.pipe(
+  const refWhenData$ = ref$.pipe(
     switchMap((ref) =>
       ref.valueChanges.pipe(
-        skipWhile((data) => !data), // Wait until data is available
+        skipWhile(({ data }) => !data), // Wait until data is available
         map(() => ref), // Then emit the ref
         take(1), // And complete the observable
         startWith(null), // Clear the ref immediately in case of refetch (to prevent stale ref)
@@ -120,15 +145,48 @@ export function query<TResult, TVariables extends OperationVariables>(
         takeUntil(reset$),
         catchError((error: ApolloError) => fromApolloError<TResult>(error))
       )
-    )
+    ),
+    share()
   );
 
+  const initial = makeInitialResult<TResult>(options?.skip);
+
   // Signals holding the result values
-  const data = signal<TResult | undefined>(undefined);
-  const error = signal<ApolloError | undefined>(undefined);
-  const loading = signal(!options?.skip);
+  const data = signal<TResult | undefined>(initial.data);
+  const error = signal<ApolloError | undefined>(initial.error);
+  const loading = signal(initial.loading);
+  const networkStatus = signal(initial.networkStatus);
+
+  // Extra signal to track if the query has been called
   const called = signal(false);
-  const networkStatus = signal(options?.skip ? NetworkStatus.ready : NetworkStatus.loading);
+
+  // Gets the current ApolloQueryResult from signal values
+  const toApolloQueryResult = () => ({
+    data: data() as TResult, // Satisfy ApolloQueryResult type, but technically incorrect
+    error: error(),
+    loading: loading(),
+    networkStatus: networkStatus(),
+  });
+
+  // Get the current result, or the incoming result if query is loading
+  const result = () =>
+    untracked(() =>
+      firstValueFrom(
+        // Wait for the current event loop to finish before attempting to
+        // read the current result. This is to allow the query to enter a
+        // loading state if result() is called immediately after querying.
+        defer(() => [toApolloQueryResult()]).pipe(
+          subscribeOn(asyncScheduler),
+          mergeWith(result$),
+          filter((result) => !result.loading),
+          takeUntilDestroyed(destroyRef)
+        ),
+        // Prevent EmptyError if the parent component is destroyed before the first value is
+        // emitted. This default value should be ignored, since the component is destroyed.
+        // It is only to prevent (harmless) uncaught exceptions in the log.
+        { defaultValue: makeInitialResult<TResult>(false) }
+      )
+    );
 
   // Update the signal values based on the result of the query
   const subscription = result$.subscribe((result) => {
@@ -153,32 +211,28 @@ export function query<TResult, TVariables extends OperationVariables>(
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
     called: called as Signal<boolean>,
+    result,
     reset: () => {
       reset$.next();
       options$.next({ ...options, skip: true });
-      data.set(undefined);
-      error.set(undefined);
-      loading.set(false);
-      networkStatus.set(NetworkStatus.ready);
+      const initial = makeInitialResult<TResult>(true);
+      data.set(initial.data);
+      error.set(initial.error);
+      loading.set(initial.loading);
+      networkStatus.set(initial.networkStatus);
       called.set(false);
     },
     getOptions: () => options$.value ?? {},
-    setOptions: (options: Partial<QueryOptions<TVariables>>) => {
-      const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      const mergedVariables = { ...options$.value?.variables, ...options.variables } as TVariables;
-      options$.next({ ...options$.value, skip: false, ...options, variables: mergedVariables });
-      return result;
+    setOptions: (newOptions: Partial<QueryOptions<TVariables>>) => {
+      const variables = { ...options$.value?.variables, ...newOptions.variables } as TVariables;
+      options$.next({ ...options$.value, skip: false, ...newOptions, variables });
+      return result();
     },
-    refetch: (variables?: Partial<TVariables>) => {
-      const result = firstValueFrom(result$.pipe(filter((result) => !result.loading)));
-      const mergedVariables = { ...options$.value?.variables, ...variables } as TVariables;
-      options$.next({
-        ...options$.value,
-        skip: false,
-        fetchPolicy: 'network-only',
-        variables: mergedVariables,
-      });
-      return result;
+    refetch: (newVariables?: Partial<TVariables>) => {
+      const variables = { ...options$.value?.variables, ...newVariables } as TVariables;
+      const fetchPolicy = options$.value?.nextFetchPolicy ?? 'network-only';
+      options$.next({ ...options$.value, skip: false, fetchPolicy, variables });
+      return result();
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
       document: query,
@@ -194,7 +248,9 @@ export function query<TResult, TVariables extends OperationVariables>(
         .pipe(
           map(({ data }) => data),
           exists(), // The data should generally be available, but types says otherwise
-          withLatestFrom(refReplay$), // Ensure the ref (and cache) is ready,
+          combineLatestWith(refWhenData$), // Ensure the ref (and cache) is ready
+          distinctUntilChanged(([prev], [next]) => prev === next), // Only emit when data changes
+          delayWhen(() => result()), // Do not attempt to merge when result is loading
           takeUntilDestroyed(destroyRef), // Stop the subscription when the component is destroyed
           takeUntil(reset$) // Or when resetting the query
         )

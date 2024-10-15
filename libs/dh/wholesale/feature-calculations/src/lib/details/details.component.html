@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 @let guid = id();
+@let calculation = result();
 
 <watt-modal
   *transloco="let t; read: 'wholesale.calculations.details'"
@@ -35,19 +36,16 @@ limitations under the License.
 </watt-modal>
 
 <watt-drawer
-  #drawer
   (closed)="closed.emit()"
-  [loading]="loading"
+  [loading]="query.loading()"
   *transloco="let t; read: 'wholesale.calculations'"
 >
   <watt-drawer-topbar>
-    @if (!error) {
-      <watt-badge [type]="calculation?.statusType ?? 'skeleton'">{{
-        calculation?.state ? t("states." + calculation?.state) : "unknown"
-      }}</watt-badge>
+    @if (!query.error()) {
+      <watt-badge [type]="statusType()">{{ t("states." + state()) }}</watt-badge>
     }
   </watt-drawer-topbar>
-  @if (guid && calculation?.state === CalculationOrchestrationState.Scheduled) {
+  @if (guid && isScheduled()) {
     <watt-drawer-actions>
       <watt-button variant="secondary" (click)="modal().open()">
         {{ t("details.cancelCalculation") }}
@@ -56,9 +54,7 @@ limitations under the License.
   }
   <watt-drawer-heading>
     <div class="headline-container">
-      <h3 class="headline watt-headline-2">
-        {{ t("calculationTypes." + (calculation?.calculationType ?? "UNKNOWN")) }}
-      </h3>
+      <h3 class="headline watt-headline-2">{{ t("calculationTypes." + type()) }}</h3>
     </div>
     <watt-description-list [groupsPerRow]="3">
       <watt-description-list-item
@@ -67,7 +63,7 @@ limitations under the License.
       />
       <watt-description-list-item
         [label]="t('details.executionType')"
-        [value]="calculation && t('executionTypes.' + calculation.executionType) | dhEmDashFallback"
+        [value]="executionType() && t('executionTypes.' + executionType()) | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="t('details.executionTime')"
@@ -79,7 +75,7 @@ limitations under the License.
       />
       <watt-description-list-item
         [label]="t('details.calculationId')"
-        [value]="calculation?.id | dhEmDashFallback"
+        [value]="guid | dhEmDashFallback"
       />
     </watt-description-list>
   </watt-drawer-heading>
@@ -102,7 +98,7 @@ limitations under the License.
       <vater-flex scrollable fill="vertical" grow="0">
         @if (calculation && calculation.gridAreas) {
           <dh-calculations-grid-areas-table [data]="calculation.gridAreas" />
-        } @else if (error) {
+        } @else if (query.error()) {
           <watt-empty-state
             vater
             center

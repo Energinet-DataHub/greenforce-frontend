@@ -38,18 +38,18 @@ describe('lazyQuery', () => {
 
   afterEach(() => controller.verify());
 
-  it('should not initialize query', fakeAsync(() =>
+  it('should not initialize query', () =>
     TestBed.runInInjectionContext(() => {
       lazyQuery(TEST_QUERY);
       controller.expectNone(TEST_QUERY);
-    })));
+    }));
 
-  it('should initialize query when called', fakeAsync(() =>
+  it('should initialize query when called', () =>
     TestBed.runInInjectionContext(() => {
       const result = lazyQuery(TEST_QUERY);
       result.query();
       controller.expectOne(TEST_QUERY);
-    })));
+    }));
 
   it('should trigger onCompleted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
@@ -74,11 +74,11 @@ describe('lazyQuery', () => {
       expect(onError).toHaveBeenCalled();
     })));
 
-  it('should override options', fakeAsync(() =>
+  it('should override options', () =>
     TestBed.runInInjectionContext(() => {
       const result = lazyQuery(TEST_QUERY, { variables: { name: 'Query' } });
       result.query({ variables: { name: 'Mutation' } });
       const op = controller.expectOne(TEST_QUERY);
       expect(op.operation.variables['name']).toEqual('Mutation');
-    })));
+    }));
 });

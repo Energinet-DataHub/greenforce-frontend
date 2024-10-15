@@ -37,6 +37,12 @@ limitations under the License.
       {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>
 
+    <ng-container
+      *wattTableCell="columns.latestLoginAt; header: t('columns.latestLogin'); let element"
+    >
+      {{ element.latestLoginAt | wattDate: "short" | dhEmDashFallback }}
+    </ng-container>
+
     <ng-container *wattTableCell="columns.status; header: t('columns.status'); let element">
       <dh-user-status [status]="element.status" />
     </ng-container>

@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
+namespace Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
-public record Notification(
+public record NotificationDto(
     int Id,
-    string ReasonIdentifier,
-    string RelatedId,
+    string NotificationType,
     DateTimeOffset OccurredAt,
-    DateTimeOffset ExpiresAt);
+    DateTimeOffset ExpiresAt,
+    string? RelatedToId);

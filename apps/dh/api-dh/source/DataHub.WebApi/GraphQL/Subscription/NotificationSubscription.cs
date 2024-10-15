@@ -12,33 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using HotChocolate.Subscriptions;
+using Energinet.DataHub.WebApi.Clients.Notifications;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public partial class Subscription
 {
     public IObservable<Notification> OnNotificationAddedAsync(
-        [Service] ITopicEventReceiver eventReceiver,
+        [Service] INotificationsClient notificationsClient,
         CancellationToken cancellationToken)
     {
-        var delayed = new List<Notification>
-        {
-            new("BalanceResponsibilityActorUnrecognized", "123", new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 11, 14, 0, 0, TimeSpan.Zero)),
-        }
-        .ToObservable()
-        .Delay(TimeSpan.FromSeconds(30));
-
-        return new List<Notification>
-        {
-            new("BalanceResponsibilityActorUnrecognized", "123", new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 10, 12, 0, 0, TimeSpan.Zero)),
-            new("BalanceResponsibilityValidationFailed", "123", new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 9, 12, 0, 0, TimeSpan.Zero)),
-            new("ActorClientSecretExpiresSoon", "123", new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 8, 12, 0, 0, TimeSpan.Zero)),
-            new("OrganizationIdentityUpdated", "123", new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero), new DateTimeOffset(2024, 10, 8, 2, 0, 0, TimeSpan.Zero)),
-        }.ToObservable()
-        .Concat(delayed)
-        .Concat(Observable.Never<Notification>());
+        return Observable
+             .Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), Scheduler.Default)
+             .SelectMany(_ => Observable.FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken)))
+             .SelectMany(notification => notification)
+             .Distinct(notification => notification.Id);
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]

@@ -49,6 +49,19 @@ describe('mutation', () => {
       controller.expectOne(TEST_MUTATION);
     })));
 
+  it('should set called to true', fakeAsync(() =>
+    TestBed.runInInjectionContext(() => {
+      const onCompleted = jest.fn();
+      const config = { onCompleted };
+      const result = mutation(TEST_MUTATION, config);
+      result.mutate();
+      const op = controller.expectOne(TEST_MUTATION);
+      const data = { __typename: 'Mutation' };
+      op.flush({ data });
+      tick();
+      expect(result.called()).toBe(true);
+    })));
+
   it('should trigger onCompleted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const onCompleted = jest.fn();
@@ -85,5 +98,6 @@ describe('mutation', () => {
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
       expect(result.loading()).toBe(false);
+      expect(result.called()).toBe(false);
     })));
 });
