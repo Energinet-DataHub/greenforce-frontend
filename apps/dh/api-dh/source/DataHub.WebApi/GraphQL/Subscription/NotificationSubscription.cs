@@ -26,9 +26,9 @@ public partial class Subscription
     {
         return Observable
              .Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), Scheduler.Default)
-             .SelectMany(_ => Observable
-                 .FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken))
-                 .SelectMany(notification => notification));
+             .SelectMany(_ => Observable.FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken)))
+             .SelectMany(notification => notification)
+             .Distinct(notification => notification.Id);
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
