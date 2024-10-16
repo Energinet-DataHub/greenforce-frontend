@@ -71,11 +71,7 @@
               },
               {
                 "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": [
-                  "type:util",
-                  "type:test-util",
-                  "type:environments"
-                ]
+                "onlyDependOnLibsWithTags": ["type:util", "type:test-util", "type:environments"]
               },
               {
                 "sourceTag": "type:test-util",
@@ -91,19 +87,11 @@
               },
               {
                 "sourceTag": "type:e2e-util",
-                "onlyDependOnLibsWithTags": [
-                  "type:util",
-                  "type:test-util",
-                  "type:e2e-util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:util", "type:test-util", "type:e2e-util"]
               },
               {
                 "sourceTag": "type:domain",
-                "onlyDependOnLibsWithTags": [
-                  "type:domain",
-                  "type:util",
-                  "type:test-util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:domain", "type:util", "type:test-util"]
               },
               {
                 "sourceTag": "type:shell",
@@ -153,19 +141,11 @@
               },
               {
                 "sourceTag": "product:dh",
-                "onlyDependOnLibsWithTags": [
-                  "product:dh",
-                  "product:gf",
-                  "product:watt"
-                ]
+                "onlyDependOnLibsWithTags": ["product:dh", "product:gf", "product:watt"]
               },
               {
                 "sourceTag": "product:eo",
-                "onlyDependOnLibsWithTags": [
-                  "product:eo",
-                  "product:gf",
-                  "product:watt"
-                ]
+                "onlyDependOnLibsWithTags": ["product:eo", "product:gf", "product:watt"]
               },
               {
                 "sourceTag": "product:gf",
