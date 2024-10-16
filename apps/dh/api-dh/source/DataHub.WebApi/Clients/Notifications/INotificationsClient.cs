@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
 namespace Energinet.DataHub.WebApi.Clients.Notifications;
 
@@ -24,12 +24,12 @@ public interface INotificationsClient
     /// <summary>
     /// Get all notifications for the current user.
     /// </summary>
-    public Task<IEnumerable<Notification>> GetNotificationsAsync(CancellationToken cancellationToken);
+    public Task<IEnumerable<NotificationDto>> GetNotificationsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Get all unread notifications for the current user.
     /// </summary>
-    public Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(CancellationToken cancellationToken);
+    public Task<IEnumerable<NotificationDto>> GetUnreadNotificationsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Dismisses a notification.

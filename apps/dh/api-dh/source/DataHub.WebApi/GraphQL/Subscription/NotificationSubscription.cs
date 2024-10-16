@@ -15,12 +15,13 @@
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Energinet.DataHub.WebApi.Clients.Notifications;
+using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public partial class Subscription
 {
-    public IObservable<Notification> OnNotificationAddedAsync(
+    public IObservable<NotificationDto> OnNotificationAddedAsync(
         [Service] INotificationsClient notificationsClient,
         CancellationToken cancellationToken)
     {
@@ -32,6 +33,6 @@ public partial class Subscription
     }
 
     [Subscribe(With = nameof(OnNotificationAddedAsync))]
-    public Notification NotificationAdded([EventMessage] Notification notification) =>
+    public NotificationDto NotificationAdded([EventMessage] NotificationDto notification) =>
         notification;
 }
