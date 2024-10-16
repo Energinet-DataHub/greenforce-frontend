@@ -147,12 +147,13 @@ export class DhNotificationsCenterComponent {
         return;
       }
 
-      const { id, occurredAt, notificationType: type } = notificationAdded;
+      const { id, occurredAt, relatedToId, notificationType: type } = notificationAdded;
       const notification: DhNotification = {
         id,
         type,
         occurredAt,
         read: false,
+        relatedToId,
       };
 
       if (dayjs(occurredAt).isAfter(this.now)) {

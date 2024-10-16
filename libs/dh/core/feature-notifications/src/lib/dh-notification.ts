@@ -19,5 +19,5 @@ export type DhNotification = {
   type: string;
   occurredAt: Date;
   read: boolean;
-  relatedToId?: string;
+  relatedToId?: string | null;
 };
