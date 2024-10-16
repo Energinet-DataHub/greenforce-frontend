@@ -32,7 +32,7 @@ import { EoLandingPageProveSustainabilityComponent } from './prove-sustainabilit
 import { EoLandingPageElectricalGridComponent } from './electrical-grid.component';
 import { EoLandingPageBlockchainTechComponent } from './blockchain-tech.component';
 import { EoLandingPageGranularCertificatesComponent } from './granular-certificates.component';
-import { EoLandingPageFooterComponent } from './footer.component';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoLandingPageCTAComponent } from './cta.component';
 import { EoLandingPageNamingComponent } from './naming.component';
 
@@ -50,7 +50,7 @@ import { EoLandingPageNamingComponent } from './naming.component';
     EoLandingPageElectricalGridComponent,
     EoLandingPageBlockchainTechComponent,
     EoLandingPageGranularCertificatesComponent,
-    EoLandingPageFooterComponent,
+    EoFooterComponent,
     EoLandingPageCTAComponent,
   ],
   selector: 'eo-landing-page-shell',
@@ -113,7 +113,7 @@ import { EoLandingPageNamingComponent } from './naming.component';
     }
 
     @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-footer />
+      <eo-footer />
     } @placeholder {
       <p>Loading...</p>
     }
