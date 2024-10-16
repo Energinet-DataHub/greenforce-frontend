@@ -141,7 +141,7 @@ export class DhNotificationsCenterComponent {
   notifications = signal<DhNotification[]>([]);
   notificationAdded = subscription(OnNotificationAddedDocument, {
     onData: (data) => {
-      const { occurredAt, reasonIdentifier: headline } = data.notificationAdded;
+      const { occurredAt, notificationType: headline } = data.notificationAdded;
       const notification: DhNotification = {
         occurredAt,
         headline,
