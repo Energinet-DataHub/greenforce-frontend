@@ -147,12 +147,11 @@ export class DhNotificationsCenterComponent {
         return;
       }
 
-      const { id, occurredAt, notificationType: headline } = notificationAdded;
+      const { id, occurredAt, notificationType: type } = notificationAdded;
       const notification: DhNotification = {
         id,
+        type,
         occurredAt,
-        headline,
-        message: '',
         read: false,
       };
 

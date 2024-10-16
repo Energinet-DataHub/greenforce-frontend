@@ -15,16 +15,15 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
 import { HotToastRef } from '@ngxpert/hot-toast';
 
-type BannerDataType = {
-  headline: string;
-  message: string;
-};
+import { DhNotification } from './dh-notification';
 
 @Component({
   selector: 'dh-notification-banner',
   standalone: true,
+  imports: [TranslocoDirective],
   styles: `
     :host {
       display: block;
@@ -35,10 +34,12 @@ type BannerDataType = {
     }
   `,
   template: `
-    <h5 class="watt-space-stack-xxs">{{ toastRef.data.headline }}</h5>
-    <p>{{ toastRef.data.message }}</p>
+    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+      <h5 class="watt-space-stack-xxs">{{ t(toastRef.data.type + '.headline') }}</h5>
+      <p>{{ t(toastRef.data.type + '.message', { relatedToId: toastRef.data.relatedToId }) }}</p>
+    </ng-container>
   `,
 })
 export class DhNotificationBannerComponent {
-  public toastRef = inject<HotToastRef<BannerDataType>>(HotToastRef);
+  public toastRef = inject<HotToastRef<DhNotification>>(HotToastRef);
 }
