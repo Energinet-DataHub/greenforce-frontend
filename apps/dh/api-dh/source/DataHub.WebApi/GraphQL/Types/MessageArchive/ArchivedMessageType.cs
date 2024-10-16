@@ -34,7 +34,7 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.SenderNumber, (EicFunction)Enum.Parse(typeof(EicFunction), message.SenderRole.Name)),
+                    (message.SenderNumber, GetEicFunctionFromActorRole(message.SenderRole)),
                     context.RequestAborted);
             });
 
@@ -46,11 +46,28 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.ReceiverNumber, (EicFunction)Enum.Parse(typeof(EicFunction), message.ReceiverRole.Name)),
+                    (message.ReceiverNumber, GetEicFunctionFromActorRole(message.ReceiverRole)),
                     context.RequestAborted);
             });
 
         descriptor.Field("documentUrl")
             .ResolveWith<MessageArchiveResolvers>(c => c.GetDocument(default!, default!, default!));
     }
+
+    private EicFunction GetEicFunctionFromActorRole(ActorRole role) =>
+        role switch
+        {
+            ActorRole.BalanceResponsibleParty => EicFunction.BalanceResponsibleParty,
+            ActorRole.DanishEnergyAgency => EicFunction.DanishEnergyAgency,
+            ActorRole.DataHubAdministrator => EicFunction.DataHubAdministrator,
+            ActorRole.Delegated => EicFunction.Delegated,
+            ActorRole.EnergySupplier => EicFunction.EnergySupplier,
+            ActorRole.GridAccessProvider => EicFunction.GridAccessProvider,
+            ActorRole.ImbalanceSettlementResponsible => EicFunction.ImbalanceSettlementResponsible,
+            ActorRole.MeteredDataAdministrator => EicFunction.MeteredDataAdministrator,
+            ActorRole.MeteredDataResponsible => EicFunction.MeteredDataResponsible,
+            ActorRole.MeteringPointAdministrator => EicFunction.MeteringPointAdministrator,
+            ActorRole.SystemOperator => EicFunction.SystemOperator,
+            _ => throw new ArgumentOutOfRangeException(nameof(role), role, null),
+        };
 }
