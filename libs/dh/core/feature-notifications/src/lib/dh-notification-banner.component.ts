@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { HotToastRef } from '@ngxpert/hot-toast';
+
+type BannerDataType = {
+  headline: string;
+  message: string;
+};
 
 @Component({
   selector: 'dh-notification-banner',
@@ -29,11 +35,10 @@ import { Component, input } from '@angular/core';
     }
   `,
   template: `
-    <h5 class="watt-space-stack-xxs">{{ headline() }}</h5>
-    <p>{{ message() }}</p>
+    <h5 class="watt-space-stack-xxs">{{ toastRef.data.headline }}</h5>
+    <p>{{ toastRef.data.message }}</p>
   `,
 })
 export class DhNotificationBannerComponent {
-  headline = input<string>('eSett');
-  message = input<string>('Nye balanceansvarsrelationer');
+  public toastRef = inject<HotToastRef<BannerDataType>>(HotToastRef);
 }

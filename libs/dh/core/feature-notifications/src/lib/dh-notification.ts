@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 export type DhNotification = {
-  datetime: Date;
+  id: number;
+  occurredAt: Date;
   headline: string;
   message: string;
   read: boolean;

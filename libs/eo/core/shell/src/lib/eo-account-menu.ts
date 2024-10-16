@@ -88,7 +88,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
   `,
   encapsulation: ViewEncapsulation.None,
   template: `
-    @if (user()?.name; as name) {
+    @if (user()?.profile?.name; as name) {
       <watt-button [matMenuTriggerFor]="menu" variant="text" (click)="isOpen.set(true)">
         <span
           style="color: var(--watt-on-light-high-emphasis); font-size: 14px; line-height: 20px;"

@@ -20,9 +20,7 @@
       "@energinet-datahub/dh-shared-data-access-top-bar": [
         "libs/dh/shared/data-access-top-bar/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/data-access-api": [
-        "libs/dh/admin/data-access-api/src/index.ts"
-      ],
+      "@energinet-datahub/dh/admin/data-access-api": ["libs/dh/admin/data-access-api/src/index.ts"],
       "@energinet-datahub/dh/admin/data-access-graphql": [
         "libs/dh/admin/data-access-graphql/src/index.ts"
       ],
@@ -41,19 +39,13 @@
       "@energinet-datahub/dh/admin/feature-user-roles": [
         "libs/dh/admin/feature-user-roles/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/shared": [
-        "libs/dh/admin/shared/src/index.ts"
-      ],
+      "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
-      "@energinet-datahub/dh/auth/msal": [
-        "libs/dh/auth/feature-msal/src/index.ts"
-      ],
+      "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
       "@energinet-datahub/dh/core/feature-notifications": [
         "libs/dh/core/feature-notifications/src/index.ts"
       ],
-      "@energinet-datahub/dh/core/routing": [
-        "libs/dh/core/routing/src/index.ts"
-      ],
+      "@energinet-datahub/dh/core/routing": ["libs/dh/core/routing/src/index.ts"],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
         "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
@@ -125,75 +117,49 @@
       "@energinet-datahub/dh/message-archive/feature-search": [
         "libs/dh/message-archive/feature-search/src/index.ts"
       ],
-      "@energinet-datahub/dh/message-archive/shell": [
-        "libs/dh/message-archive/shell/src/index.ts"
-      ],
+      "@energinet-datahub/dh/message-archive/shell": ["libs/dh/message-archive/shell/src/index.ts"],
       "@energinet-datahub/dh/profile/feature-avatar": [
         "libs/dh/profile/feature-avatar/src/index.ts"
       ],
       "@energinet-datahub/dh/profile/feature-profile-modal": [
         "libs/dh/profile/feature-profile-modal/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/assets": [
-        "libs/dh/shared/assets/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/assets": ["libs/dh/shared/assets/src/index.ts"],
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/data-access-mocks": [
         "libs/dh/shared/data-access-mocks/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/domain": [
-        "libs/dh/shared/domain/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/domain": ["libs/dh/shared/domain/src/index.ts"],
       "@energinet-datahub/dh/shared/domain/graphql": [
         "libs/dh/shared/domain/src/lib/generated/graphql/types.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql/data-source": [
         "libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts"
       ],
-      "@energinet-datahub/dh/shared/environments": [
-        "libs/dh/shared/environments/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/environments": ["libs/dh/shared/environments/src/index.ts"],
       "@energinet-datahub/dh/shared/feature-authorization": [
         "libs/dh/shared/feature-authorization/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/feature-flags": [
-        "libs/dh/shared/feature-flags/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/feature-flags": ["libs/dh/shared/feature-flags/src/index.ts"],
       "@energinet-datahub/dh/shared/feature-graphql-codegen": [
         "libs/dh/shared/feature-graphql-codegen/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/test-util": [
-        "libs/dh/shared/test-util/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/ui-search": [
-        "libs/dh/shared/ui-search/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/ui-util": [
-        "libs/dh/shared/ui-util/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/ui-validators": [
-        "libs/dh/shared/ui-validators/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/util-apollo": [
-        "libs/dh/shared/util-apollo/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/test-util": ["libs/dh/shared/test-util/src/index.ts"],
+      "@energinet-datahub/dh/shared/ui-search": ["libs/dh/shared/ui-search/src/index.ts"],
+      "@energinet-datahub/dh/shared/ui-util": ["libs/dh/shared/ui-util/src/index.ts"],
+      "@energinet-datahub/dh/shared/ui-validators": ["libs/dh/shared/ui-validators/src/index.ts"],
+      "@energinet-datahub/dh/shared/util-apollo": ["libs/dh/shared/util-apollo/src/index.ts"],
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-new-version-manager": [
         "libs/dh/shared/util-new-version-manager/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/util-operators": [
-        "libs/dh/shared/util-operators/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/util-table": [
-        "libs/dh/shared/util-table/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/domain": [
-        "libs/dh/wholesale/domain/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/util-operators": ["libs/dh/shared/util-operators/src/index.ts"],
+      "@energinet-datahub/dh/shared/util-table": ["libs/dh/shared/util-table/src/index.ts"],
+      "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
         "libs/dh/wholesale/feature-calculations/src/index.ts"
       ],
@@ -203,64 +169,37 @@
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/shell": [
-        "libs/dh/wholesale/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/activity-log": [
-        "libs/eo/activity-log/feature-activity-log/index.ts"
-      ],
+      "@energinet-datahub/dh/wholesale/shell": ["libs/dh/wholesale/shell/src/index.ts"],
+      "@energinet-datahub/eo/activity-log": ["libs/eo/activity-log/feature-activity-log/index.ts"],
       "@energinet-datahub/eo/activity-log/data-access-api": [
         "libs/eo/activity-log/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/activity-log/shell": [
-        "libs/eo/activity-log/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/api-documentation": [
-        "libs/eo/api-documentation/shell/index.ts"
-      ],
+      "@energinet-datahub/eo/activity-log/shell": ["libs/eo/activity-log/shell/src/index.ts"],
+      "@energinet-datahub/eo/api-documentation": ["libs/eo/api-documentation/shell/index.ts"],
       "@energinet-datahub/eo/api-documentation/markdown": [
         "libs/eo/api-documentation/feature-markdown/index.ts"
       ],
-      "@energinet-datahub/eo/auth/data-access": [
-        "libs/eo/auth/data-access/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/feature-login": [
-        "libs/eo/auth/feature-login/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/feature-terms": [
-        "libs/eo/auth/feature-terms/index.ts"
-      ],
-      "@energinet-datahub/eo/auth/ui-actor-menu": [
-        "libs/eo/auth/ui-actor-menu/index.ts"
-      ],
+      "@energinet-datahub/eo/auth/data-access": ["libs/eo/auth/data-access/index.ts"],
+      "@energinet-datahub/eo/auth/domain": ["libs/eo/auth/domain/index.ts"],
+      "@energinet-datahub/eo/auth/feature-login": ["libs/eo/auth/feature-login/index.ts"],
+      "@energinet-datahub/eo/auth/feature-terms": ["libs/eo/auth/feature-terms/index.ts"],
+      "@energinet-datahub/eo/auth/ui-actor-menu": ["libs/eo/auth/ui-actor-menu/index.ts"],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/domain": [
-        "libs/eo/certificates/domain/index.ts"
-      ],
+      "@energinet-datahub/eo/certificates/domain": ["libs/eo/certificates/domain/index.ts"],
       "@energinet-datahub/eo/certificates/feature-details": [
         "libs/eo/certificates/feature-details/index.ts"
       ],
       "@energinet-datahub/eo/certificates/feature-overview": [
         "libs/eo/certificates/feature-overview/index.ts"
       ],
-      "@energinet-datahub/eo/certificates/shell": [
-        "libs/eo/certificates/shell/index.ts"
-      ],
-      "@energinet-datahub/eo/claims/data-access-api": [
-        "libs/eo/claims/data-access-api/index.ts"
-      ],
-      "@energinet-datahub/eo/claims/feature-overview": [
-        "libs/eo/claims/feature-overview/index.ts"
-      ],
+      "@energinet-datahub/eo/certificates/shell": ["libs/eo/certificates/shell/index.ts"],
+      "@energinet-datahub/eo/claims/data-access-api": ["libs/eo/claims/data-access-api/index.ts"],
+      "@energinet-datahub/eo/claims/feature-overview": ["libs/eo/claims/feature-overview/index.ts"],
       "@energinet-datahub/eo/claims/shell": ["libs/eo/claims/shell/index.ts"],
-      "@energinet-datahub/eo/consent/data-access-api": [
-        "libs/eo/consent/data-access-api/index.ts"
-      ],
-      "@energinet-datahub/eo/consent/feature-details": [
-        "libs/eo/consent/feature-details/index.ts"
-      ],
+      "@energinet-datahub/eo/consent/data-access-api": ["libs/eo/consent/data-access-api/index.ts"],
+      "@energinet-datahub/eo/consent/feature-details": ["libs/eo/consent/feature-details/index.ts"],
       "@energinet-datahub/eo/consent/feature-edit-consent": [
         "libs/eo/consent/feature-edit-consent/index.ts"
       ],
@@ -277,16 +216,10 @@
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
-      "@energinet-datahub/eo/core/api-versioning": [
-        "libs/eo/core/util-api-versioning/index.ts"
-      ],
+      "@energinet-datahub/eo/core/api-versioning": ["libs/eo/core/util-api-versioning/index.ts"],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
-      "@energinet-datahub/eo/dashboard/domain": [
-        "libs/eo/dashboard/domain/index.ts"
-      ],
-      "@energinet-datahub/eo/dashboard/shell": [
-        "libs/eo/dashboard/shell/src/index.ts"
-      ],
+      "@energinet-datahub/eo/dashboard/domain": ["libs/eo/dashboard/domain/index.ts"],
+      "@energinet-datahub/eo/dashboard/shell": ["libs/eo/dashboard/shell/src/index.ts"],
       "@energinet-datahub/eo/globalization/assets-localization/i18n/da": [
         "libs/eo/core/globalization/assets-localization/i18n/da.ts"
       ],
@@ -306,30 +239,16 @@
         "libs/eo/core/globalization/test-util-i18n/src/index.ts"
       ],
       "@energinet-datahub/eo/help/shell": ["libs/eo/help/shell/src/index.ts"],
-      "@energinet-datahub/eo/landing-page/shell": [
-        "libs/eo/landing-page/shell/src/index.ts"
-      ],
+      "@energinet-datahub/eo/landing-page/shell": ["libs/eo/landing-page/shell/src/index.ts"],
       "@energinet-datahub/eo/metering-points/data-access-api": [
         "libs/eo/metering-points/data-access-api/index.ts"
       ],
-      "@energinet-datahub/eo/metering-points/domain": [
-        "libs/eo/metering-points/domain/index.ts"
-      ],
-      "@energinet-datahub/eo/metering-points/shell": [
-        "libs/eo/metering-points/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/onboarding/shell": [
-        "libs/eo/onboarding/shell/index.ts"
-      ],
-      "@energinet-datahub/eo/privacy-policy/shell": [
-        "libs/eo/privacy-policy/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/production/shell": [
-        "libs/eo/production/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/assets": [
-        "libs/eo/shared/assets/src/index.ts"
-      ],
+      "@energinet-datahub/eo/metering-points/domain": ["libs/eo/metering-points/domain/index.ts"],
+      "@energinet-datahub/eo/metering-points/shell": ["libs/eo/metering-points/shell/src/index.ts"],
+      "@energinet-datahub/eo/onboarding/shell": ["libs/eo/onboarding/shell/index.ts"],
+      "@energinet-datahub/eo/privacy-policy/shell": ["libs/eo/privacy-policy/shell/src/index.ts"],
+      "@energinet-datahub/eo/production/shell": ["libs/eo/production/shell/src/index.ts"],
+      "@energinet-datahub/eo/shared/assets": ["libs/eo/shared/assets/src/index.ts"],
       "@energinet-datahub/eo/shared/atomic-design/feature-molecules": [
         "libs/eo/shared/atomic-design/feature-molecules/src/index.ts"
       ],
@@ -343,84 +262,44 @@
         "libs/eo/shared/data-access-mocks/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/domain": ["libs/eo/shared/domain/index.ts"],
-      "@energinet-datahub/eo/shared/environments": [
-        "libs/eo/shared/environments/src/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/utilities": [
-        "libs/eo/shared/utilities/src/index.ts"
-      ],
+      "@energinet-datahub/eo/shared/environments": ["libs/eo/shared/environments/src/index.ts"],
+      "@energinet-datahub/eo/shared/utilities": ["libs/eo/shared/utilities/src/index.ts"],
       "@energinet-datahub/eo/transfers": ["libs/eo/transfers/src/index.ts"],
       "@energinet-datahub/eo/translations": [
         "libs/eo/core/globalization/assets-localization/translations.ts"
       ],
-      "@energinet-datahub/eo/wallet/data-access-api": [
-        "libs/eo/wallet/data-access-api/index.ts"
-      ],
-      "@energinet-datahub/gf/e2e-util-msw": [
-        "libs/gf/msw/e2e-util-msw/index.ts"
-      ],
+      "@energinet-datahub/eo/wallet/data-access-api": ["libs/eo/wallet/data-access-api/index.ts"],
+      "@energinet-datahub/gf/e2e-util-msw": ["libs/gf/msw/e2e-util-msw/index.ts"],
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
         "libs/gf/globalization/configuration-danish-locale/src/index.ts"
       ],
       "@energinet-datahub/gf/globalization/data-access-localization": [
         "libs/gf/globalization/data-access-localization/src/index.ts"
       ],
-      "@energinet-datahub/gf/globalization/domain": [
-        "libs/gf/globalization/domain/src/index.ts"
-      ],
+      "@energinet-datahub/gf/globalization/domain": ["libs/gf/globalization/domain/src/index.ts"],
       "@energinet-datahub/gf/test-util": ["libs/gf/test-util/src/index.ts"],
-      "@energinet-datahub/gf/test-util-matchers": [
-        "libs/gf/test-util-matchers/src/index.ts"
-      ],
-      "@energinet-datahub/gf/test-util-msw": [
-        "libs/gf/msw/test-util-msw/src/index.ts"
-      ],
-      "@energinet-datahub/gf/test-util-staging": [
-        "libs/gf/test-util-staging/src/index.ts"
-      ],
-      "@energinet-datahub/gf/util-browser": [
-        "libs/gf/util-browser/src/index.ts"
-      ],
+      "@energinet-datahub/gf/test-util-matchers": ["libs/gf/test-util-matchers/src/index.ts"],
+      "@energinet-datahub/gf/test-util-msw": ["libs/gf/msw/test-util-msw/src/index.ts"],
+      "@energinet-datahub/gf/test-util-staging": ["libs/gf/test-util-staging/src/index.ts"],
+      "@energinet-datahub/gf/util-browser": ["libs/gf/util-browser/src/index.ts"],
       "@energinet-datahub/gf/util-cookie-information": [
         "libs/gf/util-cookie-information/src/index.ts"
       ],
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
-      "@energinet-datahub/watt/badge": [
-        "libs/watt/src/lib/components/badge/index.ts"
-      ],
-      "@energinet-datahub/watt/breadcrumbs": [
-        "libs/watt/src/lib/components/breadcrumbs/index.ts"
-      ],
-      "@energinet-datahub/watt/breakpoints": [
-        "libs/watt/src/lib/foundations/breakpoints/index.ts"
-      ],
-      "@energinet-datahub/watt/button": [
-        "libs/watt/src/lib/components/button/index.ts"
-      ],
-      "@energinet-datahub/watt/card": [
-        "libs/watt/src/lib/components/card/index.ts"
-      ],
-      "@energinet-datahub/watt/checkbox": [
-        "libs/watt/src/lib/components/checkbox/index.ts"
-      ],
-      "@energinet-datahub/watt/chip": [
-        "libs/watt/src/lib/components/chip/index.ts"
-      ],
-      "@energinet-datahub/watt/clipboard": [
-        "libs/watt/src/lib/components/clipboard/index.ts"
-      ],
-      "@energinet-datahub/watt/code": [
-        "libs/watt/src/lib/components/code/index.ts"
-      ],
-      "@energinet-datahub/watt/color": [
-        "libs/watt/src/lib/foundations/color/index.ts"
-      ],
+      "@energinet-datahub/watt/badge": ["libs/watt/src/lib/components/badge/index.ts"],
+      "@energinet-datahub/watt/breadcrumbs": ["libs/watt/src/lib/components/breadcrumbs/index.ts"],
+      "@energinet-datahub/watt/breakpoints": ["libs/watt/src/lib/foundations/breakpoints/index.ts"],
+      "@energinet-datahub/watt/button": ["libs/watt/src/lib/components/button/index.ts"],
+      "@energinet-datahub/watt/card": ["libs/watt/src/lib/components/card/index.ts"],
+      "@energinet-datahub/watt/checkbox": ["libs/watt/src/lib/components/checkbox/index.ts"],
+      "@energinet-datahub/watt/chip": ["libs/watt/src/lib/components/chip/index.ts"],
+      "@energinet-datahub/watt/clipboard": ["libs/watt/src/lib/components/clipboard/index.ts"],
+      "@energinet-datahub/watt/code": ["libs/watt/src/lib/components/code/index.ts"],
+      "@energinet-datahub/watt/color": ["libs/watt/src/lib/foundations/color/index.ts"],
       "@energinet-datahub/watt/danish-date-time": [
         "libs/watt/src/lib/configuration/watt-danish-datetime.providers.ts"
       ],
-      "@energinet-datahub/watt/data": [
-        "libs/watt/src/lib/components/data/index.ts"
-      ],
+      "@energinet-datahub/watt/data": ["libs/watt/src/lib/components/data/index.ts"],
       "@energinet-datahub/watt/date": ["libs/watt/src/lib/utils/date/index.ts"],
       "@energinet-datahub/watt/datepicker": [
         "libs/watt/src/lib/components/picker/datepicker/index.ts"
@@ -431,99 +310,53 @@
       "@energinet-datahub/watt/description-list": [
         "libs/watt/src/lib/components/description-list/index.ts"
       ],
-      "@energinet-datahub/watt/directives": [
-        "libs/watt/src/lib/directives/index.ts"
-      ],
-      "@energinet-datahub/watt/drawer": [
-        "libs/watt/src/lib/components/drawer/index.ts"
-      ],
-      "@energinet-datahub/watt/dropdown": [
-        "libs/watt/src/lib/components/dropdown/index.ts"
-      ],
-      "@energinet-datahub/watt/empty-state": [
-        "libs/watt/src/lib/components/empty-state/index.ts"
-      ],
+      "@energinet-datahub/watt/directives": ["libs/watt/src/lib/directives/index.ts"],
+      "@energinet-datahub/watt/drawer": ["libs/watt/src/lib/components/drawer/index.ts"],
+      "@energinet-datahub/watt/dropdown": ["libs/watt/src/lib/components/dropdown/index.ts"],
+      "@energinet-datahub/watt/empty-state": ["libs/watt/src/lib/components/empty-state/index.ts"],
       "@energinet-datahub/watt/expandable-card": [
         "libs/watt/src/lib/components/expandable-card/index.ts"
       ],
-      "@energinet-datahub/watt/expansion": [
-        "libs/watt/src/lib/components/expansion/index.ts"
-      ],
-      "@energinet-datahub/watt/field": [
-        "libs/watt/src/lib/components/field/index.ts"
-      ],
-      "@energinet-datahub/watt/icon": [
-        "libs/watt/src/lib/foundations/icon/index.ts"
-      ],
+      "@energinet-datahub/watt/expansion": ["libs/watt/src/lib/components/expansion/index.ts"],
+      "@energinet-datahub/watt/field": ["libs/watt/src/lib/components/field/index.ts"],
+      "@energinet-datahub/watt/icon": ["libs/watt/src/lib/foundations/icon/index.ts"],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/watt/src/lib/utils/intersection-observer/index.ts"
       ],
-      "@energinet-datahub/watt/locale": [
-        "libs/watt/src/lib/configuration/watt-locale.service.ts"
-      ],
-      "@energinet-datahub/watt/modal": [
-        "libs/watt/src/lib/components/modal/index.ts"
-      ],
-      "@energinet-datahub/watt/paginator": [
-        "libs/watt/src/lib/components/paginator/index.ts"
-      ],
-      "@energinet-datahub/watt/phone-field": [
-        "libs/watt/src/lib/components/phone-field/index.ts"
-      ],
+      "@energinet-datahub/watt/locale": ["libs/watt/src/lib/configuration/watt-locale.service.ts"],
+      "@energinet-datahub/watt/modal": ["libs/watt/src/lib/components/modal/index.ts"],
+      "@energinet-datahub/watt/paginator": ["libs/watt/src/lib/components/paginator/index.ts"],
+      "@energinet-datahub/watt/phone-field": ["libs/watt/src/lib/components/phone-field/index.ts"],
       "@energinet-datahub/watt/progress-tracker": [
         "libs/watt/src/lib/components/progress-tracker/index.ts"
       ],
-      "@energinet-datahub/watt/radio": [
-        "libs/watt/src/lib/components/radio/index.ts"
-      ],
+      "@energinet-datahub/watt/radio": ["libs/watt/src/lib/components/radio/index.ts"],
       "@energinet-datahub/watt/resize-observer": [
         "libs/watt/src/lib/utils/resize-observer/index.ts"
       ],
-      "@energinet-datahub/watt/search": [
-        "libs/watt/src/lib/components/search/index.ts"
-      ],
-      "@energinet-datahub/watt/shell": [
-        "libs/watt/src/lib/components/shell/index.ts"
-      ],
-      "@energinet-datahub/watt/slider": [
-        "libs/watt/src/lib/components/slider/index.ts"
-      ],
-      "@energinet-datahub/watt/spinner": [
-        "libs/watt/src/lib/components/spinner/index.ts"
-      ],
-      "@energinet-datahub/watt/stepper": [
-        "libs/watt/src/lib/components/stepper/index.ts"
-      ],
-      "@energinet-datahub/watt/table": [
-        "libs/watt/src/lib/components/table/index.ts"
-      ],
-      "@energinet-datahub/watt/tabs": [
-        "libs/watt/src/lib/components/tabs/index.ts"
-      ],
-      "@energinet-datahub/watt/text-field": [
-        "libs/watt/src/lib/components/text-field/index.ts"
-      ],
+      "@energinet-datahub/watt/search": ["libs/watt/src/lib/components/search/index.ts"],
+      "@energinet-datahub/watt/shell": ["libs/watt/src/lib/components/shell/index.ts"],
+      "@energinet-datahub/watt/slider": ["libs/watt/src/lib/components/slider/index.ts"],
+      "@energinet-datahub/watt/spinner": ["libs/watt/src/lib/components/spinner/index.ts"],
+      "@energinet-datahub/watt/stepper": ["libs/watt/src/lib/components/stepper/index.ts"],
+      "@energinet-datahub/watt/table": ["libs/watt/src/lib/components/table/index.ts"],
+      "@energinet-datahub/watt/tabs": ["libs/watt/src/lib/components/tabs/index.ts"],
+      "@energinet-datahub/watt/text-field": ["libs/watt/src/lib/components/text-field/index.ts"],
       "@energinet-datahub/watt/textarea-field": [
         "libs/watt/src/lib/components/textarea-field/index.ts"
       ],
       "@energinet-datahub/watt/timepicker": [
         "libs/watt/src/lib/components/picker/timepicker/index.ts"
       ],
-      "@energinet-datahub/watt/toast": [
-        "libs/watt/src/lib/components/toast/index.ts"
-      ],
-      "@energinet-datahub/watt/tooltip": [
-        "libs/watt/src/lib/components/tooltip/index.ts"
-      ],
+      "@energinet-datahub/watt/toast": ["libs/watt/src/lib/components/toast/index.ts"],
+      "@energinet-datahub/watt/tooltip": ["libs/watt/src/lib/components/tooltip/index.ts"],
       "@energinet-datahub/watt/validation-message": [
         "libs/watt/src/lib/components/validation-message/index.ts"
       ],
       "@energinet-datahub/watt/validators": [
         "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
-      "@energinet-datahub/watt/vater": [
-        "libs/watt/src/lib/components/vater/index.ts"
-      ],
+      "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
       "rxjs": ["./node_modules/rxjs"],
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }
