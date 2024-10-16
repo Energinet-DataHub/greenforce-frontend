@@ -25,9 +25,14 @@ dh-user-roles {
   }
 
   watt-expandable-card {
+    watt-badge {
+      flex: 0 0 auto;
+    }
+
     watt-expandable-card-title {
       display: flex;
       gap: var(--watt-space-s);
+
       watt-icon {
         color: var(--watt-color-primary-darker);
       }
