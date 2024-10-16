@@ -32,6 +32,9 @@ const selector = 'eo-footer';
   encapsulation: ViewEncapsulation.None,
   styles: `
     ${selector} {
+      display: block;
+      width: 100%;
+
       footer {
         background-color: #102427;
         background-image: url('/assets/landing-page/footer-bg@small.svg');
