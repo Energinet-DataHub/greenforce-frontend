@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
-using Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 namespace Energinet.DataHub.WebApi.Clients.Notifications;
 
@@ -29,7 +28,7 @@ public sealed class NotificationClient : INotificationsClient
         _httpClient = httpClient;
     }
 
-    public async Task<IEnumerable<Notification>> GetNotificationsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<NotificationDto>> GetNotificationsAsync(CancellationToken cancellationToken)
     {
         using var request = new HttpRequestMessage(HttpMethod.Get, "api/notifications");
 
@@ -39,15 +38,15 @@ public sealed class NotificationClient : INotificationsClient
         response.EnsureSuccessStatusCode();
 
         return responseContent.Select(notificationDto =>
-            new Notification(
+            new NotificationDto(
                 notificationDto.Id,
                 notificationDto.NotificationType,
-                notificationDto.RelatedToId ?? string.Empty,
                 notificationDto.OccurredAt,
-                notificationDto.ExpiresAt));
+                notificationDto.ExpiresAt,
+                notificationDto.RelatedToId ?? string.Empty));
     }
 
-    public async Task<IEnumerable<Notification>> GetUnreadNotificationsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<NotificationDto>> GetUnreadNotificationsAsync(CancellationToken cancellationToken)
     {
         using var request = new HttpRequestMessage(HttpMethod.Get, "api/notifications/unread");
 
@@ -57,12 +56,12 @@ public sealed class NotificationClient : INotificationsClient
         response.EnsureSuccessStatusCode();
 
         return responseContent.Select(notificationDto =>
-            new Notification(
+            new NotificationDto(
                 notificationDto.Id,
                 notificationDto.NotificationType,
-                notificationDto.RelatedToId ?? string.Empty,
                 notificationDto.OccurredAt,
-                notificationDto.ExpiresAt));
+                notificationDto.ExpiresAt,
+                notificationDto.RelatedToId ?? string.Empty));
     }
 
     public async Task DismissNotificationAsync(int notificationId, CancellationToken cancellationToken)

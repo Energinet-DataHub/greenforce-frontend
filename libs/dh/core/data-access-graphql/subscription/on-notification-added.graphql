@@ -1,7 +1,8 @@
 subscription OnNotificationAdded {
   notificationAdded {
-    reasonIdentifier
-    relatedId
+    id
+    notificationType
+    relatedToId
     occurredAt
     expiresAt
   }
