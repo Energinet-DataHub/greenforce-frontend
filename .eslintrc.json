@@ -55,7 +55,8 @@
                   "type:test-util",
                   "type:domain",
                   "type:assets",
-                  "type:styles"
+                  "type:styles",
+                  "type:environments"
                 ]
               },
               {
