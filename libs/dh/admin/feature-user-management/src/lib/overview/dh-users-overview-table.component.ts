@@ -50,10 +50,11 @@ import {
   UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
+import { DhUserLatestLoginComponent } from './dh-user-latest-login.component';
+
 @Component({
   selector: 'dh-users-overview-table',
   standalone: true,
@@ -77,7 +78,7 @@ import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserDrawerComponent,
-    WattDatePipe,
+    DhUserLatestLoginComponent,
   ],
 })
 export class DhUsersTabTableComponent implements AfterViewInit {

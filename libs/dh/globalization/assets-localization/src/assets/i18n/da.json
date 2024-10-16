@@ -1558,7 +1558,11 @@
             "phone": "Telefonnr.",
             "latestLogin": "Seneste login",
             "status": "Status"
-          }
+          },
+          "daysAgo": "{{ days }} dage siden",
+          "never": "Aldrig",
+          "today": "i dag",
+          "yesterday": "i går"
         },
         "roles": {
           "userResponsible": "Brugeransvarlig",
