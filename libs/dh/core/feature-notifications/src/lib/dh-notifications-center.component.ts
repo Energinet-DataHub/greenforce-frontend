@@ -141,8 +141,18 @@ export class DhNotificationsCenterComponent {
   notifications = signal<DhNotification[]>([]);
   notificationAdded = subscription(OnNotificationAddedDocument, {
     onData: (data) => {
-      const { occurredAt, notificationType: headline } = data.notificationAdded;
+      const isDistinctNotification = this.isDistinctNotification(
+        this.notifications(),
+        data.notificationAdded.id
+      );
+
+      if (!isDistinctNotification) {
+        return;
+      }
+
+      const { id, occurredAt, notificationType: headline } = data.notificationAdded;
       const notification: DhNotification = {
+        id,
         occurredAt,
         headline,
         message: '',
@@ -172,4 +182,11 @@ export class DhNotificationsCenterComponent {
       overlayY: 'top',
     },
   ];
+
+  private isDistinctNotification(
+    allNotifications: DhNotification[],
+    incomingNotificationId: number
+  ): boolean {
+    return !allNotifications.some((n) => n.id === incomingNotificationId);
+  }
 }
