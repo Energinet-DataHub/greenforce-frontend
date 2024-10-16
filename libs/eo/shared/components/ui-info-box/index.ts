@@ -14,29 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// GLOBAL WATT STYLES
-@use "@energinet-datahub/watt";
-
-// GLOBAL WATT OVERRIDES
-label {
-  text-transform: none; // Override .watt-label, which uppercases labels
-}
-
-body strong {
-  color: inherit; // Override Watt styles
-}
-
-a,
-[routerLink] {
-  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
-}
-
-// Layout
-.watt-toolbar {
-  width: 100% !important;
-}
-
-.watt-main-content {
-  width: calc(100vw - var(--scrollbar-width)) !important;
-  overflow-x: hidden;
-}
+export * from './eo-info-box.component';

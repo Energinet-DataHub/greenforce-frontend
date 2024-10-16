@@ -34,7 +34,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
 
 @Component({
   standalone: true,

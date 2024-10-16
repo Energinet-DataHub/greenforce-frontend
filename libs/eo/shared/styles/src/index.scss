@@ -37,6 +37,10 @@
 @use "./lib/@energinet-datahub/eo/shared/styles/utilities/utilities-spacing";
 @use "./lib/@energinet-datahub/eo/shared/styles/utilities/utilities-layout";
 
+:root {
+  --scrollbar-width: calc(100vw - 100%);
+}
+
 // Cookie information
 #cookie-information-template-wrapper #Coi-Renew {
   right: 0px;

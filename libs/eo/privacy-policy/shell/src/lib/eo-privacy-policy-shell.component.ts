@@ -20,11 +20,10 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import {
-  EoFooterComponent,
-  EoHeaderComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+
+import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
