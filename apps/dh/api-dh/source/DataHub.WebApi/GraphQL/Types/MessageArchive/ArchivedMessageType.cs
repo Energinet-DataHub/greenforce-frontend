@@ -15,6 +15,7 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
@@ -34,7 +35,7 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.SenderNumber, GetEicFunctionFromActorRole(message.SenderRole)),
+                    (message.SenderNumber, message.SenderRole.ToEicFunction()),
                     context.RequestAborted);
             });
 
@@ -46,28 +47,11 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.ReceiverNumber, GetEicFunctionFromActorRole(message.ReceiverRole)),
+                    (message.ReceiverNumber, message.ReceiverRole.ToEicFunction()),
                     context.RequestAborted);
             });
 
         descriptor.Field("documentUrl")
             .ResolveWith<MessageArchiveResolvers>(c => c.GetDocument(default!, default!, default!));
     }
-
-    private EicFunction GetEicFunctionFromActorRole(ActorRole role) =>
-        role switch
-        {
-            ActorRole.BalanceResponsibleParty => EicFunction.BalanceResponsibleParty,
-            ActorRole.DanishEnergyAgency => EicFunction.DanishEnergyAgency,
-            ActorRole.DataHubAdministrator => EicFunction.DataHubAdministrator,
-            ActorRole.Delegated => EicFunction.Delegated,
-            ActorRole.EnergySupplier => EicFunction.EnergySupplier,
-            ActorRole.GridAccessProvider => EicFunction.GridAccessProvider,
-            ActorRole.ImbalanceSettlementResponsible => EicFunction.ImbalanceSettlementResponsible,
-            ActorRole.MeteredDataAdministrator => EicFunction.MeteredDataAdministrator,
-            ActorRole.MeteredDataResponsible => EicFunction.MeteredDataResponsible,
-            ActorRole.MeteringPointAdministrator => EicFunction.MeteringPointAdministrator,
-            ActorRole.SystemOperator => EicFunction.SystemOperator,
-            _ => throw new ArgumentOutOfRangeException(nameof(role), role, null),
-        };
 }
