@@ -13,11 +13,14 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 using HotChocolate.Types.Pagination;
 using Microsoft.IdentityModel.Tokens;
 using NodaTime;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -26,8 +29,8 @@ public partial class Query
     [UsePaging]
     public async Task<Connection<ArchivedMessageResultV3>> GetArchivedMessagesAsync(
         Interval created,
-        string? senderNumber,
-        string? receiverNumber,
+        Guid? senderId,
+        Guid? receiverId,
         DocumentType[]? documentTypes,
         BusinessReason[]? businessReasons,
         bool? includeRelated,
@@ -37,8 +40,18 @@ public partial class Query
         int? last,
         string? before,
         ArchivedMessageSortInput? order,
-        [Service] IEdiB2CWebAppClient_V3 client)
+        [Service] IMarketParticipantClient_V1 markPartClient,
+        [Service] IEdiB2CWebAppClient_V3 ediClient)
     {
+        async Task<ActorDto?> GetActorAsync(Guid? id)
+        {
+            return id.HasValue
+                ? await markPartClient.ActorGetAsync(id.Value)
+                : null;
+        }
+
+        var sender = GetActorAsync(senderId);
+        var receiver = GetActorAsync(receiverId);
         var searchCriteria = !string.IsNullOrWhiteSpace(filter)
             ? new SearchArchivedMessagesCriteriaV3()
             {
@@ -52,8 +65,10 @@ public partial class Query
                     Start = created.Start.ToDateTimeOffset(),
                     End = created.End.ToDateTimeOffset(),
                 },
-                SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : senderNumber,
-                ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : receiverNumber,
+                SenderNumber = (await sender)?.ActorNumber.Value,
+                SenderRole = (await sender)?.MarketRoles.FirstOrDefault()?.EicFunction.ToActorRole(),
+                ReceiverNumber = (await receiver)?.ActorNumber.Value,
+                ReceiverRole = (await receiver)?.MarketRoles.FirstOrDefault()?.EicFunction.ToActorRole(),
                 DocumentTypes = documentTypes,
                 BusinessReasons = businessReasons.IsNullOrEmpty()
                     ? null
@@ -88,7 +103,7 @@ public partial class Query
             Pagination = pagination,
         };
 
-        var response = await client.ArchivedMessageSearchAsync(
+        var response = await ediClient.ArchivedMessageSearchAsync(
             "3.0",
             searchArchivedMessagesRequest,
             CancellationToken.None);
