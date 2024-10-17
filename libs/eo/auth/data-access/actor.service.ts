@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { EoAuthService } from './auth.service';
@@ -42,6 +43,18 @@ export class EoActorService {
   isSelf = computed(() => this.actor()?.org_id === this.self.org_id);
 
   constructor() {
+    // If user is loaded, remove saved actor (new login)
+    this.authService.addUserLoaded$.pipe(takeUntilDestroyed()).subscribe((user) => {
+      if(!user) return;
+      this.remoevSavedActor();
+    });
+
+    // If user is unloaded, remove saved actor (logout)
+    this.authService.addUserUnloaded$.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.remoevSavedActor();
+    });
+
+    // If any saved acotor, set it as current actor
     this.setCurrentActor(this.getSavedActor());
   }
 
@@ -53,6 +66,10 @@ export class EoActorService {
     const currentActor = actor ?? this.self;
     this.actor.set(currentActor);
     this.saveActor(currentActor);
+  }
+
+  private remoevSavedActor() {
+    this.window?.sessionStorage.removeItem(this.config.key);
   }
 
   private getSavedActor(): Actor | null {

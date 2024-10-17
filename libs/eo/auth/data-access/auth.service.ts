@@ -18,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { User, UserManager } from 'oidc-client-ts';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 
@@ -58,6 +59,12 @@ export class EoAuthService {
   private b2cEnvironment: EoB2cEnvironment = inject(eoB2cEnvironmentToken);
   private apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
 
+  // Events
+  private addUserLoaded = new BehaviorSubject<User | null>(null);
+  private addUserUnloaded = new Subject<void>();
+
+  addUserUnloaded$ = this.addUserUnloaded.asObservable();
+  addUserLoaded$ = this.addUserLoaded.asObservable();
   userManager: UserManager | null = null;
   user = signal<EoUser | null>(null);
 
@@ -92,6 +99,14 @@ export class EoAuthService {
     };
 
     this.userManager = new UserManager(settings);
+
+    this.userManager.events.addUserLoaded((user) => {
+      this.addUserLoaded.next(user);
+    });
+
+    this.userManager.events.addUserUnloaded(() => {
+      this.addUserUnloaded.next();
+    });
   }
 
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
