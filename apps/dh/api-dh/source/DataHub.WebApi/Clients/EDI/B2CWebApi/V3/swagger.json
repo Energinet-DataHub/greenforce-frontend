@@ -303,17 +303,25 @@
             "type": "string",
             "nullable": true
           },
-          "senderRoleCode": {
-            "type": "string",
-            "nullable": true
+          "senderRole": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ]
           },
           "receiverNumber": {
             "type": "string",
             "nullable": true
           },
-          "receiverRoleCode": {
-            "type": "string",
-            "nullable": true
+          "receiverRole": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ]
           },
           "documentTypes": {
             "type": "array",

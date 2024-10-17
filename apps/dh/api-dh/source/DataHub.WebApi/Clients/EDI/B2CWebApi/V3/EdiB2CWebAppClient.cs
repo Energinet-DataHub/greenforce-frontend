@@ -429,14 +429,14 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v3
         [Newtonsoft.Json.JsonProperty("senderNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? SenderNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("senderRoleCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? SenderRoleCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("senderRole", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole? SenderRole { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("receiverNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? ReceiverNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("receiverRoleCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? ReceiverRoleCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("receiverRole", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole? ReceiverRole { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("documentTypes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<DocumentType>? DocumentTypes { get; set; } = default!;
