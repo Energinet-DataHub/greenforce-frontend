@@ -45,7 +45,7 @@ export class EoActorService {
   constructor() {
     // If user is loaded, remove saved actor (new login)
     this.authService.addUserLoaded$.pipe(takeUntilDestroyed()).subscribe((user) => {
-      if(!user) return;
+      if (!user) return;
       this.remoevSavedActor();
     });
 
