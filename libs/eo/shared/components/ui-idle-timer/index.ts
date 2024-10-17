@@ -14,28 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dh-user-roles {
-  .container {
-    display: block;
-  }
-
-  watt-table {
-    box-sizing: border-box;
-    padding: var(--watt-space-m) 0;
-  }
-
-  watt-expandable-card {
-    watt-badge {
-      flex: 0 0 auto;
-    }
-
-    watt-expandable-card-title {
-      display: flex;
-      gap: var(--watt-space-s);
-
-      watt-icon {
-        color: var(--watt-color-primary-darker);
-      }
-    }
-  }
-}
+export * from './idle-timer-countdown.component';
+export * from './idle-timer-logged-out.component';

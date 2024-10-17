@@ -34,7 +34,6 @@ import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
-import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import {
   DhActorUserRole,
@@ -61,7 +60,6 @@ import {
     MatExpansionModule,
     FormsModule,
 
-    WattCopyToClipboardDirective,
     WattSpinnerComponent,
     WATT_TABLE,
     WattIconComponent,

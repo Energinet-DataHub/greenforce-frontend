@@ -28,10 +28,9 @@ export class DhNotificationBannerService {
   private readonly colorService = inject(WattColorHelperService);
 
   showBanner(notification: DhNotification): void {
-    this.hotToast.show(DhNotificationBannerComponent, {
+    this.hotToast.show<DhNotification>(DhNotificationBannerComponent, {
       data: {
-        headline: notification.headline,
-        message: notification.message,
+        ...notification,
       },
       position: 'top-right',
       dismissible: true,

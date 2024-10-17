@@ -39,12 +39,6 @@ limitations under the License.
         <watt-expandable-card-title>
           {{ title }}
 
-          <watt-icon
-            name="contentCopy"
-            [wattCopyToClipboard]="title"
-            (click)="$event.stopPropagation()"
-          />
-
           @if (actor.id === user()?.administratedBy?.id) {
             <watt-icon
               name="personCheck"

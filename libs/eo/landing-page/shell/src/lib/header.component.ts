@@ -30,7 +30,7 @@ import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 
 import { EoAnnouncementBarComponent } from './announcement-bar.component';

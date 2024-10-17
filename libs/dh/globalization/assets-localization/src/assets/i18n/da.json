@@ -23,7 +23,17 @@
   },
   "notificationsCenter": {
     "headline": "Notifikationer",
-    "noNotifications": "Ingen notifikationer"
+    "noNotifications": "Ingen notifikationer",
+    "notification": {
+      "BalanceResponsibilityActorUnrecognized": {
+        "headline": "eSett",
+        "message": "Balanceansvarsrelation modtaget for ukendt aktør '{{ relatedToId }}'."
+      },
+      "BalanceResponsibilityValidationFailed": {
+        "headline": "eSett",
+        "message": "Balanceansvarsrelationen for aktør '{{ relatedToId }}' er ved at ophøre."
+      }
+    }
   },
   "envinronementName": {
     "localhost": "lokalt",

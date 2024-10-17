@@ -16,6 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
@@ -25,7 +26,7 @@ import { DhNotification } from './dh-notification';
   selector: 'dh-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, WattDatePipe],
+  imports: [NgClass, TranslocoDirective, WattDatePipe],
   styles: `
     :host {
       display: block;
@@ -62,13 +63,21 @@ import { DhNotification } from './dh-notification';
       }
     }
   `,
-  template: `<div class="notification" [ngClass]="{ 'notification--unread': !notification().read }">
-    <span class="notification__datetime watt-text-s">
-      {{ notification().occurredAt | wattDate: 'long' }}
-    </span>
-    <h5 class="notification__headline watt-space-stack-xxs">{{ notification().headline }}</h5>
-    <p class="notification__message">{{ notification().message }}</p>
-  </div>`,
+  template: `
+    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+      <div class="notification" [ngClass]="{ 'notification--unread': !notification().read }">
+        <span class="notification__datetime watt-text-s">
+          {{ notification().occurredAt | wattDate: 'long' }}
+        </span>
+        <h5 class="notification__headline watt-space-stack-xxs">
+          {{ t(notification().type + '.headline') }}
+        </h5>
+        <p class="notification__message">
+          {{ t(notification().type + '.message', { relatedToId: notification().relatedToId }) }}
+        </p>
+      </div>
+    </ng-container>
+  `,
 })
 export class DhNotificationComponent {
   notification = input.required<DhNotification>();
