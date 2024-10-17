@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class MessageArchiveResolvers
 {
     public string? GetDocument(
-        [Parent] ArchivedMessageResultV2 result,
+        [Parent] ArchivedMessageResultV3 result,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
             httpContextAccessor.HttpContext!,

@@ -12,22 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 using HotChocolate.Types.Pagination;
 using Microsoft.IdentityModel.Tokens;
 using NodaTime;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
     [UsePaging]
-    public async Task<Connection<ArchivedMessageResultV2>> GetArchivedMessagesAsync(
+    public async Task<Connection<ArchivedMessageResultV3>> GetArchivedMessagesAsync(
         Interval created,
-        string? senderNumber,
-        string? receiverNumber,
+        Guid? senderId,
+        Guid? receiverId,
         DocumentType[]? documentTypes,
         BusinessReason[]? businessReasons,
         bool? includeRelated,
@@ -37,26 +40,36 @@ public partial class Query
         int? last,
         string? before,
         ArchivedMessageSortInput? order,
-        [Service] IEdiB2CWebAppClient_V2 client)
+        [Service] IMarketParticipantClient_V1 markPartClient,
+        [Service] IEdiB2CWebAppClient_V3 ediClient)
     {
+        async Task<ActorDto?> GetActorAsync(Guid? id)
+        {
+            return id.HasValue
+                ? await markPartClient.ActorGetAsync(id.Value)
+                : null;
+        }
+
+        var sender = GetActorAsync(senderId);
+        var receiver = GetActorAsync(receiverId);
         var searchCriteria = !string.IsNullOrWhiteSpace(filter)
-            ? new SearchArchivedMessagesCriteria()
+            ? new SearchArchivedMessagesCriteriaV3()
             {
                 MessageId = filter,
                 IncludeRelatedMessages = includeRelated ?? false,
             }
-            : new SearchArchivedMessagesCriteria()
+            : new SearchArchivedMessagesCriteriaV3()
             {
                 CreatedDuringPeriod = new MessageCreationPeriod()
                 {
                     Start = created.Start.ToDateTimeOffset(),
                     End = created.End.ToDateTimeOffset(),
                 },
-                SenderNumber = string.IsNullOrEmpty(senderNumber) ? null : senderNumber,
-                ReceiverNumber = string.IsNullOrEmpty(receiverNumber) ? null : receiverNumber,
-                DocumentTypes = documentTypes.IsNullOrEmpty()
-                    ? null
-                    : documentTypes?.Select(x => x.ToString()).ToArray(),
+                SenderNumber = (await sender)?.ActorNumber.Value,
+                SenderRole = (await sender)?.MarketRoles.FirstOrDefault()?.EicFunction.ToActorRole(),
+                ReceiverNumber = (await receiver)?.ActorNumber.Value,
+                ReceiverRole = (await receiver)?.MarketRoles.FirstOrDefault()?.EicFunction.ToActorRole(),
+                DocumentTypes = documentTypes,
                 BusinessReasons = businessReasons.IsNullOrEmpty()
                     ? null
                     : businessReasons?.Select(x => x.ToString()).ToArray(),
@@ -84,14 +97,14 @@ public partial class Query
             DirectionToSortBy = (DirectionToSortBy?)direction,
         };
 
-        var searchArchivedMessagesRequest = new SearchArchivedMessagesRequest
+        var searchArchivedMessagesRequest = new SearchArchivedMessagesRequestV3
         {
             SearchCriteria = searchCriteria,
             Pagination = pagination,
         };
 
-        var response = await client.ArchivedMessageSearchAsync(
-            "2.0",
+        var response = await ediClient.ArchivedMessageSearchAsync(
+            "3.0",
             searchArchivedMessagesRequest,
             CancellationToken.None);
 
@@ -112,7 +125,7 @@ public partial class Query
             edges.FirstOrDefault()?.Cursor,
             edges.LastOrDefault()?.Cursor);
 
-        var connection = new Connection<ArchivedMessageResultV2>(
+        var connection = new Connection<ArchivedMessageResultV3>(
             edges,
             pageInfo,
             response.TotalCount);
@@ -136,19 +149,20 @@ public partial class Query
             : new SearchArchivedMessagesCursor { FieldToSortByValue = sub[1], RecordId = recordId };
     }
 
-    private static Edge<ArchivedMessageResultV2> MakeEdge(
-        ArchivedMessageResultV2 message,
+    private static Edge<ArchivedMessageResultV3> MakeEdge(
+        ArchivedMessageResultV3 message,
         FieldToSortBy field)
     {
         var sortCursor = field switch
         {
             FieldToSortBy.MessageId => message.MessageId ?? string.Empty,
-            FieldToSortBy.DocumentType => message.DocumentType,
+            FieldToSortBy.DocumentType => message.DocumentType.ToString(),
             FieldToSortBy.SenderNumber => message.SenderNumber ?? string.Empty,
             FieldToSortBy.ReceiverNumber => message.ReceiverNumber ?? string.Empty,
             FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+            _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Unexpected FieldToSortBy value"),
         };
 
-        return new Edge<ArchivedMessageResultV2>(message, $"{message.RecordId}+{sortCursor}");
+        return new Edge<ArchivedMessageResultV3>(message, $"{message.RecordId}+{sortCursor}");
     }
 }

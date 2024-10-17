@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Net.Mime;
-using Energinet.DataHub.WebApi.Clients.EDI;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers;
@@ -22,44 +22,11 @@ namespace Energinet.DataHub.WebApi.Controllers;
 [Route("v1/[controller]")]
 public class MessageArchiveController : ControllerBase
 {
-    private readonly ArchivedMessagesSearch _archivedMessagesSearch;
-    private readonly ActorService _actorService;
+    private readonly IEdiB2CWebAppClient_V1 _client;
 
-    public MessageArchiveController(ArchivedMessagesSearch archivedMessagesSearch, ActorService actorService)
+    public MessageArchiveController(IEdiB2CWebAppClient_V1 client)
     {
-        _archivedMessagesSearch =
-            archivedMessagesSearch ?? throw new ArgumentNullException(nameof(archivedMessagesSearch));
-        _actorService = actorService ?? throw new ArgumentNullException(nameof(actorService));
-    }
-
-    /// <summary>
-    /// Get saved request and response logs.
-    /// </summary>
-    /// <returns>Search result.</returns>
-    [HttpPost("SearchRequestResponseLogs")]
-    public async Task<ActionResult<SearchResult>> SearchRequestResponseLogsAsync(
-        ArchivedMessageSearchCriteria archivedMessageSearch, CancellationToken cancellationToken)
-    {
-        var result = await _archivedMessagesSearch.SearchAsync(archivedMessageSearch, cancellationToken)
-            .ConfigureAwait(false);
-
-        return !result.Messages.Any() ? NoContent() : Ok(result);
-    }
-
-    [HttpGet("Actors")]
-    public async Task<ActionResult<IEnumerable<Actor>>> GetActorsAsync(CancellationToken cancellationToken)
-    {
-        var result = await _actorService.GetActorsAsync(cancellationToken);
-
-        return !result.Any() ? NoContent() : Ok(result);
-    }
-
-    [HttpGet("{id}/Document")]
-    [Produces("text/plain")]
-    public async Task<ActionResult<string>> GetDocumentAsync(string id, CancellationToken cancellationToken)
-    {
-        var document = await _archivedMessagesSearch.GetDocumentAsync(Guid.Parse(id), cancellationToken);
-        return Ok(document);
+        _client = client;
     }
 
     [HttpGet]
@@ -67,7 +34,11 @@ public class MessageArchiveController : ControllerBase
     [Produces(MediaTypeNames.Text.Plain)]
     public async Task<ActionResult<string>> GetDocumentByIdAsync(string id, CancellationToken cancellationToken)
     {
-        var document = await _archivedMessagesSearch.GetDocumentAsync(Guid.Parse(id), cancellationToken);
+        var document = await _client.ArchivedMessageGetDocumentAsync(
+            Guid.Parse(id),
+            "1.0",
+            cancellationToken);
+
         return Ok(document);
     }
 }

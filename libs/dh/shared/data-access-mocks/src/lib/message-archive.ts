@@ -75,7 +75,7 @@ function getArchivedMessages(apiBase: string) {
             },
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             documentUrl: `${apiBase}/v1/MessageArchive/Document?id=${m.id}`,
-            businessReason: BusinessReason.D14,
+            businessReason: BusinessReason.D04,
           })),
         },
       },
