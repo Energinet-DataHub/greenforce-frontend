@@ -28,6 +28,7 @@ export interface TranslationKeys {
     };
     header: {
       loginButton: string;
+      dashboardButton: string;
     };
     hero: {
       heading: string;

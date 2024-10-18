@@ -32,6 +32,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     header: {
       loginButton: 'Log ind',
+      dashboardButton: 'Gå til overblik',
     },
     hero: {
       heading: 'Sporing og certificering <br /> af grøn strøm',
