@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -34,7 +34,6 @@ public static class DomainRegistrationExtensions
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
-            .RegisterEDIServices(apiClientSettings.EdiB2CWebApiBaseUrl)
             .AddMarketParticipantGeneratedClient(
                 GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
             .AddWholesaleClient(
@@ -49,7 +48,7 @@ public static class DomainRegistrationExtensions
                 GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
             .AddEdiWebAppClient(
                 GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
-            .AddEdiWebAppClientV2(
+            .AddEdiWebAppClientV3(
                 GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
             .AddImbalancePricesClient(
                 GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
@@ -123,10 +122,10 @@ public static class DomainRegistrationExtensions
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }
 
-    private static IServiceCollection AddEdiWebAppClientV2(this IServiceCollection serviceCollection, Uri baseUri)
+    private static IServiceCollection AddEdiWebAppClientV3(this IServiceCollection serviceCollection, Uri baseUri)
     {
-        return serviceCollection.AddScoped<IEdiB2CWebAppClient_V2, EdiB2CWebAppClient_V2>(
-            provider => new EdiB2CWebAppClient_V2(
+        return serviceCollection.AddScoped<IEdiB2CWebAppClient_V3, EdiB2CWebAppClient_V3>(
+            provider => new EdiB2CWebAppClient_V3(
                 baseUri.ToString(),
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }

@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "EDI B2C Web API",
-    "version": "2.0"
+    "version": "3.0"
   },
   "paths": {
     "/ArchivedMessageSearch": {
@@ -27,7 +27,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SearchArchivedMessagesRequest"
+                    "$ref": "#/components/schemas/SearchArchivedMessagesRequestV3"
                   }
                 ]
               }
@@ -36,7 +36,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SearchArchivedMessagesRequest"
+                    "$ref": "#/components/schemas/SearchArchivedMessagesRequestV3"
                   }
                 ]
               }
@@ -45,7 +45,7 @@
               "schema": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/SearchArchivedMessagesRequest"
+                    "$ref": "#/components/schemas/SearchArchivedMessagesRequestV3"
                   }
                 ]
               }
@@ -58,17 +58,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArchivedMessageSearchResponse"
+                  "$ref": "#/components/schemas/ArchivedMessageSearchResponseV3"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArchivedMessageSearchResponse"
+                  "$ref": "#/components/schemas/ArchivedMessageSearchResponseV3"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArchivedMessageSearchResponse"
+                  "$ref": "#/components/schemas/ArchivedMessageSearchResponseV3"
                 }
               }
             }
@@ -79,7 +79,37 @@
   },
   "components": {
     "schemas": {
-      "ArchivedMessageResultV2": {
+      "ActorRole": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "MeteringPointAdministrator",
+          "EnergySupplier",
+          "GridAccessProvider",
+          "MeteredDataAdministrator",
+          "MeteredDataResponsible",
+          "BalanceResponsibleParty",
+          "ImbalanceSettlementResponsible",
+          "SystemOperator",
+          "DanishEnergyAgency",
+          "Delegated",
+          "DataHubAdministrator"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "ArchivedMessageResultV3": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -95,13 +125,67 @@
             "nullable": true
           },
           "documentType": {
-            "type": "string"
+            "x-enumNames": [
+              "NotifyAggregatedMeasureData",
+              "NotifyWholesaleServices",
+              "RejectRequestAggregatedMeasureData",
+              "RejectRequestWholesaleSettlement",
+              "RequestAggregatedMeasureData",
+              "B2CRequestAggregatedMeasureData",
+              "RequestWholesaleSettlement",
+              "B2CRequestWholesaleSettlement"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DocumentType"
+              }
+            ]
           },
           "senderNumber": {
             "type": "string"
           },
+          "senderRole": {
+            "x-enumNames": [
+              "MeteringPointAdministrator",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "BalanceResponsibleParty",
+              "ImbalanceSettlementResponsible",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "Delegated",
+              "DataHubAdministrator"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ]
+          },
           "receiverNumber": {
             "type": "string"
+          },
+          "receiverRole": {
+            "x-enumNames": [
+              "MeteringPointAdministrator",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "BalanceResponsibleParty",
+              "ImbalanceSettlementResponsible",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "Delegated",
+              "DataHubAdministrator"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ]
           },
           "createdAt": {
             "type": "string",
@@ -113,14 +197,14 @@
           }
         }
       },
-      "ArchivedMessageSearchResponse": {
+      "ArchivedMessageSearchResponseV3": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "messages": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ArchivedMessageResultV2"
+              "$ref": "#/components/schemas/ArchivedMessageResultV3"
             }
           },
           "totalCount": {
@@ -140,6 +224,30 @@
         "enum": [
           0,
           1
+        ]
+      },
+      "DocumentType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "NotifyAggregatedMeasureData",
+          "NotifyWholesaleServices",
+          "RejectRequestAggregatedMeasureData",
+          "RejectRequestWholesaleSettlement",
+          "RequestAggregatedMeasureData",
+          "B2CRequestAggregatedMeasureData",
+          "RequestWholesaleSettlement",
+          "B2CRequestWholesaleSettlement"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
         ]
       },
       "FieldToSortBy": {
@@ -175,7 +283,7 @@
           }
         }
       },
-      "SearchArchivedMessagesCriteria": {
+      "SearchArchivedMessagesCriteriaV3": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -195,15 +303,31 @@
             "type": "string",
             "nullable": true
           },
+          "senderRole": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ]
+          },
           "receiverNumber": {
             "type": "string",
             "nullable": true
+          },
+          "receiverRole": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorRole"
+              }
+            ]
           },
           "documentTypes": {
             "type": "array",
             "nullable": true,
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/DocumentType"
             }
           },
           "businessReasons": {
@@ -274,14 +398,14 @@
           }
         }
       },
-      "SearchArchivedMessagesRequest": {
+      "SearchArchivedMessagesRequestV3": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "searchCriteria": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
+                "$ref": "#/components/schemas/SearchArchivedMessagesCriteriaV3"
               }
             ]
           },

@@ -1,7 +1,7 @@
 query GetArchivedMessages(
   $created: DateRange!
-  $senderNumber: String
-  $receiverNumber: String
+  $senderId: UUID
+  $receiverId: UUID
   $documentTypes: [DocumentType!]
   $businessReasons: [BusinessReason!]
   $includeRelated: Boolean
@@ -14,8 +14,8 @@ query GetArchivedMessages(
 ) {
   archivedMessages(
     created: $created
-    senderNumber: $senderNumber
-    receiverNumber: $receiverNumber
+    senderId: $senderId
+    receiverId: $receiverId
     documentTypes: $documentTypes
     businessReasons: $businessReasons
     includeRelated: $includeRelated
