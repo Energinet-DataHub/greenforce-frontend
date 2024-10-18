@@ -112,8 +112,13 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
       <img eoProductLogo class="logo primary" />
 
       <div class="actions">
-        @if( isLoggedIn() ) {
-          <watt-button variant="text" class="login" data-testid="dashboard-button" (click)="gotoDashboard()">
+        @if (isLoggedIn()) {
+          <watt-button
+            variant="text"
+            class="login"
+            data-testid="dashboard-button"
+            (click)="gotoDashboard()"
+          >
             {{ translations.landingPage.header.dashboardButton | transloco }}
           </watt-button>
         } @else {
@@ -167,7 +172,7 @@ export class EoLandingPageHeaderComponent {
   }
 
   gotoDashboard() {
-    if(!this.window) return;
+    if (!this.window) return;
     const currentUrl = this.window.location.href;
     this.window.location.href = `${currentUrl}/dashboard`;
   }
