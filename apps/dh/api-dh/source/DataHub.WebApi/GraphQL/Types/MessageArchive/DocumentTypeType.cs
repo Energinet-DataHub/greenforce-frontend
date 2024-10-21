@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 
-#pragma warning disable SA1402 // File may only contain a single type
+public class DocumentTypeType : EnumType<DocumentType>
+{
+    protected override void Configure(IEnumTypeDescriptor<DocumentType> descriptor)
+    {
+        descriptor
+            .Value(DocumentType.B2CRequestAggregatedMeasureData)
+            .Name("B2C_REQUEST_AGGREGATED_MEASURE_DATA");
 
-namespace Energinet.DataHub.WebApi.Clients.EDI;
-
-public sealed record Actor(Guid ActorId, ActorNumberDto ActorNumber, ActorNameDto Name);
-
-public sealed record ActorNumberDto(string Value);
-
-public sealed record ActorNameDto(string Value);
+        descriptor
+            .Value(DocumentType.B2CRequestWholesaleSettlement)
+            .Name("B2C_REQUEST_WHOLESALE_SETTLEMENT");
+    }
+}
