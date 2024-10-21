@@ -16,25 +16,24 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ActorByNumberBatchDataLoader : BatchDataLoader<string, ActorDto>
+public class ActorByNumberAndRoleBatchDataLoader : BatchDataLoader<(string, EicFunction), ActorDto>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
-    public ActorByNumberBatchDataLoader(
+    public ActorByNumberAndRoleBatchDataLoader(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
         DataLoaderOptions? options = null)
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<string, ActorDto>> LoadBatchAsync(
-        IReadOnlyList<string> keys,
+    protected override async Task<IReadOnlyDictionary<(string, EicFunction), ActorDto>> LoadBatchAsync(
+        IReadOnlyList<(string, EicFunction)> keys,
         CancellationToken cancellationToken)
-        {
-            return (await _client
-                .ActorGetAsync(cancellationToken))
-                .Where(x => keys.Contains(x.ActorNumber.Value))
-                .DistinctBy(x => x.ActorNumber.Value) // TODO: This is not the correct way
-                .ToDictionary(x => x.ActorNumber.Value);
-        }
+    {
+        return (await _client
+            .ActorGetAsync(cancellationToken))
+            .Where(x => x.MarketRoles.Any(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))))
+            .ToDictionary(x => (x.ActorNumber.Value, x.MarketRoles.First(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))).EicFunction));
+    }
 }

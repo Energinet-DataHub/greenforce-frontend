@@ -3,15 +3,15 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://app-b2cwebapi-edi-d-we-002.azurewebsites.net/swagger/v2/swagger.json",
+      "url": "https://app-b2cwebapi-edi-d-we-002.azurewebsites.net/swagger/v3/swagger.json",
       "output": "swagger.json",
       "newLineBehavior": "Auto"
     }
   },
   "codeGenerators": {
     "openApiToCSharpClient": {
-      "namespace": "Energinet.DataHub.Edi.B2CWebApp.Clients.v2",
-      "className": "{controller}EdiB2CWebAppClient_V2",
+      "namespace": "Energinet.DataHub.Edi.B2CWebApp.Clients.v3",
+      "className": "{controller}EdiB2CWebAppClient_V3",
       "output": "EdiB2CWebAppClient.cs",
       "generateOptionalParameters": true,
       "classStyle": "Poco",
