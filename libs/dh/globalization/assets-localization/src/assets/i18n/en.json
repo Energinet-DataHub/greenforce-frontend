@@ -212,10 +212,10 @@
       "NOTIFY_WHOLESALE_SERVICES": "Notification of aggregated wholesale services (RSM-019)"
     },
     "businessReason": {
-      "D03": "Temporary (D03)",
-      "D04": "1st settlement (D04)",
-      "D05": "2nd settlement (D05)",
-      "D32": "Correction settlement (D32)"
+      "D03": "Aggregation (D03)",
+      "D04": "Balance Fixing (D04)",
+      "D05": "Wholesale Settlement (D05)",
+      "D32": "Correction Settlements (D32)"
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
