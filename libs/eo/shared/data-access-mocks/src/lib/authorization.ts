@@ -69,7 +69,7 @@ function getReceivedConsents(apiBase: string) {
           organizationId: 28980671,
           organizationName: 'Energinet',
           tin: 28980671,
-        }
+        },
       ],
     };
     return HttpResponse.json(data, { status: 200 });

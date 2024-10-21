@@ -62,7 +62,7 @@ const selector = 'eo-actor-menu';
           transform: translate3d(0, -50%, 0);
         }
 
-        &[aria-expanded="true"] watt-icon {
+        &[aria-expanded='true'] watt-icon {
           transform: translate3d(0, -50%, 0) rotate(180deg);
         }
       }
@@ -150,7 +150,7 @@ const selector = 'eo-actor-menu';
         <watt-icon name="down" size="s" />
       </div>
       <mat-menu #menu="matMenu" class="actor-menu-panel">
-        @if(self()?.org_id !== currentActor()?.org_id) {
+        @if (self()?.org_id !== currentActor()?.org_id) {
           <p class="menu-header">Din organisation:</p>
           <button mat-menu-item (click)="selectActor()">
             <div class="actor">
@@ -160,7 +160,7 @@ const selector = 'eo-actor-menu';
           </button>
         }
 
-        @if(self()?.org_id !== currentActor()?.org_id) {
+        @if (self()?.org_id !== currentActor()?.org_id) {
           <p class="menu-header other-organizations">Andre organisationer:</p>
         }
         <eo-scroll-view>
@@ -191,7 +191,7 @@ export class EoActorMenuComponent {
   selectActor(actor?: Actor) {
     // Wait to emit the selection until the menu has closed
     setTimeout(() => {
-      this.actorSelected.emit(actor ?? this.self() as Actor);
+      this.actorSelected.emit(actor ?? (this.self() as Actor));
     }, 150);
   }
 }
