@@ -31,6 +31,8 @@ export class DhDropdownTranslatorDirective implements OnInit {
 
   translateKey = input.required<string>();
 
+  sortByTranslationOrder = input<boolean>(false);
+
   translation = signal<object | undefined>(undefined);
 
   options = input<WattDropdownOptions>([]);
@@ -39,6 +41,7 @@ export class DhDropdownTranslatorDirective implements OnInit {
     effect(() => {
       const options = this.options();
       const keys = this.translation();
+      const sortByTranslationOrder = this.sortByTranslationOrder();
 
       if (!keys) return;
 
@@ -46,6 +49,12 @@ export class DhDropdownTranslatorDirective implements OnInit {
         ...option,
         displayValue: this.translateDisplayValue(keys[option.value as keyof typeof keys]),
       }));
+
+      // Sort translatedOptions based on the order of the translation keys
+      if (sortByTranslationOrder) {
+        const keyOrder = Object.keys(keys);
+        translatedOptions.sort((a, b) => keyOrder.indexOf(a.value) - keyOrder.indexOf(b.value));
+      }
 
       this.host.options = this.host.sortDirection
         ? this.host.sortOptions(translatedOptions)
