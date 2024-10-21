@@ -142,7 +142,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   gridAreaOptions$ = getGridAreaOptions();
-  executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState, null, [
+  executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState, [
     CalculationOrchestrationState.ActorMessagesEnqueued,
   ]);
 

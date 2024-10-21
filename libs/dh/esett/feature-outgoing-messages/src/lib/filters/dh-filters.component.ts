@@ -100,11 +100,11 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
   filter = output<DhOutgoingMessagesFilters>();
   formReset = output<void>();
 
-  calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType, 'asc');
-  messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType, 'asc');
+  calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
+  messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType);
   gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
-  documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus, 'asc');
+  documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   formGroup!: FormGroup<Filters>;
 

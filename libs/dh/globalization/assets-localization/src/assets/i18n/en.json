@@ -294,8 +294,8 @@
       },
       "statusPlaceholder": "Status",
       "status": {
-        "ACTIVE": "Active",
         "AWAITING": "Pending",
+        "ACTIVE": "Active",
         "EXPIRED": "Stopped",
         "CANCELLED": "Cancelled"
       }
@@ -513,8 +513,8 @@
               "E17Consumption": "Consumption"
             },
             "statusOptions": {
-              "ACTIVE": "Active",
               "AWAITING": "Awaiting",
+              "ACTIVE": "Active",
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
             },
@@ -823,9 +823,9 @@
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
           "AWAITING_REPLY": "Awaiting reply from eSett",
+          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP"
+          "REJECTED": "Rejected"
         }
       },
       "filters": {
@@ -1089,8 +1089,8 @@
       },
       "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
         "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
@@ -1203,12 +1203,12 @@
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
-        "ALL_ENERGY": "All",
+        "PRODUCTION": "Production",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
-        "PRODUCTION": "Production",
         "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
-        "EXCHANGE": "Exchange"
+        "EXCHANGE": "Exchange",
+        "ALL_ENERGY": "All"
       }
     },
     "settlementReports": {

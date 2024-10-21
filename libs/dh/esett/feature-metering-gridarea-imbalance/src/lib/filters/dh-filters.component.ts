@@ -94,8 +94,7 @@ export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
 
   gridAreaOptions$ = getGridAreaOptions();
   valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
-    MeteringGridImbalanceValuesToInclude,
-    'asc'
+    MeteringGridImbalanceValuesToInclude
   );
 
   formGroup!: FormGroup<Filters>;
