@@ -253,6 +253,11 @@ type DeactivateUserRolePayload {
   errors: [DeactivateUserRoleError!]
 }
 
+type DismissNotificationPayload {
+  boolean: Boolean
+  errors: [DismissNotificationError!]
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   dispatchDocumentUrl: String
@@ -421,6 +426,7 @@ type Mutation {
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -725,6 +731,8 @@ union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
 
+union DismissNotificationError = ApiError
+
 union InitiateMitIdSignupError = ApiError
 
 union InviteUserError = ApiError
@@ -881,6 +889,10 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DismissNotificationInput {
+  notificationId: Int!
 }
 
 input InvitationUserDetailsDtoInput {
