@@ -104,7 +104,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
   messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType, 'asc');
   gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
-  documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus, 'asc');
+  documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   formGroup!: FormGroup<Filters>;
 

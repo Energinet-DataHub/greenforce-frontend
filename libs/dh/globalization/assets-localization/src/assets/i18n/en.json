@@ -929,9 +929,9 @@
           "RECEIVED": "Received",
           "AWAITING_DISPATCH": "Awaiting dispatch",
           "AWAITING_REPLY": "Awaiting reply from eSett",
+          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected",
-          "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP"
+          "REJECTED": "Rejected"
         }
       },
       "filters": {
