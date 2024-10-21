@@ -152,7 +152,7 @@ const selector = 'eo-actor-menu';
       <mat-menu #menu="matMenu" class="actor-menu-panel">
         @if (self()?.org_id !== currentActor()?.org_id) {
           <p class="menu-header">
-          {{ translations.actorMenu.ownOrganization | transloco }}
+            {{ translations.actorMenu.ownOrganization | transloco }}
           </p>
           <button mat-menu-item (click)="selectActor()">
             <div class="actor">
