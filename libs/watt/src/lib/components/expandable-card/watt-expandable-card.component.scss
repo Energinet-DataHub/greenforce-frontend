@@ -43,7 +43,6 @@ watt-expandable-card {
 
     height: var(--watt-space-xl);
     padding: 0 var(--watt-space-m);
-    user-select: none;
 
     &:hover:not([aria-disabled="true"]) {
       background: var(--watt-color-neutral-white);

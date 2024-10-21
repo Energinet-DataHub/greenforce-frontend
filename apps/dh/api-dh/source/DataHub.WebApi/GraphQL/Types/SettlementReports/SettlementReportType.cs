@@ -26,5 +26,9 @@ public class SettlementReportType : ObjectType<SettlementReport>
         descriptor
            .Field("settlementReportDownloadUrl")
            .ResolveWith<WholesaleResolvers>(c => c.GetSettlementReportDownloadUrl(default!, default!, default!));
+
+        descriptor
+            .Field("actor")
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetRequestedByActorAsync(default!, default!));
     }
 }

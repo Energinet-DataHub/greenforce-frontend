@@ -32,6 +32,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     header: {
       loginButton: 'Log ind',
+      dashboardButton: 'Gå til overblik',
     },
     hero: {
       heading: 'Sporing og certificering <br /> af grøn strøm',
@@ -205,8 +206,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     privacyPolicy: 'Privatlivspolitik',
     accessibilityStatement: 'Tilgængelighedserklæring',
   },
-  userInformation: {
+  actorMenu: {
     tin: 'CVR / SE-nr: {{tin}} ',
+    onBehalfOf: '{{org_name}} på vegne af',
   },
   topbar: {
     help: '{{shared.help}}',

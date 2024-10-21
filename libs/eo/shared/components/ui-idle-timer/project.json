@@ -1,0 +1,13 @@
+{
+  "name": "eo-idle-timer",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/shared/components/ui-idle-timer",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:shared", "type:ui"]
+}

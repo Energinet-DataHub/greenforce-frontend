@@ -38,24 +38,25 @@ describe('lazyQuery', () => {
 
   afterEach(() => controller.verify());
 
-  it('should not initialize query', fakeAsync(() =>
+  it('should not initialize query', () =>
     TestBed.runInInjectionContext(() => {
       lazyQuery(TEST_QUERY);
       controller.expectNone(TEST_QUERY);
-    })));
+    }));
 
-  it('should initialize query when called', fakeAsync(() =>
+  it('should initialize query when called', () =>
     TestBed.runInInjectionContext(() => {
       const result = lazyQuery(TEST_QUERY);
       result.query();
       controller.expectOne(TEST_QUERY);
-    })));
+    }));
 
   it('should trigger onCompleted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const onCompleted = jest.fn();
       const result = lazyQuery(TEST_QUERY, { onCompleted });
       result.query();
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Query' } };
       op.flush({ data });
@@ -68,6 +69,7 @@ describe('lazyQuery', () => {
       const onError = jest.fn();
       const result = lazyQuery(TEST_QUERY, { onError });
       result.query();
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
@@ -78,6 +80,7 @@ describe('lazyQuery', () => {
     TestBed.runInInjectionContext(() => {
       const result = lazyQuery(TEST_QUERY, { variables: { name: 'Query' } });
       result.query({ variables: { name: 'Mutation' } });
+      tick();
       const op = controller.expectOne(TEST_QUERY);
       expect(op.operation.variables['name']).toEqual('Mutation');
     })));

@@ -49,12 +49,27 @@ describe('mutation', () => {
       controller.expectOne(TEST_MUTATION);
     })));
 
+  it('should set called to true', fakeAsync(() =>
+    TestBed.runInInjectionContext(() => {
+      const onCompleted = jest.fn();
+      const config = { onCompleted };
+      const result = mutation(TEST_MUTATION, config);
+      result.mutate();
+      tick();
+      const op = controller.expectOne(TEST_MUTATION);
+      const data = { __typename: 'Mutation' };
+      op.flush({ data });
+      tick();
+      expect(result.called()).toBe(true);
+    })));
+
   it('should trigger onCompleted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const onCompleted = jest.fn();
       const config = { onCompleted };
       const result = mutation(TEST_MUTATION, config);
       result.mutate();
+      tick();
       const op = controller.expectOne(TEST_MUTATION);
       const data = { __typename: 'Mutation' };
       op.flush({ data });
@@ -67,6 +82,7 @@ describe('mutation', () => {
       const onError = jest.fn();
       const result = mutation(TEST_MUTATION, { onError });
       result.mutate();
+      tick();
       const op = controller.expectOne(TEST_MUTATION);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
@@ -77,6 +93,7 @@ describe('mutation', () => {
     TestBed.runInInjectionContext(() => {
       const result = mutation(TEST_MUTATION);
       result.mutate();
+      tick();
       const op = controller.expectOne(TEST_MUTATION);
       const data = { __typename: 'Mutation' };
       op.flush({ data });
@@ -85,5 +102,6 @@ describe('mutation', () => {
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
       expect(result.loading()).toBe(false);
+      expect(result.called()).toBe(false);
     })));
 });

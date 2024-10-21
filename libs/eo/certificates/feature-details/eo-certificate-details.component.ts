@@ -27,7 +27,7 @@ import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/s
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
-import { EoStackComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-stack';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({

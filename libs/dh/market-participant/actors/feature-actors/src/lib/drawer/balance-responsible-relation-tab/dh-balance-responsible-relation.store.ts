@@ -32,7 +32,7 @@ import {
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 
 import {
   DhBalanceResponsibleRelation,

@@ -20,7 +20,7 @@ using HotChocolate.Subscriptions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
-public class Subscription
+public partial class Subscription
 {
     public IObservable<CalculationDto> OnCalculationUpdatedAsync(
         [Service] ITopicEventReceiver eventReceiver,
@@ -54,7 +54,7 @@ public class Subscription
     public CalculationDto CalculationUpdated([EventMessage] CalculationDto calculation) =>
         calculation;
 
-    public bool IsInProgress(CalculationOrchestrationState state) =>
+    private bool IsInProgress(CalculationOrchestrationState state) =>
         state switch
         {
             CalculationOrchestrationState.Scheduled => true,

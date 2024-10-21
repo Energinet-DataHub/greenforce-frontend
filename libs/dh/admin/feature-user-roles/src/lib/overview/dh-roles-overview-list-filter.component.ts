@@ -28,6 +28,7 @@ import {
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 import { EicFunction, UserRoleStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export interface DhUserRolesFilters {
   status: UserRoleStatus | null;
@@ -58,6 +59,7 @@ type Filters = FormControls<DhUserRolesFilters>;
     WattQueryParamsDirective,
 
     DhDropdownTranslatorDirective,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhRolesOverviewListFilterComponent implements OnInit {

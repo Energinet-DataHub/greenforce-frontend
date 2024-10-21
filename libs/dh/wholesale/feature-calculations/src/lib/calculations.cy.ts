@@ -19,17 +19,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloModule } from 'apollo-angular';
+import { FormGroupDirective } from '@angular/forms';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
 
 import { DhCalculationsComponent } from './calculations.component';
-import { FormGroupDirective } from '@angular/forms';
-import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util-auth';
 
 const { calculations } = daTranslations.wholesale;
 
@@ -43,13 +42,7 @@ it.skip('mounts', () => {
       FormGroupDirective,
       MsalServiceMock,
     ],
-    imports: [
-      ApolloModule,
-      BrowserAnimationsModule,
-      DhApiModule.forRoot(),
-      HttpClientModule,
-      RouterTestingModule,
-    ],
+    imports: [ApolloModule, BrowserAnimationsModule, HttpClientModule, RouterTestingModule],
   });
 
   // Click on "Ny beregning" button

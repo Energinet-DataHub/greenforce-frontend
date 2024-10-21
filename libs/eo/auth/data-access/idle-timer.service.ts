@@ -26,7 +26,7 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import {
   EoIdleTimerCountdownModalComponent,
   EoIdleTimerLoggedOutModalComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+} from '@energinet-datahub/eo/shared/components/ui-idle-timer';
 
 @Injectable({
   providedIn: 'root',

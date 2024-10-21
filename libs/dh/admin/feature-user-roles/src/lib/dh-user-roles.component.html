@@ -22,37 +22,31 @@ limitations under the License.
         [expanded]="expanded()"
         *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
       >
-        @if (!selectMode) {
+        @if (!selectMode()) {
           <watt-badge>{{
             t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
           }}</watt-badge>
         }
 
-        @if (actor.name) {
-          <watt-expandable-card-title
-            >{{ actor.glnOrEicNumber }} • {{ actor.organization.name }} – {{ actor.name }} -
-            {{ translateMarketRole(actor.userRoles[0].eicFunction) }}
-            @if (actor.id === user()?.administratedBy?.id) {
-              <watt-icon
-                name="personCheck"
-                wattTooltipPosition="right"
-                [wattTooltip]="t('userResponsible')"
-              />
-            }
-          </watt-expandable-card-title>
-        } @else {
-          <watt-expandable-card-title
-            >{{ actor.glnOrEicNumber }} • {{ actor.organization.name }} -
-            {{ translateMarketRole(actor.userRoles[0].eicFunction) }}
-            @if (actor.id === user()?.administratedBy?.id) {
-              <watt-icon
-                name="personCheck"
-                wattTooltipPosition="right"
-                [wattTooltip]="t('userResponsible')"
-              />
-            }
-          </watt-expandable-card-title>
-        }
+        @let title =
+          actor.glnOrEicNumber +
+          " • " +
+          actor.organization.name +
+          " – " +
+          (actor.name ? actor.name + " - " : "") +
+          translateMarketRole(actor.userRoles[0].eicFunction);
+
+        <watt-expandable-card-title>
+          {{ title }}
+
+          @if (actor.id === user()?.administratedBy?.id) {
+            <watt-icon
+              name="personCheck"
+              wattTooltipPosition="right"
+              [wattTooltip]="t('userResponsible')"
+            />
+          }
+        </watt-expandable-card-title>
 
         @if (!checkIfAtLeastOneRoleIsAssigned(actor.id) && selectMode()) {
           <watt-field-error>

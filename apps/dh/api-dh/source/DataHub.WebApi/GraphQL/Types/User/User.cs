@@ -25,4 +25,5 @@ public sealed record User(
     string Email,
     string? PhoneNumber,
     Guid? AdministratedBy,
-    DateTimeOffset CreatedDate);
+    DateTimeOffset CreatedDate,
+    DateTimeOffset? LatestLoginAt);

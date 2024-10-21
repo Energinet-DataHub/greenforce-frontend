@@ -603,8 +603,9 @@ type SelectionActorDto {
 
 type SettlementReport {
   settlementReportDownloadUrl: String
-  id: String!
   actor: Actor
+  id: String!
+  requestedByActorId: UUID!
   calculationType: CalculationType!
   period: DateRange!
   numberOfGridAreasInReport: Int!
@@ -670,6 +671,7 @@ type User {
   email: String!
   phoneNumber: String
   createdDate: DateTime!
+  latestLoginAt: DateTime
 }
 
 type UserAuditedChangeAuditLogDto {
@@ -1470,6 +1472,7 @@ enum UserOverviewSortProperty {
   PhoneNumber
   CreatedDate
   Status
+  LatestLoginAt
 }
 
 enum UserRoleAuditedChange {

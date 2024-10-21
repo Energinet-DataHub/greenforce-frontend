@@ -17,56 +17,21 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-
-import { actors } from './data/message-archive-actors';
-import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
-import { document, documentJson } from './data/message-archived-document';
 import {
   BusinessReason,
-  DocumentType,
   mockGetArchivedMessagesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
+import { document, documentJson } from './data/message-archived-document';
+
 export function messageArchiveMocks(apiBase: string) {
-  return [
-    archivedMessageSearch(apiBase),
-    getActors(apiBase),
-    getDocument(apiBase),
-    getDocumentById(apiBase),
-    getArchivedMessages(apiBase),
-  ];
-}
-
-export function archivedMessageSearch(apiBase: string) {
-  return http.post(`${apiBase}/v1/MessageArchive/SearchRequestResponseLogs`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(messageArchiveSearchResponseLogs, { status: 200 });
-  });
-}
-
-export function getActors(apiBase: string) {
-  return http.get(`${apiBase}/v1/MessageArchive/Actors`, async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json(actors, { status: 200 });
-  });
-}
-
-export function getDocument(apiBase: string) {
-  return http.get(
-    `${apiBase}/v1/MessageArchive/:id/Document`,
-    async (): Promise<StrictResponse<DefaultBodyType>> => {
-      await delay(mswConfig.delay);
-      const random = Math.floor(Math.random() * 1000);
-      return random % 2 === 0
-        ? HttpResponse.text(document, { headers: { 'Content-Type': 'text/xml' } })
-        : HttpResponse.json(documentJson, { headers: { 'Content-Type': 'application/json' } });
-    }
-  );
+  return [getDocumentById(apiBase), getArchivedMessages(apiBase)];
 }
 
 export function getDocumentById(apiBase: string) {
   return http.get(
-    `${apiBase}/v1/MessageArchive/Document?id=:id`,
+    `${apiBase}/v1/MessageArchive/Document`,
     async (): Promise<StrictResponse<DefaultBodyType>> => {
       await delay(mswConfig.delay);
       const random = Math.floor(Math.random() * 1000);
@@ -95,7 +60,7 @@ function getArchivedMessages(apiBase: string) {
             __typename: 'ArchivedMessage',
             id: m.id,
             messageId: m.messageId,
-            documentType: m.documentType as DocumentType,
+            documentType: m.documentType,
             receiver: {
               __typename: 'Actor',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',

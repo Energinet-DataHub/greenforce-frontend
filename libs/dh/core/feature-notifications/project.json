@@ -1,0 +1,20 @@
+{
+  "name": "dh-core-feature-notifications",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/core/feature-notifications/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:core", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/core/feature-notifications/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

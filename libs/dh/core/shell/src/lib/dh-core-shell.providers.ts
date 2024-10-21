@@ -31,6 +31,7 @@ import { FormGroupDirective } from '@angular/forms';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { of } from 'rxjs';
 import { ApolloModule } from 'apollo-angular';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -39,7 +40,6 @@ import {
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   dhApiEnvironmentToken,
@@ -106,7 +106,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([MatDialogModule, MatSnackBarModule, DhApiModule.forRoot(), ApolloModule]),
+  importProvidersFrom([MatDialogModule, MatSnackBarModule, ApolloModule]),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
@@ -119,4 +119,5 @@ export const dhCoreShellProviders = [
   msalProviders,
   dhLanguageServiceInitializer,
   dhNewVersionManagerInitializer,
+  provideHotToastConfig(),
 ];
