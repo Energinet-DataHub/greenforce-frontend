@@ -116,7 +116,7 @@ export class DhMarketParticipantGridAreaOverviewComponent {
   isLoading = input<boolean>(false);
   hasError = input<boolean>(false);
 
-  gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, null, [GridAreaType.NotSet]);
+  gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, [GridAreaType.NotSet]);
 
   selectedGridAreaType = signal<GridAreaType | null>(null);
 
