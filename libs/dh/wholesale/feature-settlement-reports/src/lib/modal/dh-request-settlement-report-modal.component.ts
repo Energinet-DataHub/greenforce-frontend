@@ -370,7 +370,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   }
 
   private getCalculationTypeOptions(): WattDropdownOptions {
-    return dhEnumToWattDropdownOptions(CalculationType, null, [
+    return dhEnumToWattDropdownOptions(CalculationType, [
       CalculationType.Aggregation,
       this.modalData.marketRole === EicFunction.SystemOperator ? CalculationType.BalanceFixing : '',
     ]);
