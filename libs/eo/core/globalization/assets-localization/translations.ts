@@ -29,6 +29,7 @@ export const translations = {
     } as const,
     header: {
       loginButton: 'landingPage.header.loginButton' as const,
+      dashboardButton: 'landingPage.header.dashboardButton' as const,
     } as const,
     hero: {
       heading: 'landingPage.hero.heading' as const,

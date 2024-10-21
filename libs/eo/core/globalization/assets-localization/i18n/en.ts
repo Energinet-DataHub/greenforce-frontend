@@ -33,6 +33,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     },
     header: {
       loginButton: 'Log in',
+      dashboardButton: 'Go to dashboard',
     },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',
