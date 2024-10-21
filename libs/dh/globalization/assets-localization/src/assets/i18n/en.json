@@ -619,8 +619,8 @@
               "E17Consumption": "Consumption"
             },
             "statusOptions": {
-              "AWAITING": "Awaiting",
               "ACTIVE": "Active",
+              "AWAITING": "Awaiting",
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
             },
