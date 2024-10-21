@@ -22,23 +22,23 @@ using System.IO;
 #pragma warning disable 8625 // Disable "CS8625 Cannot convert null literal to non-nullable reference type"
 #pragma warning disable 8765 // Disable "CS8765 Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes)."
 
-namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
+namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v3
 {
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial interface IEdiB2CWebAppClient_V2
+    public partial interface IEdiB2CWebAppClient_V3
     {
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ArchivedMessageSearchResponse> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ArchivedMessageSearchResponseV3> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequestV3? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class EdiB2CWebAppClient_V2 : IEdiB2CWebAppClient_V2
+    public partial class EdiB2CWebAppClient_V3 : IEdiB2CWebAppClient_V3
     {
         #pragma warning disable 8618
         private string _baseUrl;
@@ -49,7 +49,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public EdiB2CWebAppClient_V2(string baseUrl, System.Net.Http.HttpClient httpClient)
+        public EdiB2CWebAppClient_V3(string baseUrl, System.Net.Http.HttpClient httpClient)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = baseUrl;
@@ -88,7 +88,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ArchivedMessageSearchResponse> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<ArchivedMessageSearchResponseV3> ArchivedMessageSearchAsync(string api_version, SearchArchivedMessagesRequestV3? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (api_version == null)
                 throw new System.ArgumentNullException("api_version");
@@ -139,7 +139,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ArchivedMessageSearchResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ArchivedMessageSearchResponseV3>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -279,7 +279,35 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ArchivedMessageResultV2
+    public enum ActorRole
+    {
+
+        MeteringPointAdministrator = 0,
+
+        EnergySupplier = 1,
+
+        GridAccessProvider = 2,
+
+        MeteredDataAdministrator = 3,
+
+        MeteredDataResponsible = 4,
+
+        BalanceResponsibleParty = 5,
+
+        ImbalanceSettlementResponsible = 6,
+
+        SystemOperator = 7,
+
+        DanishEnergyAgency = 8,
+
+        Delegated = 9,
+
+        DataHubAdministrator = 10,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ArchivedMessageResultV3
     {
         [Newtonsoft.Json.JsonProperty("recordId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long RecordId { get; set; } = default!;
@@ -291,13 +319,19 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         public string? MessageId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("documentType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DocumentType { get; set; } = default!;
+        public DocumentType DocumentType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("senderNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SenderNumber { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("senderRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole SenderRole { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("receiverNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReceiverNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("receiverRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole ReceiverRole { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("createdAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset CreatedAt { get; set; } = default!;
@@ -308,10 +342,10 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ArchivedMessageSearchResponse
+    public partial class ArchivedMessageSearchResponseV3
     {
         [Newtonsoft.Json.JsonProperty("messages", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ArchivedMessageResultV2> Messages { get; set; } = default!;
+        public System.Collections.Generic.ICollection<ArchivedMessageResultV3> Messages { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("totalCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int TotalCount { get; set; } = default!;
@@ -328,6 +362,28 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         Ascending = 0,
 
         Descending = 1,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum DocumentType
+    {
+
+        NotifyAggregatedMeasureData = 0,
+
+        NotifyWholesaleServices = 1,
+
+        RejectRequestAggregatedMeasureData = 2,
+
+        RejectRequestWholesaleSettlement = 3,
+
+        RequestAggregatedMeasureData = 4,
+
+        B2CRequestAggregatedMeasureData = 5,
+
+        RequestWholesaleSettlement = 6,
+
+        B2CRequestWholesaleSettlement = 7,
 
     }
 
@@ -362,7 +418,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class SearchArchivedMessagesCriteria
+    public partial class SearchArchivedMessagesCriteriaV3
     {
         [Newtonsoft.Json.JsonProperty("createdDuringPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MessageCreationPeriod? CreatedDuringPeriod { get; set; } = default!;
@@ -373,11 +429,17 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
         [Newtonsoft.Json.JsonProperty("senderNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? SenderNumber { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("senderRole", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole? SenderRole { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("receiverNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? ReceiverNumber { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("receiverRole", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole? ReceiverRole { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("documentTypes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<string>? DocumentTypes { get; set; } = default!;
+        public System.Collections.Generic.ICollection<DocumentType>? DocumentTypes { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("businessReasons", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string>? BusinessReasons { get; set; } = default!;
@@ -437,10 +499,10 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v2
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class SearchArchivedMessagesRequest
+    public partial class SearchArchivedMessagesRequestV3
     {
         [Newtonsoft.Json.JsonProperty("searchCriteria", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SearchArchivedMessagesCriteria SearchCriteria { get; set; } = default!;
+        public SearchArchivedMessagesCriteriaV3 SearchCriteria { get; set; } = default!;
 
         /// <summary>
         /// Pagination when searching for archived messages that supports sorting on a specific field.
