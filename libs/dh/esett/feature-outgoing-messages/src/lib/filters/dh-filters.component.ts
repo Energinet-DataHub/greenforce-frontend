@@ -101,7 +101,7 @@ export class DhOutgoingMessagesFiltersComponent implements OnInit {
   formReset = output<void>();
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType, 'asc');
-  messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType, 'asc');
+  messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType);
   gridAreaOptions$ = getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
