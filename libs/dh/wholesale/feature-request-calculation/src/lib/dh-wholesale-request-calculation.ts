@@ -168,7 +168,7 @@ export class DhWholesaleRequestCalculationComponent {
   });
 
   calculationTypeOptions = computed(() =>
-    dhEnumToWattDropdownOptions(CalculationType, 'asc', this.excludeCalculationTypes())
+    dhEnumToWattDropdownOptions(CalculationType, null, this.excludeCalculationTypes())
   );
 
   excludeRequestCalculationDataTypes = computed(() => {
