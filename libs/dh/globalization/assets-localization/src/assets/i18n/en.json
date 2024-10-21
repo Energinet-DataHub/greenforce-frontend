@@ -400,8 +400,8 @@
       },
       "statusPlaceholder": "Status",
       "status": {
-        "ACTIVE": "Active",
         "AWAITING": "Pending",
+        "ACTIVE": "Active",
         "EXPIRED": "Stopped",
         "CANCELLED": "Cancelled"
       }
@@ -619,8 +619,8 @@
               "E17Consumption": "Consumption"
             },
             "statusOptions": {
-              "ACTIVE": "Active",
               "AWAITING": "Awaiting",
+              "ACTIVE": "Active",
               "EXPIRED": "Expired",
               "SOON_TO_EXPIRE": "Soon to expire"
             },
