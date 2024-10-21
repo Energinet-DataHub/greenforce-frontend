@@ -151,7 +151,9 @@ const selector = 'eo-actor-menu';
       </div>
       <mat-menu #menu="matMenu" class="actor-menu-panel">
         @if (self()?.org_id !== currentActor()?.org_id) {
-          <p class="menu-header">Din organisation:</p>
+          <p class="menu-header">
+          {{ translations.actorMenu.ownOrganization | transloco }}
+          </p>
           <button mat-menu-item (click)="selectActor()">
             <div class="actor">
               <small class="actor__tin">{{ self()?.tin }}</small>
@@ -161,7 +163,9 @@ const selector = 'eo-actor-menu';
         }
 
         @if (self()?.org_id !== currentActor()?.org_id) {
-          <p class="menu-header other-organizations">Andre organisationer:</p>
+          <p class="menu-header other-organizations">
+            {{ translations.actorMenu.otherOrganizations | transloco }}
+          </p>
         }
         <eo-scroll-view>
           @for (actor of actors(); track $index) {
