@@ -1308,12 +1308,12 @@
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
-        "ALL_ENERGY": "Alle",
+        "PRODUCTION": "Produktion",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
         "TOTAL_CONSUMPTION": "Total forbrug",
-        "PRODUCTION": "Produktion",
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
-        "EXCHANGE": "Udveksling"
+        "EXCHANGE": "Udveksling",
+        "ALL_ENERGY": "Alle"
       }
     },
     "settlementReports": {
