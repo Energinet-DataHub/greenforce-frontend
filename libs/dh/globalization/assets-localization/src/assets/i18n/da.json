@@ -1194,8 +1194,8 @@
       },
       "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
         "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
         "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
