@@ -24,7 +24,7 @@ export function notificationsMocks() {
 }
 
 function dismissNotification() {
-  return mockDismissNotificationMutation(async (request) => {
+  return mockDismissNotificationMutation(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
