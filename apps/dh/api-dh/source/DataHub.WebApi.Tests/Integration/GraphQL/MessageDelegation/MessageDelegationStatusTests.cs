@@ -68,7 +68,7 @@ public class MessageDelegationStatusTests
                 {
                     new ProcessDelegationDto()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = new("8d1b5e2a-3c4e-4f8b-9a6e-7f2b6c8d9e1f"),
                         DelegatedBy = Guid.NewGuid(),
                         Process = DelegatedProcess.ReceiveEnergyResults,
                         Periods = new[]
