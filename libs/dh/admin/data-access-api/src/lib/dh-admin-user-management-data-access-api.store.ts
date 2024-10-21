@@ -22,7 +22,7 @@ import { ComponentStore, OnStoreInit } from '@ngrx/component-store';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
 
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 import {
   GetAllUsersDocument,
   MarketParticipantSortDirctionType,
@@ -38,6 +38,7 @@ export type UserToDownload = {
   userEmail: string;
   marketParticipantName: string;
   organizationName: string;
+  latestLoginAt: Date | null;
 };
 
 export type UsersToDownload = UserToDownload[];
@@ -260,6 +261,7 @@ export class DhAdminUserManagementDataAccessApiStore
       userEmail: user.email,
       marketParticipantName: user.administratedBy?.name ?? '',
       organizationName: user.administratedBy?.organization.name ?? '',
+      latestLoginAt: user.latestLoginAt ?? null,
     }));
   }
 }

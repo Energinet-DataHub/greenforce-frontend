@@ -17,6 +17,27 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@energinet-datahub/watt";
 @use "highlight.js/styles/github.css";
+@use "@ngxpert/hot-toast/src/styles/styles.scss";
+
+:root {
+  --hot-toast-message-margin: 0;
+  --hot-toast-message-justify-content: flex-start;
+
+  --hot-toast-close-btn-background-size: 8px;
+  --hot-toast-close-btn-opacity: 1;
+  --hot-toast-close-btn-border-radius: 50%;
+  --hot-toast-close-btn-height: 12px;
+  --hot-toast-close-btn-width: 12px;
+  --hot-toast-close-btn-background-color: #ededed;
+  --hot-toast-close-btn-border: 1px solid var(--watt-color-neutral-grey-400);
+
+  --hot-toast-bg: rgba(219, 219, 219, 0.3);
+  --hot-toast-color: var(--watt-on-light-high-emphasis);
+  --hot-toast-padding: var(--watt-space-m) var(--watt-space-m)
+    var(--watt-space-m) var(--watt-space-ml);
+  --hot-toast-shadow: 0px 4px 18px 0px rgba(46, 50, 52, 0.08);
+  --hot-toast-width: 345px;
+}
 
 canvas {
   position: absolute;

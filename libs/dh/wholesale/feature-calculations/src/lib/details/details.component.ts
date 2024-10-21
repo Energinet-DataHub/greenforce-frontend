@@ -14,17 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  ViewChild,
-  inject,
-  Output,
-  EventEmitter,
-  effect,
-  input,
-  viewChild,
-} from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -39,12 +29,11 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
-  CalculationOrchestrationState,
+  CalculationOrchestrationState as State,
   CancelScheduledCalculationDocument,
   GetCalculationByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhCalculationsGridAreasTableComponent } from '../grid-areas/table.component';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -81,21 +70,23 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
 export class DhCalculationsDetailsComponent {
   private toast = inject(WattToastService);
   private transloco = inject(TranslocoService);
-  private apollo = inject(Apollo);
 
-  @Output() closed = new EventEmitter<void>();
   id = input<string>();
+  closed = output();
 
-  @ViewChild(WattDrawerComponent)
-  drawer!: WattDrawerComponent;
+  drawer = viewChild(WattDrawerComponent);
+  modal = viewChild.required(WattModalComponent);
 
-  modal = viewChild.required<WattModalComponent>('modal');
+  query = lazyQuery(GetCalculationByIdDocument, {
+    nextFetchPolicy: 'cache-first',
+  });
 
-  calculation?: Calculation;
-  error = false;
-  loading = false;
-
-  CalculationOrchestrationState = CalculationOrchestrationState;
+  result = computed(() => this.query.data()?.calculationById);
+  type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
+  executionType = computed(() => this.result()?.executionType);
+  statusType = computed(() => this.result()?.statusType ?? 'skeleton');
+  state = computed(() => this.result()?.state ?? 'INDETERMINATE');
+  isScheduled = computed(() => this.result()?.state === State.Scheduled);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {
     onCompleted: () =>
@@ -125,28 +116,10 @@ export class DhCalculationsDetailsComponent {
   constructor() {
     effect(() => {
       const id = this.id();
-      if (!id) return;
-      this.drawer.open();
-      const subscription = this.apollo
-        .watchQuery({
-          errorPolicy: 'all',
-          returnPartialData: true,
-          query: GetCalculationByIdDocument,
-          variables: { id },
-        })
-        .valueChanges.subscribe({
-          next: (result) => {
-            this.calculation = result.data?.calculationById ?? undefined;
-            this.loading = result.loading;
-            this.error = !!result.errors;
-          },
-          error: (error) => {
-            this.error = error;
-            this.loading = false;
-          },
-        });
-
-      return () => subscription.unsubscribe();
+      const drawer = this.drawer();
+      if (!id || !drawer) return;
+      this.query.refetch({ id });
+      drawer.open();
     });
   }
 }

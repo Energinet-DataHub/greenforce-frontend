@@ -33,6 +33,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     },
     header: {
       loginButton: 'Log in',
+      dashboardButton: 'Go to dashboard',
     },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',
@@ -216,8 +217,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     privacyPolicy: 'Privacy Policy',
     accessibilityStatement: 'Accessibility Statement',
   },
-  userInformation: {
+  actorMenu: {
     tin: 'CVR / TIN: {{tin}}',
+    onBehalfOf: '{{org_name}} on behalf of',
   },
   topbar: {
     help: '{{shared.help}}',

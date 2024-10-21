@@ -28,6 +28,7 @@ export interface TranslationKeys {
     };
     header: {
       loginButton: string;
+      dashboardButton: string;
     };
     hero: {
       heading: string;
@@ -142,7 +143,8 @@ export interface TranslationKeys {
     privacyPolicy: string;
     accessibilityStatement: string;
   };
-  userInformation: {
+  actorMenu: {
+    onBehalfOf: string;
     tin: string;
   };
   topbar: {

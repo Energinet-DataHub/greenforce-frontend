@@ -46,11 +46,6 @@ limitations under the License.
     <Exec Command="dotnet exec $(OutputPath)$(AssemblyName).dll schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql" />
   </Target>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet tool restore" />
-    <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.12" />

@@ -51,7 +51,6 @@ over the Angular CLI._
 - [Volta](https://volta.sh): Manager for JavaScript command-line tools like Node.js®, Yarn and Bun.
 - [Bun](https://bun.sh): Alternative to Node.js® and Yarn that this repository use. Can also be installed with Volta.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download): Required for running and developing DataHub.
-- [Java](https://www.java.com/en/download/): Required for generating HttpClients and DTOs based on Swagger definition. <!-- markdown-link-check-disable-line -->
 
 ## DataHub
 
@@ -264,7 +263,7 @@ depend on:
 | Type                | Contains                                                                                                                               | Name                   | Allowed Dependencies                                                                                               |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | **`feature`**       | Smart UI (with access to data sources) for specific business use cases or pages in an application.                                     | `feature‑<name>`       | `assets` `configuration` `feature` `ui` `data‑access` `domain` `util` `test‑util` `environments`                   |
-| **`ui`**            | Presentational logic (presentational components, pipes, presentational services, directives).                                          | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles`                                                                 |
+| **`ui`**            | Presentational logic (presentational components, pipes, presentational services, directives).                                          | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles` `environments`                                                                 |
 | **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, and HTTP interceptors.         | `data‑access‑<name>`   | `data-access` `util` `test-util` `domain` `environments`                                                           |
 | **`util`**          | Low-level utilities used by many libraries and applications (services, pure functions, contants).                                      | `util‑<name>`          | `util` `test-util` `environments`                                                                                  |
 | **`test‑util`**     | Stubs, jest matchers, testing modules and test library configuration.                                                                  | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |

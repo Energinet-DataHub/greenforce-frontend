@@ -29,6 +29,7 @@ export const translations = {
     } as const,
     header: {
       loginButton: 'landingPage.header.loginButton' as const,
+      dashboardButton: 'landingPage.header.dashboardButton' as const,
     } as const,
     hero: {
       heading: 'landingPage.hero.heading' as const,
@@ -143,8 +144,9 @@ export const translations = {
     privacyPolicy: 'footer.privacyPolicy' as const,
     accessibilityStatement: 'footer.accessibilityStatement' as const,
   } as const,
-  userInformation: {
-    tin: 'userInformation.tin' as const,
+  actorMenu: {
+    onBehalfOf: 'actorMenu.onBehalfOf' as const,
+    tin: 'actorMenu.tin' as const,
   } as const,
   topbar: {
     help: 'topbar.help' as const,

@@ -36,7 +36,7 @@ for instructions.
 In this case import `getTranslocoTestingModule` function in the testing setup. This will preload the translation files and set the default language to "English". So the English translation file should be used when looking for specific strings. For example:
 
 ```ts
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
@@ -66,18 +66,15 @@ async function setup() {
 
 #### When the feature under test sends requests to the BFF
 
-In this case import `DhApiModule.forRoot()` and `HttpClientModule` in the test setup. This will make sure that the base API is configured correctly. For example:
+In this case import `HttpClientModule` in the test setup. This will make sure that the base API is configured correctly. For example:
 
 ```ts
 import { HttpClientModule } from '@angular/common/http';
-
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 async function setup() {
   await render(MyComponent.name, {
     imports: [
       HttpClientModule,
-      DhApiModule.forRoot(),
       // ...
     ],
   }

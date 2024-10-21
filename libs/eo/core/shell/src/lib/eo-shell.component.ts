@@ -38,7 +38,7 @@ import {
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
-import { EoFooterComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/auth/data-access';
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { EoAccountMenuComponent } from './eo-account-menu';
@@ -84,48 +84,16 @@ import { EoAccountMenuComponent } from './eo-account-menu';
         width: 80%;
       }
 
-      ::ng-deep watt-shell mat-sidenav.mat-drawer {
-        color: var(--watt-color-primary-dark-contrast);
-      }
-
-      ::ng-deep watt-shell .watt-toolbar watt-icon-button[icon='menu'] > button {
-        padding-left: 0; // Remove menu toggle left padding to collapse with top app bar padding
-      }
-
-      ::ng-deep watt-shell .mat-nav-list {
-        padding-top: 0;
-      }
-
-      ::ng-deep watt-shell .watt-toolbar.watt-toolbar {
-        height: var(--watt-space-xl);
-        @include watt.space-inset-squish-l;
-
-        @include watt.media('<Large') {
-          padding: 0;
-        }
-      }
-
-      ::ng-deep .watt-main-content {
-        --top-app-bar-height: var(--watt-space-xl);
-        min-height: calc(100% - var(--top-app-bar-height));
-        padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
-        display: grid;
-        grid-template-rows: 1fr auto;
-      }
-
       .content {
-        width: 100vw;
         padding: var(--watt-space-m);
 
-        @include watt.media('>=Large') {
-          padding: var(--watt-space-l);
-          width: calc(100vw - 245px);
+        @include watt.media('>Small') {
+          min-height: 90vh;
         }
       }
     `,
   ],
   template: `
-    <!--<eo-cookie-banner *ngIf="!cookiesSet" (accepted)="getBannerStatus()" />-->
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">

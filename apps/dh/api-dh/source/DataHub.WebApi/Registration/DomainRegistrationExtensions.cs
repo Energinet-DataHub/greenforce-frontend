@@ -17,6 +17,7 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.Notifications;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -52,6 +53,8 @@ public static class DomainRegistrationExtensions
                 GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
             .AddImbalancePricesClient(
                 GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
+            .AddNotificationsClient(
+                GetBaseUri(apiClientSettings.NotificationsBaseUrl))
             .AddSingleton(apiClientSettings);
     }
 
@@ -132,6 +135,14 @@ public static class DomainRegistrationExtensions
     {
         return serviceCollection.AddScoped<IImbalancePricesClient_V1, ImbalancePricesClient_V1>(
             provider => new ImbalancePricesClient_V1(
+                baseUri.ToString(),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+    }
+
+    private static IServiceCollection AddNotificationsClient(this IServiceCollection serviceCollection, Uri baseUri)
+    {
+        return serviceCollection.AddScoped<INotificationsClient, NotificationClient>(
+            provider => new NotificationClient(
                 baseUri.ToString(),
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }

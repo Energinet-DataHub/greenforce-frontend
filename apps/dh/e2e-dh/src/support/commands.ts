@@ -17,6 +17,7 @@
 import '@testing-library/cypress/add-commands';
 
 function loginViaB2C(email: string, password: string) {
+  cy.removeCookieBanner();
   cy.visit('/');
 
   cy.get('watt-button').click();
@@ -66,6 +67,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     },
     {
       validate: () => {
+        cy.visit('/');
         cy.findByRole('heading', {
           name: new RegExp('Fremsøg forretningsbesked', 'i'),
           timeout: 10000,
@@ -73,4 +75,20 @@ Cypress.Commands.add('login', (email: string, password: string) => {
       },
     }
   );
+});
+
+Cypress.Commands.add('removeCookieBanner', () => {
+  Cypress.log({
+    displayName: 'Cookie banner',
+    message: 'Decline cookies',
+  });
+  cy.location('host').then(($host) => {
+    cy.setCookie('CookieInformationConsent', encodeURIComponent('{"consents_approved":[]}'), {
+      domain: $host,
+      sameSite: 'lax',
+      secure: true,
+      hostOnly: true,
+      path: '/',
+    });
+  });
 });

@@ -12,22 +12,6 @@
         "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
       }
     },
-    "build-client": {
-      "dependsOn": ["build"],
-      "outputs": ["{workspaceRoot}/libs/dh/shared/domain/src/lib/generated/v1"],
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "java -version || echo ❌ Java must be installed",
-          "bun run openapi-generator-cli generate -o libs/dh/shared/domain/src/lib/generated/v1 -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net8.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true -p=enumPropertyNaming=original",
-          "rimraf libs/dh/shared/domain/src/lib/generated/v1/.openapi-generator/",
-          "rimraf libs/dh/shared/domain/src/lib/generated/v1/.gitignore",
-          "rimraf libs/dh/shared/domain/src/lib/generated/v1/git_push.sh",
-          "rimraf libs/dh/shared/domain/src/lib/generated/v1/README.md"
-        ],
-        "parallel": false
-      }
-    },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
@@ -43,8 +27,5 @@
       }
     }
   },
-  "tags": [
-    "product:dh",
-    "type:api"
-  ]
+  "tags": ["product:dh", "type:api"]
 }

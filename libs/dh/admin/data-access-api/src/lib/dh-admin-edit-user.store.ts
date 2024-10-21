@@ -24,7 +24,7 @@ import { HttpStatusCode } from '@angular/common/http';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/data-access-api';
+import { ErrorState, SavingState } from '@energinet-datahub/dh/shared/domain';
 
 import {
   ApiError,
