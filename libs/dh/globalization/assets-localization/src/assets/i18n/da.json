@@ -618,8 +618,8 @@
               "E17Consumption": "Forbrug"
             },
             "statusOptions": {
-              "ACTIVE": "Aktiv",
               "AWAITING": "Afventer",
+              "ACTIVE": "Aktiv",
               "EXPIRED": "Udløbet",
               "SOON_TO_EXPIRE": "Udløber snart"
             },
