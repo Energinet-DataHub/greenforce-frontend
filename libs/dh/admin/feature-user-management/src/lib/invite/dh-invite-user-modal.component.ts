@@ -132,9 +132,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
 
   domainExists = computed((): boolean => {
     const email = this.emailChanged();
-    if (!email) return false;
-
-    return this.validDomainQuery.data()?.domainExists ?? false;
+    return !!email && (this.validDomainQuery.data()?.domainExists ?? false);
   });
 
   knownEmailsQuery = query(GetKnownEmailsDocument);
