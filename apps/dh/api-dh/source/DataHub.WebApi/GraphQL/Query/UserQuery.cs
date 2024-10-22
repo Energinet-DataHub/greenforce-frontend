@@ -44,6 +44,7 @@ public partial class Query
         return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.AdministratedBy, user.CreatedDate, user.LatestLoginAt);
     }
 
+    // TODO: Deprecate?
     public async Task<bool> EmailExistsAsync(
         string emailAddress,
         [Service] IMarketParticipantClient_V1 client) =>

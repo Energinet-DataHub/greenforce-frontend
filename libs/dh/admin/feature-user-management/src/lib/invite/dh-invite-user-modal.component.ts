@@ -41,6 +41,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
@@ -79,6 +80,7 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattPhoneFieldComponent,
+    WattValidationMessageComponent,
 
     DhAssignableUserRolesComponent,
   ],
@@ -127,7 +129,15 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     return !!email && this.knownEmails().includes(email.toUpperCase());
   });
 
+  domainExists = computed((): boolean => {
+    const email = this.emailChanged();
+    if (!email) return false;
+
+    return this.validDomainQuery.data()?.knownEmails.includes(email.toUpperCase()) ?? false;
+  });
+
   knownEmailsQuery = query(GetKnownEmailsDocument);
+  validDomainQuery = lazyQuery(GetKnownEmailsDocument);
 
   knownEmails = computed(
     () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
@@ -144,21 +154,22 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       [Validators.required, Validators.email],
       [
         (control) => {
-          if (control.value) {
-            return this.checkForAssociatedActors
-              .query({ variables: { email: control.value } })
-              .then((result) => {
-                const associatedActors = result.data?.associatedActors.actors ?? [];
+          if (!control.value) return of(null);
 
-                const isAlreadyAssociatedToActor = associatedActors?.includes(
-                  this.baseInfo.controls.actorId.value ?? ''
-                );
+          if (!this.domainExists())
+            return of({ domainDoesNotExist: true });
 
-                return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
-              });
-          }
+          return this.checkForAssociatedActors
+            .query({ variables: { email: control.value } })
+            .then((result) => {
+              const associatedActors = result.data?.associatedActors.actors ?? [];
 
-          return of(null);
+              const isAlreadyAssociatedToActor = associatedActors?.includes(
+                this.baseInfo.controls.actorId.value ?? ''
+              );
+
+              return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
+            });
         },
       ],
     ],
@@ -206,6 +217,13 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       },
       { allowSignalWrites: true }
     );
+
+    effect(async () => {
+      const email = this.emailChanged();
+      if (!email) return;
+
+      await this.validDomainQuery.query({ variables: {} });
+    });
   }
 
   inviteUser() {
