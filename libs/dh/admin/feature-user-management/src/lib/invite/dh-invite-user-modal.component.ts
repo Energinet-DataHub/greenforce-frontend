@@ -226,13 +226,6 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       },
       { allowSignalWrites: true }
     );
-
-    effect(async () => {
-      const email = this.emailChanged();
-      if (!email) return;
-
-      await this.validDomainQuery.query({ variables: { email } });
-    });
   }
 
   inviteUser() {
