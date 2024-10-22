@@ -82,13 +82,13 @@ import {
         />
         <watt-dropdown
           [label]="t('sender')"
-          [formControl]="form.controls.senderNumber"
+          [formControl]="form.controls.senderId"
           [options]="actorOptions()"
           [placeholder]="t('placeholder')"
         />
         <watt-dropdown
           [label]="t('receiver')"
-          [formControl]="form.controls.receiverNumber"
+          [formControl]="form.controls.receiverId"
           [options]="actorOptions()"
           [placeholder]="t('placeholder')"
         />
@@ -114,8 +114,8 @@ export class DhMessageArchiveSearchStartComponent {
   form = new FormGroup({
     documentTypes: dhMakeFormControl<DocumentType[]>(),
     businessReasons: dhMakeFormControl<BusinessReason[]>(),
-    senderNumber: dhMakeFormControl<string>(),
-    receiverNumber: dhMakeFormControl<string>(),
+    senderId: dhMakeFormControl<string>(),
+    receiverId: dhMakeFormControl<string>(),
     start: dhMakeFormControl(dayjs().startOf('day').toDate()),
     end: dhMakeFormControl(dayjs().endOf('day').toDate()),
   });
@@ -131,7 +131,7 @@ export class DhMessageArchiveSearchStartComponent {
   actors = computed(() => this.actorsQuery.data()?.actors ?? []);
   actorOptions = computed(() =>
     this.actors().map((actor) => ({
-      value: actor.glnOrEicNumber,
+      value: actor.id,
       displayValue: actor.name || actor.glnOrEicNumber,
     }))
   );

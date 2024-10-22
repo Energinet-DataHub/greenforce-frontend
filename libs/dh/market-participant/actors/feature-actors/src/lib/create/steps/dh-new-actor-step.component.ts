@@ -139,7 +139,7 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
 export class DhNewActorStepComponent {
   newActorForm = input.required<ActorForm>();
 
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction, 'asc');
+  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
   gridAreaOptions = getGridAreaOptions();
 
   showGridAreaOptions = signal(false);
