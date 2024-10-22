@@ -25,19 +25,22 @@ const selector = 'eo-scroll-view';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
+      :root {
+        --eo-scroll-view-padding: var(--watt-space-m);
+        --eo-scroll-view-max-height: calc(100vh - 300px);
+      }
+
       ${selector} {
         display: block;
         word-break: break-word;
-
-        padding: var(--watt-space-m);
-
+        padding: var(--eo-scroll-view-padding);
         background: var(--watt-color-neutral-white);
         border-radius: var(--watt-space-xs);
       }
 
       // This is the contents of the privacy policy with the custom scrollbar
       ${selector} .content {
-        max-height: calc(100vh - 300px);
+        max-height: var(--eo-scroll-view-max-height);
         word-break: break-word;
         overflow-y: scroll;
         padding-right: var(--watt-space-m);
