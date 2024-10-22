@@ -155,24 +155,32 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       [Validators.required, Validators.email],
       [
         (control) => {
-          if (!control.value) return of(null);
+          if (control.value) {
+            return this.checkForAssociatedActors
+              .query({ variables: { email: control.value } })
+              .then((result) => {
+                const associatedActors = result.data?.associatedActors.actors ?? [];
 
-          return this.validDomainQuery
-            .query({ variables: { email: control.value } })
-            .then(async (domainCheck) => {
-              if (!domainCheck.data.domainExists) return { domainDoesNotExist: true };
+                const isAlreadyAssociatedToActor = associatedActors?.includes(
+                  this.baseInfo.controls.actorId.value ?? ''
+                );
 
-              const result = await this.checkForAssociatedActors.query({
-                variables: { email: control.value },
+                return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
               });
-              const associatedActors = result.data?.associatedActors.actors ?? [];
+          }
 
-              const isAlreadyAssociatedToActor = associatedActors?.includes(
-                this.baseInfo.controls.actorId.value ?? ''
-              );
+          return of(null);
+        },
+        (control) => {
+          if (control.value) {
+            return this.validDomainQuery
+              .query({ variables: { email: control.value } })
+              .then((domainCheck) => {
+                return !domainCheck.data.domainExists ? { domainDoesNotExist: true } : null;
+              });
+          }
 
-              return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
-            });
+          return of(null);
         },
       ],
     ],
