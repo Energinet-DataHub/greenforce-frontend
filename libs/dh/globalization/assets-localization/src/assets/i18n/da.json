@@ -212,10 +212,10 @@
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om aggregerede engrosydelser (RSM-019)"
     },
     "businessReason": {
-      "D03": "Midlertidig (D03)",
-      "D04": "1. afregning (D04)",
-      "D05": "2. afregning (D05)",
-      "D32": "Korrektionsafregning (D32)"
+      "D03": "Aggregering (D03)",
+      "D04": "Balancefiksering (D04)",
+      "D05": "Engrosafregning (D05)",
+      "D32": "Korrektioner (D32)"
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
