@@ -19,7 +19,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { WattFilterChipComponent } from './watt-filter-chip.component';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
 import { WattActionChipComponent } from './watt-action-chip.component';
-import { InputSignal, OutputEmitterRef } from '@angular/core';
+import { InputSignal } from '@angular/core';
 import { WattIcon } from '@energinet-datahub/watt/icon';
 
 const meta: Meta<WattFilterChipComponent> = {
