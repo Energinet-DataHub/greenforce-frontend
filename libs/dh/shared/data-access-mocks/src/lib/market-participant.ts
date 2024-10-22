@@ -572,7 +572,7 @@ function checkDomainExists() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        domainExists: ["test.dk", "datahub.dk", "energinet.dk"].includes(domain),
+        domainExists: ['test.dk', 'datahub.dk', 'energinet.dk'].includes(domain),
       },
     });
   });
