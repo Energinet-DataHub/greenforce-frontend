@@ -25,6 +25,12 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/
   selector: 'eo-header',
   styles: [
     `
+      :host {
+        @media print {
+          display: none;
+        }
+      }
+
       .toolbar {
         display: flex;
         justify-content: space-between;
