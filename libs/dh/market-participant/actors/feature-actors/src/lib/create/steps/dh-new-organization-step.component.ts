@@ -14,32 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { Observable } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 @Component({
   standalone: true,
   imports: [
-    VaterStackComponent,
-    WattButtonComponent,
     TranslocoDirective,
-    WattDropdownComponent,
     ReactiveFormsModule,
-    WattFieldErrorComponent,
-    WattTextFieldComponent,
+
+    WattButtonComponent,
     WattSpinnerComponent,
-    RxPush,
+    WattDropdownComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+
+    VaterStackComponent,
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-new-organization-step',
@@ -54,20 +55,18 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
         margin-bottom: 0;
       }
 
-      .row {
-        display: flex;
-      }
-
-      .column {
-        flex: 50%;
-        align-items: center;
-        display: flex;
-        padding: 0 var(--watt-space-m);
-      }
-
-      watt-dropdown,
-      vater-stack {
+      :host > watt-dropdown,
+      :host > vater-stack {
         width: 50%;
+      }
+
+      watt-spinner {
+        margin-right: var(--watt-space-s);
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
       }
     `,
   ],
@@ -80,63 +79,83 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       }}</watt-button>
     </vater-stack>
 
-    <div class="row">
-      <vater-stack gap="m" align="flex-start" direction="row">
-        <watt-dropdown
-          translateKey="marketParticipant.actor.create.counties"
-          dhDropdownTranslator
-          [label]="t('country')"
-          [showResetOption]="false"
-          [options]="countryOptions"
-          [formControl]="newOrganizationForm().controls.country"
-        />
-        <watt-text-field
-          [formControl]="newOrganizationForm().controls.cvrNumber"
-          [label]="t('cvrNumber')"
-        >
-          @if (newOrganizationForm().controls.cvrNumber.hasError('invalidCvrNumber')) {
-            <watt-field-error>
-              {{ t('cvrInvalid') }}
-            </watt-field-error>
-          }
-        </watt-text-field>
-      </vater-stack>
-
-      <div class="column">
-        @if (this.isCvrBusy$() | push) {
+    <vater-stack gap="m" align="center" direction="row">
+      <watt-dropdown
+        translateKey="marketParticipant.actor.create.counties"
+        dhDropdownTranslator
+        [label]="t('country')"
+        [showResetOption]="false"
+        [options]="countryOptions"
+        [formControl]="newOrganizationForm().controls.country"
+      />
+      <watt-text-field
+        [formControl]="newOrganizationForm().controls.cvrNumber"
+        [label]="t('cvrNumber')"
+      >
+        @if (this.lookingForCVR()) {
           <watt-spinner [diameter]="22" />
         }
-      </div>
-    </div>
+        @if (newOrganizationForm().controls.cvrNumber.hasError('invalidCvrNumber')) {
+          <watt-field-error>
+            {{ t('cvrInvalid') }}
+          </watt-field-error>
+        }
+      </watt-text-field>
+    </vater-stack>
 
     <vater-stack gap="m" align="flex-start">
       <watt-text-field
         [formControl]="newOrganizationForm().controls.companyName"
         [label]="t('companyName')"
       />
-      <watt-text-field
-        [prefix]="'alternateEmail'"
-        [formControl]="newOrganizationForm().controls.domain"
-        [label]="t('domain')"
-      >
-        @if (newOrganizationForm().controls.domain.hasError('pattern')) {
-          <watt-field-error>
-            {{ t('domainInvalid') }}
-          </watt-field-error>
-        }
-      </watt-text-field>
+      @if (multipleDomainSupport) {
+        <vater-stack direction="row" gap="m" fill="horizontal">
+          <watt-text-field
+            [prefix]="'alternateEmail'"
+            [formControl]="newOrganizationForm().controls.domain"
+            [label]="t('domain')"
+          >
+            @if (newOrganizationForm().controls.domain.hasError('pattern')) {
+              <watt-field-error>
+                {{ t('domainInvalid') }}
+              </watt-field-error>
+            }
+          </watt-text-field>
+          <watt-button variant="text" (click)="addDomain()">{{ t('add') }}</watt-button>
+        </vater-stack>
+
+        <ul>
+          @for (domain of newOrganizationForm().controls.domains.value; track domain) {
+            <li>{{ domain }}</li>
+          }
+        </ul>
+      } @else {
+        <watt-text-field
+          [prefix]="'alternateEmail'"
+          [formControl]="newOrganizationForm().controls.domain"
+          [label]="t('domain')"
+        >
+          @if (newOrganizationForm().controls.domain.hasError('pattern')) {
+            <watt-field-error>
+              {{ t('domainInvalid') }}
+            </watt-field-error>
+          }
+        </watt-text-field>
+      }
     </vater-stack>
   </ng-container>`,
 })
 export class DhNewOrganizationStepComponent {
+  private readonly featureFlags = inject(DhFeatureFlagsService);
   toggleShowCreateNewOrganization = output<void>();
-  isCvrBusy$ = input.required<Observable<boolean>>();
+  lookingForCVR = input.required<boolean>();
   newOrganizationForm = input.required<
     FormGroup<{
       country: FormControl<string>;
       cvrNumber: FormControl<string>;
       companyName: FormControl<string>;
       domain: FormControl<string>;
+      domains: FormControl<string[]>;
     }>
   >();
 
@@ -147,4 +166,16 @@ export class DhNewOrganizationStepComponent {
     { value: 'FI', displayValue: 'FI' },
     { value: 'DE', displayValue: 'DE' },
   ];
+
+  addDomain() {
+    if (this.newOrganizationForm().controls.domain.invalid) return;
+
+    this.newOrganizationForm().controls.domains.value.push(
+      this.newOrganizationForm().controls.domain.value
+    );
+
+    this.newOrganizationForm().controls.domain.reset();
+  }
+
+  multipleDomainSupport = this.featureFlags.isEnabled('support-for-multiple-domains');
 }

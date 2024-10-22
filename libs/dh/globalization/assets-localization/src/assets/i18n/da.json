@@ -508,6 +508,7 @@
           "organization": "Organisation",
           "create": "Opret aktør"
         },
+        "add": "Tilføj",
         "gridArea": "Netområde",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC",
         "wrongEmailPattern": "E-mail skal indeholde @",

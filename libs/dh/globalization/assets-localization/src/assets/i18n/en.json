@@ -508,6 +508,7 @@
           "organization": "Organisation",
           "create": "Create market participant"
         },
+        "add": "Add",
         "gridArea": "Grid area",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",

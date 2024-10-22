@@ -14,8 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TranslocoDirective, translate } from '@ngneat/transloco';
-import { Apollo, MutationResult } from 'apollo-angular';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
+
 import {
   FormControl,
   NonNullableFormBuilder,
@@ -23,43 +30,42 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  signal,
-  viewChild,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RxPush } from '@rx-angular/template/push';
-import { concat, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
+
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+
+import { MutationResult } from 'apollo-angular';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+
 import {
+  EicFunction,
   ContactCategory,
+  GetOrganizationsDocument,
+  GetOrganizationFromCvrDocument,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  EicFunction,
-  GetOrganizationFromCvrDocument,
-  GetOrganizationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   dhCvrValidator,
   dhDomainValidator,
   dhGlnOrEicValidator,
 } from '@energinet-datahub/dh/shared/ui-validators';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 
-import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
-import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
-import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+
+import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+
 import { ActorForm } from './dh-actor-form.model';
+import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
+import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
+import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
@@ -70,7 +76,6 @@ import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-partic
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    RxPush,
 
     WATT_CARD,
     WATT_MODAL,
@@ -82,41 +87,81 @@ import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-partic
   ],
 })
 export class DhActorsCreateActorModalComponent extends WattTypedModal {
-  private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-  private _toastService = inject(WattToastService);
-  private _apollo = inject(Apollo);
-  private _changeDetection = inject(ChangeDetectorRef);
+  private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private toastService = inject(WattToastService);
+
+  private getOrganizationFromCvrDocumentQuery = lazyQuery(GetOrganizationFromCvrDocument);
+  private createMarketParticipantDocumentMutation = mutation(CreateMarketParticipantDocument);
+
+  lookingForCVR = this.getOrganizationFromCvrDocumentQuery.loading;
 
   showCreateNewOrganization = signal(false);
   isCompleting = signal(false);
 
   modal = viewChild.required(WattModalComponent);
 
-  chooseOrganizationForm = this._fb.group({
+  chooseOrganizationForm = this.fb.group({
     orgId: new FormControl<string | null>(null, Validators.required),
   });
 
-  newOrganizationForm = this._fb.group({
+  newOrganizationForm = this.fb.group({
     country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
     companyName: [{ value: '', disabled: true }, Validators.required],
     domain: ['', [Validators.required, dhDomainValidator]],
+    domains: new FormControl<string[]>([], {
+      nonNullable: true,
+      validators: [Validators.required, dhDomainValidator],
+    }),
   });
 
-  newActorForm: ActorForm = this._fb.group({
+  newActorForm: ActorForm = this.fb.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
-    contact: this._fb.group({
+    contact: this.fb.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
     }),
   });
 
+  countryChanged = toSignal(this.newOrganizationForm.controls.country.valueChanges, {
+    initialValue: '',
+  });
+  cvrNumberChanged = toSignal(this.newOrganizationForm.controls.cvrNumber.valueChanges, {
+    initialValue: '',
+  });
+
   constructor() {
     super();
+
+    effect(async () => {
+      const country = this.countryChanged();
+      const cvrNumber = this.cvrNumberChanged();
+
+      this.newOrganizationForm.controls.companyName.disable();
+
+      if (country === 'DK') {
+        if (this.isInternalCvr(cvrNumber)) {
+          this.newOrganizationForm.controls.companyName.enable();
+          return;
+        }
+
+        if (cvrNumber.length === 8) {
+          const result = await this.getOrganizationFromCvrDocumentQuery.query({
+            variables: { cvr: cvrNumber },
+          });
+
+          const { hasResult, name } = result.data.searchOrganizationInCVR;
+
+          if (hasResult) {
+            this.newOrganizationForm.controls.companyName.setValue(name);
+          }
+        }
+      }
+    });
 
     this.newOrganizationForm.controls.country.valueChanges
       .pipe(takeUntilDestroyed())
@@ -145,71 +190,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     this.newOrganizationNameToActorName();
   }
 
-  cvrLookup$ = merge(
-    this.newOrganizationForm.controls.country.valueChanges,
-    this.newOrganizationForm.controls.cvrNumber.valueChanges
-  ).pipe(
-    distinctUntilChanged(),
-    switchMap(() => {
-      const country = this.newOrganizationForm.controls.country.value;
-      const cvrNumber = this.newOrganizationForm.controls.cvrNumber.value;
-
-      if (country === '') {
-        return of({ isLoading: false, isReadOnly: true });
-      }
-
-      if (country === 'DK') {
-        if (this.isInternalCvr(cvrNumber)) {
-          return of({ isLoading: false, isReadOnly: false });
-        }
-
-        if (cvrNumber.length === 8) {
-          return this.callCvrLookup(cvrNumber);
-        } else {
-          return of({ isLoading: false, isReadOnly: true });
-        }
-      }
-
-      return of({ isLoading: false, isReadOnly: false });
-    }),
-    tap((state) => {
-      if (state.isReadOnly) {
-        this.newOrganizationForm.controls.companyName.disable();
-      } else {
-        this.newOrganizationForm.controls.companyName.enable();
-      }
-
-      this._changeDetection.detectChanges();
-    }),
-    map((result) => result.isLoading)
-  );
-
   isInternalCvr(cvrNumber: string): boolean {
     return cvrNumber.startsWith('ENDK');
-  }
-
-  callCvrLookup(cvrNumber: string) {
-    const cvrQuery = this._apollo
-      .query({
-        query: GetOrganizationFromCvrDocument,
-        fetchPolicy: 'network-only',
-        variables: { cvr: cvrNumber },
-      })
-      .pipe(
-        map((cvrResult) => {
-          const foundOrg = cvrResult.data.searchOrganizationInCVR;
-
-          this.newOrganizationForm.controls.companyName.setValue(foundOrg.name);
-
-          if (foundOrg.hasResult) {
-            return { isLoading: false, isReadOnly: true };
-          }
-
-          return { isLoading: false, isReadOnly: false };
-        })
-      );
-
-    return concat(of({ isLoading: true, isReadOnly: true }), cvrQuery);
   }
 
   onSelectOrganization(organization: DhOrganizationDetails): void {
@@ -239,9 +221,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       return;
 
     this.isCompleting.set(true);
-    this._apollo
+    this.createMarketParticipantDocumentMutation
       .mutate({
-        mutation: CreateMarketParticipantDocument,
         variables: {
           input: {
             organizationId: this.chooseOrganizationForm.controls.orgId.value,
@@ -285,14 +266,14 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
         },
         refetchQueries: [GetOrganizationsDocument],
       })
-      .subscribe((result) => this.handleCreateMarketParticipentResponse(result));
+      .then((result) => this.handleCreateMarketParticipentResponse(result));
   }
 
   private handleCreateMarketParticipentResponse(
     response: MutationResult<CreateMarketParticipantMutation>
   ): void {
     if (response.errors && response.errors.length > 0) {
-      this._toastService.open({
+      this.toastService.open({
         type: 'danger',
         message: parseGraphQLErrorResponse(response.errors),
       });
@@ -302,14 +283,14 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       response.data?.createMarketParticipant?.errors &&
       response.data?.createMarketParticipant?.errors.length > 0
     ) {
-      this._toastService.open({
+      this.toastService.open({
         type: 'danger',
         message: readApiErrorResponse(response.data?.createMarketParticipant?.errors),
       });
     }
 
     if (response.data?.createMarketParticipant?.success) {
-      this._toastService.open({
+      this.toastService.open({
         type: 'success',
         message: translate('marketParticipant.actor.create.createSuccess'),
       });
