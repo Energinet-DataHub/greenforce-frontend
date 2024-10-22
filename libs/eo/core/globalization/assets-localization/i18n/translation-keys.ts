@@ -146,6 +146,8 @@ export interface TranslationKeys {
   actorMenu: {
     onBehalfOf: string;
     tin: string;
+    ownOrganization: string;
+    otherOrganizations: string;
   };
   topbar: {
     help: string;

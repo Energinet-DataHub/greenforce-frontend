@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhNotification } from './dh-notification';
 
@@ -26,7 +27,7 @@ import { DhNotification } from './dh-notification';
   selector: 'dh-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslocoDirective, WattDatePipe],
+  imports: [NgClass, TranslocoDirective, WattDatePipe, WattIconComponent],
   styles: `
     :host {
       display: block;
@@ -61,11 +62,34 @@ import { DhNotification } from './dh-notification';
       &__message {
         margin: 0;
       }
+
+      &:hover {
+        .icon-dismiss {
+          opacity: 1;
+        }
+      }
+
+      .icon-dismiss {
+        cursor: pointer;
+        opacity: 0;
+        position: absolute;
+        right: var(--watt-space-ml);
+        transition: opacity 150ms linear;
+      }
     }
   `,
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification" [ngClass]="{ 'notification--unread': !notification().read }">
+        @if (!notification().read) {
+          <watt-icon
+            name="close"
+            class="icon-dismiss"
+            [title]="t('markAsRead')"
+            (click)="dismiss.emit()"
+          />
+        }
+
         <span class="notification__datetime watt-text-s">
           {{ notification().occurredAt | wattDate: 'long' }}
         </span>
@@ -81,4 +105,6 @@ import { DhNotification } from './dh-notification';
 })
 export class DhNotificationComponent {
   notification = input.required<DhNotification>();
+
+  dismiss = output<void>();
 }

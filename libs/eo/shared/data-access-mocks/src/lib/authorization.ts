@@ -50,6 +50,26 @@ function getReceivedConsents(apiBase: string) {
           organizationName: 'Viggos Vindmøller',
           tin: 77777777,
         },
+        {
+          organizationId: 12345678,
+          organizationName: 'Startup I/S',
+          tin: 12345678,
+        },
+        {
+          organizationId: 55555555,
+          organizationName: 'Fabrikant',
+          tin: 55555555,
+        },
+        {
+          organizationId: 66666666,
+          organizationName: 'Bolighaj',
+          tin: 66666666,
+        },
+        {
+          organizationId: 28980671,
+          organizationName: 'Energinet',
+          tin: 28980671,
+        },
       ],
     };
     return HttpResponse.json(data, { status: 200 });

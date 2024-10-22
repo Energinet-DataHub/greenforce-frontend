@@ -19,8 +19,11 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { subscription } from '@energinet-datahub/dh/shared/util-apollo';
-import { OnNotificationAddedDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation, subscription } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  DismissNotificationDocument,
+  OnNotificationAddedDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIcon } from '@energinet-datahub/watt/icon';
@@ -123,7 +126,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
 
         <div class="notifications-panel__items">
           @for (item of notifications(); track item) {
-            <dh-notification [notification]="item" />
+            <dh-notification [notification]="item" (dismiss)="onDismiss(item.id)" />
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
           }
@@ -135,6 +138,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
 export class DhNotificationsCenterComponent {
   private readonly bannerService = inject(DhNotificationBannerService);
   private readonly now = new Date();
+  private readonly dismissMutation = mutation(DismissNotificationDocument);
 
   isOpen = false;
 
@@ -180,7 +184,21 @@ export class DhNotificationsCenterComponent {
     },
   ];
 
+  onDismiss(notificationId: number): void {
+    this.dismissMutation.mutate({
+      variables: { input: { notificationId } },
+      onCompleted: () => this.onDismissSuccess(notificationId),
+      onError: () => console.error('Failed to dismiss notification'),
+    });
+  }
+
   private isDistinctNotification(incomingNotificationId: number): boolean {
     return !this.notifications().some((n) => n.id === incomingNotificationId);
+  }
+
+  private onDismissSuccess(notificationId: number): void {
+    this.notifications.update((notifications) =>
+      notifications.filter((n) => n.id !== notificationId)
+    );
   }
 }

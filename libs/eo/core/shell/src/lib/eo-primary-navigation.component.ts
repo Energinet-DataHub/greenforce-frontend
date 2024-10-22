@@ -71,11 +71,10 @@ import { EoAccountMenuComponent } from './eo-account-menu';
         <watt-nav-list-item link="{{ routes.claims }}">
           {{ translations.sidebar.claims | transloco }}
         </watt-nav-list-item>
-
-        <watt-nav-list-item link="{{ routes.certificates }}">
-          {{ translations.sidebar.certificates | transloco }}
-        </watt-nav-list-item>
       }
+      <watt-nav-list-item link="{{ routes.certificates }}">
+        {{ translations.sidebar.certificates | transloco }}
+      </watt-nav-list-item>
       <watt-nav-list-item link="{{ routes.transfer }}">
         {{ translations.sidebar.transfers | transloco }}
       </watt-nav-list-item>

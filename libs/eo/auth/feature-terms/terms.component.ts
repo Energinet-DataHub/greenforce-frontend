@@ -68,6 +68,11 @@ const selector = 'eo-auth-terms';
         min-height: 100vh;
         margin: 0;
 
+        @media print {
+          --eo-scroll-view-padding: 0;
+          --eo-scroll-view-max-height: fit-content;
+        }
+
         eo-header {
           grid-area: header;
         }
