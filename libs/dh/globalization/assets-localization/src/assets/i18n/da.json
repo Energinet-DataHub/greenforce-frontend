@@ -514,7 +514,7 @@
         "wrongEmailPattern": "E-mail skal indeholde @",
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
         "companyName": "Virksomhedsnavn",
-        "domain": "E-maildomænes",
+        "domain": "E-maildomæner",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
         "country": "Land",
