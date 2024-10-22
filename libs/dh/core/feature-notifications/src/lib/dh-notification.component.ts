@@ -63,10 +63,18 @@ import { DhNotification } from './dh-notification';
         margin: 0;
       }
 
+      &:hover {
+        .icon-dismiss {
+          opacity: 1;
+        }
+      }
+
       .icon-dismiss {
         cursor: pointer;
+        opacity: 0;
         position: absolute;
         right: var(--watt-space-ml);
+        transition: opacity 150ms linear;
       }
     }
   `,
