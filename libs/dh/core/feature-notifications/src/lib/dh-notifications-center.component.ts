@@ -198,13 +198,7 @@ export class DhNotificationsCenterComponent {
 
   private onDismissSuccess(notificationId: number): void {
     this.notifications.update((notifications) =>
-      notifications.map((n) => {
-        if (n.id === notificationId) {
-          return { ...n, read: true };
-        }
-
-        return n;
-      })
+      notifications.filter((n) => n.id !== notificationId)
     );
   }
 }

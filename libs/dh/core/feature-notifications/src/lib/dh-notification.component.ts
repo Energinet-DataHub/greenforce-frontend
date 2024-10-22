@@ -63,10 +63,18 @@ import { DhNotification } from './dh-notification';
         margin: 0;
       }
 
+      &:hover {
+        .icon-dismiss {
+          opacity: 1;
+        }
+      }
+
       .icon-dismiss {
         cursor: pointer;
+        opacity: 0;
         position: absolute;
         right: var(--watt-space-ml);
+        transition: opacity 150ms linear;
       }
     }
   `,
@@ -74,7 +82,12 @@ import { DhNotification } from './dh-notification';
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification" [ngClass]="{ 'notification--unread': !notification().read }">
         @if (!notification().read) {
-          <watt-icon name="close" class="icon-dismiss" (click)="dismiss.emit()" />
+          <watt-icon
+            name="close"
+            class="icon-dismiss"
+            [title]="t('markAsRead')"
+            (click)="dismiss.emit()"
+          />
         }
 
         <span class="notification__datetime watt-text-s">

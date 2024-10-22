@@ -25,6 +25,7 @@
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
     "notification": {
+      "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
         "message": "Balanceansvarsrelation modtaget for ukendt aktør '{{ relatedToId }}'."
