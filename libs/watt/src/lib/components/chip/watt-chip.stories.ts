@@ -18,6 +18,9 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
+import { WattActionChipComponent } from './watt-action-chip.component';
+import { InputSignal, OutputEmitterRef } from '@angular/core';
+import { WattIcon } from '@energinet-datahub/watt/icon';
 
 const meta: Meta<WattFilterChipComponent> = {
   /* 👇 The title prop is optional.
@@ -28,7 +31,7 @@ const meta: Meta<WattFilterChipComponent> = {
   component: WattFilterChipComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattMenuChipComponent],
+      imports: [WattMenuChipComponent, WattActionChipComponent],
     }),
   ],
 };
@@ -79,4 +82,21 @@ export const Menu: StoryObj<WattMenuChipComponent> = {
     `,
   }),
   args: {},
+};
+
+export const Action: StoryObj<WattActionChipComponent> = {
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; gap: var(--watt-space-s)">
+        <watt-action-chip [icon]="icon">data.dk</watt-action-chip>
+        <watt-action-chip [icon]="icon">todo.dk</watt-action-chip>
+        <watt-action-chip [icon]="icon">funny.dk</watt-action-chip>
+        <watt-action-chip [icon]="icon">domain.dk</watt-action-chip>
+      </div>
+    `,
+  }),
+  args: {
+    icon: 'remove' as unknown as InputSignal<WattIcon>,
+  },
 };

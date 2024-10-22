@@ -19,9 +19,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattActionChipComponent } from '@energinet-datahub/watt/chip';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -39,8 +40,10 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     WattDropdownComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+    WattActionChipComponent,
 
     VaterStackComponent,
+    VaterFlexComponent,
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-new-organization-step',
@@ -56,17 +59,13 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
       }
 
       :host > watt-dropdown,
-      :host > vater-stack {
+      :host > vater-stack,
+      :host > vater-flex {
         width: 50%;
       }
 
       watt-spinner {
         margin-right: var(--watt-space-s);
-      }
-
-      ul {
-        list-style-type: none;
-        padding: 0;
       }
     `,
   ],
@@ -123,12 +122,13 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
           </watt-text-field>
           <watt-button variant="text" (click)="addDomain()">{{ t('add') }}</watt-button>
         </vater-stack>
-
-        <ul>
+        <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="flex-start">
           @for (domain of newOrganizationForm().controls.domains.value; track domain) {
-            <li>{{ domain }}</li>
+            <watt-action-chip icon="remove" (click)="removeDomain(domain)">{{
+              domain
+            }}</watt-action-chip>
           }
-        </ul>
+        </vater-flex>
       } @else {
         <watt-text-field
           [prefix]="'alternateEmail'"
@@ -175,6 +175,12 @@ export class DhNewOrganizationStepComponent {
     );
 
     this.newOrganizationForm().controls.domain.reset();
+  }
+
+  removeDomain(domain: string) {
+    this.newOrganizationForm().controls.domains.patchValue(
+      this.newOrganizationForm().controls.domains.value.filter((d) => d !== domain)
+    );
   }
 
   multipleDomainSupport = this.featureFlags.isEnabled('support-for-multiple-domains');
