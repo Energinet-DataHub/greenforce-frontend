@@ -52,6 +52,7 @@ import {
   GetAssociatedActorsDocument,
   InviteUserDocument,
   UserOverviewSearchDocument,
+  CheckDomainExistsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -133,11 +134,11 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     const email = this.emailChanged();
     if (!email) return false;
 
-    return this.validDomainQuery.data()?.knownEmails.includes(email.toUpperCase()) ?? false;
+    return this.validDomainQuery.data()?.domainExists ?? false;
   });
 
   knownEmailsQuery = query(GetKnownEmailsDocument);
-  validDomainQuery = lazyQuery(GetKnownEmailsDocument);
+  validDomainQuery = lazyQuery(CheckDomainExistsDocument);
 
   knownEmails = computed(
     () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
@@ -156,12 +157,14 @@ export class DhInviteUserModalComponent extends WattTypedModal {
         (control) => {
           if (!control.value) return of(null);
 
-          if (!this.domainExists())
-            return of({ domainDoesNotExist: true });
-
-          return this.checkForAssociatedActors
+          return this.validDomainQuery
             .query({ variables: { email: control.value } })
-            .then((result) => {
+            .then(async (domainCheck) => {
+              if (!domainCheck.data.domainExists) return { domainDoesNotExist: true };
+
+              const result = await this.checkForAssociatedActors.query({
+                variables: { email: control.value },
+              });
               const associatedActors = result.data?.associatedActors.actors ?? [];
 
               const isAlreadyAssociatedToActor = associatedActors?.includes(
@@ -222,7 +225,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       const email = this.emailChanged();
       if (!email) return;
 
-      await this.validDomainQuery.query({ variables: {} });
+      await this.validDomainQuery.query({ variables: { email } });
     });
   }
 

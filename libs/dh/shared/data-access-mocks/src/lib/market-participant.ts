@@ -48,6 +48,7 @@ import {
   mockGetBalanceResponsibleRelationQuery,
   mockGetActorCredentialsQuery,
   mockAddTokenToDownloadUrlMutation,
+  mockCheckDomainExistsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -89,6 +90,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActorsForEicFunction(),
     getBalanceResponsibleRelation(),
     addTokenToDownloadUrl(),
+    checkDomainExists(),
   ];
 }
 
@@ -557,6 +559,20 @@ function addTokenToDownloadUrl() {
           __typename: 'AddTokenToDownloadUrlPayload',
           downloadUrlWithToken: `${url}?token=12345`,
         },
+      },
+    });
+  });
+}
+
+function checkDomainExists() {
+  return mockCheckDomainExistsQuery(async ({ variables }) => {
+    const { email } = variables;
+    const domain = email.split('@')[1];
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        domainExists: ["test.dk", "datahub.dk", "energinet.dk"].includes(domain),
       },
     });
   });

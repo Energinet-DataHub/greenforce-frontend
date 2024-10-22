@@ -44,11 +44,10 @@ public partial class Query
         return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.AdministratedBy, user.CreatedDate, user.LatestLoginAt);
     }
 
-    // TODO: Deprecate?
-    public async Task<bool> EmailExistsAsync(
+    public async Task<bool> DomainExistsAsync(
         string emailAddress,
         [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserExistsAsync(emailAddress);
+        await client.UserCheckDomainAsync(emailAddress);
 
     public async Task<IEnumerable<string>> GetKnownEmailsAsync(
         [Service] IMarketParticipantClient_V1 client) =>

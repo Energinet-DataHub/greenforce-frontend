@@ -544,12 +544,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress, string? api_version = null);
+        System.Threading.Tasks.Task<bool> UserCheckDomainAsync(string emailAddress, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<bool> UserCheckDomainAsync(string emailAddress, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -5621,15 +5621,15 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<bool> UserCheckDomainAsync(string emailAddress, string? api_version = null)
         {
-            return UserExistsAsync(emailAddress, System.Threading.CancellationToken.None, api_version);
+            return UserCheckDomainAsync(emailAddress, System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<bool> UserExistsAsync(string emailAddress, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<bool> UserCheckDomainAsync(string emailAddress, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (emailAddress == null)
                 throw new System.ArgumentNullException("emailAddress");
@@ -5640,15 +5640,16 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "user/{emailAddress}/exists"
+                    // Operation Path: "user/{emailAddress}/check-domain"
                     urlBuilder_.Append("user/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(emailAddress, System.Globalization.CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/exists");
+                    urlBuilder_.Append("/check-domain");
                     urlBuilder_.Append('?');
                     if (api_version != null)
                     {
