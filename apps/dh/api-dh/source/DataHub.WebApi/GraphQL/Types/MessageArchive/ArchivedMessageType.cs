@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v2;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 
-public class ArchivedMessageType : ObjectType<ArchivedMessageResultV2>
+public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
 {
-    protected override void Configure(IObjectTypeDescriptor<ArchivedMessageResultV2> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<ArchivedMessageResultV3> descriptor)
     {
         descriptor.Name("ArchivedMessage");
 
@@ -30,21 +30,25 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV2>
             .Field(f => f.SenderNumber)
             .Name("sender")
             .Type<ActorType>()
-            .Resolve(context => context.DataLoader<ActorByNumberBatchDataLoader>().LoadAsync(
-                context.Parent<ArchivedMessageResultV2>().SenderNumber,
-                context.RequestAborted));
+            .Resolve(context =>
+            {
+                var message = context.Parent<ArchivedMessageResultV3>();
+                return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
+                    (message.SenderNumber, message.SenderRole.ToEicFunction()),
+                    context.RequestAborted);
+            });
 
         descriptor
             .Field(f => f.ReceiverNumber)
             .Name("receiver")
             .Type<ActorType>()
-            .Resolve(context => context.DataLoader<ActorByNumberBatchDataLoader>().LoadAsync(
-                context.Parent<ArchivedMessageResultV2>().ReceiverNumber,
-                context.RequestAborted));
-
-        descriptor
-            .Field(f => f.DocumentType)
-            .Resolve(context => Enum.Parse<DocumentType>(context.Parent<ArchivedMessageResultV2>().DocumentType));
+            .Resolve(context =>
+            {
+                var message = context.Parent<ArchivedMessageResultV3>();
+                return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
+                    (message.ReceiverNumber, message.ReceiverRole.ToEicFunction()),
+                    context.RequestAborted);
+            });
 
         descriptor.Field("documentUrl")
             .ResolveWith<MessageArchiveResolvers>(c => c.GetDocument(default!, default!, default!));

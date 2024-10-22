@@ -209,6 +209,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   actorMenu: {
     tin: 'CVR / SE-nr: {{tin}} ',
     onBehalfOf: '{{org_name}} på vegne af',
+    ownOrganization: 'Din organisation:',
+    otherOrganizations: 'Andre organisationer:',
   },
   topbar: {
     help: '{{shared.help}}',

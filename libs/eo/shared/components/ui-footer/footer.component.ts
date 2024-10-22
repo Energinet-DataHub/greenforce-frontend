@@ -35,6 +35,10 @@ const selector = 'eo-footer';
       display: block;
       width: 100%;
 
+      @media print {
+        display: none;
+      }
+
       footer {
         background-color: #102427;
         background-image: url('/assets/landing-page/footer-bg@small.svg');

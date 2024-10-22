@@ -14,13 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { HttpResponse, delay } from 'msw';
 
-export function dhEnumToWattDropdownOptions<T extends object>(enumObj: T, exclude?: string[]) {
-  return Object.keys(enumObj)
-    .map((key) => ({
-      displayValue: key,
-      value: Object.values(enumObj)[Object.keys(enumObj).indexOf(key)],
-    }))
-    .filter(({ value }) => !exclude?.includes(value)) as WattDropdownOptions;
+import { mockDismissNotificationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
+
+export function notificationsMocks() {
+  return [dismissNotification()];
+}
+
+function dismissNotification() {
+  return mockDismissNotificationMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        dismissNotification: {
+          __typename: 'DismissNotificationPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }

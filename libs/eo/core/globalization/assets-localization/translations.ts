@@ -147,6 +147,8 @@ export const translations = {
   actorMenu: {
     onBehalfOf: 'actorMenu.onBehalfOf' as const,
     tin: 'actorMenu.tin' as const,
+    ownOrganization: 'actorMenu.ownOrganization' as const,
+    otherOrganizations: 'actorMenu.otherOrganizations' as const,
   } as const,
   topbar: {
     help: 'topbar.help' as const,

@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma warning disable SA1402 // File may only contain a single type
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.Notifications;
 
-namespace Energinet.DataHub.WebApi.Clients.EDI;
+namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
-internal record ArchivedMessageSearchCriteriaDto(
-    CreatedDuringPeriod CreatedDuringPeriod,
-    string? MessageId,
-    string? SenderNumber,
-    string? ReceiverNumber,
-    string[]? DocumentTypes,
-    string[]? BusinessReasons,
-    bool? IncludeRelatedMessages = false);
-
-internal record CreatedDuringPeriod(string? Start, string? End);
+public partial class Mutation
+{
+    [Error(typeof(ApiException))]
+    public async Task<bool> DismissNotificationAsync(
+           int notificationId,
+           [Service] INotificationsClient client,
+           CancellationToken cancellationToken)
+    {
+        await client.DismissNotificationAsync(notificationId, cancellationToken).ConfigureAwait(false);
+        return true;
+    }
+}

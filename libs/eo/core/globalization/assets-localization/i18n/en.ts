@@ -220,6 +220,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   actorMenu: {
     tin: 'CVR / TIN: {{tin}}',
     onBehalfOf: '{{org_name}} on behalf of',
+    ownOrganization: 'Your organization:',
+    otherOrganizations: 'Other organizations:',
   },
   topbar: {
     help: '{{shared.help}}',
