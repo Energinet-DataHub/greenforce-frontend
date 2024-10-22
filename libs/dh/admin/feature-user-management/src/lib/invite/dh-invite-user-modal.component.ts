@@ -156,8 +156,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
         (control) => {
           if (!control.value) return of(null);
 
-          if (!this.domainExists())
-            return of({ domainDoesNotExist: true });
+          if (!this.domainExists()) return of({ domainDoesNotExist: true });
 
           return this.checkForAssociatedActors
             .query({ variables: { email: control.value } })
