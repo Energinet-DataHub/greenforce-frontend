@@ -70,14 +70,14 @@ public class GraphQLTestService
     public RequestExecutorProxy Executor { get; set; }
 
     public async Task<IExecutionResult> ExecuteRequestAsync(
-        Action<IQueryRequestBuilder> configureRequest,
+        Action<OperationRequestBuilder> configureRequest,
         CancellationToken cancellationToken = default)
     {
         var scope = Services.CreateAsyncScope();
-        var requestBuilder = new QueryRequestBuilder();
+        var requestBuilder = new OperationRequestBuilder();
         requestBuilder.SetServices(scope.ServiceProvider);
         configureRequest(requestBuilder);
-        var request = requestBuilder.Create();
+        var request = requestBuilder.Build();
         var result = await Executor.ExecuteAsync(request, cancellationToken);
         result.RegisterForCleanup(scope.DisposeAsync);
         return result;

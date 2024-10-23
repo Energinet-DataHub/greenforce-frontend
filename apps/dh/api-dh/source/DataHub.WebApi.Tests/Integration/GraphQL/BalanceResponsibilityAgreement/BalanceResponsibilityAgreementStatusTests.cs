@@ -94,7 +94,7 @@ public class BalanceResponsibilityAgreementStatusTests
                     },
                 });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_actorByIdWithbalanceResponsibleAgreementsQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_actorByIdWithbalanceResponsibleAgreementsQuery));
 
         await result.MatchSnapshotAsync(testname);
     }

@@ -48,12 +48,12 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.12" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.12" />
-    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="13.9.12" />
-    <PackageReference Include="HotChocolate.Data" Version="13.9.12" />
-    <PackageReference Include="HotChocolate.Diagnostics" Version="13.9.12" />
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="13.9.12">
+    <PackageReference Include="HotChocolate.AspNetCore" Version="14.0.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.0.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="14.0.0" />
+    <PackageReference Include="HotChocolate.Data" Version="14.0.0" />
+    <PackageReference Include="HotChocolate.Diagnostics" Version="14.0.0" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

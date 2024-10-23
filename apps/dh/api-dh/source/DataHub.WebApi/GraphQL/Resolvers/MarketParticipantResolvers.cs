@@ -50,7 +50,7 @@ public class MarketParticipantResolvers
                 .Distinct()
                 .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
 
-        return gridAreas.OrderBy(g => g.Code);
+        return gridAreas.Select(gridArea => gridArea!).OrderBy(g => g.Code);
     }
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
