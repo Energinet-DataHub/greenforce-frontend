@@ -136,8 +136,8 @@ export class EoAuthService {
       for (let attempt = 0; attempt < maxAttempts; attempt++) {
         const updatedUser = await this.refreshToken({
           prompt: 'login',
-          max_age: "0",
-          t: Date.now().toString()
+          max_age: '0',
+          t: Date.now().toString(),
         });
         if (updatedUser?.profile['tos_accepted']) {
           return;
@@ -173,7 +173,9 @@ export class EoAuthService {
     return this.userManager?.signoutRedirect() ?? Promise.resolve();
   }
 
-  async refreshToken(extraQueryParams?: Record<string, string | number | boolean> | undefined): Promise<User | null> {
+  async refreshToken(
+    extraQueryParams?: Record<string, string | number | boolean> | undefined
+  ): Promise<User | null> {
     const user = await this.userManager?.signinSilent({
       extraQueryParams,
     });
