@@ -1,0 +1,3 @@
+query CheckDomainExists($email: String!) {
+  domainExists(emailAddress: $email)
+}

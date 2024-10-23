@@ -1300,6 +1300,8 @@
         "phoneNumber": "Telefonnr.",
         "wrongEmailPattern": "Indtast en valid e-mail",
         "userAlreadyAssignedActor": "Bruger er allerede oprettet",
+        "domainDoesNotExist": "Domænet på den angivne e-mail er ikke tilladt",
+        "domainIsExternal": "Den angivne e-mail er udenfor din organisation. Brugeren vil blive inviteret, forudsat at brugeren allerede er oprettet i den eksterne organisation",
         "noUserRolesError": "Vælg minimum en brugerrolle",
         "successMessage": "Invitation sendt til {{ email }}",
         "next": "Næste",
