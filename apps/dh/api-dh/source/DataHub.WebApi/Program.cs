@@ -96,17 +96,6 @@ services.SetupHealthEndpoints(apiClientSettings);
 
 var app = builder.Build();
 
-app.Use((ctx, next) =>
-{
-    if (ctx.Request.Path.ToString().Contains("/graphql"))
-    {
-        var headers = ctx.Response.Headers;
-        headers.Append("X-Accel-Buffering", "no");
-    }
-
-    return next();
-});
-
 app.UseForwardedHeaders();
 
 if (environment.IsDevelopment())

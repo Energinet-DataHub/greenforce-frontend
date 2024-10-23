@@ -37,6 +37,7 @@ public static class GraphQLRegistrationExtensions
             .AddTypes()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
+            .ModifyCostOptions(options => options.ApplyCostDefaults = false)
             .ModifyPagingOptions(options =>
             {
                 options.RequirePagingBoundaries = true;

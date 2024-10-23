@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -48,9 +47,9 @@ public class MarketParticipantResolvers
             actor.MarketRoles
                 .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
                 .Distinct()
-                .Select(async gridAreaId => await dataLoader.LoadAsync(gridAreaId)));
+                .Select(gridAreaId => dataLoader.LoadRequiredAsync(gridAreaId)));
 
-        return gridAreas.Select(gridArea => gridArea!).OrderBy(g => g.Code);
+        return gridAreas.OrderBy(g => g.Code);
     }
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
