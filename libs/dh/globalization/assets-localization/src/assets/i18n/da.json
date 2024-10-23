@@ -321,6 +321,7 @@
         }
       },
       "validation": {
+        "required_permission_removed": "Denne handling ville resultere i, at en påkrævet rettighed ikke længere ville være tilgængelig, og handlingen blev derfor blokeret.",
         "organization": {
           "business_register_identifier": {
             "reserved": "CVR-nummer {{ identifier }} er i brug"

@@ -18,7 +18,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
-import { exhaustMap, filter, Observable, tap } from 'rxjs';
+import { exhaustMap, Observable, tap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
@@ -32,10 +32,12 @@ import {
 
 interface DhEditUserRoleState {
   readonly requestState: LoadingState | ErrorState;
+  readonly errorCode: string | null;
 }
 
 const initialState: DhEditUserRoleState = {
   requestState: LoadingState.INIT,
+  errorCode: null,
 };
 
 @Injectable()
@@ -43,9 +45,9 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
   private readonly apollo = inject(Apollo);
 
   isLoading$ = this.select((state) => state.requestState === LoadingState.LOADING);
-  hasValidationError$ = this.select(
-    (state) => state.requestState === ErrorState.VALIDATION_EXCEPTION
-  ).pipe(filter((value) => value));
+  validationError$ = this.select((state) =>
+    state.requestState === ErrorState.VALIDATION_EXCEPTION ? { errorCode: state.errorCode } : null
+  );
 
   constructor() {
     super(initialState);
@@ -116,15 +118,9 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
   );
 
   private handleError(statusCode: number, firstApiError: ApiErrorDescriptor): void {
-    let requestState = ErrorState.GENERAL_ERROR;
-
-    if (
-      statusCode === HttpStatusCode.BadRequest &&
-      firstApiError.code === 'market_participant.validation.market_role.reserved'
-    ) {
-      requestState = ErrorState.VALIDATION_EXCEPTION;
-    }
-
-    this.patchState({ requestState });
+    this.patchState({
+      requestState: statusCode === HttpStatusCode.BadRequest ? ErrorState.VALIDATION_EXCEPTION : ErrorState.GENERAL_ERROR,
+      errorCode: statusCode === HttpStatusCode.BadRequest ? firstApiError.code : null,
+    });
   }
 }
