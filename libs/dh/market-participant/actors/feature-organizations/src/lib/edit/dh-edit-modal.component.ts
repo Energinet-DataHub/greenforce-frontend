@@ -92,7 +92,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
   }
 
   ngOnChanges() {
-    this.domainControl.setValue(this.organization().domain);
+    this.domainControl.setValue(this.organization().domains[0]);
   }
 
   save(): void {
@@ -108,7 +108,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
         variables: {
           input: {
             orgId: id,
-            domain: this.domainControl.value,
+            domains: [this.domainControl.value],
           },
         },
         refetchQueries: (result) => {

@@ -232,7 +232,10 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
                   address: {
                     country: this.newOrganizationForm.controls.country.value,
                   },
-                  domain: this.newOrganizationForm.controls.domain.value,
+                  // TODO: Remove the ternary operator when the API is updated to accept an array of domains
+                  domains: this.newOrganizationForm.controls.domain.value
+                    ? [this.newOrganizationForm.controls.domain.value]
+                    : this.newOrganizationForm.controls.domains.value,
                   businessRegisterIdentifier: this.newOrganizationForm.controls.cvrNumber.value,
                   name: this.newOrganizationForm.controls.companyName.value,
                 },

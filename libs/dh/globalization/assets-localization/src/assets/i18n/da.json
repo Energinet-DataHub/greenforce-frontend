@@ -678,6 +678,7 @@
             "businessRegisterIdentifier": "CVR-nr.",
             "name": "Navn",
             "domain": "E-maildomæne",
+            "domains": "E-maildomæner",
             "country": "Land"
           },
           "actors": {

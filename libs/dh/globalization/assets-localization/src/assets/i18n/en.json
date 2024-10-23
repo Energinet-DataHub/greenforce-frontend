@@ -679,6 +679,7 @@
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
             "domain": "E-mail domain",
+            "domains": "E-mail domains",
             "country": "Country"
           },
           "actors": {

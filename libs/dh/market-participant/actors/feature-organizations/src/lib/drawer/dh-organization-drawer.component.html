@@ -59,8 +59,12 @@ limitations under the License.
                     [value]="organization.name"
                   />
                   <watt-description-list-item
-                    [label]="t('tabs.masterData.domain')"
-                    [value]="organization.domain"
+                    [label]="
+                      organization.domains.length <= 1
+                        ? t('tabs.masterData.domain')
+                        : t('tabs.masterData.domains')
+                    "
+                    [value]="organization.domains.join(' - ')"
                   />
                   <watt-description-list-item
                     [label]="t('tabs.masterData.country')"
