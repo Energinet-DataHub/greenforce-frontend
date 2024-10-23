@@ -265,20 +265,23 @@ export class EoTermsComponent {
     if (this.startedAcceptFlow() || !this.hasAcceptedTerms) return;
     this.startedAcceptFlow.set(true);
 
-    this.authService.acceptTos().then(() => {
-      const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
+    this.authService
+      .acceptTos()
+      .then(() => {
+        const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
 
-      if (redirectUrl) {
-        this.router.navigateByUrl(redirectUrl);
-      } else {
-        this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
-      }
-    }).catch(() => {
-      this.startedAcceptFlow.set(false);
-      this.toastService.open({
-        message: this.transloco.translate(this.translations.shared.error.message),
-        type: 'danger',
+        if (redirectUrl) {
+          this.router.navigateByUrl(redirectUrl);
+        } else {
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
+        }
+      })
+      .catch(() => {
+        this.startedAcceptFlow.set(false);
+        this.toastService.open({
+          message: this.transloco.translate(this.translations.shared.error.message),
+          type: 'danger',
+        });
       });
-    });
   }
 }

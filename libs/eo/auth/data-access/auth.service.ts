@@ -115,7 +115,7 @@ export class EoAuthService {
 
   async acceptTos(): Promise<void> {
     const user = this.user();
-    if(!user) {
+    if (!user) {
       this.login();
     }
 
@@ -125,7 +125,9 @@ export class EoAuthService {
 
     try {
       // Accept TOS
-      await lastValueFrom(this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {}));
+      await lastValueFrom(
+        this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {})
+      );
 
       // Poll for TOS acceptance confirmation
       const maxAttempts = 10;
@@ -137,7 +139,7 @@ export class EoAuthService {
           return;
         }
 
-        await new Promise(resolve => setTimeout(resolve, delayMs));
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
       }
 
       return Promise.reject('Max attempts reached waiting for TOS acceptance!');
@@ -151,7 +153,7 @@ export class EoAuthService {
     return this.userManager
       ? this.userManager?.signinCallback().then((user) => {
           if (user) {
-            this.user.set(user as EoUser ?? null);
+            this.user.set((user as EoUser) ?? null);
           }
           return Promise.resolve(user ?? null);
         })
@@ -169,8 +171,8 @@ export class EoAuthService {
 
   async refreshToken(): Promise<User | null> {
     const user = await this.userManager?.signinSilent();
-    if(user) {
-      this.user.set(user as EoUser ?? null);
+    if (user) {
+      this.user.set((user as EoUser) ?? null);
       return Promise.resolve(user);
     } else {
       this.user.set(null);
@@ -195,7 +197,7 @@ export class EoAuthService {
   checkForExistingToken() {
     return this.userManager?.getUser().then((user) => {
       if (!user) return;
-      this.user.set(user as EoUser ?? null);
+      this.user.set((user as EoUser) ?? null);
     });
   }
 }
