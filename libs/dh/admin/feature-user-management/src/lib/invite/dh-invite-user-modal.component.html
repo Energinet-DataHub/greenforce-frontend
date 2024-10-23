@@ -53,12 +53,22 @@ limitations under the License.
             </watt-field-error>
           }
 
+          @if (baseInfo.controls.email.hasError("domainDoesNotExist")) {
+            <watt-field-error>
+              {{ t("domainDoesNotExist") }}
+            </watt-field-error>
+          }
+
           @if (baseInfo.controls.email.hasError("userAlreadyAssignedActor")) {
             <watt-field-error>
               {{ t("userAlreadyAssignedActor") }}
             </watt-field-error>
           }
         </watt-text-field>
+
+        @if (domainExists() && !inOrganizationMailDomain()) {
+          <watt-validation-message type="info" size="compact" [message]="t('domainIsExternal')" />
+        }
       </form>
     </watt-stepper-step>
 

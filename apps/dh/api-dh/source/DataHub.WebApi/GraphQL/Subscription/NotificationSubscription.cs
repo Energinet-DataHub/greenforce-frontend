@@ -26,7 +26,7 @@ public partial class Subscription
         CancellationToken cancellationToken)
     {
         return Observable
-             .Timer(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), Scheduler.Default)
+             .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(60), Scheduler.Default)
              .SelectMany(_ => Observable.FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken)))
              .SelectMany(notification => notification)
              .Distinct(notification => notification.Id);
