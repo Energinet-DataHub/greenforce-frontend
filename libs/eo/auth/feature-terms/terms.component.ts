@@ -20,6 +20,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -32,6 +33,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
@@ -199,7 +201,7 @@ const selector = 'eo-auth-terms';
               {{ translations.terms.reject | transloco }}
             </watt-button>
 
-            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow">
+            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
               {{ translations.terms.accept | transloco }}
             </watt-button>
           </div>
@@ -224,6 +226,7 @@ export class EoTermsComponent {
   private http = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
   private sanitizer = inject(DomSanitizer);
+  private toastService: WattToastService = inject(WattToastService);
 
   language = this.transloco.getActiveLang();
   translations = translations;
@@ -231,7 +234,7 @@ export class EoTermsComponent {
   loadingTermsFailed = false;
 
   hasAcceptedTerms = false;
-  startedAcceptFlow = false;
+  startedAcceptFlow = signal<boolean>(false);
 
   terms = toSignal(
     this.transloco.langChanges$.pipe(
@@ -259,8 +262,8 @@ export class EoTermsComponent {
   }
 
   onAccept() {
-    if (this.startedAcceptFlow || !this.hasAcceptedTerms) return;
-    this.startedAcceptFlow = true;
+    if (this.startedAcceptFlow() || !this.hasAcceptedTerms) return;
+    this.startedAcceptFlow.set(true);
 
     this.authService.acceptTos().then(() => {
       const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
@@ -270,6 +273,12 @@ export class EoTermsComponent {
       } else {
         this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
       }
+    }).catch(() => {
+      this.startedAcceptFlow.set(false);
+      this.toastService.open({
+        message: this.transloco.translate(this.translations.shared.error.message),
+        type: 'danger',
+      });
     });
   }
 }

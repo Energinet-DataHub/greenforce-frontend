@@ -18,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { User, UserManager } from 'oidc-client-ts';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
 
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 
@@ -113,41 +113,45 @@ export class EoAuthService {
     return this.userManager?.signinRedirect({ state: config }) ?? Promise.resolve();
   }
 
-  acceptTos(): Promise<void> {
+  async acceptTos(): Promise<void> {
     const user = this.user();
-    if (!user || user?.profile.tos_accepted)
-      return Promise.reject('User not found or already accepted TOS');
+    if(!user) {
+      this.login();
+    }
 
-    return new Promise<void>((resolve, reject) => {
-      this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {}).subscribe(
-        () => {
-          this.user.set({
-            ...user,
-            profile: {
-              ...user.profile,
-              tos_accepted: true,
-            },
-          } as EoUser);
-          resolve();
-        },
-        (error) => {
-          this.login();
-          reject(error);
+    if (user?.profile.tos_accepted) {
+      return new Promise((resolve) => resolve());
+    }
+
+    try {
+      // Accept TOS
+      await lastValueFrom(this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {}));
+
+      // Poll for TOS acceptance confirmation
+      const maxAttempts = 10;
+      const delayMs = 500;
+
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const updatedUser = await this.refreshToken();
+        if (updatedUser?.profile.tos_accepted) {
+          return;
         }
-      );
-    });
-  }
 
-  private setUser(user: EoUser | null): void {
-    if (!user) return;
-    user ? this.user.set(user) : this.user.set(null);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+
+      return Promise.reject('Max attempts reached waiting for TOS acceptance!');
+    } catch (error) {
+      this.login();
+      throw error;
+    }
   }
 
   signinCallback(): Promise<User | null> {
     return this.userManager
       ? this.userManager?.signinCallback().then((user) => {
           if (user) {
-            this.setUser(user as EoUser);
+            this.user.set(user as EoUser ?? null);
           }
           return Promise.resolve(user ?? null);
         })
@@ -163,8 +167,15 @@ export class EoAuthService {
     return this.userManager?.signoutRedirect() ?? Promise.resolve();
   }
 
-  refreshToken(): Promise<User | null> {
-    return this.userManager ? this.userManager?.signinSilent() : Promise.resolve(null);
+  async refreshToken(): Promise<User | null> {
+    const user = await this.userManager?.signinSilent();
+    if(user) {
+      this.user.set(user as EoUser ?? null);
+      return Promise.resolve(user);
+    } else {
+      this.user.set(null);
+      return Promise.resolve(null);
+    }
   }
 
   isLoggedIn(): Promise<boolean> {
@@ -184,7 +195,7 @@ export class EoAuthService {
   checkForExistingToken() {
     return this.userManager?.getUser().then((user) => {
       if (!user) return;
-      this.setUser(user as EoUser);
+      this.user.set(user as EoUser ?? null);
     });
   }
 }

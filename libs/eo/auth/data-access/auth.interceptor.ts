@@ -39,7 +39,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   private transloco: TranslocoService = inject(TranslocoService);
 
   private tokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
-  private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant'];
+  private ignoreTokenRefreshUrls = ['/api/auth/token', '/api/authorization/consent/grant', '/api/authorization/terms/accept'];
   private apiBaseUrls = [this.apiBase, this.apiBase.replace('/api', '/wallet-api')];
 
   intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
