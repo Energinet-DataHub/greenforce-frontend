@@ -550,7 +550,7 @@ type Query {
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userProfile: GetUserProfileResponse!
   userById(id: UUID!): User!
-  emailExists(emailAddress: String!): Boolean!
+  domainExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!

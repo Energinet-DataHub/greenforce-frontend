@@ -2806,12 +2806,12 @@
         }
       }
     },
-    "/user/{emailAddress}/exists": {
-      "get": {
+    "/user/{emailAddress}/check-domain": {
+      "post": {
         "tags": [
           "User"
         ],
-        "operationId": "exists",
+        "operationId": "check-domain",
         "parameters": [
           {
             "name": "emailAddress",

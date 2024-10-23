@@ -1302,8 +1302,10 @@
         "phoneNumber": "Phone no.",
         "wrongEmailPattern": "Type a valid e-mail",
         "userAlreadyAssignedActor": "User is already assigned",
+        "domainDoesNotExist": "The domain of the provided e-mail is not allowed",
+        "domainIsExternal": "The specified e-mail is outside of your organisation. The user will be invited, provided that the user is already created in the external organisation",
         "noUserRolesError": "Select at least one user role",
-        "successMessage": "Inviation sent to {{ email }}",
+        "successMessage": "Invitation sent to {{ email }}",
         "next": "Next",
         "columns": {
           "eicFunction": "Market role",
