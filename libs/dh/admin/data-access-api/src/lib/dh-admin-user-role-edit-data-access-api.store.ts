@@ -119,7 +119,10 @@ export class DhAdminUserRoleEditDataAccessApiStore extends ComponentStore<DhEdit
 
   private handleError(statusCode: number, firstApiError: ApiErrorDescriptor): void {
     this.patchState({
-      requestState: statusCode === HttpStatusCode.BadRequest ? ErrorState.VALIDATION_EXCEPTION : ErrorState.GENERAL_ERROR,
+      requestState:
+        statusCode === HttpStatusCode.BadRequest
+          ? ErrorState.VALIDATION_EXCEPTION
+          : ErrorState.GENERAL_ERROR,
       errorCode: statusCode === HttpStatusCode.BadRequest ? firstApiError.code : null,
     });
   }
