@@ -119,7 +119,7 @@ export class EoAuthService {
       this.login();
     }
 
-    if (user?.profile.tos_accepted) {
+    if (user?.profile['tos_accepted']) {
       return new Promise((resolve) => resolve());
     }
 
@@ -135,7 +135,7 @@ export class EoAuthService {
 
       for (let attempt = 0; attempt < maxAttempts; attempt++) {
         const updatedUser = await this.refreshToken();
-        if (updatedUser?.profile.tos_accepted) {
+        if (updatedUser?.profile['tos_accepted']) {
           return;
         }
 
