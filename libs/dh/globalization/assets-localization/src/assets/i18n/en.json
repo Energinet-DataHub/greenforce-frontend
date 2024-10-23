@@ -321,6 +321,7 @@
         }
       },
       "validation": {
+        "required_permission_removed": "This operation would result in a required permission no longer being accessable, hence the operation was blocked.",
         "organization": {
           "business_register_identifier": {
             "reserved": "Business register identifier {{ identifier }} is already in use"
