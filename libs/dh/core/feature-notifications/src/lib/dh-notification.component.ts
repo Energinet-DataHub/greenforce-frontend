@@ -80,15 +80,13 @@ import { DhNotification } from './dh-notification';
   `,
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
-      <div class="notification" [ngClass]="{ 'notification--unread': !notification() }">
-        @if (!notification()) {
-          <watt-icon
-            name="close"
-            class="icon-dismiss"
-            [title]="t('markAsRead')"
-            (click)="dismiss.emit()"
-          />
-        }
+      <div class="notification notification--unread">
+        <watt-icon
+          name="close"
+          class="icon-dismiss"
+          [title]="t('markAsRead')"
+          (click)="dismiss.emit()"
+        />
 
         <span class="notification__datetime watt-text-s">
           {{ notification().occurredAt | wattDate: 'long' }}

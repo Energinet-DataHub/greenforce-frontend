@@ -156,16 +156,20 @@ export class DhNotificationsCenterComponent {
           this.bannerService.showBanner(incomingNotification);
         }
 
+        const notifications = [...pref.notifications, incomingNotification].filter(
+          (value, index, self) => self.findIndex((n) => n.id === value.id) === index
+        );
+
         return {
           ...pref,
-          notifications: [incomingNotification, ...pref.notifications],
+          notifications,
         };
       },
     });
   }
 
   notificationIcon = computed<WattIcon>(() =>
-    this.notifications().every((n) => n) ? 'notifications' : 'notificationsUnread'
+    this.notifications().length === 0 ? 'notifications' : 'notificationsUnread'
   );
 
   notificationDot = computed<boolean>(() => this.notificationIcon() === 'notificationsUnread');
