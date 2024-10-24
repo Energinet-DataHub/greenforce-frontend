@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject, output, viewChild } from '@angular/core';
+import { Component, inject, output, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -25,11 +25,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  GetActorsDocument,
-  GetArchivedMessagesQueryVariables,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetArchivedMessagesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMessageArchiveSearchFormService } from './form.service';
 
 @Component({
