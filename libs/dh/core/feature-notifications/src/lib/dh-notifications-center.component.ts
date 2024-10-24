@@ -143,7 +143,11 @@ export class DhNotificationsCenterComponent {
 
   isOpen = false;
 
-  notifications = computed(() => this.getNotificationsQuery.data()?.notifications ?? []);
+  notifications = computed(() => {
+    const notifications = structuredClone(this.getNotificationsQuery.data()?.notifications ?? []);
+    notifications.sort((a, b) => b.id - a.id);
+    return notifications;
+  });
 
   constructor() {
     this.getNotificationsQuery.subscribeToMore({
@@ -156,9 +160,9 @@ export class DhNotificationsCenterComponent {
           this.bannerService.showBanner(incomingNotification);
         }
 
-        const notifications = [...pref.notifications, incomingNotification].filter(
-          (value, index, self) => self.findIndex((n) => n.id === value.id) === index
-        );
+        const notifications = [...pref.notifications, incomingNotification]
+          .filter((value, index, self) => self.findIndex((n) => n.id === value.id) === index)
+          .sort((a, b) => b.id - a.id);
 
         return {
           ...pref,
