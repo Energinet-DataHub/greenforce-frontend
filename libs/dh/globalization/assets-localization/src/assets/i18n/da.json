@@ -188,11 +188,18 @@
       "receiver": "Modtager",
       "start": "Starttidspunkt",
       "end": "Sluttidspunkt",
-      "cancel": "Ryd søgning",
+      "cancel": "Annuller",
       "confirm": "Søg"
     },
     "filters": {
+      "documentType": "Meddelelsestype",
+      "businessReason": "Forretningsårsag",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "start": "Start",
+      "end": "Slut",
       "includeRelated": "Inkluder relaterede",
+      "reset": "Ryd"
     },
     "details": {
       "created": "Sendt",

@@ -188,11 +188,18 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Clear search",
+      "cancel": "Cancel",
       "confirm": "Search"
     },
     "filters": {
+      "documentType": "Message type",
+      "businessReason": "Business reason",
+      "sender": "Sender",
+      "receiver": "Receiver",
+      "start": "Start",
+      "end": "End",
       "includeRelated": "Include related",
+      "reset": "Clear"
     },
     "details": {
       "created": "Sent",
