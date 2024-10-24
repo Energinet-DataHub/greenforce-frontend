@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { mutation, subscription } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
+  GetNotificationsDocument,
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -29,7 +30,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIcon } from '@energinet-datahub/watt/icon';
 import { dayjs } from '@energinet-datahub/watt/date';
 
-import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
 import { DhNotificationBannerService } from './dh-notification-banner.service';
 
@@ -139,37 +139,37 @@ export class DhNotificationsCenterComponent {
   private readonly bannerService = inject(DhNotificationBannerService);
   private readonly now = new Date();
   private readonly dismissMutation = mutation(DismissNotificationDocument);
+  private readonly getNotificationsQuery = query(GetNotificationsDocument);
 
   isOpen = false;
 
-  notifications = signal<DhNotification[]>([]);
-  notificationAdded = subscription(OnNotificationAddedDocument, {
-    onData: ({ notificationAdded }) => {
-      const isDistinctNotification = this.isDistinctNotification(notificationAdded.id);
+  notifications = computed(() => this.getNotificationsQuery.data()?.notifications ?? []);
 
-      if (!isDistinctNotification) {
-        return;
-      }
+  constructor() {
+    this.getNotificationsQuery.subscribeToMore({
+      document: OnNotificationAddedDocument,
+      updateQuery: (pref, { subscriptionData }) => {
+        const incomingNotification = subscriptionData.data?.notificationAdded;
+        if (!incomingNotification) return pref;
 
-      const { id, occurredAt, relatedToId, notificationType: type } = notificationAdded;
-      const notification: DhNotification = {
-        id,
-        type,
-        occurredAt,
-        read: false,
-        relatedToId,
-      };
+        if (dayjs(incomingNotification.occurredAt).isAfter(this.now)) {
+          this.bannerService.showBanner(incomingNotification);
+        }
 
-      if (dayjs(occurredAt).isAfter(this.now)) {
-        this.bannerService.showBanner(notification);
-      }
+        const notifications = [...pref.notifications, incomingNotification].filter(
+          (value, index, self) => self.findIndex((n) => n.id === value.id) === index
+        );
 
-      this.notifications.update((notifications) => [notification, ...notifications]);
-    },
-  });
+        return {
+          ...pref,
+          notifications,
+        };
+      },
+    });
+  }
 
   notificationIcon = computed<WattIcon>(() =>
-    this.notifications().every((n) => n.read) ? 'notifications' : 'notificationsUnread'
+    this.notifications().length === 0 ? 'notifications' : 'notificationsUnread'
   );
 
   notificationDot = computed<boolean>(() => this.notificationIcon() === 'notificationsUnread');
@@ -187,18 +187,8 @@ export class DhNotificationsCenterComponent {
   onDismiss(notificationId: number): void {
     this.dismissMutation.mutate({
       variables: { input: { notificationId } },
-      onCompleted: () => this.onDismissSuccess(notificationId),
+      refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
     });
-  }
-
-  private isDistinctNotification(incomingNotificationId: number): boolean {
-    return !this.notifications().some((n) => n.id === incomingNotificationId);
-  }
-
-  private onDismissSuccess(notificationId: number): void {
-    this.notifications.update((notifications) =>
-      notifications.filter((n) => n.id !== notificationId)
-    );
   }
 }
