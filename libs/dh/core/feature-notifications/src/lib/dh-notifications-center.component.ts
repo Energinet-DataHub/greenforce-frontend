@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { mutation, query, subscription } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   GetNotificationsDocument,
@@ -30,7 +30,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIcon } from '@energinet-datahub/watt/icon';
 import { dayjs } from '@energinet-datahub/watt/date';
 
-import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
 import { DhNotificationBannerService } from './dh-notification-banner.service';
 
