@@ -20,7 +20,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 public class GridAreaByCodeBatchDataLoader(
     IMarketParticipantClient_V1 client,
     IBatchScheduler batchScheduler,
-    DataLoaderOptions? options = null)
+    DataLoaderOptions options)
     : BatchDataLoader<string, GridAreaDto>(batchScheduler, options)
 {
     protected override async Task<IReadOnlyDictionary<string, GridAreaDto>> LoadBatchAsync(

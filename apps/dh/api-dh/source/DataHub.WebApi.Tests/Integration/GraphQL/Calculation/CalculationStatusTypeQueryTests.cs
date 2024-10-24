@@ -60,7 +60,7 @@ public class CalculationStatusTypeQueryTests
                 OrchestrationState = orchestrationState,
             });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync($"{orchestrationState}");
     }

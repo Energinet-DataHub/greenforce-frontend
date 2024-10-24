@@ -24,7 +24,7 @@ public class ActorPublicMailByActorId : BatchDataLoader<Guid, ActorPublicMail>
     public ActorPublicMailByActorId(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
-        DataLoaderOptions? options = null)
+        DataLoaderOptions options)
         : base(batchScheduler, options) =>
         _client = client;
 

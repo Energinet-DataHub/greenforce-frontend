@@ -23,7 +23,7 @@ public class UserBatchDataLoader : BatchDataLoader<Guid, AuditIdentityDto>
     public UserBatchDataLoader(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
-        DataLoaderOptions? options = null)
+        DataLoaderOptions options)
         : base(batchScheduler, options) =>
         _client = client;
 

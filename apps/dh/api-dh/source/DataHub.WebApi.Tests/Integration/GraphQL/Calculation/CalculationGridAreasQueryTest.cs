@@ -65,7 +65,7 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync();
     }

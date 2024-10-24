@@ -22,7 +22,7 @@ public class UserCacheDataLoader : CacheDataLoader<Guid, GetUserResponse>
 
     public UserCacheDataLoader(
         IMarketParticipantClient_V1 client,
-        DataLoaderOptions? options = null)
+        DataLoaderOptions options)
         : base(options) =>
         _client = client;
 

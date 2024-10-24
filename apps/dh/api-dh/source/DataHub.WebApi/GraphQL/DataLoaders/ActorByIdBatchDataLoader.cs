@@ -23,7 +23,7 @@ public class ActorByIdBatchDataLoader : BatchDataLoader<Guid, ActorDto>
     public ActorByIdBatchDataLoader(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
-        DataLoaderOptions? options = null)
+        DataLoaderOptions options)
         : base(batchScheduler, options) =>
         _client = client;
 

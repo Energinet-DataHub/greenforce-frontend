@@ -86,7 +86,7 @@ public class MessageDelegationStatusTests
                 },
             });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_messageDelegationQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_messageDelegationQuery));
 
         await result.MatchSnapshotAsync(testname);
     }
