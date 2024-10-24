@@ -9,22 +9,22 @@ interface Error {
 
 type Actor {
   id: UUID!
-  name: String! @cost(weight: "10")
-  glnOrEicNumber: String! @cost(weight: "10")
-  displayName: String! @cost(weight: "10")
-  marketRole: EicFunction @cost(weight: "10")
-  userRoles: [ActorUserRole!]! @cost(weight: "10")
-  status: ActorStatus! @cost(weight: "10")
-  gridAreas: [GridAreaDto!]! @cost(weight: "10")
-  contact: ActorContactDto @cost(weight: "10")
-  organization: Organization! @cost(weight: "10")
-  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!] @cost(weight: "10")
-  credentials: ActorCredentialsDto @cost(weight: "10")
-  publicMail: ActorPublicMail @cost(weight: "10")
+  name: String!
+  glnOrEicNumber: String!
+  displayName: String!
+  marketRole: EicFunction
+  userRoles: [ActorUserRole!]!
+  status: ActorStatus!
+  gridAreas: [GridAreaDto!]!
+  contact: ActorContactDto
+  organization: Organization!
+  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
+  credentials: ActorCredentialsDto
+  publicMail: ActorPublicMail
 }
 
 type ActorAuditedChangeAuditLogDto {
-  auditedBy: String @cost(weight: "10")
+  auditedBy: String
   change: ActorAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -56,8 +56,8 @@ type ActorContactDto {
 }
 
 type ActorCredentialsDto {
-  assignCertificateCredentialsUrl(actorId: UUID!): String! @cost(weight: "10")
-  removeActorCredentialsUrl(actorId: UUID!): String! @cost(weight: "10")
+  assignCertificateCredentialsUrl(actorId: UUID!): String!
+  removeActorCredentialsUrl(actorId: UUID!): String!
   certificateCredentials: ActorCertificateCredentialsDto
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
@@ -112,8 +112,8 @@ type ApiErrorDescriptor {
 }
 
 type ArchivedMessage {
-  sender: Actor @cost(weight: "10")
-  receiver: Actor @cost(weight: "10")
+  sender: Actor
+  receiver: Actor
   documentUrl: String
   recordId: Long!
   id: String!
@@ -150,25 +150,25 @@ type AssociatedActors {
 
 type BalanceResponsibilityAgreement {
   meteringPointType: MarketParticipantMeteringPointType!
-  gridArea: GridAreaDto @cost(weight: "10")
-  energySupplierWithName: ActorNameWithId @cost(weight: "10")
-  balanceResponsibleWithName: ActorNameWithId @cost(weight: "10")
-  validPeriod: DateRange! @cost(weight: "10")
-  status: BalanceResponsibilityAgreementStatus! @cost(weight: "10")
+  gridArea: GridAreaDto
+  energySupplierWithName: ActorNameWithId
+  balanceResponsibleWithName: ActorNameWithId
+  validPeriod: DateRange!
+  status: BalanceResponsibilityAgreementStatus!
 }
 
 type BalanceResponsiblePageResult {
-  balanceResponsiblesUrl(locale: String!): String @cost(weight: "10")
+  balanceResponsiblesUrl(locale: String!): String
   page: [BalanceResponsibleType!]!
   totalCount: Int!
 }
 
 type BalanceResponsibleType {
-  validPeriod: DateRange! @cost(weight: "10")
+  validPeriod: DateRange!
   storageDocumentUrl: String
-  gridAreaWithName: GridAreaDto @cost(weight: "10")
-  supplierWithName: ActorNameDto @cost(weight: "10")
-  balanceResponsibleWithName: ActorNameDto @cost(weight: "10")
+  gridAreaWithName: GridAreaDto
+  supplierWithName: ActorNameDto
+  balanceResponsibleWithName: ActorNameDto
   id: String!
   receivedDateTime: DateTime!
   supplier: String!
@@ -187,16 +187,16 @@ type Calculation {
   id: UUID!
   "Defines the wholesale calculation type"
   calculationType: CalculationType!
-  period: DateRange! @cost(weight: "10")
-  executionTimeStart: DateTime! @cost(weight: "10")
+  period: DateRange!
+  executionTimeStart: DateTime!
   executionTimeEnd: DateTime
-  createdByUserName: String @cost(weight: "10")
-  gridAreas: [GridAreaDto!]! @cost(weight: "10")
+  createdByUserName: String
+  gridAreas: [GridAreaDto!]!
   state: CalculationOrchestrationState!
-  executionType: CalculationExecutionType! @cost(weight: "10")
-  statusType: ProcessStatus! @cost(weight: "10")
-  currentStep: CalculationProgressStep! @cost(weight: "10")
-  progress: [CalculationProgress!]! @cost(weight: "10")
+  executionType: CalculationExecutionType!
+  statusType: ProcessStatus!
+  currentStep: CalculationProgressStep!
+  progress: [CalculationProgress!]!
 }
 
 type CalculationProgress {
@@ -261,10 +261,10 @@ type DismissNotificationPayload {
 }
 
 type EsettOutgoingMessage {
-  period: DateRange! @cost(weight: "10")
+  period: DateRange!
   dispatchDocumentUrl: String
   responseDocumentUrl: String!
-  gridArea: GridAreaDto @cost(weight: "10")
+  gridArea: GridAreaDto
   documentId: String!
   created: DateTime!
   calculationType: ExchangeEventCalculationType!
@@ -280,8 +280,8 @@ type ExchangeEventSearchResponse {
 }
 
 type ExchangeEventSearchResult {
-  gridArea: GridAreaDto @cost(weight: "10")
-  energySupplier: ActorNameDto @cost(weight: "10")
+  gridArea: GridAreaDto
+  energySupplier: ActorNameDto
   documentId: String!
   actorNumber: String
   gridAreaCodeOut: String
@@ -297,7 +297,7 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetUserOverviewResponse {
-  users: [User!]! @cost(weight: "10")
+  users: [User!]!
   totalUserCount: Int!
 }
 
@@ -312,7 +312,7 @@ type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
   status: GridAreaStatus!
-  includedInCalculation: Boolean! @cost(weight: "10")
+  includedInCalculation: Boolean!
   id: UUID!
   code: String!
   name: String!
@@ -339,15 +339,15 @@ type GridAreaOverviewItemDto {
 
 "Imbalance price"
 type ImbalancePrice {
-  priceAreaCode: PriceAreaCode! @cost(weight: "10")
+  priceAreaCode: PriceAreaCode!
   timestamp: DateTime!
   price: Float
 }
 
 "Imbalance price for a given date"
 type ImbalancePriceDaily {
-  status: ImbalancePriceStatus! @cost(weight: "10")
-  imbalancePricesDownloadImbalanceUrl: String! @cost(weight: "10")
+  status: ImbalancePriceStatus!
+  imbalancePricesDownloadImbalanceUrl: String!
   timeStamp: DateTime!
   imbalancePrices: [ImbalancePrice!]!
   importedAt: DateTime
@@ -360,7 +360,7 @@ type ImbalancePricePeriod {
 }
 
 type ImbalancePricesOverview {
-  uploadImbalancePricesUrl: String! @cost(weight: "10")
+  uploadImbalancePricesUrl: String!
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
@@ -385,10 +385,10 @@ type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
 }
 
 type MessageDelegationType {
-  gridArea: GridAreaDto @cost(weight: "10")
-  delegatedBy: Actor @cost(weight: "10")
-  delegatedTo: Actor @cost(weight: "10")
-  status: ActorDelegationStatus! @cost(weight: "10")
+  gridArea: GridAreaDto
+  delegatedBy: Actor
+  delegatedTo: Actor
+  status: ActorDelegationStatus!
   id: UUID!
   periodId: UUID!
   process: DelegatedProcess!
@@ -408,9 +408,9 @@ type MeteringGridAreaImbalanceSearchResponse {
 }
 
 type MeteringGridAreaImbalanceSearchResult {
-  period: DateRange! @cost(weight: "10")
+  period: DateRange!
   mgaImbalanceDocumentUrl: String
-  gridArea: GridAreaDto @cost(weight: "10")
+  gridArea: GridAreaDto
   id: String!
   documentDateTime: DateTime!
   receivedDateTime: DateTime!
@@ -419,37 +419,37 @@ type MeteringGridAreaImbalanceSearchResult {
 }
 
 type Mutation {
-  updateActor(input: UpdateActorInput!): UpdateActorPayload! @cost(weight: "10")
-  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload! @cost(weight: "10")
-  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload! @cost(weight: "10")
-  stopDelegation(input: StopDelegationInput!): StopDelegationPayload! @cost(weight: "10")
-  requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload! @cost(weight: "10")
-  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @cost(weight: "10")
-  cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @cost(weight: "10")
-  requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload! @cost(weight: "10")
-  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload! @cost(weight: "10")
-  dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload! @cost(weight: "10")
-  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload! @cost(weight: "10")
-  updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload! @cost(weight: "10")
-  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload! @cost(weight: "10")
-  addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload! @cost(weight: "10")
-  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload! @cost(weight: "10")
-  updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload! @cost(weight: "10")
-  inviteUser(input: InviteUserInput!): InviteUserPayload! @cost(weight: "10")
-  reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload! @cost(weight: "10")
-  resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload! @cost(weight: "10")
-  deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload! @cost(weight: "10")
-  reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload! @cost(weight: "10")
-  initiateMitIdSignup: InitiateMitIdSignupPayload! @cost(weight: "10")
-  updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload! @cost(weight: "10")
-  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload! @cost(weight: "10")
-  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload! @cost(weight: "10")
-  deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload! @cost(weight: "10")
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
+  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
+  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload!
+  cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload!
+  requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
+  resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
+  updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
+  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
+  updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
+  inviteUser(input: InviteUserInput!): InviteUserPayload!
+  reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload!
+  resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
+  deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
+  reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
+  initiateMitIdSignup: InitiateMitIdSignupPayload!
+  updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+  createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
+  deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
 }
 
 type Organization {
   id: UUID!
-  actors: [Actor!] @cost(weight: "10")
+  actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
   domain: String!
@@ -458,7 +458,7 @@ type Organization {
 }
 
 type OrganizationAuditedChangeAuditLogDto {
-  auditedBy: String @cost(weight: "10")
+  auditedBy: String
   change: OrganizationAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -479,7 +479,7 @@ type PageInfo {
 }
 
 type Permission {
-  userRoles: [UserRoleDto!]! @cost(weight: "10")
+  userRoles: [UserRoleDto!]!
   id: Int!
   name: String!
   description: String!
@@ -488,7 +488,7 @@ type Permission {
 }
 
 type PermissionAuditedChangeAuditLogDto {
-  auditedBy: String @cost(weight: "10")
+  auditedBy: String
   change: PermissionAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -509,54 +509,54 @@ type Permissions {
 }
 
 type Query {
-  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]! @cost(weight: "10")
-  selectedActor: Actor! @cost(weight: "10")
-  actorById(id: UUID!): Actor! @cost(weight: "10")
-  actors: [Actor!]! @cost(weight: "10")
-  actorsByOrganizationId(organizationId: UUID!): [Actor!]! @cost(weight: "10")
-  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]! @cost(weight: "10")
-  delegationsForActor(actorId: UUID!): [MessageDelegationType!]! @cost(weight: "10")
-  associatedActors(email: String!): AssociatedActors! @cost(weight: "10")
-  filteredActors: [Actor!]! @cost(weight: "10")
-  selectionActors: [SelectionActorDto!]! @cost(weight: "10")
-  calculationById(id: UUID!): Calculation! @cost(weight: "10")
-  calculations(input: CalculationQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!] @cost(weight: "10")): CalculationsConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
-  latestBalanceFixing(period: DateRange!): Calculation @cost(weight: "10") @deprecated(reason: "Use `latestCalculation` instead")
-  latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation @cost(weight: "10")
-  esettServiceStatus: [ReadinessStatusDto!]! @cost(weight: "10")
-  esettExchangeStatusReport: ExchangeEventStatusReportResponse! @cost(weight: "10")
-  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage! @cost(weight: "10")
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse! @cost(weight: "10")
-  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String! @cost(weight: "10")
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse! @cost(weight: "10")
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String! @cost(weight: "10")
-  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult! @cost(weight: "10")
-  gridAreaOverview: [GridAreaOverviewItemDto!]! @cost(weight: "10")
-  gridAreas: [GridAreaDto!]! @cost(weight: "10")
-  imbalancePricesOverview: ImbalancePricesOverview! @cost(weight: "10")
-  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]! @cost(weight: "10")
-  archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
-  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]! @cost(weight: "10")
-  organizationById(id: UUID!): Organization! @cost(weight: "10")
-  organizations: [Organization!]! @cost(weight: "10")
-  searchOrganizationInCVR(cvr: String!): CVROrganizationResult! @cost(weight: "10")
-  permissionById(id: Int!): Permission! @cost(weight: "10")
-  permissions(searchTerm: String!): Permissions! @cost(weight: "10")
-  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]! @cost(weight: "10")
-  permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]! @cost(weight: "10")
-  settlementReports: [SettlementReport!]! @cost(weight: "10")
-  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]! @cost(weight: "10")
-  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]! @cost(weight: "10")
-  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]! @cost(weight: "10")
-  userProfile: GetUserProfileResponse! @cost(weight: "10")
-  userById(id: UUID!): User! @cost(weight: "10")
-  domainExists(emailAddress: String!): Boolean! @cost(weight: "10")
-  knownEmails: [String!]! @cost(weight: "10")
-  userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse! @cost(weight: "10")
-  userRolesByActorId(actorId: UUID!): [UserRoleDto!]! @cost(weight: "10")
-  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]! @cost(weight: "10")
-  userRoleById(id: UUID!): UserRoleWithPermissions! @cost(weight: "10")
-  userRoles: [UserRoleDto!]! @cost(weight: "10")
+  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
+  selectedActor: Actor!
+  actorById(id: UUID!): Actor!
+  actors: [Actor!]!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
+  associatedActors(email: String!): AssociatedActors!
+  filteredActors: [Actor!]!
+  selectionActors: [SelectionActorDto!]!
+  calculationById(id: UUID!): Calculation!
+  calculations(input: CalculationQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection
+  latestBalanceFixing(period: DateRange!): Calculation @deprecated(reason: "Use `latestCalculation` instead")
+  latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation
+  esettServiceStatus: [ReadinessStatusDto!]!
+  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
+  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
+  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  gridAreaOverview: [GridAreaOverviewItemDto!]!
+  gridAreas: [GridAreaDto!]!
+  imbalancePricesOverview: ImbalancePricesOverview!
+  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
+  archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
+  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
+  permissionById(id: Int!): Permission!
+  permissions(searchTerm: String!): Permissions!
+  permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
+  permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
+  settlementReports: [SettlementReport!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
+  userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
+  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
+  userProfile: GetUserProfileResponse!
+  userById(id: UUID!): User!
+  domainExists(emailAddress: String!): Boolean!
+  knownEmails: [String!]!
+  userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
+  userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  userRoleById(id: UUID!): UserRoleWithPermissions!
+  userRoles: [UserRoleDto!]!
 }
 
 type ReActivateUserPayload {
@@ -583,7 +583,7 @@ type RequestClientSecretCredentialsPayload {
 }
 
 type RequestSettlementReportGridAreaCalculation {
-  gridAreaWithName: GridAreaDto @cost(weight: "10")
+  gridAreaWithName: GridAreaDto
   calculationId: UUID!
   calculationDate: DateTime!
 }
@@ -611,7 +611,7 @@ type SelectionActorDto {
 
 type SettlementReport {
   settlementReportDownloadUrl: String
-  actor: Actor @cost(weight: "10")
+  actor: Actor
   id: String!
   requestedByActorId: UUID!
   calculationType: CalculationType!
@@ -669,8 +669,8 @@ type UpdateUserRolePayload {
 }
 
 type User {
-  actors: [Actor!]! @cost(weight: "10")
-  administratedBy: Actor @cost(weight: "10")
+  actors: [Actor!]!
+  administratedBy: Actor
   id: UUID!
   name: String!
   status: UserStatus!
@@ -683,9 +683,9 @@ type User {
 }
 
 type UserAuditedChangeAuditLogDto {
-  auditedBy: String @cost(weight: "10")
-  affectedActorName: String @cost(weight: "10")
-  affectedUserRoleName: String @cost(weight: "10")
+  auditedBy: String
+  affectedActorName: String
+  affectedUserRoleName: String
   change: UserAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -694,8 +694,8 @@ type UserAuditedChangeAuditLogDto {
 }
 
 type UserRoleAuditedChangeAuditLogDto {
-  auditedBy: String @cost(weight: "10")
-  affectedPermissionName: String @cost(weight: "10")
+  auditedBy: String
+  affectedPermissionName: String
   change: UserRoleAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -712,7 +712,7 @@ type UserRoleDto {
 }
 
 type UserRoleWithPermissions {
-  userRoles: [UserRoleDto!]! @cost(weight: "10")
+  userRoles: [UserRoleDto!]!
   id: UUID!
   name: String!
   description: String!
@@ -801,12 +801,12 @@ input CalculationQueryInput {
 "An immutable calculation."
 input CalculationSortInput {
   "Defines the wholesale calculation type"
-  calculationType: SortEnumType @cost(weight: "10")
-  isInternalCalculation: SortEnumType @cost(weight: "10")
-  executionTime: SortEnumType @cost(weight: "10")
-  status: SortEnumType @cost(weight: "10")
-  period: SortEnumType @cost(weight: "10")
-  executionType: SortEnumType @cost(weight: "10")
+  calculationType: SortEnumType
+  isInternalCalculation: SortEnumType
+  executionTime: SortEnumType
+  status: SortEnumType
+  period: SortEnumType
+  executionType: SortEnumType
 }
 
 input CancelScheduledCalculationInput {
@@ -1416,12 +1416,6 @@ enum UserStatus {
   INVITED
   INVITE_EXPIRED
 }
-
-"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
-directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION
-
-"The purpose of the `@listSize` directive is to either inform the static analysis about the size of returned lists (if that information is statically available), or to point the analysis to where to find that information."
-directive @listSize("The `assumedSize` argument can be used to statically define the maximum length of a list returned by a field." assumedSize: Int "The `slicingArguments` argument can be used to define which of the field's arguments with numeric type are slicing arguments, so that their value determines the size of the list returned by that field. It may specify a list of multiple slicing arguments." slicingArguments: [String!] "The `sizedFields` argument can be used to define that the value of the `assumedSize` argument or of a slicing argument does not affect the size of a list returned by a field itself, but that of a list returned by one of its sub-fields." sizedFields: [String!] "The `requireOneSlicingArgument` argument can be used to inform the static analysis that it should expect that exactly one of the defined slicing arguments is present in a query. If that is not the case (i.e., if none or multiple slicing arguments are present), the static analysis may throw an error." requireOneSlicingArgument: Boolean! = true) on FIELD_DEFINITION
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
 directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR

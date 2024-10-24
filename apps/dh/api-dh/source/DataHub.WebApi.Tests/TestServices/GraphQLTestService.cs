@@ -38,7 +38,7 @@ public class GraphQLTestService
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
-            .AddGraphQLServer()
+            .AddGraphQLServer(disableDefaultSecurity: true)
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)

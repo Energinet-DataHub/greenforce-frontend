@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
-using HotChocolate.CostAnalysis;
 using HotChocolate.Execution.Configuration;
 using NodaTime;
 
@@ -27,7 +26,7 @@ public static class GraphQLRegistrationExtensions
     public static IRequestExecutorBuilder AddGraphQLServices(this IServiceCollection services)
     {
         return services
-            .AddGraphQLServer()
+            .AddGraphQLServer(disableDefaultSecurity: true)
             .AddInMemorySubscriptions()
             .AddInstrumentation()
             .AddAuthorization()
@@ -38,7 +37,6 @@ public static class GraphQLRegistrationExtensions
             .AddTypes()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
-            .ModifyCostOptions(options => options.ApplyCostDefaults = false)
             .ModifyPagingOptions(options =>
             {
                 options.RequirePagingBoundaries = true;
