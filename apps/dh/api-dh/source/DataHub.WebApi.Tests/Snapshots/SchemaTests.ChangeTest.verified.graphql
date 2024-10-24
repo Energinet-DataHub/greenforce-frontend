@@ -448,8 +448,8 @@ type Mutation {
 }
 
 type NotificationDto {
+  notificationType: NotificationType!
   id: Int!
-  notificationType: String!
   occurredAt: DateTime!
   expiresAt: DateTime!
   relatedToId: String
@@ -1309,6 +1309,11 @@ enum MeteringGridImbalanceValuesToInclude {
   IMBALANCES
   BALANCES
   BOTH
+}
+
+enum NotificationType {
+  BalanceResponsibilityValidationFailed
+  BalanceResponsibilityActorUnrecognized
 }
 
 enum OrganizationAuditedChange {

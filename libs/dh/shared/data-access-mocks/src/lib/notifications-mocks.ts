@@ -16,11 +16,57 @@
  */
 import { HttpResponse, delay } from 'msw';
 
-import { mockDismissNotificationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  mockDismissNotificationMutation,
+  mockGetNotificationsQuery,
+  NotificationType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 export function notificationsMocks() {
-  return [dismissNotification()];
+  return [dismissNotification(), getNotifications()];
+}
+
+function getNotifications() {
+  return mockGetNotificationsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        notifications: [
+          {
+            __typename: 'NotificationDto',
+            id: 1,
+            notificationType: NotificationType.BalanceResponsibilityValidationFailed,
+            relatedToId: '1',
+            occurredAt: new Date(),
+          },
+          {
+            __typename: 'NotificationDto',
+            id: 4,
+            notificationType: NotificationType.BalanceResponsibilityValidationFailed,
+            relatedToId: '4',
+            occurredAt: new Date(),
+          },
+          {
+            __typename: 'NotificationDto',
+            id: 3,
+            notificationType: NotificationType.BalanceResponsibilityValidationFailed,
+            relatedToId: '3',
+            occurredAt: new Date(),
+          },
+          {
+            __typename: 'NotificationDto',
+            id: 6,
+            notificationType: NotificationType.BalanceResponsibilityValidationFailed,
+            relatedToId: '6',
+            occurredAt: new Date(),
+          },
+        ],
+      },
+    });
+  });
 }
 
 function dismissNotification() {
