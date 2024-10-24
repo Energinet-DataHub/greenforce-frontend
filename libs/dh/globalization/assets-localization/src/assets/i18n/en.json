@@ -170,14 +170,14 @@
       "created": "Sent",
       "sender": "Sender",
       "download": "Download",
-      "documentType": "Document type"
+      "documentType": "Message type"
     },
     "document": {
       "loadFailed": "Failed to load document"
     },
     "columns": {
       "messageId": "Message ID",
-      "documentType": "Document type",
+      "documentType": "Message type",
       "sender": "Sender",
       "receiver": "Receiver",
       "createdAt": "Date and time"
@@ -185,7 +185,7 @@
     "start": {
       "title": "New search",
       "placeholder": "Type or choose",
-      "documentType": "Document type",
+      "documentType": "Message type",
       "businessReason": "Business reason",
       "sender": "Sender",
       "receiver": "Receiver",

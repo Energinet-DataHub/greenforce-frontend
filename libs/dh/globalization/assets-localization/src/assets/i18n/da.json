@@ -170,14 +170,14 @@
       "created": "Afsendt",
       "receiver": "Modtager",
       "download": "Download",
-      "documentType": "Dokumenttype"
+      "documentType": "Meddelelsestype"
     },
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
     },
     "columns": {
       "messageId": "Besked ID",
-      "documentType": "Dokumenttype",
+      "documentType": "Meddelelsestype",
       "sender": "Afsender",
       "receiver": "Modtager",
       "createdAt": "Dato og tid"
@@ -185,7 +185,7 @@
     "start": {
       "title": "Ny søgning",
       "placeholder": "Indtast eller vælg",
-      "documentType": "Dokumenttype",
+      "documentType": "Meddelelsestype",
       "businessReason": "Forretningsårsag",
       "sender": "Afsender",
       "receiver": "Modtager",
