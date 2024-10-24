@@ -161,9 +161,6 @@
     "new": "New search",
     "results": "Results",
     "searchById": "Search by ID",
-    "filters": {
-      "includeRelated": "Include related"
-    },
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
@@ -193,6 +190,9 @@
       "end": "End time",
       "cancel": "Clear search",
       "confirm": "Search"
+    },
+    "filters": {
+      "includeRelated": "Include related",
     },
     "details": {
       "created": "Sent",

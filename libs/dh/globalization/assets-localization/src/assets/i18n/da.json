@@ -161,9 +161,6 @@
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
-    "filters": {
-      "includeRelated": "Inkluder relaterede"
-    },
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
@@ -193,6 +190,9 @@
       "end": "Sluttidspunkt",
       "cancel": "Ryd søgning",
       "confirm": "Søg"
+    },
+    "filters": {
+      "includeRelated": "Inkluder relaterede",
     },
     "details": {
       "created": "Sendt",
