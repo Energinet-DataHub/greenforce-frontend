@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, output, signal, viewChild } from '@angular/core';
+import { Component, output, signal, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -30,10 +30,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
-import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -41,6 +40,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
   selector: 'dh-message-archive-search-table',
   standalone: true,
   imports: [
+    DhMessageArchiveSearchFiltersComponent,
     ReactiveFormsModule,
     TranslocoDirective,
     VaterUtilityDirective,
@@ -50,7 +50,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
     WattDataTableComponent,
     WattDatePipe,
     WattEmptyStateComponent,
-    WattFilterChipComponent,
     WattFormChipDirective,
   ],
   template: `
@@ -64,18 +63,20 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       (clear)="reset()"
     >
       <h3>{{ t('results') }}</h3>
-      <watt-button variant="secondary" icon="plus" (click)="new.emit()">
+      <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">
         {{ t('new') }}
       </watt-button>
-      @if (dataSource.filter) {
+
+      @if (dataSource.called) {
         <watt-data-filters>
-          <form [formGroup]="form">
-            <watt-filter-chip [formControl]="this.form.controls.includeRelated">
-              {{ t('filters.includeRelated') }}
-            </watt-filter-chip>
-          </form>
+          <dh-message-archive-search-filters
+            [isSearchingById]="!!dataSource.filter"
+            (filter)="fetch($event)"
+            (clear)="reset()"
+          />
         </watt-data-filters>
       }
+
       <watt-table
         *transloco="let resolveHeader; read: 'messageArchive.columns'"
         #table
@@ -111,13 +112,11 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
     </watt-data-table>
   `,
 })
-export class DhMessageArchiveSearchTableComponent implements OnInit {
+export class DhMessageArchiveSearchTableComponent {
   new = output();
   open = output<ArchivedMessage>();
   selection = signal<ArchivedMessage | undefined>(undefined);
   dataTable = viewChild.required(WattDataTableComponent);
-  form = new FormGroup({ includeRelated: new FormControl(false) });
-  filterChanges = this.form.valueChanges.pipe(takeUntilDestroyed());
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
@@ -135,24 +134,27 @@ export class DhMessageArchiveSearchTableComponent implements OnInit {
     },
   });
 
-  ngOnInit() {
-    this.filterChanges.subscribe((variables) => this.dataSource.refetch(variables));
-  }
-
   clearSelection = () => this.selection.set(undefined);
 
   fetch = (variables: Variables) => {
-    this.dataTable().reset();
+    // Empty the table in order to show loading state
+    // TODO: Come up with a solution that doesn't require calling this method
+    this.dataSource.reset();
     this.dataSource.refetch(variables);
   };
 
   reset = () => {
-    this.dataTable().reset();
     this.dataSource.reset();
+    this.dataTable().reset();
   };
 
   onRowClick = (row: ArchivedMessage) => {
     this.selection.set(row);
     this.open.emit(row);
+  };
+
+  onNewSearch = () => {
+    this.reset();
+    this.new.emit();
   };
 }

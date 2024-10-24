@@ -162,23 +162,20 @@
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
-    "filters": {
-      "includeRelated": "Inkluder relaterede"
-    },
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
       "created": "Afsendt",
       "receiver": "Modtager",
       "download": "Download",
-      "documentType": "Dokumenttype"
+      "documentType": "Meddelelsestype"
     },
     "document": {
       "loadFailed": "Kunne ikke hente dokumentet"
     },
     "columns": {
       "messageId": "Besked ID",
-      "documentType": "Dokumenttype",
+      "documentType": "Meddelelsestype",
       "sender": "Afsender",
       "receiver": "Modtager",
       "createdAt": "Dato og tid"
@@ -186,14 +183,24 @@
     "start": {
       "title": "Ny søgning",
       "placeholder": "Indtast eller vælg",
-      "documentType": "Dokumenttype",
+      "documentType": "Meddelelsestype",
       "businessReason": "Forretningsårsag",
       "sender": "Afsender",
       "receiver": "Modtager",
       "start": "Starttidspunkt",
       "end": "Sluttidspunkt",
-      "cancel": "Ryd søgning",
+      "cancel": "Annuller",
       "confirm": "Søg"
+    },
+    "filters": {
+      "documentType": "Meddelelsestype",
+      "businessReason": "Forretningsårsag",
+      "sender": "Afsender",
+      "receiver": "Modtager",
+      "start": "Start",
+      "end": "Slut",
+      "includeRelated": "Inkluder relaterede",
+      "reset": "Ryd"
     },
     "details": {
       "created": "Sendt",
