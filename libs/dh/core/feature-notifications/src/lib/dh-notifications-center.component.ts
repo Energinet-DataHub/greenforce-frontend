@@ -191,8 +191,4 @@ export class DhNotificationsCenterComponent {
       onError: () => console.error('Failed to dismiss notification'),
     });
   }
-
-  private isDistinctNotification(incomingNotificationId: number): boolean {
-    return !this.notifications().some((n) => n.id === incomingNotificationId);
-  }
 }
