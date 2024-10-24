@@ -122,9 +122,11 @@ export class DhMessageArchiveSearchFiltersComponent {
 
   form = inject(DhMessageArchiveSearchFormService);
 
+  // value is always an array since dropdown is in `multiple` mode
   getDocumentTypeTrigger = (value: string | string[]) =>
     this.form.getDocumentTypeIdentifier(value[0] as DocumentType);
 
+  // value is always an array since dropdown is in `multiple` mode
   getBusinessReasonTrigger = (value: string | string[]) => value[0];
 
   filterEffect = effect(() => this.filter.emit(this.form.values()));
