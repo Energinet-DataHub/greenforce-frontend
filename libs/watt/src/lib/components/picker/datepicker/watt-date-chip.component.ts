@@ -69,13 +69,15 @@ import { FormControl } from '@angular/forms';
           (dateChange)="value = $event.value"
           (dateChange)="selectionChange.emit($event.value)"
         />
-        <ng-content />
-        @if (value) {
-          @if (placeholder) {
-            :
+        {{ placeholder }}
+        <span>
+          @if (value) {
+            @if (placeholder) {
+              :
+            }
+            {{ value | wattDate }}
           }
-          {{ value | wattDate }}
-        }
+        </span>
       </watt-menu-chip>
       <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
@@ -85,7 +87,7 @@ import { FormControl } from '@angular/forms';
 export class WattDateChipComponent {
   @Input() disabled = false;
   @Input() label?: string;
-  @Input() placeholder = true;
+  @Input() placeholder?: string;
   @Input() value?: string;
   @Input({ required: true }) formControl!: FormControl;
   @Output() selectionChange = new EventEmitter<Date>();
