@@ -1,0 +1,9 @@
+query UnreadNotifications {
+  notificationsV2 {
+    id
+    notificationType
+    occurredAt
+    expiresAt
+    relatedToId
+  }
+}

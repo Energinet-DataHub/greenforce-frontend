@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { mutation, subscription } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query, subscription } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   OnNotificationAddedDocument,
+  UnreadNotificationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -141,6 +142,12 @@ export class DhNotificationsCenterComponent {
   private readonly dismissMutation = mutation(DismissNotificationDocument);
 
   isOpen = false;
+
+  notificationsV2 = query(UnreadNotificationsDocument);
+
+  notificationV2Effect = effect(() => {
+    console.log('Notifications query', this.notificationsV2.data() ?? 'No data');
+  });
 
   notifications = signal<DhNotification[]>([]);
   notificationAdded = subscription(OnNotificationAddedDocument, {
