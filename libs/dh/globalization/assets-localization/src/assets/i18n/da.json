@@ -771,6 +771,7 @@
         "Dk2": "DK2"
       },
       "areaTypePlaceholder": "Vælg type",
+      "statusTypePlaceholder": "Vælg status",
       "status": {
         "Created": "Oprettet",
         "Active": "Aktiv",
