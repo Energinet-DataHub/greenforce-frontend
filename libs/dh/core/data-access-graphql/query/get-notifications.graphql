@@ -1,0 +1,8 @@
+query getNotifications {
+  notifications {
+    id
+    notificationType
+    occurredAt
+    relatedToId
+  }
+}
