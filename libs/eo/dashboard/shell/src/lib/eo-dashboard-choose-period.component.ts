@@ -83,7 +83,6 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
       <watt-date-chip
         *ngIf="form.controls.period.value === 'day'"
         [formControl]="form.controls.day"
-        [placeholder]="false"
       />
 
       <!-- Week -->

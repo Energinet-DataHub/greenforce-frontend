@@ -153,6 +153,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
   @Input() hideSearch = false;
   @Input() panelWidth: null | 'auto' = null;
+  @Input() getCustomTrigger?: (value: string | string[]) => string;
 
   /**
    * Set the mode of the dropdown.
