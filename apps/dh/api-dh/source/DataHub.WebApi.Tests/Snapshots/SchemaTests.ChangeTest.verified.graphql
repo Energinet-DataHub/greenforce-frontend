@@ -255,6 +255,11 @@ type DeactivateUserRolePayload {
   errors: [DeactivateUserRoleError!]
 }
 
+type DismissNotificationPayload {
+  boolean: Boolean
+  errors: [DismissNotificationError!]
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   dispatchDocumentUrl: String
@@ -423,6 +428,7 @@ type Mutation {
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
@@ -544,7 +550,7 @@ type Query {
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userProfile: GetUserProfileResponse!
   userById(id: UUID!): User!
-  emailExists(emailAddress: String!): Boolean!
+  domainExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
@@ -727,6 +733,8 @@ union DeactivateUserError = ApiError
 
 union DeactivateUserRoleError = ApiError
 
+union DismissNotificationError = ApiError
+
 union InitiateMitIdSignupError = ApiError
 
 union InviteUserError = ApiError
@@ -883,6 +891,10 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DismissNotificationInput {
+  notificationId: Int!
 }
 
 input InvitationUserDetailsDtoInput {

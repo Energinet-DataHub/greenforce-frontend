@@ -25,6 +25,7 @@
     "headline": "Notifikationer",
     "noNotifications": "Ingen notifikationer",
     "notification": {
+      "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
         "message": "Balanceansvarsrelation modtaget for ukendt aktør '{{ relatedToId }}'."
@@ -219,10 +220,10 @@
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om aggregerede engrosydelser (RSM-019)"
     },
     "businessReason": {
-      "D03": "Midlertidig (D03)",
-      "D04": "1. afregning (D04)",
-      "D05": "2. afregning (D05)",
-      "D32": "Korrektionsafregning (D32)"
+      "D03": "Aggregering (D03)",
+      "D04": "Balancefiksering (D04)",
+      "D05": "Engrosafregning (D05)",
+      "D32": "Korrektioner (D32)"
     },
     "search": {
       "topBarTitle": "Fremsøg forretningsbesked",
@@ -327,6 +328,7 @@
         }
       },
       "validation": {
+        "required_permission_removed": "Denne handling ville resultere i, at en påkrævet rettighed ikke længere ville være tilgængelig, og handlingen blev derfor blokeret.",
         "organization": {
           "business_register_identifier": {
             "reserved": "CVR-nummer {{ identifier }} er i brug"
@@ -1306,6 +1308,8 @@
         "phoneNumber": "Telefonnr.",
         "wrongEmailPattern": "Indtast en valid e-mail",
         "userAlreadyAssignedActor": "Bruger er allerede oprettet",
+        "domainDoesNotExist": "Domænet på den angivne e-mail er ikke tilladt",
+        "domainIsExternal": "Den angivne e-mail er udenfor din organisation. Brugeren vil blive inviteret, forudsat at brugeren allerede er oprettet i den eksterne organisation",
         "noUserRolesError": "Vælg minimum en brugerrolle",
         "successMessage": "Invitation sendt til {{ email }}",
         "next": "Næste",

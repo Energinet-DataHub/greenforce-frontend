@@ -25,6 +25,7 @@
     "headline": "Notifications",
     "noNotifications": "No notifications",
     "notification": {
+      "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
         "message": "Balance responsible relation received for unknown market participant '{{ relatedToId }}'."
@@ -219,10 +220,10 @@
       "NOTIFY_WHOLESALE_SERVICES": "Notification of aggregated wholesale services (RSM-019)"
     },
     "businessReason": {
-      "D03": "Temporary (D03)",
-      "D04": "1st settlement (D04)",
-      "D05": "2nd settlement (D05)",
-      "D32": "Correction settlement (D32)"
+      "D03": "Aggregation (D03)",
+      "D04": "Balance Fixing (D04)",
+      "D05": "Wholesale Settlement (D05)",
+      "D32": "Correction Settlements (D32)"
     },
     "search": {
       "topBarTitle": "Search in request and response messages",
@@ -327,6 +328,7 @@
         }
       },
       "validation": {
+        "required_permission_removed": "This operation would result in a required permission no longer being accessable, hence the operation was blocked.",
         "organization": {
           "business_register_identifier": {
             "reserved": "Business register identifier {{ identifier }} is already in use"
@@ -1307,8 +1309,10 @@
         "phoneNumber": "Phone no.",
         "wrongEmailPattern": "Type a valid e-mail",
         "userAlreadyAssignedActor": "User is already assigned",
+        "domainDoesNotExist": "The domain of the provided e-mail is not allowed",
+        "domainIsExternal": "The specified e-mail is outside of your organisation. The user will be invited, provided that the user is already created in the external organisation",
         "noUserRolesError": "Select at least one user role",
-        "successMessage": "Inviation sent to {{ email }}",
+        "successMessage": "Invitation sent to {{ email }}",
         "next": "Next",
         "columns": {
           "eicFunction": "Market role",

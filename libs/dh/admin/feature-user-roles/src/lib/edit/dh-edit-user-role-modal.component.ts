@@ -132,7 +132,7 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   readonly marketRolePermissionsIsLoading = this.permissionsQuery.loading;
 
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
-  readonly hasValidationError$ = this.userRoleEditStore.hasValidationError$;
+  readonly validationError$ = this.userRoleEditStore.validationError$;
 
   readonly userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
@@ -159,10 +159,22 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       this.permissionsQuery.refetch({ eicFunction: userRole.eicFunction });
     });
 
-    this.hasValidationError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.userRoleEditForm.controls.name.setErrors({
-        nameAlreadyExists: true,
-      });
+    this.validationError$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((x) => {
+      if (x?.errorCode === 'market_participant.validation.market_role.reserved') {
+        this.userRoleEditForm.controls.name.setErrors({
+          nameAlreadyExists: true,
+        });
+        return;
+      }
+
+      this.userRoleEditForm.controls.name.setErrors(null);
+
+      if (x?.errorCode) {
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate(`marketParticipant.${x.errorCode}`),
+        });
+      }
     });
   }
 
@@ -218,9 +230,10 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
 
     const onErrorFn = (statusCode: HttpStatusCode) => {
       if (statusCode !== HttpStatusCode.BadRequest) {
-        const message = this.transloco.translate('admin.userManagement.editUserRole.saveError');
-
-        this.toastService.open({ type: 'danger', message });
+        this.toastService.open({
+          type: 'danger',
+          message: this.transloco.translate('admin.userManagement.editUserRole.saveError'),
+        });
       }
     };
 
