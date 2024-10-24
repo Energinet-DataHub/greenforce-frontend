@@ -46,7 +46,6 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
 
@@ -101,7 +100,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     VaterStackComponent,
 
     DhEmDashFallbackPipe,
-    DhFeatureFlagDirective,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
     DhCanDelegateForDirective,
