@@ -772,6 +772,7 @@
         "Dk2": "DK2"
       },
       "areaTypePlaceholder": "Choose type",
+      "statusTypePlaceholder": "Choose status",
       "status": {
         "Created": "Created",
         "Active": "Active",

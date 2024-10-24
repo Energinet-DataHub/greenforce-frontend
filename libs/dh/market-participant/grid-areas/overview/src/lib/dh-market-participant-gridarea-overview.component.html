@@ -29,7 +29,7 @@ limitations under the License.
       }}</watt-button>
     </vater-stack>
 
-    <vater-stack align="flex-start" gap="m">
+    <vater-stack direction="row" align="flex-start" gap="m">
       <watt-dropdown
         sortDirection="asc"
         dhDropdownTranslator
@@ -38,6 +38,16 @@ limitations under the License.
         [options]="gridAreaTypeOptions"
         [(ngModel)]="selectedGridAreaType"
         [placeholder]="t('areaTypePlaceholder')"
+      />
+      <watt-dropdown
+        sortDirection="asc"
+        dhDropdownTranslator
+        translateKey="marketParticipant.gridAreas.status"
+        [options]="gridAreaStatusOptions"
+        [multiple]="true"
+        [chipMode]="true"
+        [(ngModel)]="selectedGridAreaStatusOptions"
+        [placeholder]="t('statusTypePlaceholder')"
       />
     </vater-stack>
     <vater-flex fill="vertical" scrollable>
