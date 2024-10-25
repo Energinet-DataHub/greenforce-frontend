@@ -116,7 +116,7 @@ public class CalculateGridAreaStatusTest
             .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync(gridAreas);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_getGridAreasWithStatus));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_getGridAreasWithStatus));
 
         await result.MatchSnapshotAsync($"GetGridAreasWithStatus");
     }
