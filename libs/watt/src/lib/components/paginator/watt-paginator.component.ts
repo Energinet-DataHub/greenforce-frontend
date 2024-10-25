@@ -105,11 +105,10 @@ export class WattPaginatorComponent<T> implements OnInit {
   });
 
   ngOnInit() {
-    //this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
+    this.matPaginatorIntl.getRangeLabel = this.getRangeLabel;
   }
 
   private getRangeLabel = (page: number, pageSize: number, length: number) => {
-    console.log('getRangeLabel', length, page, this.pageIndex(), this.length());
     if (length == 0 || pageSize == 0) {
       return `0 ${this.intl.of} ${length}`;
     }
