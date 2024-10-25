@@ -189,7 +189,7 @@ const selector = 'eo-auth-terms';
           <div [innerHtml]="terms()"></div>
         </eo-scroll-view>
 
-        @if (isLoggedIn) {
+        @if (isLoggedIn && showActions) {
           <div class="actions">
             <div class="watt-space-stack-m">
               <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
@@ -228,6 +228,7 @@ export class EoTermsComponent {
   private sanitizer = inject(DomSanitizer);
   private toastService: WattToastService = inject(WattToastService);
 
+  showActions = this.router.getCurrentNavigation()?.extras.state?.['show-actions'];
   language = this.transloco.getActiveLang();
   translations = translations;
   isLoggedIn = !!this.authService.user();
