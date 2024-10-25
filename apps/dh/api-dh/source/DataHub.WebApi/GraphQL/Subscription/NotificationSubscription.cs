@@ -16,6 +16,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Energinet.DataHub.WebApi.Clients.Notifications;
 using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
@@ -29,6 +30,7 @@ public partial class Subscription
              .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(60), Scheduler.Default)
              .SelectMany(_ => Observable.FromAsync(() => notificationsClient.GetUnreadNotificationsAsync(cancellationToken)))
              .SelectMany(notification => notification)
+             .Where(notification => Enum.TryParse<NotificationType>(notification.NotificationType, out _))
              .Distinct(notification => notification.Id);
     }
 
