@@ -46,8 +46,8 @@ export const eoScopeGuard: CanActivateFn = async (route: ActivatedRouteSnapshot)
     router.navigate([transloco.getActiveLang(), 'terms'], {
       queryParams: { redirectUrl },
       state: {
-        'show-actions': true
-      }
+        'show-actions': true,
+      },
     });
     return false;
   } else {
