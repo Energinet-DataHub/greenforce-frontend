@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Notifications;
-using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Notification;
 
-public partial class Query
+public class NotificationEnumType : EnumType<NotificationType>
 {
-    public async Task<IEnumerable<NotificationDto>> GetNotificationsAsync(
-        [Service] INotificationsClient client,
-        CancellationToken cancellationToken)
+    protected override void Configure(IEnumTypeDescriptor<NotificationType> descriptor)
     {
-        var noticications = await client.GetUnreadNotificationsAsync(cancellationToken);
-
-        return noticications.Where(n => Enum.TryParse<NotificationType>(n.NotificationType, out _));
+        descriptor.AsIsCase();
     }
 }
