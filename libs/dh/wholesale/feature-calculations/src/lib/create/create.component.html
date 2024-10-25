@@ -67,6 +67,7 @@ limitations under the License.
             [value]="CalculationExecutionType.External"
             [selected]="executionType.value === CalculationExecutionType.External"
             (selectionChange)="executionType.setValue($event)"
+            data-testid="calculation-external"
           >
             {{ t("executionTypes.EXTERNAL") }}
           </watt-filter-chip>
@@ -75,6 +76,7 @@ limitations under the License.
             [value]="CalculationExecutionType.Internal"
             [selected]="executionType.value === CalculationExecutionType.Internal"
             (selectionChange)="executionType.setValue($event)"
+            data-testid="calculation-internal"
           >
             {{ t("executionTypes.INTERNAL") }}
           </watt-filter-chip>
@@ -93,6 +95,7 @@ limitations under the License.
           group="isScheduled"
           [formControl]="formGroup.controls.isScheduled"
           [value]="false"
+          data-testid="calculateNow"
         >
           {{ t("create.scheduledAt.now") }}
         </watt-radio>
@@ -102,6 +105,7 @@ limitations under the License.
             [formControl]="formGroup.controls.isScheduled"
             [value]="true"
             style="min-width: max-content; min-height: 66px; margin-top: var(--watt-space-s)"
+            data-testid="scheduleCalculation"
           >
             {{ t("create.scheduledAt.schedule") }}
           </watt-radio>
@@ -109,6 +113,7 @@ limitations under the License.
             <watt-datetimepicker
               [min]="minScheduledAt"
               [formControl]="formGroup.controls.scheduledAt"
+              data-testid="scheduleCalculation.date"
             >
               @if (formGroup.controls.scheduledAt.errors?.past) {
                 <watt-field-error>{{ t("create.scheduledAt.past") }}</watt-field-error>
