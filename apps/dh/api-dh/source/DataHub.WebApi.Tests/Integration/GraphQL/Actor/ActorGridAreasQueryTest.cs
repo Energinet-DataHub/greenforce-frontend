@@ -75,7 +75,7 @@ public class ActorGridAreasQueryTests
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_actorByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_actorByIdQuery));
 
         await result.MatchSnapshotAsync();
     }
