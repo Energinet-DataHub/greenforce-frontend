@@ -35,7 +35,8 @@ public class GetUserOverviewResponseType : ObjectType<GetUserOverviewResponse>
                 x.Email,
                 x.PhoneNumber,
                 x.AdministratedBy,
-                x.CreatedDate));
+                x.CreatedDate,
+                x.LatestLoginAt));
          });
     }
 }

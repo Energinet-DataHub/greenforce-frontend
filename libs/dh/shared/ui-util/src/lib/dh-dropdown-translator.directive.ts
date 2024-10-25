@@ -47,6 +47,10 @@ export class DhDropdownTranslatorDirective implements OnInit {
         displayValue: this.translateDisplayValue(keys[option.value as keyof typeof keys]),
       }));
 
+      // Sort translatedOptions based on the order of the translation keys
+      const keyOrder = Object.keys(keys);
+      translatedOptions.sort((a, b) => keyOrder.indexOf(a.value) - keyOrder.indexOf(b.value));
+
       this.host.options = this.host.sortDirection
         ? this.host.sortOptions(translatedOptions)
         : translatedOptions;

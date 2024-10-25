@@ -36,6 +36,7 @@ import {
 import { IWattTableDataSource } from '../table';
 import { WattPaginatorIntlService } from './watt-paginator-intl.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { map, startWith } from 'rxjs';
 
 /**
  * Usage:
@@ -73,11 +74,18 @@ export class WattPaginatorComponent<T> implements OnInit {
   changed = output<PageEvent>();
   instance = viewChild.required(MatPaginator);
 
-  changes = toSignal(this.intl.changes);
-  description = computed(() => {
-    this.changes();
-    return this.intl.description;
-  });
+  changes = toSignal(
+    this.intl.changes.pipe(
+      // Signals use referential equality to determine if a value has changed.
+      // Therefore it is not possible to just map to the intl service directly
+      // as the intl service relies on mutation for updating values.
+      map(() => ({ ...this.intl })),
+      startWith(this.intl)
+    ),
+    { requireSync: true }
+  );
+
+  description = computed(() => this.changes().description);
 
   updateDataSource = effect(() => {
     const dataSource = this.for();
@@ -87,12 +95,12 @@ export class WattPaginatorComponent<T> implements OnInit {
   });
 
   updateLabels = effect(() => {
-    this.changes();
-    this.matPaginatorIntl.itemsPerPageLabel = this.intl.itemsPerPage;
-    this.matPaginatorIntl.nextPageLabel = this.intl.nextPage;
-    this.matPaginatorIntl.previousPageLabel = this.intl.previousPage;
-    this.matPaginatorIntl.firstPageLabel = this.intl.firstPage;
-    this.matPaginatorIntl.lastPageLabel = this.intl.lastPage;
+    const changes = this.changes();
+    this.matPaginatorIntl.itemsPerPageLabel = changes.itemsPerPage;
+    this.matPaginatorIntl.nextPageLabel = changes.nextPage;
+    this.matPaginatorIntl.previousPageLabel = changes.previousPage;
+    this.matPaginatorIntl.firstPageLabel = changes.firstPage;
+    this.matPaginatorIntl.lastPageLabel = changes.lastPage;
     this.matPaginatorIntl.changes.next();
   });
 

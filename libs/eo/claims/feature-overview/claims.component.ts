@@ -28,7 +28,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
-import { EoBetaMessageComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoClaimsService, Claim } from '@energinet-datahub/eo/claims/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 
@@ -37,7 +36,6 @@ import { EoClaimsTableComponent } from './claims-table.component';
 @Component({
   standalone: true,
   imports: [
-    EoBetaMessageComponent,
     EoClaimsTableComponent,
     VaterFlexComponent,
     VaterSpacerComponent,

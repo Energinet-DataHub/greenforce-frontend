@@ -15,30 +15,38 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, of } from 'rxjs';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, of, switchMap } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import {
-  EoFooterComponent,
-  EoHeaderComponent,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
+
+const selector = 'eo-auth-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     FormsModule,
     WattButtonComponent,
@@ -46,102 +54,143 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
     WattEmptyStateComponent,
     EoFooterComponent,
     EoHeaderComponent,
-    EoScrollViewComponent,
-    WattSpinnerComponent,
     TranslocoPipe,
+    EoScrollViewComponent,
   ],
-  selector: 'eo-auth-terms',
+  selector,
   styles: [
     `
-      .terms::ng-deep {
-        h2 {
-          margin-bottom: 16px;
+      ${selector} {
+        display: grid;
+        grid-template-areas:
+          'header'
+          'content'
+          'footer';
+        grid-template-rows: auto 1fr auto;
+        min-height: 100vh;
+        margin: 0;
+
+        @media print {
+          --eo-scroll-view-padding: 0;
+          --eo-scroll-view-max-height: fit-content;
         }
 
-        h3 {
-          margin-top: 16px;
+        eo-header {
+          grid-area: header;
         }
 
-        p {
-          margin-bottom: 16px;
-        }
+        > main {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          grid-area: content;
+          padding: var(--watt-space-m);
+          gap: var(--watt-space-m);
 
-        ol {
-          margin: 8px 0;
-          padding-left: 32px;
+          @media (min-width: 768px) {
+            gap: var(--watt-space-l);
+            padding: var(--watt-space-l);
+          }
 
-          strong {
-            color: var(--watt-typography-headline-color);
+          eo-scroll-view,
+          .actions {
+            max-width: 1244px;
           }
         }
 
-        ul {
-          margin: 8px 0;
-          padding-left: 16px;
+        eo-footer {
+          grid-area: footer;
         }
 
-        li {
-          --circle-size: 8px;
+        .actions {
+          width: 100%;
         }
 
-        table {
-          font-size: 14px;
-          margin: 32px 0;
-          border: 1px solid black;
-
-          th {
-            background-color: var(--watt-color-primary-light);
-            color: var(--watt-typography-label-color);
-            text-align: left;
+        .terms {
+          h1 {
+            align-self: flex-start;
           }
 
-          td {
-            vertical-align: top;
-            border: 1px solid rgba(0, 0, 0, 0.12); //Magic UX color for now
-            padding: 4px;
+          header {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            margin-bottom: var(--watt-space-l);
+
+            .logo {
+              height: 50px;
+            }
+          }
+
+          header section {
+            flex: 1 0 auto;
+            order: -1;
+
+            p {
+              margin: 0;
+              padding: 0;
+            }
+          }
+
+          dl,
+          .definition-list-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr;
+            gap: var(--watt-space-l) var(--watt-space-l);
+            margin-top: var(--watt-space-l);
+          }
+
+          .definition-list-header,
+          section ol li {
+            margin-bottom: var(--watt-space-l);
+          }
+
+          dt {
+            grid-column: 1;
+          }
+
+          dd {
+            grid-column: 2;
+            margin-left: 0;
+          }
+
+          header,
+          nav,
+          section {
+            margin-bottom: var(--watt-space-l);
+          }
+
+          @media (min-width: 768px) {
+            section p {
+              padding-top: var(--watt-space-l);
+              padding-left: var(--watt-space-xl);
+            }
+
+            .definition-list {
+              margin-left: var(--watt-space-xl);
+            }
+          }
+
+          ol {
+            padding: revert;
+            margin: revert;
           }
         }
-      }
-
-      eo-header,
-      eo-footer {
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: auto;
-      }
-
-      .content-box {
-        flex-grow: 1;
-        flex-shrink: 1;
-        flex-basis: auto;
-      }
-
-      .content-wrapper {
-        width: 820px; // Magic number by designer.
       }
     `,
   ],
   template: `
     <eo-header />
 
-    <div class="content-box watt-space-inset-l">
-      <div class="eo-layout-centered-content">
-        <div class="content-wrapper">
-          <eo-scroll-view class="watt-space-stack-l">
-            @if (!terms() && !loadingTermsFailed) {
-              <div style="display: flex; justify-content: center;"><watt-spinner /></div>
-            } @else if (loadingTermsFailed) {
-              <watt-empty-state
-                icon="danger"
-                [title]="translations.terms.fetchingTermsError.title | transloco"
-                [message]="translations.terms.fetchingTermsError.message | transloco"
-              />
-            } @else {
-              <div [innerHTML]="terms()" class="terms"></div>
-            }
-          </eo-scroll-view>
+    <main>
+      @if (!loadingTermsFailed) {
+        <eo-scroll-view class="terms">
+          <div [innerHtml]="terms()"></div>
+        </eo-scroll-view>
 
-          @if (isLoggedIn) {
+        @if (isLoggedIn) {
+          <div class="actions">
             <div class="watt-space-stack-m">
               <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
                 {{ translations.terms.acceptingTerms | transloco }}
@@ -152,56 +201,87 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
               {{ translations.terms.reject | transloco }}
             </watt-button>
 
-            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow">
+            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
               {{ translations.terms.accept | transloco }}
             </watt-button>
-          }
-        </div>
-      </div>
-    </div>
+          </div>
+        }
+      } @else if (loadingTermsFailed) {
+        <watt-empty-state
+          icon="danger"
+          [title]="translations.terms.fetchingTermsError.title | transloco"
+          [message]="translations.terms.fetchingTermsError.message | transloco"
+        />
+      }
+    </main>
 
     <eo-footer />
   `,
 })
 export class EoTermsComponent {
-  private http = inject(HttpClient);
-  private sanitizer: DomSanitizer = inject(DomSanitizer);
   private transloco = inject(TranslocoService);
   private authService = inject(EoAuthService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private http = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
+  private sanitizer = inject(DomSanitizer);
+  private toastService: WattToastService = inject(WattToastService);
 
+  language = this.transloco.getActiveLang();
   translations = translations;
   isLoggedIn = !!this.authService.user();
   loadingTermsFailed = false;
+
+  hasAcceptedTerms = false;
+  startedAcceptFlow = signal<boolean>(false);
+
   terms = toSignal(
-    this.http.get('/assets/html/privacy-policy.html', { responseType: 'text' }).pipe(
-      map((html) => this.sanitizer.bypassSecurityTrustHtml(html)),
-      catchError(() => {
-        this.loadingTermsFailed = true;
-        return of(null);
-      })
+    this.transloco.langChanges$.pipe(
+      switchMap((lang: string) => this.loadTermsHtml(lang)),
+      takeUntilDestroyed(this.destroyRef)
     )
   );
-  hasAcceptedTerms = false;
-  startedAcceptFlow = false;
+
+  private loadTermsHtml(lang: string): Observable<SafeHtml> {
+    return this.http.get(`assets/terms/${lang}.html`, { responseType: 'text' }).pipe(
+      switchMap((html: string) => {
+        const safeHtml = this.sanitizer.bypassSecurityTrustHtml(html);
+        this.loadingTermsFailed = false;
+        return of(safeHtml);
+      }),
+      catchError(() => {
+        this.loadingTermsFailed = true;
+        return of('Error loading terms and conditions. Please try again later.');
+      })
+    );
+  }
 
   onReject() {
     this.authService.logout();
   }
 
   onAccept() {
-    if (this.startedAcceptFlow || !this.hasAcceptedTerms) return;
-    this.startedAcceptFlow = true;
+    if (this.startedAcceptFlow() || !this.hasAcceptedTerms) return;
+    this.startedAcceptFlow.set(true);
 
-    this.authService.acceptTos().then(() => {
-      const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
+    this.authService
+      .acceptTos()
+      .then(() => {
+        const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
 
-      if (redirectUrl) {
-        this.router.navigateByUrl(redirectUrl);
-      } else {
-        this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
-      }
-    });
+        if (redirectUrl) {
+          this.router.navigateByUrl(redirectUrl);
+        } else {
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
+        }
+      })
+      .catch(() => {
+        this.startedAcceptFlow.set(false);
+        this.toastService.open({
+          message: this.transloco.translate(this.translations.shared.error.message),
+          type: 'danger',
+        });
+      });
   }
 }

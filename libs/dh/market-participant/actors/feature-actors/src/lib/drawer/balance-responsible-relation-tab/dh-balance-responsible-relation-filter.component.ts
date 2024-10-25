@@ -143,8 +143,7 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty], 'actorId');
   gridAreaOptions$ = getGridAreaOptions();
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
-    BalanceResponsibilityAgreementStatus,
-    'asc'
+    BalanceResponsibilityAgreementStatus
   );
 
   filtersForm = new FormGroup<Filters>({

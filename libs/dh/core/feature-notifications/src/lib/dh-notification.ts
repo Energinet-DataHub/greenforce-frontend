@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type DhNotification = {
-  datetime: Date;
-  headline: string;
-  message: string;
-  read: boolean;
-};
+import { GetNotificationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+export type DhNotifications = ResultOf<typeof GetNotificationsDocument>['notifications'];
+export type DhNotification = DhNotifications[0];

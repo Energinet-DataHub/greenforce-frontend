@@ -40,7 +40,7 @@ export const dhFeatureFlagsConfig = {
   },
   'new-login-flow': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
@@ -59,7 +59,6 @@ export const dhFeatureFlagsConfig = {
   notifications: {
     created: '01-10-2024',
     disabledEnvironments: [
-      DhAppEnvironment.dev_002,
       DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,

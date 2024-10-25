@@ -116,7 +116,14 @@ export class DhMarketParticipantGridAreaOverviewComponent {
   isLoading = input<boolean>(false);
   hasError = input<boolean>(false);
 
-  gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, 'asc', [GridAreaType.NotSet]);
+  gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, [GridAreaType.NotSet]);
+
+  gridAreaStatusOptions = Object.keys(GridAreaStatus).map((key) => ({
+    displayValue: key,
+    value: key,
+  }));
+
+  selectedGridAreaStatusOptions = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
 
   selectedGridAreaType = signal<GridAreaType | null>(null);
 
@@ -124,9 +131,12 @@ export class DhMarketParticipantGridAreaOverviewComponent {
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.gridAreas()?.filter(
-        (x) => x.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null
-      );
+      const statuses = this.selectedGridAreaStatusOptions();
+      return (this.dataSource.data = this.gridAreas()?.filter(
+        (x) =>
+          (x.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
+          (statuses === null || statuses.includes(x.status))
+      ));
     });
   }
 

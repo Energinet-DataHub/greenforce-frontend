@@ -17,14 +17,13 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import {
+  BusinessReason,
+  mockGetArchivedMessagesQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
 import { document, documentJson } from './data/message-archived-document';
-import {
-  BusinessReason,
-  DocumentType,
-  mockGetArchivedMessagesQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function messageArchiveMocks(apiBase: string) {
   return [getDocumentById(apiBase), getArchivedMessages(apiBase)];
@@ -32,7 +31,7 @@ export function messageArchiveMocks(apiBase: string) {
 
 export function getDocumentById(apiBase: string) {
   return http.get(
-    `${apiBase}/v1/MessageArchive/Document?id=:id`,
+    `${apiBase}/v1/MessageArchive/Document`,
     async (): Promise<StrictResponse<DefaultBodyType>> => {
       await delay(mswConfig.delay);
       const random = Math.floor(Math.random() * 1000);
@@ -61,7 +60,7 @@ function getArchivedMessages(apiBase: string) {
             __typename: 'ArchivedMessage',
             id: m.id,
             messageId: m.messageId,
-            documentType: m.documentType as DocumentType,
+            documentType: m.documentType,
             receiver: {
               __typename: 'Actor',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
@@ -76,7 +75,7 @@ function getArchivedMessages(apiBase: string) {
             },
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             documentUrl: `${apiBase}/v1/MessageArchive/Document?id=${m.id}`,
-            businessReason: BusinessReason.D14,
+            businessReason: BusinessReason.D04,
           })),
         },
       },

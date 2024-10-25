@@ -1,0 +1,9 @@
+subscription OnNotificationAdded {
+  notificationAdded {
+    id
+    notificationType
+    relatedToId
+    occurredAt
+    expiresAt
+  }
+}

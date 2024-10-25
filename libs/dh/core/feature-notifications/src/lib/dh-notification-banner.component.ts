@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { HotToastRef } from '@ngxpert/hot-toast';
+
+import { DhNotification } from './dh-notification';
 
 @Component({
   selector: 'dh-notification-banner',
   standalone: true,
+  imports: [TranslocoDirective],
   styles: `
     :host {
       display: block;
@@ -29,11 +34,16 @@ import { Component, input } from '@angular/core';
     }
   `,
   template: `
-    <h5 class="watt-space-stack-xxs">{{ headline() }}</h5>
-    <p>{{ message() }}</p>
+    <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
+      <h5 class="watt-space-stack-xxs">{{ t(toastRef.data.notificationType + '.headline') }}</h5>
+      <p>
+        {{
+          t(toastRef.data.notificationType + '.message', { relatedToId: toastRef.data.relatedToId })
+        }}
+      </p>
+    </ng-container>
   `,
 })
 export class DhNotificationBannerComponent {
-  headline = input<string>('eSett');
-  message = input<string>('Nye balanceansvarsrelationer');
+  public toastRef = inject<HotToastRef<DhNotification>>(HotToastRef);
 }

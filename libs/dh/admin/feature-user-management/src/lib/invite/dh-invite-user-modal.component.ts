@@ -41,6 +41,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
@@ -51,6 +52,7 @@ import {
   GetAssociatedActorsDocument,
   InviteUserDocument,
   UserOverviewSearchDocument,
+  CheckDomainExistsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -79,6 +81,7 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattPhoneFieldComponent,
+    WattValidationMessageComponent,
 
     DhAssignableUserRolesComponent,
   ],
@@ -127,7 +130,13 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     return !!email && this.knownEmails().includes(email.toUpperCase());
   });
 
+  domainExists = computed((): boolean => {
+    const email = this.emailChanged();
+    return !!email && (this.validDomainQuery.data()?.domainExists ?? false);
+  });
+
   knownEmailsQuery = query(GetKnownEmailsDocument);
+  validDomainQuery = lazyQuery(CheckDomainExistsDocument);
 
   knownEmails = computed(
     () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
@@ -155,6 +164,17 @@ export class DhInviteUserModalComponent extends WattTypedModal {
                 );
 
                 return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
+              });
+          }
+
+          return of(null);
+        },
+        (control) => {
+          if (control.value) {
+            return this.validDomainQuery
+              .query({ variables: { email: control.value } })
+              .then((domainCheck) => {
+                return !domainCheck.data.domainExists ? { domainDoesNotExist: true } : null;
               });
           }
 

@@ -41,13 +41,13 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client)
     {
         var user = await client.UserAsync(id);
-        return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.AdministratedBy, user.CreatedDate);
+        return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.AdministratedBy, user.CreatedDate, user.LatestLoginAt);
     }
 
-    public async Task<bool> EmailExistsAsync(
+    public async Task<bool> DomainExistsAsync(
         string emailAddress,
         [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserExistsAsync(emailAddress);
+        await client.UserCheckDomainAsync(emailAddress);
 
     public async Task<IEnumerable<string>> GetKnownEmailsAsync(
         [Service] IMarketParticipantClient_V1 client) =>
