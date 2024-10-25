@@ -162,23 +162,20 @@
     "new": "New search",
     "results": "Results",
     "searchById": "Search by ID",
-    "filters": {
-      "includeRelated": "Include related"
-    },
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",
       "created": "Sent",
       "sender": "Sender",
       "download": "Download",
-      "documentType": "Document type"
+      "documentType": "Message type"
     },
     "document": {
       "loadFailed": "Failed to load document"
     },
     "columns": {
       "messageId": "Message ID",
-      "documentType": "Document type",
+      "documentType": "Message type",
       "sender": "Sender",
       "receiver": "Receiver",
       "createdAt": "Date and time"
@@ -186,14 +183,24 @@
     "start": {
       "title": "New search",
       "placeholder": "Type or choose",
-      "documentType": "Document type",
+      "documentType": "Message type",
       "businessReason": "Business reason",
       "sender": "Sender",
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Clear search",
+      "cancel": "Cancel",
       "confirm": "Search"
+    },
+    "filters": {
+      "documentType": "Message type",
+      "businessReason": "Business reason",
+      "sender": "Sender",
+      "receiver": "Receiver",
+      "start": "Start",
+      "end": "End",
+      "includeRelated": "Include related",
+      "reset": "Clear"
     },
     "details": {
       "created": "Sent",
@@ -765,6 +772,7 @@
         "Dk2": "DK2"
       },
       "areaTypePlaceholder": "Choose type",
+      "statusTypePlaceholder": "Choose status",
       "status": {
         "Created": "Created",
         "Active": "Active",

@@ -33,7 +33,7 @@ limitations under the License.
           @if (placeholder) {
             :
           }
-          {{ matSelect?.triggerValue }}
+          {{ getCustomTrigger?.(matSelect.value) ?? matSelect?.triggerValue }}
         </span>
       }
       @if (showChipLabel) {
