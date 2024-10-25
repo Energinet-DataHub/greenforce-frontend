@@ -19,15 +19,16 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  Input,
   OnInit,
   ViewChild,
   inject,
   signal,
 } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { map, Observable, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { Sort, SortDirection } from '@angular/material/sort';
+import { MatSort, Sort, SortDirection } from '@angular/material/sort';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -37,7 +38,6 @@ import {
   IWattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent } from '@energinet-datahub/watt/vater';
@@ -66,10 +66,19 @@ interface CertificateFiltersForm {
 class AsyncDataSource<T> implements IWattTableDataSource<T> {
   private _data = signal<T[]>([]);
   private _filteredData = signal<T[]>([]);
+  private _paginator: MatPaginator | null = null;
+  private _initialPageIndex = 1;
+
+  /**
+   * Subscription to the changes that should trigger an update to the table's rendered rows, such
+   * as filtering, sorting, pagination, or base data changes.
+   */
+  private _renderChangesSubscription?: Subscription;
+
 
   totalCount = 0;
-  paginator: MatPaginator | null = null;
-  sort = null;
+  sortData?: (sort: Sort) => void;
+
   filter = '';
 
   set data(data: T[]) {
@@ -80,12 +89,45 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     return this._data();
   }
 
-  get filteredData(): T[] {
-    return this._data(); // TODO: FIX THIS
+  set paginator(paginator: MatPaginator | null) {
+    this._paginator = paginator;
+    if(this._paginator) {
+      this._paginator.pageIndex = this._initialPageIndex;
+      console.log('paginator set', this._paginator.pageIndex, this._initialPageIndex);
+    }
   }
 
-  constructor(data: T[]) {
+  get paginator(): MatPaginator | null {
+    return this._paginator;
+  }
+
+  /* Data is filtered by the backend, so we just return the data */
+  get filteredData(): T[] {
+    return this._data();
+  }
+
+  /**
+   * Instance of the MatSort directive used by the table to control its sorting. Sort changes
+   * emitted by the MatSort will trigger an update to the table's rendered data.
+   */
+  get sort(): MatSort | null {
+    return this._sort;
+  }
+
+  set sort(sort: MatSort | null) {
+    this._sort = sort;
+    this._renderChangesSubscription = this._sort?.sortChange.subscribe((sort: Sort) => {
+      if (this.sortData) {
+        this.sortData(sort);
+      }
+    });
+  }
+
+  private _sort!: MatSort | null;
+
+  constructor(data: T[], initialPageIndex = 1) {
     this._data.set(data);
+    this._initialPageIndex = initialPageIndex;
   }
 
   connect(): Observable<T[]> {
@@ -93,12 +135,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
   }
 
   disconnect(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  sortData(data: T[]): T[] {
-    console.log('sortData', data);
-    return data;
+    this._renderChangesSubscription?.unsubscribe();
   }
 }
 
@@ -126,7 +163,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
         inset="m"
         [error]="state().hasError"
         [count]="dataSource.paginator?.length"
-        (pageChanged)="pageChanged()"
+        (pageChanged)="pageChanged($event)"
         [enableSearch]="false"
       >
         <h3>{{ translations.certificates.title | transloco }}</h3>
@@ -168,10 +205,13 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
   `,
 })
 export class EoCertificatesOverviewComponent implements OnInit {
+  @Input() page?: number;
+
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   private datePipe: WattDatePipe = inject(WattDatePipe);
   private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
@@ -197,7 +237,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected translations = translations;
   protected columns!: WattTableColumnDef<EoCertificate>;
 
-  protected dataSource: AsyncDataSource<EoCertificate> = new AsyncDataSource<EoCertificate>([]);
+  protected dataSource!: AsyncDataSource<EoCertificate>;
   protected exportingCertificates = signal<boolean>(false);
 
   protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
@@ -206,6 +246,14 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected sortDirection: SortDirection = this.defaultSortDirection;
 
   ngOnInit() {
+    // If no page is set, we redirect to the first page
+    if (!this.page) {
+      this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+        queryParams: { page: 1 },
+      });
+    }
+    this.dataSource = new AsyncDataSource<EoCertificate>([], (this.page ?? 1) - 1);
+
     this.initForm();
 
     this.transloco
@@ -213,10 +261,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.setColumns();
-        this.dataSource.sortData = (data) => {
-          console.log('sortData', data);
-          return data;
-        }
+        this.dataSource.sortData = this.sortData.bind(this);
 
         this.typeOptions = [
           {
@@ -279,7 +324,11 @@ export class EoCertificatesOverviewComponent implements OnInit {
     });
   }
 
-  pageChanged() {
+  pageChanged(event: {pageIndex: number}) {
+    this.page = event.pageIndex + 1;
+    this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+      queryParams: { page: event.pageIndex + 1 },
+    });
     this.loadData();
   }
 
@@ -336,14 +385,13 @@ export class EoCertificatesOverviewComponent implements OnInit {
     this.state.set({ ...this.state(), isLoading: true });
     this.dataSource.data = []; // We empty the data to show the loading spinner
 
-    const pageIndex = this.dataSource.paginator?.pageIndex || 0;
     const pageSize = this.dataSource.paginator?.pageSize || 50;
     const sortBy = this.getSortBy(this.sortBy);
     const sort = this.sortDirection;
 
     this.certificatesService
       .getCertificates({
-        pageIndex,
+        pageIndex: (this.page ?? 1) - 1,
         pageSize,
         sortBy,
         sort,
@@ -394,9 +442,8 @@ export class EoCertificatesOverviewComponent implements OnInit {
     }
   }
 
-  sortData(sort: Sort) {
+  sortData(sort: Sort): void {
     console.log('sortData', sort);
-    /*
     if (!sort.active || sort.direction === '') {
       this.sortBy = this.defaultSortBy;
       this.sortDirection = this.defaultSortDirection;
@@ -404,7 +451,6 @@ export class EoCertificatesOverviewComponent implements OnInit {
       this.sortBy = sort.active as never;
       this.sortDirection = sort.direction;
     }
-
-    this.loadData();*/
+    this.loadData();
   }
 }
