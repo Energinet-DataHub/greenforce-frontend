@@ -75,7 +75,7 @@ export class EoCertificatesService {
     const { pageIndex, pageSize, sortBy, sort, type } = config;
 
     let filters = '';
-    if(type) {
+    if (type) {
       filters = `&type=${type}`;
     }
 

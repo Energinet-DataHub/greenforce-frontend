@@ -74,7 +74,6 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
    */
   private _renderChangesSubscription?: Subscription;
 
-
   totalCount = 0;
   sortData?: (sort: Sort) => void;
 
@@ -90,7 +89,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
 
   set paginator(paginator: MatPaginator | null) {
     this._paginator = paginator;
-    if(this._paginator) {
+    if (this._paginator) {
       this._paginator.pageIndex = this._initialPageIndex;
       console.log('paginator set', this._paginator.pageIndex, this._initialPageIndex);
     }
@@ -328,7 +327,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
     });
   }
 
-  pageChanged(event: {pageIndex: number}) {
+  pageChanged(event: { pageIndex: number }) {
     this.page = event.pageIndex + 1;
     this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
       queryParams: { page: event.pageIndex + 1 },

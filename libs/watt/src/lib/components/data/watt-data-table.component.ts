@@ -119,7 +119,11 @@ import { PageEvent } from '@angular/material/paginator';
           }
         </vater-flex>
         @if (enablePaginator()) {
-          <watt-paginator [for]="table().dataSource" [length]="count() ?? 0" (changed)="pageChanged.emit($event)"/>
+          <watt-paginator
+            [for]="table().dataSource"
+            [length]="count() ?? 0"
+            (changed)="pageChanged.emit($event)"
+          />
         }
       </vater-flex>
     </watt-card>
