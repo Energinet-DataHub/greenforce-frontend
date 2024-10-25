@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.Notifications;
 using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -21,6 +22,10 @@ public partial class Query
 {
     public async Task<IEnumerable<NotificationDto>> GetNotificationsAsync(
         [Service] INotificationsClient client,
-        CancellationToken cancellationToken) =>
-        await client.GetUnreadNotificationsAsync(cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        var noticications = await client.GetUnreadNotificationsAsync(cancellationToken);
+
+        return noticications.Where(n => Enum.TryParse<NotificationType>(n.NotificationType, out _));
+    }
 }
