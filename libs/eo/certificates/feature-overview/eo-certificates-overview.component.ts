@@ -65,7 +65,6 @@ interface CertificateFiltersForm {
 
 class AsyncDataSource<T> implements IWattTableDataSource<T> {
   private _data = signal<T[]>([]);
-  private _filteredData = signal<T[]>([]);
   private _paginator: MatPaginator | null = null;
   private _initialPageIndex = 1;
 
@@ -156,6 +155,11 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
   standalone: true,
+  styles: `
+    :host {
+      --watt-data-table-empty-state-margin: var(--watt-space-xl) 0;
+    }
+  `,
   template: `
     @if (columns) {
       <watt-data-table

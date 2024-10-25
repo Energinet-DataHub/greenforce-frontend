@@ -56,6 +56,10 @@ import { PageEvent } from '@angular/material/paginator';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
+      :root {
+        --watt-data-table-empty-state-margin: auto;
+      }
+
       watt-data-table h3,
       watt-data-table h4 {
         line-height: 44px;
@@ -81,7 +85,7 @@ import { PageEvent } from '@angular/material/paginator';
         overflow: auto;
 
         & > watt-empty-state {
-          margin: auto;
+          margin: var(--watt-data-table-empty-state-margin);
         }
       }
     `,
