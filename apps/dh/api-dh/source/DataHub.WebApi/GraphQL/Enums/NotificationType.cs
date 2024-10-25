@@ -12,22 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
-
-public class UserCacheDataLoader : CacheDataLoader<Guid, GetUserResponse>
+public enum NotificationType
 {
-    private readonly IMarketParticipantClient_V1 _client;
-
-    public UserCacheDataLoader(
-        IMarketParticipantClient_V1 client,
-        DataLoaderOptions options)
-        : base(options) =>
-        _client = client;
-
-    protected override Task<GetUserResponse> LoadSingleAsync(
-        Guid key,
-        CancellationToken cancellationToken) =>
-        _client.UserAsync(key, cancellationToken);
+    BalanceResponsibilityValidationFailed = 1,
+    BalanceResponsibilityActorUnrecognized = 2,
 }

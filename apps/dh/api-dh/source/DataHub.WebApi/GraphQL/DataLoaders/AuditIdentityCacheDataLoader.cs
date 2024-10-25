@@ -22,7 +22,7 @@ public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, AuditIdentityD
 
     public AuditIdentityCacheDataLoader(
         IMarketParticipantClient_V1 client,
-        DataLoaderOptions? options = null)
+        DataLoaderOptions options)
         : base(options) =>
         _client = client;
 

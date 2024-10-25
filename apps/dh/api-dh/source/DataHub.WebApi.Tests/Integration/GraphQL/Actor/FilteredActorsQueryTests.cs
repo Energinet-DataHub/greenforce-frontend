@@ -96,7 +96,7 @@ public class FilteredActorsQueryTests
             .Setup(x => x.HttpContext)
             .Returns(context);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetQuery(_filteredActors));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_filteredActors));
 
         await result.MatchSnapshotAsync($"GetFilteredActorsAsync-isFas-{isFas}");
     }

@@ -118,15 +118,25 @@ export class DhMarketParticipantGridAreaOverviewComponent {
 
   gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, [GridAreaType.NotSet]);
 
+  gridAreaStatusOptions = Object.keys(GridAreaStatus).map((key) => ({
+    displayValue: key,
+    value: key,
+  }));
+
+  selectedGridAreaStatusOptions = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
+
   selectedGridAreaType = signal<GridAreaType | null>(null);
 
   readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.gridAreas()?.filter(
-        (x) => x.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null
-      );
+      const statuses = this.selectedGridAreaStatusOptions();
+      return (this.dataSource.data = this.gridAreas()?.filter(
+        (x) =>
+          (x.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
+          (statuses === null || statuses.includes(x.status))
+      ));
     });
   }
 

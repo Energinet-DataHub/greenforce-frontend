@@ -12,22 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.Notifications;
+using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
-public class UserCacheDataLoader : CacheDataLoader<Guid, GetUserResponse>
+public partial class Query
 {
-    private readonly IMarketParticipantClient_V1 _client;
+    public async Task<IEnumerable<NotificationDto>> GetNotificationsAsync(
+        [Service] INotificationsClient client,
+        CancellationToken cancellationToken)
+    {
+        var noticications = await client.GetUnreadNotificationsAsync(cancellationToken);
 
-    public UserCacheDataLoader(
-        IMarketParticipantClient_V1 client,
-        DataLoaderOptions options)
-        : base(options) =>
-        _client = client;
-
-    protected override Task<GetUserResponse> LoadSingleAsync(
-        Guid key,
-        CancellationToken cancellationToken) =>
-        _client.UserAsync(key, cancellationToken);
+        return noticications.Where(n => Enum.TryParse<NotificationType>(n.NotificationType, out _));
+    }
 }

@@ -35,8 +35,12 @@ import { DhNotification } from './dh-notification';
   `,
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
-      <h5 class="watt-space-stack-xxs">{{ t(toastRef.data.type + '.headline') }}</h5>
-      <p>{{ t(toastRef.data.type + '.message', { relatedToId: toastRef.data.relatedToId }) }}</p>
+      <h5 class="watt-space-stack-xxs">{{ t(toastRef.data.notificationType + '.headline') }}</h5>
+      <p>
+        {{
+          t(toastRef.data.notificationType + '.message', { relatedToId: toastRef.data.relatedToId })
+        }}
+      </p>
     </ng-container>
   `,
 })
