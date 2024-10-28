@@ -64,6 +64,9 @@ import { DhNotification } from './dh-notification';
       }
 
       &:hover {
+        background-color: var(--watt-color-neutral-grey-100);
+        cursor: pointer;
+
         .icon-dismiss {
           opacity: 1;
         }
@@ -85,7 +88,7 @@ import { DhNotification } from './dh-notification';
           name="close"
           class="icon-dismiss"
           [title]="t('markAsRead')"
-          (click)="dismiss.emit()"
+          (click)="$event.stopPropagation(); dismiss.emit()"
         />
 
         <span class="notification__datetime watt-text-s">

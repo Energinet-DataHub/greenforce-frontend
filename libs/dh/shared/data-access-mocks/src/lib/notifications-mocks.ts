@@ -52,14 +52,14 @@ function getNotifications() {
           {
             __typename: 'NotificationDto',
             id: 3,
-            notificationType: NotificationType.BalanceResponsibilityValidationFailed,
+            notificationType: NotificationType.BalanceResponsibilityActorUnrecognized,
             relatedToId: '3',
             occurredAt: new Date(),
           },
           {
             __typename: 'NotificationDto',
             id: 6,
-            notificationType: NotificationType.BalanceResponsibilityValidationFailed,
+            notificationType: NotificationType.BalanceResponsibilityActorUnrecognized,
             relatedToId: '6',
             occurredAt: new Date(),
           },

@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
+import { Router } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -23,6 +24,7 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   GetNotificationsDocument,
+  NotificationType,
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -30,6 +32,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIcon } from '@energinet-datahub/watt/icon';
 import { dayjs } from '@energinet-datahub/watt/date';
 
+import { dhGetRouteByType } from './dh-get-route-by-type';
+import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
 import { DhNotificationBannerService } from './dh-notification-banner.service';
 
@@ -44,7 +48,6 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
     WattButtonComponent,
     DhNotificationComponent,
   ],
-  providers: [DhNotificationBannerService],
   styles: [
     `
       :host {
@@ -125,8 +128,12 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
         <h3>{{ t('headline') }}</h3>
 
         <div class="notifications-panel__items">
-          @for (item of notifications(); track item) {
-            <dh-notification [notification]="item" (dismiss)="onDismiss(item.id)" />
+          @for (notification of notifications(); track notification.id) {
+            <dh-notification
+              [notification]="notification"
+              (click)="navigateTo(notification)"
+              (dismiss)="onDismiss(notification.id)"
+            />
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
           }
@@ -136,17 +143,18 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
   `,
 })
 export class DhNotificationsCenterComponent {
+  private readonly router = inject(Router);
   private readonly bannerService = inject(DhNotificationBannerService);
-  private readonly now = new Date();
   private readonly dismissMutation = mutation(DismissNotificationDocument);
   private readonly getNotificationsQuery = query(GetNotificationsDocument);
+
+  private readonly initTime = new Date();
 
   isOpen = false;
 
   notifications = computed(() => {
     const notifications = structuredClone(this.getNotificationsQuery.data()?.notifications ?? []);
-    notifications.sort((a, b) => b.id - a.id);
-    return notifications;
+    return notifications.sort(this.sortById);
   });
 
   constructor() {
@@ -156,13 +164,13 @@ export class DhNotificationsCenterComponent {
         const incomingNotification = subscriptionData.data?.notificationAdded;
         if (!incomingNotification) return pref;
 
-        if (dayjs(incomingNotification.occurredAt).isAfter(this.now)) {
+        if (dayjs(incomingNotification.occurredAt).isAfter(this.initTime)) {
           this.bannerService.showBanner(incomingNotification);
         }
 
         const notifications = [...pref.notifications, incomingNotification]
           .filter((value, index, self) => self.findIndex((n) => n.id === value.id) === index)
-          .sort((a, b) => b.id - a.id);
+          .sort(this.sortById);
 
         return {
           ...pref,
@@ -188,11 +196,19 @@ export class DhNotificationsCenterComponent {
     },
   ];
 
+  navigateTo(notification: DhNotification): void {
+    this.router.navigate(dhGetRouteByType(notification));
+  }
+
   onDismiss(notificationId: number): void {
     this.dismissMutation.mutate({
       variables: { input: { notificationId } },
       refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
     });
+  }
+
+  private sortById(a: DhNotification, b: DhNotification): number {
+    return b.id - a.id;
   }
 }
