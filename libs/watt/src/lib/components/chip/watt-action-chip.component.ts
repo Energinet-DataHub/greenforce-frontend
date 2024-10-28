@@ -37,7 +37,12 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   ],
   template: `
     <watt-chip [disabled]="disabled()">
-      <button class="cdk-visually-hidden" (click)="click.emit()" [disabled]="disabled()"></button>
+      <button
+        type="button"
+        class="cdk-visually-hidden"
+        (click)="$event.stopImmediatePropagation(); onClick.emit()"
+        [disabled]="disabled()"
+      ></button>
       <ng-content />
       <watt-icon
         size="s"
@@ -52,5 +57,5 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 export class WattActionChipComponent {
   disabled = input(false);
   icon = input.required<WattIcon>();
-  click = output<void>();
+  onClick = output<void>();
 }

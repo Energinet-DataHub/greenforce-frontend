@@ -416,6 +416,7 @@
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
+        "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
         "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",

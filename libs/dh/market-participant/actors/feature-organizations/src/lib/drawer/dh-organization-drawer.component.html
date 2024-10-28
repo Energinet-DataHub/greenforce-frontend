@@ -20,7 +20,7 @@ limitations under the License.
       <watt-button
         *dhPermissionRequired="['actors:manage']"
         variant="secondary"
-        (click)="isEditModalVisible = true"
+        (click)="openEditModal()"
         >{{ t("edit") }}</watt-button
       >
     </watt-drawer-actions>
@@ -113,10 +113,3 @@ limitations under the License.
     }
   </watt-drawer>
 </ng-container>
-
-@if (isEditModalVisible) {
-  <dh-organization-edit-modal
-    [organization]="organization!"
-    (closed)="isEditModalVisible = false"
-  />
-}

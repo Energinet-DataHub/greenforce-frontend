@@ -50,11 +50,7 @@ import {
   CreateMarketParticipantMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  dhCvrValidator,
-  dhDomainValidator,
-  dhGlnOrEicValidator,
-} from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -108,10 +104,9 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
     companyName: [{ value: '', disabled: true }, Validators.required],
-    domain: ['', [Validators.required, dhDomainValidator]],
     domains: new FormControl<string[]>([], {
       nonNullable: true,
-      validators: [Validators.required, dhDomainValidator],
+      validators: [Validators.required],
     }),
   });
 
@@ -141,10 +136,12 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       const country = this.countryChanged();
       const cvrNumber = this.cvrNumberChanged();
 
-      this.newOrganizationForm.controls.companyName.disable();
+      console.log('country', country);
 
       if (country === 'DK') {
+        // this.newOrganizationForm.controls.companyName.disable();
         if (this.isInternalCvr(cvrNumber)) {
+          console.log('enable');
           this.newOrganizationForm.controls.companyName.enable();
           return;
         }
@@ -159,6 +156,9 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
           if (hasResult) {
             this.newOrganizationForm.controls.companyName.setValue(name);
           }
+        } else {
+          console.log('disable');
+          this.newOrganizationForm.controls.companyName.enable();
         }
       }
     });
@@ -232,10 +232,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
                   address: {
                     country: this.newOrganizationForm.controls.country.value,
                   },
-                  // TODO: Remove the ternary operator when the API is updated to accept an array of domains
-                  domains: this.newOrganizationForm.controls.domain.value
-                    ? [this.newOrganizationForm.controls.domain.value]
-                    : this.newOrganizationForm.controls.domains.value,
+                  domains: this.newOrganizationForm.controls.domains.value,
                   businessRegisterIdentifier: this.newOrganizationForm.controls.cvrNumber.value,
                   name: this.newOrganizationForm.controls.companyName.value,
                 },

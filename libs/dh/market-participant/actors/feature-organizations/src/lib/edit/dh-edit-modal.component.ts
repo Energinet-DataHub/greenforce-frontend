@@ -14,26 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  input,
-  ViewChild,
-  EventEmitter,
-  Output,
-  AfterViewInit,
-  OnChanges,
-  inject,
-  DestroyRef,
-} from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { Apollo, MutationResult } from 'apollo-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { MutationResult } from 'apollo-angular';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+
 import {
   GetAuditLogByOrganizationIdDocument,
   GetOrganizationByIdDocument,
@@ -41,10 +33,12 @@ import {
   UpdateOrganizationDocument,
   UpdateOrganizationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 
 @Component({
   standalone: true,
@@ -66,87 +60,55 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
     WattButtonComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
+
+    DhOrganizationManageComponent,
   ],
 })
-export class DhOrganizationEditModalComponent implements AfterViewInit, OnChanges {
-  private readonly apollo = inject(Apollo);
-  private readonly transloco = inject(TranslocoService);
-  private readonly toastService = inject(WattToastService);
-  private readonly destroyRef = inject(DestroyRef);
+export class DhOrganizationEditModalComponent extends WattTypedModal<DhOrganizationDetails> {
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private updateOrganizationMutation = mutation(UpdateOrganizationDocument);
 
-  @ViewChild(WattModalComponent)
-  innerModal?: WattModalComponent;
-
-  domainControl = new FormControl('', {
-    validators: [Validators.required, dhDomainValidator],
+  domains = new FormControl<string[]>([], {
     nonNullable: true,
+    validators: [Validators.required],
   });
-  isLoading = false;
 
-  organization = input.required<DhOrganizationDetails>();
+  loading = this.updateOrganizationMutation.loading;
 
-  @Output() closed = new EventEmitter<void>();
+  modal = viewChild.required(WattModalComponent);
 
-  ngAfterViewInit() {
-    this.innerModal?.open();
+  close(): void {
+    this.modal().close(false);
   }
 
-  ngOnChanges() {
-    this.domainControl.setValue(this.organization().domains[0]);
+  constructor() {
+    super();
+    this.domains.patchValue(this.modalData.domains);
   }
 
   save(): void {
-    if (this.domainControl.invalid || this.isLoading) return;
+    if (this.domains.invalid) return;
 
-    const { id } = this.organization();
+    const { id } = this.modalData;
 
     if (!id) return;
 
-    this.apollo
+    this.updateOrganizationMutation
       .mutate({
-        mutation: UpdateOrganizationDocument,
         variables: {
           input: {
             orgId: id,
-            domains: [this.domainControl.value],
+            domains: this.domains.value,
           },
         },
-        refetchQueries: (result) => {
-          if (this.isUpdateSuccessful(result.data)) {
-            return [
-              GetOrganizationsDocument,
-              GetOrganizationByIdDocument,
-              GetAuditLogByOrganizationIdDocument,
-            ];
-          }
-
-          return [];
-        },
+        refetchQueries: [
+          GetOrganizationsDocument,
+          GetOrganizationByIdDocument,
+          GetAuditLogByOrganizationIdDocument,
+        ],
       })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((queryResult) => {
-        this.isLoading = queryResult.loading;
-
-        if (queryResult.loading) {
-          return;
-        }
-
-        this.handleEditOrganizationResponse(queryResult);
-
-        this.onCloseModal();
-      });
-  }
-
-  onCloseModal() {
-    this.innerModal?.close(false);
-
-    this.closed.emit();
-  }
-
-  private isUpdateSuccessful(
-    mutationResult: MutationResult<UpdateOrganizationMutation>['data']
-  ): boolean {
-    return !mutationResult?.updateOrganization.errors?.length;
+      .then((response) => this.handleEditOrganizationResponse(response));
   }
 
   private handleEditOrganizationResponse(response: MutationResult<UpdateOrganizationMutation>) {
@@ -166,6 +128,7 @@ export class DhOrganizationEditModalComponent implements AfterViewInit, OnChange
       );
 
       this.toastService.open({ message, type: 'success' });
+      this.modal().close(true);
     }
   }
 }
