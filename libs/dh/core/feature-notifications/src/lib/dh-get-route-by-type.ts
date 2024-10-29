@@ -32,6 +32,7 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
     case NotificationType.BalanceResponsibilityActorUnrecognized:
       return [rootPath, getPath<BasePaths>('esett'), getPath<ESettSubPaths>('balance-responsible')];
     case NotificationType.SettlementReportReadyForDownload:
+    case NotificationType.SettlementReportFailed:
       return [
         rootPath,
         getPath<BasePaths>('wholesale'),
