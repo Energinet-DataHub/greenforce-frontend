@@ -36,6 +36,7 @@ import {
   WattTableColumnDef,
   WattTableComponent,
   IWattTableDataSource,
+  WattTableCellDirective,
 } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -151,6 +152,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     VaterSpacerComponent,
     TranslocoPipe,
     WattButtonComponent,
+    WattTableCellDirective,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
   standalone: true,
@@ -202,7 +204,15 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
           sortBy="timestamp"
           sortDirection="desc"
           [loading]="state().isLoading"
-        />
+        >
+          <ng-container *wattTableCell="columns.action; let element">
+            @if (element.federatedStreamId.registry && element.federatedStreamId.streamId) {
+              <a (click)="goToDetails(element)">
+                {{ translations.certificates.certificateDetailsLink | transloco }}
+              </a>
+            }
+          </ng-container>
+        </watt-table>
       </watt-data-table>
     }
   `,
@@ -282,12 +292,11 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
         this.form.valueChanges
           .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((changes: any) => {
+          .subscribe((changes) => {
             if (this.dataSource.paginator) {
               this.dataSource.paginator.firstPage();
             }
 
-            console.log('form value changes', changes);
             if (changes.period && changes.type) {
               this.loadData();
             }
@@ -332,6 +341,22 @@ export class EoCertificatesOverviewComponent implements OnInit {
         this.exportingCertificates.set(false);
       },
     });
+  }
+
+  goToDetails(element: EoCertificate) {
+    this.router.navigate(
+      [
+        this.transloco.getActiveLang(),
+        eoCertificatesRoutePath,
+        element.federatedStreamId.registry,
+        element.federatedStreamId.streamId,
+      ],
+      {
+        state: {
+          'from-certificates-overview': true,
+        },
+      }
+    );
   }
 
   pageChanged(event: { pageIndex: number }) {
@@ -457,7 +482,6 @@ export class EoCertificatesOverviewComponent implements OnInit {
   }
 
   sortData(sort: Sort): void {
-    console.log('sortData', sort);
     if (!sort.active || sort.direction === '') {
       this.sortBy = this.defaultSortBy;
       this.sortDirection = this.defaultSortDirection;
