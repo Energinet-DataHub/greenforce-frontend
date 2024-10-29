@@ -350,41 +350,44 @@ export class EoCertificatesOverviewComponent implements OnInit {
           },
         ];
 
-        this.form.valueChanges
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((changes) => {
-            if (this.dataSource.paginator) {
-              this.dataSource.paginator.firstPage();
-            }
+        this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((changes) => {
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+          }
 
-            if (changes.period) {
-              this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
-                queryParams: {
-                  start: getUnixTime(changes.period.start),
-                  end: getUnixTime(changes.period.end),
-                  type: changes.type?.length === 1 ? changes.type.toString() : undefined,
-                },
-                queryParamsHandling: 'merge',
-              });
+          if (changes.period) {
+            this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+              queryParams: {
+                start: getUnixTime(changes.period.start),
+                end: getUnixTime(changes.period.end),
+                type: changes.type?.length === 1 ? changes.type.toString() : undefined,
+              },
+              queryParamsHandling: 'merge',
+            });
 
-              this.loadData();
-            }
-          });
+            this.loadData();
+          }
+        });
 
         this.loadData();
       });
   }
 
   private initForm() {
-    const start = new Date(this.start as number * 1000);
-    const end = new Date(this.end as number * 1000);
-    const type: EoCertificateType[] = this.type ? [this.type] : [EoCertificateType.Production, EoCertificateType.Consumption];
+    const start = new Date((this.start as number) * 1000);
+    const end = new Date((this.end as number) * 1000);
+    const type: EoCertificateType[] = this.type
+      ? [this.type]
+      : [EoCertificateType.Production, EoCertificateType.Consumption];
 
     this.form = new FormGroup({
-      period: new FormControl({
-        start: start as Date,
-        end: end as Date,
-      }, { nonNullable: true }),
+      period: new FormControl(
+        {
+          start: start as Date,
+          end: end as Date,
+        },
+        { nonNullable: true }
+      ),
       type: new FormControl<EoCertificateType[]>(type, {
         nonNullable: true,
       }),
@@ -428,14 +431,17 @@ export class EoCertificatesOverviewComponent implements OnInit {
     );
   }
 
-  pageChanged(event: { pageIndex: number, pageSize: number }) {
+  pageChanged(event: { pageIndex: number; pageSize: number }) {
     this.page = event.pageIndex + 1;
     this.pageSize = event.pageSize;
 
     const newPage = event.pageIndex + 1;
 
     this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
-      queryParams: { page: newPage !== 1 ? newPage : undefined, pageSize: event.pageSize !== this._defaultPageSize ? event.pageSize : undefined },
+      queryParams: {
+        page: newPage !== 1 ? newPage : undefined,
+        pageSize: event.pageSize !== this._defaultPageSize ? event.pageSize : undefined,
+      },
       queryParamsHandling: 'merge',
     });
     this.loadData();
