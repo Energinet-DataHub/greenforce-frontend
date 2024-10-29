@@ -1314,6 +1314,8 @@ enum MeteringGridImbalanceValuesToInclude {
 enum NotificationType {
   BalanceResponsibilityValidationFailed
   BalanceResponsibilityActorUnrecognized
+  SettlementReportReadyForDownload
+  SettlementReportFailed
 }
 
 enum OrganizationAuditedChange {
