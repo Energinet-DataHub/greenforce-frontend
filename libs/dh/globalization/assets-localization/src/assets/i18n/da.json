@@ -37,6 +37,10 @@
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
         "message": "Afregningsrapport klar til download."
+      },
+      "SettlementReportFailed": {
+        "headline": "Afregningsrapporter",
+        "message": "Afregningsrapport fejlede."
       }
     }
   },

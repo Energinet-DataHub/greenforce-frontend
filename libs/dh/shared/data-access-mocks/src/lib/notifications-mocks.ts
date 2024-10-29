@@ -56,6 +56,13 @@ function getNotifications() {
             relatedToId: null,
             occurredAt: new Date('2024-10-20'),
           },
+          {
+            __typename: 'NotificationDto',
+            id: 4,
+            notificationType: NotificationType.SettlementReportFailed,
+            relatedToId: null,
+            occurredAt: new Date('2024-10-20'),
+          },
         ],
       },
     });
