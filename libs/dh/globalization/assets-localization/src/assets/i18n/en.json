@@ -33,6 +33,10 @@
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
         "message": "The balance responsible relation for market participant '{{ relatedToId }}' is about to expire."
+      },
+      "SettlementReportGenerated": {
+        "headline": "Settlement reports",
+        "message": "Settlement report is ready."
       }
     }
   },

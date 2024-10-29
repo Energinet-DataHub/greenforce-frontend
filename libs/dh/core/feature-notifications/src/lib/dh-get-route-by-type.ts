@@ -15,20 +15,27 @@
  * limitations under the License.
  */
 import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { BasePaths, getPath, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  ESettSubPaths,
+  getPath,
+  WholesaleSubPaths,
+} from '@energinet-datahub/dh/core/routing';
 
 import { DhNotification } from './dh-notification';
 
-export function dhGetRouteByType(notification: DhNotification): string[] {
+export function dhGetRouteByType({ notificationType }: DhNotification): string[] {
   const rootPath = '/';
 
-  switch (notification.notificationType) {
+  switch (notificationType) {
     case NotificationType.BalanceResponsibilityValidationFailed:
     case NotificationType.BalanceResponsibilityActorUnrecognized:
+      return [rootPath, getPath<BasePaths>('esett'), getPath<ESettSubPaths>('balance-responsible')];
+    case NotificationType.SettlementReportGenerated:
       return [
         rootPath,
-        getPath<BasePaths>('market-participant'),
-        getPath<MarketParticipantSubPaths>('actors'),
+        getPath<BasePaths>('wholesale'),
+        getPath<WholesaleSubPaths>('settlement-reports'),
       ];
     default:
       return [rootPath];
