@@ -22,7 +22,9 @@ import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DhNotificationBannerService {
   private readonly hotToast = inject(HotToastService);
   private readonly colorService = inject(WattColorHelperService);
