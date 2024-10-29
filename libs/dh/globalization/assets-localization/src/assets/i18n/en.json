@@ -36,7 +36,7 @@
       },
       "SettlementReportGenerated": {
         "headline": "Settlement reports",
-        "message": "Settlement report is ready."
+        "message": "Settlement report is ready for download."
       }
     }
   },

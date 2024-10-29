@@ -52,7 +52,7 @@ function getNotifications() {
           {
             __typename: 'NotificationDto',
             id: 3,
-            notificationType: NotificationType.SettlementReportGenerated,
+            notificationType: NotificationType.SettlementReportReadyForDownload,
             relatedToId: null,
             occurredAt: new Date('2024-10-20'),
           },
