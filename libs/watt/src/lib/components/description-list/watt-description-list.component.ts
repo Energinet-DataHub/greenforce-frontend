@@ -36,6 +36,8 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   host: {
     '[style.--watt-description-list-groups-per-row]': 'groupsPerRow()',
     '[class]': 'descriptionVariant()',
+    '[style.--next-item-border-style]':
+      'nextItemBorderStyle() === "solid" ? "1px solid var(--watt-color-neutral-grey-300)" : "none"',
   },
 })
 class WattDescriptionListComponent<T> {
@@ -43,6 +45,7 @@ class WattDescriptionListComponent<T> {
   variant = input<'flow' | 'stack'>('flow');
   descriptionVariant = computed(() => `watt-description-list-${this.variant()}`);
   groupsPerRow = input<number>(3);
+  nextItemBorderStyle = input<'solid' | 'none'>('solid');
 }
 
 export { WattDescriptionListItemComponent, WattDescriptionListComponent };
