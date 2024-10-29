@@ -27,9 +27,13 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhMitIDButtonComponent,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -98,11 +102,13 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
           <watt-button (click)="login()">{{ 'login.loginWithUsername' | transloco }}</watt-button>
         }
 
-        <dh-mitid-button
-          [style.visibility]="showProgressBar() ? 'hidden' : 'visible'"
-          mode="login"
-          >{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button
-        >
+        @if (isFas()) {
+          <dh-mitid-button
+            [style.visibility]="showProgressBar() ? 'hidden' : 'visible'"
+            mode="login"
+            >{{ 'login.loginWithMitID' | transloco }}</dh-mitid-button
+          >
+        }
 
         @if (showProgressBar()) {
           <label>
@@ -116,9 +122,12 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 })
 export class DhCoreLoginComponent implements AfterViewInit {
   private config = inject(dhB2CEnvironmentToken);
+  private permissonservice = inject(PermissionService);
 
   progressBarValue = signal(0);
   showProgressBar = signal(false);
+
+  isFas = toSignal(this.permissonservice.isFas());
 
   mitIdButton = viewChild.required(DhMitIDButtonComponent);
 
