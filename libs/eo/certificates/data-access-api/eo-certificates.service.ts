@@ -80,7 +80,7 @@ export class EoCertificatesService {
       filters = `&type=${type}`;
     }
 
-    if(config.start && config.end) {
+    if (config.start && config.end) {
       filters = `&start=${getUnixTime(config.start)}&end=${getUnixTime(config.end)}`;
     }
 
