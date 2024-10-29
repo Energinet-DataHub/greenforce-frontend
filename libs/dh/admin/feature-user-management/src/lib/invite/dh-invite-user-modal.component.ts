@@ -112,17 +112,21 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     }))
   );
 
-  domain = computed(
+  domains = computed(
     () =>
       this.actors.data()?.filteredActors.find((x) => x.id === this.selectedActorId())?.organization
-        .domain
+        .domains
   );
 
   inOrganizationMailDomain = computed(() => {
     const email = this.emailChanged();
-    const domain = this.domain();
+    const domains = this.domains();
 
-    return !!email && !!domain && email.toUpperCase().endsWith(domain.toUpperCase());
+    return (
+      !!email &&
+      !!domains &&
+      domains.some((domain) => email.toUpperCase().endsWith(domain.toUpperCase()))
+    );
   });
 
   emailExists = computed(() => {

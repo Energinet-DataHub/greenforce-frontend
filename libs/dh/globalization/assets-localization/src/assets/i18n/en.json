@@ -419,12 +419,14 @@
           "organization": "Organisation",
           "create": "Create market participant"
         },
+        "add": "Add",
         "gridArea": "Grid area",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
+        "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
-        "domain": "E-mail domain",
+        "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
         "country": "Country",
@@ -694,6 +696,7 @@
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
             "domain": "E-mail domain",
+            "domains": "E-mail domains",
             "country": "Country"
           },
           "actors": {

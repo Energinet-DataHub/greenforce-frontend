@@ -49,6 +49,7 @@ import {
 
 import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 type Actor = {
   actorNumberAndName: string;
@@ -110,6 +111,7 @@ type Actor = {
   ],
 })
 export class DhOrganizationDrawerComponent {
+  private modalService = inject(WattModalService);
   private apollo = inject(Apollo);
   private organizationSubscription?: Subscription;
   private actorsSubscription?: Subscription;
@@ -145,8 +147,6 @@ export class DhOrganizationDrawerComponent {
     status: { accessor: 'status' },
   };
 
-  isEditModalVisible = false;
-
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
@@ -163,8 +163,11 @@ export class DhOrganizationDrawerComponent {
     this.closed.emit();
   }
 
-  modalOnClose(): void {
-    this.isEditModalVisible = false;
+  openEditModal(): void {
+    this.modalService.open({
+      component: DhOrganizationEditModalComponent,
+      data: this.organization,
+    });
   }
 
   private loadOrganization(id: string): void {

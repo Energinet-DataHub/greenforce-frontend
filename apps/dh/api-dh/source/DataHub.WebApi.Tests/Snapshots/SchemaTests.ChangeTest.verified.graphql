@@ -460,7 +460,7 @@ type Organization {
   actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
-  domain: String!
+  domains: [String!]!
   status: String!
   address: AddressDto!
 }
@@ -871,7 +871,7 @@ input CreateOrganizationDtoInput {
   name: String!
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
-  domain: String!
+  domains: [String!]!
 }
 
 input CreateProcessDelegationsInput {
@@ -990,7 +990,7 @@ input UpdateActorUserRolesInput {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  domain: String!
+  domains: [String!]!
 }
 
 input UpdatePermissionInput {

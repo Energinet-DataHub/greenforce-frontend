@@ -4045,8 +4045,11 @@
           "status": {
             "type": "string"
           },
-          "domain": {
-            "type": "string"
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -4175,8 +4178,11 @@
               }
             ]
           },
-          "domain": {
-            "type": "string"
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -4822,8 +4828,11 @@
           "businessRegisterIdentifier": {
             "type": "string"
           },
-          "domain": {
-            "type": "string"
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "status": {
             "type": "string"
