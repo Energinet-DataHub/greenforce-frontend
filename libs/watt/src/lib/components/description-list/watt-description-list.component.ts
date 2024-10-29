@@ -30,7 +30,7 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   imports: [NgTemplateOutlet],
   template: `<dl>
     @for (item of descriptionItems(); track item) {
-      <ng-container *ngTemplateOutlet="item.templateRef" />
+      <ng-container *ngTemplateOutlet="item.templateRef()" />
     }
   </dl>`,
   host: {
