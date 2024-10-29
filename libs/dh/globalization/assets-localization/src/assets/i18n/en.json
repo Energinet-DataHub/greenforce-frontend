@@ -37,6 +37,10 @@
       "SettlementReportReadyForDownload": {
         "headline": "Settlement reports",
         "message": "Settlement report is ready for download."
+      },
+      "SettlementReportFailed": {
+        "headline": "Settlement reports",
+        "message": "Settlement report failed."
       }
     }
   },
