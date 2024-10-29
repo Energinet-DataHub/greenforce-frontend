@@ -136,12 +136,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       const country = this.countryChanged();
       const cvrNumber = this.cvrNumberChanged();
 
-      console.log('country', country);
-
       if (country === 'DK') {
-        // this.newOrganizationForm.controls.companyName.disable();
         if (this.isInternalCvr(cvrNumber)) {
-          console.log('enable');
           this.newOrganizationForm.controls.companyName.enable();
           return;
         }
@@ -156,10 +152,9 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
           if (hasResult) {
             this.newOrganizationForm.controls.companyName.setValue(name);
           }
-        } else {
-          console.log('disable');
-          this.newOrganizationForm.controls.companyName.enable();
         }
+      } else {
+        this.newOrganizationForm.controls.companyName.enable();
       }
     });
 

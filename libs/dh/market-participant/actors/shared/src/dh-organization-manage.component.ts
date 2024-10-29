@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -61,7 +61,8 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
           }}</watt-action-chip>
         }
       </vater-flex>
-      @if (domains().touched || domains().hasError('required')) {
+
+      @if (domains().touched && domains().hasError('required')) {
         <watt-field-error>
           {{ t('minimumOneDomain') }}
         </watt-field-error>
@@ -70,20 +71,28 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
   `,
 })
 export class DhOrganizationManageComponent {
-  domain = new FormControl('', {
-    nonNullable: true,
-    validators: [dhDomainValidator],
-  });
+  domain = new FormControl('', [dhDomainValidator]);
   domains = input.required<FormControl<string[]>>();
 
   addDomain() {
-    if (this.domain.invalid) return;
+    if (this.domain.hasError('pattern')) return;
 
-    this.domains().patchValue([...this.domains().value, this.domain.value]);
+    const domainValue = this.domain.value;
+
+    if (domainValue === null || domainValue === '') return;
+
+    this.domains().patchValue([...this.domains().value, domainValue]);
+    this.markTouchedAndDirty();
     this.domain.reset();
   }
 
   removeDomain(domain: string) {
     this.domains().patchValue(this.domains().value.filter((d) => d !== domain));
+    this.markTouchedAndDirty();
+  }
+
+  private markTouchedAndDirty() {
+    this.domains().markAsTouched();
+    this.domains().markAsDirty();
   }
 }
