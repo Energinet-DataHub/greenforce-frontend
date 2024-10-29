@@ -34,7 +34,7 @@
         "headline": "eSett",
         "message": "Balanceansvarsrelationen for aktør '{{ relatedToId }}' er ved at ophøre."
       },
-      "SettlementReportGenerated": {
+      "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
         "message": "Afregningsrapport klar til download."
       }
