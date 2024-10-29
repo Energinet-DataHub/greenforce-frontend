@@ -79,7 +79,9 @@ const routes: Routes = [
         path: eoTermsRoutePath,
         title: translations.terms.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/auth/feature-terms').then((esModule) => esModule.eoTermsRoutes),
+          import('@energinet-datahub/eo/auth/feature-terms').then(
+            (esModule) => esModule.eoTermsRoutes
+          ),
       },
       {
         path: eoCertificatesRoutePath,

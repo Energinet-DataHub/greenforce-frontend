@@ -97,9 +97,8 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     `,
   ],
   template: `
-    @if(isLoggedIn && tosAccepted) {
+    @if (isLoggedIn && tosAccepted) {
       <watt-shell>
-
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />

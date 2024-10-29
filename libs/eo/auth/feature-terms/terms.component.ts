@@ -180,36 +180,40 @@ const selector = 'eo-auth-terms';
     `,
   ],
   template: `
-      @if (!loadingTermsFailed) {
-        <eo-scroll-view class="terms" [ngStyle]="{ '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content' }">
-          <div [innerHtml]="terms()"></div>
-        </eo-scroll-view>
+    @if (!loadingTermsFailed) {
+      <eo-scroll-view
+        class="terms"
+        [ngStyle]="{
+          '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content',
+        }"
+      >
+        <div [innerHtml]="terms()"></div>
+      </eo-scroll-view>
 
-        @if (showActions) {
-          <div class="actions">
-            <div class="watt-space-stack-m">
-              <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
-                {{ translations.terms.acceptingTerms | transloco }}
-              </watt-checkbox>
-            </div>
-
-            <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
-              {{ translations.terms.reject | transloco }}
-            </watt-button>
-
-            <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
-              {{ translations.terms.accept | transloco }}
-            </watt-button>
+      @if (showActions) {
+        <div class="actions">
+          <div class="watt-space-stack-m">
+            <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
+              {{ translations.terms.acceptingTerms | transloco }}
+            </watt-checkbox>
           </div>
-        }
-      } @else if (loadingTermsFailed) {
-        <watt-empty-state
-          icon="danger"
-          [title]="translations.terms.fetchingTermsError.title | transloco"
-          [message]="translations.terms.fetchingTermsError.message | transloco"
-        />
-      }
 
+          <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
+            {{ translations.terms.reject | transloco }}
+          </watt-button>
+
+          <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
+            {{ translations.terms.accept | transloco }}
+          </watt-button>
+        </div>
+      }
+    } @else if (loadingTermsFailed) {
+      <watt-empty-state
+        icon="danger"
+        [title]="translations.terms.fetchingTermsError.title | transloco"
+        [message]="translations.terms.fetchingTermsError.message | transloco"
+      />
+    }
   `,
 })
 export class EoTermsComponent {
