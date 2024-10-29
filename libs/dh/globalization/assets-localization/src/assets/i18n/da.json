@@ -37,6 +37,10 @@
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
         "message": "Afregningsrapport klar til download."
+      },
+      "SettlementReportFailed": {
+        "headline": "Afregningsrapporter",
+        "message": "Afregningsrapport fejlede."
       }
     }
   },
@@ -415,12 +419,14 @@
           "organization": "Organisation",
           "create": "Opret aktør"
         },
+        "add": "Tilføj",
         "gridArea": "Netområde",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC",
         "wrongEmailPattern": "E-mail skal indeholde @",
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
+        "minimumOneDomain": "Mindst et e-maildomæne skal tilføjes",
         "companyName": "Virksomhedsnavn",
-        "domain": "E-maildomæne",
+        "domain": "E-maildomæner",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
         "country": "Land",
@@ -689,6 +695,7 @@
             "businessRegisterIdentifier": "CVR-nr.",
             "name": "Navn",
             "domain": "E-maildomæne",
+            "domains": "E-maildomæner",
             "country": "Land"
           },
           "actors": {

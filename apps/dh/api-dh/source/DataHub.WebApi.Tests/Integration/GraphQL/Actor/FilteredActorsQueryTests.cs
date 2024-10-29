@@ -34,7 +34,7 @@ public class FilteredActorsQueryTests
         displayName
         id
         organization {
-          domain
+          domains
         }
       }
     }
@@ -81,7 +81,7 @@ public class FilteredActorsQueryTests
 
         server.MarketParticipantClientV1Mock
             .Setup(x => x.OrganizationGetAsync(organizationId, default))
-            .ReturnsAsync(new OrganizationDto() { OrganizationId = organizationId, Domain = "test.com" });
+            .ReturnsAsync(new OrganizationDto() { OrganizationId = organizationId, Domains = new List<string> { "test.com", "test2.dk" } });
 
         var context = new DefaultHttpContext
         {

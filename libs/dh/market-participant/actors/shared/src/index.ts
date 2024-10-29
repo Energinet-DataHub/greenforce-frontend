@@ -14,6 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattFilterChipComponent } from './watt-filter-chip.component';
-export { WattMenuChipComponent } from './watt-menu-chip.component';
-export { WattActionChipComponent } from './watt-action-chip.component';
+export { DhOrganizationManageComponent } from './dh-organization-manage.component';
