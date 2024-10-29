@@ -290,17 +290,15 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
         this.form.controls.type.setValue(['production', 'consumption']);
 
-        this.form.valueChanges
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((changes) => {
-            if (this.dataSource.paginator) {
-              this.dataSource.paginator.firstPage();
-            }
+        this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((changes) => {
+          if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+          }
 
-            if (changes.period && changes.type) {
-              this.loadData();
-            }
-          });
+          if (changes.period && changes.type) {
+            this.loadData();
+          }
+        });
 
         this.loadData();
       });

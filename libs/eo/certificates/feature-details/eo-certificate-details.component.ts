@@ -237,7 +237,8 @@ export class EoCertificateDetailsComponent implements OnInit {
   private location = inject(Location);
   private transloco = inject(TranslocoService);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
-  private fromCertificatesOverview = this.router.getCurrentNavigation()?.extras.state?.['from-certificates-overview'];
+  private fromCertificatesOverview =
+    this.router.getCurrentNavigation()?.extras.state?.['from-certificates-overview'];
 
   protected techCodes = AibTechCode;
   protected translations = translations;
@@ -259,7 +260,7 @@ export class EoCertificateDetailsComponent implements OnInit {
   }
 
   goBack(): void {
-    if(this.fromCertificatesOverview) {
+    if (this.fromCertificatesOverview) {
       this.location.back();
     } else {
       this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath]);
