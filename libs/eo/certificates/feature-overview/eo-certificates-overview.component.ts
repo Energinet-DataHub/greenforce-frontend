@@ -55,20 +55,21 @@ import {
 import { translations } from '@energinet-datahub/eo/translations';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
+import { getUnixTime, startOfToday, subDays } from 'date-fns';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { MatPaginator } from '@angular/material/paginator';
 import { DOCUMENT } from '@angular/common';
 
 interface CertificateFiltersForm {
-  period: FormControl<{ start: Date | null; end: Date | null }>;
-  type: FormControl<('production' | 'consumption')[] | undefined>;
+  period: FormControl<{ start: Date; end: Date }>;
+  type: FormControl<EoCertificateType[]>;
 }
 
 class AsyncDataSource<T> implements IWattTableDataSource<T> {
   private _data = signal<T[]>([]);
   private _paginator: MatPaginator | null = null;
   private _initialPageIndex = 1;
+  private _initialPageSize = 50;
 
   /**
    * Subscription to the changes that should trigger an update to the table's rendered rows, such
@@ -93,6 +94,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     this._paginator = paginator;
     if (this._paginator) {
       this._paginator.pageIndex = this._initialPageIndex;
+      this._paginator.pageSize = this._initialPageSize;
     }
   }
 
@@ -124,9 +126,10 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
 
   private _sort!: MatSort | null;
 
-  constructor(data: T[], initialPageIndex = 1) {
+  constructor(data: T[], initialPageIndex = 1, initialPageSize = 50) {
     this._data.set(data);
     this._initialPageIndex = initialPageIndex;
+    this._initialPageSize = initialPageSize;
   }
 
   connect(): Observable<T[]> {
@@ -218,7 +221,84 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
   `,
 })
 export class EoCertificatesOverviewComponent implements OnInit {
-  @Input() page?: number;
+  /* Page index */
+  private _page!: number;
+  @Input()
+  set page(value: number | undefined) {
+    this._page = value ?? 1;
+  }
+
+  get page() {
+    return this._page;
+  }
+
+  /* Page size */
+  private _pageSize!: number;
+  private _defaultPageSize = 50;
+  @Input()
+  set pageSize(value: number | undefined) {
+    this._pageSize = value ?? this._defaultPageSize;
+  }
+
+  get pageSize() {
+    return this._pageSize;
+  }
+
+  /* Certificates type */
+  private _type?: EoCertificateType;
+  @Input()
+  set type(value: EoCertificateType | undefined) {
+    this._type = value;
+  }
+  get type() {
+    return this._type;
+  }
+
+  /* The start of the time range */
+  private _start!: number;
+  @Input()
+  set start(value: number | undefined) {
+    this._start = value ?? getUnixTime(subDays(startOfToday(), 30));
+  }
+  get start() {
+    return this._start;
+  }
+
+  /* The end of the time range */
+  private _end!: number;
+  @Input()
+  set end(value: number | undefined) {
+    this._end = value ?? getUnixTime(startOfToday());
+  }
+  get end() {
+    return this._end;
+  }
+
+  /* Which type to sort by */
+  private _sortBy!: 'time' | 'meteringPoint' | 'amount' | 'certificateType';
+  private _defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
+
+  @Input()
+  set sortBy(value: 'time' | 'meteringPoint' | 'amount' | 'certificateType' | undefined) {
+    this._sortBy = value ?? this._defaultSortBy;
+  }
+
+  get sortBy() {
+    return this._sortBy;
+  }
+
+  /* Sort direction */
+  private _sortDirection!: SortDirection;
+  private _defaultSortDirection: SortDirection = 'desc';
+
+  @Input()
+  set sortDirection(value: SortDirection | undefined) {
+    this._sortDirection = value ?? this._defaultSortDirection;
+  }
+
+  get sortDirection() {
+    return this._sortDirection;
+  }
 
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
@@ -239,13 +319,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
     isLoading: false,
   });
 
-  protected form: FormGroup<CertificateFiltersForm> = new FormGroup({
-    period: new FormControl(this.last30days(), { nonNullable: true }),
-    type: new FormControl<('production' | 'consumption')[] | undefined>(undefined, {
-      nonNullable: true,
-    }),
-  });
-
+  protected form!: FormGroup<CertificateFiltersForm>;
   protected typeOptions!: WattDropdownOption[];
 
   protected translations = translations;
@@ -254,20 +328,8 @@ export class EoCertificatesOverviewComponent implements OnInit {
   protected dataSource!: AsyncDataSource<EoCertificate>;
   protected exportingCertificates = signal<boolean>(false);
 
-  protected defaultSortBy: 'time' | 'meteringPoint' | 'amount' | 'certificateType' = 'time';
-  protected defaultSortDirection: SortDirection = 'desc';
-  protected sortBy = this.defaultSortBy;
-  protected sortDirection: SortDirection = this.defaultSortDirection;
-
   ngOnInit() {
-    // If no page is set, we redirect to the first page
-    if (!this.page) {
-      this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
-        queryParams: { page: 1 },
-      });
-    }
-    this.dataSource = new AsyncDataSource<EoCertificate>([], (this.page ?? 1) - 1);
-
+    this.dataSource = new AsyncDataSource<EoCertificate>([], (this.page ?? 1) - 1, this.pageSize);
     this.initForm();
 
     this.transloco
@@ -288,36 +350,45 @@ export class EoCertificatesOverviewComponent implements OnInit {
           },
         ];
 
-        this.form.controls.type.setValue(['production', 'consumption']);
+        this.form.valueChanges
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((changes) => {
+            if (this.dataSource.paginator) {
+              this.dataSource.paginator.firstPage();
+            }
 
-        this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((changes) => {
-          if (this.dataSource.paginator) {
-            this.dataSource.paginator.firstPage();
-          }
+            if (changes.period) {
+              this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+                queryParams: {
+                  start: getUnixTime(changes.period.start),
+                  end: getUnixTime(changes.period.end),
+                  type: changes.type?.length === 1 ? changes.type.toString() : undefined,
+                },
+                queryParamsHandling: 'merge',
+              });
 
-          if (changes.period && changes.type) {
-            this.loadData();
-          }
-        });
+              this.loadData();
+            }
+          });
 
         this.loadData();
       });
   }
 
   private initForm() {
+    const start = new Date(this.start as number * 1000);
+    const end = new Date(this.end as number * 1000);
+    const type: EoCertificateType[] = this.type ? [this.type] : [EoCertificateType.Production, EoCertificateType.Consumption];
+
     this.form = new FormGroup({
-      period: new FormControl(this.last30days(), { nonNullable: true }),
-      type: new FormControl<('production' | 'consumption')[] | undefined>(undefined, {
+      period: new FormControl({
+        start: start as Date,
+        end: end as Date,
+      }, { nonNullable: true }),
+      type: new FormControl<EoCertificateType[]>(type, {
         nonNullable: true,
       }),
     });
-  }
-
-  private last30days(): { start: Date | null; end: Date | null } {
-    return {
-      start: new Date(getUnixTime(subDays(startOfToday(), 30)) * 1000), // 30 days ago at 00:00
-      end: new Date(getUnixTime(endOfToday()) * 1000), // Today at 23:59:59
-    };
   }
 
   exportCertificates() {
@@ -357,14 +428,21 @@ export class EoCertificatesOverviewComponent implements OnInit {
     );
   }
 
-  pageChanged(event: { pageIndex: number }) {
+  pageChanged(event: { pageIndex: number, pageSize: number }) {
     this.page = event.pageIndex + 1;
-    this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
-      queryParams: { page: event.pageIndex + 1 },
-    });
-    this.documentRef.querySelector('.watt-main-content')?.scrollTo(0, 0);
+    this.pageSize = event.pageSize;
 
+    const newPage = event.pageIndex + 1;
+
+    this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+      queryParams: { page: newPage !== 1 ? newPage : undefined, pageSize: event.pageSize !== this._defaultPageSize ? event.pageSize : undefined },
+      queryParamsHandling: 'merge',
+    });
     this.loadData();
+
+    setTimeout(() => {
+      this.documentRef.querySelector('.watt-main-content')?.scrollTo(0, 0);
+    });
   }
 
   private setColumns(): void {
@@ -420,16 +498,12 @@ export class EoCertificatesOverviewComponent implements OnInit {
     this.state.set({ ...this.state(), isLoading: true });
     this.dataSource.data = []; // We empty the data to show the loading spinner
 
-    const pageSize = this.dataSource.paginator?.pageSize || 50;
-    const sortBy = this.getSortBy(this.sortBy);
-    const sort = this.sortDirection;
-
     this.certificatesService
       .getCertificates({
         pageIndex: (this.page ?? 1) - 1,
-        pageSize,
-        sortBy,
-        sort,
+        pageSize: this.pageSize as number,
+        sortBy: this.getSortBy(this.sortBy as sortCertificatesBy),
+        sort: this.sortDirection as SortDirection,
         type: this.getCertificateTypeFilter(),
         start: this.form.controls.period.value.start as Date,
         end: this.form.controls.period.value.end as Date,
@@ -480,13 +554,24 @@ export class EoCertificatesOverviewComponent implements OnInit {
   }
 
   sortData(sort: Sort): void {
-    if (!sort.active || sort.direction === '') {
-      this.sortBy = this.defaultSortBy;
-      this.sortDirection = this.defaultSortDirection;
+    if (!sort.active || sort.direction === '' || sort.direction === this._defaultSortDirection) {
+      this.sortBy = this._defaultSortBy;
+      this.sortDirection = this._defaultSortDirection;
+
+      this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+        queryParams: { sortBy: undefined, sort: undefined },
+        queryParamsHandling: 'merge',
+      });
     } else {
       this.sortBy = sort.active as never;
       this.sortDirection = sort.direction;
+
+      this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
+        queryParams: { sortBy: this.sortBy, sort: this.sortDirection },
+        queryParamsHandling: 'merge',
+      });
     }
+
     this.loadData();
   }
 }
