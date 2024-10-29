@@ -22,6 +22,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { EoCertificate, EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 import { SortDirection } from '@angular/material/sort';
+import { getUnixTime } from 'date-fns';
 
 interface EoCertificateResponse {
   result: EoCertificate[];
@@ -43,8 +44,8 @@ interface EoGetCertificatesConfig {
   sortBy: 'end' | 'quantity' | 'type';
   sort: SortDirection;
   type?: 'production' | 'consumption';
-  start?: number;
-  end?: number;
+  start?: Date;
+  end?: Date;
 }
 
 export type sortCertificatesBy = 'end' | 'quantity' | 'type';
@@ -70,13 +71,17 @@ export class EoCertificatesService {
     });
   }
 
-  getCertificates(config: EoGetCertificatesConfig) {
+  getCertificates(config: EoGetCertificatesConfig): Observable<EoCertificateResponse> {
     const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
     const { pageIndex, pageSize, sortBy, sort, type } = config;
 
     let filters = '';
     if (type) {
       filters = `&type=${type}`;
+    }
+
+    if(config.start && config.end) {
+      filters = `&start=${getUnixTime(config.start)}&end=${getUnixTime(config.end)}`;
     }
 
     return this.http

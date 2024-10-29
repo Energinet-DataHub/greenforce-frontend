@@ -57,9 +57,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { endOfToday, getUnixTime, startOfToday, subDays } from 'date-fns';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { MatPaginator } from '@angular/material/paginator';
+import { DOCUMENT } from '@angular/common';
 
 interface CertificateFiltersForm {
-  period: FormControl<{ start: number | null; end: number | null }>;
+  period: FormControl<{ start: Date | null; end: Date | null }>;
   type: FormControl<('production' | 'consumption')[] | undefined>;
 }
 
@@ -91,7 +92,6 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     this._paginator = paginator;
     if (this._paginator) {
       this._paginator.pageIndex = this._initialPageIndex;
-      console.log('paginator set', this._paginator.pageIndex, this._initialPageIndex);
     }
   }
 
@@ -215,6 +215,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  private documentRef = inject(DOCUMENT);
 
   private datePipe: WattDatePipe = inject(WattDatePipe);
   private energyUnitPipe: EnergyUnitPipe = inject(EnergyUnitPipe);
@@ -279,11 +280,15 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
         this.form.controls.type.setValue(['production', 'consumption']);
 
-        this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+        this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((changes: any) => {
           if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
           }
-          this.loadData();
+
+          console.log('form value changes', changes);
+          if(changes.period && changes.type) {
+            this.loadData();
+          }
         });
 
         this.loadData();
@@ -299,10 +304,10 @@ export class EoCertificatesOverviewComponent implements OnInit {
     });
   }
 
-  private last30days(): { start: number | null; end: number | null } {
+  private last30days(): { start: Date | null; end: Date | null } {
     return {
-      start: getUnixTime(subDays(startOfToday(), 30)) * 1000, // 30 days ago at 00:00
-      end: getUnixTime(endOfToday()) * 1000, // Today at 23:59:59
+      start: new Date(getUnixTime(subDays(startOfToday(), 30)) * 1000), // 30 days ago at 00:00
+      end: new Date(getUnixTime(endOfToday()) * 1000), // Today at 23:59:59
     };
   }
 
@@ -332,6 +337,8 @@ export class EoCertificatesOverviewComponent implements OnInit {
     this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath], {
       queryParams: { page: event.pageIndex + 1 },
     });
+    this.documentRef.querySelector('.watt-main-content')?.scrollTo(0, 0);
+
     this.loadData();
   }
 
@@ -399,6 +406,8 @@ export class EoCertificatesOverviewComponent implements OnInit {
         sortBy,
         sort,
         type: this.getCertificateTypeFilter(),
+        start: this.form.controls.period.value.start as Date,
+        end: this.form.controls.period.value.end as Date,
       })
       .pipe(
         map((certificates) => {
