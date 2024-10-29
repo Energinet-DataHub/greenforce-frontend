@@ -34,7 +34,7 @@ public class FilteredActorsQueryTests
         displayName
         id
         organization {
-          domain
+          domains
         }
       }
     }
