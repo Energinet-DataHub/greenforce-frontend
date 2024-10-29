@@ -15,17 +15,7 @@
  * limitations under the License.
  */
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ContentChildren,
-  HostBinding,
-  inject,
-  Input,
-  QueryList,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, computed, contentChildren, input, ViewEncapsulation } from '@angular/core';
 
 import { WattDescriptionListItemComponent } from './watt-description-list-item.component';
 /**
@@ -36,28 +26,23 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-description-list',
   styleUrls: ['./watt-description-list.component.scss'],
-  templateUrl: './watt-description-list.component.html',
   standalone: true,
   imports: [NgTemplateOutlet],
+  template: `<dl>
+    @for (item of descriptionItems(); track item) {
+      <ng-container *ngTemplateOutlet="item.templateRef" />
+    }
+  </dl>`,
+  host: {
+    '[style.--watt-description-list-groups-per-row]': 'groupsPerRow()',
+    '[class]': 'descriptionVariant()',
+  },
 })
-class WattDescriptionListComponent<T> implements AfterViewInit {
-  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  @ContentChildren(WattDescriptionListItemComponent)
-  public readonly descriptionItems: QueryList<WattDescriptionListItemComponent<T>> = new QueryList<
-    WattDescriptionListItemComponent<T>
-  >();
-  @Input() variant: 'flow' | 'stack' = 'flow';
-  @HostBinding('class')
-  get cssClass() {
-    return `watt-description-list-${this.variant}`;
-  }
-  @HostBinding('style.--watt-description-list-groups-per-row')
-  @Input()
-  groupsPerRow!: number;
-
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
+class WattDescriptionListComponent<T> {
+  descriptionItems = contentChildren(WattDescriptionListItemComponent<T>);
+  variant = input<'flow' | 'stack'>('flow');
+  descriptionVariant = computed(() => `watt-description-list-${this.variant()}`);
+  groupsPerRow = input<number>(3);
 }
 
 export { WattDescriptionListItemComponent, WattDescriptionListComponent };
