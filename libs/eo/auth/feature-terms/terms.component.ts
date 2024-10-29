@@ -29,6 +29,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { NgStyle } from '@angular/common';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
@@ -36,7 +37,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
@@ -53,8 +53,8 @@ const selector = 'eo-auth-terms';
     WattCheckboxComponent,
     WattEmptyStateComponent,
     EoFooterComponent,
-    EoHeaderComponent,
     TranslocoPipe,
+    NgStyle,
     EoScrollViewComponent,
   ],
   selector,
@@ -67,12 +67,10 @@ const selector = 'eo-auth-terms';
           'content'
           'footer';
         grid-template-rows: auto 1fr auto;
-        min-height: 100vh;
         margin: 0;
 
         @media print {
           --eo-scroll-view-padding: 0;
-          --eo-scroll-view-max-height: fit-content;
         }
 
         eo-header {
@@ -104,6 +102,7 @@ const selector = 'eo-auth-terms';
         }
 
         .actions {
+          margin-top: var(--watt-space-l);
           width: 100%;
         }
 
@@ -181,15 +180,12 @@ const selector = 'eo-auth-terms';
     `,
   ],
   template: `
-    <eo-header />
-
-    <main>
       @if (!loadingTermsFailed) {
-        <eo-scroll-view class="terms">
+        <eo-scroll-view class="terms" [ngStyle]="{ '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content' }">
           <div [innerHtml]="terms()"></div>
         </eo-scroll-view>
 
-        @if (isLoggedIn && showActions) {
+        @if (showActions) {
           <div class="actions">
             <div class="watt-space-stack-m">
               <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
@@ -213,9 +209,7 @@ const selector = 'eo-auth-terms';
           [message]="translations.terms.fetchingTermsError.message | transloco"
         />
       }
-    </main>
 
-    <eo-footer />
   `,
 })
 export class EoTermsComponent {
@@ -228,7 +222,7 @@ export class EoTermsComponent {
   private sanitizer = inject(DomSanitizer);
   private toastService: WattToastService = inject(WattToastService);
 
-  showActions = this.router.getCurrentNavigation()?.extras.state?.['show-actions'];
+  showActions = history.state?.['show-actions'];
   language = this.transloco.getActiveLang();
   translations = translations;
   isLoggedIn = !!this.authService.user();

@@ -40,6 +40,8 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoAuthService, IdleTimerService } from '@energinet-datahub/eo/auth/data-access';
+import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
+
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { EoAccountMenuComponent } from './eo-account-menu';
 
@@ -58,6 +60,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     TranslocoPipe,
     EoLanguageSwitcherComponent,
     EoAccountMenuComponent,
+    EoHeaderComponent,
   ],
   selector: 'eo-shell',
   styles: [
@@ -94,42 +97,51 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     `,
   ],
   template: `
-    <watt-shell>
-      <ng-container watt-shell-sidenav>
-        <div class="logo-container">
-          <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
+    @if(isLoggedIn && tosAccepted) {
+      <watt-shell>
+
+        <ng-container watt-shell-sidenav>
+          <div class="logo-container">
+            <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
+          </div>
+          <eo-primary-navigation />
+        </ng-container>
+
+        <ng-container watt-shell-toolbar>
+          <vater-stack direction="row" style="width: 100%;">
+            <h2>{{ titleService.getTitle() }}</h2>
+
+            <vater-spacer />
+
+            <eo-account-menu>
+              <eo-language-switcher [changeUrl]="true">
+                <watt-button variant="text" icon="language">
+                  {{ translations.languageSwitcher.title | transloco }}</watt-button
+                >
+              </eo-language-switcher>
+              <hr />
+              <watt-button variant="text" (click)="onLogout()" icon="logout">{{
+                translations.topbar.logout | transloco
+              }}</watt-button>
+            </eo-account-menu>
+
+            <watt-button variant="text" [routerLink]="['help']" icon="help" />
+          </vater-stack>
+        </ng-container>
+
+        <div class="content">
+          <router-outlet />
         </div>
-        <eo-primary-navigation />
-      </ng-container>
 
-      <ng-container watt-shell-toolbar>
-        <vater-stack direction="row" style="width: 100%;">
-          <h2>{{ titleService.getTitle() }}</h2>
-
-          <vater-spacer />
-
-          <eo-account-menu>
-            <eo-language-switcher [changeUrl]="true">
-              <watt-button variant="text" icon="language">
-                {{ translations.languageSwitcher.title | transloco }}</watt-button
-              >
-            </eo-language-switcher>
-            <hr />
-            <watt-button variant="text" (click)="onLogout()" icon="logout">{{
-              translations.topbar.logout | transloco
-            }}</watt-button>
-          </eo-account-menu>
-
-          <watt-button variant="text" [routerLink]="['help']" icon="help" />
-        </vater-stack>
-      </ng-container>
-
+        <eo-footer />
+      </watt-shell>
+    } @else {
+      <eo-header />
       <div class="content">
         <router-outlet />
       </div>
-
       <eo-footer />
-    </watt-shell>
+    }
   `,
 })
 export class EoShellComponent implements OnInit, OnDestroy {
@@ -140,6 +152,8 @@ export class EoShellComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private cookieInformationService: CookieInformationService = inject(CookieInformationService);
 
+  protected isLoggedIn = !!this.authService.user();
+  protected tosAccepted = this.authService.user()?.profile.tos_accepted;
   protected translations = translations;
   protected cookiesSet: string | null = null;
 
