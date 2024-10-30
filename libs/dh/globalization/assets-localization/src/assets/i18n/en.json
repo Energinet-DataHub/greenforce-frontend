@@ -34,6 +34,10 @@
         "headline": "eSett",
         "message": "Balance responsible relation for '{{ relatedToId }}' expires soon"
       },
+      "NewBalanceResponsibilityReceived": {
+        "headline": "eSett",
+        "message": "New balance responsible relation for market participant '{{ relatedToId }}'."
+      },
       "SettlementReportReadyForDownload": {
         "headline": "Settlement reports",
         "message": "Settlement report is ready for download"
