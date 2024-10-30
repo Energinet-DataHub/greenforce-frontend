@@ -16,8 +16,10 @@
  */
 import {
   Actor,
+  ActorContactDto,
   ActorStatus,
   ActorUserRole,
+  ContactCategory,
   EicFunction,
   GridAreaDto,
   Organization,
@@ -45,6 +47,16 @@ const userActorRoles: ActorUserRole[] = [
   },
 ];
 
+const contact: ActorContactDto = {
+  __typename: 'ActorContactDto',
+  email: 'test@energinet.dk',
+  actorId: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
+  phone: '12345678',
+  contactId: '1',
+  name: 'Test Name',
+  category: ContactCategory.MeasurementData,
+};
+
 export const marketParticipantActors: Actor[] = [
   {
     __typename: 'Actor',
@@ -67,9 +79,20 @@ export const marketParticipantActors: Actor[] = [
     organization: {
       __typename: 'Organization',
       id: 'id-test-organization-1',
-      name: 'Test Organization 1',
+      name: 'Organization 1',
+      domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
+      businessRegisterIdentifier: '12345678',
+      address: {
+        __typename: 'AddressDto',
+        country: 'Denmark',
+        city: 'Copenhagen',
+        number: '1',
+        streetName: 'Test Street',
+        zipCode: '1234',
+      },
     } as Organization,
     publicMail: null,
+    contact,
   },
   {
     __typename: 'Actor',
@@ -93,8 +116,19 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'Organization',
       id: 'id-test-organization-3',
       name: 'Test Organization 3',
+      domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
+      businessRegisterIdentifier: '12345678',
+      address: {
+        __typename: 'AddressDto',
+        country: 'Denmark',
+        city: 'Copenhagen',
+        number: '2',
+        streetName: 'Test Street 2',
+        zipCode: '4444',
+      },
     } as Organization,
     publicMail: null,
+    contact,
   },
   {
     __typename: 'Actor',
@@ -120,6 +154,7 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 2',
     } as Organization,
     publicMail: null,
+    contact,
   },
   {
     __typename: 'Actor',
@@ -145,6 +180,7 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 2',
     } as Organization,
     publicMail: null,
+    contact,
   },
   {
     __typename: 'Actor',
@@ -170,6 +206,7 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 3',
     } as Organization,
     publicMail: null,
+    contact: null,
   },
   {
     __typename: 'Actor',
@@ -194,6 +231,7 @@ export const marketParticipantActors: Actor[] = [
       __typename: 'ActorPublicMail',
       mail: 'hello@efad0fee-9d7c-49c6-7c20-08da5f28ddb1.com',
     },
+    contact,
   },
   {
     __typename: 'Actor',
@@ -219,5 +257,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 1',
     } as Organization,
     publicMail: null,
+    contact: null,
   },
 ];

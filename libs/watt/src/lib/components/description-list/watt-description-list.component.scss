@@ -57,7 +57,7 @@ watt-description-list {
       }
     }
   }
-  &.itemSeparators {
+  &.watt-description-list-stack.itemSeparators {
     dl {
       div {
         border-bottom: 1px solid var(--watt-color-neutral-grey-300);

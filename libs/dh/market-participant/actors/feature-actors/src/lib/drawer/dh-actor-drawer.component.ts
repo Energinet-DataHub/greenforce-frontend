@@ -56,6 +56,8 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
+import { WattChipComponent } from '@energinet-datahub/watt/chip';
+import { VaterFlexComponent } from '../../../../../../../watt/src/lib/components/vater/vater-flex.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -82,13 +84,18 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
         display: flex;
         gap: var(--watt-space-s);
       }
+
+      vater-stack {
+        watt-button {
+          margin-left: auto;
+        }
+      }
     `,
   ],
   viewProviders: [DhActorAuditLogService],
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -96,8 +103,10 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     WattDescriptionListItemComponent,
     WattButtonComponent,
     WattSpinnerComponent,
+    WattChipComponent,
 
     VaterStackComponent,
+    VaterFlexComponent,
 
     DhEmDashFallbackPipe,
     DhB2bAccessTabComponent,
