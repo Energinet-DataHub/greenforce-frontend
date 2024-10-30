@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, viewChild } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhOrganizationDrawerComponent } from '../drawer/dh-organization-drawer.component';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
   selector: 'dh-organizations-table',
@@ -45,31 +44,24 @@ import { DhOrganizationDrawerComponent } from '../drawer/dh-organization-drawer.
     VaterStackComponent,
 
     DhEmDashFallbackPipe,
-    DhOrganizationDrawerComponent,
   ],
 })
 export class DhOrganizationsTableComponent {
-  activeRow: DhOrganization | undefined = undefined;
+  selectedRow = output<DhOrganization>();
+  id = input<string>();
 
   columns: WattTableColumnDef<DhOrganization> = {
     cvrOrBusinessRegisterId: { accessor: 'businessRegisterIdentifier' },
     name: { accessor: 'name' },
   };
 
-  tableDataSource = input.required<WattTableDataSource<DhOrganization>>();
+  dataSource = input.required<WattTableDataSource<DhOrganization>>();
   isLoading = input.required<boolean>();
   hasError = input.required<boolean>();
 
-  drawer = viewChild.required(DhOrganizationDrawerComponent);
+  getActiveRow = () => this.dataSource().filteredData.find((row) => row.id === this.id());
 
   onRowClick(organization: DhOrganization): void {
-    this.activeRow = organization;
-
-    // todo fix nullable organizationId
-    this.drawer().open(organization.id ?? '');
-  }
-
-  onClose(): void {
-    this.activeRow = undefined;
+    this.selectedRow.emit(organization);
   }
 }

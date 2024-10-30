@@ -78,7 +78,7 @@ export const marketParticipantActors: Actor[] = [
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
-      id: 'id-test-organization-1',
+      id: 'b3bdd441-4f22-3f33-b88f-08da5f288474',
       name: 'Organization 1',
       domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
       businessRegisterIdentifier: '12345678',

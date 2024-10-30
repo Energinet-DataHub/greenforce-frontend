@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   Component,
   inject,
@@ -25,7 +24,10 @@ import {
   DestroyRef,
   output,
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { combinePaths, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import {
   DhPermissionRequiredDirective,
@@ -42,11 +44,12 @@ import {
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattChipComponent } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
@@ -56,8 +59,6 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
-import { WattChipComponent } from '@energinet-datahub/watt/chip';
-import { VaterFlexComponent } from '../../../../../../../watt/src/lib/components/vater/vater-flex.component';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -96,14 +97,15 @@ import { VaterFlexComponent } from '../../../../../../../watt/src/lib/components
   imports: [
     TranslocoPipe,
     TranslocoDirective,
+
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
+    WattChipComponent,
     WattButtonComponent,
     WattSpinnerComponent,
-    WattChipComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
 
     VaterStackComponent,
     VaterFlexComponent,
@@ -122,6 +124,7 @@ import { VaterFlexComponent } from '../../../../../../../watt/src/lib/components
 export class DhActorDrawerComponent {
   private readonly permissionService = inject(PermissionService);
   private readonly destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   actorQuery = lazyQuery(GetActorByIdDocument);
 
@@ -180,5 +183,13 @@ export class DhActorDrawerComponent {
       .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
 
     this.actorQuery.query({ variables: { id: actorId } });
+  }
+
+  public editOrganization(id: string | undefined): void {
+    const getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
+    this.router.navigate([getLink('organizations')], {
+      queryParams: { id, edit: true },
+      queryParamsHandling: 'merge',
+    });
   }
 }

@@ -29,11 +29,15 @@ limitations under the License.
     </vater-stack>
 
     <dh-organizations-table
-      [tableDataSource]="tableDataSource"
-      [isLoading]="isLoading"
-      [hasError]="hasError"
+      [dataSource]="tableDataSource"
+      [isLoading]="isLoading()"
+      [hasError]="hasError()"
+      [id]="id()"
+      (selectedRow)="navigate($event.id)"
     />
 
     <watt-paginator [for]="tableDataSource" [pageSize]="100" />
   </vater-flex>
 </watt-card>
+
+<dh-organization-drawer [id]="id()" (closed)="navigate(null)" />
