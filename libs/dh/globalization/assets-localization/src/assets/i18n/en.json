@@ -28,19 +28,19 @@
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Balance responsible relation received for unknown market participant '{{ relatedToId }}'."
+        "message": "New balance responsible relation for unknown market participant '{{ relatedToId }}'."
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "The balance responsible relation for market participant '{{ relatedToId }}' is about to expire."
+        "message": "Balance responsible relation for '{{ relatedToId }}' expires soon"
       },
       "SettlementReportReadyForDownload": {
         "headline": "Settlement reports",
-        "message": "Settlement report is ready for download."
+        "message": "Settlement report is ready for download"
       },
       "SettlementReportFailed": {
         "headline": "Settlement reports",
-        "message": "Settlement report failed."
+        "message": "Settlement report failed"
       }
     }
   },
