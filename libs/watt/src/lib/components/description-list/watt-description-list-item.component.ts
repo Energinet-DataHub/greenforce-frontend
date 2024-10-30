@@ -22,8 +22,9 @@ import { NgClass } from '@angular/common';
   imports: [NgClass],
   selector: 'watt-description-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [NgClass],
   template: `<ng-template #templateRef
-    ><div [ngClass]="{ 'force-new-row': forceNewRow }">
+    ><div [ngClass]="{ 'force-new-row': forceNewRow(), 'item-separator': itemSeparator() }">
       <dt class="watt-label watt-on-light--high-emphasis">{{ label() }}</dt>
       <dd class="watt-text-s">{{ value() }}</dd>
     </div></ng-template
@@ -34,4 +35,5 @@ export class WattDescriptionListItemComponent<T> {
   label = input<string>('');
   value = input<T | null>(null);
   forceNewRow = input(false);
+  itemSeparator = input(false);
 }

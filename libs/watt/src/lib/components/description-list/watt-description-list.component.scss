@@ -49,7 +49,18 @@ watt-description-list {
       div {
         display: flex;
         flex-wrap: wrap;
-        border-bottom: var(--next-item-border-style);
+      }
+
+      div.item-separator {
+        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+        padding-bottom: var(--watt-space-m);
+      }
+    }
+  }
+  &.itemSeparators {
+    dl {
+      div {
+        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
         padding-bottom: var(--watt-space-m);
       }
     }

@@ -14,8 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, contentChildren, input, ViewEncapsulation } from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  computed,
+  contentChildren,
+  effect,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { WattDescriptionListItemComponent } from './watt-description-list-item.component';
 /**
@@ -33,19 +41,27 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
       <ng-container *ngTemplateOutlet="item.templateRef()" />
     }
   </dl>`,
+  hostDirectives: [NgClass],
   host: {
     '[style.--watt-description-list-groups-per-row]': 'groupsPerRow()',
     '[class]': 'descriptionVariant()',
-    '[style.--next-item-border-style]':
-      'nextItemBorderStyle() === "solid" ? "1px solid var(--watt-color-neutral-grey-300)" : "none"',
   },
 })
 class WattDescriptionListComponent<T> {
+  private ngClass = inject(NgClass);
   descriptionItems = contentChildren(WattDescriptionListItemComponent<T>);
   variant = input<'flow' | 'stack'>('flow');
   descriptionVariant = computed(() => `watt-description-list-${this.variant()}`);
   groupsPerRow = input<number>(3);
-  nextItemBorderStyle = input<'solid' | 'none'>('solid');
+  itemSeparators = input(true);
+
+  constructor() {
+    effect(() => {
+      this.ngClass.ngClass = {
+        [`itemSeparators`]: this.itemSeparators(),
+      };
+    });
+  }
 }
 
 export { WattDescriptionListItemComponent, WattDescriptionListComponent };
