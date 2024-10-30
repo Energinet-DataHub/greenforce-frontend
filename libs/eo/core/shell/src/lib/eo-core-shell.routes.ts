@@ -53,12 +53,6 @@ const routes: Routes = [
   },
   { path: 'login', component: EoLoginComponent },
   {
-    path: eoTermsRoutePath,
-    title: translations.terms.title,
-    loadChildren: () =>
-      import('@energinet-datahub/eo/auth/feature-terms').then((esModule) => esModule.eoTermsRoutes),
-  },
-  {
     path: eoPrivacyPolicyRoutePath,
     title: translations.privacyPolicy.title,
     loadChildren: () =>
@@ -81,6 +75,14 @@ const routes: Routes = [
     path: '',
     component: EoShellComponent,
     children: [
+      {
+        path: eoTermsRoutePath,
+        title: translations.terms.title,
+        loadChildren: () =>
+          import('@energinet-datahub/eo/auth/feature-terms').then(
+            (esModule) => esModule.eoTermsRoutes
+          ),
+      },
       {
         path: eoCertificatesRoutePath,
         canActivate: [eoScopeGuard],

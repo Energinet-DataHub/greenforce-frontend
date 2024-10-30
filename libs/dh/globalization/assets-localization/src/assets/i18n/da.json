@@ -1296,7 +1296,7 @@
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
-        "combineResultsInOneFile": "Kombiner resultater i en fil",
+        "combineResultsInOneFile": "Kombiner netområder i en fil",
         "cancel": "Fortryd",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "continue": "Næste",
@@ -1500,8 +1500,8 @@
           },
           "daysAgo": "{{ days }} dage siden",
           "never": "Aldrig",
-          "today": "i dag",
-          "yesterday": "i går"
+          "today": "I dag",
+          "yesterday": "I går"
         },
         "roles": {
           "userResponsible": "Brugeransvarlig",

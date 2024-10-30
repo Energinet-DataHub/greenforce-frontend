@@ -1296,7 +1296,7 @@
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
-        "combineResultsInOneFile": "Combine results in one file",
+        "combineResultsInOneFile": "Combine grid areas in one file",
         "cancel": "Cancel",
         "continue": "Next",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",

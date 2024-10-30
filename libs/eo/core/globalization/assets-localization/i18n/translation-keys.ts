@@ -345,6 +345,9 @@ export interface TranslationKeys {
       title: string;
       message: string;
     };
+    typeDropdown: string;
+    production: string;
+    consumption: string;
     searchLabel: string;
     tableHeader: string;
     timeTableHeader: string;
