@@ -1488,8 +1488,8 @@
           },
           "daysAgo": "{{ days }} dage siden",
           "never": "Aldrig",
-          "today": "i dag",
-          "yesterday": "i går"
+          "today": "I dag",
+          "yesterday": "I går"
         },
         "roles": {
           "userResponsible": "Brugeransvarlig",
