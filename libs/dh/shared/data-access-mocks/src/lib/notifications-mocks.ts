@@ -63,6 +63,13 @@ function getNotifications() {
             relatedToId: null,
             occurredAt: new Date('2024-10-20'),
           },
+          {
+            __typename: 'NotificationDto',
+            id: 5,
+            notificationType: NotificationType.NewBalanceResponsibilityReceived,
+            relatedToId: '4',
+            occurredAt: new Date('2024-10-30'),
+          },
         ],
       },
     });

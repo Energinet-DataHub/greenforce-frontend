@@ -20,4 +20,5 @@ public enum NotificationType
     BalanceResponsibilityActorUnrecognized = 2,
     SettlementReportReadyForDownload = 3,
     SettlementReportFailed = 4,
+    NewBalanceResponsibilityReceived = 5,
 }
