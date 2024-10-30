@@ -1316,6 +1316,7 @@ enum NotificationType {
   BalanceResponsibilityActorUnrecognized
   SettlementReportReadyForDownload
   SettlementReportFailed
+  NewBalanceResponsibilityReceived
 }
 
 enum OrganizationAuditedChange {

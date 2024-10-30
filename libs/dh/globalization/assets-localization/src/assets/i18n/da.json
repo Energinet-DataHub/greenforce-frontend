@@ -34,6 +34,10 @@
         "headline": "eSett",
         "message": "Balanceansvarsrelationen for '{{ relatedToId }}' ophører snart"
       },
+      "NewBalanceResponsibilityReceived": {
+        "headline": "eSett",
+        "message": "Ny balanceansvarsrelation for aktør '{{ relatedToId }}'"
+      },
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
         "message": "Afregningsrapport klar til download"
