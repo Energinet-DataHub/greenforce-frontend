@@ -28,7 +28,7 @@
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelation modtaget for ukendt aktør '{{ relatedToId }}'."
+        "message": "Ny balanceansvarsrelation for ukendt aktør '{{ relatedToId }}'."
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
