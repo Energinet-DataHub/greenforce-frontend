@@ -26,14 +26,9 @@ export interface TranslationKeys {
     announcementBar: {
       message: string;
     };
-    header: {
-      loginButton: string;
-      dashboardButton: string;
-    };
     hero: {
       heading: string;
       subheading: string;
-      loginButton: string;
       learnMoreButton: string;
     };
     why: {
@@ -88,7 +83,6 @@ export interface TranslationKeys {
       heading: string;
       section1: {
         heading: string;
-        cta: string;
       };
       section2: {
         heading: string;
@@ -201,6 +195,10 @@ export interface TranslationKeys {
     save: string;
     cancel: string;
   };
+  loginButton: {
+    authenticated: string;
+    unauthenticated: string;
+  },
   terms: {
     title: string;
     acceptingTerms: string;
