@@ -17,6 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
@@ -63,6 +64,8 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
   ],
 })
 export class DhSettlementReportsTableComponent {
+  private router = inject(Router);
+  private activeRoute = inject(ActivatedRoute);
   private permissionService = inject(PermissionService);
   private httpClient = inject(HttpClient);
   private toastService = inject(WattToastService);
@@ -100,7 +103,8 @@ export class DhSettlementReportsTableComponent {
   }
 
   onRowClick(settlementReport: DhSettlementReport): void {
-    this.activeRow.set(settlementReport);
+    // this.activeRow.set(settlementReport);
+    this.router.navigate([settlementReport.id], { relativeTo: this.activeRoute });
   }
 
   async downloadReport(event: Event, settlementReport: DhSettlementReport) {

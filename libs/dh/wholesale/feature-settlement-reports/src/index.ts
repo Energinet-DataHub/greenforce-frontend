@@ -15,3 +15,5 @@
  * limitations under the License.
  */
 export { DhWholesaleFeatureSettlementReportsComponent as default } from './lib/dh-wholesale-feature-settlement-reports.component';
+
+export { DhSettlementReportDrawerV2Component } from './lib/drawer-v2/dh-settlement-report-drawer-v2.component';

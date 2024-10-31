@@ -16,6 +16,7 @@
  */
 import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { RouterOutlet } from '@angular/router';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -38,6 +39,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
   standalone: true,
   imports: [
     TranslocoDirective,
+    RouterOutlet,
 
     WATT_CARD,
     VaterStackComponent,
@@ -94,6 +96,8 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
         }
       }
     </watt-card>
+
+    <router-outlet />
   `,
 })
 export class DhWholesaleFeatureSettlementReportsComponent {
