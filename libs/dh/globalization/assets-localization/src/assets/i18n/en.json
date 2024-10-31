@@ -517,7 +517,18 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area",
-            "search": "Search"
+            "search": "Search",
+            "actor": "Market participant",
+            "contact": "Contact",
+            "email": "E-mail",
+            "nameOrDepartment": "Department/Name",
+            "phoneNumber": "Phone no.",
+            "organization": "Organization",
+            "cvr": "CVR number",
+            "organizationName": "Organization name",
+            "organizationCountry": "Country",
+            "domains": "E-mail domains",
+            "editOrganization": "Edit organization"
           },
           "balanceResponsibleRelation": {
             "tabLabel": "Balance Responsible Relation",

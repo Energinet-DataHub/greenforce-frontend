@@ -36,6 +36,11 @@ import { WattCardTitleComponent } from './watt-card-title.component';
       :host.watt-solid {
         border: 1px solid var(--watt-color-neutral-grey-300);
       }
+
+      :host.watt-fill {
+        border: 1px solid var(--watt-color-neutral-grey-100);
+        background: var(--watt-color-neutral-grey-100);
+      }
     `,
   ],
   template: `
@@ -53,5 +58,5 @@ export class WattCardComponent {
   }
 }
 
-export type WATT_CARD_VARIANT = 'solid' | 'elevation';
+export type WATT_CARD_VARIANT = 'solid' | 'elevation' | 'fill';
 export const WATT_CARD = [WattCardComponent, WattCardTitleComponent];

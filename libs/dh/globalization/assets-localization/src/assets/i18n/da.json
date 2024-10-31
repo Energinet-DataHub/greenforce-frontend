@@ -516,7 +516,19 @@
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-            "gridArea": "Netområde"
+            "gridArea": "Netområde",
+            "search": "Søg",
+            "actor": "Aktør",
+            "contact": "Kontakt",
+            "email": "E-mail",
+            "nameOrDepartment": "Afdeling/Navn",
+            "phoneNumber": "Telefonnr.",
+            "organization": "Organisation",
+            "cvr": "CVR-nummer",
+            "organizationName": "Organisationsnavn",
+            "organizationCountry": "Land",
+            "domains": "E-maildomæner",
+            "editOrganization": "Rediger organisation"
           },
           "balanceResponsibleRelation": {
             "tabLabel": "Balanceansvarsrelationer",
