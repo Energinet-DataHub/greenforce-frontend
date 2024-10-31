@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, inject, viewChild } from '@angular/core';
+import { Component, effect, inject, OnDestroy, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
@@ -33,7 +33,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     </watt-drawer>
   `,
 })
-export class DhSettlementReportDrawerV2Component {
+export class DhSettlementReportDrawerV2Component implements OnDestroy {
   private router = inject(Router);
   private activeRoute = inject(ActivatedRoute);
 
@@ -42,10 +42,14 @@ export class DhSettlementReportDrawerV2Component {
   id = toSignal<string>(this.activeRoute.params.pipe(map((p) => p['id'] ?? undefined)));
 
   openDrawerEffect = effect(() => {
-    const id = this.id();
-
-    this.drawer().open();
+    if (this.id()) {
+      this.drawer().open();
+    }
   });
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy');
+  }
 
   onClose() {
     this.router.navigate(['../'], { relativeTo: this.activeRoute });
