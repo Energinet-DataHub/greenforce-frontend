@@ -63,31 +63,81 @@ limitations under the License.
       <watt-drawer-content>
         <watt-tabs>
           <watt-tab [label]="t('tabs.masterData.tabLabel')">
-            <watt-card variant="solid">
-              <watt-description-list variant="stack">
-                <watt-description-list-item
-                  [label]="t('tabs.masterData.glnOrEic')"
-                  [value]="actor()?.glnOrEicNumber"
-                />
-
-                <watt-description-list-item
-                  [label]="t('tabs.masterData.name')"
-                  [value]="actor()?.name"
-                />
-
-                @if (isGridAccessProvider()) {
+            <vater-stack direction="row" gap="ml" align="flex-start" fill="horizontal">
+              <watt-card variant="solid">
+                <watt-description-list variant="stack" [itemSeparators]="false">
+                  <watt-description-list-item [label]="t('tabs.masterData.actor')" />
                   <watt-description-list-item
-                    [label]="t('tabs.masterData.gridArea')"
-                    [value]="gridAreaOrFallback()"
+                    [label]="t('tabs.masterData.glnOrEic')"
+                    [value]="actor()?.glnOrEicNumber"
                   />
-                }
 
-                <watt-description-list-item
-                  [label]="t('tabs.masterData.marketRole')"
-                  [value]="marketRoleOrFallback()"
-                />
-              </watt-description-list>
-            </watt-card>
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.name')"
+                    [value]="actor()?.name"
+                  />
+
+                  @if (isGridAccessProvider()) {
+                    <watt-description-list-item
+                      [label]="t('tabs.masterData.gridArea')"
+                      [value]="gridAreaOrFallback()"
+                    />
+                  }
+
+                  <watt-description-list-item
+                    [itemSeparator]="true"
+                    [label]="t('tabs.masterData.marketRole')"
+                    [value]="marketRoleOrFallback()"
+                  />
+                  <watt-description-list-item [label]="t('tabs.masterData.contact')" />
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.nameOrDepartment')"
+                    [value]="actor()?.contact?.name"
+                  />
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.email')"
+                    [value]="actor()?.contact?.email"
+                  />
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.phoneNumber')"
+                    [value]="actor()?.contact?.phone"
+                  />
+                </watt-description-list>
+              </watt-card>
+              <watt-card variant="fill">
+                <vater-stack direction="row">
+                  <div class="watt-label watt-on-light--high-emphasis">
+                    {{ t("tabs.masterData.organization") }}
+                  </div>
+                  <watt-button
+                    (click)="editOrganization(actor()?.organization?.id)"
+                    variant="text"
+                    >{{ t("tabs.masterData.editOrganization") }}</watt-button
+                  >
+                </vater-stack>
+                <watt-description-list variant="stack" [itemSeparators]="false">
+                  <watt-description-list-item [label]="t('tabs.masterData.organization')" />
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.cvr')"
+                    [value]="actor()?.organization?.businessRegisterIdentifier"
+                  />
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.organizationName')"
+                    [value]="actor()?.organization?.name"
+                  />
+                  <watt-description-list-item
+                    [label]="t('tabs.masterData.organizationCountry')"
+                    [value]="actor()?.organization?.address?.country"
+                  />
+                  <watt-description-list-item [label]="t('tabs.masterData.domains')" />
+                </watt-description-list>
+                <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="flex-start">
+                  @for (domain of actor()?.organization?.domains; track domain) {
+                    <watt-chip [readonly]="true">{{ domain }}</watt-chip>
+                  }
+                </vater-flex>
+              </watt-card>
+            </vater-stack>
           </watt-tab>
 
           @if (hasActorAccess() && actor()) {

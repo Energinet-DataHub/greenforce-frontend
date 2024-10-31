@@ -14,19 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+@let loadedOrganization = organization();
 <ng-container *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-actions>
       <watt-button
         *dhPermissionRequired="['actors:manage']"
         variant="secondary"
-        (click)="openEditModal()"
+        (click)="navigateEdit()"
         >{{ t("edit") }}</watt-button
       >
     </watt-drawer-actions>
 
     <watt-drawer-heading>
-      <h2 class="organization-heading">{{ organization?.name }}</h2>
+      <h2 class="organization-heading">{{ loadedOrganization?.name }}</h2>
     </watt-drawer-heading>
 
     @if (drawer.isOpen) {
@@ -34,41 +35,41 @@ limitations under the License.
         <watt-tabs>
           <watt-tab [label]="t('tabs.masterData.tabLabel')">
             <vater-stack [fill]="'horizontal'" [align]="'center'">
-              @if (isLoadingOrganization) {
+              @if (isLoadingOrganization()) {
                 <watt-spinner />
               }
             </vater-stack>
-            @if (!isLoadingOrganization && !organization) {
+            @if (!isLoadingOrganization && !loadedOrganization) {
               <watt-empty-state
-                [icon]="organizationFailedToLoad ? 'custom-power' : 'cancel'"
+                [icon]="organizationFailedToLoad() ? 'custom-power' : 'cancel'"
                 size="small"
                 [title]="
-                  organizationFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')
+                  organizationFailedToLoad() ? t('tabs.shared.error') : t('tabs.shared.noData')
                 "
               />
             }
-            @if (!isLoadingOrganization && organization) {
+            @if (!isLoadingOrganization() && loadedOrganization) {
               <watt-card variant="solid">
                 <watt-description-list variant="stack">
                   <watt-description-list-item
                     [label]="t('tabs.masterData.businessRegisterIdentifier')"
-                    [value]="organization.businessRegisterIdentifier"
+                    [value]="loadedOrganization.businessRegisterIdentifier"
                   />
                   <watt-description-list-item
                     [label]="t('tabs.masterData.name')"
-                    [value]="organization.name"
+                    [value]="loadedOrganization.name"
                   />
                   <watt-description-list-item
                     [label]="
-                      organization.domains.length <= 1
+                      loadedOrganization.domains.length <= 1
                         ? t('tabs.masterData.domain')
                         : t('tabs.masterData.domains')
                     "
-                    [value]="organization.domains.join(' - ')"
+                    [value]="loadedOrganization.domains.join(' - ')"
                   />
                   <watt-description-list-item
                     [label]="t('tabs.masterData.country')"
-                    [value]="organization.address.country"
+                    [value]="loadedOrganization.address.country"
                   />
                 </watt-description-list>
               </watt-card>
@@ -76,18 +77,18 @@ limitations under the License.
           </watt-tab>
           <watt-tab [label]="t('tabs.actors.tabLabel')">
             <vater-stack [fill]="'horizontal'" [align]="'center'">
-              @if (isLoadingActors) {
+              @if (isLoadingActors()) {
                 <watt-spinner />
               }
             </vater-stack>
             @if (!isLoadingActors && actors.data.length === 0) {
               <watt-empty-state
-                [icon]="actorsFailedToLoad ? 'custom-power' : 'cancel'"
+                [icon]="actorsFailedToLoad() ? 'custom-power' : 'cancel'"
                 size="small"
-                [title]="actorsFailedToLoad ? t('tabs.shared.error') : t('tabs.shared.noData')"
+                [title]="actorsFailedToLoad() ? t('tabs.shared.error') : t('tabs.shared.noData')"
               />
             }
-            @if (actors.data.length > 0 && !isLoadingActors) {
+            @if (actors.data.length > 0 && !isLoadingActors()) {
               <watt-card variant="solid">
                 <watt-table
                   [dataSource]="actors"
@@ -106,7 +107,7 @@ limitations under the License.
             }
           </watt-tab>
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <dh-organization-history [organizationId]="organization?.id!" />
+            <dh-organization-history [organizationId]="loadedOrganization?.id!" />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
