@@ -31,14 +31,9 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     announcementBar: {
       message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
     },
-    header: {
-      loginButton: 'Log in',
-      dashboardButton: 'Go to dashboard',
-    },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',
       subheading: 'Green Proof You Can Trust',
-      loginButton: 'Log in',
       learnMoreButton: 'Learn more',
     },
     why: {
@@ -142,7 +137,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       heading: `Ready to track your company’s energy?`,
       section1: {
         heading: 'Try it out. Energy Track & Trace™ Beta.',
-        cta: 'Log in',
       },
       section2: {
         heading: 'Collaboration. Interested in our APIs?',
@@ -285,6 +279,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     },
     save: 'Save',
     cancel: 'Cancel',
+  },
+  loginButton: {
+    authenticated: 'Go to dashboard',
+    unauthenticated: 'Log in',
   },
   dashboard: {
     title: 'Dashboard',
