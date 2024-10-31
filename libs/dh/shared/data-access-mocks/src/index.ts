@@ -26,6 +26,7 @@ import { imbalancePricesMocks } from './lib/imbalance-prices-mocks';
 import { userProfileMocks } from './lib/user-profile-mocks';
 import { defaultMocks } from './lib/default-mocks';
 import { notificationsMocks } from './lib/notifications-mocks';
+import { organizationMocks } from './lib/organization-mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -40,4 +41,5 @@ export const mocks = [
   userProfileMocks,
   defaultMocks,
   notificationsMocks,
+  organizationMocks,
 ];

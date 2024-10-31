@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Component, inject, input, effect, viewChild, output, computed } from '@angular/core';
 
 import { map } from 'rxjs';
@@ -59,9 +59,9 @@ type Actor = {
 };
 
 @Component({
-  selector: 'dh-organization-drawer',
+  selector: 'dh-organization-details',
   standalone: true,
-  templateUrl: './dh-organization-drawer.component.html',
+  templateUrl: './dh-organization-details.component.html',
   styles: [
     `
       :host {
@@ -86,6 +86,8 @@ type Actor = {
     `,
   ],
   imports: [
+    RouterOutlet,
+
     TranslocoPipe,
     TranslocoDirective,
 
@@ -111,14 +113,12 @@ type Actor = {
     DhOrganizationEditModalComponent,
   ],
 })
-export class DhOrganizationDrawerComponent {
+export class DhOrganizationDetailsComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private modalService = inject(WattModalService);
   private getOrganizationByIdQuery = lazyQuery(GetOrganizationByIdDocument);
   private getActorsByOrganizationIdQuery = lazyQuery(GetActorsByOrganizationIdDocument);
-
-  id = input<string>();
 
   isLoadingOrganization = this.getOrganizationByIdQuery.loading;
   organizationFailedToLoad = computed(() => this.getOrganizationByIdQuery.error !== undefined);
@@ -132,20 +132,20 @@ export class DhOrganizationDrawerComponent {
 
   edit = toSignal<string>(this.route.queryParams.pipe(map((p) => p.edit ?? false)));
 
-  openEditModal = effect(() => {
-    if (this.edit() && this.organization()) {
-      this.modalService.open({
-        component: DhOrganizationEditModalComponent,
-        data: this.organization(),
-        onClosed: () =>
-          this.router.navigate([], {
-            queryParamsHandling: 'merge',
-            relativeTo: this.route,
-            queryParams: { edit: null },
-          }),
-      });
-    }
-  });
+  id = toSignal(this.route.params.pipe(map((p) => p.id)));
+
+  // openEditModal = effect(() => {
+  //   if (this.edit() && this.organization()) {
+  //     this.modalService.open({
+  //       component: DhOrganizationEditModalComponent,
+  //       data: this.organization(),
+  //       onClosed: () =>
+  //         this.router.navigate(['../'], {
+  //           relativeTo: this.route,
+  //         }),
+  //     });
+  //   }
+  // });
 
   setActorDataSource = effect(() => {
     const data = this.getActorsByOrganizationIdQuery.data()?.actorsByOrganizationId;
@@ -188,10 +188,8 @@ export class DhOrganizationDrawerComponent {
   }
 
   navigateEdit(): void {
-    this.router.navigate([], {
+    this.router.navigate(['edit'], {
       relativeTo: this.route,
-      queryParams: { edit: true },
-      queryParamsHandling: 'merge',
     });
   }
 }

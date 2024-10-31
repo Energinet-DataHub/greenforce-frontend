@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 import { map } from 'rxjs';
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
@@ -41,7 +41,7 @@ import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/gr
 import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
-import { DhOrganizationDrawerComponent } from './drawer/dh-organization-drawer.component';
+import { DhOrganizationDetailsComponent } from './details/dh-organization-details.component';
 
 @Component({
   standalone: true,
@@ -67,20 +67,23 @@ import { DhOrganizationDrawerComponent } from './drawer/dh-organization-drawer.c
     `,
   ],
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
+
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
-    WattPaginatorComponent,
     WattSearchComponent,
     WattButtonComponent,
+    WattPaginatorComponent,
+
+    VaterSpacerComponent,
+    VaterUtilityDirective,
 
     DhOrganizationsTableComponent,
-    DhOrganizationDrawerComponent,
+    DhOrganizationDetailsComponent,
   ],
 })
 export class DhOrganizationsOverviewComponent {
@@ -88,7 +91,7 @@ export class DhOrganizationsOverviewComponent {
   private route = inject(ActivatedRoute);
   private getOrganizationsQuery = query(GetOrganizationsDocument);
 
-  id = toSignal<string>(this.route.queryParams.pipe(map((p) => p.id ?? undefined)));
+  id = signal<string | undefined>(undefined);
 
   tableDataSource = new WattTableDataSource<DhOrganization>([]);
 
@@ -99,11 +102,10 @@ export class DhOrganizationsOverviewComponent {
   isLoading = this.getOrganizationsQuery.loading;
   hasError = computed(() => this.getOrganizationsQuery.error !== undefined);
 
-  navigate(id: string | null) {
-    this.router.navigate([], {
+  navigate(id: string | undefined) {
+    this.id.set(id);
+    this.router.navigate(['details', id], {
       relativeTo: this.route,
-      queryParams: { id },
-      queryParamsHandling: 'merge',
     });
   }
 

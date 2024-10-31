@@ -16,8 +16,9 @@ limitations under the License.
 -->
 <watt-modal
   size="small"
-  [title]="modalData.name"
+  [title]="organization()?.name ?? ''"
   [loading]="loading()"
+  (closed)="close(false)"
   *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
 >
   <form id="editForm" (ngSubmit)="save()">
@@ -25,7 +26,7 @@ limitations under the License.
   </form>
 
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="close()">
+    <watt-button variant="secondary" (click)="close(false)">
       {{ t("cancel") }}
     </watt-button>
 
