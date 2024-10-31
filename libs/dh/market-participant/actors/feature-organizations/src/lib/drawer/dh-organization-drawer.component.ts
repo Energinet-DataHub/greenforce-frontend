@@ -133,7 +133,7 @@ export class DhOrganizationDrawerComponent {
   edit = toSignal<string>(this.route.queryParams.pipe(map((p) => p.edit ?? false)));
 
   openEditModal = effect(() => {
-    if (this.edit()) {
+    if (this.edit() && this.organization()) {
       this.modalService.open({
         component: DhOrganizationEditModalComponent,
         data: this.organization(),
