@@ -46,7 +46,7 @@ import { EoLoginButtonComponent } from './login-button.component';
     EoProductLogoDirective,
     EoLanguageSwitcherComponent,
     TranslocoPipe,
-    EoLoginButtonComponent
+    EoLoginButtonComponent,
   ],
   selector: 'eo-landing-page-header',
   styles: `

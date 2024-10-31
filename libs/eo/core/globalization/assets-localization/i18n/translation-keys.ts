@@ -198,7 +198,7 @@ export interface TranslationKeys {
   loginButton: {
     authenticated: string;
     unauthenticated: string;
-  },
+  };
   terms: {
     title: string;
     acceptingTerms: string;
