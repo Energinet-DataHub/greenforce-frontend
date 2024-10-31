@@ -271,6 +271,7 @@ type EsettOutgoingMessage {
   timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
+  manuallyHandledExchangeEventMetaData: ManuallyHandledExchangeEventMetaData
 }
 
 type ExchangeEventSearchResponse {
@@ -384,6 +385,16 @@ type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
   value: [RequestSettlementReportGridAreaCalculation!]!
 }
 
+type ManuallyHandleOutgoingMessagePayload {
+  boolean: Boolean
+}
+
+type ManuallyHandledExchangeEventMetaData {
+  comment: String!
+  manuallyHandledAt: DateTime!
+  manuallyHandledBy: UUID!
+}
+
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
@@ -428,6 +439,7 @@ type Mutation {
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
@@ -916,6 +928,11 @@ input InviteUserInput {
   userInviteDto: UserInvitationDtoInput!
 }
 
+input ManuallyHandleOutgoingMessageInput {
+  documentId: String!
+  comment: String!
+}
+
 input ReActivateUserInput {
   userId: UUID!
 }
@@ -1183,6 +1200,7 @@ enum DocumentStatus {
   ACCEPTED
   REJECTED
   BIZ_TALK_ACCEPTED
+  MANUALLY_HANDLED
 }
 
 enum DocumentType {
