@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
@@ -25,8 +25,12 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   selector: 'watt-chip',
   styleUrls: ['./watt-chip.component.scss'],
   template: `
-    <label [class.selected]="selected" [class.disabled]="disabled">
-      @if (selected) {
+    <label
+      [class.selected]="selected()"
+      [class.disabled]="disabled()"
+      [class.read-only]="readonly()"
+    >
+      @if (selected()) {
         <watt-icon class="selected-icon" name="checkmark" size="s" [attr.aria-hidden]="true" />
       }
       <ng-content />
@@ -34,6 +38,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   `,
 })
 export class WattChipComponent {
-  @Input() selected = false;
-  @Input() disabled = false;
+  selected = input(false);
+  disabled = input(false);
+  readonly = input(false);
 }
