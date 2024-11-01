@@ -16,17 +16,17 @@
  */
 import { Component, DestroyRef, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-
-import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
-import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-as-settlement-report-modal.component';
 import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
+import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-as-settlement-report-modal.component';
 
 @Component({
   selector: 'dh-request-settlement-report-button',
