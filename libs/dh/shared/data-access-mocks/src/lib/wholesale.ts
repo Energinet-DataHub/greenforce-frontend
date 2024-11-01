@@ -43,6 +43,7 @@ import {
   CalculationExecutionType,
   GridAreaStatus,
   GridAreaType,
+  mockGetSettlementReportQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -63,6 +64,7 @@ export function wholesaleMocks(apiBase: string) {
     getSelectedActorQuery(),
     requestCalculationMutation(),
     getSettlementReports(apiBase),
+    getSettlementReport(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
@@ -688,6 +690,21 @@ function getSettlementReports(apiBase: string) {
 
     return HttpResponse.json({
       data: wholesaleSettlementReportsQueryMock(apiBase),
+    });
+  });
+}
+
+function getSettlementReport(apiBase: string) {
+  return mockGetSettlementReportQuery(async () => {
+    await delay(mswConfig.delay);
+
+    const [settlementReport] = wholesaleSettlementReportsQueryMock(apiBase).settlementReports;
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        settlementReport,
+      },
     });
   });
 }
