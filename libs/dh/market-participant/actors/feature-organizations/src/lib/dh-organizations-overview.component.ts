@@ -39,7 +39,6 @@ import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/gr
 import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
-import { DhOrganizationDetailsComponent } from './details/dh-organization-details.component';
 
 @Component({
   standalone: true,
@@ -81,7 +80,6 @@ import { DhOrganizationDetailsComponent } from './details/dh-organization-detail
     VaterUtilityDirective,
 
     DhOrganizationsTableComponent,
-    DhOrganizationDetailsComponent,
   ],
 })
 export class DhOrganizationsOverviewComponent {

@@ -16,7 +16,7 @@
  */
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { Component, inject, effect, viewChild, output, computed } from '@angular/core';
+import { Component, inject, effect, viewChild, computed } from '@angular/core';
 
 import { map } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -152,9 +152,7 @@ export class DhOrganizationDetailsComponent {
     status: { accessor: 'status' },
   };
 
-  drawer = viewChild(WattDrawerComponent);
-
-  closed = output<void>();
+  drawer = viewChild.required(WattDrawerComponent);
 
   constructor() {
     effect(() => {
@@ -169,7 +167,7 @@ export class DhOrganizationDetailsComponent {
   }
 
   onClose(): void {
-    this.closed.emit();
+    this.drawer().close();
   }
 
   navigateEdit(): void {
