@@ -16,7 +16,7 @@
  */
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { Component, inject, input, effect, viewChild, output, computed } from '@angular/core';
+import { Component, inject, effect, viewChild, output, computed } from '@angular/core';
 
 import { map } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -36,7 +36,6 @@ import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-partic
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -116,7 +115,6 @@ type Actor = {
 export class DhOrganizationDetailsComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private modalService = inject(WattModalService);
   private getOrganizationByIdQuery = lazyQuery(GetOrganizationByIdDocument);
   private getActorsByOrganizationIdQuery = lazyQuery(GetActorsByOrganizationIdDocument);
 
