@@ -161,6 +161,9 @@
         "libs/dh/shared/util-new-version-manager/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-operators": ["libs/dh/shared/util-operators/src/index.ts"],
+      "@energinet-datahub/dh/shared/util-settlement-reports": [
+        "libs/dh/shared/util-settlement-reports/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-table": ["libs/dh/shared/util-table/src/index.ts"],
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
@@ -385,6 +388,7 @@
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
       "rxjs": ["./node_modules/rxjs"],
+
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }
   },
