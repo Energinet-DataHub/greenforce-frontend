@@ -18,9 +18,10 @@ import { inject, Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { wattFormatDate } from '@energinet-datahub/watt/date';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
 @Injectable({

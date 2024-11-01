@@ -26,11 +26,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';
+import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
 import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
-import { DhSettlementReportsService } from './dh-settlement-reports.service';
 
 @Component({
   selector: 'dh-settlement-reports-table',
