@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNotification } from './dh-notification';
 
@@ -27,8 +28,10 @@ import { DhNotification } from './dh-notification';
   selector: 'dh-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslocoDirective, WattDatePipe, WattIconComponent],
+  imports: [NgClass, TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
   styles: `
+    @use '@energinet-datahub/watt/utils' as watt;
+
     :host {
       display: block;
     }
@@ -79,6 +82,22 @@ import { DhNotification } from './dh-notification';
         right: var(--watt-space-ml);
         transition: opacity 150ms linear;
       }
+
+      .action-button {
+        @include watt.typography-watt-text-s;
+        color: var(--watt-on-light-high-emphasis);
+        background-color: rgba(100, 100, 100, 0.15);
+        border: 0;
+        border-radius: 4px;
+        margin-top: var(--watt-space-s);
+        opacity: 0px;
+        padding: 2px 8px 2px 8px;
+
+        &:hover {
+          background-color: rgba(100, 100, 100, 0.25);
+          cursor: pointer;
+        }
+      }
     }
   `,
   template: `
@@ -103,6 +122,15 @@ import { DhNotification } from './dh-notification';
               relatedToId: notification().relatedToId,
             })
           }}
+          @if (includesUserAction()) {
+            <button
+              type="button"
+              class="action-button"
+              (click)="$event.stopPropagation(); actionButtonClicked.emit()"
+            >
+              {{ 'shared.download' | transloco }}
+            </button>
+          }
         </p>
       </div>
     </ng-container>
@@ -112,4 +140,11 @@ export class DhNotificationComponent {
   notification = input.required<DhNotification>();
 
   dismiss = output<void>();
+  actionButtonClicked = output<void>();
+
+  includesUserAction = computed(() => {
+    const { notificationType } = this.notification();
+
+    return notificationType === NotificationType.SettlementReportReadyForDownload;
+  });
 }

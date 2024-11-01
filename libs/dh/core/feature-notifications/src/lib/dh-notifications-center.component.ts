@@ -24,6 +24,7 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   GetNotificationsDocument,
+  NotificationType,
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -132,6 +133,7 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
               [notification]="notification"
               (click)="navigateTo(notification)"
               (dismiss)="onDismiss(notification.id)"
+              (actionButtonClicked)="onActionButtonClicked(notification)"
             />
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
@@ -205,6 +207,12 @@ export class DhNotificationsCenterComponent {
       refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
     });
+  }
+
+  onActionButtonClicked({ notificationType, relatedToId }: DhNotification): void {
+    if (notificationType === NotificationType.SettlementReportReadyForDownload && relatedToId) {
+      this.notificationsService.downloadSettlementReport(relatedToId);
+    }
   }
 
   private sortById(a: DhNotification, b: DhNotification): number {
