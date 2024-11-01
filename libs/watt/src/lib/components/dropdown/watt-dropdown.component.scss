@@ -109,13 +109,23 @@ watt-dropdown {
 
 .watt-dropdown-panel {
   --watt-input-color: var(--watt-typography-text-color);
+  padding: 0;
+
+  mat-option:nth-of-type(2) {
+    border-top: 1px solid var(--watt-color-neutral-grey-300);
+  }
+
+  .mat-select-search-inner-row .mat-select-search-input,
+  mat-option.contains-mat-select-search {
+    height: 48px;
+  }
 
   // Add 2px because watt-form-field has 1px border on each side
   &:not(.watt-dropdown-panel-chip-mode) {
     min-width: calc(100% + 2px) !important;
     margin-top: -36px;
     margin-left: -1px;
-    padding-top: var(--watt-space-xs);
+    min-height: 48px;
   }
 
   .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
@@ -140,19 +150,8 @@ watt-dropdown {
     background-color: transparent;
   }
 
-  ngx-mat-select-search
-    .mat-select-search-inner.mat-select-search-inner-toggle-all
-    .mat-select-search-input {
-    padding-left: 0;
-  }
-
-  ngx-mat-select-search .mat-select-search-inner {
+  ngx-mat-select-search .mat-select-search-inner-multiple .mat-select-search-inner-row {
     margin-left: 5px;
-  }
-
-  ngx-mat-select-search .mat-select-search-input {
-    padding: 0;
-    margin-left: 4px;
   }
 
   ngx-mat-select-search
