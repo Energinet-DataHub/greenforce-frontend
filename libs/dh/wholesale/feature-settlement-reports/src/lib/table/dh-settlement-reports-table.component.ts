@@ -28,10 +28,10 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';
 import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDurationComponent } from '../util/dh-duration.component';
-import { DhSettlementReport, DhSettlementReports } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
 
