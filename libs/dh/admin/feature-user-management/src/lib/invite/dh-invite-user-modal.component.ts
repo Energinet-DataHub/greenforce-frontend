@@ -30,7 +30,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
 import { of } from 'rxjs';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -107,7 +107,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
 
   actorOptions = computed<WattDropdownOptions>(() =>
     (this.actors.data()?.filteredActors ?? []).map((actor) => ({
-      displayValue: actor.displayName,
+      displayValue: translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ' • ' + actor.name,
       value: actor.id,
     }))
   );
