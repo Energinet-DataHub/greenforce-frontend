@@ -25,7 +25,7 @@ import { DhNotificationBannerComponent } from './dh-notification-banner.componen
 @Injectable({
   providedIn: 'root',
 })
-export class DhNotificationBannerService {
+export class DhNotificationsCenterService {
   private readonly hotToast = inject(HotToastService);
   private readonly colorService = inject(WattColorHelperService);
 

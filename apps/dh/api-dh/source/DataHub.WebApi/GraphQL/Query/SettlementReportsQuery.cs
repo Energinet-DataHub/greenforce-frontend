@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -28,7 +27,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 public partial class Query
 {
     public async Task<IEnumerable<SettlementReport>> GetSettlementReportsAsync(
-        [Service] IMarketParticipantClient_V1 marketParticipantClient,
         [Service] ISettlementReportsClient settlementReportsClient)
     {
         var settlementReports = new List<SettlementReport>();
@@ -90,5 +88,36 @@ public partial class Query
         }
 
         return gridAreaCalculations;
+    }
+
+    public async Task<SettlementReport> GetSettlementReportAsync(
+        SettlementReportRequestId requestId,
+        [Service] ISettlementReportsClient settlementReportsClient)
+    {
+        var report = (await settlementReportsClient.GetAsync(default)).First(r => r.RequestId == requestId);
+
+        var settlementReportStatusType = report.Status switch
+            {
+                SettlementReportStatus.InProgress => SettlementReportStatusType.InProgress,
+                SettlementReportStatus.Completed => SettlementReportStatusType.Completed,
+                SettlementReportStatus.Failed => SettlementReportStatusType.Error,
+                _ => SettlementReportStatusType.Error,
+            };
+
+        return new SettlementReport(
+                Id: report.RequestId.Id,
+                RequestedByActorId: report.RequestedByActorId,
+                CalculationType: report.CalculationType,
+                Period: new Interval(report.PeriodStart.ToInstant(), report.PeriodEnd.ToInstant()),
+                NumberOfGridAreasInReport: report.GridAreaCount,
+                IncludesBasisData: report.ContainsBasisData,
+                StatusMessage: string.Empty,
+                Progress: report.Progress,
+                StatusType: settlementReportStatusType,
+                ExecutionTime: new Interval(Instant.FromDateTimeOffset(report.CreatedDateTime), report.EndedDateTime != null ? Instant.FromDateTimeOffset(report.EndedDateTime.Value) : null),
+                FromApi: report.JobId is not null,
+                CombineResultInASingleFile: !report.SplitReportPerGridArea,
+                IncludeMonthlyAmount: report.IncludeMonthlyAmount,
+                GridAreas: report.GridAreas.Select(ga => ga.Key).ToArray());
     }
 }
