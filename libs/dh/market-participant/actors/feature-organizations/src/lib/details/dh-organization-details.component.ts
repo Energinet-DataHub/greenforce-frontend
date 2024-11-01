@@ -134,19 +134,6 @@ export class DhOrganizationDetailsComponent {
 
   id = toSignal(this.route.params.pipe(map((p) => p.id)));
 
-  // openEditModal = effect(() => {
-  //   if (this.edit() && this.organization()) {
-  //     this.modalService.open({
-  //       component: DhOrganizationEditModalComponent,
-  //       data: this.organization(),
-  //       onClosed: () =>
-  //         this.router.navigate(['../'], {
-  //           relativeTo: this.route,
-  //         }),
-  //     });
-  //   }
-  // });
-
   setActorDataSource = effect(() => {
     const data = this.getActorsByOrganizationIdQuery.data()?.actorsByOrganizationId;
 
