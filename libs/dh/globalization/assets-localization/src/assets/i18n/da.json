@@ -28,15 +28,23 @@
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelation modtaget for ukendt aktør '{{ relatedToId }}'."
+        "message": "Ny balanceansvarsrelation for ukendt aktør '{{ relatedToId }}'"
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelationen for aktør '{{ relatedToId }}' er ved at ophøre."
+        "message": "Balanceansvarsrelationen for '{{ relatedToId }}' ophører snart"
+      },
+      "NewBalanceResponsibilityReceived": {
+        "headline": "eSett",
+        "message": "Ny balanceansvarsrelation for aktør '{{ relatedToId }}'"
       },
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
-        "message": "Afregningsrapport klar til download."
+        "message": "Afregningsrapport klar til download"
+      },
+      "SettlementReportFailed": {
+        "headline": "Afregningsrapporter",
+        "message": "Afregningsrapport fejlede"
       }
     }
   },
@@ -415,12 +423,14 @@
           "organization": "Organisation",
           "create": "Opret aktør"
         },
+        "add": "Tilføj",
         "gridArea": "Netområde",
         "glnOrEicInvalid": "Ugyldigt GLN/EIC",
         "wrongEmailPattern": "E-mail skal indeholde @",
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
+        "minimumOneDomain": "Mindst et e-maildomæne skal tilføjes",
         "companyName": "Virksomhedsnavn",
-        "domain": "E-maildomæne",
+        "domain": "E-maildomæner",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
         "country": "Land",
@@ -506,7 +516,19 @@
             "glnOrEic": "{{ marketParticipant.actorsOverview.shared.glnOrEic }}",
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
-            "gridArea": "Netområde"
+            "gridArea": "Netområde",
+            "search": "Søg",
+            "actor": "Aktør",
+            "contact": "Kontakt",
+            "email": "E-mail",
+            "nameOrDepartment": "Afdeling/Navn",
+            "phoneNumber": "Telefonnr.",
+            "organization": "Organisation",
+            "cvr": "CVR-nummer",
+            "organizationName": "Organisationsnavn",
+            "organizationCountry": "Land",
+            "domains": "E-maildomæner",
+            "editOrganization": "Rediger organisation"
           },
           "balanceResponsibleRelation": {
             "tabLabel": "Balanceansvarsrelationer",
@@ -689,6 +711,7 @@
             "businessRegisterIdentifier": "CVR-nr.",
             "name": "Navn",
             "domain": "E-maildomæne",
+            "domains": "E-maildomæner",
             "country": "Land"
           },
           "actors": {
@@ -1277,7 +1300,7 @@
         "energySupplier": "Elleverandør",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
-        "combineResultsInOneFile": "Kombiner resultater i en fil",
+        "combineResultsInOneFile": "Kombiner netområder i en fil",
         "cancel": "Fortryd",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "continue": "Næste",
@@ -1481,8 +1504,8 @@
           },
           "daysAgo": "{{ days }} dage siden",
           "never": "Aldrig",
-          "today": "i dag",
-          "yesterday": "i går"
+          "today": "I dag",
+          "yesterday": "I går"
         },
         "roles": {
           "userResponsible": "Brugeransvarlig",

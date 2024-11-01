@@ -28,15 +28,23 @@
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Balance responsible relation received for unknown market participant '{{ relatedToId }}'."
+        "message": "New balance responsible relation for unknown market participant '{{ relatedToId }}'"
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "The balance responsible relation for market participant '{{ relatedToId }}' is about to expire."
+        "message": "Balance responsible relation for '{{ relatedToId }}' expires soon"
+      },
+      "NewBalanceResponsibilityReceived": {
+        "headline": "eSett",
+        "message": "New balance responsible relation for market participant '{{ relatedToId }}'"
       },
       "SettlementReportReadyForDownload": {
         "headline": "Settlement reports",
-        "message": "Settlement report is ready for download."
+        "message": "Settlement report is ready for download"
+      },
+      "SettlementReportFailed": {
+        "headline": "Settlement reports",
+        "message": "Settlement report failed"
       }
     }
   },
@@ -415,12 +423,14 @@
           "organization": "Organisation",
           "create": "Create market participant"
         },
+        "add": "Add",
         "gridArea": "Grid area",
         "glnOrEicInvalid": "Invalid GLN/EIC",
         "wrongEmailPattern": "E-mail must contain @",
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
+        "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
-        "domain": "E-mail domain",
+        "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
         "country": "Country",
@@ -507,7 +517,18 @@
             "name": "{{ marketParticipant.actorsOverview.shared.name }}",
             "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
             "gridArea": "Grid area",
-            "search": "Search"
+            "search": "Search",
+            "actor": "Market participant",
+            "contact": "Contact",
+            "email": "E-mail",
+            "nameOrDepartment": "Department/Name",
+            "phoneNumber": "Phone no.",
+            "organization": "Organization",
+            "cvr": "CVR number",
+            "organizationName": "Organization name",
+            "organizationCountry": "Country",
+            "domains": "E-mail domains",
+            "editOrganization": "Edit organization"
           },
           "balanceResponsibleRelation": {
             "tabLabel": "Balance Responsible Relation",
@@ -690,6 +711,7 @@
             "businessRegisterIdentifier": "Business ID",
             "name": "Name",
             "domain": "E-mail domain",
+            "domains": "E-mail domains",
             "country": "Country"
           },
           "actors": {
@@ -1278,7 +1300,7 @@
         "energySupplier": "Energy supplier",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
-        "combineResultsInOneFile": "Combine results in one file",
+        "combineResultsInOneFile": "Combine grid areas in one file",
         "cancel": "Cancel",
         "continue": "Next",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",

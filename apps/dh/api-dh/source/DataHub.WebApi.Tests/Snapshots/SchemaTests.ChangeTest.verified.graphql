@@ -271,6 +271,7 @@ type EsettOutgoingMessage {
   timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
+  manuallyHandledExchangeEventMetaData: ManuallyHandledExchangeEventMetaData
 }
 
 type ExchangeEventSearchResponse {
@@ -384,6 +385,16 @@ type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
   value: [RequestSettlementReportGridAreaCalculation!]!
 }
 
+type ManuallyHandleOutgoingMessagePayload {
+  boolean: Boolean
+}
+
+type ManuallyHandledExchangeEventMetaData {
+  comment: String!
+  manuallyHandledAt: DateTime!
+  manuallyHandledBy: UUID!
+}
+
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
@@ -428,6 +439,7 @@ type Mutation {
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
+  manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
@@ -460,7 +472,7 @@ type Organization {
   actors: [Actor!]
   name: String!
   businessRegisterIdentifier: String!
-  domain: String!
+  domains: [String!]!
   status: String!
   address: AddressDto!
 }
@@ -555,6 +567,7 @@ type Query {
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
+  settlementReport(requestId: SettlementReportRequestIdInput!): SettlementReport!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userProfile: GetUserProfileResponse!
@@ -871,7 +884,7 @@ input CreateOrganizationDtoInput {
   name: String!
   businessRegisterIdentifier: String!
   address: AddressDtoInput!
-  domain: String!
+  domains: [String!]!
 }
 
 input CreateProcessDelegationsInput {
@@ -914,6 +927,11 @@ input InvitationUserDetailsDtoInput {
 
 input InviteUserInput {
   userInviteDto: UserInvitationDtoInput!
+}
+
+input ManuallyHandleOutgoingMessageInput {
+  documentId: String!
+  comment: String!
 }
 
 input ReActivateUserInput {
@@ -961,6 +979,10 @@ input ResetTwoFactorAuthenticationInput {
   userId: UUID!
 }
 
+input SettlementReportRequestIdInput {
+  id: String!
+}
+
 input StopDelegationInput {
   stopDelegationPeriods: [StopDelegationPeriodInput!]!
 }
@@ -990,7 +1012,7 @@ input UpdateActorUserRolesInput {
 
 input UpdateOrganizationInput {
   orgId: UUID!
-  domain: String!
+  domains: [String!]!
 }
 
 input UpdatePermissionInput {
@@ -1183,6 +1205,7 @@ enum DocumentStatus {
   ACCEPTED
   REJECTED
   BIZ_TALK_ACCEPTED
+  MANUALLY_HANDLED
 }
 
 enum DocumentType {
@@ -1315,6 +1338,8 @@ enum NotificationType {
   BalanceResponsibilityValidationFailed
   BalanceResponsibilityActorUnrecognized
   SettlementReportReadyForDownload
+  SettlementReportFailed
+  NewBalanceResponsibilityReceived
 }
 
 enum OrganizationAuditedChange {

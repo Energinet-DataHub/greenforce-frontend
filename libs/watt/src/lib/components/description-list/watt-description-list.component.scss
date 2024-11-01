@@ -21,10 +21,7 @@ watt-description-list {
     dl {
       display: grid;
       gap: var(--watt-space-ml);
-      grid-template-columns: repeat(
-        var(--watt-description-list-groups-per-row, 3),
-        1fr
-      );
+      grid-template-columns: repeat(var(--watt-description-list-groups-per-row, 3), 1fr);
 
       dd {
         margin: 0;
@@ -52,6 +49,17 @@ watt-description-list {
       div {
         display: flex;
         flex-wrap: wrap;
+      }
+
+      div.item-separator {
+        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+        padding-bottom: var(--watt-space-m);
+      }
+    }
+  }
+  &.watt-description-list-stack.itemSeparators {
+    dl {
+      div {
         border-bottom: 1px solid var(--watt-color-neutral-grey-300);
         padding-bottom: var(--watt-space-m);
       }

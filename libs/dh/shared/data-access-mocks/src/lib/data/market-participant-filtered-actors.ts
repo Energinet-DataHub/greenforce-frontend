@@ -31,7 +31,7 @@ export const filteredActors: Actor[] = [
       id: '00000000-0000-0000-0000-000000000031',
       name: 'Energinet DataHub A/S',
       businessRegisterIdentifier: '5790001330583',
-      domain: 'energinet.dk',
+      domains: ['energinet.dk'],
       status: 'Active',
       __typename: 'Organization',
       address: {
@@ -54,7 +54,7 @@ export const filteredActors: Actor[] = [
       id: '00000000-0000-0000-0000-000000000033',
       name: 'Sort Størm A/S',
       businessRegisterIdentifier: '5790001330583',
-      domain: 'sort.dk',
+      domains: ['sort.dk', 'hvid.dk'],
       status: 'Active',
       __typename: 'Organization',
       address: {

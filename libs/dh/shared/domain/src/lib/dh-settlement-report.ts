@@ -14,8 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
-export * from './lib/dh-settlement-report';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetSettlementReportsDocument } from './generated/graphql/types';
+
+export type DhSettlementReports = ResultOf<
+  typeof GetSettlementReportsDocument
+>['settlementReports'];
+
+export type DhSettlementReport = DhSettlementReports[0];

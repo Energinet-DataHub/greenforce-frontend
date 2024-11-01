@@ -31,11 +31,12 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoLearnMoreComponent } from './learn-more.component';
+import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe],
+  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent],
   selector: 'eo-landing-page-hero',
   styles: `
     :host {
@@ -151,10 +152,7 @@ import { EoLearnMoreComponent } from './learn-more.component';
         </section>
 
         <section aria-labelledby="hero-heading" class="actions-container">
-          <button class="button primary" (click)="onLogin()">
-            <watt-icon name="login" />
-            {{ translations.landingPage.hero.loginButton | transloco }}
-          </button>
+          <eo-login-button />
           <eo-learn-more>
             <button class="button secondary">
               <watt-icon name="smartDisplay" />

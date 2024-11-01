@@ -30,14 +30,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     announcementBar: {
       message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
     },
-    header: {
-      loginButton: 'Log ind',
-      dashboardButton: 'Gå til overblik',
-    },
     hero: {
       heading: 'Sporing og certificering <br /> af grøn strøm',
       subheading: 'Vi beviser, hvor din strøm kommer fra',
-      loginButton: 'Log ind',
       learnMoreButton: 'Se mere',
     },
     why: {
@@ -128,7 +123,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       heading: `Er du klar til at spore din virkshomheds energi?`,
       section1: {
         heading: 'Prøv det. Energy Track & Trace™ Beta-version',
-        cta: 'Log ind',
       },
       section2: {
         heading: 'Samarbejde. Er du interesseret i vores API’er?',
@@ -264,6 +258,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     },
     save: 'Gem',
     cancel: 'Fortryd',
+  },
+  loginButton: {
+    authenticated: 'Gå til overblik',
+    unauthenticated: 'Log ind',
   },
   terms: {
     title: 'Vilkår og betingelser',
@@ -430,6 +428,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Ups! Noget gik galt.',
       message: 'Prøv venligst at genindlæse siden.',
     },
+    typeDropdown: 'Type',
+    production: 'Produktion',
+    consumption: 'Forbrug',
     searchLabel: 'Søg',
     tableHeader: 'Resultater',
     timeTableHeader: 'Tid',

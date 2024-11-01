@@ -27,9 +27,9 @@ import {
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
 import { DhDurationComponent } from '../util/dh-duration.component';
-import { DhSettlementReport } from '../dh-settlement-report';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 
 @Component({
