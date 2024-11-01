@@ -388,7 +388,6 @@
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
       "rxjs": ["./node_modules/rxjs"],
-
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }
   },
