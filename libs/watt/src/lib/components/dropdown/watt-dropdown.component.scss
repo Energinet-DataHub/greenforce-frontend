@@ -154,8 +154,7 @@ watt-dropdown {
     margin-left: 5px;
   }
 
-  ngx-mat-select-search
-    .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
+  ngx-mat-select-search .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
     margin: 0;
   }
 
@@ -194,9 +193,7 @@ watt-dropdown {
     }
 
     &.mdc-list-item.mat-mdc-option-active,
-    &.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active:not(
-        .mat-mdc-option-multiple
-      ),
+    &.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active:not(.mat-mdc-option-multiple),
     &:hover:not(.mat-mdc-option-disabled, .contains-mat-select-search),
     &:focus:not(.mat-mdc-option-disabled) {
       background-color: var(--watt-color-primary-light);
