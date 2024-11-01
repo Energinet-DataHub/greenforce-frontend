@@ -40,6 +40,7 @@ watt-description-list {
 
       dd {
         margin: 0;
+        flex: 1;
       }
 
       dt {
@@ -48,7 +49,6 @@ watt-description-list {
 
       div {
         display: flex;
-        flex-wrap: wrap;
       }
     }
   }

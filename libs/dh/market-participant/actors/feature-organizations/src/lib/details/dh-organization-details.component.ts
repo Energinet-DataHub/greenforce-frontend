@@ -67,6 +67,10 @@ type Actor = {
         display: block;
       }
 
+      watt-card {
+        flex: 1;
+      }
+
       .organization-heading {
         margin: 0;
         margin-bottom: var(--watt-space-s);
