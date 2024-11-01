@@ -18,10 +18,7 @@ import { inject, Injectable } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetSettlementReportDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
-import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
@@ -33,8 +30,6 @@ export class DhNotificationsCenterService {
   private readonly hotToast = inject(HotToastService);
   private readonly colorService = inject(WattColorHelperService);
   private readonly settlementReportsService = inject(DhSettlementReportsService);
-
-  settlementReportQuery = lazyQuery(GetSettlementReportDocument);
 
   showBanner(notification: DhNotification): void {
     this.hotToast.show<DhNotification>(DhNotificationBannerComponent, {
@@ -56,17 +51,7 @@ export class DhNotificationsCenterService {
     });
   }
 
-  async downloadSettlementReport(settlementReportId: string) {
-    const result = await this.settlementReportQuery.query({
-      variables: {
-        value: { id: settlementReportId.toString() },
-      },
-    });
-
-    if (result.data.settlementReport) {
-      const settlementReportPartial = result.data.settlementReport as DhSettlementReport;
-
-      this.settlementReportsService.downloadReport(settlementReportPartial);
-    }
+  downloadSettlementReport(settlementReportId: string): void {
+    this.settlementReportsService.downloadReportFromNotification(settlementReportId);
   }
 }

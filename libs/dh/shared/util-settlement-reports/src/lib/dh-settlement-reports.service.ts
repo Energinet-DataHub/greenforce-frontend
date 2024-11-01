@@ -20,8 +20,11 @@ import { translate } from '@ngneat/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { wattFormatDate } from '@energinet-datahub/watt/date';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  AddTokenToDownloadUrlDocument,
+  GetSettlementReportDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
 @Injectable({
@@ -31,6 +34,21 @@ export class DhSettlementReportsService {
   private toastService = inject(WattToastService);
 
   private addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
+  private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
+
+  async downloadReportFromNotification(settlementReportId: string) {
+    const result = await this.settlementReportQuery.query({
+      variables: {
+        value: { id: settlementReportId },
+      },
+    });
+
+    if (result.data.settlementReport) {
+      const settlementReportPartial = result.data.settlementReport as DhSettlementReport;
+
+      this.downloadReport(settlementReportPartial);
+    }
+  }
 
   async downloadReport(settlementReport: DhSettlementReport) {
     let { settlementReportDownloadUrl } = settlementReport;
