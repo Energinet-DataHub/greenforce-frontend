@@ -23,4 +23,13 @@ public partial class Mutation
         await client.ResendMessagesWithoutResponseAsync();
         return true;
     }
+
+    public async Task<bool> ManuallyHandleOutgoingMessageAsync([Service] IESettExchangeClient_V1 client, string documentId, string comment)
+    {
+        await client.HandleManuallyAsync(documentId, new Comment
+        {
+            Value = comment,
+        });
+        return true;
+    }
 }

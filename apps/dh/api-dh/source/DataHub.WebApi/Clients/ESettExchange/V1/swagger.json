@@ -504,6 +504,67 @@
         }
       }
     },
+    "/esett/exchange-events/{documentId}/handle-manually": {
+      "post": {
+        "tags": [
+          "ExchangeEvent"
+        ],
+        "operationId": "handle-manually",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/esett/mga-imbalance/{imbalanceId}/document": {
       "get": {
         "tags": [
@@ -810,6 +871,15 @@
           2
         ]
       },
+      "Comment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
       "DocumentStatus": {
         "type": "integer",
         "format": "int32",
@@ -819,7 +889,8 @@
           "AwaitingReply",
           "Accepted",
           "Rejected",
-          "BizTalkAccepted"
+          "BizTalkAccepted",
+          "ManuallyHandled"
         ],
         "enum": [
           1,
@@ -827,7 +898,8 @@
           3,
           4,
           5,
-          6
+          6,
+          7
         ]
       },
       "ESettStageComponent": {
@@ -1040,7 +1112,8 @@
               "AwaitingReply",
               "Accepted",
               "Rejected",
-              "BizTalkAccepted"
+              "BizTalkAccepted",
+              "ManuallyHandled"
             ],
             "allOf": [
               {
@@ -1172,7 +1245,8 @@
               "AwaitingReply",
               "Accepted",
               "Rejected",
-              "BizTalkAccepted"
+              "BizTalkAccepted",
+              "ManuallyHandled"
             ],
             "allOf": [
               {
@@ -1184,6 +1258,31 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "manuallyHandledExchangeEventMetaData": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ManuallyHandledExchangeEventMetaData"
+              }
+            ]
+          }
+        }
+      },
+      "ManuallyHandledExchangeEventMetaData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "comment": {
+            "type": "string"
+          },
+          "manuallyHandledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "manuallyHandledBy": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
