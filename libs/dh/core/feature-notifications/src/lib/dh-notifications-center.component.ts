@@ -34,7 +34,7 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import { dhGetRouteByType } from './dh-get-route-by-type';
 import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
-import { DhNotificationBannerService } from './dh-notification-banner.service';
+import { DhNotificationsCenterService } from './dh-notifications-center.service';
 
 @Component({
   selector: 'dh-notifications-center',
@@ -143,7 +143,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
 })
 export class DhNotificationsCenterComponent {
   private readonly router = inject(Router);
-  private readonly bannerService = inject(DhNotificationBannerService);
+  private readonly notificationsService = inject(DhNotificationsCenterService);
   private readonly dismissMutation = mutation(DismissNotificationDocument);
   private readonly getNotificationsQuery = query(GetNotificationsDocument);
 
@@ -164,7 +164,7 @@ export class DhNotificationsCenterComponent {
         if (!incomingNotification) return pref;
 
         if (dayjs(incomingNotification.occurredAt).isAfter(this.initTime)) {
-          this.bannerService.showBanner(incomingNotification);
+          this.notificationsService.showBanner(incomingNotification);
         }
 
         const notifications = [...pref.notifications, incomingNotification]
