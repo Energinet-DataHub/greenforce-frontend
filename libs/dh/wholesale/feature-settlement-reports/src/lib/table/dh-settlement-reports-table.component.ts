@@ -14,26 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input, signal } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';
-import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
+import { DhSettlementReportsService } from './dh-settlement-reports.service';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -64,8 +61,7 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
 })
 export class DhSettlementReportsTableComponent {
   private permissionService = inject(PermissionService);
-  private httpClient = inject(HttpClient);
-  private toastService = inject(WattToastService);
+  private settlementReporsService = inject(DhSettlementReportsService);
 
   columns: WattTableColumnDef<DhSettlementReport> = {
     startedAt: { accessor: (report) => report.executionTime.start },
@@ -77,8 +73,6 @@ export class DhSettlementReportsTableComponent {
   };
 
   displayedColumns = Object.keys(this.columns);
-
-  addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
 
   tableDataSource = new WattTableDataSource<DhSettlementReport>([]);
 
@@ -103,56 +97,11 @@ export class DhSettlementReportsTableComponent {
     this.activeRow.set(settlementReport);
   }
 
-  async downloadReport(event: Event, settlementReport: DhSettlementReport) {
-    let { settlementReportDownloadUrl } = settlementReport;
-
-    // Prevent the row click event from firing
+  downloadReport(event: Event, settlementReport: DhSettlementReport): void {
+    // Stop the row click event from propagating
     // so the drawer doesn't open
     event.stopPropagation();
 
-    if (!settlementReportDownloadUrl) {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('shared.downloadFailed'),
-      });
-
-      return;
-    }
-
-    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${this.settlementReportName(settlementReport)}`;
-
-    const result = await this.addTokenToDownloadUrlMutation.mutate({
-      variables: { url: settlementReportDownloadUrl },
-    });
-
-    const downloadUrl = result.data?.addTokenToDownloadUrl.downloadUrlWithToken;
-
-    if (downloadUrl) {
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.target = '_blank';
-      link.click();
-      link.remove();
-    }
-  }
-
-  private settlementReportName(report: DhSettlementReport): string {
-    const baseTranslationPath = 'wholesale.settlementReports';
-
-    const calculationPeriod = wattFormatDate(report.period, 'short');
-    const calculationType = translate(
-      `${baseTranslationPath}.calculationTypes.${report.calculationType}`
-    );
-
-    let name = translate(`${baseTranslationPath}.downloadReport.baseName`);
-    name += ` - ${calculationType}`;
-
-    if (report.gridAreas.length === 1) {
-      name += ` - ` + report.gridAreas[0];
-    } else if (report.gridAreas.length > 1) {
-      name += ` - ` + translate(`${baseTranslationPath}.downloadReport.multipleGridAreas`);
-    }
-
-    return `${name} - ${calculationPeriod}.zip`;
+    this.settlementReporsService.downloadReport(settlementReport);
   }
 }
