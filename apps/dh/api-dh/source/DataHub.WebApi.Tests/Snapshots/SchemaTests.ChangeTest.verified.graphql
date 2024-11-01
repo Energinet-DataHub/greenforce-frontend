@@ -567,6 +567,7 @@ type Query {
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
+  settlementReport(requestId: SettlementReportRequestIdInput!): SettlementReport!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userProfile: GetUserProfileResponse!
@@ -976,6 +977,10 @@ input RequestSettlementReportInput {
 
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
+}
+
+input SettlementReportRequestIdInput {
+  id: String!
 }
 
 input StopDelegationInput {
