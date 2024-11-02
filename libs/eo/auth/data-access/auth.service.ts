@@ -115,12 +115,11 @@ export class EoAuthService {
     });
   }
 
-
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
     const state = {
       original_subdomain: `${window.location.origin}/${this.transloco.getActiveLang()}/callback`,
       language: this.transloco.getActiveLang(),
-      ...config
+      ...config,
     };
     return this.userManager?.signinRedirect({ state }) ?? Promise.resolve();
   }
