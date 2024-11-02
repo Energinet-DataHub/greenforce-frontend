@@ -96,6 +96,10 @@ export class EoAuthService {
        * The response_type is the type of the response. Possible values are 'code' and 'token'.
        */
       response_type: 'code',
+      extraQueryParams: {
+        original_subdomain: window.location.hostname,
+        language: this.transloco.getActiveLang(),
+      },
     };
 
     this.userManager = new UserManager(settings);
@@ -110,16 +114,34 @@ export class EoAuthService {
   }
 
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
-    // Create a base64 encoded state to preserve special characters
+    // Generate a cryptographically secure nonce
+    const nonce = crypto.randomUUID(); // or use a secure method for older browsers
+
+    // Store the nonce in sessionStorage
+    sessionStorage.setItem('auth_nonce', nonce);
+
+    // Prepare the state parameter with the nonce
     const state = btoa(JSON.stringify({
-      original_subdomain: window.location.origin,
-      language: this.transloco.getActiveLang(),
+      nonce: nonce,
       ...config,
-      nonce: crypto.randomUUID() // Add nonce for security
     }));
 
-    return this.userManager?.signinRedirect({ state }) ?? Promise.resolve();
+    // Get the current subdomain and language
+    const original_subdomain = window.location.hostname;
+    const language = this.transloco.getActiveLang();
+
+    // Initiate sign-in redirect with extra query parameters
+    const extraQueryParams = {
+      original_subdomain,
+      language,
+    };
+
+    return this.userManager?.signinRedirect({
+      state,
+      extraQueryParams,
+    }) ?? Promise.resolve();
   }
+
 
   async acceptTos(): Promise<void> {
     const user = this.user();
