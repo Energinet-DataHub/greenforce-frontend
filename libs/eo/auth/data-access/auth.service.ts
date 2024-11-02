@@ -121,10 +121,12 @@ export class EoAuthService {
     sessionStorage.setItem('auth_nonce', nonce);
 
     // Prepare the state parameter with the nonce
-    const state = btoa(JSON.stringify({
-      nonce: nonce,
-      ...config,
-    }));
+    const state = btoa(
+      JSON.stringify({
+        nonce: nonce,
+        ...config,
+      })
+    );
 
     // Get the current subdomain and language
     const original_subdomain = window.location.hostname;
@@ -136,12 +138,13 @@ export class EoAuthService {
       language,
     };
 
-    return this.userManager?.signinRedirect({
-      state,
-      extraQueryParams,
-    }) ?? Promise.resolve();
+    return (
+      this.userManager?.signinRedirect({
+        state,
+        extraQueryParams,
+      }) ?? Promise.resolve()
+    );
   }
-
 
   async acceptTos(): Promise<void> {
     const user = this.user();
