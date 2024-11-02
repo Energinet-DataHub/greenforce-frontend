@@ -113,7 +113,7 @@ export class EoAuthService {
     const state = {
       original_subdomain: window.location.origin,
       language: this.transloco.getActiveLang(),
-      ...config
+      ...config,
     };
     return this.userManager?.signinRedirect({ state }) ?? Promise.resolve();
   }
