@@ -110,11 +110,14 @@ export class EoAuthService {
   }
 
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
-    const state = {
+    // Create a base64 encoded state to preserve special characters
+    const state = btoa(JSON.stringify({
       original_subdomain: window.location.origin,
       language: this.transloco.getActiveLang(),
       ...config,
-    };
+      nonce: crypto.randomUUID() // Add nonce for security
+    }));
+
     return this.userManager?.signinRedirect({ state }) ?? Promise.resolve();
   }
 
