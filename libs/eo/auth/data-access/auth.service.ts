@@ -185,14 +185,31 @@ export class EoAuthService {
 
   signinCallback(): Promise<User | null> {
     return this.userManager
-      ? this.userManager?.signinCallback().then((user) => {
-          if (user) {
-            this.user.set((user as EoUser) ?? null);
+      ? this.userManager.signinRedirectCallback().then((user) => {
+        if (user) {
+          this.user.set(user as EoUser);
+
+          // Retrieve the nonce from sessionStorage
+          const storedNonce = sessionStorage.getItem('auth_nonce');
+
+          // Decode the state parameter
+          const stateString = atob(user.state as string);
+          const state = JSON.parse(stateString);
+
+          // Validate the nonce
+          if (!storedNonce || storedNonce !== state.nonce) {
+            console.error('Invalid nonce in state parameter.');
+            return Promise.reject('Invalid state parameter.');
           }
-          return Promise.resolve(user ?? null);
-        })
+
+          // Clear the nonce from storage
+          sessionStorage.removeItem('auth_nonce');
+        }
+        return Promise.resolve(user ?? null);
+      })
       : Promise.resolve(null);
   }
+
 
   renewToken(): Promise<User | null> {
     return this.userManager?.signinSilent() ?? Promise.resolve(null);
