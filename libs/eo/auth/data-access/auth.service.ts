@@ -71,6 +71,9 @@ export class EoAuthService {
   constructor() {
     if (!this.window) return;
 
+    const originalSubdomain = encodeURIComponent(window.location.origin);
+    const language = encodeURIComponent(this.transloco.getActiveLang());
+
     const settings = {
       /*
        * The authority is the URL of the OIDC provider.
@@ -81,9 +84,9 @@ export class EoAuthService {
        */
       client_id: this.b2cEnvironment.client_id,
       /*
-       * The redirect_uri is the URL of the application where the user is redirected after the sign-in process.
+       * The redirect_uri is the base redirect URI, including the original subdomain and language as query parameters.
        */
-      redirect_uri: 'https://authcallback.energytrackandtrace.dk/_oauth',
+      redirect_uri: `https://authcallback.energytrackandtrace.dk/_oauth?original_subdomain=${originalSubdomain}&language=${language}`,
       /*
        * The silent_redirect_uri is used to redirect the user back to the application after the token is renewed.
        */
@@ -96,10 +99,9 @@ export class EoAuthService {
        * The response_type is the type of the response. Possible values are 'code' and 'token'.
        */
       response_type: 'code',
-      extraQueryParams: {
-        original_subdomain: window.location.hostname,
-        language: this.transloco.getActiveLang(),
-      },
+      /*
+       * The scope of the access request.
+       */
     };
 
     this.userManager = new UserManager(settings);
@@ -113,37 +115,14 @@ export class EoAuthService {
     });
   }
 
+
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
-    // Generate a cryptographically secure nonce
-    const nonce = crypto.randomUUID(); // or use a secure method for older browsers
-
-    // Store the nonce in sessionStorage
-    sessionStorage.setItem('auth_nonce', nonce);
-
-    // Prepare the state parameter with the nonce
-    const state = btoa(
-      JSON.stringify({
-        nonce: nonce,
-        ...config,
-      })
-    );
-
-    // Get the current subdomain and language
-    const original_subdomain = window.location.hostname;
-    const language = this.transloco.getActiveLang();
-
-    // Initiate sign-in redirect with extra query parameters
-    const extraQueryParams = {
-      original_subdomain,
-      language,
+    const state = {
+      original_subdomain: `${window.location.origin}/${this.transloco.getActiveLang()}/callback`,
+      language: this.transloco.getActiveLang(),
+      ...config
     };
-
-    return (
-      this.userManager?.signinRedirect({
-        state,
-        extraQueryParams,
-      }) ?? Promise.resolve()
-    );
+    return this.userManager?.signinRedirect({ state }) ?? Promise.resolve();
   }
 
   async acceptTos(): Promise<void> {
@@ -188,25 +167,9 @@ export class EoAuthService {
 
   signinCallback(): Promise<User | null> {
     return this.userManager
-      ? this.userManager.signinRedirectCallback().then((user) => {
+      ? this.userManager?.signinCallback().then((user) => {
           if (user) {
-            this.user.set(user as EoUser);
-
-            // Retrieve the nonce from sessionStorage
-            const storedNonce = sessionStorage.getItem('auth_nonce');
-
-            // Decode the state parameter
-            const stateString = atob(user.state as string);
-            const state = JSON.parse(stateString);
-
-            // Validate the nonce
-            if (!storedNonce || storedNonce !== state.nonce) {
-              console.error('Invalid nonce in state parameter.');
-              return Promise.reject('Invalid state parameter.');
-            }
-
-            // Clear the nonce from storage
-            sessionStorage.removeItem('auth_nonce');
+            this.user.set((user as EoUser) ?? null);
           }
           return Promise.resolve(user ?? null);
         })
