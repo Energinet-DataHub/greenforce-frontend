@@ -83,7 +83,7 @@ export class EoAuthService {
       /*
        * The redirect_uri is the URL of the application where the user is redirected after the sign-in process.
        */
-      redirect_uri: 'https://demo.energytrackandtrace.dk/_oauth',
+      redirect_uri: 'https://authcallback.energytrackandtrace.dk/_oauth',
       /*
        * The silent_redirect_uri is used to redirect the user back to the application after the token is renewed.
        */
