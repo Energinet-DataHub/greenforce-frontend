@@ -83,7 +83,7 @@ export class EoAuthService {
       /*
        * The redirect_uri is the URL of the application where the user is redirected after the sign-in process.
        */
-      redirect_uri: `${window.location.origin}/${this.transloco.getActiveLang()}/callback`,
+      redirect_uri: 'https://acorn-demo.dk/_oauth',
       /*
        * The silent_redirect_uri is used to redirect the user back to the application after the token is renewed.
        */
@@ -110,7 +110,12 @@ export class EoAuthService {
   }
 
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
-    return this.userManager?.signinRedirect({ state: config }) ?? Promise.resolve();
+    const state = {
+      original_subdomain: window.location.origin,
+      language: this.transloco.getActiveLang(),
+      ...config
+    };
+    return this.userManager?.signinRedirect({ state }) ?? Promise.resolve();
   }
 
   async acceptTos(): Promise<void> {
