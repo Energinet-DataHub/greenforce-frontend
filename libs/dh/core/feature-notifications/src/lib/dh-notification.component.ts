@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -28,7 +27,7 @@ import { DhNotification } from './dh-notification';
   selector: 'dh-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
+  imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
@@ -90,7 +89,6 @@ import { DhNotification } from './dh-notification';
         border: 0;
         border-radius: 4px;
         margin-top: var(--watt-space-s);
-        opacity: 0px;
         padding: 2px 8px 2px 8px;
 
         &:hover {

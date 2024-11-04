@@ -17,7 +17,6 @@
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -40,14 +39,7 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  imports: [
-    NgClass,
-    OverlayModule,
-    TranslocoDirective,
-
-    WattButtonComponent,
-    DhNotificationComponent,
-  ],
+  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
   styles: [
     `
       :host {
@@ -87,7 +79,7 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
       .notification-dot {
         position: relative;
 
-        &:before {
+        &::before {
           background-color: var(--watt-color-state-danger);
           border-radius: 50%;
           content: '';
@@ -105,7 +97,7 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
   template: `
     <watt-button
       variant="icon"
-      [ngClass]="{ 'notification-dot': notificationDot() }"
+      [class.notification-dot]="notificationDot()"
       [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
