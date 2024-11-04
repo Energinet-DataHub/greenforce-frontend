@@ -226,6 +226,10 @@ type CancelScheduledCalculationPayload {
   boolean: Boolean
 }
 
+type CancelSettlementReportPayload {
+  boolean: Boolean
+}
+
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -444,7 +448,7 @@ type Mutation {
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
-  cancelSettlementReport(cancelSettlementReportInput: CancelSettlementReportInput!): CancelSettlementReportPayload!
+  cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
@@ -612,10 +616,6 @@ type RequestSettlementReportGridAreaCalculation {
 }
 
 type RequestSettlementReportPayload {
-  boolean: Boolean
-}
-
-type CancelSettlementReportPayload {
   boolean: Boolean
 }
 
@@ -840,6 +840,10 @@ input CancelScheduledCalculationInput {
   calculationId: UUID!
 }
 
+input CancelSettlementReportInput {
+  requestId: SettlementReportRequestIdInput!
+}
+
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
@@ -978,10 +982,6 @@ input RequestSettlementReportInput {
   csvLanguage: String
   requestAsActorId: String
   requestAsMarketRole: SettlementReportMarketRole
-}
-
-input CancelSettlementReportInput {
-  id: String!
 }
 
 input ResetTwoFactorAuthenticationInput {
