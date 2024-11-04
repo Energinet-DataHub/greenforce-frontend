@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
@@ -102,10 +103,18 @@ export class DhOrganizationsOverviewComponent {
 
   constructor() {
     // handle reload with drawer open
-    this.route.firstChild?.params.pipe(map((params) => params.id)).subscribe(this.id.set);
+    this.route.firstChild?.params
+      .pipe(
+        takeUntilDestroyed(),
+        map((params) => params.id)
+      )
+      .subscribe(this.id.set);
     // handle closing drawer
     this.router.events
-      .pipe(filter((event) => event.type === EventType.NavigationEnd))
+      .pipe(
+        takeUntilDestroyed(),
+        filter((event) => event.type === EventType.NavigationEnd)
+      )
       .subscribe(() => {
         if (this.route.children.length === 0) {
           this.id.set(undefined);
