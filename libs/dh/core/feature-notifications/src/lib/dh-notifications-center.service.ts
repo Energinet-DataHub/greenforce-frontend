@@ -19,6 +19,7 @@ import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
+import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
@@ -51,7 +52,9 @@ export class DhNotificationsCenterService {
     });
   }
 
-  downloadSettlementReport(settlementReportId: string): void {
-    this.settlementReportsService.downloadReportFromNotification(settlementReportId);
+  handleActionButtonClick({ notificationType, relatedToId }: DhNotification): void {
+    if (notificationType === NotificationType.SettlementReportReadyForDownload && relatedToId) {
+      this.settlementReportsService.downloadReportFromNotification(relatedToId);
+    }
   }
 }
