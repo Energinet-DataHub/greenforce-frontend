@@ -18,7 +18,7 @@ limitations under the License.
   <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("organizations") }}</h3>
-      <span class="watt-chip-label">{{ tableDataSource.data.length }} </span>
+      <span class="watt-chip-label">{{ dataSource.data.length }} </span>
 
       <vater-spacer />
 
@@ -29,14 +29,14 @@ limitations under the License.
     </vater-stack>
 
     <dh-organizations-table
-      [dataSource]="tableDataSource"
+      [dataSource]="dataSource"
       [isLoading]="isLoading()"
       [hasError]="hasError()"
       [id]="id()"
       (selectedRow)="navigate($event.id)"
     />
 
-    <watt-paginator [for]="tableDataSource" [pageSize]="100" />
+    <watt-paginator [for]="dataSource" [pageSize]="100" />
   </vater-flex>
 </watt-card>
 

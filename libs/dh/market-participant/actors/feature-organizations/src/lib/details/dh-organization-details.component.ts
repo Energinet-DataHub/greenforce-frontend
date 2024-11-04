@@ -171,6 +171,9 @@ export class DhOrganizationDetailsComponent {
   }
 
   onClose(): void {
+    this.router.navigate(['../../'], {
+      relativeTo: this.route,
+    });
     this.drawer().close();
   }
 

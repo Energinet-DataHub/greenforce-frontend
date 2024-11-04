@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
+
+import { filter, map } from 'rxjs';
 
 import {
   VaterFlexComponent,
@@ -89,14 +91,27 @@ export class DhOrganizationsOverviewComponent {
 
   id = signal<string | undefined>(undefined);
 
-  tableDataSource = new WattTableDataSource<DhOrganization>([]);
+  dataSource = new WattTableDataSource<DhOrganization>([]);
 
   setDatasource = effect(() => {
-    this.tableDataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
+    this.dataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
   });
 
   isLoading = this.getOrganizationsQuery.loading;
   hasError = computed(() => this.getOrganizationsQuery.error !== undefined);
+
+  constructor() {
+    // handle reload with drawer open
+    this.route.firstChild?.params.pipe(map((params) => params.id)).subscribe(this.id.set);
+    // handle closing drawer
+    this.router.events
+      .pipe(filter((event) => event.type === EventType.NavigationEnd))
+      .subscribe(() => {
+        if (this.route.children.length === 0) {
+          this.id.set(undefined);
+        }
+      });
+  }
 
   navigate(id: string | undefined) {
     this.id.set(id);
@@ -106,16 +121,16 @@ export class DhOrganizationsOverviewComponent {
   }
 
   onSearch(value: string): void {
-    this.tableDataSource.filter = value;
+    this.dataSource.filter = value;
   }
 
   download(): void {
-    if (!this.tableDataSource.sort) {
+    if (!this.dataSource.sort) {
       return;
     }
 
-    const dataToSort = structuredClone<DhOrganization[]>(this.tableDataSource.filteredData);
-    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
+    const dataToSort = structuredClone<DhOrganization[]>(this.dataSource.filteredData);
+    const dataSorted = this.dataSource.sortData(dataToSort, this.dataSource.sort);
 
     const actorsOverviewPath = 'marketParticipant.organizationsOverview';
 
