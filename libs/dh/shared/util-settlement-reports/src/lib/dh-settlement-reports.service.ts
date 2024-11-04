@@ -27,6 +27,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
+type DhSettlementReportPartial = Pick<
+  DhSettlementReport,
+  'id' | 'period' | 'calculationType' | 'gridAreas' | 'settlementReportDownloadUrl'
+>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -44,13 +49,11 @@ export class DhSettlementReportsService {
     });
 
     if (result.data.settlementReport) {
-      const settlementReportPartial = result.data.settlementReport as DhSettlementReport;
-
-      this.downloadReport(settlementReportPartial);
+      this.downloadReport(result.data.settlementReport);
     }
   }
 
-  async downloadReport(settlementReport: DhSettlementReport) {
+  async downloadReport(settlementReport: DhSettlementReportPartial) {
     let { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {
@@ -79,7 +82,7 @@ export class DhSettlementReportsService {
     }
   }
 
-  private settlementReportName(report: DhSettlementReport): string {
+  private settlementReportName(report: DhSettlementReportPartial): string {
     const baseTranslationPath = 'wholesale.settlementReports';
 
     const calculationPeriod = wattFormatDate(report.period, 'short');
