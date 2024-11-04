@@ -33,7 +33,11 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
     case NotificationType.NewBalanceResponsibilityReceived:
       return [rootPath, getPath<BasePaths>('esett'), getPath<ESettSubPaths>('balance-responsible')];
     case NotificationType.MeteringGridAreaIsImbalanced:
-      return [rootPath, getPath<BasePaths>('esett'), getPath<ESettSubPaths>('metering-gridarea-imbalance')];
+      return [
+        rootPath,
+        getPath<BasePaths>('esett'),
+        getPath<ESettSubPaths>('metering-gridarea-imbalance'),
+      ];
     case NotificationType.SettlementReportReadyForDownload:
     case NotificationType.SettlementReportFailed:
       return [
