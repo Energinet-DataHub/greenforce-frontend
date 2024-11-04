@@ -1349,6 +1349,7 @@ enum NotificationType {
   SettlementReportReadyForDownload
   SettlementReportFailed
   NewBalanceResponsibilityReceived
+  MeteringGridAreaIsImbalanced
 }
 
 enum OrganizationAuditedChange {
