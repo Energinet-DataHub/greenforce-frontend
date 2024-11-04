@@ -1,5 +1,5 @@
 mutation CancelSettlementReport($input: CancelSettlementReportInput!) {
-  cancelSettlementReport(cancelSettlementReportInput: $input) {
+  cancelSettlementReport(input:  $input) {
     boolean
   }
 }
