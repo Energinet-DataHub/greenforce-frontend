@@ -45,6 +45,10 @@
       "SettlementReportFailed": {
         "headline": "Afregningsrapporter",
         "message": "Afregningsrapport fejlede"
+      },
+      "MeteringGridAreaIsImbalanced": {
+        "headline": "eSett",
+        "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
       }
     }
   },
