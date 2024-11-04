@@ -1,0 +1,5 @@
+mutation CancelSettlementReport($input: CancelSettlementReportInput!) {
+  cancelSettlementReport(cancelSettlementReportInput: $input) {
+    boolean
+  }
+}
