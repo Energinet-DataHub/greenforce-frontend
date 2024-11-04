@@ -226,6 +226,10 @@ type CancelScheduledCalculationPayload {
   boolean: Boolean
 }
 
+type CancelSettlementReportPayload {
+  boolean: Boolean
+}
+
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -444,6 +448,7 @@ type Mutation {
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
@@ -833,6 +838,10 @@ input CalculationSortInput {
 
 input CancelScheduledCalculationInput {
   calculationId: UUID!
+}
+
+input CancelSettlementReportInput {
+  requestId: SettlementReportRequestIdInput!
 }
 
 input CreateActorContactDtoInput {
@@ -1340,6 +1349,7 @@ enum NotificationType {
   SettlementReportReadyForDownload
   SettlementReportFailed
   NewBalanceResponsibilityReceived
+  MeteringGridAreaIsImbalanced
 }
 
 enum OrganizationAuditedChange {

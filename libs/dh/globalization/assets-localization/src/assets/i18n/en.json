@@ -45,6 +45,10 @@
       "SettlementReportFailed": {
         "headline": "Settlement reports",
         "message": "Settlement report failed"
+      },
+      "MeteringGridAreaIsImbalanced": {
+        "headline": "eSett",
+        "message": "An imbalance has been registered in grid area '{{ relatedToId }}'"
       }
     }
   },

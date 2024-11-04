@@ -12,14 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 
-public enum NotificationType
-{
-    BalanceResponsibilityValidationFailed = 1,
-    BalanceResponsibilityActorUnrecognized = 2,
-    SettlementReportReadyForDownload = 3,
-    SettlementReportFailed = 4,
-    NewBalanceResponsibilityReceived = 5,
-    MeteringGridAreaIsImbalanced = 6,
-}
+namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+
+public record CancelSettlementReportInput(SettlementReportRequestId RequestId);
