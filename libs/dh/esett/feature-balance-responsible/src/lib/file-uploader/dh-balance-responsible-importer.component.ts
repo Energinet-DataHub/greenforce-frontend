@@ -72,9 +72,8 @@ export class DhBalanceResponsibleImporterComponent {
   private readonly getBalanceResponsibleImportUrl = query(GetBalanceResponsibleImportUrlDocument);
 
   uploadUrl = computed(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     () =>
-      this.getBalanceResponsibleImportUrl.data()!.balanceResponsibleImport
+      this.getBalanceResponsibleImportUrl.data()?.balanceResponsibleImport
         .balanceResponsibleImportUrl
   );
 
@@ -92,7 +91,10 @@ export class DhBalanceResponsibleImporterComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      return this.startUpload(file, this.uploadUrl());
+      const url = this.uploadUrl();
+      if (url) {
+        return this.startUpload(file, url);
+      }
     }
   }
 
