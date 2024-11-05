@@ -972,6 +972,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balance Responsible Relations",
+      "importButton": "Import file",
+      "importSuccess": "File imported",
+      "importError": "An error occurred while importing the file. Please try again",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",

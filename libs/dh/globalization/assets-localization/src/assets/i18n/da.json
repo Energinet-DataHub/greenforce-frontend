@@ -972,6 +972,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
+      "importButton": "Importer fil",
+      "importSuccess": "Fil importeret",
+      "importError": "Noget gik galt. Filen blev ikke importeret. Prøv igen",
       "shared": {
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til",

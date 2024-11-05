@@ -42,6 +42,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
 import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
+import { DhBalanceResponsibleImporterComponent } from "./file-uploader/dh-balance-responsible-importer.component";
 
 @Component({
   standalone: true,
@@ -71,7 +72,6 @@ import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
     TranslocoPipe,
     RxPush,
     RxLet,
-
     WATT_CARD,
     WattPaginatorComponent,
     VaterFlexComponent,
@@ -79,9 +79,9 @@ import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
     VaterUtilityDirective,
     VaterSpacerComponent,
     WattButtonComponent,
-
     DhBalanceResponsibleTableComponent,
-  ],
+    DhBalanceResponsibleImporterComponent
+],
   providers: [DhBalanceResponsibleStore],
 })
 export class DhBalanceResponsibleComponent implements OnInit {
