@@ -22,4 +22,5 @@ public enum NotificationType
     SettlementReportFailed = 4,
     NewBalanceResponsibilityReceived = 5,
     MeteringGridAreaIsImbalanced = 6,
+    ActorCredentialsExpiring = 7,
 }

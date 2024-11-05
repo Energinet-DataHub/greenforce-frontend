@@ -49,6 +49,10 @@
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
         "message": "An imbalance has been registered in grid area '{{ relatedToId }}'"
+      },
+      "ActorCredentialsExpiring": {
+        "headline": "Market participant",
+        "message": "B2B access to this actor is about to expire"
       }
     }
   },

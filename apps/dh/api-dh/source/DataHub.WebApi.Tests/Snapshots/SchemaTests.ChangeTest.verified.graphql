@@ -1350,6 +1350,7 @@ enum NotificationType {
   SettlementReportFailed
   NewBalanceResponsibilityReceived
   MeteringGridAreaIsImbalanced
+  ActorCredentialsExpiring
 }
 
 enum OrganizationAuditedChange {

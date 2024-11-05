@@ -120,6 +120,10 @@
             "name": "priceAreaCode",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "AreaCode1",
+                "AreaCode2"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/PriceAreaCode"
@@ -195,6 +199,10 @@
             "name": "priceAreaCode",
             "in": "query",
             "schema": {
+              "x-enumNames": [
+                "AreaCode1",
+                "AreaCode2"
+              ],
               "allOf": [
                 {
                   "$ref": "#/components/schemas/PriceAreaCode"
@@ -233,50 +241,6 @@
           }
         }
       }
-    },
-    "/ping-imbalance-prices/ping": {
-      "get": {
-        "tags": [
-          "Ping"
-        ],
-        "operationId": "ping",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/ping-imbalance-prices/authorized-ping": {
-      "get": {
-        "tags": [
-          "Ping"
-        ],
-        "operationId": "authorized-ping",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": {
@@ -290,6 +254,10 @@
             "format": "date-time"
           },
           "priceAreaCode": {
+            "x-enumNames": [
+              "AreaCode1",
+              "AreaCode2"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/PriceAreaCode"
@@ -304,11 +272,17 @@
         }
       },
       "ImbalancePricePeriodStatus": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "NoPrices",
           "Incomplete",
           "Complete"
+        ],
+        "enum": [
+          0,
+          1,
+          2
         ]
       },
       "ImbalancePricesDailyDto": {
@@ -316,6 +290,11 @@
         "additionalProperties": false,
         "properties": {
           "status": {
+            "x-enumNames": [
+              "NoPrices",
+              "Incomplete",
+              "Complete"
+            ],
             "allOf": [
               {
                 "$ref": "#/components/schemas/ImbalancePricePeriodStatus"
@@ -340,10 +319,15 @@
         }
       },
       "PriceAreaCode": {
-        "type": "string",
-        "enum": [
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
           "AreaCode1",
           "AreaCode2"
+        ],
+        "enum": [
+          1,
+          2
         ]
       }
     },
