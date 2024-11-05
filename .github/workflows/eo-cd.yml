@@ -141,5 +141,6 @@ jobs:
         uses: Energinet-DataHub/acorn-actions/actions/update-base-environment@v3
         with:
           configuration: build/infrastructure/eo/configuration.yaml
-          deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
           dry_run: ${{ !((github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')) || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'vcluster/'))) }}
+          github-app-id: ${{ vars.ACORN_GHA_APP_ID }}
+          github-app-private-key: ${{ secrets.ACORN_GHA_PRIVATE_KEY }}
