@@ -19,6 +19,7 @@ import {
   BasePaths,
   ESettSubPaths,
   getPath,
+  MarketParticipantSubPaths,
   WholesaleSubPaths,
 } from '@energinet-datahub/dh/core/routing';
 
@@ -45,6 +46,8 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
         getPath<BasePaths>('wholesale'),
         getPath<WholesaleSubPaths>('settlement-reports'),
       ];
+    case NotificationType.ActorCredentialsExpiring:
+      return [rootPath, getPath<BasePaths>('market-participant'), getPath<MarketParticipantSubPaths>('actors')];
     default:
       return [rootPath];
   }
