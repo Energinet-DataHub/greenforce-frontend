@@ -157,6 +157,10 @@ type BalanceResponsibilityAgreement {
   status: BalanceResponsibilityAgreementStatus!
 }
 
+type BalanceResponsibleImport {
+  balanceResponsibleImportUrl: String!
+}
+
 type BalanceResponsiblePageResult {
   balanceResponsiblesUrl(locale: String!): String
   page: [BalanceResponsibleType!]!
@@ -544,6 +548,7 @@ type Query {
   associatedActors(email: String!): AssociatedActors!
   filteredActors: [Actor!]!
   selectionActors: [SelectionActorDto!]!
+  balanceResponsibleImport: BalanceResponsibleImport!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection
   latestBalanceFixing(period: DateRange!): Calculation @deprecated(reason: "Use `latestCalculation` instead")
