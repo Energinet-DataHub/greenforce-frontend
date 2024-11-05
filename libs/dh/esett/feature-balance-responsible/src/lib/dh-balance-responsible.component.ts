@@ -42,7 +42,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
 import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
 import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
-import { DhBalanceResponsibleImporterComponent } from "./file-uploader/dh-balance-responsible-importer.component";
+import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
 
 @Component({
   standalone: true,
@@ -80,8 +80,8 @@ import { DhBalanceResponsibleImporterComponent } from "./file-uploader/dh-balanc
     VaterSpacerComponent,
     WattButtonComponent,
     DhBalanceResponsibleTableComponent,
-    DhBalanceResponsibleImporterComponent
-],
+    DhBalanceResponsibleImporterComponent,
+  ],
   providers: [DhBalanceResponsibleStore],
 })
 export class DhBalanceResponsibleComponent implements OnInit {

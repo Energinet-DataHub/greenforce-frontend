@@ -73,7 +73,9 @@ export class DhBalanceResponsibleImporterComponent {
 
   uploadUrl = computed(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    () => this.getBalanceResponsibleImportUrl.data()!.balanceResponsibleImport.balanceResponsibleImportUrl
+    () =>
+      this.getBalanceResponsibleImportUrl.data()!.balanceResponsibleImport
+        .balanceResponsibleImportUrl
   );
 
   csvExt = csvExt;
