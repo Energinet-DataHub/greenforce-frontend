@@ -138,7 +138,7 @@ jobs:
     concurrency: commits-base-environment
     steps:
       - name: Update environment
-        uses: Energinet-DataHub/acorn-actions/actions/update-base-environment@v3
+        uses: Energinet-DataHub/acorn-actions/actions/update-base-environment@v4
         with:
           configuration: build/infrastructure/eo/configuration.yaml
           dry_run: ${{ !((github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')) || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'vcluster/'))) }}
