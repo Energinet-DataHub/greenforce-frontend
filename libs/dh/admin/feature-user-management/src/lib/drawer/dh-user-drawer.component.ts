@@ -93,9 +93,13 @@ export class DhUserDrawerComponent {
   userId = signal<string | null>(null);
   userIdWithDefaultValue = computed(() => this.userId() ?? '');
 
-  selectedUserQuery = lazyQuery(GetUserByIdDocument);
+  selectedUserQuery = lazyQuery(GetUserByIdDocument, { fetchPolicy: 'no-cache', nextFetchPolicy: 'no-cache' });
 
-  selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
+  selectedUser = computed(() => {
+    const userById = this.selectedUserQuery.data()?.userById;
+    console.log('userById', userById);
+    return userById;
+  });
   isLoading = computed(() => this.selectedUserQuery.loading());
 
   UserStatus = UserStatus;
