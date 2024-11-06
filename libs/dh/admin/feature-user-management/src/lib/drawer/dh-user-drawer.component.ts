@@ -95,11 +95,7 @@ export class DhUserDrawerComponent {
 
   selectedUserQuery = lazyQuery(GetUserByIdDocument, { fetchPolicy: 'no-cache', nextFetchPolicy: 'no-cache' });
 
-  selectedUser = computed(() => {
-    const userById = this.selectedUserQuery.data()?.userById;
-    console.log('userById', userById);
-    return userById;
-  });
+  selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
   isLoading = computed(() => this.selectedUserQuery.loading());
 
   UserStatus = UserStatus;
