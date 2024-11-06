@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -25,8 +26,10 @@ public partial class Query
 {
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
-        [Service] IWholesaleClient_V3 client) =>
-        await client.GetCalculationAsync(id);
+        [Service] IWholesaleClient_V3 client)
+    {
+        return await client.GetCalculationAsync(id);
+    }
 
     [UsePaging]
     [UseSorting]
@@ -34,27 +37,31 @@ public partial class Query
         CalculationQueryInput input,
         string? filter,
         [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
         [Service] IWholesaleClient_V3 client)
     {
         var isFeatureEnabled = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         if (isFeatureEnabled)
         {
-            // Will be executed if feature flag is enabled
+            var result = await clientV1.QueryCalculationsAsync(input);
+            return result;
         }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                return await client.QueryCalculationsAsync(input);
+            }
 
-        if (string.IsNullOrWhiteSpace(filter))
-        {
-            return await client.QueryCalculationsAsync(input);
-        }
-
-        try
-        {
-            var calculationId = Guid.Parse(filter);
-            return [await client.GetCalculationAsync(calculationId)];
-        }
-        catch (Exception)
-        {
-            return [];
+            try
+            {
+                var calculationId = Guid.Parse(filter);
+                return [await client.GetCalculationAsync(calculationId)];
+            }
+            catch (Exception)
+            {
+                return [];
+            }
         }
     }
 

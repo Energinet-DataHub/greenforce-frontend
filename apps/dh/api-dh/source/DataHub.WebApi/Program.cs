@@ -17,6 +17,7 @@ using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
+using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -87,6 +88,7 @@ var apiClientSettings = configuration.GetSection("ApiClientSettings").Get<ApiCli
 services.AddDomainClients(apiClientSettings);
 
 services.AddFeatureManagement();
+services.AddProcessManagerClients();
 
 services
     .AddGraphQLServices()
