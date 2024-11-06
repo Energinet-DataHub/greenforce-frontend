@@ -127,13 +127,13 @@ public class MarketParticipantResolvers
         [Parent] ActorDto actor,
         ActorPublicContactByActorId dataLoader)
     {
-        var publicContact = await dataLoader.LoadRequiredAsync(actor.ActorId);
-        return new ActorPublicMail(publicContact.Email);
+        var publicContact = await dataLoader.LoadAsync(actor.ActorId);
+        return publicContact != null ? new ActorPublicMail(publicContact.Email) : null;
     }
 
-    public Task<ActorContactDto> GetActorPublicContactAsync(
+    public Task<ActorContactDto?> GetActorPublicContactAsync(
         [Parent] ActorDto actor,
-        ActorPublicContactByActorId dataLoader) => dataLoader.LoadRequiredAsync(actor.ActorId);
+        ActorPublicContactByActorId dataLoader) => dataLoader.LoadAsync(actor.ActorId);
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
         [Parent] ActorDto actor,
