@@ -16,7 +16,7 @@ type Actor {
   userRoles: [ActorUserRole!]!
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
-  contact: ActorContactDto
+  contact: ActorContactDto!
   organization: Organization!
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
   credentials: ActorCredentialsDto
