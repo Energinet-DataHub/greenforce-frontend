@@ -248,7 +248,7 @@ export const marketParticipantActors: Actor[] = [
       actorId: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
       category: ContactCategory.Default,
       name: 'Test Organization 3 Contact',
-      email: 'noreply@testorg.dk'
+      email: 'noreply@testorg.dk',
     },
   },
   {
@@ -306,7 +306,7 @@ export const marketParticipantActors: Actor[] = [
       actorId: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb2',
       category: ContactCategory.Default,
       name: 'Test Organization 1 Contact',
-      email: 'noreply@testorg.dk'
+      email: 'noreply@testorg.dk',
     },
   },
 ];

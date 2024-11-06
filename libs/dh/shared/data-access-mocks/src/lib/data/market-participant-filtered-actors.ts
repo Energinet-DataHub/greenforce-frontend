@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Actor, ActorStatus, ContactCategory, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  Actor,
+  ActorStatus,
+  ContactCategory,
+  EicFunction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const filteredActors: Actor[] = [
   {
@@ -33,7 +38,7 @@ export const filteredActors: Actor[] = [
       actorId: '00000000-0000-0000-0000-000000000001',
       category: ContactCategory.Default,
       name: 'Energinet Contact',
-      email: 'noreply@datahub.dk'
+      email: 'noreply@datahub.dk',
     },
     organization: {
       id: '00000000-0000-0000-0000-000000000031',
@@ -64,7 +69,7 @@ export const filteredActors: Actor[] = [
       actorId: '00000000-0000-0000-0000-000000000002',
       category: ContactCategory.Default,
       name: 'Sort Størm Contact',
-      email: 'noreply@sortstrøm.dk'
+      email: 'noreply@sortstrøm.dk',
     },
     organization: {
       id: '00000000-0000-0000-0000-000000000033',

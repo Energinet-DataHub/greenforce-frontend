@@ -68,7 +68,7 @@ export const actors = (id: string): Actor[] => [
       actorId: '801011ea-a291-41f7-be19-581abc05a5ac',
       category: ContactCategory.Default,
       name: 'Inactive balance responsible Contact',
-      email: 'noreply@testorg.dk'
+      email: 'noreply@testorg.dk',
     },
   },
   {
@@ -93,7 +93,7 @@ export const actors = (id: string): Actor[] => [
       actorId: '9c3be101-1471-4a1a-8f52-ddb619778f8f',
       category: ContactCategory.Default,
       name: 'Active energy supplier Contact',
-      email: 'noreply@testorg.dk'
+      email: 'noreply@testorg.dk',
     },
   },
 ];

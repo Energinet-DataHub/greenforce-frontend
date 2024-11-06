@@ -70,7 +70,7 @@ const actors: Actor[] = [
       actorId: '801011ea-a291-41f7-be19-581abc05a5ac',
       category: ContactCategory.Default,
       name: 'Inactive balance responsible Contact',
-      email: 'noreply@testorg.dk'
+      email: 'noreply@testorg.dk',
     },
   },
   {
@@ -95,7 +95,7 @@ const actors: Actor[] = [
       actorId: '301011ea-a291-41f7-be19-581abc05a5ac',
       category: ContactCategory.Default,
       name: 'Balance responsible Contact',
-      email: 'noreply@testorg.dk'
+      email: 'noreply@testorg.dk',
     },
   },
 ];
