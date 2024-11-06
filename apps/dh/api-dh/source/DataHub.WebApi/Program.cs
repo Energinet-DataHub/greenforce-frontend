@@ -20,6 +20,7 @@ using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
@@ -84,6 +85,8 @@ if (environment.IsDevelopment())
 
 var apiClientSettings = configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
 services.AddDomainClients(apiClientSettings);
+
+services.AddFeatureManagement();
 
 services
     .AddGraphQLServices()

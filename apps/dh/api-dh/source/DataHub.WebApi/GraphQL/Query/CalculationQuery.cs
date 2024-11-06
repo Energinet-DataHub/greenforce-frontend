@@ -13,8 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using Microsoft.FeatureManagement;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -31,8 +33,15 @@ public partial class Query
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
         string? filter,
+        [Service] IFeatureManager featureManager,
         [Service] IWholesaleClient_V3 client)
     {
+        var isFeatureEnabled = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+        if (isFeatureEnabled)
+        {
+            // Will be executed if feature flag is enabled
+        }
+
         if (string.IsNullOrWhiteSpace(filter))
         {
             return await client.QueryCalculationsAsync(input);
