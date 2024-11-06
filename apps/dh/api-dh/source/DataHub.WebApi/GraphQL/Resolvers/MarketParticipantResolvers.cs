@@ -125,8 +125,15 @@ public class MarketParticipantResolvers
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
-        ActorPublicMailByActorId dataLoader) =>
-        await dataLoader.LoadAsync(actor.ActorId);
+        ActorPublicContactByActorId dataLoader)
+    {
+        var publicContact = await dataLoader.LoadRequiredAsync(actor.ActorId);
+        return new ActorPublicMail(publicContact.Email);
+    }
+
+    public Task<ActorContactDto> GetActorPublicContactAsync(
+        [Parent] ActorDto actor,
+        ActorPublicContactByActorId dataLoader) => dataLoader.LoadRequiredAsync(actor.ActorId);
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
         [Parent] ActorDto actor,

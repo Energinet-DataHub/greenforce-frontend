@@ -13,27 +13,27 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ActorPublicMailByActorId : BatchDataLoader<Guid, ActorPublicMail>
+public class ActorPublicContactByActorId : BatchDataLoader<Guid, ActorContactDto>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
-    public ActorPublicMailByActorId(
+    public ActorPublicContactByActorId(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
         DataLoaderOptions options)
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<Guid, ActorPublicMail>> LoadBatchAsync(
+    protected override async Task<IReadOnlyDictionary<Guid, ActorContactDto>> LoadBatchAsync(
         IReadOnlyList<Guid> keys,
         CancellationToken cancellationToken)
     {
-        return (await _client.ActorContactsPublicAsync(cancellationToken))
-            .Where(x => keys.Contains(x.ActorId))
-            .ToDictionary(x => x.ActorId, x => new ActorPublicMail(x.Email));
+        var publicContacts = await _client.ActorContactsPublicAsync(cancellationToken);
+        return publicContacts
+            .Where(contact => keys.Contains(contact.ActorId))
+            .ToDictionary(contact => contact.ActorId);
     }
 }
