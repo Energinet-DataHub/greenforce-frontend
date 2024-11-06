@@ -33,10 +33,10 @@ public class MarketParticipantResolvers
         [Service] IMarketParticipantClient_V1 client)
     {
         var allContacts = await client
-            .ActorContactGetAsync(actor.ActorId)
+            .ActorContactsPublicAsync()
             .ConfigureAwait(false);
 
-        return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
+        return allContacts.SingleOrDefault(c => c.ActorId == actor.ActorId);
     }
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
