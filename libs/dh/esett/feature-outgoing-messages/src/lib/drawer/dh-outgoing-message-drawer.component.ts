@@ -48,6 +48,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhResolveModalComponent } from './dh-resolve-modal.component';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhOutgoingMessagesSignalStore } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -90,6 +91,7 @@ export class DhOutgoingMessageDrawerComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
   private readonly modalService = inject(WattModalService);
+  private readonly store = inject(DhOutgoingMessagesSignalStore);
 
   private subscription?: Subscription;
 
@@ -221,6 +223,7 @@ export class DhOutgoingMessageDrawerComponent {
     });
 
     this.loadOutgoingMessage(this.outgoingMessage.documentId);
+    this.store.outgoingMessageQuery().refetch();
 
     return true;
   };

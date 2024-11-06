@@ -72,7 +72,7 @@ export class DhResolveModalComponent extends WattTypedModal<{
   busy = false;
 
   resolveForm = this.formBuilder.group({
-    comment: ['', [Validators.required, Validators.maxLength(1024), Validators.minLength(1)]],
+    comment: ['', [Validators.required, Validators.maxLength(1024)]],
   });
 
   async resolve() {
