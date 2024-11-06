@@ -24,7 +24,7 @@ import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco'
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -40,10 +40,14 @@ import {
 import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
+  ManuallyHandleOutgoingMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhResolveModalComponent } from './dh-resolve-modal.component';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -85,6 +89,7 @@ export class DhOutgoingMessageDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
+  private readonly modalService = inject(WattModalService);
 
   private subscription?: Subscription;
 
@@ -97,6 +102,8 @@ export class DhOutgoingMessageDrawerComponent {
 
   dispatchDocument = signal<string | undefined>(undefined);
   responseDocument = signal<string | undefined>(undefined);
+
+  resolveMutation = mutation(ManuallyHandleOutgoingMessageDocument);
 
   get messageTypeValue(): string {
     if (this.outgoingMessage?.calculationType) {
@@ -183,4 +190,46 @@ export class DhOutgoingMessageDrawerComponent {
       },
     });
   }
+
+  openResolveModal() {
+    this.modalService.open({
+      component: DhResolveModalComponent,
+      data: { resolve: this.resolve },
+    });
+  }
+
+  resolve = async (comment: string): Promise<boolean> => {
+    if (!this.outgoingMessage?.documentId) {
+      return false;
+    }
+
+    const result = await this.resolveMutation.mutate({
+      variables: { input: { documentId: this.outgoingMessage.documentId, comment } },
+    });
+
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedError'),
+      });
+      return false;
+    }
+
+    this.toastService.open({
+      type: 'success',
+      message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedSuccess'),
+    });
+
+    this.loadOutgoingMessage(this.outgoingMessage.documentId);
+
+    return true;
+  };
+
+  canResolve = () => {
+    return (
+      this.outgoingMessage?.documentStatus === DocumentStatus.Rejected ||
+      (this.outgoingMessage?.documentStatus === DocumentStatus.AwaitingReply &&
+        dayjs(new Date()).diff(this.outgoingMessage.lastDispatched, 'hours') >= 12)
+    );
+  };
 }

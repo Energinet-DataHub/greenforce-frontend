@@ -54,6 +54,9 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
         @case ('REJECTED') {
           <watt-badge type="warning">{{ t(status!) }}</watt-badge>
         }
+        @case ('MANUALLY_HANDLED') {
+          <watt-badge type="success">{{ t(status!) }}</watt-badge>
+        }
         @default {
           {{ status | dhEmDashFallback }}
         }
