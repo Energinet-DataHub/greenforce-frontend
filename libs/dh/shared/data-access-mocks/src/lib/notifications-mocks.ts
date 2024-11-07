@@ -53,7 +53,7 @@ function getNotifications() {
             __typename: 'NotificationDto',
             id: 3,
             notificationType: NotificationType.SettlementReportReadyForDownload,
-            relatedToId: null,
+            relatedToId: '12344321',
             occurredAt: new Date('2024-10-20'),
           },
           {

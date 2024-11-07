@@ -49,6 +49,10 @@
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
         "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+      },
+      "ActorCredentialsExpiring": {
+        "headline": "Aktør",
+        "message": "B2B adgang til denne aktør er ved at udløbe"
       }
     }
   },
