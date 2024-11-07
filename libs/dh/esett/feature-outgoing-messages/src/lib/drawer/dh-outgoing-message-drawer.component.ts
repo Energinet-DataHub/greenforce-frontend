@@ -40,14 +40,12 @@ import {
 import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
-  ManuallyHandleOutgoingMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhResolveModalComponent } from './dh-resolve-modal.component';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhOutgoingMessagesSignalStore } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
 @Component({
@@ -104,8 +102,6 @@ export class DhOutgoingMessageDrawerComponent {
 
   dispatchDocument = signal<string | undefined>(undefined);
   responseDocument = signal<string | undefined>(undefined);
-
-  resolveMutation = mutation(ManuallyHandleOutgoingMessageDocument);
 
   get messageTypeValue(): string {
     if (this.outgoingMessage?.calculationType) {
@@ -198,20 +194,14 @@ export class DhOutgoingMessageDrawerComponent {
     this.modalService.open({
       component: DhResolveModalComponent,
       data: { message: this.outgoingMessage },
-      onClosed: (result) => {
-        if (result && this.outgoingMessage) {
-          this.loadOutgoingMessage(this.outgoingMessage.documentId);
-          this.store.outgoingMessageQuery().refetch();
-        }
-      },
     });
   }
 
-  canResolve = () => {
+  canResolve() {
     return (
       this.outgoingMessage?.documentStatus === DocumentStatus.Rejected ||
       (this.outgoingMessage?.documentStatus === DocumentStatus.AwaitingReply &&
         dayjs(new Date()).diff(this.outgoingMessage.lastDispatched, 'hours') >= 12)
     );
-  };
+  }
 }

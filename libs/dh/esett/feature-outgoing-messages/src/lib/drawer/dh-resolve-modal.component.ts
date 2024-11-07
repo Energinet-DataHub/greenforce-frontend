@@ -20,9 +20,11 @@ import { translate, TranslocoDirective } from '@ngneat/transloco';
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   EsettOutgoingMessage,
+  GetOutgoingMessageByIdDocument,
+  GetOutgoingMessagesDocument,
   ManuallyHandleOutgoingMessageDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -31,15 +33,9 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 @Component({
   selector: 'dh-resolve-modal',
   standalone: true,
-  styles: [
-    `
-      .comment-textarea {
-        width: 25rem;
-      }
-    `,
-  ],
   template: `
     <watt-modal
+      size="small"
       #modal
       *transloco="let t; read: 'eSett.outgoingMessages.drawer.resolveModal'"
       [title]="t('markAsResolved')"
@@ -56,7 +52,13 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
         </watt-button>
-        <watt-button variant="secondary" type="submit" formId="resolve-form" [loading]="this.busy">
+        <watt-button
+          variant="secondary"
+          type="submit"
+          formId="resolve-form"
+          [disabled]="loading()"
+          [loading]="loading()"
+        >
           {{ t('markAsResolved') }}
         </watt-button>
       </watt-modal-actions>
@@ -65,6 +67,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+
     WATT_MODAL,
     WattButtonComponent,
     WattTextAreaFieldComponent,
@@ -73,28 +76,29 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 export class DhResolveModalComponent extends WattTypedModal<{
   message: EsettOutgoingMessage;
 }> {
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
 
-  resolveMutation = mutation(ManuallyHandleOutgoingMessageDocument);
+  resolveMutation = mutation(ManuallyHandleOutgoingMessageDocument, {
+    refetchQueries: [GetOutgoingMessagesDocument, GetOutgoingMessageByIdDocument],
+  });
 
-  busy = false;
+  loading = this.resolveMutation.loading;
 
   resolveForm = this.formBuilder.group({
     comment: ['', [Validators.required, Validators.maxLength(1024)]],
   });
 
   async resolve() {
-    if (this.busy || !this.resolveForm.valid || !this.resolveForm.value.comment) {
+    if (this.resolveForm.controls.comment.valid === false) {
       return;
     }
 
-    this.busy = true;
     const result = await this.resolveMutation.mutate({
       variables: {
         input: {
           documentId: this.modalData.message.documentId,
-          comment: this.resolveForm.value.comment,
+          comment: this.resolveForm.controls.comment.value,
         },
       },
     });
@@ -106,14 +110,12 @@ export class DhResolveModalComponent extends WattTypedModal<{
       });
     }
 
-    this.toastService.open({
-      type: 'success',
-      message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedSuccess'),
-    });
+    if (result.data?.manuallyHandleOutgoingMessage.success) {
+      this.toastService.open({
+        type: 'success',
+        message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedSuccess'),
+      });
 
-    this.busy = false;
-
-    if (result) {
       this.dialogRef.close(true);
     }
   }
