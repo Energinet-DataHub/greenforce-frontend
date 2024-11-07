@@ -26,9 +26,14 @@ public partial class Query
 {
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
+        [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
         [Service] IWholesaleClient_V3 client)
     {
-        return await client.GetCalculationAsync(id);
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+        return useProcessManager
+            ? await clientV1.GetCalculationAsync(id)
+            : await client.GetCalculationAsync(id);
     }
 
     [UsePaging]
@@ -40,28 +45,27 @@ public partial class Query
         [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
         [Service] IWholesaleClient_V3 client)
     {
-        var isFeatureEnabled = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
-        if (isFeatureEnabled)
-        {
-            var result = await clientV1.QueryCalculationsAsync(input);
-            return result;
-        }
-        else
-        {
-            if (string.IsNullOrWhiteSpace(filter))
-            {
-                return await client.QueryCalculationsAsync(input);
-            }
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
 
-            try
-            {
-                var calculationId = Guid.Parse(filter);
-                return [await client.GetCalculationAsync(calculationId)];
-            }
-            catch (Exception)
-            {
-                return [];
-            }
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            return useProcessManager
+                ? await clientV1.QueryCalculationsAsync(input)
+                : await client.QueryCalculationsAsync(input);
+        }
+
+        try
+        {
+            var calculationId = Guid.Parse(filter);
+            var calculation = useProcessManager
+                ? await clientV1.GetCalculationAsync(calculationId)
+                : await client.GetCalculationAsync(calculationId);
+
+            return [calculation];
+        }
+        catch (Exception)
+        {
+            return [];
         }
     }
 
@@ -84,8 +88,12 @@ public partial class Query
     public async Task<CalculationDto?> GetLatestCalculationAsync(
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
+        [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
         [Service] IWholesaleClient_V3 client)
     {
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+
         var input = new CalculationQueryInput
         {
             Period = period,
@@ -93,7 +101,10 @@ public partial class Query
             States = [CalculationOrchestrationState.Completed],
         };
 
-        var calculations = await client.QueryCalculationsAsync(input);
+        var calculations = useProcessManager
+            ? await clientV1.QueryCalculationsAsync(input)
+            : await client.QueryCalculationsAsync(input);
+
         return calculations.FirstOrDefault();
     }
 }
