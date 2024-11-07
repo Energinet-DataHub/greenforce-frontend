@@ -917,7 +917,7 @@
         "markAsResolved": "Mark as resolved",
         "resolveModal": {
           "markAsResolved": "Mark as resolved",
-          "comment": "Comment",
+          "resolveField": "Comment",
           "cancel": "Cancel",
           "resolvedSuccess": "Message marked was marked as resolved.",
           "resolvedError": "An error occurred."
