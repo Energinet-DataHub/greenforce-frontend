@@ -105,4 +105,17 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
         return await response.Content.ReadAsStreamAsync(cancellationToken);
     }
+
+    public async Task CancelAsync(SettlementReportRequestId requestId, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "settlement-reports/cancel");
+
+        request.Content = new StringContent(
+            JsonConvert.SerializeObject(requestId),
+            Encoding.UTF8,
+            "application/json");
+
+        using var responseMessage = await _apiHttpClient.SendAsync(request, cancellationToken);
+        responseMessage.EnsureSuccessStatusCode();
+    }
 }

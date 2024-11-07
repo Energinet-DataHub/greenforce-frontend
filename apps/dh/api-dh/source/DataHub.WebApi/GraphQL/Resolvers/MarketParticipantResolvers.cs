@@ -33,10 +33,10 @@ public class MarketParticipantResolvers
         [Service] IMarketParticipantClient_V1 client)
     {
         var allContacts = await client
-            .ActorContactGetAsync(actor.ActorId)
+            .ActorContactsPublicAsync()
             .ConfigureAwait(false);
 
-        return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
+        return allContacts.SingleOrDefault(c => c.ActorId == actor.ActorId);
     }
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
@@ -125,8 +125,15 @@ public class MarketParticipantResolvers
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
-        ActorPublicMailByActorId dataLoader) =>
-        await dataLoader.LoadAsync(actor.ActorId);
+        ActorPublicContactByActorId dataLoader)
+    {
+        var publicContact = await dataLoader.LoadAsync(actor.ActorId);
+        return publicContact != null ? new ActorPublicMail(publicContact.Email) : null;
+    }
+
+    public Task<ActorContactDto?> GetActorPublicContactAsync(
+        [Parent] ActorDto actor,
+        ActorPublicContactByActorId dataLoader) => dataLoader.LoadAsync(actor.ActorId);
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
         [Parent] ActorDto actor,

@@ -54,4 +54,13 @@ public partial class Mutation
 
         return true;
     }
+
+    public async Task<bool> CancelSettlementReportAsync(
+        SettlementReportRequestId requestId,
+        [Service] ISettlementReportsClient settlementReportsClient)
+    {
+        await settlementReportsClient.CancelAsync(requestId, default);
+
+        return true;
+    }
 }
