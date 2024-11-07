@@ -96,6 +96,8 @@ export class EoAuthService {
        * The response_type is the type of the response. Possible values are 'code' and 'token'.
        */
       response_type: 'code',
+
+      scopes: `openid offline_access ${this.b2cEnvironment.client_id}`,
     };
 
     this.userManager = new UserManager(settings);
@@ -110,47 +112,29 @@ export class EoAuthService {
   }
 
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
-    return this.userManager?.signinRedirect({ state: config }) ?? Promise.resolve();
+    return this.userManager?.signinRedirect({ state: config, scope: `openid offline_access ${this.b2cEnvironment.client_id}`}) ?? Promise.resolve();
   }
 
   async acceptTos(): Promise<void> {
-    const user = this.user();
+    const user = await this.userManager?.getUser() as User;
+
+    // If user is not logged in, redirect to login
     if (!user) {
       this.login();
     }
 
+    // If user has already accepted TOS, return
     if (user?.profile['tos_accepted']) {
       return new Promise((resolve) => resolve());
     }
 
-    try {
-      // Accept TOS
-      await lastValueFrom(
-        this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {})
-      );
+    // Accept TOS
+    await lastValueFrom(
+      this.http.post(`${this.apiEnvironment.apiBase}/authorization/terms/accept`, {})
+    );
 
-      // Poll for TOS acceptance confirmation
-      const maxAttempts = 10;
-      const delayMs = 500;
-
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const updatedUser = await this.refreshToken({
-          prompt: 'login',
-          max_age: '0',
-          t: Date.now().toString(),
-        });
-        if (updatedUser?.profile['tos_accepted']) {
-          return;
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-      }
-
-      return Promise.reject('Max attempts reached waiting for TOS acceptance!');
-    } catch (error) {
-      this.login();
-      throw error;
-    }
+    // Force user to log out to get new token with TOS accepted
+    return this.login();
   }
 
   signinCallback(): Promise<User | null> {
@@ -171,21 +155,6 @@ export class EoAuthService {
   logout(): Promise<void> {
     this.userManager?.removeUser();
     return this.userManager?.signoutRedirect() ?? Promise.resolve();
-  }
-
-  async refreshToken(
-    extraQueryParams?: Record<string, string | number | boolean> | undefined
-  ): Promise<User | null> {
-    const user = await this.userManager?.signinSilent({
-      extraQueryParams,
-    });
-    if (user) {
-      this.user.set((user as EoUser) ?? null);
-      return Promise.resolve(user);
-    } else {
-      this.user.set(null);
-      return Promise.resolve(null);
-    }
   }
 
   isLoggedIn(): Promise<boolean> {
