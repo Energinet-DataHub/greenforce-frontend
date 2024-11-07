@@ -159,7 +159,8 @@ export class DhOutgoingMessageDrawerComponent {
             this.outgoingMessage.documentId &&
             ((this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
-              this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
+              this.outgoingMessage.documentStatus === DocumentStatus.Rejected ||
+              this.outgoingMessage.documentStatus === DocumentStatus.ManuallyHandled)
           ) {
             this.loadDocument(this.outgoingMessage.responseDocumentUrl, this.responseDocument.set);
           }
