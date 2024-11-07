@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhOrganizationsOverviewComponent as default } from './lib/dh-organizations-overview.component';
-export { DhOrganizationDetailsComponent } from './lib/details/dh-organization-details.component';
-export { DhOrganizationEditModalComponent } from './lib/edit/dh-edit-modal.component';
+import { ManuallyHandleOutgoingMessageMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const resolveMessageMutationMock: ManuallyHandleOutgoingMessageMutation = {
+  __typename: 'Mutation',
+  manuallyHandleOutgoingMessage: {
+    __typename: 'ManuallyHandleOutgoingMessagePayload',
+    success: true,
+  },
+};

@@ -18,6 +18,7 @@ import {
   Actor,
   ActorStatus,
   ActorUserRole,
+  ContactCategory,
   EicFunction,
   Organization,
   User,
@@ -63,6 +64,14 @@ const actors: Actor[] = [
       id: '1',
       name: '',
     } as Organization,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '901011ea-a291-41f7-be19-581abc05a5ac',
+      actorId: '801011ea-a291-41f7-be19-581abc05a5ac',
+      category: ContactCategory.Default,
+      name: 'Inactive balance responsible Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
   {
     __typename: 'Actor',
@@ -80,6 +89,14 @@ const actors: Actor[] = [
       id: '1',
       name: '',
     } as Organization,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '401011ea-a291-41f7-be19-581abc05a5ac',
+      actorId: '301011ea-a291-41f7-be19-581abc05a5ac',
+      category: ContactCategory.Default,
+      name: 'Balance responsible Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
 ];
 

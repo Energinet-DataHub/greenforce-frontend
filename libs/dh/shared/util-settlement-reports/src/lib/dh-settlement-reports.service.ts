@@ -18,10 +18,19 @@ import { inject, Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { wattFormatDate } from '@energinet-datahub/watt/date';
+
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  AddTokenToDownloadUrlDocument,
+  GetSettlementReportDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
+
+type DhSettlementReportPartial = Pick<
+  DhSettlementReport,
+  'id' | 'period' | 'calculationType' | 'gridAreas' | 'settlementReportDownloadUrl'
+>;
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +39,21 @@ export class DhSettlementReportsService {
   private toastService = inject(WattToastService);
 
   private addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
+  private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
 
-  async downloadReport(settlementReport: DhSettlementReport) {
+  async downloadReportFromNotification(settlementReportId: string) {
+    const result = await this.settlementReportQuery.query({
+      variables: {
+        value: { id: settlementReportId },
+      },
+    });
+
+    if (result.data.settlementReport) {
+      this.downloadReport(result.data.settlementReport);
+    }
+  }
+
+  async downloadReport(settlementReport: DhSettlementReportPartial) {
     let { settlementReportDownloadUrl } = settlementReport;
 
     if (!settlementReportDownloadUrl) {
@@ -60,7 +82,7 @@ export class DhSettlementReportsService {
     }
   }
 
-  private settlementReportName(report: DhSettlementReport): string {
+  private settlementReportName(report: DhSettlementReportPartial): string {
     const baseTranslationPath = 'wholesale.settlementReports';
 
     const calculationPeriod = wattFormatDate(report.period, 'short');

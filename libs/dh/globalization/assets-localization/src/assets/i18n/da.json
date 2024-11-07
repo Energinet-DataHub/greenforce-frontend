@@ -49,6 +49,10 @@
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
         "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+      },
+      "ActorCredentialsExpiring": {
+        "headline": "Aktør",
+        "message": "B2B adgang til denne aktør er ved at udløbe"
       }
     }
   },
@@ -865,7 +869,8 @@
           "AWAITING_REPLY": "Afventer svar fra eSett",
           "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
-          "REJECTED": "Afvist"
+          "REJECTED": "Afvist",
+          "MANUALLY_HANDLED": "Manuelt løst"
         }
       },
       "filters": {
@@ -908,6 +913,14 @@
           "periode": "Beregnet periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
+        },
+        "markAsResolved": "Marker som løst",
+        "resolveModal": {
+          "markAsResolved": "Marker som løst",
+          "resolveField": "Kommentar",
+          "cancel": "Annuller",
+          "resolvedSuccess": "Beskeden blev markeret som løst.",
+          "resolvedError": "En fejl opstod."
         }
       }
     },

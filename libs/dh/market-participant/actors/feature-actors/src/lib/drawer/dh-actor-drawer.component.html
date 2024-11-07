@@ -63,10 +63,10 @@ limitations under the License.
       <watt-drawer-content>
         <watt-tabs>
           <watt-tab [label]="t('tabs.masterData.tabLabel')">
-            <vater-stack direction="row" gap="ml" align="flex-start" fill="horizontal">
+            <vater-stack direction="row" gap="ml" align="stretch" fill="horizontal">
               <watt-card variant="solid">
+                <h4>{{ t("tabs.masterData.actor") }}</h4>
                 <watt-description-list variant="stack" [itemSeparators]="false">
-                  <watt-description-list-item [label]="t('tabs.masterData.actor')" />
                   <watt-description-list-item
                     [label]="t('tabs.masterData.glnOrEic')"
                     [value]="actor()?.glnOrEicNumber"
@@ -85,11 +85,14 @@ limitations under the License.
                   }
 
                   <watt-description-list-item
-                    [itemSeparator]="true"
                     [label]="t('tabs.masterData.marketRole')"
                     [value]="marketRoleOrFallback()"
                   />
-                  <watt-description-list-item [label]="t('tabs.masterData.contact')" />
+                </watt-description-list>
+                <hr class="watt-divider" />
+                <h6>{{ t("tabs.masterData.contact") }}</h6>
+                <watt-description-list variant="stack" [itemSeparators]="false"
+                  >/>
                   <watt-description-list-item
                     [label]="t('tabs.masterData.nameOrDepartment')"
                     [value]="actor()?.contact?.name"
@@ -106,9 +109,9 @@ limitations under the License.
               </watt-card>
               <watt-card variant="fill">
                 <vater-stack direction="row">
-                  <div class="watt-label watt-on-light--high-emphasis">
+                  <h3 style="margin: 0">
                     {{ t("tabs.masterData.organization") }}
-                  </div>
+                  </h3>
                   <watt-button
                     (click)="editOrganization(actor()?.organization?.id)"
                     variant="text"
@@ -116,7 +119,6 @@ limitations under the License.
                   >
                 </vater-stack>
                 <watt-description-list variant="stack" [itemSeparators]="false">
-                  <watt-description-list-item [label]="t('tabs.masterData.organization')" />
                   <watt-description-list-item
                     [label]="t('tabs.masterData.cvr')"
                     [value]="actor()?.organization?.businessRegisterIdentifier"

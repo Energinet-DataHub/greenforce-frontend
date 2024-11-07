@@ -13,27 +13,30 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+namespace Energinet.DataHub.WebApi.Controllers;
 
-public class ActorPublicMailByActorId : BatchDataLoader<Guid, ActorPublicMail>
+[ApiController]
+[Route("v1/[controller]")]
+public class MarketParticipantBalanceResponsibleController : MarketParticipantControllerBase
 {
     private readonly IMarketParticipantClient_V1 _client;
 
-    public ActorPublicMailByActorId(
-        IMarketParticipantClient_V1 client,
-        IBatchScheduler batchScheduler,
-        DataLoaderOptions options)
-        : base(batchScheduler, options) =>
-        _client = client;
-
-    protected override async Task<IReadOnlyDictionary<Guid, ActorPublicMail>> LoadBatchAsync(
-        IReadOnlyList<Guid> keys,
-        CancellationToken cancellationToken)
+    public MarketParticipantBalanceResponsibleController(IMarketParticipantClient_V1 client)
     {
-        return (await _client.ActorContactsPublicAsync(cancellationToken))
-            .Where(x => keys.Contains(x.ActorId))
-            .ToDictionary(x => x.ActorId, x => new ActorPublicMail(x.Email));
+        _client = client;
+    }
+
+    [HttpPost]
+    [Route("Import")]
+    [RequestSizeLimit(10485760)]
+    public Task<ActionResult> ImportAsync(IFormFile balanceResponsibility)
+    {
+        return HandleExceptionAsync(async () =>
+        {
+            await using var openReadStream = balanceResponsibility.OpenReadStream();
+            await _client.BalanceResponsibilityRelationsImportAsync(new FileParameter(openReadStream)).ConfigureAwait(false);
+        });
     }
 }

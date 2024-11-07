@@ -49,6 +49,10 @@
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
         "message": "An imbalance has been registered in grid area '{{ relatedToId }}'"
+      },
+      "ActorCredentialsExpiring": {
+        "headline": "Market participant",
+        "message": "B2B access to this actor is about to expire"
       }
     }
   },
@@ -865,7 +869,8 @@
           "AWAITING_REPLY": "Awaiting reply from eSett",
           "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "MANUALLY_HANDLED": "Solved manually"
         }
       },
       "filters": {
@@ -908,6 +913,14 @@
           "periode": "Calculated periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
+        },
+        "markAsResolved": "Mark as resolved",
+        "resolveModal": {
+          "markAsResolved": "Mark as resolved",
+          "resolveField": "Comment",
+          "cancel": "Cancel",
+          "resolvedSuccess": "Message marked was marked as resolved.",
+          "resolvedError": "An error occurred."
         }
       }
     },

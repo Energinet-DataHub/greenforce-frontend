@@ -40,6 +40,7 @@ watt-description-list {
 
       dd {
         margin: 0;
+        flex: 1;
       }
 
       dt {
@@ -48,16 +49,10 @@ watt-description-list {
 
       div {
         display: flex;
-        flex-wrap: wrap;
-      }
-
-      div.item-separator {
-        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-        padding-bottom: var(--watt-space-m);
       }
     }
   }
-  &.watt-description-list-stack.itemSeparators {
+  &.watt-description-list-stack.item-separators {
     dl {
       div {
         border-bottom: 1px solid var(--watt-color-neutral-grey-300);
