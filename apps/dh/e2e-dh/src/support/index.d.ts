@@ -19,5 +19,6 @@ declare namespace Cypress {
   interface Chainable<Subject> {
     login(email: string, password: string): void;
     removeCookieBanner(): void;
+    visit(url: string, options:any, skipLoggedInCheck:boolean): Chainable<any>;
   }
 }

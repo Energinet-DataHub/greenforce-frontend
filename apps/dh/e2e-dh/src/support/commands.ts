@@ -18,8 +18,7 @@ import '@testing-library/cypress/add-commands';
 
 function loginViaB2C(email: string, password: string) {
   cy.removeCookieBanner();
-  cy.visit('/');
-
+  cy.visit('/login', undefined, true);
   cy.get('watt-button').click();
 
   // Login to B2C.
@@ -82,13 +81,26 @@ Cypress.Commands.add('removeCookieBanner', () => {
     displayName: 'Cookie banner',
     message: 'Decline cookies',
   });
-  cy.location('host').then(($host) => {
+  cy.location('host', { log: false }).then(($host) => {
     cy.setCookie('CookieInformationConsent', encodeURIComponent('{"consents_approved":[]}'), {
       domain: $host,
       sameSite: 'lax',
       secure: true,
       hostOnly: true,
       path: '/',
+      log: false,
     });
   });
+});
+
+Cypress.Commands.overwrite('visit', (originalFn, url, options, skipLoggedInCheck?:boolean) => {
+  cy.intercept('POST', 'bff/graphql?GetSelectionActors').as('getSelectionActors');
+  // @ts-expect-error - no error
+  originalFn(url, options);
+  if (skipLoggedInCheck !== true){
+    cy.get('dh-shell').then(()=> {
+      cy.window().its('localStorage').invoke('getItem', 'actorStorage.selectedActorId').should('exist');
+      cy.wait('@getSelectionActors');
+    });
+  }
 });
