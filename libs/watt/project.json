@@ -39,7 +39,7 @@
       "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "outputDir": "dist/storybook/watt",
+        "outputDir": "dist/designsystem",
         "configDir": "libs/watt/.storybook",
         "browserTarget": "watt:build-storybook",
         "compodoc": false,
