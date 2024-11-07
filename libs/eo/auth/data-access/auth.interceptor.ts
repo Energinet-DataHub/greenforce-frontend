@@ -52,7 +52,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
     // Add Authorization header to the request
     const authorizedRequest = req.clone({
-      headers: req.headers.append('Authorization', `Bearer ${this.authService.user()?.access_token}`),
+      headers: req.headers.append(
+        'Authorization',
+        `Bearer ${this.authService.user()?.access_token}`
+      ),
     });
     return handler.handle(authorizedRequest).pipe(
       tap(() => {

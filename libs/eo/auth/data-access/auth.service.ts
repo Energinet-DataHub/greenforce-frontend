@@ -112,11 +112,16 @@ export class EoAuthService {
   }
 
   login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
-    return this.userManager?.signinRedirect({ state: config, scope: `openid offline_access ${this.b2cEnvironment.client_id}`}) ?? Promise.resolve();
+    return (
+      this.userManager?.signinRedirect({
+        state: config,
+        scope: `openid offline_access ${this.b2cEnvironment.client_id}`,
+      }) ?? Promise.resolve()
+    );
   }
 
   async acceptTos(): Promise<void> {
-    const user = await this.userManager?.getUser() as User;
+    const user = (await this.userManager?.getUser()) as User;
 
     // If user is not logged in, redirect to login
     if (!user) {
