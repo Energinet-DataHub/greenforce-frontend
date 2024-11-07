@@ -24,14 +24,14 @@ export const getOrganizationsQueryMock: GetOrganizationsQuery = {
       id: 'b3bdd441-4f22-3f33-b88f-08da5f288474',
       businessRegisterIdentifier: '12345677',
       name: 'Sort Strøm',
-      domain: 'sortstrom.dk',
+      domains: ['sortstrom.dk', 'kulsortstorm.dk'],
     },
     {
       __typename: 'Organization',
       id: '23f2fca9-2b4b-1150-99e9-08dbc66e2700',
       businessRegisterIdentifier: '99990115',
       name: 'Hvid Strøm',
-      domain: 'hvidstrom.dk',
+      domains: ['hvidstrom.dk'],
     },
   ],
 };

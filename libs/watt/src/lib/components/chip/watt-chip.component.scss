@@ -60,6 +60,10 @@ label {
     cursor: not-allowed;
   }
 
+  &.read-only {
+    cursor: inherit;
+  }
+
   .selected-icon {
     margin-right: var(--watt-space-s);
   }

@@ -1,10 +1,11 @@
 query GetFilteredActors {
   filteredActors {
-    displayName
     id
+    name
+    marketRole
     organization {
       id
-      domain
+      domains
     }
   }
 }

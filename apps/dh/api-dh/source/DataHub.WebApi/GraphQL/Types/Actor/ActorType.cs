@@ -64,7 +64,7 @@ public class ActorType : ObjectType<ActorDto>
 
         descriptor
             .Field("contact")
-            .ResolveWith<MarketParticipantResolvers>(c => c.GetContactAsync(default!, default!));
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorPublicContactAsync(default!, default!));
 
         descriptor
             .Field(f => f.OrganizationId)

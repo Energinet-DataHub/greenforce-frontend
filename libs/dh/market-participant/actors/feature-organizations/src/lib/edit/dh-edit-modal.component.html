@@ -16,23 +16,16 @@ limitations under the License.
 -->
 <watt-modal
   size="small"
-  [title]="organization().name"
-  (closed)="onCloseModal()"
-  [loading]="isLoading"
+  [title]="modalData.name"
+  [loading]="loading()"
   *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
 >
   <form id="editForm" (ngSubmit)="save()">
-    <watt-text-field class="domain-field" [label]="t('domainLabel')" [formControl]="domainControl">
-      @if (domainControl.hasError("pattern")) {
-        <watt-field-error>
-          {{ t("invalidDomain") }}
-        </watt-field-error>
-      }
-    </watt-text-field>
+    <dh-organization-manage [domains]="domains" />
   </form>
 
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="onCloseModal()">
+    <watt-button variant="secondary" (click)="close()">
       {{ t("cancel") }}
     </watt-button>
 

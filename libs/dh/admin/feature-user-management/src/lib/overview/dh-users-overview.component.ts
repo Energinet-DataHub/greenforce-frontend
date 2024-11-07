@@ -132,7 +132,8 @@ export class DhUsersOverviewComponent {
   readonly actors = query(GetFilteredActorsDocument);
   readonly actorOptions = computed<WattDropdownOptions>(() =>
     (this.actors.data()?.filteredActors ?? []).map((actor) => ({
-      displayValue: actor.displayName,
+      displayValue:
+        actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
       value: actor.id,
     }))
   );

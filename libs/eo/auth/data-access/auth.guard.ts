@@ -45,6 +45,9 @@ export const eoScopeGuard: CanActivateFn = async (route: ActivatedRouteSnapshot)
   if (!authService.user()?.profile.tos_accepted) {
     router.navigate([transloco.getActiveLang(), 'terms'], {
       queryParams: { redirectUrl },
+      state: {
+        'show-actions': true,
+      },
     });
     return false;
   } else {

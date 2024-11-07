@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Actor, ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  Actor,
+  ActorStatus,
+  ContactCategory,
+  EicFunction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const filteredActors: Actor[] = [
   {
@@ -27,11 +32,19 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '10000000-0000-0000-0000-000000000001',
+      actorId: '00000000-0000-0000-0000-000000000001',
+      category: ContactCategory.Default,
+      name: 'Energinet Contact',
+      email: 'noreply@datahub.dk',
+    },
     organization: {
       id: '00000000-0000-0000-0000-000000000031',
       name: 'Energinet DataHub A/S',
       businessRegisterIdentifier: '5790001330583',
-      domain: 'energinet.dk',
+      domains: ['energinet.dk'],
       status: 'Active',
       __typename: 'Organization',
       address: {
@@ -50,11 +63,19 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '10000000-0000-0000-0000-000000000002',
+      actorId: '00000000-0000-0000-0000-000000000002',
+      category: ContactCategory.Default,
+      name: 'Sort Størm Contact',
+      email: 'noreply@sortstrøm.dk',
+    },
     organization: {
       id: '00000000-0000-0000-0000-000000000033',
       name: 'Sort Størm A/S',
       businessRegisterIdentifier: '5790001330583',
-      domain: 'sort.dk',
+      domains: ['sort.dk', 'hvid.dk'],
       status: 'Active',
       __typename: 'Organization',
       address: {

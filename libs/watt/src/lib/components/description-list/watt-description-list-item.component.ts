@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, TemplateRef, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -22,16 +22,18 @@ import { NgClass } from '@angular/common';
   imports: [NgClass],
   selector: 'watt-description-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [NgClass],
   template: `<ng-template #templateRef
-    ><div [ngClass]="{ 'force-new-row': forceNewRow }">
-      <dt class="watt-label watt-on-light--high-emphasis">{{ label }}</dt>
-      <dd class="watt-text-s">{{ value }}</dd>
+    ><div [ngClass]="{ 'force-new-row': forceNewRow(), 'item-separator': itemSeparator() }">
+      <dt class="watt-label watt-on-light--high-emphasis">{{ label() }}</dt>
+      <dd class="watt-text-s">{{ value() }}</dd>
     </div></ng-template
   >`,
 })
 export class WattDescriptionListItemComponent<T> {
-  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
-  @Input() label: null | string = '';
-  @Input() value: T | null = null;
-  @Input() forceNewRow = false;
+  templateRef = viewChild.required<TemplateRef<unknown | null>>('templateRef');
+  label = input<string>('');
+  value = input<T | null>(null);
+  forceNewRow = input(false);
+  itemSeparator = input(false);
 }

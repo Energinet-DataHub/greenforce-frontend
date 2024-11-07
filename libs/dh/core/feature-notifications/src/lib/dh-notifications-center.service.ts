@@ -18,6 +18,8 @@ import { inject, Injectable } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
+import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
+import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
@@ -25,9 +27,10 @@ import { DhNotificationBannerComponent } from './dh-notification-banner.componen
 @Injectable({
   providedIn: 'root',
 })
-export class DhNotificationBannerService {
+export class DhNotificationsCenterService {
   private readonly hotToast = inject(HotToastService);
   private readonly colorService = inject(WattColorHelperService);
+  private readonly settlementReportsService = inject(DhSettlementReportsService);
 
   showBanner(notification: DhNotification): void {
     this.hotToast.show<DhNotification>(DhNotificationBannerComponent, {
@@ -47,5 +50,11 @@ export class DhNotificationBannerService {
         top: '-10px',
       },
     });
+  }
+
+  handleActionButtonClick({ notificationType, relatedToId }: DhNotification): void {
+    if (notificationType === NotificationType.SettlementReportReadyForDownload && relatedToId) {
+      this.settlementReportsService.downloadReportFromNotification(relatedToId);
+    }
   }
 }

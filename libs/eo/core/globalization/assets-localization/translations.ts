@@ -27,14 +27,9 @@ export const translations = {
     announcementBar: {
       message: 'landingPage.announcementBar.message' as const,
     } as const,
-    header: {
-      loginButton: 'landingPage.header.loginButton' as const,
-      dashboardButton: 'landingPage.header.dashboardButton' as const,
-    } as const,
     hero: {
       heading: 'landingPage.hero.heading' as const,
       subheading: 'landingPage.hero.subheading' as const,
-      loginButton: 'landingPage.hero.loginButton' as const,
       learnMoreButton: 'landingPage.hero.learnMoreButton' as const,
     } as const,
     why: {
@@ -89,7 +84,6 @@ export const translations = {
       heading: 'landingPage.cta.heading' as const,
       section1: {
         heading: 'landingPage.cta.section1.heading' as const,
-        cta: 'landingPage.cta.section1.cta' as const,
       } as const,
       section2: {
         heading: 'landingPage.cta.section2.heading' as const,
@@ -201,6 +195,10 @@ export const translations = {
     } as const,
     save: 'languageSwitcher.save' as const,
     cancel: 'languageSwitcher.cancel' as const,
+  } as const,
+  loginButton: {
+    authenticated: 'loginButton.authenticated' as const,
+    unauthenticated: 'loginButton.unauthenticated' as const,
   } as const,
   terms: {
     title: 'terms.title' as const,
@@ -346,6 +344,9 @@ export const translations = {
       title: 'certificates.error.title' as const,
       message: 'certificates.error.message' as const,
     } as const,
+    typeDropdown: 'certificates.typeDropdown' as const,
+    production: 'certificates.production' as const,
+    consumption: 'certificates.consumption' as const,
     searchLabel: 'certificates.searchLabel' as const,
     tableHeader: 'certificates.tableHeader' as const,
     timeTableHeader: 'certificates.timeTableHeader' as const,

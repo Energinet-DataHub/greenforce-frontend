@@ -1,0 +1,5 @@
+mutation ManuallyHandleOutgoingMessage($input: ManuallyHandleOutgoingMessageInput!) {
+  manuallyHandleOutgoingMessage(input: $input) {
+    success: boolean
+  }
+}

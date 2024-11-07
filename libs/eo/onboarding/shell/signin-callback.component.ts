@@ -67,9 +67,7 @@ export class EoSigninCallbackComponent implements OnInit {
         } else if (redirectUrl) {
           this.router.navigateByUrl(redirectUrl);
         } else {
-          this.router.navigate([this.transloco.getActiveLang(), 'dashboard'], {
-            queryParamsHandling: 'preserve',
-          });
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
         }
       })
       .catch(() => {

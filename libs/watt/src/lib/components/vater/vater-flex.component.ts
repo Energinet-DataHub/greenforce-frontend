@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Spacing, Justify } from './types';
+import { Direction, Spacing, Justify, Wrap } from './types';
 import { VaterUtilityDirective } from './vater-utility.directive';
 
 @Component({
@@ -67,6 +67,10 @@ export class VaterFlexComponent {
   @Input()
   @HostBinding('style.justify-content')
   justify?: Justify;
+
+  @Input()
+  @HostBinding('style.flex-wrap')
+  wrap?: Wrap = 'nowrap';
 
   @Input()
   scrollable?: string;

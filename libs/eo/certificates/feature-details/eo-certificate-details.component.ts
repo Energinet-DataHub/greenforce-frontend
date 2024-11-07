@@ -16,8 +16,8 @@
  */
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { Location, NgIf } from '@angular/common';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -205,7 +205,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           }
 
           <h4>
-            <a class="link" routerLink="/${eoCertificatesRoutePath}">{{
+            <a class="link" (click)="goBack()">{{
               translations.certificateDetails.backToCertificatesLink | transloco
             }}</a>
           </h4>
@@ -234,9 +234,13 @@ import { translations } from '@energinet-datahub/eo/translations';
 export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private location = inject(Location);
+  private transloco = inject(TranslocoService);
   private certificatesService: EoCertificatesService = inject(EoCertificatesService);
-  protected techCodes = AibTechCode;
+  private fromCertificatesOverview =
+    this.router.getCurrentNavigation()?.extras.state?.['from-certificates-overview'];
 
+  protected techCodes = AibTechCode;
   protected translations = translations;
 
   certificate = signal<EoCertificate | null>(null);
@@ -253,5 +257,13 @@ export class EoCertificateDetailsComponent implements OnInit {
     this.certificatesService.getCertificate(registry, streamId).subscribe((certificate) => {
       this.certificate.set(certificate);
     });
+  }
+
+  goBack(): void {
+    if (this.fromCertificatesOverview) {
+      this.location.back();
+    } else {
+      this.router.navigate([this.transloco.getActiveLang(), eoCertificatesRoutePath]);
+    }
   }
 }

@@ -17,7 +17,6 @@
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -34,19 +33,12 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import { dhGetRouteByType } from './dh-get-route-by-type';
 import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
-import { DhNotificationBannerService } from './dh-notification-banner.service';
+import { DhNotificationsCenterService } from './dh-notifications-center.service';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  imports: [
-    NgClass,
-    OverlayModule,
-    TranslocoDirective,
-
-    WattButtonComponent,
-    DhNotificationComponent,
-  ],
+  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
   styles: [
     `
       :host {
@@ -86,7 +78,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
       .notification-dot {
         position: relative;
 
-        &:before {
+        &::before {
           background-color: var(--watt-color-state-danger);
           border-radius: 50%;
           content: '';
@@ -104,7 +96,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
   template: `
     <watt-button
       variant="icon"
-      [ngClass]="{ 'notification-dot': notificationDot() }"
+      [class.notification-dot]="notificationDot()"
       [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -132,6 +124,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
               [notification]="notification"
               (click)="navigateTo(notification)"
               (dismiss)="onDismiss(notification.id)"
+              (actionButtonClicked)="onActionButtonClicked(notification)"
             />
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
@@ -143,7 +136,7 @@ import { DhNotificationBannerService } from './dh-notification-banner.service';
 })
 export class DhNotificationsCenterComponent {
   private readonly router = inject(Router);
-  private readonly bannerService = inject(DhNotificationBannerService);
+  private readonly notificationsService = inject(DhNotificationsCenterService);
   private readonly dismissMutation = mutation(DismissNotificationDocument);
   private readonly getNotificationsQuery = query(GetNotificationsDocument);
 
@@ -164,7 +157,7 @@ export class DhNotificationsCenterComponent {
         if (!incomingNotification) return pref;
 
         if (dayjs(incomingNotification.occurredAt).isAfter(this.initTime)) {
-          this.bannerService.showBanner(incomingNotification);
+          this.notificationsService.showBanner(incomingNotification);
         }
 
         const notifications = [...pref.notifications, incomingNotification]
@@ -205,6 +198,10 @@ export class DhNotificationsCenterComponent {
       refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
     });
+  }
+
+  onActionButtonClicked(notification: DhNotification): void {
+    this.notificationsService.handleActionButtonClick(notification);
   }
 
   private sortById(a: DhNotification, b: DhNotification): number {

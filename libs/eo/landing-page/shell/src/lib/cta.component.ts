@@ -21,11 +21,12 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WattIconComponent, TranslocoPipe],
+  imports: [WattIconComponent, TranslocoPipe, EoLoginButtonComponent],
   selector: 'eo-landing-page-cta',
   styles: `
     :host {
@@ -84,10 +85,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     <h2 class="headline-1">{{ translations.landingPage.cta.heading | transloco }}</h2>
     <section class="login">
       <h3 class="headline-3">{{ translations.landingPage.cta.section1.heading | transloco }}</h3>
-      <button class="button primary" (click)="onLogin()">
-        <watt-icon name="login" />
-        {{ translations.landingPage.cta.section1.cta | transloco }}
-      </button>
+      <eo-login-button />
     </section>
     <section class="devportal">
       <h3 class="headline-3">{{ translations.landingPage.cta.section2.heading | transloco }}</h3>

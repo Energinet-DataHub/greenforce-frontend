@@ -21,16 +21,16 @@ public partial class Mutation
     [Error(typeof(ApiException))]
     public async Task<bool> UpdateOrganizationAsync(
         Guid orgId,
-        string domain,
+        ICollection<string> domains,
         [Service] IMarketParticipantClient_V1 client)
     {
         var organization = await client.OrganizationGetAsync(orgId).ConfigureAwait(false);
-        if (!string.Equals(organization.Domain, domain, StringComparison.Ordinal))
+        if (!Enumerable.SequenceEqual(organization.Domains, domains))
         {
             var changes = new ChangeOrganizationDto()
             {
                 Name = organization.Name,
-                Domain = domain,
+                Domains = domains,
                 Status = organization.Status,
             };
 

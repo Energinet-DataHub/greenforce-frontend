@@ -13,5 +13,10 @@ query GetOutgoingMessageById($documentId: String!) {
     timeSeriesType
     responseDocumentUrl
     dispatchDocumentUrl
+    manuallyHandledExchangeEventMetaData {
+      comment
+      manuallyHandledAt
+      manuallyHandledBy
+    }
   }
 }

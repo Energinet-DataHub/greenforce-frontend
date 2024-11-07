@@ -22,7 +22,6 @@ import {
   WritableSignal,
   afterNextRender,
   inject,
-  signal,
 } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,13 +29,12 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WindowService } from '@energinet-datahub/gf/util-browser';
-import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { EoLanguageSwitcherComponent } from '@energinet-datahub/eo/globalization/feature-language-switcher';
 
 import { EoAnnouncementBarComponent } from './announcement-bar.component';
+import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +46,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
     EoProductLogoDirective,
     EoLanguageSwitcherComponent,
     TranslocoPipe,
+    EoLoginButtonComponent,
   ],
   selector: 'eo-landing-page-header',
   styles: `
@@ -112,20 +111,7 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
       <img eoProductLogo class="logo primary" />
 
       <div class="actions">
-        @if (isLoggedIn()) {
-          <watt-button
-            variant="text"
-            class="login"
-            data-testid="dashboard-button"
-            (click)="gotoDashboard()"
-          >
-            {{ translations.landingPage.header.dashboardButton | transloco }}
-          </watt-button>
-        } @else {
-          <watt-button variant="text" class="login" data-testid="login-button" (click)="login()">
-            {{ translations.landingPage.header.loginButton | transloco }}
-          </watt-button>
-        }
+        <eo-login-button type="text" />
 
         <!-- We defer the language picker to avoid loading dayjs locales on initial load -->
         @defer (on viewport; prefetch on idle) {
@@ -144,11 +130,10 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
   `,
 })
 export class EoLandingPageHeaderComponent {
-  private authService = inject(EoAuthService);
   private elementRef = inject(ElementRef);
   private viewportScroller = inject(ViewportScroller);
   private destroyRef = inject(DestroyRef);
-  private window = inject(WindowService).nativeWindow;
+
   protected translations = translations;
   protected pauseScrollEvents = false;
   protected isLoggedIn!: WritableSignal<boolean>;
@@ -157,28 +142,6 @@ export class EoLandingPageHeaderComponent {
     afterNextRender(() => {
       this.init();
     });
-
-    this.setIsLoggedIn();
-  }
-
-  private setIsLoggedIn() {
-    this.authService.isLoggedIn().then((res) => {
-      this.isLoggedIn = signal<boolean>(res);
-    });
-
-    this.authService.addUserUnloaded$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.isLoggedIn?.set(false);
-    });
-  }
-
-  gotoDashboard() {
-    if (!this.window) return;
-    const currentUrl = this.window.location.href;
-    this.window.location.href = `${currentUrl}/dashboard`;
-  }
-
-  login() {
-    this.authService.login();
   }
 
   init(): void {

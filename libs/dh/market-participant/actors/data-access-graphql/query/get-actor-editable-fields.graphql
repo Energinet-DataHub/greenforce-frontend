@@ -3,7 +3,7 @@ query GetActorEditableFields($actorId: UUID!) {
     id
     name
     organization {
-      domain
+      domains
       id
     }
     contact {

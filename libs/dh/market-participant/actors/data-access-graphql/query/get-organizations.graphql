@@ -3,6 +3,6 @@ query GetOrganizations {
     id
     businessRegisterIdentifier
     name
-    domain
+    domains
   }
 }

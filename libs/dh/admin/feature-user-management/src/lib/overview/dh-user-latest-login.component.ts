@@ -17,7 +17,6 @@
 import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { dayjs } from '@energinet-datahub/watt/date';
 
 @Component({
@@ -28,23 +27,21 @@ import { dayjs } from '@energinet-datahub/watt/date';
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
       @switch (days) {
         @case (null) {
-          <watt-badge type="danger">{{ t('never') }}</watt-badge>
+          {{ t('never') }}
         }
         @case (0) {
-          <watt-badge type="info">{{ t('today') }}</watt-badge>
+          {{ t('today') }}
         }
         @case (1) {
-          <watt-badge type="info">{{ t('yesterday') }}</watt-badge>
+          {{ t('yesterday') }}
         }
         @default {
-          <watt-badge [type]="(days > 30 && 'warning') || 'info'">{{
-            t('daysAgo', { days })
-          }}</watt-badge>
+          {{ t('daysAgo', { days }) }}
         }
       }
     </ng-container>
   `,
-  imports: [TranslocoDirective, WattBadgeComponent],
+  imports: [TranslocoDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhUserLatestLoginComponent {
