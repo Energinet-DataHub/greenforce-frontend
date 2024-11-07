@@ -43,7 +43,7 @@ const environments = [
 
 environments.forEach((env) => {
   it(`[B2C Healthcheck] ${env.name}`, { retries: 3 }, () => {
-    // Should be able to reach the app
+    // Should be able to reach the app test
     cy.request(env.url).then((resp) => {
       expect(resp.status).to.eq(200);
     });

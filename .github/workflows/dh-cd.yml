@@ -89,7 +89,7 @@ jobs:
           client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "${{ needs.changes.outputs.dh_dotnet }}", "frontend": "${{ needs.changes.outputs.dh_frontend }}"}'
 
   #
-  # Send notification to teams channel if deployment dispatch failed
+  # Send notification to teams channel if deployment dispatch failed test
   #
 
   dispatch_failed:
