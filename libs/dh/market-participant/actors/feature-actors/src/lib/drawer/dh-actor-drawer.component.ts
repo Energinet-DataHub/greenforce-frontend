@@ -80,6 +80,14 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
         gap: var(--watt-space-ml);
       }
 
+      .organization-info-card {
+        margin-top: var(--watt-space-m);
+      }
+
+      h3 {
+        margin: 0;
+      }
+
       .actor-metadata__item {
         align-items: center;
         display: flex;
