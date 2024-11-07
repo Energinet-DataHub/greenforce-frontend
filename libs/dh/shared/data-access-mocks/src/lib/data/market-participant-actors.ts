@@ -79,7 +79,7 @@ export const marketParticipantActors: Actor[] = [
     organization: {
       __typename: 'Organization',
       id: 'b3bdd441-4f22-3f33-b88f-08da5f288474',
-      name: 'Organization 1',
+      name: 'Langt Organization navn til test',
       domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
       businessRegisterIdentifier: '12345678',
       address: {
