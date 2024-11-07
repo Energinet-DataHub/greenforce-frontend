@@ -30,12 +30,15 @@ const period = {
   end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
 };
 
+const lastDispatched = dayjs().date(1).hour(14).minute(23).toDate();
+
 const url = 'https://localhost:4200';
 
 export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
   {
     __typename: 'EsettOutgoingMessage',
     documentId: '390161908',
+    lastDispatched,
     gridArea: {
       __typename: 'GridAreaDto',
       code: '805',
@@ -56,12 +59,17 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    lastDispatched: null,
-    manuallyHandledExchangeEventMetaData: null,
+    manuallyHandledExchangeEventMetaData: {
+      __typename: 'ManuallyHandledExchangeEventMetaData',
+      comment: 'Test comment',
+      manuallyHandledAt: new Date('2021-01-01T00:10:00.000Z'),
+      manuallyHandledBy: 'Test User',
+    },
   },
   {
     __typename: 'EsettOutgoingMessage',
     documentId: '390161909',
+    lastDispatched,
     gridArea: {
       __typename: 'GridAreaDto',
       code: '806',
@@ -82,12 +90,17 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    lastDispatched: null,
-    manuallyHandledExchangeEventMetaData: null,
+    manuallyHandledExchangeEventMetaData: {
+      __typename: 'ManuallyHandledExchangeEventMetaData',
+      comment: 'Test comment1',
+      manuallyHandledAt: new Date('2021-02-01T00:10:00.000Z'),
+      manuallyHandledBy: 'Test User',
+    },
   },
   {
     __typename: 'EsettOutgoingMessage',
     documentId: '390161910',
+    lastDispatched,
     gridArea: {
       __typename: 'GridAreaDto',
       code: '806',
@@ -108,12 +121,17 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    lastDispatched: null,
-    manuallyHandledExchangeEventMetaData: null,
+    manuallyHandledExchangeEventMetaData: {
+      __typename: 'ManuallyHandledExchangeEventMetaData',
+      comment: 'Test comment2',
+      manuallyHandledAt: new Date('2022-01-01T00:10:00.000Z'),
+      manuallyHandledBy: 'Test User',
+    },
   },
   {
     __typename: 'EsettOutgoingMessage',
     documentId: '390161911',
+    lastDispatched,
     gridArea: {
       __typename: 'GridAreaDto',
       code: '807',
@@ -134,7 +152,11 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    lastDispatched: null,
-    manuallyHandledExchangeEventMetaData: null,
+    manuallyHandledExchangeEventMetaData: {
+      __typename: 'ManuallyHandledExchangeEventMetaData',
+      comment: 'Test comment3',
+      manuallyHandledAt: new Date('2023-01-01T00:10:00.000Z'),
+      manuallyHandledBy: 'Test User',
+    },
   },
 ];
