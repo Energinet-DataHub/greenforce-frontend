@@ -44,7 +44,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         <watt-textarea-field
           class="comment-textarea"
           [formControl]="resolveForm.controls.comment"
-          label="{{ t('comment') }}"
+          label="{{ t('resolveField') }}"
           [required]="true"
         />
       </form>

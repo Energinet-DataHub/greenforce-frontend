@@ -917,7 +917,7 @@
         "markAsResolved": "Marker som løst",
         "resolveModal": {
           "markAsResolved": "Marker som løst",
-          "comment": "Kommentar",
+          "resolveField": "Kommentar",
           "cancel": "Annuller",
           "resolvedSuccess": "Beskeden blev markeret som løst.",
           "resolvedError": "En fejl opstod."
