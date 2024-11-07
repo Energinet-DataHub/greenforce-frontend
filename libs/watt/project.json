@@ -64,7 +64,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "watt:build-storybook",
-        "staticFilePath": "dist/storybook/watt",
+        "staticFilePath": "dist/designsystem",
         "spa": true
       },
       "configurations": {
