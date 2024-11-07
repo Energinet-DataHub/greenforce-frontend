@@ -197,37 +197,15 @@ export class DhOutgoingMessageDrawerComponent {
   openResolveModal() {
     this.modalService.open({
       component: DhResolveModalComponent,
-      data: { resolve: this.resolve },
+      data: { message: this.outgoingMessage },
+      onClosed: (result) => {
+        if (result && this.outgoingMessage) {
+          this.loadOutgoingMessage(this.outgoingMessage.documentId);
+          this.store.outgoingMessageQuery().refetch();
+        }
+      },
     });
   }
-
-  resolve = async (comment: string): Promise<boolean> => {
-    if (!this.outgoingMessage?.documentId) {
-      return false;
-    }
-
-    const result = await this.resolveMutation.mutate({
-      variables: { input: { documentId: this.outgoingMessage.documentId, comment } },
-    });
-
-    if (result.error) {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedError'),
-      });
-      return false;
-    }
-
-    this.toastService.open({
-      type: 'success',
-      message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedSuccess'),
-    });
-
-    this.loadOutgoingMessage(this.outgoingMessage.documentId);
-    this.store.outgoingMessageQuery().refetch();
-
-    return true;
-  };
 
   canResolve = () => {
     return (

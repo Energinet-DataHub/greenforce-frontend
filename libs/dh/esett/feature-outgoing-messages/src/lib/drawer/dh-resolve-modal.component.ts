@@ -15,12 +15,18 @@
  * limitations under the License.
  */
 import { Component, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  EsettOutgoingMessage,
+  ManuallyHandleOutgoingMessageDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-resolve-modal',
@@ -65,9 +71,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   ],
 })
 export class DhResolveModalComponent extends WattTypedModal<{
-  resolve: (comment: string) => Promise<boolean>;
+  message: EsettOutgoingMessage;
 }> {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly toastService = inject(WattToastService);
+
+  resolveMutation = mutation(ManuallyHandleOutgoingMessageDocument);
 
   busy = false;
 
@@ -81,7 +90,27 @@ export class DhResolveModalComponent extends WattTypedModal<{
     }
 
     this.busy = true;
-    const result = await this.modalData.resolve(this.resolveForm.value.comment);
+    const result = await this.resolveMutation.mutate({
+      variables: {
+        input: {
+          documentId: this.modalData.message.documentId,
+          comment: this.resolveForm.value.comment,
+        },
+      },
+    });
+
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedError'),
+      });
+    }
+
+    this.toastService.open({
+      type: 'success',
+      message: translate('eSett.outgoingMessages.drawer.resolveModal.resolvedSuccess'),
+    });
+
     this.busy = false;
 
     if (result) {
