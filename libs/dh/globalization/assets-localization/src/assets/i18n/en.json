@@ -921,7 +921,8 @@
           "cancel": "Cancel",
           "resolvedSuccess": "Message marked was marked as resolved.",
           "resolvedError": "An error occurred."
-        }
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} has manually resolved the message"
       }
     },
     "meteringGridAreaImbalance": {
@@ -981,6 +982,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balance Responsible Relations",
+      "importButton": "Import file",
+      "importSuccess": "File imported",
+      "importError": "An error occurred while importing the file. Please try again",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",

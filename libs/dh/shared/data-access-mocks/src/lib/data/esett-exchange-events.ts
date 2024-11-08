@@ -144,14 +144,14 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     },
     calculationType: ExchangeEventCalculationType.BalanceFixing,
     gridAreaCodeOut: '333',
-    documentStatus: DocumentStatus.AwaitingReply,
+    documentStatus: DocumentStatus.ManuallyHandled,
     timeSeriesType: EsettTimeSeriesType.Production,
   },
   {
     __typename: 'ExchangeEventSearchResult',
     created: new Date(),
     lastDispatched: null,
-    documentId: '390161911',
+    documentId: '390161912',
     energySupplier: {
       __typename: 'ActorNameDto',
       value: 'Test Supplier 5',
@@ -178,7 +178,7 @@ export const eSettExchangeEvents: ExchangeEventSearchResult[] = [
     __typename: 'ExchangeEventSearchResult',
     created: new Date(),
     lastDispatched: null,
-    documentId: '390161911',
+    documentId: '390161913',
     energySupplier: {
       __typename: 'ActorNameDto',
       value: 'Test Supplier 45',
