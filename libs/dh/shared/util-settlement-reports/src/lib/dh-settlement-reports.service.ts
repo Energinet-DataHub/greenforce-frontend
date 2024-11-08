@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -34,6 +34,20 @@ export class DhSettlementReportsService {
 
   private addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
   private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
+
+  public settlementReportNameInNotification = computed(() => {
+    const settlementReport = this.settlementReportQuery.data()?.settlementReport;
+
+    if (settlementReport === undefined) {
+      return '—';
+    }
+
+    return dhSettlementReportName(settlementReport, { withBaseName: false });
+  });
+
+  getSettlementReportName(settlementReportId: string) {
+    this.getSettlementReport(settlementReportId);
+  }
 
   async downloadReportFromNotification(settlementReportId: string) {
     const result = await this.getSettlementReport(settlementReportId);
