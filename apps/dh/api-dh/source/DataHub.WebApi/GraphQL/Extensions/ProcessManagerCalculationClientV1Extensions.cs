@@ -22,7 +22,7 @@ using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 // TODO: Probably refactor; temporarily location to lay out the code.
-public static class ClientV1Extensions
+public static class ProcessManagerCalculationClientV1Extensions
 {
     internal static async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
         this INotifyAggregatedMeasureDataClientV1 client,
