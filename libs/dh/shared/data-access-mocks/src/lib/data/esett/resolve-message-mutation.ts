@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhEsettDataAccessApiStore } from './lib/dh-esett-data-access-api.store';
-export { DhOutgoingMessagesSignalStore } from './lib/dh-outgoing-messages.store';
-export { DhOutgoingMessagesFilters } from './lib/dh-outgoing-messages-filters';
+import { ManuallyHandleOutgoingMessageMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export const resolveMessageMutationMock: ManuallyHandleOutgoingMessageMutation = {
+  __typename: 'Mutation',
+  manuallyHandleOutgoingMessage: {
+    __typename: 'ManuallyHandleOutgoingMessagePayload',
+    success: true,
+  },
+};

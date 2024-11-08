@@ -182,4 +182,7 @@ public class MarketParticipantResolvers
         [Parent] SettlementReport actor,
         ActorByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(actor.RequestedByActorId);
+
+    public async Task<string> GetIdentityDisplayNameByUserIdAsync(Guid userId, AuditIdentityCacheDataLoader client) =>
+        (await client.LoadRequiredAsync(userId)).DisplayName;
 }

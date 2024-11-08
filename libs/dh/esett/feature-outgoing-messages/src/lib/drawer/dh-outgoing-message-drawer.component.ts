@@ -18,13 +18,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
 import { Subscription, of, switchMap, takeUntil } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -44,6 +43,9 @@ import {
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhResolveModalComponent } from './dh-resolve-modal.component';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -58,16 +60,17 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
           margin: 0;
           margin-bottom: var(--watt-space-s);
         }
+
+        .heading {
+          width: 100%;
+        }
       }
     `,
   ],
   imports: [
-    RxPush,
     TranslocoPipe,
     TranslocoDirective,
-
     VaterStackComponent,
-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -76,7 +79,7 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
+    WattValidationMessageComponent,
     DhEmDashFallbackPipe,
     DhOutgoingMessageStatusBadgeComponent,
   ],
@@ -85,6 +88,7 @@ export class DhOutgoingMessageDrawerComponent {
   private readonly apollo = inject(Apollo);
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
+  private readonly modalService = inject(WattModalService);
 
   private subscription?: Subscription;
 
@@ -150,7 +154,8 @@ export class DhOutgoingMessageDrawerComponent {
             this.outgoingMessage.documentId &&
             ((this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
               this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
-              this.outgoingMessage.documentStatus === DocumentStatus.Rejected)
+              this.outgoingMessage.documentStatus === DocumentStatus.Rejected ||
+              this.outgoingMessage.documentStatus === DocumentStatus.ManuallyHandled)
           ) {
             this.loadDocument(this.outgoingMessage.responseDocumentUrl, this.responseDocument.set);
           }
@@ -182,5 +187,20 @@ export class DhOutgoingMessageDrawerComponent {
         });
       },
     });
+  }
+
+  openResolveModal() {
+    this.modalService.open({
+      component: DhResolveModalComponent,
+      data: { message: this.outgoingMessage },
+    });
+  }
+
+  canResolve() {
+    return (
+      this.outgoingMessage?.documentStatus === DocumentStatus.Rejected ||
+      (this.outgoingMessage?.documentStatus === DocumentStatus.AwaitingReply &&
+        dayjs(new Date()).diff(this.outgoingMessage.lastDispatched, 'hours') >= 12)
+    );
   }
 }

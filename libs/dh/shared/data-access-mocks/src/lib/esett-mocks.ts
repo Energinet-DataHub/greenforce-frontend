@@ -25,6 +25,7 @@ import {
   mockResendExchangeMessagesMutation,
   mockDownloadEsettExchangeEventsQuery,
   mockDownloadMeteringGridAreaImbalanceQuery,
+  mockManuallyHandleOutgoingMessageMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -36,6 +37,7 @@ import { mgaImbalanceSearchResponseQueryMock } from './data/esett/mga-imbalance-
 import { serviceStatusQueryMock } from './data/esett/service-status-query';
 import { statusReportQueryMock } from './data/esett/status-report-query';
 import { resendMessageMutationMock } from './data/esett/resend-messages-mutation';
+import { resolveMessageMutationMock } from './data/esett/resolve-message-mutation';
 
 function getStatus() {
   return parseInt(new URLSearchParams(location.search).get('statusCode') ?? '200', 10);
@@ -54,6 +56,7 @@ export function eSettMocks(apiBase: string) {
     getServiceStatusQuery(),
     getStatusReportQuery(),
     resendMessageMutation(),
+    resolveMessageMutation(),
     downloadEsettExchangeEventsQuery(),
     downloadMeteringGridAreaImbalanceQuery(),
     downloadBalanceResponsiblesQuery(apiBase),
@@ -206,6 +209,19 @@ function resendMessageMutation() {
     return HttpResponse.json(
       {
         data: resendMessageMutationMock,
+      },
+      { status: getStatus() }
+    );
+  });
+}
+
+function resolveMessageMutation() {
+  return mockManuallyHandleOutgoingMessageMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json(
+      {
+        data: resolveMessageMutationMock,
       },
       { status: getStatus() }
     );
