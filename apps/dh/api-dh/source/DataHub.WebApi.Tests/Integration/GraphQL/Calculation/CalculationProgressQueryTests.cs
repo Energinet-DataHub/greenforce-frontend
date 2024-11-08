@@ -48,10 +48,7 @@ public class CalculationProgressQueryTests
     [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuingFailed)]
     [InlineData(CalculationOrchestrationState.ActorMessagesEnqueued)]
     [InlineData(CalculationOrchestrationState.Completed)]
-    public async Task GetCalculationProgressAsync(CalculationOrchestrationState state) =>
-        await ExecuteTestAsync(state);
-
-    private static async Task ExecuteTestAsync(CalculationOrchestrationState orchestrationState)
+    public async Task GetCalculationProgressAsync(CalculationOrchestrationState orchestrationState)
     {
         var server = new GraphQLTestService();
 
