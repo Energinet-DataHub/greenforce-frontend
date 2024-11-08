@@ -16,14 +16,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoFixture;
-using Energinet.DataHub.ProcessManager.Api.Model;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
 using Xunit;
@@ -86,59 +83,9 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
             .ReturnsAsync(true);
 
-        var fixture = new Fixture();
-
-        var lifecycle = new OrchestrationInstanceLifecycleStatesDto(
-                State: OrchestrationInstanceLifecycleStates.Pending,
-                TerminationState: null,
-                CreatedAt: fixture.Create<DateTimeOffset>(),
-                ScheduledToRunAt: null,
-                QueuedAt: null,
-                StartedAt: null,
-                TerminatedAt: null);
-
-        var parameterValue = new NotifyAggregatedMeasureDataInputV1(
-                CalculationType: fixture.Create<CalculationTypes>(),
-                GridAreaCodes: new List<string>() { "003", "001", "002" },
-                PeriodStartDate: fixture.Create<DateTimeOffset>(),
-                PeriodEndDate: fixture.Create<DateTimeOffset>(),
-                IsInternalCalculation: fixture.Create<bool>());
-
-        var steps = new List<OrchestrationStepDto>
-        {
-            new OrchestrationStepDto(
-                Id: fixture.Create<Guid>(),
-                Lifecycle: new OrchestrationStepLifecycleStateDto(
-                    State: OrchestrationStepLifecycleStates.Pending,
-                    TerminationState: null,
-                    CreatedAt: fixture.Create<DateTimeOffset>(),
-                    StartedAt: null,
-                    TerminatedAt: null),
-                Description: "Beregning",
-                Sequence: 0,
-                DependsOn: null,
-                CustomState: string.Empty),
-            new OrchestrationStepDto(
-                Id: fixture.Create<Guid>(),
-                Lifecycle: new OrchestrationStepLifecycleStateDto(
-                    State: OrchestrationStepLifecycleStates.Pending,
-                    TerminationState: null,
-                    CreatedAt: fixture.Create<DateTimeOffset>(),
-                    StartedAt: null,
-                    TerminatedAt: null),
-                Description: "Besked dannelse",
-                Sequence: 1,
-                DependsOn: null,
-                CustomState: string.Empty),
-        };
-
-        var dto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
-            Id: _batchId,
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
-
+        var dto = OrchestrationInstanceDtoFactory.CreateTypedDto(
+            _batchId,
+            new List<string>() { "003", "001", "002" });
         server.ProcessManagerCalculationClientV1Mock
             .Setup(x => x.GetCalculationAsync(_batchId, CancellationToken.None))
             .ReturnsAsync(dto);
