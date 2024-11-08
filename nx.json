@@ -64,7 +64,8 @@
         "^production",
         "{projectRoot}/.storybook/**/*",
         "{projectRoot}/tsconfig.storybook.json"
-      ]
+      ],
+      "cache": true
     },
     "component-test": {
       "dependsOn": ["^generate"],
