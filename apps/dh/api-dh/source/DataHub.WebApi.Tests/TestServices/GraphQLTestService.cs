@@ -15,9 +15,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
@@ -25,6 +25,7 @@ using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using Moq;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
@@ -33,6 +34,8 @@ public class GraphQLTestService
 {
     public GraphQLTestService()
     {
+        FeatureManagerMock = new Mock<IFeatureManager>();
+        ProcessManagerCalculationClientV1 = new Mock<INotifyAggregatedMeasureDataClientV1>();
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -47,6 +50,8 @@ public class GraphQLTestService
             .AddSorting()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
+            .AddSingleton(FeatureManagerMock.Object)
+            .AddSingleton(ProcessManagerCalculationClientV1.Object)
             .AddSingleton(WholesaleClientV3Mock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
@@ -58,6 +63,10 @@ public class GraphQLTestService
 
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
     }
+
+    public Mock<IFeatureManager> FeatureManagerMock { get; set; }
+
+    public Mock<INotifyAggregatedMeasureDataClientV1> ProcessManagerCalculationClientV1 { get; set; }
 
     public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 
