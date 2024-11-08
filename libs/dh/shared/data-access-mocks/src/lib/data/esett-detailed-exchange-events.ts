@@ -59,12 +59,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    manuallyHandledExchangeEventMetaData: {
-      __typename: 'ManuallyHandledExchangeEventMetaData',
-      comment: 'Test comment',
-      manuallyHandledAt: new Date('2021-01-01T00:10:00.000Z'),
-      manuallyHandledBy: 'Test User',
-    },
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -90,12 +84,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    manuallyHandledExchangeEventMetaData: {
-      __typename: 'ManuallyHandledExchangeEventMetaData',
-      comment: 'Test comment1',
-      manuallyHandledAt: new Date('2021-02-01T00:10:00.000Z'),
-      manuallyHandledBy: 'Test User',
-    },
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -121,12 +109,6 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
-    manuallyHandledExchangeEventMetaData: {
-      __typename: 'ManuallyHandledExchangeEventMetaData',
-      comment: 'Test comment2',
-      manuallyHandledAt: new Date('2022-01-01T00:10:00.000Z'),
-      manuallyHandledBy: 'Test User',
-    },
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -146,7 +128,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
       status: GridAreaStatus.Active,
     },
     calculationType: ExchangeEventCalculationType.BalanceFixing,
-    documentStatus: DocumentStatus.AwaitingReply,
+    documentStatus: DocumentStatus.ManuallyHandled,
     timeSeriesType: EsettTimeSeriesType.Consumption,
     created: new Date('2023-01-01T00:10:00.000Z'),
     period,
@@ -156,7 +138,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
       __typename: 'ManuallyHandledExchangeEventMetaData',
       comment: 'Test comment3',
       manuallyHandledAt: new Date('2023-01-01T00:10:00.000Z'),
-      manuallyHandledBy: 'Test User',
+      manuallyHandledByIdentityDisplayName: 'Test User',
     },
   },
 ];
