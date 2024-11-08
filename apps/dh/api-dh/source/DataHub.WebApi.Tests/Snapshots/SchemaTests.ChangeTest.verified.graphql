@@ -397,7 +397,6 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledByIdentityDisplayName: String!
   comment: String!
   manuallyHandledAt: DateTime!
-  manuallyHandledBy: UUID!
 }
 
 type MessageDelegationType {
