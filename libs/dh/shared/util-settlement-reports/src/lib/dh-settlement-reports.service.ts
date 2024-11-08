@@ -18,19 +18,15 @@ import { inject, Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   AddTokenToDownloadUrlDocument,
   GetSettlementReportDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
-type DhSettlementReportPartial = Pick<
-  DhSettlementReport,
-  'id' | 'period' | 'calculationType' | 'gridAreas' | 'settlementReportDownloadUrl'
->;
+import { DhSettlementReportPartial } from './dh-settlement-report-partial';
+import { dhSettlementReportName } from './dh-settlement-report-name';
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +61,7 @@ export class DhSettlementReportsService {
       return;
     }
 
-    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${this.settlementReportName(settlementReport)}`;
+    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${dhSettlementReportName(settlementReport)}`;
 
     const result = await this.addTokenToDownloadUrlMutation.mutate({
       variables: { url: settlementReportDownloadUrl },
@@ -80,25 +76,5 @@ export class DhSettlementReportsService {
       link.click();
       link.remove();
     }
-  }
-
-  private settlementReportName(report: DhSettlementReportPartial): string {
-    const baseTranslationPath = 'wholesale.settlementReports';
-
-    const calculationPeriod = wattFormatDate(report.period, 'short');
-    const calculationType = translate(
-      `${baseTranslationPath}.calculationTypes.${report.calculationType}`
-    );
-
-    let name = translate(`${baseTranslationPath}.downloadReport.baseName`);
-    name += ` - ${calculationType}`;
-
-    if (report.gridAreas.length === 1) {
-      name += ` - ` + report.gridAreas[0];
-    } else if (report.gridAreas.length > 1) {
-      name += ` - ` + translate(`${baseTranslationPath}.downloadReport.multipleGridAreas`);
-    }
-
-    return `${name} - ${calculationPeriod}.zip`;
   }
 }
