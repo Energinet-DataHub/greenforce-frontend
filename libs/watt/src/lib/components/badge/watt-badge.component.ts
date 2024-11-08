@@ -16,7 +16,7 @@
  */
 import { Component, computed, input } from '@angular/core';
 
-export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info' | 'neutral' | 'skeleton';
+export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info' | 'neutral' | 'beta' | 'skeleton' ;
 
 export type WattBadgeSize = 'normal' | 'large';
 

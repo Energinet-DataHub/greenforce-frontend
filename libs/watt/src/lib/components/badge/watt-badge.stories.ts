@@ -35,6 +35,7 @@ const Template: StoryFn<WattBadgeComponent> = (args) => ({
       <watt-badge type="success" [size]="size">Success</watt-badge>
       <watt-badge type="warning" [size]="size">Warning</watt-badge>
       <watt-badge type="danger" [size]="size">Danger</watt-badge>
+      <watt-badge type="beta" [size]="size">Beta</watt-badge>
     </div>
   `,
 });
