@@ -83,7 +83,7 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
             .ReturnsAsync(true);
 
-        var dto = OrchestrationInstanceDtoFactory.CreateTypedDto(
+        var dto = OrchestrationInstanceDtoFactory.CreateTypedDtoMatchingCalculationDto(
             _batchId,
             new List<string>() { "003", "001", "002" });
         server.ProcessManagerCalculationClientV1Mock

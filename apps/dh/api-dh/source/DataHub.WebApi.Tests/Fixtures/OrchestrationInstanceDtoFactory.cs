@@ -27,20 +27,11 @@ public static class OrchestrationInstanceDtoFactory
     /// Initial factory method which exposes what we need at the momemt.
     /// Might have to be refactored into a builder pattern.
     /// </summary>
-    public static OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> CreateTypedDto(
+    public static OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> CreateTypedDtoMatchingCalculationDto(
         Guid orchestrationInstanceId,
         IReadOnlyCollection<string>? gridAreaCodes)
     {
         var fixture = new Fixture();
-
-        var lifecycle = new OrchestrationInstanceLifecycleStatesDto(
-                State: OrchestrationInstanceLifecycleStates.Pending,
-                TerminationState: null,
-                CreatedAt: fixture.Create<DateTimeOffset>(),
-                ScheduledToRunAt: null,
-                QueuedAt: null,
-                StartedAt: null,
-                TerminatedAt: null);
 
         var parameterValue = new NotifyAggregatedMeasureDataInputV1(
                 CalculationType: fixture.Create<CalculationTypes>(),
@@ -48,6 +39,15 @@ public static class OrchestrationInstanceDtoFactory
                 PeriodStartDate: fixture.Create<DateTimeOffset>(),
                 PeriodEndDate: fixture.Create<DateTimeOffset>(),
                 IsInternalCalculation: fixture.Create<bool>());
+
+        var lifecycle = new OrchestrationInstanceLifecycleStatesDto(
+            State: OrchestrationInstanceLifecycleStates.Pending,
+            TerminationState: null,
+            CreatedAt: fixture.Create<DateTimeOffset>(),
+            ScheduledToRunAt: null,
+            QueuedAt: null,
+            StartedAt: null,
+            TerminatedAt: null);
 
         var steps = new List<OrchestrationStepDto>
         {
