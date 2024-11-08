@@ -922,7 +922,7 @@
           "resolvedSuccess": "Beskeden blev markeret som løst.",
           "resolvedError": "En fejl opstod."
         },
-        "manuallyResolvedLabel" : "{{ resolvedAt }}, {{ resolvedBy }}  har markeret meddelelsen som løst"
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }}  har markeret meddelelsen som løst"
       }
     },
     "meteringGridAreaImbalance": {
