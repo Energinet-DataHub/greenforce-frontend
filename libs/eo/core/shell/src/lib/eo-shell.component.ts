@@ -45,6 +45,7 @@ import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-he
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { EoAccountMenuComponent } from './eo-account-menu';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,6 +60,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
     WattButtonComponent,
     WattShellComponent,
     WattBadgeComponent,
+    WattTooltipDirective,
     TranslocoPipe,
     EoLanguageSwitcherComponent,
     EoAccountMenuComponent,
@@ -112,7 +114,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
           </div>
-          <watt-badge class="beta-badge" type="beta">{{
+          <watt-badge class="beta-badge" type="beta" wattTooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam" wattTooltipPosition="bottom-end">{{
                 translations.topbar.beta | transloco
               }}</watt-badge>
           <eo-primary-navigation />
