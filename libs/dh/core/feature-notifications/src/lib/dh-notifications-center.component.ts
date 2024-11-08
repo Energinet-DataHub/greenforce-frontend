@@ -124,7 +124,6 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
               [notification]="notification"
               (click)="navigateTo(notification)"
               (dismiss)="onDismiss(notification.id)"
-              (actionButtonClicked)="onActionButtonClicked(notification)"
             />
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
@@ -199,10 +198,6 @@ export class DhNotificationsCenterComponent {
       refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
     });
-  }
-
-  onActionButtonClicked(notification: DhNotification): void {
-    this.notificationsService.handleActionButtonClick(notification);
   }
 
   private notificationIsAlreadInList(notification: DhNotification): boolean {

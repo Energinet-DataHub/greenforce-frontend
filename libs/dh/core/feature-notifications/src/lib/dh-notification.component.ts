@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNotification } from './dh-notification';
 
@@ -27,7 +26,7 @@ import { DhNotification } from './dh-notification';
   selector: 'dh-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
+  imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
   styleUrl: './dh-notification.component.scss',
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
@@ -51,15 +50,6 @@ import { DhNotification } from './dh-notification';
               relatedToId: notification().relatedToId,
             })
           }}
-          @if (includesUserAction()) {
-            <button
-              type="button"
-              class="action-button"
-              (click)="$event.stopPropagation(); actionButtonClicked.emit()"
-            >
-              {{ 'shared.download' | transloco }}
-            </button>
-          }
         </p>
       </div>
     </ng-container>
@@ -69,11 +59,4 @@ export class DhNotificationComponent {
   notification = input.required<DhNotification>();
 
   dismiss = output<void>();
-  actionButtonClicked = output<void>();
-
-  includesUserAction = computed(() => {
-    const { notificationType } = this.notification();
-
-    return notificationType === NotificationType.SettlementReportReadyForDownload;
-  });
 }
