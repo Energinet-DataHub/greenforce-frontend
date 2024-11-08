@@ -31,6 +31,7 @@ import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-se
 import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
+import { DhSettlementReportsCancelButtonComponent } from '../util/dh-settlement-reports-cancel-button.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -57,6 +58,7 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
     DhDurationComponent,
+    DhSettlementReportsCancelButtonComponent,
   ],
 })
 export class DhSettlementReportsTableComponent {
@@ -70,6 +72,7 @@ export class DhSettlementReportsTableComponent {
     period: { accessor: (report) => report.period.start },
     numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
     status: { accessor: 'statusType' },
+    cancel: { accessor: 'id' },
   };
 
   displayedColumns = Object.keys(this.columns);
@@ -103,5 +106,13 @@ export class DhSettlementReportsTableComponent {
     event.stopPropagation();
 
     this.settlementReporsService.downloadReport(settlementReport);
+  }
+
+  cancelReport(event: Event, settlementReport: DhSettlementReport): void {
+    // Stop the row click event from propagating
+    // so the drawer doesn't open
+    event.stopPropagation();
+
+    this.settlementReporsService.cancelSettlementReport(settlementReport.id);
   }
 }

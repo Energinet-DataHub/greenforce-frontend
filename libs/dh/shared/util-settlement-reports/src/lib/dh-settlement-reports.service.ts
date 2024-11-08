@@ -23,6 +23,7 @@ import { wattFormatDate } from '@energinet-datahub/watt/date';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   AddTokenToDownloadUrlDocument,
+  CancelSettlementReportDocument,
   GetSettlementReportDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
@@ -39,6 +40,7 @@ export class DhSettlementReportsService {
   private toastService = inject(WattToastService);
 
   private addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
+  private cancelSettlementReportMutation = mutation(CancelSettlementReportDocument);
   private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
 
   async downloadReportFromNotification(settlementReportId: string) {
@@ -80,6 +82,17 @@ export class DhSettlementReportsService {
       link.click();
       link.remove();
     }
+  }
+
+  async cancelSettlementReport(settlementReportId: string) {
+    await this.cancelSettlementReportMutation.mutate({
+      variables: { input: { requestId: { id: settlementReportId } } },
+    });
+
+    this.toastService.open({
+      type: 'success',
+      message: translate('wholesale.settlementReports.cancelReportSuccess'),
+    });
   }
 
   private settlementReportName(report: DhSettlementReportPartial): string {
