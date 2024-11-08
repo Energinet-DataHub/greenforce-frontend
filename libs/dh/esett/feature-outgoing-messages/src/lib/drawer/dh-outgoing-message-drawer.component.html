@@ -55,6 +55,14 @@ limitations under the License.
       </watt-description-list>
     </watt-drawer-heading>
 
+    <watt-drawer-actions>
+      @if (this.canResolve()) {
+        <watt-button [variant]="'secondary'" (click)="openResolveModal()">{{
+          t("markAsResolved")
+        }}</watt-button>
+      }
+    </watt-drawer-actions>
+
     @if (drawer.isOpen) {
       <watt-drawer-content>
         <watt-tabs>
