@@ -13,20 +13,27 @@
 // limitations under the License.
 
 using System.Reactive.Linq;
+using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 using HotChocolate.Subscriptions;
+using Microsoft.FeatureManagement;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Subscription;
 
 public partial class Subscription
 {
-    public IObservable<CalculationDto> OnCalculationUpdatedAsync(
+    public async Task<IObservable<CalculationDto>> OnCalculationUpdatedAsync(
         [Service] ITopicEventReceiver eventReceiver,
+        [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
         [Service] IWholesaleClient_V3 client,
         CancellationToken cancellationToken)
     {
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+
         var calculationIdStream = eventReceiver
           .Observe<Guid>(nameof(Mutation.Mutation.CreateCalculationAsync), cancellationToken);
 
@@ -36,18 +43,31 @@ public partial class Subscription
             States = Enum.GetValues<CalculationOrchestrationState>().Where(IsInProgress).ToArray(),
         };
 
-        return Observable
-            .FromAsync(() => client.QueryCalculationsAsync(input))
-            .SelectMany(calculations => calculations)
-            .Select(calculation => calculation.CalculationId)
-            .Merge(calculationIdStream)
-            .SelectMany(id => Observable
-                .Interval(TimeSpan.FromSeconds(10))
-                .Select(_ => id)
-                .StartWith(id)
-                .SelectMany(client.GetCalculationAsync)
-                .DistinctUntilChanged(calculation => calculation.OrchestrationState)
-                .TakeUntil(calculation => !IsInProgress(calculation.OrchestrationState)));
+        return useProcessManager
+            ? Observable
+                .FromAsync(() => processManagerCalculationClient.QueryCalculationsAsync(input))
+                .SelectMany(calculations => calculations)
+                .Select(calculation => calculation.CalculationId)
+                .Merge(calculationIdStream)
+                .SelectMany(id => Observable
+                    .Interval(TimeSpan.FromSeconds(10))
+                    .Select(_ => id)
+                    .StartWith(id)
+                    .SelectMany(processManagerCalculationClient.GetCalculationMappedAsync)
+                    .DistinctUntilChanged(calculation => calculation.OrchestrationState)
+                    .TakeUntil(calculation => !IsInProgress(calculation.OrchestrationState)))
+            : Observable
+                .FromAsync(() => client.QueryCalculationsAsync(input))
+                .SelectMany(calculations => calculations)
+                .Select(calculation => calculation.CalculationId)
+                .Merge(calculationIdStream)
+                .SelectMany(id => Observable
+                    .Interval(TimeSpan.FromSeconds(10))
+                    .Select(_ => id)
+                    .StartWith(id)
+                    .SelectMany(client.GetCalculationAsync)
+                    .DistinctUntilChanged(calculation => calculation.OrchestrationState)
+                    .TakeUntil(calculation => !IsInProgress(calculation.OrchestrationState)));
     }
 
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]

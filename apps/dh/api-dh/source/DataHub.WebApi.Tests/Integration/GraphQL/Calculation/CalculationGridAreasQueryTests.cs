@@ -29,12 +29,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
 
 public class CalculationGridAreasQueryTests
 {
-    private static readonly Guid _batchId = new("d79fcebb-3338-4dc5-923f-a6c483319b43");
+    private static readonly Guid _calculationId = new("d79fcebb-3338-4dc5-923f-a6c483319b43");
 
     private static readonly string _calculationByIdQuery =
     $$"""
     {
-      calculationById(id: "{{_batchId}}") {
+      calculationById(id: "{{_calculationId}}") {
         gridAreas {
           code
           name
@@ -50,10 +50,10 @@ public class CalculationGridAreasQueryTests
         var server = new GraphQLTestService();
 
         server.WholesaleClientV3Mock
-            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .Setup(x => x.GetCalculationAsync(_calculationId, default))
             .ReturnsAsync(new CalculationDto()
             {
-                CalculationId = _batchId,
+                CalculationId = _calculationId,
                 GridAreaCodes = ["003", "001", "002"],
             });
 
@@ -84,10 +84,10 @@ public class CalculationGridAreasQueryTests
             .ReturnsAsync(true);
 
         var dto = OrchestrationInstanceDtoFactory.CreateTypedDtoMatchingCalculationDto(
-            _batchId,
-            new List<string>() { "003", "001", "002" });
+            _calculationId,
+            gridAreaCodes: ["003", "001", "002"]);
         server.ProcessManagerCalculationClientV1Mock
-            .Setup(x => x.GetCalculationAsync(_batchId, CancellationToken.None))
+            .Setup(x => x.GetCalculationAsync(_calculationId, CancellationToken.None))
             .ReturnsAsync(dto);
 
         server.MarketParticipantClientV1Mock

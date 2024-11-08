@@ -24,12 +24,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
 
 public class CalculationStatusTypeQueryTests
 {
-    private static readonly Guid _batchId = new("9cce3e8f-b56d-49f8-a6af-42cc6dc3246f");
+    private static readonly Guid _calculationId = new("9cce3e8f-b56d-49f8-a6af-42cc6dc3246f");
 
     private static readonly string _calculationByIdQuery =
     $$"""
     {
-      calculationById(id: "{{_batchId}}") {
+      calculationById(id: "{{_calculationId}}") {
         id
         statusType
       }
@@ -50,10 +50,10 @@ public class CalculationStatusTypeQueryTests
         var server = new GraphQLTestService();
 
         server.WholesaleClientV3Mock
-            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .Setup(x => x.GetCalculationAsync(_calculationId, default))
             .ReturnsAsync(new CalculationDto()
             {
-                CalculationId = _batchId,
+                CalculationId = _calculationId,
                 OrchestrationState = orchestrationState,
             });
 

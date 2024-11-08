@@ -24,12 +24,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
 
 public class CalculationProgressQueryTests
 {
-    private static readonly Guid _batchId = new("14098365-3231-40e3-8c1b-5a73dbab31c0");
+    private static readonly Guid _calculationId = new("14098365-3231-40e3-8c1b-5a73dbab31c0");
 
     private static readonly string _calculationByIdQuery =
     $$"""
     {
-      calculationById(id: "{{_batchId}}") {
+      calculationById(id: "{{_calculationId}}") {
         id
         progress {
           step
@@ -53,10 +53,10 @@ public class CalculationProgressQueryTests
         var server = new GraphQLTestService();
 
         server.WholesaleClientV3Mock
-            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .Setup(x => x.GetCalculationAsync(_calculationId, default))
             .ReturnsAsync(new CalculationDto()
             {
-                CalculationId = _batchId,
+                CalculationId = _calculationId,
                 OrchestrationState = orchestrationState,
             });
 
