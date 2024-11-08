@@ -75,10 +75,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
         margin-bottom: var(--watt-space-s);
       }
 
-      .no-margin {
-        margin: 0;
-      }
-
       .actor-metadata {
         display: flex;
         gap: var(--watt-space-ml);
