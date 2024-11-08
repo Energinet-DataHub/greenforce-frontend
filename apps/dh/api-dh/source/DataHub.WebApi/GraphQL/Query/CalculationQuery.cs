@@ -27,13 +27,13 @@ public partial class Query
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
-        [Service] IWholesaleClient_V3 client)
+        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         return useProcessManager
-            ? await clientV1.GetCalculationAsync(id)
-            : await client.GetCalculationAsync(id);
+            ? await processManagerCalculationClient.GetCalculationMappedAsync(id)
+            : await wholesaleClient.GetCalculationAsync(id);
     }
 
     [UsePaging]
@@ -42,24 +42,24 @@ public partial class Query
         CalculationQueryInput input,
         string? filter,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
-        [Service] IWholesaleClient_V3 client)
+        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
 
         if (string.IsNullOrWhiteSpace(filter))
         {
             return useProcessManager
-                ? await clientV1.QueryCalculationsAsync(input)
-                : await client.QueryCalculationsAsync(input);
+                ? await processManagerCalculationClient.QueryCalculationsAsync(input)
+                : await wholesaleClient.QueryCalculationsAsync(input);
         }
 
         try
         {
             var calculationId = Guid.Parse(filter);
             var calculation = useProcessManager
-                ? await clientV1.GetCalculationAsync(calculationId)
-                : await client.GetCalculationAsync(calculationId);
+                ? await processManagerCalculationClient.GetCalculationMappedAsync(calculationId)
+                : await wholesaleClient.GetCalculationAsync(calculationId);
 
             return [calculation];
         }
@@ -72,7 +72,7 @@ public partial class Query
     [GraphQLDeprecated("Use `latestCalculation` instead")]
     public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
         Interval period,
-        [Service] IWholesaleClient_V3 client)
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var input = new CalculationQueryInput
         {
@@ -81,7 +81,7 @@ public partial class Query
             States = [CalculationOrchestrationState.Completed],
         };
 
-        var calculations = await client.QueryCalculationsAsync(input);
+        var calculations = await wholesaleClient.QueryCalculationsAsync(input);
         return calculations.FirstOrDefault();
     }
 
@@ -89,8 +89,8 @@ public partial class Query
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 clientV1,
-        [Service] IWholesaleClient_V3 client)
+        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
 
@@ -102,8 +102,8 @@ public partial class Query
         };
 
         var calculations = useProcessManager
-            ? await clientV1.QueryCalculationsAsync(input)
-            : await client.QueryCalculationsAsync(input);
+            ? await processManagerCalculationClient.QueryCalculationsAsync(input)
+            : await wholesaleClient.QueryCalculationsAsync(input);
 
         return calculations.FirstOrDefault();
     }

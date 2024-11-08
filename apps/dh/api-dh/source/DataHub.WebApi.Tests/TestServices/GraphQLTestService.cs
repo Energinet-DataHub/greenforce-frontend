@@ -35,7 +35,7 @@ public class GraphQLTestService
     public GraphQLTestService()
     {
         FeatureManagerMock = new Mock<IFeatureManager>();
-        ProcessManagerCalculationClientV1 = new Mock<INotifyAggregatedMeasureDataClientV1>();
+        ProcessManagerCalculationClientV1Mock = new Mock<INotifyAggregatedMeasureDataClientV1>();
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -51,7 +51,7 @@ public class GraphQLTestService
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(FeatureManagerMock.Object)
-            .AddSingleton(ProcessManagerCalculationClientV1.Object)
+            .AddSingleton(ProcessManagerCalculationClientV1Mock.Object)
             .AddSingleton(WholesaleClientV3Mock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
@@ -66,7 +66,7 @@ public class GraphQLTestService
 
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
-    public Mock<INotifyAggregatedMeasureDataClientV1> ProcessManagerCalculationClientV1 { get; set; }
+    public Mock<INotifyAggregatedMeasureDataClientV1> ProcessManagerCalculationClientV1Mock { get; set; }
 
     public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 

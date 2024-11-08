@@ -17,6 +17,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
@@ -41,13 +43,21 @@ public class CalculationGridAreasQueryTests
     }
     """;
 
-    [Fact]
-    public async Task GetCalculationGridAreasAsync()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task GetCalculationGridAreasAsync(bool useProcessManagerFeature)
     {
         var server = new GraphQLTestService();
-        server.WholesaleClientV3Mock
-            .Setup(x => x.GetCalculationAsync(_batchId, default))
-            .ReturnsAsync(new CalculationDto()
+
+        server.FeatureManagerMock
+            .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
+            .ReturnsAsync(useProcessManagerFeature);
+
+        SetupClientMockAccordingToFeatureFlag(
+            useProcessManagerFeature,
+            server,
+            new CalculationDto()
             {
                 CalculationId = _batchId,
                 GridAreaCodes = ["003", "001", "002"],
@@ -68,5 +78,21 @@ public class CalculationGridAreasQueryTests
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync();
+    }
+
+    private static void SetupClientMockAccordingToFeatureFlag(bool useProcessManagerFeature, GraphQLTestService server, CalculationDto calculationDto)
+    {
+        if (useProcessManagerFeature)
+        {
+            server.ProcessManagerCalculationClientV1Mock
+                .Setup(x => x.GetCalculationMappedAsync(_batchId))
+                .ReturnsAsync(calculationDto);
+        }
+        else
+        {
+            server.WholesaleClientV3Mock
+                .Setup(x => x.GetCalculationAsync(_batchId, default))
+                .ReturnsAsync(calculationDto);
+        }
     }
 }

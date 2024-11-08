@@ -25,7 +25,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 // TODO: Probably refactor; temporarily location to lay out the code.
 public static class ProcessManagerCalculationClientV1Extensions
 {
-    internal static async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
+    public static async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
         this INotifyAggregatedMeasureDataClientV1 client,
         CalculationQueryInput input)
     {
@@ -70,7 +70,7 @@ public static class ProcessManagerCalculationClientV1Extensions
             .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal);
     }
 
-    internal static async Task<CalculationDto> GetCalculationAsync(
+    public static async Task<CalculationDto> GetCalculationMappedAsync(
         this INotifyAggregatedMeasureDataClientV1 client,
         Guid calculationId)
     {
