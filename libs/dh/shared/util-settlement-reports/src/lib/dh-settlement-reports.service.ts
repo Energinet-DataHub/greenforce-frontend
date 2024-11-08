@@ -61,7 +61,9 @@ export class DhSettlementReportsService {
       return;
     }
 
-    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${dhSettlementReportName(settlementReport)}`;
+    const fileName = `${dhSettlementReportName(settlementReport)}.zip`;
+
+    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${fileName}`;
 
     const result = await this.addTokenToDownloadUrlMutation.mutate({
       variables: { url: settlementReportDownloadUrl },
