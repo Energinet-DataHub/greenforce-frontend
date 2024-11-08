@@ -13,13 +13,10 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Energinet.DataHub.Core.TestCommon;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
