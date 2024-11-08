@@ -28,76 +28,7 @@ import { DhNotification } from './dh-notification';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
-  styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
-
-    :host {
-      display: block;
-    }
-
-    .notification {
-      padding: var(--watt-space-m) var(--watt-space-ml) var(--watt-space-m) 28px;
-      position: relative;
-
-      &__datetime {
-        color: var(--watt-on-light-medium-emphasis);
-      }
-
-      &--unread {
-        .notification__headline {
-          position: relative;
-
-          &:before {
-            content: '';
-            background-color: var(--watt-color-state-info);
-            border-radius: 50%;
-            height: 8px;
-            left: -16px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-          }
-        }
-      }
-
-      &__message {
-        margin: 0;
-      }
-
-      &:hover {
-        background-color: var(--watt-color-neutral-grey-100);
-        cursor: pointer;
-
-        .icon-dismiss {
-          opacity: 1;
-        }
-      }
-
-      .icon-dismiss {
-        cursor: pointer;
-        opacity: 0;
-        position: absolute;
-        right: var(--watt-space-ml);
-        transition: opacity 150ms linear;
-      }
-
-      .action-button {
-        @include watt.typography-watt-text-s;
-        color: var(--watt-on-light-high-emphasis);
-        background-color: rgba(100, 100, 100, 0.15);
-        border: 0;
-        border-radius: 4px;
-        margin-top: var(--watt-space-s);
-        padding: 2px 8px 2px 8px;
-
-        &:hover {
-          background-color: rgba(100, 100, 100, 0.25);
-          cursor: pointer;
-        }
-      }
-    }
-  `,
+  styleUrl: './dh-notification.component.scss',
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
