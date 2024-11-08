@@ -144,6 +144,7 @@ export interface TranslationKeys {
     otherOrganizations: string;
   };
   topbar: {
+    beta: string;
     help: string;
     logout: string;
   };

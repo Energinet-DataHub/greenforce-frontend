@@ -207,6 +207,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Andre organisationer:',
   },
   topbar: {
+    beta: 'Beta',
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
   },

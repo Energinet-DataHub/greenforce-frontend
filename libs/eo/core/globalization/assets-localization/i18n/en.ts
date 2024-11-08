@@ -218,6 +218,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Other organizations:',
   },
   topbar: {
+    beta: 'Beta',
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
   },
