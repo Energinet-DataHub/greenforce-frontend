@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, inject, input, effect, viewChild, output, computed } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { Component, inject, effect, viewChild, computed } from '@angular/core';
 
 import { map } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -36,7 +36,6 @@ import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-partic
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -59,13 +58,17 @@ type Actor = {
 };
 
 @Component({
-  selector: 'dh-organization-drawer',
+  selector: 'dh-organization-details',
   standalone: true,
-  templateUrl: './dh-organization-drawer.component.html',
+  templateUrl: './dh-organization-details.component.html',
   styles: [
     `
       :host {
         display: block;
+      }
+
+      watt-card {
+        flex: 1;
       }
 
       .organization-heading {
@@ -86,6 +89,8 @@ type Actor = {
     `,
   ],
   imports: [
+    RouterOutlet,
+
     TranslocoPipe,
     TranslocoDirective,
 
@@ -111,14 +116,11 @@ type Actor = {
     DhOrganizationEditModalComponent,
   ],
 })
-export class DhOrganizationDrawerComponent {
+export class DhOrganizationDetailsComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private modalService = inject(WattModalService);
   private getOrganizationByIdQuery = lazyQuery(GetOrganizationByIdDocument);
   private getActorsByOrganizationIdQuery = lazyQuery(GetActorsByOrganizationIdDocument);
-
-  id = input<string>();
 
   isLoadingOrganization = this.getOrganizationByIdQuery.loading;
   organizationFailedToLoad = computed(() => this.getOrganizationByIdQuery.error !== undefined);
@@ -132,20 +134,7 @@ export class DhOrganizationDrawerComponent {
 
   edit = toSignal<string>(this.route.queryParams.pipe(map((p) => p.edit ?? false)));
 
-  openEditModal = effect(() => {
-    if (this.edit() && this.organization()) {
-      this.modalService.open({
-        component: DhOrganizationEditModalComponent,
-        data: this.organization(),
-        onClosed: () =>
-          this.router.navigate([], {
-            queryParamsHandling: 'merge',
-            relativeTo: this.route,
-            queryParams: { edit: null },
-          }),
-      });
-    }
-  });
+  id = toSignal(this.route.params.pipe(map((p) => p.id)));
 
   setActorDataSource = effect(() => {
     const data = this.getActorsByOrganizationIdQuery.data()?.actorsByOrganizationId;
@@ -167,9 +156,7 @@ export class DhOrganizationDrawerComponent {
     status: { accessor: 'status' },
   };
 
-  drawer = viewChild(WattDrawerComponent);
-
-  closed = output<void>();
+  drawer = viewChild.required(WattDrawerComponent);
 
   constructor() {
     effect(() => {
@@ -184,14 +171,15 @@ export class DhOrganizationDrawerComponent {
   }
 
   onClose(): void {
-    this.closed.emit();
+    this.router.navigate(['../../'], {
+      relativeTo: this.route,
+    });
+    this.drawer().close();
   }
 
   navigateEdit(): void {
-    this.router.navigate([], {
+    this.router.navigate(['edit'], {
       relativeTo: this.route,
-      queryParams: { edit: true },
-      queryParamsHandling: 'merge',
     });
   }
 }
