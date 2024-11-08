@@ -14,7 +14,7 @@ in those cases the downloads are handled by the REST API instead.
 ## Setup of BFF
 
 Before you're able to run the BFF locally you need an
-`appsettings.Development.json` file within the [`DataHub.WebApi`] folder.
+`appsettings.json` file within the [`DataHub.WebApi`] folder.
 Either create one from the [sample file] or if you are an internal
 DataHub employee, take a look at the [dh3-dev-secrets] repository.
 
