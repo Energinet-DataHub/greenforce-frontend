@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export { DhSettlementReportsService } from './lib/dh-settlement-reports.service';
+export { dhSettlementReportName } from './lib/dh-settlement-report-name';
