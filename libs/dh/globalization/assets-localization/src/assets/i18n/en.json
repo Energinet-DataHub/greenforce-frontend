@@ -922,7 +922,7 @@
           "resolvedSuccess": "Message marked was marked as resolved.",
           "resolvedError": "An error occurred."
         },
-        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }}  has manually resolved the message"
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} has manually resolved the message"
       }
     },
     "meteringGridAreaImbalance": {
