@@ -58,6 +58,7 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
     DhSettlementReportDrawerComponent,
     DhDurationComponent,
   ],
+  providers: [DhSettlementReportsService],
 })
 export class DhSettlementReportsTableComponent {
   private permissionService = inject(PermissionService);

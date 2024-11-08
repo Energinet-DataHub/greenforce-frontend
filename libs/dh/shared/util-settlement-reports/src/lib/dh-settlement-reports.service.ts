@@ -28,9 +28,7 @@ import {
 import { DhSettlementReportPartial } from './dh-settlement-report-partial';
 import { dhSettlementReportName } from './dh-settlement-report-name';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DhSettlementReportsService {
   private toastService = inject(WattToastService);
 
