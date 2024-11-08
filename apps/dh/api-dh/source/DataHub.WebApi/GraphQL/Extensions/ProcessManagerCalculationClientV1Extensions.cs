@@ -29,20 +29,31 @@ public static class ProcessManagerCalculationClientV1Extensions
         this INotifyAggregatedMeasureDataClientV1 client,
         CalculationQueryInput input)
     {
+        // TODO:
+        // We currently only support filtering on one state initially, and only
+        // top-level states (orchestration instance states, not steps)
         var states = input.States ?? [];
-        var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
+        var state = states
+            .Select(x => x.MapToLifecycleState())
+            .FirstOrDefault();
+
         var calculationTypes = input.CalculationTypes ?? [];
+        var processManagerCalculationTypes = calculationTypes
+            .Select(x => x.MapToCalculationType())
+            .ToList();
+
+        var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
         var minExecutionTime = input.ExecutionTime?.HasStart == true ? input.ExecutionTime?.Start.ToDateTimeOffset() : null;
         var maxExecutionTime = input.ExecutionTime?.HasEnd == true ? input.ExecutionTime?.End.ToDateTimeOffset() : null;
         var periodStart = input.Period?.Start.ToDateTimeOffset();
         var periodEnd = input.Period?.End.ToDateTimeOffset();
 
         var processManagerCalculations = await client.SearchCalculationsAsync(
-            lifecycleState: null,
-            terminationState: null,
+            lifecycleState: state.LifecycleState,
+            terminationState: state.TerminationState,
             startedAtOrLater: minExecutionTime,
             terminatedAtOrEarlier: maxExecutionTime,
-            calculationTypes: null,
+            calculationTypes: processManagerCalculationTypes,
             gridAreaCodes: input.GridAreaCodes,
             periodStartDate: periodStart,
             periodEndDate: periodEnd,
@@ -50,7 +61,7 @@ public static class ProcessManagerCalculationClientV1Extensions
             CancellationToken.None);
 
         var calculations = processManagerCalculations
-            .Select(x => x.MapToCalculationDto());
+            .Select(x => x.MapToV3CalculationDto());
 
         return calculations
             .OrderByDescending(x => x.ScheduledAt)
@@ -65,10 +76,52 @@ public static class ProcessManagerCalculationClientV1Extensions
     {
         var instanceDto = await client.GetCalculationAsync(calculationId, CancellationToken.None);
 
-        return instanceDto.MapToCalculationDto();
+        return instanceDto.MapToV3CalculationDto();
     }
 
-    internal static CalculationDto MapToCalculationDto(
+    internal static (OrchestrationInstanceLifecycleStates? LifecycleState, OrchestrationInstanceTerminationStates? TerminationState)
+        MapToLifecycleState(this CalculationOrchestrationState state)
+    {
+        switch (state)
+        {
+            case CalculationOrchestrationState.Scheduled:
+                return (OrchestrationInstanceLifecycleStates.Pending, null);
+
+            case CalculationOrchestrationState.Started:
+            case CalculationOrchestrationState.Calculating:
+            case CalculationOrchestrationState.Calculated:
+            case CalculationOrchestrationState.ActorMessagesEnqueuing:
+            case CalculationOrchestrationState.ActorMessagesEnqueued:
+                return (OrchestrationInstanceLifecycleStates.Running, null);
+
+            case CalculationOrchestrationState.CalculationFailed:
+            case CalculationOrchestrationState.ActorMessagesEnqueuingFailed:
+                return (OrchestrationInstanceLifecycleStates.Terminated, OrchestrationInstanceTerminationStates.Failed);
+
+            case CalculationOrchestrationState.Completed:
+                return (OrchestrationInstanceLifecycleStates.Terminated, OrchestrationInstanceTerminationStates.Succeeded);
+
+            case CalculationOrchestrationState.Canceled:
+                return (OrchestrationInstanceLifecycleStates.Terminated, OrchestrationInstanceTerminationStates.UserCanceled);
+
+            default:
+                throw new InvalidOperationException($"Invalid {nameof(CalculationOrchestrationState)} '{state}'; cannot be mapped.");
+        }
+    }
+
+    internal static CalculationTypes MapToCalculationType(
+        this Clients.Wholesale.v3.CalculationType calculationType)
+    {
+        return Enum
+            .TryParse<CalculationTypes>(
+                calculationType.ToString(),
+                ignoreCase: true,
+                out var calculationTypeResult)
+            ? calculationTypeResult
+            : throw new InvalidOperationException($"Invalid CalculationType '{calculationType}'; cannot be mapped.");
+    }
+
+    internal static CalculationDto MapToV3CalculationDto(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
         // TODO: Can we create a new type to be used in UI so we avoid a tight coupling to external types?
@@ -83,13 +136,7 @@ public static class ProcessManagerCalculationClientV1Extensions
             CreatedByUserId = Guid.Empty, // TODO: Missing in Process Manager
             ScheduledAt = instanceDto.Lifecycle?.ScheduledToRunAt ?? DateTimeOffset.MinValue,
 
-            CalculationType = Enum
-                .TryParse<Clients.Wholesale.v3.CalculationType>(
-                    instanceDto.ParameterValue.CalculationType.ToString(),
-                    ignoreCase: true,
-                    out var calculationTypeResult)
-                ? calculationTypeResult
-                : throw new InvalidOperationException($"Invalid CalculationType '{instanceDto.ParameterValue.CalculationType}'; cannot be mapped."),
+            CalculationType = instanceDto.ParameterValue.CalculationType.MapToV3CalculationType(),
             GridAreaCodes = instanceDto.ParameterValue.GridAreaCodes.ToArray(),
             PeriodStart = instanceDto.ParameterValue.PeriodStartDate,
             PeriodEnd = instanceDto.ParameterValue.PeriodEndDate,
@@ -99,12 +146,24 @@ public static class ProcessManagerCalculationClientV1Extensions
             ExecutionTimeEnd = null, // Not used as far as I can tell; instead 'CompletedTime' is used and mapped to 'executionTimeEnd'
             CompletedTime = instanceDto.Lifecycle?.TerminatedAt,
 
-            OrchestrationState = instanceDto.MapToOrchestrationState(),
+            OrchestrationState = instanceDto.MapToV3OrchestrationState(),
         };
     }
 
+    internal static Clients.Wholesale.v3.CalculationType MapToV3CalculationType(
+        this CalculationTypes calculationType)
+    {
+        return Enum
+            .TryParse<Clients.Wholesale.v3.CalculationType>(
+                calculationType.ToString(),
+                ignoreCase: true,
+                out var calculationTypeResult)
+            ? calculationTypeResult
+            : throw new InvalidOperationException($"Invalid CalculationType '{calculationType}'; cannot be mapped.");
+    }
+
 #pragma warning disable IDE0011 // Add braces
-    internal static CalculationOrchestrationState MapToOrchestrationState(
+    internal static Clients.Wholesale.v3.CalculationOrchestrationState MapToV3OrchestrationState(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
         var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 0).Single();
