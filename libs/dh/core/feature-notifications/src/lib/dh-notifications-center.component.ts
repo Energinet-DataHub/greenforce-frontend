@@ -23,6 +23,7 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   GetNotificationsDocument,
+  NotificationType,
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -34,11 +35,19 @@ import { dhGetRouteByType } from './dh-get-route-by-type';
 import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
 import { DhNotificationsCenterService } from './dh-notifications-center.service';
+import { DhSettlementReportNotificationComponent } from './dh-settlement-report-notification.component';
 
 @Component({
   selector: 'dh-notifications-center',
   standalone: true,
-  imports: [OverlayModule, TranslocoDirective, WattButtonComponent, DhNotificationComponent],
+  imports: [
+    OverlayModule,
+    TranslocoDirective,
+
+    WattButtonComponent,
+    DhNotificationComponent,
+    DhSettlementReportNotificationComponent,
+  ],
   styles: [
     `
       :host {
@@ -120,11 +129,21 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
 
         <div class="notifications-panel__items">
           @for (notification of notifications(); track notification.id) {
-            <dh-notification
-              [notification]="notification"
-              (click)="navigateTo(notification)"
-              (dismiss)="onDismiss(notification.id)"
-            />
+            @if (
+              notification.notificationType === NotificationType.SettlementReportReadyForDownload
+            ) {
+              <dh-settlement-report-notification
+                [notification]="notification"
+                (click)="navigateTo(notification)"
+                (dismiss)="onDismiss(notification.id)"
+              />
+            } @else {
+              <dh-notification
+                [notification]="notification"
+                (click)="navigateTo(notification)"
+                (dismiss)="onDismiss(notification.id)"
+              />
+            }
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
           }
@@ -140,6 +159,8 @@ export class DhNotificationsCenterComponent {
   private readonly getNotificationsQuery = query(GetNotificationsDocument);
 
   private readonly initTime = new Date();
+
+  NotificationType = NotificationType;
 
   isOpen = false;
 
