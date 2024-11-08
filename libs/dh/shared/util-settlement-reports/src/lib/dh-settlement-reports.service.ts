@@ -38,11 +38,7 @@ export class DhSettlementReportsService {
   private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
 
   async downloadReportFromNotification(settlementReportId: string) {
-    const result = await this.settlementReportQuery.query({
-      variables: {
-        value: { id: settlementReportId },
-      },
-    });
+    const result = await this.getSettlementReport(settlementReportId);
 
     if (result.data.settlementReport) {
       this.downloadReport(result.data.settlementReport);
@@ -78,5 +74,13 @@ export class DhSettlementReportsService {
       link.click();
       link.remove();
     }
+  }
+
+  private getSettlementReport(settlementReportId: string) {
+    return this.settlementReportQuery.query({
+      variables: {
+        value: { id: settlementReportId },
+      },
+    });
   }
 }
