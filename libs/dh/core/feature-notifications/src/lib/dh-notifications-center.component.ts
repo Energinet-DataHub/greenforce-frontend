@@ -146,28 +146,29 @@ export class DhNotificationsCenterComponent {
 
   notifications = computed(() => {
     const notifications = structuredClone(this.getNotificationsQuery.data()?.notifications ?? []);
+
     return notifications.sort(this.sortById);
   });
 
   constructor() {
     this.getNotificationsQuery.subscribeToMore({
       document: OnNotificationAddedDocument,
-      updateQuery: (pref, { subscriptionData }) => {
-        const incomingNotification = subscriptionData.data?.notificationAdded;
-        if (!incomingNotification) return pref;
+      updateQuery: (prevQueryResult, { subscriptionData }) => {
+        const incomingNotification = subscriptionData.data.notificationAdded;
+
+        if (this.notificationIsAlreadInList(incomingNotification)) {
+          return prevQueryResult;
+        }
 
         if (dayjs(incomingNotification.occurredAt).isAfter(this.initTime)) {
           this.notificationsService.showBanner(incomingNotification);
         }
 
-        const notifications = [...pref.notifications, incomingNotification]
-          .filter((value, index, self) => self.findIndex((n) => n.id === value.id) === index)
-          .sort(this.sortById);
+        const notifications = [...prevQueryResult.notifications, incomingNotification].sort(
+          this.sortById
+        );
 
-        return {
-          ...pref,
-          notifications,
-        };
+        return { ...prevQueryResult, notifications };
       },
     });
   }
@@ -202,6 +203,10 @@ export class DhNotificationsCenterComponent {
 
   onActionButtonClicked(notification: DhNotification): void {
     this.notificationsService.handleActionButtonClick(notification);
+  }
+
+  private notificationIsAlreadInList(notification: DhNotification): boolean {
+    return this.notifications().some((n) => n.id === notification.id);
   }
 
   private sortById(a: DhNotification, b: DhNotification): number {
