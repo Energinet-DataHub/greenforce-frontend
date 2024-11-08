@@ -49,8 +49,7 @@ export class DhEsettDataAccessApiStore extends ComponentStore<EsettState> {
         tap(() => this.patchState({ uploadInProgress: true })),
         exhaustMap(({ file, uploadUrl, onSuccess, onError }) => {
           const formData = new FormData();
-          formData.append('csvFile', file);
-
+          formData.append('balanceResponsibility', file);
           return this.httpClient.post(uploadUrl, formData).pipe(
             tapResponse(
               () => onSuccess(),
