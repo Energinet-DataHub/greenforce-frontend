@@ -869,7 +869,8 @@
           "AWAITING_REPLY": "Awaiting reply from eSett",
           "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "MANUALLY_HANDLED": "Solved manually"
         }
       },
       "filters": {
@@ -912,7 +913,16 @@
           "periode": "Calculated periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
-        }
+        },
+        "markAsResolved": "Mark as resolved",
+        "resolveModal": {
+          "markAsResolved": "Mark as resolved",
+          "resolveField": "Comment",
+          "cancel": "Cancel",
+          "resolvedSuccess": "Message marked was marked as resolved.",
+          "resolvedError": "An error occurred."
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} has manually resolved the message"
       }
     },
     "meteringGridAreaImbalance": {
@@ -972,6 +982,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balance Responsible Relations",
+      "importButton": "Import file",
+      "importSuccess": "File imported",
+      "importError": "An error occurred while importing the file. Please try again",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",
