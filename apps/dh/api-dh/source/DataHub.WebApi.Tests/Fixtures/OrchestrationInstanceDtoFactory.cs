@@ -49,31 +49,27 @@ public static class OrchestrationInstanceDtoFactory
             StartedAt: null,
             TerminatedAt: null);
 
-        var steps = new List<OrchestrationStepDto>
+        var steps = new List<StepInstanceDto>
         {
-            new OrchestrationStepDto(
+            new StepInstanceDto(
                 Id: fixture.Create<Guid>(),
-                Lifecycle: new OrchestrationStepLifecycleStateDto(
-                    State: OrchestrationStepLifecycleStates.Pending,
+                Lifecycle: new StepInstanceLifecycleStateDto(
+                    State: StepInstanceLifecycleStates.Pending,
                     TerminationState: null,
-                    CreatedAt: fixture.Create<DateTimeOffset>(),
                     StartedAt: null,
                     TerminatedAt: null),
                 Description: "Beregning",
-                Sequence: 0,
-                DependsOn: null,
+                Sequence: 1,
                 CustomState: string.Empty),
-            new OrchestrationStepDto(
+            new StepInstanceDto(
                 Id: fixture.Create<Guid>(),
-                Lifecycle: new OrchestrationStepLifecycleStateDto(
-                    State: OrchestrationStepLifecycleStates.Pending,
+                Lifecycle: new StepInstanceLifecycleStateDto(
+                    State: StepInstanceLifecycleStates.Pending,
                     TerminationState: null,
-                    CreatedAt: fixture.Create<DateTimeOffset>(),
                     StartedAt: null,
                     TerminatedAt: null),
                 Description: "Besked dannelse",
-                Sequence: 1,
-                DependsOn: null,
+                Sequence: 2,
                 CustomState: string.Empty),
         };
 

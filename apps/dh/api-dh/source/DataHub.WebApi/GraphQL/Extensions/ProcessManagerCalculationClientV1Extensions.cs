@@ -166,8 +166,8 @@ internal static class ProcessManagerCalculationClientV1Extensions
     internal static Clients.Wholesale.v3.CalculationOrchestrationState MapToV3OrchestrationState(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
-        var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 0).Single();
-        var messagesEnqueuedStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();
+        var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();
+        var messagesEnqueuedStep = instanceDto.Steps.Where(step => step.Sequence == 2).Single();
 
         switch (instanceDto.Lifecycle.State)
         {
@@ -178,19 +178,19 @@ internal static class ProcessManagerCalculationClientV1Extensions
             case OrchestrationInstanceLifecycleStates.Running:
                 switch (calculationStep.Lifecycle.State)
                 {
-                    case OrchestrationStepLifecycleStates.Pending:
+                    case StepInstanceLifecycleStates.Pending:
                         return CalculationOrchestrationState.Started;
 
-                    case OrchestrationStepLifecycleStates.Running:
+                    case StepInstanceLifecycleStates.Running:
                         return CalculationOrchestrationState.Calculating;
                 }
 
                 switch (messagesEnqueuedStep.Lifecycle.State)
                 {
-                    case OrchestrationStepLifecycleStates.Pending:
+                    case StepInstanceLifecycleStates.Pending:
                         return CalculationOrchestrationState.Calculated;
 
-                    case OrchestrationStepLifecycleStates.Running:
+                    case StepInstanceLifecycleStates.Running:
                         return CalculationOrchestrationState.ActorMessagesEnqueuing;
                 }
 
