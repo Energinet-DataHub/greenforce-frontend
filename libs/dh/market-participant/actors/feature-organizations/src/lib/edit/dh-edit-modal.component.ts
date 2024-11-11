@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { EMPTY, map } from 'rxjs';
 import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
@@ -28,12 +26,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
-  GetAuditLogByOrganizationIdDocument,
-  GetOrganizationByIdDocument,
-  GetOrganizationEditDocument,
   GetOrganizationsDocument,
   UpdateOrganizationDocument,
   UpdateOrganizationMutation,
+  GetOrganizationEditDocument,
+  GetOrganizationByIdDocument,
+  GetAuditLogByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -82,9 +80,8 @@ export class DhOrganizationEditModalComponent {
 
   modal = viewChild.required(WattModalComponent);
 
-  id = toSignal(
-    this.route.parent ? this.route.parent.params.pipe(map((params) => params.id)) : EMPTY
-  );
+  // Router param value
+  id = input.required<string>();
 
   _ = effect(() => {
     const id = this.id();
