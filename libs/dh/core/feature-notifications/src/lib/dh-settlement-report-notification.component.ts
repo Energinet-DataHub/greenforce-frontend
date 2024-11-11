@@ -14,20 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
 import { DhNotification } from './dh-notification';
 
 @Component({
-  selector: 'dh-notification',
+  selector: 'dh-settlement-report-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
+  imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
+  providers: [DhSettlementReportsService],
   styleUrl: './dh-notification.component.scss',
+  styles: `
+    .notification__message {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  `,
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
@@ -42,21 +51,36 @@ import { DhNotification } from './dh-notification';
           {{ notification().occurredAt | wattDate: 'long' }}
         </span>
         <h5 class="notification__headline watt-space-stack-xxs">
-          {{ t(notification().notificationType + '.headline') }}
+          {{ t(notification().notificationType + '.message') }}
         </h5>
-        <p class="notification__message">
-          {{
-            t(notification().notificationType + '.message', {
-              relatedToId: notification().relatedToId,
-            })
-          }}
+        <p class="notification__message" [title]="settlementReportName()">
+          {{ settlementReportName() }}
         </p>
+        <button type="button" class="action-button" (click)="$event.stopPropagation(); download()">
+          {{ 'shared.download' | transloco }}
+        </button>
       </div>
     </ng-container>
   `,
 })
-export class DhNotificationComponent {
+export class DhSettlementReportNotificationComponent {
+  private readonly settlementReportsService = inject(DhSettlementReportsService);
+
   notification = input.required<DhNotification>();
 
   dismiss = output<void>();
+
+  settlementReportName = this.settlementReportsService.settlementReportNameInNotification;
+
+  getSettlementReportNamEffect = effect(() => {
+    const settlementReportId = this.notification().relatedToId as string;
+
+    this.settlementReportsService.getSettlementReportName(settlementReportId);
+  });
+
+  download() {
+    const settlementReportId = this.notification().relatedToId as string;
+
+    this.settlementReportsService.downloadReportFromNotification(settlementReportId);
+  }
 }
