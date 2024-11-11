@@ -81,10 +81,8 @@ limitations under the License.
       }
     </ng-container>
     <ng-container *wattTableCell="columns['cancel']; let entry">
-      @if (entry.statusType === "IN_PROGRESS"){
-        <dh-settlement-reports-cancel-button
-          (cancel)="cancelReport($event, entry)"
-        />
+      @if (entry.statusType === "IN_PROGRESS" && entry.fromApi){
+        <dh-settlement-reports-cancel-button [reportId]="entry.id" />
       }
     </ng-container>
   </watt-table>
