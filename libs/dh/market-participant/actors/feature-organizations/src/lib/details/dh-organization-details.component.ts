@@ -132,8 +132,6 @@ export class DhOrganizationDetailsComponent {
 
   actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
 
-  edit = toSignal<string>(this.route.queryParams.pipe(map((p) => p.edit ?? false)));
-
   id = toSignal(this.route.params.pipe(map((p) => p.id)));
 
   setActorDataSource = effect(() => {
