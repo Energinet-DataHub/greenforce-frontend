@@ -25,10 +25,9 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 type MarketRole = ResultOf<
@@ -52,12 +51,11 @@ type MarketRole = ResultOf<
   ],
 })
 export class DhAdminPermissionMarketRolesComponent {
-  private readonly getPermissionQuery = lazyQuery(GetPermissionDetailsDocument);
   private readonly marketRoles = computed(() => {
-    return this.getPermissionQuery.data()?.permissionById?.assignableTo ?? [];
+    return this.selectedPermission().assignableTo ?? [];
   });
 
-  selectedPermission = input.required<PermissionDto>();
+  selectedPermission = input.required<PermissionDetailDto>();
 
   dataSource = new WattTableDataSource<MarketRole>();
 
@@ -67,14 +65,7 @@ export class DhAdminPermissionMarketRolesComponent {
 
   marketRolesCount = computed(() => this.marketRoles().length);
 
-  isLoading = this.getPermissionQuery.loading;
-  hasError = computed(() => this.getPermissionQuery.error() !== undefined);
-
   constructor() {
-    effect(() => {
-      this.getPermissionQuery?.refetch({ id: this.selectedPermission().id });
-    });
-
     effect(() => {
       this.dataSource.data = this.marketRoles();
     });
