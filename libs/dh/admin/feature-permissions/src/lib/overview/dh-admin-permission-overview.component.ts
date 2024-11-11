@@ -59,20 +59,21 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
     `,
   ],
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
-    VaterStackComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterUtilityDirective,
-    WattButtonComponent,
-    DhPermissionRequiredDirective,
-    WattEmptyStateComponent,
     WATT_CARD,
     WATT_TABLE,
     WattSearchComponent,
+    WattButtonComponent,
+    WattEmptyStateComponent,
 
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+
+    DhPermissionRequiredDirective,
     DhAdminPermissionDetailComponent,
   ],
 })
