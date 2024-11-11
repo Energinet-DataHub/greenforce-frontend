@@ -44,6 +44,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
           >{{ t('download') }}</watt-button
         >
       }
+      @case ('CANCELED') {
+        <watt-badge type="skeleton">{{
+          t(status())
+        }}</watt-badge>
+        >
+      }
     }
   </ng-container>`,
   imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent, DecimalPipe],
