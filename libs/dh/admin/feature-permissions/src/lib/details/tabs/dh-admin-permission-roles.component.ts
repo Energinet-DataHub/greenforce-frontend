@@ -16,14 +16,18 @@
  */
 import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 type UserRole = ResultOf<
@@ -33,31 +37,17 @@ type UserRole = ResultOf<
 @Component({
   selector: 'dh-admin-permission-roles',
   templateUrl: './dh-admin-permission-roles.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .no-results-text {
-        text-align: center;
-      }
-
-      .spinner {
-        display: flex;
-        justify-content: center;
-      }
-    `,
-  ],
   standalone: true,
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_CARD,
     WATT_TABLE,
-    WattEmptyStateComponent,
     WattSpinnerComponent,
+    WattEmptyStateComponent,
+
+    VaterFlexComponent,
   ],
 })
 export class DhAdminPermissionRolesComponent {
@@ -79,11 +69,13 @@ export class DhAdminPermissionRolesComponent {
     eicFunction: { accessor: 'eicFunction' },
   };
 
-  private userRolesEffect = effect(() => {
-    this.dataSource.data = this.userRoles();
-  });
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.userRoles();
+    });
 
-  private queryRefetchEffect = effect(() => {
-    this.getPermissionQuery.refetch({ id: this.selectedPermission().id });
-  });
+    effect(() => {
+      this.getPermissionQuery.refetch({ id: this.selectedPermission().id });
+    });
+  }
 }

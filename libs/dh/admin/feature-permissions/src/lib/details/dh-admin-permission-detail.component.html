@@ -14,27 +14,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-@let permission = selectedPermission();
+@let selectedPermission = permission();
 <watt-drawer
   *transloco="let t; read: 'admin.userManagement.permissionDetail'"
   #drawer
   size="large"
+  [loading]="isLoading()"
   (closed)="onClose()"
 >
   <watt-drawer-heading>
-    <h2>{{ permission?.name }}</h2>
+    <h2>{{ selectedPermission?.name }}</h2>
   </watt-drawer-heading>
 
   <watt-drawer-actions>
     <watt-button
       *dhPermissionRequired="['user-roles:manage']"
       variant="secondary"
-      (click)="isEditPermissionModalVisible = true"
+      (click)="edit()"
       >{{ t("edit") }}</watt-button
     >
   </watt-drawer-actions>
 
-  @if (drawer.isOpen && permission) {
+  @if (drawer.isOpen && selectedPermission) {
     <watt-drawer-content>
       <watt-tabs>
         <watt-tab [label]="t('information')">
@@ -43,28 +44,24 @@ limitations under the License.
               <watt-description-list-item [label]="t('permissionName')" [value]="permission.name" />
               <watt-description-list-item
                 [label]="t('permissionDescription')"
-                [value]="permission.description"
+                [value]="selectedPermission.description"
               />
             </watt-description-list>
           </watt-card>
         </watt-tab>
         <watt-tab [label]="t('tabs.userRoles.tabLabel')">
-          <dh-admin-permission-roles [selectedPermission]="permission" />
+          <dh-admin-permission-roles [selectedPermission]="selectedPermission" />
         </watt-tab>
         <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
-          <dh-admin-permission-market-roles [selectedPermission]="permission" />
+          <dh-admin-permission-market-roles [selectedPermission]="selectedPermission" />
         </watt-tab>
         <watt-tab
           *dhPermissionRequired="['user-roles:manage']"
           [label]="t('tabs.history.tabLabel')"
         >
-          <dh-admin-permission-audit-logs [selectedPermission]="permission" />
+          <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
         </watt-tab>
       </watt-tabs>
     </watt-drawer-content>
   }
 </watt-drawer>
-
-@if (isEditPermissionModalVisible && permission) {
-  <dh-edit-permission-modal [permission]="permission" (closed)="modalOnClose($event)" />
-}

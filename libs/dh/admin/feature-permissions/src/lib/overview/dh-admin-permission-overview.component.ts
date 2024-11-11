@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, viewChild } from '@angular/core';
 
 import { switchMap } from 'rxjs';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -34,15 +34,10 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 
-import {
-  DhEmDashFallbackPipe,
-  exportToCSV,
-  streamToFile,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -78,8 +73,6 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
     WATT_TABLE,
     WattSearchComponent,
 
-    DhPermissionsTableComponent,
-    DhEmDashFallbackPipe,
     DhAdminPermissionDetailComponent,
   ],
 })
@@ -99,19 +92,14 @@ export class DhAdminPermissionOverviewComponent {
   dataSource = new WattTableDataSource<PermissionDto>([]);
   activeRow: PermissionDto | undefined = undefined;
 
-  url = signal<string>('');
+  url = computed(() => this.query.data()?.permissions.getPermissionRelationsUrl ?? '');
 
   permissionDetail = viewChild.required(DhAdminPermissionDetailComponent);
 
   constructor() {
-    effect(
-      () => {
-        const data = this.query.data();
-        this.dataSource.data = data?.permissions.permissions ?? [];
-        this.url.set(data?.permissions?.getPermissionRelationsUrl ?? '');
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.dataSource.data = this.query.data()?.permissions.permissions ?? [];
+    });
   }
 
   onRowClick(row: PermissionDto): void {
@@ -125,10 +113,6 @@ export class DhAdminPermissionOverviewComponent {
 
   onSearch(value: string): void {
     this.dataSource.filter = value;
-  }
-
-  refresh(): void {
-    this.query.refetch({ searchTerm: '' });
   }
 
   exportAsCsv(): void {

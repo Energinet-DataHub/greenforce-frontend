@@ -14,67 +14,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation, viewChild, output, signal, computed } from '@angular/core';
+import {
+  output,
+  inject,
+  computed,
+  Component,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
-import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
-import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
+import { WattCardComponent } from '@energinet-datahub/watt/card';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
+
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { DhEditPermissionModalComponent } from '../edit/dh-edit-permission-modal.component';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
+import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
+import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-admin-permission-detail',
   standalone: true,
-  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-admin-permission-detail.component.html',
   imports: [
     TranslocoDirective,
 
     WATT_DRAWER,
+    WattTabComponent,
     WattCardComponent,
+    WattTabsComponent,
+    WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    WattTabsComponent,
-    WattTabComponent,
-    WattButtonComponent,
 
     DhPermissionRequiredDirective,
-    DhEditPermissionModalComponent,
     DhPermissionAuditLogsComponent,
     DhAdminPermissionRolesComponent,
     DhAdminPermissionMarketRolesComponent,
   ],
 })
 export class DhAdminPermissionDetailComponent {
-  private query = query(GetPermissionsDocument, { variables: { searchTerm: '' } });
+  private modalService = inject(WattModalService);
+  private query = lazyQuery(GetPermissionDetailsDocument);
 
   drawer = viewChild.required(WattDrawerComponent);
 
-  selectedPermission = computed(() =>
-    this.query
-      .data()
-      ?.permissions?.permissions.find((permission) => permission.id === this.permissionId())
-  );
-  isEditPermissionModalVisible = false;
+  permission = computed(() => this.query.data()?.permissionById);
 
-  permissionId = signal<number | undefined>(undefined);
+  isLoading = this.query.loading;
 
   closed = output<void>();
-  updated = output<void>();
 
   onClose(): void {
     this.drawer().close();
@@ -82,15 +86,14 @@ export class DhAdminPermissionDetailComponent {
   }
 
   open(permission: PermissionDto): void {
-    this.permissionId.set(permission.id);
+    this.query.query({ variables: { id: permission.id } });
     this.drawer().open();
   }
 
-  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
-    this.isEditPermissionModalVisible = false;
-
-    if (saveSuccess) {
-      this.updated.emit();
-    }
+  edit() {
+    this.modalService.open({
+      component: DhEditPermissionModalComponent,
+      data: this.permission(),
+    });
   }
 }

@@ -14,52 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, computed, effect } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { Component, input, computed, effect } from '@angular/core';
+
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import {
   GetPermissionAuditLogsDocument,
   PermissionAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-admin-permission-audit-logs',
   standalone: true,
   templateUrl: './dh-admin-permission-audit-logs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .no-results-text {
-        text-align: center;
-      }
-
-      .spinner {
-        display: flex;
-        justify-content: center;
-      }
-    `,
-  ],
   imports: [
-    NgTemplateOutlet,
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
+
+    NgTemplateOutlet,
+
+    VaterFlexComponent,
 
     WATT_CARD,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
     WATT_TABLE,
     WattDatePipe,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
   ],
 })
 export class DhPermissionAuditLogsComponent {
@@ -82,11 +73,13 @@ export class DhPermissionAuditLogsComponent {
 
   selectedPermission = input.required<PermissionDto>();
 
-  private auditLogsEffect = effect(() => {
-    this.dataSource.data = [...this.auditLogs()].reverse();
-  });
+  constructor() {
+    effect(() => {
+      this.dataSource.data = [...this.auditLogs()].reverse();
+    });
 
-  private queryRefetchEffect = effect(() => {
-    this.getPermissionAuditLogsQuery.refetch({ id: this.selectedPermission()?.id });
-  });
+    effect(() => {
+      this.getPermissionAuditLogsQuery.refetch({ id: this.selectedPermission()?.id });
+    });
+  }
 }

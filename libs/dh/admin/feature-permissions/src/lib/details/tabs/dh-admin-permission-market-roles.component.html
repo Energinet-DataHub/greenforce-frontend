@@ -19,9 +19,9 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
 >
   @if (isLoading()) {
-    <div class="spinner">
+    <vater-flex direction="row" justify="center">
       <watt-spinner />
-    </div>
+    </vater-flex>
   } @else {
     @if (marketRolesCount() === 1 && !hasError()) {
       <watt-card-title>
@@ -62,9 +62,11 @@ limitations under the License.
     }
 
     @if (marketRolesCount() === 0) {
-      <h4 class="no-results-text">
-        {{ t("noEntries") }}
-      </h4>
+      <vater-flex direction="row" justify="center">
+        <h4>
+          {{ t("noEntries") }}
+        </h4>
+      </vater-flex>
     }
   }
 </watt-card>

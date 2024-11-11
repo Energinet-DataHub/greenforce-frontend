@@ -15,17 +15,21 @@
  * limitations under the License.
  */
 import { Component, computed, effect, input } from '@angular/core';
+
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { RxLet } from '@rx-angular/template/let';
+
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 type MarketRole = ResultOf<
   typeof GetPermissionDetailsDocument
@@ -34,32 +38,17 @@ type MarketRole = ResultOf<
 @Component({
   selector: 'dh-admin-permission-market-roles',
   templateUrl: './dh-admin-permission-market-roles.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .no-results-text {
-        text-align: center;
-      }
-
-      .spinner {
-        display: flex;
-        justify-content: center;
-      }
-    `,
-  ],
   standalone: true,
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
-    RxLet,
+    TranslocoDirective,
 
     WATT_CARD,
-    WattSpinnerComponent,
     WATT_TABLE,
+    WattSpinnerComponent,
     WattEmptyStateComponent,
+
+    VaterFlexComponent,
   ],
 })
 export class DhAdminPermissionMarketRolesComponent {
@@ -81,11 +70,13 @@ export class DhAdminPermissionMarketRolesComponent {
   isLoading = this.getPermissionQuery.loading;
   hasError = computed(() => this.getPermissionQuery.error() !== undefined);
 
-  private queryRefetchEffect = effect(() => {
-    this.getPermissionQuery?.refetch({ id: this.selectedPermission().id });
-  });
+  constructor() {
+    effect(() => {
+      this.getPermissionQuery?.refetch({ id: this.selectedPermission().id });
+    });
 
-  private marketRolesEffect = effect(() => {
-    this.dataSource.data = this.marketRoles();
-  });
+    effect(() => {
+      this.dataSource.data = this.marketRoles();
+    });
+  }
 }
