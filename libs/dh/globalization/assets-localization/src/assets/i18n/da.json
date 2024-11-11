@@ -921,7 +921,8 @@
           "cancel": "Annuller",
           "resolvedSuccess": "Beskeden blev markeret som løst.",
           "resolvedError": "En fejl opstod."
-        }
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} har markeret meddelelsen som løst"
       }
     },
     "meteringGridAreaImbalance": {
@@ -981,6 +982,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
+      "importButton": "Importer fil",
+      "importSuccess": "Fil importeret",
+      "importError": "Noget gik galt. Filen blev ikke importeret. Prøv igen",
       "shared": {
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til",

@@ -18,7 +18,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
 import { Subscription, of, switchMap, takeUntil } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
@@ -46,7 +45,7 @@ import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhResolveModalComponent } from './dh-resolve-modal.component';
-import { DhOutgoingMessagesSignalStore } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -61,16 +60,17 @@ import { DhOutgoingMessagesSignalStore } from '@energinet-datahub/dh/esett/data-
           margin: 0;
           margin-bottom: var(--watt-space-s);
         }
+
+        .heading {
+          width: 100%;
+        }
       }
     `,
   ],
   imports: [
-    RxPush,
     TranslocoPipe,
     TranslocoDirective,
-
     VaterStackComponent,
-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -79,7 +79,7 @@ import { DhOutgoingMessagesSignalStore } from '@energinet-datahub/dh/esett/data-
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
+    WattValidationMessageComponent,
     DhEmDashFallbackPipe,
     DhOutgoingMessageStatusBadgeComponent,
   ],
@@ -89,7 +89,6 @@ export class DhOutgoingMessageDrawerComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
   private readonly modalService = inject(WattModalService);
-  private readonly store = inject(DhOutgoingMessagesSignalStore);
 
   private subscription?: Subscription;
 
