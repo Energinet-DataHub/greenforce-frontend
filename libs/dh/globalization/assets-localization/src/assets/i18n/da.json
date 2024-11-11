@@ -1274,6 +1274,12 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
+      "cancelReport":{
+        "baseName": "Afbryd",
+        "title": "Er du sikker på, at du vil afbryde denne rapport?",
+        "confirm": "Afbryd rapport",
+        "cancel": "Fortryd"
+      },
       "columns": {
         "startedAt": "Bestilt",
         "executionTime": "Kørselstid",
@@ -1295,6 +1301,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
+        "CANCELED":"Afbrydt",
         "download": "Download"
       },
       "calculationTypes": {
