@@ -14,39 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   AddTokenToDownloadUrlDocument,
   GetSettlementReportDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
-type DhSettlementReportPartial = Pick<
-  DhSettlementReport,
-  'id' | 'period' | 'calculationType' | 'gridAreas' | 'settlementReportDownloadUrl'
->;
+import { DhSettlementReportPartial } from './dh-settlement-report-partial';
+import { dhSettlementReportName } from './dh-settlement-report-name';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DhSettlementReportsService {
   private toastService = inject(WattToastService);
 
   private addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
   private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
 
+  public settlementReportNameInNotification = computed(() => {
+    const settlementReport = this.settlementReportQuery.data()?.settlementReport;
+
+    if (settlementReport === undefined) {
+      return '—';
+    }
+
+    return dhSettlementReportName(settlementReport, { withBaseName: false });
+  });
+
+  getSettlementReportName(settlementReportId: string) {
+    this.getSettlementReport(settlementReportId);
+  }
+
   async downloadReportFromNotification(settlementReportId: string) {
-    const result = await this.settlementReportQuery.query({
-      variables: {
-        value: { id: settlementReportId },
-      },
-    });
+    const result = await this.getSettlementReport(settlementReportId);
 
     if (result.data.settlementReport) {
       this.downloadReport(result.data.settlementReport);
@@ -65,7 +69,9 @@ export class DhSettlementReportsService {
       return;
     }
 
-    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${this.settlementReportName(settlementReport)}`;
+    const fileName = `${dhSettlementReportName(settlementReport)}.zip`;
+
+    settlementReportDownloadUrl = `${settlementReportDownloadUrl}&filename=${fileName}`;
 
     const result = await this.addTokenToDownloadUrlMutation.mutate({
       variables: { url: settlementReportDownloadUrl },
@@ -82,23 +88,11 @@ export class DhSettlementReportsService {
     }
   }
 
-  private settlementReportName(report: DhSettlementReportPartial): string {
-    const baseTranslationPath = 'wholesale.settlementReports';
-
-    const calculationPeriod = wattFormatDate(report.period, 'short');
-    const calculationType = translate(
-      `${baseTranslationPath}.calculationTypes.${report.calculationType}`
-    );
-
-    let name = translate(`${baseTranslationPath}.downloadReport.baseName`);
-    name += ` - ${calculationType}`;
-
-    if (report.gridAreas.length === 1) {
-      name += ` - ` + report.gridAreas[0];
-    } else if (report.gridAreas.length > 1) {
-      name += ` - ` + translate(`${baseTranslationPath}.downloadReport.multipleGridAreas`);
-    }
-
-    return `${name} - ${calculationPeriod}.zip`;
+  private getSettlementReport(settlementReportId: string) {
+    return this.settlementReportQuery.query({
+      variables: {
+        value: { id: settlementReportId },
+      },
+    });
   }
 }

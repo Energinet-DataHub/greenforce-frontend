@@ -16,14 +16,13 @@
  */
 import {
   Component,
-  EventEmitter,
-  Output,
   ViewChild,
   input,
   effect,
   signal,
   inject,
   computed,
+  output,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -140,7 +139,7 @@ export class DhImbalancePricesDrawerComponent {
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
   constructor() {
     effect(

@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MutationResult } from 'apollo-angular';
@@ -22,26 +23,21 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 
 import {
-  GetAuditLogByOrganizationIdDocument,
-  GetOrganizationByIdDocument,
-  GetOrganizationEditDocument,
   GetOrganizationsDocument,
   UpdateOrganizationDocument,
   UpdateOrganizationMutation,
+  GetOrganizationEditDocument,
+  GetOrganizationByIdDocument,
+  GetAuditLogByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, map } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -61,8 +57,6 @@ import { EMPTY, map } from 'rxjs';
 
     WATT_MODAL,
     WattButtonComponent,
-    WattTextFieldComponent,
-    WattFieldErrorComponent,
 
     DhOrganizationManageComponent,
   ],
@@ -73,7 +67,7 @@ export class DhOrganizationEditModalComponent {
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private updateOrganizationMutation = mutation(UpdateOrganizationDocument);
-  private getOrganizationByIdQuery = query(GetOrganizationEditDocument);
+  private getOrganizationByIdQuery = lazyQuery(GetOrganizationEditDocument);
 
   domains = new FormControl<string[]>([], {
     nonNullable: true,
@@ -86,9 +80,13 @@ export class DhOrganizationEditModalComponent {
 
   modal = viewChild.required(WattModalComponent);
 
-  id = toSignal(
-    this.route.parent ? this.route.parent.params.pipe(map((params) => params.id)) : EMPTY
-  );
+  // Router param value
+  id = input.required<string>();
+
+  _ = effect(() => {
+    const id = this.id();
+    this.getOrganizationByIdQuery.query({ variables: { id } });
+  });
 
   constructor() {
     effect(() => {
