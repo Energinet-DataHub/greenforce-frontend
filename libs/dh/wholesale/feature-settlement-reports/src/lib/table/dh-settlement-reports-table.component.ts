@@ -17,18 +17,16 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input, signal } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
-import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
 
@@ -45,18 +43,14 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
   ],
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
 
     WATT_TABLE,
     WattDatePipe,
-    WattEmptyStateComponent,
 
     VaterFlexComponent,
-    VaterStackComponent,
 
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
-    DhDurationComponent,
   ],
   providers: [DhSettlementReportsService],
 })
