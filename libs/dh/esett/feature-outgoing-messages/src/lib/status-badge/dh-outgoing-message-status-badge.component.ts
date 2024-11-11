@@ -69,8 +69,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhOutgoingMessageStatusBadgeComponent {
-  readonly status = input<DocumentStatus | null | undefined>();
-  readonly created = input<Date | null | undefined>(null);
+  readonly status = input<DocumentStatus>();
+  readonly created = input<Date>();
 
   isSevere = computed(() => {
     const created = this.created();
