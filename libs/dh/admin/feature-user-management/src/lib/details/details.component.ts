@@ -31,7 +31,6 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
@@ -49,28 +48,32 @@ import {
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhTabsComponent } from './tabs/dh-drawer-tabs.component';
 import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
+import { DhUserMasterDataComponent } from './tabs/master-data.component';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-user-drawer',
   standalone: true,
-  templateUrl: './dh-user-drawer.component.html',
+  templateUrl: './details.component.html',
   imports: [
     TranslocoDirective,
     MatMenuModule,
 
+    WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
-    WattSpinnerComponent,
     WattButtonComponent,
 
-    DhTabsComponent,
     DhUserStatusComponent,
-    DhEditUserModalComponent,
     DhPermissionRequiredDirective,
+    DhUserAuditLogsComponent,
+    DhUserMasterDataComponent,
+    DhUserRolesComponent,
   ],
 })
 export class DhUserDrawerComponent {

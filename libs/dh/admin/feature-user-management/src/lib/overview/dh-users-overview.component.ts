@@ -110,7 +110,6 @@ export const debounceTimeValue = 250;
 
     DhUsersTabTableComponent,
     DhPermissionRequiredDirective,
-    DhInviteUserModalComponent,
     DhUsersOverviewFiltersComponent,
   ],
 })
