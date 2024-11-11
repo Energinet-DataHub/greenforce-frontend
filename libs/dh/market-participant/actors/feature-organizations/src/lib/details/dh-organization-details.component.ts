@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { Component, inject, effect, viewChild, computed } from '@angular/core';
+import { Component, inject, effect, viewChild, computed, input } from '@angular/core';
 
-import { map } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import {
@@ -29,13 +27,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -48,7 +44,6 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
-import { DhOrganizationEditModalComponent } from '../edit/dh-edit-modal.component';
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
 
 type Actor = {
@@ -101,19 +96,16 @@ type Actor = {
 
     VaterStackComponent,
 
-    WattDatePipe,
     WattButtonComponent,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
-    DhEmDashFallbackPipe,
     DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
 
     DhOrganizationHistoryComponent,
-    DhOrganizationEditModalComponent,
   ],
 })
 export class DhOrganizationDetailsComponent {
@@ -132,9 +124,8 @@ export class DhOrganizationDetailsComponent {
 
   actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
 
-  edit = toSignal<string>(this.route.queryParams.pipe(map((p) => p.edit ?? false)));
-
-  id = toSignal(this.route.params.pipe(map((p) => p.id)));
+  // Router param
+  id = input.required<string>();
 
   setActorDataSource = effect(() => {
     const data = this.getActorsByOrganizationIdQuery.data()?.actorsByOrganizationId;

@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhEsettDataAccessApiStore } from './lib/dh-esett-data-access-api.store';
-export { DhOutgoingMessagesSignalStore } from './lib/dh-outgoing-messages.store';
-export { DhOutgoingMessagesFilters } from './lib/dh-outgoing-messages-filters';
+import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
+
+export type DhSettlementReportPartial = Pick<
+  DhSettlementReport,
+  'id' | 'period' | 'calculationType' | 'gridAreas' | 'settlementReportDownloadUrl'
+>;

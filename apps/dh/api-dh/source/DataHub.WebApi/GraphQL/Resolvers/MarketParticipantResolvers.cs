@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
@@ -86,7 +87,7 @@ public class MarketParticipantResolvers
         [Parent] User user,
         [Service] IMarketParticipantClient_V1 client) =>
         await Task.WhenAll((
-            await client.UserActorsGetAsync(user.Id)).ActorIds
+                await client.UserActorsGetAsync(user.Id)).ActorIds
             .Select(async id => await client.ActorGetAsync(id)));
 
     public async Task<ICollection<BalanceResponsibilityRelationDto>?> GetBalanceResponsibleAgreementsAsync(
@@ -121,7 +122,7 @@ public class MarketParticipantResolvers
     public async Task<ActorDto?> GetAdministratedByAsync(
         [Parent] User user,
         [Service] IMarketParticipantClient_V1 client) =>
-            user.AdministratedBy.HasValue ? await client.ActorGetAsync(user.AdministratedBy.Value) : null;
+        user.AdministratedBy.HasValue ? await client.ActorGetAsync(user.AdministratedBy.Value) : null;
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
@@ -182,4 +183,9 @@ public class MarketParticipantResolvers
         [Parent] SettlementReport actor,
         ActorByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(actor.RequestedByActorId);
+
+    public async Task<string> GetIdentityDisplayNameByUserIdAsync(
+        [Parent] ManuallyHandledExchangeEventMetaData parent,
+        [Service] AuditIdentityCacheDataLoader client) =>
+        (await client.LoadRequiredAsync(parent.ManuallyHandledBy)).DisplayName;
 }

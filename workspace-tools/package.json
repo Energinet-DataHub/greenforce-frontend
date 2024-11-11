@@ -2,7 +2,7 @@
   "name": "workspace-tools",
   "version": "0.0.1",
   "dependencies": {
-    "ts-morph": "22.0.0",
+    "ts-morph": "23.0.0",
     "prettier": "3.3.3",
     "@nx/devkit": "19.4.2",
     "@nx/angular": "19.4.2",
