@@ -34,15 +34,10 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 
-import {
-  DhEmDashFallbackPipe,
-  exportToCSV,
-  streamToFile,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { exportToCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/shared';
 import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -64,22 +59,21 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
     `,
   ],
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
-    VaterStackComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterUtilityDirective,
-    WattButtonComponent,
-    DhPermissionRequiredDirective,
-    WattEmptyStateComponent,
     WATT_CARD,
     WATT_TABLE,
     WattSearchComponent,
+    WattButtonComponent,
+    WattEmptyStateComponent,
 
-    DhPermissionsTableComponent,
-    DhEmDashFallbackPipe,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+
+    DhPermissionRequiredDirective,
     DhAdminPermissionDetailComponent,
   ],
 })
