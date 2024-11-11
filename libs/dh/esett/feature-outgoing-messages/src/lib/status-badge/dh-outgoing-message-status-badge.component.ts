@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { dayjs } from '@energinet-datahub/watt/date';
 
+import { dayjs } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -26,39 +26,41 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   standalone: true,
   selector: 'dh-outgoing-message-status-badge',
   template: `
+    @let _status = status();
+
     <ng-container *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'">
-      @switch (status) {
+      @switch (_status) {
         @case ('RECEIVED') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(status!) }}
+            {{ t(_status) }}
           </watt-badge>
         }
         @case ('AWAITING_DISPATCH') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(status!) }}
+            {{ t(_status) }}
           </watt-badge>
         }
         @case ('BIZ_TALK_ACCEPTED') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(status!) }}
+            {{ t(_status) }}
           </watt-badge>
         }
         @case ('AWAITING_REPLY') {
           <watt-badge [type]="isSevere() ? 'danger' : 'neutral'">
-            {{ t(status!) }}
+            {{ t(_status) }}
           </watt-badge>
         }
         @case ('ACCEPTED') {
-          <watt-badge type="success">{{ t(status!) }}</watt-badge>
+          <watt-badge type="success">{{ t(_status) }}</watt-badge>
         }
         @case ('REJECTED') {
-          <watt-badge type="warning">{{ t(status!) }}</watt-badge>
+          <watt-badge type="warning">{{ t(_status) }}</watt-badge>
         }
         @case ('MANUALLY_HANDLED') {
-          <watt-badge type="success">{{ t(status!) }}</watt-badge>
+          <watt-badge type="success">{{ t(_status) }}</watt-badge>
         }
         @default {
-          {{ status | dhEmDashFallback }}
+          {{ _status | dhEmDashFallback }}
         }
       }
     </ng-container>
@@ -67,15 +69,20 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhOutgoingMessageStatusBadgeComponent {
-  @Input({ required: true }) status: DocumentStatus | null | undefined = null;
-  @Input({ required: true }) created: Date | null | undefined = null;
+  readonly status = input<DocumentStatus | null | undefined>();
+  readonly created = input<Date | null | undefined>(null);
 
-  isSevere(): boolean {
-    if (!this.created) return false;
+  isSevere = computed(() => {
+    const created = this.created();
+    const status = this.status();
 
-    const secondsPassed = dayjs(new Date()).diff(this.created, 'second');
+    if (created == null || status == null) {
+      return false;
+    }
 
-    switch (this.status) {
+    const secondsPassed = dayjs(new Date()).diff(created, 'second');
+
+    switch (status) {
       case 'RECEIVED':
         return secondsPassed > 30; // 30 seconds to convert.
       case 'AWAITING_DISPATCH':
@@ -84,8 +91,8 @@ export class DhOutgoingMessageStatusBadgeComponent {
         return secondsPassed > 60 * 30; // 30 minutes to dispatch.
       case 'AWAITING_REPLY':
         return secondsPassed > 60 * 60; // 1 hour to reply.
+      default:
+        return false;
     }
-
-    return false;
-  }
+  });
 }
