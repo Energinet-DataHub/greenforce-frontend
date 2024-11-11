@@ -13,14 +13,12 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
-using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
 using Xunit;
@@ -83,12 +81,13 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
             .ReturnsAsync(true);
 
-        var dto = OrchestrationInstanceDtoFactory.CreateTypedDtoMatchingCalculationDto(
-            _calculationId,
-            gridAreaCodes: ["003", "001", "002"]);
-        server.ProcessManagerCalculationClientV1Mock
-            .Setup(x => x.GetCalculationAsync(_calculationId, CancellationToken.None))
-            .ReturnsAsync(dto);
+        server.ProcessManagerCalculationClientMock
+            .Setup(x => x.GetCalculationAsync(_calculationId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new CalculationDto()
+            {
+                CalculationId = _calculationId,
+                GridAreaCodes = ["003", "001", "002"],
+            });
 
         server.MarketParticipantClientV1Mock
             .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))

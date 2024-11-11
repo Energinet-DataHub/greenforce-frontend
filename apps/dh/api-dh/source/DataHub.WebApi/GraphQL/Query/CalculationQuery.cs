@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -27,12 +27,12 @@ public partial class Query
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         return useProcessManager
-            ? await processManagerCalculationClient.GetCalculationMappedAsync(id)
+            ? await processManagerCalculationClient.GetCalculationAsync(id)
             : await wholesaleClient.GetCalculationAsync(id);
     }
 
@@ -42,7 +42,7 @@ public partial class Query
         CalculationQueryInput input,
         string? filter,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
@@ -58,7 +58,7 @@ public partial class Query
         {
             var calculationId = Guid.Parse(filter);
             var calculation = useProcessManager
-                ? await processManagerCalculationClient.GetCalculationMappedAsync(calculationId)
+                ? await processManagerCalculationClient.GetCalculationAsync(calculationId)
                 : await wholesaleClient.GetCalculationAsync(calculationId);
 
             return [calculation];
@@ -89,7 +89,7 @@ public partial class Query
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));

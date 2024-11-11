@@ -14,71 +14,19 @@
 
 using Energinet.DataHub.ProcessManager.Api.Model;
 using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
 using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 
-// TODO: Probably refactor; temporarily location to lay out the code.
-internal static class ProcessManagerCalculationClientV1Extensions
+/// <summary>
+/// Extension methods to help us map to and from "old" and "new" Calculation types.
+/// </summary>
+internal static class OrchestrationInstanceMapperExtensions
 {
-    public static async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
-        this INotifyAggregatedMeasureDataClientV1 client,
-        CalculationQueryInput input)
-    {
-        // TODO:
-        // We currently only support filtering on one state initially, and only
-        // top-level states (orchestration instance states, not steps)
-        var states = input.States ?? [];
-        var state = states
-            .Select(x => x.MapToLifecycleState())
-            .FirstOrDefault();
-
-        var calculationTypes = input.CalculationTypes ?? [];
-        var processManagerCalculationTypes = calculationTypes
-            .Select(x => x.MapToCalculationType())
-            .ToList();
-
-        var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
-        var minExecutionTime = input.ExecutionTime?.HasStart == true ? input.ExecutionTime?.Start.ToDateTimeOffset() : null;
-        var maxExecutionTime = input.ExecutionTime?.HasEnd == true ? input.ExecutionTime?.End.ToDateTimeOffset() : null;
-        var periodStart = input.Period?.Start.ToDateTimeOffset();
-        var periodEnd = input.Period?.End.ToDateTimeOffset();
-
-        var processManagerCalculations = await client.SearchCalculationsAsync(
-            lifecycleState: state.LifecycleState,
-            terminationState: state.TerminationState,
-            startedAtOrLater: minExecutionTime,
-            terminatedAtOrEarlier: maxExecutionTime,
-            calculationTypes: processManagerCalculationTypes,
-            gridAreaCodes: input.GridAreaCodes,
-            periodStartDate: periodStart,
-            periodEndDate: periodEnd,
-            isInternalCalculation: isInternal,
-            CancellationToken.None);
-
-        var calculations = processManagerCalculations
-            .Select(x => x.MapToV3CalculationDto());
-
-        return calculations
-            .OrderByDescending(x => x.ScheduledAt)
-            .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
-            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
-            .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal);
-    }
-
-    internal static async Task<CalculationDto> GetCalculationMappedAsync(
-        this INotifyAggregatedMeasureDataClientV1 client,
-        Guid calculationId)
-    {
-        var instanceDto = await client.GetCalculationAsync(calculationId, CancellationToken.None);
-
-        return instanceDto.MapToV3CalculationDto();
-    }
-
+    /// <summary>
+    /// Map from "old" Calculation types to "new" types.
+    /// </summary>
     internal static (OrchestrationInstanceLifecycleStates? LifecycleState, OrchestrationInstanceTerminationStates? TerminationState)
         MapToLifecycleState(this CalculationOrchestrationState state)
     {
@@ -109,8 +57,11 @@ internal static class ProcessManagerCalculationClientV1Extensions
         }
     }
 
+    /// <summary>
+    /// Map from "old" Calculation types to "new" types.
+    /// </summary>
     internal static CalculationTypes MapToCalculationType(
-        this Clients.Wholesale.v3.CalculationType calculationType)
+        this v3.CalculationType calculationType)
     {
         return Enum
             .TryParse<CalculationTypes>(
@@ -121,6 +72,9 @@ internal static class ProcessManagerCalculationClientV1Extensions
             : throw new InvalidOperationException($"Invalid CalculationType '{calculationType}'; cannot be mapped.");
     }
 
+    /// <summary>
+    /// Map from "new" Calculation types to "old" types.
+    /// </summary>
     internal static CalculationDto MapToV3CalculationDto(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
@@ -150,11 +104,14 @@ internal static class ProcessManagerCalculationClientV1Extensions
         };
     }
 
-    internal static Clients.Wholesale.v3.CalculationType MapToV3CalculationType(
+    /// <summary>
+    /// Map from "new" Calculation types to "old" types.
+    /// </summary>
+    internal static v3.CalculationType MapToV3CalculationType(
         this CalculationTypes calculationType)
     {
         return Enum
-            .TryParse<Clients.Wholesale.v3.CalculationType>(
+            .TryParse<v3.CalculationType>(
                 calculationType.ToString(),
                 ignoreCase: true,
                 out var calculationTypeResult)
@@ -163,7 +120,10 @@ internal static class ProcessManagerCalculationClientV1Extensions
     }
 
 #pragma warning disable IDE0011 // Add braces
-    internal static Clients.Wholesale.v3.CalculationOrchestrationState MapToV3OrchestrationState(
+    /// <summary>
+    /// Map from "new" Calculation types to "old" types.
+    /// </summary>
+    internal static CalculationOrchestrationState MapToV3OrchestrationState(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
         var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();

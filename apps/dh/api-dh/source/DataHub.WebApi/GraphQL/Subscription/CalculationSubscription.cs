@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Reactive.Linq;
-using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -28,7 +28,7 @@ public partial class Subscription
     public async Task<IObservable<CalculationDto>> OnCalculationUpdatedAsync(
         [Service] ITopicEventReceiver eventReceiver,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 client,
         CancellationToken cancellationToken)
     {
@@ -53,7 +53,7 @@ public partial class Subscription
                     .Interval(TimeSpan.FromSeconds(10))
                     .Select(_ => id)
                     .StartWith(id)
-                    .SelectMany(processManagerCalculationClient.GetCalculationMappedAsync)
+                    .SelectMany(processManagerCalculationClient.GetCalculationAsync)
                     .DistinctUntilChanged(calculation => calculation.OrchestrationState)
                     .TakeUntil(calculation => !IsInProgress(calculation.OrchestrationState)))
             : Observable

@@ -19,6 +19,7 @@ using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi;
+using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
@@ -87,8 +88,10 @@ if (environment.IsDevelopment())
 var apiClientSettings = configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
 services.AddDomainClients(apiClientSettings);
 
+// TODO: Temporary location until we know all Process Manager registrations
 services.AddFeatureManagement();
 services.AddProcessManagerClients();
+services.AddScoped<INotifyAggregatedMeasureDataClientAdapter, NotifyAggregatedMeasureDataClientAdapter>();
 
 services
     .AddGraphQLServices()
