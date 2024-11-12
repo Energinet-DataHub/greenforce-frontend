@@ -319,8 +319,8 @@
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERINGPOINT_DATA": "",
-        "REQUEST_METERINGPOINT_DATA": ""
+        "RECEIVE_METERING_POINT_DATA": "Fremsend målepunkts data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om målepunkts data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -669,8 +669,8 @@
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
               "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
-              "ReceiveMeteringPointData": "",
-              "RequestMeteringPointData": ""
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }

@@ -64,6 +64,7 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -103,6 +104,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   private _apollo: Apollo = inject(Apollo);
   private _toastService: any = inject(WattToastService);
   private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private _featureFlagsService: any = inject(DhFeatureFlagsService);
 
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
@@ -169,7 +171,12 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcesses() {
-    return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude());
+   return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude()).filter((x) => {
+      if (this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
+        return x.value !== DelegatedProcess.RequestWholesaleResults;
+      }
+      return true;
+    });
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {

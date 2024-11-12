@@ -319,8 +319,8 @@
         "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
-        "RECEIVE_METERINGPOINT_DATA": "",
-        "REQUEST_METERINGPOINT_DATA": ""
+        "RECEIVE_METERING_POINT_DATA": "Submit metering point data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Request metering point data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -669,8 +669,8 @@
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
               "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
-              "ReceiveMeteringPointData": "",
-              "RequestMeteringPointData": ""
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }
