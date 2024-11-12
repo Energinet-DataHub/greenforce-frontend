@@ -78,7 +78,6 @@ internal static class OrchestrationInstanceMapperExtensions
     internal static CalculationDto MapToV3CalculationDto(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
-        // TODO: Can we create a new type to be used in UI so we avoid a tight coupling to external types?
         return new CalculationDto
         {
             RunId = null, // Deprecated
