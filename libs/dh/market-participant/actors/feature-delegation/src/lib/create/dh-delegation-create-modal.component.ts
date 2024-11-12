@@ -171,20 +171,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcesses() {
-    return dhEnumToWattDropdownOptions(
-      DelegatedProcess,
-      this.getDelegatedProcessesToExclude()
-    ).filter(this.filterOnlyAllowedDelegatedProcesses);
-  }
-
-  private filterOnlyAllowedDelegatedProcesses(delegatedProcess: WattDropdownOption) {
-    if (this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
-      return (
-        delegatedProcess.value !== DelegatedProcess.ReceiveMeteringPointData &&
-        delegatedProcess.value !== DelegatedProcess.RequestMeteringPointData
-      );
-    }
-    return true;
+    return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude()
+    )
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
@@ -269,10 +257,15 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcessesToExclude(): DelegatedProcess[] {
-    if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
-      return [DelegatedProcess.RequestWholesaleResults];
+    let result: DelegatedProcess[] = [];
+    if (!this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
+      result = [...result, DelegatedProcess.ReceiveMeteringPointData, DelegatedProcess.RequestMeteringPointData];
     }
 
-    return [];
+    if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
+      result = [...result, DelegatedProcess.RequestWholesaleResults];
+    }
+
+    return result;
   }
 }
