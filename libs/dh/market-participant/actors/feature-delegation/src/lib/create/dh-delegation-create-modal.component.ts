@@ -174,7 +174,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     return dhEnumToWattDropdownOptions(
       DelegatedProcess,
       this.getDelegatedProcessesToExclude()
-    ).filter((x) => this.filterOnlyAllowedDelegatedProcesses(x));
+    ).filter(this.filterOnlyAllowedDelegatedProcesses);
   }
 
   private filterOnlyAllowedDelegatedProcesses(delegatedProcess: WattDropdownOption) {
