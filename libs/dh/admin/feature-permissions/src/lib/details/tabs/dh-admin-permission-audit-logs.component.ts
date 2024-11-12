@@ -79,7 +79,7 @@ export class DhPermissionAuditLogsComponent {
     });
 
     effect(() => {
-      this.getPermissionAuditLogsQuery.refetch({ id: this.selectedPermission()?.id });
+      this.getPermissionAuditLogsQuery.refetch({ id: this.selectedPermission().id });
     });
   }
 }

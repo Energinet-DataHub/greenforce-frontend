@@ -16,13 +16,11 @@
  */
 import { Component, computed, effect, input } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
@@ -38,17 +36,7 @@ type MarketRole = ResultOf<
   selector: 'dh-admin-permission-market-roles',
   templateUrl: './dh-admin-permission-market-roles.component.html',
   standalone: true,
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_CARD,
-    WATT_TABLE,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
-
-    VaterFlexComponent,
-  ],
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, VaterFlexComponent],
 })
 export class DhAdminPermissionMarketRolesComponent {
   private readonly marketRoles = computed(() => {

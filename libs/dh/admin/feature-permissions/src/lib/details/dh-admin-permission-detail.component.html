@@ -35,8 +35,8 @@ limitations under the License.
     >
   </watt-drawer-actions>
 
-  @if (drawer.isOpen && selectedPermission) {
-    <watt-drawer-content>
+  <watt-drawer-content>
+    @if (drawer.isOpen && selectedPermission) {
       <watt-tabs>
         <watt-tab [label]="t('information')">
           <watt-card variant="solid">
@@ -62,6 +62,16 @@ limitations under the License.
           <dh-admin-permission-audit-logs [selectedPermission]="selectedPermission" />
         </watt-tab>
       </watt-tabs>
-    </watt-drawer-content>
-  }
+    }
+
+    @if (hasError()) {
+      <vater-flex direction="column" offset="m" justify="center">
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        ></watt-empty-state>
+      </vater-flex>
+    }
+  </watt-drawer-content>
 </watt-drawer>
