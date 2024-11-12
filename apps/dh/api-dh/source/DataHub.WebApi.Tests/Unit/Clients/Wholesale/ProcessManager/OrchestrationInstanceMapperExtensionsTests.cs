@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
+using FluentAssertions;
+using FluentAssertions.Execution;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Unit.Clients.Wholesale.ProcessManager;
@@ -19,7 +24,27 @@ namespace Energinet.DataHub.WebApi.Tests.Unit.Clients.Wholesale.ProcessManager;
 public class OrchestrationInstanceMapperExtensionsTests
 {
     [Fact]
-    public void MapToV3CalculationDto_When()
+    public void When_MapToV3CalculationDto_Then_CalculationDtoContainsExpectedValues()
     {
+        var orchestrationInstanceDto = OrchestrationInstanceDtoFactory.CreateTypedDtoMatchingCalculationDto(
+            orchestrationInstanceId: Guid.NewGuid(),
+            ["003", "001", "002"]);
+
+        // Act
+        var actualDto = orchestrationInstanceDto.MapToV3CalculationDto();
+
+        // Assert
+        using var assertionScope = new AssertionScope();
+
+        actualDto.CalculationId.Should().Be(orchestrationInstanceDto.Id);
+        // All calculations start as Scheduled in the "old" version
+        actualDto.OrchestrationState.Should().Be(WebApi.Clients.Wholesale.v3.CalculationOrchestrationState.Scheduled);
+
+        // Notice we use mapper
+        actualDto.CalculationType.MapToCalculationType().Should().Be(orchestrationInstanceDto.ParameterValue.CalculationType);
+        actualDto.GridAreaCodes.Should().BeEquivalentTo(orchestrationInstanceDto.ParameterValue.GridAreaCodes);
+        actualDto.PeriodStart.Should().Be(orchestrationInstanceDto.ParameterValue.PeriodStartDate);
+        actualDto.PeriodEnd.Should().Be(orchestrationInstanceDto.ParameterValue.PeriodEndDate);
+        actualDto.IsInternalCalculation.Should().Be(orchestrationInstanceDto.ParameterValue.IsInternalCalculation);
     }
 }

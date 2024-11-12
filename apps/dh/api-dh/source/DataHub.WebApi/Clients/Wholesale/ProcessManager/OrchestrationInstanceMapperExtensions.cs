@@ -22,12 +22,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 /// <summary>
 /// Extension methods to help us map to and from "old" and "new" Calculation types.
 /// </summary>
-internal static class OrchestrationInstanceMapperExtensions
+public static class OrchestrationInstanceMapperExtensions
 {
     /// <summary>
     /// Map from "old" Calculation types to "new" types.
     /// </summary>
-    internal static (OrchestrationInstanceLifecycleStates? LifecycleState, OrchestrationInstanceTerminationStates? TerminationState)
+    public static (OrchestrationInstanceLifecycleStates? LifecycleState, OrchestrationInstanceTerminationStates? TerminationState)
         MapToLifecycleState(this CalculationOrchestrationState state)
     {
         switch (state)
@@ -60,7 +60,7 @@ internal static class OrchestrationInstanceMapperExtensions
     /// <summary>
     /// Map from "old" Calculation types to "new" types.
     /// </summary>
-    internal static CalculationTypes MapToCalculationType(
+    public static CalculationTypes MapToCalculationType(
         this v3.CalculationType calculationType)
     {
         return Enum
@@ -75,7 +75,7 @@ internal static class OrchestrationInstanceMapperExtensions
     /// <summary>
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
-    internal static CalculationDto MapToV3CalculationDto(
+    public static CalculationDto MapToV3CalculationDto(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
         return new CalculationDto
@@ -106,7 +106,7 @@ internal static class OrchestrationInstanceMapperExtensions
     /// <summary>
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
-    internal static v3.CalculationType MapToV3CalculationType(
+    public static v3.CalculationType MapToV3CalculationType(
         this CalculationTypes calculationType)
     {
         return Enum
@@ -122,7 +122,7 @@ internal static class OrchestrationInstanceMapperExtensions
     /// <summary>
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
-    internal static CalculationOrchestrationState MapToV3OrchestrationState(
+    public static CalculationOrchestrationState MapToV3OrchestrationState(
         this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
     {
         var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();
