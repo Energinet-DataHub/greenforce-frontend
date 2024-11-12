@@ -29,6 +29,7 @@ import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-se
 
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
+import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlement-reports-cancel-button.component';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -51,6 +52,7 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
 
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
+    DhSettlementReportsCancelButtonComponent,
   ],
   providers: [DhSettlementReportsService],
 })
@@ -65,6 +67,7 @@ export class DhSettlementReportsTableComponent {
     period: { accessor: (report) => report.period.start },
     numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
     status: { accessor: 'statusType' },
+    cancel: { accessor: 'id' },
   };
 
   displayedColumns = Object.keys(this.columns);

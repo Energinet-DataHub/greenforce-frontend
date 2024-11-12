@@ -19,4 +19,5 @@ public enum SettlementReportStatusType
     InProgress,
     Error,
     Completed,
+    Canceled,
 }
