@@ -114,6 +114,7 @@ limitations under the License.
                   <vater-stack direction="row">
                     <h3>{{ t("tabs.masterData.organization") }}</h3>
                     <watt-button
+                      *dhPermissionRequired="['actors:manage']"
                       (click)="editOrganization(actor()?.organization?.id)"
                       variant="text"
                       >{{ t("tabs.masterData.editOrganization") }}</watt-button
