@@ -28,7 +28,7 @@ import {
 import { createPopper, Instance } from '@popperjs/core';
 import { Platform } from '@angular/cdk/platform';
 
-import { wattTooltipPosition } from './watt-tooltip.directive';
+import { wattTooltipPosition, wattTooltipVariant } from './watt-tooltip.directive';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -49,11 +49,15 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   @Input() text!: string;
   @Input() target!: HTMLElement;
   @Input() position!: wattTooltipPosition;
+  @Input() variant!: wattTooltipVariant;
 
   @ViewChild('arrow') arrow!: ElementRef<HTMLElement>;
 
   @HostBinding() id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
   @HostBinding('attr.role') role = 'tooltip';
+  @HostBinding('class') get hostClass() {
+    return `tooltip-${this.variant}`
+  }
 
   private element: HTMLElement = inject(ElementRef).nativeElement;
   private platform = inject(Platform);

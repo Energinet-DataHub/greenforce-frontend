@@ -144,7 +144,10 @@ export interface TranslationKeys {
     otherOrganizations: string;
   };
   topbar: {
-    beta: string;
+    beta: {
+      title: string;
+      message: string;
+    }
     help: string;
     logout: string;
   };
