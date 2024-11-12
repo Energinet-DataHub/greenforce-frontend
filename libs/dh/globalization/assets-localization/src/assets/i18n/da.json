@@ -1278,7 +1278,7 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
-      "cancelReport":{
+      "cancelReport": {
         "baseName": "Afbryd",
         "title": "Er du sikker på, at du vil afbryde denne rapport?",
         "confirm": "Afbryd rapport",
@@ -1305,7 +1305,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
-        "CANCELED":"Afbrydt",
+        "CANCELED": "Afbrydt",
         "download": "Download"
       },
       "calculationTypes": {

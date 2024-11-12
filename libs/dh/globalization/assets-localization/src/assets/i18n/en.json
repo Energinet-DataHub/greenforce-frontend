@@ -1278,7 +1278,7 @@
         "baseName": "Settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
-      "cancelReport":{
+      "cancelReport": {
         "baseName": "Cancel",
         "title": "Are you sure you want to cancel the report?",
         "confirm": "Cancel report",
@@ -1305,7 +1305,7 @@
         "IN_PROGRESS": "In progress ({{ progress }}%)",
         "ERROR": "Error",
         "COMPLETED": "Completed",
-        "CANCELED":"Canceled",
+        "CANCELED": "Canceled",
         "download": "Download"
       },
       "calculationTypes": {
