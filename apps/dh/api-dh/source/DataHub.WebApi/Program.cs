@@ -14,10 +14,12 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Energinet.DataHub.Core.App.Common.Extensions.Builder;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
+using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Registration;
@@ -90,8 +92,27 @@ services.AddDomainClients(apiClientSettings);
 
 // TODO: Temporary location until we know all Process Manager registrations
 services.AddFeatureManagement();
+// Process Manager registrations
 services.AddProcessManagerClients();
 services.AddScoped<INotifyAggregatedMeasureDataClientAdapter, NotifyAggregatedMeasureDataClientAdapter>();
+// => Health Checks
+var processManagerClientOptions = configuration
+    .GetSection(ProcessManagerClientOptions.SectionName)
+    .Get<ProcessManagerClientOptions>();
+if (processManagerClientOptions != null)
+{
+    services.AddHealthChecks()
+        .AddServiceHealthCheck(
+            "processManagerGeneral",
+            HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
+                processManagerClientOptions.GeneralApiBaseAddress,
+                isAzureFunction: true))
+        .AddServiceHealthCheck(
+            "processManagerOrchestrations",
+            HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
+                processManagerClientOptions.OrchestrationsApiBaseAddress,
+                isAzureFunction: true));
+}
 
 services
     .AddGraphQLServices()
