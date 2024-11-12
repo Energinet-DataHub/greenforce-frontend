@@ -56,7 +56,7 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   @HostBinding() id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
   @HostBinding('attr.role') role = 'tooltip';
   @HostBinding('class') get hostClass() {
-    return `tooltip-${this.variant}`
+    return `tooltip-${this.variant}`;
   }
 
   private element: HTMLElement = inject(ElementRef).nativeElement;
