@@ -21,27 +21,25 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.M
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
-// TODO: Do we need this anymore?
+/// <summary>
+/// Initial factory which exposes what we need at the momemt.
+/// Might have to be refactored into a builder pattern if we want to use it extensively.
+/// </summary>
 public static class OrchestrationInstanceDtoFactory
 {
-    /// <summary>
-    /// Initial factory method which exposes what we need at the momemt.
-    /// Might have to be refactored into a builder pattern.
-    /// </summary>
-    public static OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> CreateTypedDtoMatchingCalculationDto(
-        Guid orchestrationInstanceId,
-        IReadOnlyCollection<string>? gridAreaCodes)
+    public static NotifyAggregatedMeasureDataInputV1 CreateParameterValue(IReadOnlyCollection<string>? gridAreaCodes, Fixture fixture)
     {
-        var fixture = new Fixture();
+        return new NotifyAggregatedMeasureDataInputV1(
+            CalculationType: fixture.Create<CalculationTypes>(),
+            GridAreaCodes: gridAreaCodes ?? [],
+            PeriodStartDate: fixture.Create<DateTimeOffset>(),
+            PeriodEndDate: fixture.Create<DateTimeOffset>(),
+            IsInternalCalculation: fixture.Create<bool>());
+    }
 
-        var parameterValue = new NotifyAggregatedMeasureDataInputV1(
-                CalculationType: fixture.Create<CalculationTypes>(),
-                GridAreaCodes: gridAreaCodes ?? [],
-                PeriodStartDate: fixture.Create<DateTimeOffset>(),
-                PeriodEndDate: fixture.Create<DateTimeOffset>(),
-                IsInternalCalculation: fixture.Create<bool>());
-
-        var lifecycle = new OrchestrationInstanceLifecycleStatesDto(
+    public static OrchestrationInstanceLifecycleStatesDto CreatePendingLifecycle(Fixture fixture)
+    {
+        return new OrchestrationInstanceLifecycleStatesDto(
             State: OrchestrationInstanceLifecycleStates.Pending,
             TerminationState: null,
             CreatedAt: fixture.Create<DateTimeOffset>(),
@@ -49,36 +47,45 @@ public static class OrchestrationInstanceDtoFactory
             QueuedAt: null,
             StartedAt: null,
             TerminatedAt: null);
+    }
 
-        var steps = new List<StepInstanceDto>
-        {
-            new StepInstanceDto(
-                Id: fixture.Create<Guid>(),
-                Lifecycle: new StepInstanceLifecycleStateDto(
-                    State: StepInstanceLifecycleStates.Pending,
-                    TerminationState: null,
-                    StartedAt: null,
-                    TerminatedAt: null),
-                Description: "Beregning",
-                Sequence: 1,
-                CustomState: string.Empty),
-            new StepInstanceDto(
-                Id: fixture.Create<Guid>(),
-                Lifecycle: new StepInstanceLifecycleStateDto(
-                    State: StepInstanceLifecycleStates.Pending,
-                    TerminationState: null,
-                    StartedAt: null,
-                    TerminatedAt: null),
-                Description: "Besked dannelse",
-                Sequence: 2,
-                CustomState: string.Empty),
-        };
+    public static OrchestrationInstanceLifecycleStatesDto CreateRunningLifecycle(Fixture fixture)
+    {
+        return new OrchestrationInstanceLifecycleStatesDto(
+            State: OrchestrationInstanceLifecycleStates.Running,
+            TerminationState: null,
+            CreatedAt: fixture.Create<DateTimeOffset>(),
+            ScheduledToRunAt: null,
+            QueuedAt: null,
+            StartedAt: fixture.Create<DateTimeOffset>(),
+            TerminatedAt: null);
+    }
 
-        return new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
-            Id: orchestrationInstanceId,
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
+    public static StepInstanceDto CreateStepAsPending(Fixture fixture, string description, int sequence)
+    {
+        return new StepInstanceDto(
+            Id: fixture.Create<Guid>(),
+            Lifecycle: new StepInstanceLifecycleStateDto(
+                State: StepInstanceLifecycleStates.Pending,
+                TerminationState: null,
+                StartedAt: null,
+                TerminatedAt: null),
+            Description: description,
+            Sequence: sequence,
+            CustomState: string.Empty);
+    }
+
+    public static StepInstanceDto CreateStepAsRunning(Fixture fixture, string description, int sequence)
+    {
+        return new StepInstanceDto(
+            Id: fixture.Create<Guid>(),
+            Lifecycle: new StepInstanceLifecycleStateDto(
+                State: StepInstanceLifecycleStates.Running,
+                TerminationState: null,
+                StartedAt: fixture.Create<DateTimeOffset>(),
+                TerminatedAt: null),
+            Description: description,
+            Sequence: sequence,
             CustomState: string.Empty);
     }
 }
