@@ -1420,6 +1420,7 @@ enum SettlementReportStatusType {
   IN_PROGRESS
   ERROR
   COMPLETED
+  CANCELED
 }
 
 enum SortDirection {

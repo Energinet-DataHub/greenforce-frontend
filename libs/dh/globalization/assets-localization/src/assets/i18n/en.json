@@ -1282,6 +1282,14 @@
         "baseName": "Settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
+      "cancelReport": {
+        "baseName": "Cancel",
+        "title": "Are you sure you want to cancel the report?",
+        "confirm": "Cancel report",
+        "cancel": "Close",
+        "requestSuccess": "Settlement report has been canceled.",
+        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+      },
       "columns": {
         "startedAt": "Started",
         "executionTime": "Execution time",
@@ -1303,6 +1311,7 @@
         "IN_PROGRESS": "In progress ({{ progress }}%)",
         "ERROR": "Error",
         "COMPLETED": "Completed",
+        "CANCELED": "Canceled",
         "download": "Download"
       },
       "calculationTypes": {
