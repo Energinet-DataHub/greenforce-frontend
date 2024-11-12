@@ -171,22 +171,20 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcesses() {
-    return this.ReturnNonExcludedOptionsDueToFeatureFlags();
-  }
-
-  private ReturnNonExcludedOptionsDueToFeatureFlags() {
     return dhEnumToWattDropdownOptions(
       DelegatedProcess,
       this.getDelegatedProcessesToExclude()
-    ).filter((x) => {
-      if (this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
-        return (
-          x.value !== DelegatedProcess.ReceiveMeteringPointData &&
-          x.value !== DelegatedProcess.RequestMeteringPointData
-        );
-      }
-      return true;
-    });
+    ).filter((x) => this.filterOnlyAllowedDelegatedProcesses(x));
+  }
+
+  private filterOnlyAllowedDelegatedProcesses(delegatedProcess: WattDropdownOption) {
+    if (this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
+      return (
+        delegatedProcess.value !== DelegatedProcess.ReceiveMeteringPointData &&
+        delegatedProcess.value !== DelegatedProcess.RequestMeteringPointData
+      );
+    }
+    return true;
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
