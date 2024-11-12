@@ -64,6 +64,7 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -100,9 +101,10 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
-  private _apollo: Apollo = inject(Apollo);
-  private _toastService: any = inject(WattToastService);
-  private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private _apollo = inject(Apollo);
+  private _toastService = inject(WattToastService);
+  private _fb = inject(NonNullableFormBuilder);
+  private _featureFlagsService = inject(DhFeatureFlagsService);
 
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
@@ -169,7 +171,20 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcesses() {
-    return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude());
+    return dhEnumToWattDropdownOptions(
+      DelegatedProcess,
+      this.getDelegatedProcessesToExclude()
+    ).filter(this.filterOnlyAllowedDelegatedProcesses);
+  }
+
+  private filterOnlyAllowedDelegatedProcesses(delegatedProcess: WattDropdownOption) {
+    if (this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
+      return (
+        delegatedProcess.value !== DelegatedProcess.ReceiveMeteringPointData &&
+        delegatedProcess.value !== DelegatedProcess.RequestMeteringPointData
+      );
+    }
+    return true;
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
