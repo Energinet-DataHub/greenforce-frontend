@@ -171,8 +171,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcesses() {
-    return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude()
-    )
+    return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude());
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
@@ -259,7 +258,11 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   private getDelegatedProcessesToExclude(): DelegatedProcess[] {
     let result: DelegatedProcess[] = [];
     if (!this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
-      result = [...result, DelegatedProcess.ReceiveMeteringPointData, DelegatedProcess.RequestMeteringPointData];
+      result = [
+        ...result,
+        DelegatedProcess.ReceiveMeteringPointData,
+        DelegatedProcess.RequestMeteringPointData,
+      ];
     }
 
     if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
