@@ -21,7 +21,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhSettlementReportsCancelModalComponent } from '../modal/dh-settlement-reports-cancel-modal.component';
 import { Apollo } from 'apollo-angular';
-import { CancelSettlementReportDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  CancelSettlementReportDocument,
+  GetSettlementReportsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   standalone: true,
@@ -56,6 +59,7 @@ export class DhSettlementReportsCancelButtonComponent {
                 requestId: { id },
               },
             },
+            refetchQueries: [GetSettlementReportsDocument],
           });
         }
       },
