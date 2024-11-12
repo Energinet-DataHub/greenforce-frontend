@@ -101,10 +101,10 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
-  private _apollo: Apollo = inject(Apollo);
-  private _toastService: any = inject(WattToastService);
-  private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-  private _featureFlagsService: any = inject(DhFeatureFlagsService);
+  private _apollo = inject(Apollo);
+  private _toastService = inject(WattToastService);
+  private _fb = inject(NonNullableFormBuilder);
+  private _featureFlagsService = inject(DhFeatureFlagsService);
 
   @ViewChild(WattModalComponent)
   modal: WattModalComponent | undefined;
