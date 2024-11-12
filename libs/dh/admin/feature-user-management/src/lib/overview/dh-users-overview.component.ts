@@ -60,7 +60,7 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
+import { DhInviteUserModalComponent } from '../invite/invite.component';
 import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
 import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
 

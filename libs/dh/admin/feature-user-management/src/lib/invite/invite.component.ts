@@ -66,8 +66,8 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'dh-invite-user-modal',
-  templateUrl: './dh-invite-user-modal.component.html',
-  styleUrls: ['./dh-invite-user-modal.component.scss'],
+  templateUrl: './invite.component.html',
+  styleUrls: ['./invite.component.scss'],
   standalone: true,
   imports: [
     TranslocoDirective,
