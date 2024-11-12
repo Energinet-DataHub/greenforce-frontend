@@ -23,7 +23,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
@@ -52,7 +51,6 @@ import {
 
     WATT_CARD,
     WATT_TABLE,
-    WattPaginatorComponent,
     WattButtonComponent,
     VaterFlexComponent,
     VaterSpacerComponent,
@@ -87,11 +85,11 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
       .selectTranslateObject('marketParticipant')
       .pipe(take(1))
       .subscribe((translations) => {
-        const basePath = 'marketParticipant.marketRolesOverview.columns.';
+        const basePath = 'marketParticipant.marketRolesOverview.columns';
 
         const headers = [
-          `"${translate(basePath + 'name')}"`,
-          `"${translate(basePath + 'description')}"`,
+          `"${translate(basePath + '.name')}"`,
+          `"${translate(basePath + '.description')}"`,
         ];
 
         if (this.dataSource.sort) {
@@ -105,7 +103,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
             `"${translations['marketRoleDescriptions'][x]}"`,
           ]);
 
-          exportToCSV({ headers, lines, fileName: 'market-roles' });
+          exportToCSV({ headers, lines, fileName: 'DataHub-Market-Roles' });
         }
       });
   }

@@ -61,26 +61,6 @@ type Actor = {
       :host {
         display: block;
       }
-
-      watt-card {
-        flex: 1;
-      }
-
-      .organization-heading {
-        margin: 0;
-        margin-bottom: var(--watt-space-s);
-      }
-
-      .organization-metadata {
-        display: flex;
-        gap: var(--watt-space-ml);
-      }
-
-      .organization-metadata__item {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
     `,
   ],
   imports: [
@@ -122,7 +102,7 @@ export class DhOrganizationDetailsComponent {
 
   organization = computed(() => this.getOrganizationByIdQuery.data()?.organizationById);
 
-  actors: WattTableDataSource<Actor> = new WattTableDataSource<Actor>([]);
+  actors = new WattTableDataSource<Actor>([]);
 
   // Router param
   id = input.required<string>();
