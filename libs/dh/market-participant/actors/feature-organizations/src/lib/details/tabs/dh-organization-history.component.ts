@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, computed, effect, input } from '@angular/core';
-
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -35,40 +34,39 @@ import {
 @Component({
   selector: 'dh-organization-history',
   standalone: true,
-  template: ` <ng-container
+  template: `<ng-container
     *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
   >
     @if (isLoading()) {
       <vater-stack fill="horizontal" align="center">
         <watt-spinner />
       </vater-stack>
-    }
-
-    @if (!isLoading() && auditLog.data.length === 0) {
-      <watt-empty-state
-        [icon]="hasError() ? 'custom-power' : 'cancel'"
-        size="small"
-        [title]="hasError() ? t('tabs.shared.error') : t('tabs.shared.noData')"
-      />
-    }
-    @if (auditLog.data.length > 0 && !isLoading()) {
-      <watt-card variant="solid">
-        <watt-table
-          [dataSource]="auditLog"
-          [columns]="auditLogColumns"
-          [hideColumnHeaders]="true"
-          [suppressRowHoverHighlight]="true"
-          sortBy="timestamp"
-          sortDirection="desc"
-        >
-          <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
-            {{ element.timestamp | wattDate: 'long' }}
-          </ng-container>
-          <ng-container *wattTableCell="auditLogColumns['value']; let entry">
-            <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
-          </ng-container>
-        </watt-table>
-      </watt-card>
+    } @else {
+      @if (auditLog.data.length > 0) {
+        <watt-card variant="solid">
+          <watt-table
+            [dataSource]="auditLog"
+            [columns]="auditLogColumns"
+            [hideColumnHeaders]="true"
+            [suppressRowHoverHighlight]="true"
+            sortBy="timestamp"
+            sortDirection="desc"
+          >
+            <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
+              {{ element.timestamp | wattDate: 'long' }}
+            </ng-container>
+            <ng-container *wattTableCell="auditLogColumns['value']; let entry">
+              <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
+            </ng-container>
+          </watt-table>
+        </watt-card>
+      } @else {
+        <watt-empty-state
+          size="small"
+          [icon]="hasError() ? 'custom-power' : 'cancel'"
+          [title]="hasError() ? t('tabs.shared.error') : t('tabs.shared.noData')"
+        />
+      }
     }
   </ng-container>`,
   imports: [
@@ -91,8 +89,7 @@ export class DhOrganizationHistoryComponent {
   isLoading = this.getAuditLogByOrganizationIdQuery.loading;
   hasError = computed(() => this.getAuditLogByOrganizationIdQuery.error() !== undefined);
 
-  auditLog: WattTableDataSource<OrganizationAuditedChangeAuditLogDto> =
-    new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
+  auditLog = new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 
   auditLogColumns: WattTableColumnDef<OrganizationAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
@@ -102,6 +99,7 @@ export class DhOrganizationHistoryComponent {
   constructor() {
     effect(() => {
       const organizationId = this.organizationId();
+
       if (organizationId) {
         this.getAuditLogByOrganizationIdQuery.query({
           variables: { organizationId },
