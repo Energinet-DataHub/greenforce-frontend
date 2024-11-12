@@ -171,12 +171,9 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcesses() {
-    return dhEnumToWattDropdownOptions(
-      DelegatedProcess,
-      this.getDelegatedProcessesToExclude()
-    ).filter((x) => {
+   return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude()).filter((x) => {
       if (this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
-        return x.value !== DelegatedProcess.RequestWholesaleResults;
+        return (x.value !== DelegatedProcess.ReceiveMeteringPointData && x.value !== DelegatedProcess.RequestMeteringPointData);
       }
       return true;
     });
