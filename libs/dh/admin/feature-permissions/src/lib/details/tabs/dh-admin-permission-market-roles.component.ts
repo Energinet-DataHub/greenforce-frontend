@@ -15,17 +15,18 @@
  * limitations under the License.
  */
 import { Component, computed, effect, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { RxLet } from '@rx-angular/template/let';
+
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
+
+import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 type MarketRole = ResultOf<
   typeof GetPermissionDetailsDocument
@@ -34,41 +35,15 @@ type MarketRole = ResultOf<
 @Component({
   selector: 'dh-admin-permission-market-roles',
   templateUrl: './dh-admin-permission-market-roles.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .no-results-text {
-        text-align: center;
-      }
-
-      .spinner {
-        display: flex;
-        justify-content: center;
-      }
-    `,
-  ],
   standalone: true,
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-    RxLet,
-
-    WATT_CARD,
-    WattSpinnerComponent,
-    WATT_TABLE,
-    WattEmptyStateComponent,
-  ],
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, VaterFlexComponent],
 })
 export class DhAdminPermissionMarketRolesComponent {
-  private readonly getPermissionQuery = lazyQuery(GetPermissionDetailsDocument);
   private readonly marketRoles = computed(() => {
-    return this.getPermissionQuery.data()?.permissionById?.assignableTo ?? [];
+    return this.selectedPermission().assignableTo ?? [];
   });
 
-  selectedPermission = input.required<PermissionDto>();
+  selectedPermission = input.required<PermissionDetailDto>();
 
   dataSource = new WattTableDataSource<MarketRole>();
 
@@ -78,14 +53,9 @@ export class DhAdminPermissionMarketRolesComponent {
 
   marketRolesCount = computed(() => this.marketRoles().length);
 
-  isLoading = this.getPermissionQuery.loading;
-  hasError = computed(() => this.getPermissionQuery.error() !== undefined);
-
-  private queryRefetchEffect = effect(() => {
-    this.getPermissionQuery?.refetch({ id: this.selectedPermission().id });
-  });
-
-  private marketRolesEffect = effect(() => {
-    this.dataSource.data = this.marketRoles();
-  });
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.marketRoles();
+    });
+  }
 }
