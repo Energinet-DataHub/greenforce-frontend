@@ -4270,13 +4270,17 @@
           "RequestEnergyResults",
           "ReceiveEnergyResults",
           "RequestWholesaleResults",
-          "ReceiveWholesaleResults"
+          "ReceiveWholesaleResults",
+          "RequestMeteringPointData",
+          "ReceiveMeteringPointData"
         ],
         "enum": [
           1,
           2,
           3,
-          4
+          4,
+          5,
+          6
         ]
       },
       "DelegationPeriodDto": {
@@ -4963,7 +4967,9 @@
               "RequestEnergyResults",
               "ReceiveEnergyResults",
               "RequestWholesaleResults",
-              "ReceiveWholesaleResults"
+              "ReceiveWholesaleResults",
+              "RequestMeteringPointData",
+              "ReceiveMeteringPointData"
             ],
             "allOf": [
               {

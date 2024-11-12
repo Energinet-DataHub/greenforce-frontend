@@ -42,14 +42,6 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
 @Component({
   standalone: true,
   selector: 'dh-organization-edit-modal',
-  templateUrl: './dh-edit-modal.component.html',
-  styles: [
-    `
-      .domain-field {
-        width: 25em;
-      }
-    `,
-  ],
   imports: [
     TranslocoDirective,
     FormsModule,
@@ -60,12 +52,36 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
 
     DhOrganizationManageComponent,
   ],
+  template: `
+    <watt-modal
+      size="small"
+      [title]="organization()?.name ?? ''"
+      [loading]="loading()"
+      (closed)="close(false)"
+      *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
+    >
+      <form id="editForm" (ngSubmit)="save()">
+        <dh-organization-manage [domains]="domains" />
+      </form>
+
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="close(false)">
+          {{ t('cancel') }}
+        </watt-button>
+
+        <watt-button variant="secondary" type="submit" formId="editForm">
+          {{ t('save') }}
+        </watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
 })
 export class DhOrganizationEditModalComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+
   private updateOrganizationMutation = mutation(UpdateOrganizationDocument);
   private getOrganizationByIdQuery = lazyQuery(GetOrganizationEditDocument);
 
@@ -83,14 +99,15 @@ export class DhOrganizationEditModalComponent {
   // Router param value
   id = input.required<string>();
 
-  _ = effect(() => {
-    const id = this.id();
-    this.getOrganizationByIdQuery.query({ variables: { id } });
-  });
-
   constructor() {
     effect(() => {
+      const id = this.id();
+      this.getOrganizationByIdQuery.query({ variables: { id } });
+    });
+
+    effect(() => {
       const org = this.organization();
+
       if (org) {
         this.domains.patchValue(org.domains);
         this.modal().open();

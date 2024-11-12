@@ -38,7 +38,6 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
@@ -68,20 +67,16 @@ import { DhOrganizationsTableComponent } from './table/dh-table.component';
   ],
   imports: [
     RouterOutlet,
-
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
     WattSearchComponent,
     WattButtonComponent,
     WattPaginatorComponent,
-
     VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhOrganizationsTableComponent,
   ],
 })
@@ -94,26 +89,32 @@ export class DhOrganizationsOverviewComponent {
 
   dataSource = new WattTableDataSource<DhOrganization>([]);
 
-  setDatasource = effect(() => {
-    this.dataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
-  });
-
   isLoading = this.getOrganizationsQuery.loading;
   hasError = computed(() => this.getOrganizationsQuery.error !== undefined);
 
   constructor() {
-    // handle reload with drawer open
+    effect(() => {
+      this.dataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
+    });
+
+    // Called during:
+    // 1. page reload when drawer is open [followed by]
+    // 2. row selection [that resuls in opening of drawer]
     this.route.firstChild?.params
       .pipe(
-        takeUntilDestroyed(),
-        map((params) => params.id)
+        map((params) => params.id),
+        takeUntilDestroyed()
       )
       .subscribe(this.id.set);
-    // handle closing drawer
+
+    // Called during:
+    // 1. navigation to route defined by this component
+    // 2. row selection [that resuls in opening of drawer]
+    // 3. closing of drawer
     this.router.events
       .pipe(
-        takeUntilDestroyed(),
-        filter((event) => event.type === EventType.NavigationEnd)
+        filter((event) => event.type === EventType.NavigationEnd),
+        takeUntilDestroyed()
       )
       .subscribe(() => {
         if (this.route.children.length === 0) {
@@ -150,6 +151,6 @@ export class DhOrganizationsOverviewComponent {
 
     const lines = dataSorted.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
 
-    exportToCSV({ headers, lines, fileName: 'organizations' });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Organizations' });
   }
 }
