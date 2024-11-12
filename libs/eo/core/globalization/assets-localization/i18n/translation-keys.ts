@@ -147,7 +147,7 @@ export interface TranslationKeys {
     beta: {
       title: string;
       message: string;
-    }
+    };
     help: string;
     logout: string;
   };

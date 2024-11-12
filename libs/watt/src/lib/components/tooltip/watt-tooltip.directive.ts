@@ -36,9 +36,7 @@ export type wattTooltipPosition =
   | 'bottom-end'
   | 'left';
 
-export type wattTooltipVariant =
-  | 'dark'
-  | 'light'
+export type wattTooltipVariant = 'dark' | 'light';
 
 @Directive({
   selector: '[wattTooltip]',
