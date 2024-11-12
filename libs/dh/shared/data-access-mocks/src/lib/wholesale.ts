@@ -44,6 +44,7 @@ import {
   GridAreaStatus,
   GridAreaType,
   mockGetSettlementReportQuery,
+  mockCancelSettlementReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -68,6 +69,7 @@ export function wholesaleMocks(apiBase: string) {
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
+    cancelSettlementReportMutation(),
   ];
 }
 
@@ -728,6 +730,22 @@ function requestSettlementReportMutation() {
         __typename: 'Mutation',
         requestSettlementReport: {
           __typename: 'RequestSettlementReportPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function cancelSettlementReportMutation() {
+  return mockCancelSettlementReportMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelSettlementReport: {
+          __typename: 'CancelSettlementReportPayload',
           boolean: true,
         },
       },

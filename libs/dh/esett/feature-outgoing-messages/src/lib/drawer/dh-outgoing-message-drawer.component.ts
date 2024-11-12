@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, Output, EventEmitter, inject, signal } from '@angular/core';
-
+import { Component, ViewChild, inject, signal, output } from '@angular/core';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { Apollo } from 'apollo-angular';
 import { Subscription, of, switchMap, takeUntil } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
@@ -40,12 +40,12 @@ import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhResolveModalComponent } from './dh-resolve-modal.component';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -70,6 +70,7 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
   imports: [
     TranslocoPipe,
     TranslocoDirective,
+
     VaterStackComponent,
     WATT_TABS,
     WATT_CARD,
@@ -97,7 +98,7 @@ export class DhOutgoingMessageDrawerComponent {
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
   dispatchDocument = signal<string | undefined>(undefined);
   responseDocument = signal<string | undefined>(undefined);
@@ -134,7 +135,7 @@ export class DhOutgoingMessageDrawerComponent {
         query: GetOutgoingMessageByIdDocument,
         variables: { documentId: id },
       })
-      .valueChanges.pipe(takeUntil(this.closed))
+      .valueChanges.pipe(takeUntil(outputToObservable(this.closed)))
       .subscribe({
         next: (result) => {
           this.outgoingMessage = result.data?.esettOutgoingMessageById;

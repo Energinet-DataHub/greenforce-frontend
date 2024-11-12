@@ -18,53 +18,39 @@ limitations under the License.
   variant="solid"
   *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
 >
-  @if (isLoading()) {
-    <div class="spinner">
-      <watt-spinner />
-    </div>
-  } @else {
-    @if (marketRolesCount() === 1 && !hasError()) {
-      <watt-card-title>
-        <h4>
-          {{ t("rolesSingular", { marketRoleCount: marketRolesCount() }) }}
-        </h4>
-      </watt-card-title>
-    } @else if (marketRolesCount() !== 1 && !hasError()) {
-      <watt-card-title>
-        <h4>
-          {{ t("rolesPlural", { marketRoleCount: marketRolesCount() }) }}
-        </h4>
-      </watt-card-title>
-    }
+  @if (marketRolesCount() === 1) {
+    <watt-card-title>
+      <h4>
+        {{ t("rolesSingular", { marketRoleCount: marketRolesCount() }) }}
+      </h4>
+    </watt-card-title>
+  } @else if (marketRolesCount() !== 1) {
+    <watt-card-title>
+      <h4>
+        {{ t("rolesPlural", { marketRoleCount: marketRolesCount() }) }}
+      </h4>
+    </watt-card-title>
+  }
 
-    @if (!hasError()) {
-      <watt-table
-        [columns]="columns"
-        [dataSource]="dataSource"
-        sortBy="name"
-        sortDirection="desc"
-        [sortClear]="false"
-      >
-        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
-          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
-            {{ translateMarketRole(element) }}
-          </ng-container>
-        </ng-container>
-      </watt-table>
-    }
+  <watt-table
+    [columns]="columns"
+    [dataSource]="dataSource"
+    sortBy="name"
+    sortDirection="desc"
+    [sortClear]="false"
+  >
+    <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
+      <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
+        {{ translateMarketRole(element) }}
+      </ng-container>
+    </ng-container>
+  </watt-table>
 
-    @if (hasError()) {
-      <watt-empty-state
-        icon="custom-power"
-        [title]="'shared.error.title' | transloco"
-        [message]="'shared.error.message' | transloco"
-      />
-    }
-
-    @if (marketRolesCount() === 0) {
-      <h4 class="no-results-text">
+  @if (marketRolesCount() === 0) {
+    <vater-flex direction="row" justify="center">
+      <h4>
         {{ t("noEntries") }}
       </h4>
-    }
+    </vater-flex>
   }
 </watt-card>
