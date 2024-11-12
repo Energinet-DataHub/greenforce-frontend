@@ -27,7 +27,7 @@ limitations under the License.
     sortDirection="asc"
     [sortClear]="false"
     [activeRow]="getActiveRow()"
-    (rowClick)="onRowClick($event)"
+    (rowClick)="selectedRow.emit($event)"
   >
     <ng-container
       *wattTableCell="

@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 @let loadedOrganization = organization();
+
 <ng-container *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'">
   <watt-drawer #drawer (closed)="onClose()">
     <watt-drawer-actions>
@@ -27,14 +28,14 @@ limitations under the License.
     </watt-drawer-actions>
 
     <watt-drawer-heading>
-      <h2 class="organization-heading">{{ loadedOrganization?.name }}</h2>
+      <h2 class="watt-space-stack-s">{{ loadedOrganization?.name }}</h2>
     </watt-drawer-heading>
 
     @if (drawer.isOpen) {
       <watt-drawer-content>
         <watt-tabs>
           <watt-tab [label]="t('tabs.masterData.tabLabel')">
-            <vater-stack [fill]="'horizontal'" [align]="'center'">
+            <vater-stack fill="horizontal" align="center">
               @if (isLoadingOrganization()) {
                 <watt-spinner />
               }
@@ -75,37 +76,39 @@ limitations under the License.
               </watt-card>
             }
           </watt-tab>
+
           <watt-tab [label]="t('tabs.actors.tabLabel')">
-            <vater-stack [fill]="'horizontal'" [align]="'center'">
-              @if (isLoadingActors()) {
+            @if (isLoadingActors()) {
+              <vater-stack fill="horizontal" align="center">
                 <watt-spinner />
+              </vater-stack>
+            } @else {
+              @if (actors.data.length > 0) {
+                <watt-card variant="solid">
+                  <watt-table
+                    [dataSource]="actors"
+                    [columns]="actorColumns"
+                    [hideColumnHeaders]="true"
+                    [suppressRowHoverHighlight]="true"
+                  >
+                    <ng-container *wattTableCell="actorColumns['marketRole']; let actor">
+                      {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+                    </ng-container>
+                    <ng-container *wattTableCell="actorColumns['status']; let actor">
+                      <dh-actor-status-badge [status]="actor.status" />
+                    </ng-container>
+                  </watt-table>
+                </watt-card>
+              } @else {
+                <watt-empty-state
+                  size="small"
+                  [icon]="actorsFailedToLoad() ? 'custom-power' : 'cancel'"
+                  [title]="actorsFailedToLoad() ? t('tabs.shared.error') : t('tabs.shared.noData')"
+                />
               }
-            </vater-stack>
-            @if (!isLoadingActors && actors.data.length === 0) {
-              <watt-empty-state
-                [icon]="actorsFailedToLoad() ? 'custom-power' : 'cancel'"
-                size="small"
-                [title]="actorsFailedToLoad() ? t('tabs.shared.error') : t('tabs.shared.noData')"
-              />
-            }
-            @if (actors.data.length > 0 && !isLoadingActors()) {
-              <watt-card variant="solid">
-                <watt-table
-                  [dataSource]="actors"
-                  [columns]="actorColumns"
-                  [hideColumnHeaders]="true"
-                  [suppressRowHoverHighlight]="true"
-                >
-                  <ng-container *wattTableCell="actorColumns['marketRole']; let actor">
-                    {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
-                  </ng-container>
-                  <ng-container *wattTableCell="actorColumns['status']; let actor">
-                    <dh-actor-status-badge [status]="actor.status" />
-                  </ng-container>
-                </watt-table>
-              </watt-card>
             }
           </watt-tab>
+
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
             <dh-organization-history [organizationId]="loadedOrganization?.id!" />
           </watt-tab>
