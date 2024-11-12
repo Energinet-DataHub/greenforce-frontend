@@ -1282,7 +1282,9 @@
         "baseName": "Cancel",
         "title": "Are you sure you want to cancel the report?",
         "confirm": "Cancel report",
-        "cancel": "Close"
+        "cancel": "Close",
+        "requestSuccess": "Settlement report has been canceled.",
+        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
       },
       "columns": {
         "startedAt": "Started",

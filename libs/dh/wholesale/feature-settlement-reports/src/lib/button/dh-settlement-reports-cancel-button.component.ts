@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, input } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, DestroyRef, inject, input } from '@angular/core';
+import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
@@ -25,6 +25,8 @@ import {
   CancelSettlementReportDocument,
   GetSettlementReportsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   standalone: true,
@@ -39,8 +41,10 @@ import {
 export class DhSettlementReportsCancelButtonComponent {
   reportId = input<string>();
 
+  private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);
   private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
 
   openCancelModal(event: Event) {
     // Stop the row click event from propagating
@@ -52,17 +56,41 @@ export class DhSettlementReportsCancelButtonComponent {
       onClosed: (isSuccess) => {
         const id = this.reportId();
         if (isSuccess && id) {
-          this.apollo.mutate({
-            mutation: CancelSettlementReportDocument,
-            variables: {
-              input: {
-                requestId: { id },
+          this.apollo
+            .mutate({
+              mutation: CancelSettlementReportDocument,
+              variables: {
+                input: {
+                  requestId: { id },
+                },
               },
-            },
-            refetchQueries: [GetSettlementReportsDocument],
-          });
+              refetchQueries: [GetSettlementReportsDocument],
+            })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+              next: () => {
+                this.showSuccessNotification();
+              },
+              error: () => {
+                this.showErrorNotification();
+              },
+            });
         }
       },
+    });
+  }
+
+  private showSuccessNotification(): void {
+    this.toastService.open({
+      message: translate('wholesale.settlementReports.cancelReport.requestSuccess'),
+      type: 'success',
+    });
+  }
+
+  private showErrorNotification(): void {
+    this.toastService.open({
+      message: translate('wholesale.settlementReports.cancelReport.requestError'),
+      type: 'danger',
     });
   }
 }

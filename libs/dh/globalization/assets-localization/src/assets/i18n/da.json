@@ -1282,7 +1282,9 @@
         "baseName": "Afbryd",
         "title": "Er du sikker på, at du vil afbryde denne rapport?",
         "confirm": "Afbryd rapport",
-        "cancel": "Fortryd"
+        "cancel": "Fortryd",
+        "requestSuccess": "Afregningsrapport afbrudt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
       },
       "columns": {
         "startedAt": "Bestilt",
