@@ -62,9 +62,7 @@ export const dhFeatureFlagsConfig = {
   },
   'process-delegation-allow-rsm12': {
     created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 
