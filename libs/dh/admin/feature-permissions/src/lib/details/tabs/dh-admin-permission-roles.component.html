@@ -18,58 +18,44 @@ limitations under the License.
   variant="solid"
   *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
 >
-  @if (loading()) {
-    <div class="spinner">
-      <watt-spinner />
-    </div>
-  } @else {
-    @if (userRolesCount() === 1 && !hasError()) {
-      <watt-card-title>
-        <h4>
-          {{ t("rolesSingular", { userRoleCount: userRolesCount() }) }}
-        </h4>
-      </watt-card-title>
-    } @else if (userRolesCount() !== 1 && !hasError()) {
-      <watt-card-title>
-        <h4>
-          {{ t("rolesPlural", { userRoleCount: userRolesCount() }) }}
-        </h4>
-      </watt-card-title>
-    }
+  @if (userRolesCount() === 1) {
+    <watt-card-title>
+      <h4>
+        {{ t("rolesSingular", { userRoleCount: userRolesCount() }) }}
+      </h4>
+    </watt-card-title>
+  } @else if (userRolesCount() !== 1) {
+    <watt-card-title>
+      <h4>
+        {{ t("rolesPlural", { userRoleCount: userRolesCount() }) }}
+      </h4>
+    </watt-card-title>
+  }
 
-    @if (!hasError()) {
-      <watt-table
-        [columns]="columns"
-        [dataSource]="dataSource"
-        sortBy="name"
-        sortDirection="desc"
-        [sortClear]="false"
-      >
-        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
-          {{ element.name }}
-        </ng-container>
-        <ng-container
-          *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
-        >
-          <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
-            {{ translateMarketRole(element.eicFunction) }}
-          </ng-container>
-        </ng-container>
-      </watt-table>
-    }
+  <watt-table
+    [columns]="columns"
+    [dataSource]="dataSource"
+    sortBy="name"
+    sortDirection="desc"
+    [sortClear]="false"
+  >
+    <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
+      {{ element.name }}
+    </ng-container>
+    <ng-container
+      *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
+    >
+      <ng-container *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'">
+        {{ translateMarketRole(element.eicFunction) }}
+      </ng-container>
+    </ng-container>
+  </watt-table>
 
-    @if (hasError()) {
-      <watt-empty-state
-        icon="custom-power"
-        [title]="'shared.error.title' | transloco"
-        [message]="'shared.error.message' | transloco"
-      />
-    }
-
-    @if (userRolesCount() === 0) {
-      <h4 class="no-results-text">
+  @if (userRolesCount() === 0) {
+    <vater-flex direction="row" justify="center">
+      <h4>
         {{ t("noEntries") }}
       </h4>
-    }
+    </vater-flex>
   }
 </watt-card>
