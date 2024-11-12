@@ -52,7 +52,7 @@ import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlemen
 
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
-    DhSettlementReportsCancelButtonComponent
+    DhSettlementReportsCancelButtonComponent,
   ],
   providers: [DhSettlementReportsService],
 })

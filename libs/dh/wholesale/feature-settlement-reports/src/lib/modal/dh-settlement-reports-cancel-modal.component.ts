@@ -24,13 +24,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 @Component({
   selector: 'dh-settlement-reports-cancel-modal',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-
-    WATT_MODAL,
-    WattButtonComponent,
-  ],
+  imports: [ReactiveFormsModule, TranslocoDirective, WATT_MODAL, WattButtonComponent],
   styles: `
     :host {
       display: block;

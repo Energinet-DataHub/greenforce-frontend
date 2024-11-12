@@ -45,9 +45,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         >
       }
       @case ('CANCELED') {
-        <watt-badge type="skeleton">{{
-          t(status())
-        }}</watt-badge>
+        <watt-badge type="skeleton">{{ t(status()) }}</watt-badge>
         >
       }
     }
