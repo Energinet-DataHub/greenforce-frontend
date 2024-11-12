@@ -48,7 +48,7 @@ import {
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhEditUserModalComponent } from '../edit/dh-edit-user-modal.component';
+import { DhEditUserModalComponent } from '../edit/edit-user.component';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
