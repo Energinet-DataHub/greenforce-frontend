@@ -14,11 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './auth.interceptor';
-export * from './auth.service';
-export * from './auth.guard';
-export * from './idle-timer.service';
-export * from './organization-id.interceptor';
-export * from './terms.service';
-export * from './actor.service';
-export * from './actor-self.guard';
+export * from './request-consent.component';

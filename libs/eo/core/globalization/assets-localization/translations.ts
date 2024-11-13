@@ -666,6 +666,12 @@ export const translations = {
       message: 'grantConsent.error.message' as const,
     } as const,
   } as const,
+  requestConsent: {
+    title: 'requestConsent.title' as const,
+    description: 'requestConsent.description' as const,
+    copy: 'requestConsent.copy' as const,
+    copyAndClose: 'requestConsent.copyAndClose' as const,
+  } as const,
   help: {
     title: 'help.title' as const,
     content: 'help.content' as const,
