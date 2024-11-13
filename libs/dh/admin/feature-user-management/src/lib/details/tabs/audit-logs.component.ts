@@ -19,7 +19,6 @@ import { Component, OnChanges, inject, input } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
 import { catchError, map, of, tap } from 'rxjs';
-import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -39,7 +38,7 @@ import { DhUser } from '@energinet-datahub/dh/admin/shared';
 @Component({
   selector: 'dh-user-audit-logs',
   standalone: true,
-  templateUrl: './dh-user-audit-logs.component.html',
+  templateUrl: './audit-logs.component.html',
   styles: [
     `
       :host {
@@ -57,7 +56,6 @@ import { DhUser } from '@energinet-datahub/dh/admin/shared';
     `,
   ],
   imports: [
-    RxLet,
     RxPush,
     TranslocoPipe,
     NgTemplateOutlet,

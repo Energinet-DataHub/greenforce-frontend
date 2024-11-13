@@ -65,9 +65,20 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    @if (drawer.isOpen && selectedUser()) {
+    @let user = selectedUser();
+    @if (drawer.isOpen && user) {
       <watt-drawer-content>
-        <dh-drawer-tabs [user]="selectedUser()!" />
+        <watt-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
+          <watt-tab [label]="t('masterData.tabLabel')">
+            <dh-user-master-data [user]="user" />
+          </watt-tab>
+          <watt-tab [label]="t('roles.tabLabel')">
+            <dh-user-roles [user]="user" [expanded]="false" />
+          </watt-tab>
+          <watt-tab *dhPermissionRequired="['fas']" [label]="t('history.tabLabel')">
+            <dh-user-audit-logs [user]="user" />
+          </watt-tab>
+        </watt-tabs>
       </watt-drawer-content>
     }
   </watt-drawer>
@@ -84,7 +95,7 @@ limitations under the License.
         t("deactivateConfirmation.body", {
           first: selectedUser()?.firstName,
           last: selectedUser()?.lastName,
-          email: selectedUser()?.email
+          email: selectedUser()?.email,
         })
       }}
     </p>
@@ -117,7 +128,7 @@ limitations under the License.
         t("reactivateConfirmation.body", {
           first: selectedUser()?.firstName,
           last: selectedUser()?.lastName,
-          email: selectedUser()?.email
+          email: selectedUser()?.email,
         })
       }}
     </p>
