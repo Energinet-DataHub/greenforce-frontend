@@ -755,7 +755,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     saveChanges: 'Gem ændringer',
     revoke: 'Tilbagekald fuldmagt',
     revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
-    revokeError: 'Der opstod en fejl ved tilbagekaldelse af fuldmagten. Prøv igen.',
+    revokeError: 'Der opstod en fejl ved tilbagekaldelse af fuldmagten. Prøv venligst igen.',
   },
   consentPermissions: {
     permissions: {
