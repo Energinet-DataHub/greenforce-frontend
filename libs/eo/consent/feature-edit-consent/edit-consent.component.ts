@@ -192,7 +192,7 @@ export class EoEditConsentModalComponent {
           type: 'success',
         });
 
-        // If the use is the receiver of the consent, we need to re-login to update the actors list and token
+        // If the user is the receiver of the consent, we need to re-login to update the actors list and token
         if (
           this.consent.receiverOrganizationId.toLocaleUpperCase() ===
           this.authService.user()?.profile.org_id.toUpperCase()
