@@ -106,6 +106,6 @@ export class DhBalanceResponsibleRelationTabComponent {
       `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
     ]);
 
-    exportToCSV({ headers, lines, fileName: 'balance-responsible-relations' });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Balance-responsible-relations' });
   }
 }
