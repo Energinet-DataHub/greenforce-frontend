@@ -209,7 +209,7 @@ export class EoGrantConsentModalComponent {
     if (this.thirdPartyClientId) {
       grantConsentRequest = this.consentService.grantClient(this.thirdPartyClientId);
     } else {
-      grantConsentRequest = this.consentService.grantOrganization(this.organizationId);
+      grantConsentRequest = this.consentService.grantOrganization(this.organizationId as string);
     }
 
     grantConsentRequest?.subscribe({
