@@ -744,18 +744,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     description: `
-      <p>You have granted {{organizationName}} power of attorney to:</p>
+      <p>{{organizationName}} har fuldmagt til:</p>
     `,
     postDescription: `
-      <h4>Revocation of power of attorney</h4>
-      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done by clicking on 'Revoke power of attorney'.</p>
-      <p>Upon revocation, {{organizationName}} will no longer be able to retrieve data and manage certificates.</p>
+      <h4>Tilbagekaldelse af fuldmagt</h4>
+      <p>Fuldmagten kan til enhver tid tilbagekaldes, hvis deling af data med {{organizationName}} ikke længere ønskes. Dette kan gøres ved at klikke på 'Tilbagekald fuldmagt'.</p>
+      <p>Ved tilbagekaldelse vil {{organizationName}} ikke længere kunne hente data og administrere certifikater.</p>
     `,
-    cancel: 'Cancel',
-    saveChanges: 'Save changes',
-    revoke: 'Revoke power of attorney',
-    revokeSuccess: 'The power of attorney has been revoked',
-    revokeError: 'An error occurred while revoking the power of attorney. Please try again.',
+    cancel: 'Annuller',
+    saveChanges: 'Gem ændringer',
+    revoke: 'Tilbagekald fuldmagt',
+    revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
+    revokeError: 'Der opstod en fejl ved tilbagekaldelse af fuldmagten. Prøv igen.',
   },
   consentPermissions: {
     permissions: {
@@ -806,6 +806,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       title: 'Uventet fejl',
       message: 'Der opstod en uventet fejl. Prøv igen.',
     },
+  },
+  requestConsent: {
+    title: 'Anmod om fuldmagt',
+    description: `
+        <h4>Sådan anmoder du om fuldmagt</h4>
+        <ol>
+          <li>Kopier linket og send det til den, du ønsker fuldmagt af (send kun linket til en modtager)</li>
+          <li>Modtager klikker på linket, logger på energioprindelse og afgiver fuldmagt</li>
+        </ol>
+    `,
+    copy: 'Kopier link',
+    copyAndClose: 'Kopier & luk'
   },
   help: {
     title: 'Hjælp',

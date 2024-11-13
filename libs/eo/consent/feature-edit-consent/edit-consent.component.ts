@@ -104,23 +104,23 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
   `,
   template: `
     @if (opened) {
-      <watt-modal #modal [panelClass]="['eo-edit-consent-modal']" [title]="consent.clientName">
+      <watt-modal #modal [panelClass]="['eo-edit-consent-modal']" [title]="consent.receiverOrganizationName">
         @if (!isLoading()) {
           <div
             class="description"
             [innerHTML]="
               translations.editConsent.description
-                | transloco: { organizationName: consent.clientName }
+                | transloco: { organizationName: consent.receiverOrganizationName }
             "
           ></div>
 
-          <eo-consent-permissions [serviceProviderName]="consent.clientName" />
+          <eo-consent-permissions [serviceProviderName]="consent.receiverOrganizationName" />
 
           <div
             class="description"
             [innerHTML]="
               translations.editConsent.postDescription
-                | transloco: { organizationName: consent.clientName }
+                | transloco: { organizationName: consent.receiverOrganizationName }
             "
           ></div>
         } @else {
@@ -183,7 +183,7 @@ export class EoEditConsentModalComponent {
   deleteConsent() {
     this.close(true);
 
-    this.consentService.delete(this.consent.idpClientId).subscribe({
+    this.consentService.delete(this.consent.consentId).subscribe({
       next: () => {
         this.toastService.open({
           message: this.transloco.translate(this.translations.editConsent.revokeSuccess),

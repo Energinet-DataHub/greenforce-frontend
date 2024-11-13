@@ -35,9 +35,7 @@ export class EoActorService {
   actors = signal<Actor[]>([]);
   self: Actor = {
     tin: this.authService.user()?.profile.org_cvr as string,
-    org_id:
-      (this.authService.user()?.profile.org_id as string) ||
-      (this.authService.user()?.profile.org_ids as string),
+    org_id: this.authService.user()?.profile.org_id as string,
     org_name: this.authService.user()?.profile.org_name as string,
   };
   isSelf = computed(() => this.actor()?.org_id === this.self.org_id);
@@ -54,7 +52,7 @@ export class EoActorService {
       this.remoevSavedActor();
     });
 
-    // If any saved acotor, set it as current actor
+    // If any saved actor, set it as current actor
     this.setCurrentActor(this.getSavedActor());
   }
 
