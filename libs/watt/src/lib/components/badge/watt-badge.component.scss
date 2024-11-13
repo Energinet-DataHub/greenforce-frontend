@@ -49,6 +49,11 @@
     background: var(--watt-color-state-danger-light);
   }
 
+  &.watt-badge-version {
+    color: var(--watt-on-light-high-emphasis);
+    background: var(--watt-color-secondary);
+  }
+
   &.watt-badge-skeleton {
     color: transparent;
     animation: shine 1.6s infinite linear;

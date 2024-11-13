@@ -91,6 +91,7 @@ export const translations = {
       } as const,
     } as const,
     footer: {
+      beta: 'landingPage.footer.beta' as const,
       section1: {
         heading: 'landingPage.footer.section1.heading' as const,
         content: 'landingPage.footer.section1.content' as const,
@@ -145,6 +146,10 @@ export const translations = {
     otherOrganizations: 'actorMenu.otherOrganizations' as const,
   } as const,
   topbar: {
+    beta: {
+      title: 'topbar.beta.title' as const,
+      message: 'topbar.beta.message' as const,
+    } as const,
     help: 'topbar.help' as const,
     logout: 'topbar.logout' as const,
   } as const,
