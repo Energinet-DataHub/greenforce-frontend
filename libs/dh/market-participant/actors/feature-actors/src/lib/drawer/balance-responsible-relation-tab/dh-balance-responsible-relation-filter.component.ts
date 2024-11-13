@@ -39,10 +39,7 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
@@ -63,11 +60,8 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     VaterStackComponent,
     VaterSpacerComponent,
 
-    WattButtonComponent,
     WattSearchComponent,
     WattDropdownComponent,
-    WattFormChipDirective,
-    WattDateRangeChipComponent,
 
     DhDropdownTranslatorDirective,
   ],
