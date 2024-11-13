@@ -4144,11 +4144,12 @@
               }
             ]
           },
-          "marketRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorMarketRoleDto"
-            }
+          "marketRole": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorMarketRoleDto"
+              }
+            ]
           }
         }
       },
