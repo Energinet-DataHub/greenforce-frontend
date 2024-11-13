@@ -40,9 +40,9 @@ export class DhCanDelegateForDirective {
       () => {
         this.viewContainerRef.clear();
 
-        if (
-          this.canDelegateForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))
-        ) {
+        const canDelegateFor = this.dhCanDelegateFor();
+
+        if (canDelegateFor && this.canDelegateForMarketRoles.includes(canDelegateFor)) {
           this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
       },
