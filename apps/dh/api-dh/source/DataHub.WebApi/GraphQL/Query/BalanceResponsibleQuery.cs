@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Types.Balance;
 
-public enum SettlementReportStatusType
+namespace Energinet.DataHub.WebApi.GraphQL.Query;
+
+public partial class Query
 {
-    InProgress,
-    Error,
-    Completed,
-    Canceled,
+    public Task<BalanceResponsibleImport> GetBalanceResponsibleImportAsync()
+    {
+        return Task.FromResult(new BalanceResponsibleImport());
+    }
 }

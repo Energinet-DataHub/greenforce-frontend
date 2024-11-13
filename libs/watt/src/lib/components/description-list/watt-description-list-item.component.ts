@@ -26,9 +26,8 @@ import { NgClass } from '@angular/common';
   template: `<ng-template #templateRef
     ><div [ngClass]="{ 'force-new-row': forceNewRow() }">
       <dt class="watt-label watt-on-light--high-emphasis">{{ label() }}</dt>
-      <dd class="watt-text-s">{{ value() }}</dd>
-    </div></ng-template
-  >`,
+      <dd class="watt-text-s">{{ value() }}<ng-content /></dd></div
+  ></ng-template>`,
 })
 export class WattDescriptionListItemComponent<T> {
   templateRef = viewChild.required<TemplateRef<unknown | null>>('templateRef');
