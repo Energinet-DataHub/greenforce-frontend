@@ -22,7 +22,7 @@ export type WattBadgeType =
   | 'danger'
   | 'info'
   | 'neutral'
-  | 'beta'
+  | 'version'
   | 'skeleton';
 
 export type WattBadgeSize = 'normal' | 'large';

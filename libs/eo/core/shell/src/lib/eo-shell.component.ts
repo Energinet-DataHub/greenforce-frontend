@@ -114,7 +114,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
             <watt-badge
               class="beta-badge"
-              type="beta"
+              type="version"
               [wattTooltip]="translations.topbar.beta.message | transloco"
               wattTooltipPosition="bottom-end"
               wattTooltipVariant="light"
