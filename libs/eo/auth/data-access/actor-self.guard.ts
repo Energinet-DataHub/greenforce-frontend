@@ -14,11 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './auth.interceptor';
-export * from './auth.service';
-export * from './auth.guard';
-export * from './idle-timer.service';
-export * from './organization-id.interceptor';
-export * from './terms.service';
-export * from './actor.service';
-export * from './actor-self.guard';
+import { inject } from '@angular/core';
+import { Router, CanActivateFn } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { EoActorService } from './actor.service';
+
+export const eoActorSelfGuard: CanActivateFn = async () => {
+  const router = inject(Router);
+  const transloco = inject(TranslocoService);
+  const actorService = inject(EoActorService);
+
+  // Redirect to dashboard if user is not acting as self
+  if (!actorService.isSelf()) {
+    router.navigate([transloco.getActiveLang(), 'dashboard']);
+    return false;
+  } else {
+    return true;
+  }
+};

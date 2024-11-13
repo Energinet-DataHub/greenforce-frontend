@@ -39,6 +39,7 @@ import { WattEmptyStateComponent } from '../empty-state';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 import { PageEvent } from '@angular/material/paginator';
+import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-data-table',
@@ -52,6 +53,7 @@ import { PageEvent } from '@angular/material/paginator';
     WattEmptyStateComponent,
     WattPaginatorComponent,
     WattSearchComponent,
+    WattButtonComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -114,7 +116,13 @@ import { PageEvent } from '@angular/material/paginator';
                 [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
                 [title]="error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle"
                 [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
-              />
+              >
+                @if (enableRetry()) {
+                  <watt-button variant="secondary" (click)="retry.emit()">{{
+                    intl.emptyRetry
+                  }}</watt-button>
+                }
+              </watt-empty-state>
             </div>
           }
         </vater-flex>
@@ -135,6 +143,7 @@ export class WattDataTableComponent {
   error = input<unknown>();
   ready = input(true);
   enableSearch = input(true);
+  enableRetry = input(false);
   searchLabel = input<string>();
   enablePaginator = input(true);
   count = input<number>();
@@ -142,6 +151,7 @@ export class WattDataTableComponent {
 
   clear = output();
   pageChanged = output<PageEvent>();
+  retry = output();
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
 

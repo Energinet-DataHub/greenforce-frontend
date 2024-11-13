@@ -161,8 +161,9 @@ export class EoGrantConsentModalComponent {
   private toastService: WattToastService = inject(WattToastService);
   protected transloco = inject(TranslocoService);
 
-  @Input() thirdPartyClientId!: string;
-  @Input() redirectUrl!: string;
+  @Input() thirdPartyClientId?: string;
+  @Input() organizationId?: string;
+  @Input() redirectUrl?: string;
 
   @Output() closed = new EventEmitter<void>();
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
@@ -174,8 +175,8 @@ export class EoGrantConsentModalComponent {
   public opened = false;
 
   open() {
-    // If the third party client id is not set, theres no reason to open the modal
-    if (!this.thirdPartyClientId) return;
+    // If the third party client id or organization id is not set, theres no reason to open the modal
+    if (!this.thirdPartyClientId && !this.organizationId) return;
 
     // This is a workaround for "lazy loading" the modal content
     this.opened = true;
@@ -183,15 +184,35 @@ export class EoGrantConsentModalComponent {
     this.modal.open();
 
     this.isLoading.set(true);
-    this.consentService.getClient(this.thirdPartyClientId).subscribe((client: EoConsentClient) => {
-      this.organizationName.set(client.name);
-      this.allowedRedirectUrl.set(client.redirectUrl);
-      this.isLoading.set(false);
-    });
+
+    if (this.thirdPartyClientId) {
+      this.consentService
+        .getClient(this.thirdPartyClientId)
+        .subscribe((client: EoConsentClient) => {
+          this.organizationName.set(client.name);
+          this.allowedRedirectUrl.set(client.redirectUrl);
+          this.isLoading.set(false);
+        });
+    }
+
+    if (this.organizationId) {
+      this.consentService.getOrganization(this.organizationId).subscribe((organization) => {
+        this.organizationName.set(organization.organizationName);
+        this.isLoading.set(false);
+      });
+    }
   }
 
   accept() {
-    this.consentService.grant(this.thirdPartyClientId).subscribe({
+    let grantConsentRequest;
+
+    if (this.thirdPartyClientId) {
+      grantConsentRequest = this.consentService.grantClient(this.thirdPartyClientId);
+    } else {
+      grantConsentRequest = this.consentService.grantOrganization(this.organizationId as string);
+    }
+
+    grantConsentRequest?.subscribe({
       next: () => {
         this.redirectOrClose(true);
       },
