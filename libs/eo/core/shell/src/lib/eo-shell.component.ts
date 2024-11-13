@@ -80,11 +80,12 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
       }
 
       .logo-container {
-        height: var(--watt-space-xl);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 0 var(--watt-space-m);
+        margin-top: var(--watt-space-m);
       }
 
       .logo {
@@ -92,10 +93,8 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
       }
 
       .beta-badge {
-        display: flex;
-        justify-self: center;
         margin-top: var(--watt-space-s);
-        margin-bottom: var(--watt-space-l);
+        margin-bottom: var(--watt-space-m);
       }
 
       .content {
@@ -113,16 +112,16 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
+            <watt-badge
+              class="beta-badge"
+              type="beta"
+              [wattTooltip]="translations.topbar.beta.message | transloco"
+              wattTooltipPosition="bottom-end"
+              wattTooltipVariant="light"
+            >
+              {{ translations.topbar.beta.title | transloco }}
+            </watt-badge>
           </div>
-          <watt-badge
-            class="beta-badge"
-            type="beta"
-            [wattTooltip]="translations.topbar.beta.message | transloco"
-            wattTooltipPosition="bottom-end"
-            wattTooltipVariant="light"
-          >
-            {{ translations.topbar.beta.title | transloco }}
-          </watt-badge>
           <eo-primary-navigation />
         </ng-container>
 
