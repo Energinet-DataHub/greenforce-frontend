@@ -15,16 +15,11 @@
  * limitations under the License.
  */
 import { Component, effect, inject, input } from '@angular/core';
-
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -57,7 +52,6 @@ import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-respon
 
     VaterFlexComponent,
     VaterStackComponent,
-    VaterSpacerComponent,
 
     WattSpinnerComponent,
     WattButtonComponent,
