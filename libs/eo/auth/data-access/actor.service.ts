@@ -57,7 +57,7 @@ export class EoActorService {
   }
 
   setActors(actors: Actor[]) {
-    this.actors.set([this.self, ...actors]);
+    this.actors.set(actors);
   }
 
   setCurrentActor(actor: Actor | null) {

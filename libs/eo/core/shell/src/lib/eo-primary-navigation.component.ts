@@ -120,7 +120,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
         org_id: org.organizationId,
         org_name: org.organizationName,
       }));
-      this.actorService.setActors(actorsOfReceivedConsents);
+      this.actorService.setActors([this.self, ...actorsOfReceivedConsents]);
     });
   }
 
