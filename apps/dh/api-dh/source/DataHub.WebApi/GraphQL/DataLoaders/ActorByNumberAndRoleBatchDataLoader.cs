@@ -33,7 +33,7 @@ public class ActorByNumberAndRoleBatchDataLoader : BatchDataLoader<(string, EicF
     {
         return (await _client
             .ActorGetAsync(cancellationToken))
-            .Where(x => x.MarketRoles.Any(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))))
-            .ToDictionary(x => (x.ActorNumber.Value, x.MarketRoles.First(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))).EicFunction));
+            .Where(x => keys.Contains((x.ActorNumber.Value, x.MarketRole.EicFunction)))
+            .ToDictionary(x => (x.ActorNumber.Value, x.MarketRole.EicFunction));
     }
 }

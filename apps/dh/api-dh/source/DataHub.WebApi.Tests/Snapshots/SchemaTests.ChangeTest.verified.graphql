@@ -12,7 +12,7 @@ type Actor {
   name: String!
   glnOrEicNumber: String!
   displayName: String!
-  marketRole: EicFunction
+  marketRole: EicFunction!
   userRoles: [ActorUserRole!]!
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
