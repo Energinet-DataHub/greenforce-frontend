@@ -40,6 +40,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoConsentService, EoConsent } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -156,7 +157,7 @@ export class EoEditConsentModalComponent {
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
-  private actorService = inject(EoActorService);
+  private actorService: EoActorService = inject(EoActorService);
 
   @Input() consent!: EoConsent;
   @Input() redirectUrl!: string;
