@@ -7306,6 +7306,10 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         ReceiveWholesaleResults = 4,
 
+        RequestMeteringPointData = 5,
+
+        ReceiveMeteringPointData = 6,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
