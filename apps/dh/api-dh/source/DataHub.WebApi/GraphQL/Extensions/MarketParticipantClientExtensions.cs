@@ -44,9 +44,8 @@ public static class MarketParticipantClientExtensions
             {
                 var owner = actors.FirstOrDefault(actor =>
                     actor.Status == "Active" &&
-                    actor.MarketRoles.Any(mr =>
-                        mr.EicFunction == EicFunction.GridAccessProvider &&
-                        mr.GridAreas.Any(ga => ga.Id == gridArea.Id)));
+                    actor.MarketRole.EicFunction == EicFunction.GridAccessProvider &&
+                    actor.MarketRole.GridAreas.Any(ga => ga.Id == gridArea.Id));
 
                 return owner == null
                     ? gridArea

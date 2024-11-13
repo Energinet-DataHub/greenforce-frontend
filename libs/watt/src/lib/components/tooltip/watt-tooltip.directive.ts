@@ -36,6 +36,8 @@ export type wattTooltipPosition =
   | 'bottom-end'
   | 'left';
 
+export type wattTooltipVariant = 'dark' | 'light';
+
 @Directive({
   selector: '[wattTooltip]',
   standalone: true,
@@ -44,6 +46,7 @@ export type wattTooltipPosition =
 export class WattTooltipDirective implements OnChanges {
   @Input('wattTooltip') text!: string;
   @Input('wattTooltipPosition') position: wattTooltipPosition = 'top';
+  @Input('wattTooltipVariant') variant: wattTooltipVariant = 'dark';
 
   private element: HTMLElement = inject(ElementRef).nativeElement;
   private viewContainerRef = inject(ViewContainerRef);
@@ -60,6 +63,7 @@ export class WattTooltipDirective implements OnChanges {
     tooltip.instance.text = this.text;
     tooltip.instance.target = this.element;
     tooltip.instance.position = this.position;
+    tooltip.instance.variant = this.variant;
 
     this.element.setAttribute('aria-describedby', tooltip.instance.id);
   }
