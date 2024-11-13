@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  Injectable,
   Input,
   OnInit,
   ViewChild,
@@ -32,20 +32,37 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { Router } from '@angular/router';
 import { fromUnixTime } from 'date-fns';
 
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import {
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
-import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
+import { EoRequestConsentModalComponent } from '@energinet-datahub/eo/consent/feature-request-consent';
 import { EoConsentDetailsDrawerComponent } from '@energinet-datahub/eo/consent/feature-details';
+
+@Injectable()
+export class EoDataIntlService extends WattDataIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco.selectTranslateObject('consent').subscribe((translations) => {
+      this.search = translations.search;
+      this.emptyTitle = translations.noData.message;
+      this.emptyText = '';
+      this.emptyRetry = translations.requestForConsent;
+      this.errorTitle = translations.error.title;
+      this.errorText = translations.error.message;
+      this.changes.next();
+    });
+  }
+}
 
 const selector = 'eo-consent-overview';
 
@@ -55,13 +72,14 @@ const selector = 'eo-consent-overview';
   standalone: true,
   imports: [
     WattDataTableComponent,
-    VaterStackComponent,
     WattTableComponent,
     TranslocoPipe,
     EoGrantConsentModalComponent,
+    EoRequestConsentModalComponent,
     EoConsentDetailsDrawerComponent,
+    WattButtonComponent,
   ],
-  providers: [WattDatePipe],
+  providers: [WattDatePipe, { provide: WattDataIntlService, useClass: EoDataIntlService }],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
@@ -72,8 +90,18 @@ const selector = 'eo-consent-overview';
   ],
   template: `
     @if (columns) {
-      <watt-data-table vater inset="m" [error]="state().hasError">
+      <watt-data-table
+        vater
+        inset="m"
+        [error]="state().hasError"
+        [enableSearch]="false"
+        [enableRetry]="true"
+        (retry)="requestPOA()"
+      >
         <h3>{{ translations.consent.tableTitle | transloco }}</h3>
+        <watt-button variant="secondary" (click)="requestPOA()">{{
+          translations.consent.requestForConsent | transloco
+        }}</watt-button>
 
         <watt-table
           [dataSource]="dataSource"
@@ -89,8 +117,11 @@ const selector = 'eo-consent-overview';
     <eo-grant-consent-modal
       (closed)="onCloseGrantConsentDialog()"
       [thirdPartyClientId]="thirdPartyClientId"
+      [organizationId]="organizationId"
       [redirectUrl]="redirectUrl"
     />
+
+    <eo-request-consent-modal />
 
     @if (selectedConsent) {
       <eo-consent-details-drawer
@@ -105,9 +136,11 @@ export class EoConsentOverviewComponent implements OnInit {
   @Input('third-party-client-id') thirdPartyClientId!: string;
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('organization-id') organizationId!: string;
+
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('redirect-url') redirectUrl!: string;
 
-  private authService: EoAuthService = inject(EoAuthService);
   private consentService: EoConsentService = inject(EoConsentService);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
@@ -116,6 +149,9 @@ export class EoConsentOverviewComponent implements OnInit {
 
   @ViewChild(EoGrantConsentModalComponent, { static: true })
   grantConsentModal!: EoGrantConsentModalComponent;
+
+  @ViewChild(EoRequestConsentModalComponent, { static: true })
+  requestConsentModal!: EoRequestConsentModalComponent;
 
   @ViewChild(EoConsentDetailsDrawerComponent)
   consentDetailsModal!: EoConsentDetailsDrawerComponent;
@@ -130,6 +166,10 @@ export class EoConsentOverviewComponent implements OnInit {
   });
   protected selectedConsent: EoConsent | null = null;
 
+  requestPOA(): void {
+    this.requestConsentModal.open();
+  }
+
   selectConsent(consent: EoConsent): void {
     this.selectedConsent = consent;
     this.cd.detectChanges();
@@ -139,7 +179,7 @@ export class EoConsentOverviewComponent implements OnInit {
   removeConsent(consent: EoConsent): void {
     this.selectedConsent = null;
     this.dataSource = new WattTableDataSource(
-      this.dataSource.data.filter((x) => x.idpClientId !== consent.idpClientId)
+      this.dataSource.data.filter((x) => x.consentId !== consent.consentId)
     );
   }
 
@@ -150,10 +190,10 @@ export class EoConsentOverviewComponent implements OnInit {
       .selectTranslation()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.setColumns(this.authService.user()?.profile.org_name);
+        this.setColumns();
         this.cd.detectChanges();
 
-        if (this.thirdPartyClientId && !this.grantConsentModal.opened) {
+        if ((this.thirdPartyClientId || this.organizationId) && !this.grantConsentModal.opened) {
           this.grantConsentModal.open();
         }
       });
@@ -180,14 +220,14 @@ export class EoConsentOverviewComponent implements OnInit {
     });
   }
 
-  private setColumns(ownOrganizationName?: string): void {
+  private setColumns(): void {
     this.columns = {
       grantor: {
-        accessor: () => ownOrganizationName,
+        accessor: (x) => x.giverOrganizationName,
         header: this.transloco.translate(this.translations.consent.grantorTableHeader),
       },
       agent: {
-        accessor: (x) => x.clientName,
+        accessor: (x) => x.receiverOrganizationName,
         header: this.transloco.translate(this.translations.consent.agentTableHeader),
       },
       validFrom: {

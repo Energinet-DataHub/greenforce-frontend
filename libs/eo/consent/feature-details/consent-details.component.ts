@@ -105,7 +105,7 @@ const selector = 'eo-consent-details-drawer';
         <watt-drawer-topbar>
           @if (consent) {
             <div>
-              <h2>{{ consent.clientName }}</h2>
+              <h2>{{ consent.receiverOrganizationName }}</h2>
               <p class="valid-from">
                 <strong>{{ translations.consentDetails.validFrom | transloco }}</strong>
                 {{ consent.consentDate * 1000 | wattDate: 'short' }}
@@ -121,7 +121,7 @@ const selector = 'eo-consent-details-drawer';
         <watt-drawer-content>
           <h3>{{ translations.consentDetails.permissionsFor | transloco }}</h3>
 
-          <eo-consent-permissions [serviceProviderName]="consent.clientName" />
+          <eo-consent-permissions [serviceProviderName]="consent.receiverOrganizationName" />
         </watt-drawer-content>
       </watt-drawer>
 

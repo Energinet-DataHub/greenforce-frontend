@@ -26,7 +26,7 @@ import {
 import { inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { eoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
+import { eoScopeGuard, eoActorSelfGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
@@ -111,7 +111,7 @@ const routes: Routes = [
       },
       {
         path: eoActivityLogRoutePath,
-        canActivate: [eoScopeGuard],
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
         title: translations.activityLog.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/activity-log/shell').then(
@@ -127,7 +127,7 @@ const routes: Routes = [
       },
       {
         path: eoConsentRoutePath,
-        canActivate: [eoScopeGuard],
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
         title: translations.consent.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/consent/shell').then(
@@ -136,7 +136,7 @@ const routes: Routes = [
       },
       {
         path: eoClaimsRoutePath,
-        canActivate: [eoScopeGuard],
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),

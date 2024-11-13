@@ -33,7 +33,6 @@ import {
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
@@ -51,13 +50,12 @@ import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datah
     WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
-    WattFieldErrorComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
 
     DhUserRolesComponent,
   ],
-  templateUrl: './dh-edit-user-modal.component.html',
+  templateUrl: './edit-user.component.html',
   styles: [
     `
       .name-field {

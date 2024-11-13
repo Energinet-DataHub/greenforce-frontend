@@ -35,7 +35,6 @@ import { translate, TranslocoDirective, TranslocoService } from '@ngneat/translo
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
@@ -60,14 +59,14 @@ import {
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-assignable-user-roles.component';
+import { DhAssignableUserRolesComponent } from './assignable-user-roles/assignable-user-roles.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'dh-invite-user-modal',
-  templateUrl: './dh-invite-user-modal.component.html',
-  styleUrls: ['./dh-invite-user-modal.component.scss'],
+  templateUrl: './invite.component.html',
+  styleUrls: ['./invite.component.scss'],
   standalone: true,
   imports: [
     TranslocoDirective,
@@ -76,7 +75,6 @@ import { DhAssignableUserRolesComponent } from './dh-assignable-user-roles/dh-as
     WATT_MODAL,
     WATT_STEPPER,
     WattIconComponent,
-    WattButtonComponent,
     WattDropdownComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
