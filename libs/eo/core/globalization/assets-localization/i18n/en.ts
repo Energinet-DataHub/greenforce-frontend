@@ -830,7 +830,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       </ol>
     `,
     copy: 'Copy link',
-    copyAndClose: 'Copy & close'
+    copyAndClose: 'Copy & close',
   },
   help: {
     title: 'Help',

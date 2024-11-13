@@ -104,7 +104,11 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
   `,
   template: `
     @if (opened) {
-      <watt-modal #modal [panelClass]="['eo-edit-consent-modal']" [title]="consent.receiverOrganizationName">
+      <watt-modal
+        #modal
+        [panelClass]="['eo-edit-consent-modal']"
+        [title]="consent.receiverOrganizationName"
+      >
         @if (!isLoading()) {
           <div
             class="description"

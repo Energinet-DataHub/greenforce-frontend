@@ -185,15 +185,17 @@ export class EoGrantConsentModalComponent {
 
     this.isLoading.set(true);
 
-    if(this.thirdPartyClientId) {
-      this.consentService.getClient(this.thirdPartyClientId).subscribe((client: EoConsentClient) => {
-        this.organizationName.set(client.name);
-        this.allowedRedirectUrl.set(client.redirectUrl);
-        this.isLoading.set(false);
-      });
+    if (this.thirdPartyClientId) {
+      this.consentService
+        .getClient(this.thirdPartyClientId)
+        .subscribe((client: EoConsentClient) => {
+          this.organizationName.set(client.name);
+          this.allowedRedirectUrl.set(client.redirectUrl);
+          this.isLoading.set(false);
+        });
     }
 
-    if(this.organizationId) {
+    if (this.organizationId) {
       this.consentService.getOrganization(this.organizationId).subscribe((organization) => {
         this.organizationName.set(organization.organizationName);
         this.isLoading.set(false);
@@ -204,11 +206,11 @@ export class EoGrantConsentModalComponent {
   accept() {
     let grantConsentRequest;
 
-    if(this.thirdPartyClientId) {
+    if (this.thirdPartyClientId) {
       grantConsentRequest = this.consentService.grantClient(this.thirdPartyClientId);
     }
 
-    if(this.organizationId) {
+    if (this.organizationId) {
       grantConsentRequest = this.consentService.grantOrganization(this.organizationId);
     }
 

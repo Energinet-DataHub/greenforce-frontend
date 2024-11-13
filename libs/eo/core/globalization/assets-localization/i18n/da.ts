@@ -817,7 +817,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         </ol>
     `,
     copy: 'Kopier link',
-    copyAndClose: 'Kopier & luk'
+    copyAndClose: 'Kopier & luk',
   },
   help: {
     title: 'Hjælp',

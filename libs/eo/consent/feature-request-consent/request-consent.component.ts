@@ -83,7 +83,10 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
         [title]="translations.requestConsent.title | transloco"
         [panelClass]="['eo-request-consent-modal']"
       >
-        <div [innerHTML]="translations.requestConsent.description | transloco" class="description"></div>
+        <div
+          [innerHTML]="translations.requestConsent.description | transloco"
+          class="description"
+        ></div>
 
         <vater-stack direction="row" align-items="center" class="invitation-link">
           <watt-text-field

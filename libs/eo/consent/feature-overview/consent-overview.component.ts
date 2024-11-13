@@ -90,9 +90,18 @@ const selector = 'eo-consent-overview';
   ],
   template: `
     @if (columns) {
-      <watt-data-table vater inset="m" [error]="state().hasError" [enableSearch]="false" [enableRetry]="true" (retry)="requestPOA()">
+      <watt-data-table
+        vater
+        inset="m"
+        [error]="state().hasError"
+        [enableSearch]="false"
+        [enableRetry]="true"
+        (retry)="requestPOA()"
+      >
         <h3>{{ translations.consent.tableTitle | transloco }}</h3>
-        <watt-button variant="secondary" (click)="requestPOA()">{{ translations.consent.requestForConsent | transloco }}</watt-button>
+        <watt-button variant="secondary" (click)="requestPOA()">{{
+          translations.consent.requestForConsent | transloco
+        }}</watt-button>
 
         <watt-table
           [dataSource]="dataSource"

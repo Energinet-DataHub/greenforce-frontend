@@ -72,7 +72,9 @@ export class EoConsentService {
 
   getReceivedConsents() {
     return this.#http
-      .get<{ result: EoReceivedConsent[] }>(`${this.#apiBase}/authorization/consents/organization/received`)
+      .get<{
+        result: EoReceivedConsent[];
+      }>(`${this.#apiBase}/authorization/consents/organization/received`)
       .pipe(map((res) => res.result));
   }
 

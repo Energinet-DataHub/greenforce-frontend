@@ -118,7 +118,9 @@ import { WattButtonComponent } from '../button';
                 [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
               >
                 @if (enableRetry()) {
-                  <watt-button variant="secondary" (click)="retry.emit()">{{ intl.emptyRetry }}</watt-button>
+                  <watt-button variant="secondary" (click)="retry.emit()">{{
+                    intl.emptyRetry
+                  }}</watt-button>
                 }
               </watt-empty-state>
             </div>

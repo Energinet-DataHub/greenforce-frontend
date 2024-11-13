@@ -656,7 +656,7 @@ export interface TranslationKeys {
     description: string;
     copy: string;
     copyAndClose: string;
-  },
+  };
   help: {
     title: string;
     content: string;

@@ -35,51 +35,53 @@ const NO_SCROLL_CLASS = 'no-scroll';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styles: [`
-    :root {
-      --eo-scroll-view-padding: var(--watt-space-m);
-      --eo-scroll-view-content-padding: 0 var(--watt-space-m) 0 0;
-      --eo-scroll-view-max-height: calc(100vh - 300px);
-      --eo-scroll-view-scrollbar-width: 6px;
-      --eo-scroll-view-scrollbar-radius: 50px;
-    }
-
-    ${SELECTOR} {
-      display: block;
-      word-break: break-word;
-      padding: var(--eo-scroll-view-padding);
-      background: var(--watt-color-neutral-white);
-      border-radius: var(--watt-space-xs);
-    }
-
-    ${SELECTOR}.${NO_SCROLL_CLASS} .${CONTENT_CLASS}::-webkit-scrollbar {
-      width: 0;
-    }
-
-    ${SELECTOR} .${CONTENT_CLASS} {
-      max-height: var(--eo-scroll-view-max-height);
-      word-break: break-word;
-      overflow-y: scroll;
-      padding: var(--eo-scroll-view-content-padding);
-
-      &::-webkit-scrollbar {
-        width: var(--eo-scroll-view-scrollbar-width);
+  styles: [
+    `
+      :root {
+        --eo-scroll-view-padding: var(--watt-space-m);
+        --eo-scroll-view-content-padding: 0 var(--watt-space-m) 0 0;
+        --eo-scroll-view-max-height: calc(100vh - 300px);
+        --eo-scroll-view-scrollbar-width: 6px;
+        --eo-scroll-view-scrollbar-radius: 50px;
       }
 
-      &::-webkit-scrollbar-thumb,
-      &::-webkit-scrollbar-track {
-        border-radius: var(--eo-scroll-view-scrollbar-radius);
-      }
-
-      &::-webkit-scrollbar-track {
+      ${SELECTOR} {
+        display: block;
+        word-break: break-word;
+        padding: var(--eo-scroll-view-padding);
         background: var(--watt-color-neutral-white);
+        border-radius: var(--watt-space-xs);
       }
 
-      &::-webkit-scrollbar-thumb {
-        background-color: var(--watt-color-primary);
+      ${SELECTOR}.${NO_SCROLL_CLASS} .${CONTENT_CLASS}::-webkit-scrollbar {
+        width: 0;
       }
-    }
-  `],
+
+      ${SELECTOR} .${CONTENT_CLASS} {
+        max-height: var(--eo-scroll-view-max-height);
+        word-break: break-word;
+        overflow-y: scroll;
+        padding: var(--eo-scroll-view-content-padding);
+
+        &::-webkit-scrollbar {
+          width: var(--eo-scroll-view-scrollbar-width);
+        }
+
+        &::-webkit-scrollbar-thumb,
+        &::-webkit-scrollbar-track {
+          border-radius: var(--eo-scroll-view-scrollbar-radius);
+        }
+
+        &::-webkit-scrollbar-track {
+          background: var(--watt-color-neutral-white);
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--watt-color-primary);
+        }
+      }
+    `,
+  ],
   template: `<div class="${CONTENT_CLASS}"><ng-content /></div>`,
 })
 export class EoScrollViewComponent implements OnDestroy {
@@ -111,7 +113,7 @@ export class EoScrollViewComponent implements OnDestroy {
   }
 
   private handleIntersection(entries: IntersectionObserverEntry[]): void {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         this.checkScroll();
         this.observeContentChanges();
