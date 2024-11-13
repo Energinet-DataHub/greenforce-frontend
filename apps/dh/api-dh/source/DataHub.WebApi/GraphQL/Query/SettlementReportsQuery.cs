@@ -84,6 +84,7 @@ public partial class Query
             SettlementReportStatus.InProgress => SettlementReportStatusType.InProgress,
             SettlementReportStatus.Completed => SettlementReportStatusType.Completed,
             SettlementReportStatus.Failed => SettlementReportStatusType.Error,
+            SettlementReportStatus.Canceled => SettlementReportStatusType.Canceled,
             _ => SettlementReportStatusType.Error,
         };
 

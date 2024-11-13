@@ -60,16 +60,76 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhInviteUserModalComponent } from '../invite/dh-invite-user-modal.component';
-import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
-import { DhUsersTabTableComponent } from './dh-users-overview-table.component';
+import { DhInviteUserModalComponent } from './invite/invite.component';
+import { DhUsersOverviewFiltersComponent } from './filters/filters.component';
+import { DhUsersTabTableComponent } from './table/users-table.component';
 
 export const debounceTimeValue = 250;
 
 @Component({
-  selector: 'dh-users-overview',
   standalone: true,
-  templateUrl: './dh-users-overview.component.html',
+  selector: 'dh-user-management',
+  template: `<watt-card
+    *transloco="let t; read: 'admin.userManagement.tabs.users'"
+    vater
+    inset="ml"
+  >
+    <vater-flex fill="vertical" gap="m">
+      <vater-stack direction="row" gap="s">
+        <h3>{{ t('tabLabel') }}</h3>
+        <span class="watt-chip-label">{{ totalUserCount$ | push }}</span>
+
+        <vater-spacer />
+
+        <watt-search [label]="'shared.search' | transloco" (search)="searchInput$.next($event)" />
+
+        <watt-button
+          *dhPermissionRequired="['fas']"
+          icon="download"
+          variant="text"
+          (click)="download()"
+          [loading]="isDownloading()"
+          >{{ 'shared.download' | transloco }}</watt-button
+        >
+
+        <watt-button
+          *dhPermissionRequired="['users:manage']"
+          icon="plus"
+          variant="secondary"
+          [title]="t('inviteUser')"
+          (click)="showInviteUserModal()"
+          >{{ t('inviteUser') }}</watt-button
+        >
+      </vater-stack>
+
+      <vater-stack direction="row" gap="m">
+        <dh-users-overview-filters
+          [statusValue]="initialStatusValue$ | push"
+          [actorOptions]="actorOptions()"
+          [userRoleOptions]="userRolesOptions$ | push"
+          [canChooseMultipleActors]="canChooseMultipleActors()"
+          (filtersChanges)="updateFilters($event)"
+        />
+      </vater-stack>
+
+      <ng-container *rxLet="users$ as users">
+        <dh-users-overview-table
+          [users]="users"
+          [sortChanged]="sortChanged"
+          [isLoading]="isLoading$ | push"
+          [hasGeneralError]="hasGeneralError$ | push"
+          (reload)="reloadUsers()"
+        />
+      </ng-container>
+
+      <watt-paginator
+        [length]="totalUserCount$ | push"
+        [pageSize]="pageSize$ | push"
+        [pageIndex]="pageIndex$ | push"
+        (changed)="onPageChange($event)"
+      />
+    </vater-flex>
+  </watt-card> `,
   styles: [
     `
       :host {
@@ -110,11 +170,10 @@ export const debounceTimeValue = 250;
 
     DhUsersTabTableComponent,
     DhPermissionRequiredDirective,
-    DhInviteUserModalComponent,
     DhUsersOverviewFiltersComponent,
   ],
 })
-export class DhUsersOverviewComponent {
+export class DhUserManagementComponent {
   private destroyRef = inject(DestroyRef);
   private store = inject(DhAdminUserManagementDataAccessApiStore);
   private userRolesStore = inject(DhAdminUserRolesManagementDataAccessApiStore);

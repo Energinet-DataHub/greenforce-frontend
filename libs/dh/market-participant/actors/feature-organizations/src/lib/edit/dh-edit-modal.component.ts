@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MutationResult } from 'apollo-angular';
@@ -22,38 +23,25 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 
 import {
-  GetAuditLogByOrganizationIdDocument,
-  GetOrganizationByIdDocument,
-  GetOrganizationEditDocument,
   GetOrganizationsDocument,
   UpdateOrganizationDocument,
   UpdateOrganizationMutation,
+  GetOrganizationEditDocument,
+  GetOrganizationByIdDocument,
+  GetAuditLogByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, map } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'dh-organization-edit-modal',
-  templateUrl: './dh-edit-modal.component.html',
-  styles: [
-    `
-      .domain-field {
-        width: 25em;
-      }
-    `,
-  ],
   imports: [
     TranslocoDirective,
     FormsModule,
@@ -61,19 +49,41 @@ import { EMPTY, map } from 'rxjs';
 
     WATT_MODAL,
     WattButtonComponent,
-    WattTextFieldComponent,
-    WattFieldErrorComponent,
 
     DhOrganizationManageComponent,
   ],
+  template: `
+    <watt-modal
+      size="small"
+      [title]="organization()?.name ?? ''"
+      [loading]="loading()"
+      (closed)="close(false)"
+      *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
+    >
+      <form id="editForm" (ngSubmit)="save()">
+        <dh-organization-manage [domains]="domains" />
+      </form>
+
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="close(false)">
+          {{ t('cancel') }}
+        </watt-button>
+
+        <watt-button variant="secondary" type="submit" formId="editForm">
+          {{ t('save') }}
+        </watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
 })
 export class DhOrganizationEditModalComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+
   private updateOrganizationMutation = mutation(UpdateOrganizationDocument);
-  private getOrganizationByIdQuery = query(GetOrganizationEditDocument);
+  private getOrganizationByIdQuery = lazyQuery(GetOrganizationEditDocument);
 
   domains = new FormControl<string[]>([], {
     nonNullable: true,
@@ -86,13 +96,18 @@ export class DhOrganizationEditModalComponent {
 
   modal = viewChild.required(WattModalComponent);
 
-  id = toSignal(
-    this.route.parent ? this.route.parent.params.pipe(map((params) => params.id)) : EMPTY
-  );
+  // Router param value
+  id = input.required<string>();
 
   constructor() {
     effect(() => {
+      const id = this.id();
+      this.getOrganizationByIdQuery.query({ variables: { id } });
+    });
+
+    effect(() => {
       const org = this.organization();
+
       if (org) {
         this.domains.patchValue(org.domains);
         this.modal().open();

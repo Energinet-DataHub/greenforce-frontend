@@ -52,13 +52,13 @@ import {
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhUserDrawerComponent } from '../drawer/dh-user-drawer.component';
-import { DhUserLatestLoginComponent } from './dh-user-latest-login.component';
+import { DhUserDrawerComponent } from '../details/details.component';
+import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 
 @Component({
   selector: 'dh-users-overview-table',
   standalone: true,
-  templateUrl: './dh-users-overview-table.component.html',
+  templateUrl: './users-table.component.html',
   styles: [
     `
       :host {

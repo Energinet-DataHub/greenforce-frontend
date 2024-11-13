@@ -14,12 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
-import { GetPermissionDetailsDocument, GetPermissionsDocument } from './generated/graphql/types';
-
-export type PermissionDetailDto = ResultOf<typeof GetPermissionDetailsDocument>['permissionById'];
-
-export type PermissionDto = ResultOf<
-  typeof GetPermissionsDocument
->['permissions']['permissions'][0];
+export type DhSettlementReportPartial = Pick<
+  DhSettlementReport,
+  'id' | 'period' | 'calculationType' | 'gridAreas' | 'settlementReportDownloadUrl'
+>;
