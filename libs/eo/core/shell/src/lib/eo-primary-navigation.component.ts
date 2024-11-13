@@ -24,7 +24,7 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
-//import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api'; /* TODO: Implement this when the backend is ready */
+import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 
 import { EoAccountMenuComponent } from './eo-account-menu';
 
@@ -105,9 +105,8 @@ export class EoPrimaryNavigationComponent implements OnInit {
     return 'Menu';
   }
 
-  private actorService = inject(EoActorService);
-
-  //private consentService = inject(EoConsentService); /* TODO: Implement this when the backend is ready */
+  private readonly actorService = inject(EoActorService);
+  private readonly consentService = inject(EoConsentService);
 
   protected routes = eoRoutes;
   protected translations = translations;
@@ -117,23 +116,21 @@ export class EoPrimaryNavigationComponent implements OnInit {
   protected self = this.actorService.self;
   protected isSelf = this.actorService.isSelf;
 
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
-    /* TODO: Implement this when the backend is ready */
-    /*
     this.consentService.getReceivedConsents().subscribe((receivedConsents) => {
       const actorsOfReceivedConsents: Actor[] = receivedConsents.map((org) => ({
         tin: org.tin,
         org_id: org.organizationId,
         org_name: org.organizationName,
       }));
-
-      this.actorService.setActors(actorsOfReceivedConsents);
+      this.actorService.setActors([this.self, ...actorsOfReceivedConsents]);
     });
-    */
   }
 
   onActorSelected(selectedActor: Actor) {
     this.actorService.setCurrentActor(selectedActor);
+
+    // reload the page to reflect the new actor
+    location.reload();
   }
 }

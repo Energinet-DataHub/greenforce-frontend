@@ -826,6 +826,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       message: 'An unexpected error occurred. Please try again.',
     },
   },
+  requestConsent: {
+    title: 'Request Power of Attorney',
+    description: `
+      <h4>How to request Power of Attorney</h4>
+      <ol>
+        <li>Copy the link, and send it to the person you want Power of Attorney from. (Make sure to send the link to one recipient, only)</li>
+        <li>The recipient clicks the link, logs into energytrackandtrace.dk, and grants Power of Attorney</li>
+      </ol>
+    `,
+    copy: 'Copy link',
+    copyAndClose: 'Copy & close',
+  },
   help: {
     title: 'Help',
     content: `

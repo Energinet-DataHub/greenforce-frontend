@@ -656,6 +656,12 @@ export interface TranslationKeys {
       message: string;
     };
   };
+  requestConsent: {
+    title: string;
+    description: string;
+    copy: string;
+    copyAndClose: string;
+  };
   help: {
     title: string;
     content: string;
