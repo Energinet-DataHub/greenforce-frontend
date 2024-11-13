@@ -751,7 +751,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       <p>Fuldmagten kan til enhver tid tilbagekaldes, hvis deling af data med {{organizationName}} ikke længere ønskes. Dette kan gøres ved at klikke på 'Tilbagekald fuldmagt'.</p>
       <p>Ved tilbagekaldelse vil {{organizationName}} ikke længere kunne hente data og administrere certifikater.</p>
     `,
-    cancel: 'Annuller',
+    cancel: 'Annullér',
     saveChanges: 'Gem ændringer',
     revoke: 'Tilbagekald fuldmagt',
     revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
