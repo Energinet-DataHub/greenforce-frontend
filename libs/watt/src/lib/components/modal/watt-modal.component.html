@@ -25,7 +25,9 @@ limitations under the License.
         (click)="close(false)"
       />
     }
-    <h2 class="watt-modal-title">{{ title }}</h2>
+    @if(title) {
+      <h2 class="watt-modal-title">{{ title }}</h2>
+    }
     <div
       wattResizeObserver
       class="watt-modal-content"
