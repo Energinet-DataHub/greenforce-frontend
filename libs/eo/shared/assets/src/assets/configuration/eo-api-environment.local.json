@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://energytrackandtrace-dk-addorganizationconsent.v.acorn-dev.dk/api",
+  "apiBase": "https://demo.energytrackandtrace.dk/api",
   "developerPortal": "https://demo.energytrackandtrace.dk/developer/",
   "apiVersions": {
     "certificates": "1",
