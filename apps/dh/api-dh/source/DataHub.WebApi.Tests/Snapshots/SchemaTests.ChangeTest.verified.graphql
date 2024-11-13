@@ -865,7 +865,7 @@ input CreateActorInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
   actorNumber: ActorNumberDtoInput!
-  marketRoles: [CreateActorMarketRoleInput!]!
+  marketRole: CreateActorMarketRoleInput!
 }
 
 input CreateActorMarketRoleInput {
