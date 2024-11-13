@@ -193,7 +193,10 @@ export class EoEditConsentModalComponent {
         });
 
         // If the use is the receiver of the consent, we need to re-login to update the actors list and token
-        if(this.consent.receiverOrganizationId.toLocaleUpperCase() === this.authService.user()?.profile.org_id.toUpperCase()) {
+        if (
+          this.consent.receiverOrganizationId.toLocaleUpperCase() ===
+          this.authService.user()?.profile.org_id.toUpperCase()
+        ) {
           setTimeout(() => {
             this.authService.login({ redirectUrl: window.location.pathname });
           }, 150);
