@@ -61,7 +61,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhInviteUserModalComponent } from './invite/invite.component';
-import { DhUsersOverviewFiltersComponent } from './filters/dh-filters.component';
+import { DhUsersOverviewFiltersComponent } from './filters/filters.component';
 import { DhUsersTabTableComponent } from './table/users-table.component';
 
 export const debounceTimeValue = 250;
