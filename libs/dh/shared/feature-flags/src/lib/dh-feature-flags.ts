@@ -60,6 +60,10 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.preprod,
     ],
   },
+  'process-delegation-allow-rsm12': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

@@ -59,6 +59,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
+    manuallyHandledExchangeEventMetaData: null,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -84,6 +85,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
+    manuallyHandledExchangeEventMetaData: null,
   },
   {
     __typename: 'EsettOutgoingMessage',
@@ -109,6 +111,7 @@ export const eSettDetailedExchangeEvents: EsettOutgoingMessage[] = [
     period,
     responseDocumentUrl: url,
     dispatchDocumentUrl: url,
+    manuallyHandledExchangeEventMetaData: null,
   },
   {
     __typename: 'EsettOutgoingMessage',

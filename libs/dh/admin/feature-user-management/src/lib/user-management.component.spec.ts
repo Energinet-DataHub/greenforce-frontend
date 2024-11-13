@@ -39,7 +39,7 @@ import {
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhUsersOverviewComponent, debounceTimeValue } from './dh-users-overview.component';
+import { DhUserManagementComponent, debounceTimeValue } from './user-management.component';
 
 const users: DhUsers = [
   {
@@ -55,7 +55,7 @@ const users: DhUsers = [
   },
 ];
 
-describe(DhUsersOverviewComponent, () => {
+describe(DhUserManagementComponent, () => {
   async function setup(mockUsers: DhUsers = []) {
     const storeMock = MockProvider(
       DhAdminUserManagementDataAccessApiStore,
@@ -77,7 +77,7 @@ describe(DhUsersOverviewComponent, () => {
       'useValue'
     );
 
-    const { fixture } = await render(DhUsersOverviewComponent, {
+    const { fixture } = await render(DhUserManagementComponent, {
       imports: [getTranslocoTestingModule(), ApolloTestingModule],
       providers: [FormGroupDirective, MsalServiceMock, provideHttpClient(withInterceptorsFromDi())],
       componentProviders: [storeMock, toastServiceMock],

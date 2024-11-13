@@ -318,7 +318,9 @@
         "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)"
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
+        "RECEIVE_METERING_POINT_DATA": "Fremsend målepunkts data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om målepunkts data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -666,7 +668,9 @@
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
-              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }
@@ -1278,6 +1282,14 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
+      "cancelReport": {
+        "baseName": "Afbryd",
+        "title": "Er du sikker på, at du vil afbryde denne rapport?",
+        "confirm": "Afbryd rapport",
+        "cancel": "Fortryd",
+        "requestSuccess": "Afregningsrapport afbrudt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+      },
       "columns": {
         "startedAt": "Bestilt",
         "executionTime": "Kørselstid",
@@ -1299,6 +1311,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrydt",
         "download": "Download"
       },
       "calculationTypes": {

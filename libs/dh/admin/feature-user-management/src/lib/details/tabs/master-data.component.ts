@@ -29,7 +29,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 @Component({
   selector: 'dh-user-master-data',
   standalone: true,
-  templateUrl: './dh-user-master-data.component.html',
+  templateUrl: './master-data.component.html',
   styles: [
     `
       :host {

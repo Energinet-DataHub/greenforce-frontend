@@ -15,23 +15,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'admin.userManagement.editPermission'">
-  <watt-modal [title]="permission().name" (closed)="closeModal($event)">
+  <watt-modal size="small" [title]="modalData.name" (closed)="closeModal($event)">
     <form [formGroup]="userPermissionsForm" id="edit-permissions-form" (ngSubmit)="save()">
       <watt-tabs class="watt-modal-content--full-width">
         <watt-tab [label]="t('tab.masterData.tabLabel')">
-          <div class="tab-master-data">
-            <watt-textarea-field
-              [label]="t('tab.masterData.descriptionInputLabel')"
-              [formControl]="userPermissionsForm.controls.description"
-            >
-              @let maxLengthError = userPermissionsForm.controls.description.errors?.["maxlength"];
-              @if (maxLengthError) {
-                <watt-field-error>{{
-                  t("tab.masterData.descriptionExceedsMaxLength", maxLengthError)
-                }}</watt-field-error>
-              }
-            </watt-textarea-field>
-          </div>
+          <watt-textarea-field
+            [label]="t('tab.masterData.descriptionInputLabel')"
+            [formControl]="userPermissionsForm.controls.description"
+          >
+            @let maxLengthError = userPermissionsForm.controls.description.errors?.["maxlength"];
+            @if (maxLengthError) {
+              <watt-field-error>{{
+                t("tab.masterData.descriptionExceedsMaxLength", maxLengthError)
+              }}</watt-field-error>
+            }
+          </watt-textarea-field>
         </watt-tab>
       </watt-tabs>
     </form>

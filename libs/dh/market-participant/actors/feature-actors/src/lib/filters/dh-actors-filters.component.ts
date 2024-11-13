@@ -18,16 +18,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
   input,
   OnInit,
-  Output,
   inject,
+  output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -52,7 +50,6 @@ type Form = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    RxPush,
     TranslocoDirective,
 
     VaterSpacerComponent,
@@ -117,8 +114,8 @@ export class DhActorsFiltersComponent implements OnInit {
 
   initial = input.required<ActorsFilters>();
 
-  @Output() filter = new EventEmitter<ActorsFilters>();
-  @Output() formReset = new EventEmitter<void>();
+  filter = output<ActorsFilters>();
+  formReset = output<void>();
 
   formGroup!: Form;
 

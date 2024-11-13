@@ -1210,6 +1210,8 @@ enum DelegatedProcess {
   RECEIVE_ENERGY_RESULTS
   REQUEST_WHOLESALE_RESULTS
   RECEIVE_WHOLESALE_RESULTS
+  REQUEST_METERING_POINT_DATA
+  RECEIVE_METERING_POINT_DATA
 }
 
 enum DocumentStatus {
@@ -1418,6 +1420,7 @@ enum SettlementReportStatusType {
   IN_PROGRESS
   ERROR
   COMPLETED
+  CANCELED
 }
 
 enum SortDirection {
