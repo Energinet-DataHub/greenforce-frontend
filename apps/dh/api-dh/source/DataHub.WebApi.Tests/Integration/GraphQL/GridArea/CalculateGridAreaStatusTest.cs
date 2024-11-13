@@ -17,18 +17,17 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Actor;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.GridArea;
 
 public class CalculateGridAreaStatusTest
 {
     private static readonly string _getGridAreasWithStatus =
-    $$"""
+    """
     {
       gridAreas {
             id
@@ -47,22 +46,16 @@ public class CalculateGridAreaStatusTest
                 new()
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500aa"),
-                    ActorNumber = new ActorNumberDto() { Value = "1234567890" },
-                    MarketRoles =
-                    [
-                        new ActorMarketRoleDto() { EicFunction = EicFunction.DataHubAdministrator },
-                    ],
-                    Name = new ActorNameDto() { Value = "Test" },
+                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator },
+                    Name = new ActorNameDto { Value = "Test" },
                 },
                 new()
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
-                    ActorNumber = new ActorNumberDto() { Value = "1234567890" },
-                    MarketRoles =
-                    [
-                        new ActorMarketRoleDto() { EicFunction = EicFunction.BillingAgent },
-                    ],
-                    Name = new ActorNameDto() { Value = "Test1" },
+                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.BillingAgent },
+                    Name = new ActorNameDto { Value = "Test1" },
                 },
             };
 

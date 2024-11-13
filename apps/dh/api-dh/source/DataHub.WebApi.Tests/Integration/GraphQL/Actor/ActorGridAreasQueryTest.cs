@@ -57,14 +57,13 @@ public class ActorGridAreasQueryTests
             .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<string?>()))
             .ReturnsAsync(new ActorDto
             {
-                MarketRoles = [
+                MarketRole =
                     new ActorMarketRoleDto
                     {
                         GridAreas = _gridAreas
                             .Select(g => new ActorGridAreaDto { Id = g.Id })
                             .ToList(),
                     },
-                ],
             });
 
         server.MarketParticipantClientV1Mock

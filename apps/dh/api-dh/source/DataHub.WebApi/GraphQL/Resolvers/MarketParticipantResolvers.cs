@@ -45,9 +45,7 @@ public class MarketParticipantResolvers
         GridAreaByIdBatchDataLoader dataLoader)
     {
         var gridAreas = await Task.WhenAll(
-            actor.MarketRoles
-                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                .Distinct()
+            actor.MarketRole.GridAreas.Select(gridArea => gridArea.Id)
                 .Select(gridAreaId => dataLoader.LoadRequiredAsync(gridAreaId)));
 
         return gridAreas.OrderBy(g => g.Code);
