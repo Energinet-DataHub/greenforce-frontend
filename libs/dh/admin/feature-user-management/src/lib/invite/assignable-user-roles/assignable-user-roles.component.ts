@@ -18,16 +18,12 @@ import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, effect, input, output, viewChild } from '@angular/core';
 
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
-
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   WattTableColumnDef,
@@ -43,8 +39,6 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   selector: 'dh-assignable-user-roles',
   standalone: true,
   imports: [
-    RxLet,
-    RxPush,
     FormsModule,
     TranslocoPipe,
     NgTemplateOutlet,
@@ -53,11 +47,10 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
 
     WATT_CARD,
     WATT_TABLE,
-    WattSpinnerComponent,
     WattEmptyStateComponent,
   ],
-  styleUrls: ['./dh-assignable-user-roles.component.scss'],
-  templateUrl: './dh-assignable-user-roles.component.html',
+  styleUrls: ['./assignable-user-roles.component.scss'],
+  templateUrl: './assignable-user-roles.component.html',
 })
 export class DhAssignableUserRolesComponent {
   private readonly userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
