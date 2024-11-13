@@ -14,61 +14,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, inject, effect } from '@angular/core';
-
+import { Component, input, effect, computed, inject } from '@angular/core';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { RxPush } from '@rx-angular/template/push';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
-import { Subscription } from 'rxjs';
 import { dhActorAuditLogEntry } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
 
 @Component({
   standalone: true,
   selector: 'dh-actor-audit-log-tab',
   templateUrl: './dh-actor-audit-log-tab.component.html',
   imports: [
+    TranslocoDirective,
+
     VaterStackComponent,
-    VaterFlexComponent,
     WattDatePipe,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WATT_CARD,
     WATT_TABLE,
-    TranslocoDirective,
-    RxPush,
   ],
 })
 export class DhActorAuditLogTabComponent {
-  private readonly auditLogService = inject(DhActorAuditLogService);
+  private auditLogService = inject(DhActorAuditLogService);
 
-  private actorAuditLog$ =
-    this.auditLogService.getActorAuditLogByIdQuery$.valueChanges.pipe(takeUntilDestroyed());
-
-  private subscription: Subscription | null = null;
+  auditLogLoading = this.auditLogService.auditLogQuery.loading;
+  auditLogHasError = computed(() => this.auditLogService.auditLogQuery.error() !== undefined);
 
   actorId = input.required<string>();
   actorNumberNameLookup = input.required<{
-    [Key: string]: {
+    [key: string]: {
       number: string;
       name: string;
     };
   }>();
   gridAreaCodeLookup = input.required<{
-    [Key: string]: string;
+    [key: string]: string;
   }>();
 
-  isLoadingAuditLog = false;
-  auditLogFailedToLoad = false;
-
-  auditLog = new WattTableDataSource<dhActorAuditLogEntry>([]);
+  auditLogDataSource = new WattTableDataSource<dhActorAuditLogEntry>([]);
   auditLogColumns: WattTableColumnDef<dhActorAuditLogEntry> = {
     timestamp: { accessor: 'timestamp' },
     currentValue: { accessor: 'currentValue' },
@@ -76,31 +67,13 @@ export class DhActorAuditLogTabComponent {
 
   constructor() {
     effect(() => {
-      this.isLoadingAuditLog = true;
-      this.loadAuditLog(this.actorId());
-    });
-  }
+      const logs = structuredClone(this.auditLogService.auditLogQuery.data()?.actorAuditLogs ?? []);
 
-  private loadAuditLog(actorId: string): void {
-    if (!actorId) return;
-
-    this.auditLogService.getActorAuditLogByIdQuery$.setVariables({
-      actorId,
+      this.auditLogDataSource.data = logs.reverse();
     });
 
-    if (this.subscription) return;
-
-    this.subscription = this.actorAuditLog$.subscribe({
-      next: (result) => {
-        this.isLoadingAuditLog = result.loading;
-        this.auditLogFailedToLoad = !result.loading && (!!result.error || !!result.errors?.length);
-
-        this.auditLog.data = [...(result.data?.actorAuditLogs ?? [])].reverse();
-      },
-      error: () => {
-        this.auditLogFailedToLoad = true;
-        this.isLoadingAuditLog = false;
-      },
+    effect(() => {
+      this.auditLogService.auditLogQuery.refetch({ actorId: this.actorId() });
     });
   }
 
