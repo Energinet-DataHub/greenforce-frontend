@@ -18,6 +18,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -27,7 +28,7 @@ const selector = 'eo-footer';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [EoProductLogoDirective, WattIconComponent, TranslocoPipe],
+  imports: [EoProductLogoDirective, WattIconComponent, TranslocoPipe, WattBadgeComponent],
   selector,
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -87,6 +88,13 @@ const selector = 'eo-footer';
       .logo {
         width: 264px;
         grid-area: logo;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .beta-badge-margin {
+        margin-top: 12px;
       }
 
       .address {
@@ -141,7 +149,10 @@ const selector = 'eo-footer';
   `,
   template: `
     <footer>
-      <img eoProductLogo version="secondary" class="logo" />
+      <div class="logo">
+        <img eoProductLogo version="secondary" />
+        <watt-badge type="beta" class="beta-badge-margin">Beta</watt-badge>
+      </div>
 
       <section class="address">
         <h4 class="headline-4">
