@@ -91,6 +91,7 @@ export const translations = {
       } as const,
     } as const,
     footer: {
+      beta: 'landingPage.footer.beta' as const,
       section1: {
         heading: 'landingPage.footer.section1.heading' as const,
         content: 'landingPage.footer.section1.content' as const,

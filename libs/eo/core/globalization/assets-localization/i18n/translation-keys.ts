@@ -90,6 +90,7 @@ export interface TranslationKeys {
       };
     };
     footer: {
+      beta: string;
       section1: {
         heading: string;
         content: string;

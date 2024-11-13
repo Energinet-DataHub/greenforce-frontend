@@ -94,7 +94,7 @@ const selector = 'eo-footer';
       }
 
       .beta-badge-margin {
-        margin-top: 12px;
+        margin-top: var(--watt-space-m);
       }
 
       .address {
@@ -151,7 +151,9 @@ const selector = 'eo-footer';
     <footer>
       <div class="logo">
         <img eoProductLogo version="secondary" />
-        <watt-badge type="beta" class="beta-badge-margin">Beta</watt-badge>
+        <watt-badge type="beta" class="beta-badge-margin">{{
+          translations.landingPage.footer.beta | transloco
+        }}</watt-badge>
       </div>
 
       <section class="address">

@@ -130,6 +130,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
     },
     footer: {
+      beta: 'Beta',
       section1: {
         heading: 'Adresse',
         content: `

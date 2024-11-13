@@ -144,6 +144,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
     },
     footer: {
+      beta: 'Beta',
       section1: {
         heading: 'Address',
         content: `
