@@ -37,6 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoConsentService, EoConsent } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
@@ -156,6 +157,7 @@ export class EoEditConsentModalComponent {
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
+  private authService = inject(EoAuthService);
 
   @Input() consent!: EoConsent;
   @Input() redirectUrl!: string;
@@ -180,10 +182,6 @@ export class EoEditConsentModalComponent {
     this.modal.open();
   }
 
-  save() {
-    // Save changes
-  }
-
   deleteConsent() {
     this.close(true);
 
@@ -193,6 +191,13 @@ export class EoEditConsentModalComponent {
           message: this.transloco.translate(this.translations.editConsent.revokeSuccess),
           type: 'success',
         });
+
+        // If the use is the receiver of the consent, we need to re-login to update the actors list and token
+        if(this.consent.receiverOrganizationId.toLocaleUpperCase() === this.authService.user()?.profile.org_id.toUpperCase()) {
+          setTimeout(() => {
+            this.authService.login({ redirectUrl: window.location.pathname });
+          }, 150);
+        }
       },
       error: () => {
         this.toastService.open({
