@@ -826,7 +826,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       <h4>How to request Power of Attorney</h4>
       <ol>
         <li>Copy the link, and send it to the person you want Power of Attorney from. (Make sure to send the link to one recipient, only)</li>
-        <li>The recipient clicks the link, logs into energyorigin and grants Power of Attorney</li>
+        <li>The recipient clicks the link, logs into energytrackandtrace.dk, and grants Power of Attorney</li>
       </ol>
     `,
     copy: 'Copy link',
