@@ -813,7 +813,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         <h4>Sådan anmoder du om fuldmagt</h4>
         <ol>
           <li>Kopier linket og send det til den du ønsker fuldmagt fra (send kun linket til én modtager)</li>
-          <li>Modtager klikker på linket, logger på energioprindelse og afgiver fuldmagt</li>
+          <li>Modtager trykker på linket, logger på energytrackandtrace.dk, og afgiver fuldmagt</li>
         </ol>
     `,
     copy: 'Kopier link',
