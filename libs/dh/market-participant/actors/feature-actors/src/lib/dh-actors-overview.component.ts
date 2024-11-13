@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
-import { Apollo } from 'apollo-angular';
+import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -38,13 +37,14 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { ActorsFilters, AllFiltersCombined } from './actors-filters';
+import { ActorsFilters } from './actors-filters';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
-import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { dhToJSON } from './dh-json-util';
 
 @Component({
@@ -86,25 +86,24 @@ import { dhToJSON } from './dh-json-util';
     DhActorsFiltersComponent,
     DhActorsTableComponent,
     DhPermissionRequiredDirective,
-    DhActorsCreateActorModalComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit {
-  private _apollo = inject(Apollo);
-  private _destroyRef = inject(DestroyRef);
-  private _modalService = inject(WattModalService);
+  private destroyRef = inject(DestroyRef);
+  private modalService = inject(WattModalService);
 
-  getActorsQuery$ = this._apollo.watchQuery({
-    query: GetActorsDocument,
-  });
+  private actorsQuery = query(GetActorsDocument);
+  private actorsQueryHasError = computed(() => this.actorsQuery.error() !== undefined);
 
-  getGridAreasQuery$ = this._apollo.watchQuery({
-    query: GetGridAreasDocument,
-  });
+  private gridAreasQuery = query(GetGridAreasDocument);
+  private gridAreasQueryHasError = computed(() => this.gridAreasQuery.error() !== undefined);
 
   tableDataSource = new WattTableDataSource<DhActor>([]);
-  actorNumberNameLookup: { [Key: string]: { number: string; name: string } } = {};
-  gridAreaCodeLookup: { [Key: string]: string } = {};
+
+  actorNumberNameLookup: Signal<{ [key: string]: { number: string; name: string } }> = computed(
+    () => this.getActorNumberNames()
+  );
+  gridAreaCodeLookup: Signal<{ [key: string]: string }> = computed(() => this.getGridAreaCodes());
 
   filters$ = new BehaviorSubject<ActorsFilters>({
     actorStatus: null,
@@ -113,68 +112,34 @@ export class DhActorsOverviewComponent implements OnInit {
 
   searchInput$ = new BehaviorSubject<string>('');
 
-  isLoading = true;
-  hasError = false;
+  isLoading = computed(() => this.actorsQuery.loading() || this.gridAreasQuery.loading());
+  hasError = computed(() => this.actorsQueryHasError() || this.gridAreasQueryHasError());
+
+  constructor() {
+    effect(() => {
+      this.tableDataSource.data = this.actorsQuery.data()?.actors ?? [];
+    });
+  }
 
   ngOnInit(): void {
-    this.getGridAreasQuery$.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: (result) => {
-        result.data?.gridAreas?.forEach(
-          (gridArea) => (this.gridAreaCodeLookup[gridArea.id] = gridArea.code)
-        );
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      },
-    });
-    const subscription = this.getActorsQuery$.valueChanges
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (result) => {
-          this.isLoading = result.loading;
-
-          const actors = result.data?.actors ?? [];
-
-          actors.forEach((actor) => {
-            this.actorNumberNameLookup[actor.id] = {
-              number: actor.glnOrEicNumber,
-              name: actor.name,
-            };
-          });
-          this.tableDataSource.data = actors;
-        },
-        error: () => {
-          this.hasError = true;
-          this.isLoading = false;
-        },
-      });
-
     this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
 
-    const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
-      this.filters$,
-      this.searchInput$.pipe(debounceTime(250)),
-    ]).pipe(map(([filters, searchInput]) => ({ ...filters, searchInput })));
-
-    subscription?.add(
-      filtersCombined$.subscribe({
+    combineLatest([this.filters$, this.searchInput$.pipe(debounceTime(250))])
+      .pipe(
+        map(([filters, searchInput]) => ({ ...filters, searchInput })),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
         next: (filters) => {
           this.tableDataSource.filter = dhToJSON(filters);
         },
-      })
-    );
+      });
   }
 
   openCreateNewActorModal(): void {
-    this._modalService.open({
+    this.modalService.open({
       component: DhActorsCreateActorModalComponent,
       disableClose: true,
-      onClosed: (result) => {
-        if (result) {
-          this.getActorsQuery$.refetch();
-        }
-      },
     });
   }
 
@@ -212,6 +177,35 @@ export class DhActorsOverviewComponent implements OnInit {
       `"${actor.publicMail?.mail ?? ''}"`,
     ]);
 
-    exportToCSV({ headers, lines, fileName: 'actors' });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Market Participants' });
+  }
+
+  private getActorNumberNames() {
+    const actors = this.actorsQuery.data()?.actors ?? [];
+
+    return actors.reduce(
+      (acc, actor) => {
+        acc[actor.id] = {
+          number: actor.glnOrEicNumber,
+          name: actor.name,
+        };
+
+        return acc;
+      },
+      {} as { [key: string]: { number: string; name: string } }
+    );
+  }
+
+  private getGridAreaCodes() {
+    const gridAreas = this.gridAreasQuery.data()?.gridAreas ?? [];
+
+    return gridAreas.reduce(
+      (acc, gridArea) => {
+        acc[gridArea.id] = gridArea.code;
+
+        return acc;
+      },
+      {} as { [key: string]: string }
+    );
   }
 }
