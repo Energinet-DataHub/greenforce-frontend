@@ -147,22 +147,22 @@ limitations under the License.
             </vater-stack>
           </watt-tab>
 
-          @if (hasActorAccess() && actor()) {
+          @if (hasActorAccess() && actor(); as actor) {
             <watt-tab
               [label]="t('tabs.b2bAccess.tabLabel')"
               *dhPermissionRequired="['actor-credentials:manage']"
             >
-              <dh-b2b-access-tab [actorId]="actor()?.id!" />
+              <dh-b2b-access-tab [actorId]="actor.id" />
             </watt-tab>
 
             <ng-container>
               <ng-container *dhPermissionRequired="['delegation:view']">
                 <watt-tab
                   [label]="t('tabs.delegation.tabLabel')"
-                  *dhCanDelegateFor="actor()?.marketRole!"
+                  *dhCanDelegateFor="actor.marketRole"
                 >
                   @defer (on viewport) {
-                    <dh-delegation-tab [actor]="actor()!" />
+                    <dh-delegation-tab [actor]="actor" />
                   } @placeholder {
                     <watt-spinner />
                   }
@@ -173,7 +173,7 @@ limitations under the License.
             <ng-container *dhPermissionRequired="['balance-responsibility:view']">
               @if (showBalanceResponsibleRelationTab()) {
                 <watt-tab [label]="t('tabs.balanceResponsibleRelation.tabLabel')">
-                  <dh-balance-responsible-relation-tab [actor]="actor()!" />
+                  <dh-balance-responsible-relation-tab [actor]="actor" />
                 </watt-tab>
               }
             </ng-container>
