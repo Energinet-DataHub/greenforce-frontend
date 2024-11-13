@@ -198,7 +198,9 @@ export class EoEditConsentModalComponent {
           this.actorService.self.org_id.toLocaleUpperCase()
         ) {
           this.actorService.setActors([
-            ...this.actorService.actors().filter((actor) => actor.org_id !== this.consent.giverOrganizationId),
+            ...this.actorService
+              .actors()
+              .filter((actor) => actor.org_id !== this.consent.giverOrganizationId),
           ]);
         }
       },
