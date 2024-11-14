@@ -39,7 +39,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -64,7 +64,7 @@ import { DhAssignableUserRolesComponent } from './assignable-user-roles/assignab
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  selector: 'dh-invite-user-modal',
+  selector: 'dh-invite-user',
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss'],
   standalone: true,
@@ -84,13 +84,13 @@ import { DhAssignableUserRolesComponent } from './assignable-user-roles/assignab
     DhAssignableUserRolesComponent,
   ],
 })
-export class DhInviteUserModalComponent extends WattTypedModal {
+export class DhInviteUserComponent {
   private readonly toastService = inject(WattToastService);
   private readonly changeDectorRef = inject(ChangeDetectorRef);
   private readonly translocoService = inject(TranslocoService);
   private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-  inviteUserModal = viewChild.required<WattModalComponent>('inviteUserModal');
+  inviteUserModal = viewChild.required(WattModalComponent);
   closed = output<void>();
 
   inviteUserMutation = mutation(InviteUserDocument, {
@@ -202,8 +202,6 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   });
 
   constructor() {
-    super();
-
     effect(() => {
       const actors = this.actors.data()?.filteredActors;
 
@@ -229,6 +227,10 @@ export class DhInviteUserModalComponent extends WattTypedModal {
       },
       { allowSignalWrites: true }
     );
+  }
+
+  open() {
+    this.inviteUserModal().open();
   }
 
   inviteUser() {

@@ -14,18 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
+@Component({
+  selector: 'watt-data-actions',
+  standalone: true,
+  template: `<ng-content />`,
 })
-export class DhProfileModalService {
-  private profileUpdateSubject = new Subject<void>();
-
-  public onProfileUpdate$ = this.profileUpdateSubject.asObservable();
-
-  public notifyAboutProfileUpdate(): void {
-    this.profileUpdateSubject.next();
-  }
-}
+export class WattDataActionsComponent {}

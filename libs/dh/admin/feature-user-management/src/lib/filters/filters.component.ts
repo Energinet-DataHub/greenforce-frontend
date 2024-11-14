@@ -17,16 +17,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  OnInit,
+  computed,
+  effect,
   inject,
-  input,
   output,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
-import { TranslocoDirective } from '@ngneat/transloco';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { translate, TranslocoDirective } from '@ngneat/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
@@ -34,21 +38,26 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhUserManagementFilters } from '@energinet-datahub/dh/admin/data-access-api';
-
-// Map query variables type to object of form controls type
-type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<DhUserManagementFilters>;
+import {
+  GetFilteredActorsDocument,
+  GetUserRolesDocument,
+  MarketParticipantSortDirctionType,
+  UserOverviewSearchQueryVariables,
+  UserOverviewSortProperty,
+  UserStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { map, startWith } from 'rxjs/operators';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   standalone: true,
   selector: 'dh-users-overview-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    FormsModule,
     ReactiveFormsModule,
     TranslocoDirective,
 
@@ -58,26 +67,19 @@ type Filters = FormControls<DhUserManagementFilters>;
 
     DhDropdownTranslatorDirective,
   ],
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
   template: `
     <form
       vater-stack
       direction="row"
       gap="s"
+      [formGroup]="form"
       tabindex="-1"
-      [formGroup]="formGroup"
       wattQueryParams
       *transloco="let t; read: 'admin.userManagement.tabs.users.filter'"
     >
       <watt-dropdown
         dhDropdownTranslator
-        [formControl]="formGroup.controls.status"
+        [formControl]="form.controls.status"
         translateKey="admin.userManagement.userStatus"
         [placeholder]="t('status')"
         [options]="userStatusOptions"
@@ -88,8 +90,8 @@ type Filters = FormControls<DhUserManagementFilters>;
       @if (canChooseMultipleActors()) {
         <watt-dropdown
           [placeholder]="t('marketPartyPlaceholder')"
-          [formControl]="formGroup.controls.actorId"
           [options]="actorOptions()"
+          [formControl]="form.controls.actorId"
           [multiple]="false"
           [chipMode]="true"
         />
@@ -97,38 +99,67 @@ type Filters = FormControls<DhUserManagementFilters>;
 
       <watt-dropdown
         [placeholder]="t('userRolePlaceholder')"
-        [formControl]="formGroup.controls.userRoleIds"
         [options]="userRoleOptions()"
+        [formControl]="form.controls.userRoleIds"
         [multiple]="true"
         [chipMode]="true"
       />
     </form>
   `,
 })
-export class DhUsersOverviewFiltersComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
+export class DhUsersOverviewFiltersComponent {
+  private fb = inject(NonNullableFormBuilder);
+  private actors = query(GetFilteredActorsDocument);
+  private userRoles = query(GetUserRolesDocument);
 
-  formGroup!: FormGroup<Filters>;
+  form = this.fb.group({
+    status: new FormControl<UserStatus[]>([
+      UserStatus.Active,
+      UserStatus.Invited,
+      UserStatus.InviteExpired,
+    ]),
+    actorId: new FormControl<string | null>(null),
+    userRoleIds: new FormControl<string[] | null>(null),
+  });
+
+  actorOptions = computed<WattDropdownOptions>(() =>
+    (this.actors.data()?.filteredActors ?? []).map((actor) => ({
+      displayValue:
+        actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
+      value: actor.id,
+    }))
+  );
 
   userStatusOptions = dhEnumToWattDropdownOptions(UserStatus);
+  canChooseMultipleActors = computed(() => this.actorOptions().length > 1);
 
-  statusValue = input.required<UserStatus[] | null>();
-  canChooseMultipleActors = input.required<boolean>();
+  userRoleOptions = computed<WattDropdownOptions>(() =>
+    (this.userRoles.data()?.userRoles ?? []).map((userRole) => ({
+      displayValue: `${userRole.name} (${translate(userRole.eicFunction)})`,
+      value: userRole.id,
+    }))
+  );
 
-  actorOptions = input.required<WattDropdownOptions>();
-  userRoleOptions = input.required<WattDropdownOptions>();
+  filter = output<UserOverviewSearchQueryVariables>();
+  clear = output();
 
-  filtersChanges = output<DhUserManagementFilters>();
+  values = toSignal<UserOverviewSearchQueryVariables>(
+    this.form.valueChanges.pipe(
+      startWith(null),
+      map(() => this.form.getRawValue()),
+      exists(),
+      map(({ actorId, status, userRoleIds }) => ({
+        actorId,
+        userStatus: status,
+        userRoleIds,
+        sortDirection: MarketParticipantSortDirctionType.Asc,
+        sortProperty: UserOverviewSortProperty.CreatedDate,
+      }))
+    ),
+    { requireSync: true }
+  );
 
-  ngOnInit(): void {
-    this.formGroup = new FormGroup<Filters>({
-      status: dhMakeFormControl(this.statusValue()),
-      actorId: dhMakeFormControl(),
-      userRoleIds: dhMakeFormControl(),
-    });
-
-    this.formGroup.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.filtersChanges.emit(value as DhUserManagementFilters));
+  constructor() {
+    effect(() => this.filter.emit(this.values()));
   }
 }

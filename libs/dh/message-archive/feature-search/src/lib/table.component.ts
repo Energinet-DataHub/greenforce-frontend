@@ -21,7 +21,6 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import {
@@ -31,7 +30,6 @@ import {
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { ReactiveFormsModule } from '@angular/forms';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
@@ -49,8 +47,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattDatePipe,
-    WattEmptyStateComponent,
-    WattFormChipDirective,
   ],
   template: `
     <watt-data-table

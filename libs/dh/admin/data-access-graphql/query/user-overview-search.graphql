@@ -1,32 +1,37 @@
-query userOverviewSearch(
+query UserOverviewSearch(
   $actorId: UUID
   $userRoleIds: [UUID!]
-  $searchText: String
   $userStatus: [UserStatus!]
-  $pageNumber: Int!
-  $pageSize: Int!
   $sortDirection: MarketParticipantSortDirctionType!
   $sortProperty: UserOverviewSortProperty!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
 ) {
   userOverviewSearch(
     actorId: $actorId
     userRoleIds: $userRoleIds
     userStatus: $userStatus
-    searchText: $searchText
-    pageNumber: $pageNumber
-    pageSize: $pageSize
     sortDirection: $sortDirection
     sortProperty: $sortProperty
+    first: $first
+    last: $last
+    before: $before
+    after: $after
   ) {
-    users {
-      firstName
-      lastName
+    nodes {
+      name
       email
       phoneNumber
       status
       id
       latestLoginAt
     }
-    totalUserCount
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
   }
 }

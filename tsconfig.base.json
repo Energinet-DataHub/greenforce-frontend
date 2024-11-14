@@ -128,6 +128,7 @@
         "libs/dh/profile/feature-profile-modal/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/assets": ["libs/dh/shared/assets/src/index.ts"],
+      "@energinet-datahub/dh/shared/navigation": ["libs/dh/shared/navigation/src/index.ts"],
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
       ],

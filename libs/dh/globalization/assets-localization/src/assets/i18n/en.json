@@ -1520,6 +1520,8 @@
           }
         },
         "users": {
+          "search": "Search",
+          "results": "Results",
           "inviteUser": "Invite user",
           "tabLabel": "Users",
           "emptyTitle": "No users found",
@@ -1532,8 +1534,8 @@
           "columns": {
             "name": "Name",
             "email": "E-mail",
-            "phone": "Phone no.",
-            "latestLogin": "Latest login",
+            "phoneNumber": "Phone no.",
+            "latestLoginAt": "Latest login",
             "status": "Status"
           },
           "daysAgo": "{{ days }} days ago",

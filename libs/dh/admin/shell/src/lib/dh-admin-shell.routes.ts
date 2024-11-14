@@ -38,6 +38,15 @@ export const dhAdminShellRoutes: Routes = [
       {
         path: getPath<AdminSubPaths>('users'),
         loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-management'),
+        children: [
+          {
+            path: 'details/:id',
+            loadComponent: () =>
+              import('@energinet-datahub/dh/admin/feature-user-management').then(
+                (m) => m.DhUserDetailsComponent
+              ),
+          },
+        ],
       },
       {
         path: getPath<AdminSubPaths>('roles'),

@@ -55,7 +55,7 @@ import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datah
 
     DhUserRolesComponent,
   ],
-  templateUrl: './edit-user.component.html',
+  templateUrl: './edit.component.html',
   styles: [
     `
       .name-field {

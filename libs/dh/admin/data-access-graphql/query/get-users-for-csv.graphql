@@ -1,22 +1,26 @@
-query GetAllUsers(
+query GetUsersForCsv(
   $actorId: UUID
   $userStatus: [UserStatus!]
   $userRoleIds: [UUID!]
-  $pageNumber: Int!
-  $pageSize: Int!
   $sortDirection: MarketParticipantSortDirctionType!
   $sortProperty: UserOverviewSortProperty!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
 ) {
   userOverviewSearch(
     actorId: $actorId
     userRoleIds: $userRoleIds
     userStatus: $userStatus
-    pageSize: $pageSize
-    pageNumber: $pageNumber
-    sortProperty: $sortProperty
     sortDirection: $sortDirection
+    sortProperty: $sortProperty
+    first: $first
+    last: $last
+    before: $before
+    after: $after
   ) {
-    users {
+    nodes {
       id
       name
       email
@@ -29,6 +33,11 @@ query GetAllUsers(
         }
       }
       latestLoginAt
+    }
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
     }
   }
 }
