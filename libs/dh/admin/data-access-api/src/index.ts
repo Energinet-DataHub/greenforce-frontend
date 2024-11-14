@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export * from './lib/dh-admin-user-management-data-access-api.store';
 export * from './lib/dh-admin-user-roles-management-data-access-api.store';
 export * from './lib/dh-user-role-management.store';
 export * from './lib/dh-create-user-role.store';
