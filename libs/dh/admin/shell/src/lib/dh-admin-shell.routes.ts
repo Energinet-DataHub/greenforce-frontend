@@ -14,12 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
+import { CanActivateFn, CanMatchFn, Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { AdminSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 import { DhAdminShellComponent } from './dh-admin-shell.component';
+import { inject } from '@angular/core';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
+const accessNewUserManagement: CanMatchFn = () => {
+  return false; //inject(DhFeatureFlagsService).isEnabled('feature-user-management-new');
+};
 
 export const dhAdminShellRoutes: Routes = [
   {
@@ -37,16 +43,21 @@ export const dhAdminShellRoutes: Routes = [
       },
       {
         path: getPath<AdminSubPaths>('users'),
-        loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-management'),
+        loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-management-new'),
+        canMatch: [accessNewUserManagement],
         children: [
           {
             path: 'details/:id',
             loadComponent: () =>
-              import('@energinet-datahub/dh/admin/feature-user-management').then(
+              import('@energinet-datahub/dh/admin/feature-user-management-new').then(
                 (m) => m.DhUserDetailsComponent
               ),
           },
         ],
+      },
+      {
+        path: getPath<AdminSubPaths>('users'),
+        loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-management'),
       },
       {
         path: getPath<AdminSubPaths>('roles'),

@@ -60,6 +60,15 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.preprod,
     ],
   },
+  'feature-user-management-new': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
   'process-delegation-allow-rsm12': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
