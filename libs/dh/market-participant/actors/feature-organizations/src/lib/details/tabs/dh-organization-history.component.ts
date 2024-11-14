@@ -56,7 +56,15 @@ import {
               {{ element.timestamp | wattDate: 'long' }}
             </ng-container>
             <ng-container *wattTableCell="auditLogColumns['value']; let entry">
-              <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
+              @if (entry.change === 'DOMAIN') {
+                @if (entry.currentValue) {
+                  <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change + '_ADDED', entry)"></div>
+                }
+                @else if (entry.previousValue) {
+                  <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change + '_REMOVED', entry)"></div>}
+              } @else {
+                <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
+              }
             </ng-container>
           </watt-table>
         </watt-card>
