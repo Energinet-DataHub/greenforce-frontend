@@ -41,7 +41,6 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import {
   DhTabDataGeneralErrorComponent,
   DhUser,
-  DhUsers,
   DhUserStatusComponent,
 } from '@energinet-datahub/dh/admin/shared';
 
