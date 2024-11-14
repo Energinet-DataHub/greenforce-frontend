@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Subscriptions;
 using Microsoft.FeatureManagement;
@@ -38,6 +39,7 @@ public partial class Mutation
         CalculationType calculationType,
         DateTimeOffset? scheduledAt,
         [Service] IFeatureManager featureManager,
+        [Service] IHttpContextAccessor httpContextAccessor,
         [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
         [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,
@@ -52,6 +54,10 @@ public partial class Mutation
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         if (useProcessManager)
         {
+            var user = httpContextAccessor.HttpContext?.User;
+            var associatedActor = user?.GetAssociatedActor()
+                ?? throw new InvalidOperationException("No associated actor found.");
+
             var requestDto = new ScheduleOrchestrationInstanceDto<NotifyAggregatedMeasureDataInputV1>(
                 RunAt: scheduledAt ?? DateTimeOffset.UtcNow,
                 InputParameter: new NotifyAggregatedMeasureDataInputV1(
@@ -59,7 +65,8 @@ public partial class Mutation
                     GridAreaCodes: gridAreaCodes,
                     PeriodStartDate: period.Start.ToDateTimeOffset(),
                     PeriodEndDate: period.End.ToDateTimeOffset(),
-                    IsInternalCalculation: executionType == CalculationExecutionType.Internal));
+                    IsInternalCalculation: executionType == CalculationExecutionType.Internal,
+                    UserId: associatedActor));
 
             calculationId = await processManagerCalculationClient.ScheduleNewCalculationAsync(requestDto, cancellationToken);
         }

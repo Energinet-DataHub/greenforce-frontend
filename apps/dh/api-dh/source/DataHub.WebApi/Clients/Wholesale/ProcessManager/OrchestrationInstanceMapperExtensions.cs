@@ -86,7 +86,6 @@ public static class OrchestrationInstanceMapperExtensions
             AreSettlementReportsCreated = false, // Deprecated in current context
 
             CalculationId = instanceDto.Id,
-            CreatedByUserId = Guid.Empty, // TODO: Missing in Process Manager
             ScheduledAt = instanceDto.Lifecycle?.ScheduledToRunAt ?? DateTimeOffset.MinValue,
 
             CalculationType = instanceDto.ParameterValue.CalculationType.MapToV3CalculationType(),
@@ -94,6 +93,7 @@ public static class OrchestrationInstanceMapperExtensions
             PeriodStart = instanceDto.ParameterValue.PeriodStartDate,
             PeriodEnd = instanceDto.ParameterValue.PeriodEndDate,
             IsInternalCalculation = instanceDto.ParameterValue.IsInternalCalculation,
+            CreatedByUserId = instanceDto.ParameterValue.UserId,
 
             ExecutionTimeStart = instanceDto.Lifecycle?.StartedAt,
             ExecutionTimeEnd = null, // Not used as far as I can tell; instead 'CompletedTime' is used and mapped to 'executionTimeEnd'

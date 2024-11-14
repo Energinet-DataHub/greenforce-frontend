@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using AutoFixture;
-using Energinet.DataHub.ProcessManager.Api.Model;
 using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
 
@@ -34,7 +33,8 @@ public static class OrchestrationInstanceDtoFactory
             GridAreaCodes: gridAreaCodes ?? [],
             PeriodStartDate: fixture.Create<DateTimeOffset>(),
             PeriodEndDate: fixture.Create<DateTimeOffset>(),
-            IsInternalCalculation: fixture.Create<bool>());
+            IsInternalCalculation: fixture.Create<bool>(),
+            UserId: fixture.Create<Guid>());
     }
 
     public static OrchestrationInstanceLifecycleStatesDto CreatePendingLifecycle(Fixture fixture)
