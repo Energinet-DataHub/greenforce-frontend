@@ -45,6 +45,8 @@ export type UsersToDownload = UserToDownload[];
 
 type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
 
+type User = UserOverviewResponse['users'][0];
+
 export type FetchUsersParams = Pick<
   DhUserManagementState,
   | 'pageSize'
@@ -64,7 +66,7 @@ export type DhUserManagementFilters = {
 };
 
 interface DhUserManagementState {
-  readonly users: DhUsers;
+  readonly users: User[];
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
@@ -179,7 +181,7 @@ export class DhAdminUserManagementDataAccessApiStore
   private updateUsers = this.updater(
     (state: DhUserManagementState, response: UserOverviewResponse): DhUserManagementState => ({
       ...state,
-      users: response.users as DhUsers,
+      users: response.users as User[],
       totalUserCount: response.totalUserCount,
     })
   );

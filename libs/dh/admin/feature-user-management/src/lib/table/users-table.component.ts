@@ -47,6 +47,7 @@ import {
 
 import {
   MarketParticipantSortDirctionType,
+  UserOverviewSearchDocument,
   UserOverviewSortProperty,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -54,6 +55,10 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhUserDrawerComponent } from '../details/details.component';
 import { DhUserLatestLoginComponent } from '../user-latest-login.component';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type User = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'][0];
 
 @Component({
   selector: 'dh-users-overview-table',
@@ -84,7 +89,7 @@ import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 export class DhUsersTabTableComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  columns: WattTableColumnDef<DhUser> = {
+  columns: WattTableColumnDef<User> = {
     firstName: { accessor: 'firstName' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
@@ -92,10 +97,10 @@ export class DhUsersTabTableComponent implements AfterViewInit {
     status: { accessor: 'status' },
   };
 
-  dataSource = new WattTableDataSource<DhUser>();
-  activeRow: DhUser | undefined = undefined;
+  dataSource = new WattTableDataSource<User>();
+  activeRow: User | undefined = undefined;
 
-  users = input.required<DhUsers>();
+  users = input.required<User[]>();
 
   isLoading = input.required<boolean>();
   hasGeneralError = input.required<boolean>();
@@ -128,7 +133,7 @@ export class DhUsersTabTableComponent implements AfterViewInit {
       });
   }
 
-  onRowClick(row: DhUser): void {
+  onRowClick(row: User): void {
     this.activeRow = row;
     this.drawer().open(row);
   }

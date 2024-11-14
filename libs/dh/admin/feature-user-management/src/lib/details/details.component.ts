@@ -54,6 +54,10 @@ import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type User = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'][0];
+
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -134,7 +138,7 @@ export class DhUserDrawerComponent {
     this.closed.emit();
   }
 
-  open(user: DhUser): void {
+  open(user: User): void {
     this.userId.set(user.id);
     this.drawer().open();
   }
