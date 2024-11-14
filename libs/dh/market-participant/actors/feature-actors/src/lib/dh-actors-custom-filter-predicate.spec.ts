@@ -47,7 +47,7 @@ describe(dhActorsCustomFilterPredicate, () => {
 
   describe('when the function is called', () => {
     it('return true if all filters are at their initial state', () => {
-      const actor = createActor({ status: ActorStatus.Active, marketRole: null });
+      const actor = createActor({ status: ActorStatus.Active, marketRole: EicFunction.BillingAgent });
 
       const filters: AllFiltersCombined = {
         actorStatus: null,
@@ -124,7 +124,7 @@ describe(dhActorsCustomFilterPredicate, () => {
       it('return false if the actor market role is null', () => {
         const actor = createActor({
           status: ActorStatus.Active,
-          marketRole: null,
+          marketRole: EicFunction.BillingAgent,
         });
 
         const filters: AllFiltersCombined = {

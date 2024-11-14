@@ -733,7 +733,9 @@
             "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ auditedBy }}</b> ændrede navnet til <b>{{ currentValue }}</b>",
-              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>"
+              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>",
+              "DOMAIN_ADDED": "<b>{{ auditedBy }}</b> tilføjede domænet <b>{{ currentValue }}</b>",
+              "DOMAIN_REMOVED": "<b>{{ auditedBy }}</b> fjernede domænet <b>{{ previousValue }}</b>"
             }
           }
         }

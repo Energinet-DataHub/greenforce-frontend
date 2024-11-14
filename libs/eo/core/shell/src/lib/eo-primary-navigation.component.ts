@@ -41,10 +41,13 @@ import { EoAccountMenuComponent } from './eo-account-menu';
   selector: 'eo-primary-navigation',
   styles: [
     `
+      $height: calc(100% - 64px);
+      $height-with-beta-badge: calc(100% - 128px);
+
       :host {
         display: grid;
         height: 100%;
-        height: calc(100% - 64px);
+        height: $height-with-beta-badge; // TODO MASEP: Should be replaced, once the beta badge has been
         grid-template-rows: 1fr auto;
         grid-template-areas:
           'nav'
@@ -120,7 +123,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
         org_id: org.organizationId,
         org_name: org.organizationName,
       }));
-      this.actorService.setActors(actorsOfReceivedConsents);
+      this.actorService.setActors([this.self, ...actorsOfReceivedConsents]);
     });
   }
 

@@ -40,6 +40,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoConsentService, EoConsent } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -156,6 +157,7 @@ export class EoEditConsentModalComponent {
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
+  private actorService: EoActorService = inject(EoActorService);
 
   @Input() consent!: EoConsent;
   @Input() redirectUrl!: string;
@@ -180,10 +182,6 @@ export class EoEditConsentModalComponent {
     this.modal.open();
   }
 
-  save() {
-    // Save changes
-  }
-
   deleteConsent() {
     this.close(true);
 
@@ -193,6 +191,18 @@ export class EoEditConsentModalComponent {
           message: this.transloco.translate(this.translations.editConsent.revokeSuccess),
           type: 'success',
         });
+
+        // Update the actor list
+        if (
+          this.consent.receiverOrganizationId.toLocaleUpperCase() ===
+          this.actorService.self.org_id.toLocaleUpperCase()
+        ) {
+          this.actorService.setActors([
+            ...this.actorService
+              .actors()
+              .filter((actor) => actor.org_id !== this.consent.giverOrganizationId),
+          ]);
+        }
       },
       error: () => {
         this.toastService.open({

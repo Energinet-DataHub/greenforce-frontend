@@ -61,10 +61,6 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
-      @media (min-width: 720px) {
-        --watt-modal-min-height: 800px !important;
-      }
-
       watt-modal-actions {
         gap: var(--watt-space-m);
       }

@@ -20,4 +20,4 @@ public sealed record CreateActorInput(
     Guid OrganizationId,
     ActorNameDto Name,
     ActorNumberDto ActorNumber,
-    ICollection<CreateActorMarketRoleInput> MarketRoles);
+    CreateActorMarketRoleInput MarketRole);

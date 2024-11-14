@@ -57,9 +57,7 @@ public partial class Query
         EicFunction[]? eicFunctions,
         [Service] IMarketParticipantClient_V1 client) =>
         (await client.ActorGetAsync())
-            .Where(x =>
-                x.MarketRoles.Any(y =>
-                    eicFunctions != null && eicFunctions.Contains(y.EicFunction)));
+        .Where(x => eicFunctions != null && eicFunctions.Contains(x.MarketRole.EicFunction));
 
     public async Task<IEnumerable<ProcessDelegation>> GetDelegationsForActorAsync(
         Guid actorId,
