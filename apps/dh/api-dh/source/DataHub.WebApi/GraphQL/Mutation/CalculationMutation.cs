@@ -54,9 +54,9 @@ public partial class Mutation
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         if (useProcessManager)
         {
-            var user = httpContextAccessor.HttpContext?.User;
-            var associatedActor = user?.GetAssociatedActor()
-                ?? throw new InvalidOperationException("No associated actor found.");
+            var userIdClaim = httpContextAccessor.HttpContext?.User.Claims.First(c => c is { Type: "sub" })
+                ?? throw new InvalidOperationException("Could not find 'sub' claim.");
+            var userId = Guid.Parse(userIdClaim.Value);
 
             var requestDto = new ScheduleOrchestrationInstanceDto<NotifyAggregatedMeasureDataInputV1>(
                 RunAt: scheduledAt ?? DateTimeOffset.UtcNow,
@@ -66,7 +66,7 @@ public partial class Mutation
                     PeriodStartDate: period.Start.ToDateTimeOffset(),
                     PeriodEndDate: period.End.ToDateTimeOffset(),
                     IsInternalCalculation: executionType == CalculationExecutionType.Internal,
-                    UserId: associatedActor));
+                    UserId: userId));
 
             calculationId = await processManagerCalculationClient.ScheduleNewCalculationAsync(requestDto, cancellationToken);
         }
