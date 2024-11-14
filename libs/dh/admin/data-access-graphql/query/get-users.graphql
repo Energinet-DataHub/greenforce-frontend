@@ -1,7 +1,7 @@
-query GetUsersForCsv(
+query GetUsers(
   $actorId: UUID
-  $userStatus: [UserStatus!]
   $userRoleIds: [UUID!]
+  $userStatus: [UserStatus!]
   $sortDirection: MarketParticipantSortDirctionType!
   $sortProperty: UserOverviewSortProperty!
   $first: Int
@@ -21,17 +21,11 @@ query GetUsersForCsv(
     after: $after
   ) {
     nodes {
-      id
       name
       email
-      administratedBy {
-        id
-        name
-        organization {
-          id
-          name
-        }
-      }
+      phoneNumber
+      status
+      id
       latestLoginAt
     }
     totalCount

@@ -14,19 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  GetUserByIdDocument,
-  UserOverviewSearchDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetUserByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type DhUser = ResultOf<typeof GetUserByIdDocument>['userById'];
-
-export type DhOverviewUsers = NonNullable<
-  ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']
->['nodes'];
-
-export type DhOverviewUser = NonNullable<DhOverviewUsers>[0];
 
 export type DhActorUser = DhUser['actors'][0];
 

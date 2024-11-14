@@ -43,6 +43,7 @@ import {
 import {
   GetFilteredActorsDocument,
   GetUserRolesDocument,
+  GetUsersQueryVariables,
   MarketParticipantSortDirctionType,
   UserOverviewSearchQueryVariables,
   UserOverviewSortProperty,
@@ -140,10 +141,10 @@ export class DhUsersOverviewFiltersComponent {
     }))
   );
 
-  filter = output<UserOverviewSearchQueryVariables>();
+  filter = output<GetUsersQueryVariables>();
   clear = output();
 
-  values = toSignal<UserOverviewSearchQueryVariables>(
+  values = toSignal<GetUsersQueryVariables>(
     this.form.valueChanges.pipe(
       startWith(null),
       map(() => this.form.getRawValue()),

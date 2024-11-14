@@ -21,7 +21,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type CsvUser = NonNullable<CsvUsers>[0];
 type Variables = Partial<UserOverviewSearchQueryVariables>;
-type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['userOverviewSearch']>['nodes'];
+type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['nodes'];
 
 @Component({
   standalone: true,
@@ -66,7 +66,7 @@ export class DhDownloadUsersCsvComponent {
         `"${translate(basePath + '.organisationName')}"`,
       ];
 
-      const lines = (result.data.userOverviewSearch?.nodes ?? []).map((x: CsvUser) => [
+      const lines = (result.data.users?.nodes ?? []).map((x: CsvUser) => [
         `"${x.name}"`,
         `"${x.email}"`,
         `"${x.administratedBy?.name}"`,

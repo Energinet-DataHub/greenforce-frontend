@@ -55,9 +55,32 @@ public partial class Query
             .Select(x => x.Email)
             .ToList();
 
+    public async Task<GetUserOverviewResponse> UserOverviewSearchAsync(
+        int pageNumber,
+        int pageSize,
+        UserOverviewSortProperty sortProperty,
+        SortDirection sortDirection,
+        Guid? actorId,
+        string? searchText,
+        Guid[]? userRoleIds,
+        UserStatus[]? userStatus,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserOverviewUsersSearchAsync(
+            pageNumber,
+            pageSize,
+            sortProperty,
+            sortDirection,
+            new()
+            {
+                ActorId = actorId,
+                SearchText = searchText,
+                UserRoleIds = userRoleIds ?? [],
+                UserStatus = userStatus ?? [],
+            });
+
     [UsePaging(MaxPageSize = 10_000)]
     [UseSorting]
-    public async Task<Connection<UserOverviewItemDto>> UserOverviewSearchAsync(
+    public async Task<Connection<UserOverviewItemDto>> GetUsersAsync(
         UserOverviewSortProperty sortProperty,
         SortDirection sortDirection,
         Guid? actorId,

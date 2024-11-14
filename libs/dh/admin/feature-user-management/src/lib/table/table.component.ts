@@ -28,6 +28,7 @@ import {
 } from '@energinet-datahub/watt/data';
 
 import {
+  GetUsersDocument,
   MarketParticipantSortDirctionType,
   UserOverviewSearchQueryVariables,
   UserOverviewSortProperty,
@@ -35,15 +36,20 @@ import {
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhOverviewUser, DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { UserOverviewSearchDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetUsersDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 import { DhUsersOverviewFiltersComponent } from '../filters/filters.component';
 import { DhDownloadUsersCsvComponent } from './download-users-csv.component';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type Variables = Partial<UserOverviewSearchQueryVariables>;
+
+export type DhUsers = NonNullable<ResultOf<typeof GetUsersDocument>['users']>['nodes'];
+
+export type DhUser = NonNullable<DhUsers>[0];
 
 @Component({
   selector: 'dh-users',
@@ -129,7 +135,7 @@ export class DhUsersComponent {
   private dataTable = viewChild.required(WattDataTableComponent);
   private navigation = inject(DhNavigationService);
 
-  columns: WattTableColumnDef<DhOverviewUser> = {
+  columns: WattTableColumnDef<DhUser> = {
     name: { accessor: 'name' },
     email: { accessor: 'email' },
     phoneNumber: { accessor: 'phoneNumber' },
@@ -137,7 +143,7 @@ export class DhUsersComponent {
     status: { accessor: 'status' },
   };
 
-  open = output<DhOverviewUser>();
+  open = output<DhUser>();
   invite = output<void>();
 
   selection = () => {
@@ -146,7 +152,7 @@ export class DhUsersComponent {
 
   variables = signal<Variables>({});
 
-  dataSource = new UserOverviewSearchDataSource({
+  dataSource = new GetUsersDataSource({
     skip: true,
     variables: {
       sortDirection: MarketParticipantSortDirctionType.Asc,
@@ -167,7 +173,7 @@ export class DhUsersComponent {
     this.dataTable().reset();
   }
 
-  onRowClick(row: DhOverviewUser): void {
+  onRowClick(row: DhUser): void {
     this.open.emit(row);
   }
 }
