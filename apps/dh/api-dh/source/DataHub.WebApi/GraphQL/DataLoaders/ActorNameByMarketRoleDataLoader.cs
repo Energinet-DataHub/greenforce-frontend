@@ -37,10 +37,7 @@ public class ActorNameByMarketRoleDataLoader : BatchDataLoader<(string ActorNumb
 
         foreach (var actor in actors.Where(x => actorNumbers.Contains(x.ActorNumber.Value)))
         {
-            foreach (var marketRole in actor.MarketRoles)
-            {
-                dictionary.TryAdd((actor.ActorNumber.Value, marketRole.EicFunction), actor.Name);
-            }
+            dictionary.TryAdd((actor.ActorNumber.Value, actor.MarketRole.EicFunction), actor.Name);
         }
 
         return dictionary;
