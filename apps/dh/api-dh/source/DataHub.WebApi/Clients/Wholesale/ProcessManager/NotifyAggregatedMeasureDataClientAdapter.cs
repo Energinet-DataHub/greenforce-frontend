@@ -31,14 +31,7 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
         CalculationQueryInput input,
         CancellationToken calculationToken = default)
     {
-        // TODO:
-        // We currently only support filtering on one state initially, and only
-        // top-level states (orchestration instance states, not steps)
         var states = input.States ?? [];
-        var state = states
-            .Select(x => x.MapToLifecycleState())
-            .FirstOrDefault();
-
         var calculationTypes = input.CalculationTypes ?? [];
         var processManagerCalculationTypes = calculationTypes
             .Select(x => x.MapToCalculationType())
@@ -50,9 +43,16 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
         var periodStart = input.Period?.Start.ToDateTimeOffset();
         var periodEnd = input.Period?.End.ToDateTimeOffset();
 
+        // TODO:
+        // In the Process Manager API we currently only support filtering on one state initially,
+        // and only top-level states (orchestration instance states, not steps).
+        // To ensure filtering works the same as before we therefore set 'lifecycleState' and 'terminationState'
+        // to 'null'.
+        // In the future we should be able to refactor the UI/BFF to filter at top-level states using
+        // the Process Manager API.
         var processManagerCalculations = await _innerClient.SearchCalculationsAsync(
-            lifecycleState: state.LifecycleState,
-            terminationState: state.TerminationState,
+            lifecycleState: null,
+            terminationState: null,
             startedAtOrLater: minExecutionTime,
             terminatedAtOrEarlier: maxExecutionTime,
             calculationTypes: processManagerCalculationTypes,
