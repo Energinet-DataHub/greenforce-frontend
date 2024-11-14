@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { filter, map, tap } from 'rxjs';
 
 @Injectable()
 export class DhNavigationService {
@@ -17,6 +17,7 @@ export class DhNavigationService {
     this.route.firstChild?.params
       .pipe(
         map((params) => params.id),
+        tap((id) => console.log('setting id to', id)),
         takeUntilDestroyed()
       )
       .subscribe(this.id.set);
@@ -32,6 +33,7 @@ export class DhNavigationService {
       )
       .subscribe(() => {
         if (this.route.children.length === 0) {
+          console.log('setting id to undefined');
           this.id.set(undefined);
         }
       });
@@ -39,8 +41,14 @@ export class DhNavigationService {
 
   navigate(id: string | undefined, path: 'details' | 'edit') {
     this.id.set(id);
+    // console.log('navigating to', path, id);
     this.router.navigate([path, id], {
       relativeTo: this.route,
     });
+  }
+
+  back() {
+    console.log('setting id to undefined');
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

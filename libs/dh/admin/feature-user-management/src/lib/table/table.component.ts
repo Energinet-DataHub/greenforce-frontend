@@ -34,6 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhOverviewUser, DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { UserOverviewSearchDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -41,7 +42,6 @@ import { UserOverviewSearchDataSource } from '@energinet-datahub/dh/shared/domai
 import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 import { DhUsersOverviewFiltersComponent } from '../filters/filters.component';
 import { DhDownloadUsersCsvComponent } from './download-users-csv.component';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 type Variables = Partial<UserOverviewSearchQueryVariables>;
 
@@ -66,7 +66,6 @@ type Variables = Partial<UserOverviewSearchQueryVariables>;
     DhUsersOverviewFiltersComponent,
     DhDownloadUsersCsvComponent,
   ],
-  providers: [DhNavigationService],
   template: ` <watt-data-table
     *transloco="let t; read: 'admin.userManagement.tabs.users'"
     vater
@@ -141,7 +140,9 @@ export class DhUsersComponent {
   open = output<DhOverviewUser>();
   invite = output<void>();
 
-  selection = () => this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
+  selection = () => {
+    return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
+  };
 
   variables = signal<Variables>({});
 

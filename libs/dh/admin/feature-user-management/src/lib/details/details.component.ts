@@ -17,8 +17,6 @@
 import {
   effect,
   inject,
-  output,
-  signal,
   computed,
   Component,
   viewChild,
@@ -35,7 +33,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
-import { DhUser, DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -54,6 +52,7 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -81,6 +80,7 @@ export class DhUserDetailsComponent {
   private modalService = inject(WattModalService);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+  private navigation = inject(DhNavigationService);
 
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
@@ -94,8 +94,6 @@ export class DhUserDetailsComponent {
   reActivateConfirmationModal = viewChild.required<WattModalComponent>(
     'reActivateConfirmationModal'
   );
-
-  closed = output<void>();
 
   selectedUserQuery = lazyQuery(GetUserByIdDocument, {
     fetchPolicy: 'no-cache',
@@ -135,7 +133,7 @@ export class DhUserDetailsComponent {
 
   onClose(): void {
     this.drawer().close();
-    this.closed.emit();
+    this.navigation.back();
   }
 
   showEditUserModal(): void {
