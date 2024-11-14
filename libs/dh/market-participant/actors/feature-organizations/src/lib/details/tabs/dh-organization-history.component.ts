@@ -58,10 +58,14 @@ import {
             <ng-container *wattTableCell="auditLogColumns['value']; let entry">
               @if (entry.change === 'DOMAIN') {
                 @if (entry.currentValue) {
-                  <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change + '_ADDED', entry)"></div>
+                  <div
+                    [innerHTML]="t('tabs.history.changeTypes.' + entry.change + '_ADDED', entry)"
+                  ></div>
+                } @else if (entry.previousValue) {
+                  <div
+                    [innerHTML]="t('tabs.history.changeTypes.' + entry.change + '_REMOVED', entry)"
+                  ></div>
                 }
-                @else if (entry.previousValue) {
-                  <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change + '_REMOVED', entry)"></div>}
               } @else {
                 <div [innerHTML]="t('tabs.history.changeTypes.' + entry.change, entry)"></div>
               }
