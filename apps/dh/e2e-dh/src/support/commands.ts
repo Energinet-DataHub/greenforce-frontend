@@ -98,9 +98,9 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options, skipLoggedInCheck
   // @ts-expect-error - no error
   originalFn(url, options);
   if (skipLoggedInCheck !== true){
-    cy.get('dh-shell').then(()=> {
-      cy.window().its('localStorage').invoke('getItem', 'actorStorage.selectedActorId').should('exist');
-      cy.wait('@getSelectionActors');
+    cy.get('.selected-organization-name-label', { log: false }).then(() => {
+      cy.window({ log: false }).its('localStorage', { log: false }).invoke('getItem', 'actorStorage.selectedActorId', { log: false }).should('exist', { log: false });
+      cy.wait('@getSelectionActors', { log: false });
     });
   }
 });
