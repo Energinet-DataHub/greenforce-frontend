@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CanActivateFn, CanMatchFn, Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanMatchFn, Routes } from '@angular/router';
 
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { AdminSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhAdminShellComponent } from './dh-admin-shell.component';
-import { inject } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 const accessNewUserManagement: CanMatchFn = () => {
-  return false; //inject(DhFeatureFlagsService).isEnabled('feature-user-management-new');
+  return inject(DhFeatureFlagsService).isEnabled('feature-user-management-new');
 };
 
 export const dhAdminShellRoutes: Routes = [
