@@ -85,6 +85,7 @@ export class DhActorAuditLogTabComponent {
       .map((x) => x.trim());
 
     if (!values) return {};
+
     const [payloadGln, payloadStartsAt, payloadGridArea, payloadProcessType, payloadStopsAt] =
       values;
     const actorNumberName = this.actorNumberNameLookup()[payloadGln];

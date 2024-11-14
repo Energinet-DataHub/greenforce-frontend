@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { computed, effect, Injectable, signal } from '@angular/core';
+import { translate } from '@ngneat/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -22,6 +23,7 @@ import {
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DhBalanceResponsibleRelation,
@@ -95,6 +97,43 @@ export class DhBalanceResponsibleRelationsStore {
 
   public updateFilters(filters: Partial<DhBalanceResponsibleRelationFilters>): void {
     this.filters.update((prev) => ({ ...prev, ...filters }));
+  }
+
+  public download(): void {
+    const balanceResponsibleRelations = this.filteredRelations();
+
+    if (!balanceResponsibleRelations) {
+      return;
+    }
+
+    const columnsPath =
+      'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.columns';
+
+    const headers = [
+      `"${translate(columnsPath + '.balanceResponsibleId')}"`,
+      `"${translate(columnsPath + '.balanceResponsibleName')}"`,
+      `"${translate(columnsPath + '.energySupplierId')}"`,
+      `"${translate(columnsPath + '.energySupplierName')}"`,
+      `"${translate(columnsPath + '.gridAreaId')}"`,
+      `"${translate(columnsPath + '.meteringPointType')}"`,
+      `"${translate(columnsPath + '.status')}"`,
+      `"${translate(columnsPath + '.start')}"`,
+      `"${translate(columnsPath + '.end')}"`,
+    ];
+
+    const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
+      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
+      `"${balanceResponsibleRelation.status}"`,
+      `"${balanceResponsibleRelation.validPeriod.start}"`,
+      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'DataHub-Balance-responsible-relations' });
   }
 }
 
