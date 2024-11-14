@@ -7039,8 +7039,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ActorNameDto Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("marketRoles", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ActorMarketRoleDto> MarketRoles { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("marketRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorMarketRoleDto MarketRole { get; set; } = default!;
 
     }
 
@@ -7148,8 +7148,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ActorNameDto Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("marketRoles", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ActorMarketRoleDto> MarketRoles { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("marketRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorMarketRoleDto MarketRole { get; set; } = default!;
 
     }
 
@@ -7232,8 +7232,8 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         [Newtonsoft.Json.JsonProperty("actorNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ActorNumberDto ActorNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("marketRoles", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ActorMarketRoleDto> MarketRoles { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("marketRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorMarketRoleDto MarketRole { get; set; } = default!;
 
     }
 
@@ -7305,6 +7305,10 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         RequestWholesaleResults = 3,
 
         ReceiveWholesaleResults = 4,
+
+        RequestMeteringPointData = 5,
+
+        ReceiveMeteringPointData = 6,
 
     }
 

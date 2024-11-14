@@ -1,0 +1,9 @@
+query GetSettlementReport($value: SettlementReportRequestIdInput!) {
+  settlementReport(requestId: $value) {
+    id
+    period
+    calculationType
+    gridAreas
+    settlementReportDownloadUrl
+  }
+}

@@ -21,3 +21,4 @@ export * from './idle-timer.service';
 export * from './organization-id.interceptor';
 export * from './terms.service';
 export * from './actor.service';
+export * from './actor-self.guard';

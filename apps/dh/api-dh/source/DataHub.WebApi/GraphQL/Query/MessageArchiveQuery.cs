@@ -66,9 +66,9 @@ public partial class Query
                     End = created.End.ToDateTimeOffset(),
                 },
                 SenderNumber = (await sender)?.ActorNumber.Value,
-                SenderRole = (await sender)?.MarketRoles.FirstOrDefault()?.EicFunction.ToActorRole(),
+                SenderRole = (await sender)?.MarketRole.EicFunction.ToActorRole(),
                 ReceiverNumber = (await receiver)?.ActorNumber.Value,
-                ReceiverRole = (await receiver)?.MarketRoles.FirstOrDefault()?.EicFunction.ToActorRole(),
+                ReceiverRole = (await receiver)?.MarketRole.EicFunction.ToActorRole(),
                 DocumentTypes = documentTypes,
                 BusinessReasons = businessReasons.IsNullOrEmpty()
                     ? null
@@ -157,8 +157,8 @@ public partial class Query
         {
             FieldToSortBy.MessageId => message.MessageId ?? string.Empty,
             FieldToSortBy.DocumentType => message.DocumentType.ToString(),
-            FieldToSortBy.SenderNumber => message.SenderNumber ?? string.Empty,
-            FieldToSortBy.ReceiverNumber => message.ReceiverNumber ?? string.Empty,
+            FieldToSortBy.SenderNumber => message.SenderNumber,
+            FieldToSortBy.ReceiverNumber => message.ReceiverNumber,
             FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
             _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Unexpected FieldToSortBy value"),
         };

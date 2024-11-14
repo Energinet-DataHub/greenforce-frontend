@@ -161,6 +161,9 @@
         "libs/dh/shared/util-new-version-manager/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-operators": ["libs/dh/shared/util-operators/src/index.ts"],
+      "@energinet-datahub/dh/shared/util-settlement-reports": [
+        "libs/dh/shared/util-settlement-reports/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/util-table": ["libs/dh/shared/util-table/src/index.ts"],
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
@@ -214,6 +217,9 @@
       ],
       "@energinet-datahub/eo/consent/feature-permissions": [
         "libs/eo/consent/feature-permissions/index.ts"
+      ],
+      "@energinet-datahub/eo/consent/feature-request-consent": [
+        "libs/eo/consent/feature-request-consent/index.ts"
       ],
       "@energinet-datahub/eo/consent/shell": ["libs/eo/consent/shell/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [

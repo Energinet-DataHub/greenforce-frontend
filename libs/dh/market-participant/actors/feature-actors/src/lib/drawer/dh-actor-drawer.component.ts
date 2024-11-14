@@ -187,9 +187,6 @@ export class DhActorDrawerComponent {
 
   public editOrganization(id: string | undefined): void {
     const getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
-    this.router.navigate([getLink('organizations')], {
-      queryParams: { id, edit: true },
-      queryParamsHandling: 'merge',
-    });
+    this.router.navigate([getLink('organizations'), 'details', id, 'edit']);
   }
 }
