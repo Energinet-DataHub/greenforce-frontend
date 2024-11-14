@@ -82,7 +82,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           position: relative;
           watt-radio {
             margin-right: var(--watt-space-m);
-            margin-top: 4px;
+            margin-top: var(--watt-space-xs);
             height: 46px;
           }
 
