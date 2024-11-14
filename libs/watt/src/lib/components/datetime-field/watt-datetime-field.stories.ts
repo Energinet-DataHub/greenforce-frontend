@@ -16,13 +16,13 @@
  */
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { WattDateTimeFieldComponent } from './watt-datetime-field.component';
+import { WattDateTimeField } from './watt-datetime-field.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS } from '@angular/material/core';
 import { WattDateAdapter } from '../../configuration/watt-date-adapter';
 
-const meta: Meta<WattDateTimeFieldComponent> = {
+const meta: Meta<WattDateTimeField> = {
   title: 'Components/DateTime',
-  component: WattDateTimeFieldComponent,
+  component: WattDateTimeField,
   decorators: [
     moduleMetadata({
       imports: [ReactiveFormsModule],
@@ -43,5 +43,10 @@ control.valueChanges.subscribe((value) => console.log(value));
 
 export const Overview: StoryFn = () => ({
   props: { formControl: control },
-  template: `<watt-datetime-field [control]="formControl" />`,
+  template: `
+    <watt-datetime-field [formControl]="formControl" [inclusive]="true" />
+    <button (click)="formControl.reset()">Reset</button>
+    <button (click)="formControl.disable()">Disable</button>
+    <button (click)="formControl.enable()">Enable</button>
+    <p>Value: {{ formControl.value?.toISOString() }}</p>`,
 });

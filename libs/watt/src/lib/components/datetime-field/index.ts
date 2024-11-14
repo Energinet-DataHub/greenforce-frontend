@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDateTimeFieldComponent } from './watt-datetime-field.component';
+export { WattDateTimeField } from './watt-datetime-field.component';

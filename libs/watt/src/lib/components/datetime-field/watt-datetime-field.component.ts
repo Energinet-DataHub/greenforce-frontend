@@ -14,41 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
+import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCalendar } from '@angular/material/datepicker';
 import { MaskitoDirective } from '@maskito/angular';
-import { WattFieldComponent } from '../field';
+import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
+import { map } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
-import mask from './mask';
+import { WattFieldComponent } from '../field';
+import { WattButtonComponent } from '../button/watt-button.component';
 
-const dateShortFormat = 'DD-MM-YYYY, HH:mm';
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
-const modelToView = (date: Date) =>
-  dayjs(date).tz(danishTimeZoneIdentifier).format(dateShortFormat);
+const DATE_SHORT_FORMAT = 'DD-MM-YYYY, HH:mm';
+const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
+/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   standalone: true,
   selector: 'watt-datetime-field',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, MaskitoDirective, MatCalendar, WattFieldComponent],
+  imports: [
+    ReactiveFormsModule,
+    MaskitoDirective,
+    MatCalendar,
+    WattButtonComponent,
+    WattFieldComponent,
+  ],
   styles: [
     `
       watt-datetime-field {
         display: block;
         width: 100%;
-
-        input {
-          border: none;
-          width: 100%;
-          outline: none;
-          background-color: transparent;
-
-          &::placeholder {
-            color: var(--watt-on-light-low-emphasis);
-          }
-        }
       }
 
       .watt-datetime-field-picker {
@@ -66,37 +68,74 @@ const modelToView = (date: Date) =>
     `,
   ],
   template: `
-    <watt-field label="Test" [control]="control()">
+    <watt-field label="Test" [control]="control" [placeholder]="placeholder">
       <input
         #field
-        [formControl]="control()"
-        [maskito]="options"
+        [formControl]="control"
+        [maskito]="mask"
         (focus)="picker.showPopover()"
         (blur)="handleBlur(picker, $event)"
       />
+      <watt-button icon="date" variant="icon" />
     </watt-field>
-    <div #picker class="watt-elevation watt-datetime-field-picker" popover="manual" tabindex="-1">
-      <mat-calendar (selectedChange)="handleSelectedChange(field, $event)" />
+    <div #picker class="watt-elevation watt-datetime-field-picker" popover="manual" tabindex="0">
+      <mat-calendar
+        tabindex="-1"
+        [selected]="ngControl.value"
+        (selectedChange)="handleSelectedChange(field, $event)"
+      />
     </div>
   `,
 })
-export class WattDateTimeFieldComponent {
-  control = input.required<FormControl<Date>>();
-  filler = 'dd-mm-yyyy, hh:mm'; // TODO: i18n
-  options = mask;
+export class WattDateTimeField implements ControlValueAccessor {
+  protected ngControl = inject(NgControl, { self: true });
+  protected control = new FormControl('', { nonNullable: true });
+  inclusive = input(false);
+  placeholder = 'dd-mm-yyyy, hh:mm'; // TODO: i18n
+  mask = maskitoDateTimeOptionsGenerator({
+    dateMode: 'dd/mm/yyyy',
+    timeMode: 'HH:MM',
+    dateSeparator: '-',
+  });
+
+  modelToView = (value: Date | null) =>
+    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(DATE_SHORT_FORMAT) : '';
+
+  viewToModel = (value: string) => {
+    const date = dayjs(value, DATE_SHORT_FORMAT, true);
+    if (!date.isValid()) return null;
+    return this.inclusive() ? date.endOf('minute').toDate() : date.toDate();
+  };
 
   handleBlur = (picker: HTMLElement, event: FocusEvent) => {
+    console.log(event);
     if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
       const target = event.target as HTMLInputElement; // safe type assertion
-      target.focus();
+      setTimeout(() => target.focus());
     } else {
       picker.hidePopover();
     }
   };
 
+  // Consider not filling out time portion?
   handleSelectedChange = (field: HTMLInputElement, date: Date) => {
-    field.value = modelToView(date);
+    field.value = this.modelToView(date);
     field.dispatchEvent(new Event('input', { bubbles: true }));
     field.blur();
   };
+
+  // Implementation for ControlValueAccessor
+  writeValue = (value: Date | null) => this.control.setValue(this.modelToView(value));
+  registerOnChange = (fn: (value: Date | null) => void) =>
+    this.control.valueChanges.pipe(map(this.viewToModel)).subscribe(fn);
+
+  // hmm
+  setDisabledState = (d: boolean) => (d ? this.control.disable() : this.control.enable());
+  registerOnTouched(fn: (_: unknown) => void) {
+    this.control.statusChanges.subscribe(fn);
+  }
+
+  constructor() {
+    this.ngControl.valueAccessor = this;
+  }
 }
