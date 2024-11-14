@@ -66,7 +66,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
     },
     {
       validate: () => {
-        cy.visit('/');
+        cy.visit('/message-archive');
         cy.findByRole('heading', {
           name: new RegExp('Fremsøg forretningsbesked', 'i'),
           timeout: 10000,
@@ -94,12 +94,17 @@ Cypress.Commands.add('removeCookieBanner', () => {
 });
 
 Cypress.Commands.overwrite('visit', (originalFn, url, options, skipLoggedInCheck?:boolean) => {
-  cy.intercept('POST', 'bff/graphql?GetSelectionActors').as('getSelectionActors');
+  cy.intercept('POST', 'bff/graphql?GetSelectionActors', { log: false }).as('getSelectionActors');
   // @ts-expect-error - no error
   originalFn(url, options);
   if (skipLoggedInCheck !== true){
     cy.get('.selected-organization-name-label', { log: false }).then(() => {
-      cy.window({ log: false }).its('localStorage', { log: false }).invoke('getItem', 'actorStorage.selectedActorId', { log: false }).should('exist', { log: false });
+      cy.window({ log: false })
+        .its('localStorage', { log: false })
+        .invoke({ log: false }, 'getItem', 'actorStorage.selectedActorId')
+        .should($ls => {
+          if (!$ls.length) throw new Error("'actorStorage.selectedActorId' should exist in localStorage")
+        })
       cy.wait('@getSelectionActors', { log: false });
     });
   }
