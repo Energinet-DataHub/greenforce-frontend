@@ -82,10 +82,16 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           position: relative;
           watt-radio {
             margin-right: var(--watt-space-m);
+            margin-top: 4px;
+            height: 46px;
           }
 
           watt-datepicker label > span {
             display: none;
+          }
+
+          .watt-field--unlabelled {
+            min-height: auto;
           }
         }
 
