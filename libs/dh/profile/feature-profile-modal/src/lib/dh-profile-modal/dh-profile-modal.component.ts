@@ -37,9 +37,9 @@ import {
   UserProfileDocument,
   UpdateUserProfileDocument,
   UpdateUserProfileMutation,
-  UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhProfileModalService } from './dh-profile-modal.service';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 type UserPreferencesForm = FormGroup<{
@@ -88,6 +88,7 @@ type UserPreferencesForm = FormGroup<{
 export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly toastService = inject(WattToastService);
+  private readonly profileModalService = inject(DhProfileModalService);
 
   private readonly userProfileQuery = query(UserProfileDocument, { returnPartialData: true });
   private readonly userProfileMutation = mutation(UpdateUserProfileDocument);
@@ -110,12 +111,15 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
   constructor() {
     super();
-    effect(() => {
-      const userProfile = this.userProfile();
-      if (userProfile === undefined) return;
-      const { phoneNumber, firstName, lastName } = userProfile;
-      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
-    });
+    effect(
+      () => {
+        const userProfile = this.userProfile();
+        if (userProfile === undefined) return;
+        const { phoneNumber, firstName, lastName } = userProfile;
+        this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   closeModal(saveSuccess: boolean) {
@@ -123,12 +127,14 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   }
 
   async save() {
-    if (this.userPreferencesForm.invalid) return;
+    if (this.userPreferencesForm.invalid) {
+      return;
+    }
 
     const { firstName, lastName, phoneNumber } = this.userPreferencesForm.getRawValue();
 
     const response = await this.userProfileMutation.mutate({
-      refetchQueries: [UserProfileDocument, UserOverviewSearchDocument],
+      refetchQueries: [UserProfileDocument],
       variables: {
         input: {
           userProfileUpdateDto: {
@@ -157,6 +163,7 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
     if (response.data?.updateUserProfile?.saved) {
       this.toastService.open({ message: translate('shared.profile.success'), type: 'success' });
       this.closeModal(true);
+      this.profileModalService.notifyAboutProfileUpdate();
     }
   }
 }
