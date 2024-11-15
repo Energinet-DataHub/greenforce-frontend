@@ -18,7 +18,7 @@ import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
-import { exhaustMap, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import {
@@ -152,54 +152,38 @@ export class DhMarketPartyB2BAccessStore {
     onSuccess: () => void;
     onError: () => void;
   }) {
-    of({
-      actorId,
-      onSuccess,
-      onError,
-      doesClientSecretMetadataExist: this.doesClientSecretMetadataExist(),
-      doesCertificateExist: this.doesCertificateExist(),
-      deleteUrl: this.removeCertificateCredentialsUrl(),
-    })
+    const deleteUrl = this.removeCertificateCredentialsUrl();
+
+    if (!deleteUrl || this.generateSecretInProgress()) {
+      return;
+    }
+
+    this.generateSecretInProgress.set(true);
+
+    let kickOff$ = of('noop');
+
+    if (this.doesClientSecretMetadataExist() || this.doesCertificateExist()) {
+      kickOff$ = this.client.delete(deleteUrl).pipe(map(() => 'noop'));
+    }
+
+    return kickOff$
       .pipe(
-        tap(() => this.generateSecretInProgress.set(true)),
-        exhaustMap(
-          ({
-            actorId,
-            onSuccess,
-            onError,
-            doesClientSecretMetadataExist,
-            doesCertificateExist,
-            deleteUrl,
-          }) => {
-            let kickOff$ = of('noop');
+        switchMap(() =>
+          this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
+        ),
+        tapResponse(
+          (clientSecret) => {
+            if (clientSecret.error) return onError();
 
-            if (!deleteUrl) return kickOff$;
-
-            if (doesClientSecretMetadataExist || doesCertificateExist) {
-              kickOff$ = this.client.delete(deleteUrl).pipe(map(() => 'noop'));
-            }
-
-            return kickOff$.pipe(
-              switchMap(() =>
-                this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
-              ),
-              tapResponse(
-                (clientSecret) => {
-                  if (clientSecret.error) return onError();
-
-                  this.clientSecret.set(
-                    clientSecret.data?.requestClientSecretCredentials.actorClientSecretDto
-                      ?.secretText
-                  );
-
-                  onSuccess();
-                },
-                () => onError()
-              ),
-              finalize(() => this.generateSecretInProgress.set(false))
+            this.clientSecret.set(
+              clientSecret.data?.requestClientSecretCredentials.actorClientSecretDto?.secretText
             );
-          }
-        )
+
+            onSuccess();
+          },
+          () => onError()
+        ),
+        finalize(() => this.generateSecretInProgress.set(false))
       )
       .subscribe();
   }
