@@ -18,9 +18,7 @@ import { type CodegenPlugin } from '@graphql-codegen/plugin-helpers';
 import { visit, getNamedType, GraphQLField } from 'graphql';
 
 /** Gets the name of the type of a field */
-function getName(field: GraphQLField<unknown, unknown, unknown>) {
-  return getNamedType(field.type).name;
-}
+const getName = (field: GraphQLField<unknown, unknown, unknown>) => getNamedType(field.type).name;
 
 /* eslint-disable sonarjs/cognitive-complexity */
 const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
@@ -47,17 +45,14 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
             // Make TS happy (schema should always have a query type here)
             if (!queryObjectType) return null;
 
+            const pageableTypes = ['Connection', 'CollectionSegment'];
             const fields = queryObjectType.getFields();
             const selectionName = node.selectionSet.selections
               .filter((selection) => selection.kind === 'Field')
               .map((selection) => selection.name.value)
-              .find(
-                (name) =>
-                  getName(fields[name]).endsWith('Connection') ||
-                  getName(fields[name]).endsWith('CollectionSegment')
-              );
+              .find((name) => pageableTypes.some((type) => getName(fields[name]).endsWith(type)));
 
-            // The operation was not a "Connection" query
+            // The operation was not a "pageable" query
             if (!selectionName) return null;
 
             const isConnection = getName(fields[selectionName]).endsWith('Connection');

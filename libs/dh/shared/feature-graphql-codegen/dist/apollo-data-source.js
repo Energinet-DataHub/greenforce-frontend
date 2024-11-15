@@ -3,9 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.plugin = void 0;
 const graphql_1 = require("graphql");
 /** Gets the name of the type of a field */
-function getName(field) {
-    return (0, graphql_1.getNamedType)(field.type).name;
-}
+const getName = (field) => (0, graphql_1.getNamedType)(field.type).name;
 /* eslint-disable sonarjs/cognitive-complexity */
 const plugin = (schema, documents) => {
     const result = documents
@@ -30,13 +28,13 @@ const plugin = (schema, documents) => {
                 // Make TS happy (schema should always have a query type here)
                 if (!queryObjectType)
                     return null;
+                const pageableTypes = ['Connection', 'CollectionSegment'];
                 const fields = queryObjectType.getFields();
                 const selectionName = node.selectionSet.selections
                     .filter((selection) => selection.kind === 'Field')
                     .map((selection) => selection.name.value)
-                    .find((name) => getName(fields[name]).endsWith('Connection') ||
-                    getName(fields[name]).endsWith('CollectionSegment'));
-                // The operation was not a "Connection" query
+                    .find((name) => pageableTypes.some((type) => getName(fields[name]).endsWith(type)));
+                // The operation was not a "pageable" query
                 if (!selectionName)
                     return null;
                 const isConnection = getName(fields[selectionName]).endsWith('Connection');
