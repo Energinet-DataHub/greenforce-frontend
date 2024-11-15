@@ -16,7 +16,6 @@
  */
 import { Component, input, effect, inject, Injector } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -85,8 +84,6 @@ export class DhCertificateViewComponent {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  certificateMetadata = toSignal(this.store.certificateMetadata$);
-
   actorId = input.required<string>();
 
   constructor() {
@@ -94,12 +91,12 @@ export class DhCertificateViewComponent {
       const tableData: DhCertificateTableRow[] = [
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.thumbprint',
-          value: this.certificateMetadata()?.thumbprint,
+          value: this.store.certificateMetadata()?.thumbprint,
           showActionButton: true,
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.certificateMetadata()?.expirationDate.toDateString(),
+          value: this.store.certificateMetadata()?.expirationDate.toDateString(),
           valueIsDate: true,
         },
       ];
