@@ -179,16 +179,12 @@ export class DhMarketPartyB2BAccessStore {
               kickOff$ = this.client.delete(deleteUrl).pipe(map(() => 'noop'));
             }
 
-            console.log('asdadad', actorId);
-
             return kickOff$.pipe(
               switchMap(() =>
                 this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
               ),
               tapResponse(
                 (clientSecret) => {
-                  console.log(clientSecret);
-
                   if (clientSecret.error) return onError();
 
                   this.clientSecret.set(
