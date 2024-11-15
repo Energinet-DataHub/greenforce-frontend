@@ -79,10 +79,7 @@ public partial class Query
             });
 
     [UsePaging(MaxPageSize = 10_000)]
-    [UseSorting]
     public async Task<Connection<UserOverviewItemDto>> GetUsersAsync(
-        UserOverviewSortProperty sortProperty,
-        SortDirection sortDirection,
         Guid? actorId,
         Guid[]? userRoleIds,
         UserStatus[]? userStatus,
@@ -91,11 +88,22 @@ public partial class Query
         string? after,
         int? last,
         string? before,
+        UsersSortInput? order,
         [Service] IMarketParticipantClient_V1 client)
     {
         var pageSize = first ?? last ?? 10;
         var index = before ?? after;
         var pageNumber = CalculatePageNumber(index, !last.HasValue);
+
+        var (sortProperty, sortDirection) = order switch
+        {
+            { Name: not null } => (UserOverviewSortProperty.FirstName, order.Name),
+            { Email: not null } => (UserOverviewSortProperty.Email, order.Email),
+            { PhoneNumber: not null } => (UserOverviewSortProperty.PhoneNumber, order.PhoneNumber),
+            { LatestLoginAt: not null } => (UserOverviewSortProperty.LatestLoginAt, order.LatestLoginAt),
+            { Status: not null } => (UserOverviewSortProperty.Status, order.Status),
+            _ => (UserOverviewSortProperty.FirstName, SortDirection.Desc),
+        };
 
         var response = await client.UserOverviewUsersSearchAsync(
             pageNumber,
