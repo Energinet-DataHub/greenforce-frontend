@@ -14,7 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDataFiltersComponent } from './watt-data-filters.component';
-export { WattDataActionsComponent } from './watt-data-actions.component';
-export { WattDataIntlService } from './watt-data-intl.service';
-export { WattDataTableComponent } from './watt-data-table.component';
+watt-card {
+  padding: 0;
+}
+
+watt-card-title {
+  margin: var(--watt-space-ml);
+}
+
+watt-empty-state {
+  padding: var(--watt-space-xl);
+}
+
+watt-spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--watt-space-xl);
+}
+
+.user-roles-table-container {
+  max-height: 50vh;
+  overflow: auto;
+  padding: 0 var(--watt-space-ml);
+}

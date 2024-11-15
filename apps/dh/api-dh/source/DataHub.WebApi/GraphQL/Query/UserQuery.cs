@@ -16,6 +16,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Attribute;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.User;
+using HotChocolate.Types.Pagination;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -36,12 +37,11 @@ public partial class Query
         await client.UserUserprofileGetAsync();
 
     [PreserveParentAs("user")]
-    public async Task<User> GetUserByIdAsync(
+    public async Task<GetUserResponse> GetUserByIdAsync(
         Guid id,
         [Service] IMarketParticipantClient_V1 client)
     {
-        var user = await client.UserAsync(id);
-        return new(user.Id, user.Name, user.Status, user.FirstName, user.LastName, user.Email, user.PhoneNumber, user.AdministratedBy, user.CreatedDate, user.LatestLoginAt);
+        return await client.UserAsync(id);
     }
 
     public async Task<bool> DomainExistsAsync(
@@ -77,4 +77,91 @@ public partial class Query
                 UserRoleIds = userRoleIds ?? [],
                 UserStatus = userStatus ?? [],
             });
+
+    [UsePaging(MaxPageSize = 10_000)]
+    [UseSorting]
+    public async Task<Connection<UserOverviewItemDto>> GetUsersAsync(
+        UserOverviewSortProperty sortProperty,
+        SortDirection sortDirection,
+        Guid? actorId,
+        Guid[]? userRoleIds,
+        UserStatus[]? userStatus,
+        string? filter,
+        int? first,
+        string? after,
+        int? last,
+        string? before,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var pageSize = first ?? last ?? 10;
+        var index = before ?? after;
+        var pageNumber = CalculatePageNumber(index, !last.HasValue);
+
+        var response = await client.UserOverviewUsersSearchAsync(
+            pageNumber,
+            pageSize,
+            sortProperty,
+            sortDirection,
+            new()
+            {
+                ActorId = actorId,
+                SearchText = filter,
+                UserRoleIds = userRoleIds ?? [],
+                UserStatus = userStatus ?? [],
+            });
+
+        var edges = response.Users.Select(message => MakeEdge(message, sortProperty)).ToList();
+
+        var totalCount = response.TotalUserCount;
+
+        var isFirstPage = pageNumber == 1;
+        var isLastPage = totalCount <= pageSize * pageNumber;
+
+        var pageInfo = new ConnectionPageInfo(
+            !isFirstPage,
+            !isLastPage,
+            pageNumber.ToString(),
+            pageNumber.ToString());
+
+        var connection = new Connection<UserOverviewItemDto>(
+            edges,
+            pageInfo,
+            totalCount);
+
+        return connection;
+    }
+
+    private static int CalculatePageNumber(string? index, bool forward)
+    {
+        if (index is null)
+        {
+            return 1;
+        }
+
+        if (forward)
+        {
+            return int.Parse(index) + 1;
+        }
+
+        return int.Parse(index) - 1;
+    }
+
+    private static Edge<UserOverviewItemDto> MakeEdge(
+        UserOverviewItemDto message,
+        UserOverviewSortProperty field)
+    {
+        var sortCursor = field switch
+        {
+            UserOverviewSortProperty.CreatedDate => message.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+            UserOverviewSortProperty.Email => message.Email ?? string.Empty,
+            UserOverviewSortProperty.FirstName => message.FirstName ?? string.Empty,
+            UserOverviewSortProperty.LastName => message.LastName ?? string.Empty,
+            UserOverviewSortProperty.LatestLoginAt => message.LatestLoginAt?.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+            UserOverviewSortProperty.PhoneNumber => message.PhoneNumber ?? string.Empty,
+            UserOverviewSortProperty.Status => message.Status.ToString(),
+            _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Unexpected FieldToSortBy value"),
+        };
+
+        return new Edge<UserOverviewItemDto>(message, $"{message.Id}+{sortCursor}");
+    }
 }

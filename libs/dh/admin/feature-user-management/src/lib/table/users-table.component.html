@@ -33,12 +33,14 @@ limitations under the License.
       {{ element.email }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns.phoneNumber; header: t('columns.phone'); let element">
+    <ng-container
+      *wattTableCell="columns.phoneNumber; header: t('columns.phoneNumber'); let element"
+    >
       {{ element.phoneNumber | dhEmDashFallback }}
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns.latestLoginAt; header: t('columns.latestLogin'); let element"
+      *wattTableCell="columns.latestLoginAt; header: t('columns.latestLoginAt'); let element"
     >
       <dh-user-latest-login [latestLoginAt]="element.latestLoginAt" />
     </ng-container>
