@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhNavigationService } from './navigationService';
+export { DhNavigationService } from './navigation.service';
