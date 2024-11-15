@@ -132,12 +132,7 @@ export class DhMessageArchiveSearchTableComponent {
 
   clearSelection = () => this.selection.set(undefined);
 
-  fetch = (variables: Variables) => {
-    // Empty the table in order to show loading state
-    // TODO: Come up with a solution that doesn't require calling this method
-    this.dataSource.reset();
-    this.dataSource.refetch(variables);
-  };
+  fetch = (variables: Variables) => this.dataSource.refetch(variables);
 
   reset = () => {
     this.dataSource.reset();
