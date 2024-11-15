@@ -105,6 +105,7 @@ import { WattButtonComponent } from '../button';
           @if (enableSearch()) {
             <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
           }
+          <ng-content select="watt-data-actions" />
           <ng-content select="watt-button" />
         </vater-stack>
         <ng-content select="watt-data-filters" />
@@ -131,6 +132,7 @@ import { WattButtonComponent } from '../button';
             [for]="table().dataSource"
             [length]="count() ?? 0"
             (changed)="pageChanged.emit($event)"
+            [pageSizeOptions]="[5, 10, 25, 50]"
           />
         }
       </vater-flex>

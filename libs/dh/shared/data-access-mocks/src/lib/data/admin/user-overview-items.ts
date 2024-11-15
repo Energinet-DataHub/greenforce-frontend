@@ -20,8 +20,8 @@ import {
   ActorUserRole,
   ContactCategory,
   EicFunction,
+  UserOverviewItemDto,
   Organization,
-  User,
   UserRoleStatus,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -100,9 +100,9 @@ const actors: Actor[] = [
   },
 ];
 
-export const overviewUsers: User[] = [
+export const overviewUsers: UserOverviewItemDto[] = [
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '1',
     email: 'test@test.dk',
     firstName: 'Test',
@@ -116,7 +116,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '2',
     email: 'test1@test1.dk',
     firstName: 'Test1',
@@ -130,7 +130,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '3',
     email: 'test1@test2.dk',
     firstName: 'Test2',
@@ -144,7 +144,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '4',
     email: 'test1@test3.dk',
     firstName: 'Test3',
@@ -158,7 +158,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '5',
     email: 'test1@test4.dk',
     firstName: 'Test4',
