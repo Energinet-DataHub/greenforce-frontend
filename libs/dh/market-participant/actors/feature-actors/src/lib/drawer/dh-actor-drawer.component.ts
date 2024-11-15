@@ -124,7 +124,7 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
 export class DhActorDrawerComponent {
   private readonly permissionService = inject(PermissionService);
   private readonly destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   actorQuery = lazyQuery(GetActorByIdDocument);
 
@@ -138,14 +138,14 @@ export class DhActorDrawerComponent {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   actorNumberNameLookup = input.required<{
-    [Key: string]: {
+    [key: string]: {
       number: string;
       name: string;
     };
   }>();
 
   gridAreaCodeLookup = input.required<{
-    [Key: string]: string;
+    [key: string]: string;
   }>();
 
   showBalanceResponsibleRelationTab = computed(
@@ -187,6 +187,7 @@ export class DhActorDrawerComponent {
 
   public editOrganization(id: string | undefined): void {
     const getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
+
     this.router.navigate([getLink('organizations'), 'details', id, 'edit']);
   }
 }
