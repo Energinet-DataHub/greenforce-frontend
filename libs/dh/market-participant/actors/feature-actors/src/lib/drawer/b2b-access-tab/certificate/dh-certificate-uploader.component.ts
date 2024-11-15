@@ -16,7 +16,6 @@
  */
 import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -71,9 +70,9 @@ export class DhCertificateUploaderComponent {
 
   certificateExt = certificateExt;
 
-  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
-  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
-  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
+  doesCertificateExist = this.store.doesCertificateExist;
+  doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
+  uploadInProgress = this.store.uploadInProgress;
 
   actorId = input.required<string>();
 
@@ -87,7 +86,7 @@ export class DhCertificateUploaderComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      return this.startUpload(this.actorId(), file);
+      return this.startUpload(file);
     }
   }
 
@@ -95,7 +94,7 @@ export class DhCertificateUploaderComponent {
     return file.type === certificateMimeType;
   }
 
-  private startUpload(actorId: string, file: File): void {
+  private startUpload(file: File): void {
     if (this.doesCertificateExist() || this.doesClientSecretMetadataExist()) {
       this.store.replaceCertificate({
         file,

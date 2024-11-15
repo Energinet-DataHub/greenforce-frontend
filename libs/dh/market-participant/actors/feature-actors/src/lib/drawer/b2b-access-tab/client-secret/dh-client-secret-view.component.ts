@@ -16,14 +16,12 @@
  */
 import { Component, Injector, input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -65,7 +63,6 @@ type DhClientSecretTableRow = {
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
-    WattSpinnerComponent,
     WattDatePipe,
     WATT_TABLE,
     WattCopyToClipboardDirective,
@@ -89,9 +86,9 @@ export class DhClientSecretViewComponent {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  clientSecret = toSignal(this.store.clientSecret$);
-  clientSecretExists = toSignal(this.store.clientSecretExists$);
-  clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
+  clientSecret = this.store.clientSecret;
+  clientSecretExists = this.store.clientSecretExists;
+  clientSecretMetadata = this.store.clientSecretMetadata;
 
   actorId = input.required<string>();
 
@@ -150,7 +147,7 @@ export class DhClientSecretViewComponent {
 
   private readonly onRemoveSuccessFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.removeSuccess'
+      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.removeSecretModal.removeSuccess'
     );
 
     this.toastService.open({ type: 'success', message });
@@ -160,7 +157,7 @@ export class DhClientSecretViewComponent {
 
   private readonly onRemoveErrorFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.removeError'
+      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.removeSecretModal.removeError'
     );
 
     this.toastService.open({ type: 'danger', message });
