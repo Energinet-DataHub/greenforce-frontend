@@ -148,7 +148,7 @@ export class DhClientSecretViewComponent {
 
   private readonly onRemoveSuccessFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.removeSuccess'
+      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.removeSecretModal.removeSuccess'
     );
 
     this.toastService.open({ type: 'success', message });
@@ -158,7 +158,7 @@ export class DhClientSecretViewComponent {
 
   private readonly onRemoveErrorFn = () => {
     const message = this.transloco.translate(
-      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.removeError'
+      'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.removeSecretModal.removeError'
     );
 
     this.toastService.open({ type: 'danger', message });
