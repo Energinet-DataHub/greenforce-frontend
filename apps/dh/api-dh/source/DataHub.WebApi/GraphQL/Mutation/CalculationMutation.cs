@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Security.Claims;
 using Energinet.DataHub.ProcessManager.Api.Model;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
@@ -61,10 +62,7 @@ public partial class Mutation
                 throw new InvalidOperationException("Http context is not available.");
             }
 
-            var userIdClaim = httpContextAccessor.HttpContext
-                .User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)
-                ?? throw new InvalidOperationException($"Could not find 'sub' claim in '{httpContextAccessor.HttpContext?.User.Claims.ToString()}'.");
-            var userId = Guid.Parse(userIdClaim.Value);
+            var userId = httpContextAccessor.HttpContext.User.GetUserId();
 
             var requestDto = new ScheduleOrchestrationInstanceDto<NotifyAggregatedMeasureDataInputV1>(
                 RunAt: scheduledAt ?? DateTimeOffset.UtcNow,
