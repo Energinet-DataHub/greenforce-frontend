@@ -256,19 +256,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegatedProcessesToExclude(): DelegatedProcess[] {
-    let result: DelegatedProcess[] = [];
-    if (!this._featureFlagsService.isEnabled('process-delegation-allow-rsm12')) {
-      result = [
-        ...result,
-        DelegatedProcess.ReceiveMeteringPointData,
-        DelegatedProcess.RequestMeteringPointData,
-      ];
-    }
-
     if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
-      result = [...result, DelegatedProcess.RequestWholesaleResults];
+      return [DelegatedProcess.RequestWholesaleResults];
     }
 
-    return result;
+    return [];
   }
 }
