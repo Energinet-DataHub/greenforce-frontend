@@ -20,7 +20,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
@@ -71,7 +70,6 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
   imports: [
     VaterStackComponent,
     VaterFlexComponent,
-    WattButtonComponent,
     WattSpinnerComponent,
     WattIconComponent,
 
