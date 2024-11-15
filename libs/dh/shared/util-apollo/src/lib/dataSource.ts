@@ -128,7 +128,11 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     if (!options?.skip) this._inputChange.next(options?.variables);
   }
 
-  refetch = (variables?: Partial<TVariables>) => this._inputChange.next(variables);
+  refetch = (variables?: Partial<TVariables>) => {
+    this._data.set([]);
+    this._inputChange.next(variables);
+  };
+
   subscribeToMore: QueryResult<TResult, TVariables>['subscribeToMore'] = (options) =>
     this._query.subscribeToMore(options);
 
