@@ -140,11 +140,6 @@ export class DhActorsOverviewComponent implements OnInit {
     this.modalService.open({
       component: DhActorsCreateActorModalComponent,
       disableClose: true,
-      onClosed: (result) => {
-        if (result) {
-          this.actorsQuery.refetch();
-        }
-      },
     });
   }
 
