@@ -31,7 +31,6 @@ import {
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
   mockGetUserByIdQuery,
-  User,
   mockUpdateUserAndRolesMutation,
   mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
@@ -257,13 +256,25 @@ function getUserByIdQuery() {
     const userId = variables.id;
     await delay(mswConfig.delay);
 
-    const user = overviewUsers.find((user) => user.id === userId) as User | undefined;
+    const user = overviewUsers.find((user) => user.id === userId);
 
     if (user) {
       return HttpResponse.json({
         data: {
           __typename: 'Query',
-          userById: user,
+          userById: {
+            __typename: 'GetUserResponse',
+            actors: user.actors,
+            createdDate: user.createdDate,
+            email: user.email,
+            firstName: user.firstName,
+            id: user.id,
+            lastName: user.lastName,
+            status: user.status,
+            administratedBy: user.administratedBy,
+            latestLoginAt: user.latestLoginAt,
+            phoneNumber: user.phoneNumber,
+          },
         },
       });
     }
@@ -494,7 +505,7 @@ function getAllUsersQuery() {
           __typename: 'GetUserOverviewResponse',
           users: [
             {
-              __typename: 'User',
+              __typename: 'UserOverviewItemDto',
               id: '00000000-0000-0000-0000-000000000001',
               name: 'User name',
               email: 'username@mock.com',
@@ -511,7 +522,7 @@ function getAllUsersQuery() {
               },
             },
             {
-              __typename: 'User',
+              __typename: 'UserOverviewItemDto',
               id: '00000000-0000-0000-0000-000000000001',
               name: 'User name',
               email: 'username2@mock.com',
