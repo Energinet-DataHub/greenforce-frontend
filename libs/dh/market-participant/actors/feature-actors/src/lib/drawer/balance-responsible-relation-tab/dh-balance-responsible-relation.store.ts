@@ -14,25 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { computed, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { EMPTY, catchError, filter, pipe, switchMap, tap } from 'rxjs';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withHooks,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
+import { computed, effect, Injectable, signal } from '@angular/core';
+import { translate } from '@ngneat/transloco';
 
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DhBalanceResponsibleRelation,
@@ -45,107 +36,106 @@ import {
 } from '../util/dh-group-balance-responsible-relations';
 import { dhApplyFilter } from './dh-apply-filter';
 
-type BalanceResponsbleRelationsState = {
-  relations: DhBalanceResponsibleRelations;
-  loadingState: LoadingState | ErrorState;
-  actor: DhActorExtended | null;
-  filters: DhBalanceResponsibleRelationFilters;
-};
+@Injectable()
+export class DhBalanceResponsibleRelationsStore {
+  private balanceResponsibleRelationsQuery = lazyQuery(GetBalanceResponsibleRelationDocument);
 
-const initialSignalState: BalanceResponsbleRelationsState = {
-  relations: [],
-  loadingState: LoadingState.INIT,
-  actor: null,
-  filters: {
+  private relations = computed<DhBalanceResponsibleRelations>(
+    () =>
+      this.balanceResponsibleRelationsQuery.data()?.actorById?.balanceResponsibleAgreements ?? []
+  );
+  private actor = signal<DhActorExtended | null>(null);
+  private filters = signal<DhBalanceResponsibleRelationFilters>({
     status: null,
     energySupplierWithNameId: null,
     gridAreaCode: null,
     balanceResponsibleWithNameId: null,
     search: null,
-  },
-};
+  });
 
-export const DhBalanceResponsibleRelationsStore = signalStore(
-  withState(initialSignalState),
-  withComputed(({ loadingState, filters, actor, relations }) => ({
-    filteredRelations: computed(() =>
-      relations().filter(
-        (relation) =>
-          dhApplyFilter(filters(), relation) && applySearch(filters(), relation, actor())
-      )
-    ),
-    isLoading: computed(() => loadingState() === LoadingState.LOADING),
-    hasError: computed(() => loadingState() === ErrorState.GENERAL_ERROR),
-  })),
-  withComputed(({ filteredRelations, actor }) => ({
-    filteredAndGroupedRelations: computed(() => {
-      if (actor()?.marketRole === EicFunction.EnergySupplier)
-        return dhGroupByMarketParticipant(
-          dhGroupByType(filteredRelations()),
-          'balanceResponsibleWithName'
-        );
+  public filteredRelations = computed<DhBalanceResponsibleRelations>(() =>
+    this.relations().filter(
+      (relation) =>
+        dhApplyFilter(this.filters(), relation) &&
+        applySearch(this.filters(), relation, this.actor())
+    )
+  );
 
+  public isLoading = this.balanceResponsibleRelationsQuery.loading;
+  public hasError = computed(() => this.balanceResponsibleRelationsQuery.error() !== undefined);
+
+  public filteredAndGroupedRelations = computed(() => {
+    if (this.actor()?.marketRole === EicFunction.EnergySupplier)
       return dhGroupByMarketParticipant(
-        dhGroupByType(filteredRelations()),
-        'energySupplierWithName'
+        dhGroupByType(this.filteredRelations()),
+        'balanceResponsibleWithName'
       );
-    }),
-    isEmpty: computed(() => filteredRelations().length === 0),
-  })),
-  withMethods((store, apollo = inject(Apollo)) => ({
-    updateActor: (actor: DhActorExtended): void => {
-      patchState(store, () => ({ actor }));
-    },
-    updateFilters: (filters: Partial<DhBalanceResponsibleRelationFilters>): void => {
-      patchState(store, (state) => ({ filters: { ...state.filters, ...filters } }));
-    },
-    loadByActor: rxMethod<DhActorExtended | null>(
-      pipe(
-        filter((actor): actor is DhActorExtended => actor?.id != null),
-        switchMap((actor) => {
-          return apollo
-            .watchQuery({
-              query: GetBalanceResponsibleRelationDocument,
-              variables: { id: actor.id },
-            })
-            .valueChanges.pipe(
-              catchError(() => {
-                patchState(store, (state) => ({
-                  ...state,
-                  loadingState: ErrorState.GENERAL_ERROR,
-                  relations: [],
-                }));
-                return EMPTY;
-              }),
-              tap((data) => {
-                if (data.loading) {
-                  patchState(store, (state) => ({ ...state, loadingState: LoadingState.LOADING }));
-                  return;
-                }
 
-                if (data.error || data.errors) {
-                  patchState(store, (state) => ({
-                    ...state,
-                    loadingState: ErrorState.GENERAL_ERROR,
-                  }));
-                  return;
-                }
+    return dhGroupByMarketParticipant(
+      dhGroupByType(this.filteredRelations()),
+      'energySupplierWithName'
+    );
+  });
 
-                const relations = data?.data?.actorById?.balanceResponsibleAgreements;
+  public isEmpty = computed(() => this.filteredRelations().length === 0);
 
-                patchState(store, (state) => ({
-                  ...state,
-                  relations: relations ?? [],
-                  loadingState: LoadingState.LOADED,
-                }));
-              })
-            );
-        })
-      )
-    ),
-  })),
-  withHooks({ onInit: (store) => store.loadByActor(store.actor) })
-);
+  constructor() {
+    effect(() => {
+      const actorId = this.actor()?.id;
+
+      if (actorId == undefined) {
+        return;
+      }
+
+      this.balanceResponsibleRelationsQuery.refetch({ id: actorId });
+    });
+  }
+
+  public updateActor(actor: DhActorExtended | null): void {
+    this.actor.set(actor);
+  }
+
+  public updateFilters(filters: Partial<DhBalanceResponsibleRelationFilters>): void {
+    this.filters.update((prev) => ({ ...prev, ...filters }));
+  }
+
+  public download(): void {
+    const balanceResponsibleRelations = this.filteredRelations();
+
+    if (!balanceResponsibleRelations) {
+      return;
+    }
+
+    const columnsPath =
+      'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.columns';
+
+    const headers = [
+      `"${translate(columnsPath + '.balanceResponsibleId')}"`,
+      `"${translate(columnsPath + '.balanceResponsibleName')}"`,
+      `"${translate(columnsPath + '.energySupplierId')}"`,
+      `"${translate(columnsPath + '.energySupplierName')}"`,
+      `"${translate(columnsPath + '.gridAreaId')}"`,
+      `"${translate(columnsPath + '.meteringPointType')}"`,
+      `"${translate(columnsPath + '.status')}"`,
+      `"${translate(columnsPath + '.start')}"`,
+      `"${translate(columnsPath + '.end')}"`,
+    ];
+
+    const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
+      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+      `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
+      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
+      `"${balanceResponsibleRelation.status}"`,
+      `"${balanceResponsibleRelation.validPeriod.start}"`,
+      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'DataHub-Balance-responsible-relations' });
+  }
+}
 
 const applySearch = (
   filters: DhBalanceResponsibleRelationFilters,

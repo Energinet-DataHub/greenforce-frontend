@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { GetAuditLogByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Apollo } from 'apollo-angular';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Injectable()
 export class DhActorAuditLogService {
-  private readonly apollo = inject(Apollo);
-
-  public getActorAuditLogByIdQuery$ = this.apollo.watchQuery({
-    errorPolicy: 'all',
-    query: GetAuditLogByActorIdDocument,
-  });
+  public auditLogQuery = lazyQuery(GetAuditLogByActorIdDocument);
 
   public refreshAuditLog(actorId: string): void {
-    this.getActorAuditLogByIdQuery$.refetch({
-      actorId,
-    });
+    this.auditLogQuery.refetch({ actorId });
   }
 }
