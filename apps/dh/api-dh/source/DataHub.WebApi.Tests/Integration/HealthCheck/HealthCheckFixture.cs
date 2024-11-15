@@ -31,7 +31,9 @@ public sealed class HealthCheckFixture : IDisposable
         "/wholesaleorchestrations/api/monitor/live",
         "/esett/monitor/live",
         "/edib2capi/monitor/live",
-        "/settlement-reports/monitor/live"
+        "/settlement-reports/monitor/live",
+        "/process-manager-general/api/monitor/live",
+        "/process-manager-orchestrations/api/monitor/live",
     ];
 
     public HealthCheckFixture()
@@ -42,6 +44,8 @@ public sealed class HealthCheckFixture : IDisposable
         Environment.SetEnvironmentVariable("ApiClientSettings__ESettExchangeBaseUrl", "http://localhost:8080/esett");
         Environment.SetEnvironmentVariable("ApiClientSettings__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
         Environment.SetEnvironmentVariable("ApiClientSettings__SettlementReportsAPIBaseUrl", "http://localhost:8080/settlement-reports");
+        Environment.SetEnvironmentVariable("ProcessManagerClient__GeneralApiBaseAddress", "http://localhost:8080/process-manager-general");
+        Environment.SetEnvironmentVariable("ProcessManagerClient__OrchestrationsApiBaseAddress", "http://localhost:8080/process-manager-orchestrations");
 
         SetServicesAsHealthy();
     }

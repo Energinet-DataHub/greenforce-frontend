@@ -21,8 +21,10 @@ using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.HealthCheck;
 
-public class HealthCheckTests(WebApiFactory factory, HealthCheckFixture fixture)
-    : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
+public class HealthCheckTests(
+    WebApiFactory factory,
+    HealthCheckFixture fixture)
+        : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
 {
     [Fact]
     public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
