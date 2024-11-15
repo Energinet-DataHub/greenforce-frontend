@@ -15,18 +15,12 @@
  * limitations under the License.
  */
 import { Component, effect, inject, input } from '@angular/core';
-
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
@@ -57,7 +51,6 @@ import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-respon
 
     VaterFlexComponent,
     VaterStackComponent,
-    VaterSpacerComponent,
 
     WattSpinnerComponent,
     WattButtonComponent,
@@ -76,42 +69,5 @@ export class DhBalanceResponsibleRelationTabComponent {
 
   constructor() {
     effect(() => this.store.updateActor(this.actor()), { allowSignalWrites: true });
-  }
-
-  download() {
-    const balanceResponsibleRelations = this.store.filteredRelations();
-
-    if (!balanceResponsibleRelations) {
-      return;
-    }
-
-    const columnsPath =
-      'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.columns';
-
-    const headers = [
-      `"${translate(columnsPath + '.balanceResponsibleId')}"`,
-      `"${translate(columnsPath + '.balanceResponsibleName')}"`,
-      `"${translate(columnsPath + '.energySupplierId')}"`,
-      `"${translate(columnsPath + '.energySupplierName')}"`,
-      `"${translate(columnsPath + '.gridAreaId')}"`,
-      `"${translate(columnsPath + '.meteringPointType')}"`,
-      `"${translate(columnsPath + '.status')}"`,
-      `"${translate(columnsPath + '.start')}"`,
-      `"${translate(columnsPath + '.end')}"`,
-    ];
-
-    const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
-      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
-      `"${balanceResponsibleRelation.status}"`,
-      `"${balanceResponsibleRelation.validPeriod.start}"`,
-      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'balance-responsible-relations' });
   }
 }
