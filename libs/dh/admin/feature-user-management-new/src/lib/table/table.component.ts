@@ -161,9 +161,6 @@ export class DhUsersComponent {
   });
 
   fetch = (variables: Variables) => {
-    // Empty the table in order to show loading state
-    // TODO: Come up with a solution that doesn't require calling this method
-    this.dataSource.reset();
     this.dataSource.refetch(variables);
     this.variables.set(variables);
   };
