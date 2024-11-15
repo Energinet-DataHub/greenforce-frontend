@@ -29,9 +29,8 @@ import {
 
 import {
   GetUsersDocument,
-  MarketParticipantSortDirctionType,
-  UserOverviewSearchQueryVariables,
-  UserOverviewSortProperty,
+  GetUsersQueryVariables,
+  SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -45,7 +44,7 @@ import { DhUsersOverviewFiltersComponent } from '../filters/filters.component';
 import { DhDownloadUsersCsvComponent } from './download-users-csv.component';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-type Variables = Partial<UserOverviewSearchQueryVariables>;
+type Variables = Partial<GetUsersQueryVariables>;
 
 export type DhUsers = NonNullable<ResultOf<typeof GetUsersDocument>['users']>['nodes'];
 
@@ -155,8 +154,9 @@ export class DhUsersComponent {
   dataSource = new GetUsersDataSource({
     skip: true,
     variables: {
-      sortDirection: MarketParticipantSortDirctionType.Asc,
-      sortProperty: UserOverviewSortProperty.FirstName,
+      order: {
+        name: SortEnumType.Asc,
+      },
     },
   });
 

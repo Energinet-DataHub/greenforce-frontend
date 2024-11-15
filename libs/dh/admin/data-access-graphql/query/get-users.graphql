@@ -2,23 +2,21 @@ query GetUsers(
   $actorId: UUID
   $userRoleIds: [UUID!]
   $userStatus: [UserStatus!]
-  $sortDirection: MarketParticipantSortDirctionType!
-  $sortProperty: UserOverviewSortProperty!
   $first: Int
   $last: Int
   $after: String
   $before: String
+  $order: UsersSortInput
 ) {
   users(
     actorId: $actorId
     userRoleIds: $userRoleIds
     userStatus: $userStatus
-    sortDirection: $sortDirection
-    sortProperty: $sortProperty
     first: $first
     last: $last
     before: $before
     after: $after
+    order: $order
   ) {
     nodes {
       name

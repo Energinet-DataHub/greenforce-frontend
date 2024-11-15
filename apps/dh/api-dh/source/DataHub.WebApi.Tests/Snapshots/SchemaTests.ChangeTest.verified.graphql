@@ -599,7 +599,7 @@ type Query {
   domainExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
-  users(sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserOverviewItemDtoSortInput!]): UsersConnection
+  users(actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: UsersSortInput): UsersConnection
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -1111,22 +1111,18 @@ input UserInvitationDtoInput {
   assignedRoles: [UUID!]!
 }
 
-input UserOverviewItemDtoSortInput {
-  id: SortEnumType
-  status: SortEnumType
-  firstName: SortEnumType
-  lastName: SortEnumType
-  email: SortEnumType
-  phoneNumber: SortEnumType
-  createdDate: SortEnumType
-  administratedBy: SortEnumType
-  latestLoginAt: SortEnumType
-}
-
 input UserProfileUpdateDtoInput {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+input UsersSortInput {
+  name: SortEnumType
+  email: SortEnumType
+  phoneNumber: SortEnumType
+  latestLoginAt: SortEnumType
+  status: SortEnumType
 }
 
 enum ActorAuditedChange {
