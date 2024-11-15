@@ -16,7 +16,6 @@
  */
 import { Component, Injector, input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -87,9 +86,9 @@ export class DhClientSecretViewComponent {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  clientSecret = toSignal(this.store.clientSecret$);
-  clientSecretExists = toSignal(this.store.clientSecretExists$);
-  clientSecretMetadata = toSignal(this.store.clientSecretMetadata$);
+  clientSecret = this.store.clientSecret;
+  clientSecretExists = this.store.clientSecretExists;
+  clientSecretMetadata = this.store.clientSecretMetadata;
 
   actorId = input.required<string>();
 

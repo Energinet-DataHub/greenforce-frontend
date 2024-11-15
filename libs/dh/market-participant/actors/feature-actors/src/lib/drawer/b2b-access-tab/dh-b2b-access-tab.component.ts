@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Component, effect, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -82,11 +81,11 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
 export class DhB2bAccessTabComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
 
-  doCredentialsExist = toSignal(this.store.doCredentialsExist$);
-  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
-  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
+  doCredentialsExist = this.store.doCredentialsExist;
+  doesCertificateExist = this.store.doesCertificateExist;
+  doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
 
-  showSpinner = toSignal(this.store.showSpinner$);
+  showSpinner = this.store.showSpinner;
 
   actorId = input.required<string>();
 
