@@ -18,7 +18,6 @@ using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-using Energinet.DataHub.WebApi.GraphQL.Types.User;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -82,7 +81,7 @@ public class MarketParticipantResolvers
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
 
     public async Task<IEnumerable<ActorDto>?> GetActorByUserIdAsync(
-        [Parent] User user,
+        [Parent] IUser user,
         [Service] IMarketParticipantClient_V1 client) =>
         await Task.WhenAll((
                 await client.UserActorsGetAsync(user.Id)).ActorIds
@@ -118,9 +117,9 @@ public class MarketParticipantResolvers
     }
 
     public async Task<ActorDto?> GetAdministratedByAsync(
-        [Parent] User user,
+        [Parent] IUser user,
         [Service] IMarketParticipantClient_V1 client) =>
-        user.AdministratedBy.HasValue ? await client.ActorGetAsync(user.AdministratedBy.Value) : null;
+            await client.ActorGetAsync(user.AdministratedBy);
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
@@ -136,7 +135,7 @@ public class MarketParticipantResolvers
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
         [Parent] ActorDto actor,
-        [ScopedState] User? user,
+        [ScopedState] IUser? user,
         [Service] IMarketParticipantClient_V1 client)
     {
         var roles = await client.ActorsRolesAsync(actor.ActorId);
