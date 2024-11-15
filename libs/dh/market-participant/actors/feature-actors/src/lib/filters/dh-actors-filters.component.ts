@@ -33,6 +33,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -41,8 +42,8 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 import { ActorsFilters } from '../actors-filters';
 
 type Form = FormGroup<{
-  actorStatus: FormControl<ActorStatus[] | null>;
-  marketRoles: FormControl<EicFunction[] | null>;
+  actorStatus: FormControl<ActorsFilters['actorStatus']>;
+  marketRoles: FormControl<ActorsFilters['marketRoles']>;
 }>;
 
 @Component({
@@ -119,17 +120,12 @@ export class DhActorsFiltersComponent implements OnInit {
 
   formGroup!: Form;
 
-  actorStatusOptions = Object.keys(ActorStatus)
-    .filter((key) => !(key === ActorStatus.New || key === ActorStatus.Passive))
-    .map((key) => ({
-      displayValue: key,
-      value: key,
-    }));
+  actorStatusOptions = dhEnumToWattDropdownOptions(ActorStatus, [
+    ActorStatus.New,
+    ActorStatus.Passive,
+  ]);
 
-  marketRolesOptions = Object.keys(EicFunction).map((marketRole) => ({
-    value: marketRole,
-    displayValue: marketRole,
-  }));
+  marketRolesOptions = dhEnumToWattDropdownOptions(EicFunction);
 
   ngOnInit() {
     this.formGroup = new FormGroup({

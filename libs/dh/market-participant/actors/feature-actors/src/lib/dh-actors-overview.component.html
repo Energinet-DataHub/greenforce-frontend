@@ -31,6 +31,7 @@ limitations under the License.
       <watt-button icon="download" variant="text" (click)="download()">{{
         "shared.download" | transloco
       }}</watt-button>
+
       <ng-container *dhPermissionRequired="['actors:manage']">
         <watt-button variant="secondary" (click)="openCreateNewActorModal()">{{
           t("create")
@@ -46,10 +47,10 @@ limitations under the License.
 
     <dh-actors-table
       [tableDataSource]="tableDataSource"
-      [actorNumberNameLookup]="actorNumberNameLookup"
-      [gridAreaCodeLookup]="gridAreaCodeLookup"
-      [isLoading]="isLoading"
-      [hasError]="hasError"
+      [actorNumberNameLookup]="actorNumberNameLookup()"
+      [gridAreaCodeLookup]="gridAreaCodeLookup()"
+      [isLoading]="isLoading()"
+      [hasError]="hasError()"
     />
 
     <watt-paginator [for]="tableDataSource" [pageSize]="100" />

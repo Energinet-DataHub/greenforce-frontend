@@ -48,6 +48,7 @@ import {
   GetOrganizationFromCvrDocument,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
+  GetActorsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
@@ -257,7 +258,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
             },
           },
         },
-        refetchQueries: [GetOrganizationsDocument],
+        refetchQueries: [GetActorsDocument, GetOrganizationsDocument],
       })
       .then((result) => this.handleCreateMarketParticipentResponse(result));
   }
