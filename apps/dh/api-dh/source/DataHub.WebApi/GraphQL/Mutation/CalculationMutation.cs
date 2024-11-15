@@ -25,7 +25,9 @@ using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Subscriptions;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.FeatureManagement;
+using Microsoft.IdentityModel.JsonWebTokens;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
@@ -54,8 +56,14 @@ public partial class Mutation
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         if (useProcessManager)
         {
-            var userIdClaim = httpContextAccessor.HttpContext?.User.Claims.First(c => c is { Type: "sub" })
-                ?? throw new InvalidOperationException("Could not find 'sub' claim.");
+            if (httpContextAccessor.HttpContext == null)
+            {
+                throw new InvalidOperationException("Http context is not available.");
+            }
+
+            var userIdClaim = httpContextAccessor.HttpContext
+                .User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)
+                ?? throw new InvalidOperationException($"Could not find 'sub' claim in '{httpContextAccessor.HttpContext?.User.Claims.ToString()}'.");
             var userId = Guid.Parse(userIdClaim.Value);
 
             var requestDto = new ScheduleOrchestrationInstanceDto<NotifyAggregatedMeasureDataInputV1>(
