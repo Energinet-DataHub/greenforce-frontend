@@ -45,7 +45,6 @@ import {
   GetUserRolesDocument,
   GetUsersQueryVariables,
   MarketParticipantSortDirctionType,
-  UserOverviewSearchQueryVariables,
   UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';

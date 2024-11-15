@@ -30,7 +30,6 @@ import {
   UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhUsers } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 export type UserToDownload = {

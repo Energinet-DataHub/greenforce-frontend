@@ -34,7 +34,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
-import { DhUser, DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
