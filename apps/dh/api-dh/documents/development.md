@@ -11,10 +11,20 @@ but there are exceptions where the REST API is a better fit.
 For example, GraphQL is not a great protocol for file downloads, so
 in those cases the downloads are handled by the REST API instead.
 
+### Active feature flags
+
+In the following table we list active feature flags, and when they should be removed.
+
+| Name | Purpose | Must be removed when |
+| ---- | ------- | ------------------- |
+| UseProcessManager | When `true` then use Process Manager Client and API's instead of using Wholesale calculations API. | BRS-023/027 is fully handled in Process Manager and the Wholesale calculations API is not used anymore. |
+
+The feature flags implementation in .NET follows the [FeatureManagement guidelines], and was initially created following the [FeatureManagement quickstarts].
+
 ## Setup of BFF
 
 Before you're able to run the BFF locally you need an
-`appsettings.Development.json` file within the [`DataHub.WebApi`] folder.
+`appsettings.json` file within the [`DataHub.WebApi`] folder.
 Either create one from the [sample file] or if you are an internal
 DataHub employee, take a look at the [dh3-dev-secrets] repository.
 
@@ -216,3 +226,5 @@ with the version (e.g. `\v1\`).
 [Swashbuckle-get-started]: https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
 [GraphQL Code Generator]: https://the-guild.dev/graphql/codegen
 [Testing]: ./development.md#testing
+[FeatureManagement guidelines]: https://github.com/Energinet-DataHub/geh-core/blob/main/source/FeatureManagement/documents/documentation.md
+[FeatureManagement quickstarts]: https://github.com/Energinet-DataHub/geh-core/blob/main/source/FeatureManagement/documents/quickstarts-feature-flag.md
