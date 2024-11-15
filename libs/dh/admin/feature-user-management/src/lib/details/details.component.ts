@@ -34,7 +34,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
-import { DhUser, DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
+import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -53,6 +53,10 @@ import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type User = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'][0];
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -134,7 +138,7 @@ export class DhUserDrawerComponent {
     this.closed.emit();
   }
 
-  open(user: DhUser): void {
+  open(user: User): void {
     this.userId.set(user.id);
     this.drawer().open();
   }

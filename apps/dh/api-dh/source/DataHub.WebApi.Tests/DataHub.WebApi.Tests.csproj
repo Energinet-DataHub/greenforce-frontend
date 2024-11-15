@@ -30,7 +30,6 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.Query" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Verify.Xunit" Version="23.5.0" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="6.1.0" />
     <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="6.1.0" />

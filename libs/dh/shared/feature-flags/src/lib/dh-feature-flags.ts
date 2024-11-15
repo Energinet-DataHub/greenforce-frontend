@@ -60,6 +60,15 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.preprod,
     ],
   },
+  'feature-user-management-new': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

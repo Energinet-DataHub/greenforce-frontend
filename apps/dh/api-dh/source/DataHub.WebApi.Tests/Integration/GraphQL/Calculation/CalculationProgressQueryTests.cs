@@ -13,8 +13,10 @@
 // limitations under the License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Moq;
@@ -24,12 +26,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
 
 public class CalculationProgressQueryTests
 {
-    private static readonly Guid _batchId = new("14098365-3231-40e3-8c1b-5a73dbab31c0");
+    private static readonly Guid _calculationId = new("14098365-3231-40e3-8c1b-5a73dbab31c0");
 
     private static readonly string _calculationByIdQuery =
     $$"""
     {
-      calculationById(id: "{{_batchId}}") {
+      calculationById(id: "{{_calculationId}}") {
         id
         progress {
           step
@@ -48,23 +50,50 @@ public class CalculationProgressQueryTests
     [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuingFailed)]
     [InlineData(CalculationOrchestrationState.ActorMessagesEnqueued)]
     [InlineData(CalculationOrchestrationState.Completed)]
-    public async Task GetCalculationProgressAsync(CalculationOrchestrationState state) =>
-        await ExecuteTestAsync(state);
-
-    private static async Task ExecuteTestAsync(CalculationOrchestrationState orchestrationState)
+    public async Task GetCalculationProgressAsync(CalculationOrchestrationState orchestrationState)
     {
         var server = new GraphQLTestService();
 
         server.WholesaleClientV3Mock
-            .Setup(x => x.GetCalculationAsync(_batchId, default))
+            .Setup(x => x.GetCalculationAsync(_calculationId, default))
             .ReturnsAsync(new CalculationDto()
             {
-                CalculationId = _batchId,
+                CalculationId = _calculationId,
                 OrchestrationState = orchestrationState,
             });
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
 
         await result.MatchSnapshotAsync($"{orchestrationState}");
+    }
+
+    [Theory]
+    [InlineData(CalculationOrchestrationState.Scheduled)]
+    [InlineData(CalculationOrchestrationState.Calculating)]
+    [InlineData(CalculationOrchestrationState.CalculationFailed)]
+    [InlineData(CalculationOrchestrationState.Calculated)]
+    [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuing)]
+    [InlineData(CalculationOrchestrationState.ActorMessagesEnqueuingFailed)]
+    [InlineData(CalculationOrchestrationState.ActorMessagesEnqueued)]
+    [InlineData(CalculationOrchestrationState.Completed)]
+    public async Task GetCalculationProgressAsync_UseProcessManagerFeature(CalculationOrchestrationState orchestrationState)
+    {
+        var server = new GraphQLTestService();
+
+        server.FeatureManagerMock
+            .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
+            .ReturnsAsync(true);
+
+        server.ProcessManagerCalculationClientMock
+            .Setup(x => x.GetCalculationAsync(_calculationId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new CalculationDto()
+            {
+                CalculationId = _calculationId,
+                OrchestrationState = orchestrationState,
+            });
+
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+
+        await result.MatchSnapshotAsync($"{orchestrationState}_processmanager");
     }
 }

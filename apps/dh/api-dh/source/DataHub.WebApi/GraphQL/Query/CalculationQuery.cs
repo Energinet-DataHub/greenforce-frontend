@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using Microsoft.FeatureManagement;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -23,25 +26,42 @@ public partial class Query
 {
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
-        [Service] IWholesaleClient_V3 client) =>
-        await client.GetCalculationAsync(id);
+        [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
+    {
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+        return useProcessManager
+            ? await processManagerCalculationClient.GetCalculationAsync(id)
+            : await wholesaleClient.GetCalculationAsync(id);
+    }
 
     [UsePaging]
     [UseSorting]
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
         string? filter,
-        [Service] IWholesaleClient_V3 client)
+        [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+
         if (string.IsNullOrWhiteSpace(filter))
         {
-            return await client.QueryCalculationsAsync(input);
+            return useProcessManager
+                ? await processManagerCalculationClient.QueryCalculationsAsync(input)
+                : await wholesaleClient.QueryCalculationsAsync(input);
         }
 
         try
         {
             var calculationId = Guid.Parse(filter);
-            return [await client.GetCalculationAsync(calculationId)];
+            var calculation = useProcessManager
+                ? await processManagerCalculationClient.GetCalculationAsync(calculationId)
+                : await wholesaleClient.GetCalculationAsync(calculationId);
+
+            return [calculation];
         }
         catch (Exception)
         {
@@ -52,7 +72,7 @@ public partial class Query
     [GraphQLDeprecated("Use `latestCalculation` instead")]
     public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
         Interval period,
-        [Service] IWholesaleClient_V3 client)
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var input = new CalculationQueryInput
         {
@@ -61,15 +81,19 @@ public partial class Query
             States = [CalculationOrchestrationState.Completed],
         };
 
-        var calculations = await client.QueryCalculationsAsync(input);
+        var calculations = await wholesaleClient.QueryCalculationsAsync(input);
         return calculations.FirstOrDefault();
     }
 
     public async Task<CalculationDto?> GetLatestCalculationAsync(
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
-        [Service] IWholesaleClient_V3 client)
+        [Service] IFeatureManager featureManager,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
+        var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
+
         var input = new CalculationQueryInput
         {
             Period = period,
@@ -77,7 +101,10 @@ public partial class Query
             States = [CalculationOrchestrationState.Completed],
         };
 
-        var calculations = await client.QueryCalculationsAsync(input);
+        var calculations = useProcessManager
+            ? await processManagerCalculationClient.QueryCalculationsAsync(input)
+            : await wholesaleClient.QueryCalculationsAsync(input);
+
         return calculations.FirstOrDefault();
     }
 }

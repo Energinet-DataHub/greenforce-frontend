@@ -30,7 +30,6 @@ import {
   UserOverviewSortProperty,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhUsers } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 export type UserToDownload = {
@@ -44,6 +43,8 @@ export type UserToDownload = {
 export type UsersToDownload = UserToDownload[];
 
 type UserOverviewResponse = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch'];
+
+type User = UserOverviewResponse['users'][0];
 
 export type FetchUsersParams = Pick<
   DhUserManagementState,
@@ -64,7 +65,7 @@ export type DhUserManagementFilters = {
 };
 
 interface DhUserManagementState {
-  readonly users: DhUsers;
+  readonly users: User[];
   readonly totalUserCount: number;
   readonly usersRequestState: LoadingState | ErrorState;
   readonly pageNumber: number;
@@ -179,7 +180,7 @@ export class DhAdminUserManagementDataAccessApiStore
   private updateUsers = this.updater(
     (state: DhUserManagementState, response: UserOverviewResponse): DhUserManagementState => ({
       ...state,
-      users: response.users as DhUsers,
+      users: response.users as User[],
       totalUserCount: response.totalUserCount,
     })
   );

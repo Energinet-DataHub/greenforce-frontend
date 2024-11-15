@@ -43,7 +43,7 @@ import { DhUserManagementComponent, debounceTimeValue } from './user-management.
 
 const users: DhUsers = [
   {
-    __typename: 'User',
+    __typename: 'GetUserResponse',
     id: '3ec41d91-fc6d-4364-ade6-b85576a91d04',
     email: 'testuser1@test.dk',
     firstName: 'Test User First',
