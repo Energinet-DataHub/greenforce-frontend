@@ -2,6 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.plugin = void 0;
 const graphql_1 = require("graphql");
+/** Gets the name of the type of a field */
+function getName(field) {
+    return (0, graphql_1.getNamedType)(field.type).name;
+}
+/* eslint-disable sonarjs/cognitive-complexity */
 const plugin = (schema, documents) => {
     const result = documents
         .map((d) => d.document)
@@ -29,16 +34,22 @@ const plugin = (schema, documents) => {
                 const selectionName = node.selectionSet.selections
                     .filter((selection) => selection.kind === 'Field')
                     .map((selection) => selection.name.value)
-                    .find((name) => (0, graphql_1.getNamedType)(fields[name].type).name.endsWith('Connection'));
+                    .find((name) => getName(fields[name]).endsWith('Connection') ||
+                    getName(fields[name]).endsWith('CollectionSegment'));
                 // The operation was not a "Connection" query
                 if (!selectionName)
                     return null;
+                const isConnection = getName(fields[selectionName]).endsWith('Connection');
+                const dataSource = isConnection
+                    ? 'ConnectionDataSource'
+                    : 'CollectionSegmentDataSource';
+                const path = isConnection ? 'nodes' : 'items';
                 const queryType = `Types.${name}Query`;
                 const variablesType = `Types.${name}QueryVariables`;
-                const nodeType = `NonNullable<NonNullable<${queryType}['${selectionName}']>['nodes']>[number]`;
+                const nodeType = `NonNullable<NonNullable<${queryType}['${selectionName}']>['${path}']>[number]`;
                 // prettier-ignore
                 const lines = [
-                    `export class ${name}DataSource extends ApolloDataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
+                    `export class ${name}DataSource extends ${dataSource}<${queryType}, ${variablesType}, ${nodeType}> {`,
                     `constructor(options?: QueryOptions<${variablesType}>) {`,
                     `super(Types.${name}Document, data => data.${selectionName}, options);`,
                     `}`,
@@ -52,7 +63,7 @@ const plugin = (schema, documents) => {
     return {
         prepend: [
             "import * as Types from './types'",
-            "import { ApolloDataSource, QueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
+            "import { ConnectionDataSource, CollectionSegmentDataSource, QueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
         ],
         content: result
             .flatMap((node) => node.definitions)
