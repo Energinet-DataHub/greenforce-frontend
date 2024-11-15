@@ -14,22 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ReactiveFormsModule } from '@angular/forms';
 import { Component, output, signal, viewChild } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 
 import {
   GetArchivedMessagesQueryVariables,
   SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
-import { ReactiveFormsModule } from '@angular/forms';
+import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
@@ -38,15 +41,17 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
   selector: 'dh-message-archive-search-table',
   standalone: true,
   imports: [
-    DhMessageArchiveSearchFiltersComponent,
-    ReactiveFormsModule,
     TranslocoDirective,
-    VaterUtilityDirective,
+    ReactiveFormsModule,
+
     WATT_TABLE,
-    WattButtonComponent,
-    WattDataFiltersComponent,
-    WattDataTableComponent,
     WattDatePipe,
+    WattButtonComponent,
+    VaterUtilityDirective,
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+
+    DhMessageArchiveSearchFiltersComponent,
   ],
   template: `
     <watt-data-table
