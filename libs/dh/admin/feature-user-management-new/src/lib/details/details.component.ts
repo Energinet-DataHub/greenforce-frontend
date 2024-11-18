@@ -42,7 +42,6 @@ import {
   Reset2faDocument,
   GetUserByIdDocument,
   ReInviteUserDocument,
-  DeactivateUserDocument,
   ReActivateUserDocument,
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -53,6 +52,7 @@ import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhDeactivteComponent } from './deactivate.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -74,6 +74,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     DhUserAuditLogsComponent,
     DhUserMasterDataComponent,
     DhUserRolesComponent,
+    DhDeactivteComponent,
   ],
 })
 export class DhUserDetailsComponent {
@@ -108,16 +109,14 @@ export class DhUserDetailsComponent {
   reInviteUserMutation = mutation(ReInviteUserDocument, {
     refetchQueries: [UserOverviewSearchDocument],
   });
+
   reset2faMutation = mutation(Reset2faDocument, { refetchQueries: [UserOverviewSearchDocument] });
-  deactivateUserMutation = mutation(DeactivateUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
-  });
+
   reActivateUserMutation = mutation(ReActivateUserDocument, {
     refetchQueries: [UserOverviewSearchDocument],
   });
 
   isReinviting = this.reInviteUserMutation.loading;
-  isDeactivating = this.deactivateUserMutation.loading;
   isReActivating = this.reActivateUserMutation.loading;
 
   constructor() {
@@ -164,17 +163,6 @@ export class DhUserDetailsComponent {
     });
 
   requestDeactivateUser = () => this.deactivateConfirmationModal().open();
-
-  deactivate = (success: boolean) =>
-    success &&
-    this.deactivateUserMutation.mutate({
-      variables: { input: { userId: this.id() } },
-      onCompleted: (data) =>
-        data.deactivateUser.errors
-          ? this.showToast('danger', 'deactivateError')
-          : this.showToast('success', 'deactivateSuccess'),
-      onError: () => this.showToast('danger', 'deactivateError'),
-    });
 
   requestReActivateUser = () => this.reActivateConfirmationModal().open();
 
