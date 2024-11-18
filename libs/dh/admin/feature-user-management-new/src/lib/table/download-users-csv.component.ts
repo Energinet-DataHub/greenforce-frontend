@@ -24,9 +24,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
   GetUsersForCsvDocument,
-  MarketParticipantSortDirctionType,
-  UserOverviewSearchQueryVariables,
-  UserOverviewSortProperty,
+  GetUsersForCsvQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
@@ -36,7 +34,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type CsvUser = NonNullable<CsvUsers>[0];
-type Variables = Partial<UserOverviewSearchQueryVariables>;
+type Variables = Partial<GetUsersForCsvQueryVariables>;
 type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['nodes'];
 
 @Component({
@@ -67,8 +65,6 @@ export class DhDownloadUsersCsvComponent {
         variables: {
           ...this.filters(),
           first: 10_000,
-          sortDirection: MarketParticipantSortDirctionType.Asc,
-          sortProperty: UserOverviewSortProperty.FirstName,
         },
       });
 
