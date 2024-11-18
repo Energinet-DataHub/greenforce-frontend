@@ -404,6 +404,7 @@
           },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
+          "actor_invalid_market_role_for_process": "Den valgte delegerings type er ikke mulig for den valgte aktørs rolle",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
