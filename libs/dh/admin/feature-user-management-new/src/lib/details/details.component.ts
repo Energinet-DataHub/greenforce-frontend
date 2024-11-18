@@ -53,6 +53,7 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhDeactivteComponent } from './deactivate.component';
+import { DhReactivateComponent } from './reactivate-component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -75,6 +76,7 @@ import { DhDeactivteComponent } from './deactivate.component';
     DhUserMasterDataComponent,
     DhUserRolesComponent,
     DhDeactivteComponent,
+    DhReactivateComponent,
   ],
 })
 export class DhUserDetailsComponent {
@@ -87,14 +89,6 @@ export class DhUserDetailsComponent {
 
   // Router param
   id = input.required<string>();
-
-  deactivateConfirmationModal = viewChild.required<WattModalComponent>(
-    'deactivateConfirmationModal'
-  );
-
-  reActivateConfirmationModal = viewChild.required<WattModalComponent>(
-    'reActivateConfirmationModal'
-  );
 
   selectedUserQuery = lazyQuery(GetUserByIdDocument, {
     fetchPolicy: 'no-cache',
@@ -160,21 +154,6 @@ export class DhUserDetailsComponent {
           ? this.showToast('danger', 'reset2faError')
           : this.showToast('success', 'reset2faSuccess'),
       onError: () => this.showToast('danger', 'reset2faError'),
-    });
-
-  requestDeactivateUser = () => this.deactivateConfirmationModal().open();
-
-  requestReActivateUser = () => this.reActivateConfirmationModal().open();
-
-  reActivate = (success: boolean) =>
-    success &&
-    this.reActivateUserMutation.mutate({
-      variables: { input: { userId: this.id() } },
-      onError: () => this.showToast('danger', 'reactivateError'),
-      onCompleted: (data) =>
-        data.reActivateUser.errors
-          ? this.showToast('danger', 'reactivateError')
-          : this.showToast('success', 'reactivateSuccess'),
     });
 
   private showToast(type: WattToastType, label: string): void {

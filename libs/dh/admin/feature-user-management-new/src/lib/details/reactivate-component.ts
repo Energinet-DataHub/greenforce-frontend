@@ -1,4 +1,5 @@
 import { Component, inject, input, viewChild } from '@angular/core';
+
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -8,7 +9,7 @@ import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import {
   GetUsersDocument,
   GetUserByIdDocument,
-  DeactivateUserDocument,
+  ReActivateUserDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhUser } from '@energinet-datahub/dh/admin/shared';
@@ -16,19 +17,19 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   standalone: true,
-  selector: 'dh-deactivate',
+  selector: 'dh-reactivate',
   imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
   template: ` <watt-modal
     #modal
     *transloco="let t; read: 'admin.userManagement.drawer'"
     [size]="'small'"
-    [title]="t('deactivateConfirmation.title')"
+    [title]="t('reactivateConfirmation.title')"
     [disableClose]="true"
-    (closed)="deactivate($event)"
+    (closed)="reActivate($event)"
   >
     <p>
       {{
-        t('deactivateConfirmation.body', {
+        t('reactivateConfirmation.body', {
           first: user()?.firstName,
           last: user()?.lastName,
           email: user()?.email,
@@ -37,23 +38,23 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     </p>
     <p>
       <b>
-        {{ t('deactivateConfirmation.important') }}
+        {{ t('reactivateConfirmation.important') }}
       </b>
     </p>
 
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="modal.close(false)">{{
-        t('deactivateConfirmation.reject')
+        t('reactivateConfirmation.reject')
       }}</watt-button>
 
       <watt-button variant="secondary" (click)="modal.close(true)">{{
-        t('deactivateConfirmation.confirm')
+        t('reactivateConfirmation.confirm')
       }}</watt-button>
     </watt-modal-actions>
   </watt-modal>`,
 })
-export class DhDeactivteComponent {
-  private deactivateUserMutation = mutation(DeactivateUserDocument);
+export class DhReactivateComponent {
+  private reactivateUserMutation = mutation(ReActivateUserDocument);
   private toastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
 
@@ -61,19 +62,19 @@ export class DhDeactivteComponent {
 
   user = input<DhUser>();
 
-  loading = this.deactivateUserMutation.loading;
+  loading = this.reactivateUserMutation.loading;
 
-  deactivate = (success: boolean) => {
+  reActivate = (success: boolean) => {
     const user = this.user();
     if (success && user) {
-      this.deactivateUserMutation.mutate({
+      this.reactivateUserMutation.mutate({
         refetchQueries: [GetUsersDocument, GetUserByIdDocument],
         variables: { input: { userId: user.id } },
+        onError: () => this.showToast('danger', 'reactivateError'),
         onCompleted: (data) =>
-          data.deactivateUser.errors
-            ? this.showToast('danger', 'deactivateError')
-            : this.showToast('success', 'deactivateSuccess'),
-        onError: () => this.showToast('danger', 'deactivateError'),
+          data.reActivateUser.errors
+            ? this.showToast('danger', 'reactivateError')
+            : this.showToast('success', 'reactivateSuccess'),
       });
     }
   };

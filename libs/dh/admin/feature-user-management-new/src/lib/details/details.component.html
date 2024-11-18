@@ -43,8 +43,8 @@ limitations under the License.
         <watt-button
           *dhPermissionRequired="['users:reactivate']"
           variant="secondary"
-          (click)="requestReActivateUser()"
-          [loading]="isReActivating()"
+          (click)="reactivate.open()"
+          [loading]="reactivate.loading()"
           >{{ t("reactivate") }}</watt-button
         >
       }
@@ -83,39 +83,7 @@ limitations under the License.
       </watt-drawer-content>
     }
   </watt-drawer>
-
-  <dh-deactivate #deactivate [user]="user" />
-
-  <watt-modal
-    #reActivateConfirmationModal
-    [size]="'small'"
-    [title]="t('reactivateConfirmation.title')"
-    [disableClose]="true"
-    (closed)="reActivate($event)"
-  >
-    <p>
-      {{
-        t("reactivateConfirmation.body", {
-          first: selectedUser()?.firstName,
-          last: selectedUser()?.lastName,
-          email: selectedUser()?.email,
-        })
-      }}
-    </p>
-    <p>
-      <b>
-        {{ t("reactivateConfirmation.important") }}
-      </b>
-    </p>
-
-    <watt-modal-actions>
-      <watt-button variant="secondary" (click)="reActivateConfirmationModal.close(false)">{{
-        t("reactivateConfirmation.reject")
-      }}</watt-button>
-
-      <watt-button variant="secondary" (click)="reActivateConfirmationModal.close(true)">{{
-        t("reactivateConfirmation.confirm")
-      }}</watt-button>
-    </watt-modal-actions>
-  </watt-modal>
 </ng-container>
+
+<dh-deactivate #deactivate [user]="user" />
+<dh-reactivate #reactivate [user]="user" />
