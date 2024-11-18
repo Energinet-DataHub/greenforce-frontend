@@ -259,6 +259,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       return [DelegatedProcess.RequestWholesaleResults];
     }
 
+    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
+      return [DelegatedProcess.ReceiveMeteringPointData];
+    }
+
     return [];
   }
 }
