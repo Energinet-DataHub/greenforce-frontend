@@ -166,8 +166,7 @@ export class DhUsersComponent {
   };
 
   reset(): void {
-    this.dataSource.reset();
-    this.dataTable().reset();
+    this.dataSource.refetch();
   }
 
   onRowClick(row: DhUser): void {
