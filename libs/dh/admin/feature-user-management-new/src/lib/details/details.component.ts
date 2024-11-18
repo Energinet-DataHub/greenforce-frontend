@@ -31,7 +31,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -42,7 +42,6 @@ import {
   Reset2faDocument,
   GetUserByIdDocument,
   ReInviteUserDocument,
-  ReActivateUserDocument,
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -106,12 +105,7 @@ export class DhUserDetailsComponent {
 
   reset2faMutation = mutation(Reset2faDocument, { refetchQueries: [UserOverviewSearchDocument] });
 
-  reActivateUserMutation = mutation(ReActivateUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
-  });
-
   isReinviting = this.reInviteUserMutation.loading;
-  isReActivating = this.reActivateUserMutation.loading;
 
   constructor() {
     effect(() => {
