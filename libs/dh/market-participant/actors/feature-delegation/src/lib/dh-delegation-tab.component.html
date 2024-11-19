@@ -22,11 +22,11 @@ limitations under the License.
   } @else if (isEmpty()) {
     <vater-stack>
       <watt-empty-state
-        [icon]="isError() ? 'custom-power' : 'custom-no-results'"
-        [title]="isError() ? t('errorTitle') : t('emptyTitle')"
-        [message]="isError() ? t('errorMessage') : t('emptyMessage')"
+        [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
+        [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
+        [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
       >
-        @if (isError() === false) {
+        @if (hasError() === false) {
           <watt-button
             *dhPermissionRequired="['delegation:manage']"
             (click)="onSetUpDelegation()"
