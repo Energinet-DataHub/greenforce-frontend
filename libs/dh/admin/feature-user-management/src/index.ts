@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhUsersOverviewComponent as default } from './lib/overview/dh-users-overview.component';
+export { DhUserManagementComponent as default } from './lib/user-management.component';

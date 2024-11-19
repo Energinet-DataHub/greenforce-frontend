@@ -45,6 +45,14 @@
       "SettlementReportFailed": {
         "headline": "Afregningsrapporter",
         "message": "Afregningsrapport fejlede"
+      },
+      "MeteringGridAreaIsImbalanced": {
+        "headline": "eSett",
+        "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+      },
+      "ActorCredentialsExpiring": {
+        "headline": "Aktør",
+        "message": "B2B adgang til denne aktør er ved at udløbe"
       }
     }
   },
@@ -310,7 +318,9 @@
         "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)"
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
+        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -658,7 +668,9 @@
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
-              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }
@@ -721,7 +733,9 @@
             "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ auditedBy }}</b> ændrede navnet til <b>{{ currentValue }}</b>",
-              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>"
+              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>",
+              "DOMAIN_ADDED": "<b>{{ auditedBy }}</b> tilføjede domænet <b>{{ currentValue }}</b>",
+              "DOMAIN_REMOVED": "<b>{{ auditedBy }}</b> fjernede domænet <b>{{ previousValue }}</b>"
             }
           }
         }
@@ -861,7 +875,8 @@
           "AWAITING_REPLY": "Afventer svar fra eSett",
           "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
-          "REJECTED": "Afvist"
+          "REJECTED": "Afvist",
+          "MANUALLY_HANDLED": "Manuelt løst"
         }
       },
       "filters": {
@@ -904,7 +919,16 @@
           "periode": "Beregnet periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
-        }
+        },
+        "markAsResolved": "Marker som løst",
+        "resolveModal": {
+          "markAsResolved": "Marker som løst",
+          "resolveField": "Kommentar",
+          "cancel": "Annuller",
+          "resolvedSuccess": "Beskeden blev markeret som løst.",
+          "resolvedError": "En fejl opstod."
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} har markeret meddelelsen som løst"
       }
     },
     "meteringGridAreaImbalance": {
@@ -964,6 +988,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
+      "importButton": "Importer fil",
+      "importSuccess": "Fil importeret",
+      "importError": "Noget gik galt. Filen blev ikke importeret. Prøv igen",
       "shared": {
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til",
@@ -1257,6 +1284,14 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
+      "cancelReport": {
+        "baseName": "Afbryd",
+        "title": "Er du sikker på, at du vil afbryde denne rapport?",
+        "confirm": "Afbryd rapport",
+        "cancel": "Fortryd",
+        "requestSuccess": "Afregningsrapport afbrudt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+      },
       "columns": {
         "startedAt": "Bestilt",
         "executionTime": "Kørselstid",
@@ -1278,6 +1313,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrudt",
         "download": "Download"
       },
       "calculationTypes": {
@@ -1486,6 +1522,8 @@
           }
         },
         "users": {
+          "search": "Søg",
+          "results": "Resultater",
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "emptyTitle": "Ingen brugere fundet",
@@ -1498,8 +1536,8 @@
           "columns": {
             "name": "Navn",
             "email": "E-mail",
-            "phone": "Telefonnr.",
-            "latestLogin": "Seneste login",
+            "phoneNumber": "Telefonnr.",
+            "latestLoginAt": "Seneste login",
             "status": "Status"
           },
           "daysAgo": "{{ days }} dage siden",

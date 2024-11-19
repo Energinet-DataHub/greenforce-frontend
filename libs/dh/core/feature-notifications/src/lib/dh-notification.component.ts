@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -27,60 +26,8 @@ import { DhNotification } from './dh-notification';
   selector: 'dh-notification',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, TranslocoDirective, WattDatePipe, WattIconComponent],
-  styles: `
-    :host {
-      display: block;
-    }
-
-    .notification {
-      padding: var(--watt-space-m) var(--watt-space-ml) var(--watt-space-m) 28px;
-      position: relative;
-
-      &__datetime {
-        color: var(--watt-on-light-medium-emphasis);
-      }
-
-      &--unread {
-        .notification__headline {
-          position: relative;
-
-          &:before {
-            content: '';
-            background-color: var(--watt-color-state-info);
-            border-radius: 50%;
-            height: 8px;
-            left: -16px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-          }
-        }
-      }
-
-      &__message {
-        margin: 0;
-      }
-
-      &:hover {
-        background-color: var(--watt-color-neutral-grey-100);
-        cursor: pointer;
-
-        .icon-dismiss {
-          opacity: 1;
-        }
-      }
-
-      .icon-dismiss {
-        cursor: pointer;
-        opacity: 0;
-        position: absolute;
-        right: var(--watt-space-ml);
-        transition: opacity 150ms linear;
-      }
-    }
-  `,
+  imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
+  styleUrl: './dh-notification.component.scss',
   template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification notification--unread">

@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, input, output, ViewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Sort } from '@angular/material/sort';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -45,7 +44,6 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
     TranslocoPipe,
 
     WATT_TABLE,
-    WattPaginatorComponent,
     WattEmptyStateComponent,
     WattDatePipe,
     VaterFlexComponent,
@@ -73,13 +71,12 @@ export class DhOutgoingMessagesTableComponent {
     status: { accessor: 'documentStatus' },
   };
 
-  @Input() isLoading!: boolean;
-  @Input() hasError!: boolean;
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
+  tableDataSource = input.required<WattTableDataSource<DhOutgoingMessage>>();
+  sortMetadata = input.required<Sort>();
 
-  @Input() tableDataSource!: WattTableDataSource<DhOutgoingMessage>;
-  @Input() sortMetadata!: Sort;
-
-  @Output() sortChange = new EventEmitter<Sort>();
+  sortChange = output<Sort>();
 
   onRowClick(activeRow: DhOutgoingMessage): void {
     this.activeRow = activeRow;

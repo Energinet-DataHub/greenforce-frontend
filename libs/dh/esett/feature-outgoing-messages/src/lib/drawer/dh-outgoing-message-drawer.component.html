@@ -23,7 +23,7 @@ limitations under the License.
       />
     </watt-drawer-topbar>
 
-    <watt-drawer-heading>
+    <watt-drawer-heading class="heading">
       <h2 class="message-heading">
         {{ outgoingMessage?.documentId }}
         @if (outgoingMessage?.calculationType) {
@@ -53,7 +53,29 @@ limitations under the License.
           [value]="messageTypeValue"
         />
       </watt-description-list>
+
+      @if (outgoingMessage?.manuallyHandledExchangeEventMetaData; as manuallyResolvedData) {
+        <watt-validation-message
+          type="info"
+          size="normal"
+          [label]="
+            t('manuallyResolvedLabel', {
+              resolvedAt: manuallyResolvedData.manuallyHandledAt | wattDate: 'long',
+              resolvedBy: manuallyResolvedData.manuallyHandledByIdentityDisplayName,
+            })
+          "
+          [message]="manuallyResolvedData.comment"
+        />
+      }
     </watt-drawer-heading>
+
+    <watt-drawer-actions>
+      @if (this.canResolve()) {
+        <watt-button [variant]="'secondary'" (click)="openResolveModal()">{{
+          t("markAsResolved")
+        }}</watt-button>
+      }
+    </watt-drawer-actions>
 
     @if (drawer.isOpen) {
       <watt-drawer-content>

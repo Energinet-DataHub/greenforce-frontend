@@ -43,6 +43,24 @@ export const dhMarketParticipantShellRoutes: Routes = [
         data: {
           titleTranslationKey: 'marketParticipant.organizationsOverview.organizations',
         },
+        children: [
+          {
+            path: 'details/:id',
+            loadComponent: () =>
+              import('@energinet-datahub/dh/market-participant/actors/feature-organizations').then(
+                (m) => m.DhOrganizationDetailsComponent
+              ),
+            children: [
+              {
+                path: 'edit',
+                loadComponent: () =>
+                  import(
+                    '@energinet-datahub/dh/market-participant/actors/feature-organizations'
+                  ).then((m) => m.DhOrganizationEditModalComponent),
+              },
+            ],
+          },
+        ],
       },
       {
         path: getPath<MarketParticipantSubPaths>('market-roles'),

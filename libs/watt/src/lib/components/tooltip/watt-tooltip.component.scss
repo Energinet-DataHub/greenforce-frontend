@@ -25,14 +25,22 @@ $offset: 6px;
   pointer-events: none;
   z-index: 1000;
   display: inline-block;
-  background: var(--watt-color-primary-dark);
-  color: var(--watt-color-primary-dark-contrast);
   line-height: 18px;
   border-radius: 6px;
   @include watt.space-inset-squish-s;
   @include watt.typography-watt-text-s;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+
+  &.tooltip-dark {
+    background: var(--watt-color-primary-dark);
+    color: var(--watt-color-primary-dark-contrast);
+  }
+
+  &.tooltip-light {
+    background: var(--watt-color-neutral-white);
+    color: var(--watt-color-primary-light-contrast);
+  }
 
   &.show {
     opacity: 1;

@@ -18,16 +18,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
   input,
   OnInit,
-  Output,
   inject,
+  output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -35,6 +33,7 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -43,8 +42,8 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 import { ActorsFilters } from '../actors-filters';
 
 type Form = FormGroup<{
-  actorStatus: FormControl<ActorStatus[] | null>;
-  marketRoles: FormControl<EicFunction[] | null>;
+  actorStatus: FormControl<ActorsFilters['actorStatus']>;
+  marketRoles: FormControl<ActorsFilters['marketRoles']>;
 }>;
 
 @Component({
@@ -52,7 +51,6 @@ type Form = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    RxPush,
     TranslocoDirective,
 
     VaterSpacerComponent,
@@ -117,22 +115,17 @@ export class DhActorsFiltersComponent implements OnInit {
 
   initial = input.required<ActorsFilters>();
 
-  @Output() filter = new EventEmitter<ActorsFilters>();
-  @Output() formReset = new EventEmitter<void>();
+  filter = output<ActorsFilters>();
+  formReset = output<void>();
 
   formGroup!: Form;
 
-  actorStatusOptions = Object.keys(ActorStatus)
-    .filter((key) => !(key === ActorStatus.New || key === ActorStatus.Passive))
-    .map((key) => ({
-      displayValue: key,
-      value: key,
-    }));
+  actorStatusOptions = dhEnumToWattDropdownOptions(ActorStatus, [
+    ActorStatus.New,
+    ActorStatus.Passive,
+  ]);
 
-  marketRolesOptions = Object.keys(EicFunction).map((marketRole) => ({
-    value: marketRole,
-    displayValue: marketRole,
-  }));
+  marketRolesOptions = dhEnumToWattDropdownOptions(EicFunction);
 
   ngOnInit() {
     this.formGroup = new FormGroup({

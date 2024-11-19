@@ -16,11 +16,11 @@
  */
 import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
@@ -50,10 +50,8 @@ export class DhGenerateClientSecretComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly auditLogService = inject(DhActorAuditLogService);
 
-  generateSecretInProgress = toSignal(this.store.generateSecretInProgress$, {
-    requireSync: true,
-  });
-  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
+  generateSecretInProgress = this.store.generateSecretInProgress;
+  doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
 
   actorId = input.required<string>();
 

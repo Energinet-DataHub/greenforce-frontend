@@ -58,7 +58,7 @@ class WattDescriptionListComponent<T> {
   constructor() {
     effect(() => {
       this.ngClass.ngClass = {
-        [`itemSeparators`]: this.itemSeparators(),
+        [`item-separators`]: this.itemSeparators(),
       };
     });
   }

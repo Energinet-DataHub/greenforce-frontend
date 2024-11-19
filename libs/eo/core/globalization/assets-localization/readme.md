@@ -5,7 +5,7 @@
 To avoid "magic-strings" for translations, we autogenerate a const for our translations based on the interface `TranslationKeys` placed in `./i18n/translation-keys.ts`
 
 ```sh
-yarn nx run eo-globalization-assets-localization:generate-translation-keys
+bun nx run eo-globalization-assets-localization:generate-translation-keys
 ```
 
 ## Add new translations

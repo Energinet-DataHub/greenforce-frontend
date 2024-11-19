@@ -18,9 +18,10 @@ import {
   Actor,
   ActorStatus,
   ActorUserRole,
+  ContactCategory,
   EicFunction,
+  UserOverviewItemDto,
   Organization,
-  User,
   UserRoleStatus,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -63,6 +64,14 @@ const actors: Actor[] = [
       id: '1',
       name: '',
     } as Organization,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '901011ea-a291-41f7-be19-581abc05a5ac',
+      actorId: '801011ea-a291-41f7-be19-581abc05a5ac',
+      category: ContactCategory.Default,
+      name: 'Inactive balance responsible Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
   {
     __typename: 'Actor',
@@ -80,12 +89,20 @@ const actors: Actor[] = [
       id: '1',
       name: '',
     } as Organization,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '401011ea-a291-41f7-be19-581abc05a5ac',
+      actorId: '301011ea-a291-41f7-be19-581abc05a5ac',
+      category: ContactCategory.Default,
+      name: 'Balance responsible Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
 ];
 
-export const overviewUsers: User[] = [
+export const overviewUsers: UserOverviewItemDto[] = [
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '1',
     email: 'test@test.dk',
     firstName: 'Test',
@@ -99,7 +116,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '2',
     email: 'test1@test1.dk',
     firstName: 'Test1',
@@ -113,7 +130,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '3',
     email: 'test1@test2.dk',
     firstName: 'Test2',
@@ -127,7 +144,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '4',
     email: 'test1@test3.dk',
     firstName: 'Test3',
@@ -141,7 +158,7 @@ export const overviewUsers: User[] = [
     latestLoginAt: new Date(),
   },
   {
-    __typename: 'User',
+    __typename: 'UserOverviewItemDto',
     id: '5',
     email: 'test1@test4.dk',
     firstName: 'Test4',

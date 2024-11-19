@@ -44,6 +44,7 @@ import {
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattChipComponent } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -68,28 +69,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     `
       :host {
         display: block;
-      }
-
-      .actor-heading {
-        margin: 0;
-        margin-bottom: var(--watt-space-s);
-      }
-
-      .actor-metadata {
-        display: flex;
-        gap: var(--watt-space-ml);
-      }
-
-      .actor-metadata__item {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
-
-      vater-stack {
-        watt-button {
-          margin-left: auto;
-        }
       }
     `,
   ],
@@ -117,16 +96,16 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     DhActorAuditLogTabComponent,
     DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
-    DhActorsEditActorModalComponent,
     DhBalanceResponsibleRelationTabComponent,
   ],
 })
 export class DhActorDrawerComponent {
-  private readonly permissionService = inject(PermissionService);
+  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
 
-  actorQuery = lazyQuery(GetActorByIdDocument);
+  private actorQuery = lazyQuery(GetActorByIdDocument);
 
   actor = computed(() => this.actorQuery.data()?.actorById);
 
@@ -138,14 +117,14 @@ export class DhActorDrawerComponent {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   actorNumberNameLookup = input.required<{
-    [Key: string]: {
+    [key: string]: {
       number: string;
       name: string;
     };
   }>();
 
   gridAreaCodeLookup = input.required<{
-    [Key: string]: string;
+    [key: string]: string;
   }>();
 
   showBalanceResponsibleRelationTab = computed(
@@ -174,7 +153,7 @@ export class DhActorDrawerComponent {
     return stringList ?? emDash;
   });
 
-  public open(actorId: string): void {
+  open(actorId: string): void {
     this.drawer().open();
 
     this.permissionService
@@ -185,11 +164,13 @@ export class DhActorDrawerComponent {
     this.actorQuery.query({ variables: { id: actorId } });
   }
 
-  public editOrganization(id: string | undefined): void {
+  editOrganization(id: string | undefined): void {
     const getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
-    this.router.navigate([getLink('organizations')], {
-      queryParams: { id, edit: true },
-      queryParamsHandling: 'merge',
-    });
+
+    this.router.navigate([getLink('organizations'), 'details', id, 'edit']);
+  }
+
+  editActor(): void {
+    this.modalService.open({ component: DhActorsEditActorModalComponent, data: this.actor() });
   }
 }

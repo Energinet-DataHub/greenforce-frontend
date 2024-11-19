@@ -45,6 +45,14 @@
       "SettlementReportFailed": {
         "headline": "Settlement reports",
         "message": "Settlement report failed"
+      },
+      "MeteringGridAreaIsImbalanced": {
+        "headline": "eSett",
+        "message": "An imbalance has been registered in grid area '{{ relatedToId }}'"
+      },
+      "ActorCredentialsExpiring": {
+        "headline": "Market participant",
+        "message": "B2B access to this actor is about to expire"
       }
     }
   },
@@ -310,7 +318,9 @@
         "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
         "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)"
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
+        "RECEIVE_METERING_POINT_DATA": "Submit metering data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Request metering data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -658,7 +668,9 @@
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
-              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }
@@ -721,7 +733,9 @@
             "tabLabel": "History",
             "changeTypes": {
               "NAME": "<b>{{ auditedBy }}</b> changed the name to <b>{{ currentValue }}</b>",
-              "DOMAIN": "<b>{{ auditedBy }}</b> changed the domain to <b>{{ currentValue }}</b>"
+              "DOMAIN": "<b>{{ auditedBy }}</b> changed the domain to <b>{{ currentValue }}</b>",
+              "DOMAIN_ADDED": "<b>{{ auditedBy }}</b> added the domain <b>{{ currentValue }}</b>",
+              "DOMAIN_REMOVED": "<b>{{ auditedBy }}</b> removed the domain <b>{{ previousValue }}</b>"
             }
           }
         }
@@ -861,7 +875,8 @@
           "AWAITING_REPLY": "Awaiting reply from eSett",
           "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "MANUALLY_HANDLED": "Solved manually"
         }
       },
       "filters": {
@@ -904,7 +919,16 @@
           "periode": "Calculated periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
-        }
+        },
+        "markAsResolved": "Mark as resolved",
+        "resolveModal": {
+          "markAsResolved": "Mark as resolved",
+          "resolveField": "Comment",
+          "cancel": "Cancel",
+          "resolvedSuccess": "Message marked was marked as resolved.",
+          "resolvedError": "An error occurred."
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} has manually resolved the message"
       }
     },
     "meteringGridAreaImbalance": {
@@ -964,6 +988,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balance Responsible Relations",
+      "importButton": "Import file",
+      "importSuccess": "File imported",
+      "importError": "An error occurred while importing the file. Please try again",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",
@@ -1143,7 +1170,7 @@
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
         "COMPLETED": "Completed",
-        "CANCELED": "Canceled"
+        "CANCELED": "Cancelled"
       },
       "executionTypes": {
         "EXTERNAL": "External",
@@ -1257,6 +1284,14 @@
         "baseName": "Settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
+      "cancelReport": {
+        "baseName": "Cancel",
+        "title": "Are you sure you want to cancel the report?",
+        "confirm": "Cancel report",
+        "cancel": "Close",
+        "requestSuccess": "Settlement report has been canceled.",
+        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+      },
       "columns": {
         "startedAt": "Started",
         "executionTime": "Execution time",
@@ -1278,6 +1313,7 @@
         "IN_PROGRESS": "In progress ({{ progress }}%)",
         "ERROR": "Error",
         "COMPLETED": "Completed",
+        "CANCELED": "Canceled",
         "download": "Download"
       },
       "calculationTypes": {
@@ -1486,6 +1522,8 @@
           }
         },
         "users": {
+          "search": "Search",
+          "results": "Results",
           "inviteUser": "Invite user",
           "tabLabel": "Users",
           "emptyTitle": "No users found",
@@ -1498,8 +1536,8 @@
           "columns": {
             "name": "Name",
             "email": "E-mail",
-            "phone": "Phone no.",
-            "latestLogin": "Latest login",
+            "phoneNumber": "Phone no.",
+            "latestLoginAt": "Latest login",
             "status": "Status"
           },
           "daysAgo": "{{ days }} days ago",

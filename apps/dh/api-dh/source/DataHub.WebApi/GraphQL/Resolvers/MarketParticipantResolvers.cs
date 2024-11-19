@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-using Energinet.DataHub.WebApi.GraphQL.Types.User;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -33,10 +33,10 @@ public class MarketParticipantResolvers
         [Service] IMarketParticipantClient_V1 client)
     {
         var allContacts = await client
-            .ActorContactGetAsync(actor.ActorId)
+            .ActorContactsPublicAsync()
             .ConfigureAwait(false);
 
-        return allContacts.SingleOrDefault(c => c.Category == ContactCategory.Default);
+        return allContacts.SingleOrDefault(c => c.ActorId == actor.ActorId);
     }
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
@@ -44,9 +44,7 @@ public class MarketParticipantResolvers
         GridAreaByIdBatchDataLoader dataLoader)
     {
         var gridAreas = await Task.WhenAll(
-            actor.MarketRoles
-                .SelectMany(marketRole => marketRole.GridAreas.Select(gridArea => gridArea.Id))
-                .Distinct()
+            actor.MarketRole.GridAreas.Select(gridArea => gridArea.Id)
                 .Select(gridAreaId => dataLoader.LoadRequiredAsync(gridAreaId)));
 
         return gridAreas.OrderBy(g => g.Code);
@@ -83,10 +81,10 @@ public class MarketParticipantResolvers
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
 
     public async Task<IEnumerable<ActorDto>?> GetActorByUserIdAsync(
-        [Parent] User user,
+        [Parent] IUser user,
         [Service] IMarketParticipantClient_V1 client) =>
         await Task.WhenAll((
-            await client.UserActorsGetAsync(user.Id)).ActorIds
+                await client.UserActorsGetAsync(user.Id)).ActorIds
             .Select(async id => await client.ActorGetAsync(id)));
 
     public async Task<ICollection<BalanceResponsibilityRelationDto>?> GetBalanceResponsibleAgreementsAsync(
@@ -119,18 +117,25 @@ public class MarketParticipantResolvers
     }
 
     public async Task<ActorDto?> GetAdministratedByAsync(
-        [Parent] User user,
+        [Parent] IUser user,
         [Service] IMarketParticipantClient_V1 client) =>
-            user.AdministratedBy.HasValue ? await client.ActorGetAsync(user.AdministratedBy.Value) : null;
+            await client.ActorGetAsync(user.AdministratedBy);
 
     public async Task<ActorPublicMail?> GetActorPublicMailAsync(
         [Parent] ActorDto actor,
-        ActorPublicMailByActorId dataLoader) =>
-        await dataLoader.LoadAsync(actor.ActorId);
+        ActorPublicContactByActorId dataLoader)
+    {
+        var publicContact = await dataLoader.LoadAsync(actor.ActorId);
+        return publicContact != null ? new ActorPublicMail(publicContact.Email) : null;
+    }
+
+    public Task<ActorContactDto?> GetActorPublicContactAsync(
+        [Parent] ActorDto actor,
+        ActorPublicContactByActorId dataLoader) => dataLoader.LoadAsync(actor.ActorId);
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
         [Parent] ActorDto actor,
-        [ScopedState] User? user,
+        [ScopedState] IUser? user,
         [Service] IMarketParticipantClient_V1 client)
     {
         var roles = await client.ActorsRolesAsync(actor.ActorId);
@@ -175,4 +180,9 @@ public class MarketParticipantResolvers
         [Parent] SettlementReport actor,
         ActorByIdBatchDataLoader dataLoader) =>
         await dataLoader.LoadAsync(actor.RequestedByActorId);
+
+    public async Task<string> GetIdentityDisplayNameByUserIdAsync(
+        [Parent] ManuallyHandledExchangeEventMetaData parent,
+        [Service] AuditIdentityCacheDataLoader client) =>
+        (await client.LoadRequiredAsync(parent.ManuallyHandledBy)).DisplayName;
 }

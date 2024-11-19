@@ -90,6 +90,7 @@ export interface TranslationKeys {
       };
     };
     footer: {
+      beta: string;
       section1: {
         heading: string;
         content: string;
@@ -144,6 +145,10 @@ export interface TranslationKeys {
     otherOrganizations: string;
   };
   topbar: {
+    beta: {
+      title: string;
+      message: string;
+    };
     help: string;
     logout: string;
   };
@@ -650,6 +655,12 @@ export interface TranslationKeys {
       title: string;
       message: string;
     };
+  };
+  requestConsent: {
+    title: string;
+    description: string;
+    copy: string;
+    copyAndClose: string;
   };
   help: {
     title: string;

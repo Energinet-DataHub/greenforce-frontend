@@ -79,7 +79,7 @@ export const marketParticipantActors: Actor[] = [
     organization: {
       __typename: 'Organization',
       id: 'b3bdd441-4f22-3f33-b88f-08da5f288474',
-      name: 'Organization 1',
+      name: 'Langt Organization navn til test',
       domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
       businessRegisterIdentifier: '12345678',
       address: {
@@ -242,7 +242,14 @@ export const marketParticipantActors: Actor[] = [
       actors: [],
     },
     publicMail: null,
-    contact: null,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: 'ffad0fee-9d7c-49c6-7c19-08da5f28ddb1',
+      actorId: 'efad0fee-9d7c-49c6-7c19-08da5f28ddb1',
+      category: ContactCategory.Default,
+      name: 'Test Organization 3 Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
   {
     __typename: 'Actor',
@@ -293,6 +300,13 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 1',
     } as Organization,
     publicMail: null,
-    contact: null,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: 'ffad0fee-9d7c-49c6-7c16-08da5f28ddb2',
+      actorId: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb2',
+      category: ContactCategory.Default,
+      name: 'Test Organization 1 Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
 ];

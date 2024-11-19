@@ -38,15 +38,15 @@ public class ActorType : ObjectType<ActorDto>
            .Resolve(context => context.Parent<ActorDto>() switch
            {
                null => string.Empty,
-               var actor when string.IsNullOrWhiteSpace(actor.MarketRoles.FirstOrDefault()?.EicFunction.ToString()) => actor.Name.Value,
-               var actor => $"{actor.MarketRoles.FirstOrDefault()?.EicFunction.ToString()} • {actor.Name.Value}",
+               var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => actor.Name.Value,
+               var actor => $"{actor.MarketRole.EicFunction.ToString()} • {actor.Name.Value}",
            });
 
         descriptor
-            .Field(f => f.MarketRoles)
+            .Field(f => f.MarketRole)
             .Name("marketRole")
             .Resolve(context =>
-                context.Parent<ActorDto>().MarketRoles.FirstOrDefault()?.EicFunction);
+                context.Parent<ActorDto>().MarketRole.EicFunction);
 
         descriptor
             .Field("userRoles")
@@ -64,7 +64,7 @@ public class ActorType : ObjectType<ActorDto>
 
         descriptor
             .Field("contact")
-            .ResolveWith<MarketParticipantResolvers>(c => c.GetContactAsync(default!, default!));
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetActorPublicContactAsync(default!, default!));
 
         descriptor
             .Field(f => f.OrganizationId)

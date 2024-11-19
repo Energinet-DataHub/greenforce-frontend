@@ -144,6 +144,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
     },
     footer: {
+      beta: 'Beta',
       section1: {
         heading: 'Address',
         content: `
@@ -218,6 +219,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Other organizations:',
   },
   topbar: {
+    beta: {
+      title: 'Beta',
+      message:
+        'This software is in BETA. We’re actively testing and refining features to enhance your experience. Some functions may change. We welcome your feedback to help make Energy Track & Trace even better.',
+    },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
   },
@@ -819,6 +825,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       title: 'Unexpected error',
       message: 'An unexpected error occurred. Please try again.',
     },
+  },
+  requestConsent: {
+    title: 'Request Power of Attorney',
+    description: `
+      <h4>How to request Power of Attorney</h4>
+      <ol>
+        <li>Copy the link, and send it to the person you want Power of Attorney from. (Make sure to send the link to one recipient, only)</li>
+        <li>The recipient clicks the link, logs into energytrackandtrace.dk, and grants Power of Attorney</li>
+      </ol>
+    `,
+    copy: 'Copy link',
+    copyAndClose: 'Copy & close',
   },
   help: {
     title: 'Help',
