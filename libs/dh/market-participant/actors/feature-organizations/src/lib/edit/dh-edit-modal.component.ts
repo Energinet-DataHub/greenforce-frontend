@@ -92,7 +92,9 @@ export class DhOrganizationEditModalComponent {
 
   organization = computed(() => this.getOrganizationByIdQuery.data()?.organizationById);
 
-  loading = this.updateOrganizationMutation.loading;
+  loading = computed(
+    () => this.updateOrganizationMutation.loading() || this.getOrganizationByIdQuery.loading()
+  );
 
   modal = viewChild.required(WattModalComponent);
 
