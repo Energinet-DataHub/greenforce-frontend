@@ -17,7 +17,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   computed,
   effect,
   inject,
@@ -50,12 +49,12 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhDelegations, DhDelegationsByType } from './dh-delegations';
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
 import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-modal.component';
 import { dhGroupDelegations } from './util/dh-group-delegations';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -88,7 +87,6 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 })
 export class DhDelegationTabComponent {
   private readonly modalService = inject(WattModalService);
-  private readonly destroyRef = inject(DestroyRef);
 
   private delegationsForActorQuery = lazyQuery(GetDelegationsForActorDocument);
 
@@ -118,7 +116,7 @@ export class DhDelegationTabComponent {
     });
 
     this.statusControl.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed())
       .subscribe((value) => this.filterDelegations(value));
   }
 
