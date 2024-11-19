@@ -25,7 +25,9 @@ import {
   input,
 } from '@angular/core';
 
+import { RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
+
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -47,6 +49,7 @@ import {
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDeactivteComponent } from './deactivate.component';
 import { DhReactivateComponent } from './reactivate-component';
@@ -60,6 +63,7 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
   standalone: true,
   templateUrl: './details.component.html',
   imports: [
+    RouterOutlet,
     TranslocoDirective,
     MatMenuModule,
 
@@ -68,13 +72,14 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
     WATT_DRAWER,
     WattButtonComponent,
 
-    DhUserRolesComponent,
-    DhUserStatusComponent,
-    DhUserAuditLogsComponent,
-    DhUserMasterDataComponent,
+    DhPermissionRequiredDirective,
+
     DhUserRolesComponent,
     DhDeactivteComponent,
     DhReactivateComponent,
+    DhUserStatusComponent,
+    DhUserAuditLogsComponent,
+    DhUserMasterDataComponent,
   ],
 })
 export class DhUserDetailsComponent {
@@ -117,12 +122,11 @@ export class DhUserDetailsComponent {
   }
 
   onClose(): void {
-    this.drawer().close();
-    this.navigation.back();
+    this.navigation.navigate('list');
   }
 
   edit(): void {
-    this.navigation.navigate(this.id(), 'edit');
+    this.navigation.navigate('edit', this.id());
   }
 
   reinvite = () =>

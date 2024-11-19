@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 import { HttpStatusCode } from '@angular/common/http';
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
   GetUserByIdDocument,
@@ -41,6 +41,7 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   selector: 'dh-edit-user',
@@ -84,10 +85,9 @@ export class DhEditUserComponent {
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private getUserQuery = lazyQuery(GetUserByIdDocument);
+  private navigation = inject(DhNavigationService);
 
   private updateUserRoles: UpdateUserRoles | null = null;
-
-  updatedPhoneNumber: string | null = null;
 
   userInfoForm = this.formBuilder.nonNullable.group({
     firstName: ['', [Validators.required]],
@@ -105,11 +105,12 @@ export class DhEditUserComponent {
   loading = this.getUserQuery.loading;
 
   // Router param value
-  id = input.required<string>();
+  id = computed(() => this.navigation.id());
 
   constructor() {
     effect(() => {
       const id = this.id();
+      if (!id) return;
       this.getUserQuery.query({ variables: { id } });
       this.modal().open();
     });
@@ -135,7 +136,7 @@ export class DhEditUserComponent {
     }
 
     if (this.userInfoForm.pristine) {
-      return this.closeModal(false);
+      return this.close();
     }
 
     const user = this.user();
@@ -148,19 +149,15 @@ export class DhEditUserComponent {
       phoneNumber === user?.phoneNumber &&
       this.updateUserRoles === null
     ) {
-      return this.closeModal(false);
+      return this.close();
     }
 
     this.startEditUserRequest(firstName, lastName, phoneNumber, this.updateUserRoles ?? undefined);
   }
 
-  closeModal(status: boolean): void {
-    this.userRoles().resetUpdateUserRoles();
-    this.modal().close(status);
-  }
-
   close(): void {
-    this.closeModal(false);
+    this.navigation.navigate('details', this.id());
+    this.modal().close(false);
   }
 
   onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
@@ -181,7 +178,7 @@ export class DhEditUserComponent {
       });
 
       this.userRoles().resetUpdateUserRoles();
-      this.closeModal(true);
+      this.close();
     };
 
     const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection[]) => {

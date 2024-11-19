@@ -20,7 +20,7 @@ limitations under the License.
   [title]="user()?.firstName + ' ' + user()?.lastName"
   #modal
   [loading]="loading()"
-  (closed)="closeModal($event)"
+  (closed)="close()"
 >
   <form [formGroup]="userInfoForm" class="user-info-form" id="user-info-form" (ngSubmit)="save()">
     <watt-tabs class="watt-modal-content--full-width">
@@ -48,7 +48,6 @@ limitations under the License.
 
       <watt-tab [label]="t('tab.roles')">
         <dh-user-roles
-          #userRoles
           [user]="user()"
           [selectMode]="true"
           (updateUserRoles)="onSelectedUserRolesChanged($event)"
