@@ -50,7 +50,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
 
           <dh-delegation-table
             [data]="entry.delegations"
-            [canManageDelegations]="canManageDelegations()"
+            [canManageDelegations]="!!canManageDelegations()"
           />
         </watt-expandable-card>
       }
@@ -62,7 +62,5 @@ export class DhDelegationsOverviewComponent {
 
   delegationsByType = input.required<DhDelegationsByType>();
 
-  canManageDelegations = toSignal(this.permissionService.hasPermission('delegation:manage'), {
-    initialValue: false,
-  });
+  canManageDelegations = toSignal(this.permissionService.hasPermission('delegation:manage'));
 }
