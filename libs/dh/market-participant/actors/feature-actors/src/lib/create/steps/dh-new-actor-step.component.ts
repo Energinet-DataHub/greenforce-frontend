@@ -17,7 +17,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -27,27 +27,27 @@ import {
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
-import { ActorForm } from '../dh-actor-form.model';
+import { DhActorForm } from '../dh-actor-form.model';
 import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-name-max-length.validator';
 
 @Component({
   standalone: true,
   selector: 'dh-new-actor-step',
   imports: [
-    VaterStackComponent,
+    ReactiveFormsModule,
     TranslocoDirective,
+
+    VaterStackComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
     WattDropdownComponent,
     WattPhoneFieldComponent,
-    ReactiveFormsModule,
     DhDropdownTranslatorDirective,
-    RxPush,
   ],
   styles: [
     `
@@ -55,8 +55,8 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
         display: block;
       }
 
-      watt-dropdown {
-        width: 100%;
+      .container > .container__item {
+        width: 50%;
       }
 
       h4 {
@@ -69,9 +69,10 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
     gap="xl"
     align="flex-start"
     direction="row"
+    class="container"
     *transloco="let t; read: 'marketParticipant.actor.create'"
   >
-    <vater-stack fill="horizontal" align="flex-start" direction="column">
+    <vater-stack class="container__item" fill="horizontal" align="flex-start" direction="column">
       <h4>{{ t('marketParty') }}</h4>
 
       <watt-text-field
@@ -106,14 +107,15 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
 
       @if (showGridAreaOptions()) {
         <watt-dropdown
-          [options]="gridAreaOptions | push"
+          [options]="gridAreaOptions()"
           [multiple]="true"
           [formControl]="newActorForm().controls.gridArea"
           [label]="t('gridArea')"
         />
       }
     </vater-stack>
-    <vater-stack fill="horizontal" align="flex-start" direction="column">
+
+    <vater-stack class="container__item" fill="horizontal" align="flex-start" direction="column">
       <h4>{{ t('contact') }}</h4>
       <watt-text-field
         [formControl]="newActorForm().controls.contact.controls.departmentOrName"
@@ -137,14 +139,13 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
   </vater-stack>`,
 })
 export class DhNewActorStepComponent {
-  newActorForm = input.required<ActorForm>();
-
-  marketRoleOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(EicFunction);
-  gridAreaOptions = getGridAreaOptions();
+  marketRoleOptions = dhEnumToWattDropdownOptions(EicFunction);
+  gridAreaOptions = toSignal(getGridAreaOptions(), { initialValue: [] });
 
   showGridAreaOptions = signal(false);
-
   nameMaxLength = dhMarketParticipantNameMaxLength;
+
+  newActorForm = input.required<DhActorForm>();
 
   onMarketRoleChange(eicfunction: EicFunction): void {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);

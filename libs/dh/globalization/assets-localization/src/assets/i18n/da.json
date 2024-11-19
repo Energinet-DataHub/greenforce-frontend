@@ -319,8 +319,8 @@
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Fremsend målepunkts data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Anmod om målepunkts data (RSM-012)"
+        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -1313,7 +1313,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
-        "CANCELED": "Afbrydt",
+        "CANCELED": "Afbrudt",
         "download": "Download"
       },
       "calculationTypes": {

@@ -59,7 +59,7 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { ActorForm } from './dh-actor-form.model';
+import { DhActorForm } from './dh-actor-form.model';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
@@ -84,7 +84,7 @@ import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-partic
   ],
 })
 export class DhActorsCreateActorModalComponent extends WattTypedModal {
-  private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);
 
   private getOrganizationFromCvrDocumentQuery = lazyQuery(GetOrganizationFromCvrDocument);
@@ -97,11 +97,11 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
 
   modal = viewChild.required(WattModalComponent);
 
-  chooseOrganizationForm = this.fb.group({
+  chooseOrganizationForm = this.formBuilder.group({
     orgId: new FormControl<string | null>(null, Validators.required),
   });
 
-  newOrganizationForm = this.fb.group({
+  newOrganizationForm = this.formBuilder.group({
     country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
     companyName: [{ value: '', disabled: true }, Validators.required],
@@ -111,12 +111,12 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     }),
   });
 
-  newActorForm: ActorForm = this.fb.group({
+  newActorForm: DhActorForm = this.formBuilder.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
-    contact: this.fb.group({
+    contact: this.formBuilder.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
