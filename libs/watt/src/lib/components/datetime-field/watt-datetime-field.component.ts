@@ -17,12 +17,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
-  effect,
   forwardRef,
   input,
-  model,
   output,
+  signal,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -35,7 +33,7 @@ import {
 import { MatCalendar } from '@angular/material/datepicker';
 import { MaskitoDirective } from '@maskito/angular';
 import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
-import { map, startWith } from 'rxjs';
+import { map } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldComponent } from '../field';
 import { WattButtonComponent } from '../button/watt-button.component';
@@ -99,16 +97,14 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
     </watt-field>
     <div #picker class="watt-elevation watt-datetime-field-picker" popover="manual" tabindex="0">
       <mat-calendar
-        [startAt]="date()"
-        [selected]="date()"
+        [startAt]="selected()"
+        [selected]="selected()"
         (selectedChange)="handleSelectedChange(field, picker, $event)"
       />
     </div>
   `,
 })
 export class WattDateTimeField implements ControlValueAccessor {
-  protected control = new FormControl('', { nonNullable: true });
-  private calendar = viewChild.required<MatCalendar<Date>>(MatCalendar);
 
   /** Converts date from outer FormControl to format of inner FormControl. */
   protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
@@ -121,17 +117,20 @@ export class WattDateTimeField implements ControlValueAccessor {
     return this.inclusive() ? date.endOf('m').toDate() : date.toDate();
   };
 
-  label = input('');
-  inclusive = input(false);
-  date = model<Date | null>(null);
-  blur = output<FocusEvent>();
-
-  placeholder = 'dd-mm-yyyy, hh:mm'; // TODO: i18n
-  mask = maskitoDateTimeOptionsGenerator({
+  private calendar = viewChild.required<MatCalendar<Date>>(MatCalendar);
+  protected control = new FormControl('', { nonNullable: true });
+  protected selected = signal<Date | null>(null);
+  protected placeholder = 'dd-mm-yyyy, hh:mm';
+  protected mask = maskitoDateTimeOptionsGenerator({
     dateMode: 'dd/mm/yyyy',
     timeMode: 'HH:MM',
     dateSeparator: '-',
   });
+
+  label = input('');
+  inclusive = input(false);
+  dateChange = outputFromObservable(this.control.valueChanges.pipe(map(this.viewToModel)));
+  blur = output<FocusEvent>();
 
   protected handleBlur = (picker: HTMLElement, event: FocusEvent) => {
     if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
@@ -159,21 +158,16 @@ export class WattDateTimeField implements ControlValueAccessor {
     picker.hidePopover();
   };
 
+  constructor() {
+    this.dateChange.subscribe((date) => {
+      this.selected.set(date);
+      this.calendar().activeDate = date ?? new Date();
+    });
+  }
+
   // Implementation for ControlValueAccessor
   writeValue = (value: Date | null) => this.control.setValue(this.modelToView(value));
   setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
-  registerOnChange = (fn: (value: Date | null) => void) => this.date.subscribe(fn);
-
-  constructor() {
-    this.control.valueChanges
-      .pipe(startWith(this.control.value), map(this.viewToModel))
-      .subscribe((value) => {
-        this.date.set(value);
-      });
-
-    effect(() => {
-      this.calendar().activeDate = this.date() ?? new Date();
-    });
-  }
+  registerOnChange = (fn: (value: Date | null) => void) => this.dateChange.subscribe(fn);
 }
