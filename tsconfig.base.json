@@ -341,6 +341,9 @@
       "@energinet-datahub/watt/datepicker": [
         "libs/watt/src/lib/components/picker/datepicker/index.ts"
       ],
+      "@energinet-datahub/watt/datetime-field": [
+        "libs/watt/src/lib/components/datetime-field/index.ts"
+      ],
       "@energinet-datahub/watt/datetimepicker": [
         "libs/watt/src/lib/components/picker/datetimepicker/index.ts"
       ],
