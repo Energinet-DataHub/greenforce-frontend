@@ -55,9 +55,10 @@ export class DhNavigationService {
       });
   }
 
-  navigate(id: string | undefined, path: 'details' | 'edit') {
+  navigate(id: string, path: 'details' | 'edit') {
     this.id.set(id);
     // console.log('navigating to', path, id);
+
     this.router.navigate([path, id], {
       relativeTo: this.route,
     });

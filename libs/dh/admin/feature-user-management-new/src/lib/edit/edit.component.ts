@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { HttpStatusCode } from '@angular/common/http';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { RxPush } from '@rx-angular/template/push';
@@ -23,7 +23,10 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
-import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetUserByIdDocument,
+  UpdateActorUserRolesInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
@@ -36,10 +39,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  selector: 'dh-edit-user-modal',
+  selector: 'dh-edit-user',
   standalone: true,
   imports: [
     TranslocoDirective,
@@ -74,13 +78,14 @@ import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datah
   ],
   providers: [DhAdminEditUserStore],
 })
-export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
-  private readonly editUserStore = inject(DhAdminEditUserStore);
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly transloco = inject(TranslocoService);
-  private readonly toastService = inject(WattToastService);
+export class DhEditUserComponent {
+  private editUserStore = inject(DhAdminEditUserStore);
+  private formBuilder = inject(FormBuilder);
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private getUserQuery = lazyQuery(GetUserByIdDocument);
 
-  private _updateUserRoles: UpdateUserRoles | null = null;
+  private updateUserRoles: UpdateUserRoles | null = null;
 
   updatedPhoneNumber: string | null = null;
 
@@ -90,39 +95,41 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
     phoneNumber: ['', Validators.required],
   });
 
-  @ViewChild('editUserModal') editUserModal!: WattModalComponent;
-  @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
+  modal = viewChild.required(WattModalComponent);
+  userRoles = viewChild.required(DhUserRolesComponent);
 
   isSaving$ = this.editUserStore.isSaving$;
 
+  user = computed(() => this.getUserQuery.data()?.userById);
+
+  loading = this.getUserQuery.loading;
+
+  // Router param value
+  id = input.required<string>();
+
   constructor() {
-    super();
-
-    const { firstName, lastName, phoneNumber } = this.modalData;
-    this.userInfoForm.patchValue({
-      firstName,
-      lastName,
-      phoneNumber: phoneNumber ?? '',
+    effect(() => {
+      const id = this.id();
+      this.getUserQuery.query({ variables: { id } });
+      this.modal().open();
     });
-  }
 
-  get firstNameControl() {
-    return this.userInfoForm.controls.firstName;
-  }
-
-  get lastNameControl() {
-    return this.userInfoForm.controls.lastName;
-  }
-
-  get phoneNumberControl() {
-    return this.userInfoForm.controls.phoneNumber;
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        this.userInfoForm.patchValue({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber ?? '',
+        });
+      }
+    });
   }
 
   save() {
     if (
-      this.modalData === null ||
       this.userInfoForm.invalid ||
-      this._updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
+      this.updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
     ) {
       return;
     }
@@ -131,28 +138,25 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
       return this.closeModal(false);
     }
 
-    const { firstName, lastName, phoneNumber } = this.modalData;
+    const user = this.user();
+
+    const { firstName, lastName, phoneNumber } = this.userInfoForm.getRawValue();
 
     if (
-      this.firstNameControl.value === firstName &&
-      this.lastNameControl.value === lastName &&
-      this.phoneNumberControl.value === phoneNumber &&
-      this._updateUserRoles === null
+      firstName === user?.firstName &&
+      lastName === user?.lastName &&
+      phoneNumber === user?.phoneNumber &&
+      this.updateUserRoles === null
     ) {
       return this.closeModal(false);
     }
 
-    this.startEditUserRequest(
-      this.firstNameControl.value,
-      this.lastNameControl.value,
-      this.phoneNumberControl.value,
-      this._updateUserRoles ?? undefined
-    );
+    this.startEditUserRequest(firstName, lastName, phoneNumber, this.updateUserRoles ?? undefined);
   }
 
   closeModal(status: boolean): void {
-    this.userRoles.resetUpdateUserRoles();
-    this.editUserModal.close(status);
+    this.userRoles().resetUpdateUserRoles();
+    this.modal().close(status);
   }
 
   close(): void {
@@ -160,7 +164,7 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
   }
 
   onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
-    this._updateUserRoles = updateUserRoles;
+    this.updateUserRoles = updateUserRoles;
     this.userInfoForm.markAsDirty();
   }
 
@@ -176,7 +180,7 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
         message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
       });
 
-      this.userRoles.resetUpdateUserRoles();
+      this.userRoles().resetUpdateUserRoles();
       this.closeModal(true);
     };
 
@@ -211,9 +215,10 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
         })
       : [];
 
-    if (this.modalData) {
+    const user = this.user();
+    if (user) {
       this.editUserStore.editUser({
-        userId: this.modalData.id,
+        userId: user.id,
         firstName,
         lastName,
         phoneNumber: formattedPhoneNumber,

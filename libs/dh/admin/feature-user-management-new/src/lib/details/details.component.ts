@@ -31,7 +31,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -47,7 +47,7 @@ import {
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhEditUserModalComponent } from '../edit/edit.component';
+import { DhEditUserComponent } from '../edit/edit.component';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
@@ -69,15 +69,15 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     WATT_DRAWER,
     WattButtonComponent,
 
+    DhEditUserComponent,
+    DhUserRolesComponent,
     DhUserStatusComponent,
-    DhPermissionRequiredDirective,
     DhUserAuditLogsComponent,
     DhUserMasterDataComponent,
-    DhUserRolesComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserDetailsComponent {
-  private modalService = inject(WattModalService);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private navigation = inject(DhNavigationService);
@@ -136,11 +136,8 @@ export class DhUserDetailsComponent {
     this.navigation.back();
   }
 
-  showEditUserModal(): void {
-    this.modalService.open({
-      component: DhEditUserModalComponent,
-      data: this.selectedUser(),
-    });
+  edit(): void {
+    this.navigation.navigate(this.id(), 'edit');
   }
 
   reinvite = () =>
