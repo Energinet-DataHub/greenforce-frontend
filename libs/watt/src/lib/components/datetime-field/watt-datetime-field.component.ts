@@ -17,8 +17,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
   forwardRef,
   input,
+  model,
   output,
   viewChild,
   ViewEncapsulation,
@@ -32,10 +35,11 @@ import {
 import { MatCalendar } from '@angular/material/datepicker';
 import { MaskitoDirective } from '@maskito/angular';
 import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
-import { map } from 'rxjs';
+import { map, startWith } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldComponent } from '../field';
 import { WattButtonComponent } from '../button/watt-button.component';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 
 const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
 const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
@@ -95,19 +99,31 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
     </watt-field>
     <div #picker class="watt-elevation watt-datetime-field-picker" popover="manual" tabindex="0">
       <mat-calendar
-        [startAt]="viewToModel(control.value)"
-        [selected]="viewToModel(control.value)"
+        [startAt]="date()"
+        [selected]="date()"
         (selectedChange)="handleSelectedChange(field, picker, $event)"
       />
     </div>
-    <p>control value: {{ viewToModel(control.value) }}</p>
   `,
 })
 export class WattDateTimeField implements ControlValueAccessor {
   protected control = new FormControl('', { nonNullable: true });
+  private calendar = viewChild.required<MatCalendar<Date>>(MatCalendar);
+
+  /** Converts date from outer FormControl to format of inner FormControl. */
+  protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
+    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(format) : '';
+
+  /** Converts value of inner FormControl to type of outer FormControl. */
+  protected viewToModel = (value: string) => {
+    const date = dayjs(value, DATETIME_FORMAT, true);
+    if (!date.isValid()) return null;
+    return this.inclusive() ? date.endOf('m').toDate() : date.toDate();
+  };
 
   label = input('');
   inclusive = input(false);
+  date = model<Date | null>(null);
   blur = output<FocusEvent>();
 
   placeholder = 'dd-mm-yyyy, hh:mm'; // TODO: i18n
@@ -117,16 +133,7 @@ export class WattDateTimeField implements ControlValueAccessor {
     dateSeparator: '-',
   });
 
-  modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
-    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(format) : '';
-
-  viewToModel = (value: string) => {
-    const date = dayjs(value, DATETIME_FORMAT, true);
-    if (!date.isValid()) return null;
-    return this.inclusive() ? date.endOf('m').toDate() : date.toDate();
-  };
-
-  handleBlur = (picker: HTMLElement, event: FocusEvent) => {
+  protected handleBlur = (picker: HTMLElement, event: FocusEvent) => {
     if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
       const target = event.target as HTMLInputElement; // safe type assertion
       setTimeout(() => target.focus());
@@ -136,7 +143,11 @@ export class WattDateTimeField implements ControlValueAccessor {
     }
   };
 
-  handleSelectedChange = (field: HTMLInputElement, picker: HTMLDivElement, date: Date) => {
+  protected handleSelectedChange = (
+    field: HTMLInputElement,
+    picker: HTMLDivElement,
+    date: Date
+  ) => {
     const prev = this.viewToModel(this.control.value);
 
     // Only write the date part
@@ -150,8 +161,19 @@ export class WattDateTimeField implements ControlValueAccessor {
 
   // Implementation for ControlValueAccessor
   writeValue = (value: Date | null) => this.control.setValue(this.modelToView(value));
-  setDisabledState = (d: boolean) => (d ? this.control.disable() : this.control.enable());
+  setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
-  registerOnChange = (fn: (value: Date | null) => void) =>
-    this.control.valueChanges.pipe(map(this.viewToModel)).subscribe(fn);
+  registerOnChange = (fn: (value: Date | null) => void) => this.date.subscribe(fn);
+
+  constructor() {
+    this.control.valueChanges
+      .pipe(startWith(this.control.value), map(this.viewToModel))
+      .subscribe((value) => {
+        this.date.set(value);
+      });
+
+    effect(() => {
+      this.calendar().activeDate = this.date() ?? new Date();
+    });
+  }
 }
