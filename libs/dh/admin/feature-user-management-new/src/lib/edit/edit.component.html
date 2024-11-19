@@ -18,49 +18,53 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.editUser'"
   size="large"
   [title]="user()?.firstName + ' ' + user()?.lastName"
-  #modal
   [loading]="loading()"
   (closed)="close()"
 >
-  <form [formGroup]="userInfoForm" class="user-info-form" id="user-info-form" (ngSubmit)="save()">
-    <watt-tabs class="watt-modal-content--full-width">
-      <watt-tab [label]="t('tab.masterData')">
+  <watt-tabs class="watt-modal-content--full-width">
+    <watt-tab [label]="t('tab.masterData')">
+      <form
+        vater-flex
+        direction="column"
+        gap="s"
+        offset="m"
+        [formGroup]="userInfoForm"
+        id="user-info-form"
+        (ngSubmit)="save()"
+      >
         <watt-text-field
           [label]="t('masterData.firstName')"
-          class="name-field"
           [formControl]="userInfoForm.controls.firstName"
           type="text"
         />
 
         <watt-text-field
           [label]="t('masterData.lastName')"
-          class="name-field"
           [formControl]="userInfoForm.controls.lastName"
           type="text"
         />
 
         <watt-phone-field
           [label]="t('masterData.phone')"
-          class="phone-field"
           [formControl]="userInfoForm.controls.phoneNumber"
         />
-      </watt-tab>
+      </form>
+    </watt-tab>
 
-      <watt-tab [label]="t('tab.roles')">
-        <dh-user-roles
-          [user]="user()"
-          [selectMode]="true"
-          (updateUserRoles)="onSelectedUserRolesChanged($event)"
-        />
-      </watt-tab>
-    </watt-tabs>
-  </form>
+    <watt-tab [label]="t('tab.roles')">
+      <dh-user-roles
+        [user]="user()"
+        [selectMode]="true"
+        (updateUserRoles)="onSelectedUserRolesChanged($event)"
+      />
+    </watt-tab>
+  </watt-tabs>
 
   <watt-modal-actions>
     <watt-button variant="secondary" (click)="close()">
       {{ t("cancel") }}
     </watt-button>
-    <watt-button type="submit" formId="user-info-form" [loading]="isSaving$ | push">
+    <watt-button type="submit" formId="user-info-form" [loading]="isSaving()">
       {{ t("save") }}
     </watt-button>
   </watt-modal-actions>

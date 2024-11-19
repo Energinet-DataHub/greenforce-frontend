@@ -14,78 +14,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpStatusCode } from '@angular/common/http';
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import {
+  inject,
+  effect,
+  computed,
+  Component,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { RxPush } from '@rx-angular/template/push';
+import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import {
+  GetUsersDocument,
   GetUserByIdDocument,
   UpdateActorUserRolesInput,
+  UpdateUserAndRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
-import {
-  ApiErrorCollection,
-  readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-edit-user',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    RxPush,
 
     WATT_MODAL,
-    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
+    WattButtonComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
+
+    VaterFlexComponent,
 
     DhUserRolesComponent,
   ],
   templateUrl: './edit.component.html',
-  styles: [
-    `
-      .name-field {
-        max-width: 384px;
-        margin-right: var(--watt-space-ml);
-      }
+  styles: `
+    watt-text-field {
+      width: 50%;
+    }
 
-      .phone-field {
-        max-width: 256px;
-      }
-
-      .reinvite-link {
-        margin-right: auto;
-      }
-    `,
-  ],
-  providers: [DhAdminEditUserStore],
+    watt-phone-field {
+      width: 30%;
+    }
+  `,
 })
 export class DhEditUserComponent {
-  private editUserStore = inject(DhAdminEditUserStore);
   private formBuilder = inject(FormBuilder);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
-  private getUserQuery = lazyQuery(GetUserByIdDocument);
   private navigation = inject(DhNavigationService);
+  private getUserQuery = lazyQuery(GetUserByIdDocument);
+  private editUserMutation = mutation(UpdateUserAndRolesDocument);
 
   private updateUserRoles: UpdateUserRoles | null = null;
 
@@ -98,7 +98,7 @@ export class DhEditUserComponent {
   modal = viewChild.required(WattModalComponent);
   userRoles = viewChild.required(DhUserRolesComponent);
 
-  isSaving$ = this.editUserStore.isSaving$;
+  isSaving = this.editUserMutation.loading;
 
   user = computed(() => this.getUserQuery.data()?.userById);
 
@@ -127,32 +127,56 @@ export class DhEditUserComponent {
     });
   }
 
-  save() {
+  async save() {
+    const id = this.id();
     if (
       this.userInfoForm.invalid ||
-      this.updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
+      this.updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned) ||
+      id === undefined
     ) {
       return;
     }
 
-    if (this.userInfoForm.pristine) {
-      return this.close();
-    }
-
-    const user = this.user();
-
     const { firstName, lastName, phoneNumber } = this.userInfoForm.getRawValue();
 
-    if (
-      firstName === user?.firstName &&
-      lastName === user?.lastName &&
-      phoneNumber === user?.phoneNumber &&
-      this.updateUserRoles === null
-    ) {
-      return this.close();
+    const phoneParts = phoneNumber.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
+    const updateActorUserRolesInput: UpdateActorUserRolesInput[] = this.updateUserRoles
+      ? this.updateUserRoles?.actors.map((actor) => {
+          return {
+            actorId: actor.id,
+            assignments: actor.userRolesToUpdate,
+          };
+        })
+      : [];
+
+    const result = await this.editUserMutation.mutate({
+      refetchQueries: [GetUsersDocument, GetUserByIdDocument],
+      variables: {
+        updateRolesInput: {
+          userId: id,
+          input: updateActorUserRolesInput,
+        },
+        updateUserInput: {
+          userId: id,
+          userIdentityUpdateDto: {
+            firstName,
+            lastName,
+            phoneNumber: formattedPhoneNumber,
+          },
+        },
+      },
+    });
+
+    if (result.data?.updateUserIdentity.success && result.data?.updateUserRoleAssignment.success) {
+      this.showSuccessToast();
     }
 
-    this.startEditUserRequest(firstName, lastName, phoneNumber, this.updateUserRoles ?? undefined);
+    if (result.error) {
+      this.showErrorToast(result.error.graphQLErrors);
+    }
   }
 
   close(): void {
@@ -165,64 +189,22 @@ export class DhEditUserComponent {
     this.userInfoForm.markAsDirty();
   }
 
-  private startEditUserRequest(
-    firstName: string,
-    lastName: string,
-    phoneNumber: string,
-    updateUserRoles: UpdateUserRoles | undefined
-  ) {
-    const onSuccessFn = () => {
-      this.toastService.open({
-        type: 'success',
-        message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
-      });
+  private showSuccessToast() {
+    this.toastService.open({
+      type: 'success',
+      message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
+    });
 
-      this.userRoles().resetUpdateUserRoles();
-      this.close();
-    };
+    this.userRoles().resetUpdateUserRoles();
+    this.close();
+  }
 
-    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection[]) => {
-      if (statusCode !== HttpStatusCode.BadRequest) {
-        this.toastService.open({
-          type: 'danger',
-          message: this.transloco.translate('admin.userManagement.editUser.saveError'),
-        });
-      }
+  private showErrorToast(errors: GraphQLErrors) {
+    const message =
+      errors.length > 0
+        ? parseGraphQLErrorResponse(errors)
+        : this.transloco.translate('admin.userManagement.editUser.saveError');
 
-      if (statusCode === HttpStatusCode.BadRequest) {
-        const message =
-          apiErrorCollection.length > 0
-            ? readApiErrorResponse(apiErrorCollection)
-            : this.transloco.translate('admin.userManagement.editUser.saveError');
-
-        this.toastService.open({ type: 'danger', message, duration: 60_000 });
-      }
-    };
-
-    const phoneParts = phoneNumber.split(' ');
-    const [prefix, ...rest] = phoneParts;
-    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
-
-    const updateActorUserRolesInput: UpdateActorUserRolesInput[] = updateUserRoles
-      ? updateUserRoles?.actors.map((actor) => {
-          return {
-            actorId: actor.id,
-            assignments: actor.userRolesToUpdate,
-          };
-        })
-      : [];
-
-    const user = this.user();
-    if (user) {
-      this.editUserStore.editUser({
-        userId: user.id,
-        firstName,
-        lastName,
-        phoneNumber: formattedPhoneNumber,
-        updateUserRoles: updateActorUserRolesInput,
-        onSuccessFn,
-        onErrorFn,
-      });
-    }
+    this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }
 }
