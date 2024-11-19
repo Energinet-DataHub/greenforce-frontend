@@ -53,14 +53,6 @@ const routes: Routes = [
   },
   { path: 'login', component: EoLoginComponent },
   {
-    path: eoPrivacyPolicyRoutePath,
-    title: translations.privacyPolicy.title,
-    loadChildren: () =>
-      import('@energinet-datahub/eo/privacy-policy/shell').then(
-        (esModule) => esModule.eoPrivacyPolicyRoutes
-      ),
-  },
-  {
     path: 'callback',
     redirectTo: 'onboarding/signin-callback',
   },
@@ -75,6 +67,14 @@ const routes: Routes = [
     path: '',
     component: EoShellComponent,
     children: [
+      {
+        path: eoPrivacyPolicyRoutePath,
+        title: translations.privacyPolicy.title,
+        loadChildren: () =>
+          import('@energinet-datahub/eo/privacy-policy/shell').then(
+            (esModule) => esModule.eoPrivacyPolicyRoutes
+          ),
+      },
       {
         path: eoTermsRoutePath,
         title: translations.terms.title,
