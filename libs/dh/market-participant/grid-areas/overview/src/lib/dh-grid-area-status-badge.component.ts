@@ -49,5 +49,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhGridAreaStatusBadgeComponent {
-  status = input.required<GridAreaStatus | undefined>();
+  status = input.required<GridAreaStatus>();
 }

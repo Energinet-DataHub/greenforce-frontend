@@ -20,7 +20,7 @@ limitations under the License.
       <watt-dropdown
         [label]="t('delegations')"
         [formControl]="createDelegationForm.controls.delegation"
-        [options]="delegations$ | push"
+        [options]="delegations()"
       />
 
       <watt-dropdown
@@ -59,6 +59,7 @@ limitations under the License.
     <watt-button variant="secondary" (click)="closeModal(false)">
       {{ t("cancel") }}
     </watt-button>
+
     <watt-button type="submit" formId="set-up-delgation-form" [loading]="isSaving()">
       {{ t("save") }}
     </watt-button>
