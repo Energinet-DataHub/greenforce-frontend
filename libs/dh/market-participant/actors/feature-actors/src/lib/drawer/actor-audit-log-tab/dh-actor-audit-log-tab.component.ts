@@ -99,7 +99,7 @@ export class DhActorAuditLogTabComponent {
       processType: translate(
         'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' + payloadProcessType
       ),
-      stopsAt: payloadStopsAt !== undefined ? wattFormatDate(payloadStopsAt) : undefined,
+      stopsAt: payloadStopsAt == undefined ? undefined : wattFormatDate(payloadStopsAt),
     };
   }
 }
