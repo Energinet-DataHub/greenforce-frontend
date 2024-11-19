@@ -1313,7 +1313,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
-        "CANCELED": "Afbrydt",
+        "CANCELED": "Afbrudt",
         "download": "Download"
       },
       "calculationTypes": {

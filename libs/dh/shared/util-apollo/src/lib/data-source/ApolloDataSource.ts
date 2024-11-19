@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { OperationVariables } from '@apollo/client/core';
 import { TypedDocumentNode } from 'apollo-angular';
 import {
   BehaviorSubject,
@@ -34,20 +35,36 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSort, SortDirection } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IWattTableDataSource } from '@energinet-datahub/watt/table';
-import { query, QueryOptions, QueryResult } from './query';
+import { query, QueryOptions, QueryResult } from '../query';
 import { signal } from '@angular/core';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { Connection, ConnectionVariables, SelectorFn } from './types';
-import { navigate, firstPage } from './util/paging';
 
-export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, TNode>
+export type SortInput = Record<string, 'ASC' | 'DESC' | null | undefined>;
+export interface CommonVariables extends OperationVariables {
+  order?: SortInput | SortInput[] | null;
+  filter?: string | null;
+}
+
+export type Pageable<TNode, TPageInfo> = {
+  pageInfo: TPageInfo;
+  totalCount: number;
+  nodes: TNode[] | null | undefined;
+};
+
+export abstract class ApolloDataSource<
+    TResult,
+    TVariables extends TPagingVariables,
+    TNode,
+    TPageInfo,
+    TPagingVariables extends CommonVariables,
+  >
   extends DataSource<TNode>
   implements IWattTableDataSource<TNode>
 {
   private _query: QueryResult<TResult, TVariables>;
-  private _connection: Observable<Connection<TNode>>;
+  private _pageable: Observable<Pageable<TNode, TPageInfo>>;
   private _inputChange: ReplaySubject<Partial<TVariables> | undefined> = new ReplaySubject(1);
   private _subscription?: Subscription;
 
@@ -113,26 +130,21 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
 
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
-    selector: SelectorFn<TResult, TNode>,
     options?: QueryOptions<TVariables>
   ) {
     super();
 
     this._query = query(document, { ...options, skip: true });
-    this._connection = toObservable(this._query.data).pipe(
+    this._pageable = toObservable(this._query.data).pipe(
       exists(),
-      map((data) => selector(data)),
+      map((data) => this.selector(data)),
       exists()
     );
 
     if (!options?.skip) this._inputChange.next(options?.variables);
   }
 
-  refetch = (variables?: Partial<TVariables>) => {
-    this._data.set([]);
-    this._inputChange.next(variables);
-  };
-
+  refetch = (variables?: Partial<TVariables>) => this._inputChange.next(variables);
   subscribeToMore: QueryResult<TResult, TVariables>['subscribeToMore'] = (options) =>
     this._query.subscribeToMore(options);
 
@@ -201,9 +213,9 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     // to prevent the paginator observable from running in response to `firstPage()`.
     const beforeInputChange = connectable(inputChange);
     const beforeSortChange = connectable(sort.sortChange);
-    const pageChange = this._connection.pipe(
-      tap((connection) => this._totalCount.set(connection.totalCount)),
-      tap((connection) => (paginator.length = connection.totalCount)),
+    const pageChange = this._pageable.pipe(
+      tap((pageable) => this._totalCount.set(pageable.totalCount)),
+      tap((pageable) => (paginator.length = pageable.totalCount)),
       tap(() => (paginator.disabled = false)),
       switchMap((connection) =>
         paginator.page.pipe(
@@ -211,17 +223,17 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
           takeUntil(beforeInputChange),
           takeUntil(beforeSortChange),
           tap(() => (paginator.disabled = true)),
-          map((event) => navigate(paginator, event, connection.pageInfo)),
+          map((event) => this._navigate(paginator, event, connection.pageInfo)),
           map((variables) => ({ variables }))
         )
       )
     );
 
-    const dataChange = this._connection.pipe(map((connection) => connection.nodes ?? []));
+    const dataChange = this._pageable.pipe(map((pageable) => pageable.nodes ?? []));
     const optionsChange = inputChange.pipe(
       mergeWith(sortChange),
       tap(() => paginator.firstPage()),
-      map((opts) => ({ ...opts, variables: { ...firstPage(paginator), ...opts.variables } })),
+      map((opts) => ({ ...opts, variables: { ...this.firstPage(paginator), ...opts.variables } })),
       mergeWith(pageChange),
       map((opts) => ({ ...opts, fetchPolicy: 'cache-and-network' })),
       map((opts) => opts as QueryOptions<TVariables>)
@@ -233,4 +245,19 @@ export class ApolloDataSource<TResult, TVariables extends ConnectionVariables, T
     this._subscription.add(beforeSortChange.connect());
     this._subscription.add(optionsChange.subscribe((opts) => this._query.setOptions(opts)));
   }
+
+  _navigate(paginator: MatPaginator, event: PageEvent, pageInfo: TPageInfo) {
+    const delta = paginator.pageIndex - (event?.previousPageIndex ?? 0);
+    if (!paginator.hasPreviousPage()) return this.firstPage(paginator);
+    if (!paginator.hasNextPage()) return this.lastPage(paginator);
+    if (delta === 1) return this.nextPage(paginator, pageInfo);
+    if (delta === -1) return this.previousPage(paginator, pageInfo);
+    return this.firstPage(paginator);
+  }
+
+  abstract selector(data: TResult): Pageable<TNode, TPageInfo> | null | undefined;
+  abstract nextPage(paginator: MatPaginator, pageInfo: TPageInfo): TPagingVariables;
+  abstract previousPage(paginator: MatPaginator, pageInfo: TPageInfo): TPagingVariables;
+  abstract firstPage(paginator: MatPaginator): TPagingVariables;
+  abstract lastPage(paginator: MatPaginator): TPagingVariables;
 }
