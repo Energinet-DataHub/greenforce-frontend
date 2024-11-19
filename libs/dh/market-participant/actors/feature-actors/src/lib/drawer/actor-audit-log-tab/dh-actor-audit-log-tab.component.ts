@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, input, effect, computed, inject } from '@angular/core';
+import { Component, input, effect, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -41,6 +41,7 @@ import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
     WATT_CARD,
     WATT_TABLE,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhActorAuditLogTabComponent {
   private auditLogService = inject(DhActorAuditLogService);
