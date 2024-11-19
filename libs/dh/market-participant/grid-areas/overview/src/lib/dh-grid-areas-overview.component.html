@@ -39,6 +39,7 @@ limitations under the License.
         [(ngModel)]="selectedGridAreaType"
         [placeholder]="t('areaTypePlaceholder')"
       />
+
       <watt-dropdown
         sortDirection="asc"
         dhDropdownTranslator
@@ -46,10 +47,11 @@ limitations under the License.
         [options]="gridAreaStatusOptions"
         [multiple]="true"
         [chipMode]="true"
-        [(ngModel)]="selectedGridAreaStatusOptions"
+        [(ngModel)]="selectedGridAreaStatus"
         [placeholder]="t('statusTypePlaceholder')"
       />
     </vater-stack>
+
     <vater-flex fill="vertical" scrollable>
       <watt-table
         [columns]="columns"
@@ -87,6 +89,7 @@ limitations under the License.
           <dh-gridarea-status-badge [status]="gridArea.status" />
         </ng-container>
       </watt-table>
+
       @if (!isLoading() && (hasError() || dataSource.data.length === 0)) {
         <vater-stack fill="vertical" justify="center">
           <watt-empty-state
@@ -96,6 +99,7 @@ limitations under the License.
         </vater-stack>
       }
     </vater-flex>
+
     <watt-paginator [for]="dataSource" [pageSize]="100" />
   </vater-flex>
 </watt-card>
