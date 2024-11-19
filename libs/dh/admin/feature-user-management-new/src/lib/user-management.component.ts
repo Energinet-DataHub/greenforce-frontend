@@ -37,6 +37,6 @@ export class DhUserManagementComponent {
   private navigationService = inject(DhNavigationService);
 
   navigate(id: string) {
-    this.navigationService.navigate(id, 'details');
+    this.navigationService.navigate('details', id);
   }
 }

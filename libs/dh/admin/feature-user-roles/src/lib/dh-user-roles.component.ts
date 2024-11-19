@@ -78,7 +78,7 @@ export class DhUserRolesComponent {
     actors: [],
   };
 
-  user = input<DhUser | null>(null);
+  user = input<DhUser | undefined>(undefined);
   selectMode = input(false);
   expanded = input(true);
 

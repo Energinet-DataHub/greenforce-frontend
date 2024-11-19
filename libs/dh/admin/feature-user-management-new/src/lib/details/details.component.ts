@@ -25,17 +25,19 @@ import {
   input,
 } from '@angular/core';
 
+import { RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
+
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import {
   UserStatus,
@@ -45,14 +47,14 @@ import {
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhEditUserModalComponent } from '../edit/edit.component';
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
-import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
-import { DhUserMasterDataComponent } from './tabs/master-data.component';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { DhDeactivteComponent } from './deactivate.component';
 import { DhReactivateComponent } from './reactivate-component';
+import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
+import { DhUserMasterDataComponent } from './tabs/master-data.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -61,6 +63,7 @@ import { DhReactivateComponent } from './reactivate-component';
   standalone: true,
   templateUrl: './details.component.html',
   imports: [
+    RouterOutlet,
     TranslocoDirective,
     MatMenuModule,
 
@@ -69,17 +72,17 @@ import { DhReactivateComponent } from './reactivate-component';
     WATT_DRAWER,
     WattButtonComponent,
 
-    DhUserStatusComponent,
     DhPermissionRequiredDirective,
-    DhUserAuditLogsComponent,
-    DhUserMasterDataComponent,
+
     DhUserRolesComponent,
     DhDeactivteComponent,
     DhReactivateComponent,
+    DhUserStatusComponent,
+    DhUserAuditLogsComponent,
+    DhUserMasterDataComponent,
   ],
 })
 export class DhUserDetailsComponent {
-  private modalService = inject(WattModalService);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private navigation = inject(DhNavigationService);
@@ -119,15 +122,11 @@ export class DhUserDetailsComponent {
   }
 
   onClose(): void {
-    this.drawer().close();
-    this.navigation.back();
+    this.navigation.navigate('list');
   }
 
-  showEditUserModal(): void {
-    this.modalService.open({
-      component: DhEditUserModalComponent,
-      data: this.selectedUser(),
-    });
+  edit(): void {
+    this.navigation.navigate('edit', this.id());
   }
 
   reinvite = () =>
