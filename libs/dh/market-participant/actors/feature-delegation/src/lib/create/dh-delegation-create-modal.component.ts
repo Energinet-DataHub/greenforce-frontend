@@ -21,7 +21,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild, inject, signal } from '@angular/core';
 
 import { Observable, map, of, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
@@ -62,9 +62,9 @@ import {
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
+import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -75,13 +75,14 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     `
       :host {
         display: block;
-        vater-stack > *:not(watt-datepicker) {
-          width: 100%;
-        }
+      }
 
-        watt-datepicker {
-          margin-right: auto;
-        }
+      vater-stack > *:not(watt-datepicker) {
+        width: 100%;
+      }
+
+      watt-datepicker {
+        margin-right: auto;
       }
     `,
   ],
@@ -101,18 +102,16 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
-  private _apollo = inject(Apollo);
-  private _toastService = inject(WattToastService);
-  private _fb = inject(NonNullableFormBuilder);
-  private _featureFlagsService = inject(DhFeatureFlagsService);
+  private apollo = inject(Apollo);
+  private toastService = inject(WattToastService);
+  private formBuilder = inject(NonNullableFormBuilder);
 
-  @ViewChild(WattModalComponent)
-  modal: WattModalComponent | undefined;
+  modal = viewChild.required(WattModalComponent);
 
   date = new Date();
   isSaving = signal(false);
 
-  createDelegationForm = this._fb.group({
+  createDelegationForm = this.formBuilder.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, [
@@ -127,7 +126,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   delegatedProcesses = this.getDelegatedProcesses();
 
   closeModal(result: boolean) {
-    this.modal?.close(result);
+    this.modal().close(result);
   }
 
   constructor() {
@@ -150,7 +149,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
     this.isSaving.set(true);
 
-    this._apollo
+    this.apollo
       .mutate({
         mutation: CreateDelegationForActorDocument,
         variables: {
@@ -201,7 +200,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       eicFunctions.push(EicFunction.GridAccessProvider);
     }
 
-    return this._apollo
+    return this.apollo
       .query({
         query: GetDelegatesDocument,
         variables: {
@@ -226,7 +225,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     response: MutationResult<CreateDelegationForActorMutation>
   ): void {
     if (response.errors && response.errors.length > 0) {
-      this._toastService.open({
+      this.toastService.open({
         type: 'danger',
         message: parseGraphQLErrorResponse(response.errors),
       });
@@ -236,7 +235,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       response.data?.createDelegationsForActor?.errors &&
       response.data?.createDelegationsForActor?.errors.length > 0
     ) {
-      this._toastService.open({
+      this.toastService.open({
         duration: 120_000,
         type: 'danger',
         message: readApiErrorResponse(response.data?.createDelegationsForActor?.errors),
@@ -244,7 +243,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     }
 
     if (response.data?.createDelegationsForActor?.success) {
-      this._toastService.open({
+      this.toastService.open({
         type: 'success',
         message: translate('marketParticipant.delegation.createSuccess'),
       });

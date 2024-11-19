@@ -23,7 +23,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
@@ -42,7 +42,6 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
     WattFieldErrorComponent,
 
     VaterStackComponent,
-    VaterFlexComponent,
     DhDropdownTranslatorDirective,
 
     DhOrganizationManageComponent,
@@ -114,7 +113,14 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
   </ng-container>`,
 })
 export class DhNewOrganizationStepComponent {
-  toggleShowCreateNewOrganization = output<void>();
+  countryOptions: WattDropdownOptions = [
+    { value: 'DK', displayValue: 'DK' },
+    { value: 'SE', displayValue: 'SE' },
+    { value: 'NO', displayValue: 'NO' },
+    { value: 'FI', displayValue: 'FI' },
+    { value: 'DE', displayValue: 'DE' },
+  ];
+
   lookingForCVR = input.required<boolean>();
   newOrganizationForm = input.required<
     FormGroup<{
@@ -125,11 +131,5 @@ export class DhNewOrganizationStepComponent {
     }>
   >();
 
-  countryOptions: WattDropdownOptions = [
-    { value: 'DK', displayValue: 'DK' },
-    { value: 'SE', displayValue: 'SE' },
-    { value: 'NO', displayValue: 'NO' },
-    { value: 'FI', displayValue: 'FI' },
-    { value: 'DE', displayValue: 'DE' },
-  ];
+  toggleShowCreateNewOrganization = output<void>();
 }
