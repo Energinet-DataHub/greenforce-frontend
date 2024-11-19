@@ -19,6 +19,7 @@ import {
   Component,
   inject,
   input,
+  output,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +31,8 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldComponent } from '../field';
 import { WattButtonComponent } from '../button/watt-button.component';
 
-const DATE_SHORT_FORMAT = 'DD-MM-YYYY, HH:mm';
+const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
+const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
 const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
@@ -76,13 +78,12 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
         (focus)="picker.showPopover()"
         (blur)="handleBlur(picker, $event)"
       />
-      <watt-button icon="date" variant="icon" />
+      <watt-button icon="date" variant="icon" (click)="field.focus()" />
     </watt-field>
     <div #picker class="watt-elevation watt-datetime-field-picker" popover="manual" tabindex="0">
       <mat-calendar
-        tabindex="-1"
         [selected]="ngControl.value"
-        (selectedChange)="handleSelectedChange(field, $event)"
+        (selectedChange)="handleSelectedChange(field, picker, $event)"
       />
     </div>
   `,
@@ -91,6 +92,7 @@ export class WattDateTimeField implements ControlValueAccessor {
   protected ngControl = inject(NgControl, { self: true });
   protected control = new FormControl('', { nonNullable: true });
   inclusive = input(false);
+  blur = output<FocusEvent>();
   placeholder = 'dd-mm-yyyy, hh:mm'; // TODO: i18n
   mask = maskitoDateTimeOptionsGenerator({
     dateMode: 'dd/mm/yyyy',
@@ -98,42 +100,41 @@ export class WattDateTimeField implements ControlValueAccessor {
     dateSeparator: '-',
   });
 
-  modelToView = (value: Date | null) =>
-    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(DATE_SHORT_FORMAT) : '';
+  modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
+    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(format) : '';
 
   viewToModel = (value: string) => {
-    const date = dayjs(value, DATE_SHORT_FORMAT, true);
+    const date = dayjs(value, DATETIME_FORMAT, true);
     if (!date.isValid()) return null;
     return this.inclusive() ? date.endOf('minute').toDate() : date.toDate();
   };
 
   handleBlur = (picker: HTMLElement, event: FocusEvent) => {
-    console.log(event);
     if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
       const target = event.target as HTMLInputElement; // safe type assertion
       setTimeout(() => target.focus());
     } else {
       picker.hidePopover();
+      this.blur.emit(event);
     }
   };
 
-  // Consider not filling out time portion?
-  handleSelectedChange = (field: HTMLInputElement, date: Date) => {
-    field.value = this.modelToView(date);
+  handleSelectedChange = (field: HTMLInputElement, picker: HTMLDivElement, date: Date) => {
+    const prev = this.viewToModel(this.control.value);
+    field.value = prev
+      ? this.modelToView(dayjs(date).set('h', prev.getHours()).set('m', prev.getMinutes()).toDate())
+      : this.modelToView(date, PARTIAL_DATETIME_FORMAT);
+
     field.dispatchEvent(new Event('input', { bubbles: true }));
-    field.blur();
+    picker.hidePopover();
   };
 
   // Implementation for ControlValueAccessor
   writeValue = (value: Date | null) => this.control.setValue(this.modelToView(value));
+  setDisabledState = (d: boolean) => (d ? this.control.disable() : this.control.enable());
+  registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
   registerOnChange = (fn: (value: Date | null) => void) =>
     this.control.valueChanges.pipe(map(this.viewToModel)).subscribe(fn);
-
-  // hmm
-  setDisabledState = (d: boolean) => (d ? this.control.disable() : this.control.enable());
-  registerOnTouched(fn: (_: unknown) => void) {
-    this.control.statusChanges.subscribe(fn);
-  }
 
   constructor() {
     this.ngControl.valueAccessor = this;
