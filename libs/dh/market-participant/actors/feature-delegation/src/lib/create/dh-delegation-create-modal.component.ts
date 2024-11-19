@@ -64,7 +64,7 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
-import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
+import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
   selector: 'dh-create-delegation',
@@ -116,7 +116,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, [
       Validators.required,
-      dateCannotBeOlderThanTodayValidator(),
+      dhDateCannotBeOlderThanTodayValidator(),
     ]),
     delegation: new FormControl<string | null>(null, Validators.required),
   });

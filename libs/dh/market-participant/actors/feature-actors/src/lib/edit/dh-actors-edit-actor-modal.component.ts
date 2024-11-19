@@ -16,7 +16,7 @@
  */
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, viewChild } from '@angular/core';
 
 import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
@@ -25,12 +25,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import {
   GetActorByIdDocument,
@@ -80,17 +79,13 @@ import {
     WattPhoneFieldComponent,
   ],
 })
-export class DhActorsEditActorModalComponent {
+export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExtended> {
   private readonly formBuilder = inject(FormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
   private readonly permissionService = inject(PermissionService);
 
-  innerModal = viewChild.required<WattModalComponent>(WattModalComponent);
-
-  actor = input<DhActorExtended>();
-
-  actorName = computed(() => this.actor()?.name ?? '');
+  private modal = viewChild.required<WattModalComponent>(WattModalComponent);
 
   actorEditableFieldsQuery = lazyQuery(GetActorEditableFieldsDocument);
   updateActorMutation = mutation(UpdateActorDocument);
@@ -114,6 +109,10 @@ export class DhActorsEditActorModalComponent {
   });
 
   constructor() {
+    super();
+
+    this.actorEditableFieldsQuery.query({ variables: { actorId: this.modalData.id } });
+
     effect(() => {
       this.hasActorManagePermission()
         ? this.actorForm.controls.name.enable()
@@ -122,7 +121,10 @@ export class DhActorsEditActorModalComponent {
 
     effect(() => {
       const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
-      if (!actorEditableFields) return;
+
+      if (!actorEditableFields) {
+        return;
+      }
 
       const { name, contact } = actorEditableFields;
 
@@ -135,31 +137,17 @@ export class DhActorsEditActorModalComponent {
     });
   }
 
-  open() {
-    const actorId = this.actor()?.id;
-    if (actorId) {
-      this.actorEditableFieldsQuery.query({ variables: { actorId } });
-      this.innerModal().open();
-    }
-  }
-
   save() {
-    const actorId = this.actor()?.id;
     const { departmentEmail, departmentName, departmentPhone, name } = this.actorForm.getRawValue();
-    if (
-      !actorId ||
-      !name ||
-      !departmentName ||
-      !departmentPhone ||
-      !departmentEmail ||
-      !this.actorForm.valid
-    )
+
+    if (!name || !departmentName || !departmentPhone || !departmentEmail || !this.actorForm.valid) {
       return;
+    }
 
     this.updateActorMutation.mutate({
       variables: {
         input: {
-          actorId,
+          actorId: this.modalData.id,
           actorName: name,
           departmentName,
           departmentPhone,
@@ -179,7 +167,8 @@ export class DhActorsEditActorModalComponent {
         } else {
           this.showToast('success', 'success');
         }
-        this.innerModal().close(true);
+
+        this.modal().close(true);
       },
       onError: () => {
         this.showToast('danger', 'error');
@@ -188,7 +177,7 @@ export class DhActorsEditActorModalComponent {
   }
 
   close() {
-    this.innerModal().close(false);
+    this.modal().close(false);
   }
 
   private showToast(type: WattToastType, label: string): void {
