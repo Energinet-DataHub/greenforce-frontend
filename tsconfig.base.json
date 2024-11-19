@@ -268,11 +268,11 @@
       "@energinet-datahub/eo/shared/components/ui-footer": [
         "libs/eo/shared/components/ui-footer/index.ts"
       ],
-      "@energinet-datahub/eo/shared/components/ui-html-doc": [
-        "libs/eo/shared/components/ui-html-doc/index.ts"
-      ],
       "@energinet-datahub/eo/shared/components/ui-header": [
         "libs/eo/shared/components/ui-header/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/components/ui-html-doc": [
+        "libs/eo/shared/components/ui-html-doc/index.ts"
       ],
       "@energinet-datahub/eo/shared/components/ui-idle-timer": [
         "libs/eo/shared/components/ui-idle-timer/index.ts"

@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
 import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
@@ -29,10 +25,7 @@ const selector = 'eo-auth-terms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  imports: [
-    EoScrollViewComponent,
-    EoHtmlDocComponent,
-  ],
+  imports: [EoScrollViewComponent, EoHtmlDocComponent],
   selector,
   styles: [
     `

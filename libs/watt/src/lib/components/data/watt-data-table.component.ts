@@ -119,13 +119,16 @@ import { WattButtonComponent } from '../button';
                 [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
               >
                 @if (enableRetry()) {
-<<<<<<< HEAD
+                  <<<<<<< HEAD
                   <watt-button variant="secondary" (click)="retry.emit()">{{
                     intl.emptyRetry
                   }}</watt-button>
-=======
-                  <watt-button variant="secondary" (click)="retry.emit()">{{ intl.emptyRetry }}</watt-button>
->>>>>>> 234409cb0 (feat(watt, data-table): add support for retry buton in empty state)
+                  =======
+                  <watt-button variant="secondary" (click)="retry.emit()">{{
+                    intl.emptyRetry
+                  }}</watt-button>
+                  >>>>>>> 234409cb0 (feat(watt, data-table): add support for retry buton in empty
+                  state)
                 }
               </watt-empty-state>
             </div>

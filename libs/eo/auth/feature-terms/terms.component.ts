@@ -61,7 +61,8 @@ const selector = 'eo-auth-terms';
           --eo-scroll-view-padding: 0;
         }
 
-        .terms, .actions {
+        .terms,
+        .actions {
           max-width: 1500px;
         }
 
