@@ -31,7 +31,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -42,8 +42,6 @@ import {
   Reset2faDocument,
   GetUserByIdDocument,
   ReInviteUserDocument,
-  DeactivateUserDocument,
-  ReActivateUserDocument,
   UserOverviewSearchDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -53,6 +51,8 @@ import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
 import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhDeactivteComponent } from './deactivate.component';
+import { DhReactivateComponent } from './reactivate-component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -74,6 +74,8 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     DhUserAuditLogsComponent,
     DhUserMasterDataComponent,
     DhUserRolesComponent,
+    DhDeactivteComponent,
+    DhReactivateComponent,
   ],
 })
 export class DhUserDetailsComponent {
@@ -86,14 +88,6 @@ export class DhUserDetailsComponent {
 
   // Router param
   id = input.required<string>();
-
-  deactivateConfirmationModal = viewChild.required<WattModalComponent>(
-    'deactivateConfirmationModal'
-  );
-
-  reActivateConfirmationModal = viewChild.required<WattModalComponent>(
-    'reActivateConfirmationModal'
-  );
 
   selectedUserQuery = lazyQuery(GetUserByIdDocument, {
     fetchPolicy: 'no-cache',
@@ -108,17 +102,10 @@ export class DhUserDetailsComponent {
   reInviteUserMutation = mutation(ReInviteUserDocument, {
     refetchQueries: [UserOverviewSearchDocument],
   });
+
   reset2faMutation = mutation(Reset2faDocument, { refetchQueries: [UserOverviewSearchDocument] });
-  deactivateUserMutation = mutation(DeactivateUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
-  });
-  reActivateUserMutation = mutation(ReActivateUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
-  });
 
   isReinviting = this.reInviteUserMutation.loading;
-  isDeactivating = this.deactivateUserMutation.loading;
-  isReActivating = this.reActivateUserMutation.loading;
 
   constructor() {
     effect(() => {
@@ -161,32 +148,6 @@ export class DhUserDetailsComponent {
           ? this.showToast('danger', 'reset2faError')
           : this.showToast('success', 'reset2faSuccess'),
       onError: () => this.showToast('danger', 'reset2faError'),
-    });
-
-  requestDeactivateUser = () => this.deactivateConfirmationModal().open();
-
-  deactivate = (success: boolean) =>
-    success &&
-    this.deactivateUserMutation.mutate({
-      variables: { input: { userId: this.id() } },
-      onCompleted: (data) =>
-        data.deactivateUser.errors
-          ? this.showToast('danger', 'deactivateError')
-          : this.showToast('success', 'deactivateSuccess'),
-      onError: () => this.showToast('danger', 'deactivateError'),
-    });
-
-  requestReActivateUser = () => this.reActivateConfirmationModal().open();
-
-  reActivate = (success: boolean) =>
-    success &&
-    this.reActivateUserMutation.mutate({
-      variables: { input: { userId: this.id() } },
-      onError: () => this.showToast('danger', 'reactivateError'),
-      onCompleted: (data) =>
-        data.reActivateUser.errors
-          ? this.showToast('danger', 'reactivateError')
-          : this.showToast('success', 'reactivateSuccess'),
     });
 
   private showToast(type: WattToastType, label: string): void {

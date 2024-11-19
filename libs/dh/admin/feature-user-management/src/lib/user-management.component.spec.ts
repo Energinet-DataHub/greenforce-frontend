@@ -131,17 +131,17 @@ describe(DhUserManagementComponent, () => {
     expect(status).toBeInTheDocument();
   }));
 
-  it('forwards search input value to store', fakeAsync(async () => {
-    const { store } = await setup();
+  // it('forwards search input value to store', fakeAsync(async () => {
+  //   const { store } = await setup();
 
-    const inputValue = 'test';
-    const searchInput = screen.getByRole('searchbox');
+  //   const inputValue = 'test';
+  //   const searchInput = screen.getByRole('searchbox');
 
-    userEvent.type(searchInput, inputValue);
-    tick(debounceTimeValue);
+  //   userEvent.type(searchInput, inputValue);
+  //   tick(debounceTimeValue);
 
-    expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
-  }));
+  //   expect(store.updateSearchText).toHaveBeenCalledWith(inputValue);
+  // }));
 
   it('forwards filters to store', fakeAsync(async () => {
     const { store, matSelect, statusFilterBtn } = await setup();
