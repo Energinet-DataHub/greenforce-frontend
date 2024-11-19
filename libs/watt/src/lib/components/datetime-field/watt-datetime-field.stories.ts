@@ -21,7 +21,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS } from '@angular
 import { WattDateAdapter } from '../../configuration/watt-date-adapter';
 
 const meta: Meta<WattDateTimeField> = {
-  title: 'Components/DateTime',
+  title: 'Components/DateTimeField',
   component: WattDateTimeField,
   decorators: [
     moduleMetadata({
@@ -38,15 +38,14 @@ const meta: Meta<WattDateTimeField> = {
 
 export default meta;
 
-const control = new FormControl(new Date());
-control.valueChanges.subscribe((value) => console.log(value));
+const destination = new FormControl(new Date(1985, 9, 26, 1, 21));
+const present = new FormControl(new Date(2021, 10, 12, 1, 22));
+const lastDeparted = new FormControl(new Date(2015, 9, 21, 1, 21));
 
 export const Overview: StoryFn = () => ({
-  props: { formControl: control },
+  props: { destination, present, lastDeparted },
   template: `
-    <watt-datetime-field [formControl]="formControl" [inclusive]="true" />
-    <button (click)="formControl.reset()">Reset</button>
-    <button (click)="formControl.disable()">Disable</button>
-    <button (click)="formControl.enable()">Enable</button>
-    <p>Value: {{ formControl.value?.toISOString() }}</p>`,
+    <watt-datetime-field label="Destination time" [formControl]="destination" />
+    <watt-datetime-field label="Present time" [formControl]="present" />
+    <watt-datetime-field label="Last time departed" [formControl]="lastDeparted" />`,
 });
