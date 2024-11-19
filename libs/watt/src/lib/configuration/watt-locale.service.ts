@@ -14,18 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { computed, inject, Injectable, LOCALE_ID } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
 import { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WattLocaleService {
-  onLocaleChange$ = new Subject<WattSupportedLocales>();
+  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+
+  onLocaleChange$ = new BehaviorSubject(this.locale);
+  current = toSignal(this.onLocaleChange$, { requireSync: true });
+  isDanish = computed(() => this.current() == 'da');
+  isEnglish = computed(() => this.current() == 'en');
 
   constructor(private dateAdapter: DateAdapter<unknown>) {}
 

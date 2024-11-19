@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   forwardRef,
+  inject,
   input,
   output,
   signal,
@@ -38,6 +39,7 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldComponent } from '../field';
 import { WattButtonComponent } from '../button/watt-button.component';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
 const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
 const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
@@ -105,6 +107,7 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
   `,
 })
 export class WattDateTimeField implements ControlValueAccessor {
+  private locale = inject(WattLocaleService);
 
   /** Converts date from outer FormControl to format of inner FormControl. */
   protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
@@ -120,7 +123,7 @@ export class WattDateTimeField implements ControlValueAccessor {
   private calendar = viewChild.required<MatCalendar<Date>>(MatCalendar);
   protected control = new FormControl('', { nonNullable: true });
   protected selected = signal<Date | null>(null);
-  protected placeholder = 'dd-mm-yyyy, hh:mm';
+  protected placeholder = this.locale.isDanish() ? 'dd-mm-åååå, tt:mm' : 'dd-mm-yyyy, hh:mm';
   protected mask = maskitoDateTimeOptionsGenerator({
     dateMode: 'dd/mm/yyyy',
     timeMode: 'HH:MM',
