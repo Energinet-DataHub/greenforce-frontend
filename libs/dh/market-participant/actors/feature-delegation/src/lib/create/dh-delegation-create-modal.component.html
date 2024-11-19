@@ -43,7 +43,7 @@ limitations under the License.
       <watt-datepicker
         [label]="t('start')"
         [formControl]="createDelegationForm.controls.startDate"
-        [min]="date"
+        [min]="today"
       >
         @if (
           createDelegationForm.controls.startDate.errors?.["dateCannotBeOlderThanTodayValidator"]

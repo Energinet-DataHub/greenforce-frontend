@@ -108,7 +108,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
   modal = viewChild.required(WattModalComponent);
 
-  date = new Date();
+  today = new Date();
   isSaving = signal(false);
 
   createDelegationForm = this.formBuilder.group({
