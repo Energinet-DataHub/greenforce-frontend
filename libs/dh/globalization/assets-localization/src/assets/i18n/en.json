@@ -319,8 +319,8 @@
         "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Submit metering point data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Request metering point data (RSM-012)"
+        "RECEIVE_METERING_POINT_DATA": "Submit metering data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Request metering data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -1170,7 +1170,7 @@
         "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
         "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
         "COMPLETED": "Completed",
-        "CANCELED": "Canceled"
+        "CANCELED": "Cancelled"
       },
       "executionTypes": {
         "EXTERNAL": "External",
