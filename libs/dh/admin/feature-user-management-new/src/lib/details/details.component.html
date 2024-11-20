@@ -74,10 +74,14 @@ limitations under the License.
             <dh-user-master-data [user]="user" />
           </watt-tab>
           <watt-tab [label]="t('roles.tabLabel')">
-            <dh-user-roles [id]="user.id" [expanded]="false" />
+            @defer {
+              <dh-user-roles [id]="user.id" [expanded]="false" />
+            }
           </watt-tab>
           <watt-tab *dhPermissionRequired="['fas']" [label]="t('history.tabLabel')">
-            <dh-user-audit-logs [id]="user.id" />
+            @defer {
+              <dh-user-audit-logs [id]="user.id" />
+            }
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

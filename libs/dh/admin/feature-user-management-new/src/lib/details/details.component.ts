@@ -73,14 +73,13 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
     WATT_DRAWER,
     WattButtonComponent,
 
-    DhPermissionRequiredDirective,
-
     DhUserRolesComponent,
     DhDeactivteComponent,
     DhReactivateComponent,
     DhUserStatusComponent,
     DhUserAuditLogsComponent,
     DhUserMasterDataComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserDetailsComponent {
