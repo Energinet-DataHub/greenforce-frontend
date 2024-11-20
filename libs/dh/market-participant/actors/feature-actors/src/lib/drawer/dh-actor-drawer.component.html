@@ -183,11 +183,7 @@ limitations under the License.
           }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <dh-actor-audit-log-tab
-              [actorId]="selectedActor.id"
-              [actorNumberNameLookup]="actorNumberNameLookup()"
-              [gridAreaCodeLookup]="gridAreaCodeLookup()"
-            />
+            <dh-actor-audit-log-tab [actorId]="selectedActor.id" />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

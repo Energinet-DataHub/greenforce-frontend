@@ -18,40 +18,47 @@ import { Component, computed } from '@angular/core';
 
 import {
   GridAreaOverviewRow,
-  DhMarketParticipantGridAreaOverviewComponent,
+  DhGridAreasOverviewComponent,
 } from '@energinet-datahub/dh/market-participant/grid-areas/overview';
-
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-grid-areas-shell',
+  standalone: true,
   styles: `
     :host {
       display: block;
     }
   `,
-  templateUrl: './dh-grid-areas-shell.component.html',
-  standalone: true,
-  imports: [DhMarketParticipantGridAreaOverviewComponent],
+  template: `
+    <dh-grid-areas-overview
+      [gridAreas]="rows()"
+      [isLoading]="isLoading()"
+      [hasError]="hasError()"
+    />
+  `,
+  imports: [DhGridAreasOverviewComponent],
 })
 export class DhGridAreasShellComponent {
   private readonly gln = new RegExp('^[0-9]+$');
-  getActorsQuery = query(GetGridAreaOverviewDocument);
+  private getActorsQuery = query(GetGridAreaOverviewDocument);
 
   isLoading = this.getActorsQuery.loading;
-  hasError = computed(() => Boolean(this.getActorsQuery.error()));
-  rows = computed<GridAreaOverviewRow[]>(
-    () =>
-      this.getActorsQuery.data()?.gridAreaOverview.map((x) => ({
-        code: x.code,
-        actor: x.actorNumber
-          ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
-          : '',
-        organization: x.organizationName ?? '',
-        status: x.status,
-        type: x.type,
-        priceArea: x.priceAreaCode,
-      })) ?? []
-  );
+  hasError = computed(() => this.getActorsQuery.error() !== undefined);
+
+  rows = computed<GridAreaOverviewRow[]>(() => {
+    const gridAreas = this.getActorsQuery.data()?.gridAreaOverview ?? [];
+
+    return gridAreas.map((x) => ({
+      code: x.code,
+      actor: x.actorNumber
+        ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+        : '',
+      organization: x.organizationName ?? '',
+      status: x.status,
+      type: x.type,
+      priceArea: x.priceAreaCode,
+    }));
+  });
 }
