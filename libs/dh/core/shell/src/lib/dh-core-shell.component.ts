@@ -20,7 +20,6 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
@@ -28,7 +27,6 @@ import {
   DhInactivityDetectionService,
   DhSelectedActorComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
@@ -43,12 +41,10 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     RouterOutlet,
 
     WattShellComponent,
-    WattIconComponent,
 
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     DhSelectedActorComponent,
-    DhFeatureFlagDirective,
     DhNotificationsCenterComponent,
   ],
 })
