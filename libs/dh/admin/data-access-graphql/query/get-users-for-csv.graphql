@@ -2,10 +2,8 @@ query GetUsersForCsv(
   $actorId: UUID
   $userStatus: [UserStatus!]
   $userRoleIds: [UUID!]
-  $first: Int
-  $last: Int
-  $after: String
-  $before: String
+  $skip: Int
+  $take: Int
   $order: UsersSortInput
   $filter: String
 ) {
@@ -13,14 +11,12 @@ query GetUsersForCsv(
     actorId: $actorId
     userRoleIds: $userRoleIds
     userStatus: $userStatus
-    first: $first
-    last: $last
-    before: $before
-    after: $after
+    skip: $skip
+    take: $take
     order: $order
     filter: $filter
   ) {
-    nodes {
+    items {
       id
       name
       email
@@ -36,8 +32,8 @@ query GetUsersForCsv(
     }
     totalCount
     pageInfo {
-      startCursor
-      endCursor
+      hasNextPage
+      hasPreviousPage
     }
   }
 }

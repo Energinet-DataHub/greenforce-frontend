@@ -2,10 +2,8 @@ query GetUsers(
   $actorId: UUID
   $userRoleIds: [UUID!]
   $userStatus: [UserStatus!]
-  $first: Int
-  $last: Int
-  $after: String
-  $before: String
+  $skip: Int
+  $take: Int
   $order: UsersSortInput
   $filter: String
 ) {
@@ -13,14 +11,12 @@ query GetUsers(
     actorId: $actorId
     userRoleIds: $userRoleIds
     userStatus: $userStatus
-    first: $first
-    last: $last
-    before: $before
-    after: $after
+    skip: $skip
+    take: $take
     order: $order
     filter: $filter
   ) {
-    nodes {
+    items {
       name
       email
       phoneNumber
@@ -30,8 +26,8 @@ query GetUsers(
     }
     totalCount
     pageInfo {
-      startCursor
-      endCursor
+      hasNextPage
+      hasPreviousPage
     }
   }
 }
