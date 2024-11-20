@@ -111,6 +111,7 @@ export class WattFieldComponent {
   constructor() {
     const control$ = toObservable(this.control).pipe(filter((control) => control !== null));
 
+    // Track value in order to update ghost and filler
     const value$ = control$.pipe(
       switchMap((control) =>
         control.valueChanges.pipe(
@@ -122,6 +123,7 @@ export class WattFieldComponent {
       takeUntilDestroyed()
     );
 
+    // Track status in order to update required state and show errors
     const status$ = control$.pipe(
       switchMap((control) =>
         control.statusChanges.pipe(
