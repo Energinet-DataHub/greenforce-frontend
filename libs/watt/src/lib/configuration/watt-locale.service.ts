@@ -26,7 +26,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class WattLocaleService {
-  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
 
   onLocaleChange$ = new BehaviorSubject(this.locale);
   current = toSignal(this.onLocaleChange$, { requireSync: true });
