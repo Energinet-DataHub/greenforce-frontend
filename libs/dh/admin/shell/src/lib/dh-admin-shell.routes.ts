@@ -62,13 +62,6 @@ export const dhAdminShellRoutes: Routes = [
               },
             ],
           },
-          {
-            path: 'edit/:id',
-            loadComponent: () =>
-              import('@energinet-datahub/dh/admin/feature-user-management-new').then(
-                (m) => m.DhEditUserComponent
-              ),
-          },
         ],
       },
       {
