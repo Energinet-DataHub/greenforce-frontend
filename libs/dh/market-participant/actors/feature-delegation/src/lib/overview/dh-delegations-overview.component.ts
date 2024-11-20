@@ -42,7 +42,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
-      @for (entry of delegationsByType(); track entry) {
+      @for (entry of delegationsByType(); track entry.type) {
         <watt-expandable-card togglePosition="before" variant="solid">
           <watt-expandable-card-title>
             {{ t('processTypes.' + entry.type) }}

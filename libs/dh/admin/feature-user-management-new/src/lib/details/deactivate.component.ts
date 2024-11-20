@@ -25,6 +25,7 @@ import {
   GetUsersDocument,
   GetUserByIdDocument,
   DeactivateUserDocument,
+  GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -82,7 +83,7 @@ export class DhDeactivteComponent {
     const user = this.user();
     if (success && user) {
       this.deactivateUserMutation.mutate({
-        refetchQueries: [GetUsersDocument, GetUserByIdDocument],
+        refetchQueries: [GetUsersDocument, GetUserByIdDocument, GetUserAuditLogsDocument],
         variables: { input: { userId: user.id } },
         onCompleted: (data) =>
           data.deactivateUser.errors

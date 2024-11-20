@@ -26,6 +26,7 @@ import {
   GetUsersDocument,
   GetUserByIdDocument,
   ReActivateUserDocument,
+  GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -82,7 +83,7 @@ export class DhReactivateComponent {
     const user = this.user();
     if (success && user) {
       this.reactivateUserMutation.mutate({
-        refetchQueries: [GetUsersDocument, GetUserByIdDocument],
+        refetchQueries: [GetUsersDocument, GetUserByIdDocument, GetUserAuditLogsDocument],
         variables: { input: { userId: user.id } },
         onError: () => this.showToast('danger', 'reactivateError'),
         onCompleted: (data) =>
