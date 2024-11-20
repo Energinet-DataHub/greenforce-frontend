@@ -68,8 +68,6 @@ export class DhActorsTableComponent {
 
   isLoading = input.required<boolean>();
   hasError = input.required<boolean>();
-  actorNumberNameLookup = input.required<{ [key: string]: { number: string; name: string } }>();
-  gridAreaCodeLookup = input.required<{ [key: string]: string }>();
 
   tableDataSource = input.required<WattTableDataSource<DhActor>>();
 

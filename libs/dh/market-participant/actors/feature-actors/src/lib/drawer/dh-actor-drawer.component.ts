@@ -14,16 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  inject,
-  input,
-  signal,
-  computed,
-  viewChild,
-  DestroyRef,
-  output,
-} from '@angular/core';
+import { Component, inject, signal, computed, viewChild, DestroyRef, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
@@ -115,17 +106,6 @@ export class DhActorDrawerComponent {
   isLoading = this.actorQuery.loading;
 
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
-
-  actorNumberNameLookup = input.required<{
-    [key: string]: {
-      number: string;
-      name: string;
-    };
-  }>();
-
-  gridAreaCodeLookup = input.required<{
-    [key: string]: string;
-  }>();
 
   showBalanceResponsibleRelationTab = computed(
     () =>
