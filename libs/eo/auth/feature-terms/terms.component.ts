@@ -18,28 +18,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   inject,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, switchMap } from 'rxjs';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NgStyle } from '@angular/common';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
+import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
 const selector = 'eo-auth-terms';
 
@@ -51,168 +45,60 @@ const selector = 'eo-auth-terms';
     FormsModule,
     WattButtonComponent,
     WattCheckboxComponent,
-    WattEmptyStateComponent,
-    EoFooterComponent,
     TranslocoPipe,
     NgStyle,
     EoScrollViewComponent,
+    EoHtmlDocComponent,
   ],
   selector,
   styles: [
     `
       ${selector} {
-        display: grid;
-        grid-template-areas:
-          'header'
-          'content'
-          'footer';
-        grid-template-rows: auto 1fr auto;
-        margin: 0;
+        display: flex;
+        justify-content: center;
 
         @media print {
           --eo-scroll-view-padding: 0;
         }
 
-        eo-header {
-          grid-area: header;
-        }
-
-        > main {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          grid-area: content;
-          padding: var(--watt-space-m);
-          gap: var(--watt-space-m);
-
-          @media (min-width: 768px) {
-            gap: var(--watt-space-l);
-            padding: var(--watt-space-l);
-          }
-
-          eo-scroll-view,
-          .actions {
-            max-width: 1244px;
-          }
-        }
-
-        eo-footer {
-          grid-area: footer;
+        .terms,
+        .actions {
+          max-width: 1500px;
         }
 
         .actions {
           margin-top: var(--watt-space-l);
           width: 100%;
         }
-
-        .terms {
-          h1 {
-            align-self: flex-start;
-          }
-
-          header {
-            display: flex;
-            align-items: flex-end;
-            flex-direction: column;
-            margin-bottom: var(--watt-space-l);
-
-            .logo {
-              height: 50px;
-            }
-          }
-
-          header section {
-            flex: 1 0 auto;
-            order: -1;
-
-            p {
-              margin: 0;
-              padding: 0;
-            }
-          }
-
-          dl,
-          .definition-list-header {
-            display: grid;
-            grid-template-columns: 2fr 2fr;
-            gap: var(--watt-space-l) var(--watt-space-l);
-            margin-top: var(--watt-space-l);
-          }
-
-          .definition-list-header,
-          section ol li {
-            margin-bottom: var(--watt-space-l);
-          }
-
-          dt {
-            grid-column: 1;
-          }
-
-          dd {
-            grid-column: 2;
-            margin-left: 0;
-          }
-
-          header,
-          nav,
-          section {
-            margin-bottom: var(--watt-space-l);
-          }
-
-          @media (min-width: 768px) {
-            section p {
-              padding-top: var(--watt-space-l);
-              padding-left: var(--watt-space-xl);
-            }
-
-            .definition-list {
-              margin-left: var(--watt-space-xl);
-            }
-          }
-
-          ol {
-            padding: revert;
-            margin: revert;
-          }
-        }
       }
     `,
   ],
   template: `
-    @if (!loadingTermsFailed) {
-      <eo-scroll-view
-        class="terms"
-        [ngStyle]="{
-          '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content',
-        }"
-      >
-        <div [innerHtml]="terms()"></div>
-      </eo-scroll-view>
+    <eo-scroll-view
+      class="terms"
+      [ngStyle]="{
+        '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content',
+      }"
+    >
+      <eo-html-doc [path]="path" />
+    </eo-scroll-view>
 
-      @if (showActions) {
-        <div class="actions">
-          <div class="watt-space-stack-m">
-            <watt-checkbox [(ngModel)]="hasAcceptedTerms" [disabled]="loadingTermsFailed">
-              {{ translations.terms.acceptingTerms | transloco }}
-            </watt-checkbox>
-          </div>
-
-          <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
-            {{ translations.terms.reject | transloco }}
-          </watt-button>
-
-          <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
-            {{ translations.terms.accept | transloco }}
-          </watt-button>
+    @if (showActions) {
+      <div class="actions">
+        <div class="watt-space-stack-m">
+          <watt-checkbox [(ngModel)]="hasAcceptedTerms">
+            {{ translations.terms.acceptingTerms | transloco }}
+          </watt-checkbox>
         </div>
-      }
-    } @else if (loadingTermsFailed) {
-      <watt-empty-state
-        icon="danger"
-        [title]="translations.terms.fetchingTermsError.title | transloco"
-        [message]="translations.terms.fetchingTermsError.message | transloco"
-      />
+
+        <watt-button class="watt-space-inline-m" variant="secondary" (click)="onReject()">
+          {{ translations.terms.reject | transloco }}
+        </watt-button>
+
+        <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
+          {{ translations.terms.accept | transloco }}
+        </watt-button>
+      </div>
     }
   `,
 })
@@ -221,40 +107,17 @@ export class EoTermsComponent {
   private authService = inject(EoAuthService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private http = inject(HttpClient);
-  private destroyRef = inject(DestroyRef);
-  private sanitizer = inject(DomSanitizer);
   private toastService: WattToastService = inject(WattToastService);
 
-  showActions = history.state?.['show-actions'];
-  language = this.transloco.getActiveLang();
-  translations = translations;
-  isLoggedIn = !!this.authService.user();
-  loadingTermsFailed = false;
+  protected showActions = history.state?.['show-actions'];
+  protected language = this.transloco.getActiveLang();
+  protected translations = translations;
+  protected isLoggedIn = !!this.authService.user();
 
-  hasAcceptedTerms = false;
-  startedAcceptFlow = signal<boolean>(false);
+  protected hasAcceptedTerms = false;
+  protected startedAcceptFlow = signal<boolean>(false);
 
-  terms = toSignal(
-    this.transloco.langChanges$.pipe(
-      switchMap((lang: string) => this.loadTermsHtml(lang)),
-      takeUntilDestroyed(this.destroyRef)
-    )
-  );
-
-  private loadTermsHtml(lang: string): Observable<SafeHtml> {
-    return this.http.get(`assets/terms/${lang}.html`, { responseType: 'text' }).pipe(
-      switchMap((html: string) => {
-        const safeHtml = this.sanitizer.bypassSecurityTrustHtml(html);
-        this.loadingTermsFailed = false;
-        return of(safeHtml);
-      }),
-      catchError(() => {
-        this.loadingTermsFailed = true;
-        return of('Error loading terms and conditions. Please try again later.');
-      })
-    );
-  }
+  protected path = 'assets/terms/${lang}.html';
 
   onReject() {
     this.authService.logout();

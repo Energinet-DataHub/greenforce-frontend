@@ -1,0 +1,238 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use "@energinet-datahub/watt/utils" as watt;
+
+// Typography Mixins
+@mixin typography-base {
+  h1 {
+    align-self: flex-start;
+    color: var(--watt-color-primary-dark);
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--watt-color-primary);
+  }
+
+  h3,
+  h4,
+  p,
+  ul,
+  ol {
+    padding-top: var(--watt-space-m);
+
+    @media (min-width: 830px) {
+      padding: {
+        top: var(--watt-space-l);
+        left: var(--watt-space-xl);
+      }
+    }
+  }
+
+  a[href^="tel:"],
+  a[href^="mailto:"] {
+    white-space: nowrap;
+  }
+}
+
+// List Mixins
+@mixin list-styles {
+  li {
+    margin-top: var(--watt-space-xs);
+
+    ul,
+    ol {
+      padding-top: var(--watt-space-m);
+    }
+  }
+}
+
+// Header Mixins
+@mixin header-styles {
+  header {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    margin-bottom: var(--watt-space-l);
+
+    .logo {
+      height: 50px;
+    }
+
+    section {
+      flex: 1 0 auto;
+      order: -1;
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+// Definition List Mixins
+@mixin definition-list-styles {
+  dl,
+  .definition-list-header {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    gap: var(--watt-space-l);
+    margin-top: var(--watt-space-l);
+  }
+
+  .definition-list-header,
+  section ol li {
+    margin-bottom: var(--watt-space-l);
+  }
+
+  dt {
+    grid-column: 1;
+  }
+
+  dd {
+    grid-column: 2;
+    margin-left: 0;
+  }
+
+  @media (min-width: 830px) {
+    .definition-list {
+      margin-left: var(--watt-space-xl);
+    }
+  }
+}
+
+// Section Spacing Mixin
+@mixin section-spacing {
+  header,
+  nav,
+  section {
+    margin-bottom: var(--watt-space-l);
+  }
+}
+
+// Table Mixins
+@mixin table-mobile {
+  width: 100%;
+  margin: var(--watt-space-m) 0;
+  background-color: transparent;
+
+  thead {
+    display: none;
+    background: var(--watt-color-primary-ultralight);
+    @include watt.typography-watt-text-s-highlighted;
+    text-transform: uppercase;
+  }
+
+  tr {
+    display: block;
+    background: var(--watt-color-neutral-white);
+    border-radius: 8px;
+    margin: var(--watt-space-xs) var(--watt-space-xs) var(--watt-space-l) var(--watt-space-xs);
+    box-shadow:
+      0px 1px 6px rgba(11, 60, 93, 0.12),
+      0px 4px 18px 3px rgba(46, 50, 52, 0.08);
+  }
+
+  td {
+    display: block;
+    padding: var(--watt-space-m);
+    border-bottom: 1px solid var(--watt-color-neutral-grey-200);
+
+    &:first-of-type {
+      background: var(--watt-color-primary-ultralight);
+      @include watt.typography-watt-text-s-highlighted;
+      text-transform: uppercase;
+    }
+
+    &::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: var(--watt-space-s);
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin table-desktop {
+  margin-left: var(--watt-space-xl);
+  width: calc(100% - var(--watt-space-xl));
+  border-collapse: collapse;
+  border: 0;
+  background: var(--watt-color-neutral-white);
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    display: table-row;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  td:first-of-type {
+    background: none;
+  }
+
+  th,
+  td {
+    display: table-cell;
+    padding: var(--watt-space-m);
+    border: 1px solid var(--watt-color-neutral-grey-300);
+    vertical-align: top;
+
+    &::before {
+      display: none;
+    }
+
+    &:nth-child(1) {
+      width: 20%;
+    }
+    &:nth-child(2) {
+      width: 40%;
+    }
+    &:nth-child(3) {
+      width: 40%;
+    }
+  }
+}
+
+.eo-html-doc-content {
+  @include typography-base;
+  @include list-styles;
+  @include header-styles;
+  @include definition-list-styles;
+  @include section-spacing;
+
+  table {
+    @include table-mobile;
+
+    @media (min-width: 830px) {
+      @include table-desktop;
+    }
+  }
+}
