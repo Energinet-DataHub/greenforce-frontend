@@ -2,16 +2,9 @@
   "name": "eo-privacy-policy-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/privacy-policy/shell/src",
+  "sourceRoot": "libs/eo/privacy-policy/shell",
   "prefix": "eo",
   "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/eo/privacy-policy/shell"],
-      "options": {
-        "jestConfig": "libs/eo/privacy-policy/shell/jest.config.ts"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
