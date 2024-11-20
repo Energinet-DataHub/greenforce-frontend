@@ -16,6 +16,7 @@
  */
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
+
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     meta: {
@@ -824,6 +825,11 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     `,
     copy: 'Kopier link',
     copyAndClose: 'Kopier & luk',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    decline: 'Afvis',
+    accept: 'Accepter',
   },
   help: {
     title: 'Hjælp',

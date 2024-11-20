@@ -662,6 +662,11 @@ export interface TranslationKeys {
     copy: string;
     copyAndClose: string;
   };
+  serviceProviderTermsConsent: {
+    title: string;
+    decline: string;
+    accept: string;
+  };
   help: {
     title: string;
     content: string;

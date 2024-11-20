@@ -221,6 +221,9 @@
       "@energinet-datahub/eo/consent/feature-request-consent": [
         "libs/eo/consent/feature-request-consent/index.ts"
       ],
+      "@energinet-datahub/eo/consent/feature-service-provider-terms-consent": [
+        "libs/eo/consent/feature-service-provider-terms-consent/index.ts"
+      ],
       "@energinet-datahub/eo/consent/shell": ["libs/eo/consent/shell/index.ts"],
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"

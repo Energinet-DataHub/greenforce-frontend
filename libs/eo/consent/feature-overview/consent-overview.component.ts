@@ -19,13 +19,13 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  inject,
   Injectable,
   Input,
   OnInit,
+  signal,
   ViewChild,
   ViewEncapsulation,
-  inject,
-  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -46,6 +46,7 @@ import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-
 import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
 import { EoRequestConsentModalComponent } from '@energinet-datahub/eo/consent/feature-request-consent';
 import { EoConsentDetailsDrawerComponent } from '@energinet-datahub/eo/consent/feature-details';
+import { EoServiceProviderTermsConsentModalComponent } from '@energinet-datahub/eo/consent/feature-service-provider-terms-consent';
 
 @Injectable()
 export class EoDataIntlService extends WattDataIntlService {
@@ -77,6 +78,7 @@ const selector = 'eo-consent-overview';
     EoGrantConsentModalComponent,
     EoRequestConsentModalComponent,
     EoConsentDetailsDrawerComponent,
+    EoServiceProviderTermsConsentModalComponent,
     WattButtonComponent,
   ],
   providers: [WattDatePipe, { provide: WattDataIntlService, useClass: EoDataIntlService }],
@@ -120,8 +122,11 @@ const selector = 'eo-consent-overview';
       [organizationId]="organizationId"
       [redirectUrl]="redirectUrl"
     />
-
     <eo-request-consent-modal />
+
+    <eo-service-provider-terms-consent-modal
+      (closed)="(onCloseServiceProviderTermsConsentDialog)"
+    />
 
     @if (selectedConsent) {
       <eo-consent-details-drawer
@@ -153,6 +158,9 @@ export class EoConsentOverviewComponent implements OnInit {
   @ViewChild(EoRequestConsentModalComponent, { static: true })
   requestConsentModal!: EoRequestConsentModalComponent;
 
+  @ViewChild(EoServiceProviderTermsConsentModalComponent, { static: true })
+  serviceProviderTermsConsentModal!: EoServiceProviderTermsConsentModalComponent;
+
   @ViewChild(EoConsentDetailsDrawerComponent)
   consentDetailsModal!: EoConsentDetailsDrawerComponent;
 
@@ -167,7 +175,16 @@ export class EoConsentOverviewComponent implements OnInit {
   protected selectedConsent: EoConsent | null = null;
 
   requestPOA(): void {
-    this.requestConsentModal.open();
+    // TODO MASEP: implement check if user has accepted Service Provider Terms
+    // serviceProviderTermsHasBeenAccepted
+    // if () {
+    // this.requestConsentModal.open();
+    // }
+    this.openServiceProviderTermsModal();
+  }
+
+  openServiceProviderTermsModal() {
+    this.serviceProviderTermsConsentModal.open();
   }
 
   selectConsent(consent: EoConsent): void {
@@ -202,6 +219,11 @@ export class EoConsentOverviewComponent implements OnInit {
   onCloseGrantConsentDialog(): void {
     this.router.navigate([], { queryParams: {} });
     this.loadConsents();
+  }
+
+  onCloseServiceProviderTermsConsentDialog(): void {
+    //TODO MASEP: implement closing code
+    //TODO MASEP: Implement opening of POA Modal
   }
 
   loadConsents(): void {

@@ -838,6 +838,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     copy: 'Copy link',
     copyAndClose: 'Copy & close',
   },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    decline: 'Decline',
+    accept: 'Accept',
+  },
   help: {
     title: 'Help',
     content: `
