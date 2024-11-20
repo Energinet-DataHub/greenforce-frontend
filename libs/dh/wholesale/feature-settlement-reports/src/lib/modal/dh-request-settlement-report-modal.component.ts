@@ -71,7 +71,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal.component';
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
@@ -118,7 +117,6 @@ type SettlementReportRequestedBy = {
     WattFieldHintComponent,
 
     DhDropdownTranslatorDirective,
-    DhFeatureFlagDirective,
   ],
   styles: `
     :host {
@@ -168,7 +166,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     combineResultsInOneFile: new FormControl<boolean>(false, { nonNullable: true }),
-    useApi: new FormControl<boolean>(false, { nonNullable: true }),
+    useApi: new FormControl<boolean>(true, { nonNullable: true }),
   });
 
   showEnergySupplierDropdown$ = of(this.modalData.isFas).pipe(
