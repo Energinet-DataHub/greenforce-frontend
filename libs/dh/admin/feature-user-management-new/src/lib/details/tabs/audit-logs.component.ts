@@ -76,7 +76,9 @@ export class DhUserAuditLogsComponent {
     });
 
     effect(() => {
-      this.dataSource.data = (this.getUserAuditLogsQuery.data()?.userAuditLogs || []).reverse();
+      this.dataSource.data = structuredClone(
+        this.getUserAuditLogsQuery.data()?.userAuditLogs || []
+      ).reverse();
     });
   }
 }
