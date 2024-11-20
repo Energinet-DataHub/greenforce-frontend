@@ -27,8 +27,6 @@ import {
   GetUserAuditLogsDocument,
   UserAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
@@ -59,7 +57,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 export class DhUserAuditLogsComponent {
   private getUserAuditLogsQuery = lazyQuery(GetUserAuditLogsDocument);
 
-  user = input.required<DhUser>();
+  id = input.required<string>();
 
   dataSource = new WattTableDataSource<UserAuditedChangeAuditLogDto>();
   hasError = computed(() => this.getUserAuditLogsQuery.error() !== undefined);
@@ -72,7 +70,7 @@ export class DhUserAuditLogsComponent {
 
   constructor() {
     effect(() => {
-      this.getUserAuditLogsQuery.query({ variables: { id: this.user().id } });
+      this.getUserAuditLogsQuery.query({ variables: { id: this.id() } });
     });
 
     effect(() => {
