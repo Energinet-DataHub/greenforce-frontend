@@ -14,75 +14,81 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpStatusCode } from '@angular/common/http';
-import { Component, inject, ViewChild } from '@angular/core';
+import {
+  inject,
+  effect,
+  computed,
+  Component,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { RxPush } from '@rx-angular/template/push';
+import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { DhUser, UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
-import { UpdateActorUserRolesInput } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { DhAdminEditUserStore } from '@energinet-datahub/dh/admin/data-access-api';
 import {
-  ApiErrorCollection,
-  readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+  GetUsersDocument,
+  GetUserByIdDocument,
+  UpdateActorUserRolesInput,
+  UpdateUserAndRolesDocument,
+  GetUserAuditLogsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
-  selector: 'dh-edit-user-modal',
+  selector: 'dh-edit-user',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    RxPush,
 
     WATT_MODAL,
-    WattButtonComponent,
     WattTabComponent,
     WattTabsComponent,
+    WattButtonComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
+
+    VaterFlexComponent,
 
     DhUserRolesComponent,
   ],
   templateUrl: './edit.component.html',
-  styles: [
-    `
-      .name-field {
-        max-width: 384px;
-        margin-right: var(--watt-space-ml);
-      }
+  styles: `
+    watt-text-field {
+      width: 50%;
+    }
 
-      .phone-field {
-        max-width: 256px;
-      }
-
-      .reinvite-link {
-        margin-right: auto;
-      }
-    `,
-  ],
-  providers: [DhAdminEditUserStore],
+    watt-phone-field {
+      width: 30%;
+    }
+  `,
 })
-export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
-  private readonly editUserStore = inject(DhAdminEditUserStore);
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly transloco = inject(TranslocoService);
-  private readonly toastService = inject(WattToastService);
+export class DhEditUserComponent {
+  private formBuilder = inject(FormBuilder);
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private navigation = inject(DhNavigationService);
+  private getUserQuery = lazyQuery(GetUserByIdDocument);
+  private editUserMutation = mutation(UpdateUserAndRolesDocument);
 
-  private _updateUserRoles: UpdateUserRoles | null = null;
-
-  updatedPhoneNumber: string | null = null;
+  private updateUserRoles: UpdateUserRoles | null = null;
 
   userInfoForm = this.formBuilder.nonNullable.group({
     firstName: ['', [Validators.required]],
@@ -90,120 +96,56 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
     phoneNumber: ['', Validators.required],
   });
 
-  @ViewChild('editUserModal') editUserModal!: WattModalComponent;
-  @ViewChild('userRoles') userRoles!: DhUserRolesComponent;
+  modal = viewChild.required(WattModalComponent);
+  userRoles = viewChild.required(DhUserRolesComponent);
 
-  isSaving$ = this.editUserStore.isSaving$;
+  isSaving = this.editUserMutation.loading;
+
+  user = computed(() => this.getUserQuery.data()?.userById);
+
+  loading = this.getUserQuery.loading;
+
+  // Router param value
+  id = computed(() => this.navigation.id());
 
   constructor() {
-    super();
+    effect(() => {
+      const id = this.id();
+      if (!id) return;
+      this.getUserQuery.query({ variables: { id } });
+      this.modal().open();
+    });
 
-    const { firstName, lastName, phoneNumber } = this.modalData;
-    this.userInfoForm.patchValue({
-      firstName,
-      lastName,
-      phoneNumber: phoneNumber ?? '',
+    effect(() => {
+      const user = this.user();
+      if (user) {
+        this.userInfoForm.patchValue({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber ?? '',
+        });
+      }
     });
   }
 
-  get firstNameControl() {
-    return this.userInfoForm.controls.firstName;
-  }
-
-  get lastNameControl() {
-    return this.userInfoForm.controls.lastName;
-  }
-
-  get phoneNumberControl() {
-    return this.userInfoForm.controls.phoneNumber;
-  }
-
-  save() {
+  async save() {
+    const id = this.id();
     if (
-      this.modalData === null ||
       this.userInfoForm.invalid ||
-      this._updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned)
+      this.updateUserRoles?.actors.some((actor) => !actor.atLeastOneRoleIsAssigned) ||
+      id === undefined
     ) {
       return;
     }
 
-    if (this.userInfoForm.pristine) {
-      return this.closeModal(false);
-    }
-
-    const { firstName, lastName, phoneNumber } = this.modalData;
-
-    if (
-      this.firstNameControl.value === firstName &&
-      this.lastNameControl.value === lastName &&
-      this.phoneNumberControl.value === phoneNumber &&
-      this._updateUserRoles === null
-    ) {
-      return this.closeModal(false);
-    }
-
-    this.startEditUserRequest(
-      this.firstNameControl.value,
-      this.lastNameControl.value,
-      this.phoneNumberControl.value,
-      this._updateUserRoles ?? undefined
-    );
-  }
-
-  closeModal(status: boolean): void {
-    this.userRoles.resetUpdateUserRoles();
-    this.editUserModal.close(status);
-  }
-
-  close(): void {
-    this.closeModal(false);
-  }
-
-  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
-    this._updateUserRoles = updateUserRoles;
-    this.userInfoForm.markAsDirty();
-  }
-
-  private startEditUserRequest(
-    firstName: string,
-    lastName: string,
-    phoneNumber: string,
-    updateUserRoles: UpdateUserRoles | undefined
-  ) {
-    const onSuccessFn = () => {
-      this.toastService.open({
-        type: 'success',
-        message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
-      });
-
-      this.userRoles.resetUpdateUserRoles();
-      this.closeModal(true);
-    };
-
-    const onErrorFn = (statusCode: HttpStatusCode, apiErrorCollection: ApiErrorCollection[]) => {
-      if (statusCode !== HttpStatusCode.BadRequest) {
-        this.toastService.open({
-          type: 'danger',
-          message: this.transloco.translate('admin.userManagement.editUser.saveError'),
-        });
-      }
-
-      if (statusCode === HttpStatusCode.BadRequest) {
-        const message =
-          apiErrorCollection.length > 0
-            ? readApiErrorResponse(apiErrorCollection)
-            : this.transloco.translate('admin.userManagement.editUser.saveError');
-
-        this.toastService.open({ type: 'danger', message, duration: 60_000 });
-      }
-    };
+    const { firstName, lastName, phoneNumber } = this.userInfoForm.getRawValue();
 
     const phoneParts = phoneNumber.split(' ');
     const [prefix, ...rest] = phoneParts;
     const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
-    const updateActorUserRolesInput: UpdateActorUserRolesInput[] = updateUserRoles
-      ? updateUserRoles?.actors.map((actor) => {
+    const updateActorUserRolesInput: UpdateActorUserRolesInput[] = this.updateUserRoles
+      ? this.updateUserRoles?.actors.map((actor) => {
           return {
             actorId: actor.id,
             assignments: actor.userRolesToUpdate,
@@ -211,16 +153,59 @@ export class DhEditUserModalComponent extends WattTypedModal<DhUser> {
         })
       : [];
 
-    if (this.modalData) {
-      this.editUserStore.editUser({
-        userId: this.modalData.id,
-        firstName,
-        lastName,
-        phoneNumber: formattedPhoneNumber,
-        updateUserRoles: updateActorUserRolesInput,
-        onSuccessFn,
-        onErrorFn,
-      });
+    const result = await this.editUserMutation.mutate({
+      refetchQueries: [GetUsersDocument, GetUserByIdDocument, GetUserAuditLogsDocument],
+      variables: {
+        updateRolesInput: {
+          userId: id,
+          input: updateActorUserRolesInput,
+        },
+        updateUserInput: {
+          userId: id,
+          userIdentityUpdateDto: {
+            firstName,
+            lastName,
+            phoneNumber: formattedPhoneNumber,
+          },
+        },
+      },
+    });
+
+    if (result.data?.updateUserIdentity.success && result.data?.updateUserRoleAssignment.success) {
+      this.showSuccessToast();
     }
+
+    if (result.error) {
+      this.showErrorToast(result.error.graphQLErrors);
+    }
+  }
+
+  close(): void {
+    this.navigation.navigate('details', this.id());
+    this.modal().close(false);
+  }
+
+  onSelectedUserRolesChanged(updateUserRoles: UpdateUserRoles): void {
+    this.updateUserRoles = updateUserRoles;
+    this.userInfoForm.markAsDirty();
+  }
+
+  private showSuccessToast() {
+    this.toastService.open({
+      type: 'success',
+      message: this.transloco.translate('admin.userManagement.editUser.saveSuccess'),
+    });
+
+    this.userRoles().resetUpdateUserRoles();
+    this.close();
+  }
+
+  private showErrorToast(errors: GraphQLErrors) {
+    const message =
+      errors.length > 0
+        ? parseGraphQLErrorResponse(errors)
+        : this.transloco.translate('admin.userManagement.editUser.saveError');
+
+    this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }
 }

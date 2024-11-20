@@ -102,7 +102,7 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
           >
             {{ t('stopDate') }}
           </watt-radio>
-          <watt-datepicker [min]="initTime" [formControl]="stopDelegationForm.controls.stopDate">
+          <watt-datepicker [min]="today" [formControl]="stopDelegationForm.controls.stopDate">
             @if (
               stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
             ) {
@@ -136,7 +136,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
 
   private stopDelegationsMutation = mutation(StopDelegationsDocument);
 
-  initTime = new Date();
+  today = new Date();
   isSaving = this.stopDelegationsMutation.loading;
 
   modal = viewChild.required(WattModalComponent);

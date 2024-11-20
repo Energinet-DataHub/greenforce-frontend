@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, Signal, computed, effect, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import {
-  GetActorsDocument,
-  GetGridAreasDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -93,17 +90,8 @@ export class DhActorsOverviewComponent implements OnInit {
   private modalService = inject(WattModalService);
 
   private actorsQuery = query(GetActorsDocument);
-  private actorsQueryHasError = computed(() => this.actorsQuery.error() !== undefined);
-
-  private gridAreasQuery = query(GetGridAreasDocument);
-  private gridAreasQueryHasError = computed(() => this.gridAreasQuery.error() !== undefined);
 
   tableDataSource = new WattTableDataSource<DhActor>([]);
-
-  actorNumberNameLookup: Signal<{ [key: string]: { number: string; name: string } }> = computed(
-    () => this.getActorNumberNames()
-  );
-  gridAreaCodeLookup: Signal<{ [key: string]: string }> = computed(() => this.getGridAreaCodes());
 
   filters$ = new BehaviorSubject<ActorsFilters>({
     actorStatus: null,
@@ -112,8 +100,8 @@ export class DhActorsOverviewComponent implements OnInit {
 
   searchInput$ = new BehaviorSubject<string>('');
 
-  isLoading = computed(() => this.actorsQuery.loading() || this.gridAreasQuery.loading());
-  hasError = computed(() => this.actorsQueryHasError() || this.gridAreasQueryHasError());
+  isLoading = this.actorsQuery.loading;
+  hasError = computed(() => this.actorsQuery.error() !== undefined);
 
   constructor() {
     effect(() => {
@@ -178,34 +166,5 @@ export class DhActorsOverviewComponent implements OnInit {
     ]);
 
     exportToCSV({ headers, lines, fileName: 'DataHub-Market Participants' });
-  }
-
-  private getActorNumberNames() {
-    const actors = this.actorsQuery.data()?.actors ?? [];
-
-    return actors.reduce(
-      (acc, actor) => {
-        acc[actor.id] = {
-          number: actor.glnOrEicNumber,
-          name: actor.name,
-        };
-
-        return acc;
-      },
-      {} as { [key: string]: { number: string; name: string } }
-    );
-  }
-
-  private getGridAreaCodes() {
-    const gridAreas = this.gridAreasQuery.data()?.gridAreas ?? [];
-
-    return gridAreas.reduce(
-      (acc, gridArea) => {
-        acc[gridArea.id] = gridArea.code;
-
-        return acc;
-      },
-      {} as { [key: string]: string }
-    );
   }
 }

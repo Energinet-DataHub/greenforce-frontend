@@ -16,30 +16,40 @@
  */
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
-const selector = 'watt-card-title';
+import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
+import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
+
+const selector = 'eo-auth-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  imports: [EoScrollViewComponent, EoHtmlDocComponent],
   selector,
   styles: [
     `
       ${selector} {
-        display: block;
-      }
+        --eo-scroll-view-max-height: fit-content;
+        display: flex;
+        justify-content: center;
 
-      ${selector} h4, ${selector} h3 {
-        color: var(--watt-typography-text-color);
-        margin: 0;
+        @media print {
+          --eo-scroll-view-padding: 0;
+        }
+
+        .privacy-policy {
+          max-width: 1500px;
+        }
       }
     `,
   ],
-  template: `<ng-content />`,
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  host: {
-    '[class]': 'cssClass()',
-  },
+  template: `
+    <eo-scroll-view class="privacy-policy">
+      <eo-html-doc [path]="path" />
+    </eo-scroll-view>
+  `,
 })
-export class WattCardTitleComponent {
-  cssClass = () => 'watt-card__title watt-space-stack-m';
+export class EoPrivacyPolicyShellComponent {
+  path = 'assets/privacy-policy/${lang}.html';
 }
