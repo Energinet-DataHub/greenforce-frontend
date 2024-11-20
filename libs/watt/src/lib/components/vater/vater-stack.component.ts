@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+
 import { Align, Direction, Spacing, Justify } from './types';
 import { VaterUtilityDirective } from './vater-utility.directive';
 
