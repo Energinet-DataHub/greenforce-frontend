@@ -76,7 +76,7 @@ export class DhUserAuditLogsComponent {
     });
 
     effect(() => {
-      this.dataSource.data = this.getUserAuditLogsQuery.data()?.userAuditLogs || [];
+      this.dataSource.data = (this.getUserAuditLogsQuery.data()?.userAuditLogs || []).reverse();
     });
   }
 }
