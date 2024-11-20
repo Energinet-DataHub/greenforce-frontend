@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-privacy-policy-shell.routes';
+export * from './html-doc.component';

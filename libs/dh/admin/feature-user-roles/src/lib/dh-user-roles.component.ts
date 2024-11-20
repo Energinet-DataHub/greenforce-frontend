@@ -18,18 +18,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   output,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -38,7 +37,6 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import {
   DhActorUserRole,
   DhActorUserRoles,
-  DhUser,
   UpdateUserRoles,
 } from '@energinet-datahub/dh/admin/shared';
 
@@ -46,6 +44,8 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-user-roles',
@@ -56,33 +56,33 @@ import {
   styleUrls: ['./dh-user-roles.component.scss'],
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
     MatExpansionModule,
     FormsModule,
 
-    WattSpinnerComponent,
     WATT_TABLE,
     WattIconComponent,
-    WattTooltipDirective,
-    WattEmptyStateComponent,
-    WATT_EXPANDABLE_CARD_COMPONENTS,
     WattBadgeComponent,
+    WattTooltipDirective,
     WattFieldErrorComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
 
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
   ],
 })
 export class DhUserRolesComponent {
+  private actorsAndRolesQuery = lazyQuery(GetActorsAndUserRolesDocument);
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
 
-  user = input<DhUser | undefined>(undefined);
+  id = input.required<string>();
   selectMode = input(false);
   expanded = input(true);
 
   updateUserRoles = output<UpdateUserRoles>();
+
+  user = computed(() => this.actorsAndRolesQuery.data()?.userById);
 
   userRolesPerActor = computed(() => this.user()?.actors ?? []);
 
@@ -90,6 +90,12 @@ export class DhUserRolesComponent {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
+
+  constructor() {
+    effect(() => {
+      this.actorsAndRolesQuery.query({ variables: { id: this.id() } });
+    });
+  }
 
   resetUpdateUserRoles(): void {
     this._updateUserRoles = {
