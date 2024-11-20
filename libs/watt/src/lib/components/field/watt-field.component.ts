@@ -55,9 +55,10 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
       }
       <vater-stack direction="row" gap="s">
         <div
+          #wrapper
           class="watt-field-wrapper"
           [class.watt-field--has-placeholder]="!!placeholder()"
-          #wrapper
+          [style.anchor-name]="anchorName()"
         >
           @if (placeholder()) {
             <div class="watt-field-placeholder" aria-hidden="true">
@@ -69,6 +70,7 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
         </div>
         <ng-content select="watt-field-descriptor" />
       </vater-stack>
+      <ng-content select="[popover]" />
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
       @if (isEmpty()) {
@@ -91,6 +93,7 @@ export class WattFieldComponent {
   chipMode = input(false);
   tooltip = input<string>();
   placeholder = input('');
+  anchorName = input<string>();
 
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));

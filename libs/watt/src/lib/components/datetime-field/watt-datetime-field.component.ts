@@ -17,6 +17,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   forwardRef,
   inject,
   input,
@@ -41,6 +42,8 @@ import { WattButtonComponent } from '../button/watt-button.component';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
+const DA_FILLER = 'dd-mm-åååå, tt:mm';
+const EN_FILLER = 'dd-mm-yyyy, hh:mm';
 const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
 const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
 const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
@@ -73,21 +76,24 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       }
 
       .watt-datetime-field-picker {
-        position: relative;
-      }
-
-      .watt-datetime-field-picker:popover-open {
+        position: fixed;
+        position-area: bottom span-right;
+        position-try-fallbacks: flip-block;
         width: 296px;
         height: 354px;
-        position: absolute;
         inset: unset;
-        margin-top: -20px;
+        margin: unset;
         border: 0;
       }
     `,
   ],
   template: `
-    <watt-field [label]="label()" [control]="control" [placeholder]="placeholder">
+    <watt-field
+      [label]="label()"
+      [control]="control"
+      [placeholder]="placeholder()"
+      [anchorName]="anchorName"
+    >
       <input
         #field
         [formControl]="control"
@@ -96,18 +102,30 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
         (blur)="handleBlur(picker, $event)"
       />
       <watt-button icon="date" variant="icon" (click)="field.focus()" />
+      <div
+        #picker
+        class="watt-elevation watt-datetime-field-picker"
+        popover="manual"
+        tabindex="0"
+        [style.position-anchor]="anchorName"
+      >
+        <mat-calendar
+          [startAt]="selected()"
+          [selected]="selected()"
+          (selectedChange)="handleSelectedChange(field, picker, $event)"
+        />
+      </div>
     </watt-field>
-    <div #picker class="watt-elevation watt-datetime-field-picker" popover="manual" tabindex="0">
-      <mat-calendar
-        [startAt]="selected()"
-        [selected]="selected()"
-        (selectedChange)="handleSelectedChange(field, picker, $event)"
-      />
-    </div>
   `,
 })
 export class WattDateTimeField implements ControlValueAccessor {
   private locale = inject(WattLocaleService);
+
+  // Popovers exists on an entirely different layer, meaning that for anchor positioning they
+  // look at the entire tree for the anchor name. This gives each field a unique anchor name.
+  private static instance = 0;
+  private instance = WattDateTimeField.instance++;
+  protected anchorName = `--watt-field-popover-anchor-${this.instance}`;
 
   /** Converts date from outer FormControl to format of inner FormControl. */
   protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
@@ -120,19 +138,29 @@ export class WattDateTimeField implements ControlValueAccessor {
     return this.inclusive() ? date.endOf('m').toDate() : date.toDate();
   };
 
+  // Must unfortunately be queried in order to update `activeDate`
   private calendar = viewChild.required<MatCalendar<Date>>(MatCalendar);
+
+  // This inner FormControl is string only, but the outer FormControl is of type Date.
   protected control = new FormControl('', { nonNullable: true });
   protected selected = signal<Date | null>(null);
-  protected placeholder = this.locale.isDanish() ? 'dd-mm-åååå, tt:mm' : 'dd-mm-yyyy, hh:mm';
+  protected placeholder = computed(() => (this.locale.isDanish() ? DA_FILLER : EN_FILLER));
   protected mask = maskitoDateTimeOptionsGenerator({
     dateMode: 'dd/mm/yyyy',
     timeMode: 'HH:MM',
     dateSeparator: '-',
   });
 
+  /** Set the label text for `watt-field`. */
   label = input('');
+
+  /** When true, seconds will be set to 59 and milliseconds to 999. Otherwise, both are 0. */
   inclusive = input(false);
+
+  /** Emits when the selected date has changed. */
   dateChange = outputFromObservable(this.control.valueChanges.pipe(map(this.viewToModel)));
+
+  /** Emits when the field loses focus. */
   blur = output<FocusEvent>();
 
   protected handleBlur = (picker: HTMLElement, event: FocusEvent) => {
