@@ -41,10 +41,11 @@ import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   UserStatus,
+  GetUsersDocument,
   Reset2faDocument,
   GetUserByIdDocument,
   ReInviteUserDocument,
-  UserOverviewSearchDocument,
+  GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -64,8 +65,8 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
   templateUrl: './details.component.html',
   imports: [
     RouterOutlet,
-    TranslocoDirective,
     MatMenuModule,
+    TranslocoDirective,
 
     WATT_TABS,
     WATT_MODAL,
@@ -92,10 +93,7 @@ export class DhUserDetailsComponent {
   // Router param
   id = input.required<string>();
 
-  selectedUserQuery = lazyQuery(GetUserByIdDocument, {
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  });
+  selectedUserQuery = lazyQuery(GetUserByIdDocument);
 
   selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
   isLoading = computed(() => this.selectedUserQuery.loading());
@@ -103,10 +101,12 @@ export class DhUserDetailsComponent {
   UserStatus = UserStatus;
 
   reInviteUserMutation = mutation(ReInviteUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument],
   });
 
-  reset2faMutation = mutation(Reset2faDocument, { refetchQueries: [UserOverviewSearchDocument] });
+  reset2faMutation = mutation(Reset2faDocument, {
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument],
+  });
 
   isReinviting = this.reInviteUserMutation.loading;
 

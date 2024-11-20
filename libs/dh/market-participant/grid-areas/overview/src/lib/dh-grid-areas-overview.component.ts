@@ -29,13 +29,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import {
   DhDropdownTranslatorDirective,
-  DhEmDashFallbackPipe,
   dhEnumToWattDropdownOptions,
   exportToCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
@@ -60,12 +58,12 @@ export interface GridAreaOverviewRow {
 
 @Component({
   standalone: true,
-  selector: 'dh-market-participant-gridarea-overview',
-  templateUrl: './dh-market-participant-gridarea-overview.component.html',
+  selector: 'dh-grid-areas-overview',
+  templateUrl: './dh-grid-areas-overview.component.html',
   styles: [
     `
       h3 {
-        margin: 0 var(--watt-space-s) 0 0;
+        margin: 0;
       }
 
       watt-paginator {
@@ -85,7 +83,6 @@ export interface GridAreaOverviewRow {
 
     WATT_CARD,
     WATT_TABLE,
-    WattDatePipe,
     WattButtonComponent,
     WattSearchComponent,
     WattDropdownComponent,
@@ -97,12 +94,11 @@ export interface GridAreaOverviewRow {
     VaterSpacerComponent,
     VaterUtilityDirective,
 
-    DhEmDashFallbackPipe,
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
   ],
 })
-export class DhMarketParticipantGridAreaOverviewComponent {
+export class DhGridAreasOverviewComponent {
   columns: WattTableColumnDef<GridAreaOverviewRow> = {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
@@ -112,18 +108,13 @@ export class DhMarketParticipantGridAreaOverviewComponent {
     status: { accessor: 'status' },
   };
 
-  gridAreas = input<GridAreaOverviewRow[]>([]);
-  isLoading = input<boolean>(false);
-  hasError = input<boolean>(false);
+  gridAreas = input.required<GridAreaOverviewRow[]>();
+  isLoading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
   gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, [GridAreaType.NotSet]);
-
-  gridAreaStatusOptions = Object.keys(GridAreaStatus).map((key) => ({
-    displayValue: key,
-    value: key,
-  }));
-
-  selectedGridAreaStatusOptions = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
+  gridAreaStatusOptions = dhEnumToWattDropdownOptions(GridAreaStatus);
+  selectedGridAreaStatus = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
 
   selectedGridAreaType = signal<GridAreaType | null>(null);
 
@@ -131,12 +122,14 @@ export class DhMarketParticipantGridAreaOverviewComponent {
 
   constructor() {
     effect(() => {
-      const statuses = this.selectedGridAreaStatusOptions();
-      return (this.dataSource.data = this.gridAreas()?.filter(
-        (x) =>
-          (x.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
-          (statuses === null || statuses.includes(x.status))
-      ));
+      const statuses = this.selectedGridAreaStatus();
+      const gridAreas = this.gridAreas();
+
+      this.dataSource.data = gridAreas.filter(
+        (gridArea) =>
+          (gridArea.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
+          (statuses === null || statuses.includes(gridArea.status))
+      );
     });
   }
 
@@ -172,6 +165,6 @@ export class DhMarketParticipantGridAreaOverviewComponent {
       `"${translate(statusPath + '.' + gridArea.status)}"`,
     ]);
 
-    exportToCSV({ headers, lines, fileName: 'grid-areas' });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Grid-areas' });
   }
 }
