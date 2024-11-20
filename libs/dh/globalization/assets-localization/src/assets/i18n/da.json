@@ -1360,6 +1360,8 @@
       "connect": "Tilknyt MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} Brugerrolle",
+        "plural": "{{ userRolesCount }} Brugerroller",
         "title": "Inviter bruger",
         "informations": "Information",
         "addUserRole": "Tildel brugerroller",

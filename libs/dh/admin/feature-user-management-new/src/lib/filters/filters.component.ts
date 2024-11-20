@@ -15,41 +15,45 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
   effect,
   inject,
   output,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import {
   FormControl,
   FormsModule,
-  NonNullableFormBuilder,
   ReactiveFormsModule,
+  NonNullableFormBuilder,
 } from '@angular/forms';
 
-import { translate, TranslocoDirective } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
+
+import { map, startWith } from 'rxjs/operators';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 import {
-  DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  GetFilteredActorsDocument,
+  UserStatus,
   GetUserRolesDocument,
   GetUsersQueryVariables,
-  MarketParticipantSortDirctionType,
   UserOverviewSortProperty,
-  UserStatus,
+  GetFilteredActorsDocument,
+  MarketParticipantSortDirctionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { map, startWith } from 'rxjs/operators';
+
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
@@ -58,8 +62,8 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    ReactiveFormsModule,
     TranslocoDirective,
+    ReactiveFormsModule,
 
     VaterStackComponent,
     WattDropdownComponent,

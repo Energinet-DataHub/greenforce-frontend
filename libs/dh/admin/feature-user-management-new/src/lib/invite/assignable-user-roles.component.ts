@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { FormsModule } from '@angular/forms';
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, effect, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
@@ -41,7 +40,6 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   imports: [
     FormsModule,
     TranslocoPipe,
-    NgTemplateOutlet,
     MatDividerModule,
     TranslocoDirective,
 
@@ -49,31 +47,70 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
     WATT_TABLE,
     WattEmptyStateComponent,
   ],
-  styleUrls: ['./assignable-user-roles.component.scss'],
-  templateUrl: './assignable-user-roles.component.html',
+  styles: `
+    watt-empty-state {
+      padding: var(--watt-space-xl);
+    }
+  `,
+  template: `<watt-card *transloco="let t; read: 'admin.userManagement.inviteUser'" variant="solid">
+    <watt-card-title>
+      <h4>
+        @if (dataSource.totalCount === 1) {
+          {{ t('singular', { userRolesCount: dataSource.totalCount }) }}
+        } @else {
+          {{ t('plural', { userRolesCount: dataSource.totalCount }) }}
+        }
+      </h4>
+    </watt-card-title>
+
+    @if (hasError()) {
+      <watt-empty-state
+        icon="custom-power"
+        [title]="'shared.error.title' | transloco"
+        [message]="'shared.error.message' | transloco"
+      />
+    } @else {
+      <watt-table
+        [dataSource]="dataSource"
+        [loading]="isLoading()"
+        [columns]="columns"
+        sortDirection="asc"
+        [selectable]="true"
+        (selectionChange)="selectionChanged($event)"
+      >
+        <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+          {{ element.name }}
+        </ng-container>
+
+        <ng-container
+          *wattTableCell="columns['description']; header: t('columns.description'); let element"
+        >
+          {{ element.description }}
+        </ng-container>
+      </watt-table>
+    }
+  </watt-card>`,
 })
 export class DhAssignableUserRolesComponent {
-  private readonly userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
+  private table = viewChild.required(WattTableComponent);
 
   actorId = input.required<string>();
 
-  assignableUserRoles = lazyQuery(GetUserRolesByActorIdDocument);
+  assignableUserRolesQuery = lazyQuery(GetUserRolesByActorIdDocument);
 
-  readonly isLoading = computed(() => this.assignableUserRoles.loading());
-  readonly hasError = computed(() => this.assignableUserRoles.error());
+  isLoading = this.assignableUserRolesQuery.loading;
+  hasError = computed(() => this.assignableUserRolesQuery.error() !== undefined);
 
-  readonly dataSource = new WattTableDataSource<UserRoleItem>([]);
+  dataSource = new WattTableDataSource<UserRoleItem>([]);
 
-  readonly selectedUserRoles = output<UserRoleItem[]>();
+  selectedUserRoles = output<UserRoleItem[]>();
 
   constructor() {
+    effect(() => this.assignableUserRolesQuery.query({ variables: { actorId: this.actorId() } }));
     effect(() => {
-      this.dataSource.data = this.assignableUserRoles.data()?.userRolesByActorId ?? [];
-
-      this.userRolesTable()?.clearSelection();
+      this.dataSource.data = this.assignableUserRolesQuery.data()?.userRolesByActorId ?? [];
+      this.table().clearSelection();
     });
-
-    effect(() => this.assignableUserRoles.query({ variables: { actorId: this.actorId() } }));
   }
 
   columns: WattTableColumnDef<UserRoleItem> = {
