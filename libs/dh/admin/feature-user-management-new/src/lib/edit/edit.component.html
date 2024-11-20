@@ -52,11 +52,14 @@ limitations under the License.
     </watt-tab>
 
     <watt-tab [label]="t('tab.roles')">
-      <dh-user-roles
-        [user]="user()"
-        [selectMode]="true"
-        (updateUserRoles)="onSelectedUserRolesChanged($event)"
-      />
+      @let id = user()?.id;
+      @if (id) {
+        <dh-user-roles
+          [id]="id"
+          [selectMode]="true"
+          (updateUserRoles)="onSelectedUserRolesChanged($event)"
+        />
+      }
     </watt-tab>
   </watt-tabs>
 

@@ -29,8 +29,8 @@ import {
   GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { UserDetails } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   standalone: true,
@@ -47,9 +47,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     <p>
       {{
         t('reactivateConfirmation.body', {
-          first: user()?.firstName,
-          last: user()?.lastName,
-          email: user()?.email,
+          name: user()?.name,
         })
       }}
     </p>
@@ -77,7 +75,7 @@ export class DhReactivateComponent {
 
   modal = viewChild.required(WattModalComponent);
 
-  user = input<DhUser>();
+  user = input<UserDetails>();
 
   loading = this.reactivateUserMutation.loading;
 
