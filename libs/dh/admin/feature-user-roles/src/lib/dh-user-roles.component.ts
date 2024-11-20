@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   output,
   ViewEncapsulation,
@@ -38,7 +39,6 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import {
   DhActorUserRole,
   DhActorUserRoles,
-  DhUser,
   UpdateUserRoles,
 } from '@energinet-datahub/dh/admin/shared';
 
@@ -46,6 +46,8 @@ import {
   FilterUserRolesPipe,
   UserRolesIntoTablePipe,
 } from './dh-filter-user-roles-into-table.pipe';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-user-roles',
@@ -74,15 +76,18 @@ import {
   ],
 })
 export class DhUserRolesComponent {
+  private actorsAndRolesQuery = lazyQuery(GetActorsAndUserRolesDocument);
   private _updateUserRoles: UpdateUserRoles = {
     actors: [],
   };
 
-  user = input<DhUser | undefined>(undefined);
+  id = input.required<string>();
   selectMode = input(false);
   expanded = input(true);
 
   updateUserRoles = output<UpdateUserRoles>();
+
+  user = computed(() => this.actorsAndRolesQuery.data()?.userById);
 
   userRolesPerActor = computed(() => this.user()?.actors ?? []);
 
@@ -90,6 +95,12 @@ export class DhUserRolesComponent {
     name: { accessor: 'name' },
     description: { accessor: 'description', sort: false },
   };
+
+  constructor() {
+    effect(() => {
+      this.actorsAndRolesQuery.query({ variables: { id: this.id() } });
+    });
+  }
 
   resetUpdateUserRoles(): void {
     this._updateUserRoles = {

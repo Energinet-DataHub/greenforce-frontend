@@ -21,3 +21,4 @@ export * from './lib/dh-create-user-role.store';
 export * from './lib/dh-admin-user-role-edit-data-access-api.store';
 export * from './lib/dh-admin-edit-user.store';
 export * from './lib/dh-admin-role.types';
+export * from './lib/types/user-details.type';

@@ -33,8 +33,6 @@ import {
   UserAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
-
 @Component({
   selector: 'dh-user-audit-logs',
   standalone: true,
@@ -93,9 +91,9 @@ export class DhUserAuditLogsComponent implements OnChanges {
     entry: { accessor: null },
   };
 
-  user = input.required<DhUser>();
+  id = input.required<string>();
 
   ngOnChanges(): void {
-    this.getUserAuditLogsQuery?.refetch({ id: this.user().id });
+    this.getUserAuditLogsQuery?.refetch({ id: this.id() });
   }
 }

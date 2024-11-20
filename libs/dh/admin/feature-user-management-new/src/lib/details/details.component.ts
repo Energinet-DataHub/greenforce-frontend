@@ -42,9 +42,9 @@ import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   UserStatus,
   Reset2faDocument,
-  GetUserByIdDocument,
   ReInviteUserDocument,
   UserOverviewSearchDocument,
+  GetUserDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -92,7 +92,7 @@ export class DhUserDetailsComponent {
   // Router param
   id = input.required<string>();
 
-  selectedUserQuery = lazyQuery(GetUserByIdDocument, {
+  selectedUserQuery = lazyQuery(GetUserDetailsDocument, {
     fetchPolicy: 'no-cache',
     nextFetchPolicy: 'no-cache',
   });
