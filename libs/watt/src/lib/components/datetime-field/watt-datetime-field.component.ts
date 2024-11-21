@@ -117,6 +117,9 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
           (selectedChange)="handleSelectedChange(field, picker, $event)"
         />
       </div>
+      <ng-content />
+      <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+      <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
     </watt-field>
   `,
 })
