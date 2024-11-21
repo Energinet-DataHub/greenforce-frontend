@@ -9,9 +9,5 @@
       "executor": "@nx/eslint:lint"
     }
   },
-  "tags": [
-    "product:eo",
-    "domain:consent",
-    "type:feature"
-  ]
+  "tags": ["product:eo", "domain:consent", "type:feature"]
 }
