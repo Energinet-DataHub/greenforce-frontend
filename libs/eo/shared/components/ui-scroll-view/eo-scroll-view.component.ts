@@ -117,6 +117,7 @@ export class EoScrollViewComponent implements OnDestroy {
       if (entry.isIntersecting) {
         this.checkScroll();
         this.observeContentChanges();
+        console.log('NOOO!!!');
       } else {
         this.observer.disconnect();
       }
