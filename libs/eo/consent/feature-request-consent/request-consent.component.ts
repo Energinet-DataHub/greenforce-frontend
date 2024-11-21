@@ -24,6 +24,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -36,9 +37,11 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
+import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,6 +55,7 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
     VaterStackComponent,
     WattTextFieldComponent,
     WattCopyToClipboardDirective,
+    EoHtmlDocComponent,
   ],
   standalone: true,
   styles: `
@@ -77,40 +81,49 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
     }
   `,
   template: `
-    @if (opened) {
+    @if (opened()) {
       <watt-modal
         #modal
         [title]="translations.requestConsent.title | transloco"
         [panelClass]="['eo-request-consent-modal']"
       >
-        <div
-          [innerHTML]="translations.requestConsent.description | transloco"
-          class="description"
-        ></div>
+        @if (serviceProviderTermsAccepted()) {
+          <div
+            [innerHTML]="translations.requestConsent.description | transloco"
+            class="description"
+          ></div>
 
-        <vater-stack direction="row" align-items="center" class="invitation-link">
-          <watt-text-field
-            name="invitation-link"
-            label="Invitation link"
-            [formControl]="control"
-            #key
-          />
+          <vater-stack direction="row" align-items="center" class="invitation-link">
+            <watt-text-field
+              name="invitation-link"
+              label="Invitation link"
+              [formControl]="control"
+              #key
+            />
 
-          <watt-button
-            #copyButton
-            variant="text"
-            icon="contentCopy"
-            data-testid="copy-invitation-link-button"
-            [wattCopyToClipboard]="control.value ?? ''"
-            >{{ translations.requestConsent.copy | transloco }}</watt-button
-          >
-        </vater-stack>
+            <watt-button
+              #copyButton
+              variant="text"
+              icon="contentCopy"
+              data-testid="copy-invitation-link-button"
+              [wattCopyToClipboard]="control.value ?? ''"
+              >{{ translations.requestConsent.copy | transloco }}</watt-button
+            >
+          </vater-stack>
+        } @else {
+          <eo-html-doc [path]="serviceProviderTermsPath" />
+        }
 
         <watt-modal-actions>
-          <watt-button variant="primary" (click)="close(true)">{{
-            translations.requestConsent.copyAndClose | transloco
-          }}</watt-button>
+          @if(serviceProviderTermsAccepted()) {
+            <watt-button variant="primary" (click)="close(true)">{{
+              translations.requestConsent.copyAndClose | transloco
+            }}</watt-button>
+          } @else {
+            SOME OTHER ACTION
+          }
         </watt-modal-actions>
+
       </watt-modal>
     }
   `,
@@ -124,6 +137,7 @@ export class EoRequestConsentModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @ViewChild('copyButton', { read: ElementRef }) copyButton!: ElementRef<HTMLButtonElement>;
 
+  protected serviceProviderTermsPath = 'assets/service-provider-terms/${lang}.html';
   protected transloco = inject(TranslocoService);
   protected control: FormControl<string | null> = new FormControl({
     value: this.link,
@@ -131,13 +145,16 @@ export class EoRequestConsentModalComponent {
   });
   protected translations = translations;
 
-  public opened = false;
+  public opened = signal<boolean>(false);
+  protected serviceProviderTermsAccepted = signal<boolean>(false);
 
   open() {
     // This is a workaround for "lazy loading" the modal content
-    this.opened = true;
+    this.opened.set(true);
     this.cd.detectChanges();
     this.modal.open();
+
+    this.modal.title = this.transloco.translate('topbar.beta.title');
   }
 
   close(result: boolean) {
@@ -146,7 +163,7 @@ export class EoRequestConsentModalComponent {
 
     // We wait for setting opened, to the modal is actually closed to avoid any flickerness
     this.modal.closed.pipe(first()).subscribe(() => {
-      this.opened = false;
+      this.opened.set(false);
       this.closed.emit();
     });
   }

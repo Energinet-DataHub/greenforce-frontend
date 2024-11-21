@@ -192,7 +192,6 @@
       "@energinet-datahub/eo/auth/data-access": ["libs/eo/auth/data-access/index.ts"],
       "@energinet-datahub/eo/auth/domain": ["libs/eo/auth/domain/index.ts"],
       "@energinet-datahub/eo/auth/feature-login": ["libs/eo/auth/feature-login/index.ts"],
-      "@energinet-datahub/eo/auth/feature-terms": ["libs/eo/auth/feature-terms/index.ts"],
       "@energinet-datahub/eo/auth/ui-actor-menu": ["libs/eo/auth/ui-actor-menu/index.ts"],
       "@energinet-datahub/eo/certificates/data-access-api": [
         "libs/eo/certificates/data-access-api/index.ts"
@@ -262,7 +261,7 @@
       "@energinet-datahub/eo/metering-points/domain": ["libs/eo/metering-points/domain/index.ts"],
       "@energinet-datahub/eo/metering-points/shell": ["libs/eo/metering-points/shell/src/index.ts"],
       "@energinet-datahub/eo/onboarding/shell": ["libs/eo/onboarding/shell/index.ts"],
-      "@energinet-datahub/eo/privacy-policy/shell": ["libs/eo/privacy-policy/shell/index.ts"],
+      "@energinet-datahub/eo/legal/privacy-policy": ["libs/eo/legal/feature-privacy-policy/index.ts"],
       "@energinet-datahub/eo/production/shell": ["libs/eo/production/shell/src/index.ts"],
       "@energinet-datahub/eo/shared/assets": ["libs/eo/shared/assets/src/index.ts"],
       "@energinet-datahub/eo/shared/atomic-design/feature-molecules": [
@@ -400,6 +399,9 @@
         "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
+      "@energinet-datahub/eo/legal/terms": ["libs/eo/legal/feature-terms/index.ts"],
+      "@energinet-datahub/eo/legal/service-provider-terms": ["libs/eo/legal/feature-service-provider-terms/index.ts"],
+      "@energinet-datahub/eo/legal/shell": ["libs/eo/legal/shell/index.ts"],
       "rxjs": ["./node_modules/rxjs"],
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }

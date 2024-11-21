@@ -33,16 +33,15 @@ import {
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
-  eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
   eoActivityLogRoutePath,
   eoOnboardingRoutePath,
   eoConsentRoutePath,
-  eoTermsRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { translations } from '@energinet-datahub/eo/translations';
 
+import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
 import { EoShellComponent } from './eo-shell.component';
 
 const routes: Routes = [
@@ -67,22 +66,7 @@ const routes: Routes = [
     path: '',
     component: EoShellComponent,
     children: [
-      {
-        path: eoPrivacyPolicyRoutePath,
-        title: translations.privacyPolicy.title,
-        loadChildren: () =>
-          import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.eoPrivacyPolicyRoutes
-          ),
-      },
-      {
-        path: eoTermsRoutePath,
-        title: translations.terms.title,
-        loadChildren: () =>
-          import('@energinet-datahub/eo/auth/feature-terms').then(
-            (esModule) => esModule.eoTermsRoutes
-          ),
-      },
+      ...eoLegalRoutes,
       {
         path: eoCertificatesRoutePath,
         canActivate: [eoScopeGuard],

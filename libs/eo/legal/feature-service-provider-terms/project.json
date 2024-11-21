@@ -1,13 +1,13 @@
 {
-  "name": "eo-service-provider-terms-consent",
+  "name": "eo-service-provider-terms",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/consent/feature-service-provider-terms-consent",
+  "sourceRoot": "libs/eo/feature-service-provider-terms",
   "prefix": "eo",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
     }
   },
-  "tags": ["product:eo", "domain:consent", "type:feature"]
+  "tags": ["product:eo", "domain:legal", "type:feature"]
 }

@@ -46,7 +46,6 @@ import { EoConsent, EoConsentService } from '@energinet-datahub/eo/consent/data-
 import { EoGrantConsentModalComponent } from '@energinet-datahub/eo/consent/feature-grant-consent';
 import { EoRequestConsentModalComponent } from '@energinet-datahub/eo/consent/feature-request-consent';
 import { EoConsentDetailsDrawerComponent } from '@energinet-datahub/eo/consent/feature-details';
-import { EoServiceProviderTermsConsentModalComponent } from '@energinet-datahub/eo/consent/feature-service-provider-terms-consent';
 
 @Injectable()
 export class EoDataIntlService extends WattDataIntlService {
@@ -78,7 +77,6 @@ const selector = 'eo-consent-overview';
     EoGrantConsentModalComponent,
     EoRequestConsentModalComponent,
     EoConsentDetailsDrawerComponent,
-    EoServiceProviderTermsConsentModalComponent,
     WattButtonComponent,
   ],
   providers: [WattDatePipe, { provide: WattDataIntlService, useClass: EoDataIntlService }],
@@ -124,10 +122,6 @@ const selector = 'eo-consent-overview';
     />
     <eo-request-consent-modal />
 
-    <eo-service-provider-terms-consent-modal
-      (closed)="(onCloseServiceProviderTermsConsentDialog)"
-    />
-
     @if (selectedConsent) {
       <eo-consent-details-drawer
         [consent]="selectedConsent"
@@ -158,9 +152,6 @@ export class EoConsentOverviewComponent implements OnInit {
   @ViewChild(EoRequestConsentModalComponent, { static: true })
   requestConsentModal!: EoRequestConsentModalComponent;
 
-  @ViewChild(EoServiceProviderTermsConsentModalComponent, { static: true })
-  serviceProviderTermsConsentModal!: EoServiceProviderTermsConsentModalComponent;
-
   @ViewChild(EoConsentDetailsDrawerComponent)
   consentDetailsModal!: EoConsentDetailsDrawerComponent;
 
@@ -175,16 +166,7 @@ export class EoConsentOverviewComponent implements OnInit {
   protected selectedConsent: EoConsent | null = null;
 
   requestPOA(): void {
-    // TODO MASEP: implement check if user has accepted Service Provider Terms
-    // serviceProviderTermsHasBeenAccepted
-    // if () {
-    // this.requestConsentModal.open();
-    // }
-    this.openServiceProviderTermsModal();
-  }
-
-  openServiceProviderTermsModal() {
-    this.serviceProviderTermsConsentModal.open();
+    this.requestConsentModal.open();
   }
 
   selectConsent(consent: EoConsent): void {

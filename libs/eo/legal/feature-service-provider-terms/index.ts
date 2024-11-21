@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
-import { EoTermsComponent } from './terms.component';
-
-export const eoTermsRoutes: Routes = [{ path: '', component: EoTermsComponent }];
+export * from './service-provider-terms.component';
