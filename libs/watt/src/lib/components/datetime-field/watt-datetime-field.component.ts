@@ -149,6 +149,7 @@ export class WattDateTimeField implements ControlValueAccessor {
     dateMode: 'dd/mm/yyyy',
     timeMode: 'HH:MM',
     dateSeparator: '-',
+    timeStep: 1,
   });
 
   /** Set the label text for `watt-field`. */
