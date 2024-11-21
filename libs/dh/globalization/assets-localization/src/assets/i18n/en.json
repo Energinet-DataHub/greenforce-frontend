@@ -1311,7 +1311,7 @@
         "gridAreas": "Grid areas"
       },
       "reportStatus": {
-        "IN_PROGRESS": "In progress ({{ progress }}%)",
+        "IN_PROGRESS": "In progress",
         "ERROR": "Error",
         "COMPLETED": "Completed",
         "CANCELED": "Canceled",
@@ -1360,6 +1360,8 @@
       "connect": "Connect MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} user role",
+        "plural": "{{ userRolesCount }} user roles",
         "title": "Invite user",
         "informations": "Information",
         "addUserRole": "Add user role",
@@ -1406,7 +1408,7 @@
         "deactivateSuccess": "User deactivated",
         "deactivateConfirmation": {
           "title": "Deactivate user?",
-          "body": "User {{first}} {{last}} ({{email}}) will be deactivated, and sign-in will be blocked.",
+          "body": "User {{name}} ({{email}}) will be deactivated, and sign-in will be blocked.",
           "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
           "confirm": "Deactivate user",
           "reject": "Cancel"
@@ -1416,7 +1418,7 @@
         "reactivateSuccess": "User activated",
         "reactivateConfirmation": {
           "title": "Reactivate user?",
-          "body": "User {{first}} {{last}} ({{email}}) will be activated.",
+          "body": "User {{name}} ({{email}}) will be activated.",
           "important": "It may take up to 30 minutes before the user can log in again.",
           "confirm": "Activate user",
           "reject": "Cancel"

@@ -1311,7 +1311,7 @@
         "gridAreas": "Netområder"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang ({{ progress }}%)",
+        "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
         "CANCELED": "Afbrudt",
@@ -1360,6 +1360,8 @@
       "connect": "Tilknyt MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} Brugerrolle",
+        "plural": "{{ userRolesCount }} Brugerroller",
         "title": "Inviter bruger",
         "informations": "Information",
         "addUserRole": "Tildel brugerroller",
@@ -1406,7 +1408,7 @@
         "deactivateSuccess": "Bruger deaktiveret",
         "deactivateConfirmation": {
           "title": "Deaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
@@ -1416,7 +1418,7 @@
         "reactivateSuccess": "Bruger blev aktiveret",
         "reactivateConfirmation": {
           "title": "Genaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive aktiveret.",
           "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
           "confirm": "Aktiver bruger",
           "reject": "Fortryd"

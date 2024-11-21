@@ -23,9 +23,8 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
+import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-
-import { DhUser } from '@energinet-datahub/dh/admin/shared';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -37,10 +36,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     variant="solid"
   >
     <watt-description-list variant="stack">
-      <watt-description-list-item
-        [label]="t('name')"
-        [value]="user().firstName + ' ' + user().lastName"
-      />
+      <watt-description-list-item [label]="t('name')" [value]="user().name" />
       <watt-description-list-item [label]="t('email')" [value]="user().email" />
       <watt-description-list-item
         [label]="t('phone')"
@@ -66,5 +62,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
 })
 export class DhUserMasterDataComponent {
-  user = input.required<DhUser>();
+  user = input.required<DhUserDetails>();
 }

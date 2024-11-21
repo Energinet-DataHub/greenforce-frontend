@@ -43,8 +43,8 @@ import {
   UserStatus,
   GetUsersDocument,
   Reset2faDocument,
-  GetUserByIdDocument,
   ReInviteUserDocument,
+  GetUserDetailsDocument,
   GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -73,14 +73,13 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
     WATT_DRAWER,
     WattButtonComponent,
 
-    DhPermissionRequiredDirective,
-
     DhUserRolesComponent,
     DhDeactivteComponent,
     DhReactivateComponent,
     DhUserStatusComponent,
     DhUserAuditLogsComponent,
     DhUserMasterDataComponent,
+    DhPermissionRequiredDirective,
   ],
 })
 export class DhUserDetailsComponent {
@@ -93,7 +92,7 @@ export class DhUserDetailsComponent {
   // Router param
   id = input.required<string>();
 
-  selectedUserQuery = lazyQuery(GetUserByIdDocument);
+  selectedUserQuery = lazyQuery(GetUserDetailsDocument);
 
   selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
   isLoading = computed(() => this.selectedUserQuery.loading());

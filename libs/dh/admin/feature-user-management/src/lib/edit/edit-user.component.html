@@ -48,7 +48,7 @@ limitations under the License.
         <watt-tab [label]="t('tab.roles')">
           <dh-user-roles
             #userRoles
-            [user]="modalData"
+            [id]="modalData.id"
             [selectMode]="true"
             (updateUserRoles)="onSelectedUserRolesChanged($event)"
           />

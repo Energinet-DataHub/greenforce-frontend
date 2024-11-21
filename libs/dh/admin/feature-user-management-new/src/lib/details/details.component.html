@@ -25,7 +25,7 @@ limitations under the License.
     </watt-drawer-topbar>
     <watt-drawer-heading>
       @if (user) {
-        <h2>{{ user.firstName + " " + user.lastName }}</h2>
+        <h2>{{ user.name }}</h2>
       }
     </watt-drawer-heading>
 
@@ -74,10 +74,14 @@ limitations under the License.
             <dh-user-master-data [user]="user" />
           </watt-tab>
           <watt-tab [label]="t('roles.tabLabel')">
-            <dh-user-roles [user]="user" [expanded]="false" />
+            @defer {
+              <dh-user-roles [id]="user.id" [expanded]="false" />
+            }
           </watt-tab>
           <watt-tab *dhPermissionRequired="['fas']" [label]="t('history.tabLabel')">
-            <dh-user-audit-logs [user]="user" />
+            @defer {
+              <dh-user-audit-logs [id]="user.id" />
+            }
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

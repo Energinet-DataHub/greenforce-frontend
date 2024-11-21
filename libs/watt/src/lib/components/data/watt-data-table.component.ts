@@ -132,7 +132,6 @@ import { WattButtonComponent } from '../button';
             [for]="table().dataSource"
             [length]="count() ?? 0"
             (changed)="pageChanged.emit($event)"
-            [pageSizeOptions]="[5, 10, 25, 50]"
           />
         }
       </vater-flex>
