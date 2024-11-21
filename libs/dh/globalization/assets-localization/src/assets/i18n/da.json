@@ -1311,7 +1311,7 @@
         "gridAreas": "Netområder"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang ({{ progress }}%)",
+        "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
         "CANCELED": "Afbrudt",
