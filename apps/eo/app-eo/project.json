@@ -21,6 +21,11 @@
             "output": "assets"
           },
           {
+            "glob": "**/*",
+            "input": "libs/eo/legal/assets",
+            "output": "assets"
+          },
+          {
             "glob": "**/*.json",
             "input": "libs/eo/core/globalization/assets-localization",
             "output": "assets"
