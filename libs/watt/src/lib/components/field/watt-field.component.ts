@@ -81,7 +81,7 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
   host: {
     '[class.watt-field--chip]': 'chipMode()',
     '[class.watt-field--unlabelled]': 'unlabelled()',
-    '[class.watt-field--disabled]': 'control().disabled',
+    '[class.watt-field--disabled]': 'control()?.disabled',
   },
 })
 export class WattFieldComponent {
