@@ -83,3 +83,4 @@ Example:
 - ett-testing-stuff         (missing type and ticket)
 - feat/ETT-123-thing       (uppercase used)
 - fix/ett-456              (not descriptive enough)
+```
