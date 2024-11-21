@@ -14,21 +14,24 @@ Energinet commits to making the website https://energytrackandtrace.dk accessibl
 ### Testing Requirements
 
 #### Public Pages
+
 - Use the QualWeb evaluator tool: https://qualweb.di.fc.ul.pt/evaluator/
 - Run tests before deploying any significant UI changes
 - Document test results and any remediation actions taken
 
 #### Protected Pages (Behind Login)
+
 - Automated testing tools like QualWeb cannot access these pages
 - Implement manual accessibility testing
 - Consider using tools like:
- - WAVE (Web Accessibility Evaluation Tool)
- - Screen readers (e.g., NVDA, VoiceOver)
- - Keyboard navigation testing
+- WAVE (Web Accessibility Evaluation Tool)
+- Screen readers (e.g., NVDA, VoiceOver)
+- Keyboard navigation testing
 
 ### Technical Implementation Requirements
 
 #### WAS URI Configuration
+
 - Maintain the `/was` URI endpoint
 - Ensure proper redirection to https://www.was.digst.dk/energytrackandtrace-dk
 - This redirection is mandatory for Danish public sector accessibility compliance
@@ -36,33 +39,38 @@ Energinet commits to making the website https://energytrackandtrace.dk accessibl
 #### Development Best Practices
 
 1. **Semantic HTML**
-  - Use appropriate HTML elements (`<nav>`, `<main>`, `<article>`, etc.)
-  - Implement proper heading hierarchy (h1-h6)
-  - Use semantic lists and tables when appropriate
+
+- Use appropriate HTML elements (`<nav>`, `<main>`, `<article>`, etc.)
+- Implement proper heading hierarchy (h1-h6)
+- Use semantic lists and tables when appropriate
 
 2. **ARIA Implementation**
-  - Add ARIA labels where necessary
-  - Use ARIA landmarks appropriately
-  - Implement ARIA roles when HTML semantics aren't sufficient
-  - Avoid redundant ARIA attributes
+
+- Add ARIA labels where necessary
+- Use ARIA landmarks appropriately
+- Implement ARIA roles when HTML semantics aren't sufficient
+- Avoid redundant ARIA attributes
 
 3. **Images and Media**
-  - Provide meaningful alt text for images
-  - Include captions for videos
-  - Ensure proper contrast ratios for text and background
-  - Provide text alternatives for non-text content
+
+- Provide meaningful alt text for images
+- Include captions for videos
+- Ensure proper contrast ratios for text and background
+- Provide text alternatives for non-text content
 
 4. **Keyboard Navigation**
-  - Ensure all interactive elements are focusable
-  - Implement logical tab order
-  - Provide visible focus indicators
-  - Add skip links for main content
+
+- Ensure all interactive elements are focusable
+- Implement logical tab order
+- Provide visible focus indicators
+- Add skip links for main content
 
 5. **Forms**
-  - Associate labels with form controls
-  - Provide clear error messages
-  - Use fieldset and legend where appropriate
-  - Implement proper form validation feedback
+
+- Associate labels with form controls
+- Provide clear error messages
+- Use fieldset and legend where appropriate
+- Implement proper form validation feedback
 
 ### Compliance Monitoring
 
@@ -80,6 +88,7 @@ Energinet commits to making the website https://energytrackandtrace.dk accessibl
 ## Support and Contact
 
 For questions or concerns regarding accessibility:
+
 - Contact the team's business developer
 - Document issues in the project management system
 - Include accessibility considerations in code reviews
