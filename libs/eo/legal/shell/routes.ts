@@ -30,6 +30,8 @@ export const eoLegalRoutes: Routes = [
   {
     path: 'service-provider-terms',
     loadComponent: () =>
-      import('@energinet-datahub/eo/legal/service-provider-terms').then((x) => x.EoServiceProviderTermsComponent),
+      import('@energinet-datahub/eo/legal/service-provider-terms').then(
+        (x) => x.EoServiceProviderTermsComponent
+      ),
   },
 ];

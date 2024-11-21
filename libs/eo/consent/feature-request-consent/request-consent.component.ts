@@ -115,7 +115,7 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
         }
 
         <watt-modal-actions>
-          @if(serviceProviderTermsAccepted()) {
+          @if (serviceProviderTermsAccepted()) {
             <watt-button variant="primary" (click)="close(true)">{{
               translations.requestConsent.copyAndClose | transloco
             }}</watt-button>
@@ -123,7 +123,6 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
             SOME OTHER ACTION
           }
         </watt-modal-actions>
-
       </watt-modal>
     }
   `,
