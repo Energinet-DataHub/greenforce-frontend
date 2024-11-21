@@ -45,7 +45,6 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 import { MaskitoModule } from '@maskito/angular';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
@@ -201,12 +200,12 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   }
   constructor() {
     super(`watt-datepicker-${WattDatepickerComponent.nextId++}`);
-    this.localeService.onLocaleChange$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((locale) => {
-        this.datePlaceholder = this.getPlaceholderByLocale(locale);
-        this.rangePlaceholder = this.getRangePlaceholder();
-      });
+
+    effect(() => {
+      const locale = this.localeService.locale();
+      this.datePlaceholder = this.getPlaceholderByLocale(locale);
+      this.rangePlaceholder = this.getRangePlaceholder();
+    });
 
     effect(() => {
       this.rangeMonthOnlyMode();
