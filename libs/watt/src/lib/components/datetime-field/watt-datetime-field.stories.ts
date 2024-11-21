@@ -19,6 +19,7 @@ import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/ang
 import { WattDateTimeField } from './watt-datetime-field.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS } from '@angular/material/core';
 import { WattDateAdapter } from '../../configuration/watt-date-adapter';
+import { signal } from '@angular/core';
 
 const meta: Meta<WattDateTimeField> = {
   title: 'Components/DateTimeField',
@@ -38,14 +39,36 @@ const meta: Meta<WattDateTimeField> = {
 
 export default meta;
 
-const destination = new FormControl(new Date(1985, 9, 26, 1, 21));
-const present = new FormControl(new Date(2021, 10, 12, 1, 22));
-const lastDeparted = new FormControl(new Date(2015, 9, 21, 1, 21));
+const destination = new FormControl<Date | null>(null);
+const present = new FormControl(new Date());
+const lastDeparted = new FormControl<Date | null>({ value: null, disabled: true });
+const min = signal(new Date());
+const max = signal(new Date());
+const flux = (destination: Date | null) => {
+  if (!destination) return;
+  lastDeparted.setValue(present.value);
+  min.set(destination);
+  max.set(destination);
+  setTimeout(() => present.setValue(destination));
+};
 
 export const Overview: StoryFn = () => ({
-  props: { destination, present, lastDeparted },
+  props: { destination, present, lastDeparted, min, max, flux },
   template: `
-    <watt-datetime-field label="Destination time" [formControl]="destination" />
-    <watt-datetime-field label="Present time" [formControl]="present" />
-    <watt-datetime-field label="Last time departed" [formControl]="lastDeparted" />`,
+    <watt-datetime-field
+      label="Destination time"
+      [formControl]="destination"
+      (dateChange)="flux($event)"
+    />
+    <watt-datetime-field
+      label="Present time"
+      [min]="min()"
+      [max]="max()"
+      [formControl]="present"
+    />
+    <watt-datetime-field
+      label="Last time departed"
+      [formControl]="lastDeparted"
+      [inclusive]="true"
+    />`,
 });
