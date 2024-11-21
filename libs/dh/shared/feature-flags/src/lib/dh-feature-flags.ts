@@ -46,11 +46,7 @@ export const dhFeatureFlagsConfig = {
   },
   'settlement-report-use-api': {
     created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [],
   },
   'feature-user-management-new': {
     created: latestBump,
