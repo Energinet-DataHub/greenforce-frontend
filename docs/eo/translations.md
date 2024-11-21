@@ -57,7 +57,7 @@ const message = translate(translations.someKey);
 {{ translations.keyWithParams | transloco:{ param: value } }}
 
 <!-- Dynamic keys -->
-<span [translate]="translations.dynamicKey">
+<span [translate]="translations.dynamicKey"></span>
 ```
 
 ## Best Practices
