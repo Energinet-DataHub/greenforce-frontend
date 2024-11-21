@@ -1360,6 +1360,8 @@
       "connect": "Connect MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} user role",
+        "plural": "{{ userRolesCount }} user roles",
         "title": "Invite user",
         "informations": "Information",
         "addUserRole": "Add user role",

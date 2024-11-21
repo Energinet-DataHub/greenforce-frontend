@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, output, signal, viewChild } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -27,11 +27,7 @@ import {
   WattDataTableComponent,
 } from '@energinet-datahub/watt/data';
 
-import {
-  GetUsersDocument,
-  GetUsersQueryVariables,
-  SortEnumType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetUsersQueryVariables, SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -42,13 +38,9 @@ import { GetUsersDataSource } from '@energinet-datahub/dh/shared/domain/graphql/
 import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 import { DhUsersOverviewFiltersComponent } from '../filters/filters.component';
 import { DhDownloadUsersCsvComponent } from './download-users-csv.component';
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { DhUser } from '@energinet-datahub/dh/admin/data-access-api';
 
 type Variables = Partial<GetUsersQueryVariables>;
-
-export type DhUsers = NonNullable<ResultOf<typeof GetUsersDocument>['users']>['items'];
-
-export type DhUser = NonNullable<DhUsers>[0];
 
 @Component({
   selector: 'dh-users',
@@ -131,7 +123,6 @@ export type DhUser = NonNullable<DhUsers>[0];
   </watt-data-table>`,
 })
 export class DhUsersComponent {
-  private dataTable = viewChild.required(WattDataTableComponent);
   private navigation = inject(DhNavigationService);
 
   columns: WattTableColumnDef<DhUser> = {
