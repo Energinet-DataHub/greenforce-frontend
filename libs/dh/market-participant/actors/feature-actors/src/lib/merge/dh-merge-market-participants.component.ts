@@ -22,7 +22,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { JsonPipe } from '@angular/common';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
@@ -35,7 +34,6 @@ import {
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    JsonPipe,
 
     WATT_MODAL,
     WattDatepickerComponent,
@@ -44,7 +42,6 @@ import {
   ],
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.mergeMarketParticipants'">
-      {{ form.valid }}
       <watt-modal size="small" [title]="t('title')">
         <form id="form-id" [formGroup]="form" (ngSubmit)="form.valid && save()">
           <watt-dropdown
@@ -61,8 +58,6 @@ import {
 
           <watt-datepicker [label]="t('mergeDate')" [formControl]="form.controls.date" />
         </form>
-
-        {{ form.value | json }}
 
         <watt-modal-actions>
           <watt-button variant="secondary" (click)="closeModal(false)">
