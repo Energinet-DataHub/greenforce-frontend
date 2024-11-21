@@ -46,7 +46,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type Variables = Partial<GetUsersQueryVariables>;
 
-export type DhUsers = NonNullable<ResultOf<typeof GetUsersDocument>['users']>['nodes'];
+export type DhUsers = NonNullable<ResultOf<typeof GetUsersDocument>['users']>['items'];
 
 export type DhUser = NonNullable<DhUsers>[0];
 
