@@ -97,7 +97,7 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       <input
         #field
         [formControl]="control"
-        [maskito]="mask"
+        [maskito]="mask()"
         (focus)="picker.showPopover()"
         (blur)="handleBlur(picker, $event)"
       />
@@ -112,6 +112,8 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
         <mat-calendar
           [startAt]="selected()"
           [selected]="selected()"
+          [minDate]="min()"
+          [maxDate]="max()"
           (selectedChange)="handleSelectedChange(field, picker, $event)"
         />
       </div>
@@ -143,17 +145,15 @@ export class WattDateTimeField implements ControlValueAccessor {
 
   // This inner FormControl is string only, but the outer FormControl is of type Date.
   protected control = new FormControl('', { nonNullable: true });
-  protected selected = signal<Date | null>(null);
-  protected placeholder = computed(() => (this.locale.isDanish() ? DA_FILLER : EN_FILLER));
-  protected mask = maskitoDateTimeOptionsGenerator({
-    dateMode: 'dd/mm/yyyy',
-    timeMode: 'HH:MM',
-    dateSeparator: '-',
-    timeStep: 1,
-  });
 
   /** Set the label text for `watt-field`. */
   label = input('');
+
+  /** The minimum selectable date. */
+  min = input<Date>();
+
+  /** The maximum selectable date. */
+  max = input<Date>();
 
   /** When true, seconds will be set to 59 and milliseconds to 999. Otherwise, both are 0. */
   inclusive = input(false);
@@ -163,6 +163,19 @@ export class WattDateTimeField implements ControlValueAccessor {
 
   /** Emits when the field loses focus. */
   blur = output<FocusEvent>();
+
+  protected selected = signal<Date | null>(null);
+  protected placeholder = computed(() => (this.locale.isDanish() ? DA_FILLER : EN_FILLER));
+  protected mask = computed(() =>
+    maskitoDateTimeOptionsGenerator({
+      min: this.min(),
+      max: this.max(),
+      dateMode: 'dd/mm/yyyy',
+      timeMode: 'HH:MM',
+      dateSeparator: '-',
+      timeStep: 1,
+    })
+  );
 
   protected handleBlur = (picker: HTMLElement, event: FocusEvent) => {
     if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
