@@ -23,9 +23,7 @@ limitations under the License.
 >
   <watt-drawer-topbar>
     @if (reportView && reportView.statusType !== "COMPLETED") {
-      <dh-settlement-reports-status
-        [status]="reportView.statusType"
-      />
+      <dh-settlement-reports-status [status]="reportView.statusType" />
     }
   </watt-drawer-topbar>
 
