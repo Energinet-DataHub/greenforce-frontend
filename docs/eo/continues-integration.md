@@ -61,10 +61,10 @@ Location: `.github/workflows/eo-cd.yml`
 
 1. Run local CI checks before pushing
 
-  ```bash
-  # Test affected projects
-  bun nx affected:test
-  
-  # Lint affected projects
-  bun nx affected:lint
-  ```
+```bash
+# Test affected projects
+bun nx affected:test
+
+# Lint affected projects
+bun nx affected:lint
+```
