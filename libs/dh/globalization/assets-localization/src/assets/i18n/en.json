@@ -1311,7 +1311,7 @@
         "gridAreas": "Grid areas"
       },
       "reportStatus": {
-        "IN_PROGRESS": "In progress ({{ progress }}%)",
+        "IN_PROGRESS": "In progress",
         "ERROR": "Error",
         "COMPLETED": "Completed",
         "CANCELED": "Canceled",

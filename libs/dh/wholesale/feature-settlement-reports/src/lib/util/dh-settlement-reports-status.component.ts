@@ -29,7 +29,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     @switch (status()) {
       @case ('IN_PROGRESS') {
         <watt-badge type="info">{{
-          t(status(), { progress: progress() | number: '1.2-2' })
+          t(status())
         }}</watt-badge>
       }
       @case ('ERROR') {
@@ -53,7 +53,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 })
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();
-  progress = input.required<number>();
 
   download = output<Event>();
 }
