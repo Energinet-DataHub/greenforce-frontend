@@ -38,6 +38,7 @@ import {
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
+import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
@@ -92,6 +93,7 @@ interface FormValues {
     WattDatePipe,
     WattDatepickerComponent,
     WattDatetimepickerComponent,
+    WattDateTimeField,
     WattDropdownComponent,
     WattEmptyStateComponent,
     WattFieldComponent,
