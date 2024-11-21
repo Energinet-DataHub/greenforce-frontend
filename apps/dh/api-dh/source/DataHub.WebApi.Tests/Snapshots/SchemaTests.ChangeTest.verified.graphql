@@ -306,7 +306,7 @@ type ExchangeEventStatusReportResponse {
 }
 
 type GetUserOverviewResponse {
-  users: [User!]!
+  users: [UserOverviewItemDto!]!
   totalUserCount: Int!
 }
 
@@ -315,6 +315,20 @@ type GetUserProfileResponse {
   lastName: String!
   phoneNumber: String!
   hasFederatedLogin: Boolean!
+}
+
+type GetUserResponse {
+  actors: [Actor!]!
+  administratedBy: Actor
+  id: UUID!
+  name: String!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  createdDate: DateTime!
+  latestLoginAt: DateTime
 }
 
 type GridAreaDto {
@@ -581,10 +595,11 @@ type Query {
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userProfile: GetUserProfileResponse!
-  userById(id: UUID!): User!
+  userById(id: UUID!): GetUserResponse!
   domainExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
+  users(actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: UsersSortInput): UsersConnection
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -700,20 +715,6 @@ type UpdateUserRolePayload {
   errors: [UpdateUserRoleError!]
 }
 
-type User {
-  actors: [Actor!]!
-  administratedBy: Actor
-  id: UUID!
-  name: String!
-  status: UserStatus!
-  firstName: String!
-  lastName: String!
-  email: String!
-  phoneNumber: String
-  createdDate: DateTime!
-  latestLoginAt: DateTime
-}
-
 type UserAuditedChangeAuditLogDto {
   auditedBy: String
   affectedActorName: String
@@ -723,6 +724,20 @@ type UserAuditedChangeAuditLogDto {
   isInitialAssignment: Boolean!
   currentValue: String
   previousValue: String
+}
+
+type UserOverviewItemDto {
+  name: String!
+  actors: [Actor!]!
+  administratedBy: Actor
+  id: UUID!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  createdDate: DateTime!
+  latestLoginAt: DateTime
 }
 
 type UserRoleAuditedChangeAuditLogDto {
@@ -751,6 +766,24 @@ type UserRoleWithPermissions {
   eicFunction: EicFunction!
   status: UserRoleStatus!
   permissions: [PermissionDetailsDto!]!
+}
+
+"A connection to a list of items."
+type UsersConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [UsersEdge!]
+  "A flattened list of the nodes."
+  nodes: [UserOverviewItemDto!]
+}
+
+"An edge in a connection."
+type UsersEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: UserOverviewItemDto!
 }
 
 union AddTokenToDownloadUrlError = ApiError
@@ -1082,6 +1115,14 @@ input UserProfileUpdateDtoInput {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+input UsersSortInput {
+  name: SortEnumType
+  email: SortEnumType
+  phoneNumber: SortEnumType
+  latestLoginAt: SortEnumType
+  status: SortEnumType
 }
 
 enum ActorAuditedChange {

@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 export {
-  DhMarketParticipantGridAreaOverviewComponent,
+  DhGridAreasOverviewComponent,
   GridAreaOverviewRow,
-} from './lib/dh-market-participant-gridarea-overview.component';
+} from './lib/dh-grid-areas-overview.component';

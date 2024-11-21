@@ -1,0 +1,43 @@
+query GetUsersForCsv(
+  $actorId: UUID
+  $userStatus: [UserStatus!]
+  $userRoleIds: [UUID!]
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: UsersSortInput
+  $filter: String
+) {
+  users(
+    actorId: $actorId
+    userRoleIds: $userRoleIds
+    userStatus: $userStatus
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    order: $order
+    filter: $filter
+  ) {
+    nodes {
+      id
+      name
+      email
+      administratedBy {
+        id
+        name
+        organization {
+          id
+          name
+        }
+      }
+      latestLoginAt
+    }
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
+  }
+}

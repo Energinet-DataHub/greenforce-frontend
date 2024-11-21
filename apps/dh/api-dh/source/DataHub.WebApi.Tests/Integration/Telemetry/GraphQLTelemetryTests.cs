@@ -13,19 +13,20 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Energinet.DataHub.Core.TestCommon;
+using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using Moq;
 using Xunit;
+using static HotChocolate.ErrorCodes;
 
 namespace Energinet.DataHub.WebApi.Tests.Telemetry;
 
@@ -36,7 +37,9 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     private Guid CalculationId { get; } = Guid.NewGuid();
 
-    private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
+    private Mock<IFeatureManager> FeatureManagerMock { get; } = new();
+
+    private Mock<INotifyAggregatedMeasureDataClientAdapter> ProcessManagerCalculationClientMock { get; } = new();
 
     [Fact]
     public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
@@ -68,11 +71,15 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     protected override void ConfigureMocks(IServiceCollection services)
     {
-        WholesaleClientV3Mock
+        FeatureManagerMock
+            .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
+            .ReturnsAsync(true);
+        services.AddSingleton(FeatureManagerMock.Object);
+
+        ProcessManagerCalculationClientMock
             .Setup(x => x.GetCalculationAsync(CalculationId, default))
             .ReturnsAsync(new CalculationDto { CalculationId = CalculationId });
-
-        services.AddSingleton(WholesaleClientV3Mock.Object);
+        services.AddSingleton(ProcessManagerCalculationClientMock.Object);
     }
 
     private async Task MakeGraphQLRequestAsync()

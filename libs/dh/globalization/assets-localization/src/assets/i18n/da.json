@@ -319,8 +319,8 @@
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Fremsend målepunkts data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Anmod om målepunkts data (RSM-012)"
+        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -404,6 +404,7 @@
           },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
+          "actor_invalid_market_role_for_process": "Den valgte delegerings type er ikke mulig for den valgte aktørs rolle",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
@@ -1313,7 +1314,7 @@
         "IN_PROGRESS": "I gang ({{ progress }}%)",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
-        "CANCELED": "Afbrydt",
+        "CANCELED": "Afbrudt",
         "download": "Download"
       },
       "calculationTypes": {
@@ -1405,7 +1406,7 @@
         "deactivateSuccess": "Bruger deaktiveret",
         "deactivateConfirmation": {
           "title": "Deaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
@@ -1415,7 +1416,7 @@
         "reactivateSuccess": "Bruger blev aktiveret",
         "reactivateConfirmation": {
           "title": "Genaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive aktiveret.",
           "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
           "confirm": "Aktiver bruger",
           "reject": "Fortryd"
@@ -1522,6 +1523,8 @@
           }
         },
         "users": {
+          "search": "Søg",
+          "results": "Resultater",
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "emptyTitle": "Ingen brugere fundet",
@@ -1534,8 +1537,8 @@
           "columns": {
             "name": "Navn",
             "email": "E-mail",
-            "phone": "Telefonnr.",
-            "latestLogin": "Seneste login",
+            "phoneNumber": "Telefonnr.",
+            "latestLoginAt": "Seneste login",
             "status": "Status"
           },
           "daysAgo": "{{ days }} dage siden",

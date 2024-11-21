@@ -29,7 +29,7 @@ public static class HealthEndpointRegistrationExtensions
             .AddServiceHealthCheck("settlementReportsAPI", CreateHealthEndpointUri(settings.SettlementReportsAPIBaseUrl))
             .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
 
-    private static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
+    internal static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
     {
         var liveEndpoint = "/monitor/live";
         if (isAzureFunction)

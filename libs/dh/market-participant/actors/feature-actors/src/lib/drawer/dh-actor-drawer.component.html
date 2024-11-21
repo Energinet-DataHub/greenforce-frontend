@@ -27,14 +27,14 @@ limitations under the License.
         <watt-button
           *dhPermissionRequired="['actor-master-data:manage']"
           variant="secondary"
-          (click)="editActorModal.open()"
+          (click)="editActor()"
           >{{ t("edit") }}</watt-button
         >
       </watt-drawer-actions>
     }
 
     <watt-drawer-heading>
-      <h2 class="actor-heading">
+      <h2 class="watt-space-stack-s">
         @if (selectedActor?.glnOrEicNumber) {
           {{ selectedActor?.glnOrEicNumber }} • {{ selectedActor?.name }}
         } @else {
@@ -42,8 +42,8 @@ limitations under the License.
         }
       </h2>
 
-      <div class="actor-metadata">
-        <div class="actor-metadata__item">
+      <vater-stack direction="row" gap="ml">
+        <vater-stack direction="row" gap="s">
           <span class="watt-label">{{ t("metadata.marketRole") }}</span>
           <span>
             @if (selectedActor?.marketRole) {
@@ -52,13 +52,13 @@ limitations under the License.
               {{ selectedActor?.marketRole | dhEmDashFallback }}
             }
           </span>
-        </div>
+        </vater-stack>
 
-        <div class="actor-metadata__item">
+        <vater-stack direction="row" gap="s">
           <span class="watt-label">{{ t("metadata.organization") }}</span>
           <span>{{ selectedActor?.organization?.name | dhEmDashFallback }}</span>
-        </div>
-      </div>
+        </vater-stack>
+      </vater-stack>
     </watt-drawer-heading>
 
     @if (drawer.isOpen && selectedActor) {
@@ -113,7 +113,7 @@ limitations under the License.
               </watt-card>
               <watt-card variant="solid">
                 <watt-card-title>
-                  <vater-stack direction="row">
+                  <vater-stack direction="row" justify="space-between">
                     <h3>{{ t("tabs.masterData.organization") }}</h3>
 
                     <watt-button
@@ -122,8 +122,8 @@ limitations under the License.
                       variant="text"
                       >{{ t("tabs.masterData.editOrganization") }}</watt-button
                     >
-                  </vater-stack></watt-card-title
-                >
+                  </vater-stack>
+                </watt-card-title>
 
                 <watt-description-list variant="stack" [itemSeparators]="false">
                   <watt-description-list-item
@@ -183,16 +183,10 @@ limitations under the License.
           }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <dh-actor-audit-log-tab
-              [actorId]="selectedActor.id"
-              [actorNumberNameLookup]="actorNumberNameLookup()"
-              [gridAreaCodeLookup]="gridAreaCodeLookup()"
-            />
+            <dh-actor-audit-log-tab [actorId]="selectedActor.id" />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
     }
   </watt-drawer>
 </ng-container>
-
-<dh-actors-edit-actor-modal #editActorModal [actor]="actor()" />

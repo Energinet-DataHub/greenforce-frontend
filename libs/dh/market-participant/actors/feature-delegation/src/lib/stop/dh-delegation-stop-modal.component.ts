@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, ViewEncapsulation, inject, signal } from '@angular/core';
+import { Component, ViewEncapsulation, inject, viewChild } from '@angular/core';
 import {
   FormControl,
   NonNullableFormBuilder,
@@ -22,7 +22,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { distinctUntilKeyChanged } from 'rxjs';
 
@@ -30,8 +29,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { dayjs } from '@energinet-datahub/watt/date';
@@ -41,10 +39,11 @@ import {
   StopDelegationsDocument,
   StopDelegationsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 
 import { DhDelegation } from '../dh-delegations';
-import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
   standalone: true,
@@ -103,7 +102,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           >
             {{ t('stopDate') }}
           </watt-radio>
-          <watt-datepicker [min]="date" [formControl]="stopDelegationForm.controls.stopDate">
+          <watt-datepicker [min]="today" [formControl]="stopDelegationForm.controls.stopDate">
             @if (
               stopDelegationForm.controls.stopDate.errors?.['dateCannotBeOlderThanTodayValidator']
             ) {
@@ -119,6 +118,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
       <watt-button (click)="closeModal(false)" variant="secondary">
         {{ t('cancel') }}
       </watt-button>
+
       <watt-button
         [loading]="isSaving()"
         formId="stop-delegation-form"
@@ -131,26 +131,27 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
   </watt-modal>`,
 })
 export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[]> {
-  private _fb = inject(NonNullableFormBuilder);
-  private _toastService = inject(WattToastService);
-  private _apollo = inject(Apollo);
+  private formBuilder = inject(NonNullableFormBuilder);
+  private toastService = inject(WattToastService);
 
-  date = new Date();
-  isSaving = signal(false);
+  private stopDelegationsMutation = mutation(StopDelegationsDocument);
 
-  @ViewChild(WattModalComponent)
-  modal: WattModalComponent | undefined;
+  today = new Date();
+  isSaving = this.stopDelegationsMutation.loading;
 
-  stopDelegationForm = this._fb.group({
+  modal = viewChild.required(WattModalComponent);
+
+  stopDelegationForm = this.formBuilder.group({
     selectedOption: new FormControl<'stopNow' | 'stopOnDate'>('stopNow', { nonNullable: true }),
     stopDate: [
       { value: null, disabled: true },
-      [Validators.required, dateCannotBeOlderThanTodayValidator()],
+      [Validators.required, dhDateCannotBeOlderThanTodayValidator()],
     ],
   });
 
   constructor() {
     super();
+
     this.stopDelegationForm.valueChanges
       .pipe(takeUntilDestroyed(), distinctUntilKeyChanged('selectedOption'))
       .subscribe((value) => {
@@ -163,7 +164,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
   }
 
   closeModal(result: boolean) {
-    this.modal?.close(result);
+    this.modal().close(result);
   }
 
   stopSelectedDelegations() {
@@ -173,67 +174,55 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
 
     if (!stopDate && selectedOption === 'stopOnDate') return;
 
-    this.isSaving.set(true);
-
-    this._apollo
-      .mutate({
-        mutation: StopDelegationsDocument,
-        variables: {
-          input: {
-            stopDelegationPeriods: this.modalData.map((delegation) => {
-              return {
-                delegationId: delegation.id,
-                stopPeriod: {
-                  periodId: delegation.periodId,
-                  stopsAt: this.calculateStopDate(selectedOption, stopDate),
-                },
-              };
-            }),
-          },
+    this.stopDelegationsMutation.mutate({
+      variables: {
+        input: {
+          stopDelegationPeriods: this.modalData.map((delegation) => ({
+            delegationId: delegation.id,
+            stopPeriod: {
+              periodId: delegation.periodId,
+              stopsAt: this.calculateStopDate(selectedOption, stopDate),
+            },
+          })),
         },
-        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
-      })
-      .subscribe((response) => this.handleStopDelegationResponse(response));
+      },
+      refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
+      onCompleted: (data) => this.handleStopDelegationResponse(data),
+    });
   }
 
   private calculateStopDate(selectedOption: string, stopDate: Date | null): Date | null {
     if (selectedOption === 'stopNow') {
-      // Note: Subtract 1 minute to ensure that the stop time is in the past
+      // Subtract 1 minute to ensure that the stop time is in the past
       // compared to the time in the backend.
       return dayjs(new Date()).subtract(1, 'minute').toDate();
     }
 
     return stopDate
-      ? // Note: Add 1 day to ensure that the stop day is included in the period.
+      ? // Add 1 day to ensure that the stop day is included in the period.
+        // Normally:
         // Selecting "2024-03-27" results in "2024-03-26T23:00:00Z"
-        // whereas it should be "2024-03-27T23:00:00Z"
+        // After:
+        // Selecting "2024-03-27" results in "2024-03-27T23:00:00Z"
         dayjs(stopDate).add(1, 'day').toDate()
       : stopDate;
   }
 
-  private handleStopDelegationResponse(response: MutationResult<StopDelegationsMutation>): void {
-    if (response.errors && response.errors.length > 0) {
-      this._toastService.open({
+  private handleStopDelegationResponse({ stopDelegation }: StopDelegationsMutation): void {
+    if (stopDelegation.errors && stopDelegation.errors.length > 0) {
+      this.toastService.open({
         type: 'danger',
-        message: parseGraphQLErrorResponse(response.errors),
+        message: readApiErrorResponse(stopDelegation.errors),
       });
     }
 
-    if (response.data?.stopDelegation?.errors && response.data?.stopDelegation?.errors.length > 0) {
-      this._toastService.open({
-        type: 'danger',
-        message: readApiErrorResponse(response.data?.stopDelegation?.errors),
-      });
-    }
-
-    if (response.data?.stopDelegation?.success) {
-      this._toastService.open({
+    if (stopDelegation.success) {
+      this.toastService.open({
         type: 'success',
         message: translate('marketParticipant.delegation.stopDelegationSuccess'),
       });
     }
 
     this.closeModal(true);
-    this.isSaving.set(false);
   }
 }
