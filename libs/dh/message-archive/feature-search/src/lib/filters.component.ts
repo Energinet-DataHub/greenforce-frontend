@@ -21,10 +21,8 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattDateChipComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
-import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
@@ -44,12 +42,9 @@ import {
     VaterStackComponent,
     WattButtonComponent,
     WattDateChipComponent,
-    WattDatetimepickerComponent,
     WattDropdownComponent,
     WattFilterChipComponent,
     WattFormChipDirective,
-    WattModalActionsComponent,
-    WattModalComponent,
     DhDropdownTranslatorDirective,
   ],
   template: `
