@@ -32,7 +32,7 @@ import {
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith } from 'rxjs';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
