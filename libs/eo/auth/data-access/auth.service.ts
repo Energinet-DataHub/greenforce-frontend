@@ -111,7 +111,10 @@ export class EoAuthService {
     });
   }
 
-  login(config?: { thirdPartyClientId?: string; redirectUrl?: string }): Promise<void> {
+  login(config?: {
+    thirdPartyClientId?: string | null;
+    redirectUrl?: string | null;
+  }): Promise<void> {
     return (
       this.userManager?.signinRedirect({
         state: config,
@@ -122,6 +125,10 @@ export class EoAuthService {
 
   async acceptTos(): Promise<void> {
     const user = (await this.userManager?.getUser()) as User;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirectUrl');
+    const thirdPartyClientId = urlParams.get('third-party-client-id');
 
     // If user is not logged in, redirect to login
     if (!user) {
@@ -139,7 +146,7 @@ export class EoAuthService {
     );
 
     // Force user to log out to get new token with TOS accepted
-    return this.login();
+    return this.login({ redirectUrl, thirdPartyClientId });
   }
 
   signinCallback(): Promise<User | null> {
@@ -157,9 +164,21 @@ export class EoAuthService {
     return this.userManager?.signinSilent() ?? Promise.resolve(null);
   }
 
-  logout(): Promise<void> {
+  async logout(): Promise<void> {
+    await this.userManager?.signoutRedirect();
+
+    // Make sure to clear all data
+    localStorage.clear();
+    sessionStorage.clear();
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const eqPos = cookie.indexOf('=');
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+    }
     this.userManager?.removeUser();
-    return this.userManager?.signoutRedirect() ?? Promise.resolve();
+
+    return Promise.resolve();
   }
 
   isLoggedIn(): Promise<boolean> {

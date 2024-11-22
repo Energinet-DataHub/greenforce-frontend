@@ -70,8 +70,8 @@ export class EoSigninCallbackComponent implements OnInit {
           this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
         }
       })
-      .catch(() => {
-        this.authService.login();
+      .catch((error) => {
+        this.authService.login(error.state);
       });
   }
 }
