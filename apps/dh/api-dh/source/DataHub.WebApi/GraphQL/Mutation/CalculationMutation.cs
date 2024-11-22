@@ -12,23 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Security.Claims;
 using Energinet.DataHub.ProcessManager.Api.Model;
+using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
 using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using HotChocolate.Subscriptions;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.FeatureManagement;
-using Microsoft.IdentityModel.JsonWebTokens;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
@@ -62,19 +59,22 @@ public partial class Mutation
                 throw new InvalidOperationException("Http context is not available.");
             }
 
+            var actorId = httpContextAccessor.HttpContext.User.GetAssociatedActor();
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
 
-            var requestDto = new ScheduleOrchestrationInstanceDto<NotifyAggregatedMeasureDataInputV1>(
-                RunAt: scheduledAt ?? DateTimeOffset.UtcNow,
-                InputParameter: new NotifyAggregatedMeasureDataInputV1(
+            var command = new ScheduleOrchestrationInstanceCommand<NotifyAggregatedMeasureDataInputV1>(
+                operatingIdentity: new UserIdentityDto(
+                    UserId: userId,
+                    ActorId: actorId),
+                runAt: scheduledAt ?? DateTimeOffset.UtcNow,
+                inputParameter: new NotifyAggregatedMeasureDataInputV1(
                     CalculationType: calculationType.MapToCalculationType(),
                     GridAreaCodes: gridAreaCodes,
                     PeriodStartDate: period.Start.ToDateTimeOffset(),
                     PeriodEndDate: period.End.ToDateTimeOffset(),
-                    IsInternalCalculation: executionType == CalculationExecutionType.Internal,
-                    UserId: userId));
+                    IsInternalCalculation: executionType == CalculationExecutionType.Internal));
 
-            calculationId = await processManagerCalculationClient.ScheduleNewCalculationAsync(requestDto, cancellationToken);
+            calculationId = await processManagerCalculationClient.ScheduleNewCalculationAsync(command, cancellationToken);
         }
         else
         {
@@ -97,6 +97,7 @@ public partial class Mutation
     public async Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
         [Service] IFeatureManager featureManager,
+        [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IWholesaleOrchestrationsClient client,
         CancellationToken cancellationToken)
@@ -104,7 +105,20 @@ public partial class Mutation
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         if (useProcessManager)
         {
-            await processManagerClient.CancelScheduledOrchestrationInstanceAsync(calculationId, cancellationToken);
+            if (httpContextAccessor.HttpContext == null)
+            {
+                throw new InvalidOperationException("Http context is not available.");
+            }
+
+            var actorId = httpContextAccessor.HttpContext.User.GetAssociatedActor();
+            var userId = httpContextAccessor.HttpContext.User.GetUserId();
+
+            var command = new CancelScheduledOrchestrationInstanceCommand(
+                operatingIdentity: new UserIdentityDto(
+                    UserId: userId,
+                    ActorId: actorId),
+                id: calculationId);
+            await processManagerClient.CancelScheduledOrchestrationInstanceAsync(command, cancellationToken);
         }
         else
         {
