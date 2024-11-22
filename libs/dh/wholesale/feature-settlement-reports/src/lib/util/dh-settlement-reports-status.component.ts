@@ -28,9 +28,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.reportStatus'">
     @switch (status()) {
       @case ('IN_PROGRESS') {
-        <watt-badge type="info">{{
-          t(status(), { progress: progress() | number: '1.2-2' })
-        }}</watt-badge>
+        <watt-badge type="info">{{ t(status()) }}</watt-badge>
       }
       @case ('ERROR') {
         <watt-badge type="warning">{{ t(status()) }}</watt-badge>
@@ -53,7 +51,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 })
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();
-  progress = input.required<number>();
 
   download = output<Event>();
 }
