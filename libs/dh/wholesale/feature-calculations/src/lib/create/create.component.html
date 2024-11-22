@@ -110,7 +110,7 @@ limitations under the License.
             {{ t("create.scheduledAt.schedule") }}
           </watt-radio>
           @if (formGroup.controls.isScheduled.value) {
-            <watt-datetimepicker
+            <watt-datetime-field
               [min]="minScheduledAt"
               [formControl]="formGroup.controls.scheduledAt"
               data-testid="scheduleCalculation.date"
@@ -118,7 +118,7 @@ limitations under the License.
               @if (formGroup.controls.scheduledAt.errors?.past) {
                 <watt-field-error>{{ t("create.scheduledAt.past") }}</watt-field-error>
               }
-            </watt-datetimepicker>
+            </watt-datetime-field>
           }
         </vater-stack>
       </vater-flex>

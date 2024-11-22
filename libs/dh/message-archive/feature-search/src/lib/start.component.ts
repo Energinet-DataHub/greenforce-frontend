@@ -20,7 +20,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
+import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
@@ -36,7 +36,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
     TranslocoDirective,
     VaterStackComponent,
     WattButtonComponent,
-    WattDatetimepickerComponent,
+    WattDateTimeField,
     WattDropdownComponent,
     WattModalActionsComponent,
     WattModalComponent,
@@ -92,10 +92,12 @@ import { DhMessageArchiveSearchFormService } from './form.service';
             [placeholder]="t('placeholder')"
           />
         }
-
-        <watt-datetimepicker [label]="t('start')" [formControl]="form.controls.start" />
-
-        <watt-datetimepicker [label]="t('end')" [formControl]="form.controls.end" />
+        <watt-datetime-field [label]="t('start')" [formControl]="form.controls.start" />
+        <watt-datetime-field
+          [label]="t('end')"
+          [formControl]="form.controls.end"
+          [inclusive]="true"
+        />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">

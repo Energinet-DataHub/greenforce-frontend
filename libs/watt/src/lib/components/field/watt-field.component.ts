@@ -26,7 +26,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
-import { filter, startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattTooltipDirective } from '../tooltip';
@@ -54,11 +54,23 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
         </span>
       }
       <vater-stack direction="row" gap="s">
-        <div class="watt-field-wrapper" #wrapper>
+        <div
+          #wrapper
+          class="watt-field-wrapper"
+          [class.watt-field--has-placeholder]="!!placeholder()"
+          [style.anchor-name]="anchorName()"
+        >
+          @if (placeholder()) {
+            <div class="watt-field-placeholder" aria-hidden="true">
+              <span class="watt-field-ghost">{{ ghost() }}</span>
+              <span class="watt-field-filler">{{ filler() }}</span>
+            </div>
+          }
           <ng-content />
         </div>
         <ng-content select="watt-field-descriptor" />
       </vater-stack>
+      <ng-content select="[popover]" />
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />
       @if (isEmpty()) {
@@ -69,6 +81,7 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
   host: {
     '[class.watt-field--chip]': 'chipMode()',
     '[class.watt-field--unlabelled]': 'unlabelled()',
+    '[class.watt-field--disabled]': 'control()?.disabled',
   },
 })
 export class WattFieldComponent {
@@ -79,6 +92,12 @@ export class WattFieldComponent {
   id = input<string>();
   chipMode = input(false);
   tooltip = input<string>();
+  placeholder = input('');
+  anchorName = input<string>();
+
+  value = signal('');
+  filler = computed(() => this.placeholder().slice(this.value().length));
+  ghost = computed(() => this.value().slice(0, this.placeholder().length));
 
   unlabelled = computed(() => !this.label());
 
@@ -90,8 +109,22 @@ export class WattFieldComponent {
   wrapper = viewChild.required<ElementRef>('wrapper');
 
   constructor() {
-    const status$ = toObservable(this.control).pipe(
-      filter((control) => control !== null),
+    const control$ = toObservable(this.control).pipe(filter((control) => control !== null));
+
+    // Track value in order to update ghost and filler
+    const value$ = control$.pipe(
+      switchMap((control) =>
+        control.valueChanges.pipe(
+          startWith(control.value),
+          map((value) => (value === null || value === undefined ? '' : value.toString())),
+          tap((value) => this.value.set(value))
+        )
+      ),
+      takeUntilDestroyed()
+    );
+
+    // Track status in order to update required state and show errors
+    const status$ = control$.pipe(
       switchMap((control) =>
         control.statusChanges.pipe(
           startWith(control.status),
@@ -103,6 +136,7 @@ export class WattFieldComponent {
     );
 
     // Subscribe for side effects
+    value$.subscribe();
     status$.subscribe();
   }
 
