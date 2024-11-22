@@ -56,6 +56,7 @@ const selector = 'eo-auth-terms';
       ${selector} {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
 
         @media print {
           --eo-scroll-view-padding: 0;
