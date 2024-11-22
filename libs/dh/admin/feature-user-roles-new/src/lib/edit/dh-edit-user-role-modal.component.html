@@ -1,0 +1,94 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'admin.userManagement.editUserRole'">
+  <watt-modal [title]="roleName$ | push" (closed)="closeModal($event)">
+    <form
+      [formGroup]="userRoleEditForm"
+      id="user-role-edit-form"
+      *rxLet="userRole$ as userRole"
+      (ngSubmit)="save(userRole)"
+      #form="ngForm"
+    >
+      <watt-tabs class="watt-modal-content--full-width">
+        <watt-tab [label]="t('tab.masterData.tabLabel')">
+          <div class="tab-master-data">
+            <watt-text-field
+              class="watt-space-stack-l"
+              [label]="t('tab.masterData.nameInputLabel')"
+              [formControl]="userRoleEditForm.controls.name"
+            >
+              @if (userRoleEditForm.controls.name.hasError("nameAlreadyExists")) {
+                <watt-field-error>
+                  {{ t("tab.validationErrors.nameAlreadyExists") }}
+                </watt-field-error>
+              }
+            </watt-text-field>
+
+            <watt-textarea-field
+              [label]="t('tab.masterData.descriptionInputLabel')"
+              [formControl]="userRoleEditForm.controls.description"
+            />
+          </div>
+        </watt-tab>
+
+        <watt-tab [label]="t('tab.permissions.tabLabel')">
+          <div class="tab-permissions">
+            <p class="watt-on-light--medium-emphasis">{{ t("tab.permissions.onEditMessage") }}</p>
+
+            @if (
+              (form.submitted || userRoleEditForm.dirty) &&
+              userRoleEditForm.controls.permissionIds.hasError("required")
+            ) {
+              <div class="watt-space-stack-m">
+                <watt-field-error>{{
+                  t("tab.validationErrors.permissionRequired")
+                }}</watt-field-error>
+              </div>
+            }
+
+            <watt-card variant="solid">
+              <watt-card-title>
+                <h4>{{ t("tab.permissions.title") }}</h4>
+              </watt-card-title>
+
+              <dh-permissions-table
+                [permissions]="permissions()"
+                [initialSelection]="initiallySelectedPermissions$ | push"
+                (selectionChanged)="onSelectionChanged($event)"
+              />
+
+              @if (marketRolePermissionsIsLoading()) {
+                <div class="spinner-container">
+                  <watt-spinner />
+                </div>
+              }
+            </watt-card>
+          </div>
+        </watt-tab>
+      </watt-tabs>
+    </form>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="closeModal(false)">
+        {{ t("cancel") }}
+      </watt-button>
+      <watt-button type="submit" formId="user-role-edit-form" [loading]="isLoading$ | push">
+        {{ t("save") }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+</ng-container>

@@ -14,14 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-user-role-management.store';
-export * from './lib/dh-create-user-role.store';
-export * from './lib/dh-admin-user-role-edit-data-access-api.store';
-export * from './lib/dh-admin-edit-user.store';
-export * from './lib/dh-admin-role.types';
-export * from './lib/types/user-details.type';
-export * from './lib/types/user.type';
-export * from './lib/types/user-role.type';
-export * from './lib/types/user-role-filter.type';
+@use "@energinet-datahub/watt/utils" as watt;
+
+.watt-modal-panel {
+  .user-role-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--watt-space-m);
+    max-width: 25rem;
+  }
+
+  .eic-function {
+    flex-basis: 100%;
+  }
+
+  .permissions-error {
+    display: block;
+    margin-bottom: var(--watt-space-ml);
+  }
+
+  .no-permissions-container {
+    margin-top: var(--watt-space-m);
+  }
+}

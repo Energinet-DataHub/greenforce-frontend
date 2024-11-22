@@ -1566,7 +1566,7 @@
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketRole": "Markedsrolle",
+              "eicFunction": "Markedsrolle",
               "status": "Status"
             }
           },

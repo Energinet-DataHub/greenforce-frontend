@@ -1566,7 +1566,7 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketRole": "Market role",
+              "eicFunction": "Market role",
               "status": "Status"
             }
           },

@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-user-role-management.store';
-export * from './lib/dh-create-user-role.store';
-export * from './lib/dh-admin-user-role-edit-data-access-api.store';
-export * from './lib/dh-admin-edit-user.store';
-export * from './lib/dh-admin-role.types';
-export * from './lib/types/user-details.type';
-export * from './lib/types/user.type';
-export * from './lib/types/user-role.type';
-export * from './lib/types/user-role-filter.type';
+import 'jest-preset-angular/setup-jest';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
