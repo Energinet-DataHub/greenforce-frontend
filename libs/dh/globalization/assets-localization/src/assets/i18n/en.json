@@ -511,6 +511,7 @@
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "reset": "{{ shared.form.reset }}"
       },
+      "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
         "edit": "Edit market participant",
         "metadata": {
@@ -697,6 +698,14 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    },
+    "mergeMarketParticipants": {
+      "title": "Merge market participants",
+      "discontinuedEntity": "[EN] Ophørende netvirksomhed",
+      "survivingEntity": "[EN] Overtagende netvirksomhed",
+      "mergeDate": "Merge date",
+      "cancel": "Cancel",
+      "save": "Merge"
     },
     "organizationsOverview": {
       "organizations": "Organisations",
