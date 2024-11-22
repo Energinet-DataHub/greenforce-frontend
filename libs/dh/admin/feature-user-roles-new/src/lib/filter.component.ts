@@ -17,7 +17,6 @@
 import { Component, effect, output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserRolesFilter } from '@energinet-datahub/dh/admin/data-access-api';
 import {
   EicFunction,
   GetFilteredUserRolesQueryVariables,

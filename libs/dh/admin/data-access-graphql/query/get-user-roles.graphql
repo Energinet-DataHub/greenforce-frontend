@@ -1,3 +1,4 @@
+# eslint-disable @graphql-eslint/no-deprecated
 query GetUserRoles {
   userRoles {
     id
