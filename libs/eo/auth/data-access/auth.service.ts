@@ -111,7 +111,10 @@ export class EoAuthService {
     });
   }
 
-  login(config?: { thirdPartyClientId?: string | null; redirectUrl?: string | null }): Promise<void> {
+  login(config?: {
+    thirdPartyClientId?: string | null;
+    redirectUrl?: string | null;
+  }): Promise<void> {
     return (
       this.userManager?.signinRedirect({
         state: config,
