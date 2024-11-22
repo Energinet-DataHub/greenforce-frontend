@@ -209,7 +209,7 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Cancel",
+      "reset": "Reset",
       "confirm": "Search"
     },
     "filters": {
