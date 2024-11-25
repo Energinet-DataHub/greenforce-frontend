@@ -209,7 +209,7 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Cancel",
+      "reset": "Reset",
       "confirm": "Search"
     },
     "filters": {
@@ -219,8 +219,7 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related",
-      "reset": "Clear"
+      "includeRelated": "Include related"
     },
     "details": {
       "created": "Sent",

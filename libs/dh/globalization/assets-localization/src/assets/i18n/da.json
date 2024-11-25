@@ -209,7 +209,7 @@
       "receiver": "Modtager",
       "start": "Starttidspunkt",
       "end": "Sluttidspunkt",
-      "cancel": "Annuller",
+      "reset": "Nulstil",
       "confirm": "Søg"
     },
     "filters": {
@@ -219,8 +219,7 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede",
-      "reset": "Ryd"
+      "includeRelated": "Inkluder relaterede"
     },
     "details": {
       "created": "Sendt",

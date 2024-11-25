@@ -75,12 +75,17 @@ export class DhMessageArchiveSearchFormService {
     { requireSync: true }
   );
 
-  // Workaround for `emitEvent: false` on reset function not working
+  reset = () => this.form.reset();
+
+  // Workaround for `emitEvent: false` doing absolutely nothing, thanks Angular
   emitEvent = true;
 
-  reset = () => {
+  // When multiple fields are bound to the same FormControl and one of them changes,
+  // Angular does not automatically update the other field (ReactiveForms only).
+  // As a workaround, this method can be called to manually synchronize the view.
+  synchronize = () => {
     this.emitEvent = false;
-    this.form.reset();
+    this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
     this.emitEvent = true;
   };
 
