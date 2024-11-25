@@ -59,7 +59,13 @@ setupMSWServer(eoLocalApiEnvironment.apiBase, mocks);
 
 - Use [runtime request handlers](https://mswjs.io/docs/api/setup-server/use) to override existing mocks or add new ones for specific tests
 
-### Cypress / Component Testing
+### Cypress E2E & Component Testing
+
+#### E2E
+
+`e2e-eo` run automatically against the mocked environment using Cypress configured here `apps/eo/e2e-eo/project.json`.
+
+#### Component testing
 
 Component tests run automatically against the mocked environment using Cypress. Here's how the configuration works in your NX project:
 
