@@ -61,9 +61,27 @@ setupMSWServer(eoLocalApiEnvironment.apiBase, mocks);
 
 ### Cypress / Component Testing
 
-- Tests automatically run against the mocked environment (configured in NX)
-- Reference example: `libs/eo/activity-log/shell/project.json`
-- **Important**: Ensure proper configuration when setting up tests for new libraries
+Component tests run automatically against the mocked environment using Cypress. Here's how the configuration works in your NX project:
+
+```json
+"component-test": {
+  "executor": "@nx/cypress:cypress",
+  "options": {
+    "cypressConfig": "libs/eo/<domain>/<your library>/cypress.config.ts",
+    "testingType": "component",
+    "skipServe": true,
+    "devServerTarget": "app-eo:build:mocked"
+  }
+}
+```
+
+When setting up tests for new libraries:
+
+1. Reference `libs/eo/activity-log/shell/project.json` for a working example
+2. Update the cypressConfig path to match your library's location
+3. Keep the devServerTarget pointing to the mocked build configuration
+
+This ensures your component tests run against consistent, mocked data instead of live services.
 
 ### Authentication Mocking Limitations
 
