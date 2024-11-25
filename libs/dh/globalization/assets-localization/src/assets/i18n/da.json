@@ -219,8 +219,7 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede",
-      "reset": "Ryd"
+      "includeRelated": "Inkluder relaterede"
     },
     "details": {
       "created": "Sendt",
