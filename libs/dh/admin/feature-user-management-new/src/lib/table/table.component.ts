@@ -92,7 +92,6 @@ type Variables = Partial<GetUsersQueryVariables>;
 
     <watt-table
       *transloco="let resolveHeader; read: 'admin.userManagement.tabs.users.columns'"
-      #table
       [dataSource]="dataSource"
       [columns]="columns"
       [loading]="dataSource.loading"
