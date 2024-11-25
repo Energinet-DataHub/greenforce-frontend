@@ -52,7 +52,7 @@ import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
 import { eoLocalApiEnvironment } from '@energinet-datahub/eo/shared/assets';
 import { mocks } from '@energinet-datahub/eo/shared/data-access-mocks';
 
-setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+setupMSWServer(eoLocalApiEnvironment.apiBase, mocks);
 ```
 
 #### Custom Test Mocks
