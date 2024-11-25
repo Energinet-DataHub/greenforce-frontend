@@ -106,7 +106,6 @@ import {
 export class DhMessageArchiveSearchFiltersComponent {
   isSearchingById = input(false);
   filter = output<GetArchivedMessagesQueryVariables>();
-  clear = output();
 
   form = inject(DhMessageArchiveSearchFormService);
 
@@ -118,9 +117,4 @@ export class DhMessageArchiveSearchFiltersComponent {
   getBusinessReasonTrigger = (value: string | string[]) => value[0];
 
   filterEffect = effect(() => this.filter.emit(this.form.values()));
-
-  reset = () => {
-    this.form.reset();
-    this.clear.emit();
-  };
 }

@@ -71,7 +71,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
           <dh-message-archive-search-filters
             [isSearchingById]="!!dataSource.filter"
             (filter)="fetch($event)"
-            (clear)="reset()"
           />
         </watt-data-filters>
       }
