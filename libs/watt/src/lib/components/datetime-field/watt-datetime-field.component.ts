@@ -35,11 +35,11 @@ import {
 import { MatCalendar } from '@angular/material/datepicker';
 import { MaskitoDirective } from '@maskito/angular';
 import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
-import { map } from 'rxjs';
+import { map, share } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldComponent } from '../field';
 import { WattButtonComponent } from '../button/watt-button.component';
-import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
 const DA_FILLER = 'dd-mm-åååå, tt:mm';
@@ -149,6 +149,15 @@ export class WattDateTimeField implements ControlValueAccessor {
   // This inner FormControl is string only, but the outer FormControl is of type Date.
   protected control = new FormControl('', { nonNullable: true });
 
+  // `registerOnChange` may subscribe to this component after it has been destroyed, thus
+  // triggering an NG0911 from the `takeUntilDestroyed` operator. By sharing the observable,
+  // the observable will already be closed and `subscribe` becomes a proper noop.
+  private valueChanges = this.control.valueChanges.pipe(
+    map(this.viewToModel),
+    takeUntilDestroyed(),
+    share()
+  );
+
   /** Set the label text for `watt-field`. */
   label = input('');
 
@@ -162,7 +171,7 @@ export class WattDateTimeField implements ControlValueAccessor {
   inclusive = input(false);
 
   /** Emits when the selected date has changed. */
-  dateChange = outputFromObservable(this.control.valueChanges.pipe(map(this.viewToModel)));
+  dateChange = outputFromObservable(this.valueChanges);
 
   /** Emits when the field loses focus. */
   blur = output<FocusEvent>();
@@ -207,9 +216,9 @@ export class WattDateTimeField implements ControlValueAccessor {
   };
 
   constructor() {
-    this.dateChange.subscribe((date) => {
-      this.selected.set(date);
-      this.calendar().activeDate = date ?? new Date();
+    this.valueChanges.subscribe((value) => {
+      this.selected.set(value);
+      this.calendar().activeDate = value ?? new Date();
     });
   }
 
@@ -217,5 +226,5 @@ export class WattDateTimeField implements ControlValueAccessor {
   writeValue = (value: Date | null) => this.control.setValue(this.modelToView(value));
   setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
-  registerOnChange = (fn: (value: Date | null) => void) => this.dateChange.subscribe(fn);
+  registerOnChange = (fn: (value: Date | null) => void) => this.valueChanges.subscribe(fn);
 }
