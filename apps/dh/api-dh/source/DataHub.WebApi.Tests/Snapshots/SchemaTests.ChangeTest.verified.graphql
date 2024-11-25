@@ -313,6 +313,24 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
+"A connection to a list of items."
+type FilteredUserRolesConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [FilteredUserRolesEdge!]
+  "A flattened list of the nodes."
+  nodes: [UserRoleDto!]
+}
+
+"An edge in a connection."
+type FilteredUserRolesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: UserRoleDto!
+}
+
 type GetUserOverviewResponse {
   users: [UserOverviewItemDto!]!
   totalUserCount: Int!
@@ -611,7 +629,8 @@ type Query {
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
-  userRoles: [UserRoleDto!]!
+  userRoles: [UserRoleDto!]! @deprecated(reason: "Use `GetUserRolesAsync` with filter, sort and paging instead.")
+  filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
 }
 
 type ReActivateUserPayload {
@@ -1113,6 +1132,12 @@ input UserProfileUpdateDtoInput {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+input UserRoleSortInput {
+  name: SortEnumType
+  eicFunction: SortEnumType
+  status: SortEnumType
 }
 
 input UsersSortInput {

@@ -1,0 +1,100 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  size="large"
+  [title]="t('headline')"
+  (closed)="closeModal($event)"
+  *transloco="let t; read: 'admin.userManagement.createrole'"
+>
+  <watt-stepper
+    class="watt-modal-content--full-width"
+    [linear]="true"
+    (completed)="createUserRole()"
+    #stepper
+  >
+    <watt-stepper-step
+      [stepControl]="userRoleForm"
+      [label]="t('steps.masterData.label')"
+      [nextButtonLabel]="t('steps.permissions.label')"
+    >
+      <form [formGroup]="userRoleForm" class="user-role-form">
+        <!-- Eic Function -->
+        <watt-dropdown
+          class="eic-function"
+          [label]="t('steps.masterData.eicFunction')"
+          [formControl]="userRoleForm.controls.eicFunction"
+          [options]="eicFunctionOptions"
+          sortDirection="asc"
+          dhDropdownTranslator
+          translateKey="marketParticipant.marketRoles"
+          name="eicFunction"
+          [showResetOption]="false"
+          [placeholder]="t('steps.masterData.eicFunction')"
+        />
+
+        <!-- Name -->
+        <watt-text-field
+          [label]="t('steps.masterData.name')"
+          [formControl]="userRoleForm.controls.name"
+        >
+          @if (userRoleForm.controls.name.hasError("maxlength")) {
+            <watt-field-error>
+              {{ t("steps.masterData.nameMaxLengthErrorText") }}
+            </watt-field-error>
+          }
+        </watt-text-field>
+
+        <!-- Description -->
+        <watt-textarea-field
+          [formControl]="userRoleForm.controls.description"
+          [label]="t('steps.masterData.description')"
+        />
+      </form>
+    </watt-stepper-step>
+
+    <watt-stepper-step
+      [stepControl]="selectedPermissions"
+      [label]="t('steps.permissions.label')"
+      [previousButtonLabel]="t('steps.masterData.label')"
+      [nextButtonLabel]="t('save')"
+    >
+      @if (
+        (isSubmitted || selectedPermissions.touched) && selectedPermissions.hasError("required")
+      ) {
+        <watt-field-error class="permissions-error">
+          {{ t("steps.permissions.required") }}
+        </watt-field-error>
+      }
+
+      <dh-permissions-table
+        [permissions]="permissions()"
+        (selectionChanged)="onSelectionChange($event)"
+      />
+
+      <!-- Empty -->
+      @if (permissions().length === 0) {
+        <div class="no-permissions-container">
+          <watt-empty-state
+            icon="custom-power"
+            size="small"
+            [title]="t('steps.permissions.noPermissions')"
+          />
+        </div>
+      }
+    </watt-stepper-step>
+  </watt-stepper>
+</watt-modal>

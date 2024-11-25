@@ -145,7 +145,6 @@ export class DhUsersOverviewFiltersComponent {
   );
 
   filter = output<GetUsersQueryVariables>();
-  clear = output();
 
   values = toSignal<GetUsersQueryVariables>(
     this.form.valueChanges.pipe(

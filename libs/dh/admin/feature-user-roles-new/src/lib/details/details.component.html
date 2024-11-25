@@ -1,0 +1,100 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
+  <watt-drawer #drawer size="large" (closed)="onClose()" [loading]="isLoading$ | push">
+    @if (drawer.isOpen) {
+      <watt-drawer-topbar>
+        <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+          <dh-role-status [status]="userRoleWithPermissions.status" />
+        </ng-container>
+      </watt-drawer-topbar>
+    }
+
+    @if (drawer.isOpen) {
+      <watt-drawer-heading>
+        <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+          <h2>{{ userRoleWithPermissions.name }}</h2>
+        </ng-container>
+      </watt-drawer-heading>
+    }
+
+    @if (basicUserRole?.status !== UserRoleStatus.Inactive) {
+      <watt-drawer-actions>
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          variant="secondary"
+          (click)="disableUserRole()"
+          [loading]="deactivateUserRoleIsLoading$ | push"
+          >{{ t("disable") }}</watt-button
+        >
+
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          variant="secondary"
+          (click)="isEditUserRoleModalVisible = true"
+          >{{ t("editRole") }}</watt-button
+        >
+      </watt-drawer-actions>
+    }
+
+    @if (drawer.isOpen) {
+      <watt-drawer-content>
+        <ng-container *rxLet="isLoading$ as isLoading">
+          @if (!isLoading) {
+            <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+              @if (!hasGeneralError) {
+                <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+                  <dh-drawer-role-tabs [role]="userRoleWithPermissions" />
+                </ng-container>
+              } @else {
+                <div class="user-role__error">
+                  <dh-tab-data-general-error (reload)="loadUserRoleWithPermissions()" />
+                </div>
+              }
+            </ng-container>
+          }
+        </ng-container>
+      </watt-drawer-content>
+    }
+  </watt-drawer>
+
+  <watt-modal
+    #confirmationModal
+    [size]="'small'"
+    [title]="t('deactivateWarningTitle')"
+    [disableClose]="true"
+    (closed)="confirmationClosed($event)"
+  >
+    <p>
+      {{ t("deactivateWarning") }}
+    </p>
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
+        t("cancel")
+      }}</watt-button>
+      <watt-button variant="secondary" (click)="confirmationModal.close(true)">{{
+        t("continue")
+      }}</watt-button>
+    </watt-modal-actions>
+  </watt-modal>
+
+  <ng-container *rxLet="userRoleWithPermissions$ as userRoleWithPermissions">
+    @if (isEditUserRoleModalVisible && userRoleWithPermissions.status === "ACTIVE") {
+      <dh-edit-user-role-modal (closed)="modalOnClose($event)" />
+    }
+  </ng-container>
+</ng-container>

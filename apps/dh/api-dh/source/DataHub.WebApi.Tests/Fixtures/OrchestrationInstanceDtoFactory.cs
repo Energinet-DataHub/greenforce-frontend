@@ -33,15 +33,18 @@ public static class OrchestrationInstanceDtoFactory
             GridAreaCodes: gridAreaCodes ?? [],
             PeriodStartDate: fixture.Create<DateTimeOffset>(),
             PeriodEndDate: fixture.Create<DateTimeOffset>(),
-            IsInternalCalculation: fixture.Create<bool>(),
-            UserId: fixture.Create<Guid>());
+            IsInternalCalculation: fixture.Create<bool>());
     }
 
-    public static OrchestrationInstanceLifecycleStatesDto CreatePendingLifecycle(Fixture fixture)
+    public static OrchestrationInstanceLifecycleStateDto CreatePendingLifecycle(Fixture fixture)
     {
-        return new OrchestrationInstanceLifecycleStatesDto(
+        return new OrchestrationInstanceLifecycleStateDto(
+            CreatedBy: new UserIdentityDto(
+                UserId: fixture.Create<Guid>(),
+                ActorId: fixture.Create<Guid>()),
             State: OrchestrationInstanceLifecycleStates.Pending,
             TerminationState: null,
+            CanceledBy: null,
             CreatedAt: fixture.Create<DateTimeOffset>(),
             ScheduledToRunAt: null,
             QueuedAt: null,
@@ -49,11 +52,15 @@ public static class OrchestrationInstanceDtoFactory
             TerminatedAt: null);
     }
 
-    public static OrchestrationInstanceLifecycleStatesDto CreateRunningLifecycle(Fixture fixture)
+    public static OrchestrationInstanceLifecycleStateDto CreateRunningLifecycle(Fixture fixture)
     {
-        return new OrchestrationInstanceLifecycleStatesDto(
+        return new OrchestrationInstanceLifecycleStateDto(
+            CreatedBy: new UserIdentityDto(
+                UserId: fixture.Create<Guid>(),
+                ActorId: fixture.Create<Guid>()),
             State: OrchestrationInstanceLifecycleStates.Running,
             TerminationState: null,
+            CanceledBy: null,
             CreatedAt: fixture.Create<DateTimeOffset>(),
             ScheduledToRunAt: null,
             QueuedAt: null,
@@ -84,6 +91,20 @@ public static class OrchestrationInstanceDtoFactory
                 TerminationState: null,
                 StartedAt: fixture.Create<DateTimeOffset>(),
                 TerminatedAt: null),
+            Description: description,
+            Sequence: sequence,
+            CustomState: string.Empty);
+    }
+
+    public static StepInstanceDto CreateStepAsSuceeded(Fixture fixture, string description, int sequence)
+    {
+        return new StepInstanceDto(
+            Id: fixture.Create<Guid>(),
+            Lifecycle: new StepInstanceLifecycleStateDto(
+                State: StepInstanceLifecycleStates.Terminated,
+                TerminationState: OrchestrationStepTerminationStates.Succeeded,
+                StartedAt: fixture.Create<DateTimeOffset>(),
+                TerminatedAt: fixture.Create<DateTimeOffset>()),
             Description: description,
             Sequence: sequence,
             CustomState: string.Empty);
