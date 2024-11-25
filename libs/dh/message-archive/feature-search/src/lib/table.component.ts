@@ -22,7 +22,11 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattTableColumnDef, WattTableComponent } from '@energinet-datahub/watt/table';
+import {
+  WattTableCellDirective,
+  WattTableColumnDef,
+  WattTableComponent,
+} from '@energinet-datahub/watt/table';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 
 import {
@@ -44,6 +48,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
     TranslocoDirective,
     ReactiveFormsModule,
     WattTableComponent,
+    WattTableCellDirective,
     WattDatePipe,
     WattButtonComponent,
     VaterUtilityDirective,
