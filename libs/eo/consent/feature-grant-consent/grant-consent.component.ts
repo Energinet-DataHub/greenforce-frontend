@@ -131,7 +131,6 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
                     }
             "
           ></div>
-
         } @else {
           <watt-empty-state
             icon="custom-power"
