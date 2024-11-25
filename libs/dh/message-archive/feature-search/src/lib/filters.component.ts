@@ -58,6 +58,10 @@ import {
           {{ t('includeRelated') }}
         </watt-filter-chip>
       } @else {
+        <watt-date-chip [formControl]="form.controls.start" [placeholder]="t('start')" />
+
+        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" />
+
         <watt-dropdown
           [formControl]="form.controls.documentTypes"
           [chipMode]="true"
@@ -95,10 +99,6 @@ import {
             [placeholder]="t('receiver')"
           />
         }
-
-        <watt-date-chip [formControl]="form.controls.start" [placeholder]="t('start')" />
-
-        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" />
       }
     </form>
   `,

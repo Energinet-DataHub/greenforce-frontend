@@ -57,6 +57,14 @@ import { DhMessageArchiveSearchFormService } from './form.service';
         [formGroup]="form.root"
         (ngSubmit)="start.emit(form.values())"
       >
+        <watt-datetime-field [label]="t('start')" [formControl]="form.controls.start" />
+
+        <watt-datetime-field
+          [label]="t('end')"
+          [formControl]="form.controls.end"
+          [inclusive]="true"
+        />
+
         <watt-dropdown
           [label]="t('documentType')"
           [formControl]="form.controls.documentTypes"
@@ -92,12 +100,6 @@ import { DhMessageArchiveSearchFormService } from './form.service';
             [placeholder]="t('placeholder')"
           />
         }
-        <watt-datetime-field [label]="t('start')" [formControl]="form.controls.start" />
-        <watt-datetime-field
-          [label]="t('end')"
-          [formControl]="form.controls.end"
-          [inclusive]="true"
-        />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="form.reset()">
