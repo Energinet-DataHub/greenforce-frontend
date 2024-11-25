@@ -119,8 +119,8 @@ type ArchivedMessage {
   id: String!
   messageId: String
   documentType: DocumentType!
-  senderRole: ActorRole!
-  receiverRole: ActorRole!
+  senderRole: ActorRole
+  receiverRole: ActorRole
   createdAt: DateTime!
   businessReason: String
 }
