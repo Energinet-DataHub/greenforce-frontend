@@ -56,7 +56,7 @@ export class DhUserRolesDownloadComponent {
           `"${translate('admin.userManagement.roleStatus.' + role.status)}"`,
         ]);
 
-        exportToCSV({ headers, lines, fileName: 'user-roles' });
+        exportToCSV({ headers, lines, fileName: 'DataHub-User-roles' });
       });
   }
 }
