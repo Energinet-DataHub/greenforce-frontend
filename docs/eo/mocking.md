@@ -25,8 +25,13 @@ libs/eo/shared/assets/src/assets/configuration/eo-api-environment.local.json
 To run the application with mocks:
 
 ```bash
+bun eo:mock
+
+# or the equivalent full command
 bun nx run app-eo:serve:mocked
 ```
+
+These commands start the development server with mock data instead of real API connections. The mock configuration is defined in `apps/eo/app-eo/project.json`.
 
 > **Note**: Unmocked requests will fall back to the API specified in the environment file.
 
