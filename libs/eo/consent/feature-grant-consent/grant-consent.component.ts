@@ -36,12 +36,12 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoGenitivePipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
-import { WattEmptyStateComponent } from '../../../watt/src/lib/components/empty-state';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
