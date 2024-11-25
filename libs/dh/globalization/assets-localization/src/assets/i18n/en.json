@@ -703,6 +703,8 @@
       "title": "Merge market participants",
       "discontinuedEntity": "[EN] Ophørende netvirksomhed",
       "survivingEntity": "[EN] Overtagende netvirksomhed",
+      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Grid area {{ gridArea }})",
+      "notUniqueMarketParticipants": "The selected market participants are not unique",
       "mergeDate": "Merge date",
       "cancel": "Cancel",
       "save": "Merge"

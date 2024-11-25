@@ -15,18 +15,27 @@
  * limitations under the License.
  */
 import { Component, computed, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { translate, TranslocoDirective } from '@ngneat/transloco';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { dayjs } from '@energinet-datahub/watt/date';
 import {
   EicFunction,
   GetActorsForEicFunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-merge-market-participants',
@@ -35,15 +44,37 @@ import {
     TranslocoDirective,
     ReactiveFormsModule,
 
+    VaterStackComponent,
     WATT_MODAL,
     WattDatepickerComponent,
     WattButtonComponent,
+    WattFieldErrorComponent,
     WattDropdownComponent,
   ],
+  styles: `
+    :host {
+      display: block;
+    }
+
+    watt-dropdown {
+      width: 400px;
+    }
+
+    watt-datepicker {
+      width: 260px;
+    }
+  `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.mergeMarketParticipants'">
       <watt-modal size="small" [title]="t('title')">
-        <form id="form-id" [formGroup]="form" (ngSubmit)="form.valid && save()">
+        <form
+          id="form-id"
+          [formGroup]="form"
+          vater-stack
+          gap="m"
+          align="flex-start"
+          (ngSubmit)="form.valid && save()"
+        >
           <watt-dropdown
             [label]="t('discontinuedEntity')"
             [formControl]="form.controls.discontinuedEntity"
@@ -54,9 +85,17 @@ import {
             [label]="t('survivingEntity')"
             [formControl]="form.controls.survivingEntity"
             [options]="marketParticipantsOptions()"
-          />
+          >
+            @if (form.controls.survivingEntity.hasError('notUniqueMarketParticipants')) {
+              <watt-field-error>{{ t('notUniqueMarketParticipants') }}</watt-field-error>
+            }
+          </watt-dropdown>
 
-          <watt-datepicker [label]="t('mergeDate')" [formControl]="form.controls.date" />
+          <watt-datepicker
+            [label]="t('mergeDate')"
+            [formControl]="form.controls.date"
+            [min]="_7DaysFromNow"
+          />
         </form>
 
         <watt-modal-actions>
@@ -82,23 +121,30 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
   });
 
   marketParticipantsOptions = computed<WattDropdownOptions>(() => {
-    const mp = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
+    const marketParticipants = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
 
-    return mp.map((actor) => ({
-      value: actor.glnOrEicNumber,
-      displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
+    return marketParticipants.map((mp) => ({
+      value: mp.id,
+      displayValue: translate(
+        'marketParticipant.mergeMarketParticipants.marketParticipantDropdownDisplayValue',
+        {
+          marketParticipant: `${mp.glnOrEicNumber} • ${mp.name}`,
+          gridArea: mp.gridAreas[0].code,
+        }
+      ),
     }));
   });
 
-  form = this.formBuilder.group({
-    survivingEntity: [null, Validators.required],
-    discontinuedEntity: [null, Validators.required],
-    date: ['', Validators.required],
-  });
+  form = this.formBuilder.group(
+    {
+      discontinuedEntity: [null, Validators.required],
+      survivingEntity: [null, Validators.required],
+      date: ['', Validators.required],
+    },
+    { validators: this.uniqueMarketParticipants() }
+  );
 
-  constructor() {
-    super();
-  }
+  _7DaysFromNow = dayjs().add(7, 'days').toDate();
 
   closeModal(result: boolean) {
     this.dialogRef.close(result);
@@ -106,6 +152,22 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
 
   save() {
     console.log('Save', this.form.value);
-    console.log('Is valid', this.form.valid);
+  }
+
+  uniqueMarketParticipants(): ValidatorFn {
+    return (formGroup: AbstractControl) => {
+      const discontinuedEntityControl = formGroup.get('discontinuedEntity');
+      const survivingEntityControl = formGroup.get('survivingEntity');
+
+      if (formGroup.untouched) {
+        return null;
+      }
+
+      if (discontinuedEntityControl?.value === survivingEntityControl?.value) {
+        survivingEntityControl?.setErrors({ notUniqueMarketParticipants: true });
+      }
+
+      return null;
+    };
   }
 }
