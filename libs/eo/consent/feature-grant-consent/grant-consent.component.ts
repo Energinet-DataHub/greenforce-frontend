@@ -36,6 +36,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -51,6 +52,7 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
     WATT_MODAL,
     WattIconComponent,
     WattSpinnerComponent,
+    WattEmptyStateComponent,
     TranslocoPipe,
     WattButtonComponent,
     EoGenitivePipe,
@@ -61,8 +63,9 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
-      watt-modal-actions {
-        gap: var(--watt-space-m);
+      .watt-modal__spinner {
+        background: var(--watt-color-neutral-white);
+        z-index: 1;
       }
 
       p {
@@ -78,15 +81,12 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
         margin-top: var(--watt-space-m);
       }
 
-      .loading-container {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      watt-empty-state {
+        margin-top: var(--watt-space-m);
       }
 
-      .visually-hidden {
-        opacity: 0;
+      watt-modal-actions {
+        gap: var(--watt-space-m);
       }
     }
   `,
@@ -96,9 +96,10 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
         #modal
         [hideCloseButton]="true"
         [disableClose]="true"
+        [loading]="isLoading()"
         [panelClass]="['eo-grant-consent-modal']"
       >
-        @if (!isLoading()) {
+        @if (!hasError()) {
           <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
           <h3>
             {{
@@ -131,21 +132,26 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
             "
           ></div>
         } @else {
-          <div class="loading-container">
-            <watt-spinner />
-          </div>
+          <watt-empty-state
+            icon="custom-power"
+            [title]="translations.grantConsent.error.title | transloco"
+            [message]="translations.grantConsent.error.message | transloco"
+          />
         }
 
-        <watt-modal-actions
-          [ngClass]="{ 'visually-hidden': isLoading() }"
-          [attr.aria.hidden]="isLoading()"
-        >
-          <watt-button variant="secondary" (click)="decline()">{{
-            translations.grantConsent.decline | transloco
-          }}</watt-button>
-          <watt-button variant="secondary" (click)="accept()">{{
-            translations.grantConsent.accept | transloco
-          }}</watt-button>
+        <watt-modal-actions>
+          @if (!isLoading() && !hasError()) {
+            <watt-button variant="secondary" (click)="decline()">{{
+              translations.grantConsent.decline | transloco
+            }}</watt-button>
+            <watt-button variant="secondary" (click)="accept()">{{
+              translations.grantConsent.accept | transloco
+            }}</watt-button>
+          } @else {
+            <watt-button variant="secondary" (click)="close(false)">{{
+              translations.grantConsent.close | transloco
+            }}</watt-button>
+          }
         </watt-modal-actions>
       </watt-modal>
     }
@@ -166,6 +172,7 @@ export class EoGrantConsentModalComponent {
 
   protected translations = translations;
   protected isLoading = signal<boolean>(false);
+  protected hasError = signal<boolean>(false);
   protected organizationName = signal<string>('');
   protected allowedRedirectUrl = signal<string>('');
   public opened = false;
@@ -182,13 +189,17 @@ export class EoGrantConsentModalComponent {
     this.isLoading.set(true);
 
     if (this.thirdPartyClientId) {
-      this.consentService
-        .getClient(this.thirdPartyClientId)
-        .subscribe((client: EoConsentClient) => {
+      this.consentService.getClient(this.thirdPartyClientId).subscribe({
+        next: (client: EoConsentClient) => {
           this.organizationName.set(client.name);
           this.allowedRedirectUrl.set(client.redirectUrl);
           this.isLoading.set(false);
-        });
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.hasError.set(true);
+        },
+      });
     }
 
     if (this.organizationId) {
