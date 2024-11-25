@@ -145,19 +145,7 @@
             "type": "string"
           },
           "senderRole": {
-            "x-enumNames": [
-              "MeteringPointAdministrator",
-              "EnergySupplier",
-              "GridAccessProvider",
-              "MeteredDataAdministrator",
-              "MeteredDataResponsible",
-              "BalanceResponsibleParty",
-              "ImbalanceSettlementResponsible",
-              "SystemOperator",
-              "DanishEnergyAgency",
-              "Delegated",
-              "DataHubAdministrator"
-            ],
+            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ActorRole"
@@ -168,19 +156,7 @@
             "type": "string"
           },
           "receiverRole": {
-            "x-enumNames": [
-              "MeteringPointAdministrator",
-              "EnergySupplier",
-              "GridAccessProvider",
-              "MeteredDataAdministrator",
-              "MeteredDataResponsible",
-              "BalanceResponsibleParty",
-              "ImbalanceSettlementResponsible",
-              "SystemOperator",
-              "DanishEnergyAgency",
-              "Delegated",
-              "DataHubAdministrator"
-            ],
+            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ActorRole"
