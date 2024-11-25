@@ -14,13 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-user-role-management.store';
-export * from './lib/dh-create-user-role.store';
-export * from './lib/dh-admin-user-role-edit-data-access-api.store';
-export * from './lib/dh-admin-edit-user.store';
-export * from './lib/dh-admin-role.types';
-export * from './lib/types/user-details.type';
-export * from './lib/types/user.type';
-export * from './lib/types/user-role.type';
+export * from './lib/dh-user-roles.component';
+export { DhCreateUserRoleModalComponent } from './lib/create/dh-create-user-role-modal.component';
+export { DhEditUserRoleModalComponent } from './lib/edit/dh-edit-user-role-modal.component';
+export { DhUserRoleDetailsComponent as DhRoleDrawerComponent } from './lib/details/details.component';
+export { DhUserRolesPageComponent as default } from './lib/page.component';

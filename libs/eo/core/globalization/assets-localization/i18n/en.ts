@@ -821,6 +821,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     accept: 'Accept',
     accepted: 'Power of attorney granted',
     declined: 'Power of attorney declined',
+    close: 'Close',
     error: {
       title: 'Unexpected error',
       message: 'An unexpected error occurred. Please try again.',
