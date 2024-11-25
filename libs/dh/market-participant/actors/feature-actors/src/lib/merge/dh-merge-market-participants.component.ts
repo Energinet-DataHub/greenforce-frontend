@@ -75,6 +75,10 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
           align="flex-start"
           (ngSubmit)="form.valid && save()"
         >
+          @if (form.hasError('notUniqueMarketParticipants')) {
+            <watt-field-error>{{ t('notUniqueMarketParticipants') }}</watt-field-error>
+          }
+
           <watt-dropdown
             [label]="t('discontinuedEntity')"
             [formControl]="form.controls.discontinuedEntity"
@@ -85,11 +89,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
             [label]="t('survivingEntity')"
             [formControl]="form.controls.survivingEntity"
             [options]="marketParticipantsOptions()"
-          >
-            @if (form.controls.survivingEntity.hasError('notUniqueMarketParticipants')) {
-              <watt-field-error>{{ t('notUniqueMarketParticipants') }}</watt-field-error>
-            }
-          </watt-dropdown>
+          />
 
           <watt-datepicker
             [label]="t('mergeDate')"
@@ -163,8 +163,14 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
         return null;
       }
 
+      discontinuedEntityControl?.setErrors(null);
+      survivingEntityControl?.setErrors(null);
+
       if (discontinuedEntityControl?.value === survivingEntityControl?.value) {
         survivingEntityControl?.setErrors({ notUniqueMarketParticipants: true });
+        discontinuedEntityControl?.setErrors({ notUniqueMarketParticipants: true });
+
+        return { notUniqueMarketParticipants: true };
       }
 
       return null;
