@@ -678,10 +678,11 @@ export const translations = {
     copyAndClose: 'requestConsent.copyAndClose' as const,
   } as const,
   serviceProviderTermsConsent: {
-    title: 'serviceProviderTermsConsent.title',
-    decline: 'serviceProviderTermsConsent.decline',
-    accept: 'serviceProviderTermsConsent.accept',
-  },
+    title: 'serviceProviderTermsConsent.title' as const,
+    acceptTerms: 'serviceProviderTermsConsent.acceptTerms' as const,
+    decline: 'serviceProviderTermsConsent.decline' as const,
+    accept: 'serviceProviderTermsConsent.accept' as const,
+  } as const,
   help: {
     title: 'help.title' as const,
     content: 'help.content' as const,

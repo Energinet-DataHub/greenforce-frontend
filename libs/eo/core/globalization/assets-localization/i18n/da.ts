@@ -828,6 +828,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   serviceProviderTermsConsent: {
     title: 'Service Provider Terms',
+    acceptTerms: 'Accepter vilkår og betingelser',
     decline: 'Afvis',
     accept: 'Accepter',
   },

@@ -664,6 +664,7 @@ export interface TranslationKeys {
   };
   serviceProviderTermsConsent: {
     title: string;
+    acceptTerms: string;
     decline: string;
     accept: string;
   };

@@ -20,13 +20,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Output,
+  signal,
   ViewChild,
   ViewEncapsulation,
-  inject,
-  signal,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { first } from 'rxjs';
 
@@ -41,7 +41,8 @@ import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-h
 
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
-import { consumerPollProducersForChange } from '@angular/core/primitives/signals';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { NgClass } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,7 +56,10 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
     VaterStackComponent,
     WattTextFieldComponent,
     WattCopyToClipboardDirective,
+    WattCheckboxComponent,
     EoHtmlDocComponent,
+    ReactiveFormsModule,
+    NgClass,
   ],
   standalone: true,
   styles: `
@@ -79,14 +83,34 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
         }
       }
     }
+
+    .service-provider-modal-margin {
+      div {
+        margin-top: var(--watt-space-m);
+        margin-bottom: var(--watt-space-l);
+      }
+    }
+
+    .service-provider-modal-actions {
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accept-button-margin {
+      margin-left: var(--watt-space-m);
+    }
   `,
   template: `
-    @if (opened()) {
+    @if (opened) {
       <watt-modal
         #modal
         [title]="translations.requestConsent.title | transloco"
         [panelClass]="['eo-request-consent-modal']"
+        [ngClass]="serviceProviderTermsAccepted() ? 'small' : 'large'"
       >
+        <!-- Request Consent Modal -->
         @if (serviceProviderTermsAccepted()) {
           <div
             [innerHTML]="translations.requestConsent.description | transloco"
@@ -107,20 +131,38 @@ import { consumerPollProducersForChange } from '@angular/core/primitives/signals
               icon="contentCopy"
               data-testid="copy-invitation-link-button"
               [wattCopyToClipboard]="control.value ?? ''"
-              >{{ translations.requestConsent.copy | transloco }}</watt-button
-            >
+              >{{ translations.requestConsent.copy | transloco }}
+            </watt-button>
           </vater-stack>
         } @else {
-          <eo-html-doc [path]="serviceProviderTermsPath" />
+          <!-- Service Provider Terms -->
+          <eo-html-doc class="service-provider-modal-margin" [path]="serviceProviderTermsPath" />
         }
 
         <watt-modal-actions>
+          <!-- Request Consent Modal Actions -->
           @if (serviceProviderTermsAccepted()) {
-            <watt-button variant="primary" (click)="close(true)">{{
-              translations.requestConsent.copyAndClose | transloco
-            }}</watt-button>
+            <watt-button variant="primary" (click)="copyLinkAndCloseModal(true)"
+              >{{ translations.requestConsent.copyAndClose | transloco }}
+            </watt-button>
           } @else {
-            SOME OTHER ACTION
+            <!-- Request Consent Modal Actions -->
+            <div class="service-provider-modal-actions">
+              <watt-checkbox [formControl]="acceptedServiceProviderTermsFormControl"
+                >{{ translations.serviceProviderTermsConsent.acceptTerms | transloco }}
+              </watt-checkbox>
+              <div>
+                <watt-button variant="secondary" (click)="modal.close(false)"
+                  >{{ translations.serviceProviderTermsConsent.decline | transloco }}
+                </watt-button>
+                <watt-button
+                  variant="primary"
+                  class="accept-button-margin"
+                  (click)="acceptTermsAndShowConsentModal()"
+                  >{{ translations.serviceProviderTermsConsent.accept | transloco }}
+                </watt-button>
+              </div>
+            </div>
           }
         </watt-modal-actions>
       </watt-modal>
@@ -143,27 +185,53 @@ export class EoRequestConsentModalComponent {
     disabled: true,
   });
   protected translations = translations;
-
-  public opened = signal<boolean>(false);
+  protected acceptedServiceProviderTermsFormControl = new FormControl(false, [
+    Validators.required,
+    Validators.requiredTrue,
+  ]);
   protected serviceProviderTermsAccepted = signal<boolean>(false);
+
+  public opened = false;
 
   open() {
     // This is a workaround for "lazy loading" the modal content
-    this.opened.set(true);
+    this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
 
-    this.modal.title = this.transloco.translate('topbar.beta.title');
+    // TODO MASEP: Check if user has accepted terms by calling API
+    // If Service Provider Terms has not been accepted
+    this.openServiceProviderTermsModal();
+
+    // Else open Request Consent Modal
+    // this.openRequestConsentModal();
   }
 
-  close(result: boolean) {
+  copyLinkAndCloseModal(result: boolean) {
     this.copyButton.nativeElement.click();
     this.modal.close(result);
 
     // We wait for setting opened, to the modal is actually closed to avoid any flickerness
     this.modal.closed.pipe(first()).subscribe(() => {
-      this.opened.set(false);
+      this.opened = false;
       this.closed.emit();
     });
+  }
+
+  private openServiceProviderTermsModal() {
+    this.serviceProviderTermsAccepted.set(false);
+    this.modal.title = this.transloco.translate('serviceProviderTermsConsent.title');
+  }
+
+  private openRequestConsentModal() {
+    this.serviceProviderTermsAccepted.set(true);
+    this.modal.title = this.transloco.translate('requestConsent.title');
+  }
+
+  acceptTermsAndShowConsentModal() {
+    if (this.acceptedServiceProviderTermsFormControl.valid) {
+      this.openRequestConsentModal();
+    }
+    this.acceptedServiceProviderTermsFormControl.markAsDirty();
   }
 }

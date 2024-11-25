@@ -840,6 +840,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   },
   serviceProviderTermsConsent: {
     title: 'Service Provider Terms',
+    acceptTerms: 'Accept terms and conditions',
     decline: 'Decline',
     accept: 'Accept',
   },

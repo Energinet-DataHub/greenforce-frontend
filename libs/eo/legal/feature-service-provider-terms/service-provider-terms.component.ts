@@ -38,7 +38,7 @@ const selector = 'eo-service-provider-terms';
           --eo-scroll-view-padding: 0;
         }
 
-        .privacy-policy {
+        .service-provider-terms {
           max-width: 1500px;
         }
       }
