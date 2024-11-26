@@ -706,7 +706,9 @@
       "notUniqueMarketParticipants": "Vælg to forskellige netvirksomheder",
       "mergeDate": "Dato for sammenlægning",
       "cancel": "Fortryd",
-      "save": "Opret sammenlægning"
+      "save": "Opret sammenlægning",
+      "mergeSuccess": "Sammenlægning af aktører oprettet",
+      "mergeError": "Noget gik galt. Sammenlægningen blev ikke oprettet. Prøv igen"
     },
     "organizationsOverview": {
       "organizations": "Organisationer",
