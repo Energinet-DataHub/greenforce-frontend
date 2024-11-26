@@ -86,18 +86,19 @@ public static class OrchestrationInstanceMapperExtensions
             AreSettlementReportsCreated = false, // Deprecated in current context
 
             CalculationId = instanceDto.Id,
-            ScheduledAt = instanceDto.Lifecycle?.ScheduledToRunAt ?? DateTimeOffset.MinValue,
+            ScheduledAt = instanceDto.Lifecycle.ScheduledToRunAt ?? DateTimeOffset.MinValue,
 
             CalculationType = instanceDto.ParameterValue.CalculationType.MapToV3CalculationType(),
             GridAreaCodes = instanceDto.ParameterValue.GridAreaCodes.ToArray(),
             PeriodStart = instanceDto.ParameterValue.PeriodStartDate,
             PeriodEnd = instanceDto.ParameterValue.PeriodEndDate,
             IsInternalCalculation = instanceDto.ParameterValue.IsInternalCalculation,
-            CreatedByUserId = instanceDto.ParameterValue.UserId,
+            CreatedByUserId = (instanceDto.Lifecycle.CreatedBy as UserIdentityDto)?.UserId
+                ?? throw new InvalidOperationException("CreatedBy is not a UserIdentityDto."),
 
-            ExecutionTimeStart = instanceDto.Lifecycle?.StartedAt,
+            ExecutionTimeStart = instanceDto.Lifecycle.StartedAt,
             ExecutionTimeEnd = null, // Not used as far as I can tell; instead 'CompletedTime' is used and mapped to 'executionTimeEnd'
-            CompletedTime = instanceDto.Lifecycle?.TerminatedAt,
+            CompletedTime = instanceDto.Lifecycle.TerminatedAt,
 
             OrchestrationState = instanceDto.MapToV3OrchestrationState(),
         };

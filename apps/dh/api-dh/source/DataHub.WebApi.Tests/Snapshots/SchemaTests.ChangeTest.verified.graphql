@@ -119,8 +119,8 @@ type ArchivedMessage {
   id: String!
   messageId: String
   documentType: DocumentType!
-  senderRole: ActorRole!
-  receiverRole: ActorRole!
+  senderRole: ActorRole
+  receiverRole: ActorRole
   createdAt: DateTime!
   businessReason: String
 }
@@ -234,6 +234,14 @@ type CancelSettlementReportPayload {
   boolean: Boolean
 }
 
+"Information about the offset pagination."
+type CollectionSegmentInfo {
+  "Indicates whether more items exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more items exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+}
+
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -303,6 +311,24 @@ type ExchangeEventSearchResult {
 
 type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
+}
+
+"A connection to a list of items."
+type FilteredUserRolesConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [FilteredUserRolesEdge!]
+  "A flattened list of the nodes."
+  nodes: [UserRoleDto!]
+}
+
+"An edge in a connection."
+type FilteredUserRolesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: UserRoleDto!
 }
 
 type GetUserOverviewResponse {
@@ -599,11 +625,12 @@ type Query {
   domainExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
   userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
-  users(actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: UsersSortInput): UsersConnection
+  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
-  userRoles: [UserRoleDto!]!
+  userRoles: [UserRoleDto!]! @deprecated(reason: "Use `GetUserRolesAsync` with filter, sort and paging instead.")
+  filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
 }
 
 type ReActivateUserPayload {
@@ -768,22 +795,12 @@ type UserRoleWithPermissions {
   permissions: [PermissionDetailsDto!]!
 }
 
-"A connection to a list of items."
-type UsersConnection {
+"A segment of a collection."
+type UsersCollectionSegment {
   "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [UsersEdge!]
-  "A flattened list of the nodes."
-  nodes: [UserOverviewItemDto!]
-}
-
-"An edge in a connection."
-type UsersEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: UserOverviewItemDto!
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [UserOverviewItemDto!]
 }
 
 union AddTokenToDownloadUrlError = ApiError
@@ -1115,6 +1132,12 @@ input UserProfileUpdateDtoInput {
   firstName: String!
   lastName: String!
   phoneNumber: String!
+}
+
+input UserRoleSortInput {
+  name: SortEnumType
+  eicFunction: SortEnumType
+  status: SortEnumType
 }
 
 input UsersSortInput {

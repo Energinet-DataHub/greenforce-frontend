@@ -809,6 +809,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     accept: 'Accepter',
     accepted: 'Fuldmagt afgivet',
     declined: 'Fuldmagt afvist',
+    close: 'Luk',
     error: {
       title: 'Uventet fejl',
       message: 'Der opstod en uventet fejl. Prøv igen.',

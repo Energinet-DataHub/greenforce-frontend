@@ -209,7 +209,7 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Cancel",
+      "reset": "Reset",
       "confirm": "Search"
     },
     "filters": {
@@ -219,8 +219,7 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related",
-      "reset": "Clear"
+      "includeRelated": "Include related"
     },
     "details": {
       "created": "Sent",
@@ -511,6 +510,7 @@
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "reset": "{{ shared.form.reset }}"
       },
+      "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
         "edit": "Edit market participant",
         "metadata": {
@@ -697,6 +697,16 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    },
+    "mergeMarketParticipants": {
+      "title": "Merge market participants",
+      "discontinuedEntity": "[EN] Ophørende netvirksomhed",
+      "survivingEntity": "[EN] Overtagende netvirksomhed",
+      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Grid area {{ gridArea }})",
+      "notUniqueMarketParticipants": "The selected market participants are not unique",
+      "mergeDate": "Merge date",
+      "cancel": "Cancel",
+      "save": "Merge"
     },
     "organizationsOverview": {
       "organizations": "Organisations",
@@ -1311,7 +1321,7 @@
         "gridAreas": "Grid areas"
       },
       "reportStatus": {
-        "IN_PROGRESS": "In progress ({{ progress }}%)",
+        "IN_PROGRESS": "In progress",
         "ERROR": "Error",
         "COMPLETED": "Completed",
         "CANCELED": "Canceled",
@@ -1360,6 +1370,8 @@
       "connect": "Connect MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} user role",
+        "plural": "{{ userRolesCount }} user roles",
         "title": "Invite user",
         "informations": "Information",
         "addUserRole": "Add user role",
@@ -1564,7 +1576,7 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketRole": "Market role",
+              "eicFunction": "Market role",
               "status": "Status"
             }
           },

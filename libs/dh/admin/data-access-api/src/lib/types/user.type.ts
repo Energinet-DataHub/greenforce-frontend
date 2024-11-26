@@ -14,26 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-card {
-  padding: 0;
-}
+import { GetUsersDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
-watt-card-title {
-  margin: var(--watt-space-ml);
-}
-
-watt-empty-state {
-  padding: var(--watt-space-xl);
-}
-
-watt-spinner {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--watt-space-xl);
-}
-
-.user-roles-table-container {
-  max-height: 50vh;
-  overflow: auto;
-  padding: 0 var(--watt-space-ml);
-}
+export type DhUsers = NonNullable<ResultOf<typeof GetUsersDocument>['users']>['items'];
+export type DhUser = NonNullable<DhUsers>[0];

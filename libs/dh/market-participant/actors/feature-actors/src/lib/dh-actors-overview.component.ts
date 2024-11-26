@@ -18,6 +18,7 @@ import { Component, DestroyRef, OnInit, computed, effect, inject } from '@angula
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -36,11 +37,13 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
+import { DhMergeMarketParticipantsComponent } from './merge/dh-merge-market-participants.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { dhToJSON } from './dh-json-util';
 
@@ -70,6 +73,7 @@ import { dhToJSON } from './dh-json-util';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+    MatMenuModule,
 
     WATT_CARD,
     WattPaginatorComponent,
@@ -83,6 +87,7 @@ import { dhToJSON } from './dh-json-util';
     DhActorsFiltersComponent,
     DhActorsTableComponent,
     DhPermissionRequiredDirective,
+    DhFeatureFlagDirective,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit {
@@ -124,10 +129,16 @@ export class DhActorsOverviewComponent implements OnInit {
       });
   }
 
-  openCreateNewActorModal(): void {
+  createNewActor(): void {
     this.modalService.open({
       component: DhActorsCreateActorModalComponent,
       disableClose: true,
+    });
+  }
+
+  mergeMarketParticipants(): void {
+    this.modalService.open({
+      component: DhMergeMarketParticipantsComponent,
     });
   }
 

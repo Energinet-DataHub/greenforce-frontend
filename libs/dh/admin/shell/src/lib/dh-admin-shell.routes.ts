@@ -70,6 +70,11 @@ export const dhAdminShellRoutes: Routes = [
       },
       {
         path: getPath<AdminSubPaths>('roles'),
+        canMatch: [accessNewUserManagement],
+        loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-roles-new'),
+      },
+      {
+        path: getPath<AdminSubPaths>('roles'),
         loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-roles'),
       },
       {

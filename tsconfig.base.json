@@ -42,6 +42,9 @@
       "@energinet-datahub/dh/admin/feature-user-roles": [
         "libs/dh/admin/feature-user-roles/src/index.ts"
       ],
+      "@energinet-datahub/dh/admin/feature-user-roles-new": [
+        "libs/dh/admin/feature-user-roles-new/src/index.ts"
+      ],
       "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
       "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/src/index.ts"],
@@ -352,6 +355,9 @@
       "@energinet-datahub/watt/date": ["libs/watt/src/lib/utils/date/index.ts"],
       "@energinet-datahub/watt/datepicker": [
         "libs/watt/src/lib/components/picker/datepicker/index.ts"
+      ],
+      "@energinet-datahub/watt/datetime-field": [
+        "libs/watt/src/lib/components/datetime-field/index.ts"
       ],
       "@energinet-datahub/watt/datetimepicker": [
         "libs/watt/src/lib/components/picker/datetimepicker/index.ts"

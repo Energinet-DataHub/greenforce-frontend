@@ -33,9 +33,19 @@ limitations under the License.
       }}</watt-button>
 
       <ng-container *dhPermissionRequired="['actors:manage']">
-        <watt-button variant="secondary" (click)="openCreateNewActorModal()">{{
-          t("create")
-        }}</watt-button>
+        <watt-button variant="secondary" (click)="createNewActor()">{{ t("create") }}</watt-button>
+      </ng-container>
+
+      <ng-container *dhFeatureFlag="'merge-market-participants'">
+        <ng-container *dhPermissionRequired="['fas']">
+          <watt-button variant="icon" icon="menu" [matMenuTriggerFor]="menu" />
+
+          <mat-menu #menu="matMenu">
+            <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
+              {{ t("mergeMarketParticipantsButton") }}
+            </button>
+          </mat-menu>
+        </ng-container>
       </ng-container>
     </vater-stack>
 

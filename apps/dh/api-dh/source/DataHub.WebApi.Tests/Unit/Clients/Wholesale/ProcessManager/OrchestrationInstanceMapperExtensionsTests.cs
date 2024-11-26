@@ -24,6 +24,7 @@ using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace Energinet.DataHub.WebApi.Tests.Unit.Clients.Wholesale.ProcessManager;
 
@@ -65,6 +66,7 @@ public class OrchestrationInstanceMapperExtensionsTests
         actualDto.PeriodStart.Should().Be(orchestrationInstanceDto.ParameterValue.PeriodStartDate);
         actualDto.PeriodEnd.Should().Be(orchestrationInstanceDto.ParameterValue.PeriodEndDate);
         actualDto.IsInternalCalculation.Should().Be(orchestrationInstanceDto.ParameterValue.IsInternalCalculation);
+        actualDto.CreatedByUserId.Should().Be(((UserIdentityDto)orchestrationInstanceDto.Lifecycle.CreatedBy).UserId);
     }
 
     [Fact]
@@ -103,7 +105,7 @@ public class OrchestrationInstanceMapperExtensionsTests
         var lifecycle = OrchestrationInstanceDtoFactory.CreateRunningLifecycle(fixture);
         var steps = new List<StepInstanceDto>
         {
-            OrchestrationInstanceDtoFactory.CreateStepAsRunning(fixture, "Beregning", 1),
+            OrchestrationInstanceDtoFactory.CreateStepAsSuceeded(fixture, "Beregning", 1),
             OrchestrationInstanceDtoFactory.CreateStepAsRunning(fixture, "Besked dannelse", 2),
         };
 
@@ -118,6 +120,6 @@ public class OrchestrationInstanceMapperExtensionsTests
         var actualState = orchestrationInstanceDto.MapToV3OrchestrationState();
 
         // Assert
-        actualState.Should().Be(CalculationOrchestrationState.Calculating);
+        actualState.Should().Be(CalculationOrchestrationState.ActorMessagesEnqueuing);
     }
 }

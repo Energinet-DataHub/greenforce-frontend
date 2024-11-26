@@ -35,7 +35,7 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type CsvUser = NonNullable<CsvUsers>[0];
 type Variables = Partial<GetUsersForCsvQueryVariables>;
-type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['nodes'];
+type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['items'];
 
 @Component({
   standalone: true,
@@ -64,7 +64,7 @@ export class DhDownloadUsersCsvComponent {
       const result = await this.query.query({
         variables: {
           ...this.filters(),
-          first: 10_000,
+          take: 10_000,
         },
       });
 
@@ -78,7 +78,7 @@ export class DhDownloadUsersCsvComponent {
         `"${translate(basePath + '.organisationName')}"`,
       ];
 
-      const lines = (result.data.users?.nodes ?? []).map((x: CsvUser) => [
+      const lines = (result.data.users?.items ?? []).map((x: CsvUser) => [
         `"${x.name}"`,
         `"${x.email}"`,
         `"${x.administratedBy?.name}"`,

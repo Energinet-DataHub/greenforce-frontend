@@ -30,7 +30,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { UserDetails } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   standalone: true,
@@ -75,7 +75,7 @@ export class DhReactivateComponent {
 
   modal = viewChild.required(WattModalComponent);
 
-  user = input<UserDetails>();
+  user = input<DhUserDetails>();
 
   loading = this.reactivateUserMutation.loading;
 

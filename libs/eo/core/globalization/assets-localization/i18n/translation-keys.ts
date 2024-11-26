@@ -651,6 +651,7 @@ export interface TranslationKeys {
     accept: string;
     accepted: string;
     declined: string;
+    close: string;
     error: {
       title: string;
       message: string;

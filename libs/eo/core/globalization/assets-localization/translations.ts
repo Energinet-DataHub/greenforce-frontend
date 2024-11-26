@@ -666,6 +666,7 @@ export const translations = {
     accept: 'grantConsent.accept' as const,
     accepted: 'grantConsent.accepted' as const,
     declined: 'grantConsent.declined' as const,
+    close: 'grantConsent.close' as const,
     error: {
       title: 'grantConsent.error.title' as const,
       message: 'grantConsent.error.message' as const,
