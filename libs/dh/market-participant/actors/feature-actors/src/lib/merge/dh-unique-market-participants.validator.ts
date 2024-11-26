@@ -21,7 +21,11 @@ export function dhUniqueMarketParticipantsValidator(): ValidatorFn {
     const discontinuedEntityControl = formGroup.get('discontinuedEntity');
     const survivingEntityControl = formGroup.get('survivingEntity');
 
-    if (formGroup.untouched) {
+    if (
+      formGroup.untouched ||
+      discontinuedEntityControl?.value === null ||
+      survivingEntityControl?.value === null
+    ) {
       return null;
     }
 
