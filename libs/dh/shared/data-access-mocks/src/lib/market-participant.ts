@@ -582,7 +582,7 @@ function checkDomainExists() {
 
 function mergeMarketParticipants() {
   return mockMergeMarketParticipantsMutation(async () => {
-    await delay(5000);
+    await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
