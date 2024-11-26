@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://demo.energytrackandtrace.dk/api",
+  "apiBase": "https://energytrackandtrace-dk.duplicateserviceproviderterms.p.acorn-dev.dk/api",
   "developerPortal": "https://demo.energytrackandtrace.dk/developer/",
   "apiVersions": {
     "certificates": "1",

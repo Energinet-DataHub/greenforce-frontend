@@ -40,9 +40,13 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
-import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
+import {
+  EoActorService,
+  ServiceProviderTermsService,
+} from '@energinet-datahub/eo/auth/data-access';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { NgClass } from '@angular/common';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -158,7 +162,7 @@ import { NgClass } from '@angular/common';
                 <watt-button
                   variant="primary"
                   class="accept-button-margin"
-                  (click)="acceptTermsAndShowConsentModal()"
+                  (click)="acceptServiceProviderTermsAndShowConsentModal()"
                   >{{ translations.serviceProviderTermsConsent.accept | transloco }}
                 </watt-button>
               </div>
@@ -173,7 +177,8 @@ export class EoRequestConsentModalComponent {
   private cd = inject(ChangeDetectorRef);
   private actorService: EoActorService = inject(EoActorService);
   private link = `${window.location.origin}/consent?organization-id=${this.actorService.self.org_id}`;
-
+  private serviceProviderTermsService = inject(ServiceProviderTermsService);
+  private toastService = inject(WattToastService);
   @Output() closed = new EventEmitter<void>();
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @ViewChild('copyButton', { read: ElementRef }) copyButton!: ElementRef<HTMLButtonElement>;
@@ -199,12 +204,11 @@ export class EoRequestConsentModalComponent {
     this.cd.detectChanges();
     this.modal.open();
 
-    // TODO MASEP: Check if user has accepted terms by calling API
-    // If Service Provider Terms has not been accepted
-    this.openServiceProviderTermsModal();
-
-    // Else open Request Consent Modal
-    // this.openRequestConsentModal();
+    if (this.serviceProviderTermsService.serviceProviderTermsAccepted()) {
+      this.openRequestConsentModal();
+    } else {
+      this.openServiceProviderTermsModal();
+    }
   }
 
   copyLinkAndCloseModal(result: boolean) {
@@ -228,9 +232,23 @@ export class EoRequestConsentModalComponent {
     this.modal.title = this.transloco.translate('requestConsent.title');
   }
 
-  acceptTermsAndShowConsentModal() {
+  acceptServiceProviderTermsAndShowConsentModal() {
     if (this.acceptedServiceProviderTermsFormControl.valid) {
-      this.openRequestConsentModal();
+      this.serviceProviderTermsService
+        .acceptServiceProviderTerms()
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            this.serviceProviderTermsService.serviceProviderTermsAccepted.set(true);
+          },
+          error: () => {
+            this.serviceProviderTermsService.serviceProviderTermsAccepted.set(false);
+            this.toastService.open({
+              message: this.transloco.translate(this.translations.shared.error.message),
+              type: 'danger',
+            });
+          },
+        });
     }
     this.acceptedServiceProviderTermsFormControl.markAsDirty();
   }

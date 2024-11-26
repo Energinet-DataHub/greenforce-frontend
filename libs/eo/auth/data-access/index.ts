@@ -22,3 +22,4 @@ export * from './organization-id.interceptor';
 export * from './terms.service';
 export * from './actor.service';
 export * from './actor-self.guard';
+export * from './service-provider-terms.service';
