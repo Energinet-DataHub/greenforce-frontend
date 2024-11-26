@@ -16,7 +16,7 @@
  */
 import { Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -108,8 +108,6 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
   `,
 })
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
-  private formBuilder = inject(FormBuilder);
-
   private marketParticipantsQuery = query(GetActorsForEicFunctionDocument, {
     variables: {
       eicFunctions: [EicFunction.GridAccessProvider],
@@ -131,11 +129,11 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     }));
   });
 
-  form = this.formBuilder.group(
+  form = new FormGroup(
     {
-      discontinuedEntity: [null, Validators.required],
-      survivingEntity: [null, Validators.required],
-      mergeDate: ['', Validators.required],
+      discontinuedEntity: new FormControl<string | null>(null, Validators.required),
+      survivingEntity: new FormControl<string | null>(null, Validators.required),
+      mergeDate: new FormControl<Date | null>(null, [Validators.required]),
     },
     { validators: dhUniqueMarketParticipantsValidator() }
   );
