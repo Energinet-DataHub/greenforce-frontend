@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -31,6 +31,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-participants.validator';
 
@@ -109,6 +110,8 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
   `,
 })
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
+  private toastService = inject(WattToastService);
+
   private marketParticipantsQuery = query(GetActorsForEicFunctionDocument, {
     variables: {
       eicFunctions: [EicFunction.GridAccessProvider],
@@ -160,6 +163,11 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     });
 
     if (result.data?.mergeMarketParticipants.success) {
+      this.toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.mergeMarketParticipants.mergeSuccess'),
+      });
+
       this.dialogRef.close(true);
     }
   }

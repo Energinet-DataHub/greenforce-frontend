@@ -706,7 +706,8 @@
       "notUniqueMarketParticipants": "The selected market participants are not unique",
       "mergeDate": "Merge date",
       "cancel": "Cancel",
-      "save": "Merge"
+      "save": "Merge",
+      "mergeSuccess": "Merged of market participants created"
     },
     "organizationsOverview": {
       "organizations": "Organisations",
