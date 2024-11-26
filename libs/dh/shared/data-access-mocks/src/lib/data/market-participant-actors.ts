@@ -63,7 +63,7 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
-    displayName: 'Test Actor 1 • EnergySupplier',
+    displayName: 'Test Actor 1 • GridAccessProvider',
     userRoles: userActorRoles,
     gridAreas: [
       {
@@ -74,7 +74,7 @@ export const marketParticipantActors: Actor[] = [
         name: 'NET_001',
       } as GridAreaDto,
     ],
-    marketRole: EicFunction.EnergySupplier,
+    marketRole: EicFunction.GridAccessProvider,
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
