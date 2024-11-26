@@ -44,7 +44,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
         description="permissions"
         [dataSource]="dataSource"
         [columns]="columns"
-        [selectable]="permissions().length > 0"
+        [selectable]="true"
         [loading]="loading()"
         [initialSelection]="initialSelection()"
         sortBy="name"
