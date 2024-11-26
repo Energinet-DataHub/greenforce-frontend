@@ -34,10 +34,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('message-archive'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/message-archive/shell').then(
-            (esModule) => esModule.dhMessageArchiveShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/message-archive/shell'),
         canActivate: [MsalGuard],
       },
       {
@@ -52,10 +49,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('market-participant'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/market-participant/shell').then(
-            (esModule) => esModule.dhMarketParticipantShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/market-participant/shell'),
         canActivate: [MsalGuard],
       },
       {
@@ -68,18 +62,12 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('wholesale'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/wholesale/shell').then(
-            (esModule) => esModule.dhWholesaleShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/wholesale/shell'),
         canActivate: [MsalGuard],
       },
       {
         path: getPath<BasePaths>('admin'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/admin/shell').then(
-            (esModule) => esModule.dhAdminShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/admin/shell'),
         canActivate: [MsalGuard],
       },
     ],
