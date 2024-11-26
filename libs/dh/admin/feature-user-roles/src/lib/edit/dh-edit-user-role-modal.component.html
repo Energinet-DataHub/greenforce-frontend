@@ -66,6 +66,8 @@ limitations under the License.
               </watt-card-title>
 
               <dh-permissions-table
+                [hasError]="hasError()"
+                [loading]="marketRolePermissionsIsLoading()"
                 [permissions]="permissions()"
                 [initialSelection]="initiallySelectedPermissions$ | push"
                 (selectionChanged)="onSelectionChanged($event)"

@@ -41,6 +41,8 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { DhUserRolesFilterComponent } from './filter.component';
 import { DhUserRolesDownloadComponent } from './download.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { DhCreateUserRoleComponent } from './create.component';
 
 type Variables = Partial<GetFilteredUserRolesQueryVariables>;
 
@@ -81,7 +83,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
         *dhPermissionRequired="['user-roles:manage']"
         icon="plus"
         variant="secondary"
-        (click)="create.emit()"
+        (click)="create()"
         >{{ t('createuserrole') }}
       </watt-button>
     </watt-data-actions>
@@ -115,9 +117,9 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
 })
 export class DhUserRolesTableComponent {
   private navigation = inject(DhNavigationService);
+  private modalService = inject(WattModalService);
 
   open = output<DhUserRole>();
-  create = output<void>();
 
   variables = signal<Variables>({});
 
@@ -127,6 +129,7 @@ export class DhUserRolesTableComponent {
       order: { name: SortEnumType.Asc },
     },
   });
+
   columns: WattTableColumnDef<DhUserRole> = {
     name: { accessor: 'name' },
     eicFunction: { accessor: 'eicFunction' },
@@ -136,6 +139,12 @@ export class DhUserRolesTableComponent {
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
   };
+
+  create() {
+    this.modalService.open({
+      component: DhCreateUserRoleComponent,
+    });
+  }
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
