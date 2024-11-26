@@ -702,6 +702,8 @@
       "title": "Sammenlæg aktører",
       "discontinuedEntity": "Ophørende netvirksomhed",
       "survivingEntity": "Overtagende netvirksomhed",
+      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+      "notUniqueMarketParticipants": "Vælg to unikke netvirksomheder",
       "mergeDate": "Dato for sammenlægning",
       "cancel": "Fortryd",
       "save": "Opret sammenlægning"
