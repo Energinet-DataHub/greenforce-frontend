@@ -95,7 +95,7 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
         </form>
 
         <watt-modal-actions>
-          <watt-button variant="secondary" (click)="closeModal(false)">
+          <watt-button variant="secondary" (click)="dialogRef.close(false)">
             {{ t('cancel') }}
           </watt-button>
 
@@ -141,10 +141,6 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
   );
 
   _7DaysFromNow = dayjs().add(7, 'days').toDate();
-
-  closeModal(result: boolean) {
-    this.dialogRef.close(result);
-  }
 
   save() {
     console.log('Save', this.form.value);
