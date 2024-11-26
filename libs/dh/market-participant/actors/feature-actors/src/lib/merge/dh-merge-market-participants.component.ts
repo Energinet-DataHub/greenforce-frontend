@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -22,11 +22,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
   EicFunction,
   GetActorsForEicFunctionDocument,
+  MergeMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -99,7 +100,7 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
             {{ t('cancel') }}
           </watt-button>
 
-          <watt-button type="submit" formId="form-id">
+          <watt-button type="submit" formId="form-id" [loading]="isSaving()">
             {{ t('save') }}
           </watt-button>
         </watt-modal-actions>
@@ -113,6 +114,9 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
       eicFunctions: [EicFunction.GridAccessProvider],
     },
   });
+
+  private createMergeMutation = mutation(MergeMarketParticipantsDocument);
+  isSaving = this.createMergeMutation.loading;
 
   marketParticipantsOptions = computed<WattDropdownOptions>(() => {
     const marketParticipants = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
@@ -140,7 +144,23 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
 
   _7DaysFromNow = dayjs().add(7, 'days').toDate();
 
-  save() {
-    console.log('Save', this.form.value);
+  async save() {
+    const { discontinuedEntity, survivingEntity, mergeDate } = this.form.value;
+
+    if (!discontinuedEntity || !survivingEntity || !mergeDate) return;
+
+    const result = await this.createMergeMutation.mutate({
+      variables: {
+        input: {
+          discontinuedEntity,
+          survivingEntity,
+          mergeDate,
+        },
+      },
+    });
+
+    if (result.data?.mergeMarketParticipants.success) {
+      this.dialogRef.close(true);
+    }
   }
 }
