@@ -16,13 +16,7 @@
  */
 import { Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -36,6 +30,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-participants.validator';
 
 @Component({
   selector: 'dh-merge-market-participants',
@@ -141,7 +137,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
       survivingEntity: [null, Validators.required],
       mergeDate: ['', Validators.required],
     },
-    { validators: this.uniqueMarketParticipants() }
+    { validators: dhUniqueMarketParticipantsValidator() }
   );
 
   _7DaysFromNow = dayjs().add(7, 'days').toDate();
@@ -152,28 +148,5 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
 
   save() {
     console.log('Save', this.form.value);
-  }
-
-  uniqueMarketParticipants(): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const discontinuedEntityControl = formGroup.get('discontinuedEntity');
-      const survivingEntityControl = formGroup.get('survivingEntity');
-
-      if (formGroup.untouched) {
-        return null;
-      }
-
-      discontinuedEntityControl?.setErrors(null);
-      survivingEntityControl?.setErrors(null);
-
-      if (discontinuedEntityControl?.value === survivingEntityControl?.value) {
-        survivingEntityControl?.setErrors({ notUniqueMarketParticipants: true });
-        discontinuedEntityControl?.setErrors({ notUniqueMarketParticipants: true });
-
-        return { notUniqueMarketParticipants: true };
-      }
-
-      return null;
-    };
   }
 }
