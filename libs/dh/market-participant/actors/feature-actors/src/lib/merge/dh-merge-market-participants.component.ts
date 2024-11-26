@@ -26,7 +26,9 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
   EicFunction,
+  GetActorsDocument,
   GetActorsForEicFunctionDocument,
+  GetGridAreasDocument,
   MergeMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
@@ -160,6 +162,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
           mergeDate,
         },
       },
+      refetchQueries: [GetActorsDocument, GetGridAreasDocument],
     });
 
     if (result.data?.mergeMarketParticipants.success) {
