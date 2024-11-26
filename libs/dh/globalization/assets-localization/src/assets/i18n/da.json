@@ -707,7 +707,8 @@
       "mergeDate": "Dato for sammenlægning",
       "cancel": "Fortryd",
       "save": "Opret sammenlægning",
-      "mergeSuccess": "Sammenlægning af aktører oprettet"
+      "mergeSuccess": "Sammenlægning af aktører oprettet",
+      "mergeError": "Noget gik galt. Sammenlægningen blev ikke oprettet. Prøv igen"
     },
     "organizationsOverview": {
       "organizations": "Organisationer",

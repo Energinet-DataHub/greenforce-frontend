@@ -707,7 +707,8 @@
       "mergeDate": "Merge date",
       "cancel": "Cancel",
       "save": "Merge",
-      "mergeSuccess": "Merged of market participants created"
+      "mergeSuccess": "Merged of market participants created",
+      "mergeError": "Something went wrong. The merge was not created. Please try again"
     },
     "organizationsOverview": {
       "organizations": "Organisations",

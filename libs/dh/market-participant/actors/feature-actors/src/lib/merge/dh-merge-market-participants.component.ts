@@ -170,5 +170,12 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
 
       this.dialogRef.close(true);
     }
+
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('marketParticipant.mergeMarketParticipants.mergeError'),
+      });
+    }
   }
 }
