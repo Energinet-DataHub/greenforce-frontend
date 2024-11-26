@@ -63,18 +63,18 @@ export const marketParticipantActors: Actor[] = [
     id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
-    displayName: 'Test Actor 1 • EnergySupplier',
+    displayName: 'Test Actor 1 • GridAccessProvider',
     userRoles: userActorRoles,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 • DK1`,
-        code: 'DK1',
-        name: 'DK1',
         id: '1',
+        displayName: `001 • NET_001`,
+        code: '001',
+        name: 'NET_001',
       } as GridAreaDto,
     ],
-    marketRole: EicFunction.EnergySupplier,
+    marketRole: EicFunction.GridAccessProvider,
     status: ActorStatus.Active,
     organization: {
       __typename: 'Organization',
@@ -104,10 +104,10 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 • DK1`,
-        code: 'DK1',
-        name: 'DK1',
         id: '2',
+        displayName: `002 • NET_002`,
+        code: '002',
+        name: 'NET_002',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.GridAccessProvider,
@@ -140,10 +140,10 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 • DK1`,
-        code: 'DK1',
-        name: 'DK1',
         id: '3',
+        displayName: `003 • NET_003`,
+        code: '003',
+        name: 'NET_003',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
@@ -178,10 +178,10 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 • DK2`,
-        code: 'DK2',
-        name: 'DK2',
         id: '4',
+        displayName: `004 • NET_004`,
+        code: '004',
+        name: 'NET_004',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.DanishEnergyAgency,
@@ -216,10 +216,10 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 • DK2`,
-        code: 'DK2',
-        name: 'DK2',
         id: '5',
+        displayName: `005 • NET_005`,
+        code: '005',
+        name: 'NET_005',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.DanishEnergyAgency,
@@ -261,10 +261,10 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK2 • DK2`,
-        code: 'DK2',
-        name: 'DK2',
         id: '6',
+        displayName: `006 • NET_006`,
+        code: '006',
+        name: 'NET_006',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
@@ -286,10 +286,10 @@ export const marketParticipantActors: Actor[] = [
     gridAreas: [
       {
         __typename: 'GridAreaDto',
-        displayName: `DK1 • DK1`,
-        code: 'DK1',
-        name: 'DK1',
         id: '1',
+        displayName: `001 • NET_001`,
+        code: '001',
+        name: 'NET_001',
       } as GridAreaDto,
     ],
     marketRole: EicFunction.EnergySupplier,

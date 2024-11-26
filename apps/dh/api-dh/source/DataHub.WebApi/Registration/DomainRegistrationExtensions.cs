@@ -40,13 +40,13 @@ public static class DomainRegistrationExtensions
         ArgumentNullException.ThrowIfNull(configuration);
 
         // Client and adapters
-        services.AddProcessManagerClients();
+        services.AddProcessManagerHttpClients();
         services.AddScoped<INotifyAggregatedMeasureDataClientAdapter, NotifyAggregatedMeasureDataClientAdapter>();
 
         // Health Checks
         var processManagerClientOptions = configuration
-            .GetSection(ProcessManagerClientOptions.SectionName)
-            .Get<ProcessManagerClientOptions>();
+            .GetSection(ProcessManagerHttpClientsOptions.SectionName)
+            .Get<ProcessManagerHttpClientsOptions>();
 
         // Until we remove the feature flag "UseProcessManager" we allow skipping the configuration of the Process Manager
         if (processManagerClientOptions != null)

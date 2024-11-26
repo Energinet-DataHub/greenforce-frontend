@@ -209,7 +209,7 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Cancel",
+      "reset": "Reset",
       "confirm": "Search"
     },
     "filters": {
@@ -219,8 +219,7 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related",
-      "reset": "Clear"
+      "includeRelated": "Include related"
     },
     "details": {
       "created": "Sent",
@@ -703,9 +702,13 @@
       "title": "Merge market participants",
       "discontinuedEntity": "[EN] Ophørende netvirksomhed",
       "survivingEntity": "[EN] Overtagende netvirksomhed",
+      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Grid area {{ gridArea }})",
+      "notUniqueMarketParticipants": "The selected market participants are not unique",
       "mergeDate": "Merge date",
       "cancel": "Cancel",
-      "save": "Merge"
+      "save": "Merge",
+      "mergeSuccess": "Merged of market participants created",
+      "mergeError": "Something went wrong. The merge was not created. Please try again"
     },
     "organizationsOverview": {
       "organizations": "Organisations",

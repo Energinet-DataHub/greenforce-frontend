@@ -119,8 +119,8 @@ type ArchivedMessage {
   id: String!
   messageId: String
   documentType: DocumentType!
-  senderRole: ActorRole!
-  receiverRole: ActorRole!
+  senderRole: ActorRole
+  receiverRole: ActorRole
   createdAt: DateTime!
   businessReason: String
 }
@@ -443,6 +443,11 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledAt: DateTime!
 }
 
+type MergeMarketParticipantsPayload {
+  boolean: Boolean
+  errors: [MergeMarketParticipantsError!]
+}
+
 type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
@@ -488,6 +493,7 @@ type Mutation {
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
+  mergeMarketParticipants(input: MergeMarketParticipantsInput!): MergeMarketParticipantsPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
@@ -821,6 +827,8 @@ union InitiateMitIdSignupError = ApiError
 
 union InviteUserError = ApiError
 
+union MergeMarketParticipantsError = ApiError
+
 union ReActivateUserError = ApiError
 
 union ReInviteUserError = ApiError
@@ -996,6 +1004,12 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MergeMarketParticipantsInput {
+  survivingEntity: UUID!
+  discontinuedEntity: UUID!
+  mergeDate: DateTime!
 }
 
 input ReActivateUserInput {

@@ -15,18 +15,27 @@
  * limitations under the License.
  */
 import { Component, computed, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { translate, TranslocoDirective } from '@ngneat/transloco';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { dayjs } from '@energinet-datahub/watt/date';
 import {
   EicFunction,
+  GetActorsDocument,
   GetActorsForEicFunctionDocument,
+  GetGridAreasDocument,
+  MergeMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-participants.validator';
 
 @Component({
   selector: 'dh-merge-market-participants',
@@ -35,15 +44,41 @@ import {
     TranslocoDirective,
     ReactiveFormsModule,
 
+    VaterStackComponent,
     WATT_MODAL,
     WattDatepickerComponent,
     WattButtonComponent,
+    WattFieldErrorComponent,
     WattDropdownComponent,
   ],
+  styles: `
+    :host {
+      display: block;
+    }
+
+    watt-dropdown {
+      width: 400px;
+    }
+
+    watt-datepicker {
+      width: 260px;
+    }
+  `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.mergeMarketParticipants'">
       <watt-modal size="small" [title]="t('title')">
-        <form id="form-id" [formGroup]="form" (ngSubmit)="form.valid && save()">
+        <form
+          id="form-id"
+          [formGroup]="form"
+          vater-stack
+          gap="m"
+          align="flex-start"
+          (ngSubmit)="form.valid && save()"
+        >
+          @if (form.hasError('notUniqueMarketParticipants')) {
+            <watt-field-error>{{ t('notUniqueMarketParticipants') }}</watt-field-error>
+          }
+
           <watt-dropdown
             [label]="t('discontinuedEntity')"
             [formControl]="form.controls.discontinuedEntity"
@@ -56,15 +91,19 @@ import {
             [options]="marketParticipantsOptions()"
           />
 
-          <watt-datepicker [label]="t('mergeDate')" [formControl]="form.controls.date" />
+          <watt-datepicker
+            [label]="t('mergeDate')"
+            [formControl]="form.controls.mergeDate"
+            [min]="_7DaysFromNow"
+          />
         </form>
 
         <watt-modal-actions>
-          <watt-button variant="secondary" (click)="closeModal(false)">
+          <watt-button variant="secondary" (click)="dialogRef.close(false)">
             {{ t('cancel') }}
           </watt-button>
 
-          <watt-button type="submit" formId="form-id">
+          <watt-button type="submit" formId="form-id" [loading]="isSaving()">
             {{ t('save') }}
           </watt-button>
         </watt-modal-actions>
@@ -73,7 +112,7 @@ import {
   `,
 })
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
-  private formBuilder = inject(FormBuilder);
+  private toastService = inject(WattToastService);
 
   private marketParticipantsQuery = query(GetActorsForEicFunctionDocument, {
     variables: {
@@ -81,31 +120,65 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     },
   });
 
-  marketParticipantsOptions = computed<WattDropdownOptions>(() => {
-    const mp = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
+  private createMergeMutation = mutation(MergeMarketParticipantsDocument);
+  isSaving = this.createMergeMutation.loading;
 
-    return mp.map((actor) => ({
-      value: actor.glnOrEicNumber,
-      displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
+  marketParticipantsOptions = computed<WattDropdownOptions>(() => {
+    const marketParticipants = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
+
+    return marketParticipants.map((mp) => ({
+      value: mp.id,
+      displayValue: translate(
+        'marketParticipant.mergeMarketParticipants.marketParticipantDropdownDisplayValue',
+        {
+          marketParticipant: `${mp.glnOrEicNumber} • ${mp.name}`,
+          gridArea: mp.gridAreas[0].code,
+        }
+      ),
     }));
   });
 
-  form = this.formBuilder.group({
-    survivingEntity: [null, Validators.required],
-    discontinuedEntity: [null, Validators.required],
-    date: ['', Validators.required],
-  });
+  form = new FormGroup(
+    {
+      discontinuedEntity: new FormControl<string | null>(null, Validators.required),
+      survivingEntity: new FormControl<string | null>(null, Validators.required),
+      mergeDate: new FormControl<Date | null>(null, [Validators.required]),
+    },
+    { validators: dhUniqueMarketParticipantsValidator() }
+  );
 
-  constructor() {
-    super();
-  }
+  _7DaysFromNow = dayjs().add(7, 'days').toDate();
 
-  closeModal(result: boolean) {
-    this.dialogRef.close(result);
-  }
+  async save() {
+    const { discontinuedEntity, survivingEntity, mergeDate } = this.form.value;
 
-  save() {
-    console.log('Save', this.form.value);
-    console.log('Is valid', this.form.valid);
+    if (!discontinuedEntity || !survivingEntity || !mergeDate) return;
+
+    const result = await this.createMergeMutation.mutate({
+      variables: {
+        input: {
+          discontinuedEntity,
+          survivingEntity,
+          mergeDate,
+        },
+      },
+      refetchQueries: [GetActorsDocument, GetGridAreasDocument],
+    });
+
+    if (result.data?.mergeMarketParticipants.success) {
+      this.toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.mergeMarketParticipants.mergeSuccess'),
+      });
+
+      this.dialogRef.close(true);
+    }
+
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('marketParticipant.mergeMarketParticipants.mergeError'),
+      });
+    }
   }
 }
