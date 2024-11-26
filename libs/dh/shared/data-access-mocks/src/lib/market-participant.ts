@@ -49,6 +49,7 @@ import {
   mockGetActorCredentialsQuery,
   mockAddTokenToDownloadUrlMutation,
   mockCheckDomainExistsQuery,
+  mockMergeMarketParticipantsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -91,6 +92,7 @@ export function marketParticipantMocks(apiBase: string) {
     getBalanceResponsibleRelation(),
     addTokenToDownloadUrl(),
     checkDomainExists(),
+    mergeMarketParticipants(),
   ];
 }
 
@@ -573,6 +575,23 @@ function checkDomainExists() {
       data: {
         __typename: 'Query',
         domainExists: ['test.dk', 'datahub.dk', 'energinet.dk'].includes(domain),
+      },
+    });
+  });
+}
+
+function mergeMarketParticipants() {
+  return mockMergeMarketParticipantsMutation(async () => {
+    await delay(5000);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        mergeMarketParticipants: {
+          __typename: 'MergeMarketParticipantsPayload',
+          success: true,
+          errors: [],
+        },
       },
     });
   });
