@@ -93,7 +93,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
           <watt-datepicker
             [label]="t('mergeDate')"
-            [formControl]="form.controls.date"
+            [formControl]="form.controls.mergeDate"
             [min]="_7DaysFromNow"
           />
         </form>
@@ -139,7 +139,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     {
       discontinuedEntity: [null, Validators.required],
       survivingEntity: [null, Validators.required],
-      date: ['', Validators.required],
+      mergeDate: ['', Validators.required],
     },
     { validators: this.uniqueMarketParticipants() }
   );
