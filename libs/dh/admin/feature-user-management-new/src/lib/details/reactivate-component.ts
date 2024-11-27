@@ -34,7 +34,7 @@ import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   standalone: true,
-  selector: 'dh-reactivate',
+  selector: 'dh-reactivate-user',
   imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
   template: ` <watt-modal
     #modal
