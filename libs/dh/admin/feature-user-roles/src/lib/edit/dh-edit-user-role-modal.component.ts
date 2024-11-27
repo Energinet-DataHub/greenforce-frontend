@@ -131,6 +131,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
   );
   readonly marketRolePermissionsIsLoading = this.permissionsQuery.loading;
 
+  readonly hasError = computed(() => this.permissionsQuery.error() !== undefined);
+
   readonly isLoading$ = this.userRoleEditStore.isLoading$;
   readonly validationError$ = this.userRoleEditStore.validationError$;
 
