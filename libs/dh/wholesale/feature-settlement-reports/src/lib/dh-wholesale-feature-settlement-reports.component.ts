@@ -104,5 +104,5 @@ export class DhWholesaleFeatureSettlementReportsComponent {
   settlementReports = computed(() => this.settlementReportsQuery.data()?.settlementReports ?? []);
   totalCount = computed(() => this.settlementReports().length);
   isLoading = this.settlementReportsQuery.loading;
-  hasError = computed(() => this.settlementReportsQuery.error() !== undefined);
+  hasError = this.settlementReportsQuery.hasError;
 }

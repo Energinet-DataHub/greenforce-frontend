@@ -85,11 +85,11 @@ import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balanc
   providers: [DhBalanceResponsibleStore],
 })
 export class DhBalanceResponsibleComponent implements OnInit {
-  private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly store = inject(DhBalanceResponsibleStore);
-  private readonly toastService = inject(WattToastService);
-  private readonly httpClient = inject(HttpClient);
+  private apollo = inject(Apollo);
+  private destroyRef = inject(DestroyRef);
+  private store = inject(DhBalanceResponsibleStore);
+  private toastService = inject(WattToastService);
+  private httpClient = inject(HttpClient);
 
   pageMetaData$ = this.store.pageMetaData$;
   sortMetaData$ = this.store.sortMetaData$;

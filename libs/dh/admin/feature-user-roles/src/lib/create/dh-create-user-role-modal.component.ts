@@ -109,7 +109,7 @@ export class DhCreateUserRoleModalComponent implements OnInit, AfterViewInit {
 
   loading = this.permissionsQuery.loading;
 
-  hasError = computed(() => this.permissionsQuery.error() !== undefined);
+  hasError = this.permissionsQuery.hasError;
 
   permissions = computed(() => this.permissionsQuery.data()?.permissionsByEicFunction ?? []);
 

@@ -188,7 +188,7 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
   permissionsQuery = lazyQuery(GetPermissionByEicFunctionDocument);
 
   loading = this.permissionsQuery.loading;
-  hasError = computed(() => this.permissionsQuery.error() !== undefined);
+  hasError = this.permissionsQuery.hasError;
   permissions = computed(() => this.permissionsQuery.data()?.permissionsByEicFunction ?? []);
 
   userRoleForm = this.formBuilder.group({

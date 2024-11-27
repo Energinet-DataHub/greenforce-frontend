@@ -69,15 +69,12 @@ export class DhActorAuditLogTabComponent {
   private actorNumberNameLookup: Signal<{ [key: string]: { number: string; name: string } }> =
     computed(() => this.getActorNumberNames());
 
-  private gridAreasQueryHasError = computed(() => this.gridAreasQuery.error() !== undefined);
-  private auditLogHasError = computed(
-    () => this.auditLogService.auditLogQuery.error() !== undefined
-  );
-
   isLoading = computed(
     () => this.auditLogService.auditLogQuery.loading() || this.gridAreasQuery.loading()
   );
-  hasError = computed(() => this.auditLogHasError() || this.gridAreasQueryHasError());
+  hasError = computed(
+    () => this.auditLogService.auditLogQuery.hasError() || this.gridAreasQuery.hasError()
+  );
 
   actorId = input.required<string>();
 

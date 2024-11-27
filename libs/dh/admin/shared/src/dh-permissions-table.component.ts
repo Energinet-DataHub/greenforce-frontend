@@ -99,7 +99,7 @@ export class DhPermissionsTableComponent implements OnChanges {
 
   permissionsTable = viewChild(WattTableComponent);
 
-  readonly dataSource = new WattTableDataSource<PermissionDetailsDto>();
+  dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
   columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },

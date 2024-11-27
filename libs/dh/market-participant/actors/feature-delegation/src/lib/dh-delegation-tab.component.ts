@@ -92,7 +92,7 @@ export class DhDelegationTabComponent {
 
   actor = input.required<DhActorExtended>();
   isLoading = this.delegationsForActorQuery.loading;
-  hasError = computed(() => this.delegationsForActorQuery.error() !== undefined);
+  hasError = this.delegationsForActorQuery.hasError;
 
   private delegationsRaw = computed<DhDelegations>(
     () => this.delegationsForActorQuery.data()?.delegationsForActor ?? []

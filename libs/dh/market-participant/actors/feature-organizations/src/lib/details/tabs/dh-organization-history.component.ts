@@ -99,7 +99,7 @@ export class DhOrganizationHistoryComponent {
   organizationId = input<string>();
 
   isLoading = this.getAuditLogByOrganizationIdQuery.loading;
-  hasError = computed(() => this.getAuditLogByOrganizationIdQuery.error() !== undefined);
+  hasError = this.getAuditLogByOrganizationIdQuery.hasError;
 
   auditLog = new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 

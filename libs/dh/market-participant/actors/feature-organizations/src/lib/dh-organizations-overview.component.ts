@@ -90,7 +90,7 @@ export class DhOrganizationsOverviewComponent {
   dataSource = new WattTableDataSource<DhOrganization>([]);
 
   isLoading = this.getOrganizationsQuery.loading;
-  hasError = computed(() => this.getOrganizationsQuery.error !== undefined);
+  hasError = this.getOrganizationsQuery.hasError;
 
   constructor() {
     effect(() => {

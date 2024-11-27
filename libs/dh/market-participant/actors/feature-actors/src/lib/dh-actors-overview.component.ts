@@ -106,7 +106,7 @@ export class DhActorsOverviewComponent implements OnInit {
   searchInput$ = new BehaviorSubject<string>('');
 
   isLoading = this.actorsQuery.loading;
-  hasError = computed(() => this.actorsQuery.error() !== undefined);
+  hasError = this.actorsQuery.hasError;
 
   constructor() {
     effect(() => {

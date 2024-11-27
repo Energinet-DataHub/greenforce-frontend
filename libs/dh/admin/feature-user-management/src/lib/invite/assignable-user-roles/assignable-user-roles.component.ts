@@ -53,18 +53,18 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   templateUrl: './assignable-user-roles.component.html',
 })
 export class DhAssignableUserRolesComponent {
-  private readonly userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
+  private userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
 
   actorId = input.required<string>();
 
   assignableUserRoles = lazyQuery(GetUserRolesByActorIdDocument);
 
-  readonly isLoading = computed(() => this.assignableUserRoles.loading());
-  readonly hasError = computed(() => this.assignableUserRoles.error());
+  isLoading = this.assignableUserRoles.loading;
+  hasError = this.assignableUserRoles.hasError;
 
-  readonly dataSource = new WattTableDataSource<UserRoleItem>([]);
+  dataSource = new WattTableDataSource<UserRoleItem>([]);
 
-  readonly selectedUserRoles = output<UserRoleItem[]>();
+  selectedUserRoles = output<UserRoleItem[]>();
 
   constructor() {
     effect(() => {

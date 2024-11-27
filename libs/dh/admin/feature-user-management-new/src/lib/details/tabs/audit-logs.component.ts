@@ -60,7 +60,7 @@ export class DhUserAuditLogsComponent {
   id = input.required<string>();
 
   dataSource = new WattTableDataSource<UserAuditedChangeAuditLogDto>();
-  hasError = computed(() => this.getUserAuditLogsQuery.error() !== undefined);
+  hasError = this.getUserAuditLogsQuery.hasError;
   isLoading = this.getUserAuditLogsQuery.loading;
 
   columns: WattTableColumnDef<UserAuditedChangeAuditLogDto> = {
