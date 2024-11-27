@@ -16,7 +16,7 @@
  */
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, effect, input, output, viewChild } from '@angular/core';
+import { Component, effect, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';

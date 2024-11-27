@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { FormsModule } from '@angular/forms';
-import { Component, computed, effect, input, output, viewChild } from '@angular/core';
+import { Component, effect, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -99,7 +99,7 @@ export class DhAssignableUserRolesComponent {
   assignableUserRolesQuery = lazyQuery(GetUserRolesByActorIdDocument);
 
   isLoading = this.assignableUserRolesQuery.loading;
-  hasError = computed(() => this.assignableUserRolesQuery.error() !== undefined);
+  hasError = this.assignableUserRolesQuery.hasError;
 
   dataSource = new WattTableDataSource<UserRoleItem>([]);
 
