@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Signal, inject, signal, untracked } from '@angular/core';
+import { DestroyRef, Signal, computed, inject, signal, untracked } from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -155,7 +155,6 @@ export function query<TResult, TVariables extends OperationVariables>(
   // Signals holding the result values
   const data = signal<TResult | undefined>(initial.data);
   const error = signal<ApolloError | undefined>(initial.error);
-  const hasError = signal(false);
   const loading = signal(initial.loading);
   const networkStatus = signal(initial.networkStatus);
 
@@ -195,7 +194,6 @@ export function query<TResult, TVariables extends OperationVariables>(
     // The `data` field is wrongly typed and can actually be empty
     data.set(result.data ?? undefined);
     error.set(result.error);
-    hasError.set(result.error !== undefined);
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
     called.set(true);
@@ -211,7 +209,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
-    hasError: hasError as Signal<boolean>,
+    hasError: computed(() => error() !== undefined),
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
     called: called as Signal<boolean>,

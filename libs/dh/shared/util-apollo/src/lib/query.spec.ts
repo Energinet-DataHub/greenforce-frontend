@@ -62,6 +62,7 @@ describe('query', () => {
       controller.expectOne(TEST_QUERY);
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(true);
       expect(result.networkStatus()).toBe(NetworkStatus.loading);
       expect(result.called()).toBe(true);
@@ -77,6 +78,7 @@ describe('query', () => {
       tick();
       expect(result.data()).toEqual(data);
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
       expect(result.called()).toBe(true);
@@ -91,6 +93,7 @@ describe('query', () => {
       tick();
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeInstanceOf(ApolloError);
+      expect(result.hasError()).toBe(true);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.error);
       expect(result.called()).toBe(true);
@@ -102,6 +105,7 @@ describe('query', () => {
       tick();
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
       expect(result.called()).toBe(false);
@@ -123,6 +127,7 @@ describe('query', () => {
       expect(mutationOp.operation.variables['name']).toEqual('Mutation');
       expect(result.data()).toEqual(data);
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
       expect(result.called()).toBe(true);
@@ -137,6 +142,7 @@ describe('query', () => {
       tick();
 
       expect(result.error()).toBeInstanceOf(ApolloError);
+      expect(result.hasError()).toBe(true);
       expect(result.loading()).toBe(false);
 
       result.refetch();
@@ -148,6 +154,7 @@ describe('query', () => {
 
       expect(result.data()).toEqual(data);
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(false);
       expect(result.called()).toBe(true);
     })));
@@ -186,6 +193,7 @@ describe('query', () => {
       tick();
       expect(result.data()).toEqual(data);
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
       expect(result.called()).toBe(true);
@@ -224,6 +232,7 @@ describe('query', () => {
       result.reset();
       expect(result.data()).toBeUndefined();
       expect(result.error()).toBeUndefined();
+      expect(result.hasError()).toBe(false);
       expect(result.loading()).toBe(false);
       expect(result.networkStatus()).toBe(NetworkStatus.ready);
       expect(result.called()).toBe(false);
