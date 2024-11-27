@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DecimalPipe, NgClass } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -60,14 +60,14 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
         @if (entry.price === null || entry.price === undefined) {
           <watt-badge type="danger">{{ t('MISSING') }}</watt-badge>
         } @else {
-          <span [ngClass]="{ 'negative-price': entry.price < 0 }">
+          <span [class.negative-price]="entry.price < 0">
             {{ entry.price | number: '1.5-6' }}
           </span>
         }
       </ng-container>
     </watt-table>
   `,
-  imports: [DecimalPipe, NgClass, TranslocoDirective, WattBadgeComponent, WATT_TABLE, WattDatePipe],
+  imports: [DecimalPipe, TranslocoDirective, WattBadgeComponent, WATT_TABLE, WattDatePipe],
 })
 export class DhTableDayViewComponent {
   columns: WattTableColumnDef<DhImbalancePricesForDayProcessed> = {
