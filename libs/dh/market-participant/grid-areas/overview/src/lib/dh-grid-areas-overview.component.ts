@@ -106,7 +106,7 @@ export class DhGridAreasOverviewComponent {
 
   selectedGridAreaType = signal<GridAreaType | null>(null);
 
-  readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
+  readonly dataSource = new WattTableDataSource<DhGridAreaRow>();
 
   constructor() {
     effect(() => {
