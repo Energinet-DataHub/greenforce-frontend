@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -99,7 +99,7 @@ export class DhOrganizationHistoryComponent {
   organizationId = input<string>();
 
   isLoading = this.getAuditLogByOrganizationIdQuery.loading;
-  hasError = computed(() => this.getAuditLogByOrganizationIdQuery.error() !== undefined);
+  hasError = this.getAuditLogByOrganizationIdQuery.hasError;
 
   auditLog = new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 

@@ -16,7 +16,7 @@
  */
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
 
@@ -90,7 +90,7 @@ export class DhOrganizationsOverviewComponent {
   dataSource = new WattTableDataSource<DhOrganization>([]);
 
   isLoading = this.getOrganizationsQuery.loading;
-  hasError = computed(() => this.getOrganizationsQuery.error() !== undefined);
+  hasError = this.getOrganizationsQuery.hasError;
 
   constructor() {
     effect(() => {

@@ -92,19 +92,19 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
   providers: [DhMeteringGridAreaImbalanceStore],
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {
-  private _apollo = inject(Apollo);
-  private _destroyRef = inject(DestroyRef);
-  private _toastService = inject(WattToastService);
-  private _store = inject(DhMeteringGridAreaImbalanceStore);
+  private apollo = inject(Apollo);
+  private destroyRef = inject(DestroyRef);
+  private toastService = inject(WattToastService);
+  private store = inject(DhMeteringGridAreaImbalanceStore);
 
   tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([], {
     disableClientSideSort: true,
   });
   totalCount = 0;
 
-  pageMetaData$ = this._store.pageMetaData$;
-  sortMetaData$ = this._store.sortMetaData$;
-  filters$ = this._store.filters$;
+  pageMetaData$ = this.store.pageMetaData$;
+  sortMetaData$ = this.store.sortMetaData$;
+  filters$ = this.store.filters$;
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
@@ -112,9 +112,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   isDownloading = false;
   hasError = false;
 
-  meteringGridAreaImbalance$ = this._store.queryVariables$.pipe(
+  meteringGridAreaImbalance$ = this.store.queryVariables$.pipe(
     switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
-      this._apollo
+      this.apollo
         .watchQuery({
           fetchPolicy: 'cache-and-network',
           query: GetMeteringGridAreaImbalanceDocument,
@@ -139,7 +139,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   );
 
   ngOnInit() {
-    this.meteringGridAreaImbalance$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+    this.meteringGridAreaImbalance$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (result) => {
         this.isLoading = result.loading;
 
@@ -154,11 +154,11 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
       },
     });
 
-    this._store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
+    this.store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
   }
 
   onFiltersEvent(filters: DhMeteringGridAreaImbalanceFilters): void {
-    this._store.patchState((state) => ({
+    this.store.patchState((state) => ({
       ...state,
       filters,
       pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
@@ -166,7 +166,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   }
 
   onSortEvent(sortMetaData: Sort): void {
-    this._store.patchState((state) => ({
+    this.store.patchState((state) => ({
       ...state,
       sortMetaData,
       pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
@@ -174,17 +174,17 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   }
 
   onPageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this._store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
+    this.store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
   }
 
   download() {
     this.isDownloading = true;
 
-    this._store.queryVariables$
+    this.store.queryVariables$
       .pipe(
         take(1),
         switchMap(({ filters, documentId, sortMetaData }) =>
-          this._apollo.query({
+          this.apollo.query({
             returnPartialData: false,
             fetchPolicy: 'no-cache',
             query: DownloadMeteringGridAreaImbalanceDocument,
@@ -213,7 +213,7 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
         },
         error: () => {
           this.isDownloading = false;
-          this._toastService.open({
+          this.toastService.open({
             message: translate('shared.error.message'),
             type: 'danger',
           });

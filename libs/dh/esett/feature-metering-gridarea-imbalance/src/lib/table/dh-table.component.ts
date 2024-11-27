@@ -16,10 +16,9 @@
  */
 import { Component, viewChild, input, output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -42,11 +41,9 @@ import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.
   ],
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
 
     WATT_TABLE,
     WattDatePipe,
-    WattPaginatorComponent,
     WattEmptyStateComponent,
 
     VaterFlexComponent,
