@@ -112,7 +112,7 @@ export const DhOutgoingMessagesSignalStore = signalStore(
     ),
     loading: outgoingMessageQuery().loading,
     downloading: downloadDocumentQuery().loading,
-    hasError: computed(() => outgoingMessageQuery().hasError()),
+    hasError: outgoingMessageQuery().hasError,
   })),
   withMethods((store) => ({
     documentIdUpdate: (documentId: string) => {
