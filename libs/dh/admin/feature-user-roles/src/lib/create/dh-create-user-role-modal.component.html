@@ -81,6 +81,8 @@ limitations under the License.
       }
 
       <dh-permissions-table
+        [hasError]="hasError()"
+        [loading]="loading()"
         [permissions]="permissions()"
         (selectionChanged)="onSelectionChange($event)"
       />
