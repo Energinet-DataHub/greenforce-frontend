@@ -39,22 +39,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  GridAreaStatus,
-  GridAreaType,
-  PriceAreaCode,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
-
-export interface GridAreaOverviewRow {
-  code: string;
-  actor: string;
-  organization: string;
-  status: GridAreaStatus;
-  type: GridAreaType;
-  priceArea: PriceAreaCode;
-}
 
 @Component({
   standalone: true,
@@ -99,7 +87,7 @@ export interface GridAreaOverviewRow {
   ],
 })
 export class DhGridAreasOverviewComponent {
-  columns: WattTableColumnDef<GridAreaOverviewRow> = {
+  columns: WattTableColumnDef<DhGridAreaRow> = {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
     organization: { accessor: 'organization' },
@@ -108,7 +96,7 @@ export class DhGridAreasOverviewComponent {
     status: { accessor: 'status' },
   };
 
-  gridAreas = input.required<GridAreaOverviewRow[]>();
+  gridAreas = input.required<DhGridAreaRow[]>();
   isLoading = input.required<boolean>();
   hasError = input.required<boolean>();
 
