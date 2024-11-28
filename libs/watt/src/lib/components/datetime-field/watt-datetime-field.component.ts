@@ -78,8 +78,6 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       .watt-datetime-field-picker {
         position-area: bottom span-right;
         position-try-fallbacks: flip-block;
-        width: 296px;
-        height: 354px;
         inset: unset;
         margin: unset;
         border: 0;
@@ -98,7 +96,7 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       <watt-button icon="date" variant="icon" (click)="input.focus()" />
       <div
         #picker
-        class="watt-elevation watt-datetime-field-picker"
+        class="watt-calendar watt-datetime-field-picker"
         popover="manual"
         tabindex="0"
         [style.position-anchor]="field.inputAnchor"

@@ -90,8 +90,6 @@ export type DateRange = { start: Date; end: Date | null };
       .watt-date-range-field-picker {
         position-area: bottom span-right;
         position-try-fallbacks: flip-block;
-        width: 296px;
-        height: 354px;
         inset: unset;
         margin: unset;
         border: 0;
@@ -110,7 +108,7 @@ export type DateRange = { start: Date; end: Date | null };
       <watt-button icon="date" variant="icon" (click)="input.focus()" />
       <div
         #picker
-        class="watt-elevation watt-date-range-field-picker"
+        class="watt-calendar watt-date-range-field-picker"
         popover="manual"
         tabindex="0"
         [style.position-anchor]="field.inputAnchor"
