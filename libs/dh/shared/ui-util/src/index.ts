@@ -21,3 +21,4 @@ export * from './lib/dh-make-form-control';
 export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
 export * from './lib/dh-enum-to-dropdown-options';
 export * from './lib/stream-to-file';
+export { DhResultComponent } from './lib/dh-result.component';

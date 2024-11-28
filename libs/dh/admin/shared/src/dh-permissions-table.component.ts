@@ -23,7 +23,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
   WATT_TABLE,
@@ -33,46 +33,38 @@ import {
 } from '@energinet-datahub/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-permissions-table',
   standalone: true,
-  template: ` @if (permissions().length > 0) {
-      <watt-table
-        *transloco="let t; read: 'admin.userManagement.permissionsTable'"
-        description="permissions"
-        [dataSource]="dataSource"
-        [columns]="columns"
-        [selectable]="true"
-        [loading]="loading()"
-        [initialSelection]="initialSelection()"
-        sortBy="name"
-        sortDirection="asc"
-        (selectionChange)="selectionChanged.emit($event)"
-      >
-        <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
-          {{ element.name }}
-        </ng-container>
+  template: ` <dh-result
+    [loading]="loading()"
+    [hasError]="hasError()"
+    [empty]="permissions().length === 0"
+  >
+    <watt-table
+      *transloco="let t; read: 'admin.userManagement.permissionsTable'"
+      description="permissions"
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [selectable]="true"
+      [initialSelection]="initialSelection()"
+      sortBy="name"
+      sortDirection="asc"
+      (selectionChange)="selectionChanged.emit($event)"
+    >
+      <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+        {{ element.name }}
+      </ng-container>
 
-        <ng-container
-          *wattTableCell="columns['description']; header: t('columns.description'); let element"
-        >
-          {{ element.description }}
-        </ng-container>
-      </watt-table>
-    } @else {
-      <!-- Empty -->
-      <vater-flex direction="column" offset="m" justify="center">
-        <watt-empty-state
-          [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
-          size="small"
-          [title]="hasError() ? 'shared.error.title' : ('shared.empty.title' | transloco)"
-          [message]="hasError() ? 'shared.error.message' : ('' | transloco)"
-        />
-      </vater-flex>
-    }`,
+      <ng-container
+        *wattTableCell="columns['description']; header: t('columns.description'); let element"
+      >
+        {{ element.description }}
+      </ng-container>
+    </watt-table>
+  </dh-result>`,
   styles: [
     `
       :host {
@@ -81,15 +73,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattEmptyStateComponent,
-
-    VaterFlexComponent,
-  ],
+  imports: [TranslocoDirective, WATT_TABLE, DhResultComponent],
 })
 export class DhPermissionsTableComponent {
   permissions = input<PermissionDetailsDto[]>([]);
