@@ -50,6 +50,7 @@ import {
 
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   selector: 'dh-edit-user-role',
@@ -81,14 +82,16 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
     DhPermissionsTableComponent,
   ],
 })
-export class DhEditUserRoleModalComponent {
-  private userRoleWithPermissionsQuery = lazyQuery(GetUserRoleWithPermissionsDocument);
-  private userRoleEditMutation = mutation(UpdateUserRoleDocument);
-
-  private formBuilder = inject(NonNullableFormBuilder);
-  private toastService = inject(WattToastService);
+export class DhUserRoleEditComponent {
   private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private formBuilder = inject(NonNullableFormBuilder);
+  private navigationService = inject(DhNavigationService);
 
+  private userRoleEditMutation = mutation(UpdateUserRoleDocument);
+  private userRoleWithPermissionsQuery = lazyQuery(GetUserRoleWithPermissionsDocument);
+
+  // Router param
   id = input<string>();
 
   userRole = computed(() => this.userRoleWithPermissionsQuery.data()?.userRoleById);
@@ -137,6 +140,7 @@ export class DhEditUserRoleModalComponent {
       if (id) {
         this.userRoleWithPermissionsQuery.query({ variables: { id } });
       }
+      this.modal().open();
     });
 
     effect(() => {
@@ -155,12 +159,9 @@ export class DhEditUserRoleModalComponent {
     });
   }
 
-  open() {
-    this.modal().open();
-  }
-
   closeModal(saveSuccess: boolean): void {
     this.modal().close(saveSuccess);
+    this.navigationService.navigate('details', this.id());
   }
 
   onSelectionChanged(selectedPermissions: PermissionDetailsDto[]): void {

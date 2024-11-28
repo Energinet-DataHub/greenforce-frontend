@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { computed, Component, viewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { computed, Component, viewChild, input, effect, inject } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -34,18 +35,19 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDeactivedUserRoleComponent } from './deactivate.component';
 import { DhRoleAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhRoleMasterDataComponent } from './tabs/master-data.component';
 import { DhRolePermissionsComponent } from './tabs/permissions.component';
-import { DhEditUserRoleModalComponent } from './edit.component';
 
 @Component({
   selector: 'dh-user-role-details',
   standalone: true,
   imports: [
+    RouterOutlet,
     TranslocoDirective,
 
     WATT_TABS,
@@ -56,14 +58,15 @@ import { DhEditUserRoleModalComponent } from './edit.component';
     DhPermissionRequiredDirective,
 
     DhRoleStatusComponent,
-    DhEditUserRoleModalComponent,
-    DhTabDataGeneralErrorComponent,
-    DhDeactivedUserRoleComponent,
     DhRoleAuditLogsComponent,
     DhRoleMasterDataComponent,
     DhRolePermissionsComponent,
+    DhDeactivedUserRoleComponent,
+    DhTabDataGeneralErrorComponent,
   ],
-  template: ` @let userRole = userRoleWithPermissions();
+  template: `
+    @let userRole = userRoleWithPermissions();
+
     <watt-drawer
       *transloco="let t; read: 'admin.userManagement.drawer'"
       #drawer
@@ -71,19 +74,19 @@ import { DhEditUserRoleModalComponent } from './edit.component';
       (closed)="onClose()"
       [loading]="isLoading()"
     >
-      @if (drawer.isOpen && userRole) {
+      @if (userRole) {
         <watt-drawer-topbar>
           <dh-role-status [status]="userRole.status" />
         </watt-drawer-topbar>
       }
 
-      @if (drawer.isOpen && userRole) {
+      @if (userRole) {
         <watt-drawer-heading>
           <h2>{{ userRole.name }}</h2>
         </watt-drawer-heading>
       }
 
-      @if (userRole?.status !== UserRoleStatus.Inactive) {
+      @if (userRole && userRole.status !== UserRoleStatus.Inactive) {
         <watt-drawer-actions>
           <watt-button
             *dhPermissionRequired="['user-roles:manage']"
@@ -96,27 +99,27 @@ import { DhEditUserRoleModalComponent } from './edit.component';
           <watt-button
             *dhPermissionRequired="['user-roles:manage']"
             variant="secondary"
-            (click)="edit.open()"
+            (click)="edit()"
             >{{ t('editRole') }}</watt-button
           >
         </watt-drawer-actions>
       }
 
-      @if (drawer.isOpen) {
+      @if (userRole) {
         <watt-drawer-content>
-          @if (userRole) {
-            <watt-tabs *transloco="let tab; read: 'admin.userManagement.drawer.roles.tabs'">
-              <watt-tab [label]="tab('masterData.tabLabel')">
-                <dh-role-master-data [role]="userRole" />
-              </watt-tab>
-              <watt-tab *dhPermissionRequired="['fas']" [label]="tab('permissions.tabLabel')">
-                <dh-role-permissions [role]="userRole" />
-              </watt-tab>
-              <watt-tab *dhPermissionRequired="['fas']" [label]="tab('history.tabLabel')">
+          <watt-tabs *transloco="let tab; read: 'admin.userManagement.drawer.roles.tabs'">
+            <watt-tab [label]="tab('masterData.tabLabel')">
+              <dh-role-master-data [role]="userRole" />
+            </watt-tab>
+            <watt-tab *dhPermissionRequired="['fas']" [label]="tab('permissions.tabLabel')">
+              <dh-role-permissions [role]="userRole" />
+            </watt-tab>
+            <watt-tab *dhPermissionRequired="['fas']" [label]="tab('history.tabLabel')">
+              @defer {
                 <dh-role-audit-logs [id]="userRole.id" />
-              </watt-tab>
-            </watt-tabs>
-          }
+              }
+            </watt-tab>
+          </watt-tabs>
 
           @if (hasError()) {
             <dh-tab-data-general-error (reload)="reload()" />
@@ -124,11 +127,12 @@ import { DhEditUserRoleModalComponent } from './edit.component';
         </watt-drawer-content>
       }
     </watt-drawer>
-
-    <dh-edit-user-role [id]="userRole?.id" #edit />
-    <dh-deactivate-user-role [id]="userRole?.id" #deactivate />`,
+    <dh-deactivate-user-role [id]="userRole?.id" #deactivate />
+    <router-outlet />
+  `,
 })
 export class DhUserRoleDetailsComponent {
+  private navigationService = inject(DhNavigationService);
   private userRolesWithPermissionsQuery = lazyQuery(GetUserRoleWithPermissionsDocument);
 
   UserRoleStatus = UserRoleStatus;
@@ -137,6 +141,9 @@ export class DhUserRoleDetailsComponent {
   isLoading = this.userRolesWithPermissionsQuery.loading;
   hasError = this.userRolesWithPermissionsQuery.hasError;
 
+  // Router param
+  id = input<string>();
+
   drawer = viewChild.required(WattDrawerComponent);
 
   confirmationModal = viewChild.required(WattModalComponent);
@@ -144,24 +151,30 @@ export class DhUserRoleDetailsComponent {
   isEditUserRoleModalVisible = false;
 
   onClose(): void {
-    this.drawer().close();
-  }
-
-  onDeActivated(): void {
-    this.drawer().close();
+    this.navigationService.navigate('list');
   }
 
   reload() {
     this.userRolesWithPermissionsQuery.refetch();
   }
 
-  open(id: string): void {
-    this.drawer().open();
+  edit() {
+    this.navigationService.navigate('edit', this.id());
+  }
 
-    this.userRolesWithPermissionsQuery.query({
-      variables: {
-        id,
-      },
+  constructor() {
+    effect(() => {
+      const id = this.id();
+
+      if (id) {
+        this.drawer().open();
+
+        this.userRolesWithPermissionsQuery.query({
+          variables: {
+            id,
+          },
+        });
+      }
     });
   }
 }
