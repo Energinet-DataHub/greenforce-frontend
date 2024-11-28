@@ -87,7 +87,6 @@ export type DateRange = { start: Date | null; end: Date | null };
       }
 
       .watt-date-range-field-picker {
-        position: fixed;
         position-area: bottom span-right;
         position-try-fallbacks: flip-block;
         width: 296px;

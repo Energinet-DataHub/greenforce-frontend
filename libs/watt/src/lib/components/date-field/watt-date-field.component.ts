@@ -75,7 +75,6 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       }
 
       .watt-date-field-picker {
-        position: fixed;
         position-area: bottom span-right;
         position-try-fallbacks: flip-block;
         width: 296px;
