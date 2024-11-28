@@ -1,0 +1,333 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<header>
+  <h1>Vilkår for Energy Track & Trace - Service Provider</h1>
+  <section>
+    <img alt="Energinet DataHub" src="/assets/images/DataHub_Primær.png" class="logo" />
+    <p>
+      Energinet<br />
+      Tonne Kjærsvej 65<br />
+      DK-7000 Fredericia<br />
+      <a href="tel:004570102244">+45 70 10 22 44</a><br />
+      <a href="mailto:info@energinet.dk">info@energinet.dk</a><br />
+      CVR-nr. 39 31 50 41
+    </p>
+    <p class="document-date">Dato: 7. oktober 2024</p>
+  </section>
+</header>
+
+<nav>
+  <h2>Indhold</h2>
+  <ol>
+    <li><a href="#section1">Baggrund for Energy Track & Trace Denmark</a></li>
+    <li><a href="#section2">Definitioner</a></li>
+    <li><a href="#section3">Formål</a></li>
+    <li><a href="#section4">Generelle vilkår</a></li>
+    <li><a href="#section5">Energinet DataHub A/S adgang til og brug af oplysninger</a></li>
+    <li><a href="#section6">Erstatningsansvar</a></li>
+    <li><a href="#section7">Ændringer i vilkår</a></li>
+    <li><a href="#section8">Overdragelse</a></li>
+    <li><a href="#section9">Ophør</a></li>
+    <li><a href="#section10">Force majeure</a></li>
+    <li><a href="#section11">Værneting og lovvalg</a></li>
+    <li><a href="#section12">Accept af vilkår</a></li>
+  </ol>
+</nav>
+
+<main>
+  <section id="section1">
+    <h2>1. Baggrund for Energy Track & Trace Denmark</h2>
+    <p>
+      Med Energy Track & Trace Denmark ønsker Energinet DataHub A/S at flytte produktion af grøn
+      strøm og forbruget tættere sammen, så det sikres, at strømmen i elnettet er grønt, når den
+      bruges. Baseret på data fra DataHub-systemet udstedes der produktionscertifikater fra
+      godkendte energikilder samt forbrugscertifikater hvert 15. Minut.
+    </p>
+  </section>
+
+  <section id="section2">
+    <h2>2. Definitioner</h2>
+    <div class="definition-list">
+      <div class="definition-list-header">
+        <span>Term</span>
+        <span>Definition</span>
+      </div>
+      <dl>
+        <dt>Energinet DataHub A/S</dt>
+        <dd>Datterselskab under Energinet, som er ansvarlig for Energy Track and Trace Denmark.</dd>
+
+        <dt>Energy Track & Trace Denmark</dt>
+        <dd>Applikation der ejes af Energinet DataHub A/S</dd>
+
+        <dt>DataHub-systemet</dt>
+        <dd>
+          DataHub-systemet er et centralt og uafhængigt IT-system, som ejes og drives af Energinet
+          DataHub A/S. DataHub-systemet håndterer alle måledata og forretningsprocesser for el
+          forbrugere i Danmark.
+        </dd>
+
+        <dt>Bruger</dt>
+        <dd>
+          Erhvervsproducenter eller erhvervsforbrugere, som anvender
+          <a href="https://energytrackandtrace.dk">https://energytrackandtrace.dk</a> eller de
+          bagvedliggende API'er.
+        </dd>
+
+        <dt>Service Provider</dt>
+        <dd>
+          En virksomhed der tilbyder at administrere Brugeres overførselsaftaler mellem producenter
+          og forbrugere, administration af udstedelse af granulære certifikater og andre løsninger
+          på baggrund af API'er i Energy Track & Trace Denmark. Service Provider opererer på
+          baggrund af aftale mellem Service Provider og Bruger, som giver fuldmagt til, at Service
+          Provider kan foretage aktiviteter på vegne af Brugeren.
+        </dd>
+
+        <dt>Client ID</dt>
+        <dd>
+          Energinet DataHub A/S udleverer en Client ID og en Secret ved godkendelse af Service
+          Provider. Client ID og Secret giver Service Provider adgang til Energy Track & Trace
+          Denmark, og Service Provider har oversigt for dennes Access Tokens.
+        </dd>
+
+        <dt>Access Token</dt>
+        <dd>
+          Når Service Provider får fuldmagt af en Bruger til administration af dennes konto,
+          tildeler Energinet DataHub A/S til Service Provider en Access Token der giver adgang
+          administration af Brugerens konto.
+        </dd>
+
+        <dt>API'er</dt>
+        <dd>
+          Energy Track & Trace Denmark er baseret på åbne API'er (Application Programming
+          Interfaces) som gør det muligt for andre at benytte softwaren i egne applikationer.
+        </dd>
+
+        <dt>Granulære certifikater</dt>
+        <dd>
+          Energinet DataHub A/S udsteder forbrugscertifikater og/eller produktionscertifikater. For
+          forbrugscertifikater gælder, at et målepunkt skal være aktiveret via API eller
+          <a href="https://energytrackandtrace.dk">https://energytrackandtrace.dk</a>. For
+          produktionscertifikater gælder, at et målepunkt for vedvarende energikilder af typen sol
+          eller vind skal være aktiveret via API eller
+          <a href="https://energytrackandtrace.dk">https://energytrackandtrace.dk</a>. Er der ikke
+          aktiveret et relevant målepunkt, udstedes der ingen certifikater.
+        </dd>
+
+        <dt>Register</dt>
+        <dd>
+          Ved udstedelse af et produktionscertifikat, registreres ejer, energimængde og
+          certifikat-ID i et register. Registeret sørger for, at der ikke kan ændres på data, uden
+          det kan spores.
+        </dd>
+
+        <dt>Wallet</dt>
+        <dd>
+          Wallet er en personlig konto, hvor brugeren kan se de granulære certifikater, som brugeren
+          har fået udstedt på egne målepunkter, eller som, efter aftale, er blevet overført fra
+          andre. Forbrugscertifikaterne ligger kun i ens egen Wallet, hvorimod
+          produktionscertifikaterne, efter aftale, kan overføres til eller fra andre Wallets.
+        </dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="section3">
+    <h2>3. Formål</h2>
+    <ol>
+      <li>
+        Dokumentet beskriver rammerne for anvendelse levering af ydelser til brugere af Energy Track
+        & Trace Denmark som Service Provider.
+      </li>
+      <li>
+        Som ansvarlig for drift af Energy Track & Trace Denmark skal Energinet DataHub A/S fastsætte
+        ikke-diskriminerende og objektive vilkår for brugen heraf.
+      </li>
+      <li>
+        Vilkårene gælder for Service Providers adgang til og anvendelse af Energy Track & Trace
+        Denmark.
+      </li>
+      <li>
+        Bestemmelserne i disse vilkår er fastsat med henblik på:
+        <ol type="a">
+          <li>
+            At Brugere af Energy Track & Trace Denmark tilbydes at formidle sine data til en
+            modtager.
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </section>
+
+  <section id="section4">
+    <h2>4. Generelle vilkår</h2>
+    <ol>
+      <li>
+        Det er en betingelse for optagelse som Service Provider hos Energinet DataHub A/S, at
+        virksomheden opfylder følgende krav:
+        <ol type="a">
+          <li>
+            Virksomheden godkendes som Service Provider hos Energinet DataHub A/S og tildeles en
+            Client ID til Energy Track & Trace Denmark-systemet, og at
+          </li>
+          <li>
+            Virksomheden accepterer nærværende vilkår for adgang til og brug af Energy Track & Trace
+            Denmark som Service Provider.
+          </li>
+        </ol>
+      </li>
+      <li>
+        Service Provider er forpligtet til at overholde de til enhver tid gældende forskrifter og
+        vilkår udstedt af Energinet DataHub A/S.
+      </li>
+      <li>
+        Energinet DataHub A/S opkræver ikke betaling for Service Providers anvendelse af Energy
+        Track & Trace Denmark eller de ydelser som Service Provider tilbyder til Brugere. Ændringer
+        herved kan varsles i overensstemmelse med pkt. 7 om ændringer i vilkår.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section5">
+    <h2>5. Energinet DataHub A/S adgang til og brug af oplysninger</h2>
+    <ol>
+      <li>
+        Energinet DataHub A/S foretager logning af aktiviteter der udføres i Energy Track &
+        Trace-systemet. Der foretages logning af hensyn til kontrol af overholdelse af nærværende
+        vilkår samt vilkår for Brugere. Til varetagelse heraf foretager Energinet DataHub A/S
+        kontrol af loggen samt individuel kontrol i forbindelse med fx driftsnedbrud eller mistanke
+        om overtrædelse af nærværende vilkår.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section6">
+    <h2>6. Erstatningsansvar</h2>
+    <ol>
+      <li>
+        Begge parter er ansvarlige efter dansk rets almindelige regler om erstatningsansvar. Der kan
+        dog ikke kræves erstatning for indirekte tab, herunder driftstab, avancetab, tab af data
+        og/eller følgeskader, medmindre dette skyldes groft uagtsomne eller forsætlige forhold fra
+        den ansvarlige part.
+      </li>
+      <li>
+        Energinet DataHub A/S hæfter ikke for tab der skyldes driftsproblemer eller driftsnedbrud,
+        fejl i brugergrænsefladen eller fejl i tredjepartssystemer som interagerer med Energy Track
+        & Trace Denmark.
+      </li>
+      <li>
+        Service Provider er ansvarlige for de aktiviteter som denne foretager på vegne af Brugeren i
+        Energy Track & Trace Denmark via Service Providerens system. Service Provider friholder
+        Energinet DataHub A/S fra ethvert krav fra Brugere der skyldes aktiviteter foretaget igennem
+        Service Providerens system.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section7">
+    <h2>7. Ændringer i vilkår</h2>
+    <ol>
+      <li>
+        Energinet Datahub A/S har ret til at foretage ændringer i nærværende vilkår med fire ugers
+        varsel.
+      </li>
+      <li>
+        Energinet DataHub A/S har ret til med rimeligt varsel at foretage ændringer, som følge af
+        ændringer i gældende lovgivning, som har betydning for Energinet DataHub A/S drift af Energy
+        Track & Trace Denmark. Energinet DataHub A/S skal ved sådanne ændringer så vidt muligt
+        konsultere Brugeren og forsøge så vidt muligt at varsle de pågældende ændringer, dog således
+        at ændringerne under alle omstændigheder kan træde i kraft fra tidspunktet for
+        lovændringernes ikrafttræden.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section8">
+    <h2>8. Overdragelse</h2>
+    <ol>
+      <li>
+        Service Provider kan hverken helt eller delvist overdrage sine rettigheder eller
+        forpligtelser i henhold til nærværende vilkår.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section9">
+    <h2>9. Ophør</h2>
+    <ol>
+      <li>
+        Nærværende vilkår kan af Service Provider bringes til ophør uden varsel, hvorefter Service
+        Providers adgang til Energy Track & Trace Denmark ophører.
+      </li>
+      <li>
+        Energinet DataHub A/S har ret til at bringe nærværende vilkår til ophør med fire ugers
+        varsel over for Service Provider.
+      </li>
+      <li>
+        Såfremt Energinet DataHub A/S bliver bekendt med Service Providers misligholdelse af
+        nærværende vilkår eller misbrug af Energy Track & Trace Denmark, er Energinet DataHub A/S
+        berettiget til at ophæve aftaleforholdet med øjeblikkelig virkning, og spærre for Service
+        Providers adgang til Energy Track & Trace Denmark. Energinet DataHub A/S vil ikke være
+        ansvarlig for eventuelle tab som Service Provider måtte lide i forbindelse hermed.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section10">
+    <h2>10. Force majeure</h2>
+    <ol>
+      <li>
+        Ingen af parterne skal i henhold til nærværende vilkår anses for ansvarlig over for den
+        anden part for så vidt angår forhold, der ligger uden for partens kontrol, og som parten
+        ikke burde have taget i betragtning og ej heller burde have undgået eller overvundet. Force
+        majeure ved forsinkelse kan højest gøres gældende med det antal arbejdsdage, som force
+        majeure situationen varer.
+      </li>
+      <li>
+        Parterne skal informere hinanden om force majeure-begivenhedens indtræden samt afslutning
+        uden ugrundet ophold.
+      </li>
+    </ol>
+  </section>
+
+  <section id="section11">
+    <h2>11. Værneting og lovvalg</h2>
+    <ol>
+      <li>
+        Enhver tvist, som måtte opstå i forbindelse med nærværende vilkår, og som parterne ikke ved
+        fælles forhandling kan løse, skal først søges løst ved mediation mellem parterne.
+        Mediationen skal ske i henhold til de til enhver tid gældende regler for mediation under
+        Voldgiftsinstituttet.
+      </li>
+      <li>
+        Kan tvisten ikke løses efter ovennævnte procedure, afgøres tvisten efter Regler for
+        behandling af sager ved Voldgiftsinstituttet.
+      </li>
+      <li>
+        Voldgiftsretten skal i sine kendelser tage stilling til fordeling af sagsomkostningerne,
+        herunder omkostninger til parternes advokater.
+      </li>
+      <li>Voldgiftsafgørelsen er bindende og endelig for parterne.</li>
+    </ol>
+  </section>
+
+  <section id="section12">
+    <h2>12. Accept af vilkår</h2>
+    <ol>
+      <li>Nærværende vilkår accepteres ved skriftlig accept eller elektronisk signering.</li>
+    </ol>
+  </section>
+</main>

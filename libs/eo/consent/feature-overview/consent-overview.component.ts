@@ -19,13 +19,13 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  inject,
   Injectable,
   Input,
   OnInit,
+  signal,
   ViewChild,
   ViewEncapsulation,
-  inject,
-  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -120,7 +120,6 @@ const selector = 'eo-consent-overview';
       [organizationId]="organizationId"
       [redirectUrl]="redirectUrl"
     />
-
     <eo-request-consent-modal />
 
     @if (selectedConsent) {
