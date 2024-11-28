@@ -14,24 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import { first, map } from 'rxjs';
+
+interface ServiceProviderTermsResponse {
+  termsAccepted: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoTermsService {
-  private currentVersion = -1;
+export class ServiceProviderTermsService {
   #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
   #apiBase = this.#apiEnvironment.apiBase;
+  public serviceProviderTermsAccepted = signal<boolean>(false);
 
-  setVersion(version: number) {
-    this.currentVersion = version;
+  constructor() {
+    this.getServiceProviderTerms();
   }
 
-  acceptTerms() {
-    return this.#http.put(`${this.#apiBase}/terms/user/accept/${this.currentVersion}`, null);
+  private getServiceProviderTerms() {
+    return this.#http
+      .get<ServiceProviderTermsResponse>(`${this.#apiBase}/authorization/service-provider-terms`)
+      .pipe(
+        map((x) => x.termsAccepted),
+        first()
+      )
+      .subscribe((termsAccepted) => {
+        this.serviceProviderTermsAccepted.set(termsAccepted);
+      });
+  }
+
+  acceptServiceProviderTerms() {
+    return this.#http.post(`${this.#apiBase}/authorization/service-provider-terms`, null);
   }
 }

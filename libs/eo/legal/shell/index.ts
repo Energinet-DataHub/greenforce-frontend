@@ -14,12 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Routes } from '@angular/router';
-import { EoPrivacyPolicyShellComponent } from './eo-privacy-policy-shell.component';
-
-export const eoPrivacyPolicyRoutes: Routes = [
-  {
-    path: '',
-    component: EoPrivacyPolicyShellComponent,
-  },
-];
+export * from './routes';

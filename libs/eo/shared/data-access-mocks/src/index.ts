@@ -23,6 +23,7 @@ import { certificatesMocks } from './lib/certificates';
 import { claimsMocks } from './lib/claims';
 import { meteringPointsMocks } from './lib/metering-points';
 import { transferMocks } from './lib/transfer';
+import { serviceProviderTermsMocks } from './lib/service-provider-terms';
 
 export const mocks = [
   aggregateCertificatesMocks,
@@ -34,4 +35,5 @@ export const mocks = [
   meteringPointsMocks,
   transferMocks,
   authorizationMocks,
+  serviceProviderTermsMocks,
 ];

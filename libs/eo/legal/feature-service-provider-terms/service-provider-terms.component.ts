@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
 import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
-const selector = 'eo-auth-terms';
+const selector = 'eo-service-provider-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,18 +38,18 @@ const selector = 'eo-auth-terms';
           --eo-scroll-view-padding: 0;
         }
 
-        .privacy-policy {
+        .service-provider-terms {
           max-width: 1500px;
         }
       }
     `,
   ],
   template: `
-    <eo-scroll-view class="privacy-policy">
+    <eo-scroll-view class="service-provider-terms">
       <eo-html-doc [path]="path" />
     </eo-scroll-view>
   `,
 })
-export class EoPrivacyPolicyShellComponent {
-  path = 'assets/privacy-policy/${lang}.html';
+export class EoServiceProviderTermsComponent {
+  path = 'assets/service-provider-terms/${lang}.html';
 }
