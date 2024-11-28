@@ -63,7 +63,7 @@ export class DhNavigationService {
     }
 
     if (path === 'list') {
-      this.router.navigate(['..'], {
+      this.router.navigate(['.'], {
         relativeTo: this.route,
       });
     }
