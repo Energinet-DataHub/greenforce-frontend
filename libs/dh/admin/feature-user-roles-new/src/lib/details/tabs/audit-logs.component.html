@@ -19,20 +19,20 @@ limitations under the License.
   *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'"
 >
   @if (isLoading()) {
-    <div class="spinner">
+    <vater-flex justify="center">
       <watt-spinner />
-    </div>
+    </vater-flex>
   } @else {
-    @if (!hasFailed()) {
+    @if (!hasError()) {
       <watt-card-title>
-        <ng-container
-          *ngTemplateOutlet="
-            auditLogHeadline;
-            context: {
-              $implicit: dataSource.data.length,
-            }
-          "
-        />
+        <h4 *transloco="let hr; read: 'admin.userManagement.drawer.roles.tabs.history.changes'">
+          @let auditLogCount = dataSource.totalCount;
+          @if (auditLogCount === 1) {
+            {{ hr("singular", { auditLogCount }) }}
+          } @else {
+            {{ hr("plural", { auditLogCount }) }}
+          }
+        </h4>
       </watt-card-title>
 
       <watt-table
@@ -66,14 +66,14 @@ limitations under the License.
         </ng-container>
       </watt-table>
 
-      @if (dataSource.data.length === 0) {
+      @if (dataSource.totalCount === 0) {
         <h4 class="no-results-text">
           {{ t("table.noEntries") }}
         </h4>
       }
     }
 
-    @if (hasFailed()) {
+    @if (hasError()) {
       <watt-empty-state
         icon="custom-power"
         [title]="'shared.error.title' | transloco"
@@ -82,15 +82,3 @@ limitations under the License.
     }
   }
 </watt-card>
-
-<ng-template #auditLogHeadline let-auditLogCount>
-  <ng-container *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history.changes'">
-    <h4>
-      @if (auditLogCount === 1) {
-        {{ t("singular", { auditLogCount }) }}
-      } @else {
-        {{ t("plural", { auditLogCount }) }}
-      }
-    </h4>
-  </ng-container>
-</ng-template>

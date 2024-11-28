@@ -15,62 +15,53 @@
  * limitations under the License.
  */
 import { Component, computed, effect, input } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
+
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+
 import {
   GetUserRoleAuditLogsDocument,
   UserRoleAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
+
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-role-audit-logs',
   standalone: true,
-  templateUrl: './dh-role-audit-logs.component.html',
+  templateUrl: './audit-logs.component.html',
   styles: [
     `
       h4 {
         margin: 0;
       }
-
-      .spinner {
-        display: flex;
-        justify-content: center;
-      }
-
-      .no-results-text {
-        margin-top: var(--watt-space-m);
-        text-align: center;
-      }
     `,
   ],
   imports: [
-    NgTemplateOutlet,
     TranslocoDirective,
     TranslocoPipe,
 
     WATT_CARD,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
     WATT_TABLE,
     WattDatePipe,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+
+    VaterFlexComponent,
   ],
 })
 export class DhRoleAuditLogsComponent {
-  private readonly auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument, {
-    fetchPolicy: 'cache-and-network',
-  });
-  private readonly auditLogs = computed(() => this.auditLogsQuery.data()?.userRoleAuditLogs ?? []);
+  private auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument);
+  private auditLogs = computed(() => this.auditLogsQuery.data()?.userRoleAuditLogs ?? []);
 
   isLoading = this.auditLogsQuery.loading;
-  hasFailed = computed(() => this.auditLogsQuery.error() !== undefined);
+  hasError = this.auditLogsQuery.hasError;
 
   dataSource = new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>();
 
@@ -79,13 +70,15 @@ export class DhRoleAuditLogsComponent {
     entry: { accessor: null },
   };
 
-  role = input.required<DhUserRoleWithPermissions>();
+  id = input.required<string>();
 
-  refetchQueryEffect = effect(() => {
-    this.auditLogsQuery.refetch({ id: this.role()?.id });
-  });
+  constructor() {
+    effect(() => {
+      this.auditLogsQuery.query({ variables: { id: this.id() } });
+    });
 
-  updateDataEffect = effect(() => {
-    this.dataSource.data = [...this.auditLogs()].reverse();
-  });
+    effect(() => {
+      this.dataSource.data = [...this.auditLogs()].reverse();
+    });
+  }
 }

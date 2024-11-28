@@ -27,6 +27,7 @@ import {
 import {
   DeactivateUserRoleDocument,
   GetFilteredUserRolesDocument,
+  GetUserRoleAuditLogsDocument,
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -82,7 +83,11 @@ export class DhDeactivedUserRoleComponent {
     });
 
     const result = await this.deactivedUserRoleMutation.mutate({
-      refetchQueries: [GetFilteredUserRolesDocument, GetUserRoleWithPermissionsDocument],
+      refetchQueries: [
+        GetFilteredUserRolesDocument,
+        GetUserRoleWithPermissionsDocument,
+        GetUserRoleAuditLogsDocument,
+      ],
       variables: { input: { roleId: id } },
     });
 
