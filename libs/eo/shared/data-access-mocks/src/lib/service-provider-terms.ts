@@ -27,7 +27,7 @@ function acceptServiceProviderTerms(apiBase: string) {
 }
 
 function getServiceProviderTermsAccepted(apiBase: string) {
-  return http.post(`${apiBase}/authorization/service-provider-terms`, () => {
+  return http.get(`${apiBase}/authorization/service-provider-terms`, () => {
     const data = {
       termsAccepted: false,
     };

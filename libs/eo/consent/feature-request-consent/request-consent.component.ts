@@ -18,11 +18,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   inject,
   Output,
-  signal,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -110,12 +110,11 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     @if (opened) {
       <watt-modal
         #modal
-        [title]="translations.requestConsent.title | transloco"
+        [title]="modalTitle() | transloco"
         [panelClass]="['eo-request-consent-modal']"
-        [ngClass]="serviceProviderTermsAccepted() ? 'small' : 'large'"
       >
         <!-- Request Consent Modal -->
-        @if (serviceProviderTermsAccepted()) {
+        @if (serviceProviderTermsService.serviceProviderTermsAccepted()) {
           <div
             [innerHTML]="translations.requestConsent.description | transloco"
             class="description"
@@ -145,7 +144,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
         <watt-modal-actions>
           <!-- Request Consent Modal Actions -->
-          @if (serviceProviderTermsAccepted()) {
+          @if (serviceProviderTermsService.serviceProviderTermsAccepted()) {
             <watt-button variant="primary" (click)="copyLinkAndCloseModal(true)"
               >{{ translations.requestConsent.copyAndClose | transloco }}
             </watt-button>
@@ -162,7 +161,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
                 <watt-button
                   variant="primary"
                   class="accept-button-margin"
-                  (click)="acceptServiceProviderTermsAndShowConsentModal()"
+                  (click)="acceptServiceProviderTerms()"
                   >{{ translations.serviceProviderTermsConsent.accept | transloco }}
                 </watt-button>
               </div>
@@ -177,7 +176,7 @@ export class EoRequestConsentModalComponent {
   private cd = inject(ChangeDetectorRef);
   private actorService: EoActorService = inject(EoActorService);
   private link = `${window.location.origin}/consent?organization-id=${this.actorService.self.org_id}`;
-  private serviceProviderTermsService = inject(ServiceProviderTermsService);
+  protected serviceProviderTermsService = inject(ServiceProviderTermsService);
   private toastService = inject(WattToastService);
   @Output() closed = new EventEmitter<void>();
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
@@ -194,21 +193,20 @@ export class EoRequestConsentModalComponent {
     Validators.required,
     Validators.requiredTrue,
   ]);
-  protected serviceProviderTermsAccepted = signal<boolean>(false);
-
+  modalTitle = computed(() =>
+    this.serviceProviderTermsService.serviceProviderTermsAccepted()
+      ? translations.requestConsent.title
+      : translations.serviceProviderTermsConsent.title
+  );
   public opened = false;
 
   open() {
     // This is a workaround for "lazy loading" the modal content
     this.opened = true;
     this.cd.detectChanges();
-    this.modal.open();
 
-    if (this.serviceProviderTermsService.serviceProviderTermsAccepted()) {
-      this.openRequestConsentModal();
-    } else {
-      this.openServiceProviderTermsModal();
-    }
+    this.acceptedServiceProviderTermsFormControl.reset(false);
+    this.modal.open();
   }
 
   copyLinkAndCloseModal(result: boolean) {
@@ -222,17 +220,8 @@ export class EoRequestConsentModalComponent {
     });
   }
 
-  private openServiceProviderTermsModal() {
-    this.serviceProviderTermsAccepted.set(false);
-    this.modal.title = this.transloco.translate('serviceProviderTermsConsent.title');
-  }
-
-  private openRequestConsentModal() {
-    this.serviceProviderTermsAccepted.set(true);
-    this.modal.title = this.transloco.translate('requestConsent.title');
-  }
-
-  acceptServiceProviderTermsAndShowConsentModal() {
+  acceptServiceProviderTerms() {
+    this.acceptedServiceProviderTermsFormControl.markAsDirty();
     if (this.acceptedServiceProviderTermsFormControl.valid) {
       this.serviceProviderTermsService
         .acceptServiceProviderTerms()
@@ -250,6 +239,5 @@ export class EoRequestConsentModalComponent {
           },
         });
     }
-    this.acceptedServiceProviderTermsFormControl.markAsDirty();
   }
 }

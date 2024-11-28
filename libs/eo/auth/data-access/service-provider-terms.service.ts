@@ -17,7 +17,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { map } from 'rxjs';
+import { first, map } from 'rxjs';
 
 interface ServiceProviderTermsResponse {
   termsAccepted: boolean;
@@ -30,8 +30,7 @@ export class ServiceProviderTermsService {
   #apiEnvironment: EoApiEnvironment = inject(eoApiEnvironmentToken);
   #http: HttpClient = inject(HttpClient);
   #apiBase = this.#apiEnvironment.apiBase;
-  private currentVersion = -1;
-  public serviceProviderTermsAccepted = signal(false);
+  public serviceProviderTermsAccepted = signal<boolean>(false);
 
   constructor() {
     this.getServiceProviderTerms();
@@ -40,7 +39,10 @@ export class ServiceProviderTermsService {
   private getServiceProviderTerms() {
     return this.#http
       .get<ServiceProviderTermsResponse>(`${this.#apiBase}/authorization/service-provider-terms`)
-      .pipe(map((x) => x.termsAccepted))
+      .pipe(
+        map((x) => x.termsAccepted),
+        first()
+      )
       .subscribe((termsAccepted) => {
         this.serviceProviderTermsAccepted.set(termsAccepted);
       });
