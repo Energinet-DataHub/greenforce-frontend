@@ -127,7 +127,6 @@ export type DateRange = { start: Date | null; end: Date | null };
       <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
       <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
     </watt-field>
-    <p>Selected: {{ selected()?.start }} - {{ selected()?.end }}</p>
   `,
 })
 export class WattDateRangeField implements ControlValueAccessor {
