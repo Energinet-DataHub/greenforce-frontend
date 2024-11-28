@@ -40,7 +40,7 @@ public partial class Mutation
         DateTimeOffset? scheduledAt,
         [Service] IFeatureManager featureManager,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] INotifyAggregatedMeasureDataClientV1 processManagerCalculationClient,
+        [Service] IProcessManagerClient processManagerClient,
         [Service] IWholesaleOrchestrationsClient client,
         [Service] ITopicEventSender sender,
         CancellationToken cancellationToken)
@@ -62,7 +62,7 @@ public partial class Mutation
             var actorId = httpContextAccessor.HttpContext.User.GetAssociatedActor();
             var userId = httpContextAccessor.HttpContext.User.GetUserId();
 
-            var command = new ScheduleOrchestrationInstanceCommand<NotifyAggregatedMeasureDataInputV1>(
+            var command = new ScheduleCalculationCommandV1(
                 operatingIdentity: new UserIdentityDto(
                     UserId: userId,
                     ActorId: actorId),
@@ -74,7 +74,7 @@ public partial class Mutation
                     PeriodEndDate: period.End.ToDateTimeOffset(),
                     IsInternalCalculation: executionType == CalculationExecutionType.Internal));
 
-            calculationId = await processManagerCalculationClient.ScheduleNewCalculationAsync(command, cancellationToken);
+            calculationId = await processManagerClient.ScheduleNewOrchestrationInstanceAsync(command, cancellationToken);
         }
         else
         {

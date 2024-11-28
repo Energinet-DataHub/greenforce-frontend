@@ -53,12 +53,12 @@ public static class DomainRegistrationExtensions
         {
             services.AddHealthChecks()
                 .AddServiceHealthCheck(
-                    "processManagerGeneral",
+                    "ProcessManager General endpoints",
                     HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
                         processManagerClientOptions.GeneralApiBaseAddress,
                         isAzureFunction: true))
                 .AddServiceHealthCheck(
-                    "processManagerOrchestrations",
+                    "ProcessManager Orchestrations endpoints",
                     HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
                         processManagerClientOptions.OrchestrationsApiBaseAddress,
                         isAzureFunction: true));

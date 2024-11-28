@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
+using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
@@ -21,10 +23,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 
 /// <inheritdoc/>
 internal class NotifyAggregatedMeasureDataClientAdapter(
-    INotifyAggregatedMeasureDataClientV1 innerClient)
+    IProcessManagerClient processManagerClient,
+    INotifyAggregatedMeasureDataClientV1 calculationClient)
         : INotifyAggregatedMeasureDataClientAdapter
 {
-    private readonly INotifyAggregatedMeasureDataClientV1 _innerClient = innerClient;
+    private readonly IProcessManagerClient _processManagerClient = processManagerClient;
+    private readonly INotifyAggregatedMeasureDataClientV1 _calculationClient = calculationClient;
 
     /// <inheritdoc/>
     public async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
@@ -50,7 +54,7 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
         // to 'null'.
         // In the future we should be able to refactor the UI/BFF to filter at top-level states using
         // the Process Manager API.
-        var processManagerCalculations = await _innerClient.SearchCalculationsAsync(
+        var processManagerCalculations = await _calculationClient.SearchCalculationsAsync(
             lifecycleState: null,
             terminationState: null,
             startedAtOrLater: minExecutionTime,
@@ -77,7 +81,7 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
         Guid calculationId,
         CancellationToken calculationToken = default)
     {
-        var instanceDto = await _innerClient.GetCalculationAsync(calculationId, calculationToken);
+        var instanceDto = await _processManagerClient.GetOrchestrationInstanceAsync<NotifyAggregatedMeasureDataInputV1>(calculationId, calculationToken);
 
         return instanceDto.MapToV3CalculationDto();
     }
