@@ -14,57 +14,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { effect, input, output, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TranslocoDirective } from '@ngneat/transloco';
 
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 import {
+  UpdateUserRoles,
   DhActorUserRole,
   DhActorUserRoles,
-  UpdateUserRoles,
 } from '@energinet-datahub/dh/admin/shared';
 
-import {
-  FilterUserRolesPipe,
-  UserRolesIntoTablePipe,
-} from './dh-filter-user-roles-into-table.pipe';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { FilterUserRolesPipe, UserRolesIntoTablePipe } from './filter-user-roles-into-table.pipe';
 
 @Component({
   selector: 'dh-user-roles',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   standalone: true,
-  templateUrl: './dh-user-roles.component.html',
-  styleUrls: ['./dh-user-roles.component.scss'],
+  templateUrl: './user-roles.component.html',
+  styles: `
+    watt-expandable-card {
+      watt-badge {
+        flex: 0 0 auto;
+      }
+
+      watt-expandable-card-title {
+        display: flex;
+        gap: var(--watt-space-s);
+
+        watt-icon {
+          color: var(--watt-color-primary-darker);
+        }
+      }
+    }
+  `,
   imports: [
+    FormsModule,
+    TranslocoPipe,
     TranslocoDirective,
     MatExpansionModule,
-    FormsModule,
 
     WATT_TABLE,
     WattIconComponent,
     WattBadgeComponent,
+    WattSpinnerComponent,
     WattTooltipDirective,
+    WattEmptyStateComponent,
     WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
+
+    VaterFlexComponent,
 
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
@@ -83,6 +97,9 @@ export class DhUserRolesComponent {
   updateUserRoles = output<UpdateUserRoles>();
 
   user = computed(() => this.actorsAndRolesQuery.data()?.userById);
+
+  loading = this.actorsAndRolesQuery.loading;
+  hasError = this.actorsAndRolesQuery.hasError;
 
   userRolesPerActor = computed(() => this.user()?.actors ?? []);
 
