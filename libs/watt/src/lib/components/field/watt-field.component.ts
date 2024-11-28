@@ -58,7 +58,7 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
           #wrapper
           class="watt-field-wrapper"
           [class.watt-field--has-placeholder]="!!placeholder()"
-          [style.anchor-name]="anchorName()"
+          [style.anchor-name]="inputAnchor"
         >
           @if (placeholder()) {
             <div class="watt-field-placeholder" aria-hidden="true">
@@ -93,7 +93,6 @@ export class WattFieldComponent {
   chipMode = input(false);
   tooltip = input<string>();
   placeholder = input('');
-  anchorName = input<string>();
 
   value = signal('');
   filler = computed(() => this.placeholder().slice(this.value().length));
@@ -107,6 +106,12 @@ export class WattFieldComponent {
 
   // Used for text fields with autocomplete
   wrapper = viewChild.required<ElementRef>('wrapper');
+
+  // Give each field a unique anchor name. Parent components can reference
+  // this variable to position popovers relative to the input element.
+  private static instance = 0;
+  private instance = WattFieldComponent.instance++;
+  inputAnchor = `--watt-field-input-anchor-${this.instance}`;
 
   constructor() {
     const control$ = toObservable(this.control).pipe(filter((control) => control !== null));

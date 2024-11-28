@@ -88,33 +88,28 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
     `,
   ],
   template: `
-    <watt-field
-      [label]="label()"
-      [control]="control"
-      [placeholder]="placeholder()"
-      [anchorName]="anchorName"
-    >
+    <watt-field #field [label]="label()" [control]="control" [placeholder]="placeholder()">
       <input
-        #field
+        #input
         [formControl]="control"
         [maskito]="mask()"
         (focus)="picker.showPopover()"
         (blur)="handleBlur(picker, $event)"
       />
-      <watt-button icon="date" variant="icon" (click)="field.focus()" />
+      <watt-button icon="date" variant="icon" (click)="input.focus()" />
       <div
         #picker
         class="watt-elevation watt-datetime-field-picker"
         popover="manual"
         tabindex="0"
-        [style.position-anchor]="anchorName"
+        [style.position-anchor]="field.inputAnchor"
       >
         <mat-calendar
           [startAt]="selected()"
           [selected]="selected()"
           [minDate]="min()"
           [maxDate]="max()"
-          (selectedChange)="handleSelectedChange(field, picker, $event)"
+          (selectedChange)="handleSelectedChange(input, picker, $event)"
         />
       </div>
       <ng-content />
@@ -125,12 +120,6 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 })
 export class WattDateTimeField implements ControlValueAccessor {
   private locale = inject(WattLocaleService);
-
-  // Popovers exists on an entirely different layer, meaning that for anchor positioning they
-  // look at the entire tree for the anchor name. This gives each field a unique anchor name.
-  private static instance = 0;
-  private instance = WattDateTimeField.instance++;
-  protected anchorName = `--watt-datetime-field-popover-anchor-${this.instance}`;
 
   /** Converts date from outer FormControl to format of inner FormControl. */
   protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
@@ -200,18 +189,18 @@ export class WattDateTimeField implements ControlValueAccessor {
   };
 
   protected handleSelectedChange = (
-    field: HTMLInputElement,
+    input: HTMLInputElement,
     picker: HTMLDivElement,
     date: Date
   ) => {
     const prev = this.viewToModel(this.control.value);
 
     // Only write the date part
-    field.value = prev
+    input.value = prev
       ? this.modelToView(dayjs(date).set('h', prev.getHours()).set('m', prev.getMinutes()).toDate())
       : this.modelToView(date, PARTIAL_DATETIME_FORMAT);
 
-    field.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('input', { bubbles: true }));
     picker.hidePopover();
   };
 
