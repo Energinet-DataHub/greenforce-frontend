@@ -16,6 +16,6 @@
  */
 export * from './lib/dh-user-roles.component';
 export { DhCreateUserRoleComponent } from './lib/create.component';
-export { DhEditUserRoleModalComponent } from './lib/edit/dh-edit-user-role-modal.component';
-export { DhUserRoleDetailsComponent as DhRoleDrawerComponent } from './lib/details/details.component';
+export { DhEditUserRoleModalComponent } from './lib/details/edit.component';
+export { DhUserRoleDetailsComponent } from './lib/details/details.component';
 export { DhUserRolesPageComponent as default } from './lib/page.component';

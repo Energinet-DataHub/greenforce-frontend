@@ -25,7 +25,7 @@ import { DhUserRoleDetailsComponent } from './details/details.component';
   standalone: true,
   selector: 'dh-user-roles-page',
   template: `
-    <dh-user-roles-table (open)="details.open($event)" />
+    <dh-user-roles-table (open)="details.open($event.id)" />
     <dh-user-role-details #details />
   `,
   imports: [DhUserRolesTableComponent, DhUserRoleDetailsComponent],
