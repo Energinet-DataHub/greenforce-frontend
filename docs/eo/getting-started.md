@@ -66,6 +66,18 @@ After merge:
 3. Verify your changes work as expected
 4. Monitor for any unexpected behavior
 
+### 6. Clean up
+
+After merging your changes, manually delete your branch from both:
+
+This repository
+The eo-base-environment repository branch list
+
+Navigate to: github.com/Energinet-DataHub/eo-base-environment/branches
+Find and delete your branch
+
+⚠️ **Important: Branches are not automatically deleted after merging in the eo-base-environment repository.**
+
 ## Troubleshooting
 
 If you encounter issues:
