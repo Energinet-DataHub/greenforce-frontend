@@ -80,7 +80,6 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
         </watt-drawer-topbar>
       }
 
-      >
       @if (userRole) {
         <watt-drawer-heading>
           <h2>{{ userRole.name }}</h2>
