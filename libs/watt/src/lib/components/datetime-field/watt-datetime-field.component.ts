@@ -130,7 +130,7 @@ export class WattDateTimeField implements ControlValueAccessor {
   // look at the entire tree for the anchor name. This gives each field a unique anchor name.
   private static instance = 0;
   private instance = WattDateTimeField.instance++;
-  protected anchorName = `--watt-field-popover-anchor-${this.instance}`;
+  protected anchorName = `--watt-datetime-field-popover-anchor-${this.instance}`;
 
   /** Converts date from outer FormControl to format of inner FormControl. */
   protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
