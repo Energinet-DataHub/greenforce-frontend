@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-user-roles.component';
+export * from './lib/user-roles.component';
 export { DhCreateUserRoleComponent } from './lib/create.component';
 export { DhEditUserRoleModalComponent } from './lib/details/edit.component';
 export { DhUserRoleDetailsComponent } from './lib/details/details.component';
