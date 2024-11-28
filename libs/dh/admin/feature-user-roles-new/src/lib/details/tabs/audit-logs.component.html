@@ -25,12 +25,12 @@ limitations under the License.
   } @else {
     @if (!hasError()) {
       <watt-card-title>
-        <h4 *transloco="let hr; read: 'admin.userManagement.drawer.roles.tabs.history.changes'">
+        <h4>
           @let auditLogCount = dataSource.totalCount;
           @if (auditLogCount === 1) {
-            {{ hr("singular", { auditLogCount }) }}
+            {{ t("changes.singular", { auditLogCount }) }}
           } @else {
-            {{ hr("plural", { auditLogCount }) }}
+            {{ t("changes.plural", { auditLogCount }) }}
           }
         </h4>
       </watt-card-title>
