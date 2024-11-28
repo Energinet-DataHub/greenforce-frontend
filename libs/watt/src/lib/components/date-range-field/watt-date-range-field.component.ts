@@ -53,7 +53,7 @@ const EN_FILLER = 'dd-mm-yyyy' + RANGE_SEPARATOR + 'dd-mm-yyyy';
 const DATE_FORMAT = 'DD-MM-YYYY';
 const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
-export type DateRange = { start: Date | null; end: Date | null };
+export type DateRange = { start: Date; end: Date | null };
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -116,10 +116,12 @@ export type DateRange = { start: Date | null; end: Date | null };
         [style.position-anchor]="field.inputAnchor"
       >
         <mat-calendar
-          [startAt]="selected()"
-          [minDate]="min()"
-          [maxDate]="max()"
-          [selected]="selected()"
+          [startAt]="selected()?.start ?? null"
+          [comparisonStart]="comparison()?.start ?? null"
+          [comparisonEnd]="comparison()?.end ?? null"
+          [minDate]="min() ?? null"
+          [maxDate]="max() ?? null"
+          [selected]="matDateRange()"
           (selectedChange)="handleSelectedChange(input, picker, $event)"
         />
       </div>
@@ -133,18 +135,20 @@ export class WattDateRangeField implements ControlValueAccessor {
   private locale = inject(WattLocaleService);
 
   /** Converts date from outer FormControl to format of inner FormControl. */
-  protected modelToView = (value: DateRange | null) =>
+  protected modelToView = (value: DateRange | null): string =>
     !value
       ? ''
       : [value.start, value.end]
-          .map((date) => dayjs(date).tz(DANISH_TIME_ZONE_IDENTIFIER).format(DATE_FORMAT))
+          .map((date) => dayjs(date).tz(DANISH_TIME_ZONE_IDENTIFIER))
+          .filter((date) => date.isValid())
+          .map((date) => date.format(DATE_FORMAT))
           .join(RANGE_SEPARATOR);
 
   /** Converts value of inner FormControl to type of outer FormControl. */
-  protected viewToModel = (value: string) => {
-    const dates = value.split(RANGE_SEPARATOR).map((date) => dayjs(date, DATE_FORMAT, true));
-    return dates.every((date) => date.isValid())
-      ? new MatDateRange(dates[0].toDate(), dates[1].endOf('d').toDate())
+  protected viewToModel = (value: string): DateRange | null => {
+    const [start, end] = value.split(RANGE_SEPARATOR).map((date) => dayjs(date, DATE_FORMAT, true));
+    return start?.isValid()
+      ? { start: start.toDate(), end: end?.isValid() ? end.endOf('d').toDate() : null }
       : null;
   };
 
@@ -172,6 +176,9 @@ export class WattDateRangeField implements ControlValueAccessor {
   /** The maximum selectable date. */
   max = input<Date>();
 
+  /** The comparison date range. */
+  comparison = input<DateRange>();
+
   /** Emits when the selected date has changed. */
   dateChange = outputFromObservable(this.valueChanges);
 
@@ -181,7 +188,12 @@ export class WattDateRangeField implements ControlValueAccessor {
   /** Checks whether the current selection is valid. */
   isValid = () => Boolean(this.selected()?.start && this.selected()?.end);
 
-  protected selected = signal<MatDateRange<Date> | null>(null);
+  /** Converts a `DateRange` to a `MatDateRange`. */
+  private toMatDateRange = (range: DateRange | null): MatDateRange<Date> | null =>
+    range ? new MatDateRange(range.start, range.end) : null;
+
+  protected selected = signal<DateRange | null>(null);
+  protected matDateRange = computed(() => this.toMatDateRange(this.selected()));
   protected placeholder = computed(() => (this.locale.isDanish() ? DA_FILLER : EN_FILLER));
   protected mask = computed(() =>
     maskitoDateRangeOptionsGenerator({
@@ -209,17 +221,16 @@ export class WattDateRangeField implements ControlValueAccessor {
     date: Date | null
   ) => {
     this.selected.update((selected) => this.addDateToSelection(date, selected));
-    if (!this.isValid()) return;
     input.value = this.modelToView(this.selected());
     input.dispatchEvent(new Event('input', { bubbles: true }));
-    picker.hidePopover();
+    if (this.isValid()) picker.hidePopover();
   };
 
-  private addDateToSelection(date: Date | null, range: MatDateRange<Date> | null) {
+  private addDateToSelection(date: Date | null, range: DateRange | null): DateRange | null {
     if (!date) return null;
-    if (!range?.start) return new MatDateRange(date, null);
-    if (!range.end && date > range.start) return new MatDateRange(range.start, date);
-    return new MatDateRange(date, null);
+    if (!range?.start) return { start: date, end: null };
+    if (!range.end && date > range.start) return { start: range.start, end: date };
+    return { start: date, end: null };
   }
 
   constructor() {
