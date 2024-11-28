@@ -37,6 +37,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   selector: 'watt-button',
   template: `
     <button
+      tabindex="0"
       mat-button
       [disabled]="disabled"
       [type]="type"
@@ -49,7 +50,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       <div
         [ngClass]="{
           'content-wrapper--loading': loading,
-          'content-wrapper': !loading
+          'content-wrapper': !loading,
         }"
       >
         @if (hasIcon()) {
