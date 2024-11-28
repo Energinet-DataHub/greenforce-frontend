@@ -63,6 +63,7 @@ export type DateRange = { start: Date | null; end: Date | null };
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
+      // Required for `MatCalendar` to work with date ranges
       provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
       useClass: DefaultMatCalendarRangeStrategy,
     },
