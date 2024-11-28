@@ -203,11 +203,6 @@ export class EoConsentOverviewComponent implements OnInit {
     this.loadConsents();
   }
 
-  onCloseServiceProviderTermsConsentDialog(): void {
-    //TODO MASEP: implement closing code
-    //TODO MASEP: Implement opening of POA Modal
-  }
-
   loadConsents(): void {
     this.state.set({ ...this.state(), isLoading: true });
 

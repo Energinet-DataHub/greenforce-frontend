@@ -17,13 +17,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   OnDestroy,
   Renderer2,
-  ViewEncapsulation,
   signal,
-  effect,
+  ViewEncapsulation,
 } from '@angular/core';
 
 const SELECTOR = 'eo-scroll-view';
@@ -117,7 +117,6 @@ export class EoScrollViewComponent implements OnDestroy {
       if (entry.isIntersecting) {
         this.checkScroll();
         this.observeContentChanges();
-        console.log('NOOO!!!');
       } else {
         this.observer.disconnect();
       }
