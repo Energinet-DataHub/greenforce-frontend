@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Signal, inject, signal, untracked } from '@angular/core';
+import { DestroyRef, Signal, computed, inject, signal, untracked } from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -68,6 +68,7 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
 export type QueryResult<TResult, TVariables extends OperationVariables> = {
   data: Signal<TResult | undefined>;
   error: Signal<ApolloError | undefined>;
+  hasError: Signal<boolean>;
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   called: Signal<boolean>;
@@ -208,6 +209,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
+    hasError: computed(() => error() !== undefined),
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
     called: called as Signal<boolean>,

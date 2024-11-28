@@ -16,26 +16,26 @@
  */
 import { Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
   EicFunction,
+  GetActorsDocument,
   GetActorsForEicFunctionDocument,
+  GetGridAreasDocument,
+  MergeMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-participants.validator';
 
 @Component({
   selector: 'dh-merge-market-participants',
@@ -93,17 +93,17 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
           <watt-datepicker
             [label]="t('mergeDate')"
-            [formControl]="form.controls.date"
+            [formControl]="form.controls.mergeDate"
             [min]="_7DaysFromNow"
           />
         </form>
 
         <watt-modal-actions>
-          <watt-button variant="secondary" (click)="closeModal(false)">
+          <watt-button variant="secondary" (click)="dialogRef.close(false)">
             {{ t('cancel') }}
           </watt-button>
 
-          <watt-button type="submit" formId="form-id">
+          <watt-button type="submit" formId="form-id" [loading]="isSaving()">
             {{ t('save') }}
           </watt-button>
         </watt-modal-actions>
@@ -112,13 +112,16 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
   `,
 })
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
-  private formBuilder = inject(FormBuilder);
+  private toastService = inject(WattToastService);
 
   private marketParticipantsQuery = query(GetActorsForEicFunctionDocument, {
     variables: {
       eicFunctions: [EicFunction.GridAccessProvider],
     },
   });
+
+  private createMergeMutation = mutation(MergeMarketParticipantsDocument);
+  isSaving = this.createMergeMutation.loading;
 
   marketParticipantsOptions = computed<WattDropdownOptions>(() => {
     const marketParticipants = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
@@ -135,45 +138,47 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     }));
   });
 
-  form = this.formBuilder.group(
+  form = new FormGroup(
     {
-      discontinuedEntity: [null, Validators.required],
-      survivingEntity: [null, Validators.required],
-      date: ['', Validators.required],
+      discontinuedEntity: new FormControl<string | null>(null, Validators.required),
+      survivingEntity: new FormControl<string | null>(null, Validators.required),
+      mergeDate: new FormControl<Date | null>(null, [Validators.required]),
     },
-    { validators: this.uniqueMarketParticipants() }
+    { validators: dhUniqueMarketParticipantsValidator() }
   );
 
   _7DaysFromNow = dayjs().add(7, 'days').toDate();
 
-  closeModal(result: boolean) {
-    this.dialogRef.close(result);
-  }
+  async save() {
+    const { discontinuedEntity, survivingEntity, mergeDate } = this.form.value;
 
-  save() {
-    console.log('Save', this.form.value);
-  }
+    if (!discontinuedEntity || !survivingEntity || !mergeDate) return;
 
-  uniqueMarketParticipants(): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const discontinuedEntityControl = formGroup.get('discontinuedEntity');
-      const survivingEntityControl = formGroup.get('survivingEntity');
+    const result = await this.createMergeMutation.mutate({
+      variables: {
+        input: {
+          discontinuedEntity,
+          survivingEntity,
+          mergeDate,
+        },
+      },
+      refetchQueries: [GetActorsDocument, GetGridAreasDocument],
+    });
 
-      if (formGroup.untouched) {
-        return null;
-      }
+    if (result.data?.mergeMarketParticipants.success) {
+      this.toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.mergeMarketParticipants.mergeSuccess'),
+      });
 
-      discontinuedEntityControl?.setErrors(null);
-      survivingEntityControl?.setErrors(null);
+      this.dialogRef.close(true);
+    }
 
-      if (discontinuedEntityControl?.value === survivingEntityControl?.value) {
-        survivingEntityControl?.setErrors({ notUniqueMarketParticipants: true });
-        discontinuedEntityControl?.setErrors({ notUniqueMarketParticipants: true });
-
-        return { notUniqueMarketParticipants: true };
-      }
-
-      return null;
-    };
+    if (result.error) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('marketParticipant.mergeMarketParticipants.mergeError'),
+      });
+    }
   }
 }

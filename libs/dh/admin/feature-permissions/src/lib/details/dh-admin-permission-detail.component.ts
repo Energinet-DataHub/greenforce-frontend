@@ -80,7 +80,7 @@ export class DhAdminPermissionDetailComponent {
   permission = computed(() => this.query.data()?.permissionById);
 
   isLoading = this.query.loading;
-  hasError = computed(() => this.query.error() !== undefined);
+  hasError = this.query.hasError;
 
   closed = output<void>();
 

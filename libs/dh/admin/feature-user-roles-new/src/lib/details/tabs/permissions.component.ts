@@ -18,22 +18,37 @@ import { Component, effect, input } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import {
-  DhUserRolePermissionDetails,
-  DhUserRoleWithPermissions,
-} from '@energinet-datahub/dh/admin/data-access-api';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+
+import {
+  DhUserRoleWithPermissions,
+  DhUserRolePermissionDetails,
+} from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-role-permissions',
   standalone: true,
-  templateUrl: './dh-role-permissions.component.html',
+  template: `<watt-card
+    *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.permissions'"
+    variant="solid"
+  >
+    <watt-card-title>
+      <h4>{{ t('headline') }} ({{ role().permissions.length }})</h4>
+    </watt-card-title>
+
+    <watt-table
+      description="user role permissions"
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [resolveHeader]="translateHeader"
+    />
+  </watt-card>`,
   imports: [TranslocoDirective, WATT_TABLE, WATT_CARD],
 })
 export class DhRolePermissionsComponent {
-  role = input.required<DhUserRoleWithPermissions | null>();
+  role = input.required<DhUserRoleWithPermissions>();
 
-  readonly dataSource = new WattTableDataSource<DhUserRolePermissionDetails>(undefined);
+  dataSource = new WattTableDataSource<DhUserRolePermissionDetails>(undefined);
 
   columns: WattTableColumnDef<DhUserRolePermissionDetails> = {
     name: { accessor: 'name' },
@@ -42,7 +57,7 @@ export class DhRolePermissionsComponent {
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.role()?.permissions ?? [];
+      this.dataSource.data = this.role().permissions;
     });
   }
 

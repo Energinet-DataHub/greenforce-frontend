@@ -703,10 +703,12 @@
       "discontinuedEntity": "Ophørende netvirksomhed",
       "survivingEntity": "Overtagende netvirksomhed",
       "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Netområde {{ gridArea }})",
-      "notUniqueMarketParticipants": "Vælg to unikke netvirksomheder",
+      "notUniqueMarketParticipants": "Vælg to forskellige netvirksomheder",
       "mergeDate": "Dato for sammenlægning",
       "cancel": "Fortryd",
-      "save": "Opret sammenlægning"
+      "save": "Opret sammenlægning",
+      "mergeSuccess": "Sammenlægning af aktører oprettet",
+      "mergeError": "Noget gik galt. Sammenlægningen blev ikke oprettet. Prøv igen"
     },
     "organizationsOverview": {
       "organizations": "Organisationer",

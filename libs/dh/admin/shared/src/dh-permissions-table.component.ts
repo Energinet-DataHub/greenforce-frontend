@@ -15,49 +15,64 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnChanges,
   input,
   output,
+  effect,
+  Component,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import {
-  WattTableDataSource,
-  WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
+  WattTableColumnDef,
+  WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-permissions-table',
   standalone: true,
-  template: `<ng-container *transloco="let t; read: 'admin.userManagement.permissionsTable'">
-    <watt-table
-      description="permissions"
-      [dataSource]="dataSource"
-      [columns]="columns"
-      [selectable]="permissions().length > 0"
-      [initialSelection]="initialSelection()"
-      sortBy="name"
-      sortDirection="asc"
-      (selectionChange)="selectionChanged.emit($event)"
-    >
-      <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
-        {{ element.name }}
-      </ng-container>
-
-      <ng-container
-        *wattTableCell="columns['description']; header: t('columns.description'); let element"
+  template: ` @if (permissions().length > 0) {
+      <watt-table
+        *transloco="let t; read: 'admin.userManagement.permissionsTable'"
+        description="permissions"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [selectable]="true"
+        [loading]="loading()"
+        [initialSelection]="initialSelection()"
+        sortBy="name"
+        sortDirection="asc"
+        (selectionChange)="selectionChanged.emit($event)"
       >
-        {{ element.description }}
-      </ng-container>
-    </watt-table>
-  </ng-container>`,
+        <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let element">
+          {{ element.name }}
+        </ng-container>
+
+        <ng-container
+          *wattTableCell="columns['description']; header: t('columns.description'); let element"
+        >
+          {{ element.description }}
+        </ng-container>
+      </watt-table>
+    } @else {
+      <!-- Empty -->
+      <vater-flex direction="column" offset="m" justify="center">
+        <watt-empty-state
+          [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
+          size="small"
+          [title]="hasError() ? 'shared.error.title' : ('shared.empty.title' | transloco)"
+          [message]="hasError() ? 'shared.error.message' : ('' | transloco)"
+        />
+      </vater-flex>
+    }`,
   styles: [
     `
       :host {
@@ -66,28 +81,36 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphq
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, WATT_TABLE],
+  imports: [
+    TranslocoPipe,
+    TranslocoDirective,
+
+    WATT_TABLE,
+    WattEmptyStateComponent,
+
+    VaterFlexComponent,
+  ],
 })
-export class DhPermissionsTableComponent implements OnChanges {
+export class DhPermissionsTableComponent {
   permissions = input<PermissionDetailsDto[]>([]);
+  loading = input.required<boolean>();
+  hasError = input.required<boolean>();
   initialSelection = input<PermissionDetailsDto[]>([]);
 
   selectionChanged = output<PermissionDetailsDto[]>();
 
   permissionsTable = viewChild(WattTableComponent);
 
-  readonly dataSource = new WattTableDataSource<PermissionDetailsDto>();
+  dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
   columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
 
-  ngOnChanges(): void {
-    this.dataSource.data = this.permissions();
-
-    if (this.permissionsTable()) {
-      this.permissionsTable()?.clearSelection();
-    }
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.permissions();
+    });
   }
 }

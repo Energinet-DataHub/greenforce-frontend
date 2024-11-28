@@ -83,7 +83,7 @@ export class DhAdminPermissionOverviewComponent {
 
   query = query(GetPermissionsDocument, { variables: { searchTerm: '' } });
   loading = this.query.loading;
-  hasError = computed(() => this.query.error() !== undefined);
+  hasError = this.query.hasError;
 
   columns: WattTableColumnDef<PermissionDto> = {
     name: { accessor: 'name' },

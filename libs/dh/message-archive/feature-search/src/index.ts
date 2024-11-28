@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/page.component';
+export { DhMessageArchiveSearchPageComponent as default } from './lib/page.component';

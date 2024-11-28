@@ -45,7 +45,7 @@ export class DhGridAreasShellComponent {
   private getActorsQuery = query(GetGridAreaOverviewDocument);
 
   isLoading = this.getActorsQuery.loading;
-  hasError = computed(() => this.getActorsQuery.error() !== undefined);
+  hasError = this.getActorsQuery.hasError;
 
   rows = computed<GridAreaOverviewRow[]>(() => {
     const gridAreas = this.getActorsQuery.data()?.gridAreaOverview ?? [];

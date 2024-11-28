@@ -16,7 +16,7 @@
  */
 import { FormsModule } from '@angular/forms';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, effect, input, output, viewChild } from '@angular/core';
+import { Component, effect, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -53,18 +53,18 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   templateUrl: './assignable-user-roles.component.html',
 })
 export class DhAssignableUserRolesComponent {
-  private readonly userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
+  private userRolesTable = viewChild<WattTableComponent<UserRoleItem>>(WattTableComponent);
 
   actorId = input.required<string>();
 
   assignableUserRoles = lazyQuery(GetUserRolesByActorIdDocument);
 
-  readonly isLoading = computed(() => this.assignableUserRoles.loading());
-  readonly hasError = computed(() => this.assignableUserRoles.error());
+  isLoading = this.assignableUserRoles.loading;
+  hasError = this.assignableUserRoles.hasError;
 
-  readonly dataSource = new WattTableDataSource<UserRoleItem>([]);
+  dataSource = new WattTableDataSource<UserRoleItem>([]);
 
-  readonly selectedUserRoles = output<UserRoleItem[]>();
+  selectedUserRoles = output<UserRoleItem[]>();
 
   constructor() {
     effect(() => {

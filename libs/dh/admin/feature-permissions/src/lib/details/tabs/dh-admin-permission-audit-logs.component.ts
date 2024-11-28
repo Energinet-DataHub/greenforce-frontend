@@ -62,7 +62,7 @@ export class DhPermissionAuditLogsComponent {
   });
 
   isLoading = this.getPermissionAuditLogsQuery.loading;
-  hasError = computed(() => this.getPermissionAuditLogsQuery.error() !== undefined);
+  hasError = this.getPermissionAuditLogsQuery.hasError;
 
   dataSource = new WattTableDataSource<PermissionAuditedChangeAuditLogDto>();
 

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -60,7 +60,7 @@ export class DhUserAuditLogsComponent {
   id = input.required<string>();
 
   dataSource = new WattTableDataSource<UserAuditedChangeAuditLogDto>();
-  hasError = computed(() => this.getUserAuditLogsQuery.error() !== undefined);
+  hasError = this.getUserAuditLogsQuery.hasError;
   isLoading = this.getUserAuditLogsQuery.loading;
 
   columns: WattTableColumnDef<UserAuditedChangeAuditLogDto> = {

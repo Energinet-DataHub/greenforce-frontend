@@ -95,10 +95,10 @@ export class DhOrganizationDetailsComponent {
   private getActorsByOrganizationIdQuery = lazyQuery(GetActorsByOrganizationIdDocument);
 
   isLoadingOrganization = this.getOrganizationByIdQuery.loading;
-  organizationFailedToLoad = computed(() => this.getOrganizationByIdQuery.error !== undefined);
+  organizationFailedToLoad = computed(() => this.getOrganizationByIdQuery.error() !== undefined);
 
   isLoadingActors = this.getActorsByOrganizationIdQuery.loading;
-  actorsFailedToLoad = computed(() => this.getActorsByOrganizationIdQuery.error !== undefined);
+  actorsFailedToLoad = computed(() => this.getActorsByOrganizationIdQuery.error() !== undefined);
 
   organization = computed(() => this.getOrganizationByIdQuery.data()?.organizationById);
 

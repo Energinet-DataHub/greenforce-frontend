@@ -88,7 +88,7 @@ export class DhImbalancePricesShellComponent {
   tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
 
   isLoading = this.getImbalancePricesOverview.loading;
-  hasError = this.getImbalancePricesOverview.error() !== undefined;
+  hasError = this.getImbalancePricesOverview.hasError;
   uploadUrl = computed(
     () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.uploadImbalancePricesUrl
   );

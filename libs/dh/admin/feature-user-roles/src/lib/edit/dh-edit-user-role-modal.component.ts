@@ -94,18 +94,18 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
   ],
 })
 export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
-  private readonly userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly userRoleWithPermissionsStore = inject(DhUserRoleManagementStore);
+  private userRoleEditStore = inject(DhAdminUserRoleEditDataAccessApiStore);
+  private destroyRef = inject(DestroyRef);
+  private userRoleWithPermissionsStore = inject(DhUserRoleManagementStore);
 
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly toastService = inject(WattToastService);
-  private readonly transloco = inject(TranslocoService);
+  private formBuilder = inject(FormBuilder);
+  private toastService = inject(WattToastService);
+  private transloco = inject(TranslocoService);
 
   private skipFirstPermissionSelectionEvent = true;
 
-  readonly userRole$ = this.userRoleWithPermissionsStore.userRole$;
-  readonly roleName$ = this.userRole$.pipe(map((role) => role.name));
+  userRole$ = this.userRoleWithPermissionsStore.userRole$;
+  roleName$ = this.userRole$.pipe(map((role) => role.name));
 
   permissionsQuery = lazyQuery(GetPermissionByEicFunctionDocument);
 
@@ -113,11 +113,8 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
     () => this.permissionsQuery.data()?.permissionsByEicFunction ?? []
   );
 
-  private readonly marketRolePermissions$ = toObservable(this.permissions);
-  readonly initiallySelectedPermissions$ = combineLatest([
-    this.marketRolePermissions$,
-    this.userRole$,
-  ]).pipe(
+  private marketRolePermissions$ = toObservable(this.permissions);
+  initiallySelectedPermissions$ = combineLatest([this.marketRolePermissions$, this.userRole$]).pipe(
     map(([marketRolePermissions, userRole]) => {
       return marketRolePermissions.filter((marketRolePermission) => {
         return userRole.permissions.some(
@@ -129,12 +126,14 @@ export class DhEditUserRoleModalComponent implements OnInit, AfterViewInit {
       this.skipFirstPermissionSelectionEvent = initiallySelectedPermissions.length > 0;
     })
   );
-  readonly marketRolePermissionsIsLoading = this.permissionsQuery.loading;
+  marketRolePermissionsIsLoading = this.permissionsQuery.loading;
 
-  readonly isLoading$ = this.userRoleEditStore.isLoading$;
-  readonly validationError$ = this.userRoleEditStore.validationError$;
+  hasError = this.permissionsQuery.hasError;
 
-  readonly userRoleEditForm = this.formBuilder.group({
+  isLoading$ = this.userRoleEditStore.isLoading$;
+  validationError$ = this.userRoleEditStore.validationError$;
+
+  userRoleEditForm = this.formBuilder.group({
     name: this.formBuilder.nonNullable.control('', [Validators.required]),
     description: this.formBuilder.nonNullable.control('', [Validators.required]),
     permissionIds: this.formBuilder.nonNullable.control<number[]>([], [Validators.required]),

@@ -62,7 +62,7 @@ export class DhBalanceResponsibleRelationsStore {
   );
 
   public isLoading = this.balanceResponsibleRelationsQuery.loading;
-  public hasError = computed(() => this.balanceResponsibleRelationsQuery.error() !== undefined);
+  public hasError = this.balanceResponsibleRelationsQuery.hasError;
 
   public filteredAndGroupedRelations = computed(() => {
     if (this.actor()?.marketRole === EicFunction.EnergySupplier)
