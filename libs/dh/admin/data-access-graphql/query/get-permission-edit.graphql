@@ -1,0 +1,7 @@
+query GetPermissionEdit($id: Int!) {
+  permissionById(id: $id) {
+    id
+    name
+    description
+  }
+}

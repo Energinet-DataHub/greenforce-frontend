@@ -34,7 +34,7 @@ type MarketRole = ResultOf<
 
 @Component({
   selector: 'dh-admin-permission-market-roles',
-  templateUrl: './dh-admin-permission-market-roles.component.html',
+  templateUrl: './market-roles.component.html',
   standalone: true,
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, VaterFlexComponent],
 })
