@@ -37,7 +37,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 @Component({
   selector: 'dh-admin-permission-audit-logs',
   standalone: true,
-  templateUrl: './dh-admin-permission-audit-logs.component.html',
+  templateUrl: './audit-logs.component.html',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
