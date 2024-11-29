@@ -33,7 +33,7 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
     /// <inheritdoc/>
     public async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
         CalculationQueryInput input,
-        CancellationToken calculationToken = default)
+        CancellationToken cancellationToken = default)
     {
         var states = input.States ?? [];
         var calculationTypes = input.CalculationTypes ?? [];
@@ -64,7 +64,7 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
             periodStartDate: periodStart,
             periodEndDate: periodEnd,
             isInternalCalculation: isInternal,
-            calculationToken);
+            cancellationToken);
 
         var calculations = processManagerCalculations
             .Select(x => x.MapToV3CalculationDto());
@@ -79,9 +79,9 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
     /// <inheritdoc/>
     public async Task<CalculationDto> GetCalculationAsync(
         Guid calculationId,
-        CancellationToken calculationToken = default)
+        CancellationToken cancellationToken = default)
     {
-        var instanceDto = await _processManagerClient.GetOrchestrationInstanceAsync<NotifyAggregatedMeasureDataInputV1>(calculationId, calculationToken);
+        var instanceDto = await _processManagerClient.GetOrchestrationInstanceAsync<NotifyAggregatedMeasureDataInputV1>(calculationId, cancellationToken);
 
         return instanceDto.MapToV3CalculationDto();
     }

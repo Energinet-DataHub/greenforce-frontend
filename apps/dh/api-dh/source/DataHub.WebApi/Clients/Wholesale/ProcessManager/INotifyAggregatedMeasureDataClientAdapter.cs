@@ -27,10 +27,10 @@ public interface INotifyAggregatedMeasureDataClientAdapter
     /// <summary>
     /// Query calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(CalculationQueryInput input, CancellationToken calculationToken = default);
+    Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(CalculationQueryInput input, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get calculation in the Process Manager.
     /// </summary>
-    Task<CalculationDto> GetCalculationAsync(Guid calculationId, CancellationToken calculationToken = default);
+    Task<CalculationDto> GetCalculationAsync(Guid calculationId, CancellationToken cancellationToken = default);
 }
