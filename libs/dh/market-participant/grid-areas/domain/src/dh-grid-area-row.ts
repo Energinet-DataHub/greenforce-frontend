@@ -21,7 +21,7 @@ import type {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { WattRange } from '@energinet-datahub/watt/date';
 
-export interface DhGridAreaRow {
+export type DhGridAreaRow {
   id: string;
   code: string;
   actor: string;
