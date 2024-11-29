@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
+import { DhPermissionsTableComponent } from './table.component';
 
 @Component({
   standalone: true,
   selector: 'dh-permissions-page',
-  template: ``,
+  imports: [DhPermissionsTableComponent],
+  template: `<dh-permissions-table />`,
 })
 export class DhPermissionsPageComponent {}

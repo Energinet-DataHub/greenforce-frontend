@@ -52,7 +52,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
   selector: 'dh-admin-permission-detail',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-admin-permission-detail.component.html',
+  templateUrl: './detail.component.html',
   imports: [
     TranslocoDirective,
     TranslocoPipe,
