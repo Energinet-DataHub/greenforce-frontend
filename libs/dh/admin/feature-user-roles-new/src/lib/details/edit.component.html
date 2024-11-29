@@ -75,12 +75,6 @@ limitations under the License.
               [initialSelection]="initiallySelectedPermissions()"
               (selectionChanged)="onSelectionChanged($event)"
             />
-
-            @if (loading()) {
-              <vater-flex justify="center">
-                <watt-spinner />
-              </vater-flex>
-            }
           </watt-card>
         </div>
       </watt-tab>
