@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
+import type {
   GridAreaStatus,
   GridAreaType,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { WattRange } from '@energinet-datahub/watt/date';
 
 export interface DhGridAreaRow {
   id: string;
@@ -28,4 +29,5 @@ export interface DhGridAreaRow {
   status: GridAreaStatus;
   type: GridAreaType;
   priceArea: PriceAreaCode;
+  period: WattRange<Date>;
 }

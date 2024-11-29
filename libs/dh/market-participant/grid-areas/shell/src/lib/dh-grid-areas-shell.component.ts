@@ -39,7 +39,7 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
   imports: [DhGridAreasOverviewComponent],
 })
 export class DhGridAreasShellComponent {
-  private readonly gln = new RegExp('^[0-9]+$');
+  private gln = new RegExp('^[0-9]+$');
   private getActorsQuery = query(GetGridAreaOverviewDocument);
 
   isLoading = this.getActorsQuery.loading;
@@ -59,6 +59,10 @@ export class DhGridAreasShellComponent {
         status: x.status,
         type: x.type,
         priceArea: x.priceAreaCode,
+        period: {
+          start: x.validFrom,
+          end: x.validTo ?? null,
+        },
       };
 
       return row;
