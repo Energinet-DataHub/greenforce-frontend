@@ -36,9 +36,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-edit-permission-modal',
-  templateUrl: './dh-edit-permission-modal.component.html',
   standalone: true,
+  selector: 'dh-edit-permission-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -50,6 +49,39 @@ import {
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
   ],
+  template: `<watt-modal
+    *transloco="let t; read: 'admin.userManagement.editPermission'"
+    size="small"
+    [title]="modalData.name"
+    (closed)="closeModal($event)"
+  >
+    <form [formGroup]="userPermissionsForm" id="edit-permissions-form" (ngSubmit)="save()">
+      <watt-tabs class="watt-modal-content--full-width">
+        <watt-tab [label]="t('tab.masterData.tabLabel')">
+          <watt-textarea-field
+            [label]="t('tab.masterData.descriptionInputLabel')"
+            [formControl]="userPermissionsForm.controls.description"
+          >
+            @let maxLengthError = userPermissionsForm.controls.description.errors?.['maxlength'];
+            @if (maxLengthError) {
+              <watt-field-error>{{
+                t('tab.masterData.descriptionExceedsMaxLength', maxLengthError)
+              }}</watt-field-error>
+            }
+          </watt-textarea-field>
+        </watt-tab>
+      </watt-tabs>
+    </form>
+
+    <watt-modal-actions>
+      <watt-button variant="secondary" (click)="closeModal(false)">
+        {{ t('cancel') }}
+      </watt-button>
+      <watt-button type="submit" formId="edit-permissions-form" [loading]="isSaving()">
+        {{ t('save') }}
+      </watt-button>
+    </watt-modal-actions>
+  </watt-modal>`,
 })
 export class DhEditPermissionModalComponent extends WattTypedModal<PermissionDto> {
   private readonly formBuilder = inject(FormBuilder);

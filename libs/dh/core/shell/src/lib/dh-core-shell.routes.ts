@@ -54,10 +54,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('grid-areas'),
-        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
-        data: {
-          titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
-        },
+        loadChildren: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
         canActivate: [MsalGuard],
       },
       {

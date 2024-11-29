@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { Component } from '@angular/core';
 
-import { GetPermissionLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type PermissionAuditLog = ResultOf<typeof GetPermissionLogsDocument>['permissionLogs'][0];
+@Component({
+  standalone: true,
+  selector: 'dh-permissions-page',
+  template: ``,
+})
+export class DhPermissionsPageComponent {}

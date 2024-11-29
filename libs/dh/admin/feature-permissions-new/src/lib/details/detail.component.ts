@@ -43,10 +43,10 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhEditPermissionModalComponent } from '../edit/dh-edit-permission-modal.component';
-import { DhAdminPermissionRolesComponent } from './tabs/dh-admin-permission-roles.component';
-import { DhPermissionAuditLogsComponent } from './tabs/dh-admin-permission-audit-logs.component';
-import { DhAdminPermissionMarketRolesComponent } from './tabs/dh-admin-permission-market-roles.component';
+import { DhEditPermissionModalComponent } from './edit.component';
+import { DhAdminPermissionRolesComponent } from './tabs/admin-permission-roles.component';
+import { DhPermissionAuditLogsComponent } from './tabs/audit-logs.component';
+import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.component';
 
 @Component({
   selector: 'dh-admin-permission-detail',
