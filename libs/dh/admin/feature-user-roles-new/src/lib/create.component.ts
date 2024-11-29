@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-﻿import {
+import {
   Component,
   computed,
   effect,
