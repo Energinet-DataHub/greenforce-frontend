@@ -41,12 +41,11 @@ import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission-detail.component';
+import { DhAdminPermissionDetailComponent } from './details/detail.component';
 
 @Component({
-  selector: 'dh-admin-permission-overview',
   standalone: true,
-  templateUrl: './dh-admin-permission-overview.component.html',
+  selector: 'dh-permissions-table',
   styles: [
     `
       :host {
@@ -76,8 +75,71 @@ import { DhAdminPermissionDetailComponent } from '../details/dh-admin-permission
     DhPermissionRequiredDirective,
     DhAdminPermissionDetailComponent,
   ],
+  template: `<watt-card
+      vater
+      inset="ml"
+      *transloco="let t; read: 'admin.userManagement.permissionsTab'"
+    >
+      <vater-flex fill="vertical" gap="m">
+        <vater-stack direction="row" gap="s">
+          <h3>{{ t('headline') }}</h3>
+          <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+
+          <vater-spacer />
+
+          <watt-search [label]="'shared.search' | transloco" (search)="onSearch($event)" />
+
+          <watt-button *transloco="let t" icon="download" variant="text" (click)="exportAsCsv()">
+            {{ t('shared.download') }}
+          </watt-button>
+
+          <watt-button
+            *dhPermissionRequired="['user-roles:manage']"
+            icon="download"
+            variant="text"
+            (click)="downloadRelationCSV(url())"
+          >
+            {{ 'shared.downloadreport' | transloco }}
+          </watt-button>
+        </vater-stack>
+
+        <vater-flex fill="vertical" scrollable>
+          <watt-table
+            [dataSource]="dataSource"
+            [columns]="columns"
+            (rowClick)="onRowClick($event)"
+            [activeRow]="activeRow"
+            sortBy="name"
+            sortDirection="asc"
+            [sortClear]="false"
+            [loading]="loading()"
+          >
+            <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
+              {{ element.name }}
+            </ng-container>
+
+            <ng-container
+              *wattTableCell="columns.description; header: t('permissionDescription'); let element"
+            >
+              {{ element.description }}
+            </ng-container>
+          </watt-table>
+
+          @if (hasError()) {
+            <vater-stack fill="vertical" justify="center">
+              <watt-empty-state
+                icon="custom-power"
+                [title]="'shared.error.title' | transloco"
+                [message]="'shared.error.message' | transloco"
+              />
+            </vater-stack>
+          }
+        </vater-flex>
+      </vater-flex>
+    </watt-card>
+    <dh-admin-permission-detail (closed)="onClosed()" />`,
 })
-export class DhAdminPermissionOverviewComponent {
+export class DhPermissionsTableComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
 
