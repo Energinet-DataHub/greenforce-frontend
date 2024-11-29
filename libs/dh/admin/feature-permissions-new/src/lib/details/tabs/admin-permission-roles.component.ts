@@ -32,7 +32,7 @@ type UserRole = ResultOf<
 
 @Component({
   selector: 'dh-admin-permission-roles',
-  templateUrl: './dh-admin-permission-roles.component.html',
+  templateUrl: './admin-permission-roles.component.html',
   standalone: true,
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, VaterFlexComponent],
 })
