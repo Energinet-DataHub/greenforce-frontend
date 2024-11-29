@@ -71,9 +71,7 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
 
         return calculations
             .OrderByDescending(x => x.ScheduledAt)
-            .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
-            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
-            .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal);
+            .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState));
     }
 
     /// <inheritdoc/>
