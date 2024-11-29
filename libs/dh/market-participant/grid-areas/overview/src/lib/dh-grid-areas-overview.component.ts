@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { FormsModule } from '@angular/forms';
-import { Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
@@ -39,27 +39,17 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  GridAreaStatus,
-  GridAreaType,
-  PriceAreaCode,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
-
-export interface GridAreaOverviewRow {
-  code: string;
-  actor: string;
-  organization: string;
-  status: GridAreaStatus;
-  type: GridAreaType;
-  priceArea: PriceAreaCode;
-}
+import { DhGridAreaDetailsComponent } from './details/dh-grid-area-details.component';
 
 @Component({
   standalone: true,
   selector: 'dh-grid-areas-overview',
   templateUrl: './dh-grid-areas-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       h3 {
@@ -96,10 +86,11 @@ export interface GridAreaOverviewRow {
 
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
+    DhGridAreaDetailsComponent,
   ],
 })
 export class DhGridAreasOverviewComponent {
-  columns: WattTableColumnDef<GridAreaOverviewRow> = {
+  columns: WattTableColumnDef<DhGridAreaRow> = {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
     organization: { accessor: 'organization' },
@@ -108,7 +99,7 @@ export class DhGridAreasOverviewComponent {
     status: { accessor: 'status' },
   };
 
-  gridAreas = input.required<GridAreaOverviewRow[]>();
+  gridAreas = input.required<DhGridAreaRow[]>();
   isLoading = input.required<boolean>();
   hasError = input.required<boolean>();
 
@@ -118,7 +109,9 @@ export class DhGridAreasOverviewComponent {
 
   selectedGridAreaType = signal<GridAreaType | null>(null);
 
-  readonly dataSource = new WattTableDataSource<GridAreaOverviewRow>();
+  activeRow = signal<DhGridAreaRow | undefined>(undefined);
+
+  readonly dataSource = new WattTableDataSource<DhGridAreaRow>();
 
   constructor() {
     effect(() => {

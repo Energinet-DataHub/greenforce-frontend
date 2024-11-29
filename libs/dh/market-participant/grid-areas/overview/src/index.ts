@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  DhGridAreasOverviewComponent,
-  GridAreaOverviewRow,
-} from './lib/dh-grid-areas-overview.component';
+export { DhGridAreasOverviewComponent } from './lib/dh-grid-areas-overview.component';
