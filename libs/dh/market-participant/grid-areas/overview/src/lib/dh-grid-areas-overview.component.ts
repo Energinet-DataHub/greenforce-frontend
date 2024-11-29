@@ -43,6 +43,7 @@ import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domai
 import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
+import { DhGridAreaDetailsComponent } from './details/dh-grid-area-details.component';
 
 @Component({
   standalone: true,
@@ -85,6 +86,7 @@ import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.comp
 
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
+    DhGridAreaDetailsComponent,
   ],
 })
 export class DhGridAreasOverviewComponent {
@@ -106,6 +108,8 @@ export class DhGridAreasOverviewComponent {
   selectedGridAreaStatus = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
 
   selectedGridAreaType = signal<GridAreaType | null>(null);
+
+  activeRow = signal<DhGridAreaRow | undefined>(undefined);
 
   readonly dataSource = new WattTableDataSource<DhGridAreaRow>();
 
