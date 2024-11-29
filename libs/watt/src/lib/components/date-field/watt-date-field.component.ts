@@ -34,7 +34,7 @@ import {
 } from '@angular/forms';
 import { MatCalendar } from '@angular/material/datepicker';
 import { MaskitoDirective } from '@maskito/angular';
-import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
+import { maskitoDateOptionsGenerator } from '@maskito/kit';
 import { map, share } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattFieldComponent } from '../field';
@@ -42,22 +42,21 @@ import { WattButtonComponent } from '../button/watt-button.component';
 import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
-const DA_FILLER = 'dd-mm-åååå, tt:mm';
-const EN_FILLER = 'dd-mm-yyyy, hh:mm';
-const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
-const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
+const DA_FILLER = 'dd-mm-åååå';
+const EN_FILLER = 'dd-mm-yyyy';
+const DATE_FORMAT = 'DD-MM-YYYY';
 const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   standalone: true,
-  selector: 'watt-datetime-field',
+  selector: 'watt-date-field',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattDateTimeField),
+      useExisting: forwardRef(() => WattDateField),
       multi: true,
     },
   ],
@@ -70,12 +69,12 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
   ],
   styles: [
     `
-      watt-datetime-field {
+      watt-date-field {
         display: block;
         width: 100%;
       }
 
-      .watt-datetime-field-picker {
+      .watt-date-field-picker {
         position-area: bottom span-right;
         position-try-fallbacks: flip-block;
         inset: unset;
@@ -96,7 +95,7 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       <watt-button icon="date" variant="icon" (click)="input.focus()" />
       <div
         #picker
-        class="watt-calendar watt-datetime-field-picker"
+        class="watt-calendar watt-date-field-picker"
         popover="manual"
         tabindex="0"
         [style.position-anchor]="field.inputAnchor"
@@ -115,18 +114,17 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
     </watt-field>
   `,
 })
-export class WattDateTimeField implements ControlValueAccessor {
+export class WattDateField implements ControlValueAccessor {
   private locale = inject(WattLocaleService);
 
   /** Converts date from outer FormControl to format of inner FormControl. */
-  protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
-    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(format) : '';
+  protected modelToView = (value: Date | null) =>
+    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(DATE_FORMAT) : '';
 
   /** Converts value of inner FormControl to type of outer FormControl. */
   protected viewToModel = (value: string) => {
-    const date = dayjs(value, DATETIME_FORMAT, true);
-    if (!date.isValid()) return null;
-    return this.inclusive() ? date.endOf('m').toDate() : date.toDate();
+    const date = dayjs(value, DATE_FORMAT, true);
+    return date.isValid() ? date.toDate() : null;
   };
 
   // Must unfortunately be queried in order to update `activeDate`
@@ -153,9 +151,6 @@ export class WattDateTimeField implements ControlValueAccessor {
   /** The maximum selectable date. */
   max = input<Date>();
 
-  /** When true, seconds will be set to 59 and milliseconds to 999. Otherwise, both are 0. */
-  inclusive = input(false);
-
   /** Emits when the selected date has changed. */
   dateChange = outputFromObservable(this.valueChanges);
 
@@ -165,13 +160,11 @@ export class WattDateTimeField implements ControlValueAccessor {
   protected selected = signal<Date | null>(null);
   protected placeholder = computed(() => (this.locale.isDanish() ? DA_FILLER : EN_FILLER));
   protected mask = computed(() =>
-    maskitoDateTimeOptionsGenerator({
+    maskitoDateOptionsGenerator({
       min: this.min(),
       max: this.max(),
-      dateMode: 'dd/mm/yyyy',
-      timeMode: 'HH:MM',
-      dateSeparator: '-',
-      timeStep: 1,
+      mode: 'dd/mm/yyyy',
+      separator: '-',
     })
   );
 
@@ -190,13 +183,7 @@ export class WattDateTimeField implements ControlValueAccessor {
     picker: HTMLDivElement,
     date: Date
   ) => {
-    const prev = this.viewToModel(this.control.value);
-
-    // Only write the date part
-    input.value = prev
-      ? this.modelToView(dayjs(date).set('h', prev.getHours()).set('m', prev.getMinutes()).toDate())
-      : this.modelToView(date, PARTIAL_DATETIME_FORMAT);
-
+    input.value = this.modelToView(date);
     input.dispatchEvent(new Event('input', { bubbles: true }));
     picker.hidePopover();
   };
