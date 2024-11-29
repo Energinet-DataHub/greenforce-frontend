@@ -357,6 +357,15 @@ type GetUserResponse {
   latestLoginAt: DateTime
 }
 
+type GridAreaAuditedChangeAuditLogDto {
+  auditedBy: String
+  change: GridAreaAuditedChange!
+  timestamp: DateTime!
+  isInitialAssignment: Boolean!
+  currentValue: String
+  previousValue: String
+}
+
 type GridAreaDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
@@ -609,6 +618,7 @@ type Query {
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   gridAreas: [GridAreaDto!]!
+  gridAreaAuditLogs(gridAreaId: UUID!): [GridAreaAuditedChangeAuditLogDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
@@ -1174,6 +1184,8 @@ enum ActorAuditedChange {
   CLIENT_SECRET_CREDENTIALS
   DELEGATION_START
   DELEGATION_STOP
+  CONSOLIDATION_REQUESTED
+  CONSOLIDATION_COMPLETED
 }
 
 enum ActorDelegationStatus {
@@ -1358,6 +1370,13 @@ enum ExchangeEventSortProperty {
   GRID_AREA_CODE
   TIME_SERIES_TYPE
   LATEST_DISPATCHED
+}
+
+enum GridAreaAuditedChange {
+  NAME
+  CONSOLIDATION_REQUESTED
+  CONSOLIDATION_COMPLETED
+  DECOMMISSIONED
 }
 
 enum GridAreaStatus {
