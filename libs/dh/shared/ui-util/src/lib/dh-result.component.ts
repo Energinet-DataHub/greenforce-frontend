@@ -53,7 +53,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
             [message]="'shared.error.message' | transloco"
           />
         }
-        @if (empty()) {
+        @if (empty() && !loading() && !hasError()) {
           <h4>{{ 'shared.empty.title' | transloco }}</h4>
         }
       </vater-stack>
