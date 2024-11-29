@@ -1,0 +1,78 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
+  @if (isLoading()) {
+    <vater-flex direction="row" justify="center">
+      <watt-spinner />
+    </vater-flex>
+  } @else {
+    @if (!hasError()) {
+      <watt-card-title>
+        <ng-container
+          *ngTemplateOutlet="
+            auditLogHeadline;
+            context: {
+              $implicit: dataSource.data.length,
+            }
+          "
+        />
+      </watt-card-title>
+
+      <watt-table
+        [columns]="columns"
+        [dataSource]="dataSource"
+        sortBy="timestamp"
+        sortDirection="desc"
+        [sortClear]="false"
+      >
+        <ng-container
+          *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+        >
+          {{ element.timestamp | wattDate: "long" }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+          <span [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.change, element)">
+          </span>
+        </ng-container>
+      </watt-table>
+      @if (dataSource.data.length === 0) {
+        <vater-flex direction="row" justify="center">
+          <h4>{{ t("table.noEntries") }}</h4>
+        </vater-flex>
+      }
+    } @else {
+      <watt-empty-state
+        icon="custom-power"
+        [title]="'shared.error.title' | transloco"
+        [message]="'shared.error.message' | transloco"
+      />
+    }
+  }
+</watt-card>
+
+<ng-template #auditLogHeadline let-auditLogCount>
+  <ng-container *transloco="let t; read: 'admin.userManagement.tabs.history'">
+    <h4>
+      @if (auditLogCount === 1) {
+        {{ t("changesSingular", { auditLogCount }) }}
+      } @else {
+        {{ t("changesPlural", { auditLogCount }) }}
+      }
+    </h4>
+  </ng-container>
+</ng-template>
