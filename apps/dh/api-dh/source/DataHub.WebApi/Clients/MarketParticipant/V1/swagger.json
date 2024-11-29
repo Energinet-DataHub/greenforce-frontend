@@ -3622,7 +3622,9 @@
           "CertificateCredentials",
           "ClientSecretCredentials",
           "DelegationStart",
-          "DelegationStop"
+          "DelegationStop",
+          "ConsolidationRequested",
+          "ConsolidationCompleted"
         ],
         "enum": [
           1,
@@ -3635,7 +3637,9 @@
           8,
           9,
           10,
-          11
+          11,
+          12,
+          13
         ]
       },
       "ActorAuditedChangeAuditLogDto": {
@@ -3655,7 +3659,9 @@
               "CertificateCredentials",
               "ClientSecretCredentials",
               "DelegationStart",
-              "DelegationStop"
+              "DelegationStop",
+              "ConsolidationRequested",
+              "ConsolidationCompleted"
             ],
             "allOf": [
               {
@@ -4511,10 +4517,16 @@
         "type": "integer",
         "format": "int32",
         "x-enumNames": [
-          "Name"
+          "Name",
+          "ConsolidationRequested",
+          "ConsolidationCompleted",
+          "Decommissioned"
         ],
         "enum": [
-          0
+          0,
+          1,
+          2,
+          3
         ]
       },
       "GridAreaAuditedChangeAuditLogDto": {
@@ -4524,7 +4536,10 @@
           "change": {
             "readOnly": true,
             "x-enumNames": [
-              "Name"
+              "Name",
+              "ConsolidationRequested",
+              "ConsolidationCompleted",
+              "Decommissioned"
             ],
             "allOf": [
               {

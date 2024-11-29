@@ -14,4 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { dhGridAreasShellRoutes as default } from './lib/dh-grid-areas-shell.routes';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetPermissionLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type PermissionAuditLog = ResultOf<typeof GetPermissionLogsDocument>['permissionLogs'][0];

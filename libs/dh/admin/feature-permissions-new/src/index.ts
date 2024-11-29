@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { dhGridAreasShellRoutes as default } from './lib/dh-grid-areas-shell.routes';
+export { DhAdminPermissionOverviewComponent as default } from './lib/overview/dh-admin-permission-overview.component';

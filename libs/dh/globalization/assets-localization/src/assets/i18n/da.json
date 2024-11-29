@@ -818,7 +818,8 @@
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
-        "priceArea": "Prisområde"
+        "priceArea": "Prisområde",
+        "period": "Periode"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
