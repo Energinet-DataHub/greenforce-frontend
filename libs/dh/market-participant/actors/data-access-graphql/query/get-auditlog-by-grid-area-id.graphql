@@ -1,0 +1,10 @@
+query GetAuditLogByGridAreaId($gridAreaId: UUID!) {
+  gridAreaAuditLogs(gridAreaId: $gridAreaId) {
+    change
+    timestamp
+    isInitialAssignment
+    currentValue
+    previousValue
+    auditedBy
+  }
+}
