@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { FormsModule } from '@angular/forms';
-import { Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
@@ -48,6 +48,7 @@ import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.comp
   standalone: true,
   selector: 'dh-grid-areas-overview',
   templateUrl: './dh-grid-areas-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       h3 {
