@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, output } from '@angular/core';
 
 import { switchMap } from 'rxjs';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -40,8 +40,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { GetPermissionsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-
-import { DhAdminPermissionDetailComponent } from './details/detail.component';
 
 @Component({
   standalone: true,
@@ -73,75 +71,75 @@ import { DhAdminPermissionDetailComponent } from './details/detail.component';
     VaterUtilityDirective,
 
     DhPermissionRequiredDirective,
-    DhAdminPermissionDetailComponent,
   ],
   template: `<watt-card
-      vater
-      inset="ml"
-      *transloco="let t; read: 'admin.userManagement.permissionsTab'"
-    >
-      <vater-flex fill="vertical" gap="m">
-        <vater-stack direction="row" gap="s">
-          <h3>{{ t('headline') }}</h3>
-          <span class="watt-chip-label">{{ dataSource.data.length }}</span>
+    vater
+    inset="ml"
+    *transloco="let t; read: 'admin.userManagement.permissionsTab'"
+  >
+    <vater-flex fill="vertical" gap="m">
+      <vater-stack direction="row" gap="s">
+        <h3>{{ t('headline') }}</h3>
+        <span class="watt-chip-label">{{ dataSource.data.length }}</span>
 
-          <vater-spacer />
+        <vater-spacer />
 
-          <watt-search [label]="'shared.search' | transloco" (search)="onSearch($event)" />
+        <watt-search [label]="'shared.search' | transloco" (search)="onSearch($event)" />
 
-          <watt-button *transloco="let t" icon="download" variant="text" (click)="exportAsCsv()">
-            {{ t('shared.download') }}
-          </watt-button>
+        <watt-button *transloco="let t" icon="download" variant="text" (click)="exportAsCsv()">
+          {{ t('shared.download') }}
+        </watt-button>
 
-          <watt-button
-            *dhPermissionRequired="['user-roles:manage']"
-            icon="download"
-            variant="text"
-            (click)="downloadRelationCSV(url())"
+        <watt-button
+          *dhPermissionRequired="['user-roles:manage']"
+          icon="download"
+          variant="text"
+          (click)="downloadRelationCSV(url())"
+        >
+          {{ 'shared.downloadreport' | transloco }}
+        </watt-button>
+      </vater-stack>
+
+      <vater-flex fill="vertical" scrollable>
+        <watt-table
+          [dataSource]="dataSource"
+          [columns]="columns"
+          (rowClick)="onRowClick($event)"
+          [activeRow]="activeRow"
+          sortBy="name"
+          sortDirection="asc"
+          [sortClear]="false"
+          [loading]="loading()"
+        >
+          <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
+            {{ element.name }}
+          </ng-container>
+
+          <ng-container
+            *wattTableCell="columns.description; header: t('permissionDescription'); let element"
           >
-            {{ 'shared.downloadreport' | transloco }}
-          </watt-button>
-        </vater-stack>
+            {{ element.description }}
+          </ng-container>
+        </watt-table>
 
-        <vater-flex fill="vertical" scrollable>
-          <watt-table
-            [dataSource]="dataSource"
-            [columns]="columns"
-            (rowClick)="onRowClick($event)"
-            [activeRow]="activeRow"
-            sortBy="name"
-            sortDirection="asc"
-            [sortClear]="false"
-            [loading]="loading()"
-          >
-            <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
-              {{ element.name }}
-            </ng-container>
-
-            <ng-container
-              *wattTableCell="columns.description; header: t('permissionDescription'); let element"
-            >
-              {{ element.description }}
-            </ng-container>
-          </watt-table>
-
-          @if (hasError()) {
-            <vater-stack fill="vertical" justify="center">
-              <watt-empty-state
-                icon="custom-power"
-                [title]="'shared.error.title' | transloco"
-                [message]="'shared.error.message' | transloco"
-              />
-            </vater-stack>
-          }
-        </vater-flex>
+        @if (hasError()) {
+          <vater-stack fill="vertical" justify="center">
+            <watt-empty-state
+              icon="custom-power"
+              [title]="'shared.error.title' | transloco"
+              [message]="'shared.error.message' | transloco"
+            />
+          </vater-stack>
+        }
       </vater-flex>
-    </watt-card>
-    <dh-admin-permission-detail (closed)="onClosed()" />`,
+    </vater-flex>
+  </watt-card>`,
 })
 export class DhPermissionsTableComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
+
+  open = output<PermissionDto>();
 
   query = query(GetPermissionsDocument, { variables: { searchTerm: '' } });
   loading = this.query.loading;
@@ -157,8 +155,6 @@ export class DhPermissionsTableComponent {
 
   url = computed(() => this.query.data()?.permissions.getPermissionRelationsUrl ?? '');
 
-  permissionDetail = viewChild.required(DhAdminPermissionDetailComponent);
-
   constructor() {
     effect(() => {
       this.dataSource.data = this.query.data()?.permissions.permissions ?? [];
@@ -167,7 +163,7 @@ export class DhPermissionsTableComponent {
 
   onRowClick(row: PermissionDto): void {
     this.activeRow = row;
-    this.permissionDetail().open(row);
+    this.open.emit(row);
   }
 
   onClosed(): void {

@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import {
-  output,
+  input,
   inject,
+  effect,
   computed,
-  Component,
   viewChild,
+  Component,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -30,7 +31,6 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -38,24 +38,26 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhEditPermissionModalComponent } from './edit.component';
 import { DhAdminPermissionRolesComponent } from './tabs/admin-permission-roles.component';
 import { DhPermissionAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'dh-admin-permission-detail',
+  selector: 'dh-permission-detail',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-admin-permission-detail.component.html',
+  templateUrl: './detail.component.html',
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
+    TranslocoDirective,
+
     WATT_DRAWER,
     WattTabComponent,
     WattCardComponent,
@@ -64,40 +66,41 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
     WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+
+    VaterFlexComponent,
+
     DhPermissionRequiredDirective,
     DhPermissionAuditLogsComponent,
     DhAdminPermissionRolesComponent,
     DhAdminPermissionMarketRolesComponent,
-    VaterFlexComponent,
   ],
 })
-export class DhAdminPermissionDetailComponent {
-  private modalService = inject(WattModalService);
+export class DhPermissionDetailComponent {
+  private navigationService = inject(DhNavigationService);
   private query = lazyQuery(GetPermissionDetailsDocument);
 
   drawer = viewChild.required(WattDrawerComponent);
+
+  // param id
+  id = input.required<string>();
 
   permission = computed(() => this.query.data()?.permissionById);
 
   isLoading = this.query.loading;
   hasError = this.query.hasError;
 
-  closed = output<void>();
-
-  onClose(): void {
-    this.drawer().close();
-    this.closed.emit();
+  constructor() {
+    effect(() => {
+      this.query.query({ variables: { id: parseInt(this.id()) } });
+      this.drawer().open();
+    });
   }
 
-  open(permission: PermissionDto): void {
-    this.query.query({ variables: { id: permission.id } });
-    this.drawer().open();
+  onClose(): void {
+    this.navigationService.navigate('list');
   }
 
   edit() {
-    this.modalService.open({
-      component: DhEditPermissionModalComponent,
-      data: this.permission(),
-    });
+    this.navigationService.navigate('edit', this.id());
   }
 }

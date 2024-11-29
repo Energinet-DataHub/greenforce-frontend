@@ -23,6 +23,9 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 import { DhAdminShellComponent } from './dh-admin-shell.component';
 
+const detailsPath = 'details/:id';
+const editPath = 'edit';
+
 const accessNewUserManagement: CanMatchFn = () => {
   return inject(DhFeatureFlagsService).isEnabled('feature-user-management-new');
 };
@@ -47,14 +50,14 @@ export const dhAdminShellRoutes: Routes = [
         canMatch: [accessNewUserManagement],
         children: [
           {
-            path: 'details/:id',
+            path: detailsPath,
             loadComponent: () =>
               import('@energinet-datahub/dh/admin/feature-user-management-new').then(
                 (m) => m.DhUserDetailsComponent
               ),
             children: [
               {
-                path: 'edit',
+                path: editPath,
                 loadComponent: () =>
                   import('@energinet-datahub/dh/admin/feature-user-management-new').then(
                     (m) => m.DhEditUserComponent
@@ -74,14 +77,14 @@ export const dhAdminShellRoutes: Routes = [
         loadComponent: () => import('@energinet-datahub/dh/admin/feature-user-roles-new'),
         children: [
           {
-            path: 'details/:id',
+            path: detailsPath,
             loadComponent: () =>
               import('@energinet-datahub/dh/admin/feature-user-roles-new').then(
                 (m) => m.DhUserRoleDetailsComponent
               ),
             children: [
               {
-                path: 'edit',
+                path: editPath,
                 loadComponent: () =>
                   import('@energinet-datahub/dh/admin/feature-user-roles-new').then(
                     (m) => m.DhUserRoleEditComponent
@@ -100,6 +103,24 @@ export const dhAdminShellRoutes: Routes = [
         canActivate: [PermissionGuard(['fas'])],
         canMatch: [accessNewUserManagement],
         loadComponent: () => import('@energinet-datahub/dh/admin/feature-permissions-new'),
+        children: [
+          {
+            path: detailsPath,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/admin/feature-permissions-new').then(
+                (m) => m.DhPermissionDetailComponent
+              ),
+            children: [
+              {
+                path: editPath,
+                loadComponent: () =>
+                  import('@energinet-datahub/dh/admin/feature-permissions-new').then(
+                    (m) => m.DhPermissionEditComponent
+                  ),
+              },
+            ],
+          },
+        ],
       },
       {
         path: getPath<AdminSubPaths>('permissions'),
