@@ -14,21 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhUserRolesTableComponent } from './table.component';
-import { DhUserRoleDetailsComponent } from './details/details.component';
 
 @Component({
   standalone: true,
   selector: 'dh-user-roles-page',
   template: `
-    <dh-user-roles-table (open)="details.open($event)" />
-    <dh-user-role-details #details />
+    <dh-user-roles-table (open)="navigate($event.id)" />
+    <router-outlet />
   `,
-  imports: [DhUserRolesTableComponent, DhUserRoleDetailsComponent],
+  imports: [DhUserRolesTableComponent, RouterOutlet],
   providers: [DhNavigationService],
 })
-export class DhUserRolesPageComponent {}
+export class DhUserRolesPageComponent {
+  private navigationService = inject(DhNavigationService);
+
+  navigate(id: string) {
+    this.navigationService.navigate('details', id);
+  }
+}

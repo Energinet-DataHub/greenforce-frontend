@@ -14,8 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'admin.userManagement.tabs.roles'">
-  <mat-accordion multi class="container">
+@if (loading()) {
+  <vater-flex direction="row" justify="center">
+    <watt-spinner />
+  </vater-flex>
+} @else if (hasError()) {
+  <vater-flex direction="row" justify="center">
+    <watt-empty-state
+      icon="custom-power"
+      [title]="'shared.error.title' | transloco"
+      [message]="'shared.error.message' | transloco"
+    />
+  </vater-flex>
+} @else {
+  <mat-accordion *transloco="let t; read: 'admin.userManagement.tabs.roles'" multi>
     @for (actor of userRolesPerActor(); track actor) {
       <watt-expandable-card
         variant="solid"
@@ -32,7 +44,7 @@ limitations under the License.
           actor.glnOrEicNumber +
           " • " +
           actor.organization.name +
-          " – " +
+          " - " +
           (actor.name ? actor.name + " - " : "") +
           translateMarketRole(actor.userRoles[0].eicFunction);
 
@@ -81,4 +93,4 @@ limitations under the License.
       </watt-expandable-card>
     }
   </mat-accordion>
-</ng-container>
+}

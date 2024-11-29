@@ -17,13 +17,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   OnDestroy,
   Renderer2,
-  ViewEncapsulation,
   signal,
-  effect,
+  ViewEncapsulation,
 } from '@angular/core';
 
 const SELECTOR = 'eo-scroll-view';

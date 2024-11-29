@@ -14,28 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dh-user-roles {
-  .container {
-    display: block;
-  }
+import { Routes } from '@angular/router';
 
-  watt-table {
-    box-sizing: border-box;
-    padding: var(--watt-space-m) 0;
-  }
-
-  watt-expandable-card {
-    watt-badge {
-      flex: 0 0 auto;
-    }
-
-    watt-expandable-card-title {
-      display: flex;
-      gap: var(--watt-space-s);
-
-      watt-icon {
-        color: var(--watt-color-primary-darker);
-      }
-    }
-  }
-}
+export const eoLegalRoutes: Routes = [
+  {
+    path: 'terms',
+    loadComponent: () =>
+      import('@energinet-datahub/eo/legal/terms').then((x) => x.EoTermsComponent),
+  },
+  {
+    path: 'privacy-policy',
+    loadComponent: () =>
+      import('@energinet-datahub/eo/legal/privacy-policy').then((x) => x.EoPrivacyPolicyComponent),
+  },
+  {
+    path: 'service-provider-terms',
+    loadComponent: () =>
+      import('@energinet-datahub/eo/legal/service-provider-terms').then(
+        (x) => x.EoServiceProviderTermsComponent
+      ),
+  },
+];

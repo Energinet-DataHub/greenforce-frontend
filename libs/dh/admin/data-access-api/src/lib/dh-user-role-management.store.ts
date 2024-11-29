@@ -19,19 +19,13 @@ import { filter, Observable, switchMap, tap } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
 import { tapResponse } from '@ngrx/operators';
 import { Apollo } from 'apollo-angular';
-import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { ErrorState, LoadingState } from '@energinet-datahub/dh/shared/domain';
 import {
   DeactivateUserRoleDocument,
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type DhUserRoleWithPermissions = ResultOf<
-  typeof GetUserRoleWithPermissionsDocument
->['userRoleById'];
-
-export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions'][0];
+import { DhUserRoleWithPermissions } from './types/user-role.type';
 
 interface DhUserRoleManagementState {
   readonly userRole: DhUserRoleWithPermissions | null;

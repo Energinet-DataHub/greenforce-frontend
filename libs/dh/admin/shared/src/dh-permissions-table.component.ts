@@ -15,20 +15,21 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnChanges,
   input,
   output,
+  effect,
+  Component,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import {
-  WattTableDataSource,
-  WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
+  WattTableColumnDef,
+  WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -38,9 +39,9 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 @Component({
   selector: 'dh-permissions-table',
   standalone: true,
-  template: `<ng-container *transloco="let t; read: 'admin.userManagement.permissionsTable'">
-    @if (permissions().length > 0) {
+  template: ` @if (permissions().length > 0) {
       <watt-table
+        *transloco="let t; read: 'admin.userManagement.permissionsTable'"
         description="permissions"
         [dataSource]="dataSource"
         [columns]="columns"
@@ -71,8 +72,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
           [message]="hasError() ? 'shared.error.message' : ('' | transloco)"
         />
       </vater-flex>
-    }
-  </ng-container>`,
+    }`,
   styles: [
     `
       :host {
@@ -82,14 +82,16 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    TranslocoPipe,
     TranslocoDirective,
+
     WATT_TABLE,
     WattEmptyStateComponent,
+
     VaterFlexComponent,
-    TranslocoPipe,
   ],
 })
-export class DhPermissionsTableComponent implements OnChanges {
+export class DhPermissionsTableComponent {
   permissions = input<PermissionDetailsDto[]>([]);
   loading = input.required<boolean>();
   hasError = input.required<boolean>();
@@ -106,11 +108,9 @@ export class DhPermissionsTableComponent implements OnChanges {
     description: { accessor: 'description' },
   };
 
-  ngOnChanges(): void {
-    this.dataSource.data = this.permissions();
-
-    if (this.permissionsTable()) {
-      this.permissionsTable()?.clearSelection();
-    }
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.permissions();
+    });
   }
 }

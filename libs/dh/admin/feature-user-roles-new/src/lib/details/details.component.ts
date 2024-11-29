@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { output, computed, Component, viewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { computed, Component, viewChild, input, effect, inject } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
@@ -28,24 +30,27 @@ import {
 } from '@energinet-datahub/dh/admin/shared';
 
 import {
-  UserRoleDto,
   UserRoleStatus,
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDeactivedUserRoleComponent } from './deactivate.component';
-import { DhDrawerRoleTabsComponent } from './tabs/dh-drawer-role-tabs.component';
-import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.component';
+import { DhRoleAuditLogsComponent } from './tabs/audit-logs.component';
+import { DhRoleMasterDataComponent } from './tabs/master-data.component';
+import { DhRolePermissionsComponent } from './tabs/permissions.component';
 
 @Component({
   selector: 'dh-user-role-details',
   standalone: true,
   imports: [
+    RouterOutlet,
     TranslocoDirective,
 
+    WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
@@ -53,12 +58,15 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
     DhPermissionRequiredDirective,
 
     DhRoleStatusComponent,
-    DhDrawerRoleTabsComponent,
-    DhEditUserRoleModalComponent,
-    DhTabDataGeneralErrorComponent,
+    DhRoleAuditLogsComponent,
+    DhRoleMasterDataComponent,
+    DhRolePermissionsComponent,
     DhDeactivedUserRoleComponent,
+    DhTabDataGeneralErrorComponent,
   ],
-  template: ` @let userRole = userRoleWithPermissions();
+  template: `
+    @let userRole = userRoleWithPermissions();
+
     <watt-drawer
       *transloco="let t; read: 'admin.userManagement.drawer'"
       #drawer
@@ -66,19 +74,19 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
       (closed)="onClose()"
       [loading]="isLoading()"
     >
-      @if (drawer.isOpen && userRole) {
+      @if (userRole) {
         <watt-drawer-topbar>
           <dh-role-status [status]="userRole.status" />
         </watt-drawer-topbar>
       }
 
-      @if (drawer.isOpen && userRole) {
+      @if (userRole) {
         <watt-drawer-heading>
           <h2>{{ userRole.name }}</h2>
         </watt-drawer-heading>
       }
 
-      @if (basicUserRole?.status !== UserRoleStatus.Inactive) {
+      @if (userRole && userRole.status !== UserRoleStatus.Inactive) {
         <watt-drawer-actions>
           <watt-button
             *dhPermissionRequired="['user-roles:manage']"
@@ -91,17 +99,27 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
           <watt-button
             *dhPermissionRequired="['user-roles:manage']"
             variant="secondary"
-            (click)="isEditUserRoleModalVisible = true"
+            (click)="edit()"
             >{{ t('editRole') }}</watt-button
           >
         </watt-drawer-actions>
       }
 
-      @if (drawer.isOpen) {
+      @if (userRole) {
         <watt-drawer-content>
-          @if (userRole) {
-            <dh-drawer-role-tabs [role]="userRole" />
-          }
+          <watt-tabs *transloco="let tab; read: 'admin.userManagement.drawer.roles.tabs'">
+            <watt-tab [label]="tab('masterData.tabLabel')">
+              <dh-role-master-data [role]="userRole" />
+            </watt-tab>
+            <watt-tab *dhPermissionRequired="['fas']" [label]="tab('permissions.tabLabel')">
+              <dh-role-permissions [role]="userRole" />
+            </watt-tab>
+            <watt-tab *dhPermissionRequired="['fas']" [label]="tab('history.tabLabel')">
+              @defer {
+                <dh-role-audit-logs [id]="userRole.id" />
+              }
+            </watt-tab>
+          </watt-tabs>
 
           @if (hasError()) {
             <dh-tab-data-general-error (reload)="reload()" />
@@ -109,17 +127,13 @@ import { DhEditUserRoleModalComponent } from '../edit/dh-edit-user-role-modal.co
         </watt-drawer-content>
       }
     </watt-drawer>
-
-    @if (isEditUserRoleModalVisible && userRole && userRole.status === 'ACTIVE') {
-      <dh-edit-user-role-modal (closed)="modalOnClose($event)" />
-    }
-
-    <dh-deactivate-user-role [id]="basicUserRole?.id" #deactivate />`,
+    <dh-deactivate-user-role [id]="userRole?.id" #deactivate />
+    <router-outlet />
+  `,
 })
 export class DhUserRoleDetailsComponent {
+  private navigationService = inject(DhNavigationService);
   private userRolesWithPermissionsQuery = lazyQuery(GetUserRoleWithPermissionsDocument);
-
-  basicUserRole: UserRoleDto | null = null;
 
   UserRoleStatus = UserRoleStatus;
 
@@ -127,47 +141,40 @@ export class DhUserRoleDetailsComponent {
   isLoading = this.userRolesWithPermissionsQuery.loading;
   hasError = this.userRolesWithPermissionsQuery.hasError;
 
+  // Router param
+  id = input<string>();
+
   drawer = viewChild.required(WattDrawerComponent);
 
   confirmationModal = viewChild.required(WattModalComponent);
 
   isEditUserRoleModalVisible = false;
 
-  closed = output<void>();
-  userRoleDeactivated = output<void>();
-
   onClose(): void {
-    this.drawer().close();
-    this.closed.emit();
-    this.basicUserRole = null;
-  }
-
-  onDeActivated(): void {
-    this.drawer().close();
-    this.userRoleDeactivated.emit();
-    this.basicUserRole = null;
+    this.navigationService.navigate('list');
   }
 
   reload() {
     this.userRolesWithPermissionsQuery.refetch();
   }
 
-  modalOnClose({ saveSuccess }: { saveSuccess: boolean }): void {
-    this.isEditUserRoleModalVisible = false;
-
-    if (saveSuccess) {
-      this.reload();
-    }
+  edit() {
+    this.navigationService.navigate('edit', this.id());
   }
 
-  open(role: UserRoleDto): void {
-    this.basicUserRole = role;
-    this.drawer().open();
+  constructor() {
+    effect(() => {
+      const id = this.id();
 
-    this.userRolesWithPermissionsQuery.query({
-      variables: {
-        id: role.id,
-      },
+      if (id) {
+        this.drawer().open();
+
+        this.userRolesWithPermissionsQuery.query({
+          variables: {
+            id,
+          },
+        });
+      }
     });
   }
 }

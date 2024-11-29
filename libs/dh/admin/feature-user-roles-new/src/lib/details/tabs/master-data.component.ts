@@ -22,12 +22,25 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
   selector: 'dh-role-master-data',
   standalone: true,
-  templateUrl: './dh-role-master-data.component.html',
+  template: ` <watt-card
+    *transloco="let t; read: 'admin.userManagement.tabs.masterData'"
+    variant="solid"
+  >
+    <watt-description-list variant="stack">
+      <watt-description-list-item [label]="t('name')" [value]="role().name" />
+      <watt-description-list-item [label]="t('description')" [value]="role().description" />
+      <watt-description-list-item
+        [label]="t('marketRole')"
+        [value]="'marketParticipant.marketRoles.' + this.role().eicFunction | transloco"
+      />
+    </watt-description-list>
+  </watt-card>`,
   imports: [
     TranslocoDirective,
     TranslocoPipe,
@@ -38,5 +51,5 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
   ],
 })
 export class DhRoleMasterDataComponent {
-  role = input<DhUserRoleWithPermissions | null>(null);
+  role = input.required<DhUserRoleWithPermissions>();
 }
