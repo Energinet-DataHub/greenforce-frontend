@@ -30,4 +30,4 @@ export type DhGridAreaRow = {
   type: GridAreaType;
   priceArea: PriceAreaCode;
   period: WattRange<Date>;
-}
+};
