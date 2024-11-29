@@ -41,6 +41,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { FilterUserRolesPipe, UserRolesIntoTablePipe } from './filter-user-roles-into-table.pipe';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-roles',
@@ -80,6 +81,7 @@ import { FilterUserRolesPipe, UserRolesIntoTablePipe } from './filter-user-roles
 
     VaterFlexComponent,
 
+    DhResultComponent,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,
   ],

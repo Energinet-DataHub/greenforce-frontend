@@ -25,16 +25,13 @@ import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
 import {
-  DhRoleStatusComponent,
-  DhTabDataGeneralErrorComponent,
-} from '@energinet-datahub/dh/admin/shared';
-
-import {
   UserRoleStatus,
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -57,22 +54,20 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
 
     DhPermissionRequiredDirective,
 
+    DhResultComponent,
     DhRoleStatusComponent,
     DhRoleAuditLogsComponent,
     DhRoleMasterDataComponent,
     DhRolePermissionsComponent,
     DhDeactivedUserRoleComponent,
-    DhTabDataGeneralErrorComponent,
   ],
   template: `
     @let userRole = userRoleWithPermissions();
 
     <watt-drawer
       *transloco="let t; read: 'admin.userManagement.drawer'"
-      #drawer
       size="large"
       (closed)="onClose()"
-      [loading]="isLoading()"
     >
       @if (userRole) {
         <watt-drawer-topbar>
@@ -105,27 +100,28 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
         </watt-drawer-actions>
       }
 
-      @if (userRole) {
-        <watt-drawer-content>
-          <watt-tabs *transloco="let tab; read: 'admin.userManagement.drawer.roles.tabs'">
-            <watt-tab [label]="tab('masterData.tabLabel')">
-              <dh-role-master-data [role]="userRole" />
-            </watt-tab>
-            <watt-tab *dhPermissionRequired="['fas']" [label]="tab('permissions.tabLabel')">
-              <dh-role-permissions [role]="userRole" />
-            </watt-tab>
-            <watt-tab *dhPermissionRequired="['fas']" [label]="tab('history.tabLabel')">
-              @defer {
-                <dh-role-audit-logs [id]="userRole.id" />
-              }
-            </watt-tab>
-          </watt-tabs>
-
-          @if (hasError()) {
-            <dh-tab-data-general-error (reload)="reload()" />
+      <watt-drawer-content>
+        <dh-result [loading]="loading()" [hasError]="hasError()">
+          @if (userRole) {
+            <watt-tabs>
+              <watt-tab [label]="t('roles.tabs.masterData.tabLabel')">
+                <dh-role-master-data [role]="userRole" />
+              </watt-tab>
+              <watt-tab
+                *dhPermissionRequired="['fas']"
+                [label]="t('roles.tabs.permissions.tabLabel')"
+              >
+                <dh-role-permissions [role]="userRole" />
+              </watt-tab>
+              <watt-tab *dhPermissionRequired="['fas']" [label]="t('roles.tabs.history.tabLabel')">
+                @defer {
+                  <dh-role-audit-logs [id]="userRole.id" />
+                }
+              </watt-tab>
+            </watt-tabs>
           }
-        </watt-drawer-content>
-      }
+        </dh-result>
+      </watt-drawer-content>
     </watt-drawer>
     <dh-deactivate-user-role [id]="userRole?.id" #deactivate />
     <router-outlet />
@@ -138,7 +134,7 @@ export class DhUserRoleDetailsComponent {
   UserRoleStatus = UserRoleStatus;
 
   userRoleWithPermissions = computed(() => this.userRolesWithPermissionsQuery.data()?.userRoleById);
-  isLoading = this.userRolesWithPermissionsQuery.loading;
+  loading = this.userRolesWithPermissionsQuery.loading;
   hasError = this.userRolesWithPermissionsQuery.hasError;
 
   // Router param
