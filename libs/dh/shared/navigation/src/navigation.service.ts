@@ -53,8 +53,8 @@ export class DhNavigationService {
       });
   }
 
-  navigate(path: 'details' | 'edit' | 'list', id?: string) {
-    this.id.set(id);
+  navigate(path: 'details' | 'edit' | 'list', id?: string | number) {
+    this.id.set(id?.toString());
 
     if (path === 'edit') {
       this.router.navigate(['details', id, 'edit'], {
