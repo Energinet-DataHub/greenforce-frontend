@@ -16,13 +16,10 @@
  */
 import { Component, computed, effect, input } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import {
@@ -31,6 +28,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-role-audit-logs',
@@ -43,24 +41,13 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
       }
     `,
   ],
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-
-    WATT_CARD,
-    WATT_TABLE,
-    WattDatePipe,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
-
-    VaterFlexComponent,
-  ],
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
 })
 export class DhRoleAuditLogsComponent {
   private auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument);
   private auditLogs = computed(() => this.auditLogsQuery.data()?.userRoleAuditLogs ?? []);
 
-  isLoading = this.auditLogsQuery.loading;
+  loading = this.auditLogsQuery.loading;
   hasError = this.auditLogsQuery.hasError;
 
   dataSource = new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>();
