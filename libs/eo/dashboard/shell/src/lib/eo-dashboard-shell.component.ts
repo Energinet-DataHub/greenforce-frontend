@@ -46,6 +46,8 @@ import {
 import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
+import { EoTermsService } from '@energinet-datahub/eo/auth/data-access';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
@@ -94,6 +96,8 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   selector: 'eo-dashboard-shell',
   template: `
+    <p (click)="resetTerms();">RESET TERMS</p>
+
     @if ((isLoadingMeteringPoints$ | async) === false) {
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
         <watt-tabs variant="secondary">
@@ -156,6 +160,7 @@ export class EoDashboardShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);
   private aggregateService: EoAggregateService = inject(EoAggregateService);
   private destroyRef = inject(DestroyRef);
+  private termsService = inject(EoTermsService);
 
   period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
@@ -180,6 +185,12 @@ export class EoDashboardShellComponent implements OnInit {
         const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.type === 'Production');
         this.activeTab = hasProductionMeteringPoint ? 'production' : 'consumption';
       });
+  }
+
+  resetTerms() {
+    this.termsService.resetTerms().subscribe(() => {
+      alert('DONE');
+    })
   }
 
   protected onPeriodChanged(period: eoDashboardPeriod): void {
