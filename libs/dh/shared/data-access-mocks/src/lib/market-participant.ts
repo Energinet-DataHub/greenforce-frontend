@@ -50,6 +50,9 @@ import {
   mockAddTokenToDownloadUrlMutation,
   mockCheckDomainExistsQuery,
   mockMergeMarketParticipantsMutation,
+  mockGetGridAreaAuditLogQuery,
+  GridAreaAuditedChangeAuditLogDto,
+  GridAreaAuditedChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -82,6 +85,7 @@ export function marketParticipantMocks(apiBase: string) {
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     getGridAreaOverview(),
+    getGridAreaAuditLog(),
     createMarketParticipant(),
     getAssociatedActors(),
     getDelegationsForActor(),
@@ -442,6 +446,40 @@ function getGridAreaOverview() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getGridAreaOverviewMock,
+    });
+  });
+}
+
+function getGridAreaAuditLog() {
+  return mockGetGridAreaAuditLogQuery(async () => {
+    await delay(mswConfig.delay);
+
+    const auditLog: GridAreaAuditedChangeAuditLogDto[] = [
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: 'John Doe',
+        isInitialAssignment: false,
+        currentValue: 'Sort Strøm',
+        previousValue: null,
+        change: GridAreaAuditedChange.ConsolidationRequested,
+        timestamp: new Date('2023-12-09T22:59:59Z'),
+      },
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: 'John Doe',
+        isInitialAssignment: false,
+        currentValue: 'Grøn Strøm',
+        previousValue: null,
+        change: GridAreaAuditedChange.ConsolidationCompleted,
+        timestamp: new Date('2023-12-31T22:59:59Z'),
+      },
+    ];
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        gridAreaAuditLogs: auditLog,
+      },
     });
   });
 }
