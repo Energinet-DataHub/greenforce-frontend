@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { OperationVariables } from '@apollo/client/core';
 import { TypedDocumentNode } from 'apollo-angular';
 import {
@@ -84,6 +86,10 @@ export abstract class ApolloDataSource<
 
   get loading() {
     return this._query.loading();
+  }
+
+  get query() {
+    return this._query;
   }
 
   get called() {

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 function mixinSnippet(name: string) {
   return `@use '@energinet-datahub/watt/utils' as watt
 @include watt.typography-watt-${name}

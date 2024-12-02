@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 watt-expansion .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
 }
@@ -50,8 +52,6 @@ watt-expansion watt-button watt-text-button button.watt-button:focus {
   outline: none;
 }
 
-watt-expansion
-  .mat-button:hover:not(.mat-button-disabled)
-  .mat-button-focus-overlay {
+watt-expansion .mat-button:hover:not(.mat-button-disabled) .mat-button-focus-overlay {
   opacity: 0;
 }

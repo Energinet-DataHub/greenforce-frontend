@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { DhOrganizationsOverviewComponent as default } from './lib/dh-organizations-overview.component';
 export { DhOrganizationDetailsComponent } from './lib/details/dh-organization-details.component';
 export { DhOrganizationEditModalComponent } from './lib/edit/dh-edit-modal.component';

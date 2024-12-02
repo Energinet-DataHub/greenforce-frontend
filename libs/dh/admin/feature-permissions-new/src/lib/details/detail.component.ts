@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   input,
   inject,
@@ -24,7 +26,9 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { RouterOutlet } from '@angular/router';
+
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
   WattDescriptionListComponent,
@@ -32,21 +36,19 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattTabsComponent, WattTabComponent } from '@energinet-datahub/watt/tabs';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhAdminPermissionRolesComponent } from './tabs/admin-permission-roles.component';
 import { DhPermissionAuditLogsComponent } from './tabs/audit-logs.component';
+import { DhAdminPermissionRolesComponent } from './tabs/admin-permission-roles.component';
 import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.component';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'dh-permission-detail',
@@ -55,7 +57,6 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './detail.component.html',
   imports: [
     RouterOutlet,
-    TranslocoPipe,
     TranslocoDirective,
 
     WATT_DRAWER,
@@ -63,12 +64,10 @@ import { RouterOutlet } from '@angular/router';
     WattCardComponent,
     WattTabsComponent,
     WattButtonComponent,
-    WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
-    VaterFlexComponent,
-
+    DhResultComponent,
     DhPermissionRequiredDirective,
     DhPermissionAuditLogsComponent,
     DhAdminPermissionRolesComponent,
@@ -86,7 +85,7 @@ export class DhPermissionDetailComponent {
 
   permission = computed(() => this.query.data()?.permissionById);
 
-  isLoading = this.query.loading;
+  loading = this.query.loading;
   hasError = this.query.hasError;
 
   constructor() {

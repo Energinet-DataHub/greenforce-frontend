@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,38 +15,79 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, effect, input } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
-import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-type UserRole = ResultOf<
-  typeof GetPermissionDetailsDocument
->['permissionById']['userRoles'][number];
+import { DhPermissionDetailsUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-  selector: 'dh-admin-permission-roles',
-  templateUrl: './admin-permission-roles.component.html',
   standalone: true,
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, VaterFlexComponent],
+  selector: 'dh-admin-permission-roles',
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
+  template: `
+    <watt-card
+      variant="solid"
+      *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
+    >
+      @if (userRolesCount() === 1) {
+        <watt-card-title>
+          <h4>
+            {{ t('rolesSingular', { userRoleCount: userRolesCount() }) }}
+          </h4>
+        </watt-card-title>
+      } @else if (userRolesCount() !== 1) {
+        <watt-card-title>
+          <h4>
+            {{ t('rolesPlural', { userRoleCount: userRolesCount() }) }}
+          </h4>
+        </watt-card-title>
+      }
+
+      <dh-result [loading]="loading()" [hasError]="hasError()" [empty]="userRolesCount() === 0">
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          sortBy="name"
+          sortDirection="desc"
+          [sortClear]="false"
+        >
+          <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
+            {{ element.name }}
+          </ng-container>
+          <ng-container
+            *wattTableCell="columns.eicFunction; header: t('columns.eicFunction'); let element"
+          >
+            <ng-container
+              *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+            >
+              {{ translateMarketRole(element.eicFunction) }}
+            </ng-container>
+          </ng-container>
+        </watt-table>
+      </dh-result>
+    </watt-card>
+  `,
 })
 export class DhAdminPermissionRolesComponent {
-  private readonly userRoles = computed(() => this.selectedPermission().userRoles ?? []);
+  private userRoles = computed(() => this.selectedPermission().userRoles ?? []);
 
   selectedPermission = input.required<PermissionDetailDto>();
 
   userRolesCount = computed(() => this.userRoles().length);
 
-  dataSource = new WattTableDataSource<UserRole>();
+  loading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
-  columns: WattTableColumnDef<UserRole> = {
+  dataSource = new WattTableDataSource<DhPermissionDetailsUserRole>();
+
+  columns: WattTableColumnDef<DhPermissionDetailsUserRole> = {
     name: { accessor: 'name' },
     eicFunction: { accessor: 'eicFunction' },
   };

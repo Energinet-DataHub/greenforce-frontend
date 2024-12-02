@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 const messageId1 = '38374f50-f00c-4e2a-aec1-70d391cade06';

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//#endregion
 import {
   ChangeDetectorRef,
   Component,
@@ -201,7 +202,7 @@ interface Totals {
               translations.consumerChart.headline.default
                 | transloco
                   : {
-                      greenEnergyInPercentage: totals.green | percentageOf: totals.consumption
+                      greenEnergyInPercentage: totals.green | percentageOf: totals.consumption,
                     }
             }}
           </h5>
@@ -210,7 +211,7 @@ interface Totals {
               | transloco
                 : {
                     greenConsumption: totals.green | energyUnit,
-                    totalComsumption: totals.consumption | energyUnit
+                    totalComsumption: totals.consumption | energyUnit,
                   }
           }}</small>
         } @else {

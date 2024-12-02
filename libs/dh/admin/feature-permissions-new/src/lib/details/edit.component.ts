@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
@@ -37,6 +39,7 @@ import {
   UpdatePermissionDocument,
   GetPermissionEditDocument,
   GetPermissionDetailsDocument,
+  GetPermissionAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -154,7 +157,11 @@ export class DhPermissionEditComponent {
     }
 
     const result = await this.updatePermission.mutate({
-      refetchQueries: [GetPermissionsDocument, GetPermissionDetailsDocument],
+      refetchQueries: [
+        GetPermissionsDocument,
+        GetPermissionDetailsDocument,
+        GetPermissionAuditLogsDocument,
+      ],
       variables: {
         input: {
           id: parseInt(this.id()),

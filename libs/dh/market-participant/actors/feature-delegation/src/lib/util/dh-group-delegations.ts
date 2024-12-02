@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { DhDelegations, DhDelegationsByType } from '../dh-delegations';
 
 export function dhGroupDelegations(delegations: DhDelegations): DhDelegationsByType {

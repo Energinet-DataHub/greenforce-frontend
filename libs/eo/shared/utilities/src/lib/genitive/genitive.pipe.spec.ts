@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoGenitivePipe } from "./genitive.pipe";
-
+//#endregion
+import { EoGenitivePipe } from './genitive.pipe';
 
 describe('EoGenitivePipe', () => {
   let pipe: EoGenitivePipe;
@@ -42,25 +43,25 @@ describe('EoGenitivePipe', () => {
   });
 
   it("should correctly add only an apostrophe in Danish if the name ends with 's'", () => {
-    expect(pipe.transform('Ranulars', 'da')).toBe('Ranulars\'');
-    expect(pipe.transform('SAS', 'da')).toBe('SAS\'');
+    expect(pipe.transform('Ranulars', 'da')).toBe("Ranulars'");
+    expect(pipe.transform('SAS', 'da')).toBe("SAS'");
   });
 
   // English tests
   it("should correctly add 's' in English if the name does not end with 's'", () => {
-    expect(pipe.transform('Ranularg', 'en')).toBe('Ranularg\'s');
-    expect(pipe.transform('Google', 'en')).toBe('Google\'s');
+    expect(pipe.transform('Ranularg', 'en')).toBe("Ranularg's");
+    expect(pipe.transform('Google', 'en')).toBe("Google's");
   });
 
   it("should correctly add only an apostrophe in English if the name ends with 's'", () => {
-    expect(pipe.transform('Mars', 'en')).toBe('Mars\'');
-    expect(pipe.transform('Reuters', 'en')).toBe('Reuters\'');
+    expect(pipe.transform('Mars', 'en')).toBe("Mars'");
+    expect(pipe.transform('Reuters', 'en')).toBe("Reuters'");
   });
 
   // Edge cases
   it('should handle names ending with uppercase S correctly', () => {
-    expect(pipe.transform('SAS', 'en')).toBe('SAS\'');
-    expect(pipe.transform('SAS', 'da')).toBe('SAS\'');
+    expect(pipe.transform('SAS', 'en')).toBe("SAS'");
+    expect(pipe.transform('SAS', 'da')).toBe("SAS'");
   });
 
   it('should return the original value if language is not recognized', () => {
