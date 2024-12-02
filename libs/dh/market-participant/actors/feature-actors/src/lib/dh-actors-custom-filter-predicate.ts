@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { AllFiltersCombined } from './actors-filters';
 import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { dhParseJSON } from './dh-json-util';

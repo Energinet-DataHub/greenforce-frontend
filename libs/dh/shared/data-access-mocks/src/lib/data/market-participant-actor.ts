@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export const actorData = {
   actorId: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
   externalActorId: '8b93b711-a4f8-4434-b7ec-794e408316fa',

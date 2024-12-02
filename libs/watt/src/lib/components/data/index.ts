@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { WattDataFiltersComponent } from './watt-data-filters.component';
 export { WattDataActionsComponent } from './watt-data-actions.component';
 export { WattDataIntlService } from './watt-data-intl.service';

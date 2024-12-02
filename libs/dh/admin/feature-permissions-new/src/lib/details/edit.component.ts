@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,30 +15,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+//#endregion
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
+import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
+
+import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
-import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import {
-  GetPermissionDetailsDocument,
   GetPermissionsDocument,
   UpdatePermissionDocument,
+  GetPermissionEditDocument,
+  GetPermissionDetailsDocument,
+  GetPermissionAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import {
+  ApiErrorCollection,
+  readApiErrorResponse,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   standalone: true,
-  selector: 'dh-edit-permission-modal',
+  selector: 'dh-permission-edit',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -48,99 +61,145 @@ import {
     WattButtonComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
+
+    DhResultComponent,
   ],
-  template: `<watt-modal
-    *transloco="let t; read: 'admin.userManagement.editPermission'"
-    size="small"
-    [title]="modalData.name"
-    (closed)="closeModal($event)"
-  >
-    <form [formGroup]="userPermissionsForm" id="edit-permissions-form" (ngSubmit)="save()">
-      <watt-tabs class="watt-modal-content--full-width">
-        <watt-tab [label]="t('tab.masterData.tabLabel')">
-          <watt-textarea-field
-            [label]="t('tab.masterData.descriptionInputLabel')"
-            [formControl]="userPermissionsForm.controls.description"
-          >
-            @let maxLengthError = userPermissionsForm.controls.description.errors?.['maxlength'];
-            @if (maxLengthError) {
-              <watt-field-error>{{
-                t('tab.masterData.descriptionExceedsMaxLength', maxLengthError)
-              }}</watt-field-error>
-            }
-          </watt-textarea-field>
-        </watt-tab>
-      </watt-tabs>
-    </form>
+  template: `
+    <watt-modal
+      *transloco="let t; read: 'admin.userManagement.editPermission'"
+      size="small"
+      [title]="name()"
+      (closed)="closeModal()"
+    >
+      <dh-result [loading]="loading()" [hasError]="hasError()">
+        <form [formGroup]="userPermissionsForm" id="edit-permissions-form" (ngSubmit)="save()">
+          <watt-tabs class="watt-modal-content--full-width">
+            <watt-tab [label]="t('tab.masterData.tabLabel')">
+              <watt-textarea-field
+                [label]="t('tab.masterData.descriptionInputLabel')"
+                [formControl]="userPermissionsForm.controls.description"
+              >
+                @let maxLengthError =
+                  userPermissionsForm.controls.description.errors?.['maxlength'];
+                @if (maxLengthError) {
+                  <watt-field-error>{{
+                    t('tab.masterData.descriptionExceedsMaxLength', maxLengthError)
+                  }}</watt-field-error>
+                }
+              </watt-textarea-field>
+            </watt-tab>
+          </watt-tabs>
+        </form>
+      </dh-result>
 
-    <watt-modal-actions>
-      <watt-button variant="secondary" (click)="closeModal(false)">
-        {{ t('cancel') }}
-      </watt-button>
-      <watt-button type="submit" formId="edit-permissions-form" [loading]="isSaving()">
-        {{ t('save') }}
-      </watt-button>
-    </watt-modal-actions>
-  </watt-modal>`,
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="closeModal()">
+          {{ t('cancel') }}
+        </watt-button>
+        <watt-button type="submit" formId="edit-permissions-form" [loading]="isSaving()">
+          {{ t('save') }}
+        </watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
 })
-export class DhEditPermissionModalComponent extends WattTypedModal<PermissionDto> {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly toastService = inject(WattToastService);
-  private readonly transloco = inject(TranslocoService);
+export class DhPermissionEditComponent {
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private formBuilder = inject(NonNullableFormBuilder);
+  private navigationService = inject(DhNavigationService);
 
-  private editPermissionModal = viewChild.required(WattModalComponent);
   private updatePermission = mutation(UpdatePermissionDocument);
+  private permissionQuery = lazyQuery(GetPermissionEditDocument);
 
-  readonly userPermissionsForm = this.formBuilder.group({
-    description: this.formBuilder.nonNullable.control('', [
-      Validators.required,
-      Validators.maxLength(1000),
-    ]),
-  });
+  private modal = viewChild.required(WattModalComponent);
+
+  // Param value
+  id = input.required<string>();
 
   isSaving = computed(() => this.updatePermission.loading());
+  permission = computed(() => this.permissionQuery.data()?.permissionById);
+  name = computed(() => this.permission()?.name ?? '');
+
+  loading = this.permissionQuery.loading;
+  hasError = this.permissionQuery.hasError;
+
+  userPermissionsForm = this.formBuilder.group({
+    description: this.formBuilder.control('', [Validators.required, Validators.maxLength(1000)]),
+  });
 
   constructor() {
-    super();
     effect(() => {
-      if (this.updatePermission.error()) {
-        const message = this.transloco.translate('admin.userManagement.editPermission.saveError');
+      this.permissionQuery.query({ variables: { id: parseInt(this.id()) } });
+    });
 
-        this.toastService.open({ type: 'danger', message });
+    effect(() => {
+      const permission = this.permission();
+      if (permission) {
+        this.modal().open();
+        this.userPermissionsForm.controls.description.setValue(permission.description);
       }
-
-      if (this.updatePermission.data() && this.updatePermission.loading() === false) {
-        const message = this.transloco.translate('admin.userManagement.editPermission.saveSuccess');
-
-        this.toastService.open({ type: 'success', message });
-        this.closeModal(true);
-      }
-
-      this.userPermissionsForm.controls.description.setValue(this.modalData.description);
     });
   }
 
-  closeModal(saveSuccess: boolean): void {
-    this.editPermissionModal().close(saveSuccess);
+  closeModal(): void {
+    this.navigationService.navigate('details', this.id());
+    this.modal().close(false);
   }
 
-  save(): void {
+  async save() {
     if (this.userPermissionsForm.invalid) {
       return;
     }
 
     if (this.userPermissionsForm.pristine) {
-      return this.closeModal(false);
+      return this.closeModal();
     }
 
-    this.updatePermission.mutate({
-      refetchQueries: [GetPermissionsDocument, GetPermissionDetailsDocument],
+    const result = await this.updatePermission.mutate({
+      refetchQueries: [
+        GetPermissionsDocument,
+        GetPermissionDetailsDocument,
+        GetPermissionAuditLogsDocument,
+      ],
       variables: {
         input: {
-          id: this.modalData.id,
+          id: parseInt(this.id()),
           description: this.userPermissionsForm.controls.description.value,
         },
       },
     });
+
+    if (result.data?.updatePermission.permission) {
+      return this.success();
+    }
+
+    if (result.error?.graphQLErrors || result.data?.updatePermission.errors) {
+      this.error(result.error?.graphQLErrors, result.data?.updatePermission.errors);
+    }
+  }
+
+  private success() {
+    const message = this.transloco.translate('admin.userManagement.editPermission.saveSuccess');
+
+    this.toastService.open({ type: 'success', message });
+    this.closeModal();
+  }
+
+  private error(
+    errors: GraphQLErrors | undefined,
+    apiErrors: ApiErrorCollection[] | undefined | null
+  ) {
+    let message = this.transloco.translate('admin.userManagement.editPermission.saveError');
+
+    if (errors) {
+      message = parseGraphQLErrorResponse(errors) ?? message;
+    }
+
+    if (apiErrors) {
+      message = readApiErrorResponse(apiErrors) ?? message;
+    }
+
+    this.toastService.open({ message, type: 'danger' });
   }
 }
