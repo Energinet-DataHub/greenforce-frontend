@@ -74,6 +74,7 @@ export class EoSigninCallbackComponent implements OnInit {
       })
       .catch((error) => {
         alert('An error occurred during login');
+        console.log(error);
         //this.authService.login(error.state);
       });
   }
