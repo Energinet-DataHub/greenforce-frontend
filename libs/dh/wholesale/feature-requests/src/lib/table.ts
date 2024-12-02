@@ -72,7 +72,11 @@ import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graph
         [resolveHeader]="resolveHeader"
       >
         <ng-container *wattTableCell="columns['createdAt']; let row">
-          {{ row.lifeCycle.startedAt | wattDate: 'long' }}
+          {{ row.lifeCycle.createdAt | wattDate: 'long' }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['period']; let row">
+          {{ row.period | wattDate }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -80,8 +84,12 @@ import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graph
 })
 export class DhWholesaleRequestsTable {
   columns: WattTableColumnDef<Request> = {
-    createdAt: { accessor: (x) => x.lifeCycle.startedAt },
+    createdAt: { accessor: (x) => x.lifeCycle.createdAt },
     calculationType: { accessor: 'calculationType' },
+    period: { accessor: 'period' },
+    requestCalculationDataType: { accessor: 'requestCalculationDataType' },
+    createdBy: { accessor: (x) => x.lifeCycle.createdBy?.displayName },
+    state: { accessor: (x) => x.lifeCycle.state },
   };
 
   dataSource = new GetRequestsDataSource({
