@@ -20,5 +20,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 public record OrchestrationInstance<T>(
     Guid Id,
     OrchestrationInstanceLifecycleStateDto Lifecycle,
+    IReadOnlyCollection<StepInstanceDto> Steps,
     T ParameterValue) : IOrchestration
     where T : IInputParameterDto;

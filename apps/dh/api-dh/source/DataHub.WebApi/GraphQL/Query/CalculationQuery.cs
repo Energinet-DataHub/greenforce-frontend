@@ -142,6 +142,7 @@ public partial class Query
         var wrapper = new OrchestrationInstance<RequestAggregatedMeasureData>(
             result.Id,
             result.Lifecycle,
+            result.Steps,
             result.ParameterValue);
 
         return await Task.FromResult(new List<IOrchestration> { wrapper });
