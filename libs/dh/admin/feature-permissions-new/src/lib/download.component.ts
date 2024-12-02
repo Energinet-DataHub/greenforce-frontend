@@ -21,6 +21,7 @@ import { switchMap } from 'rxjs';
 import { translate, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
@@ -30,20 +31,22 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 @Component({
   standalone: true,
   selector: 'dh-permissions-download',
-  imports: [TranslocoPipe, WattButtonComponent, DhPermissionRequiredDirective],
+  imports: [TranslocoPipe, WattButtonComponent, VaterStackComponent, DhPermissionRequiredDirective],
   template: `
-    <watt-button icon="download" variant="text" (click)="exportAsCsv()">
-      {{ 'shared.download' | transloco }}
-    </watt-button>
+    <vater-stack direction="row" gap="m">
+      <watt-button icon="download" variant="text" (click)="exportAsCsv()">
+        {{ 'shared.download' | transloco }}
+      </watt-button>
 
-    <watt-button
-      *dhPermissionRequired="['user-roles:manage']"
-      icon="download"
-      variant="text"
-      (click)="downloadRelationCSV(url())"
-    >
-      {{ 'shared.downloadreport' | transloco }}
-    </watt-button>
+      <watt-button
+        *dhPermissionRequired="['user-roles:manage']"
+        icon="download"
+        variant="text"
+        (click)="downloadRelationCSV(url())"
+      >
+        {{ 'shared.downloadreport' | transloco }}
+      </watt-button>
+    </vater-stack>
   `,
 })
 export class DhPermissionsDownloadComponent {
@@ -62,7 +65,7 @@ export class DhPermissionsDownloadComponent {
 
     const lines = this.permissions().map((x) => [`"${x.name}"`, `"${x.description}"`]);
 
-    exportToCSV({ headers, lines });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Permissions' });
   }
 
   downloadRelationCSV(url: string) {
@@ -72,7 +75,7 @@ export class DhPermissionsDownloadComponent {
     });
 
     const fileOptions = {
-      name: 'permissions-relation-report',
+      name: 'DataHub-Permissions-relation-report',
       type: 'text/csv',
     };
 

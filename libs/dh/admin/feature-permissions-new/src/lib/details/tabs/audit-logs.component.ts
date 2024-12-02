@@ -14,16 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, computed, effect } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
 import {
@@ -33,36 +29,61 @@ import {
 
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-admin-permission-audit-logs',
   standalone: true,
-  templateUrl: './audit-logs.component.html',
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
+  selector: 'dh-admin-permission-audit-logs',
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
+  template: `
+    <watt-card variant="solid" *transloco="let t; read: 'admin.userManagement.tabs.history'">
+      <watt-card-title>
+        <h4>
+          @let count = dataSource.totalCount;
+          @if (count === 1) {
+            {{ t('changesSingular', { auditLogCount: count }) }}
+          } @else {
+            {{ t('changesPlural', { auditLogCount: count }) }}
+          }
+        </h4>
+      </watt-card-title>
+      <dh-result
+        [loading]="loading()"
+        [hasError]="hasError()"
+        [empty]="dataSource.totalCount === 0"
+      >
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          sortBy="timestamp"
+          sortDirection="desc"
+          [sortClear]="false"
+        >
+          <ng-container
+            *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
+          >
+            {{ element.timestamp | wattDate: 'long' }}
+          </ng-container>
 
-    NgTemplateOutlet,
-
-    VaterFlexComponent,
-
-    WATT_CARD,
-    WATT_TABLE,
-    WattDatePipe,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
-  ],
+          <ng-container
+            *wattTableCell="columns.entry; header: t('table.columns.entry'); let element"
+          >
+            <span
+              [innerHTML]="t('logs.permissionsDetails.auditLogType.' + element.change, element)"
+            >
+            </span>
+          </ng-container>
+        </watt-table>
+      </dh-result>
+    </watt-card>
+  `,
 })
 export class DhPermissionAuditLogsComponent {
-  private readonly getPermissionAuditLogsQuery = lazyQuery(GetPermissionAuditLogsDocument, {
-    fetchPolicy: 'cache-and-network',
-  });
-  private readonly auditLogs = computed(() => {
-    return this.getPermissionAuditLogsQuery.data()?.permissionAuditLogs ?? [];
-  });
+  private query = lazyQuery(GetPermissionAuditLogsDocument);
+  private auditLogs = computed(() => this.query.data()?.permissionAuditLogs ?? []);
 
-  isLoading = this.getPermissionAuditLogsQuery.loading;
-  hasError = this.getPermissionAuditLogsQuery.hasError;
+  loading = this.query.loading;
+  hasError = this.query.hasError;
 
   dataSource = new WattTableDataSource<PermissionAuditedChangeAuditLogDto>();
 
@@ -79,7 +100,7 @@ export class DhPermissionAuditLogsComponent {
     });
 
     effect(() => {
-      this.getPermissionAuditLogsQuery.refetch({ id: this.selectedPermission().id });
+      this.query.refetch({ id: this.selectedPermission().id });
     });
   }
 }

@@ -61,40 +61,39 @@ import { DhPermissionsDownloadComponent } from './download.component';
   ],
   providers: [DhNavigationService],
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'admin.userManagement.permissionsTab'">
-      <watt-data-table
-        vater
-        inset="ml"
-        [searchLabel]="'shared.search' | transloco"
-        [error]="dataSource.error"
-        [ready]="dataSource.called"
+    <watt-data-table
+      vater
+      inset="ml"
+      *transloco="let t; read: 'admin.userManagement.permissionsTab'"
+      [searchLabel]="'shared.search' | transloco"
+      [error]="dataSource.error"
+      [ready]="dataSource.called"
+    >
+      <h3>{{ t('headline') }}</h3>
+
+      <watt-data-actions>
+        <dh-permissions-download [permissions]="dataSource.filteredData" [url]="url()" />
+      </watt-data-actions>
+
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        (rowClick)="open($event.id)"
+        [activeRow]="selection()"
+        [loading]="dataSource.loading"
+        [sortClear]="false"
       >
-        <h3>{{ t('headline') }}</h3>
+        <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
+          {{ element.name }}
+        </ng-container>
 
-        <watt-data-actions>
-          <dh-permissions-download [permissions]="dataSource.filteredData" [url]="url()" />
-        </watt-data-actions>
-
-        <watt-table
-          [dataSource]="dataSource"
-          [columns]="columns"
-          (rowClick)="open($event.id)"
-          [activeRow]="selection()"
-          [loading]="dataSource.loading"
-          [sortClear]="false"
+        <ng-container
+          *wattTableCell="columns.description; header: t('permissionDescription'); let element"
         >
-          <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
-            {{ element.name }}
-          </ng-container>
-
-          <ng-container
-            *wattTableCell="columns.description; header: t('permissionDescription'); let element"
-          >
-            {{ element.description }}
-          </ng-container>
-        </watt-table>
-      </watt-data-table>
-    </watt-card>
+          {{ element.description }}
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
     <router-outlet />
   `,
 })

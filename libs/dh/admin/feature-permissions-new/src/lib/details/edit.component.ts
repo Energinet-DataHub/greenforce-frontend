@@ -37,6 +37,7 @@ import {
   UpdatePermissionDocument,
   GetPermissionEditDocument,
   GetPermissionDetailsDocument,
+  GetPermissionAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -154,7 +155,11 @@ export class DhPermissionEditComponent {
     }
 
     const result = await this.updatePermission.mutate({
-      refetchQueries: [GetPermissionsDocument, GetPermissionDetailsDocument],
+      refetchQueries: [
+        GetPermissionsDocument,
+        GetPermissionDetailsDocument,
+        GetPermissionAuditLogsDocument,
+      ],
       variables: {
         input: {
           id: parseInt(this.id()),
