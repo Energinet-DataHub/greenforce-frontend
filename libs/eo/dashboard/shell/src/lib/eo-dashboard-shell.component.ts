@@ -96,7 +96,7 @@ import { EoTermsService } from '@energinet-datahub/eo/auth/data-access';
   ],
   selector: 'eo-dashboard-shell',
   template: `
-    <p (click)="resetTerms();">RESET TERMS</p>
+    <p (click)="resetTerms()">RESET TERMS</p>
 
     @if ((isLoadingMeteringPoints$ | async) === false) {
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
@@ -190,7 +190,7 @@ export class EoDashboardShellComponent implements OnInit {
   resetTerms() {
     this.termsService.resetTerms().subscribe(() => {
       alert('DONE');
-    })
+    });
   }
 
   protected onPeriodChanged(period: eoDashboardPeriod): void {
