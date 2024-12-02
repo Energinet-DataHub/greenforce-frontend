@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 @use "@energinet-datahub/watt/utils" as watt;
 
 watt-drawer {
@@ -37,32 +39,19 @@ watt-tabs {
       height: 32px;
     }
 
-    .mat-mdc-tab-group.mat-primary
-      .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
+    .mat-mdc-tab-group.mat-primary .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
       background-color: transparent;
     }
 
     .mat-mdc-tab-group,
     .mat-mdc-tab-nav-bar {
-      --mat-tab-header-active-focus-indicator-color: var(
-        --watt-color-secondary
-      );
-      --mat-tab-header-active-focus-label-text-color: var(
-        --watt-color-neutral-black
-      );
-      --mat-tab-header-active-hover-indicator-color: var(
-        --watt-color-secondary
-      );
-      --mat-tab-header-active-hover-indicator-color: var(
-        --watt-color-secondary
-      );
-      --mat-tab-header-active-hover-label-text-color: var(
-        --watt-color-neutral-black
-      );
+      --mat-tab-header-active-focus-indicator-color: var(--watt-color-secondary);
+      --mat-tab-header-active-focus-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
+      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
+      --mat-tab-header-active-hover-label-text-color: var(--watt-color-neutral-black);
       --mat-tab-header-active-label-text-color: var(--watt-color-neutral-black);
-      --mat-tab-header-inactive-label-text-color: var(
-        --watt-on-light-low-emphasis
-      );
+      --mat-tab-header-inactive-label-text-color: var(--watt-on-light-low-emphasis);
       --mat-tab-header-inactive-ripple-color: none;
       --mat-tab-header-disabled-ripple-color: none;
       --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
@@ -122,8 +111,7 @@ watt-tabs {
     height: 100%;
   }
 
-  .mat-mdc-tab-group.mat-primary
-    .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
+  .mat-mdc-tab-group.mat-primary .mdc-tab.cdk-focused.cdk-keyboard-focused:focus {
     background-color: var(--watt-color-primary-ultralight);
   }
 
@@ -162,8 +150,7 @@ watt-tabs {
   }
 
   .mat-mdc-tab-body.mat-mdc-tab-body-active,
-  .mat-mdc-tab-group.mat-mdc-tab-group-dynamic-height
-    .mat-mdc-tab-body.mat-mdc-tab-body-active,
+  .mat-mdc-tab-group.mat-mdc-tab-group-dynamic-height .mat-mdc-tab-body.mat-mdc-tab-body-active,
   .mat-mdc-tab-group-dynamic-height .mat-mdc-tab-body-content {
     position: relative;
     overflow: initial;
@@ -173,8 +160,7 @@ watt-tabs {
     padding-left: var(--watt-space-ml);
   }
 
-  .mat-mdc-tab-header-pagination-controls-enabled
-    .mat-mdc-tab-header-pagination {
+  .mat-mdc-tab-header-pagination-controls-enabled .mat-mdc-tab-header-pagination {
     display: none;
   }
 

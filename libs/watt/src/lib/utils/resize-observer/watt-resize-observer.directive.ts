@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, ElementRef, EventEmitter, OnDestroy, Output, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WattResizeObserverService } from './watt-resize-observer.service';

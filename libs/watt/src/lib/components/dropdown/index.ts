@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { WattDropdownComponent } from './watt-dropdown.component';
 export { type WattDropdownOption, type WattDropdownOptions } from './watt-dropdown-option';
 export { type WattDropdownValue } from './watt-dropdown-value';

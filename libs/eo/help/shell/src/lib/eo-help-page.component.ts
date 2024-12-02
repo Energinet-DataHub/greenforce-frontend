@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -50,7 +52,7 @@ import { translations } from '@energinet-datahub/eo/translations';
           | transloco
             : {
                 faqLink: routes.help + '/' + routes.faq,
-                introductionLink: routes.help + '/' + routes.introduction
+                introductionLink: routes.help + '/' + routes.introduction,
               }
       "
     ></div>
