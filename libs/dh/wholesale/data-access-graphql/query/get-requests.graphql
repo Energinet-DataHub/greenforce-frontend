@@ -14,10 +14,16 @@ query GetRequests(
     nodes {
       id
       lifeCycle {
-        startedAt
+        createdAt
+        state
+        createdBy {
+          displayName
+        }
       }
       ... on RequestAggregatedMeasureData {
         calculationType
+        requestCalculationDataType
+        period
       }
     }
   }
