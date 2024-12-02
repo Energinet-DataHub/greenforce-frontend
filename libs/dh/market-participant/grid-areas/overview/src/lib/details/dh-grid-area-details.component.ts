@@ -23,6 +23,7 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 import { DhGridAreaStatusBadgeComponent } from '../dh-grid-area-status-badge.component';
+import { DhAuditLogComponent } from './dh-audit-log.component';
 
 @Component({
   selector: 'dh-grid-area-details',
@@ -41,6 +42,7 @@ import { DhGridAreaStatusBadgeComponent } from '../dh-grid-area-status-badge.com
     WattDatePipe,
     WATT_DRAWER,
     DhGridAreaStatusBadgeComponent,
+    DhAuditLogComponent,
   ],
   template: `
     @let gridAreaView = gridArea();
@@ -87,6 +89,12 @@ import { DhGridAreaStatusBadgeComponent } from '../dh-grid-area-status-badge.com
             </vater-flex>
           </vater-flex>
         </watt-drawer-heading>
+      }
+
+      @if (drawer.isOpen && gridAreaView) {
+        <watt-drawer-content>
+          <dh-audit-log [gridAreaId]="gridAreaView.id" />
+        </watt-drawer-content>
       }
     </watt-drawer>
   `,

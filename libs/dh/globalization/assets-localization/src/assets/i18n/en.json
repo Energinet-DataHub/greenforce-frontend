@@ -842,6 +842,14 @@
         "GridLossDK": "Grid loss DK",
         "GridLossAbroad": "Grid loss abroad",
         "Aboard": "Abroad"
+      },
+      "history": {
+        "changeTypes": {
+          "NAME": "---",
+          "CONSOLIDATION_REQUESTED": "[DK] <b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ marketParticipant }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. {{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "[DK] Sammenlægning med <b>{{ marketParticipant }}</b> er udført",
+          "DECOMMISSIONED": "[DK] Netområde <b>{{ gridArea }}</b> er ophørt"
+        }
       }
     }
   },

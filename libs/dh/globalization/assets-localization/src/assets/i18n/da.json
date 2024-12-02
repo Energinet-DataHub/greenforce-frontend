@@ -842,6 +842,14 @@
         "GridLossDK": "Nettab DK",
         "GridLossAbroad": "Nettab udland",
         "Aboard": "Udland"
+      },
+      "history": {
+        "changeTypes": {
+          "NAME": "---",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ marketParticipant }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. {{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ marketParticipant }}</b> er udført",
+          "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
+        }
       }
     }
   },
