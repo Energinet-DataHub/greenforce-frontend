@@ -1,0 +1,24 @@
+query GetRequests(
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: [RequestSortInput!]
+) {
+  requests(first: $first, last: $last, after: $after, before: $before, order: $order) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    totalCount
+    nodes {
+      id
+      lifeCycle {
+        startedAt
+      }
+      ... on RequestAggregatedMeasureData {
+        calculationType
+      }
+    }
+  }
+}
