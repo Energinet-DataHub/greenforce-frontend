@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
@@ -24,6 +25,19 @@ public class OrchestrationLifeCycle : ObjectType<OrchestrationInstanceLifecycleS
             .Name("OrchestrationLifeCycle")
             .BindFieldsExplicitly();
 
-        descriptor.Field(f => f.StartedAt);
+        descriptor.Field(f => f.CreatedAt);
+        descriptor.Field(f => f.State);
+
+        descriptor
+            .Field("createdBy")
+            .Resolve(context =>
+                context.Parent<OrchestrationInstanceLifecycleStateDto>().CreatedBy switch
+                {
+                    UserIdentityDto user => context
+                        .DataLoader<UserBatchDataLoader>()
+                        .LoadAsync(user.UserId),
+                    ActorIdentityDto => null,
+                    _ => null,
+                });
     }
 }
