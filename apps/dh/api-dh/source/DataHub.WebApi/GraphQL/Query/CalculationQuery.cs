@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Api.Model;
+using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
+using Energinet.DataHub.WebApi.GraphQL.Types.Request;
 using Microsoft.FeatureManagement;
 using NodaTime;
+using CalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -106,5 +112,38 @@ public partial class Query
             : await wholesaleClient.QueryCalculationsAsync(input);
 
         return calculations.FirstOrDefault();
+    }
+
+    [UsePaging]
+    [UseSorting(typeof(RequestSortType))]
+    public async Task<IEnumerable<IOrchestration>> GetRequestsAsync()
+    {
+        var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
+            Guid.NewGuid(),
+            new OrchestrationInstanceLifecycleStateDto(
+                new UserIdentityDto(Guid.NewGuid(), Guid.NewGuid()),
+                OrchestrationInstanceLifecycleStates.Pending,
+                null, // OrchestrationInstanceTerminationStates.Failed,
+                null,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                null,
+                null,
+                null),
+            new RequestAggregatedMeasureData(
+                CalculationType.Aggregation,
+                DateTimeOffset.Now,
+                DateTimeOffset.Now,
+                RequestCalculationDataType.Production,
+                Guid.NewGuid()),
+            [],
+            string.Empty);
+
+        var wrapper = new OrchestrationInstance<RequestAggregatedMeasureData>(
+            result.Id,
+            result.Lifecycle,
+            result.ParameterValue);
+
+        return await Task.FromResult(new List<IOrchestration> { wrapper });
     }
 }
