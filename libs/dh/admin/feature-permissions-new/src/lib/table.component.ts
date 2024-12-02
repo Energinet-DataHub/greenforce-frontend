@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, computed, inject, output } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Component, computed, inject } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -47,6 +48,7 @@ import { DhPermissionsDownloadComponent } from './download.component';
   imports: [
     TranslocoPipe,
     TranslocoDirective,
+    RouterOutlet,
 
     WATT_CARD,
     WATT_TABLE,
@@ -57,6 +59,7 @@ import { DhPermissionsDownloadComponent } from './download.component';
 
     DhPermissionsDownloadComponent,
   ],
+  providers: [DhNavigationService],
   template: `
     <watt-card vater inset="ml" *transloco="let t; read: 'admin.userManagement.permissionsTab'">
       <watt-data-table
@@ -75,7 +78,7 @@ import { DhPermissionsDownloadComponent } from './download.component';
         <watt-table
           [dataSource]="dataSource"
           [columns]="columns"
-          (rowClick)="open.emit($event)"
+          (rowClick)="open($event.id)"
           [activeRow]="selection()"
           [loading]="dataSource.loading"
           [sortClear]="false"
@@ -92,12 +95,11 @@ import { DhPermissionsDownloadComponent } from './download.component';
         </watt-table>
       </watt-data-table>
     </watt-card>
+    <router-outlet />
   `,
 })
 export class DhPermissionsTableComponent {
   private navigation = inject(DhNavigationService);
-
-  open = output<Permission>();
 
   columns: WattTableColumnDef<Permission> = {
     name: { accessor: 'name' },
@@ -116,4 +118,8 @@ export class DhPermissionsTableComponent {
 
   selection = () =>
     this.dataSource.filteredData.find((row) => row.id === parseInt(this.navigation.id() ?? '0'));
+
+  open(id: number) {
+    this.navigation.navigate('details', id);
+  }
 }

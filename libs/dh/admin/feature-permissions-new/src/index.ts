@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhPermissionsPageComponent as default } from './lib/page.component';
+export { DhPermissionsTableComponent as default } from './lib/table.component';
 export { DhPermissionDetailComponent } from './lib/details/detail.component';
 export { DhPermissionEditComponent } from './lib/details/edit.component';
