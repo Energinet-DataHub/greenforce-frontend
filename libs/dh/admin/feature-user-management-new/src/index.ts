@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { DhUserManagementComponent as default } from './lib/user-management.component';
 export { DhUserDetailsComponent } from './lib/details/details.component';
 export { DhEditUserComponent } from './lib/edit/edit.component';

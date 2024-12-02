@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
 
 import { da, en } from '@energinet-datahub/dh/globalization/assets-localization';

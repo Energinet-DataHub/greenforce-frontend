@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export * from './lib/dh-em-dash-fallback.pipe';
 export * from './lib/em-dash';
 export * from './lib/export-to-csv';

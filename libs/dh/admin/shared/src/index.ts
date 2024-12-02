@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { DhRoleStatusComponent } from './dh-role-status.component';
 export { DhUserStatusComponent } from './dh-user-status.component';
 export { DhTabDataGeneralErrorComponent } from './dh-tab-data-general-error.component';
