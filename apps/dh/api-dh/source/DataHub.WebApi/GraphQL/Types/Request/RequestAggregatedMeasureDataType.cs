@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
@@ -27,6 +28,13 @@ public class RequestAggregatedMeasureDataType
             .BindFieldsExplicitly()
             .Implements<OrchestrationType>();
 
-        descriptor.Field(x => x.ParameterValue.CalculationType);
+        descriptor.Field(f => f.ParameterValue.CalculationType);
+        descriptor.Field(f => f.ParameterValue.RequestCalculationDataType);
+
+        descriptor
+            .Field(f => new Interval(
+                Instant.FromDateTimeOffset(f.ParameterValue.PeriodStart),
+                Instant.FromDateTimeOffset(f.ParameterValue.PeriodEnd)))
+            .Name("period");
     }
 }
