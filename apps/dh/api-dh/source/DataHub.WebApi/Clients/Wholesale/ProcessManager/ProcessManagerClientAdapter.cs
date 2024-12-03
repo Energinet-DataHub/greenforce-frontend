@@ -86,7 +86,7 @@ internal class ProcessManagerClientAdapter(
     {
         var userIdentity = _httpContextAccessor.CreateUserIdentity();
 
-        var instanceDto = await _processManagerClient.GetOrchestrationInstanceByIdAsync<NotifyAggregatedMeasureDataInputV1>(
+        var instanceDto = await _processManagerClient.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
             new GetOrchestrationInstanceByIdQuery(
                 userIdentity,
                 id: calculationId),

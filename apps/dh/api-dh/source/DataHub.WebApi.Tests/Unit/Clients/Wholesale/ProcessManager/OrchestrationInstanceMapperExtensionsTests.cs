@@ -42,7 +42,7 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsPending(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
             Id: fixture.Create<Guid>(),
             Lifecycle: lifecycle,
             ParameterValue: parameterValue,
@@ -81,7 +81,7 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsPending(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
             Id: fixture.Create<Guid>(),
             Lifecycle: lifecycle,
             ParameterValue: parameterValue,
@@ -108,7 +108,7 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsRunning(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
             Id: fixture.Create<Guid>(),
             Lifecycle: lifecycle,
             ParameterValue: parameterValue,

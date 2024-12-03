@@ -76,7 +76,7 @@ public static class OrchestrationInstanceMapperExtensions
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
     public static CalculationDto MapToV3CalculationDto(
-        this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
+        this OrchestrationInstanceTypedDto<CalculationInputV1> instanceDto)
     {
         return new CalculationDto
         {
@@ -124,7 +124,7 @@ public static class OrchestrationInstanceMapperExtensions
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
     public static CalculationOrchestrationState MapToV3OrchestrationState(
-        this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
+        this OrchestrationInstanceTypedDto<CalculationInputV1> instanceDto)
     {
         var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();
         var messagesEnqueuedStep = instanceDto.Steps.Where(step => step.Sequence == 2).Single();

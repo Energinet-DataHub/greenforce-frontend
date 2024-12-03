@@ -57,7 +57,7 @@ public partial class Mutation
             var command = new ScheduleCalculationCommandV1(
                 userIdentity,
                 runAt: scheduledAt ?? DateTimeOffset.UtcNow,
-                inputParameter: new NotifyAggregatedMeasureDataInputV1(
+                inputParameter: new CalculationInputV1(
                     CalculationType: calculationType.MapToCalculationType(),
                     GridAreaCodes: gridAreaCodes,
                     PeriodStartDate: period.Start.ToDateTimeOffset(),
