@@ -456,31 +456,40 @@ function getGridAreaAuditLog() {
   return mockGetGridAreaAuditLogQuery(async () => {
     await delay(mswConfig.delay);
 
-    const auditLog: GridAreaAuditedChangeAuditLogDto[] = [
+    const gridAreaAuditLogs: GridAreaAuditedChangeAuditLogDto[] = [
       {
         __typename: 'GridAreaAuditedChangeAuditLogDto',
-        auditedBy: 'John Doe',
+        auditedBy: 'Test (test@energinet.dk)',
         isInitialAssignment: false,
-        currentValue: 'Sort Strøm',
+        currentValue: '---',
         previousValue: null,
         change: GridAreaAuditedChange.ConsolidationRequested,
+        timestamp: new Date('2023-12-01T22:59:59Z'),
+      },
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: '---',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.Decommissioned,
         timestamp: new Date('2023-12-09T22:59:59Z'),
       },
       {
         __typename: 'GridAreaAuditedChangeAuditLogDto',
-        auditedBy: 'John Doe',
+        auditedBy: '---',
         isInitialAssignment: false,
-        currentValue: 'Grøn Strøm',
+        currentValue: '---',
         previousValue: null,
         change: GridAreaAuditedChange.ConsolidationCompleted,
-        timestamp: new Date('2023-12-31T22:59:59Z'),
+        timestamp: new Date('2023-12-09T22:59:59Z'),
       },
     ];
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        gridAreaAuditLogs: auditLog,
+        gridAreaAuditLogs,
       },
     });
   });
