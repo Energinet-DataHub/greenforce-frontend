@@ -46,7 +46,10 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
     [loading]="isLoading()"
     [hasError]="hasError()"
     [empty]="dataSource.data.length === 0"
+    *transloco="let t; read: 'marketParticipant.gridAreas.history'"
   >
+    <h4 dh-result-empty-title>{{ t('emptyTitle') }}</h4>
+
     <watt-card variant="solid">
       <watt-table
         [dataSource]="dataSource"
@@ -61,36 +64,34 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
         </ng-container>
 
         <ng-container *wattTableCell="columns['value']; let entry">
-          <ng-container *transloco="let t; read: 'marketParticipant.gridAreas.history.changeTypes'">
-            @if (entry.change === 'CONSOLIDATION_REQUESTED') {
-              <div
-                [innerHTML]="
-                  t('CONSOLIDATION_REQUESTED', {
-                    auditedBy: entry.auditedBy,
-                    marketParticipant: '---',
-                    gridArea: this.gridArea()?.code,
-                    gridAreaStopsAt: '---',
-                  })
-                "
-              ></div>
-            } @else if (entry.change === 'CONSOLIDATION_COMPLETED') {
-              <div
-                [innerHTML]="
-                  t('CONSOLIDATION_COMPLETED', {
-                    marketParticipant: '---',
-                  })
-                "
-              ></div>
-            } @else if (entry.change === 'DECOMMISSIONED') {
-              <div
-                [innerHTML]="
-                  t('DECOMMISSIONED', {
-                    gridArea: this.gridArea()?.code,
-                  })
-                "
-              ></div>
-            }
-          </ng-container>
+          @if (entry.change === 'CONSOLIDATION_REQUESTED') {
+            <div
+              [innerHTML]="
+                t('changeTypes.CONSOLIDATION_REQUESTED', {
+                  auditedBy: entry.auditedBy,
+                  marketParticipant: '---',
+                  gridArea: this.gridArea()?.code,
+                  gridAreaStopsAt: '---',
+                })
+              "
+            ></div>
+          } @else if (entry.change === 'CONSOLIDATION_COMPLETED') {
+            <div
+              [innerHTML]="
+                t('changeTypes.CONSOLIDATION_COMPLETED', {
+                  marketParticipant: '---',
+                })
+              "
+            ></div>
+          } @else if (entry.change === 'DECOMMISSIONED') {
+            <div
+              [innerHTML]="
+                t('changeTypes.DECOMMISSIONED', {
+                  gridArea: this.gridArea()?.code,
+                })
+              "
+            ></div>
+          }
         </ng-container>
       </watt-table>
     </watt-card>

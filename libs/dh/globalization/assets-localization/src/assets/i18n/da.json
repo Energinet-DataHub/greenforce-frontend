@@ -844,6 +844,7 @@
         "Aboard": "Udland"
       },
       "history": {
+        "emptyTitle": "Ingen historik på netområde",
         "changeTypes": {
           "NAME": "---",
           "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ marketParticipant }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. {{ gridAreaStopsAt }}</b>",

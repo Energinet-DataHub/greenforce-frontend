@@ -844,6 +844,7 @@
         "Aboard": "Abroad"
       },
       "history": {
+        "emptyTitle": "No grid area history",
         "changeTypes": {
           "NAME": "---",
           "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ marketParticipant }}</b>. Grid area <b>{{ gridArea }}</b> will cease on {{ gridAreaStopsAt }}</b>",
