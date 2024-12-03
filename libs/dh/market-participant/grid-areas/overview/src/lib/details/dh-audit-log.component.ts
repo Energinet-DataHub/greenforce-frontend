@@ -27,6 +27,7 @@ import {
   GridAreaAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 @Component({
   selector: 'dh-audit-log',
@@ -68,7 +69,7 @@ import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/s
 export class DhAuditLogComponent {
   private auditLogQuery = lazyQuery(GetGridAreaAuditLogDocument);
 
-  gridAreaId = input<string>();
+  gridArea = input<DhGridAreaRow>();
 
   isLoading = this.auditLogQuery.loading;
   hasError = this.auditLogQuery.hasError;
@@ -82,11 +83,11 @@ export class DhAuditLogComponent {
 
   constructor() {
     effect(() => {
-      const gridAreaId = this.gridAreaId();
+      const gridArea = this.gridArea();
 
-      if (gridAreaId) {
+      if (gridArea) {
         this.auditLogQuery.query({
-          variables: { gridAreaId },
+          variables: { gridAreaId: gridArea.id },
         });
       }
     });

@@ -96,7 +96,7 @@ import { DhAuditLogComponent } from './dh-audit-log.component';
 
       @if (drawer.isOpen && gridAreaView) {
         <watt-drawer-content>
-          <dh-audit-log [gridAreaId]="gridAreaView.id" />
+          <dh-audit-log [gridArea]="gridAreaView" />
         </watt-drawer-content>
       }
     </watt-drawer>
