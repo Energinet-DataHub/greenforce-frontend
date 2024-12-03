@@ -42,9 +42,4 @@ public interface IRequest : IInputParameterDto
     /// The request calculation data type.
     /// </summary>
     RequestCalculationDataType RequestCalculationDataType { get; }
-
-    /// <summary>
-    /// The user id of the request.
-    /// </summary>
-    Guid CreatedBy { get; }
 }

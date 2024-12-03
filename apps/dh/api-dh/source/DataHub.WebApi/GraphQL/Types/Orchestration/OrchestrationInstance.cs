@@ -21,5 +21,14 @@ public record OrchestrationInstance<T>(
     Guid Id,
     OrchestrationInstanceLifecycleStateDto Lifecycle,
     IReadOnlyCollection<StepInstanceDto> Steps,
-    T ParameterValue) : IOrchestration
-    where T : IInputParameterDto;
+    T ParameterValue) : IOrchestration<T>
+    where T : IInputParameterDto
+{
+    public Guid CreatedBySortProperty =>
+        Lifecycle.CreatedBy switch
+        {
+            UserIdentityDto user => user.UserId,
+            ActorIdentityDto actor => actor.ActorId,
+            _ => throw new InvalidOperationException(),
+        };
+}

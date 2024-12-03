@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Api.Model;
+
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
-public class OrchestrationType : InterfaceType<IOrchestration>
+public class OrchestrationType<T> : InterfaceType<IOrchestration<T>>
+    where T : IInputParameterDto
 {
-    protected override void Configure(IInterfaceTypeDescriptor<IOrchestration> descriptor)
+    protected override void Configure(IInterfaceTypeDescriptor<IOrchestration<T>> descriptor)
     {
         descriptor
             .Name("Orchestration")

@@ -21,5 +21,4 @@ public record RequestAggregatedMeasureData(
     CalculationType CalculationType,
     DateTimeOffset PeriodStart,
     DateTimeOffset PeriodEnd,
-    RequestCalculationDataType RequestCalculationDataType,
-    Guid CreatedBy) : IRequest;
+    RequestCalculationDataType RequestCalculationDataType) : IRequest;

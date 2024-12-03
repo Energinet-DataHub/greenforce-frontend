@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Api.Model;
 using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
@@ -19,7 +20,8 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 /// <summary>
 /// Interface for orchestration.
 /// </summary>
-public interface IOrchestration
+public interface IOrchestration<out T>
+    where T : IInputParameterDto
 {
     /// <summary>
     /// The id of the orchestration.
@@ -35,4 +37,14 @@ public interface IOrchestration
     /// The steps of the orchestration.
     /// </summary>
     IReadOnlyCollection<StepInstanceDto> Steps { get; }
+
+    /// <summary>
+    /// The parameter value.
+    /// </summary>
+    T ParameterValue { get; }
+
+    /// <summary>
+    /// The parameter value.
+    /// </summary>
+    Guid CreatedBySortProperty { get; }
 }

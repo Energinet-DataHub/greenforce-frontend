@@ -115,27 +115,46 @@ public partial class Query
     }
 
     [UsePaging]
-    [UseSorting(typeof(RequestSortType))]
-    public async Task<IEnumerable<IOrchestration>> GetRequestsAsync()
+    [UseSorting]
+    public async Task<IEnumerable<IOrchestration<IRequest>>> GetRequestsAsync()
     {
         var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             Guid.NewGuid(),
             new OrchestrationInstanceLifecycleStateDto(
-                new UserIdentityDto(Guid.NewGuid(), Guid.NewGuid()),
+                new UserIdentityDto(new Guid("5ff81160-507e-41e5-4846-08dc53cca56b"), Guid.NewGuid()),
                 OrchestrationInstanceLifecycleStates.Pending,
-                null, // OrchestrationInstanceTerminationStates.Failed,
                 null,
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
+                null,
+                DateTimeOffset.Parse("2024-10-25"),
+                null,
                 null,
                 null,
                 null),
             new RequestAggregatedMeasureData(
                 CalculationType.Aggregation,
-                DateTimeOffset.Now,
-                DateTimeOffset.Now,
-                RequestCalculationDataType.Production,
-                Guid.NewGuid()),
+                DateTimeOffset.Parse("2024-02-01"),
+                DateTimeOffset.Parse("2024-02-28"),
+                RequestCalculationDataType.Production),
+            [],
+            string.Empty);
+
+        var result2 = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
+            Guid.NewGuid(),
+            new OrchestrationInstanceLifecycleStateDto(
+                new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
+                OrchestrationInstanceLifecycleStates.Terminated,
+                OrchestrationInstanceTerminationStates.Failed,
+                null,
+                DateTimeOffset.Parse("2024-10-24"),
+                null,
+                null,
+                null,
+                null),
+            new RequestAggregatedMeasureData(
+                CalculationType.Aggregation,
+                DateTimeOffset.Parse("2024-01-14"),
+                DateTimeOffset.Parse("2024-01-14"),
+                RequestCalculationDataType.NonProfiledConsumption),
             [],
             string.Empty);
 
@@ -145,6 +164,20 @@ public partial class Query
             result.Steps,
             result.ParameterValue);
 
-        return await Task.FromResult(new List<IOrchestration> { wrapper });
+        var wrapper2 = new OrchestrationInstance<RequestAggregatedMeasureData>(
+            result2.Id,
+            result2.Lifecycle,
+            result2.Steps,
+            result2.ParameterValue);
+
+        var list = new List<OrchestrationInstance<RequestAggregatedMeasureData>>();
+        for (int i = 0; i < 100; i++)
+        {
+            list.Add(wrapper);
+        }
+
+        list.Add(wrapper2);
+
+        return await Task.FromResult(list);
     }
 }

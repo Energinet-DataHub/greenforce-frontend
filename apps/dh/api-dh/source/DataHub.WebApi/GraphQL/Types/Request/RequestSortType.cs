@@ -17,20 +17,20 @@ using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
-public class RequestSortType : SortInputType<OrchestrationInstance<IRequest>>
+public class RequestSortType : SortInputType<IOrchestration<IRequest>>
 {
     protected override void Configure(
-        ISortInputTypeDescriptor<OrchestrationInstance<IRequest>> descriptor)
+        ISortInputTypeDescriptor<IOrchestration<IRequest>> descriptor)
     {
         descriptor
             .Name("RequestSortInput")
             .BindFieldsExplicitly();
 
         descriptor.Field(f => f.Lifecycle.CreatedAt).Name("createdAt");
+        descriptor.Field(f => f.Lifecycle.State).Name("state");
+        descriptor.Field(f => f.CreatedBySortProperty).Name("createdBy");
         descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
         descriptor.Field(f => f.ParameterValue.PeriodStart).Name("period");
-        descriptor.Field(f => f.ParameterValue.CreatedBy).Name("createdBy");
-        descriptor.Field(f => f.Lifecycle.State).Name("state");
         descriptor
             .Field(f => f.ParameterValue.RequestCalculationDataType)
             .Name("requestCalculationDataType");
