@@ -842,6 +842,15 @@
         "GridLossDK": "Grid loss DK",
         "GridLossAbroad": "Grid loss abroad",
         "Aboard": "Abroad"
+      },
+      "history": {
+        "emptyTitle": "No grid area history",
+        "changeTypes": {
+          "NAME": "---",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ marketParticipant }}</b>. Grid area <b>{{ gridArea }}</b> will cease on {{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "<b>Consolidation with {{ marketParticipant }}</b> has completed",
+          "DECOMMISSIONED": "Grid area <b>{{ gridArea }}</b> has been decommissioned"
+        }
       }
     }
   },
