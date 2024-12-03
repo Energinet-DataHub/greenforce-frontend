@@ -12,23 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 
 /// <inheritdoc/>
-internal class NotifyAggregatedMeasureDataClientAdapter(
-    IProcessManagerClient processManagerClient,
-    INotifyAggregatedMeasureDataClientV1 calculationClient)
-        : INotifyAggregatedMeasureDataClientAdapter
+internal class ProcessManagerClientAdapter(
+    IHttpContextAccessor httpContextAccessor,
+    IProcessManagerClient processManagerClient)
+        : IProcessManagerClientAdapter
 {
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IProcessManagerClient _processManagerClient = processManagerClient;
-    private readonly INotifyAggregatedMeasureDataClientV1 _calculationClient = calculationClient;
 
     /// <inheritdoc/>
     public async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
@@ -54,20 +56,23 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
         // to 'null'.
         // In the future we should be able to refactor the UI/BFF to filter at top-level states using
         // the Process Manager API.
-        var processManagerCalculations = await _calculationClient.SearchCalculationsAsync(
-            lifecycleState: null,
-            terminationState: null,
-            startedAtOrLater: minExecutionTime,
-            terminatedAtOrEarlier: maxExecutionTime,
-            calculationTypes: processManagerCalculationTypes,
-            gridAreaCodes: input.GridAreaCodes,
-            periodStartDate: periodStart,
-            periodEndDate: periodEnd,
-            isInternalCalculation: isInternal,
+        var userIdentity = _httpContextAccessor.CreateUserIdentity();
+        var customQuery = new CalculationQuery(userIdentity)
+        {
+            StartedAtOrLater = minExecutionTime,
+            TerminatedAtOrEarlier = maxExecutionTime,
+            CalculationTypes = processManagerCalculationTypes,
+            GridAreaCodes = input.GridAreaCodes,
+            PeriodStartDate = periodStart,
+            PeriodEndDate = periodEnd,
+            IsInternalCalculation = isInternal,
+        };
+        var processManagerCalculations = await _processManagerClient.SearchOrchestrationInstancesByNameAsync(
+            customQuery,
             cancellationToken);
 
         var calculations = processManagerCalculations
-            .Select(x => x.MapToV3CalculationDto());
+            .Select(x => x.OrchestrationInstance.MapToV3CalculationDto());
 
         return calculations
             .OrderByDescending(x => x.ScheduledAt)
@@ -79,7 +84,13 @@ internal class NotifyAggregatedMeasureDataClientAdapter(
         Guid calculationId,
         CancellationToken cancellationToken = default)
     {
-        var instanceDto = await _processManagerClient.GetOrchestrationInstanceAsync<NotifyAggregatedMeasureDataInputV1>(calculationId, cancellationToken);
+        var userIdentity = _httpContextAccessor.CreateUserIdentity();
+
+        var instanceDto = await _processManagerClient.GetOrchestrationInstanceByIdAsync<NotifyAggregatedMeasureDataInputV1>(
+            new GetOrchestrationInstanceByIdQuery(
+                userIdentity,
+                id: calculationId),
+            cancellationToken);
 
         return instanceDto.MapToV3CalculationDto();
     }

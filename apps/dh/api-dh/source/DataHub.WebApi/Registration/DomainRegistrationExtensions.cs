@@ -41,7 +41,7 @@ public static class DomainRegistrationExtensions
 
         // Client and adapters
         services.AddProcessManagerHttpClients();
-        services.AddScoped<INotifyAggregatedMeasureDataClientAdapter, NotifyAggregatedMeasureDataClientAdapter>();
+        services.AddScoped<IProcessManagerClientAdapter, ProcessManagerClientAdapter>();
 
         // Health Checks
         var processManagerClientOptions = configuration

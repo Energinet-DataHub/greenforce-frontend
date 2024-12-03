@@ -15,8 +15,8 @@
 using System;
 using System.Collections.Generic;
 using AutoFixture;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
