@@ -1,0 +1,29 @@
+query GetFilteredPermissions(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $filter: String
+  $order: [PermissionDtoSortInput!]
+) {
+  filteredPermissions(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    order: $order
+    filter: $filter
+  ) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    permissionRelationsUrl
+    nodes {
+      id
+      name
+      description
+    }
+    totalCount
+  }
+}
