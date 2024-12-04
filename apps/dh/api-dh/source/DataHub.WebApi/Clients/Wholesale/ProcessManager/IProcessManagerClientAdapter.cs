@@ -12,25 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Client.Processes.BRS_023_027.V1;
+using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 
 /// <summary>
-/// An adapter for <see cref="INotifyAggregatedMeasureDataClientV1"/> which
+/// An adapter for <see cref="IProcessManagerClient"/> which
 /// handles mapping to the currently used calculations types.
 /// </summary>
-public interface INotifyAggregatedMeasureDataClientAdapter
+public interface IProcessManagerClientAdapter
 {
     /// <summary>
     /// Query calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(CalculationQueryInput input, CancellationToken calculationToken = default);
+    Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(CalculationQueryInput input, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get calculation in the Process Manager.
     /// </summary>
-    Task<CalculationDto> GetCalculationAsync(Guid calculationId, CancellationToken calculationToken = default);
+    Task<CalculationDto> GetCalculationAsync(Guid calculationId, CancellationToken cancellationToken = default);
 }
