@@ -22,7 +22,7 @@ public record OrchestrationInstance<T>(
     OrchestrationInstanceLifecycleStateDto Lifecycle,
     IReadOnlyCollection<StepInstanceDto> Steps,
     T ParameterValue) : IOrchestration<T>
-    where T : IInputParameterDto
+    where T : class, IInputParameterDto
 {
     public Guid CreatedBySortProperty =>
         Lifecycle.CreatedBy switch

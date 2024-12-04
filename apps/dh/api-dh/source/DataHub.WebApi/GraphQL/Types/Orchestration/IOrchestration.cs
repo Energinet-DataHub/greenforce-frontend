@@ -21,7 +21,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 /// Interface for orchestration.
 /// </summary>
 public interface IOrchestration<out T>
-    where T : IInputParameterDto
+    where T : class, IInputParameterDto
 {
     /// <summary>
     /// The id of the orchestration.

@@ -25,6 +25,11 @@ query GetRequests(
         requestCalculationDataType
         period
       }
+      ... on RequestWholesaleSettlement {
+        calculationType
+        requestCalculationDataType
+        period
+      }
     }
   }
 }

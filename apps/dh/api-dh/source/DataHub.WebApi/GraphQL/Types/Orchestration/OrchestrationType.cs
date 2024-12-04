@@ -17,7 +17,7 @@ using Energinet.DataHub.ProcessManager.Api.Model;
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
 public class OrchestrationType<T> : InterfaceType<IOrchestration<T>>
-    where T : IInputParameterDto
+    where T : class, IInputParameterDto
 {
     protected override void Configure(IInterfaceTypeDescriptor<IOrchestration<T>> descriptor)
     {
