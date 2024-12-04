@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
@@ -26,8 +27,6 @@ public class OrchestrationLifeCycle : ObjectType<OrchestrationInstanceLifecycleS
             .BindFieldsExplicitly();
 
         descriptor.Field(f => f.CreatedAt);
-        descriptor.Field(f => f.State);
-
         descriptor
             .Field("createdBy")
             .Resolve(context =>
@@ -39,5 +38,31 @@ public class OrchestrationLifeCycle : ObjectType<OrchestrationInstanceLifecycleS
                     ActorIdentityDto => null,
                     _ => null,
                 });
+
+        descriptor
+            .Field(f => f.State)
+            .Resolve(context => context.Parent<OrchestrationInstanceLifecycleStateDto>() switch
+            {
+                { TerminationState: OrchestrationInstanceTerminationStates.Failed } => ProgressStatus.Failed,
+                { TerminationState: OrchestrationInstanceTerminationStates.Succeeded } => ProgressStatus.Completed,
+                { TerminationState: OrchestrationInstanceTerminationStates.UserCanceled } => ProgressStatus.Canceled,
+                { State: OrchestrationInstanceLifecycleStates.Pending } => ProgressStatus.Pending,
+                { State: OrchestrationInstanceLifecycleStates.Queued } => ProgressStatus.Pending,
+                { State: OrchestrationInstanceLifecycleStates.Running } => ProgressStatus.Executing,
+                { State: OrchestrationInstanceLifecycleStates.Terminated } => ProgressStatus.Completed,
+            });
+
+        descriptor
+            .Field("statusType")
+            .Resolve(context => context.Parent<OrchestrationInstanceLifecycleStateDto>() switch
+            {
+                { TerminationState: OrchestrationInstanceTerminationStates.Failed } => ProcessStatus.Danger,
+                { TerminationState: OrchestrationInstanceTerminationStates.Succeeded } => ProcessStatus.Success,
+                { TerminationState: OrchestrationInstanceTerminationStates.UserCanceled } => ProcessStatus.Neutral,
+                { State: OrchestrationInstanceLifecycleStates.Pending } => ProcessStatus.Neutral,
+                { State: OrchestrationInstanceLifecycleStates.Queued } => ProcessStatus.Neutral,
+                { State: OrchestrationInstanceLifecycleStates.Running } => ProcessStatus.Info,
+                { State: OrchestrationInstanceLifecycleStates.Terminated } => ProcessStatus.Success,
+            });
     }
 }
