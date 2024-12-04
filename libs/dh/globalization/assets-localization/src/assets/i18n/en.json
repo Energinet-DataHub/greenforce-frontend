@@ -1249,6 +1249,42 @@
         }
       }
     },
+    "requests": {
+      "topBarTitle": "Request calculation data",
+      "results": "Requests",
+      "new": "Request calculation data",
+      "columns": {
+        "createdAt": "Created at",
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "requestCalculationDataType": "Metering point type/Price type",
+        "createdBy": "User",
+        "state": "Status"
+      },
+      "requestCalculationDataTypes": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "MONTHLY_TARIFF": "Tariff monthly sum",
+        "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
+        "MONTHLY_FEE": "Fee monthly sum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "PRODUCTION": "Production",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange",
+        "ALL_ENERGY": "All"
+      },
+      "states": {
+        "pending": "Pending",
+        "executing": "In progress",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "completed": "Completed"
+      }
+    },
     "requestCalculation": {
       "energySupplier": "Energy supplier",
       "balanceResponsible": "Balance responsible",
