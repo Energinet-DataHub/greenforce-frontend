@@ -378,6 +378,8 @@ type GetUserResponse {
 
 type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
+  currentOwner: String
+  previousOwner: String
   change: GridAreaAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -401,7 +403,9 @@ type GridAreaDto {
 type GridAreaOverviewItemDto {
   priceAreaCode: PriceAreaCode!
   displayName: String!
+  actor: String
   status: GridAreaStatus!
+  audit: [GridAreaAuditedChangeAuditLogDto!]!
   id: UUID!
   code: String!
   name: String!
@@ -635,6 +639,7 @@ type Query {
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
+  gridArea(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   gridAreas: [GridAreaDto!]!
   gridAreaAuditLogs(gridAreaId: UUID!): [GridAreaAuditedChangeAuditLogDto!]!
