@@ -36,4 +36,8 @@ export class EoTermsService {
   acceptTerms() {
     return this.#http.put(`${this.#apiBase}/terms/user/accept/${this.currentVersion}`, null);
   }
+
+  resetTerms() {
+    return this.#http.post(`${this.#apiBase}/authorization/terms/revoke`, null);
+  }
 }
