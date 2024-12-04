@@ -17,9 +17,10 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, output } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -28,7 +29,7 @@ import {
   WattTableColumnDef,
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
-import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Request } from '@energinet-datahub/dh/wholesale/domain';
@@ -40,27 +41,29 @@ import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graph
   standalone: true,
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
     ReactiveFormsModule,
     WattTableComponent,
     WattTableCellDirective,
     WattDatePipe,
     WattButtonComponent,
     VaterUtilityDirective,
+    WattBadgeComponent,
     WattDataTableComponent,
-    WattDataFiltersComponent,
   ],
   template: `
     <watt-data-table
       *transloco="let t; read: 'wholesale.requests'"
       vater
       inset="ml"
+      [enableSearch]="false"
       [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
     >
       <h3>{{ t('results') }}</h3>
 
-      <watt-button variant="secondary" icon="plus">
+      <watt-button variant="secondary" icon="plus" (click)="new.emit()">
         {{ t('new') }}
       </watt-button>
 
@@ -75,14 +78,30 @@ import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graph
           {{ row.lifeCycle.createdAt | wattDate: 'long' }}
         </ng-container>
 
+        <ng-container *wattTableCell="columns['calculationType']; let row">
+          {{ 'wholesale.shared.' + row.calculationType | transloco }}
+        </ng-container>
+
         <ng-container *wattTableCell="columns['period']; let row">
           {{ row.period | wattDate }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['requestCalculationDataType']; let row">
+          {{ t('requestCalculationDataTypes.' + row.requestCalculationDataType) }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns['state']; let row">
+          <watt-badge [type]="row.lifeCycle.statusType">
+            {{ t('states.' + row.lifeCycle.state) }}
+          </watt-badge>
         </ng-container>
       </watt-table>
     </watt-data-table>
   `,
 })
 export class DhWholesaleRequestsTable {
+  new = output();
+
   columns: WattTableColumnDef<Request> = {
     createdAt: { accessor: (x) => x.lifeCycle.createdAt },
     calculationType: { accessor: 'calculationType' },

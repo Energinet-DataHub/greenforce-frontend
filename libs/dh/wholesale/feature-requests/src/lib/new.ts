@@ -16,18 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
-import { DhWholesaleRequestsNew } from './new';
-import { DhWholesaleRequestsTable } from './table';
+import { Component, viewChild } from '@angular/core';
+import { WattModalComponent } from '@energinet-datahub/watt/modal';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  selector: 'dh-wholesale-requests-page',
+  selector: 'dh-wholesale-requests-new',
   standalone: true,
-  imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable],
+  imports: [WattModalComponent],
   template: `
-    <dh-wholesale-requests-new #new />
-    <dh-wholesale-requests-table (new)="new.open()" />
+    <watt-modal #modal size="small">
+      <p>RIP</p>
+    </watt-modal>
   `,
 })
-export class DhWholesaleRequestsPage {}
+export class DhWholesaleRequestsNew {
+  private modal = viewChild.required(WattModalComponent);
+  open = () => this.modal().open();
+}
