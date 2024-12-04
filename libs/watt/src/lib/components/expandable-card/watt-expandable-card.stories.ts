@@ -45,7 +45,7 @@ export default {
       options: ['before', 'after'],
       control: { type: 'radio' },
     },
-  }
+  },
 } as Meta;
 
 export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
