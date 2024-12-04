@@ -28,15 +28,15 @@
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for ukendt aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for ukendt aktør \"{{ relatedToId }}\""
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelationen for '{{ relatedToId }}' ophører snart"
+        "message": "Balanceansvarsrelationen for \"{{ relatedToId }}\" ophører snart"
       },
       "NewBalanceResponsibilityReceived": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for aktør \"{{ relatedToId }}\""
       },
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
@@ -48,11 +48,15 @@
       },
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
-        "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+        "message": "Der er registreret en ubalance i netområde \"{{ relatedToId }}\""
       },
       "ActorCredentialsExpiring": {
         "headline": "Aktør",
         "message": "B2B adgang til denne aktør er ved at udløbe"
+      },
+      "ActorConsolidationScheduled": {
+        "headline": "Sammenlægning af aktører",
+        "message": "\"{{ relatedToId }}\" er ved at ophøre snart"
       }
     }
   },
