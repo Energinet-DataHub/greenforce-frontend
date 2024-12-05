@@ -26,7 +26,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import { GridArea } from './dh-grid-area-details.component';
 
-type Audit = NonNullable<GridArea['audit']>[0];
+type AuditLog = NonNullable<GridArea['audit']>[0];
 
 @Component({
   selector: 'dh-audit-log',
@@ -96,9 +96,9 @@ type Audit = NonNullable<GridArea['audit']>[0];
 export class DhAuditLogComponent {
   gridArea = input<GridArea>();
 
-  dataSource = new WattTableDataSource<Audit>([]);
+  dataSource = new WattTableDataSource<AuditLog>([]);
 
-  columns: WattTableColumnDef<Audit> = {
+  columns: WattTableColumnDef<AuditLog> = {
     timestamp: { accessor: 'timestamp' },
     value: { accessor: null, size: '1fr' },
   };
