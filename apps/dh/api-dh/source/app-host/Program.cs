@@ -1,5 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.DataHub_WebApi>("bff", launchProfileName: "DataHub.WebApi");
+var webapi = builder.AddProject<Projects.DataHub_WebApi>("bff", launchProfileName: "DataHub.WebApi");
 
-builder.Build().Run();
+builder.AddFusionGateway<Projects.DataHub_Gateway>("gateway")
+.WithSubgraph(webapi);
+
+builder.Build().Compose().Run();
