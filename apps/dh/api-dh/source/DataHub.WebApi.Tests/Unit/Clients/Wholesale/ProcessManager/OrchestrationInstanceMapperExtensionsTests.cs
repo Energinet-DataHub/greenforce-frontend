@@ -15,16 +15,15 @@
 using System;
 using System.Collections.Generic;
 using AutoFixture;
-using Energinet.DataHub.ProcessManager.Api.Model;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace Energinet.DataHub.WebApi.Tests.Unit.Clients.Wholesale.ProcessManager;
 
@@ -43,7 +42,7 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsPending(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
             Id: fixture.Create<Guid>(),
             Lifecycle: lifecycle,
             ParameterValue: parameterValue,
@@ -82,7 +81,7 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsPending(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
             Id: fixture.Create<Guid>(),
             Lifecycle: lifecycle,
             ParameterValue: parameterValue,
@@ -109,7 +108,7 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsRunning(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
             Id: fixture.Create<Guid>(),
             Lifecycle: lifecycle,
             ParameterValue: parameterValue,
