@@ -1,4 +1,4 @@
-query GetAuditLogByGridAreaId($gridAreaId: UUID!) {
+query GetGridAreaAuditLog($gridAreaId: UUID!) {
   gridAreaAuditLogs(gridAreaId: $gridAreaId) {
     change
     timestamp

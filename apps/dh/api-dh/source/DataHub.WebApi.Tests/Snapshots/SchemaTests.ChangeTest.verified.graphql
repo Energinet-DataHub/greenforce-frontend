@@ -1482,6 +1482,7 @@ enum NotificationType {
   NewBalanceResponsibilityReceived
   MeteringGridAreaIsImbalanced
   ActorCredentialsExpiring
+  ActorConsolidationScheduled
 }
 
 enum OrganizationAuditedChange {

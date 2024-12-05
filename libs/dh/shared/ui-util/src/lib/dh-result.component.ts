@@ -56,7 +56,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
           />
         }
         @if (empty() && !loading() && !hasError()) {
-          <h4>{{ 'shared.empty.title' | transloco }}</h4>
+          <ng-content select="h4[dh-result-empty-title]">
+            <h4>{{ 'shared.empty.title' | transloco }}</h4>
+          </ng-content>
         }
       </vater-stack>
     }

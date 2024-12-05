@@ -28,7 +28,7 @@ public partial class Subscription
     public async Task<IObservable<CalculationDto>> OnCalculationUpdatedAsync(
         [Service] ITopicEventReceiver eventReceiver,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 client,
         CancellationToken cancellationToken)
     {

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Api.Model;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
@@ -76,7 +76,7 @@ public static class OrchestrationInstanceMapperExtensions
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
     public static CalculationDto MapToV3CalculationDto(
-        this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
+        this OrchestrationInstanceTypedDto<CalculationInputV1> instanceDto)
     {
         return new CalculationDto
         {
@@ -124,7 +124,7 @@ public static class OrchestrationInstanceMapperExtensions
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
     public static CalculationOrchestrationState MapToV3OrchestrationState(
-        this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
+        this OrchestrationInstanceTypedDto<CalculationInputV1> instanceDto)
     {
         var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();
         var messagesEnqueuedStep = instanceDto.Steps.Where(step => step.Sequence == 2).Single();
