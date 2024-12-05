@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -34,12 +36,22 @@ export default {
       imports: [WattBadgeComponent, WATT_EXPANDABLE_CARD_COMPONENTS],
     }),
   ],
+  argTypes: {
+    variant: {
+      options: ['elevation', 'solid'],
+      control: { type: 'radio' },
+    },
+    togglePosition: {
+      options: ['before', 'after'],
+      control: { type: 'radio' },
+    },
+  },
 } as Meta;
 
 export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
   props: args,
   template: `
-    <watt-expandable-card [expanded]="expanded" [variant]="variant">
+    <watt-expandable-card [expanded]="expanded" [variant]="variant" [togglePosition]="togglePosition">
       <watt-badge size="large">02</watt-badge>
       <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
       <p>
@@ -55,6 +67,7 @@ export const Overview: StoryFn<WattExpandableCardComponent> = (args) => ({
 Overview.args = {
   expanded: false,
   variant: 'elevation',
+  togglePosition: 'after',
 };
 
 export const WithNestedCards: StoryFn<WattExpandableCardComponent> = (args) => ({
@@ -81,4 +94,5 @@ export const WithNestedCards: StoryFn<WattExpandableCardComponent> = (args) => (
 WithNestedCards.args = {
   expanded: true,
   variant: 'solid',
+  togglePosition: 'after',
 };

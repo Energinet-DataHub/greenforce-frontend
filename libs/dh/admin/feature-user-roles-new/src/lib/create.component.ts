@@ -1,4 +1,5 @@
-﻿/**
+//#region License
+/**
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   computed,
@@ -52,6 +54,7 @@ import {
   CreateUserRoleDocument,
   GetFilteredUserRolesDocument,
   GetPermissionByEicFunctionDocument,
+  GetUserRoleAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -243,7 +246,7 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
     };
 
     const result = await this.createUserRoleMutation.mutate({
-      refetchQueries: [GetFilteredUserRolesDocument],
+      refetchQueries: [GetFilteredUserRolesDocument, GetUserRoleAuditLogsDocument],
       variables: {
         input: {
           userRole: createUserRoleDto,

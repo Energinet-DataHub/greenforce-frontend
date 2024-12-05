@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,14 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed } from '@angular/core';
 
-import {
-  GridAreaOverviewRow,
-  DhGridAreasOverviewComponent,
-} from '@energinet-datahub/dh/market-participant/grid-areas/overview';
+import { DhGridAreasOverviewComponent } from '@energinet-datahub/dh/market-participant/grid-areas/overview';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 @Component({
   selector: 'dh-grid-areas-shell',
@@ -41,24 +41,33 @@ import { GetGridAreaOverviewDocument } from '@energinet-datahub/dh/shared/domain
   imports: [DhGridAreasOverviewComponent],
 })
 export class DhGridAreasShellComponent {
-  private readonly gln = new RegExp('^[0-9]+$');
+  private gln = new RegExp('^[0-9]+$');
   private getActorsQuery = query(GetGridAreaOverviewDocument);
 
   isLoading = this.getActorsQuery.loading;
   hasError = this.getActorsQuery.hasError;
 
-  rows = computed<GridAreaOverviewRow[]>(() => {
+  rows = computed<DhGridAreaRow[]>(() => {
     const gridAreas = this.getActorsQuery.data()?.gridAreaOverview ?? [];
 
-    return gridAreas.map((x) => ({
-      code: x.code,
-      actor: x.actorNumber
-        ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
-        : '',
-      organization: x.organizationName ?? '',
-      status: x.status,
-      type: x.type,
-      priceArea: x.priceAreaCode,
-    }));
+    return gridAreas.map((x) => {
+      const row: DhGridAreaRow = {
+        id: x.id,
+        code: x.code,
+        actor: x.actorNumber
+          ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
+          : '',
+        organization: x.organizationName ?? '',
+        status: x.status,
+        type: x.type,
+        priceArea: x.priceAreaCode,
+        period: {
+          start: x.validFrom,
+          end: x.validTo ?? null,
+        },
+      };
+
+      return row;
+    });
   });
 }

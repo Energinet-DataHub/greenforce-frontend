@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { User, UserManager } from 'oidc-client-ts';
 import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
@@ -23,10 +25,10 @@ import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 
 import {
-  eoB2cEnvironmentToken,
-  EoB2cEnvironment,
   EoApiEnvironment,
   eoApiEnvironmentToken,
+  EoB2cEnvironment,
+  eoB2cEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 
 export interface EoUser extends User {

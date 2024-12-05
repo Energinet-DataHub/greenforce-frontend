@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,39 +15,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, effect, output } from '@angular/core';
+//#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { map, startWith } from 'rxjs';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import {
   EicFunction,
-  GetFilteredUserRolesQueryVariables,
   UserRoleStatus,
+  GetFilteredUserRolesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
   dhMakeFormControl,
+  dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { map, startWith } from 'rxjs';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 @Component({
   standalone: true,
   selector: 'dh-user-roles-filter',
   imports: [
-    TranslocoDirective,
     FormsModule,
+    TranslocoDirective,
     ReactiveFormsModule,
+
     WattDropdownComponent,
+    WattQueryParamsDirective,
+
     VaterStackComponent,
+
     DhPermissionRequiredDirective,
     DhDropdownTranslatorDirective,
-    WattQueryParamsDirective,
   ],
   template: `<form
     vater-stack

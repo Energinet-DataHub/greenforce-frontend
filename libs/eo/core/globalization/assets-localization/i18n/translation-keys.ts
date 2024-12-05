@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export interface TranslationKeys {
   landingPage: {
     meta: {
@@ -662,6 +664,12 @@ export interface TranslationKeys {
     description: string;
     copy: string;
     copyAndClose: string;
+  };
+  serviceProviderTermsConsent: {
+    title: string;
+    acceptTerms: string;
+    decline: string;
+    accept: string;
   };
   help: {
     title: string;

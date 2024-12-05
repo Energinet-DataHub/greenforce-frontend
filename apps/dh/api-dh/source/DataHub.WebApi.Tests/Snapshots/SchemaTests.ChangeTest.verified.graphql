@@ -314,6 +314,25 @@ type ExchangeEventStatusReportResponse {
 }
 
 "A connection to a list of items."
+type FilteredPermissionsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [FilteredPermissionsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Permission!]
+  permissionRelationsUrl: String
+}
+
+"An edge in a connection."
+type FilteredPermissionsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Permission!
+}
+
+"A connection to a list of items."
 type FilteredUserRolesConnection {
   "Information to aid in pagination."
   pageInfo: PageInfo!
@@ -355,6 +374,15 @@ type GetUserResponse {
   phoneNumber: String
   createdDate: DateTime!
   latestLoginAt: DateTime
+}
+
+type GridAreaAuditedChangeAuditLogDto {
+  auditedBy: String
+  change: GridAreaAuditedChange!
+  timestamp: DateTime!
+  isInitialAssignment: Boolean!
+  currentValue: String
+  previousValue: String
 }
 
 type GridAreaDto {
@@ -609,6 +637,7 @@ type Query {
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   gridAreaOverview: [GridAreaOverviewItemDto!]!
   gridAreas: [GridAreaDto!]!
+  gridAreaAuditLogs(gridAreaId: UUID!): [GridAreaAuditedChangeAuditLogDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
@@ -618,6 +647,7 @@ type Query {
   organizations: [Organization!]!
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   permissionById(id: Int!): Permission!
+  filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
   permissions(searchTerm: String!): Permissions!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
@@ -1012,6 +1042,13 @@ input MergeMarketParticipantsInput {
   mergeDate: DateTime!
 }
 
+input PermissionDtoSortInput {
+  id: SortEnumType
+  name: SortEnumType
+  description: SortEnumType
+  created: SortEnumType
+}
+
 input ReActivateUserInput {
   userId: UUID!
 }
@@ -1174,6 +1211,8 @@ enum ActorAuditedChange {
   CLIENT_SECRET_CREDENTIALS
   DELEGATION_START
   DELEGATION_STOP
+  CONSOLIDATION_REQUESTED
+  CONSOLIDATION_COMPLETED
 }
 
 enum ActorDelegationStatus {
@@ -1360,6 +1399,13 @@ enum ExchangeEventSortProperty {
   LATEST_DISPATCHED
 }
 
+enum GridAreaAuditedChange {
+  NAME
+  CONSOLIDATION_REQUESTED
+  CONSOLIDATION_COMPLETED
+  DECOMMISSIONED
+}
+
 enum GridAreaStatus {
   Created
   Active
@@ -1436,6 +1482,7 @@ enum NotificationType {
   NewBalanceResponsibilityReceived
   MeteringGridAreaIsImbalanced
   ActorCredentialsExpiring
+  ActorConsolidationScheduled
 }
 
 enum OrganizationAuditedChange {

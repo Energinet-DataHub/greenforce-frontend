@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpResponse, delay } from 'msw';
 
 import {
@@ -69,6 +71,20 @@ function getNotifications() {
             notificationType: NotificationType.NewBalanceResponsibilityReceived,
             relatedToId: '4',
             occurredAt: new Date('2024-10-30'),
+          },
+          {
+            __typename: 'NotificationDto',
+            id: 6,
+            notificationType: NotificationType.MeteringGridAreaIsImbalanced,
+            relatedToId: '2',
+            occurredAt: new Date('2024-11-01'),
+          },
+          {
+            __typename: 'NotificationDto',
+            id: 7,
+            notificationType: NotificationType.ActorConsolidationScheduled,
+            relatedToId: '5',
+            occurredAt: new Date('2024-11-02'),
           },
         ],
       },

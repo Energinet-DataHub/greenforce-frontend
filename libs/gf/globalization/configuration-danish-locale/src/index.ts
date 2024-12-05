@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { danishLocaleProvider } from './lib/danish-locale.provider';
 import { danishCurrencyProvider } from './lib/danish-currency.provider';
 import { danishLocaleInitializer } from './lib/danish-locale.initializer';

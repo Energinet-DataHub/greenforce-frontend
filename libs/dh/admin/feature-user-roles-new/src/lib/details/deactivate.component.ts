@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, inject, input, viewChild } from '@angular/core';
 
 import { GraphQLErrors } from '@apollo/client/errors';
@@ -27,6 +29,7 @@ import {
 import {
   DeactivateUserRoleDocument,
   GetFilteredUserRolesDocument,
+  GetUserRoleAuditLogsDocument,
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -82,7 +85,11 @@ export class DhDeactivedUserRoleComponent {
     });
 
     const result = await this.deactivedUserRoleMutation.mutate({
-      refetchQueries: [GetFilteredUserRolesDocument, GetUserRoleWithPermissionsDocument],
+      refetchQueries: [
+        GetFilteredUserRolesDocument,
+        GetUserRoleWithPermissionsDocument,
+        GetUserRoleAuditLogsDocument,
+      ],
       variables: { input: { roleId: id } },
     });
 

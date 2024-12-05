@@ -28,15 +28,15 @@
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "New balance responsible relation for unknown market participant '{{ relatedToId }}'"
+        "message": "New balance responsible relation for unknown market participant \"{{ relatedToId }}\""
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balance responsible relation for '{{ relatedToId }}' expires soon"
+        "message": "Balance responsible relation for \"{{ relatedToId }}\" expires soon"
       },
       "NewBalanceResponsibilityReceived": {
         "headline": "eSett",
-        "message": "New balance responsible relation for market participant '{{ relatedToId }}'"
+        "message": "New balance responsible relation for market participant \"{{ relatedToId }}\""
       },
       "SettlementReportReadyForDownload": {
         "headline": "Settlement reports",
@@ -48,11 +48,15 @@
       },
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
-        "message": "An imbalance has been registered in grid area '{{ relatedToId }}'"
+        "message": "An imbalance has been registered in grid area \"{{ relatedToId }}\""
       },
       "ActorCredentialsExpiring": {
         "headline": "Market participant",
-        "message": "B2B access to this actor is about to expire"
+        "message": "B2B access for this market participant is about to expire"
+      },
+      "ActorConsolidationScheduled": {
+        "headline": "Market participants consolidation",
+        "message": "\"{{ relatedToId }}\" is undergoing consolidation"
       }
     }
   },
@@ -295,7 +299,7 @@
       "stopDate": "Stop on date",
       "setUpDelegation": "Set up delegation",
       "modalTitle": "Set up delegation",
-      "gridArea": "Netområde",
+      "gridArea": "Grid area",
       "start": "Start",
       "emptyTitle": "No delegations found",
       "emptyMessage": "Delegate messages to another market participant",
@@ -818,7 +822,8 @@
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
-        "priceArea": "Price area"
+        "priceArea": "Price area",
+        "period": "Period"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -841,6 +846,15 @@
         "GridLossDK": "Grid loss DK",
         "GridLossAbroad": "Grid loss abroad",
         "Aboard": "Abroad"
+      },
+      "history": {
+        "emptyTitle": "No grid area history",
+        "changeTypes": {
+          "NAME": "---",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ marketParticipant }}</b>. Grid area <b>{{ gridArea }}</b> will cease on {{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "<b>Consolidation with {{ marketParticipant }}</b> has completed",
+          "DECOMMISSIONED": "Grid area <b>{{ gridArea }}</b> has been decommissioned"
+        }
       }
     }
   },

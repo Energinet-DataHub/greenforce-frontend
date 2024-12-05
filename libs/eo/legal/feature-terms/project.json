@@ -1,0 +1,13 @@
+{
+  "name": "eo-legal-feature-terms",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/legal/feature-terms",
+  "prefix": "eo",
+  "tags": ["product:eo", "domain:auth", "type:feature"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

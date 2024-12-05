@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 
@@ -838,6 +840,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     `,
     copy: 'Copy link',
     copyAndClose: 'Copy & close',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    acceptTerms: 'Accept terms and conditions',
+    decline: 'Decline',
+    accept: 'Accept',
   },
   help: {
     title: 'Help',

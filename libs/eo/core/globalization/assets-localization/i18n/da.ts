@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
+
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     meta: {
@@ -825,6 +828,12 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     `,
     copy: 'Kopier link',
     copyAndClose: 'Kopier & luk',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    acceptTerms: 'Accepter vilkår og betingelser',
+    decline: 'Afvis',
+    accept: 'Accepter',
   },
   help: {
     title: 'Hjælp',

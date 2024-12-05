@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   effect,
   inject,
@@ -49,7 +51,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles-new';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhDeactivteComponent } from './deactivate.component';

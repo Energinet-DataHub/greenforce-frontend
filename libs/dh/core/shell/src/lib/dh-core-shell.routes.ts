@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
 
@@ -54,10 +56,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('grid-areas'),
-        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
-        data: {
-          titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
-        },
+        loadChildren: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
         canActivate: [MsalGuard],
       },
       {

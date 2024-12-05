@@ -1,0 +1,14 @@
+{
+  "name": "dh-market-participant-grid-areas-data-access-graphql",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/market-participant/grid-areas/data-access-graphql",
+  "prefix": "dh",
+  "tags": ["product:dh", "domain:market-participant", "type:data-access"],
+  "implicitDependencies": ["api-dh"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

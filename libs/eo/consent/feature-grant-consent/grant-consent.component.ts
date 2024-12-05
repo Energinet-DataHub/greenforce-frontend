@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,17 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
+  signal,
   ViewChild,
   ViewEncapsulation,
-  inject,
-  signal,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { NgClass } from '@angular/common';
@@ -203,9 +205,15 @@ export class EoGrantConsentModalComponent {
     }
 
     if (this.organizationId) {
-      this.consentService.getOrganization(this.organizationId).subscribe((organization) => {
-        this.organizationName.set(organization.organizationName);
-        this.isLoading.set(false);
+      this.consentService.getOrganization(this.organizationId).subscribe({
+        next: (organization) => {
+          this.organizationName.set(organization.organizationName);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.hasError.set(true);
+        },
       });
     }
   }

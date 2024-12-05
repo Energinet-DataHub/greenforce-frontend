@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   GetGridAreaOverviewQuery,
   GridAreaStatus,
@@ -33,8 +35,8 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       actorName: 'Actor 3',
       actorNumber: '123456783',
       organizationName: 'Org 3',
-      validFrom: new Date('2021-08-15T12:30:00'),
-      validTo: null,
+      validFrom: new Date('2023-12-31T23:00:00.000Z'),
+      validTo: new Date(),
       fullFlexDate: new Date('2021-08-16T12:30:00'),
       status: GridAreaStatus.Active,
       type: GridAreaType.Distribution,
