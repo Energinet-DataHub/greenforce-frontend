@@ -21,6 +21,12 @@
       }
     },
     {
+      "name": "Run AppHost",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/apps/dh/api-dh/source/app-host/app-host.csproj"
+    },
+    {
       "name": "Launch BFF",
       "type": "coreclr",
       "request": "launch",
