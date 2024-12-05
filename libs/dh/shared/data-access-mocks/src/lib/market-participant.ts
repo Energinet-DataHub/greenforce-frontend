@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { http, delay, HttpResponse } from 'msw';
 
 import {
@@ -50,6 +52,9 @@ import {
   mockAddTokenToDownloadUrlMutation,
   mockCheckDomainExistsQuery,
   mockMergeMarketParticipantsMutation,
+  mockGetGridAreaAuditLogQuery,
+  GridAreaAuditedChangeAuditLogDto,
+  GridAreaAuditedChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -82,6 +87,7 @@ export function marketParticipantMocks(apiBase: string) {
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     getGridAreaOverview(),
+    getGridAreaAuditLog(),
     createMarketParticipant(),
     getAssociatedActors(),
     getDelegationsForActor(),
@@ -442,6 +448,49 @@ function getGridAreaOverview() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getGridAreaOverviewMock,
+    });
+  });
+}
+
+function getGridAreaAuditLog() {
+  return mockGetGridAreaAuditLogQuery(async () => {
+    await delay(mswConfig.delay);
+
+    const gridAreaAuditLogs: GridAreaAuditedChangeAuditLogDto[] = [
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: 'Test (test@energinet.dk)',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.ConsolidationRequested,
+        timestamp: new Date('2023-12-01T22:59:59Z'),
+      },
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: '---',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.Decommissioned,
+        timestamp: new Date('2023-12-09T22:59:59Z'),
+      },
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: '---',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.ConsolidationCompleted,
+        timestamp: new Date('2023-12-09T22:59:59Z'),
+      },
+    ];
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        gridAreaAuditLogs,
+      },
     });
   });
 }

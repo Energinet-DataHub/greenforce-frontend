@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-user-roles.component';
+//#endregion
+export * from './lib/user-roles.component';
 export { DhCreateUserRoleComponent } from './lib/create.component';
-export { DhEditUserRoleModalComponent } from './lib/edit/dh-edit-user-role-modal.component';
-export { DhUserRoleDetailsComponent as DhRoleDrawerComponent } from './lib/details/details.component';
+export { DhUserRoleEditComponent } from './lib/details/edit.component';
+export { DhUserRoleDetailsComponent } from './lib/details/details.component';
 export { DhUserRolesPageComponent as default } from './lib/page.component';

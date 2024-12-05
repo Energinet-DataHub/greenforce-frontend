@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { GetUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetUserRolesDocument,
+  GetUserRoleWithPermissionsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhUserRoles = ResultOf<typeof GetUserRolesDocument>['userRoles'];
 
 export type DhUserRole = DhUserRoles[0];
+
+export type DhUserRoleWithPermissions = ResultOf<
+  typeof GetUserRoleWithPermissionsDocument
+>['userRoleById'];
+
+export type DhUserRolePermissionDetails = DhUserRoleWithPermissions['permissions'][0];

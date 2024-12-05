@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 export type DhFeatureFlag = {
@@ -60,7 +62,6 @@ export const dhFeatureFlagsConfig = {
   'merge-market-participants': {
     created: latestBump,
     disabledEnvironments: [
-      DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,

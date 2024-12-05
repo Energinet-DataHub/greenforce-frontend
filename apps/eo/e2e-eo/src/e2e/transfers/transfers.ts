@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 import { LoginPo, SharedPO } from '../../page-objects';
 import { TransfersPo } from '../../page-objects/transfers.po';

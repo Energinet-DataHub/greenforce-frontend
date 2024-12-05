@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { Component, OnInit, input } from '@angular/core';
@@ -56,7 +58,7 @@ import { DecimalPipe } from '@angular/common';
     watt-table {
       margin: var(--watt-space-m) 0;
     }
-    `,
+  `,
   imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {
