@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, output, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -35,6 +43,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
 @Component({
   selector: 'dh-grid-area-details',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {
