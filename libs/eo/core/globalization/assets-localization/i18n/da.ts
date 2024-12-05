@@ -644,25 +644,28 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   createTransferAgreementProposal: {
     title: 'Ny overførselsaftale',
     closeLabel: 'Afbryd oprettelse af ny overførselsaftale',
-
-    recipient: {
-      stepLabel: 'Modtager',
-      title: 'Hvem er aftalen til?',
+    parties: {
+      stepLabel: 'Aftaleparter',
+      titleTo: 'Hvem er aftalen til?',
+      titleBetween: 'Hvem er aftalen mellem?',
       description: 'Valgfrit, men anbefales af sikkerhedsmæssige årsager.',
-      nextLabel: 'Næste',
-      unknownRecipient: 'Ukendt virksomhed',
+      nextLabel: 'Tidsramme',
+      unknownParty: 'Ukendt virksomhed',
+      senderTinLabel: 'Afsender',
+      senderTinPlaceholder: 'CVR / TIN',
+      senderTinGeneralError: 'Vælg en organisation fra listen',
+      tinFormatError: 'Et 8-cifret TIN/CVR-nummer er påkrævet',
       receiverTinLabel: 'Modtager',
       receiverTinPlaceholder: 'CVR / TIN',
       receiverTinGeneralError: 'Indtast nyt CVR-nummer eller vælg fra tidligere overførselsaftaler',
       receiverTinEqualsSenderTin: 'Modtageren kan ikke være dit eget TIN/CVR',
-      receiverTinFormatError: 'Et 8-cifret TIN/CVR-nummer er påkrævet',
     },
     timeframe: {
       stepLabel: 'Tidsramme',
       title: 'Hvad er varigheden af aftalen?',
       description: 'Ved at vælge ingen slutdato kan du altid stoppe aftalen manuelt.',
-      nextLabel: 'Næste',
-      previousLabel: 'Forrige',
+      nextLabel: 'Volumen',
+      previousLabel: 'Aftaleparter',
       startDate: {
         label: 'START',
         required: 'Starten af perioden er påkrævet',
@@ -681,34 +684,48 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           'Den valgte periode overlapper med en eksisterende aftale: {{startDate}} - {{endDate}}',
       },
     },
-    invitation: {
+    volume: {
+      title: 'Hvor meget vil du overføre?',
+      stepLabel: 'Volumen',
+      matchReceiver: 'Match modtagers forbrug',
+      everything: 'Alt der udstedes certifikater for',
+      nextLabel: 'Opsummering',
+      previousLabel: 'Tidsramme',
+    },
+    summary: {
       stepLabel: 'Invitation',
-      title: {
-        success: 'Nyt link til overførselsaftale oprettet!',
-        error: 'Forslag til overførselsaftale kunne ikke genereres',
+      previousLabel: 'Volumen',
+      ready: {
+        title: 'Overførselsaftale klar til oprettelse',
+        nextLabel: 'Opret aftale',
       },
-      description: {
-        success: `
+      invitation: {
+        title: {
+          success: 'Nyt link til overførselsaftale oprettet!',
+          error: 'Forslag til overførselsaftale kunne ikke genereres',
+        },
+        description: {
+          success: `
         <p>Hvad sker der nu?</p>
         <ol style="padding-inline-start: revert;">
           <li>Send følgende link til din modtager</li>
           <li>Aftalen bliver endelig, når modtageren accepterer betingelserne</li>
         </ol>`,
-        error: `
+          error: `
         <p>Tryk på "Generer" i formularen nedenfor for at prøve igen.</p>
         <p>Hvis problemet fortsætter, kontakt venligst support.</p>
         `,
+        },
+        link: {
+          hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
+          hintProposal:
+            'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
+          error: 'Kunne ikke generere link. Prøv igen.',
+          copy: 'Kopiér link',
+          retry: 'Generer',
+        },
+        nextLabel: 'Kopier & luk',
       },
-      link: {
-        hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
-        hintProposal:
-          'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
-        error: 'Kunne ikke generere link. Prøv igen.',
-        copy: 'Kopiér link',
-        retry: 'Generer',
-      },
-      nextLabel: 'Kopier & luk',
-      previousLabel: 'Forrige',
     },
   },
   respondTransferAgreementProposal: {

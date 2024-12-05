@@ -16,16 +16,16 @@
  */
 import {
   Component,
-  OnInit,
-  Input,
-  Output,
   EventEmitter,
-  ViewEncapsulation,
+  inject,
+  Input,
   OnChanges,
+  OnInit,
+  Output,
+  signal,
   SimpleChanges,
   ViewChild,
-  signal,
-  inject,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
@@ -55,6 +55,7 @@ import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { ReceiverInputComponent } from './receiver-input.component';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
@@ -73,6 +74,7 @@ export interface EoTransfersForm {
 }
 
 type FormField = 'receiverTin' | 'startDate' | 'endDate';
+export type FormMode = 'create' | 'edit';
 
 @Component({
   selector: 'eo-transfers-form',
@@ -96,6 +98,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     VaterStackComponent,
     WattFieldHintComponent,
     TranslocoPipe,
+    ReceiverInputComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -132,18 +135,19 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     `,
   ],
   template: `
+    <!-- Create -->
     @if (mode === 'create') {
       <form [formGroup]="form">
         <watt-stepper (completed)="onClose()" class="watt-modal-content--full-width">
-          <!-- Recipient -->
+          <!-- Parties -->
           <watt-stepper-step
-            [label]="translations.createTransferAgreementProposal.recipient.stepLabel | transloco"
+            [label]="translations.createTransferAgreementProposal.parties.stepLabel | transloco"
             [nextButtonLabel]="
-              translations.createTransferAgreementProposal.recipient.nextLabel | transloco
+              translations.createTransferAgreementProposal.parties.nextLabel | transloco
             "
             [stepControl]="form.controls.receiverTin"
           >
-            <ng-container *ngTemplateOutlet="receiver" />
+            <eo-receiver-input [mode]="mode" [formControl]="form.controls.receiverTin" />
           </watt-stepper-step>
           <!-- Timeframe -->
           <watt-stepper-step
@@ -172,15 +176,30 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
               />
             </div>
           </watt-stepper-step>
-          <!-- Invitation -->
+          <!-- Volume -->
           <watt-stepper-step
-            [label]="translations.createTransferAgreementProposal.invitation.stepLabel | transloco"
+            [label]="translations.createTransferAgreementProposal.volume.stepLabel | transloco"
             [nextButtonLabel]="
-              translations.createTransferAgreementProposal.invitation.nextLabel | transloco
+              translations.createTransferAgreementProposal.volume.nextLabel | transloco
             "
             [disableNextButton]="generateProposalFailed"
             [previousButtonLabel]="
-              translations.createTransferAgreementProposal.invitation.previousLabel | transloco
+              translations.createTransferAgreementProposal.volume.previousLabel | transloco
+            "
+            (entering)="onSubmit()"
+            (leaving)="onLeaveInvitationStep($event)"
+          >
+          </watt-stepper-step>
+          <!-- Summary -->
+          <!-- Invitation -->
+          <watt-stepper-step
+            [label]="translations.createTransferAgreementProposal.summary.stepLabel | transloco"
+            [nextButtonLabel]="
+              translations.createTransferAgreementProposal.summary.invitation.nextLabel | transloco
+            "
+            [disableNextButton]="generateProposalFailed"
+            [previousButtonLabel]="
+              translations.createTransferAgreementProposal.summary.previousLabel | transloco
             "
             (entering)="onSubmit()"
             (leaving)="onLeaveInvitationStep($event)"
@@ -189,26 +208,27 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
               @if (!generateProposalFailed) {
                 <h2>
                   {{
-                    translations.createTransferAgreementProposal.invitation.title.success
+                    translations.createTransferAgreementProposal.summary.invitation.title.success
                       | transloco
                   }}
                 </h2>
                 <div
                   [innerHTML]="
-                    translations.createTransferAgreementProposal.invitation.description.success
-                      | transloco
+                    translations.createTransferAgreementProposal.summary.invitation.description
+                      .success | transloco
                   "
                 ></div>
               } @else {
                 <h2>
                   {{
-                    translations.createTransferAgreementProposal.invitation.title.error | transloco
+                    translations.createTransferAgreementProposal.summary.invitation.title.error
+                      | transloco
                   }}
                 </h2>
                 <div
                   [innerHTML]="
-                    translations.createTransferAgreementProposal.invitation.description.error
-                      | transloco
+                    translations.createTransferAgreementProposal.summary.invitation.description
+                      .error | transloco
                   "
                 ></div>
               }
@@ -222,9 +242,11 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
           </watt-stepper-step>
         </watt-stepper>
       </form>
+      <!-- Edit -->
     } @else {
       <form [formGroup]="form">
-        <ng-container *ngTemplateOutlet="receiver" />
+        <eo-receiver-input [mode]="mode" [formControl]="form.controls.receiverTin" />
+
         <eo-transfers-form-period
           mode="edit"
           formGroupName="period"
@@ -245,79 +267,12 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
         </watt-modal-actions>
       </form>
     }
-
-    <ng-template #receiver>
-      <div class="receiver">
-        @if (mode === 'create') {
-          <h3 class="watt-headline-2">
-            {{ translations.createTransferAgreementProposal.recipient.title | transloco }}
-          </h3>
-          <p>
-            {{ translations.createTransferAgreementProposal.recipient.description | transloco }}
-          </p>
-        }
-
-        <div style="display: flex; align-items: center;">
-          <watt-text-field
-            [label]="
-              translations.createTransferAgreementProposal.recipient.receiverTinLabel | transloco
-            "
-            [placeholder]="
-              translations.createTransferAgreementProposal.recipient.receiverTinPlaceholder
-                | transloco
-            "
-            type="text"
-            [formControl]="form.controls.receiverTin"
-            (keydown)="preventNonNumericInput($event)"
-            data-testid="new-agreement-receiver-input"
-            [autocompleteOptions]="filteredReceiversTin()"
-            (search)="onSearch($event)"
-            (autocompleteOptionSelected)="onSelectedRecipient($event)"
-            (autocompleteOptionDeselected)="selectedCompanyName.set(undefined)"
-            [autocompleteMatcherFn]="isRecipientMatchingOption"
-            [maxLength]="8"
-            #recipientInput
-          >
-            @if (!form.controls.receiverTin.errors && mode === 'create') {
-              <watt-field-hint
-                [innerHTML]="
-                  translations.createTransferAgreementProposal.recipient.receiverTinGeneralError
-                    | transloco
-                "
-              />
-            }
-
-            @if (form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']) {
-              <watt-field-error
-                [innerHTML]="
-                  translations.createTransferAgreementProposal.recipient.receiverTinEqualsSenderTin
-                    | transloco
-                "
-              />
-            }
-
-            @if (form.controls.receiverTin.errors?.['pattern']) {
-              <watt-field-error
-                [innerHTML]="
-                  translations.createTransferAgreementProposal.recipient.receiverTinFormatError
-                    | transloco
-                "
-              />
-            }
-
-            @if (selectedCompanyName()) {
-              <div class="descriptor">{{ selectedCompanyName() }}</div>
-            }
-          </watt-text-field>
-        </div>
-      </div>
-    </ng-template>
   `,
 })
 export class EoTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;
   @Input() transferId?: string; // used in edit mode
-  @Input() mode: 'create' | 'edit' = 'create';
+  @Input() mode: FormMode = 'create';
   @Input() submitButtonText!: string;
   @Input() cancelButtonText!: string;
   @Input() initialValues: EoTransfersFormInitialValues = {
@@ -353,12 +308,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
 
   onLeavingTimeframeStep() {
     this.existingTransferAgreements.set([]);
-  }
-
-  onSelectedRecipient(value: string) {
-    const [tin, companyName] = value.split(' - ');
-    this.selectedCompanyName.set(companyName);
-    this.form.controls.receiverTin.setValue(tin);
   }
 
   isRecipientMatchingOption(value: string, option: string) {
@@ -410,17 +359,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     step.reset();
   }
 
-  protected preventNonNumericInput(event: KeyboardEvent) {
-    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Control', 'Alt'];
-    const selectAll = event.key === 'a' && (event.metaKey || event.ctrlKey);
-    const isNumericInput = /^[0-9]+$/.test(event.key);
-    const isSpecialKey = allowedKeys.includes(event.key);
-
-    if (!isNumericInput && !isSpecialKey && !selectAll) {
-      event.preventDefault();
-    }
-  }
-
   private setExistingTransferAgreements() {
     const recipient = this.form.controls.receiverTin.value;
     if (!recipient) this.existingTransferAgreements.set([]);
@@ -445,7 +383,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
 
   private getRecipientTins(transferAgreements: EoListedTransfer[]) {
     const fallbackCompanyName = this.transloco.translate(
-      this.translations.createTransferAgreementProposal.recipient.unknownRecipient
+      this.translations.createTransferAgreementProposal.parties.unknownParty
     );
     const tins = transferAgreements.reduce((acc, transfer) => {
       if (transfer.receiverTin !== this.senderTin) {

@@ -84,18 +84,19 @@ function generateLink(id: string | null): string | null {
       >
         @if (!hasError && isNewlyCreated) {
           <watt-field-hint>{{
-            translations.createTransferAgreementProposal.invitation.link.hint | transloco
+            translations.createTransferAgreementProposal.summary.invitation.link.hint | transloco
           }}</watt-field-hint>
         }
 
         @if (!isNewlyCreated) {
           <watt-field-hint>{{
-            translations.createTransferAgreementProposal.invitation.link.hintProposal | transloco
+            translations.createTransferAgreementProposal.summary.invitation.link.hintProposal
+              | transloco
           }}</watt-field-hint>
         }
 
         <watt-field-error>{{
-          translations.createTransferAgreementProposal.invitation.link.error | transloco
+          translations.createTransferAgreementProposal.summary.invitation.link.error | transloco
         }}</watt-field-error>
       </watt-text-field>
 
@@ -107,7 +108,7 @@ function generateLink(id: string | null): string | null {
           data-testid="copy-invitation-link-button"
           [wattCopyToClipboard]="key.value"
           >{{
-            translations.createTransferAgreementProposal.invitation.link.copy | transloco
+            translations.createTransferAgreementProposal.summary.invitation.link.copy | transloco
           }}</watt-button
         >
       } @else {
@@ -117,7 +118,7 @@ function generateLink(id: string | null): string | null {
           icon="refresh"
           data-testid="generate-invitation-link-button"
           >{{
-            translations.createTransferAgreementProposal.invitation.link.retry | transloco
+            translations.createTransferAgreementProposal.summary.invitation.link.retry | transloco
           }}</watt-button
         >
       }

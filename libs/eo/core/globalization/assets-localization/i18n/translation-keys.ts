@@ -523,17 +523,21 @@ export interface TranslationKeys {
   createTransferAgreementProposal: {
     title: string;
     closeLabel: string;
-    recipient: {
+    parties: {
       stepLabel: string;
-      title: string;
+      titleTo: string;
+      titleBetween: string;
       description: string;
       nextLabel: string;
-      unknownRecipient: string;
+      unknownParty: string;
+      senderTinLabel: string;
+      senderTinPlaceholder: string;
+      senderTinGeneralError: string;
+      tinFormatError: string;
       receiverTinLabel: string;
       receiverTinPlaceholder: string;
       receiverTinGeneralError: string;
       receiverTinEqualsSenderTin: string;
-      receiverTinFormatError: string;
     };
     timeframe: {
       stepLabel: string;
@@ -557,25 +561,39 @@ export interface TranslationKeys {
         withoutEndDateOverlapping: string;
       };
     };
-    invitation: {
+    volume: {
       stepLabel: string;
-      title: {
-        success: string;
-        error: string;
-      };
-      description: {
-        success: string;
-        error: string;
-      };
-      link: {
-        hint: string;
-        hintProposal: string;
-        error: string;
-        copy: string;
-        retry: string;
-      };
+      title: string;
+      matchReceiver: string;
+      everything: string;
       nextLabel: string;
       previousLabel: string;
+    };
+    summary: {
+      stepLabel: string;
+      previousLabel: string;
+      ready: {
+        title: string;
+        nextLabel: string;
+      };
+      invitation: {
+        title: {
+          success: string;
+          error: string;
+        };
+        description: {
+          success: string;
+          error: string;
+        };
+        link: {
+          hint: string;
+          hintProposal: string;
+          error: string;
+          copy: string;
+          retry: string;
+        };
+        nextLabel: string;
+      };
     };
   };
   respondTransferAgreementProposal: {
