@@ -102,7 +102,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
 
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('columns.period') }}</span>
-              <span>{{ period(gridAreaView) | wattDate }}</span>
+              <span>{{ period() | wattDate }}</span>
             </vater-stack>
           </vater-flex>
         </watt-drawer-heading>
@@ -123,6 +123,15 @@ export class DhGridAreaDetailsComponent {
   gridAreaId = input<string>();
 
   gridArea = computed(() => this.gridAreaDetailsQuery.data()?.gridArea);
+  period = computed(() => {
+    const gridArea = this.gridArea();
+
+    if (gridArea === undefined) {
+      return null;
+    }
+
+    return { start: gridArea.validFrom, end: gridArea.validTo ?? null };
+  });
 
   closed = output();
 
@@ -136,6 +145,4 @@ export class DhGridAreaDetailsComponent {
       }
     });
   }
-
-  period = (gridArea: GridArea) => ({ start: gridArea.validFrom, end: gridArea.validTo ?? null });
 }
