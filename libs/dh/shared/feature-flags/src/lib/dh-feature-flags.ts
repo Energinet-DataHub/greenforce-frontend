@@ -62,7 +62,6 @@ export const dhFeatureFlagsConfig = {
   'merge-market-participants': {
     created: latestBump,
     disabledEnvironments: [
-      DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
