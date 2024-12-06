@@ -16,7 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export * from './actor';
-export * from './calculation';
-export * from './grid-areas';
-export * from './request';
+import { ResultOf } from 'apollo-angular/types';
+import { GetRequestsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type Request = NonNullable<
+  NonNullable<ResultOf<typeof GetRequestsDocument>['requests']>['nodes']
+>[number];

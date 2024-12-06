@@ -16,7 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-export * from './actor';
-export * from './calculation';
-export * from './grid-areas';
-export * from './request';
+import { Component, viewChild } from '@angular/core';
+import { WattModalComponent } from '@energinet-datahub/watt/modal';
+
+/* eslint-disable @angular-eslint/component-class-suffix */
+@Component({
+  selector: 'dh-wholesale-requests-new',
+  standalone: true,
+  imports: [WattModalComponent],
+  template: `
+    <watt-modal #modal size="small">
+      <p>RIP</p>
+    </watt-modal>
+  `,
+})
+export class DhWholesaleRequestsNew {
+  private modal = viewChild.required(WattModalComponent);
+  open = () => this.modal().open();
+}

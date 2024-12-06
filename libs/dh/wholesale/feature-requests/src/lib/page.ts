@@ -16,7 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-export * from './actor';
-export * from './calculation';
-export * from './grid-areas';
-export * from './request';
+import { Component } from '@angular/core';
+import { DhWholesaleRequestsNew } from './new';
+import { DhWholesaleRequestsTable } from './table';
+
+/* eslint-disable @angular-eslint/component-class-suffix */
+@Component({
+  selector: 'dh-wholesale-requests-page',
+  standalone: true,
+  imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable],
+  template: `
+    <dh-wholesale-requests-new #new />
+    <dh-wholesale-requests-table (new)="new.open()" />
+  `,
+})
+export class DhWholesaleRequestsPage {}
