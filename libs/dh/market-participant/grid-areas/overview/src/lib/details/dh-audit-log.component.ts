@@ -67,7 +67,7 @@ type AuditLog = NonNullable<GridArea['audit']>[0];
                   auditedBy: entry.auditedBy,
                   marketParticipant: entry.previousOwner,
                   gridArea: this.gridArea()?.code,
-                  gridAreaStopsAt: this.gridArea()?.validTo,
+                  gridAreaStopsAt: this.gridArea()?.validTo | wattDate,
                 })
               "
             ></div>
