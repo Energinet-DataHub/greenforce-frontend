@@ -329,7 +329,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   constructor() {
     effect(() => {
-      this._selectionModel.setSelection(...this.initialSelection());
+      this._selectionModel.setSelection(...(this.initialSelection() ?? []));
     });
     this._selectionModel.changed
       .pipe(

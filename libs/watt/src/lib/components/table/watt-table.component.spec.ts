@@ -22,6 +22,7 @@ import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattTableColumnDef, WattTableComponent, WATT_TABLE } from './watt-table.component';
+import { InputSignal } from '@angular/core';
 
 interface PeriodicElement {
   name: string;
@@ -265,7 +266,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
     });
 
     expect(screen.queryAllByRole('checkbox')).toHaveLength(7);
@@ -283,7 +284,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -305,7 +306,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -328,7 +329,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -352,7 +353,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -375,7 +376,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -400,7 +401,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow],
+      initialSelection: [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -428,7 +429,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow],
+      initialSelection: [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -471,7 +472,13 @@ describe(WattTableComponent, () => {
     };
 
     await setup(
-      { dataSource, columns, selectable: true, initialSelection: [], selectionChange },
+      {
+        dataSource,
+        columns,
+        selectable: true,
+        initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+        selectionChange,
+      },
       `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
     );
 
