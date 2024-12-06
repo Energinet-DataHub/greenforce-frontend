@@ -29,10 +29,10 @@ export const dhStartDateAndEndDateHaveSameMonthValidator =
       return null;
     }
 
-    const startMonth = dayjs(range.start).month();
-    const endMonth = dayjs(range.end).month();
+    const startDate = dayjs(range.start);
+    const endDate = dayjs(range.end);
 
-    if (startMonth - endMonth !== 0) {
+    if (startDate.month() !== endDate.month() || startDate.year() !== endDate.year()) {
       return { startDateAndEndDateHaveDifferentMonth: true };
     }
 

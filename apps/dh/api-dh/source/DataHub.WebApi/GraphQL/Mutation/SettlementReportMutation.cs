@@ -72,6 +72,7 @@ public partial class Mutation
 
     private bool IsPeriodAcrossMonths(Interval interval)
     {
-        return (interval.Start.ToDateTimeOffset().Month - interval.End.ToDateTimeOffset().Month) != 0;
+        return interval.Start.ToDateTimeOffset().Month != interval.End.ToDateTimeOffset().Month
+            || interval.Start.ToDateTimeOffset().Year != interval.End.ToDateTimeOffset().Year;
     }
 }
