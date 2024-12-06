@@ -172,6 +172,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
             <li>
               <a href="/en/terms">Terms of use</a>
             </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Accessibility Statement</a>
+            </li>
+            <li>
+              <a href="/en/service-provider-terms">Service Provider Terms</a>
+            </li>
           </ul>
         `,
       },
