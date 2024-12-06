@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../service-defaults/service-defaults.csproj" />
+    <ProjectReference Include="../DataHub.WebApi/DataHub.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
