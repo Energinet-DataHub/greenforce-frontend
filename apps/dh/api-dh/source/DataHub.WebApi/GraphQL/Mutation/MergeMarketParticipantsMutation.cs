@@ -19,13 +19,14 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 public partial class Mutation
 {
     [Error(typeof(ApiException))]
-    public async Task<bool> MergeMarketParticipantsAsync(
+    public Task<bool> MergeMarketParticipantsAsync(
             Guid survivingEntity,
             Guid discontinuedEntity,
-            DateTimeOffset mergeDate)
+            DateTimeOffset mergeDate,
+            [Service] IMarketParticipantClient_V1 client)
     {
-        await Task.CompletedTask;
-
-        return true;
+        return client.ActorConsolidateAsync(
+            discontinuedEntity,
+            new ConsolidationRequestDto { ConsolidateAt = mergeDate, ToActorId = survivingEntity });
     }
 }
