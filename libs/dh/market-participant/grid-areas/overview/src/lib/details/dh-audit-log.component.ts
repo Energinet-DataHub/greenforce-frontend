@@ -26,7 +26,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import { GridArea } from './dh-grid-area-details.component';
 
-type AuditLog = NonNullable<GridArea['audit']>[0];
+type AuditLog = NonNullable<GridArea['auditLog']>[0];
 
 @Component({
   selector: 'dh-audit-log',
@@ -108,7 +108,7 @@ export class DhAuditLogComponent {
       const gridArea = this.gridArea();
 
       if (gridArea) {
-        this.dataSource.data = gridArea.audit ?? [];
+        this.dataSource.data = gridArea.auditLog ?? [];
       }
     });
   }

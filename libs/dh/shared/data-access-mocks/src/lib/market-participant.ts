@@ -507,7 +507,7 @@ function getGridAreaDetails() {
         __typename: 'Query',
         gridArea: {
           ...gridArea,
-          audit: auditLogs,
+          auditLog: auditLogs,
         },
       },
     });

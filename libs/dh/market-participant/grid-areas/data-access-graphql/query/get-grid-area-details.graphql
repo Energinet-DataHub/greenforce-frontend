@@ -10,7 +10,7 @@ query GetGridAreaDetails($id: UUID!) {
     type
     validFrom
     validTo
-    audit {
+    auditLog {
       auditedBy
       change
       timestamp

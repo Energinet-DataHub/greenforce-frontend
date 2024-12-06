@@ -405,7 +405,7 @@ type GridAreaOverviewItemDto {
   displayName: String!
   actor: String
   status: GridAreaStatus!
-  audit: [GridAreaAuditedChangeAuditLogDto!]!
+  auditLog: [GridAreaAuditedChangeAuditLogDto!]!
   id: UUID!
   code: String!
   name: String!

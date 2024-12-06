@@ -55,7 +55,7 @@ public class GridAreaOverviewItemDtoType : ObjectType<GridAreaOverviewItemDto>
            .ResolveWith<GridAreaResolvers>(c => c.CalculateGridAreaStatus(default!));
 
         descriptor
-            .Field("audit")
+            .Field("auditLog")
             .Type<NonNullType<ListType<NonNullType<ObjectType<GridAreaAuditedChangeAuditLogDto>>>>>()
             .Resolve((context) =>
             {
