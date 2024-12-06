@@ -26,7 +26,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -83,7 +83,6 @@ import { translations } from '@energinet-datahub/eo/translations';
     EoDashboardConsumptionComponent,
     EoDashboardProductionTransferredComponent,
     EoDashboardChoosePeriodComponent,
-    NgIf,
     AsyncPipe,
     WattSpinnerComponent,
     WattEmptyStateComponent,
@@ -153,9 +152,9 @@ import { translations } from '@energinet-datahub/eo/translations';
   `,
 })
 export class EoDashboardShellComponent implements OnInit {
-  private meteringPointStore = inject(EoMeteringPointsStore);
-  private aggregateService: EoAggregateService = inject(EoAggregateService);
-  private destroyRef = inject(DestroyRef);
+  private readonly meteringPointStore = inject(EoMeteringPointsStore);
+  private readonly aggregateService: EoAggregateService = inject(EoAggregateService);
+  private readonly destroyRef = inject(DestroyRef);
 
   period = signal<eoDashboardPeriod>(null);
   isLoadingMeteringPoints$ = this.meteringPointStore.loading$;
