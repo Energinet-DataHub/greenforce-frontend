@@ -22,9 +22,14 @@ public partial class Mutation
     public async Task<bool> MergeMarketParticipantsAsync(
             Guid survivingEntity,
             Guid discontinuedEntity,
-            DateTimeOffset mergeDate)
+            DateTimeOffset mergeDate,
+            [Service] IMarketParticipantClient_V1 client)
     {
-        await Task.CompletedTask;
+        await client
+            .ActorConsolidateAsync(
+                discontinuedEntity,
+                new ConsolidationRequestDto { ConsolidateAt = mergeDate, ToActorId = survivingEntity })
+            .ConfigureAwait(false);
 
         return true;
     }

@@ -690,6 +690,107 @@
         }
       }
     },
+    "/actor/{actorId}/consolidate": {
+      "post": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "consolidate",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ConsolidationRequestDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ConsolidationRequestDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ConsolidationRequestDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/actor/consolidations": {
+      "post": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "consolidations",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorConsolidationsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorConsolidationsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorConsolidationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/contacts/public": {
       "get": {
         "tags": [
@@ -3731,6 +3832,27 @@
           }
         }
       },
+      "ActorConsolidationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorFromId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actorToId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consolidateAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
       "ActorContactDto": {
         "type": "object",
         "additionalProperties": false,
@@ -4052,6 +4174,20 @@
           }
         }
       },
+      "ConsolidationRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "toActorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consolidateAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "ContactCategory": {
         "type": "integer",
         "format": "int32",
@@ -4365,6 +4501,18 @@
         "properties": {
           "accessToken": {
             "type": "string"
+          }
+        }
+      },
+      "GetActorConsolidationsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorConsolidations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorConsolidationDto"
+            }
           }
         }
       },
