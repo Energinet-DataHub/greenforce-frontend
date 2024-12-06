@@ -31,9 +31,4 @@ public partial class Query
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.GetGridAreasAsync();
-
-    public async Task<IEnumerable<GridAreaAuditedChangeAuditLogDto>> GetGridAreaAuditLogsAsync(
-        Guid gridAreaId,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.GridAreaAuditAsync(gridAreaId);
 }
