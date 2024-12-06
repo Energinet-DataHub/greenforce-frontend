@@ -29,6 +29,17 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
+services.AddServiceDiscovery();
+
+services.ConfigureHttpClientDefaults(http =>
+{
+    // Turn on resilience by default
+    http.AddStandardResilienceHandler();
+
+    // Turn on service discovery by default
+    http.AddServiceDiscovery();
+});
+
 if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
 {
     services
@@ -37,13 +48,13 @@ if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
         .UseAzureMonitor();
 }
 
-builder.Services.AddApplicationInsightsForWebApp("BFF");
+services.AddApplicationInsightsForWebApp("BFF");
 
 services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
+services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedPrefix;
