@@ -23,4 +23,5 @@ public enum NotificationType
     NewBalanceResponsibilityReceived = 5,
     MeteringGridAreaIsImbalanced = 6,
     ActorCredentialsExpiring = 7,
+    ActorConsolidationScheduled = 8,
 }

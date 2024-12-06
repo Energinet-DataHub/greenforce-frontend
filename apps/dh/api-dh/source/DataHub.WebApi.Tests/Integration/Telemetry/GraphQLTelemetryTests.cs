@@ -39,7 +39,7 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     private Mock<IFeatureManager> FeatureManagerMock { get; } = new();
 
-    private Mock<INotifyAggregatedMeasureDataClientAdapter> ProcessManagerCalculationClientMock { get; } = new();
+    private Mock<IProcessManagerClientAdapter> ProcessManagerClientMock { get; } = new();
 
     [Fact]
     public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
@@ -76,10 +76,10 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
             .ReturnsAsync(true);
         services.AddSingleton(FeatureManagerMock.Object);
 
-        ProcessManagerCalculationClientMock
+        ProcessManagerClientMock
             .Setup(x => x.GetCalculationAsync(CalculationId, default))
             .ReturnsAsync(new CalculationDto { CalculationId = CalculationId });
-        services.AddSingleton(ProcessManagerCalculationClientMock.Object);
+        services.AddSingleton(ProcessManagerClientMock.Object);
     }
 
     private async Task MakeGraphQLRequestAsync()
