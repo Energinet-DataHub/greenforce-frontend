@@ -86,6 +86,9 @@ limitations under the License.
           @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
             <watt-field-error> {{ t("startDateIsBeforeMinDate") }} </watt-field-error>
           }
+          @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
+            <watt-field-error> {{ t("startDateAndEndDateHaveDifferentMonth") }} </watt-field-error>
+          }
         </watt-datepicker>
 
         @if (showMonthlySumCheckbox$ | push) {
