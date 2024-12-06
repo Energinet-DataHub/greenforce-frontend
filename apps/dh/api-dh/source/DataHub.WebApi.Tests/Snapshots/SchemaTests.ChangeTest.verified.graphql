@@ -46,6 +46,13 @@ type ActorClientSecretDto {
   secretText: String!
 }
 
+type ActorConsolidationDto {
+  actorFromId: UUID!
+  actorToId: UUID!
+  consolidateAt: DateTime!
+  status: String!
+}
+
 type ActorContactDto {
   contactId: UUID!
   actorId: UUID!
@@ -350,6 +357,10 @@ type FilteredUserRolesEdge {
   node: UserRoleDto!
 }
 
+type GetActorConsolidationsResponse {
+  actorConsolidations: [ActorConsolidationDto!]!
+}
+
 type GetUserOverviewResponse {
   users: [UserOverviewItemDto!]!
   totalUserCount: Int!
@@ -626,6 +637,7 @@ type Query {
   associatedActors(email: String!): AssociatedActors!
   filteredActors: [Actor!]!
   selectionActors: [SelectionActorDto!]!
+  actorConsolidations: GetActorConsolidationsResponse!
   balanceResponsibleImport: BalanceResponsibleImport!
   calculationById(id: UUID!): Calculation!
   calculations(input: CalculationQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection
