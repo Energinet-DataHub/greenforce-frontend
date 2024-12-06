@@ -6,8 +6,7 @@ query GetGridAreaOverview {
     priceAreaCode
     validFrom
     validTo
-    actorNumber
-    actorName
+    actor
     organizationName
     type
     fullFlexDate

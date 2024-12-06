@@ -52,9 +52,9 @@ import {
   mockAddTokenToDownloadUrlMutation,
   mockCheckDomainExistsQuery,
   mockMergeMarketParticipantsMutation,
-  mockGetGridAreaAuditLogQuery,
   GridAreaAuditedChangeAuditLogDto,
   GridAreaAuditedChange,
+  mockGetGridAreaDetailsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -87,7 +87,7 @@ export function marketParticipantMocks(apiBase: string) {
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     getGridAreaOverview(),
-    getGridAreaAuditLog(),
+    getGridAreaDetails(),
     createMarketParticipant(),
     getAssociatedActors(),
     getDelegationsForActor(),
@@ -452,19 +452,31 @@ function getGridAreaOverview() {
   });
 }
 
-function getGridAreaAuditLog() {
-  return mockGetGridAreaAuditLogQuery(async () => {
+function getGridAreaDetails() {
+  return mockGetGridAreaDetailsQuery(async ({ variables }) => {
+    const { id } = variables;
+
     await delay(mswConfig.delay);
 
-    const gridAreaAuditLogs: GridAreaAuditedChangeAuditLogDto[] = [
+    const gridArea = getGridAreaOverviewMock.gridAreaOverview.find((x) => x.id === id);
+
+    if (gridArea === undefined) {
+      return HttpResponse.json({
+        data: null,
+      });
+    }
+
+    const auditLogs: GridAreaAuditedChangeAuditLogDto[] = [
       {
         __typename: 'GridAreaAuditedChangeAuditLogDto',
-        auditedBy: 'Test (test@energinet.dk)',
+        auditedBy: 'Test 1 (test@energinet.dk)',
         isInitialAssignment: false,
         currentValue: '---',
         previousValue: null,
         change: GridAreaAuditedChange.ConsolidationRequested,
         timestamp: new Date('2023-12-01T22:59:59Z'),
+        previousOwner: 'Det Sorte Net',
+        currentOwner: 'Det Grønne Net',
       },
       {
         __typename: 'GridAreaAuditedChangeAuditLogDto',
@@ -474,6 +486,8 @@ function getGridAreaAuditLog() {
         previousValue: null,
         change: GridAreaAuditedChange.Decommissioned,
         timestamp: new Date('2023-12-09T22:59:59Z'),
+        previousOwner: null,
+        currentOwner: null,
       },
       {
         __typename: 'GridAreaAuditedChangeAuditLogDto',
@@ -483,13 +497,18 @@ function getGridAreaAuditLog() {
         previousValue: null,
         change: GridAreaAuditedChange.ConsolidationCompleted,
         timestamp: new Date('2023-12-09T22:59:59Z'),
+        previousOwner: null,
+        currentOwner: 'Det Grønne Net',
       },
     ];
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        gridAreaAuditLogs,
+        gridArea: {
+          ...gridArea,
+          auditLog: auditLogs,
+        },
       },
     });
   });

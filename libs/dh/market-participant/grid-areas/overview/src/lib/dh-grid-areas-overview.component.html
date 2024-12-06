@@ -106,4 +106,4 @@ limitations under the License.
   </vater-flex>
 </watt-card>
 
-<dh-grid-area-details [gridArea]="activeRow()" (closed)="activeRow.set(undefined)" />
+<dh-grid-area-details [gridAreaId]="activeRow()?.id" (closed)="activeRow.set(undefined)" />

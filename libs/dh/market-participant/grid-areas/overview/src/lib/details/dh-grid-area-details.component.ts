@@ -16,20 +16,34 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input, output, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
 import { DhGridAreaStatusBadgeComponent } from '../dh-grid-area-status-badge.component';
 import { DhAuditLogComponent } from './dh-audit-log.component';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetGridAreaDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
 
 @Component({
   selector: 'dh-grid-area-details',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {
@@ -73,12 +87,12 @@ import { DhAuditLogComponent } from './dh-audit-log.component';
 
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('columns.organization') }}</span>
-              <span>{{ gridAreaView.organization }}</span>
+              <span>{{ gridAreaView.organizationName }}</span>
             </vater-stack>
 
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('columns.priceArea') }}</span>
-              <span>{{ gridAreaView.priceArea }}</span>
+              <span>{{ gridAreaView.priceAreaCode }}</span>
             </vater-stack>
 
             <vater-stack direction="row" gap="s">
@@ -88,7 +102,7 @@ import { DhAuditLogComponent } from './dh-audit-log.component';
 
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('columns.period') }}</span>
-              <span>{{ gridAreaView.period | wattDate }}</span>
+              <span>{{ period() | wattDate }}</span>
             </vater-stack>
           </vater-flex>
         </watt-drawer-heading>
@@ -104,14 +118,29 @@ import { DhAuditLogComponent } from './dh-audit-log.component';
 })
 export class DhGridAreaDetailsComponent {
   private drawer = viewChild.required(WattDrawerComponent);
+  private gridAreaDetailsQuery = lazyQuery(GetGridAreaDetailsDocument);
 
-  gridArea = input<DhGridAreaRow>();
+  gridAreaId = input<string>();
+
+  gridArea = computed(() => this.gridAreaDetailsQuery.data()?.gridArea);
+  period = computed(() => {
+    const gridArea = this.gridArea();
+
+    if (gridArea === undefined) {
+      return null;
+    }
+
+    return { start: gridArea.validFrom, end: gridArea.validTo ?? null };
+  });
 
   closed = output();
 
   constructor() {
     effect(() => {
-      if (this.gridArea()) {
+      const id = this.gridAreaId();
+
+      if (id) {
+        this.gridAreaDetailsQuery.query({ variables: { id } });
         this.drawer().open();
       }
     });
