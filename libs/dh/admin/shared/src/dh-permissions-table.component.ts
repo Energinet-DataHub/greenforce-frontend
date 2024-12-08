@@ -78,6 +78,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WATT_TABLE, DhResultComponent],
 })
 export class DhPermissionsTableComponent {
+  table = viewChild.required(WattTableComponent);
   permissions = input<PermissionDetailsDto[]>([]);
   loading = input.required<boolean>();
   hasError = input.required<boolean>();
@@ -96,6 +97,8 @@ export class DhPermissionsTableComponent {
 
   constructor() {
     effect(() => {
+      // Clear selection when permissions change
+      this.table().clearSelection();
       this.dataSource.data = this.permissions();
     });
   }

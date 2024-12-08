@@ -21,17 +21,17 @@ limitations under the License.
   [loading]="loading()"
   (closed)="close()"
 >
-  <watt-tabs class="watt-modal-content--full-width">
-    <watt-tab [label]="t('tab.masterData')">
-      <form
-        vater-flex
-        direction="column"
-        gap="s"
-        offset="m"
-        [formGroup]="userInfoForm"
-        id="user-info-form"
-        (ngSubmit)="save()"
-      >
+  <form
+    vater-flex
+    direction="column"
+    gap="s"
+    offset="m"
+    [formGroup]="userInfoForm"
+    id="user-info-form"
+    (ngSubmit)="save()"
+  >
+    <watt-tabs class="watt-modal-content--full-width">
+      <watt-tab [label]="t('tab.masterData')">
         <watt-text-field
           [label]="t('masterData.firstName')"
           [formControl]="userInfoForm.controls.firstName"
@@ -48,20 +48,20 @@ limitations under the License.
           [label]="t('masterData.phone')"
           [formControl]="userInfoForm.controls.phoneNumber"
         />
-      </form>
-    </watt-tab>
+      </watt-tab>
 
-    <watt-tab [label]="t('tab.roles')">
-      @let id = user()?.id;
-      @if (id) {
-        <dh-user-roles
-          [id]="id"
-          [selectMode]="true"
-          (updateUserRoles)="onSelectedUserRolesChanged($event)"
-        />
-      }
-    </watt-tab>
-  </watt-tabs>
+      <watt-tab [label]="t('tab.roles')">
+        @let id = user()?.id;
+        @if (id) {
+          <dh-user-roles
+            [id]="id"
+            [selectMode]="true"
+            (updateUserRoles)="onSelectedUserRolesChanged($event)"
+          />
+        }
+      </watt-tab>
+    </watt-tabs>
+  </form>
 
   <watt-modal-actions>
     <watt-button variant="secondary" (click)="close()">
