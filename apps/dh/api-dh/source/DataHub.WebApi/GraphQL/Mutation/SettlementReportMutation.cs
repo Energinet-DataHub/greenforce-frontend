@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
@@ -27,11 +26,6 @@ public partial class Mutation
         [Service] IMarketParticipantClient_V1 marketPartClient,
         [Service] ISettlementReportsClient client)
     {
-        if (IsPeriodAcrossMonths(requestSettlementReportInput.Period))
-        {
-            return false;
-        }
-
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
             ? await marketPartClient.ActorGetAsync(actorNumber)
             : null;
@@ -68,11 +62,5 @@ public partial class Mutation
         await settlementReportsClient.CancelAsync(requestId, default);
 
         return true;
-    }
-
-    private bool IsPeriodAcrossMonths(Interval interval)
-    {
-        return interval.Start.ToDateTimeOffset().Month != interval.End.ToDateTimeOffset().Month
-            || interval.Start.ToDateTimeOffset().Year != interval.End.ToDateTimeOffset().Year;
     }
 }

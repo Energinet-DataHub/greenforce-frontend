@@ -96,7 +96,7 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
           <watt-datepicker
             [label]="t('mergeDate')"
             [formControl]="form.controls.mergeDate"
-            [min]="_7DaysFromNow"
+            [min]="tomorrow"
           />
         </form>
 
@@ -149,7 +149,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     { validators: dhUniqueMarketParticipantsValidator() }
   );
 
-  _7DaysFromNow = dayjs().add(7, 'days').toDate();
+  tomorrow = dayjs().add(1, 'days').toDate();
 
   async save() {
     const { discontinuedEntity, survivingEntity, mergeDate } = this.form.value;

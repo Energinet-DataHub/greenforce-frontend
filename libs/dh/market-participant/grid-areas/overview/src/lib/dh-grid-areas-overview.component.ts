@@ -148,6 +148,7 @@ export class DhGridAreasOverviewComponent {
       `"${translate(columnsPath + '.code')}"`,
       `"${translate(columnsPath + '.actor')}"`,
       `"${translate(columnsPath + '.organization')}"`,
+      `"${translate(columnsPath + '.priceArea')}"`,
       `"${translate(columnsPath + '.type')}"`,
       `"${translate(columnsPath + '.status')}"`,
     ];
@@ -156,6 +157,7 @@ export class DhGridAreasOverviewComponent {
       `"${gridArea.code}"`,
       `"${gridArea.actor}"`,
       `"${gridArea.organization}"`,
+      `"${gridArea.priceArea}"`,
       `"${translate(typesPath + '.' + gridArea.type)}"`,
       `"${translate(statusPath + '.' + gridArea.status)}"`,
     ]);
