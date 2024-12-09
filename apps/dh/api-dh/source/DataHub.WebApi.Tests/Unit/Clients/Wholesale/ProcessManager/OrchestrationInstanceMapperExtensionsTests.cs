@@ -43,11 +43,11 @@ public class OrchestrationInstanceMapperExtensionsTests
         };
 
         var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
-            Id: fixture.Create<Guid>(),
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
+            id: fixture.Create<Guid>(),
+            lifecycle: lifecycle,
+            parameterValue: parameterValue,
+            steps: steps,
+            customState: string.Empty);
 
         // Act
         var actualDto = orchestrationInstanceDto.MapToV3CalculationDto();
@@ -82,11 +82,11 @@ public class OrchestrationInstanceMapperExtensionsTests
         };
 
         var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
-            Id: fixture.Create<Guid>(),
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
+            id: fixture.Create<Guid>(),
+            lifecycle: lifecycle,
+            parameterValue: parameterValue,
+            steps: steps,
+            customState: string.Empty);
 
         // Act
         var actualState = orchestrationInstanceDto.MapToV3OrchestrationState();
@@ -109,11 +109,11 @@ public class OrchestrationInstanceMapperExtensionsTests
         };
 
         var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
-            Id: fixture.Create<Guid>(),
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
+            id: fixture.Create<Guid>(),
+            lifecycle: lifecycle,
+            parameterValue: parameterValue,
+            steps: steps,
+            customState: string.Empty);
 
         // Act
         var actualState = orchestrationInstanceDto.MapToV3OrchestrationState();
