@@ -72,10 +72,8 @@ public partial class Mutation
 
     private bool IsPeriodAcrossMonths(Interval interval)
     {
-        // var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.Start.ToDateTimeOffset(), "Romance Standard Time");
-        // var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.End.ToDateTimeOffset().AddMilliseconds(-1), "Romance Standard Time");
-        var startDate = interval.Start.ToDateTimeOffset();
-        var endDate = interval.End.ToDateTimeOffset();
+        var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.Start.ToDateTimeOffset(), "Romance Standard Time");
+        var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.End.ToDateTimeOffset().AddMilliseconds(-1), "Romance Standard Time");
         return startDate.Month != endDate.Month
             || startDate.Year != endDate.Year;
     }
