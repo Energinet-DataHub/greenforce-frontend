@@ -45,6 +45,8 @@ function isSubscriptionQuery(operation: Operation) {
   return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
 }
 
+const useFederatedGateway = false;
+
 export const graphQLProviders = makeEnvironmentProviders([
   {
     provide: APOLLO_FLAGS,
@@ -102,10 +104,12 @@ export const graphQLProviders = makeEnvironmentProviders([
           errorHandler(dhApplicationInsights),
           split(
             isSubscriptionQuery,
-            sseLink.create(`${dhApiEnvironment.apiBase}/graphql?ngsw-bypass=true`),
+            sseLink.create(
+              `${useFederatedGateway ? 'https://localhost:5099' : dhApiEnvironment.apiBase}/graphql?ngsw-bypass=true`
+            ),
             httpLink.create({
               uri: (operation: Operation) => {
-                return `${dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
+                return `${useFederatedGateway ? 'https://localhost:5099' : dhApiEnvironment.apiBase}/graphql?${operation.operationName}`;
               },
             })
           ),
