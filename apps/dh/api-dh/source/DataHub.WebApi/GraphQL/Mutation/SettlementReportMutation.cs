@@ -29,7 +29,7 @@ public partial class Mutation
     {
         if (IsPeriodAcrossMonths(requestSettlementReportInput.Period))
         {
-            return false;
+            throw new ArgumentException("Invalid period, start date and end date should have the same month", nameof(requestSettlementReportInput.Period));
         }
 
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
@@ -72,8 +72,10 @@ public partial class Mutation
 
     private bool IsPeriodAcrossMonths(Interval interval)
     {
-        var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.Start.ToDateTimeOffset(), "Romance Standard Time");
-        var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.End.ToDateTimeOffset().AddMilliseconds(-1), "Romance Standard Time");
+        // var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.Start.ToDateTimeOffset(), "Romance Standard Time");
+        // var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.End.ToDateTimeOffset().AddMilliseconds(-1), "Romance Standard Time");
+        var startDate = interval.Start.ToDateTimeOffset();
+        var endDate = interval.End.ToDateTimeOffset();
         return startDate.Month != endDate.Month
             || startDate.Year != endDate.Year;
     }
