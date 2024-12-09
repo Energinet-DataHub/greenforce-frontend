@@ -165,7 +165,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
-      dhStartDateAndEndDateHaveSameMonthValidator()
+      dhStartDateAndEndDateHaveSameMonthValidator(),
     ]),
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
