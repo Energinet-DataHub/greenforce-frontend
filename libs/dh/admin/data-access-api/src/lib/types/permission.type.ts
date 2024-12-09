@@ -16,6 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-export { DhPermissionsTableComponent as default } from './lib/table.component';
-export { DhPermissionDetailComponent } from './lib/details/detail.component';
-export { DhPermissionEditComponent } from './lib/details/edit.component';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import {
+  GetFilteredPermissionsDocument,
+  GetPermissionDetailsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type Permissions = NonNullable<
+  ResultOf<typeof GetFilteredPermissionsDocument>['filteredPermissions']
+>['nodes'];
+
+export type Permission = NonNullable<Permissions>[0];
+
+export type DhPermissionDetailsUserRole = ResultOf<
+  typeof GetPermissionDetailsDocument
+>['permissionById']['userRoles'][0];
+
+export type DhPermissionDetailsMarketRole = ResultOf<
+  typeof GetPermissionDetailsDocument
+>['permissionById']['assignableTo'][number];

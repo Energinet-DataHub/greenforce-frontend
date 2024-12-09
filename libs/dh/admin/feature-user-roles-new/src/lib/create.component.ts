@@ -216,6 +216,8 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
     super();
     effect(() => {
       this.permissionsQuery.query({ variables: { eicFunction: this.eicFunction() } });
+      this.selectedPermissions.setValue([]);
+      this.selectedPermissions.markAsPristine();
     });
   }
 

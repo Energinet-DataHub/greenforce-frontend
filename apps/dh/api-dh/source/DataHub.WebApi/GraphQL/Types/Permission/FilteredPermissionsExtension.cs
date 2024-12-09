@@ -13,24 +13,18 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
 
-public partial class Mutation
+[ExtendObjectType("FilteredPermissionsConnection")]
+public class FilteredPermissionsExtension
 {
-    [Error(typeof(ApiException))]
-    public async Task<bool> MergeMarketParticipantsAsync(
-            Guid survivingEntity,
-            Guid discontinuedEntity,
-            DateTimeOffset mergeDate,
-            [Service] IMarketParticipantClient_V1 client)
-    {
-        await client
-            .ActorConsolidateAsync(
-                discontinuedEntity,
-                new ConsolidationRequestDto { ConsolidateAt = mergeDate, ToActorId = survivingEntity })
-            .ConfigureAwait(false);
-
-        return true;
-    }
+    public string? GetPermissionRelationsUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "GetPermissionRelations",
+            "MarketParticipantPermissions");
 }

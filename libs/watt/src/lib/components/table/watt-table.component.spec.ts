@@ -22,6 +22,7 @@ import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattTableColumnDef, WattTableComponent, WATT_TABLE } from './watt-table.component';
+import { InputSignal } from '@angular/core';
 
 interface PeriodicElement {
   name: string;
@@ -265,7 +266,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
     });
 
     expect(screen.queryAllByRole('checkbox')).toHaveLength(7);
@@ -283,7 +284,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -305,7 +306,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -328,7 +329,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -352,7 +353,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -360,7 +361,7 @@ describe(WattTableComponent, () => {
 
     checkboxes.forEach(async (checkbox) => await waitFor(() => userEvent.click(checkbox)));
 
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    waitFor(() => expect(firstCheckbox).toBeChecked());
   });
 
   it('automatically unchecks the select all checkbox', async () => {
@@ -375,7 +376,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [],
+      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
@@ -383,7 +384,7 @@ describe(WattTableComponent, () => {
     fireEvent.click(firstCheckbox);
     fireEvent.click(secondCheckbox);
 
-    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    waitFor(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('can set initially selected rows', async () => {
@@ -400,18 +401,18 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow],
+      initialSelection: [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
     const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =
       screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
-    await waitFor(() => expect(secondCheckbox).toBeChecked());
+    waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
+    waitFor(() => expect(firstCheckbox).toBeChecked());
+    waitFor(() => expect(secondCheckbox).toBeChecked());
 
-    await waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
+    waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
@@ -428,21 +429,21 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow],
+      initialSelection: [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>,
       selectionChange,
     });
 
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
-    userEvent.click(firstCheckbox);
+    waitFor(() => expect(firstCheckbox).toBeChecked());
+    waitFor(() => userEvent.click(firstCheckbox));
 
-    result.change({ selectable: false });
-    result.change({ selectable: true });
+    waitFor(() => result.change({ selectable: false }));
+    waitFor(() => result.change({ selectable: true }));
 
     [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    expect(firstCheckbox).not.toBeChecked();
+    waitFor(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('renders cell content using template', async () => {
@@ -471,7 +472,12 @@ describe(WattTableComponent, () => {
     };
 
     await setup(
-      { dataSource, columns, selectable: true, initialSelection: [], selectionChange },
+      {
+        dataSource,
+        columns,
+        selectable: true,
+        selectionChange,
+      },
       `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
     );
 
@@ -479,6 +485,6 @@ describe(WattTableComponent, () => {
     const [firstCheckbox] = screen.getAllByRole('checkbox');
     userEvent.click(firstCheckbox);
 
-    await waitFor(() => expect(screen.queryByRole('toolbar')).toHaveTextContent('6'));
+    waitFor(() => expect(screen.queryByRole('toolbar')).toHaveTextContent('6'));
   });
 });

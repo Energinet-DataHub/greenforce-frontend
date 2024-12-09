@@ -35,7 +35,7 @@ public class GraphQLTestService
     public GraphQLTestService()
     {
         FeatureManagerMock = new Mock<IFeatureManager>();
-        ProcessManagerCalculationClientMock = new Mock<INotifyAggregatedMeasureDataClientAdapter>();
+        ProcessManagerCalculationClientMock = new Mock<IProcessManagerClientAdapter>();
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -66,7 +66,7 @@ public class GraphQLTestService
 
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
-    public Mock<INotifyAggregatedMeasureDataClientAdapter> ProcessManagerCalculationClientMock { get; set; }
+    public Mock<IProcessManagerClientAdapter> ProcessManagerCalculationClientMock { get; set; }
 
     public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 

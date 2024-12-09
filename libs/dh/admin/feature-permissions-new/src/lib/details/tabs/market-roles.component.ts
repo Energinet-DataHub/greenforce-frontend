@@ -20,25 +20,52 @@ import { Component, computed, effect, input } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
 
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
-import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-
-type MarketRole = ResultOf<
-  typeof GetPermissionDetailsDocument
->['permissionById']['assignableTo'][number];
+import { DhPermissionDetailsMarketRole } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-  selector: 'dh-admin-permission-market-roles',
-  templateUrl: './market-roles.component.html',
   standalone: true,
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, VaterFlexComponent],
+  selector: 'dh-admin-permission-market-roles',
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
+  template: `
+    <watt-card
+      variant="solid"
+      *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
+    >
+      @let count = marketRolesCount();
+      <watt-card-title>
+        <h4>
+          @if (count === 1) {
+            {{ t('rolesSingular', { marketRoleCount: count }) }}
+          } @else {
+            {{ t('rolesPlural', { marketRoleCount: count }) }}
+          }
+        </h4>
+      </watt-card-title>
+
+      <dh-result [loading]="loading()" [hasError]="hasError()" [empty]="count === 0">
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          sortBy="name"
+          sortDirection="desc"
+          [sortClear]="false"
+        >
+          <ng-container *wattTableCell="columns.name; header: t('columns.name'); let element">
+            <ng-container
+              *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
+            >
+              {{ translateMarketRole(element) }}
+            </ng-container>
+          </ng-container>
+        </watt-table>
+      </dh-result>
+    </watt-card>
+  `,
 })
 export class DhAdminPermissionMarketRolesComponent {
   private readonly marketRoles = computed(() => {
@@ -47,9 +74,12 @@ export class DhAdminPermissionMarketRolesComponent {
 
   selectedPermission = input.required<PermissionDetailDto>();
 
-  dataSource = new WattTableDataSource<MarketRole>();
+  loading = input.required<boolean>();
+  hasError = input.required<boolean>();
 
-  columns: WattTableColumnDef<MarketRole> = {
+  dataSource = new WattTableDataSource<DhPermissionDetailsMarketRole>();
+
+  columns: WattTableColumnDef<DhPermissionDetailsMarketRole> = {
     name: { accessor: null },
   };
 
