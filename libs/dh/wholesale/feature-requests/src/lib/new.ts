@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 //#region License
 /**
  * @license
@@ -19,4 +16,21 @@ const tslib_1 = require("tslib");
  * limitations under the License.
  */
 //#endregion
-tslib_1.__exportStar(require("./apollo-data-source"), exports);
+import { Component, viewChild } from '@angular/core';
+import { WattModalComponent } from '@energinet-datahub/watt/modal';
+
+/* eslint-disable @angular-eslint/component-class-suffix */
+@Component({
+  selector: 'dh-wholesale-requests-new',
+  standalone: true,
+  imports: [WattModalComponent],
+  template: `
+    <watt-modal #modal size="small">
+      <p>RIP</p>
+    </watt-modal>
+  `,
+})
+export class DhWholesaleRequestsNew {
+  private modal = viewChild.required(WattModalComponent);
+  open = () => this.modal().open();
+}

@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 //#region License
 /**
  * @license
@@ -19,4 +16,18 @@ const tslib_1 = require("tslib");
  * limitations under the License.
  */
 //#endregion
-tslib_1.__exportStar(require("./apollo-data-source"), exports);
+import { Component } from '@angular/core';
+import { DhWholesaleRequestsNew } from './new';
+import { DhWholesaleRequestsTable } from './table';
+
+/* eslint-disable @angular-eslint/component-class-suffix */
+@Component({
+  selector: 'dh-wholesale-requests-page',
+  standalone: true,
+  imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable],
+  template: `
+    <dh-wholesale-requests-new #new />
+    <dh-wholesale-requests-table (new)="new.open()" />
+  `,
+})
+export class DhWholesaleRequestsPage {}

@@ -115,6 +115,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     filter((opts) => !opts?.skip),
     map((opts) =>
       client.watchQuery({
+        errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
         ...opts,
         query: document,

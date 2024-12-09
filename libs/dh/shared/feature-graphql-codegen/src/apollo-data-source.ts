@@ -17,12 +17,61 @@
  */
 //#endregion
 import { type CodegenPlugin } from '@graphql-codegen/plugin-helpers';
-import { visit, getNamedType, GraphQLField } from 'graphql';
+import {
+  visit,
+  getNamedType,
+  isObjectType,
+  GraphQLFieldMap,
+  SelectionNode,
+  GraphQLField,
+  getNullableType,
+} from 'graphql';
 
-/** Gets the name of the type of a field */
-const getName = (field: GraphQLField<unknown, unknown, unknown>) => getNamedType(field.type).name;
+enum PageableType {
+  Connection = 'Connection',
+  CollectionSegment = 'CollectionSegment',
+}
 
-/* eslint-disable sonarjs/cognitive-complexity */
+type Pageable = { kind: PageableType; path: string[]; listName: string };
+
+/** Gets the PageableType for a field or null if the field is not pageable. */
+const getPageableType = (field: GraphQLField<unknown, unknown>) =>
+  Object.values(PageableType).find((type) =>
+    getNamedType(field.type).name.endsWith(type.toString())
+  );
+
+/** Returns the first pageable field found by recursively searching the selections. */
+const findPageable = (
+  fields: GraphQLFieldMap<unknown, unknown>,
+  selections: readonly SelectionNode[] = [],
+  base: readonly string[] = []
+): Pageable | null => {
+  for (const selection of selections) {
+    // Skip non-fields, this may not work for inline fragments
+    if (selection.kind !== 'Field') continue;
+
+    const name = selection.name.value;
+    const path = [...base, name];
+    const field = fields[name];
+    const type = getNullableType(field.type);
+
+    if (!isObjectType(type)) continue;
+
+    switch (getPageableType(field)) {
+      case PageableType.Connection:
+        return { kind: PageableType.Connection, path, listName: 'nodes' };
+      case PageableType.CollectionSegment:
+        return { kind: PageableType.CollectionSegment, path, listName: 'items' };
+      default: {
+        const nested = findPageable(type.getFields(), selection.selectionSet?.selections, path);
+        if (nested) return nested;
+      }
+    }
+  }
+
+  return null; // No pageable field found
+};
+
 const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
   const result = documents
     .map((d) => d.document)
@@ -47,31 +96,24 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
             // Make TS happy (schema should always have a query type here)
             if (!queryObjectType) return null;
 
-            const pageableTypes = ['Connection', 'CollectionSegment'];
+            // Recursively look for a pageable field
             const fields = queryObjectType.getFields();
-            const selectionName = node.selectionSet.selections
-              .filter((selection) => selection.kind === 'Field')
-              .map((selection) => selection.name.value)
-              .find((name) => pageableTypes.some((type) => getName(fields[name]).endsWith(type)));
+            const pageable = findPageable(fields, node.selectionSet.selections);
 
-            // The operation was not a "pageable" query
-            if (!selectionName) return null;
+            // The operation did not contain a "pageable" field
+            if (!pageable) return null;
 
-            const isConnection = getName(fields[selectionName]).endsWith('Connection');
-            const dataSource = isConnection
-              ? 'ConnectionDataSource'
-              : 'CollectionSegmentDataSource';
-
-            const path = isConnection ? 'nodes' : 'items';
             const queryType = `Types.${name}Query`;
+            const selector = pageable.path.join('?.');
+            const typePath = pageable.path.reduce((t, f) => `NonNullable<${t}['${f}']>`, queryType);
             const variablesType = `Types.${name}QueryVariables`;
-            const nodeType = `NonNullable<NonNullable<${queryType}['${selectionName}']>['${path}']>[number]`;
+            const nodeType = `NonNullable<${typePath}['${pageable.listName}']>[number]`;
 
             // prettier-ignore
             const lines = [
-              `export class ${name}DataSource extends ${dataSource}<${queryType}, ${variablesType}, ${nodeType}> {`,
+              `export class ${name}DataSource extends ${pageable.kind}DataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
                 `constructor(options?: QueryOptions<${variablesType}>) {`,
-                  `super(Types.${name}Document, data => data.${selectionName}, options);`,
+                  `super(Types.${name}Document, data => data.${selector}, options);`,
                 `}`,
               `}`,
             ];
