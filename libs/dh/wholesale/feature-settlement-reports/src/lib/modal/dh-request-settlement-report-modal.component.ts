@@ -76,6 +76,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal.component';
 import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
+import { dhStartDateAndEndDateHaveSameMonthValidator } from '../util/dh-start-date-and-end-date-have-same-month.validator';
 import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
@@ -164,6 +165,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
+      dhStartDateAndEndDateHaveSameMonthValidator()
     ]),
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
