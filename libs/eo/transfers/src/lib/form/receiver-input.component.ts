@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -89,11 +89,10 @@ import { FormControl } from '@angular/forms';
 export class ReceiverInputComponent {
   protected readonly translations = translations;
 
-  @Input() mode: FormMode = 'create';
+  mode = input<FormMode>('create');
   @Input() formControl: FormControl = new FormControl();
   @Input() filteredReceiversTin = [''];
 
-  @Output() search = new EventEmitter<string>();
   @Output() search = new EventEmitter<string>();
 
   protected preventNonNumericInput(event: KeyboardEvent) {
