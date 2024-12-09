@@ -162,6 +162,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
             <li>
               <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
             </li>
+            <li>
+              <a href="/da/service-provider-terms">Service Provider Terms</a>
+            </li>
           </ul>
         `,
       },
