@@ -17,10 +17,9 @@
  */
 //#endregion
 import {
+  input,
   effect,
   inject,
-  output,
-  signal,
   computed,
   Component,
   viewChild,
@@ -28,84 +27,74 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
+import { RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
+
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
+import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { WattModalComponent, WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/shared';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import {
   UserStatus,
+  GetUsersDocument,
   Reset2faDocument,
-  GetUserByIdDocument,
   ReInviteUserDocument,
-  DeactivateUserDocument,
-  ReActivateUserDocument,
-  UserOverviewSearchDocument,
+  GetUserDetailsDocument,
+  GetUserAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhEditUserModalComponent } from '../edit/edit-user.component';
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { DhDeactivteComponent } from './deactivate.component';
+import { DhReactivateComponent } from './reactivate-component';
 import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
-import { DhUserRolesComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
-
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-type User = ResultOf<typeof UserOverviewSearchDocument>['userOverviewSearch']['users'][0];
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-user-drawer',
+  selector: 'dh-user-details',
   standalone: true,
   templateUrl: './details.component.html',
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     MatMenuModule,
+    TranslocoDirective,
 
     WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
 
+    DhUserRolesComponent,
+    DhDeactivteComponent,
+    DhReactivateComponent,
     DhUserStatusComponent,
-    DhPermissionRequiredDirective,
     DhUserAuditLogsComponent,
     DhUserMasterDataComponent,
-    DhUserRolesComponent,
+    DhPermissionRequiredDirective,
   ],
 })
-export class DhUserDrawerComponent {
-  private modalService = inject(WattModalService);
+export class DhUserDetailsComponent {
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
+  private navigation = inject(DhNavigationService);
 
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
-  deactivateConfirmationModal = viewChild.required<WattModalComponent>(
-    'deactivateConfirmationModal'
-  );
+  // Router param
+  id = input.required<string>();
 
-  reActivateConfirmationModal = viewChild.required<WattModalComponent>(
-    'reActivateConfirmationModal'
-  );
-
-  closed = output<void>();
-
-  userId = signal<string | null>(null);
-  userIdWithDefaultValue = computed(() => this.userId() ?? '');
-
-  selectedUserQuery = lazyQuery(GetUserByIdDocument, {
-    fetchPolicy: 'no-cache',
-    nextFetchPolicy: 'no-cache',
-  });
+  selectedUserQuery = lazyQuery(GetUserDetailsDocument);
 
   selectedUser = computed(() => this.selectedUserQuery.data()?.userById);
   isLoading = computed(() => this.selectedUserQuery.loading());
@@ -113,48 +102,37 @@ export class DhUserDrawerComponent {
   UserStatus = UserStatus;
 
   reInviteUserMutation = mutation(ReInviteUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument],
   });
-  reset2faMutation = mutation(Reset2faDocument, { refetchQueries: [UserOverviewSearchDocument] });
-  deactivateUserMutation = mutation(DeactivateUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
-  });
-  reActivateUserMutation = mutation(ReActivateUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
+
+  reset2faMutation = mutation(Reset2faDocument, {
+    refetchQueries: [GetUsersDocument, GetUserAuditLogsDocument],
   });
 
   isReinviting = this.reInviteUserMutation.loading;
-  isDeactivating = this.deactivateUserMutation.loading;
-  isReActivating = this.reActivateUserMutation.loading;
 
   constructor() {
     effect(() => {
-      const userId = this.userId();
-      if (!userId) return;
-      this.selectedUserQuery.refetch({ id: userId });
+      const id = this.id();
+      const drawer = this.drawer();
+      if (!id || !drawer) return;
+      this.drawer().open();
+      this.selectedUserQuery.refetch({ id });
+      drawer.open();
     });
   }
 
   onClose(): void {
-    this.drawer().close();
-    this.closed.emit();
+    this.navigation.navigate('list');
   }
 
-  open(user: User): void {
-    this.userId.set(user.id);
-    this.drawer().open();
-  }
-
-  showEditUserModal(): void {
-    this.modalService.open({
-      component: DhEditUserModalComponent,
-      data: this.selectedUser(),
-    });
+  edit(): void {
+    this.navigation.navigate('edit', this.id());
   }
 
   reinvite = () =>
     this.reInviteUserMutation.mutate({
-      variables: { input: { userId: this.userIdWithDefaultValue() } },
+      variables: { input: { userId: this.id() } },
       onCompleted: (data) =>
         data.reInviteUser.errors
           ? this.showToast('danger', 'reinviteError')
@@ -164,38 +142,12 @@ export class DhUserDrawerComponent {
 
   resetUser2Fa = () =>
     this.reset2faMutation.mutate({
-      variables: { input: { userId: this.userIdWithDefaultValue() } },
+      variables: { input: { userId: this.id() } },
       onCompleted: (data) =>
         data.resetTwoFactorAuthentication.errors
           ? this.showToast('danger', 'reset2faError')
           : this.showToast('success', 'reset2faSuccess'),
       onError: () => this.showToast('danger', 'reset2faError'),
-    });
-
-  requestDeactivateUser = () => this.deactivateConfirmationModal().open();
-
-  deactivate = (success: boolean) =>
-    success &&
-    this.deactivateUserMutation.mutate({
-      variables: { input: { userId: this.userIdWithDefaultValue() } },
-      onCompleted: (data) =>
-        data.deactivateUser.errors
-          ? this.showToast('danger', 'deactivateError')
-          : this.showToast('success', 'deactivateSuccess'),
-      onError: () => this.showToast('danger', 'deactivateError'),
-    });
-
-  requestReActivateUser = () => this.reActivateConfirmationModal().open();
-
-  reActivate = (success: boolean) =>
-    success &&
-    this.reActivateUserMutation.mutate({
-      variables: { input: { userId: this.userIdWithDefaultValue() } },
-      onError: () => this.showToast('danger', 'reactivateError'),
-      onCompleted: (data) =>
-        data.reActivateUser.errors
-          ? this.showToast('danger', 'reactivateError')
-          : this.showToast('success', 'reactivateSuccess'),
     });
 
   private showToast(type: WattToastType, label: string): void {

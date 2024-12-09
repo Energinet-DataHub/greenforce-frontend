@@ -35,25 +35,6 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserRolesGetAsync(id);
 
-    [GraphQLDeprecated("Use `GetUserRolesAsync` with filter, sort and paging instead.")]
-    public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
-        [Service] IHttpContextAccessor httpContext,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        if (httpContext.HttpContext == null)
-        {
-            return Enumerable.Empty<UserRoleDto>();
-        }
-
-        var user = httpContext.HttpContext.User;
-        if (user.IsFas())
-        {
-            return await client.UserRolesGetAsync();
-        }
-
-        return await client.ActorsRolesAsync(user.GetAssociatedActor());
-    }
-
     [UsePaging]
     [UseSorting]
     public async Task<IEnumerable<UserRoleDto>> GetFilteredUserRolesAsync(

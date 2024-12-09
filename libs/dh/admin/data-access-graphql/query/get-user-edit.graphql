@@ -1,0 +1,8 @@
+query GetUserEdit($id: UUID!) {
+  userById(id: $id) {
+    id
+    firstName
+    phoneNumber
+    lastName
+  }
+}

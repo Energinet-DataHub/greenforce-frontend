@@ -16,14 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-user-role-management.store';
-export * from './lib/dh-create-user-role.store';
-export * from './lib/dh-admin-user-role-edit-data-access-api.store';
-export * from './lib/dh-admin-edit-user.store';
-export * from './lib/dh-admin-role.types';
+export * from './lib/types/admin-role.types';
 export * from './lib/types/user-details.type';
 export * from './lib/types/user.type';
 export * from './lib/types/user-role.type';
 export * from './lib/types/permission.type';
+export * from './lib/types/actor-user-role.types';

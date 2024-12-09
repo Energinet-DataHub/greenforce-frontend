@@ -35,15 +35,6 @@ public partial class Query
                 p.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
                 p.Description.Contains(filter, StringComparison.CurrentCultureIgnoreCase));
 
-    public async Task<PermissionsDto> GetPermissionsAsync(
-        string searchTerm,
-        [Service] IMarketParticipantClient_V1 client) =>
-        new((await client.PermissionGetAsync())
-            .Where(p =>
-                searchTerm is null ||
-                p.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
-                p.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
-
     public async Task<IEnumerable<PermissionAuditedChangeAuditLogDto>> GetPermissionAuditLogsAsync(
         int id,
         [Service] IMarketParticipantClient_V1 client) =>

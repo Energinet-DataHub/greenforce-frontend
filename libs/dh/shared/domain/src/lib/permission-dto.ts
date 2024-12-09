@@ -18,10 +18,13 @@
 //#endregion
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { GetPermissionDetailsDocument, GetPermissionsDocument } from './generated/graphql/types';
+import {
+  GetFilteredPermissionsDocument,
+  GetPermissionDetailsDocument,
+} from './generated/graphql/types';
 
 export type PermissionDetailDto = ResultOf<typeof GetPermissionDetailsDocument>['permissionById'];
 
-export type PermissionDto = ResultOf<
-  typeof GetPermissionsDocument
->['permissions']['permissions'][0];
+export type PermissionDto = NonNullable<
+  NonNullable<ResultOf<typeof GetFilteredPermissionsDocument>['filteredPermissions']>['nodes']
+>[0];

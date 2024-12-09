@@ -24,56 +24,57 @@ import {
   mockGetKnownEmailsQuery,
   mockGetPermissionDetailsQuery,
   mockGetPermissionAuditLogsQuery,
-  mockGetPermissionsQuery,
   mockGetUserRoleAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
   mockGetGridAreasQuery,
-  mockUserOverviewSearchQuery,
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
-  mockGetUserByIdQuery,
   mockUpdateUserAndRolesMutation,
   mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
   mockGetFilteredActorsQuery,
   mockCreateUserRoleMutation,
-  mockGetUserRolesQuery,
   mockDeactivateUserMutation,
   mockReActivateUserMutation,
   mockReInviteUserMutation,
   mockReset2faMutation,
   mockGetSelectionActorsQuery,
   mockDeactivateUserRoleMutation,
-  mockGetAllUsersQuery,
+  mockGetUsersQuery,
+  mockGetUserDetailsQuery,
+  mockGetActorsAndUserRolesQuery,
+  mockGetFilteredUserRolesQuery,
+  mockGetFilteredPermissionsQuery,
+  mockGetUserEditQuery,
+  mockGetPermissionEditQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
-import { userRolesOverview } from './data/market-participant-user-role-get-all';
 import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';
 import { marketParticipantUserRoleGetUserRoleWithPermissions } from './data/market-participant-user-role-get-user-role-with-permissions';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
-import { adminPermissionsMock } from './data/admin-get-permissions';
+import { filteredPermissionsMock } from './data/admin/permissions';
 import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-logs';
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
 import { getUserRolesByEicfunctionQuery } from './data/get-user-roles-by-eicfunction';
 import { filteredActors } from './data/market-participant-filtered-actors';
 import { getGridAreas } from './data/get-grid-areas';
-import { overviewUsers } from './data/admin/user-overview-items';
+import { users } from './data/admin/users';
+import { userRoles } from './data/admin/user-roles';
 
 export function adminMocks(apiBase: string) {
   return [
     mockGetSelectionActors(),
     getMarketParticipantUserGetUserAuditLogs(),
-    getAdminPermissions(apiBase),
+    getFilteredPermissions(apiBase),
     getPermissions(apiBase),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     getKnownEmailsQuery(),
     getGridAreasQuery(),
-    getUserOverviewQuery(),
-    getUserByIdQuery(),
+    getUserDetailsQuery(),
     updateUserAndRoles(),
     updatePermission(),
     getFilteredActors(),
@@ -81,15 +82,18 @@ export function adminMocks(apiBase: string) {
     reActivedUser(),
     reInviteUser(),
     reset2fa(),
-    getUserRoles(),
-    getUserRoleWithPermissions(),
     updateUserRole(),
     getUserRoleAuditLogs(),
     getUserRolesByEicfunction(),
     createUserRole(),
     getUserRolesByActorId(),
     deactivateUserRole(),
-    getAllUsersQuery(),
+    getUsersQuery(),
+    getActorsAndUserRolesQuery(),
+    getFilteredUserRolesQuery(),
+    getUserRoleWithPermissionsQuery(),
+    getUserEditQuery(),
+    getPermissionEditQuery(apiBase),
   ];
 }
 
@@ -215,22 +219,7 @@ function getUserRolesByActorId() {
   });
 }
 
-function getUserRoles() {
-  return mockGetUserRolesQuery(async () => {
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({ data: userRolesOverview });
-  });
-}
-
-function getMarketParticipantUserGetUserAuditLogs() {
-  return mockGetUserAuditLogsQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({ data: marketParticipantUserGetUserAuditLogs });
-  });
-}
-
-function getUserRoleWithPermissions() {
+function getUserRoleWithPermissionsQuery() {
   return mockGetUserRoleWithPermissionsQuery(async ({ variables }) => {
     const userRole = marketParticipantUserRoleGetUserRoleWithPermissions.find(
       (userRole) => userRole.id === variables.id
@@ -246,6 +235,37 @@ function getUserRoleWithPermissions() {
   });
 }
 
+function getFilteredUserRolesQuery() {
+  return mockGetFilteredUserRolesQuery(async ({ variables }) => {
+    const roles = userRoles
+      .filter((x) => x.status === variables.status)
+      .filter((x) =>
+        (variables.eicFunctions?.length ?? 0) > 0
+          ? variables.eicFunctions?.includes(x.eicFunction)
+          : true
+      );
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        filteredUserRoles: {
+          __typename: 'FilteredUserRolesConnection',
+          pageInfo: { __typename: 'PageInfo', startCursor: 'startCurser', endCursor: 'endCursor' },
+          totalCount: roles.length,
+          nodes: roles,
+        },
+      },
+    });
+  });
+}
+
+function getMarketParticipantUserGetUserAuditLogs() {
+  return mockGetUserAuditLogsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({ data: marketParticipantUserGetUserAuditLogs });
+  });
+}
+
 function getUserRoleAuditLogs() {
   return mockGetUserRoleAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
@@ -253,12 +273,34 @@ function getUserRoleAuditLogs() {
   });
 }
 
-function getUserByIdQuery() {
-  return mockGetUserByIdQuery(async ({ variables }) => {
+function getActorsAndUserRolesQuery() {
+  return mockGetActorsAndUserRolesQuery(async ({ variables }) => {
+    const userId = variables.id;
+    const user = users.find((user) => user.id === userId);
+    await delay(mswConfig.delay);
+    if (user) {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          userById: {
+            __typename: 'GetUserResponse',
+            actors: user?.actors,
+            id: user?.id,
+            administratedBy: user?.administratedBy,
+          },
+        },
+      });
+    }
+    return HttpResponse.json(null, { status: 404 });
+  });
+}
+
+function getUserDetailsQuery() {
+  return mockGetUserDetailsQuery(async ({ variables }) => {
     const userId = variables.id;
     await delay(mswConfig.delay);
 
-    const user = overviewUsers.find((user) => user.id === userId);
+    const user = users.find((user) => user.id === userId);
 
     if (user) {
       return HttpResponse.json({
@@ -266,15 +308,10 @@ function getUserByIdQuery() {
           __typename: 'Query',
           userById: {
             __typename: 'GetUserResponse',
-            actors: user.actors,
-            createdDate: user.createdDate,
             email: user.email,
-            firstName: user.firstName,
+            name: user.name,
             id: user.id,
-            lastName: user.lastName,
             status: user.status,
-            administratedBy: user.administratedBy,
-            latestLoginAt: user.latestLoginAt,
             phoneNumber: user.phoneNumber,
           },
         },
@@ -285,28 +322,9 @@ function getUserByIdQuery() {
   });
 }
 
-function getUserOverviewQuery() {
-  return mockUserOverviewSearchQuery(async () => {
-    await delay(mswConfig.delay);
-
-    const users = overviewUsers;
-
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        userOverviewSearch: {
-          __typename: 'GetUserOverviewResponse',
-          totalUserCount: users.length,
-          users: users,
-        },
-      },
-    });
-  });
-}
-
 function updateUserRole() {
-  return mockUpdateUserRoleMutation(async ({ variables }) => {
-    const maybeErrorState = variables.input.userRoleId === userRolesOverview.userRoles[1].id;
+  return mockUpdateUserRoleMutation(async () => {
+    const maybeErrorState = self.crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0;
 
     await delay(mswConfig.delay);
 
@@ -339,10 +357,10 @@ function updateUserRole() {
   });
 }
 
-function getAdminPermissions(apiBase: string) {
-  return mockGetPermissionsQuery(async () => {
+function getFilteredPermissions(apiBase: string) {
+  return mockGetFilteredPermissionsQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: adminPermissionsMock(apiBase) });
+    return HttpResponse.json({ data: filteredPermissionsMock(apiBase) });
   });
 }
 
@@ -394,22 +412,48 @@ function createUserRole() {
   });
 }
 
+function getPermissionEditQuery(apiBase: string) {
+  return mockGetPermissionEditQuery(async ({ variables }) => {
+    const permission = filteredPermissionsMock(apiBase).filteredPermissions?.nodes?.find(
+      (x) => x.id === variables.id
+    );
+    await delay(mswConfig.delay);
+    if (permission) {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          permissionById: {
+            __typename: 'Permission',
+            id: permission.id,
+            description: permission.description,
+            name: permission.name,
+          },
+        },
+      });
+    }
+    return HttpResponse.json(null, { status: 404 });
+  });
+}
+
 function updatePermission() {
   return mockUpdatePermissionMutation(async ({ variables }) => {
     const { id } = variables.input;
     await delay(mswConfig.delay);
 
-    if (id === 1)
+    const error = maybeError();
+
+    if (error) {
       return HttpResponse.json({
-        data: null,
-        errors: [
-          {
-            message: 'Permission not found',
-            path: ['updatePermission'],
-            extensions: { code: 'NOT_FOUND' },
+        data: {
+          __typename: 'Mutation',
+          updatePermission: {
+            errors: error,
+            __typename: 'UpdatePermissionPayload',
+            permission: null,
           },
-        ],
+        },
       });
+    }
 
     return HttpResponse.json({
       data: {
@@ -497,50 +541,42 @@ function getGridAreasQuery() {
   });
 }
 
-function getAllUsersQuery() {
-  return mockGetAllUsersQuery(async () => {
+function getUserEditQuery() {
+  return mockGetUserEditQuery(async ({ variables }) => {
+    const user = users.find((user) => user.id === variables.id);
     await delay(mswConfig.delay);
+    if (!user) return HttpResponse.json(null, { status: 404 });
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        userOverviewSearch: {
-          __typename: 'GetUserOverviewResponse',
-          users: [
-            {
-              __typename: 'UserOverviewItemDto',
-              id: '00000000-0000-0000-0000-000000000001',
-              name: 'User name',
-              email: 'username@mock.com',
-              latestLoginAt: null,
-              administratedBy: {
-                id: '00000000-0000-0000-0000-000000000002',
-                __typename: 'Actor',
-                name: 'Market participant name',
-                organization: {
-                  __typename: 'Organization',
-                  id: '1',
-                  name: 'Organization name',
-                },
-              },
-            },
-            {
-              __typename: 'UserOverviewItemDto',
-              id: '00000000-0000-0000-0000-000000000001',
-              name: 'User name',
-              email: 'username2@mock.com',
-              latestLoginAt: new Date(),
-              administratedBy: {
-                id: '00000000-0000-0000-0000-000000000002',
-                __typename: 'Actor',
-                name: 'Market participant name',
-                organization: {
-                  __typename: 'Organization',
-                  id: '1',
-                  name: 'Organization name',
-                },
-              },
-            },
-          ],
+        userById: {
+          __typename: 'GetUserResponse',
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber,
+        },
+      },
+    });
+  });
+}
+
+function getUsersQuery() {
+  return mockGetUsersQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        users: {
+          __typename: 'UsersCollectionSegment',
+          items: users,
+          pageInfo: {
+            __typename: 'CollectionSegmentInfo',
+            hasNextPage: true,
+            hasPreviousPage: false,
+          },
+          totalCount: users.length,
         },
       },
     });

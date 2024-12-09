@@ -14,25 +14,27 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+@let user = selectedUser();
+
 <ng-container *transloco="let t; read: 'admin.userManagement.drawer'">
   <watt-drawer [loading]="isLoading()" #drawer size="large" (closed)="onClose()">
     <watt-drawer-topbar>
-      @if (selectedUser()) {
-        <dh-user-status [status]="selectedUser()?.status!" />
+      @if (user) {
+        <dh-user-status [status]="user.status" />
       }
     </watt-drawer-topbar>
     <watt-drawer-heading>
-      @if (selectedUser()) {
-        <h2>{{ selectedUser()?.firstName + " " + selectedUser()?.lastName }}</h2>
+      @if (user) {
+        <h2>{{ user.name }}</h2>
       }
     </watt-drawer-heading>
 
     <watt-drawer-actions *dhPermissionRequired="['users:manage']">
-      @if (selectedUser()?.status !== UserStatus.Inactive) {
+      @if (user?.status !== UserStatus.Inactive) {
         <watt-button
           variant="secondary"
-          (click)="requestDeactivateUser()"
-          [loading]="isDeactivating()"
+          (click)="deactivate.open()"
+          [loading]="deactivate.loading()"
           >{{ t("deactivate") }}</watt-button
         >
       }
@@ -41,8 +43,8 @@ limitations under the License.
         <watt-button
           *dhPermissionRequired="['users:reactivate']"
           variant="secondary"
-          (click)="requestReActivateUser()"
-          [loading]="isReActivating()"
+          (click)="reactivate.open()"
+          [loading]="reactivate.loading()"
           >{{ t("reactivate") }}</watt-button
         >
       }
@@ -56,7 +58,7 @@ limitations under the License.
         }}</watt-button>
       }
 
-      <watt-button variant="secondary" (click)="showEditUserModal()">{{ t("edit") }}</watt-button>
+      <watt-button variant="secondary" (click)="edit()">{{ t("edit") }}</watt-button>
 
       <watt-button variant="icon" icon="menu" [mat-menu-trigger-for]="menu">
         <mat-menu #menu="matMenu">
@@ -65,7 +67,6 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    @let user = selectedUser();
     @if (drawer.isOpen && user) {
       <watt-drawer-content>
         <watt-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
@@ -73,79 +74,22 @@ limitations under the License.
             <dh-user-master-data [user]="user" />
           </watt-tab>
           <watt-tab [label]="t('roles.tabLabel')">
-            <dh-user-roles [id]="user.id" [expanded]="false" />
+            @defer {
+              <dh-user-roles [id]="user.id" [expanded]="false" />
+            }
           </watt-tab>
           <watt-tab *dhPermissionRequired="['fas']" [label]="t('history.tabLabel')">
-            <dh-user-audit-logs [user]="user" />
+            @defer {
+              <dh-user-audit-logs [id]="user.id" />
+            }
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
     }
   </watt-drawer>
-
-  <watt-modal
-    #deactivateConfirmationModal
-    [size]="'small'"
-    [title]="t('deactivateConfirmation.title')"
-    [disableClose]="true"
-    (closed)="deactivate($event)"
-  >
-    <p>
-      {{
-        t("deactivateConfirmation.body", {
-          first: selectedUser()?.firstName,
-          last: selectedUser()?.lastName,
-          email: selectedUser()?.email,
-        })
-      }}
-    </p>
-    <p>
-      <b>
-        {{ t("deactivateConfirmation.important") }}
-      </b>
-    </p>
-
-    <watt-modal-actions>
-      <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(false)">{{
-        t("deactivateConfirmation.reject")
-      }}</watt-button>
-
-      <watt-button variant="secondary" (click)="deactivateConfirmationModal.close(true)">{{
-        t("deactivateConfirmation.confirm")
-      }}</watt-button>
-    </watt-modal-actions>
-  </watt-modal>
-
-  <watt-modal
-    #reActivateConfirmationModal
-    [size]="'small'"
-    [title]="t('reactivateConfirmation.title')"
-    [disableClose]="true"
-    (closed)="reActivate($event)"
-  >
-    <p>
-      {{
-        t("reactivateConfirmation.body", {
-          first: selectedUser()?.firstName,
-          last: selectedUser()?.lastName,
-          email: selectedUser()?.email,
-        })
-      }}
-    </p>
-    <p>
-      <b>
-        {{ t("reactivateConfirmation.important") }}
-      </b>
-    </p>
-
-    <watt-modal-actions>
-      <watt-button variant="secondary" (click)="reActivateConfirmationModal.close(false)">{{
-        t("reactivateConfirmation.reject")
-      }}</watt-button>
-
-      <watt-button variant="secondary" (click)="reActivateConfirmationModal.close(true)">{{
-        t("reactivateConfirmation.confirm")
-      }}</watt-button>
-    </watt-modal-actions>
-  </watt-modal>
 </ng-container>
+
+<dh-deactivate-user #deactivate [user]="user" />
+<dh-reactivate-user #reactivate [user]="user" />
+
+<router-outlet />
