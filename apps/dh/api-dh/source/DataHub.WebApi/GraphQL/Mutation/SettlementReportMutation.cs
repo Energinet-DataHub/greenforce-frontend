@@ -27,11 +27,6 @@ public partial class Mutation
         [Service] IMarketParticipantClient_V1 marketPartClient,
         [Service] ISettlementReportsClient client)
     {
-        if (IsPeriodAcrossMonths(requestSettlementReportInput.Period))
-        {
-            return false;
-        }
-
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
             ? await marketPartClient.ActorGetAsync(actorNumber)
             : null;
