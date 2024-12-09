@@ -200,23 +200,13 @@ export class DhInviteUserComponent {
     if (!this.isBaseInfoValid() || !this.isNewUserInfoValid() || !this.isRolesInfoValid()) {
       return;
     }
-
-    const { firstName, lastName, phoneNumber } = this.userInfo.getRawValue();
     const { email, actorId } = this.baseInfo.getRawValue();
-
-    const phoneParts = phoneNumber.split(' ');
-    const [prefix, ...rest] = phoneParts;
-    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
 
     const result = await this.inviteUserMutation.mutate({
       variables: {
         input: {
           userInviteDto: {
-            invitationUserDetails: {
-              firstName,
-              lastName,
-              phoneNumber: formattedPhoneNumber,
-            },
+            invitationUserDetails: this.createInvitationUserDetails(),
             email,
             assignedActor: actorId,
             assignedRoles: this.userRoles.controls.selectedUserRoles.value,
@@ -241,6 +231,22 @@ export class DhInviteUserComponent {
 
   close(status: boolean) {
     this.modal().close(status);
+  }
+
+  private createInvitationUserDetails() {
+    const { firstName, lastName, phoneNumber } = this.userInfo.value;
+
+    if (!firstName || !lastName || !phoneNumber) return null;
+
+    const phoneParts = phoneNumber.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
+    return {
+      firstName,
+      lastName,
+      phoneNumber: formattedPhoneNumber,
+    };
   }
 
   private onInviteSuccess(email: string | null) {
