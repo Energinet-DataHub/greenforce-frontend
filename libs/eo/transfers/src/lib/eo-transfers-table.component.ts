@@ -30,20 +30,14 @@ import {
   ChangeDetectorRef,
   DestroyRef,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { translations } from '@energinet-datahub/eo/translations';
-import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -58,75 +52,24 @@ interface EoTransferTableElement extends EoListedTransfer {
   imports: [
     WATT_TABLE,
     WattBadgeComponent,
-    WattButtonComponent,
-    WattPaginatorComponent,
-    WattDropdownComponent,
-    ReactiveFormsModule,
     EoTransfersDrawerComponent,
-    EoTransfersCreateModalComponent,
     WattDatePipe,
     TranslocoPipe,
   ],
   styles: [
     `
-      .card-header {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-
-        .actions {
-          gap: 16px;
-          display: flex;
-          flex-wrap: wrap;
-        }
+      :host {
+        display: block;
+        margin-top: var(--watt-space-m);
       }
 
       .noData {
         text-align: center;
         padding: var(--watt-space-m);
       }
-
-      watt-paginator {
-        display: block;
-        margin: -8px -24px -24px -24px;
-      }
     `,
   ],
   template: `
-    <div class="card-header">
-      <h3>{{ translations.transfers.tableTitle | transloco }}</h3>
-      <div class="actions">
-        <watt-button
-          data-testid="new-agreement-button"
-          icon="plus"
-          variant="secondary"
-          [disabled]="!enableCreateTransferAgreementProposal"
-          (click)="transfersModal.open()"
-        >
-          {{ translations.transfers.createNewTransferAgreement | transloco }}
-        </watt-button>
-      </div>
-    </div>
-    <div class="watt-space-stack-s">
-      <form [formGroup]="filterForm">
-        <watt-dropdown
-          [chipMode]="true"
-          [placeholder]="translations.transfers.transferAgreementStatusFilterLabel | transloco"
-          formControlName="statusFilter"
-          (ngModelChange)="applyFilters()"
-          [options]="[
-            {
-              value: 'true',
-              displayValue: translations.transfers.activeTransferAgreement | transloco,
-            },
-            {
-              value: 'false',
-              displayValue: translations.transfers.inactiveTransferAgreement | transloco,
-            },
-          ]"
-        />
-      </form>
-    </div>
     @if (columns) {
       <watt-table
         #table
@@ -179,17 +122,6 @@ interface EoTransferTableElement extends EoListedTransfer {
       </p>
     }
 
-    <watt-paginator
-      data-testid="table-paginator"
-      [pageSize]="10"
-      [pageSizeOptions]="[10, 25, 50, 100, 250]"
-      [for]="dataSource"
-    />
-
-    <eo-transfers-create-modal
-      [transferAgreements]="transfers"
-      (proposalCreated)="proposalCreated.emit($event)"
-    />
     <eo-transfers-drawer
       [transferAgreements]="transfers"
       [transfer]="selectedTransfer"
@@ -210,16 +142,12 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
   @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
-  @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
 
   protected translations = translations;
-  protected utils = inject(SharedUtilities);
-  private fb = inject(FormBuilder);
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
 
-  filterForm = this.fb.group({ statusFilter: '' });
   activeRow?: EoListedTransfer;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns!: WattTableColumnDef<EoTransferTableElement>;
@@ -292,21 +220,6 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
     if (changes['selectedTransfer']) {
       this.activeRow = this.transfers.find((transfer) => transfer.id === this.selectedTransfer?.id);
     }
-  }
-
-  applyFilters() {
-    this.dataSource.data = this.transfers.filter((transfer) =>
-      this.filterByStatus(transfer.startDate, transfer.endDate)
-    );
-  }
-
-  filterByStatus(startDate: number | null, endDate: number | null): boolean {
-    if (this.filterForm.controls['statusFilter'].value === null || !startDate) return true;
-
-    return (
-      this.filterForm.controls['statusFilter'].value ===
-      this.utils.isDateActive(startDate, endDate).toString()
-    );
   }
 
   onRowClick(row: EoListedTransfer): void {
