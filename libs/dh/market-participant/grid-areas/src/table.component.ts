@@ -44,8 +44,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
 
-import { DhGridAreaStatusBadgeComponent } from './dh-grid-area-status-badge.component';
-import { DhGridAreaDetailsComponent } from './details/dh-grid-area-details.component';
+import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
+import { DhGridAreaDetailsComponent } from '../details/dh-grid-area-details.component';
 
 @Component({
   standalone: true,

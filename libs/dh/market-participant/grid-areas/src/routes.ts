@@ -16,8 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import 'jest-preset-angular/setup-jest';
+import { Routes } from '@angular/router';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import { DhGridAreasShellComponent } from '../shell/src/lib/dh-grid-areas-shell.component';
 
-setUpTestbed();
+export const dhGridAreasShellRoutes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: DhGridAreasShellComponent,
+    data: {
+      titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
+    },
+  },
+];
