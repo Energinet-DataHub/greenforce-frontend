@@ -103,7 +103,7 @@ export const users: UserOverviewItemDto[] = [
     lastName: 'Smith',
     status: UserStatus.Inactive,
     phoneNumber: '87654321',
-    latestLoginAt: new Date('2024-02-01'),
+    latestLoginAt: new Date('2024-02-02'),
     actors: [actor],
     administratedBy: actor,
   },
