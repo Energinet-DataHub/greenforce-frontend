@@ -56,7 +56,7 @@
       },
       "ActorConsolidationScheduled": {
         "headline": "Sammenlægning af aktører",
-        "message": "\"{{ relatedToId }}\" er ved at ophøre snart"
+        "message": "\"{{ relatedToId }}\" ophører snart"
       }
     }
   },
