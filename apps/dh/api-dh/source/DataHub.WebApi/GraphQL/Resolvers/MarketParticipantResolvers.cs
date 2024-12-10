@@ -42,7 +42,7 @@ public class MarketParticipantResolvers
 
     public async Task<ActorStatus> GetStatusAsync(
         [Parent] ActorDto actor,
-        ConsolidationByIdBatchDataLoader dataLoader)
+        ConsolidationByActorFromIdBatchLoader dataLoader)
     {
         var actorConsolidation = await dataLoader.LoadAsync(actor.ActorId).ConfigureAwait(false);
 

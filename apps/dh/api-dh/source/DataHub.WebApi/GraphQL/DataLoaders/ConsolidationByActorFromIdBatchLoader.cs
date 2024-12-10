@@ -13,11 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ConsolidationByIdBatchDataLoader(
+public class ConsolidationByActorFromIdBatchLoader(
     IMarketParticipantClient_V1 client,
     IBatchScheduler batchScheduler,
     DataLoaderOptions options)
