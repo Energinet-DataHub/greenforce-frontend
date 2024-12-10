@@ -507,7 +507,9 @@
       },
       "status": {
         "Active": "Aktiv",
-        "Inactive": "Deaktiveret"
+        "Inactive": "Deaktiveret",
+        "ToBeDiscontinued": "Ophører snart",
+        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
