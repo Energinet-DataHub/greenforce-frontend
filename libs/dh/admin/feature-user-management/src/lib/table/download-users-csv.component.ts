@@ -25,6 +25,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
+  SortEnumType,
   GetUsersForCsvDocument,
   GetUsersForCsvQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -66,6 +67,10 @@ export class DhDownloadUsersCsvComponent {
       const result = await this.query.query({
         variables: {
           ...this.filters(),
+          order: {
+            name: SortEnumType.Asc,
+          },
+          skip: 0,
           take: 10_000,
         },
       });
