@@ -42,11 +42,9 @@ public class MarketParticipantResolvers
 
     public async Task<ActorStatus> GetStatusAsync(
         [Parent] ActorDto actor,
-        [Service] IMarketParticipantClient_V1 client)
+        ConsolidationByIdBatchDataLoader dataLoader)
     {
-        var actorConsolidation = (await client
-            .ActorConsolidationsAsync())
-            .ActorConsolidations.SingleOrDefault(x => x.ActorFromId == actor.ActorId);
+        var actorConsolidation = await dataLoader.LoadAsync(actor.ActorId).ConfigureAwait(false);
 
         if (actorConsolidation is null)
         {
