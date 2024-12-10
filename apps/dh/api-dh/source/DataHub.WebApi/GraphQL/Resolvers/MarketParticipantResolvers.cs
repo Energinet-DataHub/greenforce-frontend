@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -37,6 +38,27 @@ public class MarketParticipantResolvers
             .ConfigureAwait(false);
 
         return allContacts.SingleOrDefault(c => c.ActorId == actor.ActorId);
+    }
+
+    public async Task<ActorStatus> GetStatusAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var actorConsolidation = (await client
+            .ActorConsolidationsAsync())
+            .ActorConsolidations.SingleOrDefault(x => x.ActorFromId == actor.ActorId);
+
+        if (actorConsolidation is null)
+        {
+            return Enum.Parse<ActorStatus>(actor.Status);
+        }
+
+        if (actorConsolidation.ConsolidateAt < DateTimeOffset.UtcNow)
+        {
+            return ActorStatus.Discontinued;
+        }
+
+        return ActorStatus.ToBeDiscontinued;
     }
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
