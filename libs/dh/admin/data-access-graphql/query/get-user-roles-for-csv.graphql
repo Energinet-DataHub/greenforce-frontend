@@ -25,7 +25,6 @@ query GetUserRolesForCsv(
     nodes {
       id
       name
-      description
       eicFunction
       status
     }
