@@ -30,7 +30,6 @@ export function transferMocks(apiBase: string) {
   ];
 }
 
-
 const enum Users {
   CharlotteCSR = '39293595',
   IvanIvaerksaetter = '12345678',
