@@ -116,7 +116,6 @@ export class DhUserDetailsComponent {
       const id = this.id();
       const drawer = this.drawer();
       if (!id || !drawer) return;
-      this.drawer().open();
       this.selectedUserQuery.refetch({ id });
       drawer.open();
     });
