@@ -36,6 +36,7 @@ import {
   GetUserAuditLogsDocument,
   UpdateActorUserRolesInput,
   UpdateUserAndRolesDocument,
+  GetUserDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
@@ -156,7 +157,12 @@ export class DhEditUserComponent {
       : [];
 
     const result = await this.editUserMutation.mutate({
-      refetchQueries: [GetUsersDocument, GetUserEditDocument, GetUserAuditLogsDocument],
+      refetchQueries: [
+        GetUsersDocument,
+        GetUserEditDocument,
+        GetUserDetailsDocument,
+        GetUserAuditLogsDocument,
+      ],
       variables: {
         updateRolesInput: {
           userId: id,

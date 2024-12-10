@@ -21,10 +21,22 @@ import { Component, inject, input } from '@angular/core';
 import { take } from 'rxjs';
 import { translate, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
+import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { DhUserRoles } from '@energinet-datahub/dh/admin/data-access-api';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+
+import {
+  SortEnumType,
+  GetUserRolesForCsvDocument,
+  GetUserRolesForCsvQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+
+type Variables = Partial<GetUserRolesForCsvQueryVariables>;
 
 @Component({
   standalone: true,
@@ -35,30 +47,60 @@ import { DhUserRoles } from '@energinet-datahub/dh/admin/data-access-api';
   }}</watt-button>`,
 })
 export class DhUserRolesDownloadComponent {
+  private environment = inject(dhAppEnvironmentToken);
+  private toastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
+  private query = lazyQuery(GetUserRolesForCsvDocument);
 
-  userRoles = input.required<DhUserRoles>();
+  filters = input.required<Variables>();
 
   async download() {
-    this.transloco
-      .selectTranslateObject('marketParticipant.marketRoles')
-      .pipe(take(1))
-      .subscribe((rolesTranslations) => {
-        const basePath = 'admin.userManagement.tabs.roles.table.columns.';
+    this.toastService.open({
+      type: 'loading',
+      message: translate('shared.downloadStart'),
+    });
 
-        const headers = [
-          `"${translate(basePath + 'name')}"`,
-          `"${translate(basePath + 'marketRole')}"`,
-          `"${translate(basePath + 'status')}"`,
-        ];
-
-        const lines = this.userRoles().map((role) => [
-          `"${role.name}"`,
-          `"${rolesTranslations[role.eicFunction]}"`,
-          `"${translate('admin.userManagement.roleStatus.' + role.status)}"`,
-        ]);
-
-        exportToCSV({ headers, lines, fileName: 'DataHub-User-roles' });
+    try {
+      const result = await this.query.query({
+        variables: {
+          ...this.filters(),
+          first: 10_000,
+          order: {
+            name: SortEnumType.Asc,
+          },
+        },
       });
+
+      const userRoles = result.data.filteredUserRoles?.nodes ?? [];
+
+      this.transloco
+        .selectTranslateObject('marketParticipant.marketRoles')
+        .pipe(take(1))
+        .subscribe((rolesTranslations) => {
+          const basePath = 'admin.userManagement.tabs.roles.table.columns.';
+
+          const headers = [
+            `"${translate(basePath + 'name')}"`,
+            `"${translate(basePath + 'marketRole')}"`,
+            `"${translate(basePath + 'status')}"`,
+          ];
+
+          const lines = userRoles.map((role) => [
+            `"${role.name}"`,
+            `"${rolesTranslations[role.eicFunction]}"`,
+            `"${translate('admin.userManagement.roleStatus.' + role.status)}"`,
+          ]);
+          const env = translate(`envinronementName.${this.environment.current}`);
+          const fileName = `DataHub-User-roles-${wattFormatDate(new Date(), 'long')}-${env}`;
+
+          exportToCSV({ headers, lines, fileName });
+        });
+      this.toastService.dismiss();
+    } catch {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('shared.downloadFailed'),
+      });
+    }
   }
 }
