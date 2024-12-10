@@ -80,7 +80,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     <h3>{{ t('tabLabel') }}</h3>
 
     <watt-data-actions>
-      <dh-user-roles-download [userRoles]="dataSource.filteredData" />
+      <dh-user-roles-download [filters]="variables()" />
       <watt-button
         *dhPermissionRequired="['user-roles:manage']"
         icon="plus"
