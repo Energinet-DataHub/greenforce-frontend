@@ -30,7 +30,7 @@ public class ConsolidationByIdBatchDataLoader(
         var consolidations = (await client.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
 
         return consolidations
-            .Select(c => new KeyValuePair<Guid, ActorConsolidationDto>(c.ActorToId, c))
+            .Select(c => new KeyValuePair<Guid, ActorConsolidationDto>(c.ActorFromId, c))
             .ToDictionary();
     }
 }
