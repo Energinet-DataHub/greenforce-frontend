@@ -24,7 +24,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
-import { GridArea } from './dh-grid-area-details.component';
+import { GridArea } from './details.component';
 
 type AuditLog = NonNullable<GridArea['auditLog']>[0];
 

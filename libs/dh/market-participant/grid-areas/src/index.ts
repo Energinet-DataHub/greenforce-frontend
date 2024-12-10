@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhGridAreasShellRoutes as default } from './lib/dh-grid-areas-shell.routes';
+export { DhGridAreasComponent as default } from './table.component';

@@ -16,8 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import 'jest-preset-angular/setup-jest';
+import type {
+  GridAreaStatus,
+  GridAreaType,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import type { WattRange } from '@energinet-datahub/watt/date';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setUpTestbed();
+export type DhGridAreaRow = {
+  id: string;
+  code: string;
+  actor: string | undefined | null;
+  organization: string | undefined | null;
+  status: GridAreaStatus;
+  type: GridAreaType;
+  priceArea: PriceAreaCode;
+  period: WattRange<Date>;
+};

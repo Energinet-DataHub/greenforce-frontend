@@ -31,8 +31,8 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 
-import { DhGridAreaStatusBadgeComponent } from '../dh-grid-area-status-badge.component';
-import { DhAuditLogComponent } from './dh-audit-log.component';
+import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
+import { DhAuditLogComponent } from './audit-log.component';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 

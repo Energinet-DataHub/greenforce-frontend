@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-import type {
-  GridAreaStatus,
-  GridAreaType,
-  PriceAreaCode,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import type { WattRange } from '@energinet-datahub/watt/date';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-export type DhGridAreaRow = {
-  id: string;
-  code: string;
-  actor: string;
-  organization: string;
-  status: GridAreaStatus;
-  type: GridAreaType;
-  priceArea: PriceAreaCode;
-  period: WattRange<Date>;
-};
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+
+export const dhStartDateAndEndDateHaveSameMonthValidator =
+  () =>
+  (control: AbstractControl<WattRange<string> | null>): ValidationErrors | null => {
+    const range = control.value;
+
+    if (range === null) {
+      return null;
+    }
+
+    const startDate = dayjs(range.start);
+    const endDate = dayjs(range.end);
+
+    if (startDate.month() !== endDate.month() || startDate.year() !== endDate.year()) {
+      return { startDateAndEndDateHaveDifferentMonth: true };
+    }
+
+    return null;
+  };

@@ -105,14 +105,8 @@
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/grid-areas/domain": [
-        "libs/dh/market-participant/grid-areas/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/grid-areas/overview": [
-        "libs/dh/market-participant/grid-areas/overview/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/grid-areas/shell": [
-        "libs/dh/market-participant/grid-areas/shell/src/index.ts"
+      "@energinet-datahub/dh/market-participant/grid-areas": [
+        "libs/dh/market-participant/grid-areas/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
