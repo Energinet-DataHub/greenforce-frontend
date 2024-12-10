@@ -44,10 +44,10 @@ public class SettlementReportsClientTests : IDisposable
     }
 
     [Theory]
-    [InlineData("2024-11-01T23:00:00.000Z", "2024-12-31T22:59:59.999Z")]
-    [InlineData("2024-11-01T23:00:00.000Z", "2025-01-01T22:59:59.999Z")]
-    [InlineData("2023-11-30T23:00:00.000Z", "2024-12-31T22:59:59.999Z")]
-    [InlineData("2024-11-30T22:00:00.000Z", "2024-12-31T22:59:59.999Z")]
+    [InlineData("2024-11-01T23:00:00.000Z", "2024-12-31T23:00:00.000Z")]
+    [InlineData("2024-11-01T23:00:00.000Z", "2025-01-01T23:00:00.000Z")]
+    [InlineData("2023-11-30T23:00:00.000Z", "2024-12-31T23:00:00.000Z")]
+    [InlineData("2024-11-30T22:00:00.000Z", "2024-12-31T23:00:00.000Z")]
     public async Task RequestAsync_ThrowsArgumentException_WhenPeriodAcrossMonths(string periodStart, string periodEnd)
     {
         // Arrange
@@ -72,8 +72,8 @@ public class SettlementReportsClientTests : IDisposable
     }
 
     [Theory]
-    [InlineData("2024-11-30T23:00:00.000Z", "2024-12-31T22:59:59.999Z")]
-    [InlineData("2024-12-01T00:00:00.000Z", "2024-12-31T22:59:59.999Z")]
+    [InlineData("2024-11-30T23:00:00.000Z", "2024-12-31T23:00:00.000Z")]
+    [InlineData("2024-12-01T00:00:00.000Z", "2024-12-31T23:00:00.000Z")]
     public async Task RequestAsync_SendsRequest_WhenValidRequest(string periodStart, string periodEnd)
     {
         // Arrange
