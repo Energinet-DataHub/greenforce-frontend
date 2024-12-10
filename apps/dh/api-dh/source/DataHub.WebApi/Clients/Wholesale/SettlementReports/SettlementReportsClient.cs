@@ -37,6 +37,11 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
     public async Task RequestAsync(SettlementReportRequestDto requestDto, CancellationToken cancellationToken)
     {
+        if (IsPeriodAcrossMonths(requestDto.Filter))
+        {
+            throw new ArgumentException("Invalid period, start date and end date should be within same month", nameof(requestDto));
+        }
+
         using var request = requestDto.UseAPI
             ? new HttpRequestMessage(HttpMethod.Post, "settlement-reports/RequestSettlementReport")
             : new HttpRequestMessage(HttpMethod.Post, "api/RequestSettlementReport");
@@ -117,5 +122,13 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
 
         using var responseMessage = await _apiHttpClient.SendAsync(request, cancellationToken);
         responseMessage.EnsureSuccessStatusCode();
+    }
+
+    private static bool IsPeriodAcrossMonths(SettlementReportRequestFilterDto settlementReportRequestFilter)
+    {
+        var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(settlementReportRequestFilter.PeriodStart, "Romance Standard Time");
+        var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(settlementReportRequestFilter.PeriodEnd.AddMilliseconds(-1), "Romance Standard Time");
+        return startDate.Month != endDate.Month
+            || startDate.Year != endDate.Year;
     }
 }

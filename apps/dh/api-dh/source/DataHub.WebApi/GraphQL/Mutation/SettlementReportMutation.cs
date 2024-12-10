@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
@@ -27,11 +26,6 @@ public partial class Mutation
         [Service] IMarketParticipantClient_V1 marketPartClient,
         [Service] ISettlementReportsClient client)
     {
-        if (IsPeriodAcrossMonths(requestSettlementReportInput.Period))
-        {
-            throw new ArgumentException("Invalid period, start date and end date should have the same month", nameof(requestSettlementReportInput.Period));
-        }
-
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
             ? await marketPartClient.ActorGetAsync(actorNumber)
             : null;
@@ -68,13 +62,5 @@ public partial class Mutation
         await settlementReportsClient.CancelAsync(requestId, default);
 
         return true;
-    }
-
-    private bool IsPeriodAcrossMonths(Interval interval)
-    {
-        var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.Start.ToDateTimeOffset(), "Romance Standard Time");
-        var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(interval.End.ToDateTimeOffset().AddMilliseconds(-1), "Romance Standard Time");
-        return startDate.Month != endDate.Month
-            || startDate.Year != endDate.Year;
     }
 }
