@@ -1,11 +1,19 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { Component, forwardRef, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { FormMode } from './eo-transfers-form.component';
-import { FormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormControl,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 
 @Component({
   selector: 'eo-receiver-input',
@@ -17,10 +25,22 @@ import { FormControl } from '@angular/forms';
     WattFieldHintComponent,
     WattTextFieldComponent,
   ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => EoReceiverInputComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: EoReceiverInputComponent,
+    },
+  ],
   styles: [``],
   template: `
     <div class="receiver">
-      @if (mode === 'create') {
+      @if (mode() === 'create') {
         <h3 class="watt-headline-2">
           {{ translations.createTransferAgreementProposal.parties.titleBetween | transloco }}
         </h3>
@@ -41,18 +61,17 @@ import { FormControl } from '@angular/forms';
             translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
           "
           type="text"
-          [formControl]="formControl"
           (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiversTin"
-          (search)="search.emit($event)"
+          [autocompleteOptions]="filteredReceiversTin()"
+          (search)="searchChange.emit($event)"
           (autocompleteOptionSelected)="onSelectedRecipient($event)"
-          (autocompleteOptionDeselected)="selectedCompanyName.set(undefined)"
+          (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
           [autocompleteMatcherFn]="isRecipientMatchingOption"
           [maxLength]="8"
           #recipientInput
         >
-          @if (!form.controls.receiverTin.errors && mode === 'create') {
+          @if (!formErrors() && mode() === 'create') {
             <watt-field-hint
               [innerHTML]="
                 translations.createTransferAgreementProposal.parties.receiverTinGeneralError
@@ -61,7 +80,7 @@ import { FormControl } from '@angular/forms';
             />
           }
 
-          @if (form.controls.receiverTin.errors?.['receiverTinEqualsSenderTin']) {
+          @if (formErrors()?.['receiverTinEqualsSenderTin']) {
             <watt-field-error
               [innerHTML]="
                 translations.createTransferAgreementProposal.parties.receiverTinEqualsSenderTin
@@ -70,7 +89,7 @@ import { FormControl } from '@angular/forms';
             />
           }
 
-          @if (form.controls.receiverTin.errors?.['pattern']) {
+          @if (formErrors()?.['pattern']) {
             <watt-field-error
               [innerHTML]="
                 translations.createTransferAgreementProposal.parties.tinFormatError | transloco
@@ -86,14 +105,19 @@ import { FormControl } from '@angular/forms';
     </div>
   `,
 })
-export class ReceiverInputComponent {
+export class EoReceiverInputComponent implements ControlValueAccessor, Validator {
   protected readonly translations = translations;
+  control = new FormControl();
+  isDisabled = false;
 
   mode = input<FormMode>('create');
-  @Input() formControl: FormControl = new FormControl();
-  @Input() filteredReceiversTin = [''];
+  filteredReceiversTin = input<string[]>(['']);
+  selectedCompanyName = input<string | undefined>(undefined);
+  formErrors = input<ValidationErrors | null>([]);
 
-  @Output() search = new EventEmitter<string>();
+  selectedCompanyNameChange = output<string | undefined>();
+  searchChange = output<string>();
+  tinChange = output<string>();
 
   protected preventNonNumericInput(event: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Control', 'Alt'];
@@ -108,7 +132,52 @@ export class ReceiverInputComponent {
 
   onSelectedRecipient(value: string) {
     const [tin, companyName] = value.split(' - ');
-    this.selectedCompanyName.set(companyName);
-    this.formControl.setValue(tin);
+    this.selectedCompanyNameChange.emit(companyName);
+    this.tinChange.emit(tin);
   }
+
+  isRecipientMatchingOption(value: string, option: string) {
+    return value === option.split(' - ')[0];
+  }
+
+  validate(control: AbstractControl) {
+    this.control.setErrors(control.errors);
+    // We need to mark the control as touched to show the error
+    this.control.markAsDirty();
+
+    return control.errors;
+  }
+
+  writeValue(value: never): void {
+    this.control.setValue(value, { emitEvent: false });
+  }
+
+  registerOnChange(fn: never): void {
+    this.onChange = fn;
+    this.control.valueChanges.subscribe((val) => this.onChange(val));
+  }
+
+  registerOnTouched(fn: never): void {
+    this.onTouched = fn;
+  }
+
+  //
+  // setDisabledState?(isDisabled: boolean): void {
+  //   this.isDisabled = isDisabled;
+  //   if (isDisabled) {
+  //     this.control.disable({ emitEvent: false });
+  //   } else {
+  //     this.control.enable({ emitEvent: false });
+  //   }
+  // }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onTouched: any = () => {
+    // Intentionally left empty
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: any = () => {
+    // Intentionally left empty
+  };
 }

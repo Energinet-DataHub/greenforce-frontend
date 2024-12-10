@@ -55,7 +55,6 @@ export interface EoTransferAgreementsWithRecipient {
   ],
   standalone: true,
   template: `
-    @if (opened) {
       <watt-modal
         #modal
         [title]="translations.createTransferAgreementProposal.title | transloco"
@@ -80,7 +79,6 @@ export interface EoTransferAgreementsWithRecipient {
           (canceled)="modal.close(false)"
         />
       </watt-modal>
-    }
   `,
 })
 export class EoTransfersCreateModalComponent {

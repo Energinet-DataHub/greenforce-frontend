@@ -55,7 +55,7 @@ import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
-import { ReceiverInputComponent } from './receiver-input.component';
+import { EoReceiverInputComponent } from './eo-receiver-input.component';
 
 export interface EoTransfersFormInitialValues {
   receiverTin: string;
@@ -98,7 +98,7 @@ export type FormMode = 'create' | 'edit';
     VaterStackComponent,
     WattFieldHintComponent,
     TranslocoPipe,
-    ReceiverInputComponent,
+    EoReceiverInputComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -147,7 +147,16 @@ export type FormMode = 'create' | 'edit';
             "
             [stepControl]="form.controls.receiverTin"
           >
-            <eo-receiver-input [mode]="mode" [formControl]="form.controls.receiverTin" />
+            <eo-receiver-input
+              [formControl]="form.controls.receiverTin"
+              [mode]="mode"
+              [filteredReceiversTin]="filteredReceiversTin()"
+              [selectedCompanyName]="selectedCompanyName()"
+              [formErrors]="form.controls.receiverTin.errors"
+              (selectedCompanyNameChange)="selectedCompanyName.set($event)"
+              (searchChange)="onSearch($event)"
+              (tinChange)="form.controls.receiverTin.setValue($event)"
+            />
           </watt-stepper-step>
           <!-- Timeframe -->
           <watt-stepper-step
@@ -310,10 +319,6 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     this.existingTransferAgreements.set([]);
   }
 
-  isRecipientMatchingOption(value: string, option: string) {
-    return value === option.split(' - ')[0];
-  }
-
   ngOnInit(): void {
     if (this.mode === 'edit') {
       this.setExistingTransferAgreements();
@@ -340,6 +345,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
 
   protected onSearch(query: string) {
     this.filteredReceiversTin.set(this.recipientTins().filter((tin) => tin.includes(query)));
+    console.log(this.recipientTins());
   }
 
   protected onCancel() {
