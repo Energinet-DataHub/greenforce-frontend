@@ -753,7 +753,7 @@
       }
     },
     "/actor/consolidations": {
-      "post": {
+      "get": {
         "tags": [
           "Actor"
         ],
@@ -3849,9 +3849,29 @@
             "format": "date-time"
           },
           "status": {
-            "type": "string"
+            "x-enumNames": [
+              "Pending",
+              "Executed"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorConsolidationStatus"
+              }
+            ]
           }
         }
+      },
+      "ActorConsolidationStatus": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Pending",
+          "Executed"
+        ],
+        "enum": [
+          1,
+          2
+        ]
       },
       "ActorContactDto": {
         "type": "object",
