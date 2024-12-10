@@ -17,7 +17,7 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
@@ -43,7 +43,6 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
   GetGridAreaOverviewDocument,
-  GetGridAreasDocument,
   GridAreaStatus,
   GridAreaType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
