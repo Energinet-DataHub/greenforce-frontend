@@ -19,6 +19,11 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
+    public async Task<GridAreaOverviewItemDto> GetGridAreaAsync(
+        Guid gridAreaId,
+        [Service] IMarketParticipantClient_V1 client) =>
+        (await client.GridAreaOverviewAsync()).First(x => x.Id == gridAreaId);
+
     public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.GridAreaOverviewAsync();
@@ -26,9 +31,4 @@ public partial class Query
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.GetGridAreasAsync();
-
-    public async Task<IEnumerable<GridAreaAuditedChangeAuditLogDto>> GetGridAreaAuditLogsAsync(
-        Guid gridAreaId,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.GridAreaAuditAsync(gridAreaId);
 }

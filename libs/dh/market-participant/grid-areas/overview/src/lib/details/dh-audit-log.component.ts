@@ -22,13 +22,11 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  GetGridAreaAuditLogDocument,
-  GridAreaAuditedChangeAuditLogDto,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
+
+import { GridArea } from './dh-grid-area-details.component';
+
+type AuditLog = NonNullable<GridArea['auditLog']>[0];
 
 @Component({
   selector: 'dh-audit-log',
@@ -43,8 +41,6 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
   ],
   imports: [TranslocoDirective, WATT_TABLE, WATT_CARD, WattDatePipe, DhResultComponent],
   template: `<dh-result
-    [loading]="isLoading()"
-    [hasError]="hasError()"
     [empty]="dataSource.data.length === 0"
     *transloco="let t; read: 'marketParticipant.gridAreas.history'"
   >
@@ -69,9 +65,9 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
               [innerHTML]="
                 t('changeTypes.CONSOLIDATION_REQUESTED', {
                   auditedBy: entry.auditedBy,
-                  marketParticipant: '---',
+                  marketParticipant: entry.previousOwner,
                   gridArea: this.gridArea()?.code,
-                  gridAreaStopsAt: '---',
+                  gridAreaStopsAt: this.gridArea()?.validTo | wattDate,
                 })
               "
             ></div>
@@ -79,7 +75,7 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
             <div
               [innerHTML]="
                 t('changeTypes.CONSOLIDATION_COMPLETED', {
-                  marketParticipant: '---',
+                  marketParticipant: entry.currentOwner,
                 })
               "
             ></div>
@@ -98,16 +94,11 @@ import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-are
   </dh-result>`,
 })
 export class DhAuditLogComponent {
-  private auditLogQuery = lazyQuery(GetGridAreaAuditLogDocument);
+  gridArea = input<GridArea>();
 
-  gridArea = input<DhGridAreaRow>();
+  dataSource = new WattTableDataSource<AuditLog>([]);
 
-  isLoading = this.auditLogQuery.loading;
-  hasError = this.auditLogQuery.hasError;
-
-  dataSource = new WattTableDataSource<GridAreaAuditedChangeAuditLogDto>([]);
-
-  columns: WattTableColumnDef<GridAreaAuditedChangeAuditLogDto> = {
+  columns: WattTableColumnDef<AuditLog> = {
     timestamp: { accessor: 'timestamp' },
     value: { accessor: null, size: '1fr' },
   };
@@ -117,14 +108,8 @@ export class DhAuditLogComponent {
       const gridArea = this.gridArea();
 
       if (gridArea) {
-        this.auditLogQuery.query({
-          variables: { gridAreaId: gridArea.id },
-        });
+        this.dataSource.data = gridArea.auditLog ?? [];
       }
-    });
-
-    effect(() => {
-      this.dataSource.data = this.auditLogQuery.data()?.gridAreaAuditLogs ?? [];
     });
   }
 }

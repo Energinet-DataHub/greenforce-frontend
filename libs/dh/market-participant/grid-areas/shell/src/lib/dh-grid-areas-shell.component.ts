@@ -54,9 +54,7 @@ export class DhGridAreasShellComponent {
       const row: DhGridAreaRow = {
         id: x.id,
         code: x.code,
-        actor: x.actorNumber
-          ? `${x.actorName} • ${this.gln.test(x.actorNumber) ? 'GLN' : 'EIC'} ${x.actorNumber}`
-          : '',
+        actor: x.actor ?? '',
         organization: x.organizationName ?? '',
         status: x.status,
         type: x.type,

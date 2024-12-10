@@ -18,7 +18,7 @@ limitations under the License.
   variant="solid"
   *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'"
 >
-  <dh-result [loading]="loading()" [hasError]="hasError()" [empty]="dataSource.totalCount == 0">
+  <dh-result [loading]="loading()" [hasError]="hasError()" [empty]="dataSource.totalCount === 0">
     <watt-card-title>
       <h4>
         @let auditLogCount = dataSource.totalCount;

@@ -126,4 +126,8 @@ public partial class Query
     public async Task<IEnumerable<SelectionActorDto>> GetSelectionActorsAsync(
         [Service] IMarketParticipantClient_V1 client) =>
             await client.QuerySelectionActorsAsync();
+
+    public async Task<GetActorConsolidationsResponse> GetActorConsolidationsAsync(
+        [Service] IMarketParticipantClient_V1 client) =>
+            await client.ActorConsolidationsAsync();
 }
