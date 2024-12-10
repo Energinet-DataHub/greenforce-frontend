@@ -18,6 +18,7 @@
 //#endregion
 import { http, delay, HttpResponse } from 'msw';
 import { transferActivityLogResponse } from './data/activity-logs';
+import { addDays, getUnixTime, subDays } from 'date-fns';
 
 export function transferMocks(apiBase: string) {
   return [
@@ -29,86 +30,87 @@ export function transferMocks(apiBase: string) {
   ];
 }
 
+
+const enum Users {
+  CharlotteCSR = '39293595',
+  IvanIvaerksaetter = '12345678',
+  PeterProducent = '11223344',
+  FrankFabrikant = '55555555',
+  BrianBoligHaj = '66666666',
+  ViggoVindmolle = '77777777',
+  ErikEnerginet = '28980671',
+}
+
 const senderName = 'Producent A/S';
-const statuses = ['Active', 'Inactive', 'Proposal', 'ProposalExpired'];
-const randomStatus = () => statuses[Math.floor(Math.random() * statuses.length)];
+type transferAgreementStatus = 'Active' | 'Inactive' | 'Proposal' | 'ProposalExpired';
+interface TransferAgreement {
+  id: string;
+  startDate: number;
+  endDate?: number;
+  senderName: string;
+  senderTin: string;
+  receiverTin: string;
+  transferAgreementStatus: transferAgreementStatus;
+}
+
+const activeTransferAgreement: TransferAgreement = {
+  id: 'f44211b2-78fa-4fa0-9215-23369abf24ea',
+  startDate: getUnixTime(subDays(new Date(), 10)),
+  endDate: getUnixTime(addDays(new Date(), 10)),
+  senderName,
+  senderTin: Users.PeterProducent,
+  receiverTin: Users.IvanIvaerksaetter,
+  transferAgreementStatus: 'Active',
+};
+
+const activeTransferAgreementNotSender: TransferAgreement = {
+  id: 'f44211b2-78fa-4fa0-9215-23369abf24eb',
+  startDate: getUnixTime(subDays(new Date(), 10)),
+  endDate: getUnixTime(addDays(new Date(), 10)),
+  senderName: 'Ukendt virksomhed',
+  senderTin: Users.CharlotteCSR,
+  receiverTin: Users.PeterProducent,
+  transferAgreementStatus: 'Active',
+};
+
+const inactiveTransferAgreement = {
+  id: '0f190d46-7736-4f71-ad07-63dbaeeb689a',
+  startDate: getUnixTime(addDays(new Date(), 10)),
+  senderName,
+  senderTin: Users.PeterProducent,
+  receiverTin: Users.FrankFabrikant,
+  transferAgreementStatus: 'Inactive',
+};
+
+const transferAgreementProposal = {
+  id: '8892efde-2d14-48a5-85ad-85cb45386790',
+  startDate: getUnixTime(addDays(new Date(), 5)),
+  endDate: getUnixTime(addDays(new Date(), 11)),
+  senderName,
+  senderTin: Users.PeterProducent,
+  receiverTin: Users.BrianBoligHaj,
+  transferAgreementStatus: 'Proposal',
+};
+
+const transferAgreementProposalExpired = {
+  id: 'fe1a2948-a2eb-4464-b6bc-c0be0289b1cc',
+  startDate: getUnixTime(subDays(new Date(), 30)),
+  endDate: getUnixTime(subDays(new Date(), 10)),
+  senderName,
+  senderTin: Users.PeterProducent,
+  receiverTin: Users.ErikEnerginet,
+  transferAgreementStatus: 'ProposalExpired',
+};
 
 function getTransferAgreements(apiBase: string) {
   return http.get(`${apiBase}/transfer/transfer-agreements/overview`, async () => {
     const data = {
       result: [
-        {
-          id: 'f44211b2-78fa-4fa0-9215-23369abf24ea',
-          startDate: 1702371600,
-          endDate: 1702396800,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '39293595',
-          transferAgreementStatus: 'Active',
-        },
-        {
-          id: '0f190d46-7736-4f71-ad07-63dbaeeb689a',
-          startDate: 1702371600,
-          endDate: 1702378800,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '12345678',
-          transferAgreementStatus: 'Inactive',
-        },
-        {
-          id: '8892efde-2d14-48a5-85ad-85cb45386790',
-          startDate: 1702382400,
-          endDate: 1702386000,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '12345678',
-          transferAgreementStatus: 'Proposal',
-        },
-        {
-          id: 'fe1a2948-a2eb-4464-b6bc-c0be0289b1cc',
-          startDate: 1702407600,
-          endDate: 1702443600,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '39293595',
-          transferAgreementStatus: 'ProposalExpired',
-        },
-        {
-          id: 'b1dd65a9-ded0-4ff2-bf4e-fb04c8bf6b1e',
-          startDate: 1702393200,
-          endDate: 1702411200,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '12345678',
-          transferAgreementStatus: randomStatus(),
-        },
-        {
-          id: 'e31acbac-d26d-4c5b-aaa4-98fb49c740c5',
-          startDate: 1702414800,
-          endDate: 1702440000,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '12345678',
-          transferAgreementStatus: randomStatus(),
-        },
-        {
-          id: '427e47ed-47b3-45f0-8d62-e2a9930090f0',
-          startDate: 1702447200,
-          endDate: 1702533600,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '12345678',
-          transferAgreementStatus: randomStatus(),
-        },
-        {
-          id: '3e3b749b-6149-4e34-bc6e-a13ffed0f28c',
-          startDate: 1702537200,
-          endDate: 1702551600,
-          senderName,
-          senderTin: '11223344',
-          receiverTin: '12345678',
-          transferAgreementStatus: randomStatus(),
-        },
+        activeTransferAgreement,
+        activeTransferAgreementNotSender,
+        inactiveTransferAgreement,
+        transferAgreementProposal,
+        transferAgreementProposalExpired,
       ],
     };
     await delay(1000);
