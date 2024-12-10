@@ -16,8 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-export { DhRoleStatusComponent } from './dh-role-status.component';
-export { DhUserStatusComponent } from './dh-user-status.component';
-export { DhTabDataGeneralErrorComponent } from './dh-tab-data-general-error.component';
-export { DhPermissionsTableComponent } from './dh-permissions-table.component';
-export * from './types/dh-update-user-role.type';
+import { GetActorsAndUserRolesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+export type ActorUserRoles = ResultOf<
+  typeof GetActorsAndUserRolesDocument
+>['userById']['actors'][0]['userRoles'];
+
+export type ActorUserRole = ActorUserRoles[0];
