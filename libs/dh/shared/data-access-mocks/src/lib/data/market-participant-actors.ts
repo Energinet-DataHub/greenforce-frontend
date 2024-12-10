@@ -113,7 +113,7 @@ export const marketParticipantActors: Actor[] = [
       } as GridAreaDto,
     ],
     marketRole: EicFunction.GridAccessProvider,
-    status: ActorStatus.Active,
+    status: ActorStatus.ToBeDiscontinued,
     organization: {
       __typename: 'Organization',
       id: 'id-test-organization-3',
@@ -149,7 +149,7 @@ export const marketParticipantActors: Actor[] = [
       } as GridAreaDto,
     ],
     marketRole: EicFunction.BalanceResponsibleParty,
-    status: ActorStatus.Active,
+    status: ActorStatus.Discontinued,
     organization: {
       __typename: 'Organization',
       id: 'id-test-organization-2',

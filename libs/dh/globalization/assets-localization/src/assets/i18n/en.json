@@ -507,7 +507,9 @@
       },
       "status": {
         "Active": "Active",
-        "Inactive": "Deactivated"
+        "Inactive": "Deactivated",
+        "ToBeDiscontinued": "To be discontinued",
+        "Discontinued": "Discontinued"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",

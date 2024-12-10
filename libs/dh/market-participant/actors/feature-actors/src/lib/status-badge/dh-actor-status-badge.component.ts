@@ -35,6 +35,12 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
         @case ('Inactive') {
           <watt-badge type="neutral">{{ t('Inactive') }}</watt-badge>
         }
+        @case ('ToBeDiscontinued') {
+          <watt-badge type="warning">{{ t('ToBeDiscontinued') }}</watt-badge>
+        }
+        @case ('Discontinued') {
+          <watt-badge type="neutral">{{ t('Discontinued') }}</watt-badge>
+        }
         @default {
           {{ status() | dhEmDashFallback }}
         }

@@ -50,7 +50,7 @@ type ActorConsolidationDto {
   actorFromId: UUID!
   actorToId: UUID!
   consolidateAt: DateTime!
-  status: String!
+  status: ActorConsolidationStatus!
 }
 
 type ActorContactDto {
@@ -1223,6 +1223,11 @@ enum ActorAuditedChange {
   CONSOLIDATION_COMPLETED
 }
 
+enum ActorConsolidationStatus {
+  PENDING
+  EXECUTED
+}
+
 enum ActorDelegationStatus {
   AWAITING
   ACTIVE
@@ -1249,6 +1254,8 @@ enum ActorStatus {
   Active
   Inactive
   Passive
+  ToBeDiscontinued
+  Discontinued
 }
 
 "Represents the status of a balance responsibility agreement."
