@@ -35,7 +35,7 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserRolesGetAsync(id);
 
-    [UsePaging]
+    [UsePaging(MaxPageSize = 10_000)]
     [UseSorting]
     public async Task<IEnumerable<UserRoleDto>> GetFilteredUserRolesAsync(
         UserRoleStatus? status,
@@ -67,7 +67,7 @@ public partial class Query
         return userRoles
             .Where(x => status == null || x.Status == status)
             .Where(x => eicFunctions == null || eicFunctions.Length == 0 || eicFunctions.Contains(x.EicFunction))
-            // TODO: How to we support text search in multiple languages
+            // TODO: How do we support text search in multiple languages
             .Where(x => filter == null || x.Name.Contains(filter) || x.EicFunction.ToString().Contains(filter));
     }
 }
