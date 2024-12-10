@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-grid-areas-overview',
-  preset: '../../../../../jest.preset.js',
+  displayName: 'dh-market-participant-grid-areas',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../../coverage/libs/dh/market-participant/grid-areas/overview',
+  coverageDirectory: '../../../../../coverage/libs/dh/market-participant/grid-areas',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
