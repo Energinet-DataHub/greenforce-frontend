@@ -26,8 +26,8 @@ import type { WattRange } from '@energinet-datahub/watt/date';
 export type DhGridAreaRow = {
   id: string;
   code: string;
-  actor: string;
-  organization: string;
+  actor: string | undefined | null;
+  organization: string | undefined | null;
   status: GridAreaStatus;
   type: GridAreaType;
   priceArea: PriceAreaCode;

@@ -17,7 +17,7 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
@@ -41,16 +41,22 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { GridAreaStatus, GridAreaType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhGridAreaRow } from '@energinet-datahub/dh/market-participant/grid-areas/domain';
+import {
+  GetGridAreaOverviewDocument,
+  GetGridAreasDocument,
+  GridAreaStatus,
+  GridAreaType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
-import { DhGridAreaDetailsComponent } from '../details/dh-grid-area-details.component';
+import { DhGridAreaDetailsComponent } from './details.component';
+import { DhGridAreaRow } from './types/grid-area-row.type';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   standalone: true,
-  selector: 'dh-grid-areas-overview',
-  templateUrl: './dh-grid-areas-overview.component.html',
+  selector: 'dh-grid-areas',
+  templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
@@ -91,7 +97,9 @@ import { DhGridAreaDetailsComponent } from '../details/dh-grid-area-details.comp
     DhGridAreaDetailsComponent,
   ],
 })
-export class DhGridAreasOverviewComponent {
+export class DhGridAreasComponent {
+  private query = query(GetGridAreaOverviewDocument);
+
   columns: WattTableColumnDef<DhGridAreaRow> = {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
@@ -101,9 +109,24 @@ export class DhGridAreasOverviewComponent {
     status: { accessor: 'status' },
   };
 
-  gridAreas = input.required<DhGridAreaRow[]>();
-  isLoading = input.required<boolean>();
-  hasError = input.required<boolean>();
+  gridAreas = computed<DhGridAreaRow[]>(
+    () =>
+      this.query.data()?.gridAreaOverview.map((x) => ({
+        actor: x.actor,
+        code: x.code,
+        id: x.id,
+        organization: x.organizationName,
+        period: {
+          start: x.validFrom,
+          end: x.validTo ?? null,
+        },
+        priceArea: x.priceAreaCode,
+        status: x.status,
+        type: x.type,
+      })) ?? []
+  );
+  isLoading = this.query.loading;
+  hasError = this.query.hasError;
 
   gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, [GridAreaType.NotSet]);
   gridAreaStatusOptions = dhEnumToWattDropdownOptions(GridAreaStatus);
