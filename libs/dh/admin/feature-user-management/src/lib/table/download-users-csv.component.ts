@@ -25,9 +25,9 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
+  SortEnumType,
   GetUsersForCsvDocument,
   GetUsersForCsvQueryVariables,
-  SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
