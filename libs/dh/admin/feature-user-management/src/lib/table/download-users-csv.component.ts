@@ -27,6 +27,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   GetUsersForCsvDocument,
   GetUsersForCsvQueryVariables,
+  SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
@@ -66,6 +67,10 @@ export class DhDownloadUsersCsvComponent {
       const result = await this.query.query({
         variables: {
           ...this.filters(),
+          order: {
+            name: SortEnumType.Asc,
+          },
+          skip: 0,
           take: 10_000,
         },
       });
