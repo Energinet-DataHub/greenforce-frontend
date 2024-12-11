@@ -23,12 +23,12 @@ query GetRequests(
       }
       ... on RequestAggregatedMeasureData {
         calculationType
-        requestCalculationDataType
+        meteringPointType
         period
       }
       ... on RequestWholesaleSettlement {
         calculationType
-        requestCalculationDataType
+        priceType
         period
       }
     }
