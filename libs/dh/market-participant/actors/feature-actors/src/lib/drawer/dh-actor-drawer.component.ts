@@ -128,11 +128,15 @@ export class DhActorDrawerComponent {
   );
 
   gridAreaOrFallback = computed(() => {
-    const stringList = this.actor()
+    const gridAreaCodes = this.actor()
       ?.gridAreas?.map((gridArea) => gridArea.code)
       .join(', ');
 
-    return stringList ?? emDash;
+    if (!gridAreaCodes || gridAreaCodes.length === 0) {
+      return emDash;
+    }
+
+    return gridAreaCodes;
   });
 
   open(actorId: string): void {
