@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -47,14 +48,21 @@ public class CalculateGridAreaStatusTest
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500aa"),
                     ActorNumber = new ActorNumberDto { Value = "1234567890" },
-                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator, GridAreas = [] },
                     Name = new ActorNameDto { Value = "Test" },
                 },
                 new()
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
                     ActorNumber = new ActorNumberDto { Value = "1234567890" },
-                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.BillingAgent },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.BillingAgent, GridAreas = [] },
+                    Name = new ActorNameDto { Value = "Test1" },
+                },
+                new()
+                {
+                    ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
+                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.GridAccessProvider, GridAreas = [] },
                     Name = new ActorNameDto { Value = "Test1" },
                 },
             };
@@ -92,7 +100,7 @@ public class CalculateGridAreaStatusTest
                 },
                 new()
                 {
-                    Code = "1234567892",
+                    Code = "1234567893",
                     Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500de"),
                     Name = "Test3",
                     PriceAreaCode = "DK2",
@@ -108,6 +116,10 @@ public class CalculateGridAreaStatusTest
         server.MarketParticipantClientV1Mock
             .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync(gridAreas);
+
+        server.MarketParticipantClientV1Mock
+            .Setup(x => x.ActorConsolidationsAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+            .ReturnsAsync(new GetActorConsolidationsResponse() { ActorConsolidations = (ICollection<ActorConsolidationDto>)Enumerable.Empty<ActorConsolidationDto>() });
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_getGridAreasWithStatus));
 

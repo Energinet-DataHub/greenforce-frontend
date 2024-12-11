@@ -45,7 +45,13 @@ public class ActorByGridAreaIdAsGridAccessProviderBatchDataLoader : BatchDataLoa
             var returnDict = new Dictionary<string, ActorConsolidationDto?>();
             foreach (var gridArea in gridAreas)
             {
-                var actor = actors.First(x => x.MarketRole.GridAreas.Any(x => x.Id == gridArea.Key));
+                var actor = actors.FirstOrDefault(x => x.MarketRole.GridAreas.Any(x => x.Id == gridArea.Key));
+                if (actor is null)
+                {
+                    returnDict.Add(gridArea.Value, null);
+                    continue;
+                }
+
                 var consolidation = consolidations.FirstOrDefault(x => x.ActorFromId == actor.ActorId);
                 returnDict.Add(gridArea.Value, consolidation);
             }
