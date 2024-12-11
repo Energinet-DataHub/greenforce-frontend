@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { FormControl } from '@angular/forms';
+import { FormControl, ValidatorFn } from '@angular/forms';
 
 /**
  * Helper function for creating form control with `nonNullable` based on value.
  */
-export const dhMakeFormControl = <T>(value: T | null = null) =>
-  new FormControl(value, { nonNullable: Boolean(value) });
+export const dhMakeFormControl = <T>(
+  value: T | null = null,
+  validators?: ValidatorFn | ValidatorFn[]
+) => new FormControl(value, { nonNullable: Boolean(value), validators });

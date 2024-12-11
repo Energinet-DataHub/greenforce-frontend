@@ -29,6 +29,7 @@ import { userProfileMocks } from './lib/user-profile-mocks';
 import { defaultMocks } from './lib/default-mocks';
 import { notificationsMocks } from './lib/notifications-mocks';
 import { organizationMocks } from './lib/organization-mocks';
+import { requestMocks } from './lib/request';
 
 export const mocks = [
   wholesaleMocks,
@@ -44,4 +45,5 @@ export const mocks = [
   defaultMocks,
   notificationsMocks,
   organizationMocks,
+  requestMocks,
 ];

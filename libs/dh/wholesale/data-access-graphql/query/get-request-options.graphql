@@ -1,0 +1,22 @@
+query GetRequestOptions {
+  requestOptions {
+    isGridAreaRequired
+    calculationTypes {
+      value
+      displayValue
+    }
+    meteringPointTypes {
+      value
+      displayValue
+    }
+    priceTypes {
+      value
+      displayValue
+    }
+  }
+  gridAreas {
+    id
+    value: code
+    displayValue: displayName
+  }
+}
