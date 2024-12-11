@@ -27,7 +27,7 @@ public partial class Query
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
@@ -42,7 +42,7 @@ public partial class Query
         CalculationQueryInput input,
         string? filter,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
@@ -89,7 +89,7 @@ public partial class Query
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
         [Service] IFeatureManager featureManager,
-        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
+        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
