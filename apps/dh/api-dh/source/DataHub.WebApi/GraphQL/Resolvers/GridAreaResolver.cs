@@ -22,7 +22,7 @@ public class GridAreaResolvers
 {
     public async Task<GridAreaStatus> CalculateGridAreaStatusAsync(
         [Parent] IGridArea gridarea,
-        ActorByGridAreaIdBatchDataLoader consolidationsLoader)
+        ActorByGridAreaIdAsGridAccessProviderBatchDataLoader consolidationsLoader)
     {
         var validFrom = gridarea.ValidFrom;
         var validTo = gridarea.ValidTo;
