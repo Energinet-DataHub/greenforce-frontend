@@ -12,19 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.ProcessManager.Api.Model;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
-using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
-using Energinet.DataHub.WebApi.GraphQL.Types.Request;
 using Microsoft.FeatureManagement;
 using NodaTime;
-using CalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -33,7 +27,7 @@ public partial class Query
     public async Task<CalculationDto> GetCalculationByIdAsync(
         Guid id,
         [Service] IFeatureManager featureManager,
-        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
@@ -48,7 +42,7 @@ public partial class Query
         CalculationQueryInput input,
         string? filter,
         [Service] IFeatureManager featureManager,
-        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
@@ -95,7 +89,7 @@ public partial class Query
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
         [Service] IFeatureManager featureManager,
-        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
+        [Service] INotifyAggregatedMeasureDataClientAdapter processManagerCalculationClient,
         [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
@@ -114,90 +108,5 @@ public partial class Query
         return calculations.FirstOrDefault();
     }
 
-    [UsePaging]
-    [UseSorting]
-    public async Task<IEnumerable<IOrchestration<IRequest>>> GetRequestsAsync()
-    {
-        var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
-            Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleStateDto(
-                new UserIdentityDto(new Guid("5ff81160-507e-41e5-4846-08dc53cca56b"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleStates.Terminated,
-                OrchestrationInstanceTerminationStates.Succeeded,
-                null,
-                DateTimeOffset.Parse("2024-10-25").AddHours(10),
-                null,
-                null,
-                null,
-                null),
-            new RequestAggregatedMeasureData(
-                CalculationType.Aggregation,
-                DateTimeOffset.Parse("2024-02-01"),
-                DateTimeOffset.Parse("2024-02-29"),
-                MeteringPointType.Production),
-            [],
-            string.Empty);
-
-        var result2 = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
-            Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleStateDto(
-                new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleStates.Terminated,
-                OrchestrationInstanceTerminationStates.Failed,
-                null,
-                DateTimeOffset.Parse("2024-10-25").AddHours(10),
-                null,
-                null,
-                null,
-                null),
-            new RequestAggregatedMeasureData(
-                CalculationType.Aggregation,
-                DateTimeOffset.Parse("2024-01-14"),
-                DateTimeOffset.Parse("2024-01-15"),
-                MeteringPointType.NonProfiledConsumption),
-            [],
-            string.Empty);
-
-        var result3 = new OrchestrationInstanceTypedDto<RequestWholesaleSettlement>(
-            Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleStateDto(
-                new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleStates.Running,
-                null,
-                null,
-                DateTimeOffset.Parse("2024-10-25").AddHours(10),
-                null,
-                null,
-                null,
-                null),
-            new RequestWholesaleSettlement(
-                CalculationType.BalanceFixing,
-                DateTimeOffset.Parse("2024-01-14"),
-                DateTimeOffset.Parse("2024-01-15"),
-                PriceType.MonthlyFee),
-            [],
-            string.Empty);
-
-        var wrapper = new OrchestrationInstance<RequestAggregatedMeasureData>(
-            result.Id,
-            result.Lifecycle,
-            result.Steps,
-            result.ParameterValue);
-
-        var wrapper2 = new OrchestrationInstance<RequestAggregatedMeasureData>(
-            result2.Id,
-            result2.Lifecycle,
-            result2.Steps,
-            result2.ParameterValue);
-
-        var wrapper3 = new OrchestrationInstance<RequestWholesaleSettlement>(
-            result3.Id,
-            result3.Lifecycle,
-            result3.Steps,
-            result3.ParameterValue);
-
-        var list = new List<IOrchestration<IRequest>> { wrapper, wrapper2, wrapper3 };
-
-        return await Task.FromResult(list);
-    }
+    public Requests GetRequests() => new Requests();
 }
