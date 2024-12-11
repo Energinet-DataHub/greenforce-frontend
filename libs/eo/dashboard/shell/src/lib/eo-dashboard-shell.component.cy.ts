@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';

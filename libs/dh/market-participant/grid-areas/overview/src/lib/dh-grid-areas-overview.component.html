@@ -60,6 +60,8 @@ limitations under the License.
         sortBy="code"
         sortDirection="asc"
         [loading]="isLoading()"
+        [activeRow]="activeRow()"
+        (rowClick)="activeRow.set($event)"
       >
         <ng-container *wattTableCell="columns['code']; header: t('columns.code'); let gridArea">
           {{ gridArea.code }}
@@ -103,3 +105,5 @@ limitations under the License.
     <watt-paginator [for]="dataSource" [pageSize]="100" />
   </vater-flex>
 </watt-card>
+
+<dh-grid-area-details [gridAreaId]="activeRow()?.id" (closed)="activeRow.set(undefined)" />

@@ -28,15 +28,15 @@
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for ukendt aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for ukendt aktør \"{{ relatedToId }}\""
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelationen for '{{ relatedToId }}' ophører snart"
+        "message": "Balanceansvarsrelationen for \"{{ relatedToId }}\" ophører snart"
       },
       "NewBalanceResponsibilityReceived": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for aktør \"{{ relatedToId }}\""
       },
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
@@ -48,11 +48,15 @@
       },
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
-        "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+        "message": "Der er registreret en ubalance i netområde \"{{ relatedToId }}\""
       },
       "ActorCredentialsExpiring": {
         "headline": "Aktør",
         "message": "B2B adgang til denne aktør er ved at udløbe"
+      },
+      "ActorConsolidationScheduled": {
+        "headline": "Sammenlægning af aktører",
+        "message": "\"{{ relatedToId }}\" er ved at ophøre snart"
       }
     }
   },
@@ -229,14 +233,14 @@
       "download": "Download"
     },
     "documentType": {
-      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede tidsserier (RSM-014)",
+      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
       "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Anmod om aggregerede måledata (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om aggregerede engrosydelser (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -818,7 +822,8 @@
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
-        "priceArea": "Prisområde"
+        "priceArea": "Prisområde",
+        "period": "Periode"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -841,6 +846,15 @@
         "GridLossDK": "Nettab DK",
         "GridLossAbroad": "Nettab udland",
         "Aboard": "Udland"
+      },
+      "history": {
+        "emptyTitle": "Ingen historik på netområde",
+        "changeTypes": {
+          "NAME": "---",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ marketParticipant }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. {{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ marketParticipant }}</b> er udført",
+          "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
+        }
       }
     }
   },

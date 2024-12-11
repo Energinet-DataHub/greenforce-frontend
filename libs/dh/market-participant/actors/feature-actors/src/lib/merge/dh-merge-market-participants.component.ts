@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -94,7 +96,7 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
           <watt-datepicker
             [label]="t('mergeDate')"
             [formControl]="form.controls.mergeDate"
-            [min]="_7DaysFromNow"
+            [min]="tomorrow"
           />
         </form>
 
@@ -147,7 +149,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     { validators: dhUniqueMarketParticipantsValidator() }
   );
 
-  _7DaysFromNow = dayjs().add(7, 'days').toDate();
+  tomorrow = dayjs().add(1, 'days').toDate();
 
   async save() {
     const { discontinuedEntity, survivingEntity, mergeDate } = this.form.value;

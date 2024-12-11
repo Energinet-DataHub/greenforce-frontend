@@ -36,14 +36,8 @@
       "@energinet-datahub/dh/admin/feature-user-management": [
         "libs/dh/admin/feature-user-management/src/index.ts"
       ],
-      "@energinet-datahub/dh/admin/feature-user-management-new": [
-        "libs/dh/admin/feature-user-management-new/src/index.ts"
-      ],
       "@energinet-datahub/dh/admin/feature-user-roles": [
         "libs/dh/admin/feature-user-roles/src/index.ts"
-      ],
-      "@energinet-datahub/dh/admin/feature-user-roles-new": [
-        "libs/dh/admin/feature-user-roles-new/src/index.ts"
       ],
       "@energinet-datahub/dh/admin/shared": ["libs/dh/admin/shared/src/index.ts"],
       "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/src/index.ts"],
@@ -110,6 +104,9 @@
       ],
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/grid-areas/domain": [
+        "libs/dh/market-participant/grid-areas/domain/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/grid-areas/overview": [
         "libs/dh/market-participant/grid-areas/overview/src/index.ts"

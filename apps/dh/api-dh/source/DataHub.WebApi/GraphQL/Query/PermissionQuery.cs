@@ -24,14 +24,16 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.PermissionGetAsync(id);
 
-    public async Task<PermissionsDto> GetPermissionsAsync(
-        string searchTerm,
+    [UsePaging]
+    [UseSorting]
+    public async Task<IEnumerable<PermissionDto>> GetFilteredPermissionsAsync(
+        string? filter,
         [Service] IMarketParticipantClient_V1 client) =>
-        new((await client.PermissionGetAsync())
+        (await client.PermissionGetAsync())
             .Where(p =>
-                searchTerm is null ||
-                p.Name.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase) ||
-                p.Description.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase)));
+                filter is null ||
+                p.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase) ||
+                p.Description.Contains(filter, StringComparison.CurrentCultureIgnoreCase));
 
     public async Task<IEnumerable<PermissionAuditedChangeAuditLogDto>> GetPermissionAuditLogsAsync(
         int id,

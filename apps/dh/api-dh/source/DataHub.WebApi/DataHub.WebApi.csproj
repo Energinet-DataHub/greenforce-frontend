@@ -53,17 +53,18 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="0.11.0" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="14.1.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.1.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="14.1.0" />
-    <PackageReference Include="HotChocolate.Data" Version="14.1.0" />
-    <PackageReference Include="HotChocolate.Diagnostics" Version="14.1.0" />
-    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.1.0">
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="0.14.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="0.1.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Data" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Diagnostics" Version="14.2.0" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="14.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="13.3.2" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="14.0.1" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Microsoft.FeatureManagement" Version="4.0.0" />
@@ -85,7 +86,7 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,5 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { WattNavListComponent } from './watt-nav-list.component';
 export { WattNavListItemComponent } from './watt-nav-list-item.component';

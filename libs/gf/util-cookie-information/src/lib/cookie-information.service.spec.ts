@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { CookieInformationService } from './cookie-information.service';
@@ -105,7 +107,7 @@ describe('CookieInformationService', () => {
     it('should only add script once, and if already added set the culture', () => {
       setupTest();
       const config: CookieInformationConfig = { culture: 'en' };
-      const mockedScript = {setAttribute: jest.fn()};
+      const mockedScript = { setAttribute: jest.fn() };
       service.init(config);
       mockDocument.getElementById.mockReturnValue(mockedScript);
 
@@ -120,7 +122,7 @@ describe('CookieInformationService', () => {
     it('should set culture when not on localhost', () => {
       setupTest();
       const config: CookieInformationConfig = { culture: 'en' };
-      const mockedScript = {setAttribute: jest.fn()};
+      const mockedScript = { setAttribute: jest.fn() };
       mockDocument.getElementById.mockReturnValue(mockedScript);
 
       service.reInit(config);

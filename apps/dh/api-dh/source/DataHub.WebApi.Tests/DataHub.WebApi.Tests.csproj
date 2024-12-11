@@ -29,12 +29,12 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Monitor.Query" Version="1.5.0" />
-    <PackageReference Include="Verify.Xunit" Version="23.5.0" />
-    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="7.0.2" />
-    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="7.0.2" />
+    <PackageReference Include="Azure.Monitor.Query" Version="1.6.0" />
+    <PackageReference Include="Verify.Xunit" Version="28.4.0" />
+    <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="7.1.0" />
+    <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="7.1.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.5" />
-    <PackageReference Include="FluentAssertions" Version="6.12.2" />
+    <PackageReference Include="FluentAssertions" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
       <PrivateAssets>all</PrivateAssets>

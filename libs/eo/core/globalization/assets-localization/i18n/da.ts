@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 
@@ -159,6 +161,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
             </li>
             <li>
               <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
+            </li>
+            <li>
+              <a href="/da/service-provider-terms">Service Provider Terms</a>
             </li>
           </ul>
         `,

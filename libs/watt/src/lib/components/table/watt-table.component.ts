@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { SelectionModel } from '@angular/cdk/collections';
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
@@ -22,9 +24,11 @@ import {
   ContentChild,
   ContentChildren,
   Directive,
+  effect,
   ElementRef,
   EventEmitter,
   inject,
+  input,
   Input,
   OnChanges,
   Output,
@@ -233,8 +237,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Sets the initially selected rows. Only works when selectable is `true`.
    */
-  @Input()
-  initialSelection: T[] = [];
+
+  initialSelection = input<T[]>([]);
 
   /**
    * Set to true to disable row hover highlight.
@@ -309,9 +313,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _datePipe = inject(WattDatePipe);
 
   /** @ignore */
-  private isInitialSelectionSet = false;
-
-  /** @ignore */
   private formatCellData(cell: unknown) {
     if (!cell) return '—';
     if (cell instanceof Date) return this._datePipe.transform(cell);
@@ -327,6 +328,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   constructor() {
+    effect(() => {
+      this._selectionModel.setSelection(...(this.initialSelection() ?? []));
+    });
     this._selectionModel.changed
       .pipe(
         map(() => this._selectionModel.selected),
@@ -371,21 +375,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
-    }
-
-    this.onSelectableChanges(changes);
-  }
-
-  /** @ignore */
-  private onSelectableChanges(changes: SimpleChanges) {
-    if (changes['selectable']?.currentValue && !this.isInitialSelectionSet) {
-      // Note: The reason for having a flag here is because we want the initial selection
-      // to be set only once when `selectable` Input is `true`.
-      // Without the flag, the selection will be set every time `selectable` Input is set to `true`.
-      // This might lead to losing already selected items.
-      this.isInitialSelectionSet = true;
-
-      this._selectionModel.setSelection(...this.initialSelection);
     }
   }
 

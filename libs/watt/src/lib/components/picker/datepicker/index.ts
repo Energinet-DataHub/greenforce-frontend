@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { WattDatepickerComponent } from './watt-datepicker.component';
 export { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 export { WattDateChipComponent } from './watt-date-chip.component';
