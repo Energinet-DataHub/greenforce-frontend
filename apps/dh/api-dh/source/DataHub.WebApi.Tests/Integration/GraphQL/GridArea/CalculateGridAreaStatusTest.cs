@@ -93,7 +93,7 @@ public class CalculateGridAreaStatusTest
                 new()
                 {
                     Code = "1234567892",
-                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500dd"),
+                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500de"),
                     Name = "Test3",
                     PriceAreaCode = "DK2",
                     Type = GridAreaType.Distribution,
