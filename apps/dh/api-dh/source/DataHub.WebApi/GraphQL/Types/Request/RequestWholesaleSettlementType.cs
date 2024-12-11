@@ -29,7 +29,7 @@ public class RequestWholesaleSettlementType
             .Implements<OrchestrationType<IRequest>>();
 
         descriptor.Field(f => f.ParameterValue.CalculationType);
-        descriptor.Field(f => f.ParameterValue.RequestCalculationDataType);
+        descriptor.Field(f => f.ParameterValue.PriceType);
 
         descriptor
             .Field(f => new Interval(

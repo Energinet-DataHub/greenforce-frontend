@@ -13,8 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using EdiPriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
@@ -22,17 +21,20 @@ public record RequestWholesaleSettlement(
     Clients.Wholesale.v3.CalculationType CalculationType,
     DateTimeOffset PeriodStart,
     DateTimeOffset PeriodEnd,
-    PriceType PriceType) : IRequest
+    string? GridArea,
+    string? EnergySupplierId,
+    PriceType? PriceType) : IRequest
 {
-    public RequestCalculationDataType RequestCalculationDataType => PriceType switch
-    {
-        EdiPriceType.TariffSubscriptionAndFee => RequestCalculationDataType.TariffSubscriptionAndFee,
-        EdiPriceType.Tariff => RequestCalculationDataType.Tariff,
-        EdiPriceType.Subscription => RequestCalculationDataType.Subscription,
-        EdiPriceType.Fee => RequestCalculationDataType.Fee,
-        EdiPriceType.MonthlyTariff => RequestCalculationDataType.MonthlyTariff,
-        EdiPriceType.MonthlySubscription => RequestCalculationDataType.MonthlySubscription,
-        EdiPriceType.MonthlyFee => RequestCalculationDataType.MonthlyFee,
-        EdiPriceType.MonthlyTariffSubscriptionAndFee => RequestCalculationDataType.MonthlyTariffSubscriptionAndFee,
-    };
+    public string DataTypeSortProperty => PriceType?.ToString() ?? string.Empty;
+
+    public RequestWholesaleSettlementMarketRequest ToMarketRequest()
+        => new()
+        {
+            CalculationType = CalculationType.ToEdiCalculationType(),
+            StartDate = PeriodStart.ToString(),
+            EndDate = PeriodEnd.ToString(),
+            GridArea = GridArea,
+            EnergySupplierId = EnergySupplierId,
+            PriceType = PriceType,
+        };
 }

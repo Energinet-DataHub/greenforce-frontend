@@ -107,6 +107,4 @@ public partial class Query
 
         return calculations.FirstOrDefault();
     }
-
-    public Requests GetRequests() => new Requests();
 }

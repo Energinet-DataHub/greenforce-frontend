@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using EdiMeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
@@ -21,16 +21,22 @@ public record RequestAggregatedMeasureData(
     Clients.Wholesale.v3.CalculationType CalculationType,
     DateTimeOffset PeriodStart,
     DateTimeOffset PeriodEnd,
-    EdiMeteringPointType? MeteringPointType) : IRequest
+    string? GridArea,
+    string? EnergySupplierId,
+    string? BalanceResponsibleId,
+    MeteringPointType? MeteringPointType) : IRequest
 {
-    public RequestCalculationDataType RequestCalculationDataType => MeteringPointType switch
-    {
-        EdiMeteringPointType.Production => RequestCalculationDataType.Production,
-        EdiMeteringPointType.FlexConsumption => RequestCalculationDataType.FlexConsumption,
-        EdiMeteringPointType.TotalConsumption => RequestCalculationDataType.TotalConsumption,
-        EdiMeteringPointType.NonProfiledConsumption => RequestCalculationDataType.NonProfiledConsumption,
-        EdiMeteringPointType.Exchange => RequestCalculationDataType.Exchange,
-        null => RequestCalculationDataType.AllEnergy,
-        _ => throw new InvalidOperationException(),
-    };
+    public string DataTypeSortProperty => MeteringPointType?.ToString() ?? string.Empty;
+
+    public RequestAggregatedMeasureDataMarketRequest ToMarketRequest()
+        => new()
+        {
+            CalculationType = CalculationType.ToEdiCalculationType(),
+            StartDate = PeriodStart.ToString(),
+            EndDate = PeriodEnd.ToString(),
+            GridArea = GridArea,
+            EnergySupplierId = EnergySupplierId,
+            BalanceResponsibleId = BalanceResponsibleId,
+            MeteringPointType = MeteringPointType,
+        };
 }

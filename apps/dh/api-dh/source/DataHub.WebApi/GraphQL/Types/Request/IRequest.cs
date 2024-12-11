@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
@@ -39,7 +38,17 @@ public interface IRequest : IInputParameterDto
     DateTimeOffset PeriodEnd { get; }
 
     /// <summary>
-    /// The request calculation data type.
+    /// The grid area.
     /// </summary>
-    RequestCalculationDataType RequestCalculationDataType { get; }
+    string? GridArea { get; }
+
+    /// <summary>
+    /// The energy supplier.
+    /// </summary>
+    string? EnergySupplierId { get; }
+
+    /// <summary>
+    /// The parameter value.
+    /// </summary>
+    string DataTypeSortProperty { get; }
 }
