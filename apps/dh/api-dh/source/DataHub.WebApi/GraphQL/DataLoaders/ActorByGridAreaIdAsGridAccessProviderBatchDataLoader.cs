@@ -34,7 +34,7 @@ public class ActorByGridAreaIdAsGridAccessProviderBatchDataLoader : BatchDataLoa
             var gridAreas = (await _client.GridAreaGetAsync(cancellationToken))
                 .Where(x => keys.Contains(x.Code))
                 .Select(x => (x.Id, x.Code))
-                .ToDictionary();
+                .ToDictionary(x => x.Id, x => x.Code);
 
             var actors = (await _client
                 .ActorGetAsync(cancellationToken))
