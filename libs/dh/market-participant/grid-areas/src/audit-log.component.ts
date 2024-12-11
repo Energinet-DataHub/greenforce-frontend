@@ -68,7 +68,7 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
               [innerHTML]="
                 t('changeTypes.CONSOLIDATION_REQUESTED', {
                   auditedBy: entry.auditedBy,
-                  marketParticipant: entry.previousOwner,
+                  previousOwner: entry.previousOwner,
                   gridArea: this.gridArea()?.code,
                   gridAreaStopsAt: this.gridArea()?.validTo | wattDate,
                 })
@@ -78,7 +78,7 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
             <div
               [innerHTML]="
                 t('changeTypes.CONSOLIDATION_COMPLETED', {
-                  marketParticipant: entry.currentOwner,
+                  previousOwner: entry.previousOwner,
                 })
               "
             ></div>

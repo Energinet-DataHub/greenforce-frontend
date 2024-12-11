@@ -56,7 +56,7 @@
       },
       "ActorConsolidationScheduled": {
         "headline": "Sammenlægning af aktører",
-        "message": "\"{{ relatedToId }}\" er ved at ophøre snart"
+        "message": "\"{{ relatedToId }}\" ophører snart"
       }
     }
   },
@@ -507,7 +507,9 @@
       },
       "status": {
         "Active": "Aktiv",
-        "Inactive": "Deaktiveret"
+        "Inactive": "Deaktiveret",
+        "ToBeDiscontinued": "Ophører snart",
+        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
@@ -852,8 +854,8 @@
       "history": {
         "emptyTitle": "Ingen historik på netområde",
         "changeTypes": {
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ marketParticipant }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. {{ gridAreaStopsAt }}</b>",
-          "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ marketParticipant }}</b> er udført",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ previousOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }}</b> er udført",
           "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
         }
       }

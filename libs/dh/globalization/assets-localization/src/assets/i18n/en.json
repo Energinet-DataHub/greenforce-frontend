@@ -507,7 +507,9 @@
       },
       "status": {
         "Active": "Active",
-        "Inactive": "Deactivated"
+        "Inactive": "Deactivated",
+        "ToBeDiscontinued": "To be discontinued",
+        "Discontinued": "Discontinued"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
@@ -850,9 +852,8 @@
       "history": {
         "emptyTitle": "No grid area history",
         "changeTypes": {
-          "NAME": "---",
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ marketParticipant }}</b>. Grid area <b>{{ gridArea }}</b> will cease on {{ gridAreaStopsAt }}</b>",
-          "CONSOLIDATION_COMPLETED": "<b>Consolidation with {{ marketParticipant }}</b> has completed",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }}</b>. Grid area <b>{{ gridArea }}</b> will cease on <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "<b>Consolidation with {{ previousOwner }}</b> has completed",
           "DECOMMISSIONED": "Grid area <b>{{ gridArea }}</b> has been decommissioned"
         }
       }

@@ -76,6 +76,6 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             .ActorGetAsync(Guid.Parse(id))
             .ConfigureAwait(false);
 
-        return previousOwner.Name.Value;
+        return $"{previousOwner.ActorNumber.Value} • {previousOwner.Name.Value}";
     }
 }

@@ -55,8 +55,7 @@ public class ActorType : ObjectType<ActorDto>
         descriptor
             .Field(f => f.Status)
             .Name("status")
-            .Resolve(context =>
-                Enum.Parse<ActorStatus>(context.Parent<ActorDto>().Status));
+            .ResolveWith<MarketParticipantResolvers>(c => c.GetStatusAsync(default!, default!));
 
         descriptor
             .Field("gridAreas")
