@@ -23,11 +23,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
-    public async Task<IEnumerable<ActorAuditedChangeAuditLogDto>> GetActorAuditLogsAsync(
-        Guid actorId,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.ActorAuditAsync(actorId);
-
     public Task<ActorDto> GetSelectedActorAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IMarketParticipantClient_V1 client)

@@ -34,12 +34,12 @@ import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import {
-  GetActorByIdDocument,
-  GetActorEditableFieldsDocument,
   GetActorsDocument,
-  GetAuditLogByActorIdDocument,
   UpdateActorDocument,
   UpdateActorMutation,
+  GetActorByIdDocument,
+  GetActorEditableFieldsDocument,
+  GetActorDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -82,10 +82,10 @@ import {
   ],
 })
 export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExtended> {
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly transloco = inject(TranslocoService);
-  private readonly toastService = inject(WattToastService);
-  private readonly permissionService = inject(PermissionService);
+  private formBuilder = inject(FormBuilder);
+  private transloco = inject(TranslocoService);
+  private toastService = inject(WattToastService);
+  private permissionService = inject(PermissionService);
 
   private modal = viewChild.required<WattModalComponent>(WattModalComponent);
 
@@ -158,7 +158,7 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExten
       },
       refetchQueries: (result) => {
         if (this.isUpdateSuccessful(result.data)) {
-          return [GetActorsDocument, GetActorByIdDocument, GetAuditLogByActorIdDocument];
+          return [GetActorsDocument, GetActorByIdDocument, GetActorDetailsDocument];
         }
 
         return [];

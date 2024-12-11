@@ -26,7 +26,7 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             .Name("auditedBy")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
                 var auditIdentity = await ctx
                     .Service<IMarketParticipantClient_V1>()
                     .AuditIdentityGetAsync(parent.AuditIdentityId, ct)
@@ -39,20 +39,28 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             .Field("currentOwner")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var id = parent.CurrentValue;
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                return await GetActorNameAsync(id, ctx);
+                if (parent.Change == GridAreaAuditedChange.ConsolidationRequested || parent.Change == GridAreaAuditedChange.ConsolidationCompleted)
+                {
+                    return await GetActorNameAsync(parent.CurrentValue, ctx);
+                }
+
+                return string.Empty;
             });
 
         descriptor
             .Field("previousOwner")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var id = parent.PreviousValue;
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                return await GetActorNameAsync(id, ctx);
+                if (parent.Change == GridAreaAuditedChange.ConsolidationRequested || parent.Change == GridAreaAuditedChange.ConsolidationCompleted)
+                {
+                    return await GetActorNameAsync(parent.PreviousValue, ctx);
+                }
+
+                return string.Empty;
             });
     }
 
