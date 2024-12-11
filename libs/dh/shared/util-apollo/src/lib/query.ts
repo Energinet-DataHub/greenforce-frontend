@@ -75,6 +75,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   networkStatus: Signal<NetworkStatus>;
   called: Signal<boolean>;
   result: () => Promise<ApolloQueryResult<TResult>>;
+  computed: <T>(computation: (data: TResult) => T, initialValue: T) => Signal<T>;
   reset: () => void;
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
@@ -217,6 +218,11 @@ export function query<TResult, TVariables extends OperationVariables>(
     networkStatus: networkStatus as Signal<NetworkStatus>,
     called: called as Signal<boolean>,
     result,
+    computed: <T>(computation: (data: TResult) => T, initialValue: T) =>
+      computed(() => {
+        const maybeData = data();
+        return maybeData ? computation(maybeData) : initialValue;
+      }),
     reset: () => {
       reset$.next();
       options$.next({ ...options, skip: true });
