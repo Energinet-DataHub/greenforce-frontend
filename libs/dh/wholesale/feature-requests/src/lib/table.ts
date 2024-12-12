@@ -19,7 +19,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -30,7 +29,6 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
