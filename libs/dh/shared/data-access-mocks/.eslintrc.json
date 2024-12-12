@@ -21,7 +21,8 @@
             "prefix": "dh",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "sonarjs/no-duplicate-string": "off"
       }
     },
     {
