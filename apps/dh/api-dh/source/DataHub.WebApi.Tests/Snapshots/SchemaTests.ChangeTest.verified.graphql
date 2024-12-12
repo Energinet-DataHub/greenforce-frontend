@@ -54,7 +54,7 @@ type ActorConsolidationAuditLog {
   currentOwnerGln: String!
   previousOwner: String
   previousOwnerGln: String!
-  previousGridAreaStopsAt: DateTime
+  previousOwnerStopsAt: DateTime
 }
 
 type ActorConsolidationDto {
