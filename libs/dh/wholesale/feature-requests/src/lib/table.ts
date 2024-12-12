@@ -32,8 +32,10 @@ import {
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Request } from '@energinet-datahub/dh/wholesale/domain';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+
+type Request = ExtractNodeType<GetRequestsDataSource>;
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -64,7 +66,7 @@ import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graph
       <h3>{{ t('results') }}</h3>
 
       <watt-button variant="secondary" icon="plus" (click)="new.emit()">
-        {{ t('new') }}
+        {{ t('button') }}
       </watt-button>
 
       <watt-table
@@ -86,8 +88,12 @@ import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graph
           {{ row.period | wattDate }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns['requestCalculationDataType']; let row">
-          {{ t('requestCalculationDataTypes.' + row.requestCalculationDataType) }}
+        <ng-container *wattTableCell="columns['meteringPointTypeOrPriceType']; let row">
+          @if (row.__typename === 'RequestAggregatedMeasureData') {
+            {{ t('meteringPointTypesAndPriceTypes.' + row.meteringPointType) }}
+          } @else {
+            {{ t('meteringPointTypesAndPriceTypes.' + row.priceType) }}
+          }
         </ng-container>
 
         <ng-container *wattTableCell="columns['state']; let row">
@@ -106,7 +112,10 @@ export class DhWholesaleRequestsTable {
     createdAt: { accessor: (x) => x.lifeCycle.createdAt },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period' },
-    requestCalculationDataType: { accessor: 'requestCalculationDataType' },
+    meteringPointTypeOrPriceType: {
+      accessor: (x) =>
+        x.__typename === 'RequestAggregatedMeasureData' ? x.meteringPointType : x.priceType,
+    },
     createdBy: { accessor: (x) => x.lifeCycle.createdBy?.displayName },
     state: { accessor: (x) => x.lifeCycle.state },
   };
