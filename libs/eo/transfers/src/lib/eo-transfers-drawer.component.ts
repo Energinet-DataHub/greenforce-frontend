@@ -19,12 +19,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
+  effect,
   inject,
+  input,
+  OnInit,
+  output,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -45,6 +46,7 @@ import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.compone
 import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
+import { TransferAgreementValues } from './eo-transfers.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -89,15 +91,15 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
   template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
-        @if (transfer?.transferAgreementStatus === 'Active') {
+        @if (transfer()?.transferAgreementStatus === 'Active') {
           <watt-badge type="success">{{
             translations.transfers.activeTransferAgreement | transloco
           }}</watt-badge>
-        } @else if (transfer?.transferAgreementStatus === 'Proposal') {
+        } @else if (transfer()?.transferAgreementStatus === 'Proposal') {
           <watt-badge type="warning">{{
             translations.transfers.pendingTransferAgreement | transloco
           }}</watt-badge>
-        } @else if (transfer?.transferAgreementStatus === 'ProposalExpired') {
+        } @else if (transfer()?.transferAgreementStatus === 'ProposalExpired') {
           <watt-badge type="neutral">{{
             translations.transfers.expiredTransferAgreementProposals | transloco
           }}</watt-badge>
@@ -111,36 +113,37 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
       <watt-drawer-heading>
         <h2>
           {{
-            transfer?.receiverName || (translations.transferAgreement.unknownReceiver | transloco)
+            transfer()?.receiverName || (translations.transferAgreement.unknownReceiver | transloco)
           }}
-          @if (transfer?.receiverTin) {
-            ({{ transfer?.receiverTin }})
+          @if (transfer()?.receiverTin) {
+            ({{ transfer()?.receiverTin }})
           }
         </h2>
         <p class="sub-header">
           <span class="watt-label">{{
             translations.transferAgreement.periodOfAgreementLabel | transloco
           }}</span>
-          {{ transfer?.startDate | wattDate: 'long' }}－{{ transfer?.endDate | wattDate: 'long' }}
+          {{ transfer()?.startDate | wattDate: 'long' }}
+          －{{ transfer()?.endDate | wattDate: 'long' }}
         </p>
       </watt-drawer-heading>
 
       <watt-drawer-actions>
         @if (
-          isEditable &&
-          ownTin() === transfer?.senderTin &&
-          transfer?.transferAgreementStatus !== 'Proposal'
+          isEditable() &&
+          ownTin() === transfer()?.senderTin &&
+          transfer()?.transferAgreementStatus !== 'Proposal'
         ) {
           <watt-button variant="secondary" (click)="transfersEditModal.open()">{{
             translations.transferAgreement.editTransferAgreement | transloco
           }}</watt-button>
         }
 
-        @if (transfer && transfer.transferAgreementStatus === 'Proposal') {
+        @if (transfer() && transfer().transferAgreementStatus === 'Proposal') {
           <watt-button
             class="remove-button"
             icon="remove"
-            (click)="removeProposal.emit(transfer.id); drawer.close()"
+            (click)="removeProposal.emit(transfer().id); drawer.close()"
             >{{ 'Slet' }}</watt-button
           >
         }
@@ -152,14 +155,14 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
             <watt-tab [label]="translations.transferAgreement.informationTab | transloco">
               <watt-card variant="solid">
                 <watt-description-list variant="stack">
-                  @if (transfer?.receiverTin) {
+                  @if (transfer()?.receiverTin) {
                     <watt-description-list-item
                       [label]="translations.transferAgreement.receiverLabel | transloco"
                       [value]="
-                        (transfer?.receiverName ||
+                        (transfer()?.receiverName ||
                           (translations.transferAgreement.unknownReceiver | transloco)) +
                         ' (' +
-                        transfer?.receiverTin +
+                        transfer()?.receiverTin +
                         ')'
                       "
                     />
@@ -171,21 +174,21 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
                   }
                   <watt-description-list-item
                     [label]="translations.transferAgreement.idLabel | transloco"
-                    value="{{ transfer?.id }}"
+                    value="{{ transfer()?.id }}"
                   />
                 </watt-description-list>
               </watt-card>
 
-              @if (transfer && transfer.transferAgreementStatus === 'Proposal') {
+              @if (transfer() && transfer().transferAgreementStatus === 'Proposal') {
                 <eo-transfers-invitation-link
-                  [proposalId]="transfer.id.toString()"
+                  [proposalId]="transfer().id.toString()"
                   [isNewlyCreated]="false"
                 />
               }
             </watt-tab>
             <watt-tab [label]="translations.transferAgreement.historyTab | transloco">
               @if (tabs.activeTabIndex === 1) {
-                <eo-transfers-history #history [transfer]="transfer" />
+                <eo-transfers-history #history [transfer]="transfer()" />
               }
             </watt-tab>
           </watt-tabs>
@@ -194,46 +197,39 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
     </watt-drawer>
 
     <eo-transfers-edit-modal
-      [transfer]="transfer"
-      [transferAgreements]="transferAgreements"
+      [transfer]="transfer()"
+      [transferAgreements]="transferAgreements()"
       (save)="onEdit($event)"
     />
   `,
 })
-export class EoTransfersDrawerComponent {
+export class EoTransfersDrawerComponent implements OnInit {
   private authService: EoAuthService = inject(EoAuthService);
   protected translations = translations;
+  protected ownTin = signal<string | undefined>(undefined);
 
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
   @ViewChild(EoTransfersHistoryComponent) history!: EoTransfersHistoryComponent;
 
-  isEditable = false;
+  transferAgreements = input<EoListedTransfer[]>([]);
+  isEditable = signal<boolean>(false);
+  transfer = input<EoListedTransfer>();
 
-  @Input() transferAgreements: EoListedTransfer[] = [];
-  @Output() saveTransferAgreement = new EventEmitter();
-
-  private _transfer?: EoListedTransfer;
-
-  @Input()
-  set transfer(transfer: EoListedTransfer | undefined) {
-    this._transfer = transfer;
-
-    if (!this._transfer) return;
-    this.isEditable = !this._transfer.endDate || this._transfer.endDate > new Date().getTime();
-  }
-  get transfer() {
-    return this._transfer;
+  ngOnInit(): void {
+    effect(() => {
+      const transfer = this.transfer();
+      if (transfer) {
+        this.isEditable.set(!transfer.endDate || transfer.endDate > new Date().getTime());
+      }
+    });
   }
 
-  protected ownTin = signal<string | undefined>(undefined);
+  closed = output<void>();
+  removeProposal = output<string>();
+  saveTransferAgreement = output<TransferAgreementValues>();
 
-  @Output()
-  closed = new EventEmitter<void>();
-  @Output()
-  removeProposal = new EventEmitter<string>();
-
-  onEdit(event: unknown) {
+  onEdit(event: TransferAgreementValues) {
     this.saveTransferAgreement.emit(event);
     if (this.history && this.history.refresh) {
       this.history.refresh();

@@ -20,10 +20,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   inject,
-  Input,
-  Output,
+  input,
+  output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -57,6 +56,7 @@ export interface EoTransferAgreementsWithRecipient {
   ],
   standalone: true,
   template: `
+    @if (opened) {
       <watt-modal
         #modal
         [title]="translations.createTransferAgreementProposal.title | transloco"
@@ -74,18 +74,19 @@ export interface EoTransferAgreementsWithRecipient {
 
         <eo-transfers-form
           [senderTin]="authService.user()?.profile?.org_cvr"
-          [transferAgreements]="transferAgreements"
+          [transferAgreements]="transferAgreements()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
           (submitted)="createAgreementProposal($event)"
           (canceled)="modal.close(false)"
         />
       </watt-modal>
+    }
   `,
 })
 export class EoTransfersCreateModalComponent {
-  @Input() transferAgreements: EoListedTransfer[] = [];
-  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+  transferAgreements = input.required<EoListedTransfer[]>();
+  proposalCreated = output<EoListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 

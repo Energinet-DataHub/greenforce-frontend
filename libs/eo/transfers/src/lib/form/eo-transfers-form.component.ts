@@ -18,14 +18,12 @@
 //#endregion
 import {
   Component,
-  EventEmitter,
+  effect,
   inject,
-  Input,
-  OnChanges,
+  input,
   OnInit,
-  Output,
+  output,
   signal,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -73,6 +71,11 @@ export interface EoTransferFormPeriod {
 export interface EoTransfersForm {
   receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
+}
+
+export interface EoTransfersFormValues {
+  receiverTin: string;
+  period: { startDate: number; endDate: number | null; hasEndDate: boolean };
 }
 
 type FormField = 'receiverTin' | 'startDate' | 'endDate';
@@ -138,7 +141,7 @@ export type FormMode = 'create' | 'edit';
   ],
   template: `
     <!-- Create -->
-    @if (mode === 'create') {
+    @if (mode() === 'create') {
       <form [formGroup]="form">
         <watt-stepper (completed)="onClose()" class="watt-modal-content--full-width">
           <!-- Parties -->
@@ -150,8 +153,8 @@ export type FormMode = 'create' | 'edit';
             [stepControl]="form.controls.receiverTin"
           >
             <eo-receiver-input
-              [formControl]="form.controls.receiverTin"
-              [mode]="mode"
+              formControlName="receiverTin"
+              [mode]="mode()"
               [filteredReceiversTin]="filteredReceiversTin()"
               [selectedCompanyName]="selectedCompanyName()"
               [formErrors]="form.controls.receiverTin.errors"
@@ -193,7 +196,7 @@ export type FormMode = 'create' | 'edit';
             [nextButtonLabel]="
               translations.createTransferAgreementProposal.volume.nextLabel | transloco
             "
-            [disableNextButton]="generateProposalFailed"
+            [disableNextButton]="generateProposalFailed()"
             [previousButtonLabel]="
               translations.createTransferAgreementProposal.volume.previousLabel | transloco
             "
@@ -208,7 +211,7 @@ export type FormMode = 'create' | 'edit';
             [nextButtonLabel]="
               translations.createTransferAgreementProposal.summary.invitation.nextLabel | transloco
             "
-            [disableNextButton]="generateProposalFailed"
+            [disableNextButton]="generateProposalFailed()"
             [previousButtonLabel]="
               translations.createTransferAgreementProposal.summary.previousLabel | transloco
             "
@@ -216,7 +219,7 @@ export type FormMode = 'create' | 'edit';
             (leaving)="onLeaveInvitationStep($event)"
           >
             <vater-stack direction="column" gap="l" align="flex-start">
-              @if (!generateProposalFailed) {
+              @if (!generateProposalFailed()) {
                 <h2>
                   {{
                     translations.createTransferAgreementProposal.summary.invitation.title.success
@@ -244,8 +247,8 @@ export type FormMode = 'create' | 'edit';
                 ></div>
               }
               <eo-transfers-invitation-link
-                [proposalId]="proposalId"
-                [hasError]="generateProposalFailed"
+                [proposalId]="proposalId()"
+                [hasError]="generateProposalFailed()"
                 (retry)="onSubmit()"
                 #invitaionLink
               />
@@ -256,7 +259,13 @@ export type FormMode = 'create' | 'edit';
       <!-- Edit -->
     } @else {
       <form [formGroup]="form">
-        <eo-receiver-input [mode]="mode" [formControl]="form.controls.receiverTin" />
+        <eo-receiver-input
+          [formControl]="form.controls.receiverTin"
+          [mode]="mode()"
+          [filteredReceiversTin]="filteredReceiversTin()"
+          [selectedCompanyName]="selectedCompanyName()"
+          [formErrors]="form.controls.receiverTin.errors"
+        />
 
         <eo-transfers-form-period
           mode="edit"
@@ -270,35 +279,35 @@ export type FormMode = 'create' | 'edit';
             data-testid="close-new-agreement-button"
             (click)="onCancel()"
           >
-            {{ cancelButtonText }}
+            {{ cancelButtonText() }}
           </watt-button>
           <watt-button data-testid="create-new-agreement-button" (click)="onSubmit()">
-            {{ submitButtonText }}
+            {{ submitButtonText() }}
           </watt-button>
         </watt-modal-actions>
       </form>
     }
   `,
 })
-export class EoTransfersFormComponent implements OnInit, OnChanges {
-  @Input() senderTin?: string;
-  @Input() transferId?: string; // used in edit mode
-  @Input() mode: FormMode = 'create';
-  @Input() submitButtonText!: string;
-  @Input() cancelButtonText!: string;
-  @Input() initialValues: EoTransfersFormInitialValues = {
+export class EoTransfersFormComponent implements OnInit {
+  senderTin = input<string | undefined>('');
+  transferId = input<string | undefined>(''); // used in edit mode
+  mode = input<FormMode>('create');
+  submitButtonText = input<string>('');
+  cancelButtonText = input<string>('');
+  initialValues = input<EoTransfersFormInitialValues>({
     receiverTin: '',
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
-  };
-  @Input() editableFields: FormField[] = ['receiverTin', 'startDate', 'endDate'];
+  });
+  editableFields = input<FormField[]>(['receiverTin', 'startDate', 'endDate']);
 
-  @Input() transferAgreements: EoListedTransfer[] = [];
-  @Input() proposalId: string | null = null;
-  @Input() generateProposalFailed = false;
+  transferAgreements = input<EoListedTransfer[]>([]);
+  proposalId = input<string | null>(null);
+  generateProposalFailed = input<boolean>(false);
 
-  @Output() submitted = new EventEmitter();
-  @Output() canceled = new EventEmitter();
+  submitted = output<EoTransfersFormValues>();
+  canceled = output();
 
   @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
 
@@ -322,32 +331,32 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    if (this.mode === 'edit') {
+    if (this.mode() === 'edit') {
       this.setExistingTransferAgreements();
     }
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!this.form) this.initForm();
+    effect(() => {
+      if (!this.form) this.initForm();
 
-    if (changes['existingTransferAgreements'] && this.form) {
-      this.form.controls.period.setValidators(this.getPeriodValidators());
-      this.form.controls.period.updateValueAndValidity();
-    }
+      if (this.existingTransferAgreements()) {
+        this.form.controls.period.setValidators(this.getPeriodValidators());
+        this.form.controls.period.updateValueAndValidity();
+      }
 
-    if (changes['senderTin'] && this.senderTin) {
-      this.recipientTins.set(this.getRecipientTins(this.transferAgreements));
-      this.onSearch('');
+      if (this.senderTin()) {
+        const senderTinValue = this.senderTin()!;
+        this.recipientTins.set(this.getRecipientTins(this.transferAgreements()));
+        this.onSearch('');
 
-      this.form.controls['receiverTin'].addValidators(
-        compareValidator(this.senderTin, 'receiverTinEqualsSenderTin')
-      );
-    }
+        this.form.controls['receiverTin'].addValidators(
+          compareValidator(senderTinValue, 'receiverTinEqualsSenderTin')
+        );
+      }
+    });
   }
 
   protected onSearch(query: string) {
     this.filteredReceiversTin.set(this.recipientTins().filter((tin) => tin.includes(query)));
-    console.log(this.recipientTins());
   }
 
   protected onCancel() {
@@ -360,7 +369,16 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   protected onSubmit() {
-    this.submitted.emit(this.form.value);
+    const formValue = this.form.value;
+    const eoTransfersFormValues: EoTransfersFormValues = {
+      receiverTin: formValue.receiverTin as string,
+      period: {
+        startDate: formValue.period?.startDate as number,
+        endDate: formValue.period?.endDate as number | null,
+        hasEndDate: formValue.period?.endDate !== null,
+      },
+    };
+    this.submitted.emit(eoTransfersFormValues);
   }
 
   onLeaveInvitationStep(step: WattStep) {
@@ -372,8 +390,8 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
     if (!recipient) this.existingTransferAgreements.set([]);
 
     this.existingTransferAgreements.set(
-      this.transferAgreements
-        .filter((transfer) => transfer.id !== this.transferId) // used in edit mode
+      this.transferAgreements()
+        .filter((transfer) => transfer.id !== this.transferId()) // used in edit mode
         .filter((transfer) => transfer.receiverTin === recipient)
         .map((transfer) => {
           return { startDate: transfer.startDate, endDate: transfer.endDate };
@@ -394,10 +412,10 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
       this.translations.createTransferAgreementProposal.parties.unknownParty
     );
     const tins = transferAgreements.reduce((acc, transfer) => {
-      if (transfer.receiverTin !== this.senderTin) {
+      if (transfer.receiverTin !== this.senderTin()) {
         acc.push(`${transfer.receiverTin} - ${transfer.receiverName ?? fallbackCompanyName}`);
       }
-      if (transfer.senderTin !== this.senderTin) {
+      if (transfer.senderTin !== this.senderTin()) {
         acc.push(`${transfer.senderTin} - ${transfer.senderName ?? fallbackCompanyName}`);
       }
       return acc;
@@ -407,13 +425,13 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
   }
 
   private initForm() {
-    const { receiverTin, startDate, endDate } = this.initialValues;
+    const { receiverTin, startDate, endDate } = this.initialValues();
 
     this.form = new FormGroup<EoTransfersForm>({
       receiverTin: new FormControl(
         {
           value: receiverTin || '',
-          disabled: !this.editableFields.includes('receiverTin'),
+          disabled: !this.editableFields().includes('receiverTin'),
         },
         {
           validators: [Validators.pattern('^[0-9]{8}$')],
@@ -424,7 +442,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
           startDate: new FormControl(
             {
               value: startDate,
-              disabled: !this.editableFields.includes('startDate'),
+              disabled: !this.editableFields().includes('startDate'),
             },
             {
               validators: [Validators.required, nextHourOrLaterValidator()],
@@ -433,7 +451,7 @@ export class EoTransfersFormComponent implements OnInit, OnChanges {
           endDate: new FormControl(
             {
               value: endDate,
-              disabled: !this.editableFields.includes('endDate'),
+              disabled: !this.editableFields().includes('endDate'),
             },
             { validators: [minTodayValidator()] }
           ),

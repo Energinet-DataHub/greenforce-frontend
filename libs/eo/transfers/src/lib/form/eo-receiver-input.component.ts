@@ -63,7 +63,7 @@ import {
           type="text"
           (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiversTin()"
+          [autocompleteOptions]="filteredReceiversTin() || []"
           (search)="searchChange.emit($event)"
           (autocompleteOptionSelected)="onSelectedRecipient($event)"
           (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
@@ -110,10 +110,10 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
   control = new FormControl();
   isDisabled = false;
 
-  mode = input<FormMode>('create');
-  filteredReceiversTin = input<string[]>(['']);
-  selectedCompanyName = input<string | undefined>(undefined);
-  formErrors = input<ValidationErrors | null>([]);
+  mode = input.required<FormMode>();
+  filteredReceiversTin = input.required<string[]>();
+  selectedCompanyName = input<string | undefined>();
+  formErrors = input<ValidationErrors | null>();
 
   selectedCompanyNameChange = output<string | undefined>();
   searchChange = output<string>();
@@ -160,16 +160,6 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
   registerOnTouched(fn: never): void {
     this.onTouched = fn;
   }
-
-  //
-  // setDisabledState?(isDisabled: boolean): void {
-  //   this.isDisabled = isDisabled;
-  //   if (isDisabled) {
-  //     this.control.disable({ emitEvent: false });
-  //   } else {
-  //     this.control.enable({ emitEvent: false });
-  //   }
-  // }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onTouched: any = () => {

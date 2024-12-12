@@ -18,17 +18,15 @@
 //#endregion
 import {
   ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  OnChanges,
-  SimpleChanges,
-  inject,
-  OnInit,
   ChangeDetectorRef,
+  Component,
   DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -46,6 +44,7 @@ import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TransferAgreementValues } from './eo-transfers.component';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -130,7 +129,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     @if (columns) {
       <watt-table
         #table
-        [loading]="loading"
+        [loading]="loading()"
         [columns]="columns"
         [dataSource]="dataSource"
         sortBy="status"
@@ -187,27 +186,28 @@ interface EoTransferTableElement extends EoListedTransfer {
     />
 
     <eo-transfers-create-modal
-      [transferAgreements]="transfers"
+      [transferAgreements]="transfers()"
       (proposalCreated)="proposalCreated.emit($event)"
     />
     <eo-transfers-drawer
-      [transferAgreements]="transfers"
-      [transfer]="selectedTransfer"
+      [transferAgreements]="transfers()"
+      [transfer]="selectedTransfer()"
       (closed)="transferSelected.emit(undefined)"
       (removeProposal)="removeProposal.emit($event)"
       (saveTransferAgreement)="saveTransferAgreement.emit($event)"
     />
   `,
 })
-export class EoTransfersTableComponent implements OnInit, OnChanges {
-  @Input() transfers: EoListedTransfer[] = [];
-  @Input() loading = false;
-  @Input() enableCreateTransferAgreementProposal = false;
-  @Input() selectedTransfer?: EoListedTransfer;
-  @Output() transferSelected = new EventEmitter<EoListedTransfer>();
-  @Output() saveTransferAgreement = new EventEmitter();
-  @Output() removeProposal = new EventEmitter<string>();
-  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+export class EoTransfersTableComponent implements OnInit {
+  transfers = input.required<EoListedTransfer[]>();
+  loading = input<boolean>(false);
+  enableCreateTransferAgreementProposal = input<boolean>(false);
+  selectedTransfer = input<EoListedTransfer>();
+
+  transferSelected = output<EoListedTransfer | undefined>();
+  saveTransferAgreement = output<TransferAgreementValues>();
+  removeProposal = output<string>();
+  proposalCreated = output<EoListedTransfer>();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
   @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
@@ -227,6 +227,23 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setColumns();
+
+    effect(() => {
+      this.dataSource.data = this.transfers();
+
+      // Ensure that the empty table message is only shown after the first load
+      if (this.transfers()) {
+        this.hasLoaded = true;
+      }
+
+      /*
+       * We need to set the active row here and not in the store,
+       * because the table otherwise loses the active row ex. after editing a transfer
+       */
+      this.activeRow = this.transfers().find(
+        (transfer) => transfer.id === this.selectedTransfer()?.id
+      );
+    });
   }
 
   private setColumns() {
@@ -275,27 +292,8 @@ export class EoTransfersTableComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['transfers']) {
-      this.dataSource.data = this.transfers;
-
-      // Ensure that the empty table message is only shown after the first load
-      if (!changes['transfers'].isFirstChange()) {
-        this.hasLoaded = true;
-      }
-    }
-
-    /*
-     * We need to set the active row here and not in the store,
-     * because the table otherwise losses the active row ex. after editing a transfer
-     */
-    if (changes['selectedTransfer']) {
-      this.activeRow = this.transfers.find((transfer) => transfer.id === this.selectedTransfer?.id);
-    }
-  }
-
   applyFilters() {
-    this.dataSource.data = this.transfers.filter((transfer) =>
+    this.dataSource.data = this.transfers().filter((transfer) =>
       this.filterByStatus(transfer.startDate, transfer.endDate)
     );
   }
