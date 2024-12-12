@@ -94,8 +94,8 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                 var gridAreaDataLoader = ctx.DataLoader<GridAreaByIdBatchDataLoader>();
                 var actorDataLoader = ctx.DataLoader<ActorByIdBatchDataLoader>();
 
-                if (parent.Change == ActorAuditedChange.DelegationStart == false &&
-                    parent.Change == ActorAuditedChange.DelegationStop == false)
+                if (parent.Change != ActorAuditedChange.DelegationStart &&
+                    parent.Change != ActorAuditedChange.DelegationStop)
                 {
                     return null;
                 }
