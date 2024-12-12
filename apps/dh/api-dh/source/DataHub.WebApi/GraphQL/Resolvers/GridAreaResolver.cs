@@ -53,7 +53,7 @@ public class GridAreaResolvers
             return GridAreaStatus.Archived;
         }
 
-        if (consolidation.ConsolidateAt < DateTimeOffset.UtcNow)
+        if (consolidation.Value < DateTimeOffset.UtcNow)
         {
             return GridAreaStatus.Discontinued;
         }
