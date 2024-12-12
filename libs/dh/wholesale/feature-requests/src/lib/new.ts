@@ -60,14 +60,6 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { map } from 'rxjs';
 
-type rangeControl = AbstractControl<WattRange<string>>;
-const max31DaysDateRangeValidator: ValidatorFn = ({ value }: rangeControl) => {
-  if (!value?.end || !value?.start) return null;
-  // Since the date range does not include the last millisecond (ends at 23:59:59.999),
-  // this condition checks for 30 days, not 31 days (as the diff is in whole days only).
-  return dayjs(value.end).diff(value.start, 'days') > 30 ? { max31DaysDateRange: true } : null;
-};
-
 const injectToast = () => {
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
@@ -132,10 +124,10 @@ const injectToast = () => {
           [formControl]="form.controls.period"
           [rangeMonthOnlyMode]="isWholesaleRequest()"
         >
-          @if (form.controls.period.errors?.['max31DaysDateRange']) {
-            <watt-field-error> {{ t('maxPeriodLength') }} </watt-field-error>
+          @if (form.controls.period.errors?.['maxDays']) {
+            <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
           } @else if (form.controls.period.errors?.['monthOnly']) {
-            <watt-field-error> {{ t('monthOnlyError') }} </watt-field-error>
+            <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
           }
         </watt-datepicker>
         <watt-dropdown
@@ -175,7 +167,7 @@ export class DhWholesaleRequestsNew {
     period: dhMakeFormControl<WattRange<string>>(null, [
       Validators.required,
       WattRangeValidators.required,
-      max31DaysDateRangeValidator,
+      WattRangeValidators.maxDays(31),
     ]),
   });
 
