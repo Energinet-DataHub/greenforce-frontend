@@ -837,7 +837,9 @@
         "Created": "Created",
         "Active": "Active",
         "Expired": "Expired",
-        "Archived": "Archived"
+        "Archived": "Archived",
+        "ToBeDiscontinued": "To be discontinued",
+        "Discontinued": "Discontinued"
       },
       "types": {
         "NotSet": "Not specified",
