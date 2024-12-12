@@ -80,6 +80,9 @@ export const graphQLProviders = makeEnvironmentProviders([
             MessageDelegationType: {
               keyFields: ['id', 'periodId'],
             },
+            ActorUserRole: {
+              keyFields: false,
+            },
             Query: {
               fields: {
                 calculationById(_, { args, toReference }) {
