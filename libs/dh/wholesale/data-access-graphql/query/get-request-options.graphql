@@ -9,10 +9,6 @@ query GetRequestOptions {
       value
       displayValue
     }
-    priceTypes {
-      value
-      displayValue
-    }
   }
   gridAreas {
     id
