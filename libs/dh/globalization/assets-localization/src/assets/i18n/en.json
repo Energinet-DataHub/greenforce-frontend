@@ -1265,16 +1265,32 @@
     "requests": {
       "topBarTitle": "Request calculation data",
       "results": "Requests",
-      "new": "Request calculation data",
+      "button": "Request calculation data",
+      "new": {
+        "title": "Request calculation data",
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "gridArea": "Grid Area",
+        "meteringPointType": "Type of metering point",
+        "meteringPointTypeOrPriceType": "Type of metering point/Price type",
+        "cancel": "Cancel",
+        "request": "Request"
+      },
       "columns": {
         "createdAt": "Created at",
         "calculationType": "Calculation type",
         "period": "Period",
-        "requestCalculationDataType": "Metering point type/Price type",
+        "dataType": "Metering point type/Price type",
         "createdBy": "User",
         "state": "Status"
       },
-      "requestCalculationDataTypes": {
+      "meteringPointTypesAndPriceTypes": {
+        "ALL_ENERGY": "All",
+        "PRODUCTION": "Production",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange",
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
         "TARIFF": "Tariff",
         "SUBSCRIPTION": "Subscription",
@@ -1282,13 +1298,7 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
-        "PRODUCTION": "Production",
-        "FLEX_CONSUMPTION": "Flex consumption",
-        "TOTAL_CONSUMPTION": "Total consumption",
-        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
-        "EXCHANGE": "Exchange",
-        "ALL_ENERGY": "All"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       },
       "states": {
         "pending": "Pending",
@@ -1296,6 +1306,11 @@
         "failed": "Failed",
         "canceled": "Canceled",
         "completed": "Completed"
+      },
+      "toast": {
+        "loading": "Creating request...",
+        "success": "The request has been created",
+        "error": "{{shared.error.title}}"
       }
     },
     "requestCalculation": {
