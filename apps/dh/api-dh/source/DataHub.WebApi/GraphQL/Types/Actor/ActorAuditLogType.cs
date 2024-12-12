@@ -43,8 +43,8 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                 var gridAreaDataLoader = ctx.DataLoader<GridAreaByIdBatchDataLoader>();
                 var actorDataLoader = ctx.DataLoader<ActorByIdBatchDataLoader>();
 
-                if (parent.Change == ActorAuditedChange.ConsolidationCompleted == false &&
-                    parent.Change == ActorAuditedChange.ConsolidationRequested == false)
+                if (parent.Change != ActorAuditedChange.ConsolidationCompleted &&
+                    parent.Change != ActorAuditedChange.ConsolidationRequested)
                 {
                     return null;
                 }
