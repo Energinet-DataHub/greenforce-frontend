@@ -71,6 +71,26 @@ function getRequestOptionsQuery() {
               value: CalculationType.BalanceFixing,
               displayValue: 'BalanceFixing',
             },
+            {
+              __typename: 'OptionOfCalculationType',
+              value: CalculationType.WholesaleFixing,
+              displayValue: 'WholesaleFixing',
+            },
+            {
+              __typename: 'OptionOfCalculationType',
+              value: CalculationType.FirstCorrectionSettlement,
+              displayValue: 'FirstCorrectionSettlement',
+            },
+            {
+              __typename: 'OptionOfCalculationType',
+              value: CalculationType.SecondCorrectionSettlement,
+              displayValue: 'SecondCorrectionSettlement',
+            },
+            {
+              __typename: 'OptionOfCalculationType',
+              value: CalculationType.ThirdCorrectionSettlement,
+              displayValue: 'ThirdCorrectionSettlement',
+            },
           ],
           meteringPointTypes: [
             {
@@ -83,17 +103,20 @@ function getRequestOptionsQuery() {
               value: MeteringPointType.Exchange,
               displayValue: 'Exchange',
             },
-          ],
-          priceTypes: [
             {
-              __typename: 'OptionOfPriceType',
-              value: PriceType.Fee,
-              displayValue: 'Fee',
+              __typename: 'OptionOfMeteringPointType',
+              value: MeteringPointType.FlexConsumption,
+              displayValue: 'FlexConsumption',
             },
             {
-              __typename: 'OptionOfPriceType',
-              value: PriceType.Tariff,
-              displayValue: 'Tariff',
+              __typename: 'OptionOfMeteringPointType',
+              value: MeteringPointType.NonProfiledConsumption,
+              displayValue: 'NonProfiledConsumption',
+            },
+            {
+              __typename: 'OptionOfMeteringPointType',
+              value: MeteringPointType.TotalConsumption,
+              displayValue: 'TotalConsumption',
             },
           ],
           isGridAreaRequired: false,
