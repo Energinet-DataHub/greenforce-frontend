@@ -1274,7 +1274,9 @@
         "meteringPointType": "Målepunktstype",
         "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
         "cancel": "Fortryd",
-        "request": "Anmod"
+        "request": "Anmod",
+        "maxPeriodLength": "Perioden må max være 31 dage",
+        "monthOnlyError": "Perioden skal være en hel måned"
       },
       "columns": {
         "createdAt": "Bestilt",

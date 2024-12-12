@@ -1274,7 +1274,9 @@
         "meteringPointType": "Type of metering point",
         "meteringPointTypeOrPriceType": "Type of metering point/Price type",
         "cancel": "Cancel",
-        "request": "Request"
+        "request": "Request",
+        "maxPeriodLength": "Period cannot be longer than 31 days",
+        "monthOnlyError": "Period must be a full month"
       },
       "columns": {
         "createdAt": "Created at",
