@@ -13,7 +13,7 @@ query GetActorAuditLogs($id: UUID!) {
         currentOwnerGln
         previousOwner
         previousOwnerGln
-        previousGridAreaStopsAt
+        previousOwnerStopsAt
       }
       delagation {
         actor

@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 //#region License
 /**
  * @license
@@ -18,6 +19,8 @@
 //#endregion
 import {
   Actor,
+  ActorAuditedChange,
+  ActorAuditedChangeAuditLogDto,
   ActorStatus,
   ContactCategory,
   EicFunction,
@@ -28,6 +31,18 @@ import {
   UserRoleStatus,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+const auditLog: ActorAuditedChangeAuditLogDto = {
+  __typename: 'ActorAuditedChangeAuditLogDto',
+  change: ActorAuditedChange.Name,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  consolidation: null,
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
+  delagation: null,
+};
 
 const actor: Actor = {
   __typename: 'Actor',
@@ -49,6 +64,7 @@ const actor: Actor = {
       validTo: null,
     },
   ],
+  auditLog: [auditLog],
   marketRole: EicFunction.DataHubAdministrator,
   name: 'Jane Smith',
   organization: {
@@ -142,6 +158,7 @@ export const users: UserOverviewItemDto[] = [
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
         name: 'Alice Johnson',
+        auditLog: [auditLog],
         organization: {
           __typename: 'Organization',
           address: {
@@ -218,6 +235,7 @@ export const users: UserOverviewItemDto[] = [
           },
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
+        auditLog: [auditLog],
         name: 'Bob Brown',
         organization: {
           __typename: 'Organization',
@@ -296,6 +314,7 @@ export const users: UserOverviewItemDto[] = [
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
         name: 'Charlie Davis',
+        auditLog: [auditLog],
         organization: {
           __typename: 'Organization',
           address: {
@@ -373,6 +392,7 @@ export const users: UserOverviewItemDto[] = [
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
         name: 'Diana Evans',
+        auditLog: [auditLog],
         organization: {
           __typename: 'Organization',
           address: {

@@ -14,4 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-public sealed record ActorConsolidationAuditLog(string CurrentOwner, string CurrentOwnerGln, string? PreviousOwner, string PreviousOwnerGln, DateTimeOffset? PreviousGridAreaStopsAt);
+public sealed record ActorConsolidationAuditLog(string CurrentOwner, string CurrentOwnerGln, string? PreviousOwner, string PreviousOwnerGln, DateTimeOffset? PreviousOwnerStopsAt);
