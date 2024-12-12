@@ -61,7 +61,7 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             return string.Empty;
         }
 
-        if (change == GridAreaAuditedChange.ConsolidationRequested == false || change == GridAreaAuditedChange.ConsolidationCompleted == false)
+        if (change != GridAreaAuditedChange.ConsolidationRequested && change != GridAreaAuditedChange.ConsolidationCompleted)
         {
             return string.Empty;
         }
