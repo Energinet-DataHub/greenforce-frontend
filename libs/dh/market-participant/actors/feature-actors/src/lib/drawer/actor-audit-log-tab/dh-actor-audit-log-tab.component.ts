@@ -33,12 +33,11 @@ import {
 } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
-import { JsonPipe } from '@angular/common';
 @Component({
   standalone: true,
   selector: 'dh-actor-audit-log-tab',
   templateUrl: './dh-actor-audit-log-tab.component.html',
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent, JsonPipe],
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhActorAuditLogTabComponent {
