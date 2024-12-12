@@ -41,12 +41,7 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             {
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                if (parent.Change == GridAreaAuditedChange.ConsolidationRequested || parent.Change == GridAreaAuditedChange.ConsolidationCompleted)
-                {
-                    return await GetActorNameAsync(parent.CurrentValue, ctx);
-                }
-
-                return string.Empty;
+                return await GetActorNameAsync(parent.Change, parent.CurrentValue, ctx);
             });
 
         descriptor
@@ -55,18 +50,18 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             {
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                if (parent.Change == GridAreaAuditedChange.ConsolidationRequested || parent.Change == GridAreaAuditedChange.ConsolidationCompleted)
-                {
-                    return await GetActorNameAsync(parent.PreviousValue, ctx);
-                }
-
-                return string.Empty;
+                return await GetActorNameAsync(parent.Change, parent.PreviousValue, ctx);
             });
     }
 
-    private async Task<string> GetActorNameAsync(string? id, IResolverContext ctx)
+    private async Task<string> GetActorNameAsync(GridAreaAuditedChange change, string? id, IResolverContext ctx)
     {
         if (string.IsNullOrEmpty(id))
+        {
+            return string.Empty;
+        }
+
+        if (change == GridAreaAuditedChange.ConsolidationRequested == false || change == GridAreaAuditedChange.ConsolidationCompleted == false)
         {
             return string.Empty;
         }

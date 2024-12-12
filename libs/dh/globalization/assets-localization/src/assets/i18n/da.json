@@ -670,8 +670,14 @@
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
               "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
-              "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentMarketParticipant }} • {{ currentgridArea }}</b>. {{ previousGridArea }} ophører d. {{ previousGridAreaStopsAt }}",
-              "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ marketParticipant }} • {{ currentgridArea }}</b> er udført"
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> ophører d. <b>---</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>---</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -854,8 +860,8 @@
       "history": {
         "emptyTitle": "Ingen historik på netområde",
         "changeTypes": {
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ previousOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
-          "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }}</b> er udført",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed fra <b>{{ previousOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning fra <b>{{ previousOwner }}</b> er udført",
           "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
         }
       }

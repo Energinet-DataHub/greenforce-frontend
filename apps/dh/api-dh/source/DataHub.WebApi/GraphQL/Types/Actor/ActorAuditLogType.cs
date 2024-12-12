@@ -80,10 +80,10 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
 
                 return new ActorConsolidationAuditLog(
                     currentOwner.Name.Value,
+                    currentOwner.ActorNumber.Value,
                     previousOwner.Name.Value,
-                    currentGridArea.Name,
-                    previousGridArea?.Name,
-                    previousGridArea?.ValidTo);
+                    previousOwner.ActorNumber.Value,
+                    null);
             });
 
         descriptor

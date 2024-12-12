@@ -90,36 +90,35 @@ limitations under the License.
             "
           ></div>
         }
-        <p>
-          {{ entry | json }}
-        </p>
         @if (
           entry.change === ActorAuditedChange.ConsolidationCompleted ||
           entry.change === ActorAuditedChange.ConsolidationRequested
         ) {
-          @if (actor().status === ActorStatus.Active) {}
+          @if (entry.change === ActorAuditedChange.ConsolidationRequested) {
+            <div
+              [innerHTML]="
+                t('tabs.history.changeTypes.' + actor().status + '.CONSOLIDATION_REQUESTED', {
+                  auditedBy: entry.auditedBy,
+                  currentOwner: entry.consolidation?.currentOwner,
+                  currentOwnerGln: entry.consolidation?.currentOwnerGln,
+                  previousOwner: entry.consolidation?.previousOwner,
+                  previousOwnerGln: entry.consolidation?.previousOwnerGln,
+                })
+              "
+            ></div>
+          } @else if (entry.change === ActorAuditedChange.ConsolidationCompleted) {
+            <div
+              [innerHTML]="
+                t('tabs.history.changeTypes.' + actor().status + '.CONSOLIDATION_COMPLETED', {
+                  currentOwner: entry.consolidation?.currentOwner,
+                  currentOwnerGln: entry.consolidation?.currentOwnerGln,
+                  previousOwner: entry.consolidation?.previousOwner,
+                  previousOwnerGln: entry.consolidation?.previousOwnerGln,
+                })
+              "
+            ></div>
+          }
         }
-        <!-- @if (entry.change === ActorAuditedChange.ConsolidationRequested) {
-          <div
-            [innerHTML]="
-              t('tabs.history.changeTypes.CONSOLIDATION_REQUESTED', {
-                auditedBy: entry.auditedBy,
-                currentMarketParticipant: entry.currentOwner,
-                currentgridArea: '---',
-                previousGridArea: '---',
-                previousGridAreaStopsAt: '---',
-              })
-            "
-          ></div>
-        } @else if (entry.change === ActorAuditedChange.ConsolidationCompleted) {
-          <div
-            [innerHTML]="
-              t('tabs.history.changeTypes.CONSOLIDATION_COMPLETED', {
-                marketParticipant: entry.previousOwner,
-              })
-            "
-          ></div>
-        } -->
       </ng-container>
     </watt-table>
   </watt-card>

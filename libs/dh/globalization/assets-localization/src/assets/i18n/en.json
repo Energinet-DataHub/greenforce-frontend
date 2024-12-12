@@ -669,7 +669,15 @@
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{processType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> will cease on <b>---</b>",
+                "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> has been completed"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>---</b>",
+                "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> has been completed"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",

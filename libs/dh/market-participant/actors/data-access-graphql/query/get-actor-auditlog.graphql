@@ -10,9 +10,9 @@ query GetActorAuditLogs($id: UUID!) {
       previousValue
       consolidation {
         currentOwner
+        currentOwnerGln
         previousOwner
-        currentGridAreaName
-        previousGridAreaName
+        previousOwnerGln
         previousGridAreaStopsAt
       }
       delagation {
