@@ -18,13 +18,7 @@
 //#endregion
 import { Component, computed, effect, inject, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  AbstractControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {
   CalculationType,
@@ -60,6 +54,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { map } from 'rxjs';
 
+/** Helper function for displaying a toast message based on MutationStatus. */
 const injectToast = () => {
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
@@ -74,6 +69,13 @@ const injectToast = () => {
         return toast.update({ type: 'success', message: t('success') });
     }
   };
+};
+
+const setControlRequired = (control: FormControl, required: boolean) => {
+  if (required == control.hasValidator(Validators.required)) return;
+  if (required) control.addValidators(Validators.required);
+  else control.removeValidators(Validators.required);
+  control.updateValueAndValidity();
 };
 
 /* eslint-disable @angular-eslint/component-class-suffix */
@@ -158,8 +160,6 @@ const injectToast = () => {
   `,
 })
 export class DhWholesaleRequestsNew {
-  modal = viewChild(WattModalComponent);
-  toast = injectToast();
   form = new FormGroup({
     calculationType: dhMakeFormControl<CalculationType>(null, Validators.required),
     gridArea: dhMakeFormControl<string>(null),
@@ -171,47 +171,48 @@ export class DhWholesaleRequestsNew {
     ]),
   });
 
+  calculationType = this.form.controls.calculationType;
+  gridArea = this.form.controls.gridArea;
+  requestType = toSignal(this.calculationType.valueChanges.pipe(exists(), map(toRequestType)));
+  isWholesaleRequest = computed(() => this.requestType() === RequestType.WholesaleSettlement);
+  includePriceTypes = this.isWholesaleRequest; // alias for readability
+
+  modal = viewChild(WattModalComponent);
+  open = () => this.modal()?.open();
+  close = (result: boolean) => this.modal()?.close(result);
+
   minDate = getMinDate();
   maxDate = getMaxDate();
 
-  calculationType = this.form.controls.calculationType;
-  requestType = toSignal(this.calculationType.valueChanges.pipe(exists(), map(toRequestType)));
-  isWholesaleRequest = computed(() => this.requestType() === RequestType.WholesaleSettlement);
-  includePriceTypes = this.isWholesaleRequest;
-
+  // Options for form controls
   opts = query(GetRequestOptionsDocument, { fetchPolicy: 'no-cache' });
   gridAreaOptions = computed(() => this.opts.data()?.gridAreas ?? []);
   isGridAreaRequired = computed(() => this.opts.data()?.requestOptions.isGridAreaRequired ?? false);
   calculationTypes = computed(() => this.opts.data()?.requestOptions.calculationTypes ?? []);
   meteringPointTypes = computed(() => this.opts.data()?.requestOptions.meteringPointTypes ?? []);
   priceTypes = computed(() => dhEnumToWattDropdownOptions(PriceType));
-
   meteringPointTypesAndPriceTypes = computed(() =>
     this.includePriceTypes()
       ? [...this.priceTypes(), ...this.meteringPointTypes()]
       : [{ value: 'ALL_ENERGY', displayValue: 'All' }, ...this.meteringPointTypes()]
   );
 
-  updateGridAreaValidatorsEffect = effect(() => {
-    this.isGridAreaRequired()
-      ? this.form.controls.gridArea.setValidators(Validators.required)
-      : this.form.controls.gridArea.removeValidators(Validators.required);
-    this.form.controls.gridArea.updateValueAndValidity();
-  });
+  // Update form controls based on options
+  setGridAreaRequired = effect(() => setControlRequired(this.gridArea, this.isGridAreaRequired()));
+  firstCalculationType = computed(() => this.calculationTypes()[0].value);
+  updateCalculationType = effect(() => this.calculationType.setValue(this.firstCalculationType()));
 
-  updateInitialCalculationTypeEffect = effect(() =>
-    this.form.controls.calculationType.setValue(this.calculationTypes()[0].value)
-  );
-
-  // TODO: Do we need form.valid before ngSubmit?
+  // Request mutation handling
+  toast = injectToast();
   request = mutation(RequestDocument, { refetchQueries: [GetRequestsDocument] });
   toastEffect = effect(() => this.toast(this.request.status()));
-
-  handleSubmit = () =>
+  handleSubmit = () => {
+    this.close(true);
     this.request.mutate({
       variables: { input: this.getInput() },
       refetchQueries: [GetRequestsDocument],
     });
+  };
 
   getInput = (): RequestInput => {
     const values = this.form.getRawValue();
@@ -228,8 +229,8 @@ export class DhWholesaleRequestsNew {
       end: dayjs(values.period.end).toDate(),
     };
 
+    // TODO: Dropdown really needs to accept generic values, not just strings
     switch (meteringPointTypeOrPriceType) {
-      // TODO: Dropdown really needs to accept generic values, not just strings
       case 'ALL_ENERGY':
         return {
           requestAggregatedMeasureData: {
@@ -272,6 +273,4 @@ export class DhWholesaleRequestsNew {
         throw new Error('Invalid metering point type or price type');
     }
   };
-
-  open = () => this.modal()?.open();
 }
