@@ -15,7 +15,7 @@ query GetActorAuditLogs($id: UUID!) {
         previousOwnerGln
         previousOwnerStopsAt
       }
-      delagation {
+      delegation {
         actor
         gln
         startsAt

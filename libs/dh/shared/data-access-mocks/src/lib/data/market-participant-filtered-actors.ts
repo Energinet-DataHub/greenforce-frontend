@@ -34,7 +34,7 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   consolidation: null,
   currentValue: 'Jane Smith',
   previousValue: 'John Doe',
-  delagation: null,
+  delegation: null,
 };
 
 export const filteredActors: Actor[] = [

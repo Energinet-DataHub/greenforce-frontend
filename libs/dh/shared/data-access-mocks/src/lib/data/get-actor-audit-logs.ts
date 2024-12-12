@@ -37,7 +37,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2021-08-14T12:30:01'),
         consolidation: null,
-        delagation: null,
+        delegation: null,
       },
       {
         __typename: 'ActorAuditedChangeAuditLogDto',
@@ -48,7 +48,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2021-08-14T12:30:02'),
         consolidation: null,
-        delagation: null,
+        delegation: null,
       },
       {
         __typename: 'ActorAuditedChangeAuditLogDto',
@@ -59,7 +59,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2021-08-14T12:32:04'),
         consolidation: null,
-        delagation: null,
+        delegation: null,
       },
       {
         __typename: 'ActorAuditedChangeAuditLogDto',
@@ -70,7 +70,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2021-08-14T12:32:06'),
         consolidation: null,
-        delagation: null,
+        delegation: null,
       },
       {
         __typename: 'ActorAuditedChangeAuditLogDto',
@@ -81,7 +81,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2024-02-01T12:32:06'),
         consolidation: null,
-        delagation: {
+        delegation: {
           __typename: 'ActorDelegationAuditLog',
           actor: 'Sort Størm A/S',
           gln: '5790001330583',
@@ -101,7 +101,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2024-03-15T12:32:06'),
         consolidation: null,
-        delagation: {
+        delegation: {
           __typename: 'ActorDelegationAuditLog',
           actor: 'Sort Størm A/S',
           gln: '5790001330583',
@@ -127,7 +127,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
           previousOwner: 'Grøn Størm A/S',
           previousOwnerStopsAt: new Date('2024-04-01'),
         },
-        delagation: null,
+        delegation: null,
       },
       {
         __typename: 'ActorAuditedChangeAuditLogDto',
@@ -146,7 +146,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
           previousOwner: 'Grøn Størm A/S',
           previousOwnerStopsAt: new Date('2024-04-01'),
         },
-        delagation: null,
+        delegation: null,
       },
     ],
   },

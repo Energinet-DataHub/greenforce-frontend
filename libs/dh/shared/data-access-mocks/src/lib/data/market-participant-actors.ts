@@ -39,7 +39,7 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   consolidation: null,
   currentValue: 'Jane Smith',
   previousValue: 'John Doe',
-  delagation: null,
+  delegation: null,
 };
 
 const userActorRoles: ActorUserRole[] = [

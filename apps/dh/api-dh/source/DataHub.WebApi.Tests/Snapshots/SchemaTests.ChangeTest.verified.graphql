@@ -27,7 +27,7 @@ type Actor {
 type ActorAuditedChangeAuditLogDto {
   auditedBy: String
   consolidation: ActorConsolidationAuditLog
-  delagation: ActorDelegationAuditLog
+  delegation: ActorDelegationAuditLog
   change: ActorAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!

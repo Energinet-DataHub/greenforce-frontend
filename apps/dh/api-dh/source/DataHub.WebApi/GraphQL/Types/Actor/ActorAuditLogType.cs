@@ -87,7 +87,7 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
             });
 
         descriptor
-            .Field("delagation")
+            .Field("delegation")
             .Resolve(async (ctx, ct) =>
             {
                 var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();

@@ -76,17 +76,17 @@ export class DhActorAuditLogTabComponent {
   formatDelegationEntry(payload: DhActorAuditLog) {
     return {
       auditedBy: payload.auditedBy,
-      actor: `${payload.delagation?.gln} • ${payload.delagation?.actor}`,
-      startsAt: wattFormatDate(payload.delagation?.startsAt),
-      gridArea: payload.delagation?.gridAreaName,
+      actor: `${payload.delegation?.gln} • ${payload.delegation?.actor}`,
+      startsAt: wattFormatDate(payload.delegation?.startsAt),
+      gridArea: payload.delegation?.gridAreaName,
       processType: translate(
         'marketParticipant.actorsOverview.drawer.tabs.history.processTypes.' +
-          payload.delagation?.processType
+          payload.delegation?.processType
       ),
       stopsAt:
-        payload.delagation?.stopsAt == undefined
+        payload.delegation?.stopsAt == undefined
           ? undefined
-          : wattFormatDate(payload.delagation?.stopsAt),
+          : wattFormatDate(payload.delegation?.stopsAt),
     };
   }
 }
