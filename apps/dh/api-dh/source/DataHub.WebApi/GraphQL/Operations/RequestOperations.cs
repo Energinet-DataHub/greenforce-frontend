@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Security.Claims;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
@@ -20,6 +21,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Option;
 using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 using Energinet.DataHub.WebApi.GraphQL.Types.Request;
+using NodaTime;
 using CalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
@@ -48,8 +50,9 @@ public static class RequestOperations
             string.Empty,
             new RequestAggregatedMeasureData(
                 CalculationType.Aggregation,
-                DateTimeOffset.Parse("2024-02-01"),
-                DateTimeOffset.Parse("2024-02-29"),
+                new Interval(
+                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-02-01")),
+                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-02-29"))),
                 null,
                 null,
                 null,
@@ -71,8 +74,9 @@ public static class RequestOperations
             string.Empty,
             new RequestAggregatedMeasureData(
                 CalculationType.Aggregation,
-                DateTimeOffset.Parse("2024-01-14"),
-                DateTimeOffset.Parse("2024-01-15"),
+                new Interval(
+                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-14")),
+                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-15"))),
                 null,
                 null,
                 null,
@@ -94,8 +98,9 @@ public static class RequestOperations
             string.Empty,
             new RequestWholesaleSettlement(
                 CalculationType.BalanceFixing,
-                DateTimeOffset.Parse("2024-01-14"),
-                DateTimeOffset.Parse("2024-01-15"),
+                new Interval(
+                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-14")),
+                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-15"))),
                 null,
                 null,
                 PriceType.MonthlyFee));
@@ -134,32 +139,49 @@ public static class RequestOperations
             ?? throw new InvalidOperationException("No associated actor found.");
 
         var selectedActor = await marketParticipantClient.ActorGetAsync(associatedActor);
-
-        return new RequestOptions(selectedActor.MarketRole.EicFunction);
+        return new RequestOptions(user, selectedActor.MarketRole.EicFunction);
     }
 
-    public class RequestOptions(EicFunction marketRole)
+    public class RequestOptions(ClaimsPrincipal user, EicFunction marketRole)
     {
-        public IEnumerable<Option<CalculationType>> GetCalculationTypes() =>
-        [
-            new Option<CalculationType>(CalculationType.Aggregation),
-            new Option<CalculationType>(CalculationType.BalanceFixing),
-            new Option<CalculationType>(CalculationType.WholesaleFixing),
-        ];
+        public IEnumerable<Option<CalculationType>> GetCalculationTypes()
+        {
+            var calculationTypes = new List<Option<CalculationType>>();
 
-        public IEnumerable<Option<MeteringPointType>> GetMeteringPointTypes() =>
-        [
-            new Option<MeteringPointType>(MeteringPointType.Exchange),
-            new Option<MeteringPointType>(MeteringPointType.FlexConsumption),
-            new Option<MeteringPointType>(MeteringPointType.NonProfiledConsumption),
-        ];
+            if (user.HasRole("request-aggregated-measured-data:view"))
+            {
+                calculationTypes.Add(new Option<CalculationType>(CalculationType.Aggregation));
+                calculationTypes.Add(new Option<CalculationType>(CalculationType.BalanceFixing));
+            }
 
-        public IEnumerable<Option<PriceType>> GetPriceTypes() =>
-        [
-            new Option<PriceType>(PriceType.Fee),
-            new Option<PriceType>(PriceType.MonthlyFee),
-            new Option<PriceType>(PriceType.MonthlySubscription),
-        ];
+            if (user.HasRole("request-wholesale-settlement:view"))
+            {
+                calculationTypes.Add(new Option<CalculationType>(CalculationType.WholesaleFixing));
+                calculationTypes.Add(new Option<CalculationType>(CalculationType.FirstCorrectionSettlement));
+                calculationTypes.Add(new Option<CalculationType>(CalculationType.SecondCorrectionSettlement));
+                calculationTypes.Add(new Option<CalculationType>(CalculationType.ThirdCorrectionSettlement));
+            }
+
+            return calculationTypes;
+        }
+
+        public IEnumerable<Option<MeteringPointType>> GetMeteringPointTypes()
+        {
+            var meteringPointTypes = new List<Option<MeteringPointType>>
+            {
+                new Option<MeteringPointType>(MeteringPointType.FlexConsumption),
+                new Option<MeteringPointType>(MeteringPointType.NonProfiledConsumption),
+                new Option<MeteringPointType>(MeteringPointType.Production),
+            };
+
+            if (marketRole != EicFunction.BalanceResponsibleParty && marketRole != EicFunction.EnergySupplier)
+            {
+                meteringPointTypes.Add(new Option<MeteringPointType>(MeteringPointType.Exchange));
+                meteringPointTypes.Add(new Option<MeteringPointType>(MeteringPointType.TotalConsumption));
+            }
+
+            return meteringPointTypes;
+        }
 
         public bool GetIsGridAreaRequired() => marketRole == EicFunction.GridAccessProvider;
     }

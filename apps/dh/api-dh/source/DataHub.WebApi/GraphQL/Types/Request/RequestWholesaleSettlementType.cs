@@ -30,11 +30,6 @@ public class RequestWholesaleSettlementType
 
         descriptor.Field(f => f.ParameterValue.CalculationType);
         descriptor.Field(f => f.ParameterValue.PriceType);
-
-        descriptor
-            .Field(f => new Interval(
-                Instant.FromDateTimeOffset(f.ParameterValue.PeriodStart),
-                Instant.FromDateTimeOffset(f.ParameterValue.PeriodEnd)))
-            .Name("period");
+        descriptor.Field(f => f.ParameterValue.Period);
     }
 }

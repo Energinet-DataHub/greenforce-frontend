@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
@@ -28,14 +29,9 @@ public interface IRequest : IInputParameterDto
     CalculationType CalculationType { get; }
 
     /// <summary>
-    /// The start date of the period.
+    /// The period.
     /// </summary>
-    DateTimeOffset PeriodStart { get; }
-
-    /// <summary>
-    /// The end date of the period.
-    /// </summary>
-    DateTimeOffset PeriodEnd { get; }
+    Interval Period { get; }
 
     /// <summary>
     /// The grid area.

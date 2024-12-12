@@ -14,13 +14,13 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
 public record RequestAggregatedMeasureData(
     Clients.Wholesale.v3.CalculationType CalculationType,
-    DateTimeOffset PeriodStart,
-    DateTimeOffset PeriodEnd,
+    Interval Period,
     string? GridArea,
     string? EnergySupplierId,
     string? BalanceResponsibleId,
@@ -32,8 +32,8 @@ public record RequestAggregatedMeasureData(
         => new()
         {
             CalculationType = CalculationType.ToEdiCalculationType(),
-            StartDate = PeriodStart.ToString(),
-            EndDate = PeriodEnd.ToString(),
+            StartDate = Period.Start.ToString(),
+            EndDate = Period.End.ToString(),
             GridArea = GridArea,
             EnergySupplierId = EnergySupplierId,
             BalanceResponsibleId = BalanceResponsibleId,

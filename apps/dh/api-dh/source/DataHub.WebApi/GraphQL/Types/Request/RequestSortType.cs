@@ -30,7 +30,7 @@ public class RequestSortType : SortInputType<IOrchestration<IRequest>>
         descriptor.Field(f => f.Lifecycle.State).Name("state");
         descriptor.Field(f => f.CreatedBySortProperty).Name("createdBy");
         descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
-        descriptor.Field(f => f.ParameterValue.PeriodStart).Name("period");
+        descriptor.Field(f => f.ParameterValue.Period.Start).Name("period");
         descriptor
             .Field(f => f.ParameterValue.DataTypeSortProperty)
             .Name("dataType");

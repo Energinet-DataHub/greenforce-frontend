@@ -14,13 +14,13 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
 public record RequestWholesaleSettlement(
     Clients.Wholesale.v3.CalculationType CalculationType,
-    DateTimeOffset PeriodStart,
-    DateTimeOffset PeriodEnd,
+    Interval Period,
     string? GridArea,
     string? EnergySupplierId,
     PriceType? PriceType) : IRequest
@@ -31,8 +31,8 @@ public record RequestWholesaleSettlement(
         => new()
         {
             CalculationType = CalculationType.ToEdiCalculationType(),
-            StartDate = PeriodStart.ToString(),
-            EndDate = PeriodEnd.ToString(),
+            StartDate = Period.Start.ToString(),
+            EndDate = Period.End.ToString(),
             GridArea = GridArea,
             EnergySupplierId = EnergySupplierId,
             PriceType = PriceType,
