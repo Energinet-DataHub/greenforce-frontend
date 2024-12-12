@@ -1073,8 +1073,8 @@
   },
   "wholesale": {
     "shared": {
-      "BALANCE_FIXING": "Balancefiksering",
       "AGGREGATION": "Aggregering",
+      "BALANCE_FIXING": "Balancefiksering",
       "WHOLESALE_FIXING": "Engrosfiksering",
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
