@@ -24,12 +24,12 @@ import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-h
 const selector = 'eo-service-provider-terms';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    imports: [EoScrollViewComponent, EoHtmlDocComponent],
-    selector,
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [EoScrollViewComponent, EoHtmlDocComponent],
+  selector,
+  styles: [
+    `
       ${selector} {
         --eo-scroll-view-max-height: fit-content;
         display: flex;
@@ -44,12 +44,12 @@ const selector = 'eo-service-provider-terms';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <eo-scroll-view class="service-provider-terms">
       <eo-html-doc [path]="path" />
     </eo-scroll-view>
-  `
+  `,
 })
 export class EoServiceProviderTermsComponent {
   path = 'assets/service-provider-terms/${lang}.html';

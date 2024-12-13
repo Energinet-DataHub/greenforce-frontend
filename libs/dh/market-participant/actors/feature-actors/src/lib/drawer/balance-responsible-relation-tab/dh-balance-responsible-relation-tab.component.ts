@@ -31,9 +31,9 @@ import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-rel
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
 
 @Component({
-    selector: 'dh-balance-responsible-relation-tab',
-    templateUrl: './dh-balance-responsible-relation-tab.component.html',
-    styles: `
+  selector: 'dh-balance-responsible-relation-tab',
+  templateUrl: './dh-balance-responsible-relation-tab.component.html',
+  styles: `
     :host {
       display: block;
     }
@@ -46,19 +46,19 @@ import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-respon
       margin-left: 12rem;
     }
   `,
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        VaterFlexComponent,
-        VaterStackComponent,
-        WattSpinnerComponent,
-        WattButtonComponent,
-        WattEmptyStateComponent,
-        WATT_EXPANDABLE_CARD_COMPONENTS,
-        DhBalanceResponsibleRelationsTableComponent,
-        DhBalanceResponsibleRelationFilterComponent,
-    ],
-    providers: [DhBalanceResponsibleRelationsStore]
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    VaterFlexComponent,
+    VaterStackComponent,
+    WattSpinnerComponent,
+    WattButtonComponent,
+    WattEmptyStateComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    DhBalanceResponsibleRelationsTableComponent,
+    DhBalanceResponsibleRelationFilterComponent,
+  ],
+  providers: [DhBalanceResponsibleRelationsStore],
 })
 export class DhBalanceResponsibleRelationTabComponent {
   store = inject(DhBalanceResponsibleRelationsStore);

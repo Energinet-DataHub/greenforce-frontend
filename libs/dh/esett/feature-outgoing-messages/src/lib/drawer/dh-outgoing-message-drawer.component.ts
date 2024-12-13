@@ -50,10 +50,10 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 import { DhResolveModalComponent } from './dh-resolve-modal.component';
 
 @Component({
-    selector: 'dh-outgoing-message-drawer',
-    templateUrl: './dh-outgoing-message-drawer.component.html',
-    styles: [
-        `
+  selector: 'dh-outgoing-message-drawer',
+  templateUrl: './dh-outgoing-message-drawer.component.html',
+  styles: [
+    `
       :host {
         display: block;
 
@@ -67,23 +67,23 @@ import { DhResolveModalComponent } from './dh-resolve-modal.component';
         }
       }
     `,
-    ],
-    imports: [
-        TranslocoPipe,
-        TranslocoDirective,
-        VaterStackComponent,
-        WATT_TABS,
-        WATT_CARD,
-        WATT_DRAWER,
-        WattDatePipe,
-        WattCodeComponent,
-        WattButtonComponent,
-        WattDescriptionListComponent,
-        WattDescriptionListItemComponent,
-        WattValidationMessageComponent,
-        DhEmDashFallbackPipe,
-        DhOutgoingMessageStatusBadgeComponent,
-    ]
+  ],
+  imports: [
+    TranslocoPipe,
+    TranslocoDirective,
+    VaterStackComponent,
+    WATT_TABS,
+    WATT_CARD,
+    WATT_DRAWER,
+    WattDatePipe,
+    WattCodeComponent,
+    WattButtonComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    WattValidationMessageComponent,
+    DhEmDashFallbackPipe,
+    DhOutgoingMessageStatusBadgeComponent,
+  ],
 })
 export class DhOutgoingMessageDrawerComponent {
   private readonly apollo = inject(Apollo);

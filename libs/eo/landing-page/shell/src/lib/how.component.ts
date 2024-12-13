@@ -32,11 +32,11 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'eo-landing-page-how',
-    imports: [NgClass, TranslocoPipe],
-    encapsulation: ViewEncapsulation.None,
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-landing-page-how',
+  imports: [NgClass, TranslocoPipe],
+  encapsulation: ViewEncapsulation.None,
+  styles: `
     eo-landing-page-how {
       display: flex;
       flex-direction: column;
@@ -147,7 +147,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
     }
   `,
-    template: `
+  template: `
     <div class="heading" [ngClass]="{ active: isActive() }">
       <h2 class="highlight headline-4">{{ translations.landingPage.how.heading | transloco }}</h2>
       <h3 class="headline-1" [innerHTML]="translations.landingPage.how.subheading | transloco"></h3>
@@ -158,7 +158,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       [ngClass]="{ active: isActive() }"
       [innerHTML]="translations.landingPage.how.content | transloco"
     ></section>
-  `
+  `,
 })
 export class EoLandingPageHowComponent implements AfterViewInit, OnDestroy {
   private observer!: IntersectionObserver;

@@ -28,17 +28,17 @@ import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
-    imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'dh-calculations-grid-areas-dropdown',
-    styles: [
-        `
+  imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-calculations-grid-areas-dropdown',
+  styles: [
+    `
       :host {
         display: contents;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-dropdown
       style="width: 100%;"
       *transloco="let t; read: 'wholesale.calculations'"
@@ -52,7 +52,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
         {{ t('create.gridArea.hint', { count: control().value?.length }) }}
       </watt-field-hint>
     </watt-dropdown>
-  `
+  `,
 })
 export class DhCalculationsGridAreasDropdownComponent {
   featureFlags = inject(DhFeatureFlagsService);

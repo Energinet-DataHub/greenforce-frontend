@@ -25,8 +25,8 @@ import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-    selector: 'dh-outgoing-message-status-badge',
-    template: `
+  selector: 'dh-outgoing-message-status-badge',
+  template: `
     @let _status = status();
 
     <ng-container *transloco="let t; read: 'eSett.outgoingMessages.shared.documentStatus'">
@@ -66,8 +66,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       }
     </ng-container>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhOutgoingMessageStatusBadgeComponent {
   status = input<DocumentStatus>();

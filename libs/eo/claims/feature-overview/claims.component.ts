@@ -36,19 +36,19 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoClaimsTableComponent } from './claims-table.component';
 
 @Component({
-    imports: [
-        EoClaimsTableComponent,
-        VaterFlexComponent,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WATT_CARD,
-        WattButtonComponent,
-        WattSearchComponent,
-        TranslocoPipe,
-    ],
-    providers: [WattDatePipe, EnergyUnitPipe],
-    styles: [
-        `
+  imports: [
+    EoClaimsTableComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WATT_CARD,
+    WattButtonComponent,
+    WattSearchComponent,
+    TranslocoPipe,
+  ],
+  providers: [WattDatePipe, EnergyUnitPipe],
+  styles: [
+    `
       @use '@energinet-datahub/watt/utils' as watt;
 
       .badge {
@@ -65,8 +65,8 @@ import { EoClaimsTableComponent } from './claims-table.component';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-card>
       <watt-card-title>
         <vater-stack direction="row" gap="s">
@@ -90,7 +90,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
         [filter]="search"
       />
     </watt-card>
-  `
+  `,
 })
 export class EoClaimsComponent implements OnInit {
   @ViewChild(EoClaimsTableComponent) claimsTable?: EoClaimsTableComponent;

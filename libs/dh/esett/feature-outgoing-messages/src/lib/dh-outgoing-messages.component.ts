@@ -53,10 +53,10 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'dh-outgoing-messages',
-    templateUrl: './dh-outgoing-messages.component.html',
-    styles: [
-        `
+  selector: 'dh-outgoing-messages',
+  templateUrl: './dh-outgoing-messages.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -82,23 +82,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           var(--watt-space-ml--negative);
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        WATT_CARD,
-        WattIconComponent,
-        WattButtonComponent,
-        WattSearchComponent,
-        WattPaginatorComponent,
-        VaterFlexComponent,
-        VaterStackComponent,
-        VaterSpacerComponent,
-        VaterUtilityDirective,
-        DhOutgoingMessagesTableComponent,
-        DhOutgoingMessagesFiltersComponent,
-    ],
-    providers: [DhOutgoingMessagesSignalStore]
+  ],
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    WATT_CARD,
+    WattIconComponent,
+    WattButtonComponent,
+    WattSearchComponent,
+    WattPaginatorComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    DhOutgoingMessagesTableComponent,
+    DhOutgoingMessagesFiltersComponent,
+  ],
+  providers: [DhOutgoingMessagesSignalStore],
 })
 export class DhOutgoingMessagesComponent {
   private store = inject(DhOutgoingMessagesSignalStore);

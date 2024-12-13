@@ -31,27 +31,27 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
-    selector: 'dh-balance-responsible-table',
-    templateUrl: './dh-table.component.html',
-    styles: [
-        `
+  selector: 'dh-balance-responsible-table',
+  templateUrl: './dh-table.component.html',
+  styles: [
+    `
       :host {
         display: contents;
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        WATT_TABLE,
-        WattBadgeComponent,
-        WattDatePipe,
-        WattEmptyStateComponent,
-        VaterFlexComponent,
-        VaterStackComponent,
-        DhEmDashFallbackPipe,
-        DhBalanceResponsibleDrawerComponent,
-    ]
+  ],
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    WATT_TABLE,
+    WattBadgeComponent,
+    WattDatePipe,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+    DhEmDashFallbackPipe,
+    DhBalanceResponsibleDrawerComponent,
+  ],
 })
 export class DhBalanceResponsibleTableComponent {
   activeRow: DhBalanceResponsibleMessage | undefined = undefined;

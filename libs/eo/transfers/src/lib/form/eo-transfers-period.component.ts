@@ -38,21 +38,21 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 }
 
 @Component({
-    selector: 'eo-transfers-form-period',
-    imports: [
-        CommonModule,
-        EoTransfersDateTimeComponent,
-        NgClass,
-        ReactiveFormsModule,
-        WattDatePipe,
-        WattRadioComponent,
-        WattFieldErrorComponent,
-        EoTransferErrorsComponent,
-        TranslocoPipe,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
+  selector: 'eo-transfers-form-period',
+  imports: [
+    CommonModule,
+    EoTransfersDateTimeComponent,
+    NgClass,
+    ReactiveFormsModule,
+    WattDatePipe,
+    WattRadioComponent,
+    WattFieldErrorComponent,
+    EoTransferErrorsComponent,
+    TranslocoPipe,
+  ],
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
       eo-transfers-form-period .start-date {
         position: relative;
       }
@@ -118,8 +118,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <ng-container [formGroup]="form">
       <!-- Start of period -->
       <fieldset class="start-date" [ngClass]="{ 'has-error': form.controls.startDate.errors }">
@@ -264,7 +264,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
         </div>
       </fieldset>
     </ng-container>
-  `
+  `,
 })
 export class EoTransfersPeriodComponent implements OnInit {
   @Input() formGroupName!: string;

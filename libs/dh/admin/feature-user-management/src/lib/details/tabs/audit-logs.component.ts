@@ -32,10 +32,10 @@ import {
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-    selector: 'dh-user-audit-logs',
-    templateUrl: './audit-logs.component.html',
-    styles: [
-        `
+  selector: 'dh-user-audit-logs',
+  templateUrl: './audit-logs.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -44,15 +44,15 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
         text-align: center;
       }
     `,
-    ],
-    imports: [
-        TranslocoPipe,
-        TranslocoDirective,
-        WATT_CARD,
-        WATT_TABLE,
-        WattDatePipe,
-        WattEmptyStateComponent,
-    ]
+  ],
+  imports: [
+    TranslocoPipe,
+    TranslocoDirective,
+    WATT_CARD,
+    WATT_TABLE,
+    WattDatePipe,
+    WattEmptyStateComponent,
+  ],
 })
 export class DhUserAuditLogsComponent {
   private getUserAuditLogsQuery = lazyQuery(GetUserAuditLogsDocument);

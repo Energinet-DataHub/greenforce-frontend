@@ -40,18 +40,18 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-participants.validator';
 
 @Component({
-    selector: 'dh-merge-market-participants',
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        VaterStackComponent,
-        WATT_MODAL,
-        WattDatepickerComponent,
-        WattButtonComponent,
-        WattFieldErrorComponent,
-        WattDropdownComponent,
-    ],
-    styles: `
+  selector: 'dh-merge-market-participants',
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    VaterStackComponent,
+    WATT_MODAL,
+    WattDatepickerComponent,
+    WattButtonComponent,
+    WattFieldErrorComponent,
+    WattDropdownComponent,
+  ],
+  styles: `
     :host {
       display: block;
     }
@@ -64,7 +64,7 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
       width: 260px;
     }
   `,
-    template: `
+  template: `
     <ng-container *transloco="let t; read: 'marketParticipant.mergeMarketParticipants'">
       <watt-modal size="small" [title]="t('title')">
         <form
@@ -109,7 +109,7 @@ import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-particip
         </watt-modal-actions>
       </watt-modal>
     </ng-container>
-  `
+  `,
 })
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
   private toastService = inject(WattToastService);

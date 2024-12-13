@@ -39,16 +39,16 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
 
 @Component({
-    selector: 'eo-learn-more',
-    imports: [
-        WattButtonComponent,
-        WATT_MODAL,
-        TranslocoPipe,
-        WattDropdownComponent,
-        ReactiveFormsModule,
-        EoVimeoPlayerComponent,
-    ],
-    styles: `
+  selector: 'eo-learn-more',
+  imports: [
+    WattButtonComponent,
+    WATT_MODAL,
+    TranslocoPipe,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+    EoVimeoPlayerComponent,
+  ],
+  styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;
 
@@ -57,8 +57,8 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
       }
     }
   `,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <ng-content />
 
     @if (isOpen()) {
@@ -76,7 +76,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
         />
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoLearnMoreComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

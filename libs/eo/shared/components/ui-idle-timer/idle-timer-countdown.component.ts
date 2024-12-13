@@ -24,9 +24,9 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { Observable, filter, tap } from 'rxjs';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [WattButtonComponent, WATT_MODAL, AsyncPipe, DatePipe],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [WattButtonComponent, WATT_MODAL, AsyncPipe, DatePipe],
+  template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>
       <span class="watt-headline-1">{{ countdown$ | async | date: 'mm:ss' }}</span>
@@ -38,7 +38,7 @@ import { Observable, filter, tap } from 'rxjs';
         <watt-button (click)="modal.close(false)">Stay logged in</watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `
+  `,
 })
 export class EoIdleTimerCountdownModalComponent extends WattTypedModal<{
   countdown$: Observable<number>;

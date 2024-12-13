@@ -33,18 +33,18 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RouterModule, TranslocoPipe],
-    selector: 'eo-help-page',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterModule, TranslocoPipe],
+  selector: 'eo-help-page',
+  styles: [
+    `
       eo-help-page li {
         margin-bottom: var(--watt-space-m);
       }
     `,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  ],
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <div
       [innerHTML]="
         translations.help.content
@@ -55,7 +55,7 @@ import { translations } from '@energinet-datahub/eo/translations';
               }
       "
     ></div>
-  `
+  `,
 })
 export class EoHelpPageComponent implements AfterViewInit {
   private cd = inject(ChangeDetectorRef);

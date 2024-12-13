@@ -35,11 +35,11 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 const selector = 'eo-actor-menu';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    imports: [TranslocoPipe, MatMenuModule, NgClass, EoScrollViewComponent, WattIconComponent],
-    selector,
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [TranslocoPipe, MatMenuModule, NgClass, EoScrollViewComponent, WattIconComponent],
+  selector,
+  styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
     ${selector} .menu-trigger {
@@ -133,7 +133,7 @@ const selector = 'eo-actor-menu';
       }
     }
   `,
-    template: `
+  template: `
     @if (self() && currentActor()) {
       <div
         [matMenuTriggerFor]="menu"
@@ -190,7 +190,7 @@ const selector = 'eo-actor-menu';
         }
       </mat-menu>
     }
-  `
+  `,
 })
 export class EoActorMenuComponent {
   actors = input<Actor[]>([]);

@@ -52,22 +52,22 @@ interface EoTransferTableElement extends EoListedTransfer {
 }
 
 @Component({
-    selector: 'eo-transfers-table',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        WATT_TABLE,
-        WattBadgeComponent,
-        WattButtonComponent,
-        WattPaginatorComponent,
-        WattDropdownComponent,
-        ReactiveFormsModule,
-        EoTransfersDrawerComponent,
-        EoTransfersCreateModalComponent,
-        WattDatePipe,
-        TranslocoPipe,
-    ],
-    styles: [
-        `
+  selector: 'eo-transfers-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    WATT_TABLE,
+    WattBadgeComponent,
+    WattButtonComponent,
+    WattPaginatorComponent,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+    EoTransfersDrawerComponent,
+    EoTransfersCreateModalComponent,
+    WattDatePipe,
+    TranslocoPipe,
+  ],
+  styles: [
+    `
       .card-header {
         display: flex;
         flex-wrap: wrap;
@@ -90,8 +90,8 @@ interface EoTransferTableElement extends EoListedTransfer {
         margin: -8px -24px -24px -24px;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <div class="card-header">
       <h3>{{ translations.transfers.tableTitle | transloco }}</h3>
       <div class="actions">
@@ -196,7 +196,7 @@ interface EoTransferTableElement extends EoListedTransfer {
       (removeProposal)="removeProposal.emit($event)"
       (saveTransferAgreement)="saveTransferAgreement.emit($event)"
     />
-  `
+  `,
 })
 export class EoTransfersTableComponent implements OnInit, OnChanges {
   @Input() transfers: EoListedTransfer[] = [];

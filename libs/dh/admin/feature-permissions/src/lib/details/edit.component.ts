@@ -49,19 +49,19 @@ import {
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
-    selector: 'dh-permission-edit',
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WATT_MODAL,
-        WattTabComponent,
-        WattTabsComponent,
-        WattButtonComponent,
-        WattFieldErrorComponent,
-        WattTextAreaFieldComponent,
-        DhResultComponent,
-    ],
-    template: `
+  selector: 'dh-permission-edit',
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WattTabComponent,
+    WattTabsComponent,
+    WattButtonComponent,
+    WattFieldErrorComponent,
+    WattTextAreaFieldComponent,
+    DhResultComponent,
+  ],
+  template: `
     <watt-modal
       *transloco="let t; read: 'admin.userManagement.editPermission'"
       size="small"
@@ -98,7 +98,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `
+  `,
 })
 export class DhPermissionEditComponent {
   private transloco = inject(TranslocoService);

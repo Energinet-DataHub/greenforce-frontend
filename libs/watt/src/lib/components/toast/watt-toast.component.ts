@@ -49,12 +49,12 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
  * `import { WattToastService } from '@energinet-datahub/watt/toast';`
  */
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'watt-toast',
-    styleUrls: ['./watt-toast.component.scss'],
-    templateUrl: './watt-toast.component.html',
-    imports: [MatSnackBarModule, WattButtonComponent, WattIconComponent, WattSpinnerComponent]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'watt-toast',
+  styleUrls: ['./watt-toast.component.scss'],
+  templateUrl: './watt-toast.component.html',
+  imports: [MatSnackBarModule, WattButtonComponent, WattIconComponent, WattSpinnerComponent],
 })
 export class WattToastComponent {
   private _config = inject(MAT_SNACK_BAR_DATA);

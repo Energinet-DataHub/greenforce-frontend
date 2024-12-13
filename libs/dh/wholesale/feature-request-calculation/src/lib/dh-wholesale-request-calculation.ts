@@ -81,10 +81,10 @@ type FormType = {
 };
 
 @Component({
-    selector: 'dh-wholesale-request-calculation',
-    templateUrl: './dh-wholesale-request-calculation.html',
-    styles: [
-        `
+  selector: 'dh-wholesale-request-calculation',
+  templateUrl: './dh-wholesale-request-calculation.html',
+  styles: [
+    `
       :host {
         display: flex;
         justify-content: center;
@@ -99,21 +99,21 @@ type FormType = {
         }
       }
     `,
-    ],
-    imports: [
-        WATT_CARD,
-        WattDropdownComponent,
-        WattButtonComponent,
-        DhDropdownTranslatorDirective,
-        VaterStackComponent,
-        VaterFlexComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        TranslocoDirective,
-        WattDatepickerComponent,
-        WattFieldErrorComponent,
-        RxPush,
-    ]
+  ],
+  imports: [
+    WATT_CARD,
+    WattDropdownComponent,
+    WattButtonComponent,
+    DhDropdownTranslatorDirective,
+    VaterStackComponent,
+    VaterFlexComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    TranslocoDirective,
+    WattDatepickerComponent,
+    WattFieldErrorComponent,
+    RxPush,
+  ],
 })
 export class DhWholesaleRequestCalculationComponent {
   private _apollo = inject(Apollo);

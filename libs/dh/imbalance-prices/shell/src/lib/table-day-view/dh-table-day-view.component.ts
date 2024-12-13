@@ -28,10 +28,10 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh-imbalance-prices';
 
 @Component({
-    selector: 'dh-table-day-view',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [
-        `
+  selector: 'dh-table-day-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -40,8 +40,8 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
         color: var(--watt-color-state-danger);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-table
       *transloco="let t; read: 'imbalancePrices.status'"
       [dataSource]="tableDataSource"
@@ -68,7 +68,7 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
       </ng-container>
     </watt-table>
   `,
-    imports: [DecimalPipe, TranslocoDirective, WattBadgeComponent, WATT_TABLE, WattDatePipe]
+  imports: [DecimalPipe, TranslocoDirective, WattBadgeComponent, WATT_TABLE, WattDatePipe],
 })
 export class DhTableDayViewComponent {
   columns: WattTableColumnDef<DhImbalancePricesForDayProcessed> = {

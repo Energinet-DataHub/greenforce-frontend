@@ -34,11 +34,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoPipe, TranslocoDirective],
-    selector: 'eo-faq-page',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe, TranslocoDirective],
+  selector: 'eo-faq-page',
+  styles: [
+    `
       eo-faq-page {
         display: block;
         max-width: 1040px; // Magic number by designer
@@ -54,9 +54,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         }
       }
     `,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    template: ` <div [innerHTML]="content()"></div> `
+  ],
+  encapsulation: ViewEncapsulation.None,
+  template: ` <div [innerHTML]="content()"></div> `,
 })
 export class EoFaqPageComponent implements AfterViewInit {
   private utils = inject(SharedUtilities);

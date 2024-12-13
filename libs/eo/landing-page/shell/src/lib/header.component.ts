@@ -39,18 +39,18 @@ import { EoAnnouncementBarComponent } from './announcement-bar.component';
 import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        WattButtonComponent,
-        EoAnnouncementBarComponent,
-        TranslocoPipe,
-        EoProductLogoDirective,
-        EoLanguageSwitcherComponent,
-        TranslocoPipe,
-        EoLoginButtonComponent,
-    ],
-    selector: 'eo-landing-page-header',
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    WattButtonComponent,
+    EoAnnouncementBarComponent,
+    TranslocoPipe,
+    EoProductLogoDirective,
+    EoLanguageSwitcherComponent,
+    TranslocoPipe,
+    EoLoginButtonComponent,
+  ],
+  selector: 'eo-landing-page-header',
+  styles: `
     :host {
       position: absolute;
       width: 100%;
@@ -103,7 +103,7 @@ import { EoLoginButtonComponent } from './login-button.component';
       display: none;
     }
   `,
-    template: `
+  template: `
     <eo-announcement-bar
       [announcement]="translations.landingPage.announcementBar.message | transloco"
     />
@@ -128,7 +128,7 @@ import { EoLoginButtonComponent } from './login-button.component';
         }
       </div>
     </div>
-  `
+  `,
 })
 export class EoLandingPageHeaderComponent {
   private elementRef = inject(ElementRef);

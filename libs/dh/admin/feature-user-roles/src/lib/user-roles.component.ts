@@ -40,10 +40,10 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-    selector: 'dh-user-roles',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './user-roles.component.html',
-    styles: `
+  selector: 'dh-user-roles',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './user-roles.component.html',
+  styles: `
     watt-expandable-card {
       watt-badge {
         flex: 0 0 auto;
@@ -59,20 +59,20 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
       }
     }
   `,
-    imports: [
-        FormsModule,
-        TranslocoDirective,
-        MatExpansionModule,
-        WATT_TABLE,
-        WattIconComponent,
-        WattBadgeComponent,
-        WattTooltipDirective,
-        WattFieldErrorComponent,
-        WATT_EXPANDABLE_CARD_COMPONENTS,
-        DhResultComponent,
-        FilterUserRolesPipe,
-        UserRolesIntoTablePipe,
-    ]
+  imports: [
+    FormsModule,
+    TranslocoDirective,
+    MatExpansionModule,
+    WATT_TABLE,
+    WattIconComponent,
+    WattBadgeComponent,
+    WattTooltipDirective,
+    WattFieldErrorComponent,
+    WATT_EXPANDABLE_CARD_COMPONENTS,
+    DhResultComponent,
+    FilterUserRolesPipe,
+    UserRolesIntoTablePipe,
+  ],
 })
 export class DhUserRolesComponent {
   private actorsAndRolesQuery = lazyQuery(GetActorsAndUserRolesDocument);

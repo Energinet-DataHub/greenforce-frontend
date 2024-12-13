@@ -51,23 +51,23 @@ import { NgClass } from '@angular/common';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'eo-request-consent-modal',
-    imports: [
-        WATT_MODAL,
-        TranslocoPipe,
-        WattButtonComponent,
-        EoConsentPermissionsComponent,
-        VaterStackComponent,
-        WattTextFieldComponent,
-        WattCopyToClipboardDirective,
-        WattCheckboxComponent,
-        EoHtmlDocComponent,
-        ReactiveFormsModule,
-        NgClass,
-    ],
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'eo-request-consent-modal',
+  imports: [
+    WATT_MODAL,
+    TranslocoPipe,
+    WattButtonComponent,
+    EoConsentPermissionsComponent,
+    VaterStackComponent,
+    WattTextFieldComponent,
+    WattCopyToClipboardDirective,
+    WattCheckboxComponent,
+    EoHtmlDocComponent,
+    ReactiveFormsModule,
+    NgClass,
+  ],
+  styles: `
     .eo-request-consent-modal {
       .description {
         margin-top: var(--watt-space-m);
@@ -107,7 +107,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
       margin-left: var(--watt-space-m);
     }
   `,
-    template: `
+  template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -171,7 +171,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         </watt-modal-actions>
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoRequestConsentModalComponent {
   private cd = inject(ChangeDetectorRef);

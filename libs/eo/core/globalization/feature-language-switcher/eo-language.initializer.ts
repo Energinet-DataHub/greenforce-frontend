@@ -21,6 +21,9 @@ import { FactoryProvider, inject, provideAppInitializer } from '@angular/core';
 import { EoLanguageService } from './eo-language.service';
 
 export const eoLanguageServiceInitializer: FactoryProvider = provideAppInitializer(() => {
-        const initializerFn = ((eoLangaugeService: EoLanguageService) => () => eoLangaugeService.init())(inject(EoLanguageService));
-        return initializerFn();
-      });
+  const initializerFn = (
+    (eoLangaugeService: EoLanguageService) => () =>
+      eoLangaugeService.init()
+  )(inject(EoLanguageService));
+  return initializerFn();
+});

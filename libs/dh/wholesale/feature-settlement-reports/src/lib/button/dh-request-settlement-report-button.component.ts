@@ -31,13 +31,13 @@ import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-set
 import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-as-settlement-report-modal.component';
 
 @Component({
-    selector: 'dh-request-settlement-report-button',
-    imports: [TranslocoPipe, WattButtonComponent],
-    template: `
+  selector: 'dh-request-settlement-report-button',
+  imports: [TranslocoPipe, WattButtonComponent],
+  template: `
     <watt-button variant="secondary" (click)="openModal()">
       {{ 'wholesale.settlementReports.requestSettlementReport' | transloco }}
     </watt-button>
-  `
+  `,
 })
 export class DhRequestSettlementReportButtonComponent {
   private readonly modalService = inject(WattModalService);

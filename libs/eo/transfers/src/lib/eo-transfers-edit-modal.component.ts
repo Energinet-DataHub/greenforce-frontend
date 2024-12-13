@@ -43,16 +43,16 @@ import {
 } from './form/eo-transfers-form.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'eo-transfers-edit-modal',
-    imports: [
-        RxPush,
-        WATT_MODAL,
-        WattValidationMessageComponent,
-        EoTransfersFormComponent,
-        TranslocoPipe,
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-transfers-edit-modal',
+  imports: [
+    RxPush,
+    WATT_MODAL,
+    WattValidationMessageComponent,
+    EoTransfersFormComponent,
+    TranslocoPipe,
+  ],
+  template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -84,7 +84,7 @@ import {
         />
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoTransfersEditModalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

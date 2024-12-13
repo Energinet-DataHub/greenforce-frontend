@@ -39,11 +39,11 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 type Variables = Partial<GetUserRolesForCsvQueryVariables>;
 
 @Component({
-    selector: 'dh-user-roles-download',
-    imports: [WattButtonComponent, TranslocoPipe],
-    template: ` <watt-button icon="download" variant="text" (click)="download()">{{
+  selector: 'dh-user-roles-download',
+  imports: [WattButtonComponent, TranslocoPipe],
+  template: ` <watt-button icon="download" variant="text" (click)="download()">{{
     'shared.download' | transloco
-  }}</watt-button>`
+  }}</watt-button>`,
 })
 export class DhUserRolesDownloadComponent {
   private environment = inject(dhAppEnvironmentToken);

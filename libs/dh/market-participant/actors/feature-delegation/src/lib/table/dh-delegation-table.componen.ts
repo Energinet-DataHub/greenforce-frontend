@@ -35,13 +35,13 @@ import { DhDelegationStatusComponent } from '../status/dh-delegation-status.comp
 import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
 
 @Component({
-    selector: 'dh-delegation-table',
-    styles: `
+  selector: 'dh-delegation-table',
+  styles: `
     :host {
       display: block;
     }
   `,
-    template: `
+  template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation.table'">
       <watt-table
         [dataSource]="tableDataSource"
@@ -92,14 +92,14 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
       </watt-table>
     </ng-container>
   `,
-    imports: [
-        TranslocoDirective,
-        WATT_TABLE,
-        WattDatePipe,
-        WattButtonComponent,
-        DhDelegationStatusComponent,
-        DhEmDashFallbackPipe,
-    ]
+  imports: [
+    TranslocoDirective,
+    WATT_TABLE,
+    WattDatePipe,
+    WattButtonComponent,
+    DhDelegationStatusComponent,
+    DhEmDashFallbackPipe,
+  ],
 })
 export class DhDelegationTableComponent {
   private readonly modalService = inject(WattModalService);

@@ -36,11 +36,11 @@ import { EoLottieComponent } from './eo-lottie.component';
 const selector = 'eo-landing-page-prove-sustainability';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector,
-    imports: [EoLottieComponent, TranslocoPipe],
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  imports: [EoLottieComponent, TranslocoPipe],
+  styles: `
     ${selector} {
       background: #f9f9f9;
       display: flex;
@@ -86,7 +86,7 @@ const selector = 'eo-landing-page-prove-sustainability';
       }
     }
   `,
-    template: `
+  template: `
     <eo-lottie
       #animation
       height="auto"
@@ -100,7 +100,7 @@ const selector = 'eo-landing-page-prove-sustainability';
       [innerHTML]="translations.landingPage.proveSustainability.heading | transloco"
     ></h2>
     <p [innerHTML]="translations.landingPage.proveSustainability.content | transloco"></p>
-  `
+  `,
 })
 export class EoLandingPageProveSustainabilityComponent implements AfterViewInit, OnDestroy {
   @ViewChild('animation') private animation!: EoLottieComponent;

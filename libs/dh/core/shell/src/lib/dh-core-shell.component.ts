@@ -34,18 +34,18 @@ import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/featu
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
 
 @Component({
-    selector: 'dh-shell',
-    styleUrls: ['./dh-core-shell.component.scss'],
-    templateUrl: './dh-core-shell.component.html',
-    imports: [
-        TranslocoPipe,
-        RouterOutlet,
-        WattShellComponent,
-        DhPrimaryNavigationComponent,
-        DhProfileAvatarComponent,
-        DhSelectedActorComponent,
-        DhNotificationsCenterComponent,
-    ]
+  selector: 'dh-shell',
+  styleUrls: ['./dh-core-shell.component.scss'],
+  templateUrl: './dh-core-shell.component.html',
+  imports: [
+    TranslocoPipe,
+    RouterOutlet,
+    WattShellComponent,
+    DhPrimaryNavigationComponent,
+    DhProfileAvatarComponent,
+    DhSelectedActorComponent,
+    DhNotificationsCenterComponent,
+  ],
 })
 export class DhCoreShellComponent {
   private readonly dhTopBarStore = inject(DhTopBarStore);

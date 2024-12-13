@@ -32,21 +32,21 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
 
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 @Component({
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WattButtonComponent,
-        WattSpinnerComponent,
-        WattDropdownComponent,
-        WattTextFieldComponent,
-        WattFieldErrorComponent,
-        VaterStackComponent,
-        DhDropdownTranslatorDirective,
-        DhOrganizationManageComponent,
-    ],
-    selector: 'dh-new-organization-step',
-    styles: [
-        `
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WattButtonComponent,
+    WattSpinnerComponent,
+    WattDropdownComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    VaterStackComponent,
+    DhDropdownTranslatorDirective,
+    DhOrganizationManageComponent,
+  ],
+  selector: 'dh-new-organization-step',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -66,8 +66,8 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
         margin-right: var(--watt-space-s);
       }
     `,
-    ],
-    template: `<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
+  ],
+  template: `<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
     <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>
       <watt-button variant="text" (click)="toggleShowCreateNewOrganization.emit()">{{
@@ -107,7 +107,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
 
       <dh-organization-manage [domains]="newOrganizationForm().controls.domains" />
     </vater-stack>
-  </ng-container>`
+  </ng-container>`,
 })
 export class DhNewOrganizationStepComponent {
   countryOptions: WattDropdownOptions = [

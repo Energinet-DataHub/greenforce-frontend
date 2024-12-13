@@ -41,18 +41,18 @@ import { EoMeteringPointsTableComponent } from './eo-metering-point-table.compon
 import { EoMeteringPointsHelperModalComponent } from './eo-metering-point-helper-modal.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        AsyncPipe,
-        EoMeteringPointsTableComponent,
-        WATT_CARD,
-        TranslocoPipe,
-        WattIconComponent,
-        EoMeteringPointsHelperModalComponent,
-    ],
-    selector: 'eo-metering-points-shell',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AsyncPipe,
+    EoMeteringPointsTableComponent,
+    WATT_CARD,
+    TranslocoPipe,
+    WattIconComponent,
+    EoMeteringPointsHelperModalComponent,
+  ],
+  selector: 'eo-metering-points-shell',
+  styles: [
+    `
       :host {
         display: flex;
         flex-direction: column;
@@ -69,8 +69,8 @@ import { EoMeteringPointsHelperModalComponent } from './eo-metering-point-helper
         }
       }
     `,
-    ],
-    template: ` <watt-card>
+  ],
+  template: ` <watt-card>
       <watt-card-title>
         <h3 class="watt-on-light--high-emphasis title">
           {{ translations.meteringPoints.tableTitle | transloco }}
@@ -89,7 +89,7 @@ import { EoMeteringPointsHelperModalComponent } from './eo-metering-point-helper
       />
     </watt-card>
 
-    <eo-metering-points-helper-modal #helper />`
+    <eo-metering-points-helper-modal #helper />`,
 })
 export class EoMeteringPointsShellComponent implements OnInit {
   private meteringPointStore = inject(EoMeteringPointsStore);

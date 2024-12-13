@@ -31,25 +31,25 @@ import { DhMeteringGridAreaImbalance } from '../dh-metering-gridarea-imbalance';
 import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
-    selector: 'dh-metering-gridarea-imbalance-table',
-    templateUrl: './dh-table.component.html',
-    styles: [
-        `
+  selector: 'dh-metering-gridarea-imbalance-table',
+  templateUrl: './dh-table.component.html',
+  styles: [
+    `
       :host {
         display: contents;
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        WATT_TABLE,
-        WattDatePipe,
-        WattEmptyStateComponent,
-        VaterFlexComponent,
-        VaterStackComponent,
-        DhEmDashFallbackPipe,
-        DhMeteringGridAreaImbalanceDrawerComponent,
-    ]
+  ],
+  imports: [
+    TranslocoDirective,
+    WATT_TABLE,
+    WattDatePipe,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+    DhEmDashFallbackPipe,
+    DhMeteringGridAreaImbalanceDrawerComponent,
+  ],
 })
 export class DhMeteringGridAreaImbalanceTableComponent {
   activeRow: DhMeteringGridAreaImbalance | undefined = undefined;

@@ -55,33 +55,33 @@ type Actor = {
 };
 
 @Component({
-    selector: 'dh-organization-details',
-    templateUrl: './dh-organization-details.component.html',
-    styles: [
-        `
+  selector: 'dh-organization-details',
+  templateUrl: './dh-organization-details.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    imports: [
-        RouterOutlet,
-        TranslocoPipe,
-        TranslocoDirective,
-        WATT_TABS,
-        WATT_CARD,
-        WATT_TABLE,
-        WATT_DRAWER,
-        VaterStackComponent,
-        WattButtonComponent,
-        WattSpinnerComponent,
-        WattEmptyStateComponent,
-        WattDescriptionListComponent,
-        WattDescriptionListItemComponent,
-        DhActorStatusBadgeComponent,
-        DhPermissionRequiredDirective,
-        DhOrganizationHistoryComponent,
-    ]
+  ],
+  imports: [
+    RouterOutlet,
+    TranslocoPipe,
+    TranslocoDirective,
+    WATT_TABS,
+    WATT_CARD,
+    WATT_TABLE,
+    WATT_DRAWER,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    DhActorStatusBadgeComponent,
+    DhPermissionRequiredDirective,
+    DhOrganizationHistoryComponent,
+  ],
 })
 export class DhOrganizationDetailsComponent {
   private route = inject(ActivatedRoute);

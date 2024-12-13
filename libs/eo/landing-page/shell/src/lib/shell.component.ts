@@ -39,23 +39,23 @@ import { EoLandingPageCTAComponent } from './cta.component';
 import { EoLandingPageNamingComponent } from './naming.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        EoLandingPageHeaderComponent,
-        EoLandingPageHeroComponent,
-        EoLandingPageWhyComponent,
-        EoLandingPageHowComponent,
-        EoLandingPageWhatComponent,
-        EoLandingPageProveSustainabilityComponent,
-        EoLandingPageNamingComponent,
-        EoLandingPageElectricalGridComponent,
-        EoLandingPageBlockchainTechComponent,
-        EoLandingPageGranularCertificatesComponent,
-        EoFooterComponent,
-        EoLandingPageCTAComponent,
-    ],
-    selector: 'eo-landing-page-shell',
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    EoLandingPageHeaderComponent,
+    EoLandingPageHeroComponent,
+    EoLandingPageWhyComponent,
+    EoLandingPageHowComponent,
+    EoLandingPageWhatComponent,
+    EoLandingPageProveSustainabilityComponent,
+    EoLandingPageNamingComponent,
+    EoLandingPageElectricalGridComponent,
+    EoLandingPageBlockchainTechComponent,
+    EoLandingPageGranularCertificatesComponent,
+    EoFooterComponent,
+    EoLandingPageCTAComponent,
+  ],
+  selector: 'eo-landing-page-shell',
+  template: `
     <eo-landing-page-header />
     <eo-landing-page-hero />
 
@@ -118,7 +118,7 @@ import { EoLandingPageNamingComponent } from './naming.component';
     } @placeholder {
       <p>Loading...</p>
     }
-  `
+  `,
 })
 export class EoLandingPageShellComponent implements OnInit {
   private transloco = inject(TranslocoService);

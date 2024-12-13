@@ -21,11 +21,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-    imports: [WattIconComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'watt-chip',
-    styleUrls: ['./watt-chip.component.scss'],
-    template: `
+  imports: [WattIconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'watt-chip',
+  styleUrls: ['./watt-chip.component.scss'],
+  template: `
     <label
       [class.selected]="selected()"
       [class.disabled]="disabled()"
@@ -36,7 +36,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
       }
       <ng-content />
     </label>
-  `
+  `,
 })
 export class WattChipComponent {
   selected = input(false);

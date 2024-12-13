@@ -41,11 +41,11 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 @Component({
-    selector: 'eo-transfers-timepicker',
-    imports: [ReactiveFormsModule, WattDropdownComponent, WattFieldComponent],
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
+  selector: 'eo-transfers-timepicker',
+  imports: [ReactiveFormsModule, WattDropdownComponent, WattFieldComponent],
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
       eo-transfers-timepicker {
         max-width: 112px;
       }
@@ -58,8 +58,8 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
         margin-top: var(--watt-space-xs);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-dropdown
       #dropdown
       [label]="'time'"
@@ -69,18 +69,18 @@ import { WattFieldComponent } from '@energinet-datahub/watt/field';
       placeholder="HH:MM"
     />
   `,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => EoTransfersTimepickerComponent),
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            multi: true,
-            useExisting: EoTransfersTimepickerComponent,
-        },
-    ]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => EoTransfersTimepickerComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: EoTransfersTimepickerComponent,
+    },
+  ],
 })
 export class EoTransfersTimepickerComponent implements ControlValueAccessor, Validator, OnChanges {
   @Input() disabledHours: string[] = [];

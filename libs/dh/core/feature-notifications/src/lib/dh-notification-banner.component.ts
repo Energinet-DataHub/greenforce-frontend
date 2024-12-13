@@ -23,9 +23,9 @@ import { HotToastRef } from '@ngxpert/hot-toast';
 import { DhNotification } from './dh-notification';
 
 @Component({
-    selector: 'dh-notification-banner',
-    imports: [TranslocoDirective],
-    styles: `
+  selector: 'dh-notification-banner',
+  imports: [TranslocoDirective],
+  styles: `
     :host {
       display: block;
     }
@@ -34,7 +34,7 @@ import { DhNotification } from './dh-notification';
       margin: 0;
     }
   `,
-    template: `
+  template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <h5 class="watt-space-stack-xxs">{{ t(toastRef.data.notificationType + '.headline') }}</h5>
       <p>
@@ -43,7 +43,7 @@ import { DhNotification } from './dh-notification';
         }}
       </p>
     </ng-container>
-  `
+  `,
 })
 export class DhNotificationBannerComponent {
   public toastRef = inject<HotToastRef<DhNotification>>(HotToastRef);

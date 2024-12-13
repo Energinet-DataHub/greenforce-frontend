@@ -50,20 +50,20 @@ import { WattMenuChipComponent } from '../chip';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-    selector: 'watt-dropdown',
-    templateUrl: './watt-dropdown.component.html',
-    styleUrls: ['./watt-dropdown.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        NgClass,
-        MatSelectModule,
-        RxPush,
-        ReactiveFormsModule,
-        NgxMatSelectSearchModule,
-        WattMenuChipComponent,
-        WattFieldComponent,
-        WattIconComponent,
-    ]
+  selector: 'watt-dropdown',
+  templateUrl: './watt-dropdown.component.html',
+  styleUrls: ['./watt-dropdown.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    NgClass,
+    MatSelectModule,
+    RxPush,
+    ReactiveFormsModule,
+    NgxMatSelectSearchModule,
+    WattMenuChipComponent,
+    WattFieldComponent,
+    WattIconComponent,
+  ],
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   private parentControlDirective = inject(NgControl, { host: true });

@@ -33,15 +33,15 @@ import { DhDelegationsByType } from '../dh-delegations';
 import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
 
 @Component({
-    selector: 'dh-delegations-overview',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, WATT_EXPANDABLE_CARD_COMPONENTS, DhDelegationTableComponent],
-    styles: `
+  selector: 'dh-delegations-overview',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoDirective, WATT_EXPANDABLE_CARD_COMPONENTS, DhDelegationTableComponent],
+  styles: `
     :host {
       display: block;
     }
   `,
-    template: `
+  template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation'">
       @for (entry of delegationsByType(); track entry.type) {
         <watt-expandable-card togglePosition="before" variant="solid">
@@ -56,7 +56,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
         </watt-expandable-card>
       }
     </ng-container>
-  `
+  `,
 })
 export class DhDelegationsOverviewComponent {
   private readonly permissionService = inject(PermissionService);

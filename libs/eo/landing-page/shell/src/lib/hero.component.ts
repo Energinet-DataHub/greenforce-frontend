@@ -36,10 +36,10 @@ import { EoLearnMoreComponent } from './learn-more.component';
 import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent],
-    selector: 'eo-landing-page-hero',
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent],
+  selector: 'eo-landing-page-hero',
+  styles: `
     :host {
       display: block;
       position: relative;
@@ -123,7 +123,7 @@ import { EoLoginButtonComponent } from './login-button.component';
       order: 1;
     }
   `,
-    template: `
+  template: `
     <div class="container">
       <video
         #videoPlayer
@@ -163,7 +163,7 @@ import { EoLoginButtonComponent } from './login-button.component';
         </section>
       </div>
     </div>
-  `
+  `,
 })
 export class EoLandingPageHeroComponent implements AfterViewInit {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;

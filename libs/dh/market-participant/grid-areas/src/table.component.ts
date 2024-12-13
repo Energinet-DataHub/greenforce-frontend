@@ -53,11 +53,11 @@ import { DhGridAreaRow } from './types/grid-area-row.type';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-    selector: 'dh-grid-areas',
-    templateUrl: './table.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [
-        `
+  selector: 'dh-grid-areas',
+  templateUrl: './table.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
       h3 {
         margin: 0;
       }
@@ -70,26 +70,26 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
           var(--watt-space-ml--negative);
       }
     `,
-    ],
-    imports: [
-        FormsModule,
-        TranslocoPipe,
-        TranslocoDirective,
-        WATT_CARD,
-        WATT_TABLE,
-        WattButtonComponent,
-        WattSearchComponent,
-        WattDropdownComponent,
-        WattPaginatorComponent,
-        WattEmptyStateComponent,
-        VaterFlexComponent,
-        VaterStackComponent,
-        VaterSpacerComponent,
-        VaterUtilityDirective,
-        DhDropdownTranslatorDirective,
-        DhGridAreaStatusBadgeComponent,
-        DhGridAreaDetailsComponent,
-    ]
+  ],
+  imports: [
+    FormsModule,
+    TranslocoPipe,
+    TranslocoDirective,
+    WATT_CARD,
+    WATT_TABLE,
+    WattButtonComponent,
+    WattSearchComponent,
+    WattDropdownComponent,
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    DhDropdownTranslatorDirective,
+    DhGridAreaStatusBadgeComponent,
+    DhGridAreaDetailsComponent,
+  ],
 })
 export class DhGridAreasComponent {
   private query = query(GetGridAreaOverviewDocument);

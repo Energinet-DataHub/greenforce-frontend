@@ -45,17 +45,17 @@ export interface EoTransferAgreementsWithRecipient {
 }
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'eo-transfers-create-modal',
-    imports: [
-        EoTransfersFormComponent,
-        WATT_MODAL,
-        WattSpinnerComponent,
-        WattValidationMessageComponent,
-        TranslocoPipe,
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'eo-transfers-create-modal',
+  imports: [
+    EoTransfersFormComponent,
+    WATT_MODAL,
+    WattSpinnerComponent,
+    WattValidationMessageComponent,
+    TranslocoPipe,
+  ],
+  template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -81,7 +81,7 @@ export interface EoTransferAgreementsWithRecipient {
         />
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoTransfersCreateModalComponent {
   @Input() transferAgreements: EoListedTransfer[] = [];

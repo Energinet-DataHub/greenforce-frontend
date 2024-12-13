@@ -42,10 +42,10 @@ import { DhTableMonthViewComponent } from './table-month-view/dh-table-month-vie
 import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance-prices-uploader.component';
 
 @Component({
-    selector: 'dh-imbalance-prices-shell',
-    templateUrl: './dh-imbalance-prices-shell.component.html',
-    styles: [
-        `
+  selector: 'dh-imbalance-prices-shell',
+  templateUrl: './dh-imbalance-prices-shell.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -62,21 +62,21 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
           var(--watt-space-ml--negative);
       }
     `,
-    ],
-    imports: [
-        FormsModule,
-        TranslocoDirective,
-        WATT_CARD,
-        VaterFlexComponent,
-        VaterStackComponent,
-        VaterSpacerComponent,
-        WattDropdownComponent,
-        VaterUtilityDirective,
-        WattPaginatorComponent,
-        DhTableMonthViewComponent,
-        DhPermissionRequiredDirective,
-        DhImbalancePricesUploaderComponent,
-    ]
+  ],
+  imports: [
+    FormsModule,
+    TranslocoDirective,
+    WATT_CARD,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    WattDropdownComponent,
+    VaterUtilityDirective,
+    WattPaginatorComponent,
+    DhTableMonthViewComponent,
+    DhPermissionRequiredDirective,
+    DhImbalancePricesUploaderComponent,
+  ],
 })
 export class DhImbalancePricesShellComponent {
   private readonly getImbalancePricesOverview = query(GetImbalancePricesOverviewDocument);

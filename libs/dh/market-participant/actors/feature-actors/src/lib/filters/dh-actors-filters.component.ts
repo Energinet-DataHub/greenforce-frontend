@@ -49,20 +49,20 @@ type Form = FormGroup<{
 }>;
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WattButtonComponent,
-        WattDropdownComponent,
-        WattQueryParamsDirective,
-        DhDropdownTranslatorDirective,
-    ],
-    selector: 'dh-actors-filters',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattDropdownComponent,
+    WattQueryParamsDirective,
+    DhDropdownTranslatorDirective,
+  ],
+  selector: 'dh-actors-filters',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -71,8 +71,8 @@ type Form = FormGroup<{
         overflow-y: hidden;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <form
       vater-stack
       direction="row"
@@ -107,7 +107,7 @@ type Form = FormGroup<{
         {{ t('reset') }}
       </watt-button>
     </form>
-  `
+  `,
 })
 export class DhActorsFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);

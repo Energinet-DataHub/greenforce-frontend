@@ -24,22 +24,22 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'dh-primary-navigation',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-primary-navigation',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    templateUrl: './dh-primary-navigation.component.html',
-    imports: [
-        TranslocoDirective,
-        WattNavListComponent,
-        WattNavListItemComponent,
-        DhPermissionRequiredDirective,
-    ]
+  ],
+  templateUrl: './dh-primary-navigation.component.html',
+  imports: [
+    TranslocoDirective,
+    WattNavListComponent,
+    WattNavListItemComponent,
+    DhPermissionRequiredDirective,
+  ],
 })
 export class DhPrimaryNavigationComponent {
   getLink(route: BasePaths) {

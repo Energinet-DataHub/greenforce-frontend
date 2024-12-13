@@ -47,9 +47,9 @@ import { exportToCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util'
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
-    selector: 'dh-permissions-download',
-    imports: [TranslocoPipe, WattButtonComponent, VaterStackComponent, DhPermissionRequiredDirective],
-    template: `
+  selector: 'dh-permissions-download',
+  imports: [TranslocoPipe, WattButtonComponent, VaterStackComponent, DhPermissionRequiredDirective],
+  template: `
     <vater-stack direction="row" gap="m">
       <watt-button icon="download" variant="text" (click)="exportAsCsv()">
         {{ 'shared.download' | transloco }}
@@ -64,7 +64,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         {{ 'shared.downloadreport' | transloco }}
       </watt-button>
     </vater-stack>
-  `
+  `,
 })
 export class DhPermissionsDownloadComponent {
   private httpClient = inject(HttpClient);

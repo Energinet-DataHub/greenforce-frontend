@@ -44,20 +44,20 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
 
 @Component({
-    selector: 'eo-transfers-repsond-proposal',
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        WATT_MODAL,
-        WattButtonComponent,
-        WattCopyToClipboardDirective,
-        WattEmptyStateComponent,
-        VaterStackComponent,
-        WattIconComponent,
-        WattDatePipe,
-        TranslocoPipe,
-    ],
-    styles: [
-        `
+  selector: 'eo-transfers-repsond-proposal',
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    WATT_MODAL,
+    WattButtonComponent,
+    WattCopyToClipboardDirective,
+    WattEmptyStateComponent,
+    VaterStackComponent,
+    WattIconComponent,
+    WattDatePipe,
+    TranslocoPipe,
+  ],
+  styles: [
+    `
       .transfer-agreement-proposal {
         display: flex;
         flex-direction: column;
@@ -83,8 +83,8 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (isOpen()) {
       <watt-modal
         #modal
@@ -148,7 +148,7 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
         </watt-modal-actions>
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoTransfersRespondProposalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

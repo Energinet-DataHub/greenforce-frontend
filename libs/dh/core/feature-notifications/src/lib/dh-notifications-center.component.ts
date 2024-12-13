@@ -40,16 +40,16 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
 import { DhSettlementReportNotificationComponent } from './dh-settlement-report-notification.component';
 
 @Component({
-    selector: 'dh-notifications-center',
-    imports: [
-        OverlayModule,
-        TranslocoDirective,
-        WattButtonComponent,
-        DhNotificationComponent,
-        DhSettlementReportNotificationComponent,
-    ],
-    styles: [
-        `
+  selector: 'dh-notifications-center',
+  imports: [
+    OverlayModule,
+    TranslocoDirective,
+    WattButtonComponent,
+    DhNotificationComponent,
+    DhSettlementReportNotificationComponent,
+  ],
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -101,8 +101,8 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-button
       variant="icon"
       [class.notification-dot]="notificationDot()"
@@ -150,7 +150,7 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
         </div>
       </div>
     </ng-template>
-  `
+  `,
 })
 export class DhNotificationsCenterComponent {
   private readonly router = inject(Router);

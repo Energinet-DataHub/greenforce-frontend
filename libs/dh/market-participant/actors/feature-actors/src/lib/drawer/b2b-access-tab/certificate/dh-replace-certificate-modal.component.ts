@@ -25,15 +25,15 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-client-secret.component';
 
 @Component({
-    selector: 'dh-replace-certificate-modal',
-    styles: [
-        `
+  selector: 'dh-replace-certificate-modal',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-modal
       #modal
       *transloco="
@@ -56,7 +56,7 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
       </watt-modal-actions>
     </watt-modal>
   `,
-    imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, DhGenerateClientSecretComponent]
+  imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, DhGenerateClientSecretComponent],
 })
 export class DhReplaceCertificateModalComponent extends WattTypedModal<{
   actorId: string;

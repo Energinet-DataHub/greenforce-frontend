@@ -21,11 +21,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatToolbarModule, EoProductLogoDirective],
-    selector: 'eo-header',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatToolbarModule, EoProductLogoDirective],
+  selector: 'eo-header',
+  styles: [
+    `
       :host {
         @media print {
           display: none;
@@ -47,12 +47,12 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/
         padding-right: var(--watt-space-m);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <mat-toolbar class="toolbar watt-space-inset-squished-m">
       <img eoProductLogo class="logo" />
       <ng-content />
     </mat-toolbar>
-  `
+  `,
 })
 export class EoHeaderComponent {}

@@ -72,9 +72,9 @@ import {
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'dh-create-user-role',
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-create-user-role',
+  template: `
     <watt-modal
       size="large"
       [title]="t('headline')"
@@ -153,24 +153,24 @@ import {
       </watt-stepper>
     </watt-modal>
   `,
-    styles: `
+  styles: `
     form {
       width: 50%;
     }
   `,
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WATT_MODAL,
-        WATT_STEPPER,
-        WattDropdownComponent,
-        WattTextFieldComponent,
-        WattFieldErrorComponent,
-        WattTextAreaFieldComponent,
-        VaterFlexComponent,
-        DhPermissionsTableComponent,
-        DhDropdownTranslatorDirective,
-    ]
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WATT_STEPPER,
+    WattDropdownComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattTextAreaFieldComponent,
+    VaterFlexComponent,
+    DhPermissionsTableComponent,
+    DhDropdownTranslatorDirective,
+  ],
 })
 export class DhCreateUserRoleComponent extends WattTypedModal {
   private transloco = inject(TranslocoService);
