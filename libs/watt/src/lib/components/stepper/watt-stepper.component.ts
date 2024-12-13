@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { NgTemplateOutlet } from '@angular/common';
-import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 
