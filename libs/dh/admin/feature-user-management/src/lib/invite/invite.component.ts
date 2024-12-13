@@ -26,13 +26,20 @@ import {
   ChangeDetectorRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
+  viewChildren,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
+import {
+  Validators,
+  ReactiveFormsModule,
+  NonNullableFormBuilder,
+  NgForm,
+  FormGroupDirective,
+} from '@angular/forms';
 
 import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
@@ -91,13 +98,20 @@ export class DhInviteUserComponent {
   private translocoService = inject(TranslocoService);
   private nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-  modal = viewChild.required(WattModalComponent);
+  private modal = viewChild.required(WattModalComponent);
+  private stepper = viewChild.required(WattStepperComponent);
+  private forms = viewChildren(FormGroupDirective);
 
   inviteUserMutation = mutation(InviteUserDocument, {
     refetchQueries: [GetUsersDocument],
   });
 
-  isInvitingUser = this.inviteUserMutation.loading;
+  loading = computed(
+    () =>
+      this.inviteUserMutation.loading() ||
+      this.knownEmailsQuery.loading() ||
+      this.actorsQuery.loading()
+  );
 
   actorsQuery = query(GetFilteredActorsDocument);
 
@@ -136,8 +150,6 @@ export class DhInviteUserComponent {
   knownEmails = computed(
     () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
   );
-
-  isLoadingEmails = this.knownEmailsQuery.loading;
 
   baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
@@ -230,7 +242,17 @@ export class DhInviteUserComponent {
   }
 
   close(status: boolean) {
+    this.reset();
     this.modal().close(status);
+  }
+
+  reset() {
+    this.stepper().reset();
+
+    this.forms().forEach(({ form }) => {
+      form.markAsPristine();
+      form.markAsUntouched();
+    });
   }
 
   private createInvitationUserDetails() {

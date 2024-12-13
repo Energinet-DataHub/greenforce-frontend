@@ -46,21 +46,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [
-    NgTemplateOutlet,
-    RxPush,
-    MatStepperModule,
-
-    WattStepperStepComponent,
-    WattIconComponent,
-    WattButtonComponent,
-  ],
+  imports: [NgTemplateOutlet, RxPush, MatStepperModule, WattIconComponent, WattButtonComponent],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true, displayDefaultIndicatorType: false },
     },
-    { provide: CdkStepper, useExisting: WattStepperComponent },
     { provide: MatStepper, useExisting: WattStepperComponent },
   ],
 })
@@ -80,6 +71,10 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   onLastStep$!: Observable<boolean>;
 
   private destroyRef = inject(DestroyRef);
+
+  override reset() {
+    this.stepper.reset();
+  }
 
   override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
