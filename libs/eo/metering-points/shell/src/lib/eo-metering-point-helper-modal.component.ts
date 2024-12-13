@@ -32,19 +32,18 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'eo-metering-points-helper-modal',
-  imports: [WATT_MODAL, TranslocoPipe],
-  standalone: true,
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    selector: 'eo-metering-points-helper-modal',
+    imports: [WATT_MODAL, TranslocoPipe],
+    styles: `
     .eo-metering-points-helper-modal .watt-modal {
       ul {
         margin-bottom: var(--watt-space-m);
       }
     }
   `,
-  template: `
+    template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -54,7 +53,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         <div [innerHTML]="translations.meteringPoints.infoBoxContent | transloco"></div>
       </watt-modal>
     }
-  `,
+  `
 })
 export class EoMeteringPointsHelperModalComponent {
   private cd = inject(ChangeDetectorRef);

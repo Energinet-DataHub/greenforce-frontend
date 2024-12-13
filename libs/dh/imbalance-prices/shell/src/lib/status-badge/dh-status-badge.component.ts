@@ -23,10 +23,9 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-status-badge',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  template: `
+    selector: 'dh-status-badge',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <ng-container *transloco="let t; read: 'imbalancePrices.status'">
       @switch (status()) {
         @case ('IN_COMPLETE') {
@@ -41,7 +40,7 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
       }
     </ng-container>
   `,
-  imports: [TranslocoDirective, WattBadgeComponent],
+    imports: [TranslocoDirective, WattBadgeComponent]
 })
 export class DhStatusBadgeComponent {
   status = input.required<ImbalancePriceStatus>();

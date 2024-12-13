@@ -23,10 +23,9 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-duration',
-  standalone: true,
-  imports: [TranslocoPipe, DhEmDashFallbackPipe],
-  template: `
+    selector: 'dh-duration',
+    imports: [TranslocoPipe, DhEmDashFallbackPipe],
+    template: `
     @let durationView = duration();
 
     @if (durationView === null) {
@@ -40,7 +39,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     } @else if (durationView.seconds > 0) {
       {{ 'duration.seconds' | transloco: durationView }}
     }
-  `,
+  `
 })
 export class DhDurationComponent {
   value = input.required<WattRange<Date>>();

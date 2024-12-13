@@ -34,9 +34,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-organization-history',
-  standalone: true,
-  template: `<ng-container
+    selector: 'dh-organization-history',
+    template: `<ng-container
     *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
   >
     @if (isLoading()) {
@@ -83,17 +82,15 @@ import {
       }
     }
   </ng-container>`,
-  imports: [
-    TranslocoDirective,
-
-    VaterStackComponent,
-
-    WATT_TABLE,
-    WATT_CARD,
-    WattDatePipe,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
-  ],
+    imports: [
+        TranslocoDirective,
+        VaterStackComponent,
+        WATT_TABLE,
+        WATT_CARD,
+        WattDatePipe,
+        WattSpinnerComponent,
+        WattEmptyStateComponent,
+    ]
 })
 export class DhOrganizationHistoryComponent {
   private getAuditLogByOrganizationIdQuery = lazyQuery(GetAuditLogByOrganizationIdDocument);

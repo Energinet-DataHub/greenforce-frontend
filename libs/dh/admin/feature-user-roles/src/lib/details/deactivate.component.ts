@@ -41,10 +41,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 @Component({
-  standalone: true,
-  selector: 'dh-deactivate-user-role',
-  imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
-  template: `<watt-modal
+    selector: 'dh-deactivate-user-role',
+    imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
+    template: `<watt-modal
     *transloco="let t; read: 'admin.userManagement.drawer'"
     #confirmationModal
     [size]="'small'"
@@ -63,7 +62,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
         t('continue')
       }}</watt-button>
     </watt-modal-actions>
-  </watt-modal>`,
+  </watt-modal>`
 })
 export class DhDeactivedUserRoleComponent {
   private toastService = inject(WattToastService);

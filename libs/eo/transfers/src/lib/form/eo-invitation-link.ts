@@ -47,19 +47,18 @@ function generateLink(id: string | null): string | null {
 }
 
 @Component({
-  standalone: true,
-  selector: 'eo-transfers-invitation-link',
-  imports: [
-    VaterStackComponent,
-    WattTextFieldComponent,
-    WattButtonComponent,
-    WattCopyToClipboardDirective,
-    WattFieldHintComponent,
-    WattFieldErrorComponent,
-    TranslocoPipe,
-  ],
-  styles: [
-    `
+    selector: 'eo-transfers-invitation-link',
+    imports: [
+        VaterStackComponent,
+        WattTextFieldComponent,
+        WattButtonComponent,
+        WattCopyToClipboardDirective,
+        WattFieldHintComponent,
+        WattFieldErrorComponent,
+        TranslocoPipe,
+    ],
+    styles: [
+        `
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
@@ -74,8 +73,8 @@ function generateLink(id: string | null): string | null {
         }
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <vater-stack direction="row" align-items="center">
       <watt-text-field
         name="invitation-link"
@@ -124,7 +123,7 @@ function generateLink(id: string | null): string | null {
         >
       }
     </vater-stack>
-  `,
+  `
 })
 export class EoTransferInvitationLinkComponent implements OnInit, OnChanges {
   // eslint-disable-next-line @angular-eslint/no-input-rename

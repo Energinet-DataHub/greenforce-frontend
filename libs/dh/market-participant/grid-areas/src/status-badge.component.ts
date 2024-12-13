@@ -24,9 +24,8 @@ import { GridAreaStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  standalone: true,
-  selector: 'dh-gridarea-status-badge',
-  template: `
+    selector: 'dh-gridarea-status-badge',
+    template: `
     <ng-container *transloco="let t; read: 'marketParticipant.gridAreas.status'">
       @switch (status()) {
         @case ('Created') {
@@ -47,8 +46,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       }
     </ng-container>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe]
 })
 export class DhGridAreaStatusBadgeComponent {
   status = input.required<GridAreaStatus>();

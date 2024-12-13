@@ -50,16 +50,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 @Component({
-  selector: 'eo-transfers-datetime',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    EoTransfersTimepickerComponent,
-    WattDatepickerComponent,
-  ],
-  styles: [
-    `
+    selector: 'eo-transfers-datetime',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        EoTransfersTimepickerComponent,
+        WattDatepickerComponent,
+    ],
+    styles: [
+        `
       eo-transfers-datetime {
         display: flex;
         gap: var(--watt-space-m);
@@ -136,8 +135,8 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
         }
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <ng-container [formGroup]="form">
       <watt-datepicker
         [label]="label"
@@ -149,19 +148,19 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
       <eo-transfers-timepicker formControlName="time" [disabledHours]="disabledHours" />
     </ng-container>
   `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EoTransfersDateTimeComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      multi: true,
-      useExisting: EoTransfersDateTimeComponent,
-    },
-  ],
-  encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => EoTransfersDateTimeComponent),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            multi: true,
+            useExisting: EoTransfersDateTimeComponent,
+        },
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class EoTransfersDateTimeComponent
   implements ControlValueAccessor, Validator, OnInit, OnChanges

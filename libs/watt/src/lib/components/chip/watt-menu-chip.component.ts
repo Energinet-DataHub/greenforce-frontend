@@ -24,11 +24,10 @@ import { WattChipComponent } from './watt-chip.component';
 export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
-  standalone: true,
-  imports: [WattChipComponent, WattIconComponent],
-  selector: 'watt-menu-chip',
-  styles: [
-    `
+    imports: [WattChipComponent, WattIconComponent],
+    selector: 'watt-menu-chip',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -55,8 +54,8 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
         color: var(--watt-on-light-low-emphasis);
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <watt-chip [disabled]="disabled" [selected]="selected">
       <button
         class="cdk-visually-hidden"
@@ -77,7 +76,7 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
         [class.disabled]="disabled"
       />
     </watt-chip>
-  `,
+  `
 })
 export class WattMenuChipComponent {
   @Input() opened = false;

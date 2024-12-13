@@ -23,9 +23,8 @@ import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
-  selector: 'dh-esett-shell',
-  standalone: true,
-  template: `
+    selector: 'dh-esett-shell',
+    template: `
     <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
       <watt-link-tab
         [label]="t('outgoingMessages.tabLabel')"
@@ -42,7 +41,7 @@ import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing'
       ></watt-link-tabs
     >
   `,
-  imports: [TranslocoDirective, WATT_LINK_TABS],
+    imports: [TranslocoDirective, WATT_LINK_TABS]
 })
 export class DhESettShellComponent {
   getLink = (path: ESettSubPaths) => combinePaths('esett', path);

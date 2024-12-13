@@ -33,12 +33,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 const selector = 'eo-landing-page-electrical-grid';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [TranslocoPipe],
-  encapsulation: ViewEncapsulation.None,
-  selector: 'eo-landing-page-electrical-grid',
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoPipe],
+    encapsulation: ViewEncapsulation.None,
+    selector: 'eo-landing-page-electrical-grid',
+    styles: `
     ${selector} {
       position: relative;
       display: flex;
@@ -148,7 +147,7 @@ const selector = 'eo-landing-page-electrical-grid';
       }
     }
   `,
-  template: `
+    template: `
     <h2 class="large-only headline-4">
       {{ translations.landingPage.electricalGrid.heading | transloco }}
     </h2>
@@ -173,7 +172,7 @@ const selector = 'eo-landing-page-electrical-grid';
         [innerHTML]="translations.landingPage.electricalGrid.subheading | transloco"
       ></h3>
     </div>
-  `,
+  `
 })
 export class EoLandingPageElectricalGridComponent implements AfterViewInit {
   @ViewChild('videoPlayer') videoplayer!: ElementRef;

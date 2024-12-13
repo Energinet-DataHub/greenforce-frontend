@@ -69,23 +69,22 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
  * The styling is calculated based on our monospaced font.
  */
 @Component({
-  selector: 'watt-datepicker',
-  templateUrl: './watt-datepicker.component.html',
-  styleUrls: ['./watt-datepicker.component.scss'],
-  providers: [
-    { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
-    MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
-  ],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [
-    MatDatepickerModule,
-    MatInputModule,
-    WattButtonComponent,
-    WattFieldComponent,
-    MaskitoModule,
-    WattPlaceholderMaskComponent,
-  ],
+    selector: 'watt-datepicker',
+    templateUrl: './watt-datepicker.component.html',
+    styleUrls: ['./watt-datepicker.component.scss'],
+    providers: [
+        { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
+        MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+    ],
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        MatDatepickerModule,
+        MatInputModule,
+        WattButtonComponent,
+        WattFieldComponent,
+        MaskitoModule,
+        WattPlaceholderMaskComponent,
+    ]
 })
 export class WattDatepickerComponent extends WattPickerBase implements Validator, AfterViewInit {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

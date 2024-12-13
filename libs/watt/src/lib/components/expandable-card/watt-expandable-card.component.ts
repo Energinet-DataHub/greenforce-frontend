@@ -41,12 +41,11 @@ export class WattExpandableCardContentDirective {
  * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';`
  */
 @Component({
-  standalone: true,
-  imports: [NgClass, NgTemplateOutlet, MatExpansionModule],
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-expandable-card',
-  styleUrl: './watt-expandable-card.component.scss',
-  templateUrl: './watt-expandable-card.component.html',
+    imports: [NgClass, NgTemplateOutlet, MatExpansionModule],
+    encapsulation: ViewEncapsulation.None,
+    selector: 'watt-expandable-card',
+    styleUrl: './watt-expandable-card.component.scss',
+    templateUrl: './watt-expandable-card.component.html'
 })
 export class WattExpandableCardComponent {
   /**

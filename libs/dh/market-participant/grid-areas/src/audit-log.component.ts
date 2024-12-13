@@ -32,18 +32,17 @@ import { GridArea } from './details.component';
 type AuditLog = NonNullable<GridArea['auditLog']>[0];
 
 @Component({
-  selector: 'dh-audit-log',
-  standalone: true,
-  styles: [
-    `
+    selector: 'dh-audit-log',
+    styles: [
+        `
       :host {
         display: block;
         margin: var(--watt-space-ml);
       }
     `,
-  ],
-  imports: [TranslocoDirective, WATT_TABLE, WATT_CARD, WattDatePipe, DhResultComponent],
-  template: `<dh-result
+    ],
+    imports: [TranslocoDirective, WATT_TABLE, WATT_CARD, WattDatePipe, DhResultComponent],
+    template: `<dh-result
     [empty]="dataSource.data.length === 0"
     *transloco="let t; read: 'marketParticipant.gridAreas.history'"
   >
@@ -94,7 +93,7 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
         </ng-container>
       </watt-table>
     </watt-card>
-  </dh-result>`,
+  </dh-result>`
 })
 export class DhAuditLogComponent {
   gridArea = input<GridArea>();

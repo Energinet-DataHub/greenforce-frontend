@@ -30,21 +30,18 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
-  standalone: true,
-  selector: 'dh-organization-manage',
-  imports: [
-    TranslocoDirective,
-    ReactiveFormsModule,
-
-    WattTextFieldComponent,
-    WattButtonComponent,
-    WattFieldErrorComponent,
-    WattActionChipComponent,
-
-    VaterStackComponent,
-    VaterFlexComponent,
-  ],
-  template: `
+    selector: 'dh-organization-manage',
+    imports: [
+        TranslocoDirective,
+        ReactiveFormsModule,
+        WattTextFieldComponent,
+        WattButtonComponent,
+        WattFieldErrorComponent,
+        WattActionChipComponent,
+        VaterStackComponent,
+        VaterFlexComponent,
+    ],
+    template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
       <vater-stack direction="row" gap="m" fill="horizontal">
         <watt-text-field [prefix]="'alternateEmail'" [formControl]="domain" [label]="t('domain')">
@@ -70,7 +67,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
         </watt-field-error>
       }
     </ng-container>
-  `,
+  `
 })
 export class DhOrganizationManageComponent {
   domain = new FormControl('', [dhDomainValidator]);

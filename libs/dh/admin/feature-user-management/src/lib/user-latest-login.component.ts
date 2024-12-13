@@ -22,9 +22,8 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { dayjs } from '@energinet-datahub/watt/date';
 
 @Component({
-  selector: 'dh-user-latest-login',
-  standalone: true,
-  template: `
+    selector: 'dh-user-latest-login',
+    template: `
     @let days = daysSince();
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">
       @switch (days) {
@@ -43,8 +42,8 @@ import { dayjs } from '@energinet-datahub/watt/date';
       }
     </ng-container>
   `,
-  imports: [TranslocoDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DhUserLatestLoginComponent {
   latestLoginAt = input<Date | null>();

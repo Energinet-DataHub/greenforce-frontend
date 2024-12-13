@@ -29,10 +29,9 @@ interface State {
 }
 
 @Component({
-  standalone: true,
-  selector: 'eo-signin-callback',
-  imports: [WattSpinnerComponent],
-  styles: `
+    selector: 'eo-signin-callback',
+    imports: [WattSpinnerComponent],
+    styles: `
     :host {
       height: 100vh;
       width: 100%;
@@ -41,7 +40,7 @@ interface State {
       align-items: center;
     }
   `,
-  template: ` <watt-spinner /> `,
+    template: ` <watt-spinner /> `
 })
 export class EoSigninCallbackComponent implements OnInit {
   private readonly router = inject(Router);

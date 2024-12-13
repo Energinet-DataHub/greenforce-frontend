@@ -26,16 +26,15 @@ import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-partic
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
-  selector: 'dh-generate-client-secret',
-  standalone: true,
-  styles: [
-    `
+    selector: 'dh-generate-client-secret',
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  template: `<watt-button
+    ],
+    template: `<watt-button
     *transloco="let t; read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess'"
     (click)="generateSecret()"
     [loading]="generateSecretInProgress()"
@@ -44,7 +43,7 @@ import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
       doesClientSecretMetadataExist() ? t('generateNewClientSecret') : t('generateClientSecret')
     }}</watt-button
   >`,
-  imports: [TranslocoDirective, WattButtonComponent],
+    imports: [TranslocoDirective, WattButtonComponent]
 })
 export class DhGenerateClientSecretComponent {
   private readonly transloco = inject(TranslocoService);

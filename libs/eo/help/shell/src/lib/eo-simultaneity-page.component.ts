@@ -24,11 +24,10 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-sta
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  selector: 'eo-simultaneity-page',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'eo-simultaneity-page',
+    styles: [
+        `
       :host {
         display: grid;
         gap: var(--watt-space-l);
@@ -59,8 +58,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         display: block;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <div>
       <eo-info-box>
         <h3>Houston, we have a problem!</h3>
@@ -126,7 +125,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
       </eo-info-box>
     </div>
   `,
-  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
+    imports: [EoStackComponent, RouterModule, EoInfoBoxComponent]
 })
 export class EoSimultaneityPageComponent {
   routes = eoRoutes;

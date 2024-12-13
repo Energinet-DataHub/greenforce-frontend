@@ -35,26 +35,23 @@ import { DhDurationComponent } from '../util/dh-duration.component';
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 
 @Component({
-  selector: 'dh-settlement-report-drawer',
-  standalone: true,
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_CARD,
-    WATT_TABLE,
-    WATT_DRAWER,
-    WattDatePipe,
-    VaterStackComponent,
-    WattButtonComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-
-    DhDurationComponent,
-    DhSettlementReportsStatusComponent,
-  ],
-  styles: [
-    `
+    selector: 'dh-settlement-report-drawer',
+    imports: [
+        TranslocoPipe,
+        TranslocoDirective,
+        WATT_CARD,
+        WATT_TABLE,
+        WATT_DRAWER,
+        WattDatePipe,
+        VaterStackComponent,
+        WattButtonComponent,
+        WattDescriptionListComponent,
+        WattDescriptionListItemComponent,
+        DhDurationComponent,
+        DhSettlementReportsStatusComponent,
+    ],
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -84,8 +81,8 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
         margin: var(--watt-space-ml);
       }
     `,
-  ],
-  templateUrl: './dh-settlement-report-drawer.component.html',
+    ],
+    templateUrl: './dh-settlement-report-drawer.component.html'
 })
 export class DhSettlementReportDrawerComponent {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);

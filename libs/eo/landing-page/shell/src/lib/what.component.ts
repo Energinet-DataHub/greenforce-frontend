@@ -54,11 +54,10 @@ interface Image {
 }
 
 @Component({
-  standalone: true,
-  selector: 'eo-landing-page-what',
-  imports: [NgClass, NgStyle, TranslocoPipe],
-  encapsulation: ViewEncapsulation.None,
-  styles: `
+    selector: 'eo-landing-page-what',
+    imports: [NgClass, NgStyle, TranslocoPipe],
+    encapsulation: ViewEncapsulation.None,
+    styles: `
     eo-landing-page-what {
       display: flex;
       flex-direction: column;
@@ -209,7 +208,7 @@ interface Image {
       }
     }
   `,
-  template: `
+    template: `
     @if (showLarge) {
       <section aria-hidden class="images">
         @for (section of sections(); track section.id) {
@@ -298,7 +297,7 @@ interface Image {
         </section>
       }
     }
-  `,
+  `
 })
 export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);

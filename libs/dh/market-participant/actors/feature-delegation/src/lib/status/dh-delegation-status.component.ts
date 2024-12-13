@@ -23,16 +23,15 @@ import { ActorDelegationStatus } from '@energinet-datahub/dh/shared/domain/graph
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
-  selector: 'dh-delegation-status',
-  imports: [TranslocoDirective, WattBadgeComponent],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
+    selector: 'dh-delegation-status',
+    imports: [TranslocoDirective, WattBadgeComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: `
     :host {
       display: block;
     }
   `,
-  template: `
+    template: `
     <ng-container *transloco="let t; read: 'marketParticipant.delegation.status'">
       @switch (status()) {
         @case ('ACTIVE') {
@@ -49,7 +48,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
         }
       }
     </ng-container>
-  `,
+  `
 })
 export class DhDelegationStatusComponent {
   status = input.required<ActorDelegationStatus>();

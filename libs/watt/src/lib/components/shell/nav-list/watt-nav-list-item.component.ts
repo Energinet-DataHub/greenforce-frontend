@@ -21,11 +21,10 @@ import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-nav-list-item',
-  standalone: true,
-  imports: [NgTemplateOutlet, RouterModule],
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'watt-nav-list-item',
+    imports: [NgTemplateOutlet, RouterModule],
+    template: `
     @if (isExternalLink) {
       <a [href]="link()" [attr.target]="target()"
         ><ng-container *ngTemplateOutlet="templateContent"
@@ -42,7 +41,7 @@ import { RouterModule } from '@angular/router';
     <ng-template #templateContent>
       <ng-content />
     </ng-template>
-  `,
+  `
 })
 export class WattNavListItemComponent {
   link = input.required<string>();

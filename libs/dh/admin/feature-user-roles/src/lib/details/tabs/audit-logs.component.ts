@@ -33,17 +33,16 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-role-audit-logs',
-  standalone: true,
-  templateUrl: './audit-logs.component.html',
-  styles: [
-    `
+    selector: 'dh-role-audit-logs',
+    templateUrl: './audit-logs.component.html',
+    styles: [
+        `
       h4 {
         margin: 0;
       }
     `,
-  ],
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
+    ],
+    imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent]
 })
 export class DhRoleAuditLogsComponent {
   private auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument);

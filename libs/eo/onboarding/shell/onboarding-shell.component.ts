@@ -22,10 +22,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
-  standalone: true,
-  selector: 'eo-onboarding-shell',
-  imports: [WattSpinnerComponent],
-  styles: `
+    selector: 'eo-onboarding-shell',
+    imports: [WattSpinnerComponent],
+    styles: `
     :host {
       height: 100vh;
       width: 100%;
@@ -34,7 +33,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
       align-items: center;
     }
   `,
-  template: ` <watt-spinner /> `,
+    template: ` <watt-spinner /> `
 })
 export class EoOnboardingShellComponent implements OnInit {
   private route = inject(ActivatedRoute);

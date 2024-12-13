@@ -25,12 +25,11 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { DhNotification } from './dh-notification';
 
 @Component({
-  selector: 'dh-notification',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
-  styleUrl: './dh-notification.component.scss',
-  template: `
+    selector: 'dh-notification',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
+    styleUrl: './dh-notification.component.scss',
+    template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
         <watt-icon
@@ -55,7 +54,7 @@ import { DhNotification } from './dh-notification';
         </p>
       </div>
     </ng-container>
-  `,
+  `
 })
 export class DhNotificationComponent {
   notification = input.required<DhNotification>();

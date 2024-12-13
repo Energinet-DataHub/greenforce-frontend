@@ -49,27 +49,23 @@ import { DhCreateUserRoleComponent } from './create.component';
 type Variables = Partial<GetFilteredUserRolesQueryVariables>;
 
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-user-roles-table',
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattButtonComponent,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
-    WattDataActionsComponent,
-
-    VaterUtilityDirective,
-
-    DhRoleStatusComponent,
-    DhUserRolesFilterComponent,
-    DhUserRolesDownloadComponent,
-    DhPermissionRequiredDirective,
-  ],
-  template: `<watt-data-table
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'dh-user-roles-table',
+    imports: [
+        TranslocoPipe,
+        TranslocoDirective,
+        WATT_TABLE,
+        WattButtonComponent,
+        WattDataTableComponent,
+        WattDataFiltersComponent,
+        WattDataActionsComponent,
+        VaterUtilityDirective,
+        DhRoleStatusComponent,
+        DhUserRolesFilterComponent,
+        DhUserRolesDownloadComponent,
+        DhPermissionRequiredDirective,
+    ],
+    template: `<watt-data-table
     *transloco="let t; read: 'admin.userManagement.tabs.roles'"
     vater
     inset="ml"
@@ -115,7 +111,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
         <dh-role-status [status]="role.status" />
       </ng-container>
     </watt-table>
-  </watt-data-table>`,
+  </watt-data-table>`
 })
 export class DhUserRolesTableComponent {
   private navigation = inject(DhNavigationService);

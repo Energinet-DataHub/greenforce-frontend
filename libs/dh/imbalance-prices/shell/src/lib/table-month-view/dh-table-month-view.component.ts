@@ -29,28 +29,25 @@ import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.componen
 import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component';
 
 @Component({
-  selector: 'dh-table-month-view',
-  standalone: true,
-  templateUrl: './dh-table-month-view.component.html',
-  styles: [
-    `
+    selector: 'dh-table-month-view',
+    templateUrl: './dh-table-month-view.component.html',
+    styles: [
+        `
       :host {
         display: contents;
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattEmptyStateComponent,
-    WattDatePipe,
-    VaterFlexComponent,
-    VaterStackComponent,
-
-    DhStatusBadgeComponent,
-    DhImbalancePricesDrawerComponent,
-  ],
+    ],
+    imports: [
+        TranslocoDirective,
+        WATT_TABLE,
+        WattEmptyStateComponent,
+        WattDatePipe,
+        VaterFlexComponent,
+        VaterStackComponent,
+        DhStatusBadgeComponent,
+        DhImbalancePricesDrawerComponent,
+    ]
 })
 export class DhTableMonthViewComponent {
   columns: WattTableColumnDef<DhImbalancePrice> = {

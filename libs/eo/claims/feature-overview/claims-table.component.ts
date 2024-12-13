@@ -37,12 +37,11 @@ import { Claim } from '@energinet-datahub/eo/claims/data-access-api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, TranslocoPipe],
-  standalone: true,
-  selector: 'eo-claims-table',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, TranslocoPipe],
+    selector: 'eo-claims-table',
+    styles: [
+        `
       eo-claims-table {
         watt-empty-state {
           padding: var(--watt-space-l);
@@ -54,9 +53,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         }
       }
     `,
-  ],
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    ],
+    encapsulation: ViewEncapsulation.None,
+    template: `
     @if (columns) {
       <watt-table
         #table
@@ -85,7 +84,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     }
 
     <watt-paginator [for]="dataSource" />
-  `,
+  `
 })
 export class EoClaimsTableComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);

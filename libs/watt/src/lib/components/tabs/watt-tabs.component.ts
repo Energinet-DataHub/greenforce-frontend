@@ -36,13 +36,12 @@ import { WattTabComponent } from './watt-tab.component';
 import { WattTabsActionComponent } from './watt-tabs-action.component';
 
 @Component({
-  standalone: true,
-  selector: 'watt-tabs',
-  styleUrls: ['./watt-tabs.component.scss'],
-  templateUrl: './watt-tabs.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Default,
-  imports: [NgTemplateOutlet, MatTabsModule],
+    selector: 'watt-tabs',
+    styleUrls: ['./watt-tabs.component.scss'],
+    templateUrl: './watt-tabs.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Default,
+    imports: [NgTemplateOutlet, MatTabsModule]
 })
 export class WattTabsComponent implements AfterViewInit {
   private readonly cdr = inject(ChangeDetectorRef);

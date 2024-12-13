@@ -144,29 +144,28 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    WattDataTableComponent,
-    WattDataFiltersComponent,
-    WattDropdownComponent,
-    VaterStackComponent,
-    WattDateRangeChipComponent,
-    WattTableComponent,
-    ReactiveFormsModule,
-    WattFormChipDirective,
-    VaterSpacerComponent,
-    TranslocoPipe,
-    WattButtonComponent,
-    WattTableCellDirective,
-  ],
-  providers: [WattDatePipe, EnergyUnitPipe],
-  standalone: true,
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        WattDataTableComponent,
+        WattDataFiltersComponent,
+        WattDropdownComponent,
+        VaterStackComponent,
+        WattDateRangeChipComponent,
+        WattTableComponent,
+        ReactiveFormsModule,
+        WattFormChipDirective,
+        VaterSpacerComponent,
+        TranslocoPipe,
+        WattButtonComponent,
+        WattTableCellDirective,
+    ],
+    providers: [WattDatePipe, EnergyUnitPipe],
+    styles: `
     :host {
       --watt-data-table-empty-state-margin: var(--watt-space-xl) 0;
     }
   `,
-  template: `
+    template: `
     @if (columns) {
       <watt-data-table
         vater
@@ -220,7 +219,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
         </watt-table>
       </watt-data-table>
     }
-  `,
+  `
 })
 export class EoCertificatesOverviewComponent implements OnInit {
   /* Page index */

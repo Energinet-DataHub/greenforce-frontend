@@ -47,10 +47,9 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: [
+        `
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
@@ -78,21 +77,21 @@ import { translations } from '@energinet-datahub/eo/translations';
         }
       }
     `,
-  ],
-  imports: [
-    EoDashboardConsumptionComponent,
-    EoDashboardProductionTransferredComponent,
-    EoDashboardChoosePeriodComponent,
-    AsyncPipe,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
-    WattTabsComponent,
-    WattTabComponent,
-    WattTabsActionComponent,
-    TranslocoPipe,
-  ],
-  selector: 'eo-dashboard-shell',
-  template: `
+    ],
+    imports: [
+        EoDashboardConsumptionComponent,
+        EoDashboardProductionTransferredComponent,
+        EoDashboardChoosePeriodComponent,
+        AsyncPipe,
+        WattSpinnerComponent,
+        WattEmptyStateComponent,
+        WattTabsComponent,
+        WattTabComponent,
+        WattTabsActionComponent,
+        TranslocoPipe,
+    ],
+    selector: 'eo-dashboard-shell',
+    template: `
     @if ((isLoadingMeteringPoints$ | async) === false) {
       @if (((productionAndConsumptionMeteringPoints$ | async) || []).length > 0) {
         <watt-tabs variant="secondary">
@@ -149,7 +148,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         <watt-spinner />
       </div>
     }
-  `,
+  `
 })
 export class EoDashboardShellComponent implements OnInit {
   private readonly meteringPointStore = inject(EoMeteringPointsStore);

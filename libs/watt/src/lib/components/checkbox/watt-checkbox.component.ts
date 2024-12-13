@@ -28,9 +28,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'watt-checkbox',
-  styleUrls: ['./watt-checkbox.component.scss'],
-  template: `<label>
+    selector: 'watt-checkbox',
+    styleUrls: ['./watt-checkbox.component.scss'],
+    template: `<label>
     <input
       [ngModel]="checked"
       [disabled]="isdisabled"
@@ -41,16 +41,15 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
     />
     <ng-content />
   </label>`,
-  standalone: true,
-  encapsulation: ViewEncapsulation.None,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattCheckboxComponent),
-      multi: true,
-    },
-  ],
-  imports: [FormsModule],
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => WattCheckboxComponent),
+            multi: true,
+        },
+    ],
+    imports: [FormsModule]
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
   private element = inject(ElementRef);

@@ -37,24 +37,22 @@ import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
 import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-assignable-user-roles',
-  standalone: true,
-  imports: [
-    FormsModule,
-    TranslocoPipe,
-    MatDividerModule,
-    TranslocoDirective,
-
-    WATT_CARD,
-    WATT_TABLE,
-    WattEmptyStateComponent,
-  ],
-  styles: `
+    selector: 'dh-assignable-user-roles',
+    imports: [
+        FormsModule,
+        TranslocoPipe,
+        MatDividerModule,
+        TranslocoDirective,
+        WATT_CARD,
+        WATT_TABLE,
+        WattEmptyStateComponent,
+    ],
+    styles: `
     watt-empty-state {
       padding: var(--watt-space-xl);
     }
   `,
-  template: `<watt-card *transloco="let t; read: 'admin.userManagement.inviteUser'" variant="solid">
+    template: `<watt-card *transloco="let t; read: 'admin.userManagement.inviteUser'" variant="solid">
     <watt-card-title>
       <h4>
         @if (dataSource.totalCount === 1) {
@@ -91,7 +89,7 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
         </ng-container>
       </watt-table>
     }
-  </watt-card>`,
+  </watt-card>`
 })
 export class DhAssignableUserRolesComponent {
   private table = viewChild.required(WattTableComponent);

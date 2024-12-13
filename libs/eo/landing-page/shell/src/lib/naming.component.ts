@@ -36,12 +36,11 @@ import { EoLottieComponent } from './eo-lottie.component';
 const selector = 'eo-landing-page-naming';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  encapsulation: ViewEncapsulation.None,
-  selector,
-  imports: [EoLottieComponent, TranslocoPipe],
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    selector,
+    imports: [EoLottieComponent, TranslocoPipe],
+    styles: `
     ${selector} {
       display: flex;
       justify-content: center;
@@ -84,7 +83,7 @@ const selector = 'eo-landing-page-naming';
       }
     }
   `,
-  template: `
+    template: `
     <div class="container">
       <eo-lottie
         #animation
@@ -102,7 +101,7 @@ const selector = 'eo-landing-page-naming';
         <div class="text" [innerHTML]="translations.landingPage.naming.content | transloco"></div>
       </div>
     </div>
-  `,
+  `
 })
 export class EoLandingPageNamingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('animation') private animation!: EoLottieComponent;

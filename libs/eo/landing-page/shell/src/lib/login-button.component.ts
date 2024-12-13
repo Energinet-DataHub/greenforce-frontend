@@ -36,11 +36,10 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
-  selector: 'eo-login-button',
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
+    selector: 'eo-login-button',
+    template: `
     @if (type() === 'default') {
       <button class="button primary" (click)="onClick()">
         <watt-icon name="login" />
@@ -51,7 +50,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         {{ translations.loginButton.unauthenticated | transloco }}
       </watt-button>
     }
-  `,
+  `
 })
 export class EoLoginButtonComponent {
   type = input<'text' | 'default'>('default');

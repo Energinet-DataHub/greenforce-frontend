@@ -23,14 +23,13 @@ import { EoMediaPresenter } from './eo-media.presenter';
 import { EoMediaImageDirective } from './eo-media-image.directive';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [RxPush],
-  exportAs: 'eoMedia',
-  providers: [EoMediaPresenter],
-  selector: 'eo-media',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RxPush],
+    exportAs: 'eoMedia',
+    providers: [EoMediaPresenter],
+    selector: 'eo-media',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -56,8 +55,8 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
         justify-content: center; // [2]
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <div class="media" [style.gap]="presenter.gap$ | push" data-testid="media-box">
       <div
         class="media__body"
@@ -76,7 +75,7 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
         <ng-content select="[eoMediaImage]" />
       </div>
     </div>
-  `,
+  `
 })
 export class EoMediaComponent {
   presenter = inject(EoMediaPresenter);

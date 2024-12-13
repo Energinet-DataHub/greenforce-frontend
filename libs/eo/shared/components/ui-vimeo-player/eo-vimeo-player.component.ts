@@ -30,12 +30,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import Player from '@vimeo/player';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf],
-  selector: 'eo-vimeo-player',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf],
+    selector: 'eo-vimeo-player',
+    styles: [
+        `
       :host {
         display: block;
 
@@ -64,10 +63,10 @@ import Player from '@vimeo/player';
         cursor: pointer;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <img *ngIf="isPosterVisible" class="poster-image" [src]="poster" (click)="onVideoPlay()" />
-  `,
+  `
 })
 export class EoVimeoPlayerComponent {
   private sanitizer = inject(DomSanitizer);

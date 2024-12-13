@@ -27,10 +27,9 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
-  standalone: true,
-  imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
-  selector: 'dh-calculations-grid-areas-table',
-  template: `
+    imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
+    selector: 'dh-calculations-grid-areas-table',
+    template: `
     <watt-data-table
       *transloco="let t; read: 'wholesale.calculations.details'"
       variant="solid"
@@ -49,7 +48,7 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
       />
     </watt-data-table>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DhCalculationsGridAreasTableComponent {
   @ViewChild(MatSort) sort!: MatSort;

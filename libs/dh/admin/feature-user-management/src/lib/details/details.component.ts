@@ -60,29 +60,26 @@ import { DhUserAuditLogsComponent } from './tabs/audit-logs.component';
 import { DhUserMasterDataComponent } from './tabs/master-data.component';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-user-details',
-  standalone: true,
-  templateUrl: './details.component.html',
-  imports: [
-    RouterOutlet,
-    MatMenuModule,
-    TranslocoDirective,
-
-    WATT_TABS,
-    WATT_MODAL,
-    WATT_DRAWER,
-    WattButtonComponent,
-
-    DhUserRolesComponent,
-    DhDeactivteComponent,
-    DhReactivateComponent,
-    DhUserStatusComponent,
-    DhUserAuditLogsComponent,
-    DhUserMasterDataComponent,
-    DhPermissionRequiredDirective,
-  ],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'dh-user-details',
+    templateUrl: './details.component.html',
+    imports: [
+        RouterOutlet,
+        MatMenuModule,
+        TranslocoDirective,
+        WATT_TABS,
+        WATT_MODAL,
+        WATT_DRAWER,
+        WattButtonComponent,
+        DhUserRolesComponent,
+        DhDeactivteComponent,
+        DhReactivateComponent,
+        DhUserStatusComponent,
+        DhUserAuditLogsComponent,
+        DhUserMasterDataComponent,
+        DhPermissionRequiredDirective,
+    ]
 })
 export class DhUserDetailsComponent {
   private transloco = inject(TranslocoService);

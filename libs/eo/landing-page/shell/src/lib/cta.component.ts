@@ -26,11 +26,10 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [WattIconComponent, TranslocoPipe, EoLoginButtonComponent],
-  selector: 'eo-landing-page-cta',
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [WattIconComponent, TranslocoPipe, EoLoginButtonComponent],
+    selector: 'eo-landing-page-cta',
+    styles: `
     :host {
       display: block;
       width: 100%;
@@ -83,7 +82,7 @@ import { EoLoginButtonComponent } from './login-button.component';
       justify-content: space-between;
     }
   `,
-  template: `
+    template: `
     <h2 class="headline-1">{{ translations.landingPage.cta.heading | transloco }}</h2>
     <section class="login">
       <h3 class="headline-3">{{ translations.landingPage.cta.section1.heading | transloco }}</h3>
@@ -97,7 +96,7 @@ import { EoLoginButtonComponent } from './login-button.component';
         }}</a
       >
     </section>
-  `,
+  `
 })
 export class EoLandingPageCTAComponent {
   private authService = inject(EoAuthService);

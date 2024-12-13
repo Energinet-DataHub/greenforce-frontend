@@ -31,14 +31,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-  standalone: true,
-  selector: 'dh-settlement-reports-cancel-button',
-  template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.cancelReport'">
+    selector: 'dh-settlement-reports-cancel-button',
+    template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.cancelReport'">
     <watt-button type="button" variant="text" icon="close" (click)="openCancelModal($event)">{{
       t('baseName')
     }}</watt-button>
   </ng-container>`,
-  imports: [TranslocoDirective, WattButtonComponent],
+    imports: [TranslocoDirective, WattButtonComponent]
 })
 export class DhSettlementReportsCancelButtonComponent {
   reportId = input<string>();

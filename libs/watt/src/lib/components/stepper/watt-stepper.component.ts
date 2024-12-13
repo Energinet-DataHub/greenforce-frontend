@@ -42,19 +42,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-stepper',
-  standalone: true,
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [
-    NgTemplateOutlet,
-    RxPush,
-    MatStepperModule,
-
-    WattStepperStepComponent,
-    WattIconComponent,
-    WattButtonComponent,
-  ],
+  imports: [NgTemplateOutlet, RxPush, MatStepperModule, WattIconComponent, WattButtonComponent],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,

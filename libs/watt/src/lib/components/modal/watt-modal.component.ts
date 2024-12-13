@@ -45,21 +45,19 @@ export type WattModalSize = 'small' | 'medium' | 'large';
  * `import { WATT_MODAL } from '@energinet-datahub/watt/modal';`
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-modal',
-  styleUrls: ['./watt-modal.component.scss'],
-  templateUrl: './watt-modal.component.html',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgTemplateOutlet,
-
-    WattResizeObserverDirective,
-    WattButtonComponent,
-    WattSpinnerComponent,
-    WattModalModule,
-  ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    selector: 'watt-modal',
+    styleUrls: ['./watt-modal.component.scss'],
+    templateUrl: './watt-modal.component.html',
+    imports: [
+        NgClass,
+        NgTemplateOutlet,
+        WattResizeObserverDirective,
+        WattButtonComponent,
+        WattSpinnerComponent,
+        WattModalModule,
+    ]
 })
 export class WattModalComponent {
   private modalService = inject(WattModalService);

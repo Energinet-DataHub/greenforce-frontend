@@ -31,20 +31,19 @@ import { GetArchivedMessagesQueryVariables } from '@energinet-datahub/dh/shared/
 import { DhMessageArchiveSearchFormService } from './form.service';
 
 @Component({
-  selector: 'dh-message-archive-search-start',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-    VaterStackComponent,
-    WattButtonComponent,
-    WattDateTimeField,
-    WattDropdownComponent,
-    WattModalActionsComponent,
-    WattModalComponent,
-    DhDropdownTranslatorDirective,
-  ],
-  template: `
+    selector: 'dh-message-archive-search-start',
+    imports: [
+        ReactiveFormsModule,
+        TranslocoDirective,
+        VaterStackComponent,
+        WattButtonComponent,
+        WattDateTimeField,
+        WattDropdownComponent,
+        WattModalActionsComponent,
+        WattModalComponent,
+        DhDropdownTranslatorDirective,
+    ],
+    template: `
     <watt-modal
       #modal
       *transloco="let t; read: 'messageArchive.start'"
@@ -116,7 +115,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `,
+  `
 })
 export class DhMessageArchiveSearchStartComponent {
   form = inject(DhMessageArchiveSearchFormService);

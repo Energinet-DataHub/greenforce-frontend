@@ -31,9 +31,8 @@ import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  selector: 'dh-user-master-data',
-  standalone: true,
-  template: `<watt-card
+    selector: 'dh-user-master-data',
+    template: `<watt-card
     *transloco="let t; read: 'admin.userManagement.tabs.masterData'"
     variant="solid"
   >
@@ -46,22 +45,20 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       />
     </watt-description-list>
   </watt-card>`,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-
-    WattCardComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-
-    DhEmDashFallbackPipe,
-  ],
+    ],
+    imports: [
+        TranslocoDirective,
+        WattCardComponent,
+        WattDescriptionListComponent,
+        WattDescriptionListItemComponent,
+        DhEmDashFallbackPipe,
+    ]
 })
 export class DhUserMasterDataComponent {
   user = input.required<DhUserDetails>();

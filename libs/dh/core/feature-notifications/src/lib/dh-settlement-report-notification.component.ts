@@ -26,20 +26,19 @@ import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-se
 import { DhNotification } from './dh-notification';
 
 @Component({
-  selector: 'dh-settlement-report-notification',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
-  providers: [DhSettlementReportsService],
-  styleUrl: './dh-notification.component.scss',
-  styles: `
+    selector: 'dh-settlement-report-notification',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
+    providers: [DhSettlementReportsService],
+    styleUrl: './dh-notification.component.scss',
+    styles: `
     .notification__message {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
   `,
-  template: `
+    template: `
     <ng-container *transloco="let t; read: 'notificationsCenter.notification'">
       <div class="notification notification--unread">
         <watt-icon
@@ -63,7 +62,7 @@ import { DhNotification } from './dh-notification';
         </button>
       </div>
     </ng-container>
-  `,
+  `
 })
 export class DhSettlementReportNotificationComponent {
   private readonly settlementReportsService = inject(DhSettlementReportsService);

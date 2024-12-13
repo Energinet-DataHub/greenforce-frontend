@@ -45,27 +45,23 @@ import { DhUser } from '@energinet-datahub/dh/admin/data-access-api';
 type Variables = Partial<GetUsersQueryVariables>;
 
 @Component({
-  selector: 'dh-users',
-  standalone: true,
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattButtonComponent,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
-    WattDataActionsComponent,
-
-    VaterUtilityDirective,
-
-    DhEmDashFallbackPipe,
-    DhUserStatusComponent,
-    DhUserLatestLoginComponent,
-    DhPermissionRequiredDirective,
-    DhUsersOverviewFiltersComponent,
-    DhDownloadUsersCsvComponent,
-  ],
-  template: ` <watt-data-table
+    selector: 'dh-users',
+    imports: [
+        TranslocoDirective,
+        WATT_TABLE,
+        WattButtonComponent,
+        WattDataTableComponent,
+        WattDataFiltersComponent,
+        WattDataActionsComponent,
+        VaterUtilityDirective,
+        DhEmDashFallbackPipe,
+        DhUserStatusComponent,
+        DhUserLatestLoginComponent,
+        DhPermissionRequiredDirective,
+        DhUsersOverviewFiltersComponent,
+        DhDownloadUsersCsvComponent,
+    ],
+    template: ` <watt-data-table
     *transloco="let t; read: 'admin.userManagement.tabs.users'"
     vater
     inset="ml"
@@ -121,7 +117,7 @@ type Variables = Partial<GetUsersQueryVariables>;
         <dh-user-status [status]="row.status" />
       </ng-container>
     </watt-table>
-  </watt-data-table>`,
+  </watt-data-table>`
 })
 export class DhUsersComponent {
   private navigation = inject(DhNavigationService);

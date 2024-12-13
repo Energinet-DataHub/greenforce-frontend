@@ -60,27 +60,26 @@ interface Totals {
 }
 
 @Component({
-  standalone: true,
-  imports: [
-    WATT_CARD,
-    NgChartsModule,
-    RouterLink,
-    EnergyUnitPipe,
-    WattEmptyStateComponent,
-    WattButtonComponent,
-    PercentageOfPipe,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    WattIconComponent,
-    EoLottieComponent,
-    TitleCasePipe,
-    WattTooltipDirective,
-    TranslocoPipe,
-  ],
-  providers: [EnergyUnitPipe],
-  selector: 'eo-dashboard-consumption',
-  styles: [
-    `
+    imports: [
+        WATT_CARD,
+        NgChartsModule,
+        RouterLink,
+        EnergyUnitPipe,
+        WattEmptyStateComponent,
+        WattButtonComponent,
+        PercentageOfPipe,
+        VaterSpacerComponent,
+        VaterStackComponent,
+        WattIconComponent,
+        EoLottieComponent,
+        TitleCasePipe,
+        WattTooltipDirective,
+        TranslocoPipe,
+    ],
+    providers: [EnergyUnitPipe],
+    selector: 'eo-dashboard-consumption',
+    styles: [
+        `
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
@@ -160,8 +159,8 @@ interface Totals {
         }
       }
     `,
-  ],
-  template: `<watt-card>
+    ],
+    template: `<watt-card>
     <watt-card-title>
       <h4>{{ translations.consumerChart.title | transloco }}</h4>
       <watt-icon
@@ -253,7 +252,7 @@ interface Totals {
       >
       </canvas>
     </div>
-  </watt-card>`,
+  </watt-card>`
 })
 export class EoDashboardConsumptionComponent implements OnChanges {
   @Input() period!: eoDashboardPeriod;

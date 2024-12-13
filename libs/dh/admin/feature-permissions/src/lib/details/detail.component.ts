@@ -51,28 +51,25 @@ import { DhAdminPermissionRolesComponent } from './tabs/admin-permission-roles.c
 import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.component';
 
 @Component({
-  selector: 'dh-permission-detail',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './detail.component.html',
-  imports: [
-    RouterOutlet,
-    TranslocoDirective,
-
-    WATT_DRAWER,
-    WattTabComponent,
-    WattCardComponent,
-    WattTabsComponent,
-    WattButtonComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-
-    DhResultComponent,
-    DhPermissionRequiredDirective,
-    DhPermissionAuditLogsComponent,
-    DhAdminPermissionRolesComponent,
-    DhAdminPermissionMarketRolesComponent,
-  ],
+    selector: 'dh-permission-detail',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './detail.component.html',
+    imports: [
+        RouterOutlet,
+        TranslocoDirective,
+        WATT_DRAWER,
+        WattTabComponent,
+        WattCardComponent,
+        WattTabsComponent,
+        WattButtonComponent,
+        WattDescriptionListComponent,
+        WattDescriptionListItemComponent,
+        DhResultComponent,
+        DhPermissionRequiredDirective,
+        DhPermissionAuditLogsComponent,
+        DhAdminPermissionRolesComponent,
+        DhAdminPermissionMarketRolesComponent,
+    ]
 })
 export class DhPermissionDetailComponent {
   private navigationService = inject(DhNavigationService);

@@ -32,13 +32,12 @@ import { WattIconState } from './watt-icon-state';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'watt-icon',
-  templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [MatIconModule],
+    selector: 'watt-icon',
+    templateUrl: './icon.component.html',
+    styleUrls: ['./icon.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    imports: [MatIconModule]
 })
 export class WattIconComponent {
   private iconService = inject(WattIconService);

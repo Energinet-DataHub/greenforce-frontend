@@ -45,12 +45,11 @@ import { WattDrawerHeadingComponent } from './watt-drawer-heading.component';
 export type WattDrawerSize = 'small' | 'normal' | 'large';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-drawer',
-  styleUrls: ['./watt-drawer.component.scss'],
-  templateUrl: './watt-drawer.component.html',
-  standalone: true,
-  imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'watt-drawer',
+    styleUrls: ['./watt-drawer.component.scss'],
+    templateUrl: './watt-drawer.component.html',
+    imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent]
 })
 export class WattDrawerComponent implements OnDestroy {
   private cdr = inject(ChangeDetectorRef);

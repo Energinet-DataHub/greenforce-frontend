@@ -34,19 +34,18 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-message-archive-search-filters',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-    VaterStackComponent,
-    WattDateChipComponent,
-    WattDropdownComponent,
-    WattFilterChipComponent,
-    WattFormChipDirective,
-    DhDropdownTranslatorDirective,
-  ],
-  template: `
+    selector: 'dh-message-archive-search-filters',
+    imports: [
+        ReactiveFormsModule,
+        TranslocoDirective,
+        VaterStackComponent,
+        WattDateChipComponent,
+        WattDropdownComponent,
+        WattFilterChipComponent,
+        WattFormChipDirective,
+        DhDropdownTranslatorDirective,
+    ],
+    template: `
     <form
       vater-stack
       direction="row"
@@ -103,7 +102,7 @@ import {
         }
       }
     </form>
-  `,
+  `
 })
 export class DhMessageArchiveSearchFiltersComponent {
   isSearchingById = input(false);

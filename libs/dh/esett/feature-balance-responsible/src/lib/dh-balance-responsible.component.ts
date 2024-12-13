@@ -47,11 +47,10 @@ import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
 import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
 
 @Component({
-  standalone: true,
-  selector: 'dh-balance-responsible',
-  templateUrl: './dh-balance-responsible.component.html',
-  styles: [
-    `
+    selector: 'dh-balance-responsible',
+    templateUrl: './dh-balance-responsible.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -68,23 +67,23 @@ import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balanc
           var(--watt-space-ml--negative);
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-    RxPush,
-    RxLet,
-    WATT_CARD,
-    WattPaginatorComponent,
-    VaterFlexComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
-    WattButtonComponent,
-    DhBalanceResponsibleTableComponent,
-    DhBalanceResponsibleImporterComponent,
-  ],
-  providers: [DhBalanceResponsibleStore],
+    ],
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        RxPush,
+        RxLet,
+        WATT_CARD,
+        WattPaginatorComponent,
+        VaterFlexComponent,
+        VaterStackComponent,
+        VaterUtilityDirective,
+        VaterSpacerComponent,
+        WattButtonComponent,
+        DhBalanceResponsibleTableComponent,
+        DhBalanceResponsibleImporterComponent,
+    ],
+    providers: [DhBalanceResponsibleStore]
 })
 export class DhBalanceResponsibleComponent implements OnInit {
   private apollo = inject(Apollo);

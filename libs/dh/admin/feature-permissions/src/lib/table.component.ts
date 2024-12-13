@@ -34,10 +34,9 @@ import { GetFilteredPermissionsDataSource } from '@energinet-datahub/dh/shared/d
 import { DhPermissionsDownloadComponent } from './download.component';
 
 @Component({
-  standalone: true,
-  selector: 'dh-permissions-table',
-  styles: [
-    `
+    selector: 'dh-permissions-table',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -46,23 +45,20 @@ import { DhPermissionsDownloadComponent } from './download.component';
         margin: 0;
       }
     `,
-  ],
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-    RouterOutlet,
-
-    WATT_CARD,
-    WATT_TABLE,
-    WattDataTableComponent,
-    WattDataActionsComponent,
-
-    VaterUtilityDirective,
-
-    DhPermissionsDownloadComponent,
-  ],
-  providers: [DhNavigationService],
-  template: `
+    ],
+    imports: [
+        TranslocoPipe,
+        TranslocoDirective,
+        RouterOutlet,
+        WATT_CARD,
+        WATT_TABLE,
+        WattDataTableComponent,
+        WattDataActionsComponent,
+        VaterUtilityDirective,
+        DhPermissionsDownloadComponent,
+    ],
+    providers: [DhNavigationService],
+    template: `
     <watt-data-table
       vater
       inset="ml"
@@ -97,7 +93,7 @@ import { DhPermissionsDownloadComponent } from './download.component';
       </watt-table>
     </watt-data-table>
     <router-outlet />
-  `,
+  `
 })
 export class DhPermissionsTableComponent {
   private navigation = inject(DhNavigationService);

@@ -20,18 +20,17 @@ import { Component, forwardRef, ViewEncapsulation, input } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  standalone: true,
-  imports: [FormsModule],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattRadioComponent),
-      multi: true,
-    },
-  ],
-  selector: 'watt-radio',
-  styleUrls: ['./watt-radio.component.scss'],
-  template: `
+    imports: [FormsModule],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => WattRadioComponent),
+            multi: true,
+        },
+    ],
+    selector: 'watt-radio',
+    styleUrls: ['./watt-radio.component.scss'],
+    template: `
     <label class="watt-text-m">
       <input
         type="radio"
@@ -44,11 +43,11 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
       <ng-content />
     </label>
   `,
-  encapsulation: ViewEncapsulation.None,
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-  host: {
-    '[class.disabled]': 'isDisabled',
-  },
+    encapsulation: ViewEncapsulation.None,
+    // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+    host: {
+        '[class.disabled]': 'isDisabled',
+    }
 })
 export class WattRadioComponent implements ControlValueAccessor {
   group = input.required<string>();

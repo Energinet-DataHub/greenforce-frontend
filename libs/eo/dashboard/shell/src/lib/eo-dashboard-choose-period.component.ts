@@ -49,26 +49,25 @@ import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
 @Component({
-  standalone: true,
-  imports: [
-    WattDropdownComponent,
-    ReactiveFormsModule,
-    NgIf,
-    WattDateChipComponent,
-    WattDateRangeChipComponent,
-    WattFormChipDirective,
-  ],
-  selector: 'eo-dashboard-choose-period',
-  styles: [
-    `
+    imports: [
+        WattDropdownComponent,
+        ReactiveFormsModule,
+        NgIf,
+        WattDateChipComponent,
+        WattDateRangeChipComponent,
+        WattFormChipDirective,
+    ],
+    selector: 'eo-dashboard-choose-period',
+    styles: [
+        `
       :host {
         display: flex;
         gap: var(--watt-space-s);
         justify-content: flex-end;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <ng-container [formGroup]="form">
       <watt-dropdown
         [chipMode]="true"
@@ -112,7 +111,7 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
         [options]="years"
       />
     </ng-container>
-  `,
+  `
 })
 export class EoDashboardChoosePeriodComponent implements OnInit {
   @Output() periodChanged = new EventEmitter<eoDashboardPeriod>();

@@ -35,9 +35,9 @@ export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-button',
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'watt-button',
+    template: `
     <button
       mat-button
       [disabled]="disabled"
@@ -63,10 +63,9 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       </div>
     </button>
   `,
-  styleUrls: ['./watt-button.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule],
+    styleUrls: ['./watt-button.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    imports: [NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule]
 })
 export class WattButtonComponent {
   @Input() icon?: WattIcon;

@@ -35,10 +35,9 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-  standalone: true,
-  selector: 'dh-reactivate-user',
-  imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
-  template: ` <watt-modal
+    selector: 'dh-reactivate-user',
+    imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
+    template: ` <watt-modal
     #modal
     *transloco="let t; read: 'admin.userManagement.drawer'"
     [size]="'small'"
@@ -68,7 +67,7 @@ import { DhUserDetails } from '@energinet-datahub/dh/admin/data-access-api';
         t('reactivateConfirmation.confirm')
       }}</watt-button>
     </watt-modal-actions>
-  </watt-modal>`,
+  </watt-modal>`
 })
 export class DhReactivateComponent {
   private reactivateUserMutation = mutation(ReActivateUserDocument);

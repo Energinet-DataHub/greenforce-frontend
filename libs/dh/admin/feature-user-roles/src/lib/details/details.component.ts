@@ -43,27 +43,23 @@ import { DhRoleMasterDataComponent } from './tabs/master-data.component';
 import { DhRolePermissionsComponent } from './tabs/permissions.component';
 
 @Component({
-  selector: 'dh-user-role-details',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    TranslocoDirective,
-
-    WATT_TABS,
-    WATT_MODAL,
-    WATT_DRAWER,
-    WattButtonComponent,
-
-    DhPermissionRequiredDirective,
-
-    DhResultComponent,
-    DhRoleStatusComponent,
-    DhRoleAuditLogsComponent,
-    DhRoleMasterDataComponent,
-    DhRolePermissionsComponent,
-    DhDeactivedUserRoleComponent,
-  ],
-  template: `
+    selector: 'dh-user-role-details',
+    imports: [
+        RouterOutlet,
+        TranslocoDirective,
+        WATT_TABS,
+        WATT_MODAL,
+        WATT_DRAWER,
+        WattButtonComponent,
+        DhPermissionRequiredDirective,
+        DhResultComponent,
+        DhRoleStatusComponent,
+        DhRoleAuditLogsComponent,
+        DhRoleMasterDataComponent,
+        DhRolePermissionsComponent,
+        DhDeactivedUserRoleComponent,
+    ],
+    template: `
     @let userRole = userRoleWithPermissions();
 
     <watt-drawer
@@ -127,7 +123,7 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
     </watt-drawer>
     <dh-deactivate-user-role [id]="userRole?.id" #deactivate />
     <router-outlet />
-  `,
+  `
 })
 export class DhUserRoleDetailsComponent {
   private navigationService = inject(DhNavigationService);

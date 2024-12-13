@@ -34,29 +34,25 @@ import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-repor
 import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlement-reports-cancel-button.component';
 
 @Component({
-  selector: 'dh-settlement-reports-table',
-  standalone: true,
-  templateUrl: './dh-settlement-reports-table.component.html',
-  styles: [
-    `
+    selector: 'dh-settlement-reports-table',
+    templateUrl: './dh-settlement-reports-table.component.html',
+    styles: [
+        `
       :host {
         display: contents;
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattDatePipe,
-
-    VaterFlexComponent,
-
-    DhSettlementReportsStatusComponent,
-    DhSettlementReportDrawerComponent,
-    DhSettlementReportsCancelButtonComponent,
-  ],
-  providers: [DhSettlementReportsService],
+    ],
+    imports: [
+        TranslocoDirective,
+        WATT_TABLE,
+        WattDatePipe,
+        VaterFlexComponent,
+        DhSettlementReportsStatusComponent,
+        DhSettlementReportDrawerComponent,
+        DhSettlementReportsCancelButtonComponent,
+    ],
+    providers: [DhSettlementReportsService]
 })
 export class DhSettlementReportsTableComponent {
   private permissionService = inject(PermissionService);

@@ -36,23 +36,20 @@ import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports
 import { DhRequestSettlementReportButtonComponent } from './button/dh-request-settlement-report-button.component';
 
 @Component({
-  selector: 'dh-wholesale-feature-settlement-reports',
-  standalone: true,
-  imports: [
-    TranslocoDirective,
-
-    WATT_CARD,
-    VaterStackComponent,
-    VaterFlexComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
-
-    DhSettlementReportsTableComponent,
-    DhRequestSettlementReportButtonComponent,
-  ],
-  styles: `
+    selector: 'dh-wholesale-feature-settlement-reports',
+    imports: [
+        TranslocoDirective,
+        WATT_CARD,
+        VaterStackComponent,
+        VaterFlexComponent,
+        VaterUtilityDirective,
+        VaterSpacerComponent,
+        WattEmptyStateComponent,
+        WattSpinnerComponent,
+        DhSettlementReportsTableComponent,
+        DhRequestSettlementReportButtonComponent,
+    ],
+    styles: `
     :host {
       display: block;
     }
@@ -61,7 +58,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
       margin: 0;
     }
   `,
-  template: `
+    template: `
     <watt-card vater inset="ml" *transloco="let t; read: 'wholesale.settlementReports'">
       @if (isLoading()) {
         <vater-stack fill="vertical" justify="center">
@@ -96,7 +93,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
         }
       }
     </watt-card>
-  `,
+  `
 })
 export class DhWholesaleFeatureSettlementReportsComponent {
   private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {

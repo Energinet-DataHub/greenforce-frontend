@@ -27,12 +27,11 @@ import { WattIconSize } from '../../foundations/icon/watt-icon-size';
  * `import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';`
  */
 @Component({
-  selector: 'watt-empty-state',
-  styleUrls: ['./empty-state.component.scss'],
-  templateUrl: './empty-state.component.html',
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [NgClass, NgTemplateOutlet, WattIconComponent],
+    selector: 'watt-empty-state',
+    styleUrls: ['./empty-state.component.scss'],
+    templateUrl: './empty-state.component.html',
+    encapsulation: ViewEncapsulation.None,
+    imports: [NgClass, NgTemplateOutlet, WattIconComponent]
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;

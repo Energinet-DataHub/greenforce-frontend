@@ -50,11 +50,10 @@ import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { dhToJSON } from './dh-json-util';
 
 @Component({
-  standalone: true,
-  selector: 'dh-actors-overview',
-  templateUrl: './dh-actors-overview.component.html',
-  styles: [
-    `
+    selector: 'dh-actors-overview',
+    templateUrl: './dh-actors-overview.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -71,26 +70,24 @@ import { dhToJSON } from './dh-json-util';
           var(--watt-space-ml--negative);
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-    MatMenuModule,
-
-    WATT_CARD,
-    WattPaginatorComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-    WattSearchComponent,
-    WattButtonComponent,
-
-    DhActorsFiltersComponent,
-    DhActorsTableComponent,
-    DhPermissionRequiredDirective,
-    DhFeatureFlagDirective,
-  ],
+    ],
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        MatMenuModule,
+        WATT_CARD,
+        WattPaginatorComponent,
+        VaterFlexComponent,
+        VaterSpacerComponent,
+        VaterStackComponent,
+        VaterUtilityDirective,
+        WattSearchComponent,
+        WattButtonComponent,
+        DhActorsFiltersComponent,
+        DhActorsTableComponent,
+        DhPermissionRequiredDirective,
+        DhFeatureFlagDirective,
+    ]
 })
 export class DhActorsOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);

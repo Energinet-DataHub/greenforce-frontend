@@ -41,14 +41,13 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
 type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['items'];
 
 @Component({
-  standalone: true,
-  selector: 'dh-download-users-csv',
-  imports: [TranslocoPipe, WattButtonComponent],
-  template: `
+    selector: 'dh-download-users-csv',
+    imports: [TranslocoPipe, WattButtonComponent],
+    template: `
     <watt-button icon="download" variant="text" (click)="download()" [loading]="query.loading()">{{
       'shared.download' | transloco
     }}</watt-button>
-  `,
+  `
 })
 export class DhDownloadUsersCsvComponent {
   private environment = inject(dhAppEnvironmentToken);

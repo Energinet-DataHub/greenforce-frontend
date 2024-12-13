@@ -65,31 +65,28 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
-  selector: 'dh-create-delegation',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-delegation-create-modal.component.html',
-  styles: [
-    `
+    selector: 'dh-create-delegation',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './dh-delegation-create-modal.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  imports: [
-    RxPush,
-    TranslocoDirective,
-    ReactiveFormsModule,
-
-    WATT_MODAL,
-    WattButtonComponent,
-    WattDropdownComponent,
-    WattDatepickerComponent,
-    WattFieldErrorComponent,
-
-    VaterStackComponent,
-    DhDropdownTranslatorDirective,
-  ],
+    ],
+    imports: [
+        RxPush,
+        TranslocoDirective,
+        ReactiveFormsModule,
+        WATT_MODAL,
+        WattButtonComponent,
+        WattDropdownComponent,
+        WattDatepickerComponent,
+        WattFieldErrorComponent,
+        VaterStackComponent,
+        DhDropdownTranslatorDirective,
+    ]
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
   private toastService = inject(WattToastService);

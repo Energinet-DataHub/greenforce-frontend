@@ -23,11 +23,10 @@ import { WattChipComponent } from './watt-chip.component';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-  standalone: true,
-  imports: [WattChipComponent, WattIconComponent],
-  selector: 'watt-action-chip',
-  styles: [
-    `
+    imports: [WattChipComponent, WattIconComponent],
+    selector: 'watt-action-chip',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -36,8 +35,8 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
         color: var(--watt-on-light-low-emphasis);
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <watt-chip [disabled]="disabled()">
       <button
         type="button"
@@ -54,7 +53,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
         [class.disabled]="disabled()"
       />
     </watt-chip>
-  `,
+  `
 })
 export class WattActionChipComponent {
   disabled = input(false);

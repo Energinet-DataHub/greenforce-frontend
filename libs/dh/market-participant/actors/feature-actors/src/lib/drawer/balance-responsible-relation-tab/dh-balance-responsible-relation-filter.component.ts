@@ -52,27 +52,23 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 
 @Component({
-  standalone: true,
-  selector: 'dh-balance-responsible-relation-filters',
-  imports: [
-    RxPush,
-    ReactiveFormsModule,
-    TranslocoDirective,
-
-    VaterStackComponent,
-    VaterSpacerComponent,
-
-    WattSearchComponent,
-    WattDropdownComponent,
-
-    DhDropdownTranslatorDirective,
-  ],
-  styles: `
+    selector: 'dh-balance-responsible-relation-filters',
+    imports: [
+        RxPush,
+        ReactiveFormsModule,
+        TranslocoDirective,
+        VaterStackComponent,
+        VaterSpacerComponent,
+        WattSearchComponent,
+        WattDropdownComponent,
+        DhDropdownTranslatorDirective,
+    ],
+    styles: `
     :host {
       width: 85%;
     }
   `,
-  template: `<form
+    template: `<form
     vater-stack
     direction="row"
     gap="s"
@@ -122,7 +118,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     <vater-spacer />
 
     <watt-search [label]="t('search')" (search)="searchEvent$.next($event)" />
-  </form>`,
+  </form>`
 })
 export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   private destroyRef = inject(DestroyRef);

@@ -36,12 +36,11 @@ export type WattValidationMessageSize = 'compact' | 'normal';
  * `import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';`
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-validation-message',
-  styleUrls: ['./watt-validation-message.component.scss'],
-  templateUrl: './watt-validation-message.component.html',
-  standalone: true,
-  imports: [WattIconComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'watt-validation-message',
+    styleUrls: ['./watt-validation-message.component.scss'],
+    templateUrl: './watt-validation-message.component.html',
+    imports: [WattIconComponent]
 })
 export class WattValidationMessageComponent implements AfterViewInit {
   @Input() label = '';

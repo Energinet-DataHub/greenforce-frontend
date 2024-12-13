@@ -51,11 +51,10 @@ import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbal
 import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalance.store';
 
 @Component({
-  standalone: true,
-  selector: 'dh-metering-gridarea-imbalance',
-  templateUrl: './dh-metering-gridarea-imbalance.component.html',
-  styles: [
-    `
+    selector: 'dh-metering-gridarea-imbalance',
+    templateUrl: './dh-metering-gridarea-imbalance.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -72,26 +71,24 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
           var(--watt-space-ml--negative);
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-    RxPush,
-    RxLet,
-
-    WATT_CARD,
-    WattPaginatorComponent,
-    WattButtonComponent,
-    WattSearchComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-
-    DhMeteringGridAreaImbalanceFiltersComponent,
-    DhMeteringGridAreaImbalanceTableComponent,
-  ],
-  providers: [DhMeteringGridAreaImbalanceStore],
+    ],
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        RxPush,
+        RxLet,
+        WATT_CARD,
+        WattPaginatorComponent,
+        WattButtonComponent,
+        WattSearchComponent,
+        VaterFlexComponent,
+        VaterSpacerComponent,
+        VaterStackComponent,
+        VaterUtilityDirective,
+        DhMeteringGridAreaImbalanceFiltersComponent,
+        DhMeteringGridAreaImbalanceTableComponent,
+    ],
+    providers: [DhMeteringGridAreaImbalanceStore]
 })
 export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   private apollo = inject(Apollo);

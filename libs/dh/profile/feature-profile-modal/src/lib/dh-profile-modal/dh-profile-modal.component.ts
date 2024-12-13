@@ -52,23 +52,20 @@ type UserPreferencesForm = FormGroup<{
 }>;
 
 @Component({
-  selector: 'dh-profile-modal',
-  standalone: true,
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-    ReactiveFormsModule,
-
-    WATT_MODAL,
-    WattTextFieldComponent,
-    WattPhoneFieldComponent,
-    WattButtonComponent,
-    VaterStackComponent,
-    VaterFlexComponent,
-
-    DhMitIDButtonComponent,
-  ],
-  styles: `
+    selector: 'dh-profile-modal',
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        ReactiveFormsModule,
+        WATT_MODAL,
+        WattTextFieldComponent,
+        WattPhoneFieldComponent,
+        WattButtonComponent,
+        VaterStackComponent,
+        VaterFlexComponent,
+        DhMitIDButtonComponent,
+    ],
+    styles: `
     h4 {
       margin: 0;
       margin-bottom: var(--watt-space-s);
@@ -85,7 +82,7 @@ type UserPreferencesForm = FormGroup<{
       display: block;
     }
   `,
-  templateUrl: './dh-profile-modal.component.html',
+    templateUrl: './dh-profile-modal.component.html'
 })
 export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
   private readonly formBuilder = inject(NonNullableFormBuilder);

@@ -27,19 +27,18 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
 
 @Component({
-  imports: [WattIconComponent, WattSpinnerComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  selector: 'watt-progress-tracker-step',
-  host: {
-    '[attr.role]': 'current() ? "status" : "presentation"',
-    '[attr.class]': 'class()',
-    '[attr.aria-current]': 'ariaCurrent()',
-    '[attr.aria-label]': 'label()',
-  },
-  styleUrl: './watt-progress-tracker-step.component.scss',
-  template: `
+    imports: [WattIconComponent, WattSpinnerComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    selector: 'watt-progress-tracker-step',
+    host: {
+        '[attr.role]': 'current() ? "status" : "presentation"',
+        '[attr.class]': 'class()',
+        '[attr.aria-current]': 'ariaCurrent()',
+        '[attr.aria-label]': 'label()',
+    },
+    styleUrl: './watt-progress-tracker-step.component.scss',
+    template: `
     <div class="watt-progress-tracker-step-icon">
       @switch (status()) {
         @case ('executing') {
@@ -57,7 +56,7 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
       }
     </div>
     <div class="watt-progress-tracker-step-text"><ng-content /></div>
-  `,
+  `
 })
 export class WattProgressTrackerStepComponent {
   status = input.required<'pending' | 'executing' | 'completed' | 'canceled' | 'failed'>();

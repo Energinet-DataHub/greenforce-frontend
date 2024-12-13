@@ -28,10 +28,9 @@ import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionDetailsUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-  standalone: true,
-  selector: 'dh-admin-permission-roles',
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
-  template: `
+    selector: 'dh-admin-permission-roles',
+    imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
+    template: `
     <watt-card
       variant="solid"
       *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.userRoles'"
@@ -73,7 +72,7 @@ import { DhPermissionDetailsUserRole } from '@energinet-datahub/dh/admin/data-ac
         </watt-table>
       </dh-result>
     </watt-card>
-  `,
+  `
 })
 export class DhAdminPermissionRolesComponent {
   private userRoles = computed(() => this.selectedPermission().userRoles ?? []);

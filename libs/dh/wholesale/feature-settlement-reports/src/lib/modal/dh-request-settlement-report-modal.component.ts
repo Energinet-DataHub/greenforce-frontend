@@ -103,25 +103,22 @@ type SettlementReportRequestedBy = {
 };
 
 @Component({
-  selector: 'dh-request-settlement-report-modal',
-  standalone: true,
-  imports: [
-    RxPush,
-    ReactiveFormsModule,
-    TranslocoDirective,
-
-    WATT_MODAL,
-    VaterStackComponent,
-    WattDropdownComponent,
-    WattCheckboxComponent,
-    WattDatepickerComponent,
-    WattButtonComponent,
-    WattFieldErrorComponent,
-    WattFieldHintComponent,
-
-    DhDropdownTranslatorDirective,
-  ],
-  styles: `
+    selector: 'dh-request-settlement-report-modal',
+    imports: [
+        RxPush,
+        ReactiveFormsModule,
+        TranslocoDirective,
+        WATT_MODAL,
+        VaterStackComponent,
+        WattDropdownComponent,
+        WattCheckboxComponent,
+        WattDatepickerComponent,
+        WattButtonComponent,
+        WattFieldErrorComponent,
+        WattFieldHintComponent,
+        DhDropdownTranslatorDirective,
+    ],
+    styles: `
     :host {
       display: block;
     }
@@ -134,7 +131,7 @@ type SettlementReportRequestedBy = {
       width: 85%;
     }
   `,
-  templateUrl: './dh-request-settlement-report-modal.component.html',
+    templateUrl: './dh-request-settlement-report-modal.component.html'
 })
 export class DhRequestSettlementReportModalComponent extends WattTypedModal<SettlementReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);

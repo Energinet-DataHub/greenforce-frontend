@@ -29,29 +29,26 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
 @Component({
-  selector: 'dh-actors-table',
-  standalone: true,
-  templateUrl: './dh-actors-table.component.html',
-  styles: [
-    `
+    selector: 'dh-actors-table',
+    templateUrl: './dh-actors-table.component.html',
+    styles: [
+        `
       :host {
         display: contents;
       }
     `,
-  ],
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-
-    WATT_TABLE,
-    WattEmptyStateComponent,
-    VaterFlexComponent,
-    VaterStackComponent,
-
-    DhEmDashFallbackPipe,
-    DhActorStatusBadgeComponent,
-    DhActorDrawerComponent,
-  ],
+    ],
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        WATT_TABLE,
+        WattEmptyStateComponent,
+        VaterFlexComponent,
+        VaterStackComponent,
+        DhEmDashFallbackPipe,
+        DhActorStatusBadgeComponent,
+        DhActorDrawerComponent,
+    ]
 })
 export class DhActorsTableComponent {
   activeRow = signal<DhActor | undefined>(undefined);

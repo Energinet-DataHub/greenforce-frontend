@@ -23,16 +23,15 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  selector: 'dh-remove-client-secret-modal',
-  standalone: true,
-  styles: [
-    `
+    selector: 'dh-remove-client-secret-modal',
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <watt-modal
       #modal
       *transloco="
@@ -53,6 +52,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       </watt-modal-actions>
     </watt-modal>
   `,
-  imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent],
+    imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent]
 })
 export class DhRemoveClientSecretModalComponent extends WattTypedModal {}

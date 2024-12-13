@@ -31,11 +31,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatMenuModule, WattButtonComponent, WattIconComponent, NgClass],
-  selector: 'eo-account-menu',
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatMenuModule, WattButtonComponent, WattIconComponent, NgClass],
+    selector: 'eo-account-menu',
+    styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
     .mat-mdc-menu-panel.account-menu {
@@ -88,8 +87,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       }
     }
   `,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    encapsulation: ViewEncapsulation.None,
+    template: `
     @if (user()?.profile?.name; as name) {
       <watt-button [matMenuTriggerFor]="menu" variant="text" (click)="isOpen.set(true)">
         <span
@@ -111,7 +110,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <ng-content />
       </mat-menu>
     }
-  `,
+  `
 })
 export class EoAccountMenuComponent {
   protected user = inject(EoAuthService).user;

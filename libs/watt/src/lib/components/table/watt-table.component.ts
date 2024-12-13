@@ -149,22 +149,21 @@ export class WattTableToolbarDirective<T> {
  * `import { WATT_TABLE } from '@energinet-datahub/watt/table';`
  */
 @Component({
-  standalone: true,
-  imports: [
-    NgClass,
-    NgTemplateOutlet,
-    KeyValuePipe,
-    FormsModule,
-    MatSortModule,
-    MatTableModule,
-    WattCheckboxComponent,
-    WattIconComponent,
-  ],
-  providers: [WattDatePipe],
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-table',
-  styleUrls: ['./watt-table.component.scss'],
-  templateUrl: './watt-table.component.html',
+    imports: [
+        NgClass,
+        NgTemplateOutlet,
+        KeyValuePipe,
+        FormsModule,
+        MatSortModule,
+        MatTableModule,
+        WattCheckboxComponent,
+        WattIconComponent,
+    ],
+    providers: [WattDatePipe],
+    encapsulation: ViewEncapsulation.None,
+    selector: 'watt-table',
+    styleUrls: ['./watt-table.component.scss'],
+    templateUrl: './watt-table.component.html'
 })
 export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**

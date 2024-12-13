@@ -42,10 +42,9 @@ type DhCertificateTableRow = {
 };
 
 @Component({
-  selector: 'dh-certificate-view',
-  standalone: true,
-  styles: [
-    `
+    selector: 'dh-certificate-view',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -54,22 +53,20 @@ type DhCertificateTableRow = {
         margin-top: 0;
       }
     `,
-  ],
-  templateUrl: './dh-certificate-view.component.html',
-  imports: [
-    TranslocoDirective,
-    TranslocoPipe,
-
-    WattButtonComponent,
-    WATT_CARD,
-    VaterFlexComponent,
-    VaterStackComponent,
-    WattDatePipe,
-    WATT_TABLE,
-
-    DhEmDashFallbackPipe,
-    DhCertificateUploaderComponent,
-  ],
+    ],
+    templateUrl: './dh-certificate-view.component.html',
+    imports: [
+        TranslocoDirective,
+        TranslocoPipe,
+        WattButtonComponent,
+        WATT_CARD,
+        VaterFlexComponent,
+        VaterStackComponent,
+        WattDatePipe,
+        WATT_TABLE,
+        DhEmDashFallbackPipe,
+        DhCertificateUploaderComponent,
+    ]
 })
 export class DhCertificateViewComponent {
   private readonly injector = inject(Injector);

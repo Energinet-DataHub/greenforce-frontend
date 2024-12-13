@@ -55,42 +55,38 @@ import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audi
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
 
 @Component({
-  selector: 'dh-actor-drawer',
-  standalone: true,
-  templateUrl: './dh-actor-drawer.component.html',
-  styles: [
-    `
+    selector: 'dh-actor-drawer',
+    templateUrl: './dh-actor-drawer.component.html',
+    styles: [
+        `
       :host {
         display: block;
       }
     `,
-  ],
-  viewProviders: [DhActorAuditLogService],
-  imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_TABS,
-    WATT_CARD,
-    WATT_DRAWER,
-    WattChipComponent,
-    WattButtonComponent,
-    WattSpinnerComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-
-    VaterStackComponent,
-    VaterFlexComponent,
-
-    DhEmDashFallbackPipe,
-    DhB2bAccessTabComponent,
-    DhDelegationTabComponent,
-    DhCanDelegateForDirective,
-    DhActorAuditLogTabComponent,
-    DhActorStatusBadgeComponent,
-    DhPermissionRequiredDirective,
-    DhBalanceResponsibleRelationTabComponent,
-  ],
+    ],
+    viewProviders: [DhActorAuditLogService],
+    imports: [
+        TranslocoPipe,
+        TranslocoDirective,
+        WATT_TABS,
+        WATT_CARD,
+        WATT_DRAWER,
+        WattChipComponent,
+        WattButtonComponent,
+        WattSpinnerComponent,
+        WattDescriptionListComponent,
+        WattDescriptionListItemComponent,
+        VaterStackComponent,
+        VaterFlexComponent,
+        DhEmDashFallbackPipe,
+        DhB2bAccessTabComponent,
+        DhDelegationTabComponent,
+        DhCanDelegateForDirective,
+        DhActorAuditLogTabComponent,
+        DhActorStatusBadgeComponent,
+        DhPermissionRequiredDirective,
+        DhBalanceResponsibleRelationTabComponent,
+    ]
 })
 export class DhActorDrawerComponent {
   private router = inject(Router);

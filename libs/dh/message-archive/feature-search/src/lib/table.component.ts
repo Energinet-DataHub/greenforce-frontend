@@ -44,21 +44,20 @@ import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
 @Component({
-  selector: 'dh-message-archive-search-table',
-  standalone: true,
-  imports: [
-    TranslocoDirective,
-    ReactiveFormsModule,
-    WattTableComponent,
-    WattTableCellDirective,
-    WattDatePipe,
-    WattButtonComponent,
-    VaterUtilityDirective,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
-    DhMessageArchiveSearchFiltersComponent,
-  ],
-  template: `
+    selector: 'dh-message-archive-search-table',
+    imports: [
+        TranslocoDirective,
+        ReactiveFormsModule,
+        WattTableComponent,
+        WattTableCellDirective,
+        WattDatePipe,
+        WattButtonComponent,
+        VaterUtilityDirective,
+        WattDataTableComponent,
+        WattDataFiltersComponent,
+        DhMessageArchiveSearchFiltersComponent,
+    ],
+    template: `
     <watt-data-table
       *transloco="let t; read: 'messageArchive'"
       vater
@@ -115,7 +114,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
         </ng-container>
       </watt-table>
     </watt-data-table>
-  `,
+  `
 })
 export class DhMessageArchiveSearchTableComponent {
   new = output();

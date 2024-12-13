@@ -33,20 +33,19 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-sta
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    EnergyUnitPipe,
-    EoStackComponent,
-    NgIf,
-    RouterModule,
-    WATT_CARD,
-    WattDatePipe,
-    TranslocoPipe,
-    WattIconComponent,
-  ],
-  standalone: true,
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        EnergyUnitPipe,
+        EoStackComponent,
+        NgIf,
+        RouterModule,
+        WATT_CARD,
+        WattDatePipe,
+        TranslocoPipe,
+        WattIconComponent,
+    ],
+    styles: [
+        `
       .certificate {
         display: grid;
         grid-template-columns: auto 279px;
@@ -71,8 +70,8 @@ import { translations } from '@energinet-datahub/eo/translations';
         text-decoration: none;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     @if (certificate(); as cert) {
       <div class="certificate">
         <eo-stack size="M">
@@ -231,7 +230,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         </eo-stack>
       </div>
     }
-  `,
+  `
 })
 export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);

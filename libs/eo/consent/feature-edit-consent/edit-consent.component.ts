@@ -45,21 +45,20 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'eo-edit-consent-modal',
-  imports: [
-    NgClass,
-    WATT_MODAL,
-    WattIconComponent,
-    WattCheckboxComponent,
-    WattSpinnerComponent,
-    TranslocoPipe,
-    WattButtonComponent,
-    EoConsentPermissionsComponent,
-  ],
-  standalone: true,
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    selector: 'eo-edit-consent-modal',
+    imports: [
+        NgClass,
+        WATT_MODAL,
+        WattIconComponent,
+        WattCheckboxComponent,
+        WattSpinnerComponent,
+        TranslocoPipe,
+        WattButtonComponent,
+        EoConsentPermissionsComponent,
+    ],
+    styles: `
     .eo-edit-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
@@ -105,7 +104,7 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
       }
     }
   `,
-  template: `
+    template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -152,7 +151,7 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
         </watt-modal-actions>
       </watt-modal>
     }
-  `,
+  `
 })
 export class EoEditConsentModalComponent {
   private cd = inject(ChangeDetectorRef);

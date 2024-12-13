@@ -25,10 +25,9 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
-  standalone: true,
-  selector: 'dh-result',
-  imports: [TranslocoPipe, WattSpinnerComponent, WattEmptyStateComponent, VaterStackComponent],
-  styles: `
+    selector: 'dh-result',
+    imports: [TranslocoPipe, WattSpinnerComponent, WattEmptyStateComponent, VaterStackComponent],
+    styles: `
     :host {
       display: block;
       height: 100%;
@@ -39,7 +38,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
       text-align: center;
     }
   `,
-  template: `
+    template: `
     @if (!loading() && !hasError() && !empty()) {
       <ng-content />
     } @else {
@@ -62,7 +61,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
         }
       </vater-stack>
     }
-  `,
+  `
 })
 export class DhResultComponent {
   loading = input<boolean>(false);

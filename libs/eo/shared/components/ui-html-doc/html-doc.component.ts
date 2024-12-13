@@ -37,13 +37,12 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [TranslocoPipe, WattEmptyStateComponent],
-  selector: 'eo-html-doc',
-  encapsulation: ViewEncapsulation.None,
-  styleUrl: './html-doc.component.scss',
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoPipe, WattEmptyStateComponent],
+    selector: 'eo-html-doc',
+    encapsulation: ViewEncapsulation.None,
+    styleUrl: './html-doc.component.scss',
+    template: `
     @if (sanitizedHtml(); as content) {
       <div class="eo-html-doc-content" [innerHtml]="content"></div>
     } @else if (loadingHtmlFailed()) {
@@ -53,7 +52,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
         [message]="translations.terms.fetchingTermsError.message | transloco"
       />
     }
-  `,
+  `
 })
 export class EoHtmlDocComponent {
   path = input.required<string>();

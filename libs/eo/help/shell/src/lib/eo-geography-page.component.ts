@@ -24,12 +24,11 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-sta
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
-  selector: 'eo-geography-page',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
+    selector: 'eo-geography-page',
+    styles: [
+        `
       :host {
         display: grid;
         gap: var(--watt-space-l);
@@ -84,8 +83,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         }
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <div>
       <eo-info-box>
         <h3>Strøm kan ikke flyttes på tværs af hele Europa</h3>
@@ -171,7 +170,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </p>
       </eo-info-box>
     </div>
-  `,
+  `
 })
 export class EoGeographyPageComponent {
   routes = eoRoutes;

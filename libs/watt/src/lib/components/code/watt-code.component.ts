@@ -33,8 +33,8 @@ import { VaterStackComponent } from '../vater';
 import { createWorker } from './watt-code.worker-factory';
 
 @Component({
-  selector: 'watt-code',
-  template: `
+    selector: 'watt-code',
+    template: `
     @if (loading()) {
       <vater-stack [fill]="'horizontal'" [align]="'center'"><watt-spinner /></vater-stack>
     } @else {
@@ -43,11 +43,10 @@ import { createWorker } from './watt-code.worker-factory';
       </pre>
     }
   `,
-  styleUrls: ['./watt-code.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  imports: [WattSpinnerComponent, VaterStackComponent],
-  standalone: true,
+    styleUrls: ['./watt-code.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    imports: [WattSpinnerComponent, VaterStackComponent]
 })
 export class WattCodeComponent implements OnDestroy, OnChanges {
   code = input.required<string | null | undefined>();

@@ -24,15 +24,14 @@ import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  selector: 'dh-settlement-reports-cancel-modal',
-  standalone: true,
-  imports: [ReactiveFormsModule, TranslocoDirective, WATT_MODAL, WattButtonComponent],
-  styles: `
+    selector: 'dh-settlement-reports-cancel-modal',
+    imports: [ReactiveFormsModule, TranslocoDirective, WATT_MODAL, WattButtonComponent],
+    styles: `
     :host {
       display: block;
     }
   `,
-  template: `
+    template: `
     <watt-modal
       *transloco="let t; read: 'wholesale.settlementReports.cancelReport'"
       [title]="t('title')"
@@ -48,6 +47,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `,
+  `
 })
 export class DhSettlementReportsCancelModalComponent extends WattTypedModal {}

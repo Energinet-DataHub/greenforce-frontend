@@ -46,22 +46,21 @@ import { EoGenitivePipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'eo-grant-consent-modal',
-  imports: [
-    NgClass,
-    WATT_MODAL,
-    WattIconComponent,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
-    TranslocoPipe,
-    WattButtonComponent,
-    EoGenitivePipe,
-    EoConsentPermissionsComponent,
-  ],
-  standalone: true,
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    selector: 'eo-grant-consent-modal',
+    imports: [
+        NgClass,
+        WATT_MODAL,
+        WattIconComponent,
+        WattSpinnerComponent,
+        WattEmptyStateComponent,
+        TranslocoPipe,
+        WattButtonComponent,
+        EoGenitivePipe,
+        EoConsentPermissionsComponent,
+    ],
+    styles: `
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
@@ -92,7 +91,7 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
       }
     }
   `,
-  template: `
+    template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -157,7 +156,7 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
         </watt-modal-actions>
       </watt-modal>
     }
-  `,
+  `
 })
 export class EoGrantConsentModalComponent {
   private cd = inject(ChangeDetectorRef);

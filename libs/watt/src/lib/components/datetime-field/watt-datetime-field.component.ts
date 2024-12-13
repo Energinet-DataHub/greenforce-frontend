@@ -52,26 +52,25 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  standalone: true,
-  selector: 'watt-datetime-field',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattDateTimeField),
-      multi: true,
-    },
-  ],
-  imports: [
-    ReactiveFormsModule,
-    MaskitoDirective,
-    MatCalendar,
-    WattButtonComponent,
-    WattFieldComponent,
-  ],
-  styles: [
-    `
+    selector: 'watt-datetime-field',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => WattDateTimeField),
+            multi: true,
+        },
+    ],
+    imports: [
+        ReactiveFormsModule,
+        MaskitoDirective,
+        MatCalendar,
+        WattButtonComponent,
+        WattFieldComponent,
+    ],
+    styles: [
+        `
       watt-datetime-field {
         display: block;
         width: 100%;
@@ -88,8 +87,8 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
         border: 0;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <watt-field
       [label]="label()"
       [control]="control"
@@ -123,7 +122,7 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
       <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
       <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
     </watt-field>
-  `,
+  `
 })
 export class WattDateTimeField implements ControlValueAccessor {
   private locale = inject(WattLocaleService);

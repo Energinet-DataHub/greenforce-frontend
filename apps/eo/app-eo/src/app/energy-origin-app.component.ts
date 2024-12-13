@@ -26,12 +26,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  // Intentionally use full product name prefix for the root component
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'energy-origin-app',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    // Intentionally use full product name prefix for the root component
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'energy-origin-app',
+    styles: [
+        `
       :host {
         display: block;
         min-height: 100%;
@@ -39,16 +39,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         background: var(--watt-color-neutral-grey-100);
       }
     `,
-  ],
-  template: `<router-outlet />`,
-  standalone: true,
-  imports: [
-    MatDatepickerModule,
-    RouterOutlet,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatSnackBarModule,
-  ],
+    ],
+    template: `<router-outlet />`,
+    imports: [
+        MatDatepickerModule,
+        RouterOutlet,
+        MatNativeDateModule,
+        MatDialogModule,
+        MatSnackBarModule,
+    ]
 })
 export class EnergyOriginAppComponent {
   constructor(private authService: EoAuthService) {

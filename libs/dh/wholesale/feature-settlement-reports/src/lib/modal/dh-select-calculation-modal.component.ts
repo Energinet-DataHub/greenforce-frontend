@@ -28,24 +28,22 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-select-calculation-modal',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-
-    VaterStackComponent,
-    WATT_MODAL,
-    WattDatePipe,
-    WattRadioComponent,
-    WattButtonComponent,
-  ],
-  styles: `
+    selector: 'dh-select-calculation-modal',
+    imports: [
+        ReactiveFormsModule,
+        TranslocoDirective,
+        VaterStackComponent,
+        WATT_MODAL,
+        WattDatePipe,
+        WattRadioComponent,
+        WattButtonComponent,
+    ],
+    styles: `
     :host {
       display: block;
     }
   `,
-  template: `
+    template: `
     <watt-modal
       *transloco="let t; read: 'wholesale.settlementReports.selectCalculationModal'"
       [title]="t('title')"
@@ -91,7 +89,7 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `,
+  `
 })
 export class DhSelectCalculationModalComponent extends WattTypedModal<{
   rawData: KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation[];

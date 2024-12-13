@@ -25,10 +25,10 @@ import { WattSpinnerComponent } from '../spinner';
  * `import { WattCardComponent } from '@energinet-datahub/watt/card';`
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'watt-card',
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'watt-card',
+    styles: [
+        `
       :host {
         border-radius: 4px;
         display: block;
@@ -59,8 +59,8 @@ import { WattSpinnerComponent } from '../spinner';
         opacity: 0.5;
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <ng-content select="watt-card-title" />
 
     <ng-content />
@@ -71,11 +71,10 @@ import { WattSpinnerComponent } from '../spinner';
       </div>
     }
   `,
-  standalone: true,
-  imports: [WattSpinnerComponent],
-  host: {
-    '[class]': 'cardVariant()',
-  },
+    imports: [WattSpinnerComponent],
+    host: {
+        '[class]': 'cardVariant()',
+    }
 })
 export class WattCardComponent {
   variant = input<WATT_CARD_VARIANT>('elevation');

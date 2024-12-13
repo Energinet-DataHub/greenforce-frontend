@@ -24,13 +24,12 @@ import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-h
 const selector = 'eo-auth-terms';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  encapsulation: ViewEncapsulation.None,
-  imports: [EoScrollViewComponent, EoHtmlDocComponent],
-  selector,
-  styles: [
-    `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    imports: [EoScrollViewComponent, EoHtmlDocComponent],
+    selector,
+    styles: [
+        `
       ${selector} {
         --eo-scroll-view-max-height: fit-content;
         display: flex;
@@ -45,12 +44,12 @@ const selector = 'eo-auth-terms';
         }
       }
     `,
-  ],
-  template: `
+    ],
+    template: `
     <eo-scroll-view class="privacy-policy">
       <eo-html-doc [path]="path" />
     </eo-scroll-view>
-  `,
+  `
 })
 export class EoPrivacyPolicyComponent {
   path = 'assets/privacy-policy/${lang}.html';

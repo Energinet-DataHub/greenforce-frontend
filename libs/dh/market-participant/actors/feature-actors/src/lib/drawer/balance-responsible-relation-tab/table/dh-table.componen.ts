@@ -28,14 +28,13 @@ import {
 import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balance-responsible-relation-status.component';
 
 @Component({
-  selector: 'dh-balance-responsible-relations-table',
-  standalone: true,
-  styles: `
+    selector: 'dh-balance-responsible-relations-table',
+    styles: `
     :host {
       display: block;
     }
   `,
-  template: `
+    template: `
     <watt-table
       [dataSource]="tableDataSource"
       [columns]="columns"
@@ -62,7 +61,7 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
       </ng-container>
     </watt-table>
   `,
-  imports: [WATT_TABLE, WattDatePipe, DhBalanceResponsibleRelationStatusComponent],
+    imports: [WATT_TABLE, WattDatePipe, DhBalanceResponsibleRelationStatusComponent]
 })
 export class DhBalanceResponsibleRelationsTableComponent {
   tableDataSource = new WattTableDataSource<DhBalanceResponsibleRelation>([]);

@@ -31,18 +31,16 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  standalone: true,
-  imports: [
-    TranslocoDirective,
-
-    ReactiveFormsModule,
-    WattDropdownComponent,
-    WattButtonComponent,
-    VaterStackComponent,
-  ],
-  selector: 'dh-choose-organization-step',
-  styles: [
-    `
+    imports: [
+        TranslocoDirective,
+        ReactiveFormsModule,
+        WattDropdownComponent,
+        WattButtonComponent,
+        VaterStackComponent,
+    ],
+    selector: 'dh-choose-organization-step',
+    styles: [
+        `
       :host {
         display: block;
       }
@@ -51,8 +49,8 @@ import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
         width: 50%;
       }
     `,
-  ],
-  template: `<vater-stack
+    ],
+    template: `<vater-stack
     align="flex-start"
     fill="horizontal"
     *transloco="let t; read: 'marketParticipant.actor.create'"
@@ -67,7 +65,7 @@ import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
     <watt-button variant="text" icon="plus" (click)="toggleShowCreateNewOrganization.emit()">{{
       t('newOrganization')
     }}</watt-button>
-  </vater-stack>`,
+  </vater-stack>`
 })
 export class DhChooseOrganizationStepComponent {
   private getOrganizationsQuery = query(GetOrganizationsDocument);

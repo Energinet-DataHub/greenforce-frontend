@@ -22,12 +22,11 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe],
-  standalone: true,
-  selector: 'eo-landing-page-why',
-  encapsulation: ViewEncapsulation.None,
-  styles: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslocoPipe],
+    selector: 'eo-landing-page-why',
+    encapsulation: ViewEncapsulation.None,
+    styles: `
     eo-landing-page-why {
       display: flex;
       justify-content: center;
@@ -77,7 +76,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
     }
   `,
-  template: `
+    template: `
     <picture>
       <img
         aria-hidden="true"
@@ -121,7 +120,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         ></cite>
       </footer>
     </blockquote>
-  `,
+  `
 })
 export class EoLandingPageWhyComponent {
   protected translations = translations;
