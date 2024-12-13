@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ActorByGridAreaIdAsGridAccessProviderBatchDataLoader : BatchDataLoader<string, DateTimeOffset?>
+public class ConsolidationByGridAreaIdBatchDataLoader : BatchDataLoader<string, DateTimeOffset?>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
-    public ActorByGridAreaIdAsGridAccessProviderBatchDataLoader(
+    public ConsolidationByGridAreaIdBatchDataLoader(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
         DataLoaderOptions options)
