@@ -29,7 +29,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -37,7 +36,6 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
@@ -46,21 +44,19 @@ import { EoGenitivePipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'eo-grant-consent-modal',
-    imports: [
-        NgClass,
-        WATT_MODAL,
-        WattIconComponent,
-        WattSpinnerComponent,
-        WattEmptyStateComponent,
-        TranslocoPipe,
-        WattButtonComponent,
-        EoGenitivePipe,
-        EoConsentPermissionsComponent,
-    ],
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'eo-grant-consent-modal',
+  imports: [
+    WATT_MODAL,
+    WattIconComponent,
+    WattEmptyStateComponent,
+    TranslocoPipe,
+    WattButtonComponent,
+    EoGenitivePipe,
+    EoConsentPermissionsComponent,
+  ],
+  styles: `
     .eo-grant-consent-modal .watt-modal {
       --watt-modal-width: 545px;
 
@@ -91,7 +87,7 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
       }
     }
   `,
-    template: `
+  template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -156,7 +152,7 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
         </watt-modal-actions>
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoGrantConsentModalComponent {
   private cd = inject(ChangeDetectorRef);

@@ -28,20 +28,12 @@ import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 
-import { EoAccountMenuComponent } from './eo-account-menu';
-
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        WattNavListComponent,
-        WattNavListItemComponent,
-        TranslocoPipe,
-        EoAccountMenuComponent,
-        EoActorMenuComponent,
-    ],
-    selector: 'eo-primary-navigation',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [WattNavListComponent, WattNavListItemComponent, TranslocoPipe, EoActorMenuComponent],
+  selector: 'eo-primary-navigation',
+  styles: [
+    `
       $height: calc(100% - 64px);
       $height-with-beta-badge: calc(100% - 128px);
 
@@ -62,8 +54,8 @@ import { EoAccountMenuComponent } from './eo-account-menu';
         overflow: auto;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-nav-list>
       <watt-nav-list-item link="{{ routes.dashboard }}">
         {{ translations.sidebar.dashboard | transloco }}
@@ -98,7 +90,7 @@ import { EoAccountMenuComponent } from './eo-account-menu';
       [self]="self"
       (actorSelected)="onActorSelected($event)"
     />
-  `
+  `,
 })
 export class EoPrimaryNavigationComponent implements OnInit {
   @HostBinding('attr.aria-label')

@@ -41,33 +41,29 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
-import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 import {
   EoActorService,
   ServiceProviderTermsService,
 } from '@energinet-datahub/eo/auth/data-access';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { NgClass } from '@angular/common';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'eo-request-consent-modal',
-    imports: [
-        WATT_MODAL,
-        TranslocoPipe,
-        WattButtonComponent,
-        EoConsentPermissionsComponent,
-        VaterStackComponent,
-        WattTextFieldComponent,
-        WattCopyToClipboardDirective,
-        WattCheckboxComponent,
-        EoHtmlDocComponent,
-        ReactiveFormsModule,
-        NgClass,
-    ],
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'eo-request-consent-modal',
+  imports: [
+    WATT_MODAL,
+    TranslocoPipe,
+    WattButtonComponent,
+    VaterStackComponent,
+    WattTextFieldComponent,
+    WattCopyToClipboardDirective,
+    WattCheckboxComponent,
+    EoHtmlDocComponent,
+    ReactiveFormsModule,
+  ],
+  styles: `
     .eo-request-consent-modal {
       .description {
         margin-top: var(--watt-space-m);
@@ -107,7 +103,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
       margin-left: var(--watt-space-m);
     }
   `,
-    template: `
+  template: `
     @if (opened) {
       <watt-modal
         #modal
@@ -171,7 +167,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         </watt-modal-actions>
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoRequestConsentModalComponent {
   private cd = inject(ChangeDetectorRef);

@@ -77,30 +77,24 @@ export interface EoTransfersForm {
 type FormField = 'receiverTin' | 'startDate' | 'endDate';
 
 @Component({
-    selector: 'eo-transfers-form',
-    imports: [
-        ReactiveFormsModule,
-        WattModalActionsComponent,
-        WattButtonComponent,
-        WattTextFieldComponent,
-        WattFieldErrorComponent,
-        EoTransfersPeriodComponent,
-        EoTransfersTimepickerComponent,
-        WattRadioComponent,
-        NgClass,
-        WattDatePipe,
-        CommonModule,
-        EoTransfersDateTimeComponent,
-        EoTransferErrorsComponent,
-        WATT_STEPPER,
-        EoTransferInvitationLinkComponent,
-        VaterStackComponent,
-        WattFieldHintComponent,
-        TranslocoPipe,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
+  selector: 'eo-transfers-form',
+  imports: [
+    ReactiveFormsModule,
+    WattModalActionsComponent,
+    WattButtonComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    EoTransfersPeriodComponent,
+    CommonModule,
+    WATT_STEPPER,
+    EoTransferInvitationLinkComponent,
+    VaterStackComponent,
+    WattFieldHintComponent,
+    TranslocoPipe,
+  ],
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
       eo-transfers-form .fieldset {
         display: flex;
         flex-wrap: wrap;
@@ -131,8 +125,8 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
         max-width: 330px;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (mode === 'create') {
       <form [formGroup]="form">
         <watt-stepper (completed)="onClose()" class="watt-modal-content--full-width">
@@ -313,7 +307,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
         </div>
       </div>
     </ng-template>
-  `
+  `,
 })
 export class EoTransfersFormComponent implements OnInit, OnChanges {
   @Input() senderTin?: string;

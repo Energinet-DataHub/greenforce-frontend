@@ -18,7 +18,7 @@
 //#endregion
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -33,19 +33,18 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-sta
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        EnergyUnitPipe,
-        EoStackComponent,
-        NgIf,
-        RouterModule,
-        WATT_CARD,
-        WattDatePipe,
-        TranslocoPipe,
-        WattIconComponent,
-    ],
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    EnergyUnitPipe,
+    EoStackComponent,
+    RouterModule,
+    WATT_CARD,
+    WattDatePipe,
+    TranslocoPipe,
+    WattIconComponent,
+  ],
+  styles: [
+    `
       .certificate {
         display: grid;
         grid-template-columns: auto 279px;
@@ -70,8 +69,8 @@ import { translations } from '@energinet-datahub/eo/translations';
         text-decoration: none;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (certificate(); as cert) {
       <div class="certificate">
         <eo-stack size="M">
@@ -230,7 +229,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         </eo-stack>
       </div>
     }
-  `
+  `,
 })
 export class EoCertificateDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);

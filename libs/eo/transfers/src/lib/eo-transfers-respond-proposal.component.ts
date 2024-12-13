@@ -34,9 +34,6 @@ import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -44,20 +41,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
 
 @Component({
-    selector: 'eo-transfers-repsond-proposal',
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        WATT_MODAL,
-        WattButtonComponent,
-        WattCopyToClipboardDirective,
-        WattEmptyStateComponent,
-        VaterStackComponent,
-        WattIconComponent,
-        WattDatePipe,
-        TranslocoPipe,
-    ],
-    styles: [
-        `
+  selector: 'eo-transfers-repsond-proposal',
+  encapsulation: ViewEncapsulation.None,
+  imports: [WATT_MODAL, WattButtonComponent, WattIconComponent, WattDatePipe, TranslocoPipe],
+  styles: [
+    `
       .transfer-agreement-proposal {
         display: flex;
         flex-direction: column;
@@ -83,8 +71,8 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (isOpen()) {
       <watt-modal
         #modal
@@ -148,7 +136,7 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
         </watt-modal-actions>
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoTransfersRespondProposalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

@@ -19,7 +19,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -28,11 +27,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 const selector = 'eo-footer';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [EoProductLogoDirective, WattIconComponent, TranslocoPipe, WattBadgeComponent],
-    selector,
-    encapsulation: ViewEncapsulation.None,
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [EoProductLogoDirective, TranslocoPipe, WattBadgeComponent],
+  selector,
+  encapsulation: ViewEncapsulation.None,
+  styles: `
     ${selector} {
       display: block;
       width: 100%;
@@ -148,7 +147,7 @@ const selector = 'eo-footer';
       }
     }
   `,
-    template: `
+  template: `
     <footer>
       <div class="logo">
         <img eoProductLogo version="secondary" />
@@ -195,7 +194,7 @@ const selector = 'eo-footer';
         <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
       </section>
     </footer>
-  `
+  `,
 })
 export class EoFooterComponent {
   protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;

@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -50,26 +49,25 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        EoFooterComponent,
-        EoPrimaryNavigationComponent,
-        NgIf,
-        RouterModule,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WattButtonComponent,
-        WattShellComponent,
-        WattBadgeComponent,
-        WattTooltipDirective,
-        TranslocoPipe,
-        EoLanguageSwitcherComponent,
-        EoAccountMenuComponent,
-        EoHeaderComponent,
-    ],
-    selector: 'eo-shell',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    EoFooterComponent,
+    EoPrimaryNavigationComponent,
+    RouterModule,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattShellComponent,
+    WattBadgeComponent,
+    WattTooltipDirective,
+    TranslocoPipe,
+    EoLanguageSwitcherComponent,
+    EoAccountMenuComponent,
+    EoHeaderComponent,
+  ],
+  selector: 'eo-shell',
+  styles: [
+    `
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
@@ -106,8 +104,8 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (isLoggedIn && tosAccepted) {
       <watt-shell>
         <ng-container watt-shell-sidenav>
@@ -161,7 +159,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
       </div>
       <eo-footer />
     }
-  `
+  `,
 })
 export class EoShellComponent implements OnInit, OnDestroy {
   protected titleService = inject(Title);

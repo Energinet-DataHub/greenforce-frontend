@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { FactoryProvider, inject, provideAppInitializer } from '@angular/core';
+import { inject, provideAppInitializer } from '@angular/core';
 
 import { EoLanguageService } from './eo-language.service';
 
-export const eoLanguageServiceInitializer: FactoryProvider = provideAppInitializer(() => {
-        const initializerFn = ((eoLangaugeService: EoLanguageService) => () => eoLangaugeService.init())(inject(EoLanguageService));
-        return initializerFn();
-      });
+export const eoLanguageServiceInitializer = provideAppInitializer(() => {
+  const initializerFn = (
+    (eoLangaugeService: EoLanguageService) => () =>
+      eoLangaugeService.init()
+  )(inject(EoLanguageService));
+  return initializerFn();
+});

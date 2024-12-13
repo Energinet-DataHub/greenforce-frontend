@@ -27,28 +27,20 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
 
 @Component({
-    selector: 'eo-learn-more',
-    imports: [
-        WattButtonComponent,
-        WATT_MODAL,
-        TranslocoPipe,
-        WattDropdownComponent,
-        ReactiveFormsModule,
-        EoVimeoPlayerComponent,
-    ],
-    styles: `
+  selector: 'eo-learn-more',
+  imports: [WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
+  styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;
 
@@ -57,8 +49,8 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
       }
     }
   `,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <ng-content />
 
     @if (isOpen()) {
@@ -76,7 +68,7 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
         />
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoLearnMoreComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

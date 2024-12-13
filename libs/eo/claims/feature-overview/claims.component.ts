@@ -20,13 +20,8 @@ import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { fromUnixTime } from 'date-fns';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
@@ -36,19 +31,17 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoClaimsTableComponent } from './claims-table.component';
 
 @Component({
-    imports: [
-        EoClaimsTableComponent,
-        VaterFlexComponent,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WATT_CARD,
-        WattButtonComponent,
-        WattSearchComponent,
-        TranslocoPipe,
-    ],
-    providers: [WattDatePipe, EnergyUnitPipe],
-    styles: [
-        `
+  imports: [
+    EoClaimsTableComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WATT_CARD,
+    WattSearchComponent,
+    TranslocoPipe,
+  ],
+  providers: [WattDatePipe, EnergyUnitPipe],
+  styles: [
+    `
       @use '@energinet-datahub/watt/utils' as watt;
 
       .badge {
@@ -65,8 +58,8 @@ import { EoClaimsTableComponent } from './claims-table.component';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-card>
       <watt-card-title>
         <vater-stack direction="row" gap="s">
@@ -90,7 +83,7 @@ import { EoClaimsTableComponent } from './claims-table.component';
         [filter]="search"
       />
     </watt-card>
-  `
+  `,
 })
 export class EoClaimsComponent implements OnInit {
   @ViewChild(EoClaimsTableComponent) claimsTable?: EoClaimsTableComponent;

@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -41,7 +40,6 @@ import {
 } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
@@ -51,24 +49,20 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        WattBadgeComponent,
-        WattSpinnerComponent,
-        WATT_TABLE,
-        WattPaginatorComponent,
-        WattButtonComponent,
-        WattEmptyStateComponent,
-        MatSlideToggleModule,
-        TranslocoPipe,
-        JsonPipe,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    selector: 'eo-metering-points-table',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    WattBadgeComponent,
+    WATT_TABLE,
+    WattPaginatorComponent,
+    WattButtonComponent,
+    WattEmptyStateComponent,
+    MatSlideToggleModule,
+    TranslocoPipe,
+  ],
+  encapsulation: ViewEncapsulation.None,
+  selector: 'eo-metering-points-table',
+  styles: [
+    `
       eo-metering-points-table {
         --mdc-switch-selected-track-color: var(--watt-color-primary);
         --mdc-switch-selected-hover-track-color: var(--watt-color-primary);
@@ -91,8 +85,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (columns) {
       <watt-table
         #table
@@ -183,7 +177,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
       <watt-paginator [for]="dataSource" />
     }
-  `
+  `,
 })
 export class EoMeteringPointsTableComponent implements OnInit {
   private transloco = inject(TranslocoService);

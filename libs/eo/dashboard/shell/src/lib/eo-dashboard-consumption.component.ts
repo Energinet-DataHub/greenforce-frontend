@@ -27,7 +27,6 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
@@ -60,26 +59,25 @@ interface Totals {
 }
 
 @Component({
-    imports: [
-        WATT_CARD,
-        NgChartsModule,
-        RouterLink,
-        EnergyUnitPipe,
-        WattEmptyStateComponent,
-        WattButtonComponent,
-        PercentageOfPipe,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WattIconComponent,
-        EoLottieComponent,
-        TitleCasePipe,
-        WattTooltipDirective,
-        TranslocoPipe,
-    ],
-    providers: [EnergyUnitPipe],
-    selector: 'eo-dashboard-consumption',
-    styles: [
-        `
+  imports: [
+    WATT_CARD,
+    NgChartsModule,
+    RouterLink,
+    EnergyUnitPipe,
+    WattEmptyStateComponent,
+    WattButtonComponent,
+    PercentageOfPipe,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattIconComponent,
+    EoLottieComponent,
+    WattTooltipDirective,
+    TranslocoPipe,
+  ],
+  providers: [EnergyUnitPipe],
+  selector: 'eo-dashboard-consumption',
+  styles: [
+    `
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
@@ -159,8 +157,8 @@ interface Totals {
         }
       }
     `,
-    ],
-    template: `<watt-card>
+  ],
+  template: `<watt-card>
     <watt-card-title>
       <h4>{{ translations.consumerChart.title | transloco }}</h4>
       <watt-icon
@@ -252,7 +250,7 @@ interface Totals {
       >
       </canvas>
     </div>
-  </watt-card>`
+  </watt-card>`,
 })
 export class EoDashboardConsumptionComponent implements OnChanges {
   @Input() period!: eoDashboardPeriod;
