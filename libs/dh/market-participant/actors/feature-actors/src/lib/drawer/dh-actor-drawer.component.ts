@@ -28,7 +28,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, GetActorDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   WattDescriptionListComponent,
@@ -44,7 +44,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
+import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
@@ -93,21 +93,21 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
   ],
 })
 export class DhActorDrawerComponent {
-  private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly modalService = inject(WattModalService);
-  private readonly permissionService = inject(PermissionService);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+  private modalService = inject(WattModalService);
+  private permissionService = inject(PermissionService);
 
-  private actorQuery = lazyQuery(GetActorByIdDocument);
+  private query = lazyQuery(GetActorDetailsDocument);
 
-  actor = computed(() => this.actorQuery.data()?.actorById);
+  actor = computed(() => this.query.data()?.actorById);
 
   hasActorAccess = signal(false);
   closed = output();
 
-  isLoading = this.actorQuery.loading;
+  isLoading = this.query.loading;
 
-  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
+  drawer = viewChild.required(WattDrawerComponent);
 
   showBalanceResponsibleRelationTab = computed(
     () =>
@@ -147,7 +147,7 @@ export class DhActorDrawerComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
 
-    this.actorQuery.query({ variables: { id: actorId } });
+    this.query.query({ variables: { id: actorId } });
   }
 
   editOrganization(id: string | undefined): void {
