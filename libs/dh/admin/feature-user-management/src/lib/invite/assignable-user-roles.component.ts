@@ -94,7 +94,7 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
 export class DhAssignableUserRolesComponent {
   private table = viewChild.required(WattTableComponent);
 
-  actorId = input.required<string>();
+  actorId = input<string | null>();
 
   assignableUserRolesQuery = lazyQuery(GetUserRolesByActorIdDocument);
 
@@ -106,10 +106,14 @@ export class DhAssignableUserRolesComponent {
   selectedUserRoles = output<UserRoleItem[]>();
 
   constructor() {
-    effect(() => this.assignableUserRolesQuery.query({ variables: { actorId: this.actorId() } }));
+    effect(() => {
+      const actorId = this.actorId();
+      if (actorId === undefined || actorId === null) return;
+      this.assignableUserRolesQuery.query({ variables: { actorId } });
+    });
     effect(() => {
       this.dataSource.data = this.assignableUserRolesQuery.data()?.userRolesByActorId ?? [];
-      this.table().clearSelection();
+      this.clearSelection();
     });
   }
 
@@ -120,5 +124,9 @@ export class DhAssignableUserRolesComponent {
 
   selectionChanged(userRoles: UserRoleItem[]) {
     this.selectedUserRoles.emit(userRoles);
+  }
+
+  clearSelection() {
+    this.table().clearSelection();
   }
 }

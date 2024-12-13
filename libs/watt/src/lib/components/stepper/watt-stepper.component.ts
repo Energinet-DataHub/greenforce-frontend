@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { NgTemplateOutlet } from '@angular/common';
-import { CdkStepper, StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 
@@ -51,7 +51,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true, displayDefaultIndicatorType: false },
     },
-    { provide: CdkStepper, useExisting: WattStepperComponent },
     { provide: MatStepper, useExisting: WattStepperComponent },
   ],
 })
@@ -71,6 +70,10 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   onLastStep$!: Observable<boolean>;
 
   private destroyRef = inject(DestroyRef);
+
+  override reset() {
+    this.stepper.reset();
+  }
 
   override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);

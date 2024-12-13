@@ -23,22 +23,29 @@ import {
   computed,
   Component,
   viewChild,
+  viewChildren,
   ChangeDetectorRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
+import {
+  Validators,
+  FormGroupDirective,
+  ReactiveFormsModule,
+  NonNullableFormBuilder,
+} from '@angular/forms';
 
+import { GraphQLErrors } from '@apollo/client/errors';
 import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
@@ -60,7 +67,6 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
-import { GraphQLErrors } from '@apollo/client/errors';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -88,13 +94,20 @@ export class DhInviteUserComponent {
   private translocoService = inject(TranslocoService);
   private nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-  modal = viewChild.required(WattModalComponent);
+  private modal = viewChild.required(WattModalComponent);
+  private stepper = viewChild.required(WattStepperComponent);
+  private forms = viewChildren(FormGroupDirective);
 
   inviteUserMutation = mutation(InviteUserDocument, {
     refetchQueries: [GetUsersDocument],
   });
 
-  isInvitingUser = this.inviteUserMutation.loading;
+  loading = computed(
+    () =>
+      this.inviteUserMutation.loading() ||
+      this.knownEmailsQuery.loading() ||
+      this.actorsQuery.loading()
+  );
 
   actorsQuery = query(GetFilteredActorsDocument);
 
@@ -133,8 +146,6 @@ export class DhInviteUserComponent {
   knownEmails = computed(
     () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
   );
-
-  isLoadingEmails = this.knownEmailsQuery.loading;
 
   baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
@@ -227,7 +238,17 @@ export class DhInviteUserComponent {
   }
 
   close(status: boolean) {
+    this.reset();
     this.modal().close(status);
+  }
+
+  reset() {
+    this.stepper().reset();
+
+    this.forms().forEach(({ form }) => {
+      form.markAsPristine();
+      form.markAsUntouched();
+    });
   }
 
   private createInvitationUserDetails() {
