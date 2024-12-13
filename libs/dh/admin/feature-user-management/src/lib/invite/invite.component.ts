@@ -23,29 +23,29 @@ import {
   computed,
   Component,
   viewChild,
+  viewChildren,
   ChangeDetectorRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
-  viewChildren,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   Validators,
+  FormGroupDirective,
   ReactiveFormsModule,
   NonNullableFormBuilder,
-  NgForm,
-  FormGroupDirective,
 } from '@angular/forms';
 
+import { GraphQLErrors } from '@apollo/client/errors';
 import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
@@ -67,7 +67,6 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
-import { GraphQLErrors } from '@apollo/client/errors';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
