@@ -2,19 +2,19 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 18.1.0 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/material](https://github.com/angular/components) | 18.1.0 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/platform-server](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/service-worker](https://github.com/angular/angular) | 18.1.0 | MIT |
-| [@angular/ssr](https://github.com/angular/angular-cli) | 18.1.0 | MIT |
+  | [@angular/animations](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 19.0.3 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/material](https://github.com/angular/components) | 19.0.3 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/service-worker](https://github.com/angular/angular) | 19.0.4 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 19.0.5 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
@@ -56,5 +56,6 @@
 | [prismjs](https://github.com/PrismJS/prism) | 1.29.0 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.1 | Apache-2.0 |
+| [storybook](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
-| [zone.js](https://github.com/angular/angular) | 0.14.2 | MIT |
+| [zone.js](https://github.com/angular/angular) | 0.15.0 | MIT |
