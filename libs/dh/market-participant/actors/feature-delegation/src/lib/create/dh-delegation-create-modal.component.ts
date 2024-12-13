@@ -32,35 +32,35 @@ import { TranslocoDirective, translate } from '@ngneat/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import {
-  WattDropdownComponent,
-  WattDropdownOption,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
-  DhDropdownTranslatorDirective,
+  WattDropdownOption,
+  WattDropdownOptions,
+  WattDropdownComponent,
+} from '@energinet-datahub/watt/dropdown';
+
+import {
   dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   EicFunction,
-  GetDelegatesDocument,
   DelegatedProcess,
+  GetDelegatesDocument,
+  GetActorDetailsDocument,
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
-  GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
@@ -162,7 +162,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           },
         },
       },
-      refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
+      refetchQueries: [GetDelegationsForActorDocument, GetActorDetailsDocument],
       onCompleted: (result) => this.handleCreateDelegationResponse(result),
     });
   }
