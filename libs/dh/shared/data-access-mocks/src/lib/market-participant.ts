@@ -31,7 +31,6 @@ import {
   mockUpdateOrganizationMutation,
   UpdateOrganizationMutation,
   mockGetAuditLogByOrganizationIdQuery,
-  mockGetAuditLogByActorIdQuery,
   mockGetGridAreaOverviewQuery,
   mockCreateMarketParticipantMutation,
   mockGetAssociatedActorsQuery,
@@ -55,6 +54,8 @@ import {
   GridAreaAuditedChangeAuditLogDto,
   GridAreaAuditedChange,
   mockGetGridAreaDetailsQuery,
+  mockGetActorAuditLogsQuery,
+  mockGetActorDetailsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -74,6 +75,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActor(apiBase),
     getActors(),
     getActorById(),
+    getActorDetails(),
     getActorEditableFields(),
     getOrganizations_GrahpQL(),
     getOrganizationById(),
@@ -82,7 +84,7 @@ export function marketParticipantMocks(apiBase: string) {
     updateOrganization(),
     updateActor(),
     getAuditLogByOrganizationId(),
-    getAuditLogByActorId(),
+    getActorAuditLogsQuery(),
     getActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
@@ -125,6 +127,19 @@ function getActors() {
 
 function getActorById() {
   return mockGetActorByIdQuery(async ({ variables }) => {
+    const { id } = variables;
+
+    const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
+
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorById },
+    });
+  });
+}
+
+function getActorDetails() {
+  return mockGetActorDetailsQuery(async ({ variables }) => {
     const { id } = variables;
 
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
@@ -391,8 +406,8 @@ function getAuditLogByOrganizationId() {
   });
 }
 
-function getAuditLogByActorId() {
-  return mockGetAuditLogByActorIdQuery(async () => {
+function getActorAuditLogsQuery() {
+  return mockGetActorAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getActorAuditLogsMock,

@@ -17,12 +17,15 @@
  */
 //#endregion
 import { Component, effect, input } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { GridAreaAuditedChange } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { GridArea } from './details.component';
 
@@ -108,7 +111,8 @@ export class DhAuditLogComponent {
       const gridArea = this.gridArea();
 
       if (gridArea) {
-        this.dataSource.data = gridArea.auditLog ?? [];
+        this.dataSource.data =
+          gridArea.auditLog.filter((x) => x.change !== GridAreaAuditedChange.Name) ?? [];
       }
     });
   }
