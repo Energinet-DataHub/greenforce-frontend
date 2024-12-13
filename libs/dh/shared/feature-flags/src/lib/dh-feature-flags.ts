@@ -46,10 +46,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  'settlement-report-use-api': {
-    created: latestBump,
-    disabledEnvironments: [],
-  },
   'merge-market-participants': {
     created: latestBump,
     disabledEnvironments: [
