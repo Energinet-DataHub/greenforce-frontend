@@ -53,12 +53,12 @@ public class GridAreaResolvers
             return GridAreaStatus.Archived;
         }
 
-        if (consolidation.Value < DateTimeOffset.UtcNow)
+        if (consolidation.ConsolidateAt > DateTimeOffset.UtcNow)
         {
-            return GridAreaStatus.Discontinued;
+            return GridAreaStatus.ToBeDiscontinued;
         }
 
-        return GridAreaStatus.ToBeDiscontinued;
+        return GridAreaStatus.Discontinued;
     }
 
     public PriceAreaCode ParsePriceAreaCode([Parent] IGridArea gridarea)

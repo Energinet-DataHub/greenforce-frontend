@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 
-public class ConsolidationByGridAreaIdBatchDataLoader : BatchDataLoader<string, DateTimeOffset?>
+public class ConsolidationByGridAreaIdBatchDataLoader : BatchDataLoader<string, ActorConsolidationDto?>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
@@ -27,43 +27,27 @@ public class ConsolidationByGridAreaIdBatchDataLoader : BatchDataLoader<string, 
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<string, DateTimeOffset?>> LoadBatchAsync(
+    protected override async Task<IReadOnlyDictionary<string, ActorConsolidationDto?>> LoadBatchAsync(
         IReadOnlyList<string> keys,
         CancellationToken cancellationToken)
         {
             var gridAreas = (await _client.GridAreaGetAsync(cancellationToken))
                 .Where(x => keys.Contains(x.Code))
                 .Select(x => (x.Id, x.Code))
-                .ToDictionary(x => x.Id, x => x.Code);
+                .ToDictionary();
+
+            var actors = (await _client
+                .ActorGetAsync(cancellationToken))
+                .Where(x => x.MarketRole.GridAreas.Any(y => gridAreas.ContainsKey(y.Id)) && x.MarketRole.EicFunction == EicFunction.GridAccessProvider);
 
             var consolidations = (await _client.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
 
-            var returnDict = new Dictionary<string, DateTimeOffset?>();
+            var returnDict = new Dictionary<string, ActorConsolidationDto?>();
             foreach (var gridArea in gridAreas)
             {
-                var audits = (await _client
-                .GridAreaAuditAsync(gridArea.Key, cancellationToken))
-                .Where(x => x.Change == GridAreaAuditedChange.ConsolidationRequested || x.Change == GridAreaAuditedChange.ConsolidationCompleted);
-
-                var completed = audits.FirstOrDefault(x => x.Change == GridAreaAuditedChange.ConsolidationCompleted);
-                var requested = audits.FirstOrDefault(x => x.Change == GridAreaAuditedChange.ConsolidationRequested);
-                if (completed is null && requested is null)
-                {
-                    returnDict.Add(gridArea.Value, null);
-                    continue;
-                }
-
-                if (completed is not null)
-                {
-                    returnDict.Add(gridArea.Value, completed.Timestamp);
-                    continue;
-                }
-
-                if (requested is not null)
-                {
-                    returnDict.Add(gridArea.Value, requested.Timestamp);
-                    continue;
-                }
+                var actor = actors.First(x => x.MarketRole.GridAreas.Any(x => x.Id == gridArea.Key));
+                var consolidation = consolidations.FirstOrDefault(x => x.ActorFromId == actor.ActorId);
+                returnDict.Add(gridArea.Value, consolidation);
             }
 
             return returnDict;
