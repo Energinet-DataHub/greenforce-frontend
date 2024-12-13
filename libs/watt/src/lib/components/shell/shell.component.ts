@@ -28,10 +28,10 @@ import { WattBreakpoint, WattBreakpointsObserver } from '../../foundations/break
 import { WattButtonComponent } from '../button';
 
 @Component({
-    selector: 'watt-shell',
-    styleUrls: ['./shell.component.scss'],
-    templateUrl: './shell.component.html',
-    imports: [AsyncPipe, MatSidenavModule, MatToolbarModule, WattButtonComponent]
+  selector: 'watt-shell',
+  styleUrls: ['./shell.component.scss'],
+  templateUrl: './shell.component.html',
+  imports: [AsyncPipe, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit {
   private breakpointObserver = inject(WattBreakpointsObserver);

@@ -55,22 +55,22 @@ import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tab
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
-    selector: 'dh-edit-user',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WATT_MODAL,
-        WattTabComponent,
-        WattTabsComponent,
-        WattButtonComponent,
-        WattTextFieldComponent,
-        WattPhoneFieldComponent,
-        VaterFlexComponent,
-        DhUserRolesComponent,
-    ],
-    templateUrl: './edit.component.html',
-    styles: `
+  selector: 'dh-edit-user',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WattTabComponent,
+    WattTabsComponent,
+    WattButtonComponent,
+    WattTextFieldComponent,
+    WattPhoneFieldComponent,
+    VaterFlexComponent,
+    DhUserRolesComponent,
+  ],
+  templateUrl: './edit.component.html',
+  styles: `
     watt-text-field {
       width: 50%;
     }
@@ -78,7 +78,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
     watt-phone-field {
       width: 30%;
     }
-  `
+  `,
 })
 export class DhEditUserComponent {
   private formBuilder = inject(FormBuilder);

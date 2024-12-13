@@ -66,24 +66,24 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 }
 
 @Component({
-    selector: 'watt-phone-field',
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        ReactiveFormsModule,
-        MatSelectModule,
-        MaskitoDirective,
-        WattFieldComponent,
-        WattIconComponent,
-        WattFieldErrorComponent,
-    ],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => WattPhoneFieldComponent),
-            multi: true,
-        },
-    ],
-    template: `<watt-field [label]="label()" [control]="formControl()">
+  selector: 'watt-phone-field',
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    ReactiveFormsModule,
+    MatSelectModule,
+    MaskitoDirective,
+    WattFieldComponent,
+    WattIconComponent,
+    WattFieldErrorComponent,
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => WattPhoneFieldComponent),
+      multi: true,
+    },
+  ],
+  template: `<watt-field [label]="label()" [control]="formControl()">
     <div class="watt-phone-field__prefix-container">
       <mat-select
         panelWidth=""
@@ -120,7 +120,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
     }
   </watt-field>`,
-    styleUrl: './watt-phone-field.component.scss'
+  styleUrl: './watt-phone-field.component.scss',
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */

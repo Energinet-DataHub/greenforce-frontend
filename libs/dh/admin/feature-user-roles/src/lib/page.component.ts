@@ -24,13 +24,13 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhUserRolesTableComponent } from './table.component';
 
 @Component({
-    selector: 'dh-user-roles-page',
-    template: `
+  selector: 'dh-user-roles-page',
+  template: `
     <dh-user-roles-table (open)="navigate($event.id)" />
     <router-outlet />
   `,
-    imports: [DhUserRolesTableComponent, RouterOutlet],
-    providers: [DhNavigationService]
+  imports: [DhUserRolesTableComponent, RouterOutlet],
+  providers: [DhNavigationService],
 })
 export class DhUserRolesPageComponent {
   private navigationService = inject(DhNavigationService);

@@ -28,10 +28,10 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
  */
 
 @Component({
-    imports: [WattIconComponent],
-    selector: 'eo-popup-message',
-    styles: [
-        `
+  imports: [WattIconComponent],
+  selector: 'eo-popup-message',
+  styles: [
+    `
       @use '@energinet-datahub/watt/utils' as watt;
       :host {
         display: block;
@@ -74,8 +74,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <div class="watt-card watt-space-stack-l container">
       <img alt="Danger icon" src="/assets/icons/danger.svg" />
       <div class="content">
@@ -85,7 +85,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
       <a class="close" (click)="hidden = true"><watt-icon name="close" /></a>
     </div>
-  `
+  `,
 })
 export class EoPopupMessageComponent {
   @HostBinding('class.hidden') hidden = false;

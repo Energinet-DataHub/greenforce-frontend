@@ -30,11 +30,11 @@ import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
 import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'eo-transfers-history',
-    imports: [EoActivityLogComponent],
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-transfers-history',
+  imports: [EoActivityLogComponent],
+  styles: [
+    `
       h3,
       watt-empty-state {
         margin-bottom: var(--watt-space-m);
@@ -65,8 +65,8 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
         padding: var(--watt-space-xl);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <eo-activity-log
       #log
       variant="solid"
@@ -75,7 +75,7 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
       [filter]="filter.bind(this)"
       [period]="{ start: null, end: null }"
     />
-  `
+  `,
 })
 export class EoTransfersHistoryComponent implements OnChanges {
   @Input() transfer?: EoListedTransfer;

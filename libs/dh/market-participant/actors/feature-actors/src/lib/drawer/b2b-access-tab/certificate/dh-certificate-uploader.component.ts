@@ -33,9 +33,9 @@ const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
 
 @Component({
-    selector: 'dh-certificate-uploader',
-    styles: [
-        `
+  selector: 'dh-certificate-uploader',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -44,8 +44,8 @@ const certificateMimeType = 'application/x-x509-ca-cert';
         display: none;
       }
     `,
-    ],
-    template: `<input
+  ],
+  template: `<input
       type="file"
       class="upload-certificate-input"
       [accept]="certificateExt"
@@ -61,7 +61,7 @@ const certificateMimeType = 'application/x-x509-ca-cert';
     >
       {{ doesCertificateExist() ? t('uploadNewCertificate') : t('uploadCertificate') }}
     </watt-button>`,
-    imports: [TranslocoDirective, WattButtonComponent]
+  imports: [TranslocoDirective, WattButtonComponent],
 })
 export class DhCertificateUploaderComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);

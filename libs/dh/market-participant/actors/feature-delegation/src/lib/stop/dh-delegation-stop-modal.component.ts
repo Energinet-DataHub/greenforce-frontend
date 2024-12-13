@@ -52,9 +52,9 @@ import { DhDelegation } from '../dh-delegations';
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
-    selector: 'dh-delegation-stop-modal',
-    encapsulation: ViewEncapsulation.None,
-    styles: `
+  selector: 'dh-delegation-stop-modal',
+  encapsulation: ViewEncapsulation.None,
+  styles: `
     dh-delegation-stop-modal {
       display: block;
 
@@ -71,17 +71,17 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
       }
     }
   `,
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WATT_MODAL,
-        WattRadioComponent,
-        WattButtonComponent,
-        WattDatepickerComponent,
-        WattFieldErrorComponent,
-        VaterStackComponent,
-    ],
-    template: `<watt-modal
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WattRadioComponent,
+    WattButtonComponent,
+    WattDatepickerComponent,
+    WattFieldErrorComponent,
+    VaterStackComponent,
+  ],
+  template: `<watt-modal
     [title]="t('stopModalTitle')"
     *transloco="let t; read: 'marketParticipant.delegation'"
   >
@@ -131,7 +131,7 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
         {{ t('shared.stopDelegation') }}
       </watt-button>
     </watt-modal-actions>
-  </watt-modal>`
+  </watt-modal>`,
 })
 export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[]> {
   private formBuilder = inject(NonNullableFormBuilder);

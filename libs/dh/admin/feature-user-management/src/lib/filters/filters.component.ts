@@ -59,18 +59,18 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
-    selector: 'dh-users-overview-filters',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        TranslocoDirective,
-        ReactiveFormsModule,
-        VaterStackComponent,
-        WattDropdownComponent,
-        WattQueryParamsDirective,
-        DhDropdownTranslatorDirective,
-    ],
-    template: `
+  selector: 'dh-users-overview-filters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    TranslocoDirective,
+    ReactiveFormsModule,
+    VaterStackComponent,
+    WattDropdownComponent,
+    WattQueryParamsDirective,
+    DhDropdownTranslatorDirective,
+  ],
+  template: `
     <form
       vater-stack
       direction="row"
@@ -108,7 +108,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
         [chipMode]="true"
       />
     </form>
-  `
+  `,
 })
 export class DhUsersOverviewFiltersComponent {
   private fb = inject(NonNullableFormBuilder);

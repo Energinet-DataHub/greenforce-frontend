@@ -63,11 +63,11 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhOutgoingMessagesFilters>;
 
 @Component({
-    selector: 'dh-outgoing-messages-filters',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './dh-filters.component.html',
-    styles: [
-        `
+  selector: 'dh-outgoing-messages-filters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-filters.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -76,20 +76,20 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
         flex-wrap: wrap;
       }
     `,
-    ],
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        RxPush,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WattButtonComponent,
-        WattDateRangeChipComponent,
-        WattFormChipDirective,
-        WattDropdownComponent,
-        WattQueryParamsDirective,
-        DhDropdownTranslatorDirective,
-    ]
+  ],
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    RxPush,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattDateRangeChipComponent,
+    WattFormChipDirective,
+    WattDropdownComponent,
+    WattQueryParamsDirective,
+    DhDropdownTranslatorDirective,
+  ],
 })
 export class DhOutgoingMessagesFiltersComponent implements OnInit {
   private destoryRef = inject(DestroyRef);

@@ -48,10 +48,10 @@ import {
 } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
-    selector: 'dh-actors-edit-actor-modal',
-    templateUrl: './dh-actors-edit-actor-modal.component.html',
-    styles: [
-        `
+  selector: 'dh-actors-edit-actor-modal',
+  templateUrl: './dh-actors-edit-actor-modal.component.html',
+  styles: [
+    `
       .actor-field {
         width: 25em;
       }
@@ -68,16 +68,16 @@ import {
         padding-right: var(--watt-space-s);
       }
     `,
-    ],
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        WATT_MODAL,
-        WattButtonComponent,
-        WattTextFieldComponent,
-        WattFieldErrorComponent,
-        WattPhoneFieldComponent,
-    ]
+  ],
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattPhoneFieldComponent,
+  ],
 })
 export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExtended> {
   private formBuilder = inject(FormBuilder);

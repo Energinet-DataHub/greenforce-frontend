@@ -43,18 +43,18 @@ import { WattIconComponent, WattIcon } from '../../foundations/icon';
 export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 @Component({
-    imports: [MatAutocompleteModule, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
-    selector: 'watt-text-field',
-    styleUrls: ['./watt-text-field.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => WattTextFieldComponent),
-            multi: true,
-        },
-    ],
-    template: `<watt-field
+  imports: [MatAutocompleteModule, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
+  selector: 'watt-text-field',
+  styleUrls: ['./watt-text-field.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => WattTextFieldComponent),
+      multi: true,
+    },
+  ],
+  template: `<watt-field
     #wattField
     [control]="formControl"
     [label]="label"
@@ -109,7 +109,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     <ng-content ngProjectAs="watt-field-descriptor" select=".descriptor" />
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-  </watt-field>`
+  </watt-field>`,
 })
 export class WattTextFieldComponent implements ControlValueAccessor, AfterViewInit {
   @Input() value!: string;

@@ -33,20 +33,20 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
  * `import { WattDescriptionListComponent } from '@energinet-datahub/watt/description-list';`
  */
 @Component({
-    encapsulation: ViewEncapsulation.None,
-    selector: 'watt-description-list',
-    styleUrls: ['./watt-description-list.component.scss'],
-    imports: [NgTemplateOutlet],
-    template: `<dl>
+  encapsulation: ViewEncapsulation.None,
+  selector: 'watt-description-list',
+  styleUrls: ['./watt-description-list.component.scss'],
+  imports: [NgTemplateOutlet],
+  template: `<dl>
     @for (item of descriptionItems(); track item) {
       <ng-container *ngTemplateOutlet="item.templateRef()" />
     }
   </dl>`,
-    hostDirectives: [NgClass],
-    host: {
-        '[style.--watt-description-list-groups-per-row]': 'groupsPerRow()',
-        '[class]': 'descriptionVariant()',
-    }
+  hostDirectives: [NgClass],
+  host: {
+    '[style.--watt-description-list-groups-per-row]': 'groupsPerRow()',
+    '[class]': 'descriptionVariant()',
+  },
 })
 class WattDescriptionListComponent<T> {
   private ngClass = inject(NgClass);

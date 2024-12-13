@@ -29,9 +29,9 @@ import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-cli
 import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
 
 @Component({
-    selector: 'dh-b2b-access-tab',
-    styles: [
-        `
+  selector: 'dh-b2b-access-tab',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -40,8 +40,8 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
         color: var(--watt-color-primary-dark);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (showSpinner()) {
       <vater-flex direction="row" justify="center">
         <watt-spinner />
@@ -66,17 +66,17 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
       }
     }
   `,
-    viewProviders: [DhMarketPartyB2BAccessStore],
-    imports: [
-        VaterStackComponent,
-        VaterFlexComponent,
-        WattSpinnerComponent,
-        WattIconComponent,
-        DhCertificateViewComponent,
-        DhCertificateUploaderComponent,
-        DhGenerateClientSecretComponent,
-        DhClientSecretViewComponent,
-    ]
+  viewProviders: [DhMarketPartyB2BAccessStore],
+  imports: [
+    VaterStackComponent,
+    VaterFlexComponent,
+    WattSpinnerComponent,
+    WattIconComponent,
+    DhCertificateViewComponent,
+    DhCertificateUploaderComponent,
+    DhGenerateClientSecretComponent,
+    DhClientSecretViewComponent,
+  ],
 })
 export class DhB2bAccessTabComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);

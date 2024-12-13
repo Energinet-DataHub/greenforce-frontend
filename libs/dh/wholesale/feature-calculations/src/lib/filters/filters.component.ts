@@ -53,29 +53,29 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<CalculationQueryInput>;
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ReactiveFormsModule,
-        RxPush,
-        TranslocoDirective,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WattButtonComponent,
-        WattDateRangeChipComponent,
-        WattDropdownComponent,
-        WattFormChipDirective,
-        WattQueryParamsDirective,
-        DhDropdownTranslatorDirective,
-    ],
-    selector: 'dh-calculations-filters',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    RxPush,
+    TranslocoDirective,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattDateRangeChipComponent,
+    WattDropdownComponent,
+    WattFormChipDirective,
+    WattQueryParamsDirective,
+    DhDropdownTranslatorDirective,
+  ],
+  selector: 'dh-calculations-filters',
+  styles: [
+    `
       form {
         overflow-y: hidden;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <form
       vater-stack
       direction="row"
@@ -130,7 +130,7 @@ type Filters = FormControls<CalculationQueryInput>;
 
       <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
     </form>
-  `
+  `,
 })
 export class DhCalculationsFiltersComponent implements OnInit {
   @Input() initial?: CalculationQueryInput;

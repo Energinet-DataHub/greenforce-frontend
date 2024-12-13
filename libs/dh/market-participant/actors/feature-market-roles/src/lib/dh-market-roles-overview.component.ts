@@ -33,9 +33,9 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 @Component({
-    selector: 'dh-market-roles-overview',
-    styles: [
-        `
+  selector: 'dh-market-roles-overview',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -44,20 +44,20 @@ import {
         margin: 0;
       }
     `,
-    ],
-    templateUrl: './dh-market-roles-overview.component.html',
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        WATT_CARD,
-        WATT_TABLE,
-        WattButtonComponent,
-        VaterFlexComponent,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        VaterUtilityDirective,
-        WattButtonComponent,
-    ]
+  ],
+  templateUrl: './dh-market-roles-overview.component.html',
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    WATT_CARD,
+    WATT_TABLE,
+    WattButtonComponent,
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    WattButtonComponent,
+  ],
 })
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);

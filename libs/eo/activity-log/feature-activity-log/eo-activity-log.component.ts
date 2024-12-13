@@ -61,29 +61,29 @@ interface ActivityLogForm {
 type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
 
 @Component({
-    selector: 'eo-activity-log',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        WattDataTableComponent,
-        WattDataFiltersComponent,
-        WattDropdownComponent,
-        VaterStackComponent,
-        WattDateRangeChipComponent,
-        WattTableComponent,
-        ReactiveFormsModule,
-        WattFormChipDirective,
-        TranslocoPipe,
-    ],
-    providers: [WattDatePipe],
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
+  selector: 'eo-activity-log',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+    WattDropdownComponent,
+    VaterStackComponent,
+    WattDateRangeChipComponent,
+    WattTableComponent,
+    ReactiveFormsModule,
+    WattFormChipDirective,
+    TranslocoPipe,
+  ],
+  providers: [WattDatePipe],
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
       eo-activity-log-shell .watt-data-table--empty-state {
         margin-bottom: var(--watt-space-xl);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     @if (columns) {
       <watt-data-table vater inset="m" [error]="state().hasError" [variant]="variant">
         <h3>{{ translations.activityLog.tableTitle | transloco }}</h3>
@@ -114,7 +114,7 @@ type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
         />
       </watt-data-table>
     }
-  `
+  `,
 })
 export class EoActivityLogComponent implements OnInit {
   @Input() variant: WATT_CARD_VARIANT = 'elevation';

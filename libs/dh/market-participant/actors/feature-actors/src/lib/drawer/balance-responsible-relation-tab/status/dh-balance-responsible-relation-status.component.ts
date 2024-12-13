@@ -23,15 +23,15 @@ import { BalanceResponsibilityAgreementStatus } from '@energinet-datahub/dh/shar
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
-    selector: 'dh-balance-responsible-relation-status',
-    imports: [TranslocoDirective, WattBadgeComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: `
+  selector: 'dh-balance-responsible-relation-status',
+  imports: [TranslocoDirective, WattBadgeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
     :host {
       display: block;
     }
   `,
-    template: `
+  template: `
     <ng-container
       *transloco="
         let t;
@@ -53,7 +53,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
         }
       }
     </ng-container>
-  `
+  `,
 })
 export class DhBalanceResponsibleRelationStatusComponent {
   status = input.required<BalanceResponsibilityAgreementStatus>();

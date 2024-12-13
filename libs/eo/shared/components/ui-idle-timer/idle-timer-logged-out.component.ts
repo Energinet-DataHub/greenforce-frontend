@@ -21,10 +21,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [WattButtonComponent, WATT_MODAL],
-    selector: 'eo-idle-timer-modal',
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [WattButtonComponent, WATT_MODAL],
+  selector: 'eo-idle-timer-modal',
+  template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p class="content">For security reasons you have been automatically logged out.</p>
 
@@ -32,7 +32,7 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
         <watt-button (click)="modal.close(false)">Ok</watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `
+  `,
 })
 export class EoIdleTimerLoggedOutModalComponent extends WattTypedModal {
   close(action?: string) {

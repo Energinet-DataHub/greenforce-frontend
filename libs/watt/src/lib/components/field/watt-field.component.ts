@@ -39,12 +39,12 @@ import { WattRangeValidators } from '../picker/shared/validators/watt-range.vali
 import { VaterStackComponent } from '../vater/vater-stack.component';
 
 @Component({
-    selector: 'watt-field',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    imports: [WattIconComponent, WattTooltipDirective, WattFieldErrorComponent, VaterStackComponent],
-    styleUrls: ['./watt-field.component.scss'],
-    template: `
+  selector: 'watt-field',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [WattIconComponent, WattTooltipDirective, WattFieldErrorComponent, VaterStackComponent],
+  styleUrls: ['./watt-field.component.scss'],
+  template: `
     <label [attr.for]="id()">
       @if (label()) {
         <span class="label" [class.required]="isRequired()">
@@ -79,11 +79,11 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
       }
     </label>
   `,
-    host: {
-        '[class.watt-field--chip]': 'chipMode()',
-        '[class.watt-field--unlabelled]': 'unlabelled()',
-        '[class.watt-field--disabled]': 'control()?.disabled',
-    }
+  host: {
+    '[class.watt-field--chip]': 'chipMode()',
+    '[class.watt-field--unlabelled]': 'unlabelled()',
+    '[class.watt-field--disabled]': 'control()?.disabled',
+  },
 })
 export class WattFieldComponent {
   intl = inject(WattFieldIntlService);

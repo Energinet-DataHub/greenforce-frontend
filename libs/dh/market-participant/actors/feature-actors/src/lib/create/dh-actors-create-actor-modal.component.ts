@@ -68,19 +68,19 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
-    selector: 'dh-actors-create-actor-modal',
-    templateUrl: './dh-actors-create-actor-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WATT_CARD,
-        WATT_MODAL,
-        WATT_STEPPER,
-        DhChooseOrganizationStepComponent,
-        DhNewOrganizationStepComponent,
-        DhNewActorStepComponent,
-    ]
+  selector: 'dh-actors-create-actor-modal',
+  templateUrl: './dh-actors-create-actor-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_CARD,
+    WATT_MODAL,
+    WATT_STEPPER,
+    DhChooseOrganizationStepComponent,
+    DhNewOrganizationStepComponent,
+    DhNewActorStepComponent,
+  ],
 })
 export class DhActorsCreateActorModalComponent extends WattTypedModal {
   private formBuilder = inject(NonNullableFormBuilder);

@@ -22,10 +22,10 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoPipe],
-    selector: 'eo-landing-page-granular-certificates',
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
+  selector: 'eo-landing-page-granular-certificates',
+  styles: `
     :host {
       background: #f9f9f9;
       padding: 48px 24px 0 24px;
@@ -76,7 +76,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       margin-bottom: 30px;
     }
   `,
-    template: `
+  template: `
     <section>
       <div class="content">
         <h3 class="headline-3">
@@ -97,7 +97,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         <img src="/assets/landing-page/granular-certificates/granular-certificates.avif" />
       </picture>
     </section>
-  `
+  `,
 })
 export class EoLandingPageGranularCertificatesComponent {
   protected translations = translations;

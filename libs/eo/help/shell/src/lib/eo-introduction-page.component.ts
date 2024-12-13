@@ -26,11 +26,11 @@ import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-sta
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [EoStackComponent, EO_MEDIA, RouterModule, EoInfoBoxComponent],
-    selector: 'eo-introduction-page',
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [EoStackComponent, EO_MEDIA, RouterModule, EoInfoBoxComponent],
+  selector: 'eo-introduction-page',
+  styles: [
+    `
       :host {
         display: grid;
         gap: var(--watt-space-l);
@@ -81,8 +81,8 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <div>
       <eo-info-box>
         <img
@@ -244,7 +244,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
         </eo-stack>
       </eo-info-box>
     </div>
-  `
+  `,
 })
 export class EoIntroductionPageComponent {
   routes = eoRoutes;

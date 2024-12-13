@@ -24,8 +24,8 @@ import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-    selector: 'dh-actor-status-badge',
-    template: `
+  selector: 'dh-actor-status-badge',
+  template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.status'">
       @switch (status()) {
         @case ('Active') {
@@ -46,8 +46,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
       }
     </ng-container>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhActorStatusBadgeComponent {
   status = input.required<ActorStatus | undefined>();

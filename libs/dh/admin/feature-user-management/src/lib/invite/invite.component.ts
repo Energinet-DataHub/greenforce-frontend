@@ -63,24 +63,24 @@ import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './in
 import { GraphQLErrors } from '@apollo/client/errors';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'dh-invite-user',
-    templateUrl: './invite.component.html',
-    styleUrls: ['./invite.component.scss'],
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        WATT_MODAL,
-        WATT_STEPPER,
-        WattIconComponent,
-        WattDropdownComponent,
-        WattTextFieldComponent,
-        WattFieldErrorComponent,
-        WattPhoneFieldComponent,
-        WattValidationMessageComponent,
-        DhAssignableUserRolesComponent,
-    ]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'dh-invite-user',
+  templateUrl: './invite.component.html',
+  styleUrls: ['./invite.component.scss'],
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WATT_STEPPER,
+    WattIconComponent,
+    WattDropdownComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattPhoneFieldComponent,
+    WattValidationMessageComponent,
+    DhAssignableUserRolesComponent,
+  ],
 })
 export class DhInviteUserComponent {
   private toastService = inject(WattToastService);

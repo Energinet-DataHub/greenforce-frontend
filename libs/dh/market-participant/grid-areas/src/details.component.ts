@@ -41,25 +41,25 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
 
 @Component({
-    selector: 'dh-grid-area-details',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [
-        `
+  selector: 'dh-grid-area-details',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        VaterFlexComponent,
-        VaterStackComponent,
-        WattDatePipe,
-        WATT_DRAWER,
-        DhGridAreaStatusBadgeComponent,
-        DhAuditLogComponent,
-    ],
-    template: `
+  ],
+  imports: [
+    TranslocoDirective,
+    VaterFlexComponent,
+    VaterStackComponent,
+    WattDatePipe,
+    WATT_DRAWER,
+    DhGridAreaStatusBadgeComponent,
+    DhAuditLogComponent,
+  ],
+  template: `
     @let gridAreaView = gridArea();
 
     <watt-drawer
@@ -112,7 +112,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
         </watt-drawer-content>
       }
     </watt-drawer>
-  `
+  `,
 })
 export class DhGridAreaDetailsComponent {
   private drawer = viewChild.required(WattDrawerComponent);

@@ -28,11 +28,11 @@ import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 
 @Component({
-    selector: 'dh-profile-avatar',
-    imports: [MatMenuModule, TranslocoDirective, TranslocoPipe, WattIconComponent],
-    encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./dh-profile-avatar.component.scss'],
-    template: `<button data-testid="profileMenu" [matMenuTriggerFor]="menu" class="watt-text-m">
+  selector: 'dh-profile-avatar',
+  imports: [MatMenuModule, TranslocoDirective, TranslocoPipe, WattIconComponent],
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./dh-profile-avatar.component.scss'],
+  template: `<button data-testid="profileMenu" [matMenuTriggerFor]="menu" class="watt-text-m">
       {{ name() }}
     </button>
     <mat-menu #menu="matMenu" xPosition="before" class="dh-profile__menu">
@@ -56,7 +56,7 @@ import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-l
           <span>{{ transloco('logout') }}</span>
         </button>
       </ng-container>
-    </mat-menu>`
+    </mat-menu>`,
 })
 export class DhProfileAvatarComponent {
   private readonly authService = inject(MsalService);

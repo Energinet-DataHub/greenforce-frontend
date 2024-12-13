@@ -34,10 +34,10 @@ import { DhActorStorage } from './dh-actor-storage';
 export type SelectionActor = ResultOf<typeof GetSelectionActorsDocument>['selectionActors'][0];
 
 @Component({
-    selector: 'dh-selected-actor',
-    styleUrls: ['./dh-selected-actor.component.scss'],
-    templateUrl: './dh-selected-actor.component.html',
-    imports: [WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe]
+  selector: 'dh-selected-actor',
+  styleUrls: ['./dh-selected-actor.component.scss'],
+  templateUrl: './dh-selected-actor.component.html',
+  imports: [WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
 })
 export class DhSelectedActorComponent {
   private location = inject(windowLocationToken);

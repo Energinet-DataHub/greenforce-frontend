@@ -43,15 +43,15 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-    selector: 'eo-language-switcher',
-    imports: [
-        WattButtonComponent,
-        WATT_MODAL,
-        TranslocoPipe,
-        WattDropdownComponent,
-        ReactiveFormsModule,
-    ],
-    styles: `
+  selector: 'eo-language-switcher',
+  imports: [
+    WattButtonComponent,
+    WATT_MODAL,
+    TranslocoPipe,
+    WattDropdownComponent,
+    ReactiveFormsModule,
+  ],
+  styles: `
     .eo-language-switcher-content {
       watt-dropdown {
         width: 100%;
@@ -62,8 +62,8 @@ import { translations } from '@energinet-datahub/eo/translations';
       }
     }
   `,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <ng-content />
 
     @if (isOpen()) {
@@ -97,7 +97,7 @@ import { translations } from '@energinet-datahub/eo/translations';
         </watt-modal-actions>
       </watt-modal>
     }
-  `
+  `,
 })
 export class EoLanguageSwitcherComponent implements OnInit {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

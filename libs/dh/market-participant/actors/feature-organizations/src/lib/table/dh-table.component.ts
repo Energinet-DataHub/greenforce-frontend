@@ -26,23 +26,23 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 @Component({
-    selector: 'dh-organizations-table',
-    templateUrl: './dh-table.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [
-        `
+  selector: 'dh-organizations-table',
+  templateUrl: './dh-table.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [
+    `
       :host {
         display: contents;
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        WATT_TABLE,
-        WattEmptyStateComponent,
-        VaterFlexComponent,
-        VaterStackComponent,
-    ]
+  ],
+  imports: [
+    TranslocoDirective,
+    WATT_TABLE,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+  ],
 })
 export class DhOrganizationsTableComponent {
   columns: WattTableColumnDef<DhOrganization> = {

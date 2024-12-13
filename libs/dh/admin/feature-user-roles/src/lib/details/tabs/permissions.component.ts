@@ -28,8 +28,8 @@ import {
 } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-    selector: 'dh-role-permissions',
-    template: `<watt-card
+  selector: 'dh-role-permissions',
+  template: `<watt-card
     *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.permissions'"
     variant="solid"
   >
@@ -44,7 +44,7 @@ import {
       [resolveHeader]="translateHeader"
     />
   </watt-card>`,
-    imports: [TranslocoDirective, WATT_TABLE, WATT_CARD]
+  imports: [TranslocoDirective, WATT_TABLE, WATT_CARD],
 })
 export class DhRolePermissionsComponent {
   role = input.required<DhUserRoleWithPermissions>();

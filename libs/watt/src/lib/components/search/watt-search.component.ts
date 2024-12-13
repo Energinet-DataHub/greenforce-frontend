@@ -24,10 +24,10 @@ import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-    imports: [WattIconComponent],
-    selector: 'watt-search',
-    styleUrls: ['./watt-search.component.scss'],
-    template: `
+  imports: [WattIconComponent],
+  selector: 'watt-search',
+  styleUrls: ['./watt-search.component.scss'],
+  template: `
     <label>
       <input
         #input
@@ -46,7 +46,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
         <watt-icon name="close" size="s" />
       </button>
     </label>
-  `
+  `,
 })
 export class WattSearchComponent {
   /**

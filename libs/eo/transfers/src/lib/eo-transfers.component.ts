@@ -44,17 +44,17 @@ import {
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'eo-transfers',
-    imports: [
-        WattCardComponent,
-        EoTransfersTableComponent,
-        EoPopupMessageComponent,
-        EoTransfersRespondProposalComponent,
-        TranslocoPipe,
-        AsyncPipe,
-    ],
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-transfers',
+  imports: [
+    WattCardComponent,
+    EoTransfersTableComponent,
+    EoPopupMessageComponent,
+    EoTransfersRespondProposalComponent,
+    TranslocoPipe,
+    AsyncPipe,
+  ],
+  template: `
     @if (transferAgreements().error) {
       <eo-popup-message
         [title]="translations.transfers.error.title | transloco"
@@ -81,7 +81,7 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
       (accepted)="onAcceptedProposal($event)"
       (declined)="onRemoveProposal($event)"
     />
-  `
+  `,
 })
 export class EoTransfersComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename

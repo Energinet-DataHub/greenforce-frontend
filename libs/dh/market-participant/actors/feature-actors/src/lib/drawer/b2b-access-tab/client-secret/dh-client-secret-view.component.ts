@@ -43,9 +43,9 @@ type DhClientSecretTableRow = {
 };
 
 @Component({
-    selector: 'dh-client-secret-view',
-    styles: [
-        `
+  selector: 'dh-client-secret-view',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -54,21 +54,21 @@ type DhClientSecretTableRow = {
         margin-top: 0;
       }
     `,
-    ],
-    templateUrl: './dh-client-secret-view.component.html',
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        WattButtonComponent,
-        WATT_CARD,
-        VaterFlexComponent,
-        VaterStackComponent,
-        WattDatePipe,
-        WATT_TABLE,
-        WattCopyToClipboardDirective,
-        DhEmDashFallbackPipe,
-        DhGenerateClientSecretComponent,
-    ]
+  ],
+  templateUrl: './dh-client-secret-view.component.html',
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    WattButtonComponent,
+    WATT_CARD,
+    VaterFlexComponent,
+    VaterStackComponent,
+    WattDatePipe,
+    WATT_TABLE,
+    WattCopyToClipboardDirective,
+    DhEmDashFallbackPipe,
+    DhGenerateClientSecretComponent,
+  ],
 })
 export class DhClientSecretViewComponent {
   private readonly injector = inject(Injector);

@@ -37,21 +37,21 @@ import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 
 @Component({
-    selector: 'dh-message-archive-search-details',
-    imports: [
-        TranslocoDirective,
-        VaterFlexComponent,
-        VaterUtilityDirective,
-        WATT_DRAWER,
-        WattButtonComponent,
-        WattCodeComponent,
-        WattDatePipe,
-        WattDescriptionListComponent,
-        WattDescriptionListItemComponent,
-        WattSpinnerComponent,
-        DhEmDashFallbackPipe,
-    ],
-    template: `
+  selector: 'dh-message-archive-search-details',
+  imports: [
+    TranslocoDirective,
+    VaterFlexComponent,
+    VaterUtilityDirective,
+    WATT_DRAWER,
+    WattButtonComponent,
+    WattCodeComponent,
+    WattDatePipe,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    WattSpinnerComponent,
+    DhEmDashFallbackPipe,
+  ],
+  template: `
     <watt-drawer size="normal" *transloco="let t; read: 'messageArchive'" (closed)="onClose()">
       <watt-drawer-heading>
         @if (documentType()) {
@@ -88,7 +88,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
         }
       </watt-drawer-content>
     </watt-drawer>
-  `
+  `,
 })
 export class DhMessageArchiveSearchDetailsComponent {
   private httpClient = inject(HttpClient);

@@ -38,8 +38,8 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphq
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-    selector: 'dh-permissions-table',
-    template: ` <dh-result
+  selector: 'dh-permissions-table',
+  template: ` <dh-result
     [loading]="loading()"
     [hasError]="hasError()"
     [empty]="permissions().length === 0"
@@ -66,15 +66,15 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
       </ng-container>
     </watt-table>
   </dh-result>`,
-    styles: [
-        `
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoDirective, WATT_TABLE, DhResultComponent]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoDirective, WATT_TABLE, DhResultComponent],
 })
 export class DhPermissionsTableComponent {
   table = viewChild.required(WattTableComponent);

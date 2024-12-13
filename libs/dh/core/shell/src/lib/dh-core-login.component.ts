@@ -34,17 +34,17 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
-    selector: 'dh-core-login',
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        TranslocoPipe,
-        VaterStackComponent,
-        WattButtonComponent,
-        DhMitIDButtonComponent,
-        MatProgressBarModule,
-    ],
-    styles: [
-        `
+  selector: 'dh-core-login',
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    TranslocoPipe,
+    VaterStackComponent,
+    WattButtonComponent,
+    DhMitIDButtonComponent,
+    MatProgressBarModule,
+  ],
+  styles: [
+    `
       datahub-app {
         height: inherit;
       }
@@ -89,8 +89,8 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
         min-width: 100%;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <div class="container">
       <img src="/assets/logo-dark.svg" class="logo" alt="DataHub logo" />
 
@@ -113,7 +113,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
         }
       </vater-stack>
     </div>
-  `
+  `,
 })
 export class DhCoreLoginComponent implements AfterViewInit {
   private config = inject(dhB2CEnvironmentToken);

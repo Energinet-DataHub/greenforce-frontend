@@ -24,11 +24,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 const selector = 'eo-landing-page-blockchain-tech';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslocoPipe],
-    encapsulation: ViewEncapsulation.None,
-    selector,
-    styles: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: `
     ${selector} {
       padding: 48px 24px 0 24px;
       display: flex;
@@ -70,7 +70,7 @@ const selector = 'eo-landing-page-blockchain-tech';
       }
     }
   `,
-    template: `
+  template: `
     <section>
       <picture>
         <source
@@ -91,7 +91,7 @@ const selector = 'eo-landing-page-blockchain-tech';
         <div [innerHTML]="translations.landingPage.blockchainTech.content | transloco"></div>
       </div>
     </section>
-  `
+  `,
 })
 export class EoLandingPageBlockchainTechComponent {
   protected translations = translations;

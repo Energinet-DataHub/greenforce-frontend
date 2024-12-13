@@ -28,9 +28,9 @@ import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionDetailsMarketRole } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-    selector: 'dh-admin-permission-market-roles',
-    imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
-    template: `
+  selector: 'dh-admin-permission-market-roles',
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
+  template: `
     <watt-card
       variant="solid"
       *transloco="let t; read: 'admin.userManagement.permissionDetail.tabs.marketRoles'"
@@ -64,7 +64,7 @@ import { DhPermissionDetailsMarketRole } from '@energinet-datahub/dh/admin/data-
         </watt-table>
       </dh-result>
     </watt-card>
-  `
+  `,
 })
 export class DhAdminPermissionMarketRolesComponent {
   private readonly marketRoles = computed(() => {

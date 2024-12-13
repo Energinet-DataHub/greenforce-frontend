@@ -52,11 +52,11 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
 
 @Component({
-    selector: 'dh-metering-gridarea-imbalance-filters',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './dh-filters.component.html',
-    styles: [
-        `
+  selector: 'dh-metering-gridarea-imbalance-filters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './dh-filters.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -69,20 +69,20 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
         width: auto;
       }
     `,
-    ],
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        RxPush,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        WattButtonComponent,
-        WattDateRangeChipComponent,
-        WattFormChipDirective,
-        WattDropdownComponent,
-        WattQueryParamsDirective,
-        DhDropdownTranslatorDirective,
-    ]
+  ],
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    RxPush,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattDateRangeChipComponent,
+    WattFormChipDirective,
+    WattDropdownComponent,
+    WattQueryParamsDirective,
+    DhDropdownTranslatorDirective,
+  ],
 })
 export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);

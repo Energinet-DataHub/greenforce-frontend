@@ -34,10 +34,10 @@ import {
 
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
 @Component({
-    selector: 'dh-actor-audit-log-tab',
-    templateUrl: './dh-actor-audit-log-tab.component.html',
-    imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'dh-actor-audit-log-tab',
+  templateUrl: './dh-actor-audit-log-tab.component.html',
+  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhActorAuditLogTabComponent {
   private auditLogService = inject(DhActorAuditLogService);

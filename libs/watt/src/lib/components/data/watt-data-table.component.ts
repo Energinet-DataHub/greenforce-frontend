@@ -44,21 +44,21 @@ import { PageEvent } from '@angular/material/paginator';
 import { WattButtonComponent } from '../button';
 
 @Component({
-    selector: 'watt-data-table',
-    imports: [
-        VaterFlexComponent,
-        VaterSpacerComponent,
-        VaterStackComponent,
-        VaterUtilityDirective,
-        WattCardComponent,
-        WattEmptyStateComponent,
-        WattPaginatorComponent,
-        WattSearchComponent,
-        WattButtonComponent,
-    ],
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
+  selector: 'watt-data-table',
+  imports: [
+    VaterFlexComponent,
+    VaterSpacerComponent,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    WattCardComponent,
+    WattEmptyStateComponent,
+    WattPaginatorComponent,
+    WattSearchComponent,
+    WattButtonComponent,
+  ],
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
       :root {
         --watt-data-table-empty-state-margin: auto;
       }
@@ -92,8 +92,8 @@ import { WattButtonComponent } from '../button';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex fill="vertical" gap="m">
         <vater-stack direction="row" gap="m">
@@ -137,7 +137,7 @@ import { WattButtonComponent } from '../button';
         }
       </vater-flex>
     </watt-card>
-  `
+  `,
 })
 export class WattDataTableComponent {
   intl = inject(WattDataIntlService);

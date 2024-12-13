@@ -45,12 +45,12 @@ import { map, startWith } from 'rxjs';
  * `import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';`
  */
 @Component({
-    imports: [MatPaginatorModule],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    selector: 'watt-paginator',
-    styleUrls: ['./watt-paginator.component.scss'],
-    template: `
+  imports: [MatPaginatorModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'watt-paginator',
+  styleUrls: ['./watt-paginator.component.scss'],
+  template: `
     <mat-paginator
       class="watt-paginator"
       (page)="changed.emit($event)"
@@ -61,7 +61,7 @@ import { map, startWith } from 'rxjs';
       [showFirstLastButtons]="true"
       [attr.aria-label]="description()"
     />
-  `
+  `,
 })
 export class WattPaginatorComponent<T> implements OnInit {
   private intl = inject(WattPaginatorIntlService);

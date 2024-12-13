@@ -23,9 +23,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-    selector: 'dh-tab-data-general-error',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'dh-tab-data-general-error',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <watt-empty-state
       icon="custom-power"
       [title]="'shared.error.title' | transloco"
@@ -36,7 +36,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       }}</watt-button>
     </watt-empty-state>
   `,
-    imports: [TranslocoPipe, WattButtonComponent, WattEmptyStateComponent]
+  imports: [TranslocoPipe, WattButtonComponent, WattEmptyStateComponent],
 })
 export class DhTabDataGeneralErrorComponent {
   @Output() reload = new EventEmitter<void>();

@@ -44,10 +44,10 @@ import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
 
 @Component({
-    selector: 'dh-organizations-overview',
-    templateUrl: './dh-organizations-overview.component.html',
-    styles: [
-        `
+  selector: 'dh-organizations-overview',
+  templateUrl: './dh-organizations-overview.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -64,21 +64,21 @@ import { DhOrganizationsTableComponent } from './table/dh-table.component';
           var(--watt-space-ml--negative);
       }
     `,
-    ],
-    imports: [
-        RouterOutlet,
-        TranslocoPipe,
-        TranslocoDirective,
-        WATT_CARD,
-        VaterFlexComponent,
-        VaterStackComponent,
-        WattSearchComponent,
-        WattButtonComponent,
-        WattPaginatorComponent,
-        VaterSpacerComponent,
-        VaterUtilityDirective,
-        DhOrganizationsTableComponent,
-    ]
+  ],
+  imports: [
+    RouterOutlet,
+    TranslocoPipe,
+    TranslocoDirective,
+    WATT_CARD,
+    VaterFlexComponent,
+    VaterStackComponent,
+    WattSearchComponent,
+    WattButtonComponent,
+    WattPaginatorComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    DhOrganizationsTableComponent,
+  ],
 })
 export class DhOrganizationsOverviewComponent {
   private router = inject(Router);

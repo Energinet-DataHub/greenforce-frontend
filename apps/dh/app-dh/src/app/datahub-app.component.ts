@@ -32,18 +32,18 @@ import {
 } from '@energinet-datahub/gf/util-cookie-information';
 
 @Component({
-    // Intentionally use full product name prefix for the root component
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: 'datahub-app',
-    styles: [
-        `
+  // Intentionally use full product name prefix for the root component
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'datahub-app',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    template: `<router-outlet />`,
-    imports: [RouterOutlet]
+  ],
+  template: `<router-outlet />`,
+  imports: [RouterOutlet],
 })
 export class DataHubAppComponent implements OnInit {
   private cookieInformationService = inject(CookieInformationService);

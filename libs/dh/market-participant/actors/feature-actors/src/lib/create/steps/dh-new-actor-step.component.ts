@@ -37,20 +37,20 @@ import { DhActorForm } from '../dh-actor-form.model';
 import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-name-max-length.validator';
 
 @Component({
-    selector: 'dh-new-actor-step',
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        VaterStackComponent,
-        WattTextFieldComponent,
-        WattFieldErrorComponent,
-        WattFieldHintComponent,
-        WattDropdownComponent,
-        WattPhoneFieldComponent,
-        DhDropdownTranslatorDirective,
-    ],
-    styles: [
-        `
+  selector: 'dh-new-actor-step',
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    VaterStackComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattFieldHintComponent,
+    WattDropdownComponent,
+    WattPhoneFieldComponent,
+    DhDropdownTranslatorDirective,
+  ],
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -63,8 +63,8 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
         margin-top: 0;
       }
     `,
-    ],
-    template: `<vater-stack
+  ],
+  template: `<vater-stack
     gap="xl"
     align="flex-start"
     direction="row"
@@ -135,7 +135,7 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
         [label]="t('phone')"
       />
     </vater-stack>
-  </vater-stack>`
+  </vater-stack>`,
 })
 export class DhNewActorStepComponent {
   marketRoleOptions = dhEnumToWattDropdownOptions(EicFunction);

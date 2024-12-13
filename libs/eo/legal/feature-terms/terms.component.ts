@@ -40,20 +40,20 @@ import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-h
 const selector = 'eo-auth-terms';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        FormsModule,
-        WattButtonComponent,
-        WattCheckboxComponent,
-        TranslocoPipe,
-        NgStyle,
-        EoScrollViewComponent,
-        EoHtmlDocComponent,
-    ],
-    selector,
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    FormsModule,
+    WattButtonComponent,
+    WattCheckboxComponent,
+    TranslocoPipe,
+    NgStyle,
+    EoScrollViewComponent,
+    EoHtmlDocComponent,
+  ],
+  selector,
+  styles: [
+    `
       ${selector} {
         display: flex;
         justify-content: center;
@@ -74,8 +74,8 @@ const selector = 'eo-auth-terms';
         }
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <eo-scroll-view
       class="terms"
       [ngStyle]="{
@@ -102,7 +102,7 @@ const selector = 'eo-auth-terms';
         </watt-button>
       </div>
     }
-  `
+  `,
 })
 export class EoTermsComponent {
   private transloco = inject(TranslocoService);

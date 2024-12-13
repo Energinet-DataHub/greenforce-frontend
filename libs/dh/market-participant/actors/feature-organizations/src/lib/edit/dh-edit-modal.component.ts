@@ -42,16 +42,16 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 
 @Component({
-    selector: 'dh-organization-edit-modal',
-    imports: [
-        TranslocoDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        WATT_MODAL,
-        WattButtonComponent,
-        DhOrganizationManageComponent,
-    ],
-    template: `
+  selector: 'dh-organization-edit-modal',
+  imports: [
+    TranslocoDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    WATT_MODAL,
+    WattButtonComponent,
+    DhOrganizationManageComponent,
+  ],
+  template: `
     <watt-modal
       size="small"
       [title]="organization()?.name ?? ''"
@@ -73,7 +73,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
-  `
+  `,
 })
 export class DhOrganizationEditModalComponent {
   private route = inject(ActivatedRoute);

@@ -23,10 +23,10 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
 import { VaterFlexComponent } from '../vater';
 
 @Component({
-    selector: 'watt-link-tabs',
-    encapsulation: ViewEncapsulation.None,
-    imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
-    styles: `
+  selector: 'watt-link-tabs',
+  encapsulation: ViewEncapsulation.None,
+  imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
+  styles: `
     @use '@energinet-datahub/watt/utils' as watt;
     watt-link-tabs {
       .mat-mdc-tab-header {
@@ -82,7 +82,7 @@ import { VaterFlexComponent } from '../vater';
       }
     }
   `,
-    template: ` <vater-flex direction="column" fill="vertical">
+  template: ` <vater-flex direction="column" fill="vertical">
     <nav
       mat-tab-nav-bar
       [disableRipple]="true"
@@ -98,7 +98,7 @@ import { VaterFlexComponent } from '../vater';
     </nav>
 
     <mat-tab-nav-panel #tabPanel> <router-outlet /> </mat-tab-nav-panel
-  ></vater-flex>`
+  ></vater-flex>`,
 })
 export class WattLinkTabsComponent {
   tabElements = contentChildren(WattLinkTabComponent);

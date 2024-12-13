@@ -33,8 +33,8 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-    selector: 'dh-resolve-modal',
-    template: `
+  selector: 'dh-resolve-modal',
+  template: `
     <watt-modal
       size="small"
       #modal
@@ -65,13 +65,13 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
       </watt-modal-actions>
     </watt-modal>
   `,
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        WATT_MODAL,
-        WattButtonComponent,
-        WattTextAreaFieldComponent,
-    ]
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattTextAreaFieldComponent,
+  ],
 })
 export class DhResolveModalComponent extends WattTypedModal<{
   message: EsettOutgoingMessage;

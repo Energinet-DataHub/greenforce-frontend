@@ -31,10 +31,10 @@ import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-    selector: 'dh-balance-responsible-drawer',
-    templateUrl: './dh-drawer.component.html',
-    styles: [
-        `
+  selector: 'dh-balance-responsible-drawer',
+  templateUrl: './dh-drawer.component.html',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -48,16 +48,16 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
         padding: var(--watt-space-ml);
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        WATT_DRAWER,
-        WattDescriptionListComponent,
-        WattDescriptionListItemComponent,
-        WattDatePipe,
-        WattCodeComponent,
-        DhEmDashFallbackPipe,
-    ]
+  ],
+  imports: [
+    TranslocoDirective,
+    WATT_DRAWER,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    WattDatePipe,
+    WattCodeComponent,
+    DhEmDashFallbackPipe,
+  ],
 })
 export class DhBalanceResponsibleDrawerComponent {
   private readonly httpClient = inject(HttpClient);

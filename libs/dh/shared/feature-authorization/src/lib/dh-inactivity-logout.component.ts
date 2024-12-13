@@ -25,21 +25,21 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 
 @Component({
-    selector: 'dh-inactivity-logout',
-    styles: [
-        `
+  selector: 'dh-inactivity-logout',
+  styles: [
+    `
       h2 {
         text-align: center;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-modal *transloco="let t" [size]="'small'" [title]="t('sessionExpirationTitle')">
       <p>{{ t('sessionExpirationContentPartA') }}<br />{{ t('sessionExpirationContentPartB') }}</p>
       <h2>{{ warningCountdown$ | push | date: 'mm:ss' }}</h2>
     </watt-modal>
   `,
-    imports: [RxPush, DatePipe, TranslocoDirective, WATT_MODAL]
+  imports: [RxPush, DatePipe, TranslocoDirective, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent extends WattTypedModal {
   private readonly secondsUntilLogOff = 10;

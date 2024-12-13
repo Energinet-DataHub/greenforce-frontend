@@ -31,27 +31,27 @@ import { DhOutgoingMessageDrawerComponent } from '../drawer/dh-outgoing-message-
 import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
 
 @Component({
-    selector: 'dh-outgoing-messages-table',
-    templateUrl: './dh-table.component.html',
-    styles: [
-        `
+  selector: 'dh-outgoing-messages-table',
+  templateUrl: './dh-table.component.html',
+  styles: [
+    `
       :host {
         display: contents;
       }
     `,
-    ],
-    imports: [
-        TranslocoDirective,
-        TranslocoPipe,
-        WATT_TABLE,
-        WattEmptyStateComponent,
-        WattDatePipe,
-        VaterFlexComponent,
-        VaterStackComponent,
-        DhOutgoingMessageDrawerComponent,
-        DhOutgoingMessageStatusBadgeComponent,
-        DhEmDashFallbackPipe,
-    ]
+  ],
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+    WATT_TABLE,
+    WattEmptyStateComponent,
+    WattDatePipe,
+    VaterFlexComponent,
+    VaterStackComponent,
+    DhOutgoingMessageDrawerComponent,
+    DhOutgoingMessageStatusBadgeComponent,
+    DhEmDashFallbackPipe,
+  ],
 })
 export class DhOutgoingMessagesTableComponent {
   activeRow: DhOutgoingMessage | undefined = undefined;

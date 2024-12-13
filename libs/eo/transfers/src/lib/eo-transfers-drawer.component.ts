@@ -47,25 +47,25 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'eo-transfers-drawer',
-    imports: [
-        WATT_DRAWER,
-        WattButtonComponent,
-        WattBadgeComponent,
-        WattCardComponent,
-        WattDescriptionListComponent,
-        WattDescriptionListItemComponent,
-        WattTabsComponent,
-        WattTabComponent,
-        WattDatePipe,
-        EoTransfersEditModalComponent,
-        EoTransfersHistoryComponent,
-        EoTransferInvitationLinkComponent,
-        TranslocoPipe,
-    ],
-    styles: [
-        `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-transfers-drawer',
+  imports: [
+    WATT_DRAWER,
+    WattButtonComponent,
+    WattBadgeComponent,
+    WattCardComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
+    WattTabsComponent,
+    WattTabComponent,
+    WattDatePipe,
+    EoTransfersEditModalComponent,
+    EoTransfersHistoryComponent,
+    EoTransferInvitationLinkComponent,
+    TranslocoPipe,
+  ],
+  styles: [
+    `
       .sub-header {
         font-size: 14px;
         margin-top: var(--watt-space-m);
@@ -84,8 +84,8 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
         --watt-color-primary-dark: var(--watt-color-state-danger);
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
         @if (transfer?.transferAgreementStatus === 'Active') {
@@ -197,7 +197,7 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
       [transferAgreements]="transferAgreements"
       (save)="onEdit($event)"
     />
-  `
+  `,
 })
 export class EoTransfersDrawerComponent {
   private authService: EoAuthService = inject(EoAuthService);

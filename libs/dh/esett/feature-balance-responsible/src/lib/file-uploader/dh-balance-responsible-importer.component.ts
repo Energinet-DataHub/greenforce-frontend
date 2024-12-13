@@ -34,9 +34,9 @@ const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 
 @Component({
-    selector: 'dh-balance-responsible-importer',
-    styles: [
-        `
+  selector: 'dh-balance-responsible-importer',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -45,8 +45,8 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
         display: none;
       }
     `,
-    ],
-    template: `<input
+  ],
+  template: `<input
       type="file"
       class="upload-input"
       [accept]="csvExt"
@@ -62,8 +62,8 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
     >
       {{ 'eSett.balanceResponsible.importButton' | transloco }}
     </watt-button>`,
-    providers: [DhEsettDataAccessApiStore],
-    imports: [TranslocoPipe, WattButtonComponent]
+  providers: [DhEsettDataAccessApiStore],
+  imports: [TranslocoPipe, WattButtonComponent],
 })
 export class DhBalanceResponsibleImporterComponent {
   private readonly store = inject(DhEsettDataAccessApiStore);

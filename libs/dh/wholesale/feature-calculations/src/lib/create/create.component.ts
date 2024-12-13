@@ -76,29 +76,29 @@ interface FormValues {
 }
 
 @Component({
-    selector: 'dh-calculations-create',
-    templateUrl: './create.component.html',
-    imports: [
-        ReactiveFormsModule,
-        TranslocoDirective,
-        WATT_MODAL,
-        WattButtonComponent,
-        WattDatePipe,
-        WattDatepickerComponent,
-        WattDateTimeField,
-        WattDropdownComponent,
-        WattFieldComponent,
-        WattFilterChipComponent,
-        WattValidationMessageComponent,
-        WattFieldErrorComponent,
-        WattFieldHintComponent,
-        WattRadioComponent,
-        WattTextFieldComponent,
-        VaterFlexComponent,
-        VaterStackComponent,
-        DhCalculationsGridAreasDropdownComponent,
-        DhDropdownTranslatorDirective,
-    ]
+  selector: 'dh-calculations-create',
+  templateUrl: './create.component.html',
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    WATT_MODAL,
+    WattButtonComponent,
+    WattDatePipe,
+    WattDatepickerComponent,
+    WattDateTimeField,
+    WattDropdownComponent,
+    WattFieldComponent,
+    WattFilterChipComponent,
+    WattValidationMessageComponent,
+    WattFieldErrorComponent,
+    WattFieldHintComponent,
+    WattRadioComponent,
+    WattTextFieldComponent,
+    VaterFlexComponent,
+    VaterStackComponent,
+    DhCalculationsGridAreasDropdownComponent,
+    DhDropdownTranslatorDirective,
+  ],
 })
 export class DhCalculationsCreateComponent {
   CalculationType = CalculationType;

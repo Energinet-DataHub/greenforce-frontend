@@ -32,9 +32,9 @@ const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 
 @Component({
-    selector: 'dh-imbalance-prices-uploader',
-    styles: [
-        `
+  selector: 'dh-imbalance-prices-uploader',
+  styles: [
+    `
       :host {
         display: block;
       }
@@ -43,8 +43,8 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
         display: none;
       }
     `,
-    ],
-    template: `<input
+  ],
+  template: `<input
       type="file"
       class="upload-input"
       [accept]="csvExt"
@@ -60,8 +60,8 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
     >
       {{ 'imbalancePrices.uploadButton' | transloco }}
     </watt-button>`,
-    providers: [DhImbalancePricesDataAccessApiStore],
-    imports: [TranslocoPipe, WattButtonComponent]
+  providers: [DhImbalancePricesDataAccessApiStore],
+  imports: [TranslocoPipe, WattButtonComponent],
 })
 export class DhImbalancePricesUploaderComponent {
   private readonly store = inject(DhImbalancePricesDataAccessApiStore);

@@ -25,14 +25,14 @@ import { DhUsersComponent } from './table/table.component';
 import { DhInviteUserComponent } from './invite/invite.component';
 
 @Component({
-    selector: 'dh-user-management',
-    providers: [DhNavigationService],
-    template: `
+  selector: 'dh-user-management',
+  providers: [DhNavigationService],
+  template: `
     <dh-invite-user #invite />
     <dh-users (open)="navigate($event.id)" (invite)="invite.open()" />
     <router-outlet />
   `,
-    imports: [DhUsersComponent, DhInviteUserComponent, RouterOutlet]
+  imports: [DhUsersComponent, DhInviteUserComponent, RouterOutlet],
 })
 export class DhUserManagementComponent {
   private navigationService = inject(DhNavigationService);

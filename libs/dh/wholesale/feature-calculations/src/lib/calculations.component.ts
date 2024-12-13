@@ -26,13 +26,13 @@ import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsTableComponent } from './table/table.component';
 
 @Component({
-    selector: 'dh-calculations',
-    imports: [
-        DhCalculationsCreateComponent,
-        DhCalculationsDetailsComponent,
-        DhCalculationsTableComponent,
-    ],
-    template: `
+  selector: 'dh-calculations',
+  imports: [
+    DhCalculationsCreateComponent,
+    DhCalculationsDetailsComponent,
+    DhCalculationsTableComponent,
+  ],
+  template: `
     <dh-calculations-create #modal />
     <dh-calculations-details [id]="id()" (closed)="navigate(null)" />
     <dh-calculations-table
@@ -40,7 +40,7 @@ import { DhCalculationsTableComponent } from './table/table.component';
       (selectedRow)="navigate($event.id)"
       (create)="modal.open()"
     />
-  `
+  `,
 })
 export class DhCalculationsComponent {
   private router = inject(Router);

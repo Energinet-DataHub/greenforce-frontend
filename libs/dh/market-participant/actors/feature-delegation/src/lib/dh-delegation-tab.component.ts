@@ -59,30 +59,30 @@ import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-
 import { dhGroupDelegations } from './util/dh-group-delegations';
 
 @Component({
-    selector: 'dh-delegation-tab',
-    styles: [
-        `
+  selector: 'dh-delegation-tab',
+  styles: [
+    `
       :host {
         display: block;
       }
     `,
-    ],
-    templateUrl: './dh-delegation-tab.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        TranslocoDirective,
-        ReactiveFormsModule,
-        VaterFlexComponent,
-        VaterStackComponent,
-        VaterSpacerComponent,
-        WattEmptyStateComponent,
-        WattButtonComponent,
-        WattSpinnerComponent,
-        WattDropdownComponent,
-        DhPermissionRequiredDirective,
-        DhDropdownTranslatorDirective,
-        DhDelegationsOverviewComponent,
-    ]
+  ],
+  templateUrl: './dh-delegation-tab.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+    VaterFlexComponent,
+    VaterStackComponent,
+    VaterSpacerComponent,
+    WattEmptyStateComponent,
+    WattButtonComponent,
+    WattSpinnerComponent,
+    WattDropdownComponent,
+    DhPermissionRequiredDirective,
+    DhDropdownTranslatorDirective,
+    DhDelegationsOverviewComponent,
+  ],
 })
 export class DhDelegationTabComponent {
   private readonly modalService = inject(WattModalService);

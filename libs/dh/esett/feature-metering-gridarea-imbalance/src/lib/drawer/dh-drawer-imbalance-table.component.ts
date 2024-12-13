@@ -28,8 +28,8 @@ import { MeteringGridAreaImbalancePerDayDto } from '../dh-metering-gridarea-imba
 import { DecimalPipe } from '@angular/common';
 
 @Component({
-    selector: 'dh-metering-gridarea-imbalance-table',
-    template: `<vater-flex
+  selector: 'dh-metering-gridarea-imbalance-table',
+  template: `<vater-flex
     fill="vertical"
     scrollable
     *transloco="let t; read: 'eSett.meteringGridAreaImbalance.drawer.table'"
@@ -53,12 +53,12 @@ import { DecimalPipe } from '@angular/common';
       </ng-container>
     </watt-table>
   </vater-flex>`,
-    styles: `
+  styles: `
     watt-table {
       margin: var(--watt-space-m) 0;
     }
   `,
-    imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective]
+  imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent implements OnInit {
   data = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDto>>();
