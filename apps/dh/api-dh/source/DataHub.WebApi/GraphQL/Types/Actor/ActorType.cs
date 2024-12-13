@@ -81,5 +81,15 @@ public class ActorType : ObjectType<ActorDto>
         descriptor
             .Field("publicMail")
             .ResolveWith<MarketParticipantResolvers>(c => c.GetActorPublicMailAsync(default!, default!));
+
+        descriptor
+           .Field("auditLog")
+           .Type<NonNullType<ListType<NonNullType<ObjectType<ActorAuditedChangeAuditLogDto>>>>>()
+           .Resolve((context) =>
+           {
+               var actor = context.Parent<ActorDto>();
+               var marketParticipantService = context.Service<IMarketParticipantClient_V1>();
+               return marketParticipantService.ActorAuditAsync(actor.ActorId);
+           });
     }
 }

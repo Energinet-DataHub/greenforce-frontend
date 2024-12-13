@@ -18,10 +18,24 @@
 //#endregion
 import {
   Actor,
+  ActorAuditedChange,
+  ActorAuditedChangeAuditLogDto,
   ActorStatus,
   ContactCategory,
   EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+const auditLog: ActorAuditedChangeAuditLogDto = {
+  __typename: 'ActorAuditedChangeAuditLogDto',
+  change: ActorAuditedChange.Name,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  consolidation: null,
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
+  delegation: null,
+};
 
 export const filteredActors: Actor[] = [
   {
@@ -34,6 +48,7 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
+    auditLog: [auditLog],
     contact: {
       __typename: 'ActorContactDto',
       contactId: '10000000-0000-0000-0000-000000000001',
@@ -65,6 +80,7 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
+    auditLog: [auditLog],
     contact: {
       __typename: 'ActorContactDto',
       contactId: '10000000-0000-0000-0000-000000000002',
