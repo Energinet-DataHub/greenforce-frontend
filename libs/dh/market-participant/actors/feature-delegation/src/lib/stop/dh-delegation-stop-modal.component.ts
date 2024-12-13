@@ -16,33 +16,37 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation, inject, viewChild } from '@angular/core';
 import {
   FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
-import { distinctUntilKeyChanged } from 'rxjs';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, ViewEncapsulation, inject, viewChild } from '@angular/core';
+
+import { distinctUntilKeyChanged } from 'rxjs';
+import { TranslocoDirective, translate } from '@ngneat/transloco';
+
+import { dayjs } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+
 import {
-  GetAuditLogByActorIdDocument,
-  GetDelegationsForActorDocument,
   StopDelegationsDocument,
   StopDelegationsMutation,
+  GetDelegationsForActorDocument,
+  GetActorDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { DhDelegation } from '../dh-delegations';
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
@@ -73,9 +77,9 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
     ReactiveFormsModule,
 
     WATT_MODAL,
+    WattRadioComponent,
     WattButtonComponent,
     WattDatepickerComponent,
-    WattRadioComponent,
     WattFieldErrorComponent,
 
     VaterStackComponent,
@@ -188,7 +192,7 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
           })),
         },
       },
-      refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
+      refetchQueries: [GetDelegationsForActorDocument, GetActorDetailsDocument],
       onCompleted: (data) => this.handleStopDelegationResponse(data),
     });
   }

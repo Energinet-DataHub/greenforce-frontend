@@ -37,6 +37,7 @@ import {
   UpdateActorUserRolesInput,
   UpdateUserAndRolesDocument,
   GetUserDetailsDocument,
+  GetActorsAndUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/shared';
@@ -162,6 +163,7 @@ export class DhEditUserComponent {
         GetUserEditDocument,
         GetUserDetailsDocument,
         GetUserAuditLogsDocument,
+        GetActorsAndUserRolesDocument,
       ],
       variables: {
         updateRolesInput: {
