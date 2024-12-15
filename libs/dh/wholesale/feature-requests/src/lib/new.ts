@@ -71,12 +71,20 @@ const injectToast = () => {
   };
 };
 
+// TODO: move to same util as dhMakeFormControl
 const setControlRequired = (control: FormControl, required: boolean) => {
   if (required == control.hasValidator(Validators.required)) return;
   if (required) control.addValidators(Validators.required);
   else control.removeValidators(Validators.required);
   control.updateValueAndValidity();
 };
+
+// TODO: move to some other util?
+function assertIsDefined<T>(value: T): asserts value is NonNullable<T> {
+  if (value === null || value === undefined) {
+    throw new Error(`Expected 'value' to be defined, but received ${value}`);
+  }
+}
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -203,40 +211,42 @@ export class DhWholesaleRequestsNew {
   updateCalculationType = effect(() => this.calculationType.setValue(this.firstCalculationType()));
 
   // Request mutation handling
-  toast = injectToast();
   request = mutation(RequestDocument, { refetchQueries: [GetRequestsDocument] });
+  toast = injectToast();
   toastEffect = effect(() => this.toast(this.request.status()));
   handleSubmit = () => {
     this.close(true);
     this.request.mutate({
-      variables: { input: this.getInput() },
+      variables: { input: this.makeRequestInput() },
       refetchQueries: [GetRequestsDocument],
     });
   };
 
-  getInput = (): RequestInput => {
-    const values = this.form.getRawValue();
+  // TODO: Dropdown really needs to accept generic values, not just strings
+  makeRequestInput = (): RequestInput => {
+    const { calculationType, gridArea, meteringPointTypeOrPriceType, period } = this.form.value;
 
-    // Make TS happy
-    if (!values.calculationType || !values.period || !values.meteringPointTypeOrPriceType)
-      throw new Error('Invalid input');
+    // Satisfy the type checker, since fields should be defined at this point (due to validators)
+    assertIsDefined(calculationType);
+    assertIsDefined(period);
+    assertIsDefined(meteringPointTypeOrPriceType);
 
-    const meteringPointTypeOrPriceType = values.meteringPointTypeOrPriceType;
-    const calculationType = values.calculationType;
-    const gridArea = values.gridArea;
-    const period = {
-      start: dayjs(values.period.start).toDate(),
-      end: dayjs(values.period.end).toDate(),
+    // Common fields that all request types share
+    const request = {
+      calculationType,
+      gridArea,
+      period: {
+        start: dayjs(period.start).toDate(),
+        end: dayjs(period.end).toDate(),
+      },
     };
 
-    // TODO: Dropdown really needs to accept generic values, not just strings
+    // Pick the right request type based on the selected metering point type or price type
     switch (meteringPointTypeOrPriceType) {
       case 'ALL_ENERGY':
         return {
           requestAggregatedMeasureData: {
-            calculationType,
-            period,
-            gridArea,
+            ...request,
             meteringPointType: null,
           },
         };
@@ -247,9 +257,7 @@ export class DhWholesaleRequestsNew {
       case MeteringPointType.TotalConsumption:
         return {
           requestAggregatedMeasureData: {
-            calculationType,
-            period,
-            gridArea,
+            ...request,
             meteringPointType: meteringPointTypeOrPriceType,
           },
         };
@@ -263,9 +271,7 @@ export class DhWholesaleRequestsNew {
       case PriceType.TariffSubscriptionAndFee:
         return {
           requestWholesaleSettlement: {
-            calculationType,
-            period,
-            gridArea,
+            ...request,
             priceType: meteringPointTypeOrPriceType,
           },
         };
