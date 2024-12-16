@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
+using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
@@ -44,10 +45,12 @@ public class GraphQLTestService
             .AddLogging()
             .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
+            .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
+            .AddSubscriptionType<Subscription>()
             .AddTypes()
             .AddAuthorization()
             .AddSorting()
