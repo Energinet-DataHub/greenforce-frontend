@@ -1211,7 +1211,7 @@ input RequestSortInput {
   createdBy: SortEnumType
   calculationType: SortEnumType
   period: SortEnumType
-  dataType: SortEnumType
+  meteringPointTypeOrPriceType: SortEnumType
 }
 
 input RequestWholesaleSettlementInput {
