@@ -867,7 +867,7 @@
       "history": {
         "emptyTitle": "Ingen historik på netområde",
         "changeTypes": {
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed fra <b>{{ previousOwner }}</b> til {{ currentOwner }}. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed fra <b>{{ previousOwner }}</b> til <b>{{ currentOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
           "CONSOLIDATION_COMPLETED": "Sammenlægning fra <b>{{ previousOwner }}</b> er udført",
           "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
         }
