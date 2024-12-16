@@ -17,8 +17,8 @@
  */
 //#endregion
 /** Asserts that the given condition is true */
-export function assert(condition: unknown): asserts condition {
-  if (condition === false) throw new Error('Assertion failed');
+export function assert(condition: unknown, msg = 'Assertion failed'): asserts condition {
+  if (condition === false) throw new Error(msg);
 }
 
 /** Asserts that the given value is defined (not null or undefined) */
