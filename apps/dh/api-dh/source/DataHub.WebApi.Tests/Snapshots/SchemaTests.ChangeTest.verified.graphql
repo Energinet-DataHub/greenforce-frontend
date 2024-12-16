@@ -771,7 +771,7 @@ type StopDelegationPayload {
 }
 
 type Subscription {
-  calculationUpdated: Calculation!
+  calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   notificationAdded: NotificationDto!
 }
 
