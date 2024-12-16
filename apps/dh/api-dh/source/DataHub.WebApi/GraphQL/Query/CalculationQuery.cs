@@ -17,6 +17,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
 using NodaTime;
 
@@ -24,11 +25,12 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public async Task<CalculationDto> GetCalculationByIdAsync(
-        Guid id,
-        [Service] IFeatureManager featureManager,
-        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
-        [Service] IWholesaleClient_V3 wholesaleClient)
+            Guid id,
+            [Service] IFeatureManager featureManager,
+            [Service] IProcessManagerClientAdapter processManagerCalculationClient,
+            [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         return useProcessManager
@@ -38,6 +40,7 @@ public partial class Query
 
     [UsePaging]
     [UseSorting]
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public async Task<IEnumerable<CalculationDto>> GetCalculationsAsync(
         CalculationQueryInput input,
         string? filter,
@@ -69,22 +72,7 @@ public partial class Query
         }
     }
 
-    [GraphQLDeprecated("Use `latestCalculation` instead")]
-    public async Task<CalculationDto?> GetLatestBalanceFixingAsync(
-        Interval period,
-        [Service] IWholesaleClient_V3 wholesaleClient)
-    {
-        var input = new CalculationQueryInput
-        {
-            Period = period,
-            CalculationTypes = [Clients.Wholesale.v3.CalculationType.BalanceFixing],
-            States = [CalculationOrchestrationState.Completed],
-        };
-
-        var calculations = await wholesaleClient.QueryCalculationsAsync(input);
-        return calculations.FirstOrDefault();
-    }
-
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public async Task<CalculationDto?> GetLatestCalculationAsync(
         Interval period,
         Clients.Wholesale.v3.CalculationType calculationType,
