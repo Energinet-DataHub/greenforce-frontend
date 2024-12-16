@@ -851,8 +851,7 @@
         "Active": "Aktiv",
         "Expired": "Udløbet",
         "Archived": "Arkiveret",
-        "ToBeDiscontinued": "Ophører snart",
-        "Discontinued": "Ophørt"
+        "ToBeDiscontinued": "Ophører snart"
       },
       "types": {
         "NotSet": "Ikke angivet",
