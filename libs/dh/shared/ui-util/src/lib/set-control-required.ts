@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-make-form-control';
-export * from './lib/set-control-required';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
-export * from './lib/dh-enum-to-dropdown-options';
-export * from './lib/stream-to-file';
-export { DhResultComponent } from './lib/dh-result.component';
+import { FormControl, Validators } from '@angular/forms';
+
+/** Helper function for changing required state of a FormControl. */
+export const setControlRequired = (control: FormControl, required: boolean) => {
+  if (required == control.hasValidator(Validators.required)) return;
+  if (required) control.addValidators(Validators.required);
+  else control.removeValidators(Validators.required);
+  control.updateValueAndValidity();
+};
