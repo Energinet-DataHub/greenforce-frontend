@@ -716,7 +716,12 @@
       "title": "Sammenlæg aktører",
       "discontinuedEntity": "Ophørende netvirksomhed",
       "survivingEntity": "Overtagende netvirksomhed",
-      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+      "marketParticipantDropdown": {
+        "withGridAreas": {
+          "singular": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+          "plural": "{{ marketParticipant }} (Netområder {{ gridAreas }})"
+        }
+      },
       "notUniqueMarketParticipants": "Vælg to forskellige netvirksomheder",
       "mergeDate": "Dato for sammenlægning",
       "cancel": "Fortryd",
