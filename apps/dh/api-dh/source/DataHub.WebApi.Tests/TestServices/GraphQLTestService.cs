@@ -41,12 +41,15 @@ public class GraphQLTestService
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
+            .AddLogging()
+            .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
             .AddTypes()
+            .AddAuthorization()
             .AddSorting()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
