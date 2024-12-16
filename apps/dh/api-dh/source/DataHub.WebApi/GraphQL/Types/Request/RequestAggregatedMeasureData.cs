@@ -26,7 +26,8 @@ public record RequestAggregatedMeasureData(
     string? BalanceResponsibleId,
     MeteringPointType? MeteringPointType) : IRequest
 {
-    public string DataTypeSortProperty => MeteringPointType?.ToString() ?? string.Empty;
+    public string MeteringPointTypeOrPriceTypeSortProperty =>
+        MeteringPointType?.ToString() ?? string.Empty;
 
     public RequestAggregatedMeasureDataMarketRequest ToMarketRequest()
         => new()

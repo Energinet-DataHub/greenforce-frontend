@@ -25,7 +25,8 @@ public record RequestWholesaleSettlement(
     string? EnergySupplierId,
     PriceType? PriceType) : IRequest
 {
-    public string DataTypeSortProperty => PriceType?.ToString() ?? string.Empty;
+    public string MeteringPointTypeOrPriceTypeSortProperty
+        => PriceType?.ToString() ?? string.Empty;
 
     public RequestWholesaleSettlementMarketRequest ToMarketRequest()
         => new()

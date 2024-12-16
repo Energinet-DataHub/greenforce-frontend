@@ -46,5 +46,5 @@ public interface IRequest : IInputParameterDto
     /// <summary>
     /// The parameter value.
     /// </summary>
-    string DataTypeSortProperty { get; }
+    string MeteringPointTypeOrPriceTypeSortProperty { get; }
 }
