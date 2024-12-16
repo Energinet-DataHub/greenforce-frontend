@@ -13,38 +13,52 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class GridAreaResolvers
 {
-    public GridAreaStatus CalculateGridAreaStatus([Parent] IGridArea gridarea)
+    public async Task<GridAreaStatus> CalculateGridAreaStatusAsync(
+        [Parent] IGridArea gridarea,
+        ConsolidationByGridAreaIdBatchDataLoader consolidationsLoader)
     {
         var validFrom = gridarea.ValidFrom;
         var validTo = gridarea.ValidTo;
+        var consolidation = await consolidationsLoader.LoadAsync(gridarea.Code).ConfigureAwait(false);
 
-        if (validFrom > DateTimeOffset.UtcNow)
+        if (consolidation is null)
         {
-            return GridAreaStatus.Created;
+            if (validFrom > DateTimeOffset.UtcNow)
+            {
+                return GridAreaStatus.Created;
+            }
+
+            if (validTo < DateTimeOffset.UtcNow)
+            {
+                return GridAreaStatus.Expired;
+            }
+
+            if (validFrom <= DateTimeOffset.UtcNow && validTo >= DateTimeOffset.UtcNow)
+            {
+                return GridAreaStatus.Active;
+            }
+
+            if (validFrom <= DateTimeOffset.UtcNow && validTo == null)
+            {
+                return GridAreaStatus.Active;
+            }
+
+            return GridAreaStatus.Archived;
         }
 
-        if (validTo < DateTimeOffset.UtcNow)
+        if (consolidation.ConsolidateAt > DateTimeOffset.UtcNow)
         {
-            return GridAreaStatus.Expired;
+            return GridAreaStatus.ToBeDiscontinued;
         }
 
-        if (validFrom <= DateTimeOffset.UtcNow && validTo >= DateTimeOffset.UtcNow)
-        {
-            return GridAreaStatus.Active;
-        }
-
-        if (validFrom <= DateTimeOffset.UtcNow && validTo == null)
-        {
-            return GridAreaStatus.Active;
-        }
-
-        return GridAreaStatus.Archived;
+        return GridAreaStatus.Discontinued;
     }
 
     public PriceAreaCode ParsePriceAreaCode([Parent] IGridArea gridarea)

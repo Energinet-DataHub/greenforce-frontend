@@ -20,4 +20,6 @@ public enum GridAreaStatus
     Active,
     Expired,
     Archived,
+    ToBeDiscontinued,
+    Discontinued,
 }
