@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
-using Energinet.DataHub.WebApi.Tests.Fixtures;
+using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Moq;
@@ -71,7 +71,7 @@ public class CalculationGridAreasQueryTests
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_calculationByIdQuery)
-            .SetUser(ClaimsPrincipalFactory.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync();
     }
@@ -107,7 +107,7 @@ public class CalculationGridAreasQueryTests
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_calculationByIdQuery)
-            .SetUser(ClaimsPrincipalFactory.CreateAdministrator()));
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync();
     }
