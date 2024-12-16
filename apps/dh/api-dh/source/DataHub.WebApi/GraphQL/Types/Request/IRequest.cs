@@ -44,7 +44,7 @@ public interface IRequest : IInputParameterDto
     string? EnergySupplierId { get; }
 
     /// <summary>
-    /// The parameter value.
+    /// Value used for sorting by the combined field of MeteringPointType or PriceType.
     /// </summary>
     string MeteringPointTypeOrPriceTypeSortProperty { get; }
 }
