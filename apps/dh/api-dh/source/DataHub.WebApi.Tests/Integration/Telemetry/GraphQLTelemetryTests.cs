@@ -26,7 +26,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
 using Xunit;
-using static HotChocolate.ErrorCodes;
 
 namespace Energinet.DataHub.WebApi.Tests.Telemetry;
 
