@@ -50,7 +50,7 @@ import {
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromApolloError } from './util/error';
+import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
 
 export enum QueryStatus {
   Idle,
@@ -154,6 +154,10 @@ export function query<TResult, TVariables extends OperationVariables>(
     switchMap((ref) =>
       ref.valueChanges.pipe(
         takeUntil(reset$),
+        map(({ errors, error, ...result }) => ({
+          ...result,
+          error: error ?? mapGraphQLErrorsToApolloError(errors),
+        })),
         catchError((error: ApolloError) => fromApolloError<TResult>(error))
       )
     ),
