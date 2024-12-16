@@ -24,7 +24,6 @@ import {
   mockRequestMutation,
   CalculationType,
   MeteringPointType,
-  PriceType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function requestMocks() {
