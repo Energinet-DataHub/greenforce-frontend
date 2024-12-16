@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, effect, inject, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {
   CalculationType,
@@ -33,8 +33,10 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
+  setControlRequired,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {
   RequestType,
@@ -70,21 +72,6 @@ const injectToast = () => {
     }
   };
 };
-
-// TODO: move to same util as dhMakeFormControl
-const setControlRequired = (control: FormControl, required: boolean) => {
-  if (required == control.hasValidator(Validators.required)) return;
-  if (required) control.addValidators(Validators.required);
-  else control.removeValidators(Validators.required);
-  control.updateValueAndValidity();
-};
-
-// TODO: move to some other util?
-function assertIsDefined<T>(value: T): asserts value is NonNullable<T> {
-  if (value === null || value === undefined) {
-    throw new Error(`Expected 'value' to be defined, but received ${value}`);
-  }
-}
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -222,7 +209,6 @@ export class DhWholesaleRequestsNew {
     });
   };
 
-  // TODO: Dropdown really needs to accept generic values, not just strings
   makeRequestInput = (): RequestInput => {
     const { calculationType, gridArea, meteringPointTypeOrPriceType, period } = this.form.value;
 
