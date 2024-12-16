@@ -48,6 +48,7 @@ public class GraphQLTestService
             .AddMutationType<Mutation>()
             .AddTypes()
             .AddSorting()
+            .ModifyOptions(o => o.EnableOneOf = true)
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(FeatureManagerMock.Object)
