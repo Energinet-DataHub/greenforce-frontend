@@ -44,7 +44,6 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
     </label>
   `,
   encapsulation: ViewEncapsulation.None,
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.disabled]': 'isDisabled',
   },

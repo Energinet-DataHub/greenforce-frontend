@@ -85,5 +85,6 @@ export class WattMenuChipComponent {
   @Input() value?: string;
   @Input() selected = false;
   @Input() hasPopup: WattMenuChipHasPopup = 'menu';
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() toggle = new EventEmitter<void>();
 }

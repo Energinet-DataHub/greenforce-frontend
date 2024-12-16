@@ -47,7 +47,7 @@ describe(DhFeatureFlagDirective, () => {
           provide: dhAppEnvironmentToken,
           useValue: { current: DhAppEnvironment.test_001 },
         },
-        { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
+        { provide: dhFeatureFlagsToken, overrides: featureFlagsConfigMock },
       ],
     });
   };

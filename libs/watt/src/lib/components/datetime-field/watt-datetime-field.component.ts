@@ -175,6 +175,7 @@ export class WattDateTimeField implements ControlValueAccessor {
   dateChange = outputFromObservable(this.valueChanges);
 
   /** Emits when the field loses focus. */
+  // eslint-disable-next-line @angular-eslint/no-output-native
   blur = output<FocusEvent>();
 
   protected selected = signal<Date | null>(null);

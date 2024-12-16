@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { FactoryProvider, inject, provideAppInitializer } from '@angular/core';
+import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhApplicationInsights } from './dh-application-insights.service';
 

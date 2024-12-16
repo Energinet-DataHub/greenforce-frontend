@@ -93,6 +93,7 @@
     "@popperjs/core": "2.11.8",
     "@rx-angular/cdk": "17.0.1",
     "@rx-angular/template": "17.1.0",
+    "@typescript-eslint/typescript-estree": "^8.18.0",
     "@vimeo/player": "2.17.0",
     "apollo-angular": "6.0.0",
     "chart.js": "4.4.0",
@@ -116,9 +117,9 @@
     "prismjs": "^1.28.0",
     "qs": "6.12.1",
     "rxjs": "7.8.1",
+    "storybook": "^8.2.8",
     "tslib": "2.4.0",
-    "zone.js": "0.15.0",
-    "storybook": "^8.2.8"
+    "zone.js": "0.15.0"
   },
   "devDependencies": {
     "@actions/core": "1.10.1",

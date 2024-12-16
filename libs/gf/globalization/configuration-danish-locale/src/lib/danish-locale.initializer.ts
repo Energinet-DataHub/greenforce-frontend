@@ -17,7 +17,7 @@
  */
 //#endregion
 import { registerLocaleData } from '@angular/common';
-import { FactoryProvider, provideAppInitializer } from '@angular/core';
+import { provideAppInitializer } from '@angular/core';
 import danishLocale from '@angular/common/locales/da';
 
 import { danishLocaleCode } from './danish-locale-code';
