@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 using Microsoft.FeatureManagement;
 using NodaTime;
@@ -30,6 +31,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
 public partial class Mutation
 {
+    [Authorize(Roles = new[] { "calculations:manage" })]
     public async Task<Guid> CreateCalculationAsync(
         CalculationExecutionType executionType,
         Interval period,
@@ -84,6 +86,7 @@ public partial class Mutation
         return calculationId;
     }
 
+    [Authorize(Roles = new[] { "calculations:manage" })]
     public async Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
         [Service] IFeatureManager featureManager,
