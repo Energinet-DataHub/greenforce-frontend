@@ -27,10 +27,10 @@ public partial class Query
 {
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public async Task<CalculationDto> GetCalculationByIdAsync(
-            Guid id,
-            [Service] IFeatureManager featureManager,
-            [Service] IProcessManagerClientAdapter processManagerCalculationClient,
-            [Service] IWholesaleClient_V3 wholesaleClient)
+        Guid id,
+        [Service] IFeatureManager featureManager,
+        [Service] IProcessManagerClientAdapter processManagerCalculationClient,
+        [Service] IWholesaleClient_V3 wholesaleClient)
     {
         var useProcessManager = await featureManager.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager));
         return useProcessManager
