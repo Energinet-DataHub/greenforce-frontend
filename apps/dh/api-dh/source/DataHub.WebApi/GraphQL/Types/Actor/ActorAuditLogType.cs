@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
@@ -32,6 +34,104 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                     .ConfigureAwait(false);
 
                 return auditIdentity.DisplayName;
+            });
+
+        descriptor.Field("consolidation")
+            .Resolve(async (ctx, ct) =>
+            {
+                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
+                var gridAreaDataLoader = ctx.DataLoader<GridAreaByIdBatchDataLoader>();
+                var actorDataLoader = ctx.DataLoader<ActorByIdBatchDataLoader>();
+
+                if (parent.Change != ActorAuditedChange.ConsolidationCompleted &&
+                    parent.Change != ActorAuditedChange.ConsolidationRequested)
+                {
+                    return null;
+                }
+
+                if (parent.CurrentValue == null || parent.PreviousValue == null)
+                {
+                    return null;
+                }
+
+                var previousOwner = await actorDataLoader.LoadAsync(Guid.Parse(parent.PreviousValue), ct);
+                var currentOwner = await actorDataLoader.LoadAsync(Guid.Parse(parent.CurrentValue), ct);
+
+                if (previousOwner == null || currentOwner == null)
+                {
+                    return null;
+                }
+
+                var previousGridAreaId = previousOwner.MarketRole.GridAreas.FirstOrDefault();
+                var currentGridAreaId = currentOwner.MarketRole.GridAreas.FirstOrDefault();
+
+                if (currentGridAreaId == null)
+                {
+                    return null;
+                }
+
+                var previousGridArea = previousGridAreaId != null ? await gridAreaDataLoader.LoadAsync(previousGridAreaId.Id) : null;
+                var currentGridArea = await gridAreaDataLoader.LoadAsync(currentGridAreaId.Id);
+
+                if (currentGridArea == null)
+                {
+                    return null;
+                }
+
+                return new ActorConsolidationAuditLog(
+                    currentOwner.Name.Value,
+                    currentOwner.ActorNumber.Value,
+                    previousOwner.Name.Value,
+                    previousOwner.ActorNumber.Value,
+                    null);
+            });
+
+        descriptor
+            .Field("delegation")
+            .Resolve(async (ctx, ct) =>
+            {
+                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
+                var gridAreaDataLoader = ctx.DataLoader<GridAreaByIdBatchDataLoader>();
+                var actorDataLoader = ctx.DataLoader<ActorByIdBatchDataLoader>();
+
+                if (parent.Change != ActorAuditedChange.DelegationStart &&
+                    parent.Change != ActorAuditedChange.DelegationStop)
+                {
+                    return null;
+                }
+
+                var values = parent.CurrentValue?.Replace("(", string.Empty)
+                                                .Replace(")", string.Empty)
+                                                .Split(";")
+                                                .Select((x) => x.Trim());
+
+                var actorId = values?.ElementAtOrDefault(0);
+                var startsAt = values?.ElementAtOrDefault(1) ?? string.Empty;
+                var gridAreaId = values?.ElementAtOrDefault(2);
+                var processType = values?.ElementAtOrDefault(3) ?? string.Empty;
+                var stopsAt = values?.ElementAtOrDefault(4);
+
+                if (actorId == null || gridAreaId == null)
+                {
+                    return null;
+                }
+
+                var actor = await actorDataLoader.LoadAsync(Guid.Parse(actorId), ct);
+
+                var gridArea = await gridAreaDataLoader.LoadAsync(Guid.Parse(gridAreaId), ct);
+
+                if (actor == null || gridArea == null)
+                {
+                    return null;
+                }
+
+                return new ActorDelegationAuditLog(
+                    actor.Name.Value,
+                    actor.ActorNumber.Value,
+                    startsAt,
+                    stopsAt,
+                    gridArea.Name,
+                    processType);
             });
     }
 }

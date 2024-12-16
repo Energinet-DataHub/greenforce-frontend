@@ -21,10 +21,13 @@ type Actor {
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
   credentials: ActorCredentialsDto
   publicMail: ActorPublicMail
+  auditLog: [ActorAuditedChangeAuditLogDto!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
   auditedBy: String
+  consolidation: ActorConsolidationAuditLog
+  delegation: ActorDelegationAuditLog
   change: ActorAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -44,6 +47,14 @@ type ActorClientSecretCredentialsDto {
 
 type ActorClientSecretDto {
   secretText: String!
+}
+
+type ActorConsolidationAuditLog {
+  currentOwner: String!
+  currentOwnerGln: String!
+  previousOwner: String
+  previousOwnerGln: String!
+  previousOwnerStopsAt: DateTime
 }
 
 type ActorConsolidationDto {
@@ -67,6 +78,15 @@ type ActorCredentialsDto {
   removeActorCredentialsUrl(actorId: UUID!): String!
   certificateCredentials: ActorCertificateCredentialsDto
   clientSecretCredentials: ActorClientSecretCredentialsDto
+}
+
+type ActorDelegationAuditLog {
+  actor: String!
+  gln: String!
+  startsAt: String!
+  stopsAt: String
+  gridAreaName: String!
+  processType: String!
 }
 
 type ActorNameDto {
@@ -622,7 +642,6 @@ type Permissions {
 }
 
 type Query {
-  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
@@ -1427,6 +1446,8 @@ enum GridAreaStatus {
   Active
   Expired
   Archived
+  ToBeDiscontinued
+  Discontinued
 }
 
 enum GridAreaType {
