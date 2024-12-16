@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, inject } from '@angular/core';
-import { map, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
@@ -84,16 +84,25 @@ export class EoTransfersService {
       .pipe(
         map((x) => x.result),
         switchMap((transfers) => {
-          const receiverTins = transfers
-            .filter((transfer) => transfer.receiverTin && transfer.receiverTin !== '')
-            .map((transfer) => transfer.receiverTin);
+          const receiverTins = Array.from(
+            new Set(
+              transfers
+                .filter(
+                  (transfer) =>
+                    transfer.receiverTin &&
+                    transfer.receiverTin !== '' &&
+                    transfer.receiverTin !== this.user()?.profile.org_cvr
+                )
+                .map((transfer) => transfer.receiverTin)
+            )
+          );
 
           return this.getCompanyNames(receiverTins).pipe(
             map((companyNames) => {
-              return transfers.map((transfer, index) => ({
+              return transfers.map((transfer) => ({
                 ...transfer,
                 ...this.setSender(transfer),
-                receiverName: companyNames[index],
+                receiverName: this.getReceiverName(transfer, companyNames),
                 startDate: transfer.startDate,
                 endDate: transfer.endDate ? transfer.endDate : null,
               }));
@@ -101,6 +110,12 @@ export class EoTransfersService {
           );
         })
       );
+  }
+
+  private getReceiverName(transfer: EoListedTransfer, companyNamesMap: Map<string, string>) {
+    if (!transfer.receiverTin) return null;
+    if (transfer.receiverTin === this.user()?.profile.org_cvr) return this.user()?.profile.name;
+    return companyNamesMap.get(transfer.receiverTin) ?? null;
   }
 
   private setSender(transfer: EoListedTransfer) {
@@ -115,7 +130,7 @@ export class EoTransfersService {
     };
   }
 
-  getCompanyNames(cvrNumbers: string[]) {
+  getCompanyNames(cvrNumbers: string[]): Observable<Map<string, string>> {
     return this.http
       .post<{ result: { companyCvr: string; companyName: string }[] }>(
         `${this.#apiBase}/transfer/cvr`,
@@ -126,11 +141,7 @@ export class EoTransfersService {
       .pipe(
         map((response) => response.result),
         map((companysData) => {
-          return cvrNumbers.map((cvrNumber) => {
-            return (
-              companysData.find((company) => company.companyCvr === cvrNumber)?.companyName ?? null
-            );
-          });
+          return new Map(companysData.map((company) => [company.companyCvr, company.companyName]));
         })
       );
   }

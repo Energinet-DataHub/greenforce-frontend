@@ -26,7 +26,7 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             .Name("auditedBy")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
                 var auditIdentity = await ctx
                     .Service<IMarketParticipantClient_V1>()
                     .AuditIdentityGetAsync(parent.AuditIdentityId, ct)
@@ -39,26 +39,29 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             .Field("currentOwner")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var id = parent.CurrentValue;
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                return await GetActorNameAsync(id, ctx);
+                return await GetActorNameAsync(parent.Change, parent.CurrentValue, ctx);
             });
 
         descriptor
             .Field("previousOwner")
             .Resolve(async (ctx, ct) =>
             {
-                var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var id = parent.PreviousValue;
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                return await GetActorNameAsync(id, ctx);
+                return await GetActorNameAsync(parent.Change, parent.PreviousValue, ctx);
             });
     }
 
-    private async Task<string> GetActorNameAsync(string? id, IResolverContext ctx)
+    private async Task<string> GetActorNameAsync(GridAreaAuditedChange change, string? id, IResolverContext ctx)
     {
         if (string.IsNullOrEmpty(id))
+        {
+            return string.Empty;
+        }
+
+        if (change != GridAreaAuditedChange.ConsolidationRequested && change != GridAreaAuditedChange.ConsolidationCompleted)
         {
             return string.Empty;
         }
@@ -68,6 +71,6 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             .ActorGetAsync(Guid.Parse(id))
             .ConfigureAwait(false);
 
-        return previousOwner.Name.Value;
+        return $"{previousOwner.ActorNumber.Value} • {previousOwner.Name.Value}";
     }
 }

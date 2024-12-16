@@ -1,0 +1,21 @@
+{
+  "name": "dh-market-participant-grid-areas",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/market-participant/grid-areas/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/market-participant/grid-areas/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
+}

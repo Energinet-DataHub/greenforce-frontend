@@ -15,11 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-modal
-  #inviteUserModal
   size="large"
-  [loading]="isInvitingUser() || isLoadingEmails()"
+  [loading]="loading()"
   [title]="t('title')"
-  (closed)="closeModal($event)"
+  (closed)="reset(); assignableUserRoles.clearSelection()"
   [disableEscAndBackdropClose]="true"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
 >
@@ -33,18 +32,16 @@ limitations under the License.
       [label]="t('email')"
       [stepControl]="baseInfo"
       [nextButtonLabel]="t('next')"
-      [loadingNextButton]="checkingForAssociatedActors()"
+      [loadingNextButton]="baseInfo.controls.email.pending"
     >
-      <form [formGroup]="userInfo" class="userInfoForm">
-        @if (actorOptions().length > 1) {
-          <watt-dropdown
-            class="actor"
-            [label]="t('actor')"
-            [formControl]="baseInfo.controls.actorId"
-            [options]="actorOptions()"
-            name="actorId"
-          />
-        }
+      <form [formGroup]="baseInfo" class="userInfoForm">
+        <watt-dropdown
+          class="actor"
+          [label]="t('actor')"
+          [formControl]="baseInfo.controls.actorId"
+          [options]="actorOptions()"
+          name="actorId"
+        />
 
         <watt-text-field [label]="t('email')" class="email" [formControl]="baseInfo.controls.email">
           @if (baseInfo.controls.email.hasError("email")) {
@@ -66,7 +63,7 @@ limitations under the License.
           }
         </watt-text-field>
 
-        @if (domainExists() && !inOrganizationMailDomain()) {
+        @if (baseInfo.controls.email.valid && !inOrganizationMailDomain()) {
           <watt-validation-message type="info" size="compact" [message]="t('domainIsExternal')" />
         }
       </form>
@@ -84,14 +81,14 @@ limitations under the License.
         <watt-text-field
           [label]="t('firstname')"
           class="firstname"
-          [formControl]="userInfo.controls.firstname"
+          [formControl]="userInfo.controls.firstName"
           type="text"
         />
 
         <watt-text-field
           [label]="t('lastname')"
           class="lastname"
-          [formControl]="userInfo.controls.lastname"
+          [formControl]="userInfo.controls.lastName"
           type="text"
         />
         <watt-phone-field
@@ -125,12 +122,11 @@ limitations under the License.
           </watt-field-error>
         }
 
-        @if (selectedActorId() !== null) {
-          <dh-assignable-user-roles
-            [actorId]="selectedActorId()!"
-            (selectedUserRoles)="onSelectedUserRoles($event)"
-          />
-        }
+        <dh-assignable-user-roles
+          #assignableUserRoles
+          [actorId]="selectedActorId()"
+          (selectedUserRoles)="onSelectedUserRoles($event)"
+        />
       </form>
     </watt-stepper-step>
   </watt-stepper>

@@ -56,7 +56,7 @@
       },
       "ActorConsolidationScheduled": {
         "headline": "Sammenlægning af aktører",
-        "message": "\"{{ relatedToId }}\" er ved at ophøre snart"
+        "message": "\"{{ relatedToId }}\" ophører snart"
       }
     }
   },
@@ -507,7 +507,9 @@
       },
       "status": {
         "Active": "Aktiv",
-        "Inactive": "Deaktiveret"
+        "Inactive": "Deaktiveret",
+        "ToBeDiscontinued": "Ophører snart",
+        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
@@ -667,7 +669,15 @@
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -706,7 +716,12 @@
       "title": "Sammenlæg aktører",
       "discontinuedEntity": "Ophørende netvirksomhed",
       "survivingEntity": "Overtagende netvirksomhed",
-      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+      "marketParticipantDropdown": {
+        "withGridAreas": {
+          "singular": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+          "plural": "{{ marketParticipant }} (Netområder {{ gridAreas }})"
+        }
+      },
       "notUniqueMarketParticipants": "Vælg to forskellige netvirksomheder",
       "mergeDate": "Dato for sammenlægning",
       "cancel": "Fortryd",
@@ -850,9 +865,8 @@
       "history": {
         "emptyTitle": "Ingen historik på netområde",
         "changeTypes": {
-          "NAME": "---",
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed med <b>{{ marketParticipant }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. {{ gridAreaStopsAt }}</b>",
-          "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ marketParticipant }}</b> er udført",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed fra <b>{{ previousOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning fra <b>{{ previousOwner }}</b> er udført",
           "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
         }
       }
@@ -1421,6 +1435,7 @@
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "continue": "Næste",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
       },

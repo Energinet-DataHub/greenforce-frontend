@@ -17,43 +17,47 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  computed,
   effect,
   inject,
-  output,
   signal,
+  computed,
+  Component,
   viewChild,
+  viewChildren,
+  ChangeDetectorRef,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
+import {
+  Validators,
+  FormGroupDirective,
+  ReactiveFormsModule,
+  NonNullableFormBuilder,
+} from '@angular/forms';
 
-import { of } from 'rxjs';
+import { GraphQLErrors } from '@apollo/client/errors';
 import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
+  GetUsersDocument,
+  InviteUserDocument,
   GetKnownEmailsDocument,
   GetFilteredActorsDocument,
-  GetAssociatedActorsDocument,
-  InviteUserDocument,
-  UserOverviewSearchDocument,
-  CheckDomainExistsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -61,12 +65,13 @@ import {
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { DhAssignableUserRolesComponent } from './assignable-user-roles/assignable-user-roles.component';
+import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
+import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  selector: 'dh-invite-user-modal',
+  selector: 'dh-invite-user',
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss'],
   standalone: true,
@@ -86,27 +91,33 @@ import { DhAssignableUserRolesComponent } from './assignable-user-roles/assignab
     DhAssignableUserRolesComponent,
   ],
 })
-export class DhInviteUserModalComponent extends WattTypedModal {
-  private readonly toastService = inject(WattToastService);
-  private readonly changeDectorRef = inject(ChangeDetectorRef);
-  private readonly translocoService = inject(TranslocoService);
-  private readonly nonNullableFormBuilder = inject(NonNullableFormBuilder);
+export class DhInviteUserComponent {
+  private toastService = inject(WattToastService);
+  private changeDectorRef = inject(ChangeDetectorRef);
+  private translocoService = inject(TranslocoService);
+  private nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-  inviteUserModal = viewChild.required<WattModalComponent>('inviteUserModal');
-  closed = output<void>();
+  private modal = viewChild.required(WattModalComponent);
+  private stepper = viewChild.required(WattStepperComponent);
+  private forms = viewChildren(FormGroupDirective);
 
   inviteUserMutation = mutation(InviteUserDocument, {
-    refetchQueries: [UserOverviewSearchDocument],
+    refetchQueries: [GetUsersDocument],
   });
 
-  isInvitingUser = this.inviteUserMutation.loading;
+  loading = computed(
+    () =>
+      this.inviteUserMutation.loading() ||
+      this.knownEmailsQuery.loading() ||
+      this.actorsQuery.loading()
+  );
 
-  selectedActorId = signal<string | null>(null);
+  actorsQuery = query(GetFilteredActorsDocument);
 
-  actors = query(GetFilteredActorsDocument);
+  actors = computed(() => this.actorsQuery.data()?.filteredActors ?? []);
 
   actorOptions = computed<WattDropdownOptions>(() =>
-    (this.actors.data()?.filteredActors ?? []).map((actor) => ({
+    this.actors().map((actor) => ({
       displayValue:
         actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
       value: actor.id,
@@ -114,9 +125,7 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   );
 
   domains = computed(
-    () =>
-      this.actors.data()?.filteredActors.find((x) => x.id === this.selectedActorId())?.organization
-        .domains
+    () => this.actors().find((x) => x.id === this.selectedActorId())?.organization.domains
   );
 
   inOrganizationMailDomain = computed(() => {
@@ -135,57 +144,18 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     return !!email && this.knownEmails().includes(email.toUpperCase());
   });
 
-  domainExists = computed((): boolean => {
-    const email = this.emailChanged();
-    return !!email && (this.validDomainQuery.data()?.domainExists ?? false);
-  });
-
   knownEmailsQuery = query(GetKnownEmailsDocument);
-  validDomainQuery = lazyQuery(CheckDomainExistsDocument);
 
   knownEmails = computed(
     () => this.knownEmailsQuery.data()?.knownEmails.map((x) => x.toUpperCase()) ?? []
   );
-
-  isLoadingEmails = computed(() => this.knownEmailsQuery.loading());
-  checkingForAssociatedActors = computed(() => this.checkForAssociatedActors.loading());
-  checkForAssociatedActors = lazyQuery(GetAssociatedActorsDocument);
 
   baseInfo = this.nonNullableFormBuilder.group({
     actorId: ['', Validators.required],
     email: [
       { value: '', disabled: true },
       [Validators.required, Validators.email],
-      [
-        (control) => {
-          if (control.value) {
-            return this.checkForAssociatedActors
-              .query({ variables: { email: control.value } })
-              .then((result) => {
-                const associatedActors = result.data?.associatedActors.actors ?? [];
-
-                const isAlreadyAssociatedToActor = associatedActors?.includes(
-                  this.baseInfo.controls.actorId.value ?? ''
-                );
-
-                return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
-              });
-          }
-
-          return of(null);
-        },
-        (control) => {
-          if (control.value) {
-            return this.validDomainQuery
-              .query({ variables: { email: control.value } })
-              .then((domainCheck) => {
-                return !domainCheck.data.domainExists ? { domainDoesNotExist: true } : null;
-              });
-          }
-
-          return of(null);
-        },
-      ],
+      [validateIfAlreadyAssociatedToActor(() => this.selectedActorId()), validateIfDomainExists()],
     ],
   });
 
@@ -193,9 +163,11 @@ export class DhInviteUserModalComponent extends WattTypedModal {
 
   actorIdChanged = toSignal(this.baseInfo.controls.actorId.valueChanges);
 
+  selectedActorId = signal<string | null>(null);
+
   userInfo = this.nonNullableFormBuilder.group({
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
     phoneNumber: ['', [Validators.required]],
   });
 
@@ -204,12 +176,10 @@ export class DhInviteUserModalComponent extends WattTypedModal {
   });
 
   constructor() {
-    super();
-
     effect(() => {
-      const actors = this.actors.data()?.filteredActors;
+      const actors = this.actors();
 
-      if (actors !== undefined && actors.length === 1) {
+      if (actors.length === 1) {
         const [firstActor] = actors;
         this.baseInfo.controls.actorId.setValue(firstActor.id);
       }
@@ -233,43 +203,36 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     );
   }
 
-  inviteUser() {
+  open() {
+    this.modal().open();
+  }
+
+  async inviteUser() {
     if (!this.isBaseInfoValid() || !this.isNewUserInfoValid() || !this.isRolesInfoValid()) {
       return;
     }
+    const { email, actorId } = this.baseInfo.getRawValue();
 
-    const { firstname, lastname, phoneNumber } = this.userInfo.controls;
-    const { email, actorId } = this.baseInfo.controls;
-
-    const phoneParts = phoneNumber.value.split(' ');
-    const [prefix, ...rest] = phoneParts;
-    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
-
-    this.inviteUserMutation.mutate({
+    const result = await this.inviteUserMutation.mutate({
       variables: {
         input: {
           userInviteDto: {
-            invitationUserDetails:
-              firstname.value && lastname.value && phoneNumber.value
-                ? {
-                    firstName: firstname.value,
-                    lastName: lastname.value,
-                    phoneNumber: formattedPhoneNumber,
-                  }
-                : undefined,
-            email: email.value,
-            assignedActor: actorId.value,
+            invitationUserDetails: this.createInvitationUserDetails(),
+            email,
+            assignedActor: actorId,
             assignedRoles: this.userRoles.controls.selectedUserRoles.value,
           },
         },
       },
-      onCompleted: (res) => {
-        res.inviteUser.errors
-          ? this.onInviteError(res.inviteUser.errors)
-          : this.onInviteSuccess(email.value);
-      },
-      onError: () => this.onInviteError(),
     });
+
+    if (result.data?.inviteUser.success) {
+      this.onInviteSuccess(email);
+    }
+
+    if (result.error?.graphQLErrors || result.data?.inviteUser.errors) {
+      this.onInviteError(result.error?.graphQLErrors, result.data?.inviteUser.errors);
+    }
   }
 
   onSelectedUserRoles(userRoles: UserRoleItem[]) {
@@ -277,9 +240,34 @@ export class DhInviteUserModalComponent extends WattTypedModal {
     this.userRoles.controls.selectedUserRoles.setValue(userRoles.map((userRole) => userRole.id));
   }
 
-  closeModal(status: boolean) {
-    this.closed.emit();
-    this.inviteUserModal().close(status);
+  close(status: boolean) {
+    this.reset();
+    this.modal().close(status);
+  }
+
+  reset() {
+    this.stepper().reset();
+
+    this.forms().forEach(({ form }) => {
+      form.markAsPristine();
+      form.markAsUntouched();
+    });
+  }
+
+  private createInvitationUserDetails() {
+    const { firstName, lastName, phoneNumber } = this.userInfo.value;
+
+    if (!firstName || !lastName || !phoneNumber) return null;
+
+    const phoneParts = phoneNumber.split(' ');
+    const [prefix, ...rest] = phoneParts;
+    const formattedPhoneNumber = `${prefix} ${rest.join('')}`;
+
+    return {
+      firstName,
+      lastName,
+      phoneNumber: formattedPhoneNumber,
+    };
   }
 
   private onInviteSuccess(email: string | null) {
@@ -290,15 +278,24 @@ export class DhInviteUserModalComponent extends WattTypedModal {
         { email: email }
       )}`,
     });
-    this.closeModal(true);
+    this.close(true);
   }
 
-  private onInviteError(apiErrorCollection: ApiErrorCollection[] | undefined = undefined) {
-    const message = apiErrorCollection
-      ? readApiErrorResponse(apiErrorCollection)
-      : this.translocoService.translate(
-          'admin.userManagement.inviteUser.serverErrors.generalError'
-        );
+  private onInviteError(
+    errors: GraphQLErrors | undefined,
+    apiErrors: ApiErrorCollection[] | undefined | null
+  ) {
+    let message = this.translocoService.translate(
+      'admin.userManagement.inviteUser.serverErrors.generalError'
+    );
+
+    if (errors) {
+      message = parseGraphQLErrorResponse(errors) ?? message;
+    }
+
+    if (apiErrors) {
+      message = readApiErrorResponse(apiErrors) ?? message;
+    }
 
     this.toastService.open({ type: 'danger', message, duration: 60_000 });
   }

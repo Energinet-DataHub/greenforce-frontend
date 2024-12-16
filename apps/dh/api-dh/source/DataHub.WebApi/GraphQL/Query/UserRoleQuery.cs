@@ -35,26 +35,7 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserRolesGetAsync(id);
 
-    [GraphQLDeprecated("Use `GetUserRolesAsync` with filter, sort and paging instead.")]
-    public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
-        [Service] IHttpContextAccessor httpContext,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        if (httpContext.HttpContext == null)
-        {
-            return Enumerable.Empty<UserRoleDto>();
-        }
-
-        var user = httpContext.HttpContext.User;
-        if (user.IsFas())
-        {
-            return await client.UserRolesGetAsync();
-        }
-
-        return await client.ActorsRolesAsync(user.GetAssociatedActor());
-    }
-
-    [UsePaging]
+    [UsePaging(MaxPageSize = 10_000)]
     [UseSorting]
     public async Task<IEnumerable<UserRoleDto>> GetFilteredUserRolesAsync(
         UserRoleStatus? status,
@@ -86,7 +67,7 @@ public partial class Query
         return userRoles
             .Where(x => status == null || x.Status == status)
             .Where(x => eicFunctions == null || eicFunctions.Length == 0 || eicFunctions.Contains(x.EicFunction))
-            // TODO: How to we support text search in multiple languages
+            // TODO: How do we support text search in multiple languages
             .Where(x => filter == null || x.Name.Contains(filter) || x.EicFunction.ToString().Contains(filter));
     }
 }

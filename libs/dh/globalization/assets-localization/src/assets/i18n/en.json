@@ -507,7 +507,9 @@
       },
       "status": {
         "Active": "Active",
-        "Inactive": "Deactivated"
+        "Inactive": "Deactivated",
+        "ToBeDiscontinued": "To be discontinued",
+        "Discontinued": "Discontinued"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
@@ -667,7 +669,15 @@
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{processType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> has been completed"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> has been completed"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -706,7 +716,12 @@
       "title": "Merge market participants",
       "discontinuedEntity": "[EN] Ophørende netvirksomhed",
       "survivingEntity": "[EN] Overtagende netvirksomhed",
-      "marketParticipantDropdownDisplayValue": "{{ marketParticipant }} (Grid area {{ gridArea }})",
+      "marketParticipantDropdown": {
+        "withGridAreas": {
+          "singular": "{{ marketParticipant }} (Grid area {{ gridArea }})",
+          "plural": "{{ marketParticipant }} (Grid areas {{ gridAreas }})"
+        }
+      },
       "notUniqueMarketParticipants": "The selected market participants are not unique",
       "mergeDate": "Merge date",
       "cancel": "Cancel",
@@ -850,9 +865,8 @@
       "history": {
         "emptyTitle": "No grid area history",
         "changeTypes": {
-          "NAME": "---",
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ marketParticipant }}</b>. Grid area <b>{{ gridArea }}</b> will cease on {{ gridAreaStopsAt }}</b>",
-          "CONSOLIDATION_COMPLETED": "<b>Consolidation with {{ marketParticipant }}</b> has completed",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation from <b>{{ previousOwner }}</b>. Grid area <b>{{ gridArea }}</b> will cease on <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "<b>Consolidation from {{ previousOwner }}</b> has completed",
           "DECOMMISSIONED": "Grid area <b>{{ gridArea }}</b> has been decommissioned"
         }
       }
@@ -1421,6 +1435,7 @@
         "continue": "Next",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."
       },

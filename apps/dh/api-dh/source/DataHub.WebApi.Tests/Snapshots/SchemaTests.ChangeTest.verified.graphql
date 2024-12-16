@@ -26,10 +26,13 @@ type Actor {
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
   credentials: ActorCredentialsDto
   publicMail: ActorPublicMail
+  auditLog: [ActorAuditedChangeAuditLogDto!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
   auditedBy: String
+  consolidation: ActorConsolidationAuditLog
+  delegation: ActorDelegationAuditLog
   change: ActorAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -51,11 +54,19 @@ type ActorClientSecretDto {
   secretText: String!
 }
 
+type ActorConsolidationAuditLog {
+  currentOwner: String!
+  currentOwnerGln: String!
+  previousOwner: String
+  previousOwnerGln: String!
+  previousOwnerStopsAt: DateTime
+}
+
 type ActorConsolidationDto {
   actorFromId: UUID!
   actorToId: UUID!
   consolidateAt: DateTime!
-  status: String!
+  status: ActorConsolidationStatus!
 }
 
 type ActorContactDto {
@@ -72,6 +83,15 @@ type ActorCredentialsDto {
   removeActorCredentialsUrl(actorId: UUID!): String!
   certificateCredentials: ActorCertificateCredentialsDto
   clientSecretCredentials: ActorClientSecretCredentialsDto
+}
+
+type ActorDelegationAuditLog {
+  actor: String!
+  gln: String!
+  startsAt: String!
+  stopsAt: String
+  gridAreaName: String!
+  processType: String!
 }
 
 type ActorNameDto {
@@ -371,11 +391,6 @@ type GetActorConsolidationsResponse {
   actorConsolidations: [ActorConsolidationDto!]!
 }
 
-type GetUserOverviewResponse {
-  users: [UserOverviewItemDto!]!
-  totalUserCount: Int!
-}
-
 type GetUserProfileResponse {
   firstName: String!
   lastName: String!
@@ -655,7 +670,6 @@ type Permissions {
 }
 
 type Query {
-  actorAuditLogs(actorId: UUID!): [ActorAuditedChangeAuditLogDto!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
@@ -692,7 +706,6 @@ type Query {
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   permissionById(id: Int!): Permission!
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
-  permissions(searchTerm: String!): Permissions!
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   settlementReports: [SettlementReport!]!
@@ -704,12 +717,10 @@ type Query {
   userById(id: UUID!): GetUserResponse!
   domainExists(emailAddress: String!): Boolean!
   knownEmails: [String!]!
-  userOverviewSearch(pageNumber: Int! pageSize: Int! sortProperty: UserOverviewSortProperty! sortDirection: MarketParticipantSortDirctionType! actorId: UUID searchText: String userRoleIds: [UUID!] userStatus: [UserStatus!]): GetUserOverviewResponse!
   users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
-  userRoles: [UserRoleDto!]! @deprecated(reason: "Use `GetUserRolesAsync` with filter, sort and paging instead.")
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
   requestOptions: RequestOptions!
@@ -1336,6 +1347,11 @@ enum ActorAuditedChange {
   CONSOLIDATION_COMPLETED
 }
 
+enum ActorConsolidationStatus {
+  PENDING
+  EXECUTED
+}
+
 enum ActorDelegationStatus {
   AWAITING
   ACTIVE
@@ -1362,6 +1378,8 @@ enum ActorStatus {
   Active
   Inactive
   Passive
+  ToBeDiscontinued
+  Discontinued
 }
 
 "Represents the status of a balance responsibility agreement."

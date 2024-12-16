@@ -20,4 +20,6 @@ public enum ActorStatus
     Active,
     Inactive,
     Passive,
+    ToBeDiscontinued,
+    Discontinued,
 }
