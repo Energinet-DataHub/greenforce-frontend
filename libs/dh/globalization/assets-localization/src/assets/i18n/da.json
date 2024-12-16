@@ -850,7 +850,9 @@
         "Created": "Oprettet",
         "Active": "Aktiv",
         "Expired": "Udløbet",
-        "Archived": "Arkiveret"
+        "Archived": "Arkiveret",
+        "ToBeDiscontinued": "Ophører snart",
+        "Discontinued": "Ophørt"
       },
       "types": {
         "NotSet": "Ikke angivet",
