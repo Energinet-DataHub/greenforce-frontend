@@ -170,6 +170,7 @@
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-assert": ["libs/dh/shared/util-assert/src/index.ts"],
       "@energinet-datahub/dh/shared/util-new-version-manager": [
         "libs/dh/shared/util-new-version-manager/src/index.ts"
       ],
