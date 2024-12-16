@@ -867,8 +867,8 @@
       "history": {
         "emptyTitle": "No grid area history",
         "changeTypes": {
-          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation from <b>{{ previousOwner }}</b>. Grid area <b>{{ gridArea }}</b> will cease on <b>{{ gridAreaStopsAt }}</b>",
-          "CONSOLIDATION_COMPLETED": "<b>Consolidation from {{ previousOwner }}</b> has completed",
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation from <b>{{ previousOwner }}</b> to <b>{{ currentOwner }}</b>. Grid area <b>{{ gridArea }}</b> will cease on <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Consolidation from <b>{{ previousOwner }}</b> has been completed",
           "DECOMMISSIONED": "Grid area <b>{{ gridArea }}</b> has been decommissioned"
         }
       }
