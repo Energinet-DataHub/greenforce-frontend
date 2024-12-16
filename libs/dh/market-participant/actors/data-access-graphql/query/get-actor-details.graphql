@@ -1,0 +1,29 @@
+query GetActorDetails($id: UUID!) {
+  actorById(id: $id) {
+    id
+    glnOrEicNumber
+    name
+    marketRole
+    status
+    gridAreas {
+      code
+      name
+      displayName
+      id
+    }
+    organization {
+      name
+      id
+      businessRegisterIdentifier
+      address {
+        country
+      }
+      domains
+    }
+    contact {
+      name
+      email
+      phone
+    }
+  }
+}

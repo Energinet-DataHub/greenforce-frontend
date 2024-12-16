@@ -52,7 +52,7 @@ public class GridAreaOverviewItemDtoType : ObjectType<GridAreaOverviewItemDto>
 
         descriptor
            .Field("status")
-           .ResolveWith<GridAreaResolvers>(c => c.CalculateGridAreaStatus(default!));
+           .ResolveWith<GridAreaResolvers>(c => c.CalculateGridAreaStatusAsync(default!, default!));
 
         descriptor
             .Field("auditLog")

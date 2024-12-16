@@ -39,6 +39,7 @@ public static class MarketParticipantClientExtensions
     {
         var actors = await client.ActorGetAsync(cancellationToken);
         var gridAreas = await client.GridAreaGetAsync(cancellationToken);
+        var consolidations = await client.ActorConsolidationsAsync(cancellationToken);
 
         return gridAreas
             .OrderBy(g => g.Code)

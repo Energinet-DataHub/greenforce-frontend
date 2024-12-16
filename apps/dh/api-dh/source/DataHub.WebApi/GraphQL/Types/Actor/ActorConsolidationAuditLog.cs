@@ -12,14 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
-public enum GridAreaStatus
-{
-    Created,
-    Active,
-    Expired,
-    Archived,
-    ToBeDiscontinued,
-    Discontinued,
-}
+public sealed record ActorConsolidationAuditLog(string CurrentOwner, string CurrentOwnerGln, string? PreviousOwner, string PreviousOwnerGln, DateTimeOffset? PreviousOwnerStopsAt);

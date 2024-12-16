@@ -1,0 +1,28 @@
+query GetActorAuditLogs($id: UUID!) {
+  actorById(id: $id) {
+    id
+    auditLog {
+      auditedBy
+      change
+      timestamp
+      isInitialAssignment
+      currentValue
+      previousValue
+      consolidation {
+        currentOwner
+        currentOwnerGln
+        previousOwner
+        previousOwnerGln
+        previousOwnerStopsAt
+      }
+      delegation {
+        actor
+        gln
+        startsAt
+        stopsAt
+        gridAreaName
+        processType
+      }
+    }
+  }
+}
