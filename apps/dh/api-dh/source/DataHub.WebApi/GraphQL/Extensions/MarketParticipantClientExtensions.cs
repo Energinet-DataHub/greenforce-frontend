@@ -71,9 +71,13 @@ public static class MarketParticipantClientExtensions
         Interval period,
         CancellationToken cancellationToken = default)
     {
-        var actor = await client.ActorGetAsync(actorId).ConfigureAwait(false);
+        var actorTask = client.ActorGetAsync(actorId);
+        var gridAreasTask = client.GetGridAreasAsync();
+        await Task.WhenAll(actorTask, gridAreasTask);
 
-        var gridAreas = await client.GetGridAreasAsync();
+        var actor = await actorTask;
+        var gridAreas = await gridAreasTask;
+
         var filteredByDateGridAreas = gridAreas.Where(ga => DoDatesOverlap(ga, period.Start.ToDateTimeOffset(), period.End.ToDateTimeOffset()));
 
         var actorGridAreaIds = actor.MarketRole.GridAreas.Select(ga => ga.Id);
