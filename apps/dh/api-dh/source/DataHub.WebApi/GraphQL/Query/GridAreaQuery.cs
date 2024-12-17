@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using NodaTime;
 
@@ -35,14 +34,8 @@ public partial class Query
         await client.GetGridAreasAsync();
 
     public async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
+        Guid actorId,
         Interval period,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        var user = httpContextAccessor.HttpContext?.User;
-        var associatedActor = user?.GetAssociatedActor()
-            ?? throw new InvalidOperationException("No associated actor found.");
-
-        return await client.GetRelevantGridAreasAsync(associatedActor, period);
-    }
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.GetRelevantGridAreasAsync(actorId, period);
 }
