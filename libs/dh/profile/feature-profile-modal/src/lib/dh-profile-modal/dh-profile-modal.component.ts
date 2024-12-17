@@ -110,15 +110,12 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
   constructor() {
     super();
-    effect(
-      () => {
-        const userProfile = this.userProfile();
-        if (userProfile === undefined) return;
-        const { phoneNumber, firstName, lastName } = userProfile;
-        this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      const userProfile = this.userProfile();
+      if (userProfile === undefined) return;
+      const { phoneNumber, firstName, lastName } = userProfile;
+      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+    });
   }
 
   closeModal(saveSuccess: boolean) {

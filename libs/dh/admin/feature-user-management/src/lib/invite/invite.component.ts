@@ -182,22 +182,19 @@ export class DhInviteUserComponent {
       }
     });
 
-    effect(
-      () => {
-        const actorId = this.actorIdChanged();
+    effect(() => {
+      const actorId = this.actorIdChanged();
 
-        actorId !== null
-          ? this.baseInfo.controls.email.enable()
-          : this.baseInfo.controls.email.disable();
+      actorId !== null
+        ? this.baseInfo.controls.email.enable()
+        : this.baseInfo.controls.email.disable();
 
-        if (!actorId) return;
+      if (!actorId) return;
 
-        this.selectedActorId.set(actorId);
-        this.baseInfo.updateValueAndValidity();
-        this.changeDectorRef.detectChanges();
-      },
-      { allowSignalWrites: true }
-    );
+      this.selectedActorId.set(actorId);
+      this.baseInfo.updateValueAndValidity();
+      this.changeDectorRef.detectChanges();
+    });
   }
 
   open() {

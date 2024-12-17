@@ -141,16 +141,13 @@ export class DhImbalancePricesDrawerComponent {
   closed = output<void>();
 
   constructor() {
-    effect(
-      () => {
-        if (this.imbalancePrice()) {
-          this.drawer?.open();
+    effect(() => {
+      if (this.imbalancePrice()) {
+        this.drawer?.open();
 
-          this.fetchData();
-        }
-      },
-      { allowSignalWrites: true }
-    );
+        this.fetchData();
+      }
+    });
   }
 
   onClose(): void {

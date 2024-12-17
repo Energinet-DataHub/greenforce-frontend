@@ -47,39 +47,36 @@ export class WattPlaceholderMaskComponent {
   primaryGhost = signal('');
   primaryFiller = signal<string | null>(null);
 
-  maskEffect = effect(
-    (onCleanup) => {
-      const mask = this.mask();
-      const placeholder = this.placeholder();
-      const primaryMask: MaskitoOptions = {
-        ...mask,
-        preprocessors: [
-          ...(mask.preprocessors ?? []),
-          (state) => {
-            this.primaryGhost.set(state.elementState.value.slice(0, placeholder.length));
-            this.primaryFiller.set(placeholder.slice(state.elementState.value.length));
-            return state;
-          },
-        ],
-        postprocessors: [
-          (elementState) => {
-            this.maskApplied.emit(elementState.value);
-            return elementState;
-          },
-          ...(mask.postprocessors ?? []),
-        ],
-      };
+  maskEffect = effect((onCleanup) => {
+    const mask = this.mask();
+    const placeholder = this.placeholder();
+    const primaryMask: MaskitoOptions = {
+      ...mask,
+      preprocessors: [
+        ...(mask.preprocessors ?? []),
+        (state) => {
+          this.primaryGhost.set(state.elementState.value.slice(0, placeholder.length));
+          this.primaryFiller.set(placeholder.slice(state.elementState.value.length));
+          return state;
+        },
+      ],
+      postprocessors: [
+        (elementState) => {
+          this.maskApplied.emit(elementState.value);
+          return elementState;
+        },
+        ...(mask.postprocessors ?? []),
+      ],
+    };
 
-      const maskedInput = new Maskito(this.primaryInputElement(), primaryMask);
-      this.maskedInput.set(maskedInput);
+    const maskedInput = new Maskito(this.primaryInputElement(), primaryMask);
+    this.maskedInput.set(maskedInput);
 
-      onCleanup(() => {
-        maskedInput.destroy();
-        this.maskedInput.set(null);
-      });
-    },
-    { allowSignalWrites: true }
-  );
+    onCleanup(() => {
+      maskedInput.destroy();
+      this.maskedInput.set(null);
+    });
+  });
 
   inputEffect = effect(() => {
     const primaryInputElement = this.primaryInputElement();

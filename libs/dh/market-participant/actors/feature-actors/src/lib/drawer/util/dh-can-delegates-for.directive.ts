@@ -38,17 +38,14 @@ export class DhCanDelegateForDirective {
   dhCanDelegateFor = input.required<DhActorExtended['marketRole']>();
 
   constructor() {
-    effect(
-      () => {
-        this.viewContainerRef.clear();
+    effect(() => {
+      this.viewContainerRef.clear();
 
-        const canDelegateFor = this.dhCanDelegateFor();
+      const canDelegateFor = this.dhCanDelegateFor();
 
-        if (canDelegateFor && this.canDelegateForMarketRoles.includes(canDelegateFor)) {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      },
-      { allowSignalWrites: true }
-    );
+      if (canDelegateFor && this.canDelegateForMarketRoles.includes(canDelegateFor)) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    });
   }
 }

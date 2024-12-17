@@ -90,12 +90,9 @@ export class DhB2bAccessTabComponent {
   actorId = input.required<string>();
 
   constructor() {
-    effect(
-      () => {
-        this.store.resetClientSecret();
-        this.store.getCredentials(this.actorId());
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.store.resetClientSecret();
+      this.store.getCredentials(this.actorId());
+    });
   }
 }

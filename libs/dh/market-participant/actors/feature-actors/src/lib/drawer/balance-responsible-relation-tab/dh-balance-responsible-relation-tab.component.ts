@@ -66,6 +66,6 @@ export class DhBalanceResponsibleRelationTabComponent {
   actor = input.required<DhActorExtended>();
 
   constructor() {
-    effect(() => this.store.updateActor(this.actor()), { allowSignalWrites: true });
+    effect(() => this.store.updateActor(this.actor()));
   }
 }
