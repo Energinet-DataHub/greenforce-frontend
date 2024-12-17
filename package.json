@@ -179,7 +179,7 @@
     "@swc/cli": "0.3.12",
     "@swc/core": "1.5.7",
     "@swc/helpers": "0.5.11",
-    "@testing-library/angular": "13.4.0",
+    "@testing-library/angular": "17.3.5",
     "@testing-library/cypress": "10.0.1",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/user-event": "13.5.0",

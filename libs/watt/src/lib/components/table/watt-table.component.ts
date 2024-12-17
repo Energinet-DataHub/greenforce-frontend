@@ -339,6 +339,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if (this.dataSource === undefined) return;
+
     this.dataSource.sort = this._sort;
     if (this.dataSource instanceof WattTableDataSource === false) return;
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
@@ -359,6 +361,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
+
+      if (this.columns === undefined) return;
 
       const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
@@ -409,6 +413,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumns() {
+    if (this.columns === undefined) return [];
     const columns = this.displayedColumns ?? Object.keys(this.columns);
     return this.selectable ? [this._checkboxColumn, ...columns] : columns;
   }
