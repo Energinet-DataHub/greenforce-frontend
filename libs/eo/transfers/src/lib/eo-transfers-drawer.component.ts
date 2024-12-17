@@ -139,7 +139,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
           }}</watt-button>
         }
 
-        @if (transfer() && transfer().transferAgreementStatus === 'Proposal') {
+        @if (transfer() && transfer()?.transferAgreementStatus === 'Proposal') {
           <watt-button
             class="remove-button"
             icon="remove"
@@ -179,9 +179,9 @@ import { TransferAgreementValues } from './eo-transfers.component';
                 </watt-description-list>
               </watt-card>
 
-              @if (transfer() && transfer().transferAgreementStatus === 'Proposal') {
+              @if (transfer() && transfer()?.transferAgreementStatus === 'Proposal') {
                 <eo-transfers-invitation-link
-                  [proposalId]="transfer().id.toString()"
+                  [proposalId]="transfer()?.id.toString()"
                   [isNewlyCreated]="false"
                 />
               }

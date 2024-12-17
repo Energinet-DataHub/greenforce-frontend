@@ -18,13 +18,12 @@
 //#endregion
 import {
   Component,
+  effect,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
+  input,
   OnInit,
-  Output,
-  SimpleChanges,
+  output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -81,7 +80,7 @@ function generateLink(id: string | null): string | null {
         name="invitation-link"
         label="Invitation link"
         [formControl]="control"
-        [value]="link ?? ''"
+        [value]="link()"
         #key
       >
         @if (!hasError && isNewlyCreated) {
@@ -127,12 +126,18 @@ function generateLink(id: string | null): string | null {
     </vater-stack>
   `,
 })
-export class EoTransferInvitationLinkComponent implements OnInit, OnChanges {
+export class EoTransferInvitationLinkComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input({ alias: 'proposalId', transform: generateLink }) link!: string | null;
-  @Input() hasError = false;
-  @Input() isNewlyCreated = true;
-  @Output() retry = new EventEmitter<void>();
+  // @Input({ alias: 'proposalId', transform: generateLink }) link!: string | null;
+  // @Input() hasError = false;
+  // @Input() isNewlyCreated = true;
+  // @Output() retry = new EventEmitter<void>();
+
+  proposalId = input<string | null>();
+  hasError = input<boolean>(false);
+  isNewlyCreated = input<boolean>(true);
+  retry = output<void>();
+  link = signal<string | null>(null);
 
   @ViewChild('copyButton', { read: ElementRef }) copyButton!: ElementRef<HTMLButtonElement>;
 
@@ -141,17 +146,22 @@ export class EoTransferInvitationLinkComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.control.disable();
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['link']) {
-      this.control.setValue(changes['link'].currentValue);
-    }
+    effect(() => {
+      const linkValue = this.link();
+      this.control.setValue(linkValue);
+    });
 
-    if (changes['hasError']) {
-      this.control.setErrors(changes['hasError'].currentValue ? { hasError: true } : null);
+    effect(() => {
+      const hasErrorValue = this.hasError();
+      this.control.setErrors(hasErrorValue ? { hasError: true } : null);
       this.control.markAsTouched();
-    }
+    });
+
+    effect(() => {
+      const proposalId = this.proposalId() ? this.proposalId() : null;
+      this.link.set(generateLink(proposalId as string | null));
+    });
   }
 
   copy(): void {
