@@ -19,6 +19,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -38,6 +39,10 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { dhUniqueMarketParticipantsValidator } from './dh-unique-market-participants.validator';
+
+type MarketParticipant = ResultOf<
+  typeof GetActorsForEicFunctionDocument
+>['actorsForEicFunction'][0];
 
 @Component({
   selector: 'dh-merge-market-participants',
@@ -128,13 +133,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
 
     return marketParticipants.map((mp) => ({
       value: mp.id,
-      displayValue: translate(
-        'marketParticipant.mergeMarketParticipants.marketParticipantDropdownDisplayValue',
-        {
-          marketParticipant: `${mp.glnOrEicNumber} • ${mp.name}`,
-          gridArea: mp.gridAreas[0].code,
-        }
-      ),
+      displayValue: this.marketParticipantDisplayValue(mp),
     }));
   });
 
@@ -180,5 +179,28 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
         message: translate('marketParticipant.mergeMarketParticipants.mergeError'),
       });
     }
+  }
+
+  private marketParticipantDisplayValue({ glnOrEicNumber, name, gridAreas }: MarketParticipant) {
+    const formattedMarketParticipant = `${glnOrEicNumber} • ${name}`;
+
+    if (gridAreas.length === 0) {
+      return formattedMarketParticipant;
+    }
+
+    const translationBase =
+      'marketParticipant.mergeMarketParticipants.marketParticipantDropdown.withGridAreas';
+
+    if (gridAreas.length === 1) {
+      return translate(`${translationBase}.singular`, {
+        marketParticipant: formattedMarketParticipant,
+        gridArea: gridAreas[0].code,
+      });
+    }
+
+    return translate(`${translationBase}.plural`, {
+      marketParticipant: formattedMarketParticipant,
+      gridAreas: gridAreas.map((gridArea) => gridArea.code).join(', '),
+    });
   }
 }

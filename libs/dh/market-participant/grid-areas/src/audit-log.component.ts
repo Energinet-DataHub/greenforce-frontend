@@ -68,6 +68,7 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
                 t('changeTypes.CONSOLIDATION_REQUESTED', {
                   auditedBy: entry.auditedBy,
                   previousOwner: entry.previousOwner,
+                  currentOwner: entry.currentOwner,
                   gridArea: this.gridArea()?.code,
                   gridAreaStopsAt: this.gridArea()?.validTo | wattDate,
                 })

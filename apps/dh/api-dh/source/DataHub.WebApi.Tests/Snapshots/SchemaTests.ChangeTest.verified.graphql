@@ -1445,6 +1445,8 @@ enum GridAreaStatus {
   Active
   Expired
   Archived
+  ToBeDiscontinued
+  Discontinued
 }
 
 enum GridAreaType {
