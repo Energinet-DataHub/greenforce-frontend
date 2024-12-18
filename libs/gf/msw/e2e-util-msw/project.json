@@ -1,0 +1,8 @@
+{
+  "name": "gf-e2e-util-msw",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/msw/e2e-util-msw",
+  "prefix": "gf",
+  "tags": ["product:gf", "domain:shared", "type:e2e-util"]
+}

@@ -16,6 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export interface EoEnvironment {
-  readonly production: boolean;
-}
+export * from './cy-custom-mount';
