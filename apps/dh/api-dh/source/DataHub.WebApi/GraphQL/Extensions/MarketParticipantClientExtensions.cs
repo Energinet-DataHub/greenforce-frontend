@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
