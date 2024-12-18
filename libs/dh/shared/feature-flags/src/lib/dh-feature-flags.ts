@@ -46,14 +46,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  'merge-market-participants': {
-    created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
-  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
