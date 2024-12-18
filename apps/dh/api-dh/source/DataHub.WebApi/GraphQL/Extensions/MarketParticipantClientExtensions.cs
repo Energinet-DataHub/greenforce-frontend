@@ -78,6 +78,10 @@ public static class MarketParticipantClientExtensions
         var gridAreas = await gridAreasTask;
 
         var filteredByDateGridAreas = gridAreas.Where(ga => DoDatesOverlap(ga, period.Start.ToDateTimeOffset(), period.End.ToDateTimeOffset()));
+        if (ShowAllGridareas(actor))
+        {
+            return filteredByDateGridAreas;
+        }
 
         var actorGridAreaIds = actor.MarketRole.GridAreas.Select(ga => ga.Id);
         var relevantGridAreas = filteredByDateGridAreas.Where(ga => actorGridAreaIds.Contains(ga.Id));
@@ -98,5 +102,10 @@ public static class MarketParticipantClientExtensions
         // formula from https://www.baeldung.com/java-check-two-date-ranges-overlap
         var overlap = Math.Min(gridArea.ValidTo.Value.Ticks, convertedEndDate.Ticks) - Math.Max(gridArea.ValidFrom.Ticks, convertedStartDate.Ticks);
         return overlap >= 0;
+    }
+
+    private static bool ShowAllGridareas(ActorDto actor)
+    {
+        return actor.MarketRole.EicFunction is EicFunction.EnergySupplier or EicFunction.SystemOperator or EicFunction.DataHubAdministrator;
     }
 }
