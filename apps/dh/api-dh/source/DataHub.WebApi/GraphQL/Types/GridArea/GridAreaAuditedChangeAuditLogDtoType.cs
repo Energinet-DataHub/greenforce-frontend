@@ -58,8 +58,15 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
                 if (parent.Change != GridAreaAuditedChange.ConsolidationRequested && parent.Change != GridAreaAuditedChange.ConsolidationCompleted && parent.PreviousValue is not null)
                 {
-                    var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
-                    return await GetActorNameAsync(parent.Change, previousValue.ActorId.ToString(), ctx);
+                    try
+                    {
+                        var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
+                        return await GetActorNameAsync(parent.Change, previousValue.ActorId.ToString(), ctx);
+                    }
+                    catch (System.Exception)
+                    {
+                        return null;
+                    }
                 }
 
                 return await GetActorNameAsync(parent.Change, parent.PreviousValue, ctx);
@@ -72,8 +79,15 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
             var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
             if (parent.Change != GridAreaAuditedChange.ConsolidationRequested && parent.Change != GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
             {
-                var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
-                return (DateTimeOffset?)currentValue.ConsolidateAt;
+                try
+                {
+                    var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
+                    return (DateTimeOffset?)currentValue.ConsolidateAt;
+                }
+                catch (System.Exception)
+                {
+                    return null;
+                }
             }
 
             return null;
