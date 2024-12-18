@@ -39,7 +39,6 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
@@ -89,7 +88,6 @@ import { dhToJSON } from './dh-json-util';
     DhActorsFiltersComponent,
     DhActorsTableComponent,
     DhPermissionRequiredDirective,
-    DhFeatureFlagDirective,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit {
