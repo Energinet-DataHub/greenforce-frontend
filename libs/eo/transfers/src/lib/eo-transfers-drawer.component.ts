@@ -22,7 +22,6 @@ import {
   effect,
   inject,
   input,
-  OnInit,
   output,
   signal,
   ViewChild,
@@ -143,7 +142,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
           <watt-button
             class="remove-button"
             icon="remove"
-            (click)="removeProposal.emit(transfer().id); drawer.close()"
+            (click)="removeProposal.emit(transfer()?.id); drawer.close()"
             >{{ 'Slet' }}</watt-button
           >
         }
@@ -181,7 +180,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
 
               @if (transfer() && transfer()?.transferAgreementStatus === 'Proposal') {
                 <eo-transfers-invitation-link
-                  [proposalId]="transfer()?.id.toString()"
+                  [proposalId]="transfer()?.id?.toString()"
                   [isNewlyCreated]="false"
                 />
               }
@@ -203,7 +202,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
     />
   `,
 })
-export class EoTransfersDrawerComponent implements OnInit {
+export class EoTransfersDrawerComponent {
   private authService: EoAuthService = inject(EoAuthService);
   protected translations = translations;
   protected ownTin = signal<string | undefined>(undefined);
@@ -216,7 +215,7 @@ export class EoTransfersDrawerComponent implements OnInit {
   isEditable = signal<boolean>(false);
   transfer = input<EoListedTransfer>();
 
-  ngOnInit(): void {
+  constructor() {
     effect(() => {
       const transfer = this.transfer();
       if (transfer) {
@@ -226,7 +225,7 @@ export class EoTransfersDrawerComponent implements OnInit {
   }
 
   closed = output<void>();
-  removeProposal = output<string>();
+  removeProposal = output<string | undefined>();
   saveTransferAgreement = output<TransferAgreementValues>();
 
   onEdit(event: TransferAgreementValues) {

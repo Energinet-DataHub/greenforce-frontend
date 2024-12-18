@@ -107,6 +107,7 @@ export class EoTransfersCreateModalComponent {
     /**
      * This is a workaround for "lazy loading" the modal content
      */
+    console.log(this.transferAgreements());
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();

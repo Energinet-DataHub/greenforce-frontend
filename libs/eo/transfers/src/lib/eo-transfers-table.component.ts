@@ -206,7 +206,7 @@ export class EoTransfersTableComponent implements OnInit {
 
   transferSelected = output<EoListedTransfer | undefined>();
   saveTransferAgreement = output<TransferAgreementValues>();
-  removeProposal = output<string>();
+  removeProposal = output<string | undefined>();
   proposalCreated = output<EoListedTransfer>();
 
   @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
@@ -225,9 +225,7 @@ export class EoTransfersTableComponent implements OnInit {
   columns!: WattTableColumnDef<EoTransferTableElement>;
   hasLoaded = false;
 
-  ngOnInit(): void {
-    this.setColumns();
-
+  constructor() {
     effect(() => {
       this.dataSource.data = this.transfers();
 
@@ -244,6 +242,10 @@ export class EoTransfersTableComponent implements OnInit {
         (transfer) => transfer.id === this.selectedTransfer()?.id
       );
     });
+  }
+
+  ngOnInit(): void {
+    this.setColumns();
   }
 
   private setColumns() {

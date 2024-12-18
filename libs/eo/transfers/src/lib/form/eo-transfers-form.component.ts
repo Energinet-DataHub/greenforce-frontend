@@ -250,7 +250,7 @@ export type FormMode = 'create' | 'edit';
                 [proposalId]="proposalId()"
                 [hasError]="generateProposalFailed()"
                 (retry)="onSubmit()"
-                #invitaionLink
+                #invitationLink
               />
             </vater-stack>
           </watt-stepper-step>
@@ -309,7 +309,7 @@ export class EoTransfersFormComponent implements OnInit {
   submitted = output<EoTransfersFormValues>();
   canceled = output();
 
-  @ViewChild('invitaionLink') invitaionLink!: EoTransferInvitationLinkComponent;
+  @ViewChild('invitationLink') invitationLink!: EoTransferInvitationLinkComponent;
 
   protected translations = translations;
   protected form!: FormGroup<EoTransfersForm>;
@@ -320,24 +320,10 @@ export class EoTransfersFormComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private recipientTins = signal<string[]>([]);
 
-  onEnteringTimeframeStep() {
-    this.setExistingTransferAgreements();
-    this.form.controls.period.setValidators(this.getPeriodValidators());
-    this.form.controls.period.updateValueAndValidity();
-  }
-
-  onLeavingTimeframeStep() {
-    this.existingTransferAgreements.set([]);
-  }
-
-  ngOnInit(): void {
-    if (this.mode() === 'edit') {
-      this.setExistingTransferAgreements();
-    }
+  constructor() {
+    this.initForm();
 
     effect(() => {
-      if (!this.form) this.initForm();
-
       if (this.existingTransferAgreements()) {
         this.form.controls.period.setValidators(this.getPeriodValidators());
         this.form.controls.period.updateValueAndValidity();
@@ -355,6 +341,22 @@ export class EoTransfersFormComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    if (this.mode() === 'edit') {
+      this.setExistingTransferAgreements();
+    }
+  }
+
+  onEnteringTimeframeStep() {
+    this.setExistingTransferAgreements();
+    this.form.controls.period.setValidators(this.getPeriodValidators());
+    this.form.controls.period.updateValueAndValidity();
+  }
+
+  onLeavingTimeframeStep() {
+    this.existingTransferAgreements.set([]);
+  }
+
   protected onSearch(query: string) {
     this.filteredReceiversTin.set(this.recipientTins().filter((tin) => tin.includes(query)));
   }
@@ -364,7 +366,7 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   protected onClose() {
-    this.invitaionLink.copy();
+    this.invitationLink.copy();
     this.onCancel();
   }
 

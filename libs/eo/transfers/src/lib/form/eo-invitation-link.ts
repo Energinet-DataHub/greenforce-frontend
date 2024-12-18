@@ -80,16 +80,16 @@ function generateLink(id: string | null): string | null {
         name="invitation-link"
         label="Invitation link"
         [formControl]="control"
-        [value]="link()"
+        [value]="link() ?? ''"
         #key
       >
-        @if (!hasError && isNewlyCreated) {
+        @if (!hasError() && isNewlyCreated()) {
           <watt-field-hint>{{
             translations.createTransferAgreementProposal.summary.invitation.link.hint | transloco
           }}</watt-field-hint>
         }
 
-        @if (!isNewlyCreated) {
+        @if (!isNewlyCreated()) {
           <watt-field-hint>{{
             translations.createTransferAgreementProposal.summary.invitation.link.hintProposal
               | transloco
@@ -101,7 +101,7 @@ function generateLink(id: string | null): string | null {
         }}</watt-field-error>
       </watt-text-field>
 
-      @if (!hasError) {
+      @if (!hasError()) {
         <watt-button
           #copyButton
           variant="text"
@@ -127,12 +127,6 @@ function generateLink(id: string | null): string | null {
   `,
 })
 export class EoTransferInvitationLinkComponent implements OnInit {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  // @Input({ alias: 'proposalId', transform: generateLink }) link!: string | null;
-  // @Input() hasError = false;
-  // @Input() isNewlyCreated = true;
-  // @Output() retry = new EventEmitter<void>();
-
   proposalId = input<string | null>();
   hasError = input<boolean>(false);
   isNewlyCreated = input<boolean>(true);
@@ -144,9 +138,7 @@ export class EoTransferInvitationLinkComponent implements OnInit {
   protected translations = translations;
   protected control: FormControl<string | null> = new FormControl(null);
 
-  ngOnInit(): void {
-    this.control.disable();
-
+  constructor() {
     effect(() => {
       const linkValue = this.link();
       this.control.setValue(linkValue);
@@ -162,6 +154,10 @@ export class EoTransferInvitationLinkComponent implements OnInit {
       const proposalId = this.proposalId() ? this.proposalId() : null;
       this.link.set(generateLink(proposalId as string | null));
     });
+  }
+
+  ngOnInit(): void {
+    this.control.disable();
   }
 
   copy(): void {

@@ -22,7 +22,6 @@ import {
   effect,
   inject,
   input,
-  OnInit,
   output,
   signal,
   ViewChild,
@@ -86,7 +85,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
     }
   `,
 })
-export class EoTransfersEditModalComponent implements OnInit {
+export class EoTransfersEditModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   transfer = input<EoListedTransfer>();
@@ -106,7 +105,7 @@ export class EoTransfersEditModalComponent implements OnInit {
     error: false,
   });
 
-  ngOnInit(): void {
+  constructor() {
     effect(() => {
       if (this.transfer()) {
         this.initialValues = {

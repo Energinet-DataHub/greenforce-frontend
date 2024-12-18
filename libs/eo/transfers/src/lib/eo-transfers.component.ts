@@ -127,7 +127,10 @@ export class EoTransfersComponent implements OnInit {
     }
   }
 
-  protected onRemoveProposal(id: string) {
+  protected onRemoveProposal(id: string | undefined) {
+    if (!id) {
+      return;
+    }
     const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
     if (proposal) {
       this.removeTransfer(id);
