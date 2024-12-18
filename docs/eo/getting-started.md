@@ -1,87 +1,163 @@
-# Getting Started Guide
+# Energy Track And Trace Developer Guide
 
-A step-by-step guide for making code changes to Energy Track And Trace
+## Overview
+
+This guide walks you through the process of making and deploying changes to Energy Track And Trace. Follow these steps carefully to ensure smooth integration of your changes.
 
 ## Prerequisites
 
-- GitHub access to the repository
-- Understanding of Git basics
-- Access to Teams channels
+- [ ] GitHub access to the repository
+- [ ] Basic Git knowledge
+- [ ] Teams channel access
+- [ ] Azure B2C access (for frontend changes)
 
-## Making Changes
+## Development Workflow
 
-### 1. Create a Branch
+### 1. Branch Creation
 
-⚠️ **Branch naming is crucial for automated processes**
+> ⚠️ **Critical: Branch naming affects CI/CD pipelines**
 
-- Follow the [branching strategy](branching-strategy.md) guidelines exactly
-- Your branch name determines which CI/CD pipelines will run
+```mermaid
+graph TD
+    A[Main Branch] --> B[Create Feature Branch]
+    B --> C[Development]
+    C --> D[Create PR]
+    D --> E[Review & Tests]
+    E --> F[Merge to Main]
+    F --> G[Production Deploy]
+```
 
-### 2. Development & Pull Request
+#### Naming Convention
 
-1. Make your code changes
-2. Create a pull request (PR):
-   - Use draft PR if work is still in progress
+- Follow the [branching strategy](branching-strategy.md) exactly
+- Branch name determines:
+    - Which pipelines run
+    - Environment configuration
+    - Deployment targets
+
+### 2. Development Process
+
+1. **Initial Setup**
+   - Create your branch
+   - Make code changes
+   - Follow coding standards
+
+2. **Pull Request Creation**
+   - Use draft PR for work in progress
    - Regular PR when ready for review
+   - Include clear description of changes
 
-#### Testing Environment
+3. **Test Environment Setup**
+   - Automatic deployment triggers after PR creation
+   - Access your environment:
+     1. Visit [eo-base-environments actions](https://github.com/Energinet-DataHub/eo-base-environment/actions)
+     2. Search: `branch:<your-branch-name>`
+     3. Find: `Automated vCluster Creation` or `Infrastructure CD preview environment`
+     4. Locate environment URL in `deploy summary`
 
-After creating your PR:
+4. **B2C Configuration**
+   - Add environment URL to B2C redirect URLs
+   - Verify authentication flow
 
-1. The CI/CD pipeline will automatically deploy to a test environment
-2. Find your deployment:
-   - Go to [eo-base-environments actions](https://github.com/Energinet-DataHub/eo-base-environment/actions)
-   - Search using `branch:<your-branch-name>`
-   - Find the workflow named `Automated vCluster Creation` or `Infrastructure CD preview environment`
-   - Locate the environment URL in the action results in `deploy summary`
+### 3. Review Process
 
-#### Additional Resources
+#### Code Review
 
-- [Continuous Integration Guide](continues-integration.md)
-- [Continuous Deployment Guide](continues-integration.md)
+1. Share PR in Teams `review` channel
+2. Request specific reviews:
+   - UI review for frontend changes
+   - Architecture review for major changes
+3. Address feedback promptly
 
-### 3. Code Review Process
+#### Testing Checklist
 
-1. When your PR is ready:
-   - Post the PR link in the Teams `review` channel
-   - Request UI review if you made frontend changes
-   - Address any feedback promptly
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] UI tests (if applicable)
+- [ ] Manual testing in preview environment
 
-### 4. Merging
+### 4. Merging and Deployment
 
-Before merging, ensure:
+> ⚠️ **Warning: Main branch changes auto-deploy to production**
 
-- All pipeline checks pass
-- Code review is approved
-- UI changes are verified (if applicable)
+#### Pre-merge Checklist
 
-⚠️ **Important: All changes merged to main branch automatically deploy to production**
+- [ ] All pipeline checks green
+- [ ] Code review approved
+- [ ] UI changes verified
+- [ ] Documentation updated
 
-### 5. Production Verification
+#### Post-merge Steps
 
-After merge:
+1. Monitor production deployment
+2. Perform smoke tests
+3. Verify functionality
+4. Watch monitoring dashboards
 
-1. Wait for production deployment to complete
-2. Perform smoke tests on production environment
-3. Verify your changes work as expected
-4. Monitor for any unexpected behavior
+### 5. Cleanup
 
-### 6. Clean up
+#### Repository Cleanup
 
-After merging your changes, manually delete your branch from both:
+1. Delete your branch from:
+   - Main repository
+   - eo-base-environment repository
+     - URL: `github.com/Energinet-DataHub/eo-base-environment/branches`
 
-This repository
-The eo-base-environment repository branch list
+## Troubleshooting Guide
 
-Navigate to: `github.com/Energinet-DataHub/eo-base-environment/branches`
-Find and delete your branch
+### Common Issues
 
-⚠️ **Important: Branches are not automatically deleted after merging in the eo-base-environment repository.**
+1. **Pipeline Failures**
+   - Check pipeline logs
+   - Verify branch naming
+   - Review environment variables
 
-## Troubleshooting
+2. **Environment Issues**
+   - Confirm B2C configuration
+   - Check service connections
+   - Verify environment URLs
 
-If you encounter issues:
+3. **Authentication Problems**
+   - Review B2C settings
+   - Check redirect URLs
+   - Verify token configuration
 
-- Check the pipeline logs for errors
-- Review the branching strategy documentation
-- Ask for help in the Teams channel
+### Getting Help
+
+1. **Documentation**
+   - [CI Guide](continues-integration.md)
+   - [CD Guide](continues-deployment.md)
+   - [Branching Strategy](branching-strategy.md)
+
+2. **Support Channels**
+   - Teams review channel
+   - Development chat
+   - Issue tracker
+
+## Best Practices
+
+1. **Branch Management**
+   - Keep branches short-lived
+   - Regular rebasing with main
+   - Clean commit history
+
+2. **Testing**
+   - Test in preview environment
+   - Cross-browser testing
+   - Mobile responsiveness
+
+3. **Code Quality**
+   - Follow style guides
+   - Write clear comments
+   - Update documentation
+
+4. **Deployment**
+   - Monitor deployments
+   - Verify in production
+   - Keep cleanup checklist
+
+## Additional Resources
+
+- [Architecture Documentation](architecture.md)
+- [API Documentation](api-docs.md)
+- [Environment Setup](environment-setup.md)
