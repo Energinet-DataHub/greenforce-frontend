@@ -93,14 +93,6 @@
             "hidden": true,
             "scripts": true,
             "vendor": true
-          },
-          "optimization": {
-            "scripts": true,
-            "styles": {
-              "minify": true,
-              "inlineCritical": false
-            },
-            "fonts": true
           }
         },
         "development": {
