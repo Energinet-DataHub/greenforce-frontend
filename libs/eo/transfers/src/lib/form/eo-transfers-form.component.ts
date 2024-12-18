@@ -320,6 +320,16 @@ export class EoTransfersFormComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private recipientTins = signal<string[]>([]);
 
+  onEnteringTimeframeStep() {
+    this.setExistingTransferAgreements();
+    this.form.controls.period.setValidators(this.getPeriodValidators());
+    this.form.controls.period.updateValueAndValidity();
+  }
+
+  onLeavingTimeframeStep() {
+    this.existingTransferAgreements.set([]);
+  }
+
   constructor() {
     this.initForm();
 
@@ -345,16 +355,6 @@ export class EoTransfersFormComponent implements OnInit {
     if (this.mode() === 'edit') {
       this.setExistingTransferAgreements();
     }
-  }
-
-  onEnteringTimeframeStep() {
-    this.setExistingTransferAgreements();
-    this.form.controls.period.setValidators(this.getPeriodValidators());
-    this.form.controls.period.updateValueAndValidity();
-  }
-
-  onLeavingTimeframeStep() {
-    this.existingTransferAgreements.set([]);
   }
 
   protected onSearch(query: string) {
