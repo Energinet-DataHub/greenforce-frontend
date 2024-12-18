@@ -34,7 +34,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, combineLatest, map, of, switchMap, tap } from 'rxjs';
+import { Observable, combineLatest, debounceTime, map, of, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
@@ -56,6 +56,7 @@ import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import {
   getActorOptions,
   getGridAreaOptions,
+  getGridAreaOptionsForPeriod,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   CalculationType,
@@ -156,12 +157,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   maxDate = dayjs().tz(danishTimeZoneIdentifier).toDate();
 
   form: DhFormType = this.formBuilder.group({
-    calculationType: new FormControl<string>('', {
-      validators: Validators.required,
-      nonNullable: true,
-    }),
-    includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
-    allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       dhStartDateIsNotBeforeDateValidator(this.minDate),
@@ -170,6 +165,12 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     combineResultsInOneFile: new FormControl<boolean>(false, { nonNullable: true }),
+    calculationType: new FormControl<string>('', {
+      validators: Validators.required,
+      nonNullable: true,
+    }),
+    includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
+    allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
     useApi: new FormControl<boolean>(true, { nonNullable: true }),
   });
 
@@ -186,7 +187,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   );
 
   calculationTypeOptions = this.getCalculationTypeOptions();
-  gridAreaOptions$ = this.getGridAreaOptions();
+  gridAreaOptions$ = of([]);
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
     map((options) => [
       {
@@ -211,6 +212,32 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   );
 
   submitInProgress = signal(false);
+
+  constructor() {
+    super();
+
+    this.form.controls.period.valueChanges
+      .pipe(debounceTime(50), takeUntilDestroyed())
+      .subscribe((period) => {
+        console.log('period', period);
+
+        if (period == null) {
+          return;
+        }
+
+        this.form.controls.gridAreas.setValue(null);
+        this.form.controls.gridAreas.markAsPristine();
+        this.form.controls.gridAreas.markAsUntouched();
+
+        const getGridAreaOptionsForPeriodFn = async () => {
+          const result = await getGridAreaOptionsForPeriod(period, this.modalData.actorId);
+
+          console.log('result', result);
+        };
+
+        runInInjectionContext(this.environmentInjector, () => getGridAreaOptionsForPeriodFn());
+      });
+  }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
@@ -416,6 +443,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
 
   private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
     const actorId = this.modalData.actorId;
+
     return this.apollo
       .query({
         query: GetActorByIdDocument,
