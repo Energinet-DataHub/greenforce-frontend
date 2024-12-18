@@ -95,7 +95,7 @@ Manages HTTP request authentication and token handling:
 - API endpoint filtering
 - Comprehensive error handling
 
-````mermaid
+```mermaid
 sequenceDiagram
     participant C as Component
     participant I as EoAuthInterceptor
@@ -146,7 +146,7 @@ sequenceDiagram
             I-->>C: Return Error
         end
     end
-````
+```
 
 ### 2. Scope Guard
 
@@ -167,7 +167,7 @@ sequenceDiagram
     participant T as TranslocoService
 
     R->>G: Route Access Attempt
-    
+
     rect rgb(240, 240, 240)
         Note over G: Check skipGuard data
         alt Route has skipGuard
@@ -183,17 +183,17 @@ sequenceDiagram
     end
 
     G->>AS: Check isLoggedIn()
-    
+
     alt Not Logged In
         AS-->>G: false
         G->>AS: login(redirectUrl)
         G-->>R: Deny Access (false)
     else Logged In
         AS-->>G: true
-        
+
         G->>AS: Get user profile
         AS-->>G: User data
-        
+
         alt Terms Not Accepted
             G->>R: Navigate to terms page<br/>with redirectUrl
             G-->>R: Deny Access (false)
@@ -221,7 +221,7 @@ sequenceDiagram
     participant API as API
 
     C->>I: HTTP Request
-    
+
     rect rgb(240, 240, 240)
         Note over I: Check if URL starts with<br/>apiBase or wallet-apiBase
         alt Non-API Request
@@ -238,7 +238,7 @@ sequenceDiagram
         rect rgb(240, 240, 240)
             Note over I: Clone request and<br/>add organizationId param
         end
-        
+
         I->>API: Modified Request
         API-->>I: Response
         I-->>C: Return Response
@@ -263,7 +263,7 @@ sequenceDiagram
     participant T as TranslocoService
 
     R->>G: Route Access Attempt
-    
+
     G->>AS: isSelf()
     AS-->>G: Check Result
 
@@ -297,7 +297,7 @@ sequenceDiagram
     participant AS as AuthService
 
     App->>ITS: startMonitor()
-    
+
     rect rgb(240, 240, 240)
         Note over ITS: Setup Activity Monitoring<br/>mousemove, mousedown, keydown,<br/>wheel, touchstart, touchmove
     end
@@ -312,11 +312,11 @@ sequenceDiagram
 
     alt 15 Minutes Inactivity
         ITS->>MD: Show Warning Dialog
-        
+
         rect rgb(240, 240, 240)
             Note over MD: Start 5 minute countdown
         end
-        
+
         alt User Interaction
             MD->>ITS: Dialog Closed
             ITS->>ITS: Reset Monitoring
@@ -348,6 +348,7 @@ sequenceDiagram
 ### Error Handling
 
 1. **Authentication Errors**
+
    - 401: Automatic logout
    - 403: Permission notifications
    - Generic errors: Proper propagation

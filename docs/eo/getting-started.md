@@ -31,23 +31,26 @@ graph TD
 
 - Follow the [branching strategy](branching-strategy.md) exactly
 - Branch name determines:
-    - Which pipelines run
-    - Environment configuration
-    - Deployment targets
+  - Which pipelines run
+  - Environment configuration
+  - Deployment targets
 
 ### 2. Development Process
 
 1. **Initial Setup**
+
    - Create your branch
    - Make code changes
    - Follow coding standards
 
 2. **Pull Request Creation**
+
    - Use draft PR for work in progress
    - Regular PR when ready for review
    - Include clear description of changes
 
 3. **Test Environment Setup**
+
    - Automatic deployment triggers after PR creation
    - Access your environment:
      1. Visit [eo-base-environments actions](https://github.com/Energinet-DataHub/eo-base-environment/actions)
@@ -108,11 +111,13 @@ graph TD
 ### Common Issues
 
 1. **Pipeline Failures**
+
    - Check pipeline logs
    - Verify branch naming
    - Review environment variables
 
 2. **Environment Issues**
+
    - Confirm B2C configuration
    - Check service connections
    - Verify environment URLs
@@ -125,6 +130,7 @@ graph TD
 ### Getting Help
 
 1. **Documentation**
+
    - [CI Guide](continues-integration.md)
    - [CD Guide](continues-deployment.md)
    - [Branching Strategy](branching-strategy.md)
@@ -137,16 +143,19 @@ graph TD
 ## Best Practices
 
 1. **Branch Management**
+
    - Keep branches short-lived
    - Regular rebasing with main
    - Clean commit history
 
 2. **Testing**
+
    - Test in preview environment
    - Cross-browser testing
    - Mobile responsiveness
 
 3. **Code Quality**
+
    - Follow style guides
    - Write clear comments
    - Update documentation
