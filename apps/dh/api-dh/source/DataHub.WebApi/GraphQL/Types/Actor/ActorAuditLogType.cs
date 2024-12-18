@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using HotChocolate.Resolvers;
@@ -54,8 +55,10 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                     return null;
                 }
 
-                var previousOwner = await actorDataLoader.LoadAsync(Guid.Parse(parent.PreviousValue), ct);
-                var currentOwner = await actorDataLoader.LoadAsync(Guid.Parse(parent.CurrentValue), ct);
+                var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log");
+                var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize prvious value for Consolidation audit log");
+                var previousOwner = await actorDataLoader.LoadAsync(currentValue.ActorId, ct);
+                var currentOwner = await actorDataLoader.LoadAsync(previousValue.ActorId, ct);
 
                 if (previousOwner == null || currentOwner == null)
                 {
@@ -83,7 +86,7 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                     currentOwner.ActorNumber.Value,
                     previousOwner.Name.Value,
                     previousOwner.ActorNumber.Value,
-                    null);
+                    currentValue.ConsolidateAt);
             });
 
         descriptor

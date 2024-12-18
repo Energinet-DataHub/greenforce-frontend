@@ -406,6 +406,7 @@ type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
   previousOwner: String
+  consolidatedAt: DateTime
   change: GridAreaAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
