@@ -25,6 +25,7 @@ import {
   PropertySignature,
 } from 'ts-morph';
 import { format } from 'prettier';
+import { execSync } from 'child_process';
 
 import { GenerateTranslationKeysExecutorSchema } from './schema';
 
@@ -53,6 +54,11 @@ export default async function runExecutor(options: GenerateTranslationKeysExecut
   const code = outputSourceFile.print();
   const formatted = format(code, { parser: 'typescript' });
   outputSourceFile.replaceWithText(await formatted);
+
+  await outputSourceFile.save();
+
+  // Run license executor after generating translation keys
+  execSync('bun run nx run tools:add-license', { stdio: 'inherit' });
 
   await project.save();
 
