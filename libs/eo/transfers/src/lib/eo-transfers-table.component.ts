@@ -172,7 +172,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     }
 
     <!-- No Data to show -->
-    @if (dataSource.data.length < 1 && hasLoaded) {
+    @if (dataSource.data.length < 1 && !loading()) {
       <p class="watt-space-stack-s no-data">
         {{ translations.transfers.noData.title | transloco }}
       </p>
@@ -223,17 +223,10 @@ export class EoTransfersTableComponent implements OnInit {
   activeRow?: EoListedTransfer;
   dataSource = new WattTableDataSource<EoTransferTableElement>();
   columns!: WattTableColumnDef<EoTransferTableElement>;
-  hasLoaded = false;
 
   constructor() {
     effect(() => {
       this.dataSource.data = this.transfers();
-
-      // Ensure that the empty table message is only shown after the first load
-      if (this.transfers()) {
-        this.hasLoaded = true;
-      }
-
       /*
        * We need to set the active row here and not in the store,
        * because the table otherwise loses the active row ex. after editing a transfer
