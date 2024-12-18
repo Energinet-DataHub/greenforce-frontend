@@ -339,15 +339,13 @@ export class EoTransfersFormComponent implements OnInit {
         this.form.controls.period.updateValueAndValidity();
       }
 
-      if (this.senderTin()) {
-        const senderTinValue = this.senderTin()!;
-        this.recipientTins.set(this.getRecipientTins(this.transferAgreements()));
-        this.onSearch('');
+      const senderTinValue = this.senderTin()!;
+      this.recipientTins.set(this.getRecipientTins(this.transferAgreements()));
+      this.onSearch('');
 
-        this.form.controls['receiverTin'].addValidators(
-          compareValidator(senderTinValue, 'receiverTinEqualsSenderTin')
-        );
-      }
+      this.form.controls['receiverTin'].addValidators(
+        compareValidator(senderTinValue, 'receiverTinEqualsSenderTin')
+      );
     });
   }
 

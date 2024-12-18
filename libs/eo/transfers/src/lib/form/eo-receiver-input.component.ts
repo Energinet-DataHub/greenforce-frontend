@@ -72,6 +72,7 @@ import {
 
       <div style="display: flex; align-items: center;">
         <watt-text-field
+          [formControl]="control"
           [label]="
             translations.createTransferAgreementProposal.parties.receiverTinLabel | transloco
           "
