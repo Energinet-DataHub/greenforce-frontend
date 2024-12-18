@@ -216,12 +216,15 @@ export class EoTransfersDrawerComponent {
   transfer = input<EoListedTransfer>();
 
   constructor() {
-    effect(() => {
-      const transfer = this.transfer();
-      if (transfer) {
-        this.isEditable.set(!transfer.endDate || transfer.endDate > new Date().getTime());
+    effect(
+      () => {
+        const transfer = this.transfer();
+        this.isEditable.set(!transfer?.endDate || transfer?.endDate > new Date().getTime());
+      },
+      {
+        allowSignalWrites: true, // Enable writing to signals inside effects
       }
-    });
+    );
   }
 
   closed = output<void>();

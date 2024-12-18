@@ -333,20 +333,25 @@ export class EoTransfersFormComponent implements OnInit {
   constructor() {
     this.initForm();
 
-    effect(() => {
-      if (this.existingTransferAgreements()) {
-        this.form.controls.period.setValidators(this.getPeriodValidators());
-        this.form.controls.period.updateValueAndValidity();
+    effect(
+      () => {
+        if (this.existingTransferAgreements()) {
+          this.form.controls.period.setValidators(this.getPeriodValidators());
+          this.form.controls.period.updateValueAndValidity();
+        }
+
+        const senderTinValue = this.senderTin()!;
+        this.recipientTins.set(this.getRecipientTins(this.transferAgreements()));
+        this.onSearch('');
+
+        this.form.controls['receiverTin'].addValidators(
+          compareValidator(senderTinValue, 'receiverTinEqualsSenderTin')
+        );
+      },
+      {
+        allowSignalWrites: true,
       }
-
-      const senderTinValue = this.senderTin()!;
-      this.recipientTins.set(this.getRecipientTins(this.transferAgreements()));
-      this.onSearch('');
-
-      this.form.controls['receiverTin'].addValidators(
-        compareValidator(senderTinValue, 'receiverTinEqualsSenderTin')
-      );
-    });
+    );
   }
 
   ngOnInit(): void {
