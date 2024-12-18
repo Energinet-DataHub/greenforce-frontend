@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
@@ -61,5 +62,50 @@ public static class MarketParticipantClientExtensions
                         Type = gridArea.Type,
                     };
             });
+    }
+
+    internal static async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
+        this IMarketParticipantClient_V1 client,
+        Guid actorId,
+        Interval period,
+        CancellationToken cancellationToken = default)
+    {
+        var actorTask = client.ActorGetAsync(actorId);
+        var gridAreasTask = client.GetGridAreasAsync();
+        await Task.WhenAll(actorTask, gridAreasTask);
+
+        var actor = await actorTask;
+        var gridAreas = await gridAreasTask;
+
+        var filteredByDateGridAreas = gridAreas.Where(ga => DoDatesOverlap(ga, period.Start.ToDateTimeOffset(), period.End.ToDateTimeOffset()));
+        if (ShowAllGridareas(actor))
+        {
+            return filteredByDateGridAreas;
+        }
+
+        var actorGridAreaIds = actor.MarketRole.GridAreas.Select(ga => ga.Id);
+        var relevantGridAreas = filteredByDateGridAreas.Where(ga => actorGridAreaIds.Contains(ga.Id));
+
+        return relevantGridAreas;
+    }
+
+    private static bool DoDatesOverlap(GridAreaDto gridArea, DateTimeOffset startDate, DateTimeOffset endDate)
+    {
+        var convertedStartDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(startDate, "Romance Standard Time");
+        var convertedEndDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(endDate.AddMilliseconds(-1), "Romance Standard Time");
+
+        if (!gridArea.ValidTo.HasValue)
+        {
+            return gridArea.ValidFrom <= convertedEndDate;
+        }
+
+        // formula from https://www.baeldung.com/java-check-two-date-ranges-overlap
+        var overlap = Math.Min(gridArea.ValidTo.Value.Ticks, convertedEndDate.Ticks) - Math.Max(gridArea.ValidFrom.Ticks, convertedStartDate.Ticks);
+        return overlap >= 0;
+    }
+
+    private static bool ShowAllGridareas(ActorDto actor)
+    {
+        return actor.MarketRole.EicFunction is EicFunction.EnergySupplier or EicFunction.SystemOperator or EicFunction.DataHubAdministrator;
     }
 }
