@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -55,7 +54,6 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
   imports: [
     EoFooterComponent,
     EoPrimaryNavigationComponent,
-    NgIf,
     RouterModule,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -109,7 +107,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
     `,
   ],
   template: `
-    @if (isLoggedIn && tosAccepted) {
+    @if (user() && user()?.profile?.tos_accepted) {
       <watt-shell>
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
@@ -172,8 +170,7 @@ export class EoShellComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private cookieInformationService: CookieInformationService = inject(CookieInformationService);
 
-  protected isLoggedIn = !!this.authService.user();
-  protected tosAccepted = this.authService.user()?.profile.tos_accepted;
+  protected user = this.authService.user;
   protected translations = translations;
   protected cookiesSet: string | null = null;
 

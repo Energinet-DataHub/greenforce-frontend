@@ -223,6 +223,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notMitIDErhvervError: {
+      title: 'Der opstod en fejl',
+      message: `Du har ikke et virksomhedslogin (MitID Erhverv).<br /> For at logge ind på vegne af din virksomhed skal du have adgang via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
+    },
     error: {
       title: 'En uventet fejl opstod',
       message:
