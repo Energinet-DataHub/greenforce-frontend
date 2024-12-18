@@ -156,6 +156,10 @@ export const translations = {
     logout: 'topbar.logout' as const,
   } as const,
   shared: {
+    notMitIDErhvervError: {
+      title: 'shared.notMitIDErhvervError.title' as const,
+      message: 'shared.notMitIDErhvervError.message' as const,
+    } as const,
     error: {
       title: 'shared.error.title' as const,
       message: 'shared.error.message' as const,
