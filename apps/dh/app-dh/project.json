@@ -93,6 +93,14 @@
             "hidden": true,
             "scripts": true,
             "vendor": true
+          },
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": true
           }
         },
         "development": {
@@ -176,9 +184,5 @@
     }
   },
   "tags": ["product:dh", "type:app"],
-  "implicitDependencies": [
-    "api-dh",
-    "dh-shared-domain",
-    "dh-globalization-assets-localization"
-  ]
+  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"]
 }
