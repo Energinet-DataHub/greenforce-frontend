@@ -236,6 +236,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notMitIDErhvervError: {
+      title: 'An error occured',
+      message: `You do not have a company login (MitID Erhverv).<br /> To sign in on behalf of your company, you must be granted access via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
+    },
     error: {
       title: 'An unexpected error occured',
       message:

@@ -16,12 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { translations } from '@energinet-datahub/eo/translations';
 
 interface State {
   thirdPartyClientId: string;
@@ -31,24 +34,47 @@ interface State {
 @Component({
   standalone: true,
   selector: 'eo-signin-callback',
-  imports: [WattSpinnerComponent],
+  imports: [WattSpinnerComponent, WattEmptyStateComponent, TranslocoPipe],
   styles: `
     :host {
       height: 100vh;
       width: 100%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 1rem;
     }
   `,
-  template: ` <watt-spinner /> `,
+  template: `
+    @if (isMitIDErhverv()) {
+      <watt-spinner />
+    } @else {
+      <watt-empty-state
+        icon="custom-power"
+        [useHTML]="true"
+        [title]="translations.shared.notMitIDErhvervError.title | transloco"
+        [message]="translations.shared.notMitIDErhvervError.message | transloco"
+      />
+    }
+  `,
 })
 export class EoSigninCallbackComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly authService: EoAuthService = inject(EoAuthService);
   private readonly transloco = inject(TranslocoService);
 
+  errorDescription = input<string>('', { alias: 'error_description' });
+  protected readonly isMitIDErhverv = computed(() => this.errorDescription() !== 'AADB2C90273');
+
+  protected readonly translations = translations;
+
   ngOnInit() {
+    if (!this.isMitIDErhverv()) return;
+    this.handleSigninCallback();
+  }
+
+  private handleSigninCallback() {
     this.authService
       .signinCallback()
       .then((user) => {
@@ -73,7 +99,12 @@ export class EoSigninCallbackComponent implements OnInit {
         }
       })
       .catch((error) => {
-        this.authService.login(error.state);
+        // TODO: Investigate why this error is thrown on the first login
+        if (error.message === 'No matching state found in storage') {
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
+        } else {
+          this.authService.login(error.state);
+        }
       });
   }
 }
