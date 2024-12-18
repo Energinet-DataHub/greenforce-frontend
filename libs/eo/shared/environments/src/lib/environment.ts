@@ -32,4 +32,5 @@ import 'zone.js/plugins/zone-error';
 
 export const environment: EoEnvironment = {
   production: false,
+  mocked: false,
 };

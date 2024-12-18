@@ -18,4 +18,5 @@
 //#endregion
 export interface EoEnvironment {
   readonly production: boolean;
+  readonly mocked: boolean;
 }

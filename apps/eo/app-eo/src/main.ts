@@ -21,6 +21,7 @@ import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { eoLocalApiEnvironment } from '@energinet-datahub/eo/shared/assets';
 
 import {
   environment,
@@ -37,7 +38,19 @@ if (environment.production) {
   enableProdMode();
 }
 
-Promise.all([loadEoApiEnvironment(), loadEoB2cEnvironment()])
+let serviceWorkerPromise: Promise<void> | null = null;
+
+if (environment.mocked) {
+  // Dynamically import the MSW setup to avoid loading it in production
+  Promise.all([
+    import('@energinet-datahub/gf/util-msw'),
+    import('@energinet-datahub/eo/shared/data-access-mocks'),
+  ]).then(([{ setupServiceWorker }, { mocks }]) => {
+    serviceWorkerPromise = setupServiceWorker(eoLocalApiEnvironment.apiBase, mocks);
+  });
+}
+
+Promise.all([loadEoApiEnvironment(), loadEoB2cEnvironment(), serviceWorkerPromise])
   .then(([eoApiEnvironment, eoB2cEnvironment]) =>
     bootstrapApplication(EnergyOriginAppComponent, {
       providers: [

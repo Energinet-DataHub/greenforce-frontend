@@ -17,6 +17,7 @@
  */
 //#endregion
 import { enableProdMode, isDevMode } from '@angular/core';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
   provideRouter,
@@ -55,7 +56,24 @@ if (environment.authDisabled) {
   }
 }
 
-Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironment()])
+let serviceWorkerPromise: Promise<void> | null = null;
+
+if (environment.mocked) {
+  // Dynamically import the MSW setup to avoid loading it in production
+  Promise.all([
+    import('@energinet-datahub/gf/util-msw'),
+    import('@energinet-datahub/dh/shared/data-access-mocks'),
+  ]).then(([{ setupServiceWorker }, { mocks }]) => {
+    serviceWorkerPromise = setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks);
+  });
+}
+
+Promise.all([
+  loadDhApiEnvironment(),
+  loadDhB2CEnvironment(),
+  loadDhAppEnvironment(),
+  serviceWorkerPromise,
+])
   .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
     bootstrapApplication(DataHubAppComponent, {
       providers: [
