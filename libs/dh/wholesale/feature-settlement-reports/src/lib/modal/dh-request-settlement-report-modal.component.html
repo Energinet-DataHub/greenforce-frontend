@@ -46,29 +46,27 @@ limitations under the License.
         }
       </div>
 
-      @if (hasMoreThanOneGridAreaOption()) {
-        <div class="items-group">
-          <watt-dropdown
-            [multiple]="true"
-            sortDirection="asc"
-            [label]="t('gridArea')"
-            [formControl]="form.controls.gridAreas"
-            [options]="gridAreaOptions$ | push"
-          >
-            @if (multipleGridAreasSelected$ | push) {
-              <watt-field-hint>
-                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-              </watt-field-hint>
-            }
-          </watt-dropdown>
-
+      <div class="items-group">
+        <watt-dropdown
+          [multiple]="true"
+          sortDirection="asc"
+          [label]="t('gridArea')"
+          [formControl]="form.controls.gridAreas"
+          [options]="gridAreaOptions$ | push"
+        >
           @if (multipleGridAreasSelected$ | push) {
-            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
-              {{ t("combineResultsInOneFile") }}
-            </watt-checkbox>
+            <watt-field-hint>
+              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+            </watt-field-hint>
           }
-        </div>
-      }
+        </watt-dropdown>
+
+        @if (multipleGridAreasSelected$ | push) {
+          <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+            {{ t("combineResultsInOneFile") }}
+          </watt-checkbox>
+        }
+      </div>
 
       @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
         <div class="items-group">

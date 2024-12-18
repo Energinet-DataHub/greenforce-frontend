@@ -36,7 +36,7 @@ import {
 import { RxPush } from '@rx-angular/template/push';
 import { Observable, combineLatest, debounceTime, map, of, switchMap, tap } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
@@ -55,13 +55,11 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import {
   getActorOptions,
-  getGridAreaOptions,
   getGridAreaOptionsForPeriod,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   CalculationType,
   EicFunction,
-  GetActorByIdDocument,
   GetSettlementReportCalculationsByGridAreasDocument,
   GetSettlementReportsDocument,
   RequestSettlementReportDocument,
@@ -187,7 +185,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   );
 
   calculationTypeOptions = this.getCalculationTypeOptions();
-  gridAreaOptions$ = of([]);
+  gridAreaOptions$ = this.getGridAreaOptions();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
     map((options) => [
       {
@@ -197,8 +195,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
       ...options,
     ])
   );
-
-  hasMoreThanOneGridAreaOption = toSignal(this.hasMoreThanOneGridAreaOption$());
 
   showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
 
@@ -212,32 +208,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   );
 
   submitInProgress = signal(false);
-
-  constructor() {
-    super();
-
-    this.form.controls.period.valueChanges
-      .pipe(debounceTime(50), takeUntilDestroyed())
-      .subscribe((period) => {
-        console.log('period', period);
-
-        if (period == null) {
-          return;
-        }
-
-        this.form.controls.gridAreas.setValue(null);
-        this.form.controls.gridAreas.markAsPristine();
-        this.form.controls.gridAreas.markAsUntouched();
-
-        const getGridAreaOptionsForPeriodFn = async () => {
-          const result = await getGridAreaOptionsForPeriod(period, this.modalData.actorId);
-
-          console.log('result', result);
-        };
-
-        runInInjectionContext(this.environmentInjector, () => getGridAreaOptionsForPeriodFn());
-      });
-  }
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
@@ -422,52 +392,33 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    return this.showAllGridAres().pipe(
-      switchMap((showAllGridAreas) => {
-        if (showAllGridAreas) {
-          return runInInjectionContext(this.environmentInjector, () => getGridAreaOptions());
+    const arbitraryDebounceTime = 50;
+
+    return this.form.controls.period.valueChanges.pipe(
+      // Needed because the watt-datepicker component
+      // emits multiple times when the period changes
+      debounceTime(arbitraryDebounceTime),
+      takeUntilDestroyed(this.destroyRef),
+      tap(() => {
+        this.form.controls.gridAreas.setValue(null);
+        this.form.controls.gridAreas.markAsPristine();
+        this.form.controls.gridAreas.markAsUntouched();
+      }),
+      switchMap((maybePeriod) => {
+        if (maybePeriod == null) {
+          return [];
         }
 
-        return this.getGridAreaOptionsForActor();
+        return runInInjectionContext(this.environmentInjector, () =>
+          getGridAreaOptionsForPeriod(maybePeriod, this.modalData.actorId)
+        );
+      }),
+      tap((gridAreaOptions) => {
+        if (gridAreaOptions.length === 1) {
+          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+        }
       })
     );
-  }
-
-  private showAllGridAres(): Observable<boolean> {
-    const canSeeAllGridAreas = [EicFunction.EnergySupplier, EicFunction.SystemOperator].includes(
-      this.modalData.marketRole
-    );
-
-    return of(this.modalData.isFas || canSeeAllGridAreas);
-  }
-
-  private getGridAreaOptionsForActor(): Observable<WattDropdownOptions> {
-    const actorId = this.modalData.actorId;
-
-    return this.apollo
-      .query({
-        query: GetActorByIdDocument,
-        variables: {
-          id: actorId,
-        },
-      })
-      .pipe(
-        map((result) =>
-          result.data.actorById.gridAreas.map((gridArea) => ({
-            value: gridArea.code,
-            displayValue: gridArea.displayName,
-          }))
-        ),
-        tap((gridAreaOptions) => {
-          if (gridAreaOptions.length === 1) {
-            this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
-          }
-        })
-      );
-  }
-
-  private hasMoreThanOneGridAreaOption$(): Observable<boolean> {
-    return this.gridAreaOptions$.pipe(map((gridAreaOptions) => gridAreaOptions.length > 1));
   }
 
   private getCalculationByGridAreas() {
