@@ -123,7 +123,10 @@ export class DhActorDrawerComponent {
   showBalanceResponsibleRelationTab = computed(
     () =>
       this.actor()?.marketRole === EicFunction.EnergySupplier ||
-      this.actor()?.marketRole === EicFunction.BalanceResponsibleParty
+      (this.actor()?.marketRole === EicFunction.BalanceResponsibleParty &&
+        this.actor()?.status !== ActorStatus.Inactive &&
+        this.actor()?.status !== ActorStatus.Passive &&
+        this.actor()?.status !== ActorStatus.Discontinued)
   );
 
   marketRoleOrFallback = computed(() => {
