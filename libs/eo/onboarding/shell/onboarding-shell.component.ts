@@ -44,7 +44,7 @@ export class EoOnboardingShellComponent implements OnInit {
     const thirdPartyClientId = this.route.snapshot.queryParamMap.get('client-id');
     const redirectUrl = this.route.snapshot.queryParamMap.get('redirect-url');
 
-    if (!thirdPartyClientId || !redirectUrl) return;
+    if (!thirdPartyClientId) return;
 
     this.router.navigate(['/consent'], {
       queryParams: {
