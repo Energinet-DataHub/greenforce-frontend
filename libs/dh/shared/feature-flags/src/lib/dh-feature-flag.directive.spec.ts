@@ -47,23 +47,23 @@ describe(DhFeatureFlagDirective, () => {
           provide: dhAppEnvironmentToken,
           useValue: { current: DhAppEnvironment.test_001 },
         },
-        { provide: dhFeatureFlagsToken, overrides: featureFlagsConfigMock },
+        { provide: dhFeatureFlagsToken, useValue: featureFlagsConfigMock },
       ],
     });
   };
 
   it('should render content, if no feature flag name is provided', async () => {
     const { queryByText } = await setup();
-    expect(queryByText(/SOME CONTENT/i));
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
   });
 
   it('should render content, if feature flag is enabled', async () => {
     const { queryByText } = await setup('enabled-flag');
-    expect(queryByText(/SOME CONTENT/i));
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
   });
 
   it('should not render content, if feature flag is disabled', async () => {
     const { queryByText } = await setup('disabled-flag');
-    expect(queryByText(/SOME CONTENT/i));
+    expect(queryByText(/SOME CONTENT/i)).not.toBeInTheDocument();
   });
 });
