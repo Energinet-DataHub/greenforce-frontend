@@ -37,4 +37,9 @@ public static class HttpContextUserExtensions
 
         return Guid.Parse(claim.Value);
     }
+
+    public static bool HasRole(this ClaimsPrincipal user, string role)
+    {
+        return user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == role);
+    }
 }
