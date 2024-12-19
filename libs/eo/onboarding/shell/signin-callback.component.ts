@@ -66,7 +66,7 @@ export class EoSigninCallbackComponent implements OnInit {
 
   errorDescription = input<string>('', { alias: 'error_description' });
   protected readonly isMitIDErhverv = computed(
-    () => !this.errorDescription().startsWith('AADB2C90273')
+    () => !this.errorDescription()?.startsWith('AADB2C90273')
   );
 
   protected readonly translations = translations;
