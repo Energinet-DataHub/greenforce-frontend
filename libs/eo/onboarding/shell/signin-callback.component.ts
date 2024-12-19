@@ -36,7 +36,13 @@ interface State {
 @Component({
   standalone: true,
   selector: 'eo-signin-callback',
-  imports: [WattSpinnerComponent, WattEmptyStateComponent, TranslocoPipe, EoHeaderComponent, EoFooterComponent],
+  imports: [
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+    TranslocoPipe,
+    EoHeaderComponent,
+    EoFooterComponent,
+  ],
   styles: `
     .content {
       height: 90vh;
