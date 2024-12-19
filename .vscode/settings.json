@@ -19,8 +19,5 @@
   },
   "prettier.prettierPath": "./node_modules/prettier/index.cjs",
   "eslint.validate": ["json", "graphql"],
-  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln",
-  "[csharp]": {
-    "files.encoding": "utf8bom"
-  }
+  "dotnet.defaultSolution": "apps/dh/api-dh/DataHub.WebApi.sln"
 }
