@@ -10,14 +10,14 @@ sequenceDiagram
     participant TP as Third Party App
     participant O as Onboarding Component
     participant C as Consent Page
-    
+
     TP->>U: Initiates onboarding
     U->>TP: Agrees to proceed
     TP->>O: Redirects with client-id & redirect-url
     Note over O: Validates parameters
     O->>C: Redirects to consent page
     C->>U: Displays consent request
-    
+
     alt User Accepts
         U->>C: Grants consent
         C->>TP: Redirects to redirect-url<br/>with state=granted
@@ -71,8 +71,8 @@ After user action, if a redirect URL was specified:
 
 - The system redirects to the provided URL
 - Appends a `state` parameter with one of two values:
-    - `granted`: User accepted the consent
-    - `declined`: User declined the consent
+  - `granted`: User accepted the consent
+  - `declined`: User declined the consent
 
 ## Error Handling
 
