@@ -93,7 +93,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       validFrom: new Date('2021-08-17T12:30:00'),
       validTo: null,
       fullFlexDate: new Date('2021-08-18T12:30:00'),
-      status: GridAreaStatus.Active,
+      status: GridAreaStatus.ToBeDiscontinued,
       type: GridAreaType.Transmission,
     },
     {

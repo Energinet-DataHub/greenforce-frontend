@@ -8,6 +8,11 @@ interface Error {
   message: String!
 }
 
+interface Orchestration {
+  id: UUID!
+  lifeCycle: OrchestrationLifeCycle!
+}
+
 type Actor {
   id: UUID!
   name: String!
@@ -174,6 +179,11 @@ type ArchivedMessagesEdge {
 type AssociatedActors {
   email: String!
   actors: [UUID!]!
+}
+
+type AuditIdentityDto {
+  auditIdentityId: UUID!
+  displayName: String!
 }
 
 type BalanceResponsibilityAgreement {
@@ -407,6 +417,7 @@ type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
   previousOwner: String
+  consolidatedAt: DateTime
   change: GridAreaAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -571,6 +582,7 @@ type Mutation {
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
+  request(input: RequestInput!): RequestPayload!
 }
 
 type NotificationDto {
@@ -579,6 +591,23 @@ type NotificationDto {
   occurredAt: DateTime!
   expiresAt: DateTime!
   relatedToId: String
+}
+
+type OptionOfCalculationType {
+  value: CalculationType!
+  displayValue: String!
+}
+
+type OptionOfMeteringPointType {
+  value: MeteringPointType!
+  displayValue: String!
+}
+
+type OrchestrationLifeCycle {
+  createdAt: DateTime!
+  createdBy: AuditIdentityDto
+  state: ProgressStatus!
+  statusType: ProcessStatus!
 }
 
 type Organization {
@@ -695,6 +724,8 @@ type Query {
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
+  requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
+  requestOptions: RequestOptions!
 }
 
 type ReActivateUserPayload {
@@ -712,12 +743,30 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
+type RequestAggregatedMeasureData implements Orchestration {
+  calculationType: CalculationType!
+  meteringPointType: MeteringPointType
+  period: DateRange!
+  id: UUID!
+  lifeCycle: OrchestrationLifeCycle!
+}
+
 type RequestCalculationPayload {
   boolean: Boolean
 }
 
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
+}
+
+type RequestOptions {
+  calculationTypes: [OptionOfCalculationType!]!
+  meteringPointTypes: [OptionOfMeteringPointType!]!
+  isGridAreaRequired: Boolean!
+}
+
+type RequestPayload {
+  boolean: Boolean
 }
 
 type RequestSettlementReportGridAreaCalculation {
@@ -728,6 +777,32 @@ type RequestSettlementReportGridAreaCalculation {
 
 type RequestSettlementReportPayload {
   boolean: Boolean
+}
+
+type RequestWholesaleSettlement implements Orchestration {
+  calculationType: CalculationType!
+  priceType: PriceType
+  period: DateRange!
+  id: UUID!
+  lifeCycle: OrchestrationLifeCycle!
+}
+
+"A connection to a list of items."
+type RequestsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [RequestsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Orchestration!]
+}
+
+"An edge in a connection."
+type RequestsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Orchestration!
 }
 
 type ResendWaitingEsettExchangeMessagesPayload {
@@ -1090,6 +1165,15 @@ input ReInviteUserInput {
   userId: UUID!
 }
 
+input RequestAggregatedMeasureDataInput {
+  calculationType: CalculationType!
+  period: DateRange!
+  gridArea: String
+  energySupplierId: String
+  balanceResponsibleId: String
+  meteringPointType: MeteringPointType
+}
+
 input RequestCalculationInput {
   calculationType: CalculationType!
   period: DateRange!
@@ -1101,6 +1185,11 @@ input RequestCalculationInput {
 
 input RequestClientSecretCredentialsInput {
   actorId: UUID!
+}
+
+input RequestInput @oneOf {
+  requestAggregatedMeasureData: RequestAggregatedMeasureDataInput
+  requestWholesaleSettlement: RequestWholesaleSettlementInput
 }
 
 input RequestSettlementReportGridAreaInput {
@@ -1121,6 +1210,23 @@ input RequestSettlementReportInput {
   csvLanguage: String
   requestAsActorId: String
   requestAsMarketRole: SettlementReportMarketRole
+}
+
+input RequestSortInput {
+  createdAt: SortEnumType
+  state: SortEnumType
+  createdBy: SortEnumType
+  calculationType: SortEnumType
+  period: SortEnumType
+  meteringPointTypeOrPriceType: SortEnumType
+}
+
+input RequestWholesaleSettlementInput {
+  calculationType: CalculationType!
+  period: DateRange!
+  gridArea: String
+  energySupplierId: String
+  priceType: PriceType
 }
 
 input ResetTwoFactorAuthenticationInput {
@@ -1462,7 +1568,6 @@ enum GridAreaStatus {
   Expired
   Archived
   ToBeDiscontinued
-  Discontinued
 }
 
 enum GridAreaType {
@@ -1526,6 +1631,14 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
+enum MeteringPointType {
+  PRODUCTION
+  FLEX_CONSUMPTION
+  TOTAL_CONSUMPTION
+  NON_PROFILED_CONSUMPTION
+  EXCHANGE
+}
+
 enum NotificationType {
   BalanceResponsibilityValidationFailed
   BalanceResponsibilityActorUnrecognized
@@ -1550,6 +1663,21 @@ enum PermissionAuditedChange {
 enum PriceAreaCode {
   DK1
   DK2
+}
+
+"""
+The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of
+the resolution and charge type fields in the RequestWholesaleSettlement document
+"""
+enum PriceType {
+  TARIFF_SUBSCRIPTION_AND_FEE
+  TARIFF
+  SUBSCRIPTION
+  FEE
+  MONTHLY_TARIFF
+  MONTHLY_SUBSCRIPTION
+  MONTHLY_FEE
+  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
 }
 
 enum ProcessStatus {
@@ -1655,6 +1783,15 @@ enum UserStatus {
 
 "The authorize directive."
 directive @authorize("The name of the authorization policy that determines access to the annotated resource." policy: String "Roles that are allowed to access the annotated resource." roles: [String!] "Defines when when the authorize directive shall be applied.By default the authorize directives are applied during the validation phase." apply: ApplyPolicy! = BEFORE_RESOLVER) repeatable on OBJECT | FIELD_DEFINITION
+
+"""
+The `@oneOf` directive is used within the type system definition language
+ to indicate:
+
+ - an Input Object is a Oneof Input Object, or
+ - an Object Type's Field is a Oneof Field.
+"""
+directive @oneOf on INPUT_OBJECT
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
 directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
