@@ -17,6 +17,7 @@ query GetGridAreaDetails($id: UUID!) {
       isInitialAssignment
       currentOwner
       previousOwner
+      consolidatedAt
     }
   }
 }
