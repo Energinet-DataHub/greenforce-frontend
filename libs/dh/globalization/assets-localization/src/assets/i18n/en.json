@@ -851,8 +851,7 @@
         "Active": "Active",
         "Expired": "Expired",
         "Archived": "Archived",
-        "ToBeDiscontinued": "To be discontinued",
-        "Discontinued": "Discontinued"
+        "ToBeDiscontinued": "To be discontinued"
       },
       "types": {
         "NotSet": "Not specified",

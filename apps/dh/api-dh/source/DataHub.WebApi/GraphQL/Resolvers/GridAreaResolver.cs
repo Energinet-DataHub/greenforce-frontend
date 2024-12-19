@@ -28,37 +28,32 @@ public class GridAreaResolvers
         var validTo = gridarea.ValidTo;
         var consolidation = await consolidationsLoader.LoadAsync(gridarea.Code).ConfigureAwait(false);
 
-        if (consolidation is null)
-        {
-            if (validFrom > DateTimeOffset.UtcNow)
-            {
-                return GridAreaStatus.Created;
-            }
-
-            if (validTo < DateTimeOffset.UtcNow)
-            {
-                return GridAreaStatus.Expired;
-            }
-
-            if (validFrom <= DateTimeOffset.UtcNow && validTo >= DateTimeOffset.UtcNow)
-            {
-                return GridAreaStatus.Active;
-            }
-
-            if (validFrom <= DateTimeOffset.UtcNow && validTo == null)
-            {
-                return GridAreaStatus.Active;
-            }
-
-            return GridAreaStatus.Archived;
-        }
-
-        if (consolidation.ConsolidateAt > DateTimeOffset.UtcNow)
+        if (consolidation?.ConsolidateAt > DateTimeOffset.UtcNow)
         {
             return GridAreaStatus.ToBeDiscontinued;
         }
 
-        return GridAreaStatus.Discontinued;
+        if (validFrom > DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.Created;
+        }
+
+        if (validTo < DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.Expired;
+        }
+
+        if (validFrom <= DateTimeOffset.UtcNow && validTo >= DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.Active;
+        }
+
+        if (validFrom <= DateTimeOffset.UtcNow && validTo == null)
+        {
+            return GridAreaStatus.Active;
+        }
+
+        return GridAreaStatus.Archived;
     }
 
     public PriceAreaCode ParsePriceAreaCode([Parent] IGridArea gridarea)
