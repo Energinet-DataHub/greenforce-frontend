@@ -18,6 +18,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 using Microsoft.FeatureManagement;
 
@@ -71,6 +72,7 @@ public partial class Subscription
     }
 
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public CalculationDto CalculationUpdated([EventMessage] CalculationDto calculation) =>
         calculation;
 
