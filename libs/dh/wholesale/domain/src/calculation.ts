@@ -42,3 +42,14 @@ export const aggregationCalculationTypes = [
 ];
 
 export const getMinDate = () => dayjs().startOf('month').subtract(38, 'months').toDate();
+export const getMaxDate = () => dayjs().startOf('month').subtract(1, 'ms').toDate();
+
+export enum RequestType {
+  AggregatedMeasureData,
+  WholesaleSettlement,
+}
+
+export const toRequestType = (type: CalculationType) =>
+  wholesaleCalculationTypes.includes(type)
+    ? RequestType.WholesaleSettlement
+    : RequestType.AggregatedMeasureData;

@@ -37,6 +37,7 @@ public static class GraphQLRegistrationExtensions
             .AddTypes()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
+            .ModifyOptions(o => o.EnableOneOf = true)
             .ModifyPagingOptions(options =>
             {
                 options.RequirePagingBoundaries = true;

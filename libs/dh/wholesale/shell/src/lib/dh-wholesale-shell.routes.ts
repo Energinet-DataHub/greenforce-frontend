@@ -20,8 +20,18 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { inject } from '@angular/core';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const dhWholesaleShellRoutes: Route[] = [
+  {
+    path: getPath<WholesaleSubPaths>('request-calculation'),
+    canMatch: [() => inject(DhFeatureFlagsService).isEnabled('requests-v2')],
+    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-requests'),
+    data: {
+      titleTranslationKey: 'wholesale.requests.topBarTitle',
+    },
+  },
   {
     path: getPath<WholesaleSubPaths>('request-calculation'),
     canActivate: [
