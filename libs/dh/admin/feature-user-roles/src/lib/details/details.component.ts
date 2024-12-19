@@ -44,18 +44,14 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
 
 @Component({
   selector: 'dh-user-role-details',
-  standalone: true,
   imports: [
     RouterOutlet,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
-
     DhPermissionRequiredDirective,
-
     DhResultComponent,
     DhRoleStatusComponent,
     DhRoleAuditLogsComponent,

@@ -37,7 +37,6 @@ import {
 } from '@angular/material/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 
-import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
@@ -76,13 +75,10 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
 }
 
 @Component({
-  standalone: true,
   imports: [
     MatDatepickerModule,
-
     WattMenuChipComponent,
     WattDatePipe,
-    WattIconComponent,
     WattFieldComponent,
     WattButtonComponent,
   ],

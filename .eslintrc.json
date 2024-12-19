@@ -178,10 +178,6 @@
       }
     },
     {
-      "files": ["*.ts"],
-      "extends": ["plugin:@ngrx/component-store-strict"]
-    },
-    {
       "files": ["*.component.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {

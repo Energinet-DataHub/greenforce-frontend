@@ -20,13 +20,8 @@ import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { fromUnixTime } from 'date-fns';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { EnergyUnitPipe } from '@energinet-datahub/eo/shared/utilities';
@@ -36,14 +31,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoClaimsTableComponent } from './claims-table.component';
 
 @Component({
-  standalone: true,
   imports: [
     EoClaimsTableComponent,
-    VaterFlexComponent,
     VaterSpacerComponent,
     VaterStackComponent,
     WATT_CARD,
-    WattButtonComponent,
     WattSearchComponent,
     TranslocoPipe,
   ],

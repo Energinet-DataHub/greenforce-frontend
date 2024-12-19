@@ -78,11 +78,9 @@ interface FormValues {
 @Component({
   selector: 'dh-calculations-create',
   templateUrl: './create.component.html',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WattButtonComponent,
     WattDatePipe,
@@ -96,10 +94,8 @@ interface FormValues {
     WattFieldHintComponent,
     WattRadioComponent,
     WattTextFieldComponent,
-
     VaterFlexComponent,
     VaterStackComponent,
-
     DhCalculationsGridAreasDropdownComponent,
     DhDropdownTranslatorDirective,
   ],

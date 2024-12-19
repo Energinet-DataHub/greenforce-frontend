@@ -26,7 +26,6 @@ import { Observable, filter, tap } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattButtonComponent, WATT_MODAL, AsyncPipe, DatePipe],
-  standalone: true,
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>

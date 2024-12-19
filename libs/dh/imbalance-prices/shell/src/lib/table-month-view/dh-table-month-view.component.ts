@@ -30,7 +30,6 @@ import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component'
 
 @Component({
   selector: 'dh-table-month-view',
-  standalone: true,
   templateUrl: './dh-table-month-view.component.html',
   styles: [
     `
@@ -41,13 +40,11 @@ import { DhImbalancePricesDrawerComponent } from '../drawer/dh-drawer.component'
   ],
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattEmptyStateComponent,
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
-
     DhStatusBadgeComponent,
     DhImbalancePricesDrawerComponent,
   ],

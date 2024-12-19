@@ -63,18 +63,15 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-user-details',
-  standalone: true,
   templateUrl: './details.component.html',
   imports: [
     RouterOutlet,
     MatMenuModule,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
-
     DhUserRolesComponent,
     DhDeactivteComponent,
     DhReactivateComponent,

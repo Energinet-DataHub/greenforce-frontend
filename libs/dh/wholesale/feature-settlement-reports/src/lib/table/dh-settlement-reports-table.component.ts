@@ -35,7 +35,6 @@ import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlemen
 
 @Component({
   selector: 'dh-settlement-reports-table',
-  standalone: true,
   templateUrl: './dh-settlement-reports-table.component.html',
   styles: [
     `
@@ -46,12 +45,9 @@ import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlemen
   ],
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattDatePipe,
-
     VaterFlexComponent,
-
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
     DhSettlementReportsCancelButtonComponent,

@@ -25,7 +25,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   selector: 'eo-simultaneity-page',
   styles: [
     `

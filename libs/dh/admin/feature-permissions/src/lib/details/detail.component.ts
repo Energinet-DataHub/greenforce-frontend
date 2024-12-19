@@ -52,13 +52,11 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
 
 @Component({
   selector: 'dh-permission-detail',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './detail.component.html',
   imports: [
     RouterOutlet,
     TranslocoDirective,
-
     WATT_DRAWER,
     WattTabComponent,
     WattCardComponent,
@@ -66,7 +64,6 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     DhResultComponent,
     DhPermissionRequiredDirective,
     DhPermissionAuditLogsComponent,

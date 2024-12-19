@@ -49,19 +49,16 @@ import {
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
-  standalone: true,
   selector: 'dh-permission-edit',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattTabComponent,
     WattTabsComponent,
     WattButtonComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
-
     DhResultComponent,
   ],
   template: `

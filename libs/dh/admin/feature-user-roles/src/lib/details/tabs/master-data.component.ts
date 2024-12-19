@@ -29,7 +29,6 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
 
 @Component({
   selector: 'dh-role-master-data',
-  standalone: true,
   template: ` <watt-card
     *transloco="let t; read: 'admin.userManagement.tabs.masterData'"
     variant="solid"
@@ -46,7 +45,6 @@ import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-acce
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,

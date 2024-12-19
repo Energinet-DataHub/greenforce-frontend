@@ -35,7 +35,6 @@ import {
 
 @Component({
   selector: 'dh-organization-history',
-  standalone: true,
   template: `<ng-container
     *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
   >
@@ -85,9 +84,7 @@ import {
   </ng-container>`,
   imports: [
     TranslocoDirective,
-
     VaterStackComponent,
-
     WATT_TABLE,
     WATT_CARD,
     WattDatePipe,

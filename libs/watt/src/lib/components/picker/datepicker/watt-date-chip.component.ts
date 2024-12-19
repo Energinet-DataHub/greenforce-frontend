@@ -19,21 +19,13 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattDatePipe } from '../../../utils/date';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
 import { WattFieldComponent } from '../../field/watt-field.component';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  standalone: true,
-  imports: [
-    MatDatepickerModule,
-    WattMenuChipComponent,
-    WattFieldComponent,
-    WattDatePipe,
-    WattIconComponent,
-  ],
+  imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
   selector: 'watt-date-chip',
   encapsulation: ViewEncapsulation.None,
   styles: [

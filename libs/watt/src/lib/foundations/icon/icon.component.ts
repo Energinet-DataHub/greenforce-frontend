@@ -37,7 +37,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [MatIconModule],
 })
 export class WattIconComponent {

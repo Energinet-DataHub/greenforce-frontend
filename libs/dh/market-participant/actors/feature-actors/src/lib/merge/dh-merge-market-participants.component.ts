@@ -46,11 +46,9 @@ type MarketParticipant = ResultOf<
 
 @Component({
   selector: 'dh-merge-market-participants',
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     VaterStackComponent,
     WATT_MODAL,
     WattDatepickerComponent,

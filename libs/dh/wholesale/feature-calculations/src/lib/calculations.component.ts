@@ -27,7 +27,6 @@ import { DhCalculationsTableComponent } from './table/table.component';
 
 @Component({
   selector: 'dh-calculations',
-  standalone: true,
   imports: [
     DhCalculationsCreateComponent,
     DhCalculationsDetailsComponent,

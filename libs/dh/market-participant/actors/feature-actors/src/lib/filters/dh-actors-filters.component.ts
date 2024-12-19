@@ -49,18 +49,15 @@ type Form = FormGroup<{
 }>;
 
 @Component({
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-actors-filters',

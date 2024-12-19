@@ -49,7 +49,6 @@ import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { dhToJSON } from './dh-json-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-actors-overview',
   templateUrl: './dh-actors-overview.component.html',
   styles: [
@@ -75,7 +74,6 @@ import { dhToJSON } from './dh-json-util';
     TranslocoDirective,
     TranslocoPipe,
     MatMenuModule,
-
     WATT_CARD,
     WattPaginatorComponent,
     VaterFlexComponent,
@@ -84,7 +82,6 @@ import { dhToJSON } from './dh-json-util';
     VaterUtilityDirective,
     WattSearchComponent,
     WattButtonComponent,
-
     DhActorsFiltersComponent,
     DhActorsTableComponent,
     DhPermissionRequiredDirective,

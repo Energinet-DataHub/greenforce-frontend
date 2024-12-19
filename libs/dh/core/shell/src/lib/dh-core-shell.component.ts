@@ -37,13 +37,10 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
   selector: 'dh-shell',
   styleUrls: ['./dh-core-shell.component.scss'],
   templateUrl: './dh-core-shell.component.html',
-  standalone: true,
   imports: [
     TranslocoPipe,
     RouterOutlet,
-
     WattShellComponent,
-
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     DhSelectedActorComponent,

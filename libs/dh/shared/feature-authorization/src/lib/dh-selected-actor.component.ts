@@ -37,7 +37,6 @@ export type SelectionActor = ResultOf<typeof GetSelectionActorsDocument>['select
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
-  standalone: true,
   imports: [WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
 })
 export class DhSelectedActorComponent {

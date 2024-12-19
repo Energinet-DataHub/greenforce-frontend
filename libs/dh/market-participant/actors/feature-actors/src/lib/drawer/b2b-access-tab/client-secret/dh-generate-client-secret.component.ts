@@ -27,7 +27,6 @@ import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-generate-client-secret',
-  standalone: true,
   styles: [
     `
       :host {

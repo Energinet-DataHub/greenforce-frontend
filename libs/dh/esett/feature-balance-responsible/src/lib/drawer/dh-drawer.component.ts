@@ -32,7 +32,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
-  standalone: true,
   templateUrl: './dh-drawer.component.html',
   styles: [
     `
@@ -52,13 +51,11 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
   imports: [
     TranslocoDirective,
-
     WATT_DRAWER,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
-
     DhEmDashFallbackPipe,
   ],
 })

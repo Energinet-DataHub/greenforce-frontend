@@ -51,7 +51,6 @@ import { DhResolveModalComponent } from './dh-resolve-modal.component';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
-  standalone: true,
   templateUrl: './dh-outgoing-message-drawer.component.html',
   styles: [
     `
@@ -72,7 +71,6 @@ import { DhResolveModalComponent } from './dh-resolve-modal.component';
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     VaterStackComponent,
     WATT_TABS,
     WATT_CARD,

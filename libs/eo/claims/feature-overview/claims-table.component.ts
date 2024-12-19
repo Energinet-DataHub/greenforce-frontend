@@ -39,7 +39,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, TranslocoPipe],
-  standalone: true,
   selector: 'eo-claims-table',
   styles: [
     `

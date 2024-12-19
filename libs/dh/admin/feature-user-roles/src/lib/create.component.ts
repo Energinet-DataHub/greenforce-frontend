@@ -158,20 +158,16 @@ import {
       width: 50%;
     }
   `,
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WATT_STEPPER,
     WattDropdownComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
-
     VaterFlexComponent,
-
     DhPermissionsTableComponent,
     DhDropdownTranslatorDirective,
   ],

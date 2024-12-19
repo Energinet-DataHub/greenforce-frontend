@@ -31,7 +31,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-  standalone: true,
   selector: 'dh-settlement-reports-cancel-button',
   template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.cancelReport'">
     <watt-button type="button" variant="text" icon="close" (click)="openCancelModal($event)">{{

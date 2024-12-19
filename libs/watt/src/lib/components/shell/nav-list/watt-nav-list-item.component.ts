@@ -23,7 +23,6 @@ import { RouterModule } from '@angular/router';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
-  standalone: true,
   imports: [NgTemplateOutlet, RouterModule],
   template: `
     @if (isExternalLink) {

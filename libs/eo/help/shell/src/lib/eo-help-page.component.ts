@@ -35,7 +35,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, TranslocoPipe],
-  standalone: true,
   selector: 'eo-help-page',
   styles: [
     `

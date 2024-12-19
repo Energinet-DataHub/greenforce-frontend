@@ -67,13 +67,11 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 
 @Component({
   selector: 'watt-phone-field',
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
     ReactiveFormsModule,
     MatSelectModule,
     MaskitoDirective,
-
     WattFieldComponent,
     WattIconComponent,
     WattFieldErrorComponent,

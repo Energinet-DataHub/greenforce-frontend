@@ -25,7 +25,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
-  standalone: true,
   selector: 'dh-result',
   imports: [TranslocoPipe, WattSpinnerComponent, WattEmptyStateComponent, VaterStackComponent],
   styles: `

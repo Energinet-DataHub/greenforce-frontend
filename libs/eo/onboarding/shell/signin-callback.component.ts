@@ -32,7 +32,6 @@ interface State {
 }
 
 @Component({
-  standalone: true,
   selector: 'eo-signin-callback',
   imports: [WattSpinnerComponent, WattEmptyStateComponent, TranslocoPipe],
   styles: `

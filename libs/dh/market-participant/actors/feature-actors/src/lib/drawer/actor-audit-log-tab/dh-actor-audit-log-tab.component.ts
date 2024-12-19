@@ -34,7 +34,6 @@ import {
 
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
 @Component({
-  standalone: true,
   selector: 'dh-actor-audit-log-tab',
   templateUrl: './dh-actor-audit-log-tab.component.html',
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],

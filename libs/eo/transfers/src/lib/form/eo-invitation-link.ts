@@ -47,7 +47,6 @@ function generateLink(id: string | null): string | null {
 }
 
 @Component({
-  standalone: true,
   selector: 'eo-transfers-invitation-link',
   imports: [
     VaterStackComponent,

@@ -12,11 +12,10 @@ import { CookieInformationCulture, CookieInformationService } from '@energinet-d
 const selector = 'eo-api-documentation';
 
 @Component({
-  standalone: true,
-  selector,
-  imports: [WattShellComponent, WattNavListComponent, WattNavListItemComponent, WattIconComponent, RouterOutlet, TranslocoPipe],
-  encapsulation: ViewEncapsulation.None,
-  styles: `
+    selector,
+    imports: [WattShellComponent, WattNavListComponent, WattNavListItemComponent, WattIconComponent, RouterOutlet, TranslocoPipe],
+    encapsulation: ViewEncapsulation.None,
+    styles: `
     ${selector} {
       .watt-sidenav-content {
         width: 100vw;
@@ -50,7 +49,7 @@ const selector = 'eo-api-documentation';
       }
     }
   `,
-  template: `
+    template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
@@ -80,7 +79,7 @@ const selector = 'eo-api-documentation';
         <router-outlet />
       </div>
     </watt-shell>
-  `,
+  `
 })
 export class EoApiDocumentationComponent implements OnInit{
   private transloco = inject(TranslocoService);

@@ -60,7 +60,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
 
 @Component({
   selector: 'dh-actor-drawer',
-  standalone: true,
   templateUrl: './dh-actor-drawer.component.html',
   styles: [
     `
@@ -73,7 +72,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -82,10 +80,8 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     WattSpinnerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     VaterStackComponent,
     VaterFlexComponent,
-
     DhEmDashFallbackPipe,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,

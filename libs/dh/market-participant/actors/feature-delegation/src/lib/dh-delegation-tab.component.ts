@@ -60,7 +60,6 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
 
 @Component({
   selector: 'dh-delegation-tab',
-  standalone: true,
   styles: [
     `
       :host {
@@ -73,7 +72,6 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
@@ -81,7 +79,6 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
     WattButtonComponent,
     WattSpinnerComponent,
     WattDropdownComponent,
-
     DhPermissionRequiredDirective,
     DhDropdownTranslatorDirective,
     DhDelegationsOverviewComponent,

@@ -34,7 +34,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-resolve-modal',
-  standalone: true,
   template: `
     <watt-modal
       size="small"
@@ -69,7 +68,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WattButtonComponent,
     WattTextAreaFieldComponent,

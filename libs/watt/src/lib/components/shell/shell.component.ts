@@ -31,7 +31,6 @@ import { WattButtonComponent } from '../button';
   selector: 'watt-shell',
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
-  standalone: true,
   imports: [AsyncPipe, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit {

@@ -53,7 +53,6 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   selector: 'dh-outgoing-messages',
   templateUrl: './dh-outgoing-messages.component.html',
   styles: [
@@ -87,18 +86,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_CARD,
     WattIconComponent,
     WattButtonComponent,
     WattSearchComponent,
     WattPaginatorComponent,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhOutgoingMessagesTableComponent,
     DhOutgoingMessagesFiltersComponent,
   ],

@@ -51,7 +51,6 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
 @Component({
   selector: 'eo-transfers-datetime',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

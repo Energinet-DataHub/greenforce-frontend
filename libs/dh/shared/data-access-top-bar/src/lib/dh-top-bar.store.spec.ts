@@ -18,8 +18,7 @@
 //#endregion
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router, Routes } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router, Routes } from '@angular/router';
 import { firstValueFrom, skip } from 'rxjs';
 
 import { DhTopBarStore } from './dh-top-bar.store';
@@ -38,8 +37,8 @@ const fakeChildTitleTranslationKey = 'fake.child.title.translation.key';
 describe(DhTopBarStore, () => {
   function setup(routes: Routes) {
     TestBed.configureTestingModule({
-      declarations: [TestNestedComponent],
-      imports: [RouterTestingModule.withRoutes(routes)],
+      imports: [TestNestedComponent],
+      providers: [provideRouter(routes)],
     });
 
     const router = TestBed.inject(Router);

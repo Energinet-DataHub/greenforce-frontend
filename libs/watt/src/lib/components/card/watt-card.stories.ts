@@ -18,8 +18,7 @@
 //#endregion
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
-import { WATT_CARD, WATT_CARD_VARIANT, WattCardComponent } from './watt-card.component';
-import { InputSignal } from '@angular/core';
+import { WATT_CARD, WattCardComponent } from './watt-card.component';
 
 const meta: Meta<WattCardComponent> = {
   title: 'Components/Card',
@@ -73,5 +72,5 @@ export const CardWithVariant: StoryFn<WattCardComponent> = (args) => ({
 });
 
 CardWithVariant.args = {
-  variant: 'solid' as unknown as InputSignal<WATT_CARD_VARIANT>,
+  variant: 'solid',
 };

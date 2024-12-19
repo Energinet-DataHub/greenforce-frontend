@@ -27,7 +27,6 @@ import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [WattIconComponent, TranslocoPipe, EoLoginButtonComponent],
   selector: 'eo-landing-page-cta',
   styles: `

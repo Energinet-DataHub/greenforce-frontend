@@ -41,7 +41,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
     />
     <ng-content />
   </label>`,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {

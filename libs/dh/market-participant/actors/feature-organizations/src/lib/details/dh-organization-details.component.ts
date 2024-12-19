@@ -56,7 +56,6 @@ type Actor = {
 
 @Component({
   selector: 'dh-organization-details',
-  standalone: true,
   templateUrl: './dh-organization-details.component.html',
   styles: [
     `
@@ -67,26 +66,20 @@ type Actor = {
   ],
   imports: [
     RouterOutlet,
-
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
-
     VaterStackComponent,
-
     WattButtonComponent,
     WattSpinnerComponent,
     WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
-
     DhOrganizationHistoryComponent,
   ],
 })

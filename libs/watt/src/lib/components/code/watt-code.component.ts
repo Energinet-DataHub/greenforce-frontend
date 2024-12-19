@@ -47,7 +47,6 @@ import { createWorker } from './watt-code.worker-factory';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [WattSpinnerComponent, VaterStackComponent],
-  standalone: true,
 })
 export class WattCodeComponent implements OnDestroy, OnChanges {
   code = input.required<string | null | undefined>();

@@ -52,7 +52,6 @@ import { DhDelegation } from '../dh-delegations';
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
-  standalone: true,
   selector: 'dh-delegation-stop-modal',
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -75,13 +74,11 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattRadioComponent,
     WattButtonComponent,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-
     VaterStackComponent,
   ],
   template: `<watt-modal

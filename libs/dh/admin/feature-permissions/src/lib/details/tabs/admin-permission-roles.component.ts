@@ -28,7 +28,6 @@ import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
 import { DhPermissionDetailsUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 
 @Component({
-  standalone: true,
   selector: 'dh-admin-permission-roles',
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, DhResultComponent],
   template: `

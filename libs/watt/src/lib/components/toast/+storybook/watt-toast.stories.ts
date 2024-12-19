@@ -89,7 +89,7 @@ Overview.argTypes = {
     action: 'clicked',
     table: {
       type: { summary: '(ref: WattToastRef) => void' },
-      defaultValue: { summary: null },
+      defaultValue: { summary: undefined },
     },
   },
 };

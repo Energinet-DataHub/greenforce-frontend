@@ -24,7 +24,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-duration',
-  standalone: true,
   imports: [TranslocoPipe, DhEmDashFallbackPipe],
   template: `
     @let durationView = duration();

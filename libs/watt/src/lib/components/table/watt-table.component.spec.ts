@@ -246,13 +246,13 @@ describe(WattTableComponent, () => {
 
     const result = await setup({ dataSource, columns, rowClick });
 
-    const [, secondRow] = screen.getAllByRole('row');
+    const [, secondRow] = result.getAllByRole('row');
     userEvent.click(secondRow);
 
     const [row] = rowClick.mock.lastCall;
-    result.change({ activeRow: row });
+    result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });
 
-    expect(screen.getByRole('row', { selected: true })).toEqual(secondRow);
+    expect(result.getByRole('row', { selected: true })).toEqual(secondRow);
   });
 
   it('renders checkbox column when selectable is true', async () => {
@@ -425,11 +425,13 @@ describe(WattTableComponent, () => {
 
     const [firstRow, secondRow] = data;
 
+    const initialSelection = [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>;
+
     const result = await setup({
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection,
       selectionChange,
     });
 
@@ -438,8 +440,24 @@ describe(WattTableComponent, () => {
     waitFor(() => expect(firstCheckbox).toBeChecked());
     waitFor(() => userEvent.click(firstCheckbox));
 
-    waitFor(() => result.change({ selectable: false }));
-    waitFor(() => result.change({ selectable: true }));
+    result.rerender({
+      componentProperties: {
+        dataSource,
+        columns,
+        initialSelection,
+        selectionChange,
+        selectable: false,
+      },
+    });
+    result.rerender({
+      componentProperties: {
+        dataSource,
+        columns,
+        initialSelection,
+        selectionChange,
+        selectable: true,
+      },
+    });
 
     [, firstCheckbox] = screen.getAllByRole('checkbox');
 
@@ -455,7 +473,7 @@ describe(WattTableComponent, () => {
 
     await setup(
       { dataSource, columns },
-      `<ng-container *wattTableCell="table.columns.position; let element">
+      `<ng-container *wattTableCell="columns.position; let element">
          <span>Numero {{ element.position }}</span>
        </ng-container>`
     );

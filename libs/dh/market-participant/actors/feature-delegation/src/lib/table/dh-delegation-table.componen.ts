@@ -36,7 +36,6 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
 
 @Component({
   selector: 'dh-delegation-table',
-  standalone: true,
   styles: `
     :host {
       display: block;
@@ -95,11 +94,9 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   `,
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattDatePipe,
     WattButtonComponent,
-
     DhDelegationStatusComponent,
     DhEmDashFallbackPipe,
   ],

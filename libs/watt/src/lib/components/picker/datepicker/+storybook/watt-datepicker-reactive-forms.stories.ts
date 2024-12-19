@@ -19,7 +19,7 @@
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { within, fireEvent } from '@storybook/testing-library';
+import { within, fireEvent } from '@storybook/test';
 
 import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';

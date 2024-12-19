@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { DecimalPipe } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -25,7 +24,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  standalone: true,
   selector: 'dh-settlement-reports-status',
   template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.reportStatus'">
     @switch (status()) {
@@ -49,7 +47,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       }
     }
   </ng-container>`,
-  imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent, DecimalPipe],
+  imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent],
 })
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();

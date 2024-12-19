@@ -54,7 +54,6 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     NgClass,
     MatSelectModule,

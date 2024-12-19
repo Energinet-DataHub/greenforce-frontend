@@ -30,7 +30,6 @@ import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh
 @Component({
   selector: 'dh-table-day-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   styles: [
     `
       :host {

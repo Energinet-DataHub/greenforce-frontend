@@ -44,7 +44,6 @@ import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/
 import { DhOrganizationsTableComponent } from './table/dh-table.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-organizations-overview',
   templateUrl: './dh-organizations-overview.component.html',
   styles: [

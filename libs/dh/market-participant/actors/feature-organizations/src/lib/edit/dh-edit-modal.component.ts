@@ -42,16 +42,13 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 
 @Component({
-  standalone: true,
   selector: 'dh-organization-edit-modal',
   imports: [
     TranslocoDirective,
     FormsModule,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
-
     DhOrganizationManageComponent,
   ],
   template: `

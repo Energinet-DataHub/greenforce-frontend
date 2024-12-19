@@ -39,7 +39,6 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 
 @Component({
   selector: 'eo-transfers-form-period',
-  standalone: true,
   imports: [
     CommonModule,
     EoTransfersDateTimeComponent,

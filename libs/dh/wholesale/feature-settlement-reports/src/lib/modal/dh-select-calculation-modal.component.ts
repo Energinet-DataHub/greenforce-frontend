@@ -29,11 +29,9 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
 
 @Component({
   selector: 'dh-select-calculation-modal',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     WATT_MODAL,
     WattDatePipe,

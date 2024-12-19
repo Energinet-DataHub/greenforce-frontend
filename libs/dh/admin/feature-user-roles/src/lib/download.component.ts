@@ -39,7 +39,6 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 type Variables = Partial<GetUserRolesForCsvQueryVariables>;
 
 @Component({
-  standalone: true,
   selector: 'dh-user-roles-download',
   imports: [WattButtonComponent, TranslocoPipe],
   template: ` <watt-button icon="download" variant="text" (click)="download()">{{

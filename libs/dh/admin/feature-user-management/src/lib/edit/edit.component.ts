@@ -56,21 +56,17 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-edit-user',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattTabComponent,
     WattTabsComponent,
     WattButtonComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
-
     VaterFlexComponent,
-
     DhUserRolesComponent,
   ],
   templateUrl: './edit.component.html',

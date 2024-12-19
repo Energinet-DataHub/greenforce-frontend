@@ -68,18 +68,15 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
-  standalone: true,
   selector: 'dh-actors-create-actor-modal',
   templateUrl: './dh-actors-create-actor-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_CARD,
     WATT_MODAL,
     WATT_STEPPER,
-
     DhChooseOrganizationStepComponent,
     DhNewOrganizationStepComponent,
     DhNewActorStepComponent,

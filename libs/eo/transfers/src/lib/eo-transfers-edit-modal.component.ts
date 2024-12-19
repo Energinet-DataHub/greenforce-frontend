@@ -29,7 +29,6 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -45,14 +44,7 @@ import {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [
-    RxPush,
-    WATT_MODAL,
-    WattValidationMessageComponent,
-    EoTransfersFormComponent,
-    TranslocoPipe,
-  ],
-  standalone: true,
+  imports: [WATT_MODAL, WattValidationMessageComponent, EoTransfersFormComponent, TranslocoPipe],
   template: `
     @if (opened) {
       <watt-modal

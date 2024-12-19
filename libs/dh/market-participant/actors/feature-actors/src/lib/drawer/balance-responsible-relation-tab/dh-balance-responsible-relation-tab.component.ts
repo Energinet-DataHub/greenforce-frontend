@@ -31,7 +31,6 @@ import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-rel
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-balance-responsible-relation-tab',
   templateUrl: './dh-balance-responsible-relation-tab.component.html',
   styles: `
@@ -50,15 +49,12 @@ import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-respon
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     VaterFlexComponent,
     VaterStackComponent,
-
     WattSpinnerComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
-
     DhBalanceResponsibleRelationsTableComponent,
     DhBalanceResponsibleRelationFilterComponent,
   ],
@@ -70,6 +66,6 @@ export class DhBalanceResponsibleRelationTabComponent {
   actor = input.required<DhActorExtended>();
 
   constructor() {
-    effect(() => this.store.updateActor(this.actor()), { allowSignalWrites: true });
+    effect(() => this.store.updateActor(this.actor()));
   }
 }

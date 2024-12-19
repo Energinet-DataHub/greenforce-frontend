@@ -42,7 +42,6 @@ import { EoMeteringPointsHelperModalComponent } from './eo-metering-point-helper
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     AsyncPipe,
     EoMeteringPointsTableComponent,

@@ -45,7 +45,6 @@ import { map, startWith } from 'rxjs';
  * `import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';`
  */
 @Component({
-  standalone: true,
   imports: [MatPaginatorModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

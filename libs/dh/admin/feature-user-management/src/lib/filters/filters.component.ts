@@ -59,18 +59,15 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
-  standalone: true,
   selector: 'dh-users-overview-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     TranslocoDirective,
     ReactiveFormsModule,
-
     VaterStackComponent,
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
   template: `

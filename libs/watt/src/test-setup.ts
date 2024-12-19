@@ -16,7 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import 'jest-preset-angular/setup-jest';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+
+setupZoneTestEnv();
 
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';

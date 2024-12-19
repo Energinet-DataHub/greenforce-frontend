@@ -40,15 +40,14 @@ describe(WattCheckboxComponent, () => {
       const labelText = 'Are you awesome?';
 
       @Component({
+        imports: [WattCheckboxComponent, ReactiveFormsModule],
         template: `<watt-checkbox [formControl]="checkboxControl">${labelText}</watt-checkbox>`,
       })
       class TestComponent {
         checkboxControl = new FormControl({ value, disabled });
       }
 
-      const { fixture } = await render(TestComponent, {
-        imports: [WattCheckboxComponent, ReactiveFormsModule],
-      });
+      const { fixture } = await render(TestComponent);
 
       const checkboxLabel = screen.queryByLabelText(labelText);
 

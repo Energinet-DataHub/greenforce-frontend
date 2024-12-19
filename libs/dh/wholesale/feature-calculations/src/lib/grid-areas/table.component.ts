@@ -27,7 +27,6 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
-  standalone: true,
   imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
   selector: 'dh-calculations-grid-areas-table',
   template: `

@@ -30,13 +30,11 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_STEPPER, WattStep } from '@energinet-datahub/watt/stepper';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
@@ -49,10 +47,7 @@ import {
   nextHourOrLaterValidator,
   overlappingTransferAgreementsValidator,
 } from '../validations';
-import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
-import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
-import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
@@ -78,7 +73,6 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
 
 @Component({
   selector: 'eo-transfers-form',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     WattModalActionsComponent,
@@ -86,13 +80,7 @@ type FormField = 'receiverTin' | 'startDate' | 'endDate';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     EoTransfersPeriodComponent,
-    EoTransfersTimepickerComponent,
-    WattRadioComponent,
-    NgClass,
-    WattDatePipe,
     CommonModule,
-    EoTransfersDateTimeComponent,
-    EoTransferErrorsComponent,
     WATT_STEPPER,
     EoTransferInvitationLinkComponent,
     VaterStackComponent,

@@ -30,7 +30,6 @@ import {
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
@@ -48,14 +47,7 @@ export interface EoTransferAgreementsWithRecipient {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-transfers-create-modal',
-  imports: [
-    EoTransfersFormComponent,
-    WATT_MODAL,
-    WattSpinnerComponent,
-    WattValidationMessageComponent,
-    TranslocoPipe,
-  ],
-  standalone: true,
+  imports: [EoTransfersFormComponent, WATT_MODAL, WattSpinnerComponent, TranslocoPipe],
   template: `
     @if (opened) {
       <watt-modal

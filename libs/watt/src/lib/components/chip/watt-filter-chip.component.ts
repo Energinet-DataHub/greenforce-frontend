@@ -18,13 +18,11 @@
 //#endregion
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
 import { useIsFirstRender } from '../../utils/lifecycle/use-is-first-render';
 
 @Component({
-  standalone: true,
-  imports: [WattChipComponent, WattIconComponent],
+  imports: [WattChipComponent],
   selector: 'watt-filter-chip',
   template: `
     <watt-chip [disabled]="disabled" [selected]="isFirstRender() ? selected : input.checked">

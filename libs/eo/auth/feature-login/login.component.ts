@@ -21,7 +21,6 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
-  standalone: true,
   selector: 'eo-login',
   imports: [WattSpinnerComponent],
   styles: [

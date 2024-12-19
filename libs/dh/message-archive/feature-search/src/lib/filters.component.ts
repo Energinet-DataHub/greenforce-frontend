@@ -35,7 +35,6 @@ import {
 
 @Component({
   selector: 'dh-message-archive-search-filters',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,

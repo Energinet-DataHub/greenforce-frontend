@@ -23,7 +23,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [TranslocoPipe],
   selector: 'eo-landing-page-granular-certificates',
   styles: `

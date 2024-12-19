@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { NgTemplateOutlet } from '@angular/common';
-import { StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS, CdkStepper } from '@angular/cdk/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
 
@@ -42,7 +42,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-stepper',
-  standalone: true,
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -52,6 +51,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true, displayDefaultIndicatorType: false },
     },
+    { provide: CdkStepper, useExisting: WattStepperComponent },
     { provide: MatStepper, useExisting: WattStepperComponent },
   ],
 })

@@ -41,11 +41,9 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
 
 @Component({
   selector: 'dh-notifications-center',
-  standalone: true,
   imports: [
     OverlayModule,
     TranslocoDirective,
-
     WattButtonComponent,
     DhNotificationComponent,
     DhSettlementReportNotificationComponent,

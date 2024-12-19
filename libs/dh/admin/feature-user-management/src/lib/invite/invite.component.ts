@@ -74,11 +74,9 @@ import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './in
   selector: 'dh-invite-user',
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss'],
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WATT_STEPPER,
     WattIconComponent,
@@ -87,7 +85,6 @@ import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './in
     WattFieldErrorComponent,
     WattPhoneFieldComponent,
     WattValidationMessageComponent,
-
     DhAssignableUserRolesComponent,
   ],
 })
@@ -185,22 +182,19 @@ export class DhInviteUserComponent {
       }
     });
 
-    effect(
-      () => {
-        const actorId = this.actorIdChanged();
+    effect(() => {
+      const actorId = this.actorIdChanged();
 
-        actorId !== null
-          ? this.baseInfo.controls.email.enable()
-          : this.baseInfo.controls.email.disable();
+      actorId !== null
+        ? this.baseInfo.controls.email.enable()
+        : this.baseInfo.controls.email.disable();
 
-        if (!actorId) return;
+      if (!actorId) return;
 
-        this.selectedActorId.set(actorId);
-        this.baseInfo.updateValueAndValidity();
-        this.changeDectorRef.detectChanges();
-      },
-      { allowSignalWrites: true }
-    );
+      this.selectedActorId.set(actorId);
+      this.baseInfo.updateValueAndValidity();
+      this.changeDectorRef.detectChanges();
+    });
   }
 
   open() {

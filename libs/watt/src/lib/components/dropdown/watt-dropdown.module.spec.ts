@@ -84,6 +84,7 @@ describe(WattDropdownComponent, () => {
       showResetOption?: boolean;
     } = {}) {
       @Component({
+        imports: [WattDropdownComponent, ReactiveFormsModule],
         template: `<watt-dropdown
           [placeholder]="placeholder"
           [formControl]="dropdownControl"
@@ -104,7 +105,6 @@ describe(WattDropdownComponent, () => {
 
       const { fixture } = await render(TestComponent, {
         providers: [FormGroupDirective],
-        imports: [WattDropdownComponent, ReactiveFormsModule],
       });
 
       const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -370,6 +370,7 @@ describe(WattDropdownComponent, () => {
       sortDirection?: 'asc' | 'desc';
     } = {}) {
       @Component({
+        imports: [WattDropdownComponent, FormsModule],
         template: `<watt-dropdown
           [placeholder]="placeholder"
           [(ngModel)]="dropdownModel"
@@ -390,7 +391,6 @@ describe(WattDropdownComponent, () => {
 
       const { fixture } = await render(TestComponent, {
         providers: [FormGroupDirective],
-        imports: [WattDropdownComponent, FormsModule],
       });
 
       const loader = TestbedHarnessEnvironment.loader(fixture);

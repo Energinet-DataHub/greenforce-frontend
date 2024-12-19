@@ -44,18 +44,14 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 @Component({
-  standalone: true,
   selector: 'dh-user-roles-filter',
   imports: [
     FormsModule,
     TranslocoDirective,
     ReactiveFormsModule,
-
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     VaterStackComponent,
-
     DhPermissionRequiredDirective,
     DhDropdownTranslatorDirective,
   ],

@@ -24,7 +24,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-tab-data-general-error',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <watt-empty-state

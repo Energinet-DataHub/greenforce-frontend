@@ -19,7 +19,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -29,8 +28,7 @@ const selector = 'eo-footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [EoProductLogoDirective, WattIconComponent, TranslocoPipe, WattBadgeComponent],
+  imports: [EoProductLogoDirective, TranslocoPipe, WattBadgeComponent],
   selector,
   encapsulation: ViewEncapsulation.None,
   styles: `

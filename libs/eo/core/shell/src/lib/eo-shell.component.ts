@@ -50,7 +50,6 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     EoFooterComponent,
     EoPrimaryNavigationComponent,

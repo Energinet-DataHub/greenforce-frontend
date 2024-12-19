@@ -40,7 +40,6 @@ import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WattButtonComponent,
     EoAnnouncementBarComponent,

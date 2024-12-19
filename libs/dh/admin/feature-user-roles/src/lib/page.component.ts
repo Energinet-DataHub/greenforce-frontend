@@ -24,7 +24,6 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { DhUserRolesTableComponent } from './table.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-user-roles-page',
   template: `
     <dh-user-roles-table (open)="navigate($event.id)" />

@@ -38,13 +38,11 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
 
 @Component({
   selector: 'dh-assignable-user-roles',
-  standalone: true,
   imports: [
     FormsModule,
     TranslocoPipe,
     MatDividerModule,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WattEmptyStateComponent,

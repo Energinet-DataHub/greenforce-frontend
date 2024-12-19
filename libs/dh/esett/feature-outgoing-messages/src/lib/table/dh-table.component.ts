@@ -32,7 +32,6 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 
 @Component({
   selector: 'dh-outgoing-messages-table',
-  standalone: true,
   templateUrl: './dh-table.component.html',
   styles: [
     `
@@ -44,13 +43,11 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattEmptyStateComponent,
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
-
     DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageStatusBadgeComponent,
     DhEmDashFallbackPipe,

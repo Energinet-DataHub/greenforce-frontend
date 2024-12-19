@@ -39,7 +39,6 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-permissions-table',
-  standalone: true,
   template: ` <dh-result
     [loading]="loading()"
     [hasError]="hasError()"

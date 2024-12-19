@@ -24,7 +24,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-remove-certificate-modal',
-  standalone: true,
   styles: [
     `
       :host {

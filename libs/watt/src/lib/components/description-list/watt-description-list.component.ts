@@ -36,7 +36,6 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-description-list',
   styleUrls: ['./watt-description-list.component.scss'],
-  standalone: true,
   imports: [NgTemplateOutlet],
   template: `<dl>
     @for (item of descriptionItems(); track item) {

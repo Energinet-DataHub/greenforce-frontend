@@ -37,7 +37,6 @@ const selector = 'eo-landing-page-prove-sustainability';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   selector,
   imports: [EoLottieComponent, TranslocoPipe],

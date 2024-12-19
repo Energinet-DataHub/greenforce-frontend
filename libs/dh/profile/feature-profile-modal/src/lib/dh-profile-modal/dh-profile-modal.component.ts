@@ -53,19 +53,16 @@ type UserPreferencesForm = FormGroup<{
 
 @Component({
   selector: 'dh-profile-modal',
-  standalone: true,
   imports: [
     TranslocoDirective,
     TranslocoPipe,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     WattButtonComponent,
     VaterStackComponent,
     VaterFlexComponent,
-
     DhMitIDButtonComponent,
   ],
   styles: `
@@ -113,15 +110,12 @@ export class DhProfileModalComponent extends WattTypedModal<{ email: string }> {
 
   constructor() {
     super();
-    effect(
-      () => {
-        const userProfile = this.userProfile();
-        if (userProfile === undefined) return;
-        const { phoneNumber, firstName, lastName } = userProfile;
-        this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      const userProfile = this.userProfile();
+      if (userProfile === undefined) return;
+      const { phoneNumber, firstName, lastName } = userProfile;
+      this.userPreferencesForm.patchValue({ phoneNumber, firstName, lastName });
+    });
   }
 
   closeModal(saveSuccess: boolean) {

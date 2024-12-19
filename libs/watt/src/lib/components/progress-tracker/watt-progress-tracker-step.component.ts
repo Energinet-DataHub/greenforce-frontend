@@ -30,7 +30,6 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
   imports: [WattIconComponent, WattSpinnerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   selector: 'watt-progress-tracker-step',
   host: {
     '[attr.role]': 'current() ? "status" : "presentation"',

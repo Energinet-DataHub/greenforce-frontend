@@ -33,8 +33,6 @@ import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -51,14 +49,11 @@ import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
   imports: [
     NgClass,
     WATT_MODAL,
-    WattIconComponent,
-    WattCheckboxComponent,
     WattSpinnerComponent,
     TranslocoPipe,
     WattButtonComponent,
     EoConsentPermissionsComponent,
   ],
-  standalone: true,
   styles: `
     .eo-edit-consent-modal .watt-modal {
       --watt-modal-width: 545px;

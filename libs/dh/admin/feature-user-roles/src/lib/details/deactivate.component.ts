@@ -41,7 +41,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 @Component({
-  standalone: true,
   selector: 'dh-deactivate-user-role',
   imports: [WATT_MODAL, WattButtonComponent, TranslocoDirective],
   template: `<watt-modal

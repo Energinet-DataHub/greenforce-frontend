@@ -41,7 +41,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     `,
   ],
   template: `<router-outlet />`,
-  standalone: true,
   imports: [
     MatDatepickerModule,
     RouterOutlet,

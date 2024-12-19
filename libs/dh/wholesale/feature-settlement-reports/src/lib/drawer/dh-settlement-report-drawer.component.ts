@@ -36,11 +36,9 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
 
 @Component({
   selector: 'dh-settlement-report-drawer',
-  standalone: true,
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
@@ -49,7 +47,6 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     DhDurationComponent,
     DhSettlementReportsStatusComponent,
   ],

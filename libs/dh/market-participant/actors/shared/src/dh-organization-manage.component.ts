@@ -30,17 +30,14 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
-  standalone: true,
   selector: 'dh-organization-manage',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WattTextFieldComponent,
     WattButtonComponent,
     WattFieldErrorComponent,
     WattActionChipComponent,
-
     VaterStackComponent,
     VaterFlexComponent,
   ],

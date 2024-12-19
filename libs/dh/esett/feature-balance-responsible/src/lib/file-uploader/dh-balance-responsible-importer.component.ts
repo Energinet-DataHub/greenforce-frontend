@@ -35,7 +35,6 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 
 @Component({
   selector: 'dh-balance-responsible-importer',
-  standalone: true,
   styles: [
     `
       :host {

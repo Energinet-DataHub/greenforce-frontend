@@ -27,7 +27,6 @@ import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/
 
 @Component({
   selector: 'dh-organizations-table',
-  standalone: true,
   templateUrl: './dh-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
@@ -39,7 +38,6 @@ import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/
   ],
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattEmptyStateComponent,
     VaterFlexComponent,

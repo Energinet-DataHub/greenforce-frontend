@@ -54,7 +54,6 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   selector: 'watt-toast',
   styleUrls: ['./watt-toast.component.scss'],
   templateUrl: './watt-toast.component.html',
-  standalone: true,
   imports: [MatSnackBarModule, WattButtonComponent, WattIconComponent, WattSpinnerComponent],
 })
 export class WattToastComponent {

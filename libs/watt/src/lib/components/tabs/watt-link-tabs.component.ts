@@ -23,7 +23,6 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
 import { VaterFlexComponent } from '../vater';
 
 @Component({
-  standalone: true,
   selector: 'watt-link-tabs',
   encapsulation: ViewEncapsulation.None,
   imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],

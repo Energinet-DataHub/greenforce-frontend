@@ -39,7 +39,6 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
       <h2>{{ warningCountdown$ | push | date: 'mm:ss' }}</h2>
     </watt-modal>
   `,
-  standalone: true,
   imports: [RxPush, DatePipe, TranslocoDirective, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent extends WattTypedModal {

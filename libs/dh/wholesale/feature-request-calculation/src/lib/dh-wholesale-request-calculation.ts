@@ -83,7 +83,6 @@ type FormType = {
 @Component({
   selector: 'dh-wholesale-request-calculation',
   templateUrl: './dh-wholesale-request-calculation.html',
-  standalone: true,
   styles: [
     `
       :host {

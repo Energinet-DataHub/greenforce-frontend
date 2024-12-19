@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -41,7 +40,6 @@ import {
 } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
@@ -53,19 +51,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    AsyncPipe,
     WattBadgeComponent,
-    WattSpinnerComponent,
     WATT_TABLE,
     WattPaginatorComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
     MatSlideToggleModule,
     TranslocoPipe,
-    JsonPipe,
   ],
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-metering-points-table',
   styles: [

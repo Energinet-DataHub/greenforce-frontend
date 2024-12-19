@@ -41,7 +41,6 @@ type Variables = Partial<GetUsersForCsvQueryVariables>;
 type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['items'];
 
 @Component({
-  standalone: true,
   selector: 'dh-download-users-csv',
   imports: [TranslocoPipe, WattButtonComponent],
   template: `

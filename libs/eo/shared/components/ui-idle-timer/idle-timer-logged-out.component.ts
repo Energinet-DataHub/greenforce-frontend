@@ -24,7 +24,6 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattButtonComponent, WATT_MODAL],
   selector: 'eo-idle-timer-modal',
-  standalone: true,
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p class="content">For security reasons you have been automatically logged out.</p>

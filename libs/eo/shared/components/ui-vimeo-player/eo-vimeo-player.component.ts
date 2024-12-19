@@ -31,7 +31,6 @@ import Player from '@vimeo/player';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgIf],
   selector: 'eo-vimeo-player',
   styles: [

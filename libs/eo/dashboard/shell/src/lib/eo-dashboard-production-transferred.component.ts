@@ -27,7 +27,6 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
@@ -62,7 +61,6 @@ interface Totals {
 }
 
 @Component({
-  standalone: true,
   imports: [
     WATT_CARD,
     NgChartsModule,
@@ -75,7 +73,6 @@ interface Totals {
     RouterLink,
     WattIconComponent,
     EoLottieComponent,
-    TitleCasePipe,
     WattTooltipDirective,
     TranslocoPipe,
   ],

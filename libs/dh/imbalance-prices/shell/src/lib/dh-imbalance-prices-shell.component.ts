@@ -43,7 +43,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
 
 @Component({
   selector: 'dh-imbalance-prices-shell',
-  standalone: true,
   templateUrl: './dh-imbalance-prices-shell.component.html',
   styles: [
     `
@@ -67,7 +66,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
   imports: [
     FormsModule,
     TranslocoDirective,
-
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
@@ -75,7 +73,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     WattDropdownComponent,
     VaterUtilityDirective,
     WattPaginatorComponent,
-
     DhTableMonthViewComponent,
     DhPermissionRequiredDirective,
     DhImbalancePricesUploaderComponent,

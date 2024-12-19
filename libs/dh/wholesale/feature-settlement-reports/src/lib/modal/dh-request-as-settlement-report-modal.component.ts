@@ -28,7 +28,6 @@ import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphq
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -48,17 +47,14 @@ type DhFormType = FormGroup<{
 
 @Component({
   selector: 'dh-request-as-settlement-report-modal',
-  standalone: true,
   imports: [
     RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     VaterStackComponent,
     WattDropdownComponent,
     WattButtonComponent,
-    WattFieldErrorComponent,
   ],
   templateUrl: './dh-request-as-settlement-report-modal.component.html',
 })

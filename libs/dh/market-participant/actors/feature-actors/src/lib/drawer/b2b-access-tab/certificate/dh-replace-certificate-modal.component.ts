@@ -26,7 +26,6 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
 
 @Component({
   selector: 'dh-replace-certificate-modal',
-  standalone: true,
   styles: [
     `
       :host {
