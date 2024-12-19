@@ -19,11 +19,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
-  ViewChild,
-  inject,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { AsyncPipe } from '@angular/common';
@@ -44,6 +44,11 @@ import {
   EoTransfersService,
 } from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
+
+export interface TransferAgreementValues {
+  id: string;
+  period: { endDate: number | null; hasEndDate: boolean };
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -122,7 +127,10 @@ export class EoTransfersComponent implements OnInit {
     }
   }
 
-  protected onRemoveProposal(id: string) {
+  protected onRemoveProposal(id: string | undefined) {
+    if (!id) {
+      return;
+    }
     const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
     if (proposal) {
       this.removeTransfer(id);
@@ -163,10 +171,7 @@ export class EoTransfersComponent implements OnInit {
     });
   }
 
-  onSaveTransferAgreement(values: {
-    id: string;
-    period: { endDate: number | null; hasEndDate: boolean };
-  }) {
+  onSaveTransferAgreement(values: TransferAgreementValues) {
     const { endDate } = values.period;
     const { id } = values;
 
