@@ -56,6 +56,7 @@ import {
   mockGetGridAreaDetailsQuery,
   mockGetActorAuditLogsQuery,
   mockGetActorDetailsQuery,
+  mockGetGridAreasQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -69,6 +70,7 @@ import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
 import { actors } from './data/get-actors-by-organizationId';
 import { balanceResponsibleAgreements } from './data/balance-responsible-agreements';
+import { getGridAreas } from './data/get-grid-areas';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
@@ -101,6 +103,7 @@ export function marketParticipantMocks(apiBase: string) {
     addTokenToDownloadUrl(),
     checkDomainExists(),
     mergeMarketParticipants(),
+    getGridAreasQuery(),
   ];
 }
 
@@ -677,5 +680,13 @@ function mergeMarketParticipants() {
         },
       },
     });
+  });
+}
+
+function getGridAreasQuery() {
+  return mockGetGridAreasQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({ data: getGridAreas });
   });
 }
