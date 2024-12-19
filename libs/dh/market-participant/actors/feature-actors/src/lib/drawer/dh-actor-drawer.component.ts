@@ -28,7 +28,11 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { EicFunction, GetActorDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorStatus,
+  EicFunction,
+  GetActorDetailsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   WattDescriptionListComponent,
@@ -100,9 +104,18 @@ export class DhActorDrawerComponent {
 
   private query = lazyQuery(GetActorDetailsDocument);
 
+  ActorStatus = ActorStatus;
+
   actor = computed(() => this.query.data()?.actorById);
 
   hasActorAccess = signal(false);
+  canEdit = computed(
+    () =>
+      this.hasActorAccess() &&
+      this.actor()?.status !== ActorStatus.Inactive &&
+      this.actor()?.status !== ActorStatus.Passive &&
+      this.actor()?.status !== ActorStatus.Discontinued
+  );
   closed = output();
 
   isLoading = this.query.loading;

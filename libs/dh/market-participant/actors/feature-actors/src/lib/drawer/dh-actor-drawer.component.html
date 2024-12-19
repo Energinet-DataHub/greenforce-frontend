@@ -22,7 +22,7 @@ limitations under the License.
       <dh-actor-status-badge [status]="selectedActor?.status" />
     </watt-drawer-topbar>
 
-    @if (hasActorAccess()) {
+    @if (canEdit()) {
       <watt-drawer-actions>
         <watt-button
           *dhPermissionRequired="['actor-master-data:manage']"
