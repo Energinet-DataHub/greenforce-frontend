@@ -65,7 +65,9 @@ export class EoSigninCallbackComponent implements OnInit {
   private readonly transloco = inject(TranslocoService);
 
   errorDescription = input<string>('', { alias: 'error_description' });
-  protected readonly isMitIDErhverv = computed(() => !this.errorDescription().startsWith('AADB2C90273'));
+  protected readonly isMitIDErhverv = computed(
+    () => !this.errorDescription().startsWith('AADB2C90273')
+  );
 
   protected readonly translations = translations;
 
