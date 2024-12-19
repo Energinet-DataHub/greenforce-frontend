@@ -104,8 +104,6 @@ export class DhActorDrawerComponent {
 
   private query = lazyQuery(GetActorDetailsDocument);
 
-  ActorStatus = ActorStatus;
-
   actor = computed(() => this.query.data()?.actorById);
 
   hasActorAccess = signal(false);
