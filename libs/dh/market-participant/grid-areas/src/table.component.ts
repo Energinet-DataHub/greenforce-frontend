@@ -152,7 +152,7 @@ export class DhGridAreasComponent {
           data.type.toLowerCase().includes(lowerCaseFilter) ||
           data.status.toLowerCase().includes(lowerCaseFilter)
         );
-      }
+      };
       this.dataSource.data = gridAreas.filter(
         (gridArea) =>
           (gridArea.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
