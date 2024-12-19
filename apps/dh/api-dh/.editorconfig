@@ -32,7 +32,7 @@ indent_style = space
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
 insert_final_newline = true
-charset = utf-8-bom
+charset = utf-8
 # Currently does not work in VS 2019, but works in VS Code.
 trim_trailing_whitespace = true
 
@@ -455,7 +455,7 @@ dotnet_diagnostic.SA1407.severity = error
 dotnet_diagnostic.SA1408.severity = error
 dotnet_diagnostic.SA1410.severity = error
 dotnet_diagnostic.SA1411.severity = error
-dotnet_diagnostic.SA1412.severity = error
+dotnet_diagnostic.SA1412.severity = none
 dotnet_diagnostic.SA1413.severity = error
 dotnet_diagnostic.SA1500.severity = error
 dotnet_diagnostic.SA1501.severity = none
