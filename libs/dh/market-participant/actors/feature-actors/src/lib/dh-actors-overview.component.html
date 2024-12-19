@@ -36,16 +36,14 @@ limitations under the License.
         <watt-button variant="secondary" (click)="createNewActor()">{{ t("create") }}</watt-button>
       </ng-container>
 
-      <ng-container *dhFeatureFlag="'merge-market-participants'">
-        <ng-container *dhPermissionRequired="['fas']">
-          <watt-button variant="icon" icon="menu" [matMenuTriggerFor]="menu" />
+      <ng-container *dhPermissionRequired="['actors:manage']">
+        <watt-button variant="icon" icon="menu" [matMenuTriggerFor]="menu" />
 
-          <mat-menu #menu="matMenu">
-            <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
-              {{ t("mergeMarketParticipantsButton") }}
-            </button>
-          </mat-menu>
-        </ng-container>
+        <mat-menu #menu="matMenu">
+          <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
+            {{ t("mergeMarketParticipantsButton") }}
+          </button>
+        </mat-menu>
       </ng-container>
     </vater-stack>
 
