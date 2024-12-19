@@ -25,6 +25,13 @@ import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mapGraphQLErrorsToApolloError } from './util/error';
 
+export enum MutationStatus {
+  Idle,
+  Error,
+  Loading,
+  Resolved,
+}
+
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
 export interface MutationOptions<TResult, TVariables>
   extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
@@ -50,22 +57,26 @@ export function mutation<TResult, TVariables>(
   const error = signal<ApolloError | undefined>(undefined);
   const loading = signal(false);
   const called = signal(false);
+  const status = signal(MutationStatus.Idle);
 
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
+    status: status as Signal<MutationStatus>,
     called: called as Signal<boolean>,
     reset: () => {
       data.set(undefined);
       error.set(undefined);
       loading.set(false);
       called.set(false);
+      status.set(MutationStatus.Idle);
     },
     mutate(options?: Partial<MutationOptions<TResult, TVariables>>) {
       const mergedOptions = { ...parentOptions, ...options };
       const { onCompleted, onError, ...mutationOptions } = mergedOptions;
+      status.set(MutationStatus.Loading);
       return firstValueFrom(
         client.mutate({ ...mutationOptions, mutation: document }).pipe(
           // The MutationResult type is different from QueryResult in several ways
@@ -84,8 +95,10 @@ export function mutation<TResult, TVariables>(
           filter((result) => !result.loading),
           tap((result) => {
             if (result.error) {
+              status.set(MutationStatus.Error);
               onError?.(result.error, mergedOptions);
             } else if (result.data) {
+              status.set(MutationStatus.Resolved);
               onCompleted?.(result.data, mergedOptions);
             }
           }),
