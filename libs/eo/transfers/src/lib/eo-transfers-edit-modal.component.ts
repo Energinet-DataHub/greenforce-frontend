@@ -127,6 +127,7 @@ export class EoTransfersEditModalComponent {
     effect(() => {
       if (this.transfer()) {
         this.initialValues = {
+          senderTin: this.transfer()?.senderTin as string,
           receiverTin: this.transfer()?.receiverTin as string,
           startDate: this.transfer()?.startDate as number,
           endDate: this.transfer()?.endDate as number,

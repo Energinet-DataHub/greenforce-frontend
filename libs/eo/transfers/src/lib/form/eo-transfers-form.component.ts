@@ -56,8 +56,10 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 import { EoReceiverInputComponent } from './eo-receiver-input.component';
+import { EoSenderInputComponent } from './eo-sender-input.component';
 
 export interface EoTransfersFormInitialValues {
+  senderTin: string;
   receiverTin: string;
   startDate: number;
   endDate: number | null;
@@ -69,6 +71,7 @@ export interface EoTransferFormPeriod {
 }
 
 export interface EoTransfersForm {
+  senderTin: FormControl<string | null>;
   receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
 }
@@ -78,7 +81,7 @@ export interface EoTransfersFormValues {
   period: { startDate: number; endDate: number | null; hasEndDate: boolean };
 }
 
-type FormField = 'receiverTin' | 'startDate' | 'endDate';
+type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate';
 export type FormMode = 'create' | 'edit';
 
 @Component({
@@ -104,6 +107,7 @@ export type FormMode = 'create' | 'edit';
     WattFieldHintComponent,
     TranslocoPipe,
     EoReceiverInputComponent,
+    EoSenderInputComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -152,10 +156,27 @@ export type FormMode = 'create' | 'edit';
             "
             [stepControl]="form.controls.receiverTin"
           >
+            @if (mode() === 'create') {
+              @if (true) {
+                <h3 class="watt-headline-2">
+                  {{
+                    translations.createTransferAgreementProposal.parties.titleBetween | transloco
+                  }}
+                </h3>
+              } @else {
+                <h3 class="watt-headline-2">
+                  {{ translations.createTransferAgreementProposal.parties.titleTo | transloco }}
+                </h3>
+              }
+              <p>
+                {{ translations.createTransferAgreementProposal.parties.description | transloco }}
+              </p>
+            }
+            <eo-sender-input formControlName="senderTin" />
             <eo-receiver-input
               formControlName="receiverTin"
               [mode]="mode()"
-              [filteredReceiversTin]="filteredReceiversTin()"
+              [filteredReceiverTins]="filteredReceiversTin()"
               [selectedCompanyName]="selectedCompanyName()"
               [formErrors]="form.controls.receiverTin.errors"
               (selectedCompanyNameChange)="selectedCompanyName.set($event)"
@@ -262,7 +283,7 @@ export type FormMode = 'create' | 'edit';
         <eo-receiver-input
           [formControl]="form.controls.receiverTin"
           [mode]="mode()"
-          [filteredReceiversTin]="filteredReceiversTin()"
+          [filteredReceiverTins]="filteredReceiversTin()"
           [selectedCompanyName]="selectedCompanyName()"
           [formErrors]="form.controls.receiverTin.errors"
         />
@@ -296,11 +317,12 @@ export class EoTransfersFormComponent implements OnInit {
   submitButtonText = input<string>('');
   cancelButtonText = input<string>('');
   initialValues = input<EoTransfersFormInitialValues>({
+    senderTin: '',
     receiverTin: '',
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
   });
-  editableFields = input<FormField[]>(['receiverTin', 'startDate', 'endDate']);
+  editableFields = input<FormField[]>(['senderTin', 'receiverTin', 'startDate', 'endDate']);
 
   transferAgreements = input<EoListedTransfer[]>([]);
   proposalId = input<string | null>(null);
@@ -430,9 +452,18 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   private initForm() {
-    const { receiverTin, startDate, endDate } = this.initialValues();
+    const { senderTin, receiverTin, startDate, endDate } = this.initialValues();
 
     this.form = new FormGroup<EoTransfersForm>({
+      senderTin: new FormControl(
+        {
+          value: senderTin || '',
+          disabled: !this.editableFields().includes('senderTin'),
+        },
+        {
+          validators: [Validators.pattern('^[0-9]{8}$')],
+        }
+      ),
       receiverTin: new FormControl(
         {
           value: receiverTin || '',

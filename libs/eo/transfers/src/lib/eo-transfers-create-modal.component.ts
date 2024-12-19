@@ -79,6 +79,7 @@ export interface EoTransferAgreementsWithRecipient {
           [proposalId]="proposalId"
           (submitted)="createAgreementProposal($event)"
           (canceled)="modal.close(false)"
+          [mode]="'create'"
         />
       </watt-modal>
     }

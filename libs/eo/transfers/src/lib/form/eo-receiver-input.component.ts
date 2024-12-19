@@ -58,18 +58,6 @@ import {
   styles: [``],
   template: `
     <div class="receiver">
-      @if (mode() === 'create') {
-        <h3 class="watt-headline-2">
-          {{ translations.createTransferAgreementProposal.parties.titleBetween | transloco }}
-        </h3>
-        <h3 class="watt-headline-2">
-          {{ translations.createTransferAgreementProposal.parties.titleTo | transloco }}
-        </h3>
-        <p>
-          {{ translations.createTransferAgreementProposal.parties.description | transloco }}
-        </p>
-      }
-
       <div style="display: flex; align-items: center;">
         <watt-text-field
           [formControl]="control"
@@ -82,7 +70,7 @@ import {
           type="text"
           (keydown)="preventNonNumericInput($event)"
           data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiversTin() || []"
+          [autocompleteOptions]="filteredReceiverTins() || []"
           (search)="searchChange.emit($event)"
           (autocompleteOptionSelected)="onSelectedRecipient($event)"
           (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
@@ -130,7 +118,7 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
   isDisabled = false;
 
   mode = input.required<FormMode>();
-  filteredReceiversTin = input.required<string[]>();
+  filteredReceiverTins = input.required<string[]>();
   selectedCompanyName = input<string | undefined>();
   formErrors = input<ValidationErrors | null>();
 
