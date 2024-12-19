@@ -27,7 +27,6 @@ import {
   mockGetUserRoleAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
-  mockGetGridAreasQuery,
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
   mockUpdateUserAndRolesMutation,
@@ -60,7 +59,6 @@ import { adminPermissionDetailsMock } from './data/admin-get-permission-details'
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
 import { getUserRolesByEicfunctionQuery } from './data/get-user-roles-by-eicfunction';
 import { filteredActors } from './data/market-participant-filtered-actors';
-import { getGridAreas } from './data/get-grid-areas';
 import { users } from './data/admin/users';
 import { userRoles } from './data/admin/user-roles';
 
@@ -73,7 +71,6 @@ export function adminMocks(apiBase: string) {
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
     getKnownEmailsQuery(),
-    getGridAreasQuery(),
     getUserDetailsQuery(),
     updateUserAndRoles(),
     updatePermission(),
@@ -531,13 +528,6 @@ function getKnownEmailsQuery() {
         ],
       },
     });
-  });
-}
-
-function getGridAreasQuery() {
-  return mockGetGridAreasQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({ data: getGridAreas });
   });
 }
 
