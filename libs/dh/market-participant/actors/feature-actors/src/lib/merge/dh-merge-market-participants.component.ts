@@ -101,7 +101,7 @@ type MarketParticipant = ResultOf<
           <watt-datepicker
             [label]="t('mergeDate')"
             [formControl]="form.controls.mergeDate"
-            [min]="tomorrow"
+            [min]="_7DaysFromNow"
           />
         </form>
 
@@ -148,7 +148,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
     { validators: dhUniqueMarketParticipantsValidator() }
   );
 
-  tomorrow = dayjs().add(1, 'days').toDate();
+  _7DaysFromNow = dayjs().add(7, 'days').toDate();
 
   async save() {
     const { discontinuedEntity, survivingEntity, mergeDate } = this.form.value;

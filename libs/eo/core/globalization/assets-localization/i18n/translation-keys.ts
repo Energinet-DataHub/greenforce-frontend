@@ -155,6 +155,10 @@ export interface TranslationKeys {
     logout: string;
   };
   shared: {
+    notMitIDErhvervError: {
+      title: string;
+      message: string;
+    };
     error: {
       title: string;
       message: string;
