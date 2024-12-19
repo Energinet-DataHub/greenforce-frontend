@@ -674,6 +674,9 @@
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
               },
+              "Discontinued": {
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+              },
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"

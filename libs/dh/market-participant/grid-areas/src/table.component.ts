@@ -142,6 +142,17 @@ export class DhGridAreasComponent {
       const statuses = this.selectedGridAreaStatus();
       const gridAreas = this.gridAreas();
 
+      this.dataSource.filterPredicate = (data, filter) => {
+        const lowerCaseFilter = filter.toLowerCase();
+        return (
+          data.code.toLowerCase().includes(lowerCaseFilter) ||
+          data.actor?.toLowerCase().includes(lowerCaseFilter) ||
+          data.organization?.toLowerCase().includes(lowerCaseFilter) ||
+          data.priceArea.toLowerCase().includes(lowerCaseFilter) ||
+          data.type.toLowerCase().includes(lowerCaseFilter) ||
+          data.status.toLowerCase().includes(lowerCaseFilter)
+        );
+      }
       this.dataSource.data = gridAreas.filter(
         (gridArea) =>
           (gridArea.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
