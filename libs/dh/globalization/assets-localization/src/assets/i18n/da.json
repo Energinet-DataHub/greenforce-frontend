@@ -675,7 +675,8 @@
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
               },
               "Discontinued": {
-                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
               },
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
