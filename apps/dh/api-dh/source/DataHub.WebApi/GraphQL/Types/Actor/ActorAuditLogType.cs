@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using HotChocolate.Resolvers;
@@ -54,36 +55,45 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
                     return null;
                 }
 
-                var previousOwner = await actorDataLoader.LoadAsync(Guid.Parse(parent.PreviousValue), ct);
-                var currentOwner = await actorDataLoader.LoadAsync(Guid.Parse(parent.CurrentValue), ct);
+                try
+                {
+                    var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log");
+                    var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize prvious value for Consolidation audit log");
+                    var previousOwner = await actorDataLoader.LoadAsync(previousValue.ActorId, ct);
+                    var currentOwner = await actorDataLoader.LoadAsync(currentValue.ActorId, ct);
 
-                if (previousOwner == null || currentOwner == null)
+                    if (previousOwner == null || currentOwner == null)
+                    {
+                        return null;
+                    }
+
+                    var previousGridAreaId = previousOwner.MarketRole.GridAreas.FirstOrDefault();
+                    var currentGridAreaId = currentOwner.MarketRole.GridAreas.FirstOrDefault();
+
+                    if (currentGridAreaId == null)
+                    {
+                        return null;
+                    }
+
+                    var previousGridArea = previousGridAreaId != null ? await gridAreaDataLoader.LoadAsync(previousGridAreaId.Id) : null;
+                    var currentGridArea = await gridAreaDataLoader.LoadAsync(currentGridAreaId.Id);
+
+                    if (currentGridArea == null)
+                    {
+                        return null;
+                    }
+
+                    return new ActorConsolidationAuditLog(
+                        currentOwner.Name.Value,
+                        currentOwner.ActorNumber.Value,
+                        previousOwner.Name.Value,
+                        previousOwner.ActorNumber.Value,
+                        currentValue.ConsolidateAt);
+                }
+                catch (System.Exception)
                 {
                     return null;
                 }
-
-                var previousGridAreaId = previousOwner.MarketRole.GridAreas.FirstOrDefault();
-                var currentGridAreaId = currentOwner.MarketRole.GridAreas.FirstOrDefault();
-
-                if (currentGridAreaId == null)
-                {
-                    return null;
-                }
-
-                var previousGridArea = previousGridAreaId != null ? await gridAreaDataLoader.LoadAsync(previousGridAreaId.Id) : null;
-                var currentGridArea = await gridAreaDataLoader.LoadAsync(currentGridAreaId.Id);
-
-                if (currentGridArea == null)
-                {
-                    return null;
-                }
-
-                return new ActorConsolidationAuditLog(
-                    currentOwner.Name.Value,
-                    currentOwner.ActorNumber.Value,
-                    previousOwner.Name.Value,
-                    previousOwner.ActorNumber.Value,
-                    null);
             });
 
         descriptor
