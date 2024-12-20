@@ -57,6 +57,7 @@ import {
   EoTransfersFormInitialValues,
 } from './form/eo-transfers-form.component';
 import { TransferAgreementValues } from './eo-transfers.component';
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -94,6 +95,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
           mode="edit"
           [transferId]="transfer()?.id"
           [transferAgreements]="transferAgreements()"
+          [actorsFromConsent]="actorsFromConsent()"
           [editableFields]="['endDate']"
           [initialValues]="initialValues"
           (submitted)="onSubmit($event)"
@@ -108,6 +110,7 @@ export class EoTransfersEditModalComponent {
 
   transfer = input<EoListedTransfer>();
   transferAgreements = input<EoListedTransfer[]>([]);
+  actorsFromConsent = input.required<Actor[]>();
 
   save = output<TransferAgreementValues>();
 

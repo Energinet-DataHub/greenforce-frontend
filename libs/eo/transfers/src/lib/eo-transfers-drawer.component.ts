@@ -43,9 +43,10 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
 import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
-import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfers.component';
+import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,6 +65,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
     EoTransfersHistoryComponent,
     EoTransferInvitationLinkComponent,
     TranslocoPipe,
+    EoTransfersFormComponent,
   ],
   standalone: true,
   styles: [
@@ -198,12 +200,14 @@ import { TransferAgreementValues } from './eo-transfers.component';
     <eo-transfers-edit-modal
       [transfer]="transfer()"
       [transferAgreements]="transferAgreements()"
+      [actorsFromConsent]="actorsFromConsent()"
       (save)="onEdit($event)"
     />
   `,
 })
 export class EoTransfersDrawerComponent {
   private authService: EoAuthService = inject(EoAuthService);
+  private actorService = inject(EoActorService);
   protected translations = translations;
   protected ownTin = signal<string | undefined>(undefined);
 
@@ -212,8 +216,9 @@ export class EoTransfersDrawerComponent {
   @ViewChild(EoTransfersHistoryComponent) history!: EoTransfersHistoryComponent;
 
   transferAgreements = input<EoListedTransfer[]>([]);
-  isEditable = signal<boolean>(false);
   transfer = input<EoListedTransfer>();
+  isEditable = signal<boolean>(false);
+  protected actorsFromConsent = this.actorService.actorsFromConsent;
 
   constructor() {
     effect(
