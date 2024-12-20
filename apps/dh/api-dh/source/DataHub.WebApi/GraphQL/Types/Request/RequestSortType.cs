@@ -17,10 +17,10 @@ using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
 
-public class RequestSortType : SortInputType<IOrchestration<IRequest>>
+public class RequestSortType : SortInputType<IOrchestrationInstance<IRequest>>
 {
     protected override void Configure(
-        ISortInputTypeDescriptor<IOrchestration<IRequest>> descriptor)
+        ISortInputTypeDescriptor<IOrchestrationInstance<IRequest>> descriptor)
     {
         descriptor
             .Name("RequestSortInput")

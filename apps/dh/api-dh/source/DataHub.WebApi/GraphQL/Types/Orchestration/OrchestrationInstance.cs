@@ -21,7 +21,7 @@ public record OrchestrationInstance<T>(
     Guid Id,
     OrchestrationInstanceLifecycleStateDto Lifecycle,
     IReadOnlyCollection<StepInstanceDto> Steps,
-    T ParameterValue) : IOrchestration<T>
+    T ParameterValue) : IOrchestrationInstance<T>
     where T : class, IInputParameterDto
 {
     public Guid CreatedBySortProperty =>

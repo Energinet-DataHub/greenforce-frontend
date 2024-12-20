@@ -26,7 +26,7 @@ public class RequestAggregatedMeasureDataType
         descriptor
             .Name("RequestAggregatedMeasureData")
             .BindFieldsExplicitly()
-            .Implements<OrchestrationType<IRequest>>();
+            .Implements<OrchestrationInstanceType<IRequest>>();
 
         descriptor.Field(f => f.ParameterValue.CalculationType);
         descriptor.Field(f => f.ParameterValue.MeteringPointType);

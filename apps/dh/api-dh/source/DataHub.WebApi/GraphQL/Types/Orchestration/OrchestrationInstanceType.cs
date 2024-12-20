@@ -16,14 +16,15 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
-public class OrchestrationType<T> : InterfaceType<IOrchestration<T>>
+public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance<T>>
     where T : class, IInputParameterDto
 {
-    protected override void Configure(IInterfaceTypeDescriptor<IOrchestration<T>> descriptor)
+    protected override void Configure(
+        IInterfaceTypeDescriptor<IOrchestrationInstance<T>> descriptor)
     {
         descriptor
-            .Name("Orchestration")
-            .BindFieldsExplicitly();
+            .BindFieldsExplicitly()
+            .Name(dependency => dependency.Name + "OrchestrationInstance");
 
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.Lifecycle).Name("lifeCycle");

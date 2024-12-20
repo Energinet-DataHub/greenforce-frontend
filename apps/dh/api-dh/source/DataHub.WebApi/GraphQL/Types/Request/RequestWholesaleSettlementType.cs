@@ -26,7 +26,7 @@ public class RequestWholesaleSettlementType
         descriptor
             .Name("RequestWholesaleSettlement")
             .BindFieldsExplicitly()
-            .Implements<OrchestrationType<IRequest>>();
+            .Implements<OrchestrationInstanceType<IRequest>>();
 
         descriptor.Field(f => f.ParameterValue.CalculationType);
         descriptor.Field(f => f.ParameterValue.PriceType);
