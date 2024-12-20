@@ -18,7 +18,9 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
+using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
+using HotChocolate.Execution;
 using Moq;
 using Xunit;
 
@@ -59,7 +61,9 @@ public class CalculationStatusTypeQueryTests
                 OrchestrationState = orchestrationState,
             });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b
+            .SetDocument(_calculationByIdQuery)
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync($"{orchestrationState}");
     }
@@ -89,7 +93,9 @@ public class CalculationStatusTypeQueryTests
                 OrchestrationState = orchestrationState,
             });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b
+            .SetDocument(_calculationByIdQuery)
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync($"{orchestrationState}_processmanager");
     }

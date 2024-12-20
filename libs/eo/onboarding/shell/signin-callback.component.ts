@@ -25,6 +25,8 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
+import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
 
 interface State {
   thirdPartyClientId: string;
@@ -34,10 +36,16 @@ interface State {
 @Component({
   standalone: true,
   selector: 'eo-signin-callback',
-  imports: [WattSpinnerComponent, WattEmptyStateComponent, TranslocoPipe],
+  imports: [
+    WattSpinnerComponent,
+    WattEmptyStateComponent,
+    TranslocoPipe,
+    EoHeaderComponent,
+    EoFooterComponent,
+  ],
   styles: `
-    :host {
-      height: 100vh;
+    .content {
+      height: 90vh;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -47,16 +55,20 @@ interface State {
     }
   `,
   template: `
-    @if (isMitIDErhverv()) {
-      <watt-spinner />
-    } @else {
-      <watt-empty-state
-        icon="custom-power"
-        [useHTML]="true"
-        [title]="translations.shared.notMitIDErhvervError.title | transloco"
-        [message]="translations.shared.notMitIDErhvervError.message | transloco"
-      />
-    }
+    <eo-header />
+    <div class="content">
+      @if (isMitIDErhverv()) {
+        <watt-spinner />
+      } @else {
+        <watt-empty-state
+          icon="custom-power"
+          [useHTML]="true"
+          [title]="translations.shared.notMitIDErhvervError.title | transloco"
+          [message]="translations.shared.notMitIDErhvervError.message | transloco"
+        />
+      }
+    </div>
+    <eo-footer />
   `,
 })
 export class EoSigninCallbackComponent implements OnInit {
@@ -65,7 +77,9 @@ export class EoSigninCallbackComponent implements OnInit {
   private readonly transloco = inject(TranslocoService);
 
   errorDescription = input<string>('', { alias: 'error_description' });
-  protected readonly isMitIDErhverv = computed(() => this.errorDescription() !== 'AADB2C90273');
+  protected readonly isMitIDErhverv = computed(
+    () => !this.errorDescription()?.startsWith('AADB2C90273')
+  );
 
   protected readonly translations = translations;
 
