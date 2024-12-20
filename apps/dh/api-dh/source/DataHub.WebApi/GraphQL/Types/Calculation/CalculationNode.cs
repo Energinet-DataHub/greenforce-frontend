@@ -45,8 +45,7 @@ public static partial class CalculationNode
 
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] OrchestrationInstance<CalculationInputV1> f,
-        GridAreaByCodeBatchDataLoader dataLoader,
-        CancellationToken ct) => await Task
+        GridAreaByCodeBatchDataLoader dataLoader) => await Task
             .WhenAll(f.ParameterValue.GridAreaCodes.Select(c => dataLoader.LoadRequiredAsync(c)))
             .Then(x => x.OrderBy(g => g.Code));
 
