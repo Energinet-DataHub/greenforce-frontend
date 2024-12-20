@@ -35,6 +35,7 @@ export class EoActorService {
 
   actor = signal<Actor | null>(null);
   actors = signal<Actor[]>([]);
+  actorsFromConsent = signal<Actor[]>([]);
   self: Actor = {
     tin: this.authService.user()?.profile.org_cvr as string,
     org_id: this.authService.user()?.profile.org_id as string,
@@ -59,6 +60,10 @@ export class EoActorService {
   }
 
   setActors(actors: Actor[]) {
+    this.actors.set(actors);
+  }
+
+  setActorsWithoutSelf(actors: Actor[]) {
     this.actors.set(actors);
   }
 

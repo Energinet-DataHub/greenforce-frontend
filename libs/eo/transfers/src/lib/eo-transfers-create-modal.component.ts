@@ -36,6 +36,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 // TODO: MOVE THIS TO DOMAIN
 export interface EoTransferAgreementsWithRecipient {
@@ -75,6 +76,7 @@ export interface EoTransferAgreementsWithRecipient {
         <eo-transfers-form
           [senderTin]="authService.user()?.profile?.org_cvr"
           [transferAgreements]="transferAgreements()"
+          [actorsFromConsent]="actorsFromConsent()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
           (submitted)="createAgreementProposal($event)"
@@ -87,6 +89,7 @@ export interface EoTransferAgreementsWithRecipient {
 })
 export class EoTransfersCreateModalComponent {
   transferAgreements = input.required<EoListedTransfer[]>();
+  actorsFromConsent = input.required<Actor[]>();
   proposalCreated = output<EoListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;

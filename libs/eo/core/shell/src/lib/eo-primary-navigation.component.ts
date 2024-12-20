@@ -126,6 +126,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
         org_name: org.organizationName,
       }));
       this.actorService.setActors([this.self, ...actorsOfReceivedConsents]);
+      this.actorService.setActorsWithoutSelf(actorsOfReceivedConsents);
     });
   }
 

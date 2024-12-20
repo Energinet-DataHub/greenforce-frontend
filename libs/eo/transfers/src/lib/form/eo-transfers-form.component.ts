@@ -56,7 +56,8 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 import { EoReceiverInputComponent } from './eo-receiver-input.component';
-import { EoSenderInputComponent } from './eo-sender-input.component';
+import { EoSenderInputComponent, Sender } from './eo-sender-input.component';
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 export interface EoTransfersFormInitialValues {
   senderTin: string;
@@ -172,7 +173,7 @@ export type FormMode = 'create' | 'edit';
                 {{ translations.createTransferAgreementProposal.parties.description | transloco }}
               </p>
             }
-            <eo-sender-input formControlName="senderTin" />
+            <eo-sender-input [senders]="senders()" formControlName="senderTin" />
             <eo-receiver-input
               formControlName="receiverTin"
               [mode]="mode()"
@@ -325,6 +326,7 @@ export class EoTransfersFormComponent implements OnInit {
   editableFields = input<FormField[]>(['senderTin', 'receiverTin', 'startDate', 'endDate']);
 
   transferAgreements = input<EoListedTransfer[]>([]);
+  actorsFromConsent = input.required<Actor[]>();
   proposalId = input<string | null>(null);
   generateProposalFailed = input<boolean>(false);
 
@@ -336,6 +338,7 @@ export class EoTransfersFormComponent implements OnInit {
   protected translations = translations;
   protected form!: FormGroup<EoTransfersForm>;
   protected filteredReceiversTin = signal<string[]>([]);
+  protected senders = signal<Sender[]>([]);
   protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
   protected selectedCompanyName = signal<string | undefined>(undefined);
 
@@ -374,6 +377,16 @@ export class EoTransfersFormComponent implements OnInit {
         allowSignalWrites: true,
       }
     );
+
+    effect(() => {
+      const actorsFromConsent = this.actorsFromConsent();
+      this.senders.set(
+        actorsFromConsent.map((actor) => ({
+          tin: actor.tin,
+          name: actor.org_name,
+        }))
+      );
+    });
   }
 
   ngOnInit(): void {

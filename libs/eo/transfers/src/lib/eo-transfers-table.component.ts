@@ -45,6 +45,7 @@ import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.com
 import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransferAgreementValues } from './eo-transfers.component';
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
@@ -187,6 +188,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 
     <eo-transfers-create-modal
       [transferAgreements]="transfers()"
+      [actorsFromConsent]="actorsFromConsent()"
       (proposalCreated)="proposalCreated.emit($event)"
     />
     <eo-transfers-drawer
@@ -200,6 +202,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 })
 export class EoTransfersTableComponent implements OnInit {
   transfers = input.required<EoListedTransfer[]>();
+  actorsFromConsent = input.required<Actor[]>();
   loading = input<boolean>(false);
   enableCreateTransferAgreementProposal = input<boolean>(false);
   selectedTransfer = input<EoListedTransfer>();

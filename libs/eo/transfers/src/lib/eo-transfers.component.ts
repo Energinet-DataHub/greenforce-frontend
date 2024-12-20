@@ -44,6 +44,7 @@ import {
   EoTransfersService,
 } from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 
 export interface TransferAgreementValues {
   id: string;
@@ -76,6 +77,7 @@ export interface TransferAgreementValues {
       <eo-transfers-table
         [enableCreateTransferAgreementProposal]="!!(hasProductionMeteringPoints | async)"
         [transfers]="transferAgreements().data"
+        [actorsFromConsent]="actorsFromConsent()"
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
@@ -102,9 +104,11 @@ export class EoTransfersComponent implements OnInit {
 
   private transloco = inject(TranslocoService);
   private transfersService = inject(EoTransfersService);
+  private actorService = inject(EoActorService);
   private toastService = inject(WattToastService);
   private meteringPointStore = inject(EoMeteringPointsStore);
 
+  protected actorsFromConsent = this.actorService.actorsFromConsent;
   protected hasProductionMeteringPoints = this.meteringPointStore.hasProductionMeteringPoints$;
   protected translations = translations;
   protected transferAgreements = signal<{
