@@ -32,7 +32,7 @@ public static class RequestOperations
     [Query]
     [UsePaging]
     [UseSorting]
-    public static async Task<IEnumerable<IOrchestration<IRequest>>> GetRequestsAsync()
+    public static async Task<IEnumerable<IOrchestrationInstance<IRequest>>> GetRequestsAsync()
     {
         var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             Guid.NewGuid(),
@@ -123,7 +123,7 @@ public static class RequestOperations
             result3.Steps,
             result3.ParameterValue);
 
-        var list = new List<IOrchestration<IRequest>> { wrapper, wrapper2, wrapper3 };
+        var list = new List<IOrchestrationInstance<IRequest>> { wrapper, wrapper2, wrapper3 };
 
         return await Task.FromResult(list);
     }

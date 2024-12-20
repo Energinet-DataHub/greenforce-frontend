@@ -20,7 +20,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 /// <summary>
 /// Interface for orchestration.
 /// </summary>
-public interface IOrchestration<out T>
+public interface IOrchestrationInstance<out T>
     where T : class, IInputParameterDto
 {
     /// <summary>
