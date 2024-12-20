@@ -43,14 +43,16 @@ Then('I should see the consent management dialog', () => {
   // Check redirect to the consent page is happening
   cy.location('pathname', { timeout: 10000 }).should('include', '/consent');
 
-  cy.location('href').then(actualUrl => {
+  cy.location('href').then((actualUrl) => {
     const parsedUrl = new URL(actualUrl);
 
     // Check the client ID
     expect(parsedUrl.searchParams.get('third-party-client-id')).to.equal(clientId);
 
     // Check the redirect URL
-    expect(parsedUrl.searchParams.get('redirect-url')).to.equal('http://localhost:4200/assets/html/onboarding-demo.html?some-custom-param=123');
+    expect(parsedUrl.searchParams.get('redirect-url')).to.equal(
+      'http://localhost:4200/assets/html/onboarding-demo.html?some-custom-param=123'
+    );
   });
 
   // Check for the client name in the consent dialog
