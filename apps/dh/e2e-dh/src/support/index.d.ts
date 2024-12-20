@@ -20,5 +20,6 @@ declare namespace Cypress {
     login(email: string, password: string): void;
     removeCookieBanner(): void;
     visit(url: string, options:any, skipLoggedInCheck:boolean): Chainable<any>;
+    visitActors(): Chainable<any>;
   }
 }

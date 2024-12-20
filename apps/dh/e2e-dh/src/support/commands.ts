@@ -109,3 +109,12 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options, skipLoggedInCheck
     });
   }
 });
+
+Cypress.Commands.add('visitActors', () => {
+  Cypress.log({
+    displayName: 'visit',
+    message: 'Aktører',
+  })
+  cy.findByRole('link', { name: /Aktører/, log: false }).click({ log: false });
+  cy.findByRole('heading', { level: 2, name: /Aktører/, log: false});
+});
