@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
+using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
+using HotChocolate.Execution;
 using Moq;
 using Xunit;
 
@@ -67,7 +69,9 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b
+            .SetDocument(_calculationByIdQuery)
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync();
     }
@@ -101,7 +105,9 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync([]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b
+            .SetDocument(_calculationByIdQuery)
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync();
     }

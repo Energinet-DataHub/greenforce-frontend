@@ -1,0 +1,50 @@
+﻿{
+  "errors": [
+    {
+      "message": "The current user is not authorized to access this resource.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "calculationById"
+      ],
+      "extensions": {
+        "code": "AUTH_NOT_AUTHORIZED"
+      }
+    },
+    {
+      "message": "The current user is not authorized to access this resource.",
+      "locations": [
+        {
+          "line": 5,
+          "column": 3
+        }
+      ],
+      "path": [
+        "latestCalculation"
+      ],
+      "extensions": {
+        "code": "AUTH_NOT_AUTHORIZED"
+      }
+    },
+    {
+      "message": "The current user is not authorized to access this resource.",
+      "locations": [
+        {
+          "line": 11,
+          "column": 3
+        }
+      ],
+      "path": [
+        "calculations"
+      ],
+      "extensions": {
+        "code": "AUTH_NOT_AUTHORIZED"
+      }
+    }
+  ],
+  "data": null
+}

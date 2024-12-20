@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
+using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
@@ -41,13 +42,19 @@ public class GraphQLTestService
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
+            .AddLogging()
+            .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
+            .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
+            .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddAuthorization()
             .AddSorting()
+            .ModifyOptions(o => o.EnableOneOf = true)
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(FeatureManagerMock.Object)

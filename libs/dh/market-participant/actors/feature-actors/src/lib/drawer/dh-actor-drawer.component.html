@@ -22,7 +22,7 @@ limitations under the License.
       <dh-actor-status-badge [status]="selectedActor?.status" />
     </watt-drawer-topbar>
 
-    @if (hasActorAccess()) {
+    @if (canEdit()) {
       <watt-drawer-actions>
         <watt-button
           *dhPermissionRequired="['actor-master-data:manage']"
@@ -150,7 +150,7 @@ limitations under the License.
             </vater-stack>
           </watt-tab>
 
-          @if (hasActorAccess()) {
+          @if (canEdit()) {
             <watt-tab
               [label]="t('tabs.b2bAccess.tabLabel')"
               *dhPermissionRequired="['actor-credentials:manage']"
@@ -158,19 +158,17 @@ limitations under the License.
               <dh-b2b-access-tab [actorId]="selectedActor.id" />
             </watt-tab>
 
-            <ng-container>
-              <ng-container *dhPermissionRequired="['delegation:view']">
-                <watt-tab
-                  [label]="t('tabs.delegation.tabLabel')"
-                  *dhCanDelegateFor="selectedActor.marketRole"
-                >
-                  @defer (on viewport) {
-                    <dh-delegation-tab [actor]="selectedActor" />
-                  } @placeholder {
-                    <watt-spinner />
-                  }
-                </watt-tab>
-              </ng-container>
+            <ng-container *dhPermissionRequired="['delegation:view']">
+              <watt-tab
+                [label]="t('tabs.delegation.tabLabel')"
+                *dhCanDelegateFor="selectedActor.marketRole"
+              >
+                @defer (on viewport) {
+                  <dh-delegation-tab [actor]="selectedActor" />
+                } @placeholder {
+                  <watt-spinner />
+                }
+              </watt-tab>
             </ng-container>
 
             <ng-container *dhPermissionRequired="['balance-responsibility:view']">
@@ -183,7 +181,7 @@ limitations under the License.
           }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <dh-actor-audit-log-tab [actorId]="selectedActor.id" />
+            <dh-actor-audit-log-tab [actor]="selectedActor" />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

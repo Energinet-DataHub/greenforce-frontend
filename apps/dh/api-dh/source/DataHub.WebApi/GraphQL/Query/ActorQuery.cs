@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -23,11 +23,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
-    public async Task<IEnumerable<ActorAuditedChangeAuditLogDto>> GetActorAuditLogsAsync(
-        Guid actorId,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.ActorAuditAsync(actorId);
-
     public Task<ActorDto> GetSelectedActorAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IMarketParticipantClient_V1 client)

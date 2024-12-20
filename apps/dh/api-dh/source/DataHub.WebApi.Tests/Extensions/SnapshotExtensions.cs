@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -29,4 +29,10 @@ public static class SnapshotExtensions
 
     public static async Task MatchSnapshotAsync(this IExecutionResult value, string name) =>
         await Verifier.Verify(target: value.ToJson(), extension: "json").UseMethodName(name);
+
+    public static async Task MatchSnapshotAsync(this object value) =>
+        await Verifier.Verify(target: value);
+
+    public static async Task MatchSnapshotAsync(this object value, string name) =>
+        await Verifier.Verify(target: value).UseMethodName(name);
 }

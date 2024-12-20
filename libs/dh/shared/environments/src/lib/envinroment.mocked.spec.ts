@@ -26,4 +26,8 @@ describe('Mocked environment config', () => {
   it('should have authDisabled set to false', () => {
     expect(environment.authDisabled).toBe(false);
   });
+
+  it('should have mocked set to true', () => {
+    expect(environment.mocked).toBe(true);
+  });
 });

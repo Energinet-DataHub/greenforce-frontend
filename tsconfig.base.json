@@ -87,7 +87,7 @@
       "@energinet-datahub/dh/market-participant/actors/feature-actors": [
         "libs/dh/market-participant/actors/feature-actors/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/actors/feature-delagation": [
+      "@energinet-datahub/dh/market-participant/actors/feature-delegation": [
         "libs/dh/market-participant/actors/feature-delegation/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
@@ -105,14 +105,8 @@
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/grid-areas/domain": [
-        "libs/dh/market-participant/grid-areas/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/grid-areas/overview": [
-        "libs/dh/market-participant/grid-areas/overview/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/grid-areas/shell": [
-        "libs/dh/market-participant/grid-areas/shell/src/index.ts"
+      "@energinet-datahub/dh/market-participant/grid-areas": [
+        "libs/dh/market-participant/grid-areas/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
@@ -161,6 +155,7 @@
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-assert": ["libs/dh/shared/util-assert/src/index.ts"],
       "@energinet-datahub/dh/shared/util-new-version-manager": [
         "libs/dh/shared/util-new-version-manager/src/index.ts"
       ],
@@ -175,6 +170,9 @@
       ],
       "@energinet-datahub/dh/wholesale/feature-request-calculation": [
         "libs/dh/wholesale/feature-request-calculation/src/index.ts"
+      ],
+      "@energinet-datahub/dh/wholesale/feature-requests": [
+        "libs/dh/wholesale/feature-requests/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
