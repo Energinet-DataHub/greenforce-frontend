@@ -30,6 +30,7 @@ public class ConsolidationByActorFromIdBatchLoader(
 
         return consolidations
             .Select(c => new KeyValuePair<Guid, ActorConsolidationDto>(c.ActorFromId, c))
+            .DistinctBy(c => c.Key)
             .ToDictionary();
     }
 }
