@@ -32,11 +32,11 @@ public sealed class Dh2BridgeController : ControllerBase
     [HttpPost]
     [Route("ImportCapacitySettlements")]
     [RequestSizeLimit(10485760)]
-    public async Task<ActionResult> ImportCapacitySettlementsAsync(IFormFile csvFile)
+    public async Task<ActionResult> ImportCapacitySettlementsAsync(IFormFile jsonFile)
     {
         try
         {
-            await using var openReadStream = csvFile.OpenReadStream();
+            await using var openReadStream = jsonFile.OpenReadStream();
             await _client.ImportCapacitySettlementsAsync(openReadStream, default);
             return Ok();
         }
