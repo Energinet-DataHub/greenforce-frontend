@@ -27,7 +27,9 @@ public static class HealthEndpointRegistrationExtensions
             .AddServiceHealthCheck("wholesaleOrchestrations", CreateHealthEndpointUri(settings.WholesaleOrchestrationsBaseUrl, isAzureFunction: true))
             .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
             .AddServiceHealthCheck("settlementReportsAPI", CreateHealthEndpointUri(settings.SettlementReportsAPIBaseUrl))
-            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
+            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl))
+            .AddServiceHealthCheck("notificationsWebApi", CreateHealthEndpointUri(settings.NotificationsBaseUrl))
+            .AddServiceHealthCheck("dh2BridgeWebApi", CreateHealthEndpointUri(settings.Dh2BridgeBaseUrl));
 
     internal static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
     {
