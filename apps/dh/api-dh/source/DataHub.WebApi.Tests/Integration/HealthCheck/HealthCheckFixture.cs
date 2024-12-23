@@ -32,8 +32,8 @@ public sealed class HealthCheckFixture : IDisposable
         "/esett/monitor/live",
         "/edib2capi/monitor/live",
         "/settlement-reports/monitor/live",
-        "/notifications/monitor/live",
-        "/dh2bridge/monitor/live",
+        "/notifications/api/monitor/live",
+        "/dh2bridge/api/monitor/live",
         "/process-manager-general/api/monitor/live",
         "/process-manager-orchestrations/api/monitor/live",
     ];
