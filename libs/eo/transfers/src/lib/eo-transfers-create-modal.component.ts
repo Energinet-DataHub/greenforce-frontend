@@ -76,7 +76,7 @@ export interface EoTransferAgreementsWithRecipient {
         <eo-transfers-form
           [senderTin]="authService.user()?.profile?.org_cvr"
           [transferAgreements]="transferAgreements()"
-          [actorsFromConsent]="actorsFromConsent()"
+          [actors]="actors()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
           (submitted)="createAgreementProposal($event)"
@@ -89,7 +89,7 @@ export interface EoTransferAgreementsWithRecipient {
 })
 export class EoTransfersCreateModalComponent {
   transferAgreements = input.required<EoListedTransfer[]>();
-  actorsFromConsent = input.required<Actor[]>();
+  actors = input.required<Actor[]>();
   proposalCreated = output<EoListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
@@ -111,7 +111,6 @@ export class EoTransfersCreateModalComponent {
     /**
      * This is a workaround for "lazy loading" the modal content
      */
-    console.log(this.transferAgreements());
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();

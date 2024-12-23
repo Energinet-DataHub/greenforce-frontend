@@ -200,7 +200,7 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
     <eo-transfers-edit-modal
       [transfer]="transfer()"
       [transferAgreements]="transferAgreements()"
-      [actorsFromConsent]="actorsFromConsent()"
+      [actors]="actors()"
       (save)="onEdit($event)"
     />
   `,
@@ -218,7 +218,7 @@ export class EoTransfersDrawerComponent {
   transferAgreements = input<EoListedTransfer[]>([]);
   transfer = input<EoListedTransfer>();
   isEditable = signal<boolean>(false);
-  protected actorsFromConsent = this.actorService.actorsFromConsent;
+  protected actors = this.actorService.actors;
 
   constructor() {
     effect(

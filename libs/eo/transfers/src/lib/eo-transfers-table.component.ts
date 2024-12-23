@@ -188,7 +188,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 
     <eo-transfers-create-modal
       [transferAgreements]="transfers()"
-      [actorsFromConsent]="actorsFromConsent()"
+      [actors]="actors()"
       (proposalCreated)="proposalCreated.emit($event)"
     />
     <eo-transfers-drawer
@@ -202,7 +202,7 @@ interface EoTransferTableElement extends EoListedTransfer {
 })
 export class EoTransfersTableComponent implements OnInit {
   transfers = input.required<EoListedTransfer[]>();
-  actorsFromConsent = input.required<Actor[]>();
+  actors = input.required<Actor[]>();
   loading = input<boolean>(false);
   enableCreateTransferAgreementProposal = input<boolean>(false);
   selectedTransfer = input<EoListedTransfer>();

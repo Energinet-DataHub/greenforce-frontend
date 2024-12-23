@@ -32,7 +32,6 @@ import {
   Validator,
 } from '@angular/forms';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import Required from 'ajv/lib/vocabularies/validation/required';
 
 export interface Sender {
   tin: string;
@@ -75,23 +74,23 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
   senders = input<Sender[]>([]);
   selectSender = output<Sender>;
 
-  senderOptions = signal<WattDropdownOptions>([
-    { value: '12345678', displayValue: '12345678 - First' },
-    { value: '87654321', displayValue: '87654321 - Ukendt Virksomhed' },
-  ]);
+  senderOptions = signal<WattDropdownOptions>([]);
   control = new FormControl();
   protected readonly translations = translations;
 
   constructor() {
-    effect(() => {
-      const senders = this.senders();
-      this.senderOptions.set(
-        senders.map((sender) => ({
-          value: sender.tin,
-          displayValue: `${sender.tin} - ${sender.name ?? this.translations.createTransferAgreementProposal.parties.unknownParty}`,
-        }))
-      );
-    });
+    effect(
+      () => {
+        const senders = this.senders();
+        this.senderOptions.set(
+          senders.map((sender) => ({
+            value: sender.tin,
+            displayValue: `${sender.tin} - ${sender.name ?? this.translations.createTransferAgreementProposal.parties.unknownParty}`,
+          }))
+        );
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   validate(control: AbstractControl) {
@@ -124,5 +123,4 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
   onChange: any = () => {
     // Intentionally left empty
   };
-  protected readonly required = Required;
 }

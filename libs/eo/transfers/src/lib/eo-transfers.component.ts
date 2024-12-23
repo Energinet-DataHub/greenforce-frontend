@@ -77,7 +77,7 @@ export interface TransferAgreementValues {
       <eo-transfers-table
         [enableCreateTransferAgreementProposal]="!!(hasProductionMeteringPoints | async)"
         [transfers]="transferAgreements().data"
-        [actorsFromConsent]="actorsFromConsent()"
+        [actors]="actors()"
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
@@ -108,7 +108,7 @@ export class EoTransfersComponent implements OnInit {
   private toastService = inject(WattToastService);
   private meteringPointStore = inject(EoMeteringPointsStore);
 
-  protected actorsFromConsent = this.actorService.actorsFromConsent;
+  protected actors = this.actorService.actors;
   protected hasProductionMeteringPoints = this.meteringPointStore.hasProductionMeteringPoints$;
   protected translations = translations;
   protected transferAgreements = signal<{

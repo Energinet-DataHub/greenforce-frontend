@@ -95,7 +95,7 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
           mode="edit"
           [transferId]="transfer()?.id"
           [transferAgreements]="transferAgreements()"
-          [actorsFromConsent]="actorsFromConsent()"
+          [actors]="actors()"
           [editableFields]="['endDate']"
           [initialValues]="initialValues"
           (submitted)="onSubmit($event)"
@@ -110,7 +110,7 @@ export class EoTransfersEditModalComponent {
 
   transfer = input<EoListedTransfer>();
   transferAgreements = input<EoListedTransfer[]>([]);
-  actorsFromConsent = input.required<Actor[]>();
+  actors = input.required<Actor[]>();
 
   save = output<TransferAgreementValues>();
 

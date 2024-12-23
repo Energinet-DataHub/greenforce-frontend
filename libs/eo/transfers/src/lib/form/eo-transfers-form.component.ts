@@ -139,6 +139,10 @@ export type FormMode = 'create' | 'edit';
         font-weight: normal;
       }
 
+      eo-transfers-form .sender .watt-field-wrapper {
+        max-width: 330px;
+      }
+
       eo-transfers-form .receiver .watt-field-wrapper {
         max-width: 330px;
       }
@@ -146,6 +150,18 @@ export type FormMode = 'create' | 'edit';
   ],
   template: `
     <!-- Create -->
+    <h2>
+      {{
+        'sender ' +
+          form.value.senderTin +
+          ' - receiver ' +
+          form.value.receiverTin +
+          ' - startDate ' +
+          form.value.period?.startDate +
+          ' - endDate ' +
+          form.value.period?.endDate
+      }}
+    </h2>
     @if (mode() === 'create') {
       <form [formGroup]="form">
         <watt-stepper (completed)="onClose()" class="watt-modal-content--full-width">
@@ -157,24 +173,21 @@ export type FormMode = 'create' | 'edit';
             "
             [stepControl]="form.controls.receiverTin"
           >
-            @if (mode() === 'create') {
-              @if (true) {
-                <h3 class="watt-headline-2">
-                  {{
-                    translations.createTransferAgreementProposal.parties.titleBetween | transloco
-                  }}
-                </h3>
-              } @else {
-                <h3 class="watt-headline-2">
-                  {{ translations.createTransferAgreementProposal.parties.titleTo | transloco }}
-                </h3>
-              }
-              <p>
-                {{ translations.createTransferAgreementProposal.parties.description | transloco }}
-              </p>
+            @if (actors().length > 1) {
+              <h3 class="watt-headline-2">
+                {{ translations.createTransferAgreementProposal.parties.titleBetween | transloco }}
+              </h3>
+            } @else {
+              <h3 class="watt-headline-2">
+                {{ translations.createTransferAgreementProposal.parties.titleTo | transloco }}
+              </h3>
             }
-            <eo-sender-input [senders]="senders()" formControlName="senderTin" />
+            <p>
+              {{ translations.createTransferAgreementProposal.parties.description | transloco }}
+            </p>
+            <eo-sender-input class="sender" [senders]="senders()" formControlName="senderTin" />
             <eo-receiver-input
+              class="receiver"
               formControlName="receiverTin"
               [mode]="mode()"
               [filteredReceiverTins]="filteredReceiversTin()"
@@ -326,7 +339,7 @@ export class EoTransfersFormComponent implements OnInit {
   editableFields = input<FormField[]>(['senderTin', 'receiverTin', 'startDate', 'endDate']);
 
   transferAgreements = input<EoListedTransfer[]>([]);
-  actorsFromConsent = input.required<Actor[]>();
+  actors = input.required<Actor[]>();
   proposalId = input<string | null>(null);
   generateProposalFailed = input<boolean>(false);
 
@@ -378,15 +391,20 @@ export class EoTransfersFormComponent implements OnInit {
       }
     );
 
-    effect(() => {
-      const actorsFromConsent = this.actorsFromConsent();
-      this.senders.set(
-        actorsFromConsent.map((actor) => ({
-          tin: actor.tin,
-          name: actor.org_name,
-        }))
-      );
-    });
+    effect(
+      () => {
+        const actors = this.actors();
+        this.senders.set(
+          actors.map((actor) => ({
+            tin: actor.tin,
+            name: actor.org_name,
+          }))
+        );
+      },
+      {
+        allowSignalWrites: true,
+      }
+    );
   }
 
   ngOnInit(): void {

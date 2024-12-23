@@ -57,58 +57,55 @@ import {
   ],
   styles: [``],
   template: `
-    <div class="receiver">
-      <div style="display: flex; align-items: center;">
-        <watt-text-field
-          [formControl]="control"
-          [label]="
-            translations.createTransferAgreementProposal.parties.receiverTinLabel | transloco
-          "
-          [placeholder]="
-            translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
-          "
-          type="text"
-          (keydown)="preventNonNumericInput($event)"
-          data-testid="new-agreement-receiver-input"
-          [autocompleteOptions]="filteredReceiverTins() || []"
-          (search)="searchChange.emit($event)"
-          (autocompleteOptionSelected)="onSelectedRecipient($event)"
-          (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
-          [autocompleteMatcherFn]="isRecipientMatchingOption"
-          [maxLength]="8"
-          #recipientInput
-        >
-          @if (!formErrors() && mode() === 'create') {
-            <watt-field-hint
-              [innerHTML]="
-                translations.createTransferAgreementProposal.parties.receiverTinGeneralError
-                  | transloco
-              "
-            />
-          }
+    <h2>{{ formErrors() | json }}</h2>
+    <div style="display: flex; align-items: center;">
+      <watt-text-field
+        [formControl]="control"
+        [label]="translations.createTransferAgreementProposal.parties.receiverTinLabel | transloco"
+        [placeholder]="
+          translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
+        "
+        type="text"
+        (keydown)="preventNonNumericInput($event)"
+        data-testid="new-agreement-receiver-input"
+        [autocompleteOptions]="filteredReceiverTins() || []"
+        (search)="searchChange.emit($event)"
+        (autocompleteOptionSelected)="onSelectedRecipient($event)"
+        (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
+        [autocompleteMatcherFn]="isRecipientMatchingOption"
+        [maxLength]="8"
+        #recipientInput
+      >
+        @if (!formErrors() && mode() === 'create') {
+          <watt-field-hint
+            [innerHTML]="
+              translations.createTransferAgreementProposal.parties.receiverTinGeneralError
+                | transloco
+            "
+          />
+        }
 
-          @if (formErrors()?.['receiverTinEqualsSenderTin']) {
-            <watt-field-error
-              [innerHTML]="
-                translations.createTransferAgreementProposal.parties.receiverTinEqualsSenderTin
-                  | transloco
-              "
-            />
-          }
+        @if (formErrors()?.['receiverTinEqualsSenderTin']) {
+          <watt-field-error
+            [innerHTML]="
+              translations.createTransferAgreementProposal.parties.receiverTinEqualsSenderTin
+                | transloco
+            "
+          />
+        }
 
-          @if (formErrors()?.['pattern']) {
-            <watt-field-error
-              [innerHTML]="
-                translations.createTransferAgreementProposal.parties.tinFormatError | transloco
-              "
-            />
-          }
+        @if (formErrors()?.['pattern']) {
+          <watt-field-error
+            [innerHTML]="
+              translations.createTransferAgreementProposal.parties.tinFormatError | transloco
+            "
+          />
+        }
 
-          @if (selectedCompanyName()) {
-            <div class="descriptor">{{ selectedCompanyName() }}</div>
-          }
-        </watt-text-field>
-      </div>
+        @if (selectedCompanyName()) {
+          <div class="descriptor">{{ selectedCompanyName() }}</div>
+        }
+      </watt-text-field>
     </div>
   `,
 })
@@ -148,6 +145,7 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
   }
 
   validate(control: AbstractControl) {
+    console.log(control.errors);
     this.control.setErrors(control.errors);
     // We need to mark the control as touched to show the error
     this.control.markAsDirty();
