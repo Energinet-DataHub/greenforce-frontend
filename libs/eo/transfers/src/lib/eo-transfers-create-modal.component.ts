@@ -20,12 +20,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  inject,
+  input,
+  output,
   ViewChild,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -37,6 +36,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
 import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 // TODO: MOVE THIS TO DOMAIN
 export interface EoTransferAgreementsWithRecipient {
@@ -64,6 +64,7 @@ export interface EoTransferAgreementsWithRecipient {
         [closeLabel]="translations.createTransferAgreementProposal.closeLabel | transloco"
         (closed)="onClosed()"
         minHeight="634px"
+        size="large"
       >
         <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
         @if (creatingTransferAgreementProposal) {
@@ -74,19 +75,22 @@ export interface EoTransferAgreementsWithRecipient {
 
         <eo-transfers-form
           [senderTin]="authService.user()?.profile?.org_cvr"
-          [transferAgreements]="transferAgreements"
+          [transferAgreements]="transferAgreements()"
+          [actorsFromConsent]="actorsFromConsent()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
           (submitted)="createAgreementProposal($event)"
           (canceled)="modal.close(false)"
+          [mode]="'create'"
         />
       </watt-modal>
     }
   `,
 })
 export class EoTransfersCreateModalComponent {
-  @Input() transferAgreements: EoListedTransfer[] = [];
-  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+  transferAgreements = input.required<EoListedTransfer[]>();
+  actorsFromConsent = input.required<Actor[]>();
+  proposalCreated = output<EoListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
@@ -107,6 +111,7 @@ export class EoTransfersCreateModalComponent {
     /**
      * This is a workaround for "lazy loading" the modal content
      */
+    console.log(this.transferAgreements());
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
