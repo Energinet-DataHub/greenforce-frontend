@@ -37,4 +37,6 @@ public class ApiClientSettings
     public string SettlementReportsAPIBaseUrl { get; set; } = string.Empty;
 
     public string NotificationsBaseUrl { get; set; } = string.Empty;
+
+    public string Dh2BridgeBaseUrl { get; set; } = string.Empty;
 }
