@@ -13,19 +13,15 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
+namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-public class OrchestrationType<T> : InterfaceType<IOrchestration<T>>
-    where T : class, IInputParameterDto
+public static class ProcessManagerExtensions
 {
-    protected override void Configure(IInterfaceTypeDescriptor<IOrchestration<T>> descriptor)
-    {
-        descriptor
-            .Name("Orchestration")
-            .BindFieldsExplicitly();
-
-        descriptor.Field(f => f.Id);
-        descriptor.Field(f => f.Lifecycle).Name("lifeCycle");
-    }
+    internal static IOrchestrationInstance<T> ToOrchestrationInstance<T>(
+        this OrchestrationInstanceTypedDto<T> instance)
+        where T : class, IInputParameterDto =>
+        new OrchestrationInstance<T>(
+            instance.Id, instance.Lifecycle, instance.Steps, instance.ParameterValue);
 }

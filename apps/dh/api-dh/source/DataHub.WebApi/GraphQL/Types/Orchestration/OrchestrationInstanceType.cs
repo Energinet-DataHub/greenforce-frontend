@@ -13,22 +13,20 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 
-public record OrchestrationInstance<T>(
-    Guid Id,
-    OrchestrationInstanceLifecycleStateDto Lifecycle,
-    IReadOnlyCollection<StepInstanceDto> Steps,
-    T ParameterValue) : IOrchestrationInstance<T>
+public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance<T>>
     where T : class, IInputParameterDto
 {
-    public Guid CreatedBySortProperty =>
-        Lifecycle.CreatedBy switch
-        {
-            UserIdentityDto user => user.UserId,
-            ActorIdentityDto actor => actor.ActorId,
-            _ => throw new InvalidOperationException(),
-        };
+    protected override void Configure(
+        IInterfaceTypeDescriptor<IOrchestrationInstance<T>> descriptor)
+    {
+        descriptor
+            .BindFieldsExplicitly()
+            .Name(dependency => dependency.Name + "OrchestrationInstance");
+
+        descriptor.Field(f => f.Id);
+        descriptor.Field(f => f.Lifecycle).Name("lifeCycle");
+    }
 }
