@@ -74,7 +74,7 @@ export interface EoTransferAgreementsWithRecipient {
         }
 
         <eo-transfers-form
-          [senderTin]="authService.user()?.profile?.org_cvr"
+          [initialValues]="{ senderTin: authService.user()?.profile?.org_cvr }"
           [transferAgreements]="transferAgreements()"
           [actors]="actors()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"

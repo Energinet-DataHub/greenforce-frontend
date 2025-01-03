@@ -29,7 +29,6 @@ import {
   FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  ValidationErrors,
   Validator,
 } from '@angular/forms';
 
@@ -57,7 +56,6 @@ import {
   ],
   styles: [``],
   template: `
-    <h2>{{ formErrors() | json }}</h2>
     <div style="display: flex; align-items: center;">
       <watt-text-field
         [formControl]="control"
@@ -76,7 +74,7 @@ import {
         [maxLength]="8"
         #recipientInput
       >
-        @if (!formErrors() && mode() === 'create') {
+        @if (!control?.errors && mode() === 'create') {
           <watt-field-hint
             [innerHTML]="
               translations.createTransferAgreementProposal.parties.receiverTinGeneralError
@@ -84,17 +82,7 @@ import {
             "
           />
         }
-
-        @if (formErrors()?.['receiverTinEqualsSenderTin']) {
-          <watt-field-error
-            [innerHTML]="
-              translations.createTransferAgreementProposal.parties.receiverTinEqualsSenderTin
-                | transloco
-            "
-          />
-        }
-
-        @if (formErrors()?.['pattern']) {
+        @if (control?.errors?.pattern) {
           <watt-field-error
             [innerHTML]="
               translations.createTransferAgreementProposal.parties.tinFormatError | transloco
@@ -102,7 +90,7 @@ import {
           />
         }
 
-        @if (selectedCompanyName()) {
+        @if (selectedCompanyName() && control.value) {
           <div class="descriptor">{{ selectedCompanyName() }}</div>
         }
       </watt-text-field>
@@ -111,13 +99,13 @@ import {
 })
 export class EoReceiverInputComponent implements ControlValueAccessor, Validator {
   protected readonly translations = translations;
-  control = new FormControl();
   isDisabled = false;
 
+  control = new FormControl();
   mode = input.required<FormMode>();
   filteredReceiverTins = input.required<string[]>();
   selectedCompanyName = input<string | undefined>();
-  formErrors = input<ValidationErrors | null>();
+  senderTin = input<string | undefined>();
 
   selectedCompanyNameChange = output<string | undefined>();
   searchChange = output<string>();
@@ -145,12 +133,10 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
   }
 
   validate(control: AbstractControl) {
-    console.log(control.errors);
     this.control.setErrors(control.errors);
     // We need to mark the control as touched to show the error
     this.control.markAsDirty();
-
-    return control.errors;
+    return this.control.errors;
   }
 
   writeValue(value: never): void {
