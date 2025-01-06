@@ -217,7 +217,7 @@
       "extends": "plugin:@graphql-eslint/schema-recommended",
       "rules": {
         "@graphql-eslint/require-description": "off",
-        "@graphql-eslint/description-style": ["error", { "style": "inline" }],
+        "@graphql-eslint/description-style": ["off"],
         "@graphql-eslint/no-typename-prefix": ["off"],
         "@graphql-eslint/no-unreachable-types": ["off"],
         "@graphql-eslint/strict-id-in-types": [
