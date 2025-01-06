@@ -505,18 +505,12 @@ export class EoTransfersFormComponent implements OnInit {
         {
           value: senderTin ?? '',
           disabled: !this.editableFields().includes('senderTin'),
-        },
-        {
-          validators: [Validators.pattern('^[0-9]{8}$')],
         }
       ),
       receiverTin: new FormControl(
         {
           value: receiverTin ?? '',
           disabled: !this.editableFields().includes('receiverTin'),
-        },
-        {
-          validators: [Validators.pattern('^[0-9]{8}$')],
         }
       ),
       period: new FormGroup(

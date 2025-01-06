@@ -58,21 +58,21 @@ import {
   template: `
     <div style="display: flex; align-items: center;">
       <watt-text-field
+        #recipientInput
+        type="text"
+        data-testid="new-agreement-receiver-input"
+        (keydown)="preventNonNumericInput($event)"
+        (search)="searchChange.emit($event)"
+        (autocompleteOptionSelected)="onSelectedRecipient($event)"
+        (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
+        [autocompleteOptions]="filteredReceiverTins() || []"
+        [autocompleteMatcherFn]="isRecipientMatchingOption"
+        [maxLength]="8"
         [formControl]="control"
         [label]="translations.createTransferAgreementProposal.parties.receiverTinLabel | transloco"
         [placeholder]="
           translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
         "
-        type="text"
-        (keydown)="preventNonNumericInput($event)"
-        data-testid="new-agreement-receiver-input"
-        [autocompleteOptions]="filteredReceiverTins() || []"
-        (search)="searchChange.emit($event)"
-        (autocompleteOptionSelected)="onSelectedRecipient($event)"
-        (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
-        [autocompleteMatcherFn]="isRecipientMatchingOption"
-        [maxLength]="8"
-        #recipientInput
       >
         @if (!control?.errors && mode() === 'create') {
           <watt-field-hint
@@ -133,9 +133,14 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
   }
 
   validate(control: AbstractControl) {
-    this.control.setErrors(control.errors);
-    // We need to mark the control as touched to show the error
-    this.control.markAsDirty();
+    const value = control.value;
+    const regExp = new RegExp('^[0-9]{8}$');
+    const isValid = regExp.test(value);
+    if (isValid) {
+      this.control.setErrors(null);
+    } else {
+      this.control.setErrors({ pattern: true });
+    }
     return this.control.errors;
   }
 
