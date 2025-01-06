@@ -82,6 +82,7 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
       [options]="marketRolesOptions"
       [multiple]="true"
       [chipMode]="true"
+      sortDirection="asc"
     />
   </form>`,
 })
