@@ -134,8 +134,8 @@ export class DhUserRolesTableComponent {
 
   columns: WattTableColumnDef<DhUserRole> = {
     name: { accessor: 'name' },
-    eicFunction: { accessor: 'eicFunction' },
-    status: { accessor: 'status' },
+    eicFunction: { accessor: 'eicFunction', sort: false },
+    status: { accessor: 'status', sort: false },
   };
 
   selection = () => {
