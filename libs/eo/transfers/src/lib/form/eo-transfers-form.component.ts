@@ -63,6 +63,7 @@ export interface EoTransfersFormInitialValues {
   receiverTin?: string;
   startDate?: number;
   endDate?: number | null;
+  transferAgreementType?: TransferAgreementType;
 }
 
 export interface EoTransferFormPeriod {
@@ -70,18 +71,25 @@ export interface EoTransferFormPeriod {
   endDate: FormControl<number | null | undefined>;
 }
 
+export type TransferAgreementType =
+  | 'TransferAllCertificates'
+  | 'TransferCertificatesBasedOnConsumption';
+
 export interface EoTransfersForm {
   senderTin: FormControl<string | null>;
   receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
+  transferAgreementType: FormControl<TransferAgreementType | null>;
 }
 
 export interface EoTransfersFormValues {
+  senderTin?: string;
   receiverTin: string;
   period: { startDate: number; endDate: number | null; hasEndDate: boolean };
+  transferAgreementType?: TransferAgreementType;
 }
 
-type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate';
+type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transferAgreementType';
 export type FormMode = 'create' | 'edit';
 
 @Component({
@@ -145,6 +153,13 @@ export type FormMode = 'create' | 'edit';
       eo-transfers-form .receiver .watt-field-wrapper {
         max-width: 330px;
       }
+
+      .transfer-agreement-type-radios {
+        display: flex;
+        flex-direction: column;
+        gap: var(--watt-space-m);
+        margin-top: var(--watt-space-l);
+      }
     `,
   ],
   template: `
@@ -152,7 +167,7 @@ export type FormMode = 'create' | 'edit';
     @if (mode() === 'create') {
       <form [formGroup]="form">
         <watt-stepper (completed)="onClose()" class="watt-modal-content--full-width">
-          <!-- Parties -->
+          <!-- Step 1 Parties -->
           <watt-stepper-step
             [label]="translations.createTransferAgreementProposal.parties.stepLabel | transloco"
             [nextButtonLabel]="
@@ -190,7 +205,7 @@ export type FormMode = 'create' | 'edit';
               (tinChange)="form.controls.receiverTin.setValue($event)"
             />
           </watt-stepper-step>
-          <!-- Timeframe -->
+          <!-- Step 2 Timeframe -->
           <watt-stepper-step
             [label]="translations.createTransferAgreementProposal.timeframe.stepLabel | transloco"
             [nextButtonLabel]="
@@ -217,7 +232,7 @@ export type FormMode = 'create' | 'edit';
               />
             </div>
           </watt-stepper-step>
-          <!-- Volume -->
+          <!-- Step 3 Volume -->
           <watt-stepper-step
             [label]="translations.createTransferAgreementProposal.volume.stepLabel | transloco"
             [nextButtonLabel]="
@@ -230,9 +245,24 @@ export type FormMode = 'create' | 'edit';
             (entering)="onSubmit()"
             (leaving)="onLeaveInvitationStep($event)"
           >
+            <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
+            <div class="transfer-agreement-type-radios">
+              <watt-radio
+                [formControl]="form.controls.transferAgreementType"
+                group="transfer_agreement_type"
+                value="TransferCertificatesBasedOnConsumption"
+                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
+              </watt-radio>
+              <watt-radio
+                [formControl]="form.controls.transferAgreementType"
+                group="transfer_agreement_type"
+                value="TransferAllCertificates"
+              >
+                {{ translations.createTransferAgreementProposal.volume.everything | transloco }}
+              </watt-radio>
+            </div>
           </watt-stepper-step>
-          <!-- Summary -->
-          <!-- Invitation -->
+          <!-- Step 4 Summary -->
           <watt-stepper-step
             [label]="translations.createTransferAgreementProposal.summary.stepLabel | transloco"
             [nextButtonLabel]="
@@ -325,8 +355,15 @@ export class EoTransfersFormComponent implements OnInit {
     receiverTin: '',
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
+    transferAgreementType: 'TransferAllCertificates',
   });
-  editableFields = input<FormField[]>(['senderTin', 'receiverTin', 'startDate', 'endDate']);
+  editableFields = input<FormField[]>([
+    'senderTin',
+    'receiverTin',
+    'startDate',
+    'endDate',
+    'transferAgreementType',
+  ]);
 
   transferAgreements = input<EoListedTransfer[]>([]);
   actors = input.required<Actor[]>();
@@ -422,7 +459,7 @@ export class EoTransfersFormComponent implements OnInit {
           (searchMatches && senderTinIsEmpty) || (searchMatches && senderTinDiffersFromReceiverTin)
         );
       })
-,    );
+    );
   }
 
   onSenderTinChange(senderTin: string) {
@@ -498,21 +535,18 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   private initForm() {
-    const { senderTin, receiverTin, startDate, endDate } = this.initialValues();
+    const { senderTin, receiverTin, startDate, endDate, transferAgreementType } =
+      this.initialValues();
 
     this.form = new FormGroup<EoTransfersForm>({
-      senderTin: new FormControl(
-        {
-          value: senderTin ?? '',
-          disabled: !this.editableFields().includes('senderTin'),
-        }
-      ),
-      receiverTin: new FormControl(
-        {
-          value: receiverTin ?? '',
-          disabled: !this.editableFields().includes('receiverTin'),
-        }
-      ),
+      senderTin: new FormControl({
+        value: senderTin ?? '',
+        disabled: !this.editableFields().includes('senderTin'),
+      }),
+      receiverTin: new FormControl({
+        value: receiverTin ?? '',
+        disabled: !this.editableFields().includes('receiverTin'),
+      }),
       period: new FormGroup(
         {
           startDate: new FormControl(
@@ -535,6 +569,13 @@ export class EoTransfersFormComponent implements OnInit {
         {
           validators: this.getPeriodValidators(),
         }
+      ),
+      transferAgreementType: new FormControl<TransferAgreementType>(
+        {
+          value: transferAgreementType ?? 'TransferAllCertificates',
+          disabled: !this.editableFields().includes('transferAgreementType'),
+        },
+        { validators: [Validators.required] }
       ),
     });
   }

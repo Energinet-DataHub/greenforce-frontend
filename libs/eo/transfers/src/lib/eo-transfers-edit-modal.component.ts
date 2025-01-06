@@ -134,6 +134,7 @@ export class EoTransfersEditModalComponent {
           receiverTin: this.transfer()?.receiverTin as string,
           startDate: this.transfer()?.startDate as number,
           endDate: this.transfer()?.endDate as number,
+          transferAgreementType: 'TransferAllCertificates',
         };
       }
     });
