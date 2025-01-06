@@ -26,4 +26,8 @@ describe('Production environment config', () => {
   it('should have authDisabled set to false', () => {
     expect(environment.authDisabled).toBe(false);
   });
+
+  it('should have mocked set to false', () => {
+    expect(environment.mocked).toBe(false);
+  });
 });

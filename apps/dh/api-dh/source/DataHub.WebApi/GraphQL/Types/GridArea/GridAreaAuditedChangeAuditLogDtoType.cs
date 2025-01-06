@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
@@ -37,20 +39,45 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
 
         descriptor
             .Field("currentOwner")
-            .Resolve(async (ctx, ct) =>
+            .Resolve(async (ctx, _) =>
             {
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
+                if (parent.Change is GridAreaAuditedChange.ConsolidationRequested or GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
+                {
+                    var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
+                    return await GetActorNameAsync(parent.Change, currentValue.ActorId.ToString(), ctx);
+                }
 
                 return await GetActorNameAsync(parent.Change, parent.CurrentValue, ctx);
             });
 
         descriptor
             .Field("previousOwner")
-            .Resolve(async (ctx, ct) =>
+            .Resolve(async (ctx, _) =>
+            {
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
+                if (parent.Change is GridAreaAuditedChange.ConsolidationRequested or GridAreaAuditedChange.ConsolidationCompleted && parent.PreviousValue is not null)
+                {
+                    var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
+                    return await GetActorNameAsync(parent.Change, previousValue.ActorId.ToString(), ctx);
+                }
+
+                return await GetActorNameAsync(parent.Change, parent.PreviousValue, ctx);
+            });
+
+        descriptor
+            .Field("consolidatedAt")
+            .Resolve((ctx, _) =>
             {
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
 
-                return await GetActorNameAsync(parent.Change, parent.PreviousValue, ctx);
+                if (parent.Change is GridAreaAuditedChange.ConsolidationRequested or GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
+                {
+                    var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
+                    return (DateTimeOffset?)currentValue.ConsolidateAt;
+                }
+
+                return null;
             });
     }
 

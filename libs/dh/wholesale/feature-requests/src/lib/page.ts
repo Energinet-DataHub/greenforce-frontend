@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, makeEnvironmentProviders } from '@angular/core';
+import { Component } from '@angular/core';
+import { DhWholesaleRequestsNew } from './new';
+import { DhWholesaleRequestsTable } from './table';
 
-export function provideHotToastConfig() {
-  return makeEnvironmentProviders([]);
-}
-
-@Injectable({
-  providedIn: 'root',
+/* eslint-disable @angular-eslint/component-class-suffix */
+@Component({
+  selector: 'dh-wholesale-requests-page',
+  standalone: true,
+  imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable],
+  template: `
+    <dh-wholesale-requests-new #new />
+    <dh-wholesale-requests-table (new)="new.open()" />
+  `,
 })
-export class HotToastService {}
+export class DhWholesaleRequestsPage {}

@@ -670,9 +670,13 @@
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{processType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
               "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
-              "Discontinued": {
+              "ToBeDiscontinued": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> has been completed"
+              },
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_REQUESTED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
               },
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
@@ -851,8 +855,7 @@
         "Active": "Active",
         "Expired": "Expired",
         "Archived": "Archived",
-        "ToBeDiscontinued": "To be discontinued",
-        "Discontinued": "Discontinued"
+        "ToBeDiscontinued": "To be discontinued"
       },
       "types": {
         "NotSet": "Not specified",
@@ -1089,8 +1092,8 @@
   },
   "wholesale": {
     "shared": {
-      "BALANCE_FIXING": "Balance fixing",
       "AGGREGATION": "Aggregation",
+      "BALANCE_FIXING": "Balance fixing",
       "WHOLESALE_FIXING": "Wholesale fixing",
       "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
       "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
@@ -1276,6 +1279,59 @@
           "failed": "Enqueuing messages failed",
           "completed": "Messages enqueued"
         }
+      }
+    },
+    "requests": {
+      "topBarTitle": "Request calculation data",
+      "results": "Requests",
+      "button": "Request calculation data",
+      "new": {
+        "title": "Request calculation data",
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "gridArea": "Grid Area",
+        "meteringPointType": "Type of metering point",
+        "meteringPointTypeOrPriceType": "Type of metering point/Price type",
+        "cancel": "Cancel",
+        "request": "Request",
+        "maxPeriodLength": "Period cannot be longer than 31 days",
+        "monthOnlyError": "Period must be a full month"
+      },
+      "columns": {
+        "createdAt": "Created at",
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "dataType": "Metering point type/Price type",
+        "createdBy": "User",
+        "state": "Status"
+      },
+      "meteringPointTypesAndPriceTypes": {
+        "ALL_ENERGY": "All",
+        "PRODUCTION": "Production",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange",
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "MONTHLY_TARIFF": "Tariff monthly sum",
+        "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
+        "MONTHLY_FEE": "Fee monthly sum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+      },
+      "states": {
+        "pending": "Pending",
+        "executing": "In progress",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "completed": "Completed"
+      },
+      "toast": {
+        "loading": "Creating request...",
+        "success": "The request has been created",
+        "error": "{{shared.error.title}}"
       }
     },
     "requestCalculation": {

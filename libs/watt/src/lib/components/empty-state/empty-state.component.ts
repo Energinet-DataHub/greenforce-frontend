@@ -38,6 +38,7 @@ export class WattEmptyStateComponent {
   @Input() size: 'small' | 'large' = 'large';
   @Input() title = '';
   @Input() message = '';
+  @Input() useHTML = false;
 
   @HostBinding('class') get currentSize(): string[] {
     return [`empty-state-${this.size}`];

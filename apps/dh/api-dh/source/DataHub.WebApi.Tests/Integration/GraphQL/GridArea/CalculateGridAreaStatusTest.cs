@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -62,7 +62,16 @@ public class CalculateGridAreaStatusTest
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
                     ActorNumber = new ActorNumberDto { Value = "1234567890" },
-                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.GridAccessProvider, GridAreas = [] },
+                    MarketRole = new ActorMarketRoleDto
+                    {
+                        EicFunction = EicFunction.GridAccessProvider,
+                        GridAreas = [
+                            new ActorGridAreaDto
+                            {
+                                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ab"),
+                            }
+                        ],
+                    },
                     Name = new ActorNameDto { Value = "Test1" },
                 },
             };
@@ -107,6 +116,26 @@ public class CalculateGridAreaStatusTest
                     Type = GridAreaType.Distribution,
                     ValidFrom = DateTimeOffset.UtcNow.AddDays(2),
                 },
+                new()
+                {
+                    Code = "1234567894",
+                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ab"),
+                    Name = "Test4",
+                    PriceAreaCode = "DK2",
+                    Type = GridAreaType.Distribution,
+                    ValidFrom = DateTimeOffset.UtcNow,
+                },
+            };
+
+        var consolidations = new List<ActorConsolidationDto>
+            {
+                new()
+                {
+                    ActorFromId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
+                    ActorToId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ba"),
+                    ConsolidateAt = DateTimeOffset.UtcNow.AddDays(2),
+                    Status = ActorConsolidationStatus.Pending,
+                },
             };
 
         server.MarketParticipantClientV1Mock
@@ -119,7 +148,7 @@ public class CalculateGridAreaStatusTest
 
         server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorConsolidationsAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
-            .ReturnsAsync(new GetActorConsolidationsResponse() { ActorConsolidations = (ICollection<ActorConsolidationDto>)Enumerable.Empty<ActorConsolidationDto>() });
+            .ReturnsAsync(new GetActorConsolidationsResponse() { ActorConsolidations = consolidations });
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_getGridAreasWithStatus));
 

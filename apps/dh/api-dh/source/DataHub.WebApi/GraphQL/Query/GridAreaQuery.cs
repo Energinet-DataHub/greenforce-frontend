@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -31,4 +32,10 @@ public partial class Query
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.GetGridAreasAsync();
+
+    public async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
+        Guid actorId,
+        Interval period,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.GetRelevantGridAreasAsync(actorId, period);
 }

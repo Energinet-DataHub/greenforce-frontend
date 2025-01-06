@@ -70,7 +70,7 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
                   previousOwner: entry.previousOwner,
                   currentOwner: entry.currentOwner,
                   gridArea: this.gridArea()?.code,
-                  gridAreaStopsAt: this.gridArea()?.validTo | wattDate,
+                  gridAreaStopsAt: entry.consolidatedAt | wattDate,
                 })
               "
             ></div>
