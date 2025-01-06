@@ -25,7 +25,7 @@ public class CalculationType : ObjectType<CalculationDto>
     {
         descriptor
             .BindFieldsExplicitly()
-            .Name("Calculation")
+            .Name("LegacyCalculation")
             .Description("An immutable calculation.");
 
         descriptor

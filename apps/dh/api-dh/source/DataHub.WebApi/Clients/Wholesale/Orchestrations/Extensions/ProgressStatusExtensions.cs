@@ -42,4 +42,20 @@ public static class ProgressStatusExtensions
             ProgressStatus.Pending => null,
             ProgressStatus.Queued => null,
         };
+
+    public static ProgressStatus ToProgressStatus(
+        this OrchestrationInstanceLifecycleStateDto lifecycle) =>
+        lifecycle switch
+        {
+            { State: OrchestrationInstanceLifecycleStates.Pending } => ProgressStatus.Pending,
+            { State: OrchestrationInstanceLifecycleStates.Queued } => ProgressStatus.Queued,
+            { State: OrchestrationInstanceLifecycleStates.Running } => ProgressStatus.Executing,
+            { State: OrchestrationInstanceLifecycleStates.Terminated } =>
+                lifecycle.TerminationState switch
+                {
+                    OrchestrationInstanceTerminationStates.UserCanceled => ProgressStatus.Canceled,
+                    OrchestrationInstanceTerminationStates.Succeeded => ProgressStatus.Completed,
+                    OrchestrationInstanceTerminationStates.Failed => ProgressStatus.Failed,
+                },
+        };
 }

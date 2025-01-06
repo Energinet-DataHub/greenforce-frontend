@@ -24,7 +24,7 @@ using Energinet.DataHub.WebApi.GraphQL.Enums;
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.Calculations;
 
 // TODO: Feature flag here for using the "old" wholesale client
-internal class CalculationsClient(
+public class CalculationsClient(
     IHttpContextAccessor httpContextAccessor,
     IProcessManagerClient client)
     : ICalculationsClient
