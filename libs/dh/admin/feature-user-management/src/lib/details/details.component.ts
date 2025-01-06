@@ -86,7 +86,7 @@ export class DhUserDetailsComponent {
   private toastService = inject(WattToastService);
   private navigation = inject(DhNavigationService);
 
-  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
+  drawer = viewChild<WattDrawerComponent>(WattDrawerComponent);
 
   // Router param
   id = input.required<string>();
