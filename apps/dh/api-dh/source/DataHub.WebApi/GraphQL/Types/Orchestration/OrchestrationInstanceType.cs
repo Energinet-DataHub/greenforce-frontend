@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Types;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 

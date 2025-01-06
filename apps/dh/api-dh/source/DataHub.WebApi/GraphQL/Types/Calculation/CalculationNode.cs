@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Calculations;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Types;
+using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
@@ -29,18 +29,32 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation2;
 public static partial class CalculationNode
 {
     [Query]
-    public static async Task<IOrchestrationInstance<CalculationInputV1>> GetCalculationById2Async(
+    public static Task<IOrchestrationInstance<CalculationInputV1>> GetCalculationByIdAsync(
         Guid id,
-        IHttpContextAccessor httpContext,
-        IProcessManagerClient client,
-        CancellationToken ct)
-    {
-        var userIdentity = httpContext.CreateUserIdentity();
-        var result = await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
-            new GetOrchestrationInstanceByIdQuery(userIdentity, id),
-            ct);
+        ICalculationsClient client) => client.GetCalculationByIdAsync(id);
 
-        return result.ToOrchestrationInstance();
+    [Query]
+    [UsePaging]
+    [UseSorting]
+    public static Task<IEnumerable<IOrchestrationInstance<CalculationInputV1>>> GetCalculationsAsync(
+        CalculationsQueryInput input,
+        ICalculationsClient client) => client.QueryCalculationsAsync(input);
+
+    [Query]
+    public static async Task<IOrchestrationInstance<CalculationInputV1>?> GetLatestCalculationAsync(
+        Interval period,
+        CalculationType calculationType,
+        ICalculationsClient client)
+    {
+        var input = new CalculationsQueryInput
+        {
+            Period = period,
+            CalculationTypes = [calculationType],
+            ProgressStatus = ProgressStatus.Completed,
+        };
+
+        var calculations = await client.QueryCalculationsAsync(input);
+        return calculations.FirstOrDefault();
     }
 
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
@@ -53,7 +67,7 @@ public static partial class CalculationNode
         IObjectTypeDescriptor<OrchestrationInstance<CalculationInputV1>> descriptor)
     {
         descriptor
-            .Name("Calculation2")
+            .Name("Calculation")
             .BindFieldsExplicitly()
             .Implements<OrchestrationInstanceType<CalculationInputV1>>();
 

@@ -15,20 +15,36 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Types;
 
-public record OrchestrationInstance<T>(
-    Guid Id,
-    OrchestrationInstanceLifecycleStateDto Lifecycle,
-    IReadOnlyCollection<StepInstanceDto> Steps,
-    T ParameterValue) : IOrchestrationInstance<T>
+/// <summary>
+/// Interface for orchestration.
+/// </summary>
+public interface IOrchestrationInstance<out T>
     where T : class, IInputParameterDto
 {
-    public Guid CreatedBySortProperty =>
-        Lifecycle.CreatedBy switch
-        {
-            UserIdentityDto user => user.UserId,
-            ActorIdentityDto actor => actor.ActorId,
-            _ => throw new InvalidOperationException(),
-        };
+    /// <summary>
+    /// The id of the orchestration.
+    /// </summary>
+    Guid Id { get; }
+
+    /// <summary>
+    /// The life cycle state of the orchestration.
+    /// </summary>
+    OrchestrationInstanceLifecycleStateDto Lifecycle { get; }
+
+    /// <summary>
+    /// The steps of the orchestration.
+    /// </summary>
+    IReadOnlyCollection<StepInstanceDto> Steps { get; }
+
+    /// <summary>
+    /// The parameter value.
+    /// </summary>
+    T ParameterValue { get; }
+
+    /// <summary>
+    /// The parameter value.
+    /// </summary>
+    Guid CreatedBySortProperty { get; }
 }

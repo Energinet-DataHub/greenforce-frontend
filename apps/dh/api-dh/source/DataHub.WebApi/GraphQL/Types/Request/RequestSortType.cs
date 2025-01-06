@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Types;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Request;
