@@ -39,10 +39,10 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
 
         descriptor
             .Field("currentOwner")
-            .Resolve(async (ctx, ct) =>
+            .Resolve(async (ctx, _) =>
             {
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
-                if (parent.Change != GridAreaAuditedChange.ConsolidationRequested && parent.Change != GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
+                if (parent.Change is GridAreaAuditedChange.ConsolidationRequested or GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
                 {
                     var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
                     return await GetActorNameAsync(parent.Change, currentValue.ActorId.ToString(), ctx);
@@ -53,20 +53,13 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
 
         descriptor
             .Field("previousOwner")
-            .Resolve(async (ctx, ct) =>
+            .Resolve(async (ctx, _) =>
             {
                 var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
-                if (parent.Change != GridAreaAuditedChange.ConsolidationRequested && parent.Change != GridAreaAuditedChange.ConsolidationCompleted && parent.PreviousValue is not null)
+                if (parent.Change is GridAreaAuditedChange.ConsolidationRequested or GridAreaAuditedChange.ConsolidationCompleted && parent.PreviousValue is not null)
                 {
-                    try
-                    {
-                        var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
-                        return await GetActorNameAsync(parent.Change, previousValue.ActorId.ToString(), ctx);
-                    }
-                    catch (System.Exception)
-                    {
-                        return null;
-                    }
+                    var previousValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.PreviousValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
+                    return await GetActorNameAsync(parent.Change, previousValue.ActorId.ToString(), ctx);
                 }
 
                 return await GetActorNameAsync(parent.Change, parent.PreviousValue, ctx);
@@ -74,23 +67,17 @@ public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAu
 
         descriptor
             .Field("consolidatedAt")
-            .Resolve((ctx, ct) =>
+            .Resolve((ctx, _) =>
             {
-            var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
-            if (parent.Change != GridAreaAuditedChange.ConsolidationRequested && parent.Change != GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
-            {
-                try
+                var parent = ctx.Parent<GridAreaAuditedChangeAuditLogDto>();
+
+                if (parent.Change is GridAreaAuditedChange.ConsolidationRequested or GridAreaAuditedChange.ConsolidationCompleted && parent.CurrentValue is not null)
                 {
                     var currentValue = JsonSerializer.Deserialize<ActorConsolidationActorAndDate>(parent.CurrentValue) ?? throw new InvalidOperationException("Could not deserialize current value for Consolidation audit log in GridAreaAuditedChangeAuditLogDtoType");
                     return (DateTimeOffset?)currentValue.ConsolidateAt;
                 }
-                catch (System.Exception)
-                {
-                    return null;
-                }
-            }
 
-            return null;
+                return null;
             });
     }
 
