@@ -18,7 +18,8 @@
 //#endregion
 @use "@energinet-datahub/watt/utils" as watt;
 
-.watt-progress-tracker-step-pending {
+.watt-progress-tracker-step-pending,
+.watt-progress-tracker-step-queued {
   --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-600);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-neutral-grey-600);
   --watt-progress-tracker-step-fill-color: transparent;

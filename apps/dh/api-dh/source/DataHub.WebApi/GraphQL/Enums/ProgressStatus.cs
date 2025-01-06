@@ -17,6 +17,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Enums;
 public enum ProgressStatus
 {
     Pending,
+    Queued,
     Executing,
     Failed,
     Canceled,
