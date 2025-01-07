@@ -15,7 +15,7 @@
  * limitations under the License.
  */}
 {}
-import { ArgsTable, Meta, Source, Story } from '@storybook/blocks';
+import { Meta, Source, Story } from '@storybook/blocks';
 
 import * as VaterStories from './vater.stories.ts';
 import { VaterStackComponent } from './vater-stack.component.ts';
@@ -35,7 +35,6 @@ width (or height, depending on the stacking direction), they will shrink when po
 overflow to fit the available space. They will never expand beyond their original dimensions.
 
 <Story of={VaterStories.Stack} />
-<ArgsTable of={VaterStackComponent} />
 <Source
   language='html'
   dark={true}
@@ -58,7 +57,6 @@ child elements along the flex direction. Additionally, the component offers a `s
 allowing the container to shrink beyond the minimum height while showing a scrollbar.
 
 <Story of={VaterStories.Flex} />
-<ArgsTable of={VaterFlexComponent} />
 <Source
   language='html'
   dark={true}
@@ -103,7 +101,6 @@ and inherently type-safe mechanism for applying utility classes. This not only s
 development but also enhances the development experience by enabling editor auto-completion
 for CSS utilities.
 
-<ArgsTable of={VaterUtilityDirective} />
 <Source
   language='html'
   dark={true}
