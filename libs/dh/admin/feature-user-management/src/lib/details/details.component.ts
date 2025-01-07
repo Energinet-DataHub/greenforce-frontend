@@ -18,11 +18,11 @@
 //#endregion
 import {
   input,
-  effect,
   inject,
   computed,
   Component,
   viewChild,
+  afterRenderEffect,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -86,7 +86,7 @@ export class DhUserDetailsComponent {
   private toastService = inject(WattToastService);
   private navigation = inject(DhNavigationService);
 
-  drawer = viewChild<WattDrawerComponent>(WattDrawerComponent);
+  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   // Router param
   id = input.required<string>();
@@ -109,12 +109,9 @@ export class DhUserDetailsComponent {
   isReinviting = this.reInviteUserMutation.loading;
 
   constructor() {
-    effect(() => {
-      const id = this.id();
-      const drawer = this.drawer();
-      if (!id || !drawer) return;
-      this.selectedUserQuery.refetch({ id });
-      drawer.open();
+    afterRenderEffect(() => {
+      this.selectedUserQuery.refetch({ id: this.id() });
+      this.drawer().open();
     });
   }
 

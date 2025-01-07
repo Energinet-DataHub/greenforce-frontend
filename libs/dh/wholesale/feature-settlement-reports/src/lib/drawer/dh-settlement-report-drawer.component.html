@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-@let reportView = report();
 
 <watt-drawer
   #drawer
@@ -22,35 +21,35 @@ limitations under the License.
   *transloco="let t; read: 'wholesale.settlementReports'"
 >
   <watt-drawer-topbar>
-    @if (reportView && reportView.statusType !== "COMPLETED") {
-      <dh-settlement-reports-status [status]="reportView.statusType" />
+    @if (report && report.statusType !== "COMPLETED") {
+      <dh-settlement-reports-status [status]="report.statusType" />
     }
   </watt-drawer-topbar>
 
   <watt-drawer-heading>
-    @if (reportView) {
-      <h2 class="report-heading">{{ t("calculationTypes." + reportView?.calculationType) }}</h2>
+    @if (report) {
+      <h2 class="report-heading">{{ t("calculationTypes." + report.calculationType) }}</h2>
 
       <div class="metadata">
         <div class="metadata__item">
           <span class="watt-label">{{ t("columns.startedAt") }}</span>
-          <span>{{ reportView.executionTime.start | wattDate: "long" }}</span>
+          <span>{{ report.executionTime.start | wattDate: "long" }}</span>
         </div>
 
         <div class="metadata__item">
           <span class="watt-label">{{ t("columns.executionTime") }}</span>
-          <span><dh-duration [value]="reportView.executionTime" /></span>
+          <span><dh-duration [value]="report.executionTime" /></span>
         </div>
 
         <div class="metadata__item">
           <span class="watt-label">{{ t("columns.actorName") }}</span>
-          <span>{{ reportView.actor?.name }}</span>
+          <span>{{ report.actor?.name }}</span>
         </div>
       </div>
     }
   </watt-drawer-heading>
 
-  @if (reportView && reportView.statusType === "COMPLETED" && reportView.gridAreas.length > 0) {
+  @if (report && report.statusType === "COMPLETED" && report.gridAreas.length > 0) {
     <watt-drawer-actions>
       <watt-button
         type="button"
@@ -62,28 +61,28 @@ limitations under the License.
     </watt-drawer-actions>
   }
 
-  @if (drawer.isOpen && reportView) {
+  @if (drawer.isOpen && report) {
     <watt-drawer-content>
       <watt-card variant="solid" class="card-metadata">
         <watt-description-list variant="stack">
           <watt-description-list-item
             [label]="t('columns.period')"
-            [value]="reportView.period | wattDate: 'short'"
+            [value]="report.period | wattDate: 'short'"
           />
 
           <watt-description-list-item
             [label]="t('columns.basisData')"
-            [value]="(reportView.includesBasisData ? 'yes' : 'no') | transloco"
+            [value]="(report.includesBasisData ? 'yes' : 'no') | transloco"
           />
 
           <watt-description-list-item
             [label]="t('drawer.monthlySum')"
-            [value]="(reportView.includeMonthlyAmount ? 'yes' : 'no') | transloco"
+            [value]="(report.includeMonthlyAmount ? 'yes' : 'no') | transloco"
           />
 
           <watt-description-list-item
             [label]="t('drawer.combined')"
-            [value]="(reportView.combineResultInASingleFile ? 'yes' : 'no') | transloco"
+            [value]="(report.combineResultInASingleFile ? 'yes' : 'no') | transloco"
           />
         </watt-description-list>
       </watt-card>

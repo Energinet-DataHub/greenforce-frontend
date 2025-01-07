@@ -17,7 +17,7 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { Component, effect, input, output, viewChild } from '@angular/core';
+import { afterRenderEffect, Component, effect, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -26,11 +26,12 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
 import {
-  WattTableColumnDef,
-  WattTableDataSource,
   WATT_TABLE,
   WattTableComponent,
+  WattTableColumnDef,
+  WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 
 import { UserRoleItem } from '@energinet-datahub/dh/admin/data-access-api';
@@ -43,6 +44,7 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
     TranslocoPipe,
     MatDividerModule,
     TranslocoDirective,
+
     WATT_CARD,
     WATT_TABLE,
     WattEmptyStateComponent,
@@ -92,7 +94,7 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   </watt-card>`,
 })
 export class DhAssignableUserRolesComponent {
-  private table = viewChild(WattTableComponent);
+  private table = viewChild.required(WattTableComponent);
 
   actorId = input<string | null>();
 
@@ -111,7 +113,7 @@ export class DhAssignableUserRolesComponent {
       if (actorId === undefined || actorId === null) return;
       this.assignableUserRolesQuery.query({ variables: { actorId } });
     });
-    effect(() => {
+    afterRenderEffect(() => {
       this.dataSource.data = this.assignableUserRolesQuery.data()?.userRolesByActorId ?? [];
       this.clearSelection();
     });
@@ -127,6 +129,6 @@ export class DhAssignableUserRolesComponent {
   }
 
   clearSelection() {
-    this.table()?.clearSelection();
+    this.table().clearSelection();
   }
 }

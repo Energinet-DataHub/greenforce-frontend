@@ -19,11 +19,11 @@
 import {
   input,
   inject,
-  effect,
   computed,
   viewChild,
   Component,
   ChangeDetectionStrategy,
+  afterRenderEffect,
 } from '@angular/core';
 
 import { RouterOutlet } from '@angular/router';
@@ -57,6 +57,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
   imports: [
     RouterOutlet,
     TranslocoDirective,
+
     WATT_DRAWER,
     WattTabComponent,
     WattCardComponent,
@@ -64,6 +65,7 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+
     DhResultComponent,
     DhPermissionRequiredDirective,
     DhPermissionAuditLogsComponent,
@@ -86,7 +88,7 @@ export class DhPermissionDetailComponent {
   hasError = this.query.hasError;
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       this.query.query({ variables: { id: parseInt(this.id()) } });
       this.drawer().open();
     });

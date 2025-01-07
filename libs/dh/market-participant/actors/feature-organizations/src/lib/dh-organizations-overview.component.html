@@ -28,13 +28,37 @@ limitations under the License.
       }}</watt-button>
     </vater-stack>
 
-    <dh-organizations-table
-      [dataSource]="dataSource"
-      [isLoading]="isLoading()"
-      [hasError]="hasError()"
-      [id]="id()"
-      (selectedRow)="navigate($event.id)"
-    />
+    <vater-flex fill="vertical" scrollable>
+      <dh-result
+        [loading]="isLoading()"
+        [hasError]="hasError()"
+        [empty]="dataSource.filteredData.length === 0"
+      >
+        <watt-table
+          [dataSource]="dataSource"
+          [columns]="columns"
+          sortBy="name"
+          [loading]="isLoading()"
+          sortDirection="asc"
+          [sortClear]="false"
+          [activeRow]="selection()"
+          (rowClick)="navigate($event.id)"
+        >
+          <ng-container
+            *wattTableCell="
+              columns.cvrOrBusinessRegisterId;
+              header: t('columns.cvrOrBusinessRegisterId');
+              let organization
+            "
+          >
+            {{ organization.businessRegisterIdentifier }}
+          </ng-container>
+          <ng-container *wattTableCell="columns.name; header: t('columns.name'); let organization">
+            {{ organization.name }}
+          </ng-container>
+        </watt-table>
+      </dh-result>
+    </vater-flex>
 
     <watt-paginator [for]="dataSource" [pageSize]="100" />
   </vater-flex>

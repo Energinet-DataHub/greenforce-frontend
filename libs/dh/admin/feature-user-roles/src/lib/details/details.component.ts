@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { computed, Component, viewChild, input, effect, inject } from '@angular/core';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -47,17 +47,19 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
   imports: [
     RouterOutlet,
     TranslocoDirective,
+
     WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
-    DhPermissionRequiredDirective,
+
     DhResultComponent,
     DhRoleStatusComponent,
     DhRoleAuditLogsComponent,
     DhRoleMasterDataComponent,
     DhRolePermissionsComponent,
     DhDeactivedUserRoleComponent,
+    DhPermissionRequiredDirective,
   ],
   template: `
     @let userRole = userRoleWithPermissions();
@@ -136,7 +138,7 @@ export class DhUserRoleDetailsComponent {
   hasError = this.userRolesWithPermissionsQuery.hasError;
 
   // Router param
-  id = input<string>();
+  id = input.required<string>();
 
   drawer = viewChild.required(WattDrawerComponent);
 
@@ -157,18 +159,14 @@ export class DhUserRoleDetailsComponent {
   }
 
   constructor() {
-    effect(() => {
-      const id = this.id();
+    afterRenderEffect(() => {
+      this.drawer().open();
 
-      if (id) {
-        this.drawer().open();
-
-        this.userRolesWithPermissionsQuery.query({
-          variables: {
-            id,
-          },
-        });
-      }
+      this.userRolesWithPermissionsQuery.query({
+        variables: {
+          id: this.id(),
+        },
+      });
     });
   }
 }
