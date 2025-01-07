@@ -94,7 +94,7 @@ import { GetUserRolesByActorIdDocument } from '@energinet-datahub/dh/shared/doma
   </watt-card>`,
 })
 export class DhAssignableUserRolesComponent {
-  private table = viewChild.required(WattTableComponent);
+  private table = viewChild(WattTableComponent);
 
   actorId = input<string | null>();
 
@@ -129,6 +129,9 @@ export class DhAssignableUserRolesComponent {
   }
 
   clearSelection() {
-    this.table().clearSelection();
+    const table = this.table();
+    if (table) {
+      table.clearSelection();
+    }
   }
 }
