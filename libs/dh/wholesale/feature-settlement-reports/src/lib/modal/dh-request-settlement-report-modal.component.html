@@ -21,29 +21,52 @@ limitations under the License.
 >
   <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-stack align="stretch" direction="column" gap="l">
-      @if (hasMoreThanOneGridAreaOption()) {
-        <div class="items-group">
-          <watt-dropdown
-            [multiple]="true"
-            sortDirection="asc"
-            [label]="t('gridArea')"
-            [formControl]="form.controls.gridAreas"
-            [options]="gridAreaOptions$ | push"
-          >
-            @if (multipleGridAreasSelected$ | push) {
-              <watt-field-hint>
-                {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-              </watt-field-hint>
-            }
-          </watt-dropdown>
-
-          @if (multipleGridAreasSelected$ | push) {
-            <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
-              {{ t("combineResultsInOneFile") }}
-            </watt-checkbox>
+      <div class="items-group">
+        <watt-datepicker
+          [range]="true"
+          [label]="t('period')"
+          [min]="minDate"
+          [max]="maxDate"
+          [formControl]="form.controls.period"
+        >
+          @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
+            <watt-field-error> {{ t("startDateIsBeforeMinDate") }} </watt-field-error>
           }
-        </div>
-      }
+          @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
+            <watt-field-error>
+              {{ t("startDateAndEndDateHaveDifferentMonth") }}
+            </watt-field-error>
+          }
+        </watt-datepicker>
+
+        @if (showMonthlySumCheckbox$ | push) {
+          <watt-checkbox [formControl]="form.controls.includeMonthlySum">
+            {{ t("includeMonthlySum") }}
+          </watt-checkbox>
+        }
+      </div>
+
+      <div class="items-group">
+        <watt-dropdown
+          [multiple]="true"
+          sortDirection="asc"
+          [label]="t('gridArea')"
+          [formControl]="form.controls.gridAreas"
+          [options]="gridAreaOptions$ | push"
+        >
+          @if (multipleGridAreasSelected$ | push) {
+            <watt-field-hint>
+              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+            </watt-field-hint>
+          }
+        </watt-dropdown>
+
+        @if (multipleGridAreasSelected$ | push) {
+          <watt-checkbox [formControl]="form.controls.combineResultsInOneFile">
+            {{ t("combineResultsInOneFile") }}
+          </watt-checkbox>
+        }
+      </div>
 
       @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
         <div class="items-group">
@@ -73,31 +96,6 @@ limitations under the License.
         <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
           {{ t("allowLargeTextFiles") }}
         </watt-checkbox>
-      </div>
-
-      <div class="items-group">
-        <watt-datepicker
-          [range]="true"
-          [label]="t('period')"
-          [min]="minDate"
-          [max]="maxDate"
-          [formControl]="form.controls.period"
-        >
-          @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
-            <watt-field-error> {{ t("startDateIsBeforeMinDate") }} </watt-field-error>
-          }
-          @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
-            <watt-field-error>
-              {{ t("startDateAndEndDateHaveDifferentMonth") }}
-            </watt-field-error>
-          }
-        </watt-datepicker>
-
-        @if (showMonthlySumCheckbox$ | push) {
-          <watt-checkbox [formControl]="form.controls.includeMonthlySum">
-            {{ t("includeMonthlySum") }}
-          </watt-checkbox>
-        }
       </div>
     </vater-stack>
   </form>

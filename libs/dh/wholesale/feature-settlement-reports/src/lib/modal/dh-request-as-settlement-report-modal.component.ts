@@ -24,22 +24,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RxPush } from '@rx-angular/template/push';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { Apollo } from 'apollo-angular';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
-
-import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
-import { Apollo } from 'apollo-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
 
 type DhFormType = FormGroup<{
   actorId: FormControl<string>;
