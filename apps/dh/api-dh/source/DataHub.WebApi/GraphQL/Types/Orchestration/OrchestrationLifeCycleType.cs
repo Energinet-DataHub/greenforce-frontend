@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 
@@ -40,17 +41,8 @@ public class OrchestrationLifeCycle : ObjectType<OrchestrationInstanceLifecycleS
                 });
 
         descriptor
-            .Field(f => f.State)
-            .Resolve(context => context.Parent<OrchestrationInstanceLifecycleStateDto>() switch
-            {
-                { TerminationState: OrchestrationInstanceTerminationStates.Failed } => ProgressStatus.Failed,
-                { TerminationState: OrchestrationInstanceTerminationStates.Succeeded } => ProgressStatus.Completed,
-                { TerminationState: OrchestrationInstanceTerminationStates.UserCanceled } => ProgressStatus.Canceled,
-                { State: OrchestrationInstanceLifecycleStates.Pending } => ProgressStatus.Pending,
-                { State: OrchestrationInstanceLifecycleStates.Queued } => ProgressStatus.Pending,
-                { State: OrchestrationInstanceLifecycleStates.Running } => ProgressStatus.Executing,
-                { State: OrchestrationInstanceLifecycleStates.Terminated } => ProgressStatus.Completed,
-            });
+            .Field(f => f.ToProgressStatus())
+            .Name("state");
 
         descriptor
             .Field("statusType")
