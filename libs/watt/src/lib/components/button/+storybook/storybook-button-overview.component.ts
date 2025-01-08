@@ -34,6 +34,5 @@ import { WattButtonComponent } from '../watt-button.component';
   ],
   templateUrl: './storybook-button-overview.component.html',
   imports: [WattButtonComponent],
-  standalone: true,
 })
 export class StorybookButtonOverviewComponent {}

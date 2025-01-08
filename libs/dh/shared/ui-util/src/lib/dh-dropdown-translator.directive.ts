@@ -23,7 +23,6 @@ import { TranslocoService } from '@ngneat/transloco';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 @Directive({
-  standalone: true,
   selector: '[dhDropdownTranslator]',
 })
 export class DhDropdownTranslatorDirective implements OnInit {

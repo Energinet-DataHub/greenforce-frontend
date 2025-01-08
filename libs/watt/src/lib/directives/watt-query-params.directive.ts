@@ -25,7 +25,6 @@ import qs from 'qs';
 const filtersKey = 'filters';
 
 @Directive({
-  standalone: true,
   selector: '[formGroup][wattQueryParams]',
 })
 export class WattQueryParamsDirective implements OnInit {

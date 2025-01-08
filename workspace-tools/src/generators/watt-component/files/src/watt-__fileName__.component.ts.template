@@ -8,7 +8,6 @@ import {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   selector: 'watt-<%= fileName %>',
   styles: [`
     watt-<%= fileName %> {

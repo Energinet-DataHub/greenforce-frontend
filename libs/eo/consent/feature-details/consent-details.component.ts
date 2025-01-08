@@ -60,7 +60,6 @@ const selector = 'eo-consent-details-drawer';
     EoEditConsentModalComponent,
     EoConsentPermissionsComponent,
   ],
-  standalone: true,
   styles: `
     ${selector} {
       watt-drawer-content {

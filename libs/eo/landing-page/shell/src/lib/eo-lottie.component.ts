@@ -21,7 +21,6 @@ import lottie, { AnimationItem } from 'lottie-web';
 
 @Component({
   selector: 'eo-lottie',
-  standalone: true,
   template: '<div #lottieContainer [style.width]="width" [style.height]="height"></div>',
 })
 export class EoLottieComponent implements OnInit, OnDestroy {

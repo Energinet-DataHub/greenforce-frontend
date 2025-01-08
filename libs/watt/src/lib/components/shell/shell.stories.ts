@@ -107,7 +107,6 @@ function generateComponent(template: string) {
   @Component({
     selector: `watt-storybook-${index++}`,
     template,
-    standalone: true,
   })
   class StorybookPageComponent {}
 

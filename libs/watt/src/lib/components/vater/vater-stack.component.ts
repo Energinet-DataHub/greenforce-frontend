@@ -30,7 +30,6 @@ import { VaterUtilityDirective } from './vater-utility.directive';
       inputs: ['fill'],
     },
   ],
-  standalone: true,
   styles: [
     `
       vater-stack,

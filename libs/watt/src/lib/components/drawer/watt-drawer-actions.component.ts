@@ -20,7 +20,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-actions',
-  standalone: true,
   styles: `
     :host {
       flex-shrink: 0;

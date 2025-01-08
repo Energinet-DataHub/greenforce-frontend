@@ -23,7 +23,6 @@ export type StackSize = 'XS' | 'S' | 'M' | 'L' | 'XL';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   selector: 'eo-stack',
   styles: [
     `
