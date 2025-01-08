@@ -56,7 +56,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       size="small"
       [title]="organization()?.name ?? ''"
       [loading]="loading()"
-      (closed)="close(false)"
+      (closed)="handleClosed()"
       *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
     >
       <form id="editForm" (ngSubmit)="save()">
@@ -118,6 +118,9 @@ export class DhOrganizationEditModalComponent {
 
   close(result: boolean): void {
     this.modal().close(result);
+  }
+
+  handleClosed() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 

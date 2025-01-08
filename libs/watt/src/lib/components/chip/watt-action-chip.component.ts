@@ -41,7 +41,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
       <button
         type="button"
         class="cdk-visually-hidden"
-        (click)="$event.stopImmediatePropagation(); click.emit()"
+        (click)="$event.stopImmediatePropagation(); action.emit()"
         [disabled]="disabled()"
       ></button>
       <ng-content />
@@ -58,6 +58,5 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 export class WattActionChipComponent {
   disabled = input(false);
   icon = input.required<WattIcon>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  click = output<void>();
+  action = output<void>();
 }

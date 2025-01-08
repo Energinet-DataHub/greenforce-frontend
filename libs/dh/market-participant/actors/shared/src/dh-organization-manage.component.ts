@@ -55,7 +55,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
       </vater-stack>
       <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="flex-start">
         @for (domain of domains().value; track domain) {
-          <watt-action-chip icon="remove" (onClick)="removeDomain(domain)">{{
+          <watt-action-chip icon="remove" (action)="removeDomain(domain)">{{
             domain
           }}</watt-action-chip>
         }

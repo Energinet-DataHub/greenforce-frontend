@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { input, inject, effect, computed, Component, viewChild } from '@angular/core';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
@@ -128,7 +128,7 @@ export class DhUserRoleEditComponent {
   tabs = viewChild.required(WattTabsComponent);
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       const id = this.id();
 
       if (id) {
@@ -137,7 +137,7 @@ export class DhUserRoleEditComponent {
       this.modal().open();
     });
 
-    effect(() => {
+    afterRenderEffect(() => {
       const userRole = this.userRole();
 
       if (userRole) {
