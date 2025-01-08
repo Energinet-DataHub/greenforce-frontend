@@ -1112,6 +1112,12 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "basisForRSM012": {
+        "uploadButton": "Upload grundlag til RSM-012",
+        "uploadInProgress": "Upload i gang",
+        "uploadSuccess": "Fil uploadet",
+        "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
+      },
       "create": {
         "title": "Ny beregning",
         "periodWarning": {

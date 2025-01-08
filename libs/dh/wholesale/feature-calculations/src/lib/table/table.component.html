@@ -22,12 +22,25 @@ limitations under the License.
   [error]="dataSource.error"
 >
   <h3>{{ t("headline") }}</h3>
+
   <watt-button variant="secondary" icon="plus" (click)="create.emit()">
     {{ t("new") }}
   </watt-button>
+
+  <watt-button variant="icon" icon="menu" [matMenuTriggerFor]="menu" />
+
+  <dh-basis-for-rsm-012-uploader #uploader />
+
+  <mat-menu #menu="matMenu">
+    <button type="button" mat-menu-item (click)="uploader.selectFile()">
+      {{ t("basisForRSM012.uploadButton") }}
+    </button>
+  </mat-menu>
+
   <watt-data-filters>
     <dh-calculations-filters [initial]="filter()" (filter)="filter.set($event)" />
   </watt-data-filters>
+
   <watt-table
     *transloco="let translateHeader; read: 'wholesale.calculations.columns'"
     [dataSource]="dataSource"

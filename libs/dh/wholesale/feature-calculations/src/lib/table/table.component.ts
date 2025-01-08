@@ -26,6 +26,7 @@ import {
   effect,
 } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -35,7 +36,6 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import {
   CalculationQueryInput,
   CalculationOrchestrationState,
@@ -47,8 +47,12 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
+import { DhCalculationsFiltersComponent } from '../filters/filters.component';
+import { DhBasisForRSM012UploaderComponent } from '../file-uploader/dh-basis-for-rsm-012-uploader.component';
+
 @Component({
   imports: [
+    MatMenuModule,
     TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
@@ -61,6 +65,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
     WattIconComponent,
     WattTooltipDirective,
     DhCalculationsFiltersComponent,
+    DhBasisForRSM012UploaderComponent,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',
