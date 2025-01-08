@@ -36,7 +36,6 @@ const selector = 'eo-actor-menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [TranslocoPipe, MatMenuModule, NgClass, EoScrollViewComponent, WattIconComponent],
   selector,

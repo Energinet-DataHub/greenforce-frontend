@@ -37,7 +37,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'eo-login-button',
   template: `

@@ -38,7 +38,6 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [TranslocoPipe, WattEmptyStateComponent],
   selector: 'eo-html-doc',
   encapsulation: ViewEncapsulation.None,
@@ -73,31 +72,28 @@ export class EoHtmlDocComponent {
   protected readonly translations = translations;
 
   constructor() {
-    effect(
-      () => {
-        const path = this.path();
-        if (!path) {
-          this.resetState();
-          return;
-        }
+    effect(() => {
+      const path = this.path();
+      if (!path) {
+        this.resetState();
+        return;
+      }
 
-        const url = path.replace('${lang}', this.transloco.getActiveLang());
-        this.http
-          .get(url, { responseType: 'text' })
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe({
-            next: (html) => {
-              this.loadingHtmlFailed.set(false);
-              this.html.set(html);
-            },
-            error: () => {
-              this.loadingHtmlFailed.set(true);
-              this.html.set(null);
-            },
-          });
-      },
-      { allowSignalWrites: true }
-    );
+      const url = path.replace('${lang}', this.transloco.getActiveLang());
+      this.http
+        .get(url, { responseType: 'text' })
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (html) => {
+            this.loadingHtmlFailed.set(false);
+            this.html.set(html);
+          },
+          error: () => {
+            this.loadingHtmlFailed.set(true);
+            this.html.set(null);
+          },
+        });
+    });
   }
 
   private resetState(): void {

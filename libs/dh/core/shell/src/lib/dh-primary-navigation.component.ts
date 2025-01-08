@@ -34,10 +34,8 @@ import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/d
     `,
   ],
   templateUrl: './dh-primary-navigation.component.html',
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WattNavListComponent,
     WattNavListItemComponent,
     DhPermissionRequiredDirective,

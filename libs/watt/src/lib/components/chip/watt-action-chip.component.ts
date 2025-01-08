@@ -23,7 +23,6 @@ import { WattChipComponent } from './watt-chip.component';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-  standalone: true,
   imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-action-chip',
   styles: [
@@ -42,7 +41,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
       <button
         type="button"
         class="cdk-visually-hidden"
-        (click)="$event.stopImmediatePropagation(); onClick.emit()"
+        (click)="$event.stopImmediatePropagation(); action.emit()"
         [disabled]="disabled()"
       ></button>
       <ng-content />
@@ -59,5 +58,5 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 export class WattActionChipComponent {
   disabled = input(false);
   icon = input.required<WattIcon>();
-  onClick = output<void>();
+  action = output<void>();
 }

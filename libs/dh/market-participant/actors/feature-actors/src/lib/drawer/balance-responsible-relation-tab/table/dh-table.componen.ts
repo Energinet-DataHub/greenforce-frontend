@@ -29,7 +29,6 @@ import { DhBalanceResponsibleRelationStatusComponent } from '../status/dh-balanc
 
 @Component({
   selector: 'dh-balance-responsible-relations-table',
-  standalone: true,
   styles: `
     :host {
       display: block;

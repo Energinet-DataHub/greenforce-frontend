@@ -29,7 +29,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
   styles: [

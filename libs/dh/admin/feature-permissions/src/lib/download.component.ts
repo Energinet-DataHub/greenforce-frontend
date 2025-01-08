@@ -47,7 +47,6 @@ import { exportToCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util'
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
-  standalone: true,
   selector: 'dh-permissions-download',
   imports: [TranslocoPipe, WattButtonComponent, VaterStackComponent, DhPermissionRequiredDirective],
   template: `

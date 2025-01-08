@@ -50,11 +50,9 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   selector: 'watt-modal',
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
-  standalone: true,
   imports: [
     NgClass,
     NgTemplateOutlet,
-
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,

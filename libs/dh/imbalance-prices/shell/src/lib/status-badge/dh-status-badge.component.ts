@@ -25,7 +25,6 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
 @Component({
   selector: 'dh-status-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'imbalancePrices.status'">
       @switch (status()) {

@@ -43,7 +43,6 @@ import {
     `,
   ],
   template: `<router-outlet />`,
-  standalone: true,
   imports: [RouterOutlet],
 })
 export class DataHubAppComponent implements OnInit {

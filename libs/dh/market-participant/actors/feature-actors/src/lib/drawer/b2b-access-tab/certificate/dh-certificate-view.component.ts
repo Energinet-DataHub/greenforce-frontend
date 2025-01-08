@@ -43,7 +43,6 @@ type DhCertificateTableRow = {
 
 @Component({
   selector: 'dh-certificate-view',
-  standalone: true,
   styles: [
     `
       :host {
@@ -59,14 +58,12 @@ type DhCertificateTableRow = {
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WattButtonComponent,
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
     WattDatePipe,
     WATT_TABLE,
-
     DhEmDashFallbackPipe,
     DhCertificateUploaderComponent,
   ],

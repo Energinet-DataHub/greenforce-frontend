@@ -25,7 +25,6 @@ import { DhUsersComponent } from './table/table.component';
 import { DhInviteUserComponent } from './invite/invite.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-user-management',
   providers: [DhNavigationService],
   template: `

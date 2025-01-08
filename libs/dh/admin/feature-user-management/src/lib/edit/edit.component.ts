@@ -18,11 +18,11 @@
 //#endregion
 import {
   inject,
-  effect,
   computed,
   Component,
   viewChild,
   ChangeDetectionStrategy,
+  afterRenderEffect,
 } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -56,21 +56,17 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-edit-user',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattTabComponent,
     WattTabsComponent,
     WattButtonComponent,
     WattTextFieldComponent,
     WattPhoneFieldComponent,
-
     VaterFlexComponent,
-
     DhUserRolesComponent,
   ],
   templateUrl: './edit.component.html',
@@ -113,14 +109,14 @@ export class DhEditUserComponent {
   id = computed(() => this.navigation.id());
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       const id = this.id();
       if (!id) return;
       this.getUserQuery.query({ variables: { id } });
       this.modal().open();
     });
 
-    effect(() => {
+    afterRenderEffect(() => {
       const user = this.user();
       if (user) {
         this.userInfoForm.patchValue({

@@ -41,13 +41,11 @@ import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard'
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
-import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
 import {
   EoActorService,
   ServiceProviderTermsService,
 } from '@energinet-datahub/eo/auth/data-access';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { NgClass } from '@angular/common';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
@@ -58,16 +56,13 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
     WATT_MODAL,
     TranslocoPipe,
     WattButtonComponent,
-    EoConsentPermissionsComponent,
     VaterStackComponent,
     WattTextFieldComponent,
     WattCopyToClipboardDirective,
     WattCheckboxComponent,
     EoHtmlDocComponent,
     ReactiveFormsModule,
-    NgClass,
   ],
-  standalone: true,
   styles: `
     .eo-request-consent-modal {
       .description {

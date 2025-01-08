@@ -29,9 +29,7 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { AsyncPipe } from '@angular/common';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/components/ui-popup-message';
@@ -52,13 +50,10 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
     WattCardComponent,
     EoTransfersTableComponent,
     EoPopupMessageComponent,
-    WattIconComponent,
-    VaterStackComponent,
     EoTransfersRespondProposalComponent,
     TranslocoPipe,
     AsyncPipe,
   ],
-  standalone: true,
   template: `
     @if (transferAgreements().error) {
       <eo-popup-message

@@ -32,7 +32,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatMenuModule, WattButtonComponent, WattIconComponent, NgClass],
   selector: 'eo-account-menu',
   styles: `

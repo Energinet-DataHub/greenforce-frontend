@@ -46,18 +46,14 @@ type Variables = Partial<GetUsersQueryVariables>;
 
 @Component({
   selector: 'dh-users',
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDataActionsComponent,
-
     VaterUtilityDirective,
-
     DhEmDashFallbackPipe,
     DhUserStatusComponent,
     DhUserLatestLoginComponent,

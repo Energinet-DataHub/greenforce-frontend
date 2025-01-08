@@ -24,7 +24,6 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-user-status',
-  standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.userStatus'">
     @if (status() === UserStatus.Active) {
       <watt-badge type="info">{{ t(UserStatus.Active) }}</watt-badge>

@@ -34,7 +34,6 @@ const selector = 'eo-landing-page-electrical-grid';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-landing-page-electrical-grid',

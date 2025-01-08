@@ -22,7 +22,6 @@ import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatToolbarModule, EoProductLogoDirective],
   selector: 'eo-header',
   styles: [

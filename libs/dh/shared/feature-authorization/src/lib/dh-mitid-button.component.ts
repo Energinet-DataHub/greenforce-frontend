@@ -21,15 +21,12 @@ import { Component, inject, input, signal } from '@angular/core';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-mitid-button',
-  standalone: true,
-  imports: [WattSpinnerComponent, WattButtonComponent, DhFeatureFlagDirective],
+  imports: [WattSpinnerComponent],
   styles: [
     `
       watt-button {

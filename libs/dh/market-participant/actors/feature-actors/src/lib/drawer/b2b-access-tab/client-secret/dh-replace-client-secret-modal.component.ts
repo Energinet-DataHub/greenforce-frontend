@@ -26,7 +26,6 @@ import { DhCertificateUploaderComponent } from '../certificate/dh-certificate-up
 
 @Component({
   selector: 'dh-replace-client-secret-modal',
-  standalone: true,
   styles: [
     `
       :host {

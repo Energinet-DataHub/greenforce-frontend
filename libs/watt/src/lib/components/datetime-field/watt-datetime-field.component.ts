@@ -52,7 +52,6 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  standalone: true,
   selector: 'watt-datetime-field',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -176,6 +175,7 @@ export class WattDateTimeField implements ControlValueAccessor {
   dateChange = outputFromObservable(this.valueChanges);
 
   /** Emits when the field loses focus. */
+  // eslint-disable-next-line @angular-eslint/no-output-native
   blur = output<FocusEvent>();
 
   protected selected = signal<Date | null>(null);

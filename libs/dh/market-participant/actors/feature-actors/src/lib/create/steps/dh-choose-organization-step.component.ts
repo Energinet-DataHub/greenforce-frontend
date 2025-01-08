@@ -31,10 +31,8 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     ReactiveFormsModule,
     WattDropdownComponent,
     WattButtonComponent,

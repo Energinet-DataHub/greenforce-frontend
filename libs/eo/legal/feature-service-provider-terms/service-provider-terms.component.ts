@@ -25,7 +25,6 @@ const selector = 'eo-service-provider-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [EoScrollViewComponent, EoHtmlDocComponent],
   selector,

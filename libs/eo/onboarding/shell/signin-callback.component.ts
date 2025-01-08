@@ -34,7 +34,6 @@ interface State {
 }
 
 @Component({
-  standalone: true,
   selector: 'eo-signin-callback',
   imports: [
     WattSpinnerComponent,
@@ -76,6 +75,7 @@ export class EoSigninCallbackComponent implements OnInit {
   private readonly authService: EoAuthService = inject(EoAuthService);
   private readonly transloco = inject(TranslocoService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   errorDescription = input<string>('', { alias: 'error_description' });
   protected readonly isMitIDErhverv = computed(
     () => !this.errorDescription()?.startsWith('AADB2C90273')

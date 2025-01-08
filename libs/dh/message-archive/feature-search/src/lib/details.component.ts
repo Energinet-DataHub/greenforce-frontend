@@ -38,7 +38,6 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 
 @Component({
   selector: 'dh-message-archive-search-details',
-  standalone: true,
   imports: [
     TranslocoDirective,
     VaterFlexComponent,
