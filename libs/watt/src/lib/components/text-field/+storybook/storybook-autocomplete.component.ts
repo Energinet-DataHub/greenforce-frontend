@@ -36,7 +36,6 @@ export const wattAutoCompleteTemplate = `
 
 @Component({
   selector: 'watt-storybook-autocomplete',
-  standalone: true,
   imports: [WattTextFieldComponent, WattFieldHintComponent],
   template: wattAutoCompleteTemplate,
 })

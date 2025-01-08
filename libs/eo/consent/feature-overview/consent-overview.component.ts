@@ -71,7 +71,6 @@ const selector = 'eo-consent-overview';
 @Component({
   selector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WattDataTableComponent,
     WattTableComponent,

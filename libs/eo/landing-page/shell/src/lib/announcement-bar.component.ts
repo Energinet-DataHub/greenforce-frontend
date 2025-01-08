@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   selector: 'eo-announcement-bar',
   encapsulation: ViewEncapsulation.None,
   styles: `

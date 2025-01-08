@@ -19,7 +19,6 @@
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'eo-transfers-errors',
   styles: [
     `

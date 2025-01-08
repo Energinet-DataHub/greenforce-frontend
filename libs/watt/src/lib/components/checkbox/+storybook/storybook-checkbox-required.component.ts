@@ -23,7 +23,6 @@ import { WattButtonComponent } from '../../button/watt-button.component';
 
 @Component({
   selector: 'watt-storybook-checkbox-required',
-  standalone: true,
   imports: [ReactiveFormsModule, WattCheckboxComponent, WattButtonComponent],
   template: `
     <form [formGroup]="form">

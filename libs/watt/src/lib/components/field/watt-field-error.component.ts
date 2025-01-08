@@ -29,6 +29,5 @@ import { Component, ViewEncapsulation } from '@angular/core';
       }
     `,
   ],
-  standalone: true,
 })
 export class WattFieldErrorComponent {}

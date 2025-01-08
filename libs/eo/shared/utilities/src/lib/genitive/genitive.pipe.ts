@@ -20,7 +20,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'genitive',
-  standalone: true,
 })
 export class EoGenitivePipe implements PipeTransform {
   transform(value: string, language: string): string {

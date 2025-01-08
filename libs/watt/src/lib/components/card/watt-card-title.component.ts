@@ -37,7 +37,6 @@ const selector = 'watt-card-title';
   ],
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   host: {
     '[class]': 'cssClass()',
   },

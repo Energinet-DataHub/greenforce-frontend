@@ -19,7 +19,6 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  standalone: true,
   selector: 'watt-link-tab',
   template: ``,
 })

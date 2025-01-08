@@ -32,7 +32,6 @@ import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { PermissionService } from './permission.service';
 
 @Directive({
-  standalone: true,
   selector: '[dhPermissionRequired]',
 })
 export class DhPermissionRequiredDirective {
