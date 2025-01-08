@@ -23,7 +23,7 @@ using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation2;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
 [ObjectType<OrchestrationInstance<CalculationInputV1>>]
 public static partial class CalculationNode
