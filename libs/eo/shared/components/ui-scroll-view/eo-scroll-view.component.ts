@@ -34,7 +34,6 @@ const NO_SCROLL_CLASS = 'no-scroll';
 
 @Component({
   selector: SELECTOR,
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styles: [

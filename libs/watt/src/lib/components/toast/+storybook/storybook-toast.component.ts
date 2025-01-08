@@ -21,15 +21,14 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 import { WattButtonComponent } from '../../button';
 import { WattToastService } from '../watt-toast.service';
-import { WattToastComponent, WattToastConfig } from '../watt-toast.component';
+import { WattToastConfig } from '../watt-toast.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-toast',
   templateUrl: './storybook-toast.html',
   styleUrls: ['./storybook-toast.scss'],
-  standalone: true,
-  imports: [WattButtonComponent, WattToastComponent],
+  imports: [WattButtonComponent],
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
 export class StorybookToastComponent {

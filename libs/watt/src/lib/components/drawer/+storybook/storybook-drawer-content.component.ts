@@ -76,7 +76,6 @@ import { WATT_CARD } from '../../card';
       </p>
     </watt-card>
   `,
-  standalone: true,
   imports: [AsyncPipe, WATT_CARD],
 })
 export class WattStorybookDrawerContentComponent {

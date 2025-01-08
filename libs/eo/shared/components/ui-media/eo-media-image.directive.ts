@@ -22,7 +22,6 @@ import { EoMediaAlign } from './eo-media-align';
 import { EoMediaPresenter } from './eo-media.presenter';
 
 @Directive({
-  standalone: true,
   exportAs: 'eoMediaImage',
   selector: '[eoMediaImage]',
 })

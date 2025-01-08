@@ -40,7 +40,6 @@ interface Color {
   selector: 'storybook-colors-overview',
   templateUrl: './storybook-colors-overview.component.html',
   styleUrls: ['./storybook-colors-overview.component.scss'],
-  standalone: true,
 })
 export class StorybookColorsOverviewComponent {
   private colorHelperService = inject(WattColorHelperService);

@@ -23,7 +23,6 @@ import { DhWholesaleRequestsTable } from './table';
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-page',
-  standalone: true,
   imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable],
   template: `
     <dh-wholesale-requests-new #new />

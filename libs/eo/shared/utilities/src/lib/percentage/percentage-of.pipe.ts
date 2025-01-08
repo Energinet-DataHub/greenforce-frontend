@@ -21,7 +21,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'percentageOf',
   pure: true,
-  standalone: true,
 })
 export class PercentageOfPipe implements PipeTransform {
   transform(value: number, total: number): string {

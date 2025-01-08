@@ -25,7 +25,6 @@ import { WattButtonComponent } from '../../button';
   selector: 'storybook-empty-state-overview',
   templateUrl: './storybook-empty-state-overview.component.html',
   styleUrls: ['./storybook-empty-state-overview.component.scss'],
-  standalone: true,
   imports: [WattEmptyStateComponent, WattButtonComponent],
 })
 export class StorybookEmptyStateOverviewComponent {}

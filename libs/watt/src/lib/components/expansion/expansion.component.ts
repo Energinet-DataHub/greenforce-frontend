@@ -29,7 +29,6 @@ import { WattButtonComponent } from '../button/watt-button.component';
   styleUrls: ['./expansion.component.scss'],
   templateUrl: './expansion.component.html',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [MatExpansionModule, WattButtonComponent],
 })
 export class WattExpansionComponent {

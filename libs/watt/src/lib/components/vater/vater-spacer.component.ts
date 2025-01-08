@@ -21,7 +21,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'vater-spacer, [vater-spacer]',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   styles: [
     `
       vater-spacer,

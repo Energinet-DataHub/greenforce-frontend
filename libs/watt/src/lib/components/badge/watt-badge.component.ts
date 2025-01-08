@@ -34,7 +34,6 @@ export type WattBadgeSize = 'normal' | 'large';
  * `import { WattBadgeComponent } from '@energinet-datahub/watt/badge';`
  */
 @Component({
-  standalone: true,
   selector: 'watt-badge',
   styleUrls: ['./watt-badge.component.scss'],
   template: '<ng-content />',
