@@ -27,7 +27,6 @@ import { StepperExampleComponent } from './stepper.example.component';
 
 @Component({
   selector: 'watt-stepper-modal-example',
-  standalone: true,
   templateUrl: './stepper.modal.example.component.html',
   imports: [
     WATT_STEPPER,

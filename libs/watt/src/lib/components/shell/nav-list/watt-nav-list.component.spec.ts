@@ -34,7 +34,6 @@ function generateComponent(content = '') {
   @Component({
     selector: `watt-test-page-${index++}`,
     template: `<h2>${content}</h2>`,
-    standalone: true,
   })
   class TestPageComponent {}
 

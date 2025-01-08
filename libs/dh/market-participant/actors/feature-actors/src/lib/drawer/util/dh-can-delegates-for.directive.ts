@@ -23,7 +23,6 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Directive({
   selector: '[dhCanDelegateFor]',
-  standalone: true,
 })
 export class DhCanDelegateForDirective {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);

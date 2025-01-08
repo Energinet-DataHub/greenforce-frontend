@@ -42,7 +42,6 @@ export type wattTooltipVariant = 'dark' | 'light';
 
 @Directive({
   selector: '[wattTooltip]',
-  standalone: true,
   exportAs: 'wattTooltip',
 })
 export class WattTooltipDirective implements OnChanges {

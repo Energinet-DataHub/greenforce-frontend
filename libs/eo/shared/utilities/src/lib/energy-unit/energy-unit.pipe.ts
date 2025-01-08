@@ -23,7 +23,6 @@ import { findNearestUnit } from './find-nearest-unit';
 @Pipe({
   name: 'energyUnit',
   pure: true,
-  standalone: true,
 })
 export class EnergyUnitPipe implements PipeTransform {
   transform(value: number | null | undefined, maxDecimals = 2): unknown {

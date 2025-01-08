@@ -30,7 +30,6 @@ type Variant = 'normal' | 'dark' | 'light';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-info-box',
-  standalone: true,
   styles: [
     `
       :host {

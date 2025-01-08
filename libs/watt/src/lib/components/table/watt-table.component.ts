@@ -114,7 +114,6 @@ interface WattTableToolbarContext<T> {
 }
 
 @Directive({
-  standalone: true,
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
@@ -131,7 +130,6 @@ export class WattTableCellDirective<T> {
 }
 
 @Directive({
-  standalone: true,
   selector: '[wattTableToolbar]',
 })
 export class WattTableToolbarDirective<T> {
@@ -456,7 +454,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 }
 
 @Component({
-  standalone: true,
   selector: 'watt-table-toolbar-spacer',
   template: '',
   styles: [

@@ -49,7 +49,6 @@ export interface WattSliderValue {
   selector: 'watt-slider',
   styleUrls: ['./watt-slider.component.scss'],
   templateUrl: './watt-slider.component.html',
-  standalone: true,
 })
 export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges {
   private _colorService = inject(WattColorHelperService);

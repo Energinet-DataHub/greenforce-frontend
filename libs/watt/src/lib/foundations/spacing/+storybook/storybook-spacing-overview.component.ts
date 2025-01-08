@@ -58,7 +58,6 @@ const spacingScales: Scale[] = [
   selector: 'storybook-spacing-overview',
   templateUrl: './storybook-spacing-overview.component.html',
   styleUrls: ['./storybook-spacing-overview.component.scss'],
-  standalone: true,
   imports: [MatTableModule],
 })
 export class StorybookSpacingOverviewComponent {

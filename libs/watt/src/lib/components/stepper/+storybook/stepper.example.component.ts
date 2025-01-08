@@ -25,7 +25,6 @@ import { WattTextFieldComponent } from '../../text-field/watt-text-field.compone
 
 @Component({
   selector: 'watt-stepper-example',
-  standalone: true,
   templateUrl: './stepper.example.component.html',
   styles: [
     `

@@ -31,8 +31,6 @@ import { outputFromObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-breadcrumb',
-  standalone: true,
-  imports: [WattIconComponent],
   encapsulation: ViewEncapsulation.None,
   template: `<ng-template #templateRef><ng-content /></ng-template>`,
 })
@@ -49,7 +47,6 @@ export class WattBreadcrumbComponent {
  */
 @Component({
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [NgTemplateOutlet, WattIconComponent],
   selector: 'watt-breadcrumbs',
   styleUrls: ['./watt-breadcrumbs.component.scss'],
