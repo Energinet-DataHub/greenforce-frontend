@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.GraphQL.Types.Orchestration;
 using HotChocolate.Execution.Configuration;
 using NodaTime;
 
@@ -35,6 +37,7 @@ public static class GraphQLRegistrationExtensions
             .AddMutationType<Mutation>()
             .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddType<OrchestrationInstanceType<IInputParameterDto>>()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
             .ModifyOptions(o => o.EnableOneOf = true)
