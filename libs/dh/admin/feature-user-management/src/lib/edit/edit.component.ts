@@ -18,7 +18,6 @@
 //#endregion
 import {
   inject,
-  effect,
   computed,
   Component,
   viewChild,
