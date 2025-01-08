@@ -44,7 +44,6 @@ type DhClientSecretTableRow = {
 
 @Component({
   selector: 'dh-client-secret-view',
-  standalone: true,
   styles: [
     `
       :host {
@@ -60,7 +59,6 @@ type DhClientSecretTableRow = {
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WattButtonComponent,
     WATT_CARD,
     VaterFlexComponent,
@@ -68,7 +66,6 @@ type DhClientSecretTableRow = {
     WattDatePipe,
     WATT_TABLE,
     WattCopyToClipboardDirective,
-
     DhEmDashFallbackPipe,
     DhGenerateClientSecretComponent,
   ],

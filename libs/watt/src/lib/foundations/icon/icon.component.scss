@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+@use "sass:map";
 @use "./watt-icon-variables" as variables;
 
 :root {
@@ -32,10 +33,10 @@ watt-icon {
   }
 
   @each $name, $settings in variables.$settings {
-    $size: map-get($settings, size);
-    $weight: map-get($settings, weight);
-    $grade: map-get($settings, grade);
-    $opticalSize: map-get($settings, optical-size);
+    $size: map.get($settings, size);
+    $weight: map.get($settings, weight);
+    $grade: map.get($settings, grade);
+    $opticalSize: map.get($settings, optical-size);
 
     &.icon-size-#{$name} {
       .mat-icon {

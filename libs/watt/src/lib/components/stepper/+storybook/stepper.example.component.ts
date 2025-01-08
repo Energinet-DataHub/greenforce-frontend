@@ -21,10 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { WATT_STEPPER } from '..';
-import { WattButtonComponent } from '../../button';
-import { WattIconComponent } from '../../../foundations/icon';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
-import { WattFieldErrorComponent } from '../../field/watt-field-error.component';
 
 @Component({
   selector: 'watt-stepper-example',
@@ -40,15 +37,7 @@ import { WattFieldErrorComponent } from '../../field/watt-field-error.component'
       }
     `,
   ],
-  imports: [
-    WATT_STEPPER,
-    ReactiveFormsModule,
-    WattButtonComponent,
-    WattIconComponent,
-    WattTextFieldComponent,
-    WattFieldErrorComponent,
-    MatButtonModule,
-  ],
+  imports: [WATT_STEPPER, ReactiveFormsModule, WattTextFieldComponent, MatButtonModule],
 })
 export class StepperExampleComponent {
   formBuilder = inject(FormBuilder);

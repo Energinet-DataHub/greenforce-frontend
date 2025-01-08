@@ -48,12 +48,10 @@ type DhFormType = FormGroup<{
 
 @Component({
   selector: 'dh-request-as-settlement-report-modal',
-  standalone: true,
   imports: [
     RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     VaterStackComponent,
     WattDropdownComponent,

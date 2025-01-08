@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { input, inject, effect, computed, Component, viewChild } from '@angular/core';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
@@ -25,9 +25,7 @@ import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
@@ -57,7 +55,6 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 @Component({
   selector: 'dh-edit-user-role',
   templateUrl: './edit.component.html',
-  standalone: true,
   styles: [
     `
       .tab-master-data {
@@ -68,19 +65,14 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_CARD,
     WATT_MODAL,
     WattTabComponent,
     WattTabsComponent,
     WattButtonComponent,
-    WattSpinnerComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
-
-    VaterFlexComponent,
-
     DhPermissionsTableComponent,
   ],
 })
@@ -136,7 +128,7 @@ export class DhUserRoleEditComponent {
   tabs = viewChild.required(WattTabsComponent);
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       const id = this.id();
 
       if (id) {
@@ -145,7 +137,7 @@ export class DhUserRoleEditComponent {
       this.modal().open();
     });
 
-    effect(() => {
+    afterRenderEffect(() => {
       const userRole = this.userRole();
 
       if (userRole) {

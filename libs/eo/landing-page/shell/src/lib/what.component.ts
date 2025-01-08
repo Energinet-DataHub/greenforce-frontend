@@ -54,7 +54,6 @@ interface Image {
 }
 
 @Component({
-  standalone: true,
   selector: 'eo-landing-page-what',
   imports: [NgClass, NgStyle, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,

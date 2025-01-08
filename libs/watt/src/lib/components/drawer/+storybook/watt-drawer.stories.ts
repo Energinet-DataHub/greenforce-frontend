@@ -18,7 +18,7 @@
 //#endregion
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
-import { fireEvent, within } from '@storybook/testing-library';
+import { fireEvent, within } from '@storybook/test';
 
 import { WattButtonComponent } from '../../button';
 import { WATT_MODAL } from '../../modal';

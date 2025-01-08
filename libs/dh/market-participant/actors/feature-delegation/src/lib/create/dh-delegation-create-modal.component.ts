@@ -66,7 +66,6 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
 
 @Component({
   selector: 'dh-create-delegation',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-delegation-create-modal.component.html',
   styles: [
@@ -80,13 +79,11 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
     RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-
     VaterStackComponent,
     DhDropdownTranslatorDirective,
   ],

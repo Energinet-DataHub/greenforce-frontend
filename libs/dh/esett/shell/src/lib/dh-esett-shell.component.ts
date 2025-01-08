@@ -24,7 +24,6 @@ import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing'
 
 @Component({
   selector: 'dh-esett-shell',
-  standalone: true,
   template: `
     <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
       <watt-link-tab

@@ -77,7 +77,6 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     MatDatepickerModule,
     MatInputModule,

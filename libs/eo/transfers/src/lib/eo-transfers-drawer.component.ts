@@ -64,7 +64,6 @@ import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
     EoTransferInvitationLinkComponent,
     TranslocoPipe,
   ],
-  standalone: true,
   styles: [
     `
       .sub-header {

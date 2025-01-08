@@ -28,7 +28,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
  */
 
 @Component({
-  standalone: true,
   imports: [WattIconComponent],
   selector: 'eo-popup-message',
   styles: [

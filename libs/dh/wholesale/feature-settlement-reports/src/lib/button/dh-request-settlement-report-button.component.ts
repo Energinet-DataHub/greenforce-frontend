@@ -32,7 +32,6 @@ import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-a
 
 @Component({
   selector: 'dh-request-settlement-report-button',
-  standalone: true,
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
     <watt-button variant="secondary" (click)="openModal()">

@@ -34,7 +34,6 @@ import { GetFilteredPermissionsDataSource } from '@energinet-datahub/dh/shared/d
 import { DhPermissionsDownloadComponent } from './download.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-permissions-table',
   styles: [
     `
@@ -51,14 +50,11 @@ import { DhPermissionsDownloadComponent } from './download.component';
     TranslocoPipe,
     TranslocoDirective,
     RouterOutlet,
-
     WATT_CARD,
     WATT_TABLE,
     WattDataTableComponent,
     WattDataActionsComponent,
-
     VaterUtilityDirective,
-
     DhPermissionsDownloadComponent,
   ],
   providers: [DhNavigationService],

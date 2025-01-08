@@ -34,7 +34,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
-  standalone: true,
   selector: 'dh-core-login',
   encapsulation: ViewEncapsulation.None,
   imports: [

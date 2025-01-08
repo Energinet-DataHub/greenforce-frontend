@@ -30,7 +30,6 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
 
 @Component({
   selector: 'dh-b2b-access-tab',
-  standalone: true,
   styles: [
     `
       :host {
@@ -73,7 +72,6 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     VaterFlexComponent,
     WattSpinnerComponent,
     WattIconComponent,
-
     DhCertificateViewComponent,
     DhCertificateUploaderComponent,
     DhGenerateClientSecretComponent,
@@ -92,12 +90,9 @@ export class DhB2bAccessTabComponent {
   actorId = input.required<string>();
 
   constructor() {
-    effect(
-      () => {
-        this.store.resetClientSecret();
-        this.store.getCredentials(this.actorId());
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.store.resetClientSecret();
+      this.store.getCredentials(this.actorId());
+    });
   }
 }

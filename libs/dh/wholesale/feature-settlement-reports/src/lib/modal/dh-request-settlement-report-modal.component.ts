@@ -103,12 +103,10 @@ type SettlementReportRequestedBy = {
 
 @Component({
   selector: 'dh-request-settlement-report-modal',
-  standalone: true,
   imports: [
     RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     VaterStackComponent,
     WattDropdownComponent,
@@ -117,7 +115,6 @@ type SettlementReportRequestedBy = {
     WattButtonComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
-
     DhDropdownTranslatorDirective,
   ],
   styles: `

@@ -29,7 +29,6 @@ import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-l
 
 @Component({
   selector: 'dh-profile-avatar',
-  standalone: true,
   imports: [MatMenuModule, TranslocoDirective, TranslocoPipe, WattIconComponent],
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./dh-profile-avatar.component.scss'],

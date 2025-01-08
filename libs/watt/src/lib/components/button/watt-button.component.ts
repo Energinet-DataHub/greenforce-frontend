@@ -65,7 +65,6 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   `,
   styleUrls: ['./watt-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule],
 })
 export class WattButtonComponent {

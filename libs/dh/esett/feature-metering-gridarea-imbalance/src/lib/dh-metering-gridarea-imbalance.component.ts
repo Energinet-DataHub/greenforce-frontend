@@ -51,7 +51,6 @@ import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbal
 import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalance.store';
 
 @Component({
-  standalone: true,
   selector: 'dh-metering-gridarea-imbalance',
   templateUrl: './dh-metering-gridarea-imbalance.component.html',
   styles: [
@@ -78,7 +77,6 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
     TranslocoPipe,
     RxPush,
     RxLet,
-
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
@@ -87,7 +85,6 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
     VaterSpacerComponent,
     VaterStackComponent,
     VaterUtilityDirective,
-
     DhMeteringGridAreaImbalanceFiltersComponent,
     DhMeteringGridAreaImbalanceTableComponent,
   ],

@@ -24,7 +24,6 @@ import { GridAreaStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-gridarea-status-badge',
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.gridAreas.status'">

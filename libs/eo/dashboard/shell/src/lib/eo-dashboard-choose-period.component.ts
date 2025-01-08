@@ -49,7 +49,6 @@ import { eoDashboardPeriod } from '@energinet-datahub/eo/dashboard/domain';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
 
 @Component({
-  standalone: true,
   imports: [
     WattDropdownComponent,
     ReactiveFormsModule,

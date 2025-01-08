@@ -32,20 +32,16 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
 
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 @Component({
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WattButtonComponent,
     WattSpinnerComponent,
     WattDropdownComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
-
     VaterStackComponent,
     DhDropdownTranslatorDirective,
-
     DhOrganizationManageComponent,
   ],
   selector: 'dh-new-organization-step',
@@ -71,7 +67,6 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       }
     `,
   ],
-
   template: `<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
     <vater-stack direction="row" justify="space-between" class="watt-space-stack-m">
       <h4>{{ t('newOrganization') }}</h4>

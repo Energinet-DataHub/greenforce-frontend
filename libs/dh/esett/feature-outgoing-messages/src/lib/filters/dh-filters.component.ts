@@ -63,7 +63,6 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhOutgoingMessagesFilters>;
 
 @Component({
-  standalone: true,
   selector: 'dh-outgoing-messages-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-filters.component.html',
@@ -82,7 +81,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     ReactiveFormsModule,
     TranslocoDirective,
     RxPush,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -90,7 +88,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattFormChipDirective,
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
 })

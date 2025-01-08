@@ -24,7 +24,6 @@ import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-  standalone: true,
   imports: [WattIconComponent],
   selector: 'watt-search',
   styleUrls: ['./watt-search.component.scss'],

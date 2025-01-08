@@ -18,11 +18,11 @@
 //#endregion
 import {
   input,
-  effect,
   inject,
   computed,
   Component,
   viewChild,
+  afterRenderEffect,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -63,18 +63,15 @@ import { DhUserMasterDataComponent } from './tabs/master-data.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-user-details',
-  standalone: true,
   templateUrl: './details.component.html',
   imports: [
     RouterOutlet,
     MatMenuModule,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_MODAL,
     WATT_DRAWER,
     WattButtonComponent,
-
     DhUserRolesComponent,
     DhDeactivteComponent,
     DhReactivateComponent,
@@ -112,12 +109,9 @@ export class DhUserDetailsComponent {
   isReinviting = this.reInviteUserMutation.loading;
 
   constructor() {
-    effect(() => {
-      const id = this.id();
-      const drawer = this.drawer();
-      if (!id || !drawer) return;
-      this.selectedUserQuery.refetch({ id });
-      drawer.open();
+    afterRenderEffect(() => {
+      this.selectedUserQuery.refetch({ id: this.id() });
+      this.drawer().open();
     });
   }
 

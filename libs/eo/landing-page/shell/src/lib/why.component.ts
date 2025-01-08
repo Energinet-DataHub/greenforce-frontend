@@ -24,7 +24,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe],
-  standalone: true,
   selector: 'eo-landing-page-why',
   encapsulation: ViewEncapsulation.None,
   styles: `
