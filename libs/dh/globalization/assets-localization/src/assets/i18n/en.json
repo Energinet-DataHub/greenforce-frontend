@@ -380,6 +380,10 @@
             "invalid_state": "You can not change B2B access, as the market participant is deactivated",
             "still_active": "Remove B2B access before deactivating the market participant",
             "thumbprint_reserved": "Certificate is already in use"
+          },
+          "consolidation" : {
+            "frominvalid": "The selected from actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time.",
+            "toinvalid": "The selected to actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time."
           }
         },
         "market_role": {
