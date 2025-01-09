@@ -34,11 +34,11 @@ limitations under the License.
     [matMenuTriggerFor]="menu"
   />
 
-  <dh-basis-for-rsm-012-uploader #uploader />
+  <dh-capacity-settlements-uploader #uploader />
 
   <mat-menu #menu="matMenu">
     <button type="button" mat-menu-item (click)="uploader.selectFile()">
-      {{ t("basisForRSM012.uploadButton") }}
+      {{ t("capacitySettlements.uploadButton") }}
     </button>
   </mat-menu>
 

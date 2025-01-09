@@ -28,7 +28,7 @@ const jsonExt = '.json';
 const jsonMimeType = 'application/json';
 
 @Component({
-  selector: 'dh-basis-for-rsm-012-uploader',
+  selector: 'dh-capacity-settlements-uploader',
   styles: [
     `
       .upload-input {
@@ -44,7 +44,7 @@ const jsonMimeType = 'application/json';
     #uploadInput
   />`,
 })
-export class DhBasisForRSM012UploaderComponent {
+export class DhCapacitySettlementsUploaderComponent {
   private readonly httpClient = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
   private readonly api = inject(dhApiEnvironmentToken);
@@ -73,7 +73,7 @@ export class DhBasisForRSM012UploaderComponent {
   private startUpload(file: File, uploadUrl: string): void {
     this.toastService.open({
       type: 'loading',
-      message: translate('wholesale.calculations.basisForRSM012.uploadInProgress'),
+      message: translate('wholesale.calculations.capacitySettlements.uploadInProgress'),
     });
 
     const formData = new FormData();
@@ -91,7 +91,7 @@ export class DhBasisForRSM012UploaderComponent {
   }
 
   private onUploadSuccessFn = () => {
-    const message = translate('wholesale.calculations.basisForRSM012.uploadSuccess');
+    const message = translate('wholesale.calculations.capacitySettlements.uploadSuccess');
 
     this.toastService.open({ type: 'success', message });
 
@@ -99,7 +99,7 @@ export class DhBasisForRSM012UploaderComponent {
   };
 
   private onUploadErrorFn = () => {
-    const message = translate('wholesale.calculations.basisForRSM012.uploadError');
+    const message = translate('wholesale.calculations.capacitySettlements.uploadError');
 
     this.toastService.open({ type: 'danger', message });
 

@@ -49,7 +49,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
-import { DhBasisForRSM012UploaderComponent } from '../file-uploader/dh-basis-for-rsm-012-uploader.component';
+import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
 
 @Component({
   imports: [
@@ -68,7 +68,7 @@ import { DhBasisForRSM012UploaderComponent } from '../file-uploader/dh-basis-for
     WattTooltipDirective,
     DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
-    DhBasisForRSM012UploaderComponent,
+    DhCapacitySettlementsUploaderComponent,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',
