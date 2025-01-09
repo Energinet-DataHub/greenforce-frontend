@@ -21,7 +21,7 @@ import { Directive, OnInit, TemplateRef, ViewContainerRef, inject, input } from 
 import { DhFeatureFlags } from './dh-feature-flags';
 import { DhFeatureFlagsService } from './dh-feature-flags.service';
 
-@Directive({ selector: '[dhFeatureFlag]', standalone: true })
+@Directive({ selector: '[dhFeatureFlag]' })
 export class DhFeatureFlagDirective implements OnInit {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   private viewContainer = inject(ViewContainerRef);

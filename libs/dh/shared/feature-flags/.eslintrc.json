@@ -22,8 +22,7 @@
             "style": "kebab-case"
           }
         ],
-        "no-dupe-keys": ["error"],
-        "@angular-eslint/prefer-standalone": "off"
+        "no-dupe-keys": ["error"]
       }
     },
     {
