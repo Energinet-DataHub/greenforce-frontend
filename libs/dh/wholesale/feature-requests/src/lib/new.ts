@@ -76,7 +76,6 @@ const injectToast = () => {
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-new',
-  standalone: true,
   imports: [
     DhDropdownTranslatorDirective,
     MatSelectModule,

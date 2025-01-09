@@ -23,7 +23,6 @@ import { formatStrings, wattFormatDate } from './watt-format-date';
 
 @Pipe({
   name: 'wattDate',
-  standalone: true,
 })
 export class WattDatePipe implements PipeTransform {
   /**

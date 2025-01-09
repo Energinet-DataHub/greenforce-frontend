@@ -42,7 +42,6 @@ describe('Danish locale', () => {
   it('configures the DecimalPipe', () => {
     @Component({
       template: "{{ value() | number: '1.1' }}",
-      standalone: true,
       imports: [DecimalPipe],
     })
     class TestHostComponent {
@@ -59,7 +58,6 @@ describe('Danish locale', () => {
   it('configures the CurrencyPipe', () => {
     @Component({
       template: "{{ value() | currency: undefined: 'code' }}",
-      standalone: true,
       imports: [CurrencyPipe],
     })
     class TestHostComponent {
@@ -76,7 +74,6 @@ describe('Danish locale', () => {
   it('configures the PercentPipe', () => {
     @Component({
       template: "{{ value() | percent:'4.3-5' }}",
-      standalone: true,
       imports: [PercentPipe],
     })
     class TestHostComponent {
@@ -95,7 +92,6 @@ describe('Danish locale', () => {
 
     @Component({
       template: "{{ value() | date: 'medium' }}",
-      standalone: true,
       imports: [DatePipe],
     })
     class TestHostComponent {

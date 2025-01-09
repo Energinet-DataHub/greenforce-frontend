@@ -24,7 +24,6 @@ export type Inset = '0' | 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
 /* eslint-disable @angular-eslint/no-input-rename */
 @Directive({
   selector: '[vater]',
-  standalone: true,
 })
 export class VaterUtilityDirective {
   /** Stretch the element to fill the available space in one or both directions. */

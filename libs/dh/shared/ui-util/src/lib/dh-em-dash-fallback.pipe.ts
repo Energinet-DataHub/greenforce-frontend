@@ -24,7 +24,6 @@ type TValue = string | number | undefined | null;
 
 @Pipe({
   name: 'dhEmDashFallback',
-  standalone: true,
 })
 export class DhEmDashFallbackPipe implements PipeTransform {
   transform(value: TValue): string | number {

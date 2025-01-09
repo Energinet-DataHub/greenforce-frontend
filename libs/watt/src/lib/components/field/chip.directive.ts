@@ -31,7 +31,6 @@ interface WattChip {
 }
 
 @Directive({
-  standalone: true,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

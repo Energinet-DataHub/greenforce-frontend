@@ -27,7 +27,7 @@ import { WattResizeObserverService } from './watt-resize-observer.service';
  * Usage:
  * `import { WattResizeObserverDirective } from '@energinet-datahub/watt/resize-observer';`
  */
-@Directive({ standalone: true, selector: '[wattResizeObserver]' })
+@Directive({ selector: '[wattResizeObserver]' })
 export class WattResizeObserverDirective implements OnDestroy {
   private el = inject(ElementRef);
   private resizeObserverService = inject(WattResizeObserverService);

@@ -145,7 +145,6 @@ export class WattModalComponent {
 @Component({
   selector: 'watt-modal-actions',
   template: '<ng-content />',
-  standalone: true,
 })
 export class WattModalActionsComponent {}
 

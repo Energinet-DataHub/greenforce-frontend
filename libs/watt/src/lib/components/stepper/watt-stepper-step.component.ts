@@ -26,7 +26,6 @@ export { CdkStep as WattStep };
   template: `<ng-template #templateRef>
     <ng-content />
   </ng-template>`,
-  standalone: true,
 })
 export class WattStepperStepComponent extends MatStep {
   @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;

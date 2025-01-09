@@ -23,7 +23,6 @@ const selector = 'eoProductLogo';
 @Directive({
   exportAs: selector,
   selector: 'img[' + selector + ']',
-  standalone: true,
 })
 export class EoProductLogoDirective {
   @HostBinding('attr.alt')
