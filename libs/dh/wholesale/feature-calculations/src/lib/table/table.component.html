@@ -27,7 +27,12 @@ limitations under the License.
     {{ t("new") }}
   </watt-button>
 
-  <watt-button variant="icon" icon="menu" [matMenuTriggerFor]="menu" />
+  <watt-button
+    *dhPermissionRequired="['dh2-bridge:import']"
+    variant="icon"
+    icon="menu"
+    [matMenuTriggerFor]="menu"
+  />
 
   <dh-basis-for-rsm-012-uploader #uploader />
 

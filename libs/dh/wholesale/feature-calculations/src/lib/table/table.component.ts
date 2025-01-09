@@ -46,6 +46,7 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhBasisForRSM012UploaderComponent } from '../file-uploader/dh-basis-for-rsm-012-uploader.component';
@@ -54,6 +55,7 @@ import { DhBasisForRSM012UploaderComponent } from '../file-uploader/dh-basis-for
   imports: [
     MatMenuModule,
     TranslocoDirective,
+
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
@@ -64,6 +66,7 @@ import { DhBasisForRSM012UploaderComponent } from '../file-uploader/dh-basis-for
     WattDataFiltersComponent,
     WattIconComponent,
     WattTooltipDirective,
+    DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhBasisForRSM012UploaderComponent,
   ],
