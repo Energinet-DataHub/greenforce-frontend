@@ -381,7 +381,7 @@
             "still_active": "Remove B2B access before deactivating the market participant",
             "thumbprint_reserved": "Certificate is already in use"
           },
-          "consolidation" : {
+          "consolidation": {
             "frominvalid": "The selected from actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time.",
             "toinvalid": "The selected to actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time."
           }
