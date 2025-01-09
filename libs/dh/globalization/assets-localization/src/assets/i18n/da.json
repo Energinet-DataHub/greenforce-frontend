@@ -381,7 +381,7 @@
             "still_active": "Fjern B2B-adang før du deaktiverer aktøren",
             "thumbprint_reserved": "Certifikat er i brug"
           },
-          "consolidation" : {
+          "consolidation": {
             "frominvalid": "Den valgte fra aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående.",
             "toinvalid": "Den valgte til aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående."
           }
