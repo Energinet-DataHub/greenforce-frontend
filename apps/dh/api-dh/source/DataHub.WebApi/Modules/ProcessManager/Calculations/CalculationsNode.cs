@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
@@ -108,6 +110,33 @@ public static partial class CalculationNode
     public static async Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
         ICalculationsClient client) => await client.CancelScheduledCalculationAsync(calculationId);
+
+    [Subscription]
+    [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
+    public static IOrchestrationInstance<CalculationInputV1> CalculationUpdated(
+        [EventMessage] IOrchestrationInstance<CalculationInputV1> calculation) => calculation;
+
+    public static IObservable<IOrchestrationInstance<CalculationInputV1>> OnCalculationUpdatedAsync(
+        ITopicEventReceiver eventReceiver,
+        ICalculationsClient client,
+        CancellationToken ct)
+    {
+        // TODO: This needs to only search for calculations that are in progress
+        var input = new CalculationsQueryInput() { };
+        return Observable
+            .FromAsync(() => client.QueryCalculationsAsync(input))
+            .SelectMany(calculations => calculations)
+            .Select(calculation => calculation.Id)
+            .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
+            .SelectMany(id => Observable
+                .Interval(TimeSpan.FromSeconds(10))
+                .Select(_ => id)
+                .StartWith(id)
+                .SelectMany(client.GetCalculationByIdAsync)
+                .DistinctUntilChanged(calculation => calculation.Lifecycle.State)
+                .TakeUntil(calculation => calculation.Lifecycle.TerminatedAt is not null));
+    }
 
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] OrchestrationInstance<CalculationInputV1> f,

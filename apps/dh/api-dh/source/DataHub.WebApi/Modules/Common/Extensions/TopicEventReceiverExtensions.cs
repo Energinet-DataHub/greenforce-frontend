@@ -15,7 +15,7 @@
 using System.Reactive.Linq;
 using HotChocolate.Subscriptions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.Common;
 
 public static class TopicEventReceiverExtensions
 {
