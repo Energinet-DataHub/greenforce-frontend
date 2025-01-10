@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
 
-public record OrchestrationInstance<T>(
-    Guid Id,
-    OrchestrationInstanceLifecycleDto Lifecycle,
-    IReadOnlyCollection<StepInstanceDto> Steps,
-    T ParameterValue) : IOrchestrationInstance<T>
-    where T : class, IInputParameterDto;
+public static class OperatingIdentityExtensions
+{
+    public static Guid GetGuid(this IOperatingIdentityDto identity) =>
+        identity switch
+        {
+            UserIdentityDto user => user.UserId,
+            ActorIdentityDto actor => actor.ActorId,
+            _ => throw new InvalidOperationException(),
+        };
+}

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Data.Sorting;
 
@@ -28,7 +29,7 @@ public class RequestSortType : SortInputType<IOrchestrationInstance<IRequest>>
 
         descriptor.Field(f => f.Lifecycle.CreatedAt).Name("createdAt");
         descriptor.Field(f => f.Lifecycle.State).Name("state");
-        descriptor.Field(f => f.CreatedBySortProperty).Name("createdBy");
+        descriptor.Field(f => f.Lifecycle.CreatedBy.GetGuid()).Name("createdBy");
         descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
         descriptor.Field(f => f.ParameterValue.Period.Start).Name("period");
         descriptor

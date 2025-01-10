@@ -42,9 +42,4 @@ public interface IOrchestrationInstance<out T>
     /// The parameter value.
     /// </summary>
     T ParameterValue { get; }
-
-    /// <summary>
-    /// The parameter value.
-    /// </summary>
-    Guid CreatedBySortProperty { get; }
 }
