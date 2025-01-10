@@ -28,6 +28,5 @@ import { Component } from '@angular/core';
     `,
   ],
   template: `<ng-content />`,
-  standalone: true,
 })
 export class WattFieldHintComponent {}

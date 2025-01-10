@@ -26,7 +26,6 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 @Directive({
   selector: '[wattExpandOnActiveLink]',
   exportAs: 'wattExpandOnActiveLink',
-  standalone: true,
 })
 export class WattExpandOnActiveLinkDirective implements AfterViewInit {
   private panel = inject(MatExpansionPanel);

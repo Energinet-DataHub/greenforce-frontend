@@ -38,7 +38,6 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-table',
-  standalone: true,
   imports: [
     TranslocoDirective,
     TranslocoPipe,

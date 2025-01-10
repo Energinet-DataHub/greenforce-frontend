@@ -21,14 +21,14 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
 
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 
-@Pipe({ name: 'filterUserRoles', standalone: true })
+@Pipe({ name: 'filterUserRoles' })
 export class FilterUserRolesPipe implements PipeTransform {
   transform(userRoles: ActorUserRoles | null | undefined, includeAllUserRoles = false) {
     return (userRoles || []).filter((userRole) => userRole.assigned || includeAllUserRoles);
   }
 }
 
-@Pipe({ name: 'userRolesIntoTable', standalone: true })
+@Pipe({ name: 'userRolesIntoTable' })
 export class UserRolesIntoTablePipe implements PipeTransform {
   readonly dataSource = new WattTableDataSource<ActorUserRole>();
 
