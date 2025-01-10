@@ -1,5 +1,5 @@
 query GetCalculations(
-  $input: CalculationQueryInput!
+  $input: CalculationsQueryInput!
   $first: Int
   $last: Int
   $after: String
@@ -24,22 +24,25 @@ query GetCalculations(
     nodes {
       id
       state
-      executionTimeStart
-      executionTimeEnd
-      period
-      statusType
-      executionType
-      calculationType
-      createdByUserName
-      gridAreas {
-        id
-        code
+      createdBy {
         displayName
       }
-      currentStep
-      progress {
-        step
-        status
+      createdAt
+      terminatedAt
+
+      ... on Calculation {
+        calculationType
+        executionType
+        period
+        gridAreas {
+          id
+          code
+          displayName
+        }
+      }
+      steps {
+        isCurrent
+        state
       }
     }
   }
