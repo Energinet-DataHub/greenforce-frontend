@@ -714,10 +714,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       previousLabel: 'Timeframe',
     },
     summary: {
-      stepLabel: 'Invitation',
+      stepLabel: 'Summary',
       previousLabel: 'Volume',
       ready: {
-        title: 'Transfer agreement ready for creation',
+        title: 'Transfer agreement ready for creation!',
         nextLabel: 'Create agreement',
       },
       invitation: {

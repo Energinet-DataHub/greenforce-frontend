@@ -174,6 +174,7 @@ export type FormMode = 'create' | 'edit';
               translations.createTransferAgreementProposal.parties.nextLabel | transloco
             "
             [stepControl]="form.controls.receiverTin"
+            (leaving)="onLeavingPartiesStep()"
           >
             @if (actors().length > 1) {
               <h3 class="watt-headline-2">
@@ -242,8 +243,7 @@ export type FormMode = 'create' | 'edit';
             [previousButtonLabel]="
               translations.createTransferAgreementProposal.volume.previousLabel | transloco
             "
-            (entering)="onSubmit()"
-            (leaving)="onLeaveInvitationStep($event)"
+            (leaving)="onLeaveVolumeStep($event)"
           >
             <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
             <div class="transfer-agreement-type-radios">
@@ -263,54 +263,75 @@ export type FormMode = 'create' | 'edit';
             </div>
           </watt-stepper-step>
           <!-- Step 4 Summary -->
-          <watt-stepper-step
-            [label]="translations.createTransferAgreementProposal.summary.stepLabel | transloco"
-            [nextButtonLabel]="
-              translations.createTransferAgreementProposal.summary.invitation.nextLabel | transloco
-            "
-            [disableNextButton]="generateProposalFailed()"
-            [previousButtonLabel]="
-              translations.createTransferAgreementProposal.summary.previousLabel | transloco
-            "
-            (entering)="onSubmit()"
-            (leaving)="onLeaveInvitationStep($event)"
-          >
-            <vater-stack direction="column" gap="l" align="flex-start">
-              @if (!generateProposalFailed()) {
-                <h2>
-                  {{
-                    translations.createTransferAgreementProposal.summary.invitation.title.success
-                      | transloco
-                  }}
-                </h2>
-                <div
-                  [innerHTML]="
-                    translations.createTransferAgreementProposal.summary.invitation.description
-                      .success | transloco
-                  "
-                ></div>
-              } @else {
-                <h2>
-                  {{
-                    translations.createTransferAgreementProposal.summary.invitation.title.error
-                      | transloco
-                  }}
-                </h2>
-                <div
-                  [innerHTML]="
-                    translations.createTransferAgreementProposal.summary.invitation.description
-                      .error | transloco
-                  "
-                ></div>
-              }
-              <eo-transfers-invitation-link
-                [proposalId]="proposalId()"
-                [hasError]="generateProposalFailed()"
-                (retry)="onSubmit()"
-                #invitationLink
-              />
-            </vater-stack>
-          </watt-stepper-step>
+          @if (hasConsentForReceiver()) {
+            <!-- Ready -->
+            <watt-stepper-step
+              [label]="translations.createTransferAgreementProposal.summary.stepLabel | transloco"
+              [nextButtonLabel]="
+                translations.createTransferAgreementProposal.summary.ready.nextLabel | transloco
+              "
+              [disableNextButton]="generateProposalFailed()"
+              [previousButtonLabel]="
+                translations.createTransferAgreementProposal.summary.previousLabel | transloco
+              "
+              (next)="onSubmit()"
+            >
+              <h2>
+                {{ translations.createTransferAgreementProposal.summary.ready.title | transloco }}
+              </h2>
+            </watt-stepper-step>
+          } @else {
+            <!-- Invitation Link -->
+            <watt-stepper-step
+              [label]="translations.createTransferAgreementProposal.summary.stepLabel | transloco"
+              [nextButtonLabel]="
+                translations.createTransferAgreementProposal.summary.invitation.nextLabel
+                  | transloco
+              "
+              [disableNextButton]="generateProposalFailed()"
+              [previousButtonLabel]="
+                translations.createTransferAgreementProposal.summary.previousLabel | transloco
+              "
+              (entering)="onSubmit()"
+              (leaving)="onLeaveVolumeStep($event)"
+            >
+              <vater-stack direction="column" gap="l" align="flex-start">
+                @if (!generateProposalFailed()) {
+                  <h2>
+                    {{
+                      translations.createTransferAgreementProposal.summary.invitation.title.success
+                        | transloco
+                    }}
+                  </h2>
+                  <div
+                    [innerHTML]="
+                      translations.createTransferAgreementProposal.summary.invitation.description
+                        .success | transloco
+                    "
+                  ></div>
+                } @else {
+                  <h2>
+                    {{
+                      translations.createTransferAgreementProposal.summary.invitation.title.error
+                        | transloco
+                    }}
+                  </h2>
+                  <div
+                    [innerHTML]="
+                      translations.createTransferAgreementProposal.summary.invitation.description
+                        .error | transloco
+                    "
+                  ></div>
+                }
+                <eo-transfers-invitation-link
+                  [proposalId]="proposalId()"
+                  [hasError]="generateProposalFailed()"
+                  (retry)="onSubmit()"
+                  #invitationLink
+                />
+              </vater-stack>
+            </watt-stepper-step>
+          }
         </watt-stepper>
       </form>
       <!-- Edit -->
@@ -381,6 +402,7 @@ export class EoTransfersFormComponent implements OnInit {
   protected senders = signal<Sender[]>([]);
   protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
   protected selectedCompanyName = signal<string | undefined>(undefined);
+  protected hasConsentForReceiver = signal<boolean>(false);
 
   private transloco = inject(TranslocoService);
   private recipientTins = signal<string[]>([]);
@@ -481,17 +503,19 @@ export class EoTransfersFormComponent implements OnInit {
   protected onSubmit() {
     const formValue = this.form.value;
     const eoTransfersFormValues: EoTransfersFormValues = {
+      senderTin: formValue.senderTin ?? undefined,
       receiverTin: formValue.receiverTin as string,
       period: {
         startDate: formValue.period?.startDate as number,
         endDate: formValue.period?.endDate as number | null,
         hasEndDate: formValue.period?.endDate !== null,
       },
+      transferAgreementType: formValue.transferAgreementType ?? 'TransferAllCertificates',
     };
     this.submitted.emit(eoTransfersFormValues);
   }
 
-  onLeaveInvitationStep(step: WattStep) {
+  onLeaveVolumeStep(step: WattStep) {
     step.reset();
   }
 
@@ -585,5 +609,14 @@ export class EoTransfersFormComponent implements OnInit {
       endDateMustBeLaterThanStartDateValidator(),
       overlappingTransferAgreementsValidator(this.existingTransferAgreements()),
     ];
+  }
+
+  onLeavingPartiesStep() {
+    const receiver = this.form.controls.receiverTin.value;
+    this.hasConsentForReceiver.set(
+      this.actors().some((actor: Actor) => {
+        return actor.tin === receiver;
+      })
+    );
   }
 }

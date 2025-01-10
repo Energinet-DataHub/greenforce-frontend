@@ -702,10 +702,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       previousLabel: 'Tidsramme',
     },
     summary: {
-      stepLabel: 'Invitation',
+      stepLabel: 'Opsummering',
       previousLabel: 'Volumen',
       ready: {
-        title: 'Overførselsaftale klar til oprettelse',
+        title: 'Overførselsaftale klar til oprettelse!',
         nextLabel: 'Opret aftale',
       },
       invitation: {

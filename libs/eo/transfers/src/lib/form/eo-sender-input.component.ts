@@ -126,8 +126,4 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
   onChange: any = () => {
     // Intentionally left empty
   };
-
-  test(event: any) {
-    console.log('hit', event);
-  }
 }

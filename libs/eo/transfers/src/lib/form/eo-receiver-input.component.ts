@@ -74,7 +74,7 @@ import {
           translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
         "
       >
-        @if (!control?.errors && mode() === 'create') {
+        @if (!control.errors && mode() === 'create') {
           <watt-field-hint
             [innerHTML]="
               translations.createTransferAgreementProposal.parties.receiverTinGeneralError
@@ -82,7 +82,7 @@ import {
             "
           />
         }
-        @if (control?.errors?.pattern) {
+        @if (control.errors?.pattern) {
           <watt-field-error
             [innerHTML]="
               translations.createTransferAgreementProposal.parties.tinFormatError | transloco
