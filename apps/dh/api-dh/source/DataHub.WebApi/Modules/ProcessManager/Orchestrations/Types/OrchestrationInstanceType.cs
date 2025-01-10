@@ -51,7 +51,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
         descriptor
             .Field("currentStep")
             .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Steps
-                .Where(s => s.Lifecycle.State != StepInstanceLifecycleStates.Pending)
+                .Where(s => s.Lifecycle.State != StepInstanceLifecycleState.Pending)
                 .Select(s => s.Sequence)
                 .Order()
                 .FirstOrDefault(0));
@@ -67,18 +67,18 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             });
     }
 
-    private static OrchestrationInstanceState GetInitialStepState(OrchestrationInstanceLifecycleStateDto lifecycle) =>
+    private static OrchestrationInstanceState GetInitialStepState(OrchestrationInstanceLifecycleDto lifecycle) =>
         lifecycle switch
         {
-            { State: OrchestrationInstanceLifecycleStates.Pending } => OrchestrationInstanceState.Pending,
-            { State: OrchestrationInstanceLifecycleStates.Queued } => OrchestrationInstanceState.Queued,
-            { State: OrchestrationInstanceLifecycleStates.Running } => OrchestrationInstanceState.Completed,
-            { State: OrchestrationInstanceLifecycleStates.Terminated } =>
+            { State: OrchestrationInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
+            { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Queued,
+            { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationInstanceState.Completed,
+            { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationInstanceTerminationStates.UserCanceled => OrchestrationInstanceState.Canceled,
-                    OrchestrationInstanceTerminationStates.Succeeded => OrchestrationInstanceState.Completed,
-                    OrchestrationInstanceTerminationStates.Failed => OrchestrationInstanceState.Completed,
+                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.Canceled,
+                    OrchestrationInstanceTerminationState.Succeeded => OrchestrationInstanceState.Completed,
+                    OrchestrationInstanceTerminationState.Failed => OrchestrationInstanceState.Completed,
                 },
         };
 }

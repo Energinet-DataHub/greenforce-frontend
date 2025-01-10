@@ -18,7 +18,6 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
@@ -35,17 +34,12 @@ public class CalculationsClient(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
-        var calculationTypes = input.CalculationTypes ?? [];
-        var processManagerCalculationTypes = calculationTypes
-            .Select(x => x.ToBrs_023_027())
-            .ToList();
-
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var customQuery = new CalculationQuery(userIdentity)
         {
             LifecycleState = input.State?.ToLifecycleState(),
             TerminationState = input.State?.ToTerminationState(),
-            CalculationTypes = processManagerCalculationTypes,
+            CalculationTypes = input.CalculationTypes,
             GridAreaCodes = input.GridAreaCodes,
             PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
             PeriodEndDate = input.Period?.End.ToDateTimeOffset(),

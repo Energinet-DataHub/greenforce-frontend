@@ -13,35 +13,12 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 
 public static class CalculationTypeExtensions
 {
-    public static CalculationTypes ToBrs_023_027(this CalculationType calculationType) =>
-        calculationType switch
-        {
-            CalculationType.Aggregation => CalculationTypes.Aggregation,
-            CalculationType.BalanceFixing => CalculationTypes.BalanceFixing,
-            CalculationType.WholesaleFixing => CalculationTypes.WholesaleFixing,
-            CalculationType.FirstCorrectionSettlement => CalculationTypes.FirstCorrectionSettlement,
-            CalculationType.SecondCorrectionSettlement => CalculationTypes.SecondCorrectionSettlement,
-            CalculationType.ThirdCorrectionSettlement => CalculationTypes.ThirdCorrectionSettlement,
-        };
-
-    public static CalculationType FromBrs_023_027(this CalculationTypes calculationType) =>
-        calculationType switch
-        {
-            CalculationTypes.Aggregation => CalculationType.Aggregation,
-            CalculationTypes.BalanceFixing => CalculationType.BalanceFixing,
-            CalculationTypes.WholesaleFixing => CalculationType.WholesaleFixing,
-            CalculationTypes.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
-            CalculationTypes.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
-            CalculationTypes.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
-        };
-
     public static EdiCalculationType ToEdiCalculationType(this CalculationType calculationType) =>
         calculationType switch
         {

@@ -13,17 +13,17 @@
 // limitations under the License.
 
 using System.Security.Claims;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 using NodaTime;
-using CalculationType = Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums.CalculationType;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
+using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
@@ -36,10 +36,10 @@ public static class RequestOperations
     {
         var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleStateDto(
+            new OrchestrationInstanceLifecycleDto(
                 new UserIdentityDto(new Guid("5ff81160-507e-41e5-4846-08dc53cca56b"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleStates.Terminated,
-                OrchestrationInstanceTerminationStates.Succeeded,
+                OrchestrationInstanceLifecycleState.Terminated,
+                OrchestrationInstanceTerminationState.Succeeded,
                 null,
                 DateTimeOffset.Parse("2024-10-25").AddHours(10),
                 null,
@@ -60,10 +60,10 @@ public static class RequestOperations
 
         var result2 = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleStateDto(
+            new OrchestrationInstanceLifecycleDto(
                 new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleStates.Terminated,
-                OrchestrationInstanceTerminationStates.Failed,
+                OrchestrationInstanceLifecycleState.Terminated,
+                OrchestrationInstanceTerminationState.Failed,
                 null,
                 DateTimeOffset.Parse("2024-10-25").AddHours(10),
                 null,
@@ -84,9 +84,9 @@ public static class RequestOperations
 
         var result3 = new OrchestrationInstanceTypedDto<RequestWholesaleSettlement>(
             Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleStateDto(
+            new OrchestrationInstanceLifecycleDto(
                 new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleStates.Running,
+                OrchestrationInstanceLifecycleState.Running,
                 null,
                 null,
                 DateTimeOffset.Parse("2024-10-25").AddHours(10),
@@ -194,7 +194,7 @@ public static class RequestOperations
     [Mutation]
     public static async Task<bool> RequestAsync(
         RequestInput input,
-        [Service] IEdiB2CWebAppClient_V1 client,
+        [Service] Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
         [Service] IMarketParticipantClient_V1 marketParticipantClient,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken ct)

@@ -31,7 +31,7 @@ public interface IOrchestrationInstance<out T>
     /// <summary>
     /// The life cycle state of the orchestration.
     /// </summary>
-    OrchestrationInstanceLifecycleStateDto Lifecycle { get; }
+    OrchestrationInstanceLifecycleDto Lifecycle { get; }
 
     /// <summary>
     /// The steps of the orchestration.

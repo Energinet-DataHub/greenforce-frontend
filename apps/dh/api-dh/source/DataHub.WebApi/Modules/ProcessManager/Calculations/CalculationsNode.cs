@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
@@ -75,7 +74,7 @@ public static partial class CalculationNode
             .BindFieldsExplicitly()
             .Implements<OrchestrationInstanceType<CalculationInputV1>>();
 
-        descriptor.Field(f => f.ParameterValue.CalculationType.FromBrs_023_027())
+        descriptor.Field(f => f.ParameterValue.CalculationType)
             .Name("calculationType");
 
         descriptor

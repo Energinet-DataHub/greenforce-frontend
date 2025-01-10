@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using NodaTime;
-using CalculationType = Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums.CalculationType;
+using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
+using RequestWholesaleSettlementMarketRequest = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.RequestWholesaleSettlementMarketRequest;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 

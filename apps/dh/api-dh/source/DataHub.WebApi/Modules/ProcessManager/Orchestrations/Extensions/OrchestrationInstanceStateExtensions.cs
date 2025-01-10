@@ -19,57 +19,57 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensi
 
 public static class OrchestrationInstanceStateExtensions
 {
-    public static OrchestrationInstanceLifecycleStates ToLifecycleState(
+    public static OrchestrationInstanceLifecycleState ToLifecycleState(
         this OrchestrationInstanceState status) =>
         status switch
         {
-            OrchestrationInstanceState.Canceled => OrchestrationInstanceLifecycleStates.Terminated,
-            OrchestrationInstanceState.Completed => OrchestrationInstanceLifecycleStates.Terminated,
-            OrchestrationInstanceState.Executing => OrchestrationInstanceLifecycleStates.Running,
-            OrchestrationInstanceState.Failed => OrchestrationInstanceLifecycleStates.Terminated,
-            OrchestrationInstanceState.Pending => OrchestrationInstanceLifecycleStates.Pending,
-            OrchestrationInstanceState.Queued => OrchestrationInstanceLifecycleStates.Queued,
+            OrchestrationInstanceState.Canceled => OrchestrationInstanceLifecycleState.Terminated,
+            OrchestrationInstanceState.Completed => OrchestrationInstanceLifecycleState.Terminated,
+            OrchestrationInstanceState.Executing => OrchestrationInstanceLifecycleState.Running,
+            OrchestrationInstanceState.Failed => OrchestrationInstanceLifecycleState.Terminated,
+            OrchestrationInstanceState.Pending => OrchestrationInstanceLifecycleState.Pending,
+            OrchestrationInstanceState.Queued => OrchestrationInstanceLifecycleState.Queued,
         };
 
-    public static OrchestrationInstanceTerminationStates? ToTerminationState(
+    public static OrchestrationInstanceTerminationState? ToTerminationState(
         this OrchestrationInstanceState status) =>
         status switch
         {
-            OrchestrationInstanceState.Canceled => OrchestrationInstanceTerminationStates.UserCanceled,
-            OrchestrationInstanceState.Completed => OrchestrationInstanceTerminationStates.Succeeded,
+            OrchestrationInstanceState.Canceled => OrchestrationInstanceTerminationState.UserCanceled,
+            OrchestrationInstanceState.Completed => OrchestrationInstanceTerminationState.Succeeded,
             OrchestrationInstanceState.Executing => null,
-            OrchestrationInstanceState.Failed => OrchestrationInstanceTerminationStates.Failed,
+            OrchestrationInstanceState.Failed => OrchestrationInstanceTerminationState.Failed,
             OrchestrationInstanceState.Pending => null,
             OrchestrationInstanceState.Queued => null,
         };
 
     public static OrchestrationInstanceState ToOrchestrationInstanceState(
-        this OrchestrationInstanceLifecycleStateDto lifecycle) =>
+        this OrchestrationInstanceLifecycleDto lifecycle) =>
         lifecycle switch
         {
-            { State: OrchestrationInstanceLifecycleStates.Pending } => OrchestrationInstanceState.Pending,
-            { State: OrchestrationInstanceLifecycleStates.Queued } => OrchestrationInstanceState.Queued,
-            { State: OrchestrationInstanceLifecycleStates.Running } => OrchestrationInstanceState.Executing,
-            { State: OrchestrationInstanceLifecycleStates.Terminated } =>
+            { State: OrchestrationInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
+            { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Queued,
+            { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationInstanceState.Executing,
+            { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationInstanceTerminationStates.UserCanceled => OrchestrationInstanceState.Canceled,
-                    OrchestrationInstanceTerminationStates.Succeeded => OrchestrationInstanceState.Completed,
-                    OrchestrationInstanceTerminationStates.Failed => OrchestrationInstanceState.Failed,
+                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.Canceled,
+                    OrchestrationInstanceTerminationState.Succeeded => OrchestrationInstanceState.Completed,
+                    OrchestrationInstanceTerminationState.Failed => OrchestrationInstanceState.Failed,
                 },
         };
 
-    public static OrchestrationInstanceState ToOrchestrationInstanceState(this StepInstanceLifecycleStateDto lifecycle) =>
+    public static OrchestrationInstanceState ToOrchestrationInstanceState(this StepInstanceLifecycleDto lifecycle) =>
         lifecycle switch
         {
-            { State: StepInstanceLifecycleStates.Pending } => OrchestrationInstanceState.Pending,
-            { State: StepInstanceLifecycleStates.Running } => OrchestrationInstanceState.Executing,
-            { State: StepInstanceLifecycleStates.Terminated } =>
+            { State: StepInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
+            { State: StepInstanceLifecycleState.Running } => OrchestrationInstanceState.Executing,
+            { State: StepInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationStepTerminationStates.Skipped => OrchestrationInstanceState.Canceled,
-                    OrchestrationStepTerminationStates.Succeeded => OrchestrationInstanceState.Completed,
-                    OrchestrationStepTerminationStates.Failed => OrchestrationInstanceState.Failed,
+                    OrchestrationStepTerminationState.Skipped => OrchestrationInstanceState.Canceled,
+                    OrchestrationStepTerminationState.Succeeded => OrchestrationInstanceState.Completed,
+                    OrchestrationStepTerminationState.Failed => OrchestrationInstanceState.Failed,
                 },
         };
 }

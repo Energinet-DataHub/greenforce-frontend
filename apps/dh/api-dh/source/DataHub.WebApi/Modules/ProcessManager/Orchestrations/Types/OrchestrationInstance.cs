@@ -19,7 +19,7 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
 public record OrchestrationInstance<T>(
     Guid Id,
-    OrchestrationInstanceLifecycleStateDto Lifecycle,
+    OrchestrationInstanceLifecycleDto Lifecycle,
     IReadOnlyCollection<StepInstanceDto> Steps,
     T ParameterValue) : IOrchestrationInstance<T>
     where T : class, IInputParameterDto
