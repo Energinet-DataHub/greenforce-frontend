@@ -48,7 +48,6 @@ import {
 } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
-  standalone: true,
   selector: 'dh-actors-edit-actor-modal',
   templateUrl: './dh-actors-edit-actor-modal.component.html',
   styles: [
@@ -73,7 +72,6 @@ import {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WattButtonComponent,
     WattTextFieldComponent,

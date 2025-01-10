@@ -25,7 +25,6 @@ import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-outgoing-message-status-badge',
   template: `
     @let _status = status();

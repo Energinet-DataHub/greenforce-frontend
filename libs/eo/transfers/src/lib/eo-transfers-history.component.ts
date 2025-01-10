@@ -66,7 +66,6 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
       }
     `,
   ],
-  standalone: true,
   template: `
     <eo-activity-log
       #log

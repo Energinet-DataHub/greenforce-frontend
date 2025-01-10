@@ -23,7 +23,6 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
 import { VaterFlexComponent } from '../vater';
 
 @Component({
-  standalone: true,
   selector: 'watt-link-tabs',
   encapsulation: ViewEncapsulation.None,
   imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
@@ -42,7 +41,7 @@ import { VaterFlexComponent } from '../vater';
       }
 
       .mat-mdc-tab-links,
-      .mat-mdc-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
+      .mat-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
         color: var(--mat-tab-header-active-label-text-color);
       }
 

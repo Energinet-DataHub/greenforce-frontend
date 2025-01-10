@@ -17,7 +17,6 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
@@ -42,6 +41,7 @@ describe(WattTimepickerComponent, () => {
   }) {
     @Component({
       template,
+      imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule],
     })
     class TestComponent {
       timeRangeControl = new FormControl({ value: initialState, disabled });
@@ -50,7 +50,6 @@ describe(WattTimepickerComponent, () => {
 
     const { fixture } = await render(TestComponent, {
       providers: [danishLocalProviders, danishDatetimeProviders],
-      imports: [WattTimepickerComponent, ReactiveFormsModule, FormsModule, BrowserAnimationsModule],
     });
 
     const [startTimeInput, endTimeInput, _3rdInput] = screen.queryAllByRole(

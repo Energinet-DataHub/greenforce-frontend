@@ -33,7 +33,6 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 
 @Component({
   selector: 'dh-imbalance-prices-uploader',
-  standalone: true,
   styles: [
     `
       :host {

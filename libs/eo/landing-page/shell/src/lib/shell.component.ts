@@ -40,7 +40,6 @@ import { EoLandingPageNamingComponent } from './naming.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     EoLandingPageHeaderComponent,
     EoLandingPageHeroComponent,

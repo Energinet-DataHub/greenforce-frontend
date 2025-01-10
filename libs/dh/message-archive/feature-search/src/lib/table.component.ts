@@ -45,7 +45,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
 @Component({
   selector: 'dh-message-archive-search-table',
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,

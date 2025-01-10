@@ -33,7 +33,6 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
 
 @Component({
   selector: 'dh-audit-log',
-  standalone: true,
   styles: [
     `
       :host {

@@ -43,7 +43,6 @@ import { WattIconComponent, WattIcon } from '../../foundations/icon';
 export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 @Component({
-  standalone: true,
   imports: [MatAutocompleteModule, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],

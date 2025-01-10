@@ -380,6 +380,10 @@
             "invalid_state": "You can not change B2B access, as the market participant is deactivated",
             "still_active": "Remove B2B access before deactivating the market participant",
             "thumbprint_reserved": "Certificate is already in use"
+          },
+          "consolidation": {
+            "frominvalid": "The selected from actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time.",
+            "toinvalid": "The selected to actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time."
           }
         },
         "market_role": {
@@ -673,6 +677,10 @@
               "ToBeDiscontinued": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> has been completed"
+              },
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_REQUESTED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
               },
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",

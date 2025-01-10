@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 
 import { WattButtonComponent } from '../../button/watt-button.component';
 

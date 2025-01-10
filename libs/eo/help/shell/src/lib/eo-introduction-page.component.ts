@@ -27,7 +27,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [EoStackComponent, EO_MEDIA, RouterModule, EoInfoBoxComponent],
   selector: 'eo-introduction-page',
   styles: [

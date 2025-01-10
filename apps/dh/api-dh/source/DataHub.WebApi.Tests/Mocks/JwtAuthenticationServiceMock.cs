@@ -24,7 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Energinet.DataHub.WebApi.Tests.ServiceMocks;
+namespace Energinet.DataHub.WebApi.Tests.Mocks;
 
 public sealed class JwtAuthenticationServiceMock
 {

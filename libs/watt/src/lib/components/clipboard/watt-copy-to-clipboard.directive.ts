@@ -32,7 +32,6 @@ import { WattToastService } from '../toast';
 import { WattClipboardIntlService } from './watt-clipboard-intl.service';
 
 @Directive({
-  standalone: true,
   selector: '[wattCopyToClipboard]',
 })
 export class WattCopyToClipboardDirective {

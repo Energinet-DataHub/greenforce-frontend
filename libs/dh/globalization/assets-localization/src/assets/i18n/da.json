@@ -380,6 +380,10 @@
             "invalid_state": "Du kan ikke ændre B2B-adgang, fordi aktøren er deaktiveret",
             "still_active": "Fjern B2B-adang før du deaktiverer aktøren",
             "thumbprint_reserved": "Certifikat er i brug"
+          },
+          "consolidation": {
+            "frominvalid": "Den valgte fra aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående.",
+            "toinvalid": "Den valgte til aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående."
           }
         },
         "market_role": {
@@ -673,6 +677,10 @@
               "ToBeDiscontinued": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+              },
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
               },
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",

@@ -28,7 +28,6 @@ const selector = 'eo-consent-permissions';
   encapsulation: ViewEncapsulation.None,
   selector,
   imports: [TranslocoPipe],
-  standalone: true,
   styles: `
     ${selector} .permissions {
       margin-bottom: var(--watt-space-m);

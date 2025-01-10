@@ -42,7 +42,6 @@ type unlistenerFunction = () => void;
     <div class="arrow"></div>
   `,
   selector: 'watt-tooltip',
-  standalone: true,
   styleUrls: ['./watt-tooltip.component.scss'],
 })
 export class WattTooltipComponent implements AfterViewInit, OnDestroy {

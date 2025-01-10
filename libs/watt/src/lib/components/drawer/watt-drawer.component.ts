@@ -49,7 +49,6 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   selector: 'watt-drawer',
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
-  standalone: true,
   imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
 })
 export class WattDrawerComponent implements OnDestroy {

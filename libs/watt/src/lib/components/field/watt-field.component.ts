@@ -40,7 +40,6 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
 
 @Component({
   selector: 'watt-field',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [WattIconComponent, WattTooltipDirective, WattFieldErrorComponent, VaterStackComponent],

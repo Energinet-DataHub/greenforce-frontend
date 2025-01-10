@@ -52,19 +52,15 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 
 @Component({
-  standalone: true,
   selector: 'dh-balance-responsible-relation-filters',
   imports: [
     RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     VaterSpacerComponent,
-
     WattSearchComponent,
     WattDropdownComponent,
-
     DhDropdownTranslatorDirective,
   ],
   styles: `

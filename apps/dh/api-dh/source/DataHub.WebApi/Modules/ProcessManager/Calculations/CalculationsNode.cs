@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
+using HotChocolate.Authorization;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations;
@@ -29,6 +30,7 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations;
 public static partial class CalculationNode
 {
     [Query]
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static Task<IOrchestrationInstance<CalculationInputV1>> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client) => client.GetCalculationByIdAsync(id);
@@ -36,11 +38,13 @@ public static partial class CalculationNode
     [Query]
     [UsePaging]
     [UseSorting]
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static Task<IEnumerable<IOrchestrationInstance<CalculationInputV1>>> GetCalculationsAsync(
         CalculationsQueryInput input,
         ICalculationsClient client) => client.QueryCalculationsAsync(input);
 
     [Query]
+    [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<IOrchestrationInstance<CalculationInputV1>?> GetLatestCalculationAsync(
         Interval period,
         CalculationType calculationType,

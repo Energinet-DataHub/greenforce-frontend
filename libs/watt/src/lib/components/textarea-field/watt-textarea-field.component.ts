@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { NgClass } from '@angular/common';
 import {
   Component,
   Input,
@@ -31,8 +30,7 @@ import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } fro
 import { WattFieldComponent } from '../field/watt-field.component';
 
 @Component({
-  standalone: true,
-  imports: [NgClass, FormsModule, WattFieldComponent],
+  imports: [FormsModule, WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

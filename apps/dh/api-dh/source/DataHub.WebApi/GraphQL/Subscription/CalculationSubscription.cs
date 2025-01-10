@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+o// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@ using System.Reactive.Linq;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 using Microsoft.FeatureManagement;
 
@@ -69,6 +71,7 @@ public partial class Subscription
     // }
     //
     // [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
+    // [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     // public CalculationDto CalculationUpdated([EventMessage] CalculationDto calculation) =>
     //     calculation;
     //

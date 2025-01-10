@@ -34,7 +34,6 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-role-audit-logs',
-  standalone: true,
   templateUrl: './audit-logs.component.html',
   styles: [
     `

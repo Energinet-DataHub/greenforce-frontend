@@ -34,7 +34,6 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
 
 @Component({
   selector: 'dh-delegations-overview',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoDirective, WATT_EXPANDABLE_CARD_COMPONENTS, DhDelegationTableComponent],
   styles: `

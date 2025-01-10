@@ -42,7 +42,6 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
 
 @Component({
   selector: 'dh-grid-area-details',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
@@ -53,7 +52,6 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
   ],
   imports: [
     TranslocoDirective,
-
     VaterFlexComponent,
     VaterStackComponent,
     WattDatePipe,

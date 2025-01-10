@@ -36,7 +36,6 @@ import { WattTabComponent } from './watt-tab.component';
 import { WattTabsActionComponent } from './watt-tabs-action.component';
 
 @Component({
-  standalone: true,
   selector: 'watt-tabs',
   styleUrls: ['./watt-tabs.component.scss'],
   templateUrl: './watt-tabs.component.html',

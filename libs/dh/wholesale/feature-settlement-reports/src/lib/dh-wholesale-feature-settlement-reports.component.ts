@@ -37,10 +37,8 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
 
 @Component({
   selector: 'dh-wholesale-feature-settlement-reports',
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WATT_CARD,
     VaterStackComponent,
     VaterFlexComponent,
@@ -48,7 +46,6 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
     VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
-
     DhSettlementReportsTableComponent,
     DhRequestSettlementReportButtonComponent,
   ],

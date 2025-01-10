@@ -63,7 +63,6 @@ type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
 @Component({
   selector: 'eo-activity-log',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WattDataTableComponent,
     WattDataFiltersComponent,

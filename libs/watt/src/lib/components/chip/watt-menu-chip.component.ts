@@ -24,7 +24,6 @@ import { WattChipComponent } from './watt-chip.component';
 export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
-  standalone: true,
   imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
   styles: [
@@ -86,5 +85,6 @@ export class WattMenuChipComponent {
   @Input() value?: string;
   @Input() selected = false;
   @Input() hasPopup: WattMenuChipHasPopup = 'menu';
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() toggle = new EventEmitter<void>();
 }

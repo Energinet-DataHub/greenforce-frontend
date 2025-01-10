@@ -40,7 +40,6 @@ import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WattButtonComponent,
     EoAnnouncementBarComponent,
@@ -132,9 +131,9 @@ import { EoLoginButtonComponent } from './login-button.component';
   `,
 })
 export class EoLandingPageHeaderComponent {
-  private elementRef = inject(ElementRef);
-  private viewportScroller = inject(ViewportScroller);
-  private destroyRef = inject(DestroyRef);
+  private readonly elementRef = inject(ElementRef);
+  private readonly viewportScroller = inject(ViewportScroller);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected translations = translations;
   protected pauseScrollEvents = false;

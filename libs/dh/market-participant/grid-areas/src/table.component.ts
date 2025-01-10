@@ -53,7 +53,6 @@ import { DhGridAreaRow } from './types/grid-area-row.type';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  standalone: true,
   selector: 'dh-grid-areas',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -74,10 +73,8 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
   ],
   imports: [
     FormsModule,
-
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,
@@ -85,12 +82,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     WattDropdownComponent,
     WattPaginatorComponent,
     WattEmptyStateComponent,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
     DhGridAreaDetailsComponent,
@@ -142,6 +137,17 @@ export class DhGridAreasComponent {
       const statuses = this.selectedGridAreaStatus();
       const gridAreas = this.gridAreas();
 
+      this.dataSource.filterPredicate = (data, filter) => {
+        const lowerCaseFilter = filter.toLowerCase();
+        return (
+          data.code.toLowerCase().includes(lowerCaseFilter) ||
+          data.actor?.toLowerCase().includes(lowerCaseFilter) ||
+          data.organization?.toLowerCase().includes(lowerCaseFilter) ||
+          data.priceArea.toLowerCase().includes(lowerCaseFilter) ||
+          data.type.toLowerCase().includes(lowerCaseFilter) ||
+          data.status.toLowerCase().includes(lowerCaseFilter)
+        );
+      };
       this.dataSource.data = gridAreas.filter(
         (gridArea) =>
           (gridArea.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&

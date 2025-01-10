@@ -58,16 +58,16 @@ const routes: Routes = [
     redirectTo: 'onboarding/signin-callback',
   },
   {
+    path: eoOnboardingRoutePath,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/onboarding/shell').then(
+        (esModule) => esModule.eoOnbordingRoutes
+      ),
+  },
+  {
     path: '',
     component: EoShellComponent,
     children: [
-      {
-        path: eoOnboardingRoutePath,
-        loadChildren: () =>
-          import('@energinet-datahub/eo/onboarding/shell').then(
-            (esModule) => esModule.eoOnbordingRoutes
-          ),
-      },
       ...eoLegalRoutes,
       {
         path: eoCertificatesRoutePath,
