@@ -18,6 +18,7 @@ using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi;
+using Energinet.DataHub.WebApi.Modules.ProcessManager;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
@@ -85,9 +86,9 @@ if (environment.IsDevelopment())
 
 var apiClientSettings = configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
 services.AddDomainClients(apiClientSettings);
+services.AddProcessManagerClients(configuration);
 
 services.AddFeatureManagement();
-services.AddProcessManager(configuration);
 
 services
     .AddGraphQLServices()

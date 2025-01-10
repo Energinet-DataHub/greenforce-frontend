@@ -14,36 +14,35 @@
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-public static class WholesaleClientExtensions
-{
-    internal static async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
-        this IWholesaleClient_V3 client,
-        CalculationQueryInput input)
-    {
-        var states = input.States ?? [];
-        var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
-        var calculationTypes = input.CalculationTypes ?? [];
-        var minExecutionTime = input.ExecutionTime?.HasStart == true ? input.ExecutionTime?.Start.ToDateTimeOffset() : null;
-        var maxExecutionTime = input.ExecutionTime?.HasEnd == true ? input.ExecutionTime?.End.ToDateTimeOffset() : null;
-        var periodStart = input.Period?.Start.ToDateTimeOffset();
-        var periodEnd = input.Period?.End.ToDateTimeOffset();
-
-        var calculations = await client.SearchCalculationsAsync(
-            input.GridAreaCodes,
-            null,
-            minExecutionTime,
-            maxExecutionTime,
-            periodStart,
-            periodEnd);
-
-        return calculations
-            .OrderByDescending(x => x.ScheduledAt)
-            .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
-            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
-            .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal);
-    }
-}
+// public static class WholesaleClientExtensions
+// {
+//     internal static async Task<IEnumerable<CalculationDto>> QueryCalculationsAsync(
+//         this IWholesaleClient_V3 client,
+//         CalculationQueryInput input)
+//     {
+//         var states = input.States ?? [];
+//         var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
+//         var calculationTypes = input.CalculationTypes ?? [];
+//         var minExecutionTime = input.ExecutionTime?.HasStart == true ? input.ExecutionTime?.Start.ToDateTimeOffset() : null;
+//         var maxExecutionTime = input.ExecutionTime?.HasEnd == true ? input.ExecutionTime?.End.ToDateTimeOffset() : null;
+//         var periodStart = input.Period?.Start.ToDateTimeOffset();
+//         var periodEnd = input.Period?.End.ToDateTimeOffset();
+//
+//         var calculations = await client.SearchCalculationsAsync(
+//             input.GridAreaCodes,
+//             null,
+//             minExecutionTime,
+//             maxExecutionTime,
+//             periodStart,
+//             periodEnd);
+//
+//         return calculations
+//             .OrderByDescending(x => x.ScheduledAt)
+//             .Where(x => states.Length == 0 || states.Contains(x.OrchestrationState))
+//             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
+//             .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal);
+//     }
+// }

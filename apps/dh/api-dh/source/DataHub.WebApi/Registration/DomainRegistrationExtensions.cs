@@ -12,16 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Core.App.Common.Extensions.Builder;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
-using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
-using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Notifications;
-using Energinet.DataHub.WebApi.Clients.Wholesale.Calculations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -32,41 +28,6 @@ namespace Energinet.DataHub.WebApi.Registration;
 
 public static class DomainRegistrationExtensions
 {
-    /// <summary>
-    /// Register Process Manager clients and health checks.
-    /// </summary>
-    public static IServiceCollection AddProcessManager(this IServiceCollection services, IConfiguration configuration)
-    {
-        ArgumentNullException.ThrowIfNull(configuration);
-
-        // Client and adapters
-        services.AddProcessManagerHttpClients();
-        services.AddScoped<ICalculationsClient, CalculationsClient>();
-
-        // Health Checks
-        var processManagerClientOptions = configuration
-            .GetSection(ProcessManagerHttpClientsOptions.SectionName)
-            .Get<ProcessManagerHttpClientsOptions>();
-
-        // Until we remove the feature flag "UseProcessManager" we allow skipping the configuration of the Process Manager
-        if (processManagerClientOptions != null)
-        {
-            services.AddHealthChecks()
-                .AddServiceHealthCheck(
-                    "ProcessManager General endpoints",
-                    HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
-                        processManagerClientOptions.GeneralApiBaseAddress,
-                        isAzureFunction: true))
-                .AddServiceHealthCheck(
-                    "ProcessManager Orchestrations endpoints",
-                    HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
-                        processManagerClientOptions.OrchestrationsApiBaseAddress,
-                        isAzureFunction: true));
-        }
-
-        return services;
-    }
-
     public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
     {
         return services
