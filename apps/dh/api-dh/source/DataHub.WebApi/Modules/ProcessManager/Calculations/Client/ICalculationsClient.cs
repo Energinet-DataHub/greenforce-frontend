@@ -36,4 +36,19 @@ public interface ICalculationsClient
     Task<IOrchestrationInstance<CalculationInputV1>> GetCalculationByIdAsync(
         Guid calculationId,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Start or schedule calculation in the Process Manager.
+    /// </summary>
+    Task<Guid> StartCalculationAsync(
+        DateTimeOffset? runAt,
+        CalculationInputV1 input,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Cancel a scheduled calculation in the Process Manager.
+    /// </summary>
+    Task<bool> CancelScheduledCalculationAsync(
+        Guid calculationId,
+        CancellationToken ct = default);
 }

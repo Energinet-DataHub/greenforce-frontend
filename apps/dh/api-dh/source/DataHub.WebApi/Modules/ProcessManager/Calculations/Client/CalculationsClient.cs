@@ -62,4 +62,34 @@ public class CalculationsClient(
 
         return instance.ToLocalType();
     }
+
+    public async Task<Guid> StartCalculationAsync(
+        DateTimeOffset? runAt,
+        CalculationInputV1 input,
+        CancellationToken ct = default)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        return runAt switch
+        {
+            null => await client.StartNewOrchestrationInstanceAsync(
+                new StartCalculationCommandV1(userIdentity, input),
+                ct),
+            _ => await client.ScheduleNewOrchestrationInstanceAsync(
+                new ScheduleCalculationCommandV1(userIdentity, input, runAt.Value),
+                ct),
+        };
+    }
+
+    public async Task<bool> CancelScheduledCalculationAsync(
+        Guid calculationId,
+        CancellationToken ct = default)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var command = new CancelScheduledOrchestrationInstanceCommand(
+            userIdentity,
+            id: calculationId);
+
+        await client.CancelScheduledOrchestrationInstanceAsync(command, ct);
+        return true;
+    }
 }

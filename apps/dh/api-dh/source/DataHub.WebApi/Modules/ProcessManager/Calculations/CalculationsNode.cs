@@ -21,6 +21,7 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Authorization;
+using HotChocolate.Subscriptions;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations;
@@ -77,6 +78,36 @@ public static partial class CalculationNode
         var calculations = await client.QueryCalculationsAsync(input);
         return calculations.FirstOrDefault();
     }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "calculations:manage" })]
+    public static async Task<Guid> CreateCalculationAsync(
+        CalculationExecutionType executionType,
+        Interval period,
+        string[] gridAreaCodes,
+        CalculationType calculationType,
+        DateTimeOffset? scheduledAt,
+        ICalculationsClient client,
+        ITopicEventSender sender)
+    {
+        var calculationId = await client.StartCalculationAsync(
+            scheduledAt,
+            new CalculationInputV1(
+                CalculationType: calculationType,
+                GridAreaCodes: gridAreaCodes,
+                PeriodStartDate: period.Start.ToDateTimeOffset(),
+                PeriodEndDate: period.End.ToDateTimeOffset(),
+                IsInternalCalculation: executionType == CalculationExecutionType.Internal));
+
+        await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
+        return calculationId;
+    }
+
+    [Mutation]
+    [Authorize(Roles = new[] { "calculations:manage" })]
+    public static async Task<bool> CancelScheduledCalculationAsync(
+        Guid calculationId,
+        ICalculationsClient client) => await client.CancelScheduledCalculationAsync(calculationId);
 
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] OrchestrationInstance<CalculationInputV1> f,
