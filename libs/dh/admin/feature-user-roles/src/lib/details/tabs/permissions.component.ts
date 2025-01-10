@@ -29,7 +29,6 @@ import {
 
 @Component({
   selector: 'dh-role-permissions',
-  standalone: true,
   template: `<watt-card
     *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.permissions'"
     variant="solid"

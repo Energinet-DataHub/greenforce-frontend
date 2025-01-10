@@ -38,12 +38,10 @@ import {
 } from '@angular/forms';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'eo-transfers-timepicker',
-  standalone: true,
-  imports: [ReactiveFormsModule, WattDropdownComponent, WattFieldComponent],
+  imports: [ReactiveFormsModule, WattDropdownComponent],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `

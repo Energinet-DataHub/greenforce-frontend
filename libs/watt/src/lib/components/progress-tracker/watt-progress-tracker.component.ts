@@ -23,7 +23,6 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
   imports: [VaterStackComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   selector: 'watt-progress-tracker',
   styles: [
     `

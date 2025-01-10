@@ -33,7 +33,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   selector: 'eo-landing-page-how',
   imports: [NgClass, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,

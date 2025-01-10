@@ -37,12 +37,10 @@ import { DhActorForm } from '../dh-actor-form.model';
 import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-name-max-length.validator';
 
 @Component({
-  standalone: true,
   selector: 'dh-new-actor-step',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
@@ -66,7 +64,6 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
       }
     `,
   ],
-
   template: `<vater-stack
     gap="xl"
     align="flex-start"

@@ -144,7 +144,8 @@
           "buildTarget": "app-dh:build:production"
         },
         "development": {
-          "hmr": true,
+          "hmr": false,
+          "liveReload": true,
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
@@ -152,7 +153,8 @@
           "buildTarget": "app-dh:build:development"
         },
         "mocked": {
-          "hmr": true,
+          "hmr": false,
+          "liveReload": true,
           "ssl": true,
           "sslKey": "localhost.key",
           "sslCert": "localhost.crt",
@@ -176,9 +178,5 @@
     }
   },
   "tags": ["product:dh", "type:app"],
-  "implicitDependencies": [
-    "api-dh",
-    "dh-shared-domain",
-    "dh-globalization-assets-localization"
-  ]
+  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"]
 }

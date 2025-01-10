@@ -23,7 +23,6 @@ import { WattTooltipDirective } from '../../tooltip';
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 
 @Component({
-  standalone: true,
   imports: [WattTooltipDirective, WattIconComponent, WattCopyToClipboardDirective],
   selector: 'watt-storybook-copy-to-clipboard',
   styles: [
@@ -59,7 +58,6 @@ export class WattStorybookCopyToClipboardComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [WattStorybookCopyToClipboardComponent],
   selector: 'watt-storybook-clipboard',
   template: `

@@ -24,7 +24,6 @@ import { WattTextFieldComponent } from '../../text-field/watt-text-field.compone
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  standalone: true,
   imports: [WATT_MODAL, WattTextFieldComponent, WattButtonComponent, ReactiveFormsModule],
   template: `
     <watt-modal #modal [title]="title" closeLabel="Close modal" [loading]="isLoading">
@@ -54,9 +53,8 @@ export class WattModalComponent extends WattTypedModal<string> implements OnInit
 }
 
 @Component({
-  standalone: true,
   selector: 'watt-modal-from-class',
-  imports: [WattButtonComponent, WattModalComponent],
+  imports: [WattButtonComponent],
   providers: [WattModalService],
   template: `<watt-button (click)="openModal()">Open modal from service</watt-button>`,
 })

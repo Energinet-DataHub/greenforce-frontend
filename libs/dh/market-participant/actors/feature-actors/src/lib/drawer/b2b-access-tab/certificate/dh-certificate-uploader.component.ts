@@ -34,7 +34,6 @@ const certificateMimeType = 'application/x-x509-ca-cert';
 
 @Component({
   selector: 'dh-certificate-uploader',
-  standalone: true,
   styles: [
     `
       :host {

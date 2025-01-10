@@ -38,14 +38,7 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
   templateUrl: './watt-nav-list.component.html',
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    RouterModule,
-    MatExpansionModule,
-    WattNavListItemComponent,
-    WattExpandOnActiveLinkDirective,
-  ],
+  imports: [NgTemplateOutlet, RouterModule, MatExpansionModule, WattExpandOnActiveLinkDirective],
 })
 export class WattNavListComponent {
   /**

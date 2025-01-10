@@ -46,11 +46,9 @@ import {
     `,
   ],
   templateUrl: './dh-market-roles-overview.component.html',
-  standalone: true,
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,

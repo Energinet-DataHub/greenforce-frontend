@@ -42,7 +42,6 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
 @Component({
   selector: 'dh-user-roles',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   templateUrl: './user-roles.component.html',
   styles: `
     watt-expandable-card {
@@ -64,14 +63,12 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
     FormsModule,
     TranslocoDirective,
     MatExpansionModule,
-
     WATT_TABLE,
     WattIconComponent,
     WattBadgeComponent,
     WattTooltipDirective,
     WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
-
     DhResultComponent,
     FilterUserRolesPipe,
     UserRolesIntoTablePipe,

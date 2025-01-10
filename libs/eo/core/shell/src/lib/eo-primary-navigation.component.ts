@@ -28,18 +28,9 @@ import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 
-import { EoAccountMenuComponent } from './eo-account-menu';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    WattNavListComponent,
-    WattNavListItemComponent,
-    TranslocoPipe,
-    EoAccountMenuComponent,
-    EoActorMenuComponent,
-  ],
+  imports: [WattNavListComponent, WattNavListItemComponent, TranslocoPipe, EoActorMenuComponent],
   selector: 'eo-primary-navigation',
   styles: [
     `

@@ -32,7 +32,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-user-master-data',
-  standalone: true,
   template: `<watt-card
     *transloco="let t; read: 'admin.userManagement.tabs.masterData'"
     variant="solid"
@@ -55,11 +54,9 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
   imports: [
     TranslocoDirective,
-
     WattCardComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     DhEmDashFallbackPipe,
   ],
 })

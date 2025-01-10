@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input, output, viewChild } from '@angular/core';
+import { Component, output, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
@@ -36,11 +36,9 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
 
 @Component({
   selector: 'dh-settlement-report-drawer',
-  standalone: true,
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
@@ -49,7 +47,6 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     DhDurationComponent,
     DhSettlementReportsStatusComponent,
   ],
@@ -96,19 +93,14 @@ export class DhSettlementReportDrawerComponent {
     code: { accessor: (value) => value },
   };
 
-  report = input<DhSettlementReport>();
+  report: DhSettlementReport | null = null;
 
   closed = output();
   download = output<Event>();
 
-  constructor() {
-    effect(() => {
-      if (this.report()) {
-        this.drawer().open();
-        this.tableSource.data = this.report()?.gridAreas ?? [];
-      } else {
-        this.drawer().close();
-      }
-    });
+  open(report: DhSettlementReport) {
+    this.report = report;
+    this.tableSource.data = this.report.gridAreas;
+    this.drawer().open();
   }
 }

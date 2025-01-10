@@ -48,7 +48,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;

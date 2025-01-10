@@ -9,10 +9,9 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 @Component({
-  standalone: true,
-  imports: [MarkdownComponent, WattEmptyStateComponent, TranslocoPipe],
-  encapsulation: ViewEncapsulation.None,
-  styles: `
+    imports: [MarkdownComponent, WattEmptyStateComponent, TranslocoPipe],
+    encapsulation: ViewEncapsulation.None,
+    styles: `
     .markdown {
       h2 {
         margin-top: var(--watt-space-l);
@@ -44,7 +43,7 @@ import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments
       align-items: center;
     }
   `,
-  template: `
+    template: `
     <markdown
       class="markdown"
       markdown
@@ -62,7 +61,7 @@ import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments
         />
       </div>
     }
-  `,
+  `
 })
 export class EoMarkdownComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute);

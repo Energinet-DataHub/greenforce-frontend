@@ -31,7 +31,6 @@ import { WattIconSize } from '../../foundations/icon/watt-icon-size';
   styleUrls: ['./empty-state.component.scss'],
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [NgClass, NgTemplateOutlet, WattIconComponent],
 })
 export class WattEmptyStateComponent {

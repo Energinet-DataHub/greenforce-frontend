@@ -34,7 +34,6 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-admin-permission-audit-logs',
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
   template: `

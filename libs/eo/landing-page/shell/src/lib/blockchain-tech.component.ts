@@ -25,7 +25,6 @@ const selector = 'eo-landing-page-blockchain-tech';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   selector,

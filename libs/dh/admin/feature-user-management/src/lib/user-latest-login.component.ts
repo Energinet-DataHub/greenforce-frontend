@@ -23,7 +23,6 @@ import { dayjs } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-user-latest-login',
-  standalone: true,
   template: `
     @let days = daysSince();
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">

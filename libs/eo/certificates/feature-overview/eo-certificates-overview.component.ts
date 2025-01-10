@@ -160,7 +160,6 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     WattTableCellDirective,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
-  standalone: true,
   styles: `
     :host {
       --watt-data-table-empty-state-margin: var(--watt-space-xl) 0;

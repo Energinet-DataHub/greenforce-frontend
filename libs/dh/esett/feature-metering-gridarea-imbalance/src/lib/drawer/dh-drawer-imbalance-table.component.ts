@@ -28,7 +28,6 @@ import { MeteringGridAreaImbalancePerDayDto } from '../dh-metering-gridarea-imba
 import { DecimalPipe } from '@angular/common';
 
 @Component({
-  standalone: true,
   selector: 'dh-metering-gridarea-imbalance-table',
   template: `<vater-flex
     fill="vertical"

@@ -54,7 +54,6 @@ interface EoTransferTableElement extends EoListedTransfer {
 @Component({
   selector: 'eo-transfers-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WATT_TABLE,
     WattBadgeComponent,

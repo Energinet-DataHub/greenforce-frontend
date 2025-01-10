@@ -32,7 +32,6 @@ import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance-table',
-  standalone: true,
   templateUrl: './dh-table.component.html',
   styles: [
     `
@@ -43,14 +42,11 @@ import { DhMeteringGridAreaImbalanceDrawerComponent } from '../drawer/dh-drawer.
   ],
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattDatePipe,
     WattEmptyStateComponent,
-
     VaterFlexComponent,
     VaterStackComponent,
-
     DhEmDashFallbackPipe,
     DhMeteringGridAreaImbalanceDrawerComponent,
   ],

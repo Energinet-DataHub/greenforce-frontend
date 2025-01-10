@@ -24,7 +24,6 @@ import { DhNotification } from './dh-notification';
 
 @Component({
   selector: 'dh-notification-banner',
-  standalone: true,
   imports: [TranslocoDirective],
   styles: `
     :host {

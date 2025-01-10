@@ -49,21 +49,17 @@ import { DhCreateUserRoleComponent } from './create.component';
 type Variables = Partial<GetFilteredUserRolesQueryVariables>;
 
 @Component({
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-user-roles-table',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABLE,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDataActionsComponent,
-
     VaterUtilityDirective,
-
     DhRoleStatusComponent,
     DhUserRolesFilterComponent,
     DhUserRolesDownloadComponent,
@@ -134,8 +130,8 @@ export class DhUserRolesTableComponent {
 
   columns: WattTableColumnDef<DhUserRole> = {
     name: { accessor: 'name' },
-    eicFunction: { accessor: 'eicFunction' },
-    status: { accessor: 'status' },
+    eicFunction: { accessor: 'eicFunction', sort: false },
+    status: { accessor: 'status', sort: false },
   };
 
   selection = () => {

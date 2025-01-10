@@ -27,7 +27,6 @@ import { DhNotification } from './dh-notification';
 
 @Component({
   selector: 'dh-settlement-report-notification',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, TranslocoDirective, WattDatePipe, WattIconComponent],
   providers: [DhSettlementReportsService],

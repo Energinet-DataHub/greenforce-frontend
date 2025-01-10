@@ -30,7 +30,6 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
 @Component({
   selector: 'dh-actors-table',
-  standalone: true,
   templateUrl: './dh-actors-table.component.html',
   styles: [
     `
@@ -42,12 +41,10 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
-
     DhEmDashFallbackPipe,
     DhActorStatusBadgeComponent,
     DhActorDrawerComponent,

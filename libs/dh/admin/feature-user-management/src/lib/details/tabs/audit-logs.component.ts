@@ -33,7 +33,6 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-user-audit-logs',
-  standalone: true,
   templateUrl: './audit-logs.component.html',
   styles: [
     `
@@ -49,7 +48,6 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WattDatePipe,

@@ -25,7 +25,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 @Component({
   selector: 'dh-delegation-status',
   imports: [TranslocoDirective, WattBadgeComponent],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {

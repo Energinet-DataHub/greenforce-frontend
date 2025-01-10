@@ -32,7 +32,6 @@ import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.compone
 
 @Component({
   selector: 'dh-balance-responsible-table',
-  standalone: true,
   templateUrl: './dh-table.component.html',
   styles: [
     `
@@ -44,14 +43,12 @@ import { DhBalanceResponsibleDrawerComponent } from '../drawer/dh-drawer.compone
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattBadgeComponent,
     WattDatePipe,
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
-
     DhEmDashFallbackPipe,
     DhBalanceResponsibleDrawerComponent,
   ],

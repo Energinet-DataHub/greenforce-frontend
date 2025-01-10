@@ -36,7 +36,6 @@ interface IconGroup {
   selector: 'storybook-icon-overview',
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],
-  standalone: true,
   imports: [WattIconComponent],
 })
 export class StorybookIconOverviewComponent {

@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhApplicationInsights } from './dh-application-insights.service';
 
-export const applicationInsightsInitializer: FactoryProvider = {
-  multi: true,
-  provide: APP_INITIALIZER,
-  useFactory: (applicationInsights: DhApplicationInsights) => async () =>
-    applicationInsights.init(),
-  deps: [DhApplicationInsights],
-};
+export const applicationInsightsInitializer = provideAppInitializer(() => {
+  const initializerFn = (
+    (applicationInsights: DhApplicationInsights) => async () =>
+      applicationInsights.init()
+  )(inject(DhApplicationInsights));
+  return initializerFn();
+});

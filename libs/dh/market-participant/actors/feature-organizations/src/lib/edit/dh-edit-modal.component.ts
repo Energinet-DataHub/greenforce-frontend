@@ -42,16 +42,13 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 
 @Component({
-  standalone: true,
   selector: 'dh-organization-edit-modal',
   imports: [
     TranslocoDirective,
     FormsModule,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
-
     DhOrganizationManageComponent,
   ],
   template: `
@@ -59,7 +56,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       size="small"
       [title]="organization()?.name ?? ''"
       [loading]="loading()"
-      (closed)="close(false)"
+      (closed)="handleClosed()"
       *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
     >
       <form id="editForm" (ngSubmit)="save()">
@@ -121,6 +118,9 @@ export class DhOrganizationEditModalComponent {
 
   close(result: boolean): void {
     this.modal().close(result);
+  }
+
+  handleClosed() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 

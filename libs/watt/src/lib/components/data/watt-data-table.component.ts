@@ -45,7 +45,6 @@ import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-data-table',
-  standalone: true,
   imports: [
     VaterFlexComponent,
     VaterSpacerComponent,

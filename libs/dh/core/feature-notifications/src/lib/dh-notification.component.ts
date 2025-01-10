@@ -26,7 +26,6 @@ import { DhNotification } from './dh-notification';
 
 @Component({
   selector: 'dh-notification',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoDirective, WattDatePipe, WattIconComponent],
   styleUrl: './dh-notification.component.scss',

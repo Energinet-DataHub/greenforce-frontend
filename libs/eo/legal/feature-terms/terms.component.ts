@@ -41,7 +41,6 @@ const selector = 'eo-auth-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
     FormsModule,

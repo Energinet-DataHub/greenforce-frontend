@@ -24,7 +24,6 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RxPush],
   exportAs: 'eoMedia',
   providers: [EoMediaPresenter],

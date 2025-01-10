@@ -71,7 +71,6 @@ import { WattSpinnerComponent } from '../spinner';
       </div>
     }
   `,
-  standalone: true,
   imports: [WattSpinnerComponent],
   host: {
     '[class]': 'cardVariant()',

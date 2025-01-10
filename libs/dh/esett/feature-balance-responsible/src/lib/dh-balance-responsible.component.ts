@@ -47,7 +47,6 @@ import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
 import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-balance-responsible',
   templateUrl: './dh-balance-responsible.component.html',
   styles: [

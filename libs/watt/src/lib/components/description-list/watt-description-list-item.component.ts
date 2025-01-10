@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component, input, TemplateRef, viewChild } fro
 import { NgClass } from '@angular/common';
 
 @Component({
-  standalone: true,
   imports: [NgClass],
   selector: 'watt-description-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
