@@ -15,8 +15,7 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
@@ -36,6 +35,10 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.CreatedAt);
 
         descriptor
+            .Field("terminatedAt")
+            .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.TerminatedAt);
+
+        descriptor
             .Field("createdBy")
             .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.CreatedBy switch
             {
@@ -49,36 +52,43 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.ToOrchestrationInstanceState());
 
         descriptor
-            .Field("currentStep")
-            .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Steps
-                .Where(s => s.Lifecycle.State != StepInstanceLifecycleState.Pending)
-                .Select(s => s.Sequence)
-                .Order()
-                .FirstOrDefault(0));
-
-        descriptor
             .Field("steps")
             .Resolve(c =>
             {
-                var f = c.Parent<IOrchestrationInstance<T>>();
-                return f.Steps
-                    .Select(s => new OrchestrationStep(s.Lifecycle.ToOrchestrationInstanceState()))
-                    .Prepend(new OrchestrationStep(GetInitialStepState(f.Lifecycle)));
+                var instance = c.Parent<IOrchestrationInstance<T>>();
+                return instance.Steps
+                    .Select(step => MapToOrchestrationInstanceState(step.Lifecycle))
+                    .Prepend(MapToOrchestrationInstanceState(instance.Lifecycle))
+                    .Select(state => new OrchestrationInstanceStep(state));
             });
     }
 
-    private static OrchestrationInstanceState GetInitialStepState(OrchestrationInstanceLifecycleDto lifecycle) =>
-        lifecycle switch
+    private static OrchestrationInstanceState MapToOrchestrationInstanceState(
+        StepInstanceLifecycleDto lifecycle) => lifecycle switch
+        {
+            { State: StepInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
+            { State: StepInstanceLifecycleState.Running } => OrchestrationInstanceState.Running,
+            { State: StepInstanceLifecycleState.Terminated } =>
+                lifecycle.TerminationState switch
+                {
+                    OrchestrationStepTerminationState.Skipped => OrchestrationInstanceState.UserCanceled,
+                    OrchestrationStepTerminationState.Succeeded => OrchestrationInstanceState.Succeeded,
+                    OrchestrationStepTerminationState.Failed => OrchestrationInstanceState.Failed,
+                },
+        };
+
+    private static OrchestrationInstanceState MapToOrchestrationInstanceState(
+        OrchestrationInstanceLifecycleDto lifecycle) => lifecycle switch
         {
             { State: OrchestrationInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
             { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Queued,
-            { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationInstanceState.Completed,
+            { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationInstanceState.Succeeded,
             { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.Canceled,
-                    OrchestrationInstanceTerminationState.Succeeded => OrchestrationInstanceState.Completed,
-                    OrchestrationInstanceTerminationState.Failed => OrchestrationInstanceState.Completed,
+                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.UserCanceled,
+                    OrchestrationInstanceTerminationState.Succeeded => OrchestrationInstanceState.Succeeded,
+                    OrchestrationInstanceTerminationState.Failed => OrchestrationInstanceState.Succeeded,
                 },
         };
 }

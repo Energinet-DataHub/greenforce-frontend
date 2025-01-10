@@ -18,7 +18,7 @@ using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Authorization;
 using NodaTime;
@@ -38,9 +38,27 @@ public static partial class CalculationNode
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static Task<IEnumerable<IOrchestrationInstance<CalculationInputV1>>> GetCalculationsAsync(
+    public static async Task<IEnumerable<IOrchestrationInstance<CalculationInputV1>>> GetCalculationsAsync(
         CalculationsQueryInput input,
-        ICalculationsClient client) => client.QueryCalculationsAsync(input);
+        string? filter,
+        ICalculationsClient client)
+    {
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            return await client.QueryCalculationsAsync(input);
+        }
+
+        try
+        {
+            var calculationId = Guid.Parse(filter);
+            var calculation = await client.GetCalculationByIdAsync(calculationId);
+            return [calculation];
+        }
+        catch (Exception)
+        {
+            return [];
+        }
+    }
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
@@ -53,7 +71,7 @@ public static partial class CalculationNode
         {
             Period = period,
             CalculationTypes = [calculationType],
-            State = OrchestrationInstanceState.Completed,
+            State = OrchestrationInstanceState.Succeeded,
         };
 
         var calculations = await client.QueryCalculationsAsync(input);

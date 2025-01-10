@@ -12,8 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
-public record OrchestrationStep(OrchestrationInstanceState State);
+public class OrchestrationInstanceStep(OrchestrationInstanceState state)
+{
+    public bool IsCurrent { get; } = state switch
+    {
+        OrchestrationInstanceState.Pending => false,
+        OrchestrationInstanceState.Queued => true,
+        OrchestrationInstanceState.Running => true,
+        OrchestrationInstanceState.UserCanceled => true,
+        OrchestrationInstanceState.Succeeded => false,
+        OrchestrationInstanceState.Failed => true,
+    };
+
+    public OrchestrationInstanceState State { get; } = state;
+}

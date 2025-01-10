@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Data.Sorting;
 
